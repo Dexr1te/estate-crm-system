@@ -18,13 +18,3 @@ Real Estate CRM is a web and mobile-based system that helps real estate agencies
 This project is developed as a Capstone Project.
 
 ---
-
-## 🏗 Project Structure
-
-real-estate-crm/
-│
-├── frontend/ # Web application (React)
-├── mobile/ # Mobile application (React Native / Flutter)
-├── backend/ # REST API (Node.js / Express or Spring Boot)
-├── docs/ # Project documentation
-└── README.md
