@@ -1,13 +1,13 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/crm_db
+    url: jdbc:postgresql://localhost:5432/your_DB_name
     username: YOUR_DB_USERNAME
     password: YOUR_DB_PASSWORD
 
 jwt:
   secret: YOUR_BASE64_JWT_SECRET
-  access-token-expiration: 86400000
-  refresh-token-expiration: 604800000
+  access-token-expiration: 86400000 //it means for one day
+  refresh-token-expiration: 604800000 //7 days
 
 firebase:
   credentials-path: firebase-service-account.json
