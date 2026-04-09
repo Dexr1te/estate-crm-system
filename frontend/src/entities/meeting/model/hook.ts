@@ -5,12 +5,8 @@ import {
   type UseQueryResult,
   type UseMutationResult
 } from '@tanstack/react-query'
-import { meetingsApi } from '../api/meetings'
-import type {
-  Meeting,
-  CreateMeetingDto,
-  UpdateMeetingDto
-} from '../api/meetings'
+import { meetingsApi } from '@/entities/meeting/api/meetings'
+import type { Meeting, CreateMeetingDto, UpdateMeetingDto } from './type'
 
 // ==== KEYS ====
 
