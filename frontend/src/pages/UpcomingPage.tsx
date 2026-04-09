@@ -1,10 +1,13 @@
 import { useState } from 'react'
 import { CalendarClock, AlertCircle } from 'lucide-react'
 import { format, isToday, isTomorrow, differenceInHours } from 'date-fns'
-import { useUpcomingMeetings, useUpdateMeeting } from '../hooks/useMeetings'
-import { useAppStore } from '../store/useAppStore'
-import { MeetingCard } from '../components/MeetingCard'
-import { MeetingForm } from '../components/MeetingForm'
+import {
+  useUpcomingMeetings,
+  useUpdateMeeting
+} from '@/entities/meeting/model/hook'
+import { useAppStore } from '@/shared/store/useAppStore'
+import { MeetingCard } from '@/widgets/meeting-card/MeetingCard'
+import { MeetingForm } from '@/widgets/meeting-card/MeetingForm'
 import { Spinner } from '../components/ui/spinner'
 import {
   Dialog,
@@ -13,7 +16,7 @@ import {
   DialogTitle
 } from '../components/ui/dialog'
 
-import type { Meeting, UpdateMeetingDto } from '../api/meetings'
+import type { Meeting, UpdateMeetingDto } from '@/entities/meeting/model/type'
 
 // ==== TYPES ====
 

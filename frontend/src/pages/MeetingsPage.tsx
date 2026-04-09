@@ -4,13 +4,13 @@ import {
   useMeetings,
   useCreateMeeting,
   useUpdateMeeting
-} from '../hooks/useMeetings'
-import { useAppStore } from '../store/useAppStore'
-import { MeetingCard } from '../components/MeetingCard'
-import { MeetingForm } from '../components/MeetingForm'
-import { Button } from '../components/ui/button'
-import { Input } from '../components/ui/input'
-import { Spinner } from '../components/ui/spinner'
+} from '@/entities/meeting/model/hook'
+import { useAppStore } from '@/shared/store/useAppStore'
+import { MeetingCard } from '@/widgets/meeting-card/MeetingCard'
+import { MeetingForm } from '@/widgets/meeting-card/MeetingForm'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Spinner } from '@/components/ui/spinner'
 import {
   Dialog,
   DialogContent,
@@ -22,7 +22,7 @@ import type {
   Meeting,
   CreateMeetingDto,
   UpdateMeetingDto
-} from '../api/meetings'
+} from '@/entities/meeting/model/type'
 
 // ==== TYPES ====
 
