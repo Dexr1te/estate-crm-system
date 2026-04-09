@@ -17,12 +17,14 @@ public class DealRequest {
 
     private BigDecimal dealPrice;
 
+    private BigDecimal budget;      
+
     private String notes;
 
     @NotNull(message = "Client ID is required")
     private Long clientId;
 
-    @NotNull(message = "Property ID is required")
+
     private Long propertyId;
 
     @NotNull(message = "Agent ID is required")
