@@ -7,11 +7,11 @@ import {
   Briefcase,
   Clock
 } from 'lucide-react'
-import { Badge } from './ui/badge'
-import { Spinner } from './ui/spinner'
-import { Button } from './ui/button'
-import { cn } from '../lib/utils'
-import { useCompleteMeeting } from '../hooks/useMeetings'
+import { Badge } from '@/components/ui/badge'
+import { Spinner } from '@/components/ui/spinner'
+import { Button } from '@/components/ui/button'
+import { cn } from '@/shared/lib/utils'
+import { useCompleteMeeting } from '@/entities/meeting/model/hook'
 
 type Meeting = {
   id: number
