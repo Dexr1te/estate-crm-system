@@ -32,6 +32,10 @@ public class Deal {
     @Column(precision = 15, scale = 2)
     private BigDecimal dealPrice;
 
+    // Бюджет клиента (для фронтенда)
+    @Column(precision = 15, scale = 2)
+    private BigDecimal budget;
+
     private String notes;
 
     // Клиент по сделке
@@ -39,9 +43,9 @@ public class Deal {
     @JoinColumn(name = "client_id", nullable = false)
     private Client client;
 
-    // Объект недвижимости
+    // nullable — на этапе LEAD объект может отсутствовать
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "property_id", nullable = false)
+    @JoinColumn(name = "property_id")
     private Property property;
 
     // Ответственный агент
