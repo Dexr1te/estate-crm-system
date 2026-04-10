@@ -6,8 +6,8 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table'
-import { CreateClientDrawer } from '@/widgets/clients-drawer/CreateClientDrawer'
-import { useClients } from '@/entities/clients/api/hook'
+import { CreateClientDrawer } from '@/features/create-client/CreateClientDrawer'
+import { useClients } from '@/entities/clients/model/hook'
 import { Badge } from '@/components/ui/badge'
 
 export function ClientsPage() {
