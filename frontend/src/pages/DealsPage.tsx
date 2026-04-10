@@ -15,7 +15,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select'
-import { CreateDealDrawer } from '@/widgets/deal-drawer/CreateDealDrawer'
+import { CreateDealDrawer } from '@/features/create-deal/CreateDealDrawer'
 
 export function DealsPage() {
   const { data: deals = [], isLoading } = useDeals()

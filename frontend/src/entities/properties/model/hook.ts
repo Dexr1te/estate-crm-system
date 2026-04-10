@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { propertiesApi } from './propertiesApi'
+import { propertiesApi } from '../api/propertiesApi'
 
 export const PROPERTIES_KEY = ['properties']
 

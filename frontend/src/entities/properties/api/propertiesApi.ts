@@ -1,15 +1,5 @@
 import { request } from '@/shared/api/base'
-
-export type Property = {
-  id: number
-  title: string
-  description: string
-  type: string
-  status: 'AVAILABLE' | 'SOLD' | 'RESERVED'
-  address: string
-  price: number
-  city?: string
-}
+import type { Property } from '../model/types'
 
 export const propertiesApi = {
   getAll: () => request<Property[]>('/properties'),

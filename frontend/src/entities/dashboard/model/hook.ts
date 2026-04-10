@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { dashboardApi } from './dashboardApi'
+import { dashboardApi } from '../api/dashboardApi'
 
 export const DASHBOARD_KEY = ['dashboard']
 

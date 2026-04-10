@@ -21,7 +21,7 @@ import {
   SelectValue
 } from '@/components/ui/select'
 
-import { useCreateClient } from '@/entities/clients/api/hook'
+import { useCreateClient } from '@/entities/clients/model/hook'
 
 export function CreateClientDrawer() {
   const { mutate, isPending } = useCreateClient()
