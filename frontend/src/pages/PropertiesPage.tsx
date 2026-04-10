@@ -8,8 +8,8 @@ import {
 } from '@/components/ui/table'
 import { Badge } from '@/components/ui/badge'
 
-import { CreatePropertyDrawer } from '@/widgets/propterty-drawer/CreatePropertyDrawer'
-import { useProperties } from '@/entities/properties/api/hook'
+import { CreatePropertyDrawer } from '@/features/create-property/CreatePropertyDrawer'
+import { useProperties } from '@/entities/properties/model/hook'
 
 export function PropertiesPage() {
   const { data: properties = [], isLoading } = useProperties()

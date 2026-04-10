@@ -22,8 +22,8 @@ import {
 } from '@/components/ui/select'
 
 import { useCreateDeal } from '@/entities/deal/model/hook'
-import { useClients } from '@/entities/clients/api/hook'
-import { useProperties } from '@/entities/properties/api/hook'
+import { useClients } from '@/entities/clients/model/hook'
+import { useProperties } from '@/entities/properties/model/hook'
 
 export function CreateDealDrawer() {
   const { mutate, isPending } = useCreateDeal()

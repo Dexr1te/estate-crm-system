@@ -21,7 +21,7 @@ import {
   SelectValue
 } from '@/components/ui/select'
 
-import { useCreateProperty } from '@/entities/properties/api/hook'
+import { useCreateProperty } from '@/entities/properties/model/hook'
 
 export function CreatePropertyDrawer() {
   const { mutate, isPending } = useCreateProperty()

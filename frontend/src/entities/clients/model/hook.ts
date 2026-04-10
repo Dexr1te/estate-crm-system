@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { clientsApi } from './clientsApi'
+import { clientsApi } from '../api/clientsApi'
 
 export const CLIENTS_KEY = ['clients']
 
