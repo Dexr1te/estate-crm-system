@@ -6,8 +6,8 @@ import {
   useUpdateMeeting
 } from '@/entities/meeting/model/hook'
 import { useAppStore } from '@/shared/store/useAppStore'
-import { MeetingCard } from '@/widgets/meeting-card/MeetingCard'
-import { MeetingForm } from '@/widgets/meeting-card/MeetingForm'
+import { MeetingCard } from '@/features/meeting-form/MeetingCard'
+import { MeetingForm } from '@/features/meeting-form/MeetingForm'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Spinner } from '@/components/ui/spinner'
