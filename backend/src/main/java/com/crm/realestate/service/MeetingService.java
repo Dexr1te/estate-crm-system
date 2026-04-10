@@ -2,6 +2,7 @@ package com.crm.realestate.service;
 
 import com.crm.realestate.dto.request.MeetingRequest;
 import com.crm.realestate.dto.response.MeetingResponse;
+import com.crm.realestate.dto.response.UpcomingMeetingResponse;
 import com.crm.realestate.entity.Client;
 import com.crm.realestate.entity.Deal;
 import com.crm.realestate.entity.Meeting;
@@ -33,6 +34,18 @@ public class MeetingService {
         return meetingRepository.findAll()
                 .stream().map(this::toResponse).collect(Collectors.toList());
     }
+
+    public List<UpcomingMeetingResponse> getAllUpcoming() {
+        return meetingRepository.findAllUpcoming(LocalDateTime.now())
+                .stream()
+                .map(m -> UpcomingMeetingResponse.builder()
+                        .id(m.getId())
+                        .title(m.getTitle())
+                        .scheduledAt(m.getScheduledAt())
+                        .clientName(m.getClient().getFullName())
+                        .build())
+                .collect(Collectors.toList());
+    }    
 
     public List<MeetingResponse> getByAgent(Long agentId) {
         return meetingRepository.findByAgentId(agentId)
@@ -76,7 +89,6 @@ public class MeetingService {
         meetingRepository.delete(findById(id));
     }
 
-    // Private helpers
 
     private Meeting findById(Long id) {
         return meetingRepository.findById(id)
