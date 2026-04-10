@@ -1,4 +1,4 @@
-import AuthWidget from '@/processes/auth/ui/AuthWidget'
+import AuthWidget from '@/entities/auth/ui/AuthWidget'
 
 // ─── LoginPage ────────────────────────────────────────────────────────────────
 
