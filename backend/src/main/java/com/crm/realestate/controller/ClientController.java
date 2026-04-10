@@ -1,6 +1,7 @@
 package com.crm.realestate.controller;
 
 import com.crm.realestate.dto.request.ClientRequest;
+import com.crm.realestate.dto.response.ClientListItem;
 import com.crm.realestate.dto.response.ClientResponse;
 import com.crm.realestate.enums.ClientType;
 import com.crm.realestate.service.ClientService;
@@ -43,11 +44,18 @@ public class ClientController {
         return ResponseEntity.ok(clientService.getAll());
     }
 
+    @GetMapping("/with-details")
+    @Operation(summary = "Get clients with deal status, property and next meeting - for frontend table")
+    public ResponseEntity<List<ClientListItem>> getWithDetails() {
+        return ResponseEntity.ok(clientService.getClientsWithDetails());
+    }
+
     @GetMapping("/{id}")
     @Operation(summary = "Get client by ID")
     public ResponseEntity<ClientResponse> getById(@PathVariable Long id) {
         return ResponseEntity.ok(clientService.getById(id));
     }
+    
 
     @PostMapping
     @Operation(summary = "Create a new client")

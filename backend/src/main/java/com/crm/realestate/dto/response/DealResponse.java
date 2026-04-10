@@ -12,18 +12,16 @@ public class DealResponse {
     private String title;
     private DealStatus status;
     private BigDecimal dealPrice;
+    private BigDecimal budget;
     private String notes;
 
-    // Client info
     private Long clientId;
     private String clientName;
 
-    // Property info
     private Long propertyId;
     private String propertyTitle;
     private String propertyAddress;
 
-    // Agent info
     private Long agentId;
     private String agentName;
 

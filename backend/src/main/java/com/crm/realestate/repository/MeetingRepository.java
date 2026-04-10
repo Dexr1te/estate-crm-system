@@ -20,7 +20,6 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
 
     List<Meeting> findByAgentIdAndCompleted(Long agentId, boolean completed);
 
-    // предстоящие встречи агента
     @Query("SELECT m FROM Meeting m WHERE m.agent.id = :agentId " +
            "AND m.scheduledAt BETWEEN :from AND :to ORDER BY m.scheduledAt ASC")
     List<Meeting> findUpcomingByAgent(
@@ -28,4 +27,8 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
             @Param("from")    LocalDateTime from,
             @Param("to")      LocalDateTime to
     );
+
+    @Query("SELECT m FROM Meeting m WHERE m.completed = false " +
+           "AND m.scheduledAt > :now ORDER BY m.scheduledAt ASC")
+    List<Meeting> findAllUpcoming(@Param("now") LocalDateTime now);
 }

@@ -68,7 +68,7 @@ public class DealService {
         Deal deal = findById(id);
         deal.setStatus(newStatus);
 
-        // если сделка закрыта фиксируем время
+        // Если сделка закрыта — фиксируем время
         if (newStatus == DealStatus.CLOSED_WON || newStatus == DealStatus.CLOSED_LOST) {
             deal.setClosedAt(LocalDateTime.now());
         }
@@ -81,7 +81,6 @@ public class DealService {
         dealRepository.delete(findById(id));
     }
 
-    // Private helpers
 
     private Deal findById(Long id) {
         return dealRepository.findById(id)
@@ -92,6 +91,7 @@ public class DealService {
         deal.setTitle(request.getTitle());
         deal.setStatus(request.getStatus() != null ? request.getStatus() : DealStatus.LEAD);
         deal.setDealPrice(request.getDealPrice());
+        deal.setBudget(request.getBudget());
         deal.setNotes(request.getNotes());
 
         Client client = clientRepository.findById(request.getClientId())
@@ -99,10 +99,14 @@ public class DealService {
                         "Client not found with id: " + request.getClientId()));
         deal.setClient(client);
 
-        Property property = propertyRepository.findById(request.getPropertyId())
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Property not found with id: " + request.getPropertyId()));
-        deal.setProperty(property);
+        if (request.getPropertyId() != null) {
+            Property property = propertyRepository.findById(request.getPropertyId())
+                    .orElseThrow(() -> new ResourceNotFoundException(
+                            "Property not found with id: " + request.getPropertyId()));
+            deal.setProperty(property);
+        } else {
+            deal.setProperty(null);
+        }
 
         User agent = userRepository.findById(request.getAgentId())
                 .orElseThrow(() -> new ResourceNotFoundException(
@@ -116,6 +120,7 @@ public class DealService {
         res.setTitle(deal.getTitle());
         res.setStatus(deal.getStatus());
         res.setDealPrice(deal.getDealPrice());
+        res.setBudget(deal.getBudget());
         res.setNotes(deal.getNotes());
         res.setCreatedAt(deal.getCreatedAt());
         res.setUpdatedAt(deal.getUpdatedAt());
