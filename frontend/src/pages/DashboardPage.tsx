@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { ArrowUpRight } from 'lucide-react'
-import { useDashboard } from '@/entities/dashboard/api/hook'
+import { useDashboard } from '@/entities/dashboard/model/hook'
 
 export function DashboardPage() {
   const navigate = useNavigate()
