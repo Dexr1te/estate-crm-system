@@ -1,4 +1,4 @@
-import { useAuthStore } from '@/shared/store/useAuthStore'
+import { useAuthStore } from '@/entities/auth/model/authStore'
 import React from 'react'
 import { Navigate } from 'react-router-dom'
 

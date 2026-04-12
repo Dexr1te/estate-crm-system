@@ -1,4 +1,4 @@
-import AuthWidget from '@/entities/auth/ui/AuthWidget'
+import AuthWidget from '@/entities/auth/ui/LoginPageContent'
 
 // ─── LoginPage ────────────────────────────────────────────────────────────────
 

@@ -6,6 +6,7 @@ export interface Meeting {
   description?: string
   scheduledAt: string
   completed?: boolean
+
   location?: string
   agentName?: string
   dealTitle?: string
@@ -19,6 +20,17 @@ export interface CreateMeetingDto {
   location?: string
   dealId?: number
   agentId?: number
+  clientId?: number
+}
+export interface MeetingEditable {
+  id: number
+  title: string
+  description?: string
+  scheduledAt: string
+  location?: string
+
+  agentId?: number
+  dealId?: number
   clientId?: number
 }
 

@@ -38,7 +38,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
-import { useAuthStore } from '@/shared/store/useAuthStore'
+import { useAuthStore } from '@/entities/auth/model/authStore'
 
 // ─── Nav config ──────────────────────────────────────────────────────────────
 
