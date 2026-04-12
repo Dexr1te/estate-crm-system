@@ -1,5 +1,5 @@
 import { AlertCircle, Eye, EyeOff, Loader2 } from 'lucide-react'
-import { useLogin } from '../model/useLogin'
+import { useLoginForm } from '../model/useLoginForm'
 
 const AuthWidget = () => {
   const {
@@ -12,7 +12,7 @@ const AuthWidget = () => {
     setPassword,
     setShowPassword,
     handleSubmit
-  } = useLogin()
+  } = useLoginForm()
 
   return (
     <div className="min-h-screen grid lg:grid-cols-2 bg-zinc-950">

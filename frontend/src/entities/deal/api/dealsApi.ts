@@ -1,5 +1,5 @@
 import { request } from '@/shared/api/base'
-import { useAuthStore } from '@/shared/store/useAuthStore'
+import { useAuthStore } from '@/entities/auth/model/authStore'
 import type { Deal } from '../model/type'
 
 export const dealsApi = {

@@ -12,22 +12,7 @@ import { Spinner } from '@/components/ui/spinner'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/shared/lib/utils'
 import { useCompleteMeeting } from '@/entities/meeting/model/hook'
-
-type Meeting = {
-  id: number
-  title: string
-  description?: string
-  scheduledAt: string
-  completed?: boolean
-  location?: string
-  agentName?: string
-  dealTitle?: string
-}
-
-type MeetingCardProps = {
-  meeting: Meeting
-  onEdit: (meeting: Meeting) => void
-}
+import type { MeetingCardProps } from './model/types'
 
 export function MeetingCard({ meeting, onEdit }: MeetingCardProps) {
   const { mutate: complete, isPending } = useCompleteMeeting()
