@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from 'react-router-dom'
-import { useAuthStore } from '@/shared/store/useAuthStore'
+import { useAuthStore } from '@/entities/auth/model/authStore'
 
 type Props = {
   redirectPath?: string

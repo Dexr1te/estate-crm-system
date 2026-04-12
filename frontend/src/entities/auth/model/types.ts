@@ -1,4 +1,4 @@
-import type { Role } from '@/shared/store/useAuthStore'
+import type { Role } from '@/entities/auth/model/authStore'
 
 export const BASE_URL = import.meta.env.VITE_API_URL
 
