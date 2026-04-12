@@ -4,44 +4,11 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { format } from 'date-fns'
-import type { CreateMeetingDto } from '@/entities/meeting/model/type'
-
-type Meeting = {
-  title: string
-  description?: string
-  scheduledAt?: string
-  location?: string
-  dealId?: number | string
-  agentId?: number | string
-  clientId?: number | string
-}
-
-type MeetingFormProps<T = CreateMeetingDto> = {
-  initial?: Meeting
-  onSubmit: (data: T) => void
-  onCancel: () => void
-  loading?: boolean
-}
-
-type FormState = {
-  title: string
-  description: string
-  scheduledAt: string
-  location: string
-  dealId: string
-  agentId: string
-  clientId: string
-}
-
-const DEFAULT_FORM: FormState = {
-  title: '',
-  description: '',
-  scheduledAt: '',
-  location: '',
-  dealId: '',
-  agentId: '',
-  clientId: ''
-}
+import {
+  DEFAULT_FORM,
+  type FormState,
+  type MeetingFormProps
+} from './model/types'
 
 export function MeetingForm({
   initial,

@@ -1,4 +1,4 @@
-import { useAuthStore } from '@/shared/store/useAuthStore'
+import { useAuthStore } from '@/entities/auth/model/authStore'
 
 const BASE_URL = import.meta.env.VITE_API_URL
 
@@ -36,4 +36,22 @@ export async function request<T>(
 
   const text = await res.text()
   return text ? JSON.parse(text) : ({} as T)
+}
+
+export const api = {
+  get: <T>(url: string) => request<T>(url, { method: 'GET' }),
+
+  post: <T>(url: string, body?: unknown) =>
+    request<T>(url, {
+      method: 'POST',
+      body: JSON.stringify(body)
+    }),
+
+  put: <T>(url: string, body?: unknown) =>
+    request<T>(url, {
+      method: 'PUT',
+      body: JSON.stringify(body)
+    }),
+
+  delete: <T>(url: string) => request<T>(url, { method: 'DELETE' })
 }
