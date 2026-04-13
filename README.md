@@ -30,7 +30,7 @@ Real estate agencies struggle to manage large volumes of clients, property listi
 | Layer | Technology |
 |---|---|
 | Frontend | React, TypeScript, Vite |
-| Backend | Node.js, Express |
+| Backend | Java, Spring |
 | Mobile | Flutter |
 | Database | PostgreSQL |
 
