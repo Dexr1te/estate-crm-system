@@ -1,47 +1,93 @@
 # 🏢 Real Estate CRM System
 
-A full-stack CRM platform designed for real estate agencies to manage clients, properties, and sales pipelines efficiently.
+> A full-stack CRM platform designed for real estate agencies to manage clients, properties, and sales pipelines efficiently.
+
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Status](https://img.shields.io/badge/status-active-brightgreen.svg)
+![Stack](https://img.shields.io/badge/stack-React%20%7C%20Node.js%20%7C%20Flutter-blueviolet)
 
 ---
 
-## 📌 Project Overview
+## 📌 Problem Statement
 
-Real Estate CRM is a web and mobile-based system that helps real estate agencies:
-
-- Manage buyers and sellers
-- Track property listings
-- Monitor deal stages (Lead → Negotiation → Closed)
-- Schedule meetings and reminders
-- Store and manage deal documents
-- Analyze sales performance
-
-This project is developed as a Capstone Project.
+Real estate agencies struggle to manage large volumes of clients, property listings, and deal pipelines using scattered tools like spreadsheets and emails. This CRM centralizes everything into one professional platform.
 
 ---
+
+## ✨ Features
+
+- 👥 Manage buyers and sellers in one place
+- 🏠 Track property listings with full details
+- 📊 Monitor deal stages — Lead → Negotiation → Closed
+- 📅 Schedule meetings and set reminders
+- 📁 Store and manage deal documents
+- 📈 Analyze sales performance with dashboards
+
+---
+
 ## 🛠 Tech Stack
-- **Frontend:** React, TypeScript, Vite
-- **Backend:** (your backend tech, e.g. Node.js / Express)
-- **Mobile:** (e.g. React Native / Flutter)
-- **Database:** (e.g. PostgreSQL / MongoDB)
+
+| Layer | Technology |
+|---|---|
+| Frontend | React, TypeScript, Vite |
+| Backend | Node.js, Express |
+| Mobile | Flutter |
+| Database | PostgreSQL |
+
+---
 
 ## ⚙️ Installation
 
+### Prerequisites
+- Node.js v18+
+- npm or yarn
+- Flutter SDK (for mobile)
+
 ### Frontend
-```bash
 cd frontend
 npm install
 npm run dev
-```
 
 ### Backend
-```bash
 cd backend
 npm install
 npm run dev
-```
+
+### Mobile
+cd mobile
+flutter pub get
+flutter run
+
+---
 
 ## 🚀 Usage
+
 1. Register or log in as a real estate agent
 2. Add clients and property listings
-3. Track deals through Lead → Negotiation → Closed pipeline
+3. Track deals through the Lead → Negotiation → Closed pipeline
 4. Schedule meetings and set reminders
+5. Generate performance reports from the dashboard
+
+---
+
+## 📁 Project Structure
+
+estate-crm-system/
+├── backend/        # REST API and business logic
+├── frontend/       # React web application
+├── mobile/         # Flutter mobile app
+├── docs/           # Documentation
+├── tests/          # Test files
+└── assets/         # Shared assets
+
+---
+
+## 👥 Team
+
+Developed as a Capstone Project.
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.
