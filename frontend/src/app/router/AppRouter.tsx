@@ -32,7 +32,7 @@ export function AppRouter() {
         <Route element={<ProtectedRoute />}>
           <Route element={<AppLayout />}>
             {/* 👉 главная */}
-            <Route path="/" element={<DashboardPage />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
 
             {/* 👉 CRM pages */}
             <Route path="/clients" element={<ClientsPage />} />
@@ -44,7 +44,7 @@ export function AppRouter() {
         </Route>
 
         {/* fallback */}
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
     </BrowserRouter>
   )
