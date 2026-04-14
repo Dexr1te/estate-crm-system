@@ -39,7 +39,7 @@ Real estate agencies struggle to manage large volumes of clients, property listi
 ## ⚙️ Installation
 
 ### Prerequisites
-- Node.js v18+
+- Java / Spring
 - npm or yarn
 - Flutter SDK (for mobile)
 
@@ -50,8 +50,7 @@ npm run dev
 
 ### Backend
 cd backend
-npm install
-npm run dev
+docker-compose build
 
 ### Mobile
 cd mobile
