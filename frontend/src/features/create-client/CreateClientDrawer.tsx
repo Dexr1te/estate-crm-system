@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
 
 import {
   Drawer,
@@ -22,6 +23,7 @@ import {
 } from '@/components/ui/select'
 
 import { useCreateClient } from '@/entities/clients/model/hook'
+import type { ClientRequest, ClientType } from '@/entities/clients/model/type'
 
 export function CreateClientDrawer() {
   const { mutate, isPending } = useCreateClient()
@@ -29,28 +31,36 @@ export function CreateClientDrawer() {
   const [fullName, setFullName] = useState('')
   const [phone, setPhone] = useState('')
   const [email, setEmail] = useState('')
-  const [type, setType] = useState<'BUYER' | 'SELLER'>('BUYER')
+  const [notes, setNotes] = useState('')
+  const [agentId, setAgentId] = useState('')
+  const [type, setType] = useState<ClientType>('BUYER')
+
+  const buildRequest = (): ClientRequest => {
+    const trimmedFullName = fullName.trim()
+
+    return {
+      fullName: trimmedFullName,
+      email: email.trim() || undefined,
+      phone: phone.trim() || undefined,
+      type,
+      notes: notes.trim() || undefined,
+      agentId: agentId.trim() ? Number(agentId) : undefined
+    }
+  }
 
   const handleSubmit = () => {
-    if (!fullName) return
+    if (!fullName.trim()) return
 
-    mutate(
-      {
-        fullName,
-        email,
-        phone,
-        type
-      },
-      {
-        onSuccess: () => {
-          // reset формы
-          setFullName('')
-          setPhone('')
-          setEmail('')
-          setType('BUYER')
-        }
+    mutate(buildRequest(), {
+      onSuccess: () => {
+        setFullName('')
+        setPhone('')
+        setEmail('')
+        setNotes('')
+        setAgentId('')
+        setType('BUYER')
       }
-    )
+    })
   }
 
   return (
@@ -92,6 +102,29 @@ export function CreateClientDrawer() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="client@mail.com"
+            />
+          </div>
+
+          {/* Notes */}
+          <div className="space-y-2">
+            <Label>Notes</Label>
+            <Textarea
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              placeholder="Important context about the client"
+              rows={4}
+            />
+          </div>
+
+          {/* Agent ID */}
+          <div className="space-y-2">
+            <Label>Agent ID</Label>
+            <Input
+              type="number"
+              value={agentId}
+              onChange={(e) => setAgentId(e.target.value)}
+              disabled
+              placeholder="Optional"
             />
           </div>
 
