@@ -8,7 +8,25 @@ import {
 } from '@/components/ui/table'
 import { CreateClientDrawer } from '@/features/create-client/CreateClientDrawer'
 import { useClients } from '@/entities/clients/model/hook'
-import { Badge } from '@/components/ui/badge'
+
+function formatDateTime(value?: string | null) {
+  if (!value) return '-'
+
+  const date = new Date(value)
+
+  if (Number.isNaN(date.getTime())) return value
+
+  return new Intl.DateTimeFormat('en', {
+    dateStyle: 'medium',
+    timeStyle: 'short'
+  }).format(date)
+}
+
+function formatBudget(value?: number | null) {
+  if (value == null) return '-'
+
+  return new Intl.NumberFormat('en-US').format(value)
+}
 
 export function ClientsPage() {
   const { data: clients = [], isLoading } = useClients()
@@ -34,7 +52,11 @@ export function ClientsPage() {
               <TableHead>Name</TableHead>
               <TableHead>Phone</TableHead>
               <TableHead>Email</TableHead>
-              <TableHead>Type</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Budget</TableHead>
+              <TableHead>Property</TableHead>
+              <TableHead>Next meeting</TableHead>
+              <TableHead>Last contact</TableHead>
             </TableRow>
           </TableHeader>
 
@@ -42,7 +64,7 @@ export function ClientsPage() {
             {clients.length === 0 ? (
               <TableRow>
                 <TableCell
-                  colSpan={4}
+                  colSpan={8}
                   className="text-center py-6 text-muted-foreground"
                 >
                   No clients yet
@@ -60,12 +82,15 @@ export function ClientsPage() {
                   {/* Email */}
                   <TableCell>{c.email || '-'}</TableCell>
 
-                  {/* Type */}
-                  <TableCell>
-                    <Badge variant="outline">
-                      {c.type === 'BUYER' ? 'Buyer' : 'Seller'}
-                    </Badge>
-                  </TableCell>
+                  <TableCell>{c.status ? c.status : '-'}</TableCell>
+
+                  <TableCell>{formatBudget(c.budget)}</TableCell>
+
+                  <TableCell>{c.propertyTitle || '-'}</TableCell>
+
+                  <TableCell>{formatDateTime(c.nextMeetingAt)}</TableCell>
+
+                  <TableCell>{formatDateTime(c.lastContactAt)}</TableCell>
                 </TableRow>
               ))
             )}
