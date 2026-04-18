@@ -33,17 +33,9 @@ public class MeetingController {
         return ResponseEntity.ok(meetingService.getAll());
     }
 
-<<<<<<< Updated upstream
     @GetMapping("/upcoming")
     @Operation(summary = "Get upcoming meetings for an agent (next 7 days)")
     public ResponseEntity<List<MeetingResponse>> getUpcoming(@RequestParam Long agentId) {
-=======
-
-
-    @GetMapping("/upcoming/agent/{agentId}")
-    @Operation(summary = "Get all upcoming meetings")
-    public ResponseEntity<List<MeetingResponse>> getUpcoming(@PathVariable Long agentId) {
->>>>>>> Stashed changes
         return ResponseEntity.ok(meetingService.getUpcoming(agentId));
     }
 
