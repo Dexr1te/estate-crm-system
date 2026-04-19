@@ -39,7 +39,11 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private Role role;
 
-    private String fcmToken;         //firebase push уведомления
+    private String fcmToken;
+
+    @Column(nullable = false)
+    @Builder.Default
+    private boolean isActive = true;  // false = the agent was fired
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -57,7 +61,7 @@ public class User implements UserDetails {
         updatedAt = LocalDateTime.now();
     }
 
-    //userDetails methods 
+    // UserDetails 
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -73,11 +77,11 @@ public class User implements UserDetails {
     public boolean isAccountNonExpired() { return true; }
 
     @Override
-    public boolean isAccountNonLocked() { return true; }
+    public boolean isAccountNonLocked() { return isActive; } // when the agent was fired he can't log in, so account is locked
 
     @Override
     public boolean isCredentialsNonExpired() { return true; }
 
     @Override
-    public boolean isEnabled() { return true; }
+    public boolean isEnabled() { return isActive; }
 }
