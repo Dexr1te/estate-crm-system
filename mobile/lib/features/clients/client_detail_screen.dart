@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/models/models.dart';
@@ -105,6 +106,43 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
                                         const SizedBox(height: 6),
                                         ClientTypeChip(type: _client!.type),
                                       ])),
+                                  // ── ID badge (tap to copy) ──
+                                  GestureDetector(
+                                    onTap: () {
+                                      Clipboard.setData(ClipboardData(
+                                          text: _client!.id.toString()));
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(const SnackBar(
+                                              content: Text('Client ID copied'),
+                                              duration: Duration(seconds: 1)));
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10, vertical: 6),
+                                      decoration: BoxDecoration(
+                                          color: AppColors.primary
+                                              .withOpacity(0.08),
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          border: Border.all(
+                                              color: AppColors.primary
+                                                  .withOpacity(0.2))),
+                                      child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Text('ID: ${_client!.id}',
+                                                style: const TextStyle(
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w700,
+                                                    color: AppColors.primary,
+                                                    fontFamily: 'Sora')),
+                                            const SizedBox(width: 4),
+                                            const Icon(Icons.copy,
+                                                size: 13,
+                                                color: AppColors.primary),
+                                          ]),
+                                    ),
+                                  ),
                                 ]))),
                         const SizedBox(height: 12),
                         _InfoCard(title: 'Contact', rows: [
