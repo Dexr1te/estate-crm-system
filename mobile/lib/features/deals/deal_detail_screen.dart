@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/models/models.dart';
@@ -51,6 +52,12 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
     _load();
   }
 
+  void _copyId() {
+    Clipboard.setData(ClipboardData(text: _d!.id.toString()));
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('Deal ID copied'), duration: Duration(seconds: 1)));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,7 +101,44 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
                                                     fontFamily: 'Sora'))),
                                         DealStatusChip(status: _d!.status)
                                       ]),
-                                      const SizedBox(height: 16),
+                                      const SizedBox(height: 10),
+                                      // ── Deal ID badge (tap to copy) ──
+                                      GestureDetector(
+                                        onTap: _copyId,
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10, vertical: 6),
+                                          decoration: BoxDecoration(
+                                              color: AppColors.success
+                                                  .withOpacity(0.08),
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                              border: Border.all(
+                                                  color: AppColors.success
+                                                      .withOpacity(0.25))),
+                                          child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                const Icon(Icons.tag,
+                                                    size: 13,
+                                                    color: AppColors.success),
+                                                const SizedBox(width: 4),
+                                                Text('Deal ID: ${_d!.id}',
+                                                    style: const TextStyle(
+                                                        fontSize: 13,
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                        color:
+                                                            AppColors.success,
+                                                        fontFamily: 'Sora')),
+                                                const SizedBox(width: 6),
+                                                const Icon(Icons.copy,
+                                                    size: 13,
+                                                    color: AppColors.success),
+                                              ]),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 12),
                                       if (_d!.dealPrice != null)
                                         _Row(Icons.attach_money, 'Deal Price',
                                             formatPrice(_d!.dealPrice!),

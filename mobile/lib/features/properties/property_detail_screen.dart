@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/models/models.dart';
@@ -52,6 +53,12 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
     _load();
   }
 
+  void _copyId() {
+    Clipboard.setData(ClipboardData(text: _p!.id.toString()));
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('Property ID copied'), duration: Duration(seconds: 1)));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,7 +101,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                                                     fontSize: 20,
                                                     fontWeight: FontWeight.w700,
                                                     fontFamily: 'Sora'))),
-                                        PropertyStatusChip(status: _p!.status)
+                                        PropertyStatusChip(status: _p!.status),
                                       ]),
                                       const SizedBox(height: 8),
                                       Text(formatPrice(_p!.price),
@@ -125,6 +132,42 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                                                     fontSize: 13,
                                                     color:
                                                         AppColors.textHint))),
+                                      const SizedBox(height: 12),
+                                      // ── ID badge (tap to copy) ──
+                                      GestureDetector(
+                                        onTap: _copyId,
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10, vertical: 6),
+                                          decoration: BoxDecoration(
+                                              color: AppColors.accent
+                                                  .withOpacity(0.08),
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                              border: Border.all(
+                                                  color: AppColors.accent
+                                                      .withOpacity(0.25))),
+                                          child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                const Icon(Icons.tag,
+                                                    size: 13,
+                                                    color: AppColors.accent),
+                                                const SizedBox(width: 4),
+                                                Text('Property ID: ${_p!.id}',
+                                                    style: const TextStyle(
+                                                        fontSize: 13,
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                        color: AppColors.accent,
+                                                        fontFamily: 'Sora')),
+                                                const SizedBox(width: 6),
+                                                const Icon(Icons.copy,
+                                                    size: 13,
+                                                    color: AppColors.accent),
+                                              ]),
+                                        ),
+                                      ),
                                     ]))),
                         const SizedBox(height: 12),
                         Card(

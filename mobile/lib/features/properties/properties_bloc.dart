@@ -54,6 +54,12 @@ class PropertiesActionSuccess extends PropertiesState {
   PropertiesActionSuccess(this.message);
 }
 
+// NEW: emitted after a successful create, carries the new property's id
+class PropertyCreated extends PropertiesState {
+  final PropertyResponse property;
+  PropertyCreated(this.property);
+}
+
 class PropertiesBloc extends Bloc<PropertiesEvent, PropertiesState> {
   final ApiService _api;
   PropertiesBloc(this._api) : super(PropertiesInitial()) {
@@ -63,6 +69,7 @@ class PropertiesBloc extends Bloc<PropertiesEvent, PropertiesState> {
     on<PropertiesUpdateEvent>(_onUpdate);
     on<PropertiesUpdateStatusEvent>(_onUpdateStatus);
   }
+
   Future<void> _onLoad(
       PropertiesLoadEvent e, Emitter<PropertiesState> emit) async {
     emit(PropertiesLoading());
@@ -88,8 +95,8 @@ class PropertiesBloc extends Bloc<PropertiesEvent, PropertiesState> {
   Future<void> _onCreate(
       PropertiesCreateEvent e, Emitter<PropertiesState> emit) async {
     try {
-      await _api.createProperty(e.data);
-      emit(PropertiesActionSuccess('Property created'));
+      final created = await _api.createProperty(e.data);
+      emit(PropertyCreated(created)); // emit the full object with id
     } catch (err) {
       emit(PropertiesError(err.toString()));
     }

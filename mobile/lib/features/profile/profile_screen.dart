@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
@@ -29,20 +30,16 @@ class ProfileScreen extends StatelessWidget {
                 _Tile(
                   icon: Icons.person_outline,
                   label: 'Edit Name',
-                  trailing: Text(user.fullName,
-                      style: const TextStyle(
-                        fontSize: 13,
-                      )),
+                  trailing:
+                      Text(user.fullName, style: const TextStyle(fontSize: 13)),
                   onTap: () => _showEditName(context, user.fullName),
                 ),
                 _Divider(),
                 _Tile(
                   icon: Icons.email_outlined,
                   label: 'Email',
-                  trailing: Text(user.email,
-                      style: const TextStyle(
-                        fontSize: 13,
-                      )),
+                  trailing:
+                      Text(user.email, style: const TextStyle(fontSize: 13)),
                   onTap: null,
                 ),
                 _Divider(),
@@ -50,6 +47,44 @@ class ProfileScreen extends StatelessWidget {
                   icon: Icons.badge_outlined,
                   label: 'Role',
                   trailing: _RoleChip(role: user.role),
+                  onTap: null,
+                ),
+                _Divider(),
+                // ── Agent ID row (tap to copy) ──
+                _Tile(
+                  icon: Icons.fingerprint,
+                  label: 'Agent ID',
+                  trailing: GestureDetector(
+                    onTap: () {
+                      Clipboard.setData(
+                          ClipboardData(text: user.userId.toString()));
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                            content: Text('Agent ID copied'),
+                            duration: Duration(seconds: 1)),
+                      );
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 5),
+                      decoration: BoxDecoration(
+                          color: AppColors.primary.withOpacity(0.08),
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                              color: AppColors.primary.withOpacity(0.2))),
+                      child: Row(mainAxisSize: MainAxisSize.min, children: [
+                        Text('${user.userId}',
+                            style: const TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.primary,
+                                fontFamily: 'Sora')),
+                        const SizedBox(width: 5),
+                        const Icon(Icons.copy,
+                            size: 13, color: AppColors.primary),
+                      ]),
+                    ),
+                  ),
                   onTap: null,
                 ),
               ]),
@@ -82,19 +117,14 @@ class ProfileScreen extends StatelessWidget {
                 const _Tile(
                     icon: Icons.info_outline,
                     label: 'Version',
-                    trailing: Text('1.0.0',
-                        style: TextStyle(
-                          fontSize: 13,
-                        )),
+                    trailing: Text('1.0.0', style: TextStyle(fontSize: 13)),
                     onTap: null),
                 _Divider(),
                 const _Tile(
                     icon: Icons.home_work_outlined,
                     label: 'Estate CRM',
                     trailing: Text('Real Estate Platform',
-                        style: TextStyle(
-                          fontSize: 13,
-                        )),
+                        style: TextStyle(fontSize: 13)),
                     onTap: null),
               ]),
 
@@ -157,8 +187,6 @@ class ProfileScreen extends StatelessWidget {
               ElevatedButton(
                 onPressed: () {
                   if (ctrl.text.trim().isNotEmpty) {
-                    // Store locally — backend /users update endpoint not in spec
-                    // but we update the saved user name in SharedPreferences via auth
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('Name updated locally')),
                     );
@@ -244,10 +272,7 @@ class _AvatarHeader extends StatelessWidget {
           style: const TextStyle(
               fontSize: 20, fontWeight: FontWeight.w700, fontFamily: 'Sora')),
       const SizedBox(height: 4),
-      Text(user.email,
-          style: const TextStyle(
-            fontSize: 14,
-          )),
+      Text(user.email, style: const TextStyle(fontSize: 14)),
       const SizedBox(height: 8),
       _RoleChip(role: user.role),
     ]);
@@ -310,10 +335,7 @@ class _Tile extends StatelessWidget {
       {required this.icon, required this.label, this.trailing, this.onTap});
   @override
   Widget build(BuildContext context) => ListTile(
-        leading: Icon(
-          icon,
-          size: 20,
-        ),
+        leading: Icon(icon, size: 20),
         title: Text(label,
             style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
         trailing: trailing,
