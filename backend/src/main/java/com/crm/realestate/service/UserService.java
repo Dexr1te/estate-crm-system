@@ -17,9 +17,9 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    
+    // only active agents for frontend select (for meetings, deals)
     public List<AgentOptionResponse> getAgentOptions() {
-        return userRepository.findByRoleOrderByFullNameAsc(Role.AGENT)
+        return userRepository.findByRoleAndIsActiveTrueOrderByFullNameAsc(Role.AGENT)
                 .stream()
                 .map(user -> AgentOptionResponse.builder()
                         .id(user.getId())

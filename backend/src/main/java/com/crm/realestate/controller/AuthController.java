@@ -5,22 +5,25 @@ import com.crm.realestate.dto.request.RegisterRequest;
 import com.crm.realestate.dto.response.AuthResponse;
 import com.crm.realestate.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
-@Tag(name = "Authentication", description = "Register, Login, Refresh Token")
+@Tag(name = "Authentication", description = "Register, Login, Refresh Token, Me")
 public class AuthController {
 
     private final AuthService authService;
 
     @PostMapping("/register")
-    @Operation(summary = "Register a new agent/admin")
+    @Operation(summary = "Register a new agent (always creates AGENT role)")
     public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest request) {
         return ResponseEntity.ok(authService.register(request));
     }
@@ -36,5 +39,12 @@ public class AuthController {
     public ResponseEntity<AuthResponse> refresh(@RequestHeader("Authorization") String bearerToken) {
         String refreshToken = bearerToken.replace("Bearer ", "");
         return ResponseEntity.ok(authService.refreshToken(refreshToken));
+    }
+
+    @GetMapping("/me")
+    @Operation(summary = "Get current authenticated user info")
+    @SecurityRequirement(name = "bearerAuth")
+    public ResponseEntity<AuthResponse> me(@AuthenticationPrincipal UserDetails userDetails) {
+        return ResponseEntity.ok(authService.getMe(userDetails.getUsername()));
     }
 }
