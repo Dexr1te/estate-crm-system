@@ -102,124 +102,148 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
       context
           .read<PropertiesBloc>()
           .add(PropertiesUpdateEvent(widget.propertyId!, data));
+      // For update, navigate back immediately
+      context.go('/properties');
     } else {
       context.read<PropertiesBloc>().add(PropertiesCreateEvent(data));
+      // Navigation is handled in the BlocListener below (on PropertyCreated)
     }
-    context.go('/properties');
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      appBar: AppBar(
-          title: Text(widget.isEditing ? 'Edit Property' : 'New Property')),
-      body: _initLoading
-          ? const LoadingWidget()
-          : SingleChildScrollView(
-              padding: const EdgeInsets.all(24),
-              child: Form(
-                  key: _formKey,
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _f(_titleCtrl, 'Title *', Icons.title, req: true),
-                        const SizedBox(height: 12),
-                        _f(_addressCtrl, 'Address *',
-                            Icons.location_on_outlined,
-                            req: true),
-                        const SizedBox(height: 12),
-                        _f(_cityCtrl, 'City', Icons.location_city_outlined),
-                        const SizedBox(height: 12),
-                        _f(_priceCtrl, 'Price *', Icons.attach_money,
-                            req: true, num: true),
-                        const SizedBox(height: 16),
-                        const Text('Type',
-                            style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.textSecondary)),
-                        const SizedBox(height: 8),
-                        Wrap(
-                            spacing: 8,
-                            children: PropertyType.values
-                                .map((t) => ChoiceChip(
-                                    label: Text(t.name,
-                                        style: const TextStyle(fontSize: 12)),
-                                    selected: _type == t,
-                                    onSelected: (_) =>
-                                        setState(() => _type = t),
-                                    selectedColor:
-                                        AppColors.primary.withOpacity(0.15)))
-                                .toList()),
-                        const SizedBox(height: 16),
-                        const Text('Status',
-                            style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.textSecondary)),
-                        const SizedBox(height: 8),
-                        Wrap(
-                            spacing: 8,
-                            children: PropertyStatus.values
-                                .map((s) => ChoiceChip(
-                                    label: Text(s.name,
-                                        style: const TextStyle(fontSize: 12)),
-                                    selected: _status == s,
-                                    onSelected: (_) =>
-                                        setState(() => _status = s),
-                                    selectedColor:
-                                        AppColors.primary.withOpacity(0.15)))
-                                .toList()),
-                        const SizedBox(height: 16),
-                        Row(children: [
-                          Expanded(
-                              child: _f(_areaCtrl, 'Area m²', Icons.square_foot,
-                                  num: true)),
-                          const SizedBox(width: 12),
-                          Expanded(
-                              child: _f(_roomsCtrl, 'Rooms', Icons.bed_outlined,
-                                  num: true))
-                        ]),
-                        const SizedBox(height: 12),
-                        Row(children: [
-                          Expanded(
-                              child: _f(
-                                  _floorCtrl, 'Floor', Icons.stairs_outlined,
-                                  num: true)),
-                          const SizedBox(width: 12),
-                          Expanded(
-                              child: _f(_totalFloorsCtrl, 'Total Floors',
-                                  Icons.stairs,
-                                  num: true))
-                        ]),
-                        const SizedBox(height: 12),
-                        TextFormField(
-                            controller: _descCtrl,
-                            maxLines: 3,
-                            decoration: const InputDecoration(
-                                labelText: 'Description',
-                                prefixIcon:
-                                    Icon(Icons.notes_outlined, size: 20))),
-                        const SizedBox(height: 32),
-                        ElevatedButton(
-                            onPressed: _loading ? null : _submit,
-                            child: _loading
-                                ? const SizedBox(
-                                    height: 20,
-                                    width: 20,
-                                    child: CircularProgressIndicator(
-                                        color: Colors.white, strokeWidth: 2))
-                                : Text(widget.isEditing
-                                    ? 'Update Property'
-                                    : 'Create Property')),
-                        const SizedBox(height: 12),
-                        OutlinedButton(
-                            onPressed: () => context.pop(),
-                            style: OutlinedButton.styleFrom(
-                                minimumSize: const Size(double.infinity, 52)),
-                            child: const Text('Cancel')),
-                      ]))),
+    return BlocListener<PropertiesBloc, PropertiesState>(
+      listener: (context, state) {
+        if (state is PropertyCreated) {
+          setState(() => _loading = false);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Property created (ID: ${state.property.id})'),
+            ),
+          );
+          context.go('/properties');
+        }
+        if (state is PropertiesError) {
+          setState(() => _loading = false);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+                content: Text(state.message), backgroundColor: AppColors.error),
+          );
+        }
+      },
+      child: Scaffold(
+        backgroundColor: AppColors.background,
+        appBar: AppBar(
+            title: Text(widget.isEditing ? 'Edit Property' : 'New Property')),
+        body: _initLoading
+            ? const LoadingWidget()
+            : SingleChildScrollView(
+                padding: const EdgeInsets.all(24),
+                child: Form(
+                    key: _formKey,
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _f(_titleCtrl, 'Title *', Icons.title, req: true),
+                          const SizedBox(height: 12),
+                          _f(_addressCtrl, 'Address *',
+                              Icons.location_on_outlined,
+                              req: true),
+                          const SizedBox(height: 12),
+                          _f(_cityCtrl, 'City', Icons.location_city_outlined),
+                          const SizedBox(height: 12),
+                          _f(_priceCtrl, 'Price *', Icons.attach_money,
+                              req: true, num: true),
+                          const SizedBox(height: 16),
+                          const Text('Type',
+                              style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.textSecondary)),
+                          const SizedBox(height: 8),
+                          Wrap(
+                              spacing: 8,
+                              children: PropertyType.values
+                                  .map((t) => ChoiceChip(
+                                      label: Text(t.name,
+                                          style: const TextStyle(fontSize: 12)),
+                                      selected: _type == t,
+                                      onSelected: (_) =>
+                                          setState(() => _type = t),
+                                      selectedColor:
+                                          AppColors.primary.withOpacity(0.15)))
+                                  .toList()),
+                          const SizedBox(height: 16),
+                          const Text('Status',
+                              style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.textSecondary)),
+                          const SizedBox(height: 8),
+                          Wrap(
+                              spacing: 8,
+                              children: PropertyStatus.values
+                                  .map((s) => ChoiceChip(
+                                      label: Text(s.name,
+                                          style: const TextStyle(fontSize: 12)),
+                                      selected: _status == s,
+                                      onSelected: (_) =>
+                                          setState(() => _status = s),
+                                      selectedColor:
+                                          AppColors.primary.withOpacity(0.15)))
+                                  .toList()),
+                          const SizedBox(height: 16),
+                          Row(children: [
+                            Expanded(
+                                child: _f(
+                                    _areaCtrl, 'Area m²', Icons.square_foot,
+                                    num: true)),
+                            const SizedBox(width: 12),
+                            Expanded(
+                                child: _f(
+                                    _roomsCtrl, 'Rooms', Icons.bed_outlined,
+                                    num: true))
+                          ]),
+                          const SizedBox(height: 12),
+                          Row(children: [
+                            Expanded(
+                                child: _f(
+                                    _floorCtrl, 'Floor', Icons.stairs_outlined,
+                                    num: true)),
+                            const SizedBox(width: 12),
+                            Expanded(
+                                child: _f(_totalFloorsCtrl, 'Total Floors',
+                                    Icons.stairs,
+                                    num: true))
+                          ]),
+                          const SizedBox(height: 12),
+                          TextFormField(
+                              controller: _descCtrl,
+                              maxLines: 3,
+                              decoration: const InputDecoration(
+                                  labelText: 'Description',
+                                  prefixIcon:
+                                      Icon(Icons.notes_outlined, size: 20))),
+                          const SizedBox(height: 32),
+                          ElevatedButton(
+                              onPressed: _loading ? null : _submit,
+                              child: _loading
+                                  ? const SizedBox(
+                                      height: 20,
+                                      width: 20,
+                                      child: CircularProgressIndicator(
+                                          color: Colors.white, strokeWidth: 2))
+                                  : Text(widget.isEditing
+                                      ? 'Update Property'
+                                      : 'Create Property')),
+                          const SizedBox(height: 12),
+                          OutlinedButton(
+                              onPressed: () => context.pop(),
+                              style: OutlinedButton.styleFrom(
+                                  minimumSize: const Size(double.infinity, 52)),
+                              child: const Text('Cancel')),
+                        ]))),
+      ),
     );
   }
 
