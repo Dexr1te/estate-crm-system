@@ -102,16 +102,17 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
       context
           .read<PropertiesBloc>()
           .add(PropertiesUpdateEvent(widget.propertyId!, data));
-      // For update, navigate back immediately
       context.go('/properties');
     } else {
       context.read<PropertiesBloc>().add(PropertiesCreateEvent(data));
-      // Navigation is handled in the BlocListener below (on PropertyCreated)
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final tt = Theme.of(context).textTheme;
+
     return BlocListener<PropertiesBloc, PropertiesState>(
       listener: (context, state) {
         if (state is PropertyCreated) {
@@ -126,13 +127,11 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
         if (state is PropertiesError) {
           setState(() => _loading = false);
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-                content: Text(state.message), backgroundColor: AppColors.error),
+            SnackBar(content: Text(state.message), backgroundColor: cs.error),
           );
         }
       },
       child: Scaffold(
-        backgroundColor: AppColors.background,
         appBar: AppBar(
             title: Text(widget.isEditing ? 'Edit Property' : 'New Property')),
         body: _initLoading
@@ -155,11 +154,9 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
                           _f(_priceCtrl, 'Price *', Icons.attach_money,
                               req: true, num: true),
                           const SizedBox(height: 16),
-                          const Text('Type',
-                              style: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.textSecondary)),
+                          Text('Type',
+                              style: tt.labelMedium?.copyWith(
+                                  fontSize: 13, fontWeight: FontWeight.w600)),
                           const SizedBox(height: 8),
                           Wrap(
                               spacing: 8,
@@ -171,14 +168,12 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
                                       onSelected: (_) =>
                                           setState(() => _type = t),
                                       selectedColor:
-                                          AppColors.primary.withOpacity(0.15)))
+                                          cs.primary.withOpacity(0.15)))
                                   .toList()),
                           const SizedBox(height: 16),
-                          const Text('Status',
-                              style: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.textSecondary)),
+                          Text('Status',
+                              style: tt.labelMedium?.copyWith(
+                                  fontSize: 13, fontWeight: FontWeight.w600)),
                           const SizedBox(height: 8),
                           Wrap(
                               spacing: 8,
@@ -190,7 +185,7 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
                                       onSelected: (_) =>
                                           setState(() => _status = s),
                                       selectedColor:
-                                          AppColors.primary.withOpacity(0.15)))
+                                          cs.primary.withOpacity(0.15)))
                                   .toList()),
                           const SizedBox(height: 16),
                           Row(children: [

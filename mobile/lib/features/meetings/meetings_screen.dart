@@ -1,4 +1,3 @@
-// meetings_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -32,27 +31,25 @@ class _MeetingsScreenState extends State<MeetingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final tt = Theme.of(context).textTheme;
+
     return Scaffold(
-      backgroundColor: AppColors.background,
       body: SafeArea(
           child: Column(children: [
         Padding(
           padding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
           child: Row(children: [
-            const Expanded(
+            Expanded(
                 child: Text('Meetings',
-                    style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.textPrimary,
-                        fontFamily: 'Sora'))),
+                    style: tt.titleLarge?.copyWith(fontSize: 22))),
             FilledButton.icon(
               onPressed: () => context.go('/meetings/new'),
               icon: const Icon(Icons.add, size: 18),
               label: const Text('Schedule'),
               style: FilledButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  foregroundColor: Colors.white,
+                  backgroundColor: cs.primary,
+                  foregroundColor: cs.onPrimary,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
                   padding:
@@ -78,7 +75,10 @@ class _MeetingsScreenState extends State<MeetingsScreen> {
             }
           },
           builder: (ctx, state) {
-            if (state is MeetingsLoading) return const LoadingWidget();
+            if (state is MeetingsLoading) {
+              return ShimmerList(
+                  cardBuilder: () => const MeetingCardSkeleton());
+            }
             if (state is MeetingsError) {
               return ErrorWidget2(
                   message: state.message,
@@ -95,7 +95,7 @@ class _MeetingsScreenState extends State<MeetingsScreen> {
               return RefreshIndicator(
                 onRefresh: () async =>
                     ctx.read<MeetingsBloc>().add(MeetingsLoadEvent()),
-                color: AppColors.primary,
+                color: cs.primary,
                 child: ListView.separated(
                   padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
                   itemCount: state.meetings.length,
@@ -128,120 +128,115 @@ class _MeetingCard extends StatelessWidget {
       required this.onDelete});
 
   @override
-  Widget build(BuildContext context) => Card(
-        child: Padding(
-            padding: const EdgeInsets.all(16),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Row(children: [
-                Container(
-                  width: 44,
-                  height: 44,
-                  decoration: BoxDecoration(
-                    color: meeting.completed
-                        ? AppColors.success.withOpacity(0.1)
-                        : AppColors.primary.withOpacity(0.08),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Icon(
-                      meeting.completed
-                          ? Icons.check_circle
-                          : Icons.calendar_today,
-                      color: meeting.completed
-                          ? AppColors.success
-                          : AppColors.primary,
-                      size: 20),
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final tt = Theme.of(context).textTheme;
+
+    return Card(
+      child: Padding(
+          padding: const EdgeInsets.all(16),
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Row(children: [
+              Container(
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  color: meeting.completed
+                      ? AppColors.success.withOpacity(0.1)
+                      : cs.primary.withOpacity(0.08),
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                const SizedBox(width: 12),
-                Expanded(
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                      Text(meeting.title,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 15,
-                              color: AppColors.textPrimary)),
-                      Text(meeting.clientName,
-                          style: const TextStyle(
-                              fontSize: 13, color: AppColors.textSecondary)),
-                    ])),
-                PopupMenuButton<String>(
-                  onSelected: (v) {
-                    if (v == 'complete') onComplete();
-                    if (v == 'edit') onEdit();
-                    if (v == 'delete') onDelete();
-                  },
-                  itemBuilder: (_) => [
-                    if (!meeting.completed)
-                      const PopupMenuItem(
-                          value: 'complete',
-                          child: Row(children: [
-                            Icon(Icons.check,
-                                size: 16, color: AppColors.success),
-                            SizedBox(width: 8),
-                            Text('Mark Complete')
-                          ])),
+                child: Icon(
+                    meeting.completed
+                        ? Icons.check_circle
+                        : Icons.calendar_today,
+                    color: meeting.completed ? AppColors.success : cs.primary,
+                    size: 20),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                    Text(meeting.title,
+                        style: tt.bodyLarge
+                            ?.copyWith(fontWeight: FontWeight.w600)),
+                    Text(meeting.clientName, style: tt.bodySmall),
+                  ])),
+              PopupMenuButton<String>(
+                onSelected: (v) {
+                  if (v == 'complete') onComplete();
+                  if (v == 'edit') onEdit();
+                  if (v == 'delete') onDelete();
+                },
+                itemBuilder: (_) => [
+                  if (!meeting.completed)
                     const PopupMenuItem(
-                        value: 'edit',
+                        value: 'complete',
                         child: Row(children: [
-                          Icon(Icons.edit_outlined, size: 16),
+                          Icon(Icons.check, size: 16, color: AppColors.success),
                           SizedBox(width: 8),
-                          Text('Edit')
+                          Text('Mark Complete')
                         ])),
-                    const PopupMenuItem(
-                        value: 'delete',
-                        child: Row(children: [
-                          Icon(Icons.delete_outline,
-                              size: 16, color: AppColors.error),
-                          SizedBox(width: 8),
-                          Text('Delete',
-                              style: TextStyle(color: AppColors.error))
-                        ])),
-                  ],
-                  child: const Icon(Icons.more_vert,
-                      color: AppColors.textHint, size: 20),
-                ),
-              ]),
-              const SizedBox(height: 10),
-              const Divider(height: 1),
-              const SizedBox(height: 10),
-              Row(children: [
-                const Icon(Icons.access_time_outlined,
-                    size: 14, color: AppColors.accent),
-                const SizedBox(width: 4),
-                Text(formatDateTime(meeting.scheduledAt),
-                    style: const TextStyle(
-                        fontSize: 12,
-                        color: AppColors.accent,
-                        fontWeight: FontWeight.w500)),
-                if (meeting.location != null) ...[
-                  const SizedBox(width: 12),
-                  const Icon(Icons.location_on_outlined,
-                      size: 14, color: AppColors.textHint),
-                  const SizedBox(width: 4),
-                  Flexible(
-                      child: Text(meeting.location!,
-                          style: const TextStyle(
-                              fontSize: 12, color: AppColors.textSecondary),
-                          overflow: TextOverflow.ellipsis)),
+                  const PopupMenuItem(
+                      value: 'edit',
+                      child: Row(children: [
+                        Icon(Icons.edit_outlined, size: 16),
+                        SizedBox(width: 8),
+                        Text('Edit')
+                      ])),
+                  const PopupMenuItem(
+                      value: 'delete',
+                      child: Row(children: [
+                        Icon(Icons.delete_outline,
+                            size: 16, color: AppColors.error),
+                        SizedBox(width: 8),
+                        Text('Delete', style: TextStyle(color: AppColors.error))
+                      ])),
                 ],
-              ]),
-              if (meeting.completed)
-                Padding(
-                    padding: const EdgeInsets.only(top: 8),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 4),
-                      decoration: BoxDecoration(
-                          color: AppColors.success.withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(20)),
-                      child: const Text('Completed',
-                          style: TextStyle(
-                              fontSize: 11,
-                              color: AppColors.success,
-                              fontWeight: FontWeight.w600)),
-                    )),
-            ])),
-      );
+                child:
+                    Icon(Icons.more_vert, color: tt.bodySmall?.color, size: 20),
+              ),
+            ]),
+            const SizedBox(height: 10),
+            const Divider(height: 1),
+            const SizedBox(height: 10),
+            Row(children: [
+              const Icon(Icons.access_time_outlined,
+                  size: 14, color: AppColors.accent),
+              const SizedBox(width: 4),
+              Text(formatDateTime(meeting.scheduledAt),
+                  style: const TextStyle(
+                      fontSize: 12,
+                      color: AppColors.accent,
+                      fontWeight: FontWeight.w500)),
+              if (meeting.location != null) ...[
+                const SizedBox(width: 12),
+                Icon(Icons.location_on_outlined,
+                    size: 14, color: tt.bodySmall?.color),
+                const SizedBox(width: 4),
+                Flexible(
+                    child: Text(meeting.location!,
+                        style: tt.bodySmall, overflow: TextOverflow.ellipsis)),
+              ],
+            ]),
+            if (meeting.completed)
+              Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    decoration: BoxDecoration(
+                        color: AppColors.success.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(20)),
+                    child: const Text('Completed',
+                        style: TextStyle(
+                            fontSize: 11,
+                            color: AppColors.success,
+                            fontWeight: FontWeight.w600)),
+                  )),
+          ])),
+    );
+  }
 }

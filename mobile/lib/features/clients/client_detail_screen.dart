@@ -49,8 +49,10 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final tt = Theme.of(context).textTheme;
+
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: AppBar(
         title: Text(_client?.fullName ?? 'Client'),
         actions: _client == null
@@ -60,8 +62,7 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
                     icon: const Icon(Icons.edit_outlined),
                     onPressed: () => context.go('/clients/${widget.id}/edit')),
                 IconButton(
-                    icon: const Icon(Icons.delete_outline,
-                        color: AppColors.error),
+                    icon: Icon(Icons.delete_outline, color: cs.error),
                     onPressed: _delete),
               ],
       ),
@@ -82,15 +83,15 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
                                   CircleAvatar(
                                       radius: 28,
                                       backgroundColor:
-                                          AppColors.primary.withOpacity(0.1),
+                                          cs.primary.withOpacity(0.1),
                                       child: Text(
                                           _client!.fullName.isNotEmpty
                                               ? _client!.fullName[0]
                                                   .toUpperCase()
                                               : '?',
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                               fontSize: 22,
-                                              color: AppColors.primary,
+                                              color: cs.primary,
                                               fontWeight: FontWeight.w700,
                                               fontFamily: 'Sora'))),
                                   const SizedBox(width: 16),
@@ -100,7 +101,7 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
                                               CrossAxisAlignment.start,
                                           children: [
                                         Text(_client!.fullName,
-                                            style: const TextStyle(
+                                            style: tt.titleMedium?.copyWith(
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.w700)),
                                         const SizedBox(height: 6),
@@ -120,26 +121,24 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 10, vertical: 6),
                                       decoration: BoxDecoration(
-                                          color: AppColors.primary
-                                              .withOpacity(0.08),
+                                          color: cs.primary.withOpacity(0.08),
                                           borderRadius:
                                               BorderRadius.circular(8),
                                           border: Border.all(
-                                              color: AppColors.primary
-                                                  .withOpacity(0.2))),
+                                              color:
+                                                  cs.primary.withOpacity(0.2))),
                                       child: Row(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             Text('ID: ${_client!.id}',
-                                                style: const TextStyle(
+                                                style: TextStyle(
                                                     fontSize: 13,
                                                     fontWeight: FontWeight.w700,
-                                                    color: AppColors.primary,
+                                                    color: cs.primary,
                                                     fontFamily: 'Sora')),
                                             const SizedBox(width: 4),
-                                            const Icon(Icons.copy,
-                                                size: 13,
-                                                color: AppColors.primary),
+                                            Icon(Icons.copy,
+                                                size: 13, color: cs.primary),
                                           ]),
                                     ),
                                   ),
@@ -166,14 +165,14 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        const Text('Notes',
-                                            style: TextStyle(
+                                        Text('Notes',
+                                            style: tt.bodyLarge?.copyWith(
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 14)),
                                         const SizedBox(height: 8),
                                         Text(_client!.notes!,
-                                            style: const TextStyle(
-                                                color: AppColors.textSecondary,
+                                            style: tt.bodyMedium?.copyWith(
+                                                color: tt.bodySmall?.color,
                                                 height: 1.5)),
                                       ]))),
                         ],
@@ -197,19 +196,22 @@ class _InfoCard extends StatelessWidget {
   final List<Widget> rows;
   const _InfoCard({required this.title, required this.rows});
   @override
-  Widget build(BuildContext context) => Card(
-      child: Padding(
-          padding: const EdgeInsets.all(16),
-          child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(title,
-                style:
-                    const TextStyle(fontWeight: FontWeight.w600, fontSize: 14)),
-            const SizedBox(height: 8),
-            const Divider(height: 1),
-            const SizedBox(height: 4),
-            ...rows,
-          ])));
+  Widget build(BuildContext context) {
+    final tt = Theme.of(context).textTheme;
+    return Card(
+        child: Padding(
+            padding: const EdgeInsets.all(16),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text(title,
+                  style: tt.bodyLarge
+                      ?.copyWith(fontWeight: FontWeight.w600, fontSize: 14)),
+              const SizedBox(height: 8),
+              const Divider(height: 1),
+              const SizedBox(height: 4),
+              ...rows,
+            ])));
+  }
 }
 
 class _InfoRow extends StatelessWidget {
@@ -217,21 +219,20 @@ class _InfoRow extends StatelessWidget {
   final String label, value;
   const _InfoRow(this.icon, this.label, this.value);
   @override
-  Widget build(BuildContext context) => Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Row(children: [
-        Icon(icon, size: 16, color: AppColors.textHint),
-        const SizedBox(width: 10),
-        Text('$label: ',
-            style: const TextStyle(
-                fontSize: 13,
-                color: AppColors.textSecondary,
-                fontWeight: FontWeight.w500)),
-        Flexible(
-            child: Text(value,
-                style: const TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.textPrimary))),
-      ]));
+  Widget build(BuildContext context) {
+    final tt = Theme.of(context).textTheme;
+    return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Row(children: [
+          Icon(icon, size: 16, color: tt.labelSmall?.color),
+          const SizedBox(width: 10),
+          Text('$label: ',
+              style: tt.bodySmall
+                  ?.copyWith(fontSize: 13, fontWeight: FontWeight.w500)),
+          Flexible(
+              child: Text(value,
+                  style: tt.bodyMedium
+                      ?.copyWith(fontSize: 13, fontWeight: FontWeight.w500))),
+        ]));
+  }
 }
