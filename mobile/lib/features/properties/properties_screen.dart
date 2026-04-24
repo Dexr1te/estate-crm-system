@@ -35,27 +35,25 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final tt = Theme.of(context).textTheme;
+
     return Scaffold(
-      backgroundColor: AppColors.background,
       body: SafeArea(
           child: Column(children: [
         Padding(
             padding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
             child: Row(children: [
-              const Expanded(
+              Expanded(
                   child: Text('Properties',
-                      style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.textPrimary,
-                          fontFamily: 'Sora'))),
+                      style: tt.titleLarge?.copyWith(fontSize: 22))),
               FilledButton.icon(
                 onPressed: () => context.go('/properties/new'),
                 icon: const Icon(Icons.add, size: 18),
                 label: const Text('Add'),
                 style: FilledButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    foregroundColor: Colors.white,
+                    backgroundColor: cs.primary,
+                    foregroundColor: cs.onPrimary,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10)),
                     padding: const EdgeInsets.symmetric(
@@ -93,8 +91,7 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
                           onDeleted: () {
                             setState(() => _filterStatus = null);
                             _reload();
-                          },
-                          backgroundColor: AppColors.surfaceVariant)),
+                          })),
                 if (_filterType != null)
                   Chip(
                       label: Text(_filterType!.name,
@@ -102,8 +99,7 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
                       onDeleted: () {
                         setState(() => _filterType = null);
                         _reload();
-                      },
-                      backgroundColor: AppColors.surfaceVariant),
+                      }),
               ])),
         const SizedBox(height: 16),
         Expanded(
@@ -120,7 +116,10 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
             }
           },
           builder: (ctx, state) {
-            if (state is PropertiesLoading) return const LoadingWidget();
+            if (state is PropertiesLoading) {
+              return ShimmerList(
+                  cardBuilder: () => const PropertyCardSkeleton());
+            }
             if (state is PropertiesError) {
               return ErrorWidget2(message: state.message, onRetry: _reload);
             }
@@ -133,7 +132,7 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
               }
               return RefreshIndicator(
                 onRefresh: () async => _reload(),
-                color: AppColors.primary,
+                color: cs.primary,
                 child: ListView.separated(
                   padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
                   itemCount: state.properties.length,
@@ -176,17 +175,11 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('Filters',
-                          style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700,
-                              fontFamily: 'Sora')),
+                      Text('Filters',
+                          style: Theme.of(ctx).textTheme.titleLarge),
                       const SizedBox(height: 16),
-                      const Text('Status',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 13,
-                              color: AppColors.textSecondary)),
+                      Text('Status',
+                          style: Theme.of(ctx).textTheme.labelMedium),
                       const SizedBox(height: 8),
                       Wrap(spacing: 8, children: [
                         FilterChip(
@@ -201,11 +194,7 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
                                 setModal(() => _filterStatus = s)))
                       ]),
                       const SizedBox(height: 12),
-                      const Text('Type',
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 13,
-                              color: AppColors.textSecondary)),
+                      Text('Type', style: Theme.of(ctx).textTheme.labelMedium),
                       const SizedBox(height: 8),
                       Wrap(spacing: 8, children: [
                         FilterChip(
@@ -237,6 +226,7 @@ class _PropertyCard extends StatelessWidget {
       required this.onTap,
       required this.onEdit,
       required this.onDelete});
+
   IconData get _icon {
     switch (property.type) {
       case PropertyType.APARTMENT:
@@ -253,108 +243,106 @@ class _PropertyCard extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) => Card(
-      child: InkWell(
-          onTap: onTap,
-          borderRadius: BorderRadius.circular(16),
-          child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(children: [
-                      Container(
-                          width: 44,
-                          height: 44,
-                          decoration: BoxDecoration(
-                              color: AppColors.accent.withOpacity(0.12),
-                              borderRadius: BorderRadius.circular(10)),
-                          child:
-                              Icon(_icon, color: AppColors.accent, size: 22)),
-                      const SizedBox(width: 12),
-                      Expanded(
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                            Text(property.title,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.w600, fontSize: 15)),
-                            if (property.city != null)
-                              Text(property.city!,
-                                  style: const TextStyle(
-                                      fontSize: 13,
-                                      color: AppColors.textSecondary))
-                          ])),
-                      PropertyStatusChip(status: property.status),
-                      PopupMenuButton<String>(
-                          onSelected: (v) {
-                            if (v == 'edit') onEdit();
-                            if (v == 'delete') onDelete();
-                          },
-                          itemBuilder: (_) => [
-                                const PopupMenuItem(
-                                    value: 'edit',
-                                    child: Row(children: [
-                                      Icon(Icons.edit_outlined, size: 16),
-                                      SizedBox(width: 8),
-                                      Text('Edit')
-                                    ])),
-                                const PopupMenuItem(
-                                    value: 'delete',
-                                    child: Row(children: [
-                                      Icon(Icons.delete_outline,
-                                          size: 16, color: AppColors.error),
-                                      SizedBox(width: 8),
-                                      Text('Delete',
-                                          style:
-                                              TextStyle(color: AppColors.error))
-                                    ]))
-                              ],
-                          child: const Icon(Icons.more_vert,
-                              color: AppColors.textHint, size: 20)),
-                    ]),
-                    const SizedBox(height: 10),
-                    const Divider(height: 1),
-                    const SizedBox(height: 10),
-                    Row(children: [
-                      Text(formatPrice(property.price),
-                          style: const TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.primary,
-                              fontFamily: 'Sora')),
-                      const Spacer(),
-                      if (property.areaSqm != null)
-                        Row(children: [
-                          const Icon(Icons.square_foot,
-                              size: 13, color: AppColors.textHint),
-                          const SizedBox(width: 3),
-                          Text('${property.areaSqm!.toStringAsFixed(0)} m²',
-                              style: const TextStyle(
-                                  fontSize: 12, color: AppColors.textSecondary))
-                        ]),
-                      if (property.rooms != null) ...[
-                        const SizedBox(width: 8),
-                        Row(children: [
-                          const Icon(Icons.bed_outlined,
-                              size: 13, color: AppColors.textHint),
-                          const SizedBox(width: 3),
-                          Text('${property.rooms} rooms',
-                              style: const TextStyle(
-                                  fontSize: 12, color: AppColors.textSecondary))
-                        ])
-                      ],
-                    ]),
-                    const SizedBox(height: 6),
-                    Row(children: [
-                      const Icon(Icons.location_on_outlined,
-                          size: 13, color: AppColors.textHint),
-                      const SizedBox(width: 4),
-                      Flexible(
-                          child: Text(property.address,
-                              style: const TextStyle(
-                                  fontSize: 12, color: AppColors.textSecondary),
-                              overflow: TextOverflow.ellipsis))
-                    ]),
-                  ]))));
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final tt = Theme.of(context).textTheme;
+
+    return Card(
+        child: InkWell(
+            onTap: onTap,
+            borderRadius: BorderRadius.circular(16),
+            child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(children: [
+                        Container(
+                            width: 44,
+                            height: 44,
+                            decoration: BoxDecoration(
+                                color: AppColors.accent.withOpacity(0.12),
+                                borderRadius: BorderRadius.circular(10)),
+                            child:
+                                Icon(_icon, color: AppColors.accent, size: 22)),
+                        const SizedBox(width: 12),
+                        Expanded(
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                              Text(property.title,
+                                  style: tt.bodyLarge
+                                      ?.copyWith(fontWeight: FontWeight.w600)),
+                              if (property.city != null)
+                                Text(property.city!, style: tt.bodySmall)
+                            ])),
+                        PropertyStatusChip(status: property.status),
+                        PopupMenuButton<String>(
+                            onSelected: (v) {
+                              if (v == 'edit') onEdit();
+                              if (v == 'delete') onDelete();
+                            },
+                            itemBuilder: (_) => [
+                                  const PopupMenuItem(
+                                      value: 'edit',
+                                      child: Row(children: [
+                                        Icon(Icons.edit_outlined, size: 16),
+                                        SizedBox(width: 8),
+                                        Text('Edit')
+                                      ])),
+                                  const PopupMenuItem(
+                                      value: 'delete',
+                                      child: Row(children: [
+                                        Icon(Icons.delete_outline,
+                                            size: 16, color: AppColors.error),
+                                        SizedBox(width: 8),
+                                        Text('Delete',
+                                            style: TextStyle(
+                                                color: AppColors.error))
+                                      ]))
+                                ],
+                            child: Icon(Icons.more_vert,
+                                color: tt.bodySmall?.color, size: 20)),
+                      ]),
+                      const SizedBox(height: 10),
+                      const Divider(height: 1),
+                      const SizedBox(height: 10),
+                      Row(children: [
+                        Text(formatPrice(property.price),
+                            style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.w700,
+                                color: cs.primary,
+                                fontFamily: 'Sora')),
+                        const Spacer(),
+                        if (property.areaSqm != null)
+                          Row(children: [
+                            Icon(Icons.square_foot,
+                                size: 13, color: tt.bodySmall?.color),
+                            const SizedBox(width: 3),
+                            Text('${property.areaSqm!.toStringAsFixed(0)} m²',
+                                style: tt.bodySmall)
+                          ]),
+                        if (property.rooms != null) ...[
+                          const SizedBox(width: 8),
+                          Row(children: [
+                            Icon(Icons.bed_outlined,
+                                size: 13, color: tt.bodySmall?.color),
+                            const SizedBox(width: 3),
+                            Text('${property.rooms} rooms', style: tt.bodySmall)
+                          ])
+                        ],
+                      ]),
+                      const SizedBox(height: 6),
+                      Row(children: [
+                        Icon(Icons.location_on_outlined,
+                            size: 13, color: tt.bodySmall?.color),
+                        const SizedBox(width: 4),
+                        Flexible(
+                            child: Text(property.address,
+                                style: tt.bodySmall,
+                                overflow: TextOverflow.ellipsis))
+                      ]),
+                    ]))));
+  }
 }

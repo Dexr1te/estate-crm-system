@@ -1,4 +1,3 @@
-// deals_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -24,27 +23,26 @@ class _DealsScreenState extends State<DealsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final tt = Theme.of(context).textTheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
-      backgroundColor: AppColors.background,
       body: SafeArea(
           child: Column(children: [
         Padding(
           padding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
           child: Row(children: [
-            const Expanded(
+            Expanded(
                 child: Text('Deals',
-                    style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.textPrimary,
-                        fontFamily: 'Sora'))),
+                    style: tt.titleLarge?.copyWith(fontSize: 22))),
             FilledButton.icon(
               onPressed: () => context.go('/deals/new'),
               icon: const Icon(Icons.add, size: 18),
               label: const Text('Add Deal'),
               style: FilledButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  foregroundColor: Colors.white,
+                  backgroundColor: cs.primary,
+                  foregroundColor: cs.onPrimary,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)),
                   padding:
@@ -56,7 +54,6 @@ class _DealsScreenState extends State<DealsScreen> {
             ),
           ]),
         ),
-        // Status filter tabs
         SizedBox(
             height: 40,
             child: ListView(
@@ -66,6 +63,7 @@ class _DealsScreenState extends State<DealsScreen> {
                   _FilterTab(
                       label: 'All',
                       selected: _filter == null,
+                      isDark: isDark,
                       onTap: () {
                         setState(() => _filter = null);
                         context.read<DealsBloc>().add(DealsLoadEvent());
@@ -73,6 +71,7 @@ class _DealsScreenState extends State<DealsScreen> {
                   ...DealStatus.values.map((s) => _FilterTab(
                       label: s.name.replaceAll('_', ' '),
                       selected: _filter == s,
+                      isDark: isDark,
                       onTap: () {
                         setState(() => _filter = s);
                         context
@@ -95,7 +94,9 @@ class _DealsScreenState extends State<DealsScreen> {
             }
           },
           builder: (ctx, state) {
-            if (state is DealsLoading) return const LoadingWidget();
+            if (state is DealsLoading) {
+              return ShimmerList(cardBuilder: () => const DealCardSkeleton());
+            }
             if (state is DealsError) {
               return ErrorWidget2(
                   message: state.message,
@@ -111,7 +112,7 @@ class _DealsScreenState extends State<DealsScreen> {
               return RefreshIndicator(
                 onRefresh: () async =>
                     ctx.read<DealsBloc>().add(DealsLoadEvent()),
-                color: AppColors.primary,
+                color: cs.primary,
                 child: ListView.separated(
                   padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
                   itemCount: state.deals.length,
@@ -133,107 +134,113 @@ class _DealsScreenState extends State<DealsScreen> {
 class _FilterTab extends StatelessWidget {
   final String label;
   final bool selected;
+  final bool isDark;
   final VoidCallback onTap;
   const _FilterTab(
-      {required this.label, required this.selected, required this.onTap});
+      {required this.label,
+      required this.selected,
+      required this.isDark,
+      required this.onTap});
+
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(right: 8),
-        child: InkWell(
-            onTap: onTap,
-            borderRadius: BorderRadius.circular(20),
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 150),
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-              decoration: BoxDecoration(
-                color: selected ? AppColors.primary : AppColors.surface,
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(
-                    color:
-                        selected ? AppColors.primary : const Color(0xFFE8ECF4)),
-              ),
-              child: Text(label,
-                  style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      fontFamily: 'Sora',
-                      color:
-                          selected ? Colors.white : AppColors.textSecondary)),
-            )),
-      );
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final tt = Theme.of(context).textTheme;
+    final unselectedBg = isDark ? AppColors.darkSurface : AppColors.surface;
+    final unselectedBorder =
+        isDark ? AppColors.darkBorder : const Color(0xFFE8ECF4);
+
+    return Padding(
+      padding: const EdgeInsets.only(right: 8),
+      child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(20),
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 150),
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+            decoration: BoxDecoration(
+              color: selected ? cs.primary : unselectedBg,
+              borderRadius: BorderRadius.circular(20),
+              border:
+                  Border.all(color: selected ? cs.primary : unselectedBorder),
+            ),
+            child: Text(label,
+                style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'Sora',
+                    color: selected ? Colors.white : tt.bodySmall?.color)),
+          )),
+    );
+  }
 }
 
 class _DealCard extends StatelessWidget {
   final DealResponse deal;
   final VoidCallback onTap;
   const _DealCard({required this.deal, required this.onTap});
+
   @override
-  Widget build(BuildContext context) => Card(
-        child: InkWell(
-            onTap: onTap,
-            borderRadius: BorderRadius.circular(16),
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(children: [
-                      Expanded(
-                          child: Text(deal.title,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 15,
-                                  color: AppColors.textPrimary))),
-                      DealStatusChip(status: deal.status),
-                    ]),
-                    const SizedBox(height: 8),
-                    Row(children: [
-                      const Icon(Icons.person_outline,
-                          size: 14, color: AppColors.textHint),
-                      const SizedBox(width: 4),
-                      Text(deal.clientName,
-                          style: const TextStyle(
-                              fontSize: 13, color: AppColors.textSecondary)),
-                      if (deal.propertyTitle != null) ...[
-                        const SizedBox(width: 12),
-                        const Icon(Icons.home_outlined,
-                            size: 14, color: AppColors.textHint),
-                        const SizedBox(width: 4),
-                        Flexible(
-                            child: Text(deal.propertyTitle!,
-                                style: const TextStyle(
-                                    fontSize: 13,
-                                    color: AppColors.textSecondary),
-                                overflow: TextOverflow.ellipsis)),
-                      ],
-                    ]),
-                    if (deal.dealPrice != null || deal.budget != null) ...[
-                      const SizedBox(height: 8),
-                      Row(children: [
-                        if (deal.dealPrice != null) ...[
-                          const Icon(Icons.attach_money,
-                              size: 14, color: AppColors.success),
-                          Text(formatPrice(deal.dealPrice!),
-                              style: const TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w700,
-                                  color: AppColors.success))
-                        ],
-                        if (deal.budget != null) ...[
-                          const SizedBox(width: 12),
-                          const Icon(Icons.account_balance_wallet_outlined,
-                              size: 14, color: AppColors.textHint),
-                          Text('Budget: ${formatPrice(deal.budget!)}',
-                              style: const TextStyle(
-                                  fontSize: 13, color: AppColors.textSecondary))
-                        ],
-                      ]),
-                    ],
-                    const SizedBox(height: 4),
-                    Text('Agent: ${deal.agentName}',
+  Widget build(BuildContext context) {
+    final tt = Theme.of(context).textTheme;
+
+    return Card(
+      child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(16),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Row(children: [
+                Expanded(
+                    child: Text(deal.title,
+                        style: tt.bodyLarge
+                            ?.copyWith(fontWeight: FontWeight.w600))),
+                DealStatusChip(status: deal.status),
+              ]),
+              const SizedBox(height: 8),
+              Row(children: [
+                Icon(Icons.person_outline,
+                    size: 14, color: tt.bodySmall?.color),
+                const SizedBox(width: 4),
+                Text(deal.clientName, style: tt.bodySmall),
+                if (deal.propertyTitle != null) ...[
+                  const SizedBox(width: 12),
+                  Icon(Icons.home_outlined,
+                      size: 14, color: tt.bodySmall?.color),
+                  const SizedBox(width: 4),
+                  Flexible(
+                      child: Text(deal.propertyTitle!,
+                          style: tt.bodySmall,
+                          overflow: TextOverflow.ellipsis)),
+                ],
+              ]),
+              if (deal.dealPrice != null || deal.budget != null) ...[
+                const SizedBox(height: 8),
+                Row(children: [
+                  if (deal.dealPrice != null) ...[
+                    const Icon(Icons.attach_money,
+                        size: 14, color: AppColors.success),
+                    Text(formatPrice(deal.dealPrice!),
                         style: const TextStyle(
-                            fontSize: 12, color: AppColors.textHint)),
-                  ]),
-            )),
-      );
+                            fontSize: 13,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.success))
+                  ],
+                  if (deal.budget != null) ...[
+                    const SizedBox(width: 12),
+                    Icon(Icons.account_balance_wallet_outlined,
+                        size: 14, color: tt.bodySmall?.color),
+                    Text('Budget: ${formatPrice(deal.budget!)}',
+                        style: tt.bodySmall)
+                  ],
+                ]),
+              ],
+              const SizedBox(height: 4),
+              Text('Agent: ${deal.agentName}', style: tt.labelSmall),
+            ]),
+          )),
+    );
+  }
 }

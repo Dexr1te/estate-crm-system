@@ -114,8 +114,19 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    // Theme-aware date picker container colors
+    final pickerBg =
+        isDark ? AppColors.darkSurfaceVariant : AppColors.surfaceVariant;
+    final pickerBorder =
+        isDark ? AppColors.darkBorder : const Color(0xFFE8ECF4);
+    final pickerTextColor =
+        isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final pickerHintColor =
+        isDark ? AppColors.darkTextHint : AppColors.textHint;
+
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: AppBar(
           title: Text(widget.isEditing ? 'Edit Meeting' : 'Schedule Meeting')),
       body: _initLoading
@@ -149,13 +160,12 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 16, vertical: 14),
                             decoration: BoxDecoration(
-                                color: AppColors.surfaceVariant,
+                                color: pickerBg,
                                 borderRadius: BorderRadius.circular(12),
-                                border:
-                                    Border.all(color: const Color(0xFFE8ECF4))),
+                                border: Border.all(color: pickerBorder)),
                             child: Row(children: [
-                              const Icon(Icons.calendar_today_outlined,
-                                  size: 20, color: AppColors.textSecondary),
+                              Icon(Icons.calendar_today_outlined,
+                                  size: 20, color: pickerTextColor),
                               const SizedBox(width: 12),
                               Expanded(
                                   child: Text(
@@ -166,10 +176,12 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
                                       style: TextStyle(
                                           fontSize: 14,
                                           color: _scheduledAt != null
-                                              ? AppColors.textPrimary
-                                              : AppColors.textHint))),
-                              const Icon(Icons.chevron_right,
-                                  color: AppColors.textHint, size: 20),
+                                              ? (isDark
+                                                  ? AppColors.darkTextPrimary
+                                                  : AppColors.textPrimary)
+                                              : pickerHintColor))),
+                              Icon(Icons.chevron_right,
+                                  color: pickerHintColor, size: 20),
                             ]),
                           ),
                         ),
