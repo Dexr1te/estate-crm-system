@@ -25,4 +25,35 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
     List<Client> searchClients(@Param("query") String query);
 
     boolean existsByEmail(String email);
+
+    
+    @Query(value = """
+            SELECT
+                c.id,
+                c.full_name,
+                c.phone,
+                c.email,
+                d.status,
+                d.budget,
+                p.title AS property_title,
+                (
+                    SELECT m.scheduled_at
+                    FROM meetings m
+                    WHERE m.client_id = c.id
+                      AND m.completed = false
+                    ORDER BY m.scheduled_at ASC
+                    LIMIT 1
+                ) AS next_meeting_at,
+                (
+                    SELECT m2.scheduled_at
+                    FROM meetings m2
+                    WHERE m2.client_id = c.id
+                    ORDER BY m2.scheduled_at DESC
+                    LIMIT 1
+                ) AS last_contact_at
+            FROM clients c
+            LEFT JOIN deals d ON d.client_id = c.id
+            LEFT JOIN properties p ON p.id = d.property_id
+            """, nativeQuery = true)
+    List<Object[]> findClientsWithDetails();
 }

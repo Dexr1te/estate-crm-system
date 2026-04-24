@@ -1,27 +1,24 @@
-version: '3.8'
-
 services:
 
-  # ===== PostgreSQL =====
   db:
     image: postgres:15-alpine
     container_name: crm_postgres
     restart: always
     environment:
       POSTGRES_DB: crm_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: mydhuua
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
-      - "5433:5433"
+      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U postgres -d crm_db" ]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME} -d crm_db"]
       interval: 10s
       timeout: 5s
       retries: 5
+      start_period: 10s
 
-  # ===== Spring Boot App =====
   app:
     build:
       context: .
@@ -32,18 +29,15 @@ services:
       - "8080:8080"
     environment:
       DB_URL: jdbc:postgresql://db:5432/crm_db
-      DB_USERNAME: postgres
-      DB_PASSWORD: mydhuua
-      JWT_SECRET: ${JWT_SECRET:-super-secret-jwt-key-change-in-production-256bit}
-      FIREBASE_CREDENTIALS_PATH: /app/firebase-service-account.json
-      FIREBASE_PROJECT_ID: ${FIREBASE_PROJECT_ID:-your-project-id}
+      DB_USERNAME: ${DB_USERNAME}       # ← было POSTGRES_USER
+      DB_PASSWORD: ${DB_PASSWORD}       # ← было POSTGRES_PASSWORD
+      JWT_SECRET: ${JWT_SECRET}
+      FIREBASE_CREDENTIALS_PATH: firebase-service-account.json
+      FIREBASE_PROJECT_ID: dummy
     depends_on:
       db:
         condition: service_healthy
-    volumes:
-      - ./firebase-service-account.json:/app/firebase-service-account.json:ro
 
-  # ===== pgAdmin (для разработки, UI для БД) =====
   pgadmin:
     image: dpage/pgadmin4:latest
     container_name: crm_pgadmin
@@ -56,7 +50,7 @@ services:
     depends_on:
       - db
     profiles:
-      - dev       # Запускается только через: docker-compose --profile dev up
+      - dev
 
 volumes:
   postgres_data:

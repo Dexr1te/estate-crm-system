@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class RegisterRequest {
+public class CreateAgentRequest {
 
     @NotBlank(message = "Full name is required")
     private String fullName;
@@ -22,5 +22,6 @@ public class RegisterRequest {
 
     private String phone;
 
-    private Role role = Role.AGENT;   // по умолчанию AGENT
+    // Only ADMIN can set the role when creating through this endpoint
+    private Role role = Role.AGENT;
 }

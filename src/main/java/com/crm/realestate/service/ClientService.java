@@ -4,7 +4,11 @@ import com.crm.realestate.dto.request.ClientRequest;
 import com.crm.realestate.dto.response.ClientResponse;
 import com.crm.realestate.entity.Client;
 import com.crm.realestate.entity.User;
+import com.crm.realestate.dto.response.ClientListItem;
 import com.crm.realestate.enums.ClientType;
+import com.crm.realestate.enums.DealStatus;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import com.crm.realestate.exception.ResourceNotFoundException;
 import com.crm.realestate.repository.ClientRepository;
 import com.crm.realestate.repository.UserRepository;
@@ -43,6 +47,22 @@ public class ClientService {
                 .stream().map(this::toResponse).collect(Collectors.toList());
     }
 
+    public List<ClientListItem> getClientsWithDetails() {
+        List<Object[]> rows = clientRepository.findClientsWithDetails();
+        return rows.stream().map(row -> ClientListItem.builder()
+                .id(((Number) row[0]).longValue())
+                .fullName((String) row[1])
+                .phone((String) row[2])
+                .email((String) row[3])
+                .status(row[4] != null ? DealStatus.valueOf((String) row[4]) : null)
+                .budget(row[5] != null ? (BigDecimal) row[5] : null)
+                .propertyTitle((String) row[6])
+                .nextMeetingAt(row[7] != null ? ((java.sql.Timestamp) row[7]).toLocalDateTime() : null)
+                .lastContactAt(row[8] != null ? ((java.sql.Timestamp) row[8]).toLocalDateTime() : null)
+                .build()
+        ).collect(Collectors.toList());
+    }
+
     public ClientResponse getById(Long id) {
         return toResponse(findById(id));
     }
@@ -71,7 +91,6 @@ public class ClientService {
         clientRepository.delete(client);
     }
 
-    //Private helpers 
 
     private Client findById(Long id) {
         return clientRepository.findById(id)

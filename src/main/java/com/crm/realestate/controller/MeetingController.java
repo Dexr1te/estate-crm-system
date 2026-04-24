@@ -2,6 +2,7 @@ package com.crm.realestate.controller;
 
 import com.crm.realestate.dto.request.MeetingRequest;
 import com.crm.realestate.dto.response.MeetingResponse;
+import com.crm.realestate.dto.response.UpcomingMeetingResponse;
 import com.crm.realestate.service.MeetingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -35,9 +36,15 @@ public class MeetingController {
 
     @GetMapping("/upcoming")
     @Operation(summary = "Get upcoming meetings for an agent (next 7 days)")
-    public ResponseEntity<List<MeetingResponse>> getUpcoming(@RequestParam Long agentId) {
-        return ResponseEntity.ok(meetingService.getUpcoming(agentId));
+    public ResponseEntity<List<UpcomingMeetingResponse>> getAllUpcoming() {
+        return ResponseEntity.ok(meetingService.getAllUpcoming());
     }
+
+    @GetMapping("/upcoming/agent/{agentId}")
+    @Operation(summary = "Get all upcoming meetings")
+    public ResponseEntity<List<MeetingResponse>> getUpcoming(@PathVariable Long agentId) {
+        return ResponseEntity.ok(meetingService.getUpcoming(agentId));
+    }    
 
     @GetMapping("/{id}")
     @Operation(summary = "Get meeting by ID")
