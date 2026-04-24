@@ -9,8 +9,8 @@ services:
     restart: always
     environment:
       POSTGRES_DB: crm_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: mydhuua
+      POSTGRES_USER: WRITE_USERNAME_HERE
+      POSTGRES_PASSWORD: WRITE_PASSWORD_HERE
     ports:
       - "5433:5432"       # host:container — одинаково на Windows, Mac, Linux
     volumes:
