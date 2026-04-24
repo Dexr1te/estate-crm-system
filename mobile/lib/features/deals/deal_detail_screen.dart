@@ -60,8 +60,10 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final tt = Theme.of(context).textTheme;
+
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: AppBar(
           title: Text(_d?.title ?? 'Deal'),
           actions: _d == null
@@ -71,8 +73,7 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
                       icon: const Icon(Icons.edit_outlined),
                       onPressed: () => context.go('/deals/${widget.id}/edit')),
                   IconButton(
-                      icon: const Icon(Icons.delete_outline,
-                          color: AppColors.error),
+                      icon: Icon(Icons.delete_outline, color: cs.error),
                       onPressed: _delete),
                 ]),
       body: _loading
@@ -95,10 +96,10 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
                                       Row(children: [
                                         Expanded(
                                             child: Text(_d!.title,
-                                                style: const TextStyle(
+                                                style: tt.titleLarge?.copyWith(
                                                     fontSize: 18,
-                                                    fontWeight: FontWeight.w700,
-                                                    fontFamily: 'Sora'))),
+                                                    fontWeight:
+                                                        FontWeight.w700))),
                                         DealStatusChip(status: _d!.status)
                                       ]),
                                       const SizedBox(height: 10),
@@ -174,14 +175,14 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        const Text('Notes',
-                                            style: TextStyle(
+                                        Text('Notes',
+                                            style: tt.bodyLarge?.copyWith(
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 14)),
                                         const SizedBox(height: 8),
                                         Text(_d!.notes!,
-                                            style: const TextStyle(
-                                                color: AppColors.textSecondary,
+                                            style: tt.bodyMedium?.copyWith(
+                                                color: tt.bodySmall?.color,
                                                 height: 1.6)),
                                       ]))),
                         ],
@@ -193,8 +194,8 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      const Text('Pipeline Stage',
-                                          style: TextStyle(
+                                      Text('Pipeline Stage',
+                                          style: tt.bodyLarge?.copyWith(
                                               fontWeight: FontWeight.w600,
                                               fontSize: 14)),
                                       const SizedBox(height: 12),
@@ -213,12 +214,11 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
                                                 onSelected: sel
                                                     ? null
                                                     : (_) => _updateStatus(s),
-                                                selectedColor:
-                                                    AppColors.primary,
+                                                selectedColor: cs.primary,
                                                 labelStyle: TextStyle(
                                                     color: sel
-                                                        ? Colors.white
-                                                        : AppColors.textPrimary,
+                                                        ? cs.onPrimary
+                                                        : tt.bodyMedium?.color,
                                                     fontWeight:
                                                         FontWeight.w600));
                                           }).toList()),
@@ -234,21 +234,22 @@ class _Row extends StatelessWidget {
   final Color? color;
   const _Row(this.icon, this.label, this.value, {this.color});
   @override
-  Widget build(BuildContext context) => Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6),
-      child: Row(children: [
-        Icon(icon, size: 16, color: AppColors.textHint),
-        const SizedBox(width: 10),
-        Text('$label: ',
-            style: const TextStyle(
-                fontSize: 13,
-                color: AppColors.textSecondary,
-                fontWeight: FontWeight.w500)),
-        Flexible(
-            child: Text(value,
-                style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                    color: color ?? AppColors.textPrimary)))
-      ]));
+  Widget build(BuildContext context) {
+    final tt = Theme.of(context).textTheme;
+    return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 6),
+        child: Row(children: [
+          Icon(icon, size: 16, color: tt.labelSmall?.color),
+          const SizedBox(width: 10),
+          Text('$label: ',
+              style: tt.bodySmall
+                  ?.copyWith(fontSize: 13, fontWeight: FontWeight.w500)),
+          Flexible(
+              child: Text(value,
+                  style: tt.bodyMedium?.copyWith(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: color ?? tt.bodyMedium?.color)))
+        ]));
+  }
 }

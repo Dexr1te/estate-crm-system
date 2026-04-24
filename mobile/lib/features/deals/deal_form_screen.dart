@@ -95,8 +95,10 @@ class _DealFormScreenState extends State<DealFormScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final tt = Theme.of(context).textTheme;
+
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: AppBar(title: Text(widget.isEditing ? 'Edit Deal' : 'New Deal')),
       body: _initLoading
           ? const LoadingWidget()
@@ -132,11 +134,9 @@ class _DealFormScreenState extends State<DealFormScreen> {
                                   num: true))
                         ]),
                         const SizedBox(height: 16),
-                        const Text('Status',
-                            style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.textSecondary)),
+                        Text('Status',
+                            style: tt.labelMedium?.copyWith(
+                                fontSize: 13, fontWeight: FontWeight.w600)),
                         const SizedBox(height: 8),
                         Wrap(
                             spacing: 8,
@@ -148,7 +148,7 @@ class _DealFormScreenState extends State<DealFormScreen> {
                                     onSelected: (_) =>
                                         setState(() => _status = s),
                                     selectedColor:
-                                        AppColors.primary.withOpacity(0.15)))
+                                        cs.primary.withOpacity(0.15)))
                                 .toList()),
                         const SizedBox(height: 12),
                         TextFormField(
