@@ -5,6 +5,7 @@ import 'package:real_estate_crm/core/theme/app_theme.dart';
 import 'package:real_estate_crm/features/auth/auth_bloc.dart';
 import 'package:real_estate_crm/features/dashboard/dashboard_bloc.dart';
 import 'package:real_estate_crm/features/widgets/shared_widgets.dart';
+import 'package:shimmer/shimmer.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -26,51 +27,45 @@ class _DashboardScreenState extends State<DashboardScreen> {
         : null;
 
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: SafeArea(
         child: BlocBuilder<DashboardBloc, DashboardState>(
           builder: (ctx, state) {
             return RefreshIndicator(
               onRefresh: () async =>
                   ctx.read<DashboardBloc>().add(DashboardLoadEvent()),
-              color: AppColors.primary,
+              color: Theme.of(context).colorScheme.primary,
               child: CustomScrollView(slivers: [
-                // ── Header with Avatar ──────────────────────────
+                // ── Header ──────────────────────────────────────
                 SliverToBoxAdapter(
                     child: Padding(
                   padding: const EdgeInsets.fromLTRB(24, 28, 24, 0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                            Text(
-                              'Hello, ${user?.fullName.split(' ').first ?? 'there'} 👋',
-                              style: TextStyle(
-                                  fontSize: 22,
-                                  fontWeight: FontWeight.w700,
-                                  color: Theme.of(context)
-                                      .colorScheme
-                                      .onBackground,
-                                  fontFamily: 'Sora'),
-                            ),
-                            const SizedBox(height: 4),
-                            const Text("Here's your overview",
-                                style: TextStyle(
-                                  fontSize: 14,
-                                )),
-                          ])),
-                      GestureDetector(
-                        onTap: () => context.push('/profile'),
-                        child: _UserAvatar(name: user?.fullName ?? '?'),
-                      ),
-                    ],
-                  ),
+                  child: Row(children: [
+                    Expanded(
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                          Text(
+                            'Hello, ${user?.fullName.split(' ').first ?? 'there'} 👋',
+                            style: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.w700,
+                                color:
+                                    Theme.of(context).colorScheme.onBackground,
+                                fontFamily: 'Sora'),
+                          ),
+                          const SizedBox(height: 4),
+                          Text("Here's your overview",
+                              style: Theme.of(context).textTheme.bodySmall),
+                        ])),
+                    GestureDetector(
+                      onTap: () => context.push('/profile'),
+                      child: _UserAvatar(name: user?.fullName ?? '?'),
+                    ),
+                  ]),
                 )),
 
                 if (state is DashboardLoading)
-                  const SliverFillRemaining(child: LoadingWidget())
+                  SliverToBoxAdapter(child: _DashboardSkeleton())
                 else if (state is DashboardError)
                   SliverFillRemaining(
                       child: ErrorWidget2(
@@ -87,9 +82,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         children: [
                           const Text('Overview',
                               style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                              )),
+                                  fontSize: 16, fontWeight: FontWeight.w600)),
                           const SizedBox(height: 16),
                           GridView.count(
                             crossAxisCount: 2,
@@ -130,9 +123,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               children: [
                                 const Text('Upcoming Meetings',
                                     style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w600,
-                                    )),
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600)),
                                 TextButton(
                                     onPressed: () => context.go('/meetings'),
                                     child: const Text('See all')),
@@ -151,8 +143,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 Icon(Icons.calendar_today_outlined,
                                     color: AppColors.textHint),
                                 SizedBox(width: 12),
-                                Text('No upcoming meetings',
-                                    style: TextStyle()),
+                                Text('No upcoming meetings'),
                               ]))),
                     ))
                   else
@@ -168,12 +159,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       width: 44,
                                       height: 44,
                                       decoration: BoxDecoration(
-                                          color: AppColors.primary
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary
                                               .withOpacity(0.08),
                                           borderRadius:
                                               BorderRadius.circular(10)),
-                                      child: const Icon(Icons.calendar_today,
-                                          color: AppColors.primary, size: 20)),
+                                      child: Icon(Icons.calendar_today,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .primary,
+                                          size: 20)),
                                   const SizedBox(width: 12),
                                   Expanded(
                                       child: Column(
@@ -185,16 +181,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 14)),
                                         Text(state.upcoming[i].clientName,
-                                            style: const TextStyle(
-                                              fontSize: 13,
-                                            )),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall),
                                       ])),
                                   Text(
                                       formatDateTime(
                                           state.upcoming[i].scheduledAt),
-                                      style: const TextStyle(
-                                          fontSize: 11,
-                                          color: AppColors.textHint)),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .labelSmall),
                                 ]))),
                       ),
                       childCount: state.upcoming.length,
@@ -207,9 +203,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         children: [
                           const Text('Quick Actions',
                               style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                              )),
+                                  fontSize: 16, fontWeight: FontWeight.w600)),
                           const SizedBox(height: 12),
                           Row(children: [
                             Expanded(
@@ -253,6 +247,133 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ),
     );
   }
+}
+
+// ─── Dashboard Skeleton ──────────────────────────────────────────
+
+class _DashboardSkeleton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final base = isDark ? const Color(0xFF252A3D) : const Color(0xFFE8ECF4);
+    final highlight =
+        isDark ? const Color(0xFF353B52) : const Color(0xFFF5F7FC);
+
+    return Shimmer.fromColors(
+      baseColor: base,
+      highlightColor: highlight,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          // "Overview" label
+          ShimmerBox(width: 80, height: 16, radius: 8),
+          const SizedBox(height: 16),
+          // Stats grid — 2x2
+          GridView.count(
+            crossAxisCount: 2,
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            crossAxisSpacing: 12,
+            mainAxisSpacing: 12,
+            childAspectRatio: 1.35,
+            children: List.generate(4, (_) => const _StatCardSkeleton()),
+          ),
+          const SizedBox(height: 28),
+          // "Upcoming Meetings" row
+          const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ShimmerBox(width: 160, height: 16, radius: 8),
+                ShimmerBox(width: 50, height: 14, radius: 7),
+              ]),
+          const SizedBox(height: 12),
+          // 3 meeting skeletons
+          ...List.generate(
+              3,
+              (_) => const Padding(
+                    padding: EdgeInsets.only(bottom: 8),
+                    child: Card(
+                      child: Padding(
+                        padding: EdgeInsets.all(16),
+                        child: Row(children: [
+                          ShimmerBox(width: 44, height: 44, radius: 10),
+                          SizedBox(width: 12),
+                          Expanded(
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                ShimmerBox(
+                                    width: double.infinity,
+                                    height: 14,
+                                    radius: 7),
+                                SizedBox(height: 6),
+                                ShimmerBox(width: 120, height: 12, radius: 6),
+                              ])),
+                          SizedBox(width: 12),
+                          ShimmerBox(width: 60, height: 11, radius: 5),
+                        ]),
+                      ),
+                    ),
+                  )),
+          const SizedBox(height: 8),
+          // "Quick Actions" label
+          ShimmerBox(width: 110, height: 16, radius: 8),
+          const SizedBox(height: 12),
+          // Quick action rows
+          Row(children: [
+            Expanded(child: _QuickActionSkeleton()),
+            const SizedBox(width: 12),
+            Expanded(child: _QuickActionSkeleton()),
+          ]),
+          const SizedBox(height: 12),
+          Row(children: [
+            Expanded(child: _QuickActionSkeleton()),
+            const SizedBox(width: 12),
+            Expanded(child: _QuickActionSkeleton()),
+          ]),
+          const SizedBox(height: 24),
+        ]),
+      ),
+    );
+  }
+}
+
+class _StatCardSkeleton extends StatelessWidget {
+  const _StatCardSkeleton();
+  @override
+  Widget build(BuildContext context) => const Card(
+        child: Padding(
+          padding: EdgeInsets.all(16),
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            ShimmerBox(width: 36, height: 36, radius: 10),
+            SizedBox(height: 12),
+            Row(children: [
+              ShimmerBox(width: 40, height: 26, radius: 6),
+              SizedBox(width: 8),
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                ShimmerBox(width: 70, height: 12, radius: 6),
+                SizedBox(height: 4),
+                ShimmerBox(width: 50, height: 10, radius: 5),
+              ]),
+            ]),
+          ]),
+        ),
+      );
+}
+
+class _QuickActionSkeleton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) => const Card(
+        child: Padding(
+          padding: EdgeInsets.all(16),
+          child: Row(children: [
+            ShimmerBox(width: 36, height: 36, radius: 10),
+            SizedBox(width: 12),
+            ShimmerBox(width: 80, height: 13, radius: 6),
+          ]),
+        ),
+      );
 }
 
 // ─── User Avatar ─────────────────────────────────────────────────
@@ -330,10 +451,8 @@ class _QuickAction extends StatelessWidget {
                   const SizedBox(width: 12),
                   Expanded(
                       child: Text(label,
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
-                          ))),
+                          style: const TextStyle(
+                              fontSize: 13, fontWeight: FontWeight.w600))),
                 ]))),
       );
 }

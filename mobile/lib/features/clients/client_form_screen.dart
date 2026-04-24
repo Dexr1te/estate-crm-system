@@ -69,26 +69,30 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
       context
           .read<ClientsBloc>()
           .add(ClientsUpdateEvent(widget.clientId!, data));
+      context.go('/clients');
     } else {
       context.read<ClientsBloc>().add(ClientsCreateEvent(data));
-      // Navigation is handled in the BlocListener below (on ClientCreated)
-      return;
     }
-    // For update, navigate back immediately
-    context.go('/clients');
   }
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    // Theme-aware colors for the buyer/seller toggle
+    final unselectedBg = isDark ? AppColors.darkSurface : AppColors.surface;
+    final unselectedBorder =
+        isDark ? AppColors.darkBorder : const Color(0xFFE8ECF4);
+    final unselectedText =
+        isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+
     return BlocListener<ClientsBloc, ClientsState>(
       listener: (context, state) {
         if (state is ClientCreated) {
-          // The client was created and we have its id — navigate to clients list
           setState(() => _loading = false);
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Client created (ID: ${state.client.id})'),
-            ),
+            SnackBar(content: Text('Client created (ID: ${state.client.id})')),
           );
           context.go('/clients');
         }
@@ -104,7 +108,6 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
         }
       },
       child: Scaffold(
-        backgroundColor: AppColors.background,
         appBar: AppBar(
             title: Text(widget.isEditing ? 'Edit Client' : 'New Client')),
         body: _initLoading
@@ -150,11 +153,13 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
                                   prefixIcon:
                                       Icon(Icons.phone_outlined, size: 20))),
                           const SizedBox(height: 20),
-                          const Text('Client Type',
+                          Text('Client Type',
                               style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.w600,
-                                  color: AppColors.textSecondary)),
+                                  color: isDark
+                                      ? AppColors.darkTextSecondary
+                                      : AppColors.textSecondary)),
                           const SizedBox(height: 10),
                           Row(
                               children: ClientType.values
@@ -175,15 +180,14 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
                                                 vertical: 14),
                                             decoration: BoxDecoration(
                                                 color: _type == t
-                                                    ? AppColors.primary
-                                                    : AppColors.surface,
+                                                    ? cs.primary
+                                                    : unselectedBg,
                                                 borderRadius:
                                                     BorderRadius.circular(12),
                                                 border: Border.all(
                                                     color: _type == t
-                                                        ? AppColors.primary
-                                                        : const Color(
-                                                            0xFFE8ECF4))),
+                                                        ? cs.primary
+                                                        : unselectedBorder)),
                                             child: Center(
                                                 child: Text(
                                                     t == ClientType.BUYER
@@ -195,8 +199,7 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
                                                             FontWeight.w600,
                                                         color: _type == t
                                                             ? Colors.white
-                                                            : AppColors
-                                                                .textSecondary,
+                                                            : unselectedText,
                                                         fontSize: 14))),
                                           ),
                                         ),

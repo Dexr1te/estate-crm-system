@@ -61,8 +61,10 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final tt = Theme.of(context).textTheme;
+
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: AppBar(
           title: Text(_p?.title ?? 'Property'),
           actions: _p == null
@@ -73,8 +75,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                       onPressed: () =>
                           context.go('/properties/${widget.id}/edit')),
                   IconButton(
-                      icon: const Icon(Icons.delete_outline,
-                          color: AppColors.error),
+                      icon: Icon(Icons.delete_outline, color: cs.error),
                       onPressed: _delete),
                 ]),
       body: _loading
@@ -97,41 +98,37 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                                       Row(children: [
                                         Expanded(
                                             child: Text(_p!.title,
-                                                style: const TextStyle(
+                                                style: tt.titleLarge?.copyWith(
                                                     fontSize: 20,
-                                                    fontWeight: FontWeight.w700,
-                                                    fontFamily: 'Sora'))),
+                                                    fontWeight:
+                                                        FontWeight.w700))),
                                         PropertyStatusChip(status: _p!.status),
                                       ]),
                                       const SizedBox(height: 8),
                                       Text(formatPrice(_p!.price),
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                               fontSize: 26,
                                               fontWeight: FontWeight.w700,
-                                              color: AppColors.primary,
+                                              color: cs.primary,
                                               fontFamily: 'Sora')),
                                       const SizedBox(height: 8),
                                       Row(children: [
-                                        const Icon(Icons.location_on_outlined,
+                                        Icon(Icons.location_on_outlined,
                                             size: 15,
-                                            color: AppColors.textHint),
+                                            color: tt.labelSmall?.color),
                                         const SizedBox(width: 4),
                                         Flexible(
                                             child: Text(_p!.address,
-                                                style: const TextStyle(
-                                                    color:
-                                                        AppColors.textSecondary,
-                                                    fontSize: 13)))
+                                                style: tt.bodySmall
+                                                    ?.copyWith(fontSize: 13)))
                                       ]),
                                       if (_p!.city != null)
                                         Padding(
                                             padding:
                                                 const EdgeInsets.only(top: 4),
                                             child: Text(_p!.city!,
-                                                style: const TextStyle(
-                                                    fontSize: 13,
-                                                    color:
-                                                        AppColors.textHint))),
+                                                style: tt.labelSmall
+                                                    ?.copyWith(fontSize: 13))),
                                       const SizedBox(height: 12),
                                       // ── ID badge (tap to copy) ──
                                       GestureDetector(
@@ -140,31 +137,31 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 10, vertical: 6),
                                           decoration: BoxDecoration(
-                                              color: AppColors.accent
+                                              color: cs.secondary
                                                   .withOpacity(0.08),
                                               borderRadius:
                                                   BorderRadius.circular(8),
                                               border: Border.all(
-                                                  color: AppColors.accent
+                                                  color: cs.secondary
                                                       .withOpacity(0.25))),
                                           child: Row(
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
-                                                const Icon(Icons.tag,
+                                                Icon(Icons.tag,
                                                     size: 13,
-                                                    color: AppColors.accent),
+                                                    color: cs.secondary),
                                                 const SizedBox(width: 4),
                                                 Text('Property ID: ${_p!.id}',
-                                                    style: const TextStyle(
+                                                    style: TextStyle(
                                                         fontSize: 13,
                                                         fontWeight:
                                                             FontWeight.w700,
-                                                        color: AppColors.accent,
+                                                        color: cs.secondary,
                                                         fontFamily: 'Sora')),
                                                 const SizedBox(width: 6),
-                                                const Icon(Icons.copy,
+                                                Icon(Icons.copy,
                                                     size: 13,
-                                                    color: AppColors.accent),
+                                                    color: cs.secondary),
                                               ]),
                                         ),
                                       ),
@@ -177,8 +174,8 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      const Text('Details',
-                                          style: TextStyle(
+                                      Text('Details',
+                                          style: tt.bodyLarge?.copyWith(
                                               fontWeight: FontWeight.w600,
                                               fontSize: 14)),
                                       const SizedBox(height: 12),
@@ -214,14 +211,14 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        const Text('Description',
-                                            style: TextStyle(
+                                        Text('Description',
+                                            style: tt.bodyLarge?.copyWith(
                                                 fontWeight: FontWeight.w600,
                                                 fontSize: 14)),
                                         const SizedBox(height: 8),
                                         Text(_p!.description!,
-                                            style: const TextStyle(
-                                                color: AppColors.textSecondary,
+                                            style: tt.bodyMedium?.copyWith(
+                                                color: tt.bodySmall?.color,
                                                 height: 1.6)),
                                       ]))),
                         ],
@@ -233,8 +230,8 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      const Text('Update Status',
-                                          style: TextStyle(
+                                      Text('Update Status',
+                                          style: tt.bodyLarge?.copyWith(
                                               fontWeight: FontWeight.w600,
                                               fontSize: 14)),
                                       const SizedBox(height: 12),
@@ -255,18 +252,15 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                                                       : () => _updateStatus(s),
                                                   style: OutlinedButton.styleFrom(
                                                       backgroundColor: sel
-                                                          ? AppColors.primary
+                                                          ? cs.primary
                                                           : null,
                                                       foregroundColor: sel
-                                                          ? Colors.white
-                                                          : AppColors
-                                                              .textSecondary,
+                                                          ? cs.onPrimary
+                                                          : tt.bodySmall?.color,
                                                       side: BorderSide(
                                                           color: sel
-                                                              ? AppColors
-                                                                  .primary
-                                                              : const Color(
-                                                                  0xFFE8ECF4)),
+                                                              ? cs.primary
+                                                              : cs.outline),
                                                       padding: const EdgeInsets
                                                           .symmetric(
                                                           vertical: 10),
@@ -294,16 +288,15 @@ class _Spec extends StatelessWidget {
   final String label, value;
   const _Spec(this.icon, this.label, this.value);
   @override
-  Widget build(BuildContext context) =>
-      Row(mainAxisSize: MainAxisSize.min, children: [
-        Icon(icon, size: 15, color: AppColors.textHint),
-        const SizedBox(width: 4),
-        Text('$label: ',
-            style: const TextStyle(fontSize: 13, color: AppColors.textHint)),
-        Text(value,
-            style: const TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: AppColors.textPrimary))
-      ]);
+  Widget build(BuildContext context) {
+    final tt = Theme.of(context).textTheme;
+    return Row(mainAxisSize: MainAxisSize.min, children: [
+      Icon(icon, size: 15, color: tt.labelSmall?.color),
+      const SizedBox(width: 4),
+      Text('$label: ', style: tt.labelSmall?.copyWith(fontSize: 13)),
+      Text(value,
+          style: tt.bodyMedium
+              ?.copyWith(fontSize: 13, fontWeight: FontWeight.w600))
+    ]);
+  }
 }

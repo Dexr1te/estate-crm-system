@@ -46,7 +46,7 @@ class AppColors {
   // Property status
   static const available = Color(0xFF22C55E);
   static const reserved = Color(0xFFF59E0B);
-  static const sold = Color(0xFF6B7A99);
+  static const sold = Color.fromARGB(255, 93, 0, 255);
 }
 
 // ─── Light Theme ───────────────────────────────────────────────
