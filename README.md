@@ -84,8 +84,11 @@ estate-crm-system/
 ## 👥 Team
 
 Assan Sultan - 230103325
+-
 Koibagar Nurserik - 230103145
+-
 Amangeldi Dauirkhan - 230103386
+-
 Muratbek Mukamet - 230103265
 
 ---
