@@ -64,7 +64,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> implements Listenable {
   @override
   void removeListener(VoidCallback listener) => _listeners.remove(listener);
   void _notify() {
-    for (final l in _listeners) l();
+    for (final l in _listeners) {
+      l();
+    }
   }
 
   bool get isAuthenticated => state is AuthAuthenticated;
@@ -120,8 +122,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> implements Listenable {
     final s = e.toString();
     if (s.contains('401')) return 'Invalid email or password';
     if (s.contains('409')) return 'Email already registered';
-    if (s.contains('SocketException') || s.contains('Connection'))
+    if (s.contains('SocketException') || s.contains('Connection')) {
       return 'Cannot connect to server';
+    }
     return 'Something went wrong. Please try again.';
   }
 }

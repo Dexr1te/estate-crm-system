@@ -49,8 +49,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             style: TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.w700,
-                                color:
-                                    Theme.of(context).colorScheme.onBackground,
+                                color: Theme.of(context).colorScheme.onSurface,
                                 fontFamily: 'Sora'),
                           ),
                           const SizedBox(height: 4),
@@ -162,7 +161,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                           color: Theme.of(context)
                                               .colorScheme
                                               .primary
-                                              .withOpacity(0.08),
+                                              .withAlpha(20),
                                           borderRadius:
                                               BorderRadius.circular(10)),
                                       child: Icon(Icons.calendar_today,
@@ -266,7 +265,7 @@ class _DashboardSkeleton extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           // "Overview" label
-          ShimmerBox(width: 80, height: 16, radius: 8),
+          const ShimmerBox(width: 80, height: 16, radius: 8),
           const SizedBox(height: 16),
           // Stats grid — 2x2
           GridView.count(
@@ -317,7 +316,7 @@ class _DashboardSkeleton extends StatelessWidget {
                   )),
           const SizedBox(height: 8),
           // "Quick Actions" label
-          ShimmerBox(width: 110, height: 16, radius: 8),
+          const ShimmerBox(width: 110, height: 16, radius: 8),
           const SizedBox(height: 12),
           // Quick action rows
           Row(children: [
@@ -405,7 +404,7 @@ class _UserAvatar extends StatelessWidget {
         height: 42,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: color.withOpacity(0.15),
+          color: color.withAlpha(38),
           border: Border.all(color: color, width: 2),
         ),
         child: Center(
@@ -445,7 +444,7 @@ class _QuickAction extends StatelessWidget {
                       width: 36,
                       height: 36,
                       decoration: BoxDecoration(
-                          color: color.withOpacity(0.12),
+                          color: color.withAlpha(31),
                           borderRadius: BorderRadius.circular(10)),
                       child: Icon(icon, color: color, size: 18)),
                   const SizedBox(width: 12),

@@ -68,10 +68,10 @@ class ProfileScreen extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 10, vertical: 5),
                       decoration: BoxDecoration(
-                          color: AppColors.primary.withOpacity(0.08),
+                          color: AppColors.primary.withAlpha(20),
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(
-                              color: AppColors.primary.withOpacity(0.2))),
+                              color: AppColors.primary.withAlpha(51))),
                       child: Row(mainAxisSize: MainAxisSize.min, children: [
                         Text('${user.userId}',
                             style: const TextStyle(
@@ -103,6 +103,7 @@ class ProfileScreen extends StatelessWidget {
                       value: themeState.isDark,
                       onChanged: (_) =>
                           ctx.read<ThemeBloc>().add(ThemeToggleEvent()),
+                      // ignore: deprecated_member_use
                       activeColor: AppColors.primary,
                     ),
                     onTap: () => ctx.read<ThemeBloc>().add(ThemeToggleEvent()),
@@ -253,7 +254,7 @@ class _AvatarHeader extends StatelessWidget {
         height: 88,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: color.withOpacity(0.15),
+          color: color.withAlpha(38),
           border: Border.all(color: color, width: 2.5),
         ),
         child: Center(
@@ -288,7 +289,7 @@ class _RoleChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       decoration: BoxDecoration(
-        color: (isAdmin ? AppColors.accent : AppColors.info).withOpacity(0.12),
+        color: (isAdmin ? AppColors.accent : AppColors.info).withAlpha(31),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Text(

@@ -78,7 +78,7 @@ class _StatusChip extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
         decoration: BoxDecoration(
-            color: color.withOpacity(0.15),
+            color: color.withAlpha(38),
             borderRadius: BorderRadius.circular(20)),
         child: Text(label,
             style: TextStyle(
@@ -117,7 +117,7 @@ class StatCard extends StatelessWidget {
                 width: 36,
                 height: 36,
                 decoration: BoxDecoration(
-                    color: color.withOpacity(0.12),
+                    color: color.withAlpha(31),
                     borderRadius: BorderRadius.circular(10)),
                 child: Icon(icon, color: color, size: 18)),
             const SizedBox(height: 12),

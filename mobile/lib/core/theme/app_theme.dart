@@ -62,8 +62,10 @@ class AppTheme {
         primary: AppColors.primary,
         secondary: AppColors.accent,
         surface: AppColors.surface,
+        // ignore: deprecated_member_use
         background: AppColors.background,
         error: AppColors.error,
+        // ignore: deprecated_member_use
         onBackground: AppColors.textPrimary,
         onSurface: AppColors.textPrimary,
       ),
@@ -210,8 +212,10 @@ class AppThemeDark {
         primary: AppColors.darkPrimary,
         secondary: AppColors.accent,
         surface: AppColors.darkSurface,
+        // ignore: deprecated_member_use
         background: AppColors.darkBackground,
         error: AppColors.error,
+        // ignore: deprecated_member_use
         onBackground: AppColors.darkTextPrimary,
         onSurface: AppColors.darkTextPrimary,
         onPrimary: Colors.white,
@@ -371,13 +375,13 @@ class AppThemeDark {
             fontSize: 14),
       ),
       switchTheme: SwitchThemeData(
-        thumbColor: MaterialStateProperty.resolveWith((s) =>
-            s.contains(MaterialState.selected)
+        thumbColor: WidgetStateProperty.resolveWith((s) =>
+            s.contains(WidgetState.selected)
                 ? AppColors.darkPrimary
                 : AppColors.darkTextHint),
-        trackColor: MaterialStateProperty.resolveWith((s) =>
-            s.contains(MaterialState.selected)
-                ? AppColors.darkPrimary.withOpacity(0.4)
+        trackColor: WidgetStateProperty.resolveWith((s) =>
+            s.contains(WidgetState.selected)
+                ? AppColors.darkPrimary.withAlpha(102)
                 : AppColors.darkBorder),
       ),
       snackBarTheme: const SnackBarThemeData(

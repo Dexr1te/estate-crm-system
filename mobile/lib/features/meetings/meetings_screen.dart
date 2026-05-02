@@ -23,6 +23,7 @@ class _MeetingsScreenState extends State<MeetingsScreen> {
     final ok = await showConfirmDialog(context,
         title: 'Delete Meeting', content: 'Delete this meeting?');
     if (!ok) return;
+    // ignore: use_build_context_synchronously
     context.read<MeetingsBloc>().add(MeetingsDeleteEvent(id));
   }
 
@@ -143,8 +144,8 @@ class _MeetingCard extends StatelessWidget {
                 height: 44,
                 decoration: BoxDecoration(
                   color: meeting.completed
-                      ? AppColors.success.withOpacity(0.1)
-                      : cs.primary.withOpacity(0.08),
+                      ? AppColors.success.withAlpha(26)
+                      : cs.primary.withAlpha(20),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Icon(
@@ -228,7 +229,7 @@ class _MeetingCard extends StatelessWidget {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                     decoration: BoxDecoration(
-                        color: AppColors.success.withOpacity(0.1),
+                        color: AppColors.success.withAlpha(26),
                         borderRadius: BorderRadius.circular(20)),
                     child: const Text('Completed',
                         style: TextStyle(
