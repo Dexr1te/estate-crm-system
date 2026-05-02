@@ -1,15 +1,12 @@
 import type {
   CreateMeetingDto,
   Meeting,
-  MeetingEditable,
-  UpdateMeetingDto
+  MeetingEditable
 } from '@/entities/meeting/model/type'
 
-export type MeetingFormPayload = CreateMeetingDto | UpdateMeetingDto
-
-export type MeetingFormProps = {
+export type MeetingFormProps<T = CreateMeetingDto> = {
   initial?: MeetingEditable
-  onSubmit: (data: MeetingFormPayload) => void
+  onSubmit: (data: T) => void
   onCancel: () => void
   loading?: boolean
 }
@@ -36,5 +33,5 @@ export const DEFAULT_FORM: FormState = {
 
 export type MeetingCardProps = {
   meeting: Meeting
-  onEdit?: (meeting: Meeting) => void
+  onEdit: (meeting: Meeting) => void
 }

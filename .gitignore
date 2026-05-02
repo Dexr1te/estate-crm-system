@@ -5,5 +5,3 @@ node_modules/
 dist/
 build/
 .next/
-backend/src/main/resources/application.yml
-backend/firebase-service-account.json
