@@ -116,8 +116,6 @@ public class MeetingService {
                     .orElseThrow(() -> new ResourceNotFoundException(
                             "Deal not found with id: " + request.getDealId()));
             meeting.setDeal(deal);
-        } else {
-            meeting.setDeal(null);
         }
     }
 

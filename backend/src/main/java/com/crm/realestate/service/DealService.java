@@ -7,7 +7,6 @@ import com.crm.realestate.entity.Deal;
 import com.crm.realestate.entity.Property;
 import com.crm.realestate.entity.User;
 import com.crm.realestate.enums.DealStatus;
-import com.crm.realestate.enums.PropertyStatus;
 import com.crm.realestate.exception.ResourceNotFoundException;
 import com.crm.realestate.repository.ClientRepository;
 import com.crm.realestate.repository.DealRepository;
@@ -54,38 +53,13 @@ public class DealService {
     public DealResponse create(DealRequest request) {
         Deal deal = new Deal();
         mapRequestToEntity(request, deal);
-        syncPropertyStatusWithDeal(deal);
         return toResponse(dealRepository.save(deal));
     }
 
     @Transactional
     public DealResponse update(Long id, DealRequest request) {
         Deal deal = findById(id);
-        Property previousProperty = deal.getProperty();
         mapRequestToEntity(request, deal);
-
-        if (request.getStatus() == DealStatus.CLOSED_WON || request.getStatus() == DealStatus.CLOSED_LOST) {
-            deal.setClosedAt(LocalDateTime.now());
-        } else if (request.getStatus() != null) {
-            deal.setClosedAt(null);
-        }
-
-        // If property is detached from deal, release previous one.
-        if (previousProperty != null && deal.getProperty() == null
-                && previousProperty.getStatus() == PropertyStatus.RESERVED) {
-            previousProperty.setStatus(PropertyStatus.AVAILABLE);
-            propertyRepository.save(previousProperty);
-        }
-
-        // If property changed, release previous reserved property.
-        if (previousProperty != null && deal.getProperty() != null
-                && !previousProperty.getId().equals(deal.getProperty().getId())
-                && previousProperty.getStatus() == PropertyStatus.RESERVED) {
-            previousProperty.setStatus(PropertyStatus.AVAILABLE);
-            propertyRepository.save(previousProperty);
-        }
-
-        syncPropertyStatusWithDeal(deal);
         return toResponse(dealRepository.save(deal));
     }
 
@@ -97,11 +71,7 @@ public class DealService {
         // Если сделка закрыта — фиксируем время
         if (newStatus == DealStatus.CLOSED_WON || newStatus == DealStatus.CLOSED_LOST) {
             deal.setClosedAt(LocalDateTime.now());
-        } else {
-            deal.setClosedAt(null);
         }
-
-        syncPropertyStatusWithDeal(deal);
 
         return toResponse(dealRepository.save(deal));
     }
@@ -133,12 +103,6 @@ public class DealService {
             Property property = propertyRepository.findById(request.getPropertyId())
                     .orElseThrow(() -> new ResourceNotFoundException(
                             "Property not found with id: " + request.getPropertyId()));
-            boolean isCurrentProperty = deal.getProperty() != null
-                && deal.getProperty().getId().equals(property.getId());
-            if (property.getStatus() == PropertyStatus.SOLD && !isCurrentProperty) {
-                throw new RuntimeException(
-                        "Property is already sold and cannot be assigned to a deal: id=" + request.getPropertyId());
-            }
             deal.setProperty(property);
         } else {
             deal.setProperty(null);
@@ -148,20 +112,6 @@ public class DealService {
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Agent not found with id: " + request.getAgentId()));
         deal.setAgent(agent);
-    }
-
-    private void syncPropertyStatusWithDeal(Deal deal) {
-        if (deal.getProperty() == null) {
-            return;
-        }
-
-        if (deal.getStatus() == DealStatus.CLOSED_WON) {
-            deal.getProperty().setStatus(PropertyStatus.SOLD);
-        } else if (deal.getStatus() == DealStatus.CLOSED_LOST) {
-            deal.getProperty().setStatus(PropertyStatus.AVAILABLE);
-        } else {
-            deal.getProperty().setStatus(PropertyStatus.RESERVED);
-        }
     }
 
     private DealResponse toResponse(Deal deal) {
@@ -179,11 +129,9 @@ public class DealService {
         res.setClientId(deal.getClient().getId());
         res.setClientName(deal.getClient().getFullName());
 
-        if (deal.getProperty() != null) {
-            res.setPropertyId(deal.getProperty().getId());
-            res.setPropertyTitle(deal.getProperty().getTitle());
-            res.setPropertyAddress(deal.getProperty().getAddress());
-        }
+        res.setPropertyId(deal.getProperty().getId());
+        res.setPropertyTitle(deal.getProperty().getTitle());
+        res.setPropertyAddress(deal.getProperty().getAddress());
 
         res.setAgentId(deal.getAgent().getId());
         res.setAgentName(deal.getAgent().getFullName());

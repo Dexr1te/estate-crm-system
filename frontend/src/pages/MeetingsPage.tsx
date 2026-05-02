@@ -1,12 +1,11 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { Plus, Search, SlidersHorizontal } from 'lucide-react'
 import {
   useMeetings,
   useCreateMeeting,
   useUpdateMeeting
 } from '@/entities/meeting/model/hook'
-import { useAuthStore } from '@/entities/auth/model/authStore'
-import { useAgentOptions } from '@/entities/user/model/useAgentOptions'
+import { useAppStore } from '@/shared/store/useAppStore'
 import { MeetingCard } from '@/features/meeting-form/MeetingCard'
 import { MeetingForm } from '@/features/meeting-form/MeetingForm'
 import { Button } from '@/components/ui/button'
@@ -17,130 +16,86 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle
-} from '@/components/ui/dialog'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from '@/components/ui/select'
+} from '../components/ui/dialog'
+
 import type {
-  CreateMeetingDto,
   Meeting,
+  CreateMeetingDto,
   UpdateMeetingDto
 } from '@/entities/meeting/model/type'
 
+// ==== TYPES ====
+
 type FilterType = 'all' | 'pending' | 'completed'
-type AdminAgentFilter = 'all' | `${number}`
+
+// ==== COMPONENT ====
 
 export function MeetingsPage() {
-  const { role, userId } = useAuthStore()
-  const { data: agents = [] } = useAgentOptions()
-  const [adminAgentFilter, setAdminAgentFilter] =
-    useState<AdminAgentFilter>('all')
+  const { agentId } = useAppStore() as { agentId?: string }
 
-  const effectiveAgentId =
-    role === 'AGENT'
-      ? userId ?? undefined
-      : adminAgentFilter === 'all'
-      ? undefined
-      : Number(adminAgentFilter)
+  const { data: meetings = [], isLoading, isError } = useMeetings(agentId)
 
-  const {
-    data: meetings = [],
-    isLoading,
-    isError,
-    error
-  } = useMeetings(effectiveAgentId)
   const createMutation = useCreateMeeting()
-  const updateMutation = useUpdateMeeting()
 
-  const [search, setSearch] = useState('')
+  const [search, setSearch] = useState<string>('')
   const [filter, setFilter] = useState<FilterType>('all')
-  const [createOpen, setCreateOpen] = useState(false)
+  const [createOpen, setCreateOpen] = useState<boolean>(false)
   const [editTarget, setEditTarget] = useState<Meeting | null>(null)
-  const [actionError, setActionError] = useState<string | null>(null)
 
-  const filtered = useMemo(() => {
-    return meetings.filter((m) => {
-      const matchSearch =
-        !search ||
-        m.title.toLowerCase().includes(search.toLowerCase()) ||
-        m.agentName.toLowerCase().includes(search.toLowerCase()) ||
-        m.clientName.toLowerCase().includes(search.toLowerCase()) ||
-        (m.dealTitle ?? '').toLowerCase().includes(search.toLowerCase())
-
-      const matchFilter =
-        filter === 'all' ||
-        (filter === 'pending' && !m.completed) ||
-        (filter === 'completed' && m.completed)
-
-      return matchSearch && matchFilter
-    })
-  }, [meetings, search, filter])
-
-  const handleCreate = (data: CreateMeetingDto) => {
-    setActionError(null)
-
-    if (role === 'AGENT' && !userId) {
-      setActionError('User id not found in session. Please re-login.')
-      return
-    }
-
-    const payload: CreateMeetingDto = {
-      ...data,
-      agentId: role === 'AGENT' ? (userId as number) : data.agentId
-    }
-
-    createMutation.mutate(payload, {
-      onSuccess: () => setCreateOpen(false),
-      onError: (err) => {
-        setActionError(
-          err instanceof Error ? err.message : 'Failed to create meeting'
-        )
-      }
-    })
-  }
+  const updateMutation = useUpdateMeeting()
 
   const handleUpdate = (data: UpdateMeetingDto) => {
     if (!editTarget) return
-    setActionError(null)
-
-    if (role === 'AGENT' && !userId) {
-      setActionError('User id not found in session. Please re-login.')
-      return
-    }
-
-    const payload: UpdateMeetingDto = {
-      ...data,
-      agentId: role === 'AGENT' ? (userId as number) : data.agentId
-    }
 
     updateMutation.mutate(
       {
         id: editTarget.id,
-        data: payload
+        data
       },
       {
-        onSuccess: () => setEditTarget(null),
-        onError: (err) => {
-          setActionError(
-            err instanceof Error ? err.message : 'Failed to update meeting'
-          )
-        }
+        onSuccess: () => setEditTarget(null)
       }
     )
   }
 
+  // ==== FILTER ====
+
+  const filtered = meetings.filter((m: Meeting) => {
+    const matchSearch =
+      !search ||
+      m.title?.toLowerCase().includes(search.toLowerCase()) ||
+      m.agentName?.toLowerCase().includes(search.toLowerCase()) ||
+      m.clientName?.toLowerCase().includes(search.toLowerCase()) ||
+      m.dealTitle?.toLowerCase().includes(search.toLowerCase())
+
+    const matchFilter =
+      filter === 'all' ||
+      (filter === 'pending' && !m.completed) ||
+      (filter === 'completed' && m.completed)
+
+    return matchSearch && matchFilter
+  })
+
+  // ==== HANDLERS ====
+
+  const handleCreate = (data: CreateMeetingDto) => {
+    createMutation.mutate(data, {
+      onSuccess: () => setCreateOpen(false)
+    })
+  }
+
+  // ==== UI ====
+
   return (
     <div className="flex-1 flex flex-col min-h-0">
-      <div className="sticky top-0 z-10 border-b bg-background px-4 py-4 md:px-8 md:py-6">
-        <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      {/* Header */}
+      <div className="px-8 py-6 border-b bg-background sticky top-0 z-10">
+        <div className="flex items-center justify-between mb-4">
           <div>
             <h1 className="font-display text-2xl font-bold">Meetings</h1>
             <p className="text-sm text-muted-foreground mt-0.5">
               {meetings.length} total
+              {agentId ? ` · Agent ${agentId}` : ''}
             </p>
           </div>
 
@@ -149,40 +104,20 @@ export function MeetingsPage() {
           </Button>
         </div>
 
-        <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
-          <div className="relative flex-1 min-w-65 max-w-sm">
+        <div className="flex items-center gap-3">
+          <div className="relative flex-1 max-w-sm">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setSearch(e.target.value)
+              }
               placeholder="Search meetings…"
               className="pl-9"
             />
           </div>
 
-          {role === 'ADMIN' && (
-            <Select
-              value={adminAgentFilter}
-              onValueChange={(v) => setAdminAgentFilter(v as AdminAgentFilter)}
-            >
-              <SelectTrigger className="w-52">
-                <SelectValue placeholder="All agents" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All agents</SelectItem>
-                {agents.map((agent) => (
-                  <SelectItem
-                    key={agent.id}
-                    value={String(agent.id) as `${number}`}
-                  >
-                    {agent.fullName}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          )}
-
-          <div className="flex items-center gap-1 overflow-x-auto rounded-lg bg-secondary p-1">
+          <div className="flex items-center gap-1 p-1 bg-secondary rounded-lg">
             {(['all', 'pending', 'completed'] as FilterType[]).map((f) => (
               <button
                 key={f}
@@ -200,7 +135,8 @@ export function MeetingsPage() {
         </div>
       </div>
 
-      <div className="flex-1 overflow-auto px-4 py-4 md:px-8 md:py-6">
+      {/* Content */}
+      <div className="flex-1 overflow-auto px-8 py-6">
         {isLoading && (
           <div className="flex items-center justify-center py-20">
             <Spinner className="h-8 w-8" />
@@ -210,15 +146,7 @@ export function MeetingsPage() {
         {isError && (
           <div className="text-center py-20 text-muted-foreground">
             <p className="text-base font-medium">Failed to load meetings</p>
-            <p className="text-sm mt-1">
-              {error instanceof Error ? error.message : 'Unknown error'}
-            </p>
-          </div>
-        )}
-
-        {actionError && (
-          <div className="mb-4 rounded-md border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-600">
-            {actionError}
+            <p className="text-sm mt-1">Check your API connection</p>
           </div>
         )}
 
@@ -232,17 +160,14 @@ export function MeetingsPage() {
 
         {!isLoading && !isError && filtered.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-            {filtered.map((meeting) => (
-              <MeetingCard
-                key={meeting.id}
-                meeting={meeting}
-                onEdit={setEditTarget}
-              />
+            {filtered.map((m: Meeting) => (
+              <MeetingCard key={m.id} meeting={m} onEdit={setEditTarget} />
             ))}
           </div>
         )}
       </div>
 
+      {/* Create Dialog */}
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
         <DialogContent>
           <DialogHeader>
@@ -257,9 +182,10 @@ export function MeetingsPage() {
         </DialogContent>
       </Dialog>
 
+      {/* Edit Dialog */}
       <Dialog
         open={!!editTarget}
-        onOpenChange={(opened) => !opened && setEditTarget(null)}
+        onOpenChange={(o) => !o && setEditTarget(null)}
       >
         <DialogContent>
           <DialogHeader>

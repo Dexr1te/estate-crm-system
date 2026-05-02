@@ -2,7 +2,6 @@ package com.crm.realestate.controller;
 
 import com.crm.realestate.dto.request.LoginRequest;
 import com.crm.realestate.dto.request.RegisterRequest;
-import com.crm.realestate.dto.request.UpdateProfileRequest;
 import com.crm.realestate.dto.response.AuthResponse;
 import com.crm.realestate.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -47,14 +46,5 @@ public class AuthController {
     @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<AuthResponse> me(@AuthenticationPrincipal UserDetails userDetails) {
         return ResponseEntity.ok(authService.getMe(userDetails.getUsername()));
-    }
-
-    @PutMapping("/me")
-    @Operation(summary = "Update current authenticated user profile (fullName, email)")
-    @SecurityRequirement(name = "bearerAuth")
-    public ResponseEntity<AuthResponse> updateMe(
-            @AuthenticationPrincipal UserDetails userDetails,
-            @Valid @RequestBody UpdateProfileRequest request) {
-        return ResponseEntity.ok(authService.updateMe(userDetails.getUsername(), request));
     }
 }
