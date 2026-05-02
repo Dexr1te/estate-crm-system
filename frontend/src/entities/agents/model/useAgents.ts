@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { agentsApi } from '../api/agents'
-import type { Agent, AgentStats, CreateAgentRequest } from './types'
+import type { Agent, CreateAgentRequest } from './types'
 
 const AGENTS_QUERY_KEY = ['admin', 'agents'] as const
 

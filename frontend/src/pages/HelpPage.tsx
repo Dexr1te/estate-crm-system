@@ -40,7 +40,7 @@ const sections = [
     description:
       'Move opportunities through the sales pipeline and close them when ready.',
     items: [
-      'LEAD → NEGOTIATION → CLOSED',
+      'LEAD → NEGOTIATION → CLOSED_WON / CLOSED_LOST',
       'Close won / lost actions',
       'Property status sync'
     ]
@@ -63,7 +63,7 @@ const steps = [
 
 export function HelpPage() {
   return (
-    <div className="p-6 space-y-8">
+    <div className="space-y-8 p-4 md:p-6">
       <div className="space-y-3 max-w-3xl">
         <div className="flex items-center gap-2">
           <Badge variant="secondary">Help</Badge>

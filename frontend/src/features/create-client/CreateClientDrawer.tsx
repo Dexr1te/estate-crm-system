@@ -24,19 +24,27 @@ import {
 
 import { useCreateClient } from '@/entities/clients/model/hook'
 import type { ClientRequest, ClientType } from '@/entities/clients/model/type'
+import { useAuthStore } from '@/entities/auth/model/authStore'
+import { useAgentOptions } from '@/entities/user/model/useAgentOptions'
 
 export function CreateClientDrawer() {
   const { mutate, isPending } = useCreateClient()
+  const { role, userId } = useAuthStore()
+  const { data: agents = [] } = useAgentOptions()
 
+  const [open, setOpen] = useState(false)
   const [fullName, setFullName] = useState('')
   const [phone, setPhone] = useState('')
   const [email, setEmail] = useState('')
   const [notes, setNotes] = useState('')
   const [agentId, setAgentId] = useState('')
   const [type, setType] = useState<ClientType>('BUYER')
+  const [error, setError] = useState<string | null>(null)
 
   const buildRequest = (): ClientRequest => {
     const trimmedFullName = fullName.trim()
+    const selectedAgentId =
+      role === 'AGENT' ? (userId ?? undefined) : agentId.trim() ? Number(agentId) : undefined
 
     return {
       fullName: trimmedFullName,
@@ -44,12 +52,16 @@ export function CreateClientDrawer() {
       phone: phone.trim() || undefined,
       type,
       notes: notes.trim() || undefined,
-      agentId: agentId.trim() ? Number(agentId) : undefined
+      agentId: selectedAgentId
     }
   }
 
   const handleSubmit = () => {
-    if (!fullName.trim()) return
+    setError(null)
+    if (!fullName.trim()) {
+      setError('Full name is required')
+      return
+    }
 
     mutate(buildRequest(), {
       onSuccess: () => {
@@ -59,12 +71,16 @@ export function CreateClientDrawer() {
         setNotes('')
         setAgentId('')
         setType('BUYER')
+        setOpen(false)
+      },
+      onError: (err) => {
+        setError(err instanceof Error ? err.message : 'Failed to create client')
       }
     })
   }
 
   return (
-    <Drawer>
+    <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
         <Button>Add client</Button>
       </DrawerTrigger>
@@ -75,6 +91,12 @@ export function CreateClientDrawer() {
         </DrawerHeader>
 
         <div className="p-4 space-y-4">
+          {error && (
+            <div className="rounded-md border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-600">
+              {error}
+            </div>
+          )}
+
           {/* Full name */}
           <div className="space-y-2">
             <Label>Full name</Label>
@@ -116,22 +138,27 @@ export function CreateClientDrawer() {
             />
           </div>
 
-          {/* Agent ID */}
-          <div className="space-y-2">
-            <Label>Agent ID</Label>
-            <Input
-              type="number"
-              value={agentId}
-              onChange={(e) => setAgentId(e.target.value)}
-              disabled
-              placeholder="Optional"
-            />
-          </div>
+          {role === 'ADMIN' && (
+            <div className="space-y-2">
+              <Label>Agent (optional)</Label>
+              <Select value={agentId} onValueChange={setAgentId}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Unassigned" />
+                </SelectTrigger>
+                <SelectContent>
+                  {agents.map((agent) => (
+                    <SelectItem key={agent.id} value={String(agent.id)}>
+                      {agent.fullName}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
 
-          {/* Type (ВАЖНО) */}
           <div className="space-y-2">
             <Label>Client type</Label>
-            <Select value={type} onValueChange={(v) => setType(v as never)}>
+            <Select value={type} onValueChange={(v) => setType(v as ClientType)}>
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>

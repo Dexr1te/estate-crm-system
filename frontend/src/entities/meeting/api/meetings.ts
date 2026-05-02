@@ -1,18 +1,23 @@
-import type { CreateMeetingDto, Meeting, UpdateMeetingDto } from '../model/type'
 import { request } from '@/shared/api/base'
-
-// ==== API ====
+import type {
+  CreateMeetingDto,
+  Meeting,
+  UpcomingMeetingItem,
+  UpdateMeetingDto
+} from '../model/type'
 
 export const meetingsApi = {
-  getAll: (agentId?: string) => {
-    const params = agentId ? `?agentId=${agentId}` : ''
+  getAll: (agentId?: number) => {
+    const params = agentId != null ? `?agentId=${agentId}` : ''
     return request<Meeting[]>(`/meetings${params}`)
   },
 
-  getById: (id: string) => request<Meeting>(`/meetings/${id}`),
+  getById: (id: number) => request<Meeting>(`/meetings/${id}`),
 
-  getUpcoming: (agentId: string) =>
-    request<Meeting[]>(`/meetings/upcoming?agentId=${agentId}`),
+  getUpcomingByAgent: (agentId: number) =>
+    request<Meeting[]>(`/meetings/upcoming/agent/${agentId}`),
+
+  getUpcomingAll: () => request<UpcomingMeetingItem[]>('/meetings/upcoming'),
 
   create: (data: CreateMeetingDto) =>
     request<Meeting>('/meetings', {
@@ -20,14 +25,19 @@ export const meetingsApi = {
       body: JSON.stringify(data)
     }),
 
-  update: (id: string, data: UpdateMeetingDto) =>
+  update: (id: number, data: UpdateMeetingDto) =>
     request<Meeting>(`/meetings/${id}`, {
       method: 'PUT',
       body: JSON.stringify(data)
     }),
 
-  complete: (id: string) =>
+  complete: (id: number) =>
     request<Meeting>(`/meetings/${id}/complete`, {
       method: 'PATCH'
+    }),
+
+  remove: (id: number) =>
+    request<void>(`/meetings/${id}`, {
+      method: 'DELETE'
     })
 }
