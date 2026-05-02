@@ -6,6 +6,7 @@ import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/services/api_service.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
 import 'package:real_estate_crm/features/widgets/shared_widgets.dart';
+import 'package:shimmer/shimmer.dart';
 import 'deals_bloc.dart';
 
 class DealDetailScreen extends StatefulWidget {
@@ -77,7 +78,7 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
                       onPressed: _delete),
                 ]),
       body: _loading
-          ? const LoadingWidget()
+          ? const _DealDetailSkeleton()
           : _d == null
               ? const EmptyState(
                   title: 'Deal not found', icon: Icons.handshake_outlined)
@@ -111,12 +112,12 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
                                               horizontal: 10, vertical: 6),
                                           decoration: BoxDecoration(
                                               color: AppColors.success
-                                                  .withOpacity(0.08),
+                                                  .withAlpha(20),
                                               borderRadius:
                                                   BorderRadius.circular(8),
                                               border: Border.all(
                                                   color: AppColors.success
-                                                      .withOpacity(0.25))),
+                                                      .withAlpha(64))),
                                           child: Row(
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
@@ -227,6 +228,120 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
     );
   }
 }
+
+// ─── Skeleton ────────────────────────────────────────────────────
+
+class _DealDetailSkeleton extends StatelessWidget {
+  const _DealDetailSkeleton();
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final base = isDark ? const Color(0xFF252A3D) : const Color(0xFFE8ECF4);
+    final highlight =
+        isDark ? const Color(0xFF353B52) : const Color(0xFFF5F7FC);
+
+    return Shimmer.fromColors(
+      baseColor: base,
+      highlightColor: highlight,
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Main info card
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Row(
+                      children: [
+                        Expanded(
+                            child:
+                                ShimmerBox(width: 180, height: 18, radius: 9)),
+                        SizedBox(width: 12),
+                        ShimmerBox(width: 72, height: 24, radius: 12),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    // ID badge skeleton
+                    const ShimmerBox(width: 120, height: 32, radius: 8),
+                    const SizedBox(height: 16),
+                    ...List.generate(
+                      5,
+                      (_) => const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 6),
+                        child: Row(
+                          children: [
+                            ShimmerBox(width: 16, height: 16, radius: 4),
+                            SizedBox(width: 10),
+                            ShimmerBox(width: 60, height: 12, radius: 6),
+                            SizedBox(width: 8),
+                            ShimmerBox(width: 120, height: 12, radius: 6),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+            // Notes card
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const ShimmerBox(width: 55, height: 14, radius: 7),
+                    const SizedBox(height: 10),
+                    ...List.generate(
+                      3,
+                      (_) => const Padding(
+                        padding: EdgeInsets.only(bottom: 6),
+                        child: ShimmerBox(
+                            width: double.infinity, height: 13, radius: 6),
+                      ),
+                    ),
+                    const ShimmerBox(width: 140, height: 13, radius: 6),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+            // Pipeline card
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const ShimmerBox(width: 110, height: 14, radius: 7),
+                    const SizedBox(height: 14),
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: List.generate(
+                        4,
+                        (_) =>
+                            const ShimmerBox(width: 88, height: 32, radius: 16),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ─── Sub-widgets ─────────────────────────────────────────────────
 
 class _Row extends StatelessWidget {
   final IconData icon;

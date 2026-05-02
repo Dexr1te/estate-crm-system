@@ -2,14 +2,19 @@
 // Enums
 // ─────────────────────────────────────────────
 
+// ignore: constant_identifier_names
 enum Role { ADMIN, AGENT }
 
+// ignore: constant_identifier_names
 enum ClientType { BUYER, SELLER }
 
+// ignore: constant_identifier_names
 enum PropertyType { APARTMENT, HOUSE, COMMERCIAL, LAND, OFFICE }
 
+// ignore: constant_identifier_names
 enum PropertyStatus { AVAILABLE, RESERVED, SOLD }
 
+// ignore: constant_identifier_names
 enum DealStatus { LEAD, NEGOTIATION, CLOSED_WON, CLOSED_LOST }
 
 // ─────────────────────────────────────────────
@@ -100,8 +105,12 @@ class ClientResponse {
         notes: json['notes'],
         agentId: json['agentId'],
         agentName: json['agentName'],
-        createdAt: json['createdAt'] != null ? DateTime.parse(json['createdAt']) : null,
-        updatedAt: json['updatedAt'] != null ? DateTime.parse(json['updatedAt']) : null,
+        createdAt: json['createdAt'] != null
+            ? DateTime.parse(json['createdAt'])
+            : null,
+        updatedAt: json['updatedAt'] != null
+            ? DateTime.parse(json['updatedAt'])
+            : null,
       );
 }
 
@@ -139,10 +148,15 @@ class ClientListItem {
                 orElse: () => DealStatus.LEAD,
               )
             : null,
-        budget: json['budget'] != null ? (json['budget'] as num).toDouble() : null,
+        budget:
+            json['budget'] != null ? (json['budget'] as num).toDouble() : null,
         propertyTitle: json['propertyTitle'],
-        nextMeetingAt: json['nextMeetingAt'] != null ? DateTime.parse(json['nextMeetingAt']) : null,
-        lastContactAt: json['lastContactAt'] != null ? DateTime.parse(json['lastContactAt']) : null,
+        nextMeetingAt: json['nextMeetingAt'] != null
+            ? DateTime.parse(json['nextMeetingAt'])
+            : null,
+        lastContactAt: json['lastContactAt'] != null
+            ? DateTime.parse(json['lastContactAt'])
+            : null,
       );
 }
 
@@ -187,7 +201,8 @@ class PropertyResponse {
     this.updatedAt,
   });
 
-  factory PropertyResponse.fromJson(Map<String, dynamic> json) => PropertyResponse(
+  factory PropertyResponse.fromJson(Map<String, dynamic> json) =>
+      PropertyResponse(
         id: json['id'],
         title: json['title'] ?? '',
         description: json['description'],
@@ -202,14 +217,20 @@ class PropertyResponse {
           orElse: () => PropertyStatus.AVAILABLE,
         ),
         price: (json['price'] as num).toDouble(),
-        areaSqm: json['areaSqm'] != null ? (json['areaSqm'] as num).toDouble() : null,
+        areaSqm: json['areaSqm'] != null
+            ? (json['areaSqm'] as num).toDouble()
+            : null,
         rooms: json['rooms'],
         floor: json['floor'],
         totalFloors: json['totalFloors'],
         agentId: json['agentId'],
         agentName: json['agentName'],
-        createdAt: json['createdAt'] != null ? DateTime.parse(json['createdAt']) : null,
-        updatedAt: json['updatedAt'] != null ? DateTime.parse(json['updatedAt']) : null,
+        createdAt: json['createdAt'] != null
+            ? DateTime.parse(json['createdAt'])
+            : null,
+        updatedAt: json['updatedAt'] != null
+            ? DateTime.parse(json['updatedAt'])
+            : null,
       );
 }
 
@@ -261,8 +282,11 @@ class DealResponse {
           (e) => e.name == json['status'],
           orElse: () => DealStatus.LEAD,
         ),
-        dealPrice: json['dealPrice'] != null ? (json['dealPrice'] as num).toDouble() : null,
-        budget: json['budget'] != null ? (json['budget'] as num).toDouble() : null,
+        dealPrice: json['dealPrice'] != null
+            ? (json['dealPrice'] as num).toDouble()
+            : null,
+        budget:
+            json['budget'] != null ? (json['budget'] as num).toDouble() : null,
         notes: json['notes'],
         clientId: json['clientId'],
         clientName: json['clientName'] ?? '',
@@ -271,9 +295,14 @@ class DealResponse {
         propertyAddress: json['propertyAddress'],
         agentId: json['agentId'],
         agentName: json['agentName'] ?? '',
-        createdAt: json['createdAt'] != null ? DateTime.parse(json['createdAt']) : null,
-        updatedAt: json['updatedAt'] != null ? DateTime.parse(json['updatedAt']) : null,
-        closedAt: json['closedAt'] != null ? DateTime.parse(json['closedAt']) : null,
+        createdAt: json['createdAt'] != null
+            ? DateTime.parse(json['createdAt'])
+            : null,
+        updatedAt: json['updatedAt'] != null
+            ? DateTime.parse(json['updatedAt'])
+            : null,
+        closedAt:
+            json['closedAt'] != null ? DateTime.parse(json['closedAt']) : null,
       );
 }
 
@@ -314,7 +343,8 @@ class MeetingResponse {
     this.updatedAt,
   });
 
-  factory MeetingResponse.fromJson(Map<String, dynamic> json) => MeetingResponse(
+  factory MeetingResponse.fromJson(Map<String, dynamic> json) =>
+      MeetingResponse(
         id: json['id'],
         title: json['title'] ?? '',
         description: json['description'],
@@ -327,8 +357,12 @@ class MeetingResponse {
         agentName: json['agentName'] ?? '',
         clientId: json['clientId'],
         clientName: json['clientName'] ?? '',
-        createdAt: json['createdAt'] != null ? DateTime.parse(json['createdAt']) : null,
-        updatedAt: json['updatedAt'] != null ? DateTime.parse(json['updatedAt']) : null,
+        createdAt: json['createdAt'] != null
+            ? DateTime.parse(json['createdAt'])
+            : null,
+        updatedAt: json['updatedAt'] != null
+            ? DateTime.parse(json['updatedAt'])
+            : null,
       );
 }
 
@@ -345,7 +379,8 @@ class UpcomingMeetingResponse {
     required this.clientName,
   });
 
-  factory UpcomingMeetingResponse.fromJson(Map<String, dynamic> json) => UpcomingMeetingResponse(
+  factory UpcomingMeetingResponse.fromJson(Map<String, dynamic> json) =>
+      UpcomingMeetingResponse(
         id: json['id'],
         title: json['title'] ?? '',
         scheduledAt: DateTime.parse(json['scheduledAt']),
@@ -372,7 +407,8 @@ class DashboardSummary {
     required this.upcomingMeetings,
   });
 
-  factory DashboardSummary.fromJson(Map<String, dynamic> json) => DashboardSummary(
+  factory DashboardSummary.fromJson(Map<String, dynamic> json) =>
+      DashboardSummary(
         totalDeals: json['totalDeals'] ?? 0,
         activeDeals: json['activeDeals'] ?? 0,
         closedDeals: json['closedDeals'] ?? 0,

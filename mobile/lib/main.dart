@@ -35,6 +35,7 @@ class _MyAppState extends State<MyApp> {
   late final PropertiesBloc _propertiesBloc;
   late final DealsBloc _dealsBloc;
   late final MeetingsBloc _meetingsBloc;
+  // ignore: prefer_typing_uninitialized_variables
   late final router;
 
   @override

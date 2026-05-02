@@ -1,8 +1,9 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-const _baseUrl = 'http://192.168.0.223:8080/api';
+const _baseUrl = 'https://estate-crm-system-production.up.railway.app/api';
 
 class ApiService {
   static final ApiService _instance = ApiService._internal();
@@ -16,11 +17,23 @@ class ApiService {
   void init() {
     _dio = Dio(BaseOptions(
       baseUrl: _baseUrl,
-      connectTimeout: const Duration(seconds: 10),
-      receiveTimeout: const Duration(seconds: 15),
+      connectTimeout: const Duration(seconds: 15),
+      receiveTimeout: const Duration(seconds: 20),
       headers: {'Content-Type': 'application/json'},
     ));
 
+    // ── Logging (only in debug mode) ──────────────────────────
+    if (kDebugMode) {
+      _dio.interceptors.add(LogInterceptor(
+        requestBody: true,
+        responseBody: true,
+        responseHeader: false,
+        error: true,
+        logPrint: (o) => debugPrint('[API] $o'),
+      ));
+    }
+
+    // ── Auth + refresh interceptor ────────────────────────────
     _dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) async {
         if (_accessToken != null) {
@@ -33,7 +46,6 @@ class ApiService {
           try {
             final newAuth = await _doRefresh(_refreshToken!);
             await saveAuth(newAuth);
-            // Retry original request
             final opts = error.requestOptions;
             opts.headers['Authorization'] = 'Bearer $_accessToken';
             final response = await _dio.fetch(opts);
@@ -47,6 +59,10 @@ class ApiService {
       },
     ));
   }
+
+  // ──────────────────────────────────────────
+  // Token / session management
+  // ──────────────────────────────────────────
 
   Future<void> loadAuth() async {
     final prefs = await SharedPreferences.getInstance();
@@ -103,6 +119,46 @@ class ApiService {
   }
 
   // ──────────────────────────────────────────
+  // Error parser
+  // ──────────────────────────────────────────
+
+  String parseError(dynamic e) {
+    if (e is DioException) {
+      debugPrint(
+          '[API ERROR] type: ${e.type} | status: ${e.response?.statusCode} | data: ${e.response?.data}');
+      final status = e.response?.statusCode;
+
+      // Try to get message from backend response body
+      final data = e.response?.data;
+      if (data is Map) {
+        final msg = data['message'] ?? data['error'];
+        if (msg != null && msg.toString().isNotEmpty) {
+          return msg.toString();
+        }
+      }
+
+      if (status == 400) return 'Invalid request. Check your input.';
+      if (status == 401) return 'Invalid email or password.';
+      if (status == 403) return 'Access denied.';
+      if (status == 404) return 'Not found.';
+      if (status == 409) return 'Email already registered.';
+      if (status != null && status >= 500) {
+        return 'Server error. Try again later.';
+      }
+
+      if (e.type == DioExceptionType.connectionTimeout ||
+          e.type == DioExceptionType.receiveTimeout) {
+        return 'Connection timed out. Check your internet.';
+      }
+      if (e.type == DioExceptionType.connectionError) {
+        return 'Cannot connect to server. Check your internet.';
+      }
+    }
+    debugPrint('[API ERROR] unknown: $e');
+    return 'Something went wrong. Please try again.';
+  }
+
+  // ──────────────────────────────────────────
   // Auth
   // ──────────────────────────────────────────
 
@@ -125,7 +181,7 @@ class ApiService {
       'fullName': fullName,
       'email': email,
       'password': password,
-      if (phone != null) 'phone': phone,
+      if (phone != null && phone.isNotEmpty) 'phone': phone,
       'role': role.name,
     });
     return AuthResponse.fromJson(res.data);
