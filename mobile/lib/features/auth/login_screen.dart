@@ -32,8 +32,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final tt = Theme.of(context).textTheme;
+    final cs = Theme.of(context).colorScheme;
+
     return Scaffold(
-      backgroundColor: AppColors.background,
       body: SafeArea(
           child: BlocConsumer<AuthBloc, AuthState>(
         listener: (ctx, state) {
@@ -57,22 +59,17 @@ class _LoginScreenState extends State<LoginScreen> {
                               width: 52,
                               height: 52,
                               decoration: BoxDecoration(
-                                  color: AppColors.primary,
+                                  color: cs.primary,
                                   borderRadius: BorderRadius.circular(14)),
                               child: const Icon(Icons.home_work,
                                   color: Colors.white, size: 26)),
                           const SizedBox(height: 28),
-                          const Text('Welcome back',
-                              style: TextStyle(
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.w700,
-                                  color: AppColors.textPrimary,
-                                  fontFamily: 'Sora')),
+                          Text('Welcome back',
+                              style: tt.titleLarge?.copyWith(
+                                  fontSize: 28, fontWeight: FontWeight.w700)),
                           const SizedBox(height: 8),
-                          const Text('Sign in to your Estate CRM account',
-                              style: TextStyle(
-                                  fontSize: 15,
-                                  color: AppColors.textSecondary)),
+                          Text('Sign in to your Estate CRM account',
+                              style: tt.bodySmall?.copyWith(fontSize: 15)),
                           const SizedBox(height: 36),
                           Form(
                               key: _formKey,
@@ -131,9 +128,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const Text("Don't have an account? ",
-                                    style: TextStyle(
-                                        color: AppColors.textSecondary)),
+                                Text("Don't have an account? ",
+                                    style: tt.bodySmall),
                                 TextButton(
                                     onPressed: () => context.go('/register'),
                                     child: const Text('Register')),
