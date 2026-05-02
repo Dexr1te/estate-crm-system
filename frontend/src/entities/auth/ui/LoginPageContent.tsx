@@ -134,9 +134,6 @@ const AuthWidget = () => {
           {/* Footer */}
           <div className="mt-8 pt-6 border-t border-zinc-800 text-center text-xs text-zinc-600 leading-relaxed">
             No access? Contact your administrator.
-            <br />
-            Registration via{' '}
-            <code className="text-zinc-500 font-mono">/auth/register</code>.
           </div>
         </div>
       </div>
