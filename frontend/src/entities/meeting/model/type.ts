@@ -1,16 +1,18 @@
-// ==== Типы данных ====
-
 export interface Meeting {
   id: number
   title: string
-  description?: string
+  description?: string | null
   scheduledAt: string
-  completed?: boolean
-
-  location?: string
-  agentName?: string
-  dealTitle?: string
-  clientName?: string
+  location?: string | null
+  completed: boolean
+  dealId?: number | null
+  dealTitle?: string | null
+  agentId: number
+  agentName: string
+  clientId: number
+  clientName: string
+  createdAt?: string
+  updatedAt?: string
 }
 
 export interface CreateMeetingDto {
@@ -19,20 +21,26 @@ export interface CreateMeetingDto {
   scheduledAt: string
   location?: string
   dealId?: number
-  agentId?: number
-  clientId?: number
+  agentId: number
+  clientId: number
 }
+
 export interface MeetingEditable {
   id: number
-  title: string
-  description?: string
-  scheduledAt: string
-  location?: string
-
+  title?: string
+  description?: string | null
+  scheduledAt?: string
+  location?: string | null
   agentId?: number
-  dealId?: number
+  dealId?: number | null
   clientId?: number
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface UpdateMeetingDto extends Partial<CreateMeetingDto> {}
+export type UpdateMeetingDto = CreateMeetingDto
+
+export interface UpcomingMeetingItem {
+  id: number
+  title: string
+  scheduledAt: string
+  clientName: string
+}

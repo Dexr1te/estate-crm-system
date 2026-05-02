@@ -7,8 +7,6 @@ export const LoginForm = () => {
     showPassword,
     setEmail,
     setPassword,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    setShowPassword,
     handleSubmit,
     loading,
     error

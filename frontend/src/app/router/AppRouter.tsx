@@ -11,6 +11,10 @@ import { DashboardPage } from '@/pages/DashboardPage'
 import { ClientsPage } from '@/pages/ClientsPage'
 import { PropertiesPage } from '@/pages/PropertiesPage'
 import { DealsPage } from '@/pages/DealsPage'
+import { AgentsPage } from '@/pages/AgentsPage'
+import { HelpPage } from '@/pages/HelpPage'
+import { ProfilePage } from '@/pages/ProfilePage'
+import { SettingsPage } from '@/pages/SettingsPage'
 
 export function AppRouter() {
   return (
@@ -40,6 +44,10 @@ export function AppRouter() {
             <Route path="/deals" element={<DealsPage />} />
             <Route path="/meetings" element={<MeetingsPage />} />
             <Route path="/upcoming" element={<UpcomingPage />} />
+            <Route path="/agents" element={<AgentsPage />} />
+            <Route path="/help" element={<HelpPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/settings" element={<SettingsPage />} />
           </Route>
         </Route>
 
