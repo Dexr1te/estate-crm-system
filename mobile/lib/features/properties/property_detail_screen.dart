@@ -255,8 +255,12 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                                                           ? cs.primary
                                                           : null,
                                                       foregroundColor: sel
-                                                          ? cs.onPrimary
+                                                          ? Colors.white
                                                           : tt.bodySmall?.color,
+                                                      disabledBackgroundColor:
+                                                          cs.primary,
+                                                      disabledForegroundColor:
+                                                          Colors.white,
                                                       side: BorderSide(
                                                           color: sel
                                                               ? cs.primary
@@ -303,7 +307,6 @@ class _PropertyDetailSkeleton extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Hero card
             const Card(
               child: Padding(
                 padding: EdgeInsets.all(20),
@@ -320,10 +323,8 @@ class _PropertyDetailSkeleton extends StatelessWidget {
                       ],
                     ),
                     SizedBox(height: 10),
-                    // Price
                     ShimmerBox(width: 130, height: 28, radius: 8),
                     SizedBox(height: 10),
-                    // Address
                     Row(
                       children: [
                         ShimmerBox(width: 15, height: 15, radius: 4),
@@ -332,17 +333,14 @@ class _PropertyDetailSkeleton extends StatelessWidget {
                       ],
                     ),
                     SizedBox(height: 6),
-                    // City
                     ShimmerBox(width: 100, height: 12, radius: 6),
                     SizedBox(height: 14),
-                    // ID badge
                     ShimmerBox(width: 130, height: 32, radius: 8),
                   ],
                 ),
               ),
             ),
             const SizedBox(height: 12),
-            // Details card
             Card(
               child: Padding(
                 padding: const EdgeInsets.all(16),
@@ -365,7 +363,6 @@ class _PropertyDetailSkeleton extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 12),
-            // Description card
             Card(
               child: Padding(
                 padding: const EdgeInsets.all(16),
@@ -388,7 +385,6 @@ class _PropertyDetailSkeleton extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 12),
-            // Status buttons card
             Card(
               child: Padding(
                 padding: const EdgeInsets.all(16),

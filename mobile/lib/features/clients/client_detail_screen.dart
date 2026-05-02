@@ -18,6 +18,7 @@ class ClientDetailScreen extends StatefulWidget {
 
 class _ClientDetailScreenState extends State<ClientDetailScreen> {
   ClientResponse? _client;
+  List<DealResponse> _deals = [];
   bool _loading = true;
 
   @override
@@ -29,9 +30,15 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
   Future<void> _load() async {
     setState(() => _loading = true);
     try {
-      final c = await ApiService().getClient(widget.id);
+      final results = await Future.wait([
+        ApiService().getClient(widget.id),
+        ApiService().getDeals(),
+      ]);
+      final client = results[0] as ClientResponse;
+      final allDeals = results[1] as List<DealResponse>;
       setState(() {
-        _client = c;
+        _client = client;
+        _deals = allDeals.where((d) => d.clientId == widget.id).toList();
         _loading = false;
       });
     } catch (_) {
@@ -77,6 +84,7 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        // ── Profile card ──
                         Card(
                             child: Padding(
                                 padding: const EdgeInsets.all(20),
@@ -149,6 +157,8 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
                                     ),
                                   ),
                                 ]))),
+
+                        // ── Contact card ──
                         const SizedBox(height: 12),
                         _InfoCard(title: 'Contact', rows: [
                           if (_client!.email != null)
@@ -161,6 +171,54 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
                             _InfoRow(Icons.person_outlined, 'Agent',
                                 _client!.agentName!),
                         ]),
+
+                        // ── Deals card ──
+                        if (_deals.isNotEmpty) ...[
+                          const SizedBox(height: 12),
+                          Card(
+                            child: Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(children: [
+                                    Expanded(
+                                      child: Text(
+                                        'Deals',
+                                        style: tt.bodyLarge?.copyWith(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 14),
+                                      ),
+                                    ),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8, vertical: 3),
+                                      decoration: BoxDecoration(
+                                        color: cs.primary.withAlpha(20),
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      child: Text(
+                                        '${_deals.length}',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w700,
+                                          color: cs.primary,
+                                          fontFamily: 'Sora',
+                                        ),
+                                      ),
+                                    ),
+                                  ]),
+                                  const SizedBox(height: 8),
+                                  const Divider(height: 1),
+                                  const SizedBox(height: 4),
+                                  ..._deals.map((deal) => _DealRow(deal: deal)),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+
+                        // ── Notes card ──
                         if (_client!.notes != null &&
                             _client!.notes!.isNotEmpty) ...[
                           const SizedBox(height: 12),
@@ -182,6 +240,8 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
                                                 height: 1.5)),
                                       ]))),
                         ],
+
+                        // ── Timestamps card ──
                         if (_client!.createdAt != null) ...[
                           const SizedBox(height: 12),
                           _InfoCard(title: 'Timestamps', rows: [
@@ -193,6 +253,72 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
                           ]),
                         ],
                       ])),
+    );
+  }
+}
+
+// ─── Deal Row ────────────────────────────────────────────────────
+
+class _DealRow extends StatelessWidget {
+  final DealResponse deal;
+  const _DealRow({required this.deal});
+
+  @override
+  Widget build(BuildContext context) {
+    final tt = Theme.of(context).textTheme;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // ── Title + status ──
+          Row(children: [
+            Expanded(
+              child: Text(
+                deal.title,
+                style: tt.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            const SizedBox(width: 8),
+            DealStatusChip(status: deal.status),
+          ]),
+
+          // ── Property ──
+          if (deal.propertyTitle != null) ...[
+            const SizedBox(height: 4),
+            Row(children: [
+              Icon(Icons.home_outlined, size: 13, color: tt.bodySmall?.color),
+              const SizedBox(width: 4),
+              Flexible(
+                child: Text(
+                  deal.propertyTitle!,
+                  style: tt.bodySmall,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ]),
+          ],
+
+          // ── Budget / deal price ──
+          if (deal.budget != null || deal.dealPrice != null) ...[
+            const SizedBox(height: 4),
+            Row(children: [
+              Icon(Icons.account_balance_wallet_outlined,
+                  size: 13, color: tt.bodySmall?.color),
+              const SizedBox(width: 4),
+              Text(
+                formatPrice((deal.dealPrice ?? deal.budget)!),
+                style: tt.bodySmall?.copyWith(fontWeight: FontWeight.w600),
+              ),
+            ]),
+          ],
+
+          const SizedBox(height: 10),
+          const Divider(height: 1),
+        ],
+      ),
     );
   }
 }
@@ -264,6 +390,48 @@ class _ClientDetailSkeleton extends StatelessWidget {
                             ShimmerBox(width: 55, height: 12, radius: 6),
                             SizedBox(width: 8),
                             ShimmerBox(width: 130, height: 12, radius: 6),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+            // Deals card skeleton
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Row(children: [
+                      ShimmerBox(width: 50, height: 14, radius: 7),
+                      Spacer(),
+                      ShimmerBox(width: 24, height: 20, radius: 10),
+                    ]),
+                    const SizedBox(height: 8),
+                    const Divider(height: 1),
+                    const SizedBox(height: 4),
+                    ...List.generate(
+                      2,
+                      (_) => const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(children: [
+                              ShimmerBox(width: 160, height: 13, radius: 6),
+                              Spacer(),
+                              ShimmerBox(width: 64, height: 22, radius: 12),
+                            ]),
+                            SizedBox(height: 4),
+                            ShimmerBox(width: 120, height: 12, radius: 6),
+                            SizedBox(height: 4),
+                            ShimmerBox(width: 80, height: 12, radius: 6),
+                            SizedBox(height: 10),
+                            Divider(height: 1),
                           ],
                         ),
                       ),

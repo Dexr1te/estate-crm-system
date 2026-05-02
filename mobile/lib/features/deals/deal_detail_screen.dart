@@ -104,7 +104,6 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
                                         DealStatusChip(status: _d!.status)
                                       ]),
                                       const SizedBox(height: 10),
-                                      // ── Deal ID badge (tap to copy) ──
                                       GestureDetector(
                                         onTap: _copyId,
                                         child: Container(
@@ -216,9 +215,10 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
                                                     ? null
                                                     : (_) => _updateStatus(s),
                                                 selectedColor: cs.primary,
+                                                disabledColor: cs.primary,
                                                 labelStyle: TextStyle(
                                                     color: sel
-                                                        ? cs.onPrimary
+                                                        ? Colors.white
                                                         : tt.bodyMedium?.color,
                                                     fontWeight:
                                                         FontWeight.w600));
@@ -249,7 +249,6 @@ class _DealDetailSkeleton extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Main info card
             Card(
               child: Padding(
                 padding: const EdgeInsets.all(20),
@@ -266,7 +265,6 @@ class _DealDetailSkeleton extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 12),
-                    // ID badge skeleton
                     const ShimmerBox(width: 120, height: 32, radius: 8),
                     const SizedBox(height: 16),
                     ...List.generate(
@@ -289,7 +287,6 @@ class _DealDetailSkeleton extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 12),
-            // Notes card
             Card(
               child: Padding(
                 padding: const EdgeInsets.all(16),
@@ -312,7 +309,6 @@ class _DealDetailSkeleton extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 12),
-            // Pipeline card
             Card(
               child: Padding(
                 padding: const EdgeInsets.all(16),

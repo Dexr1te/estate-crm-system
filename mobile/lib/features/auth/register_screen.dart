@@ -42,8 +42,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final tt = Theme.of(context).textTheme;
+    final cs = Theme.of(context).colorScheme;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
-      backgroundColor: AppColors.background,
       body: SafeArea(
         child: BlocConsumer<AuthBloc, AuthState>(
           listener: (ctx, state) {
@@ -67,21 +70,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             width: 52,
                             height: 52,
                             decoration: BoxDecoration(
-                                color: AppColors.primary,
+                                color: cs.primary,
                                 borderRadius: BorderRadius.circular(14)),
                             child: const Icon(Icons.home_work,
                                 color: Colors.white, size: 26)),
                         const SizedBox(height: 28),
-                        const Text('Create account',
-                            style: TextStyle(
-                                fontSize: 28,
-                                fontWeight: FontWeight.w700,
-                                color: AppColors.textPrimary,
-                                fontFamily: 'Sora')),
+                        Text('Create account',
+                            style: tt.titleLarge?.copyWith(
+                                fontSize: 28, fontWeight: FontWeight.w700)),
                         const SizedBox(height: 8),
-                        const Text('Join Estate CRM',
-                            style: TextStyle(
-                                fontSize: 15, color: AppColors.textSecondary)),
+                        Text('Join Estate CRM',
+                            style: tt.bodySmall?.copyWith(fontSize: 15)),
                         const SizedBox(height: 36),
                         Form(
                             key: _formKey,
@@ -145,35 +144,38 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     return null;
                                   }),
                               const SizedBox(height: 12),
+                              // ── Role picker ──
                               Container(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 16, vertical: 4),
                                 decoration: BoxDecoration(
-                                    color: AppColors.surfaceVariant,
+                                    color: isDark
+                                        ? AppColors.darkSurfaceVariant
+                                        : AppColors.surfaceVariant,
                                     borderRadius: BorderRadius.circular(12),
                                     border: Border.all(
-                                        color: const Color(0xFFE8ECF4))),
+                                        color: isDark
+                                            ? AppColors.darkBorder
+                                            : const Color(0xFFE8ECF4))),
                                 child: Row(children: [
-                                  const Icon(Icons.badge_outlined,
-                                      size: 20, color: AppColors.textSecondary),
+                                  Icon(Icons.badge_outlined,
+                                      size: 20, color: tt.bodySmall?.color),
                                   const SizedBox(width: 12),
-                                  const Text('Role',
-                                      style: TextStyle(
-                                          color: AppColors.textSecondary,
-                                          fontSize: 14)),
+                                  Text('Role', style: tt.bodySmall),
                                   const Spacer(),
                                   DropdownButtonHideUnderline(
                                       child: DropdownButton<Role>(
                                     value: _role,
+                                    dropdownColor: isDark
+                                        ? AppColors.darkSurface
+                                        : AppColors.surface,
+                                    style: tt.bodyMedium?.copyWith(
+                                        fontFamily: 'Sora', fontSize: 14),
                                     onChanged: (r) =>
                                         setState(() => _role = r!),
                                     items: Role.values
                                         .map((r) => DropdownMenuItem(
-                                            value: r,
-                                            child: Text(r.name,
-                                                style: const TextStyle(
-                                                    fontFamily: 'Sora',
-                                                    fontSize: 14))))
+                                            value: r, child: Text(r.name)))
                                         .toList(),
                                   )),
                                 ]),
@@ -194,9 +196,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Text('Already have an account? ',
-                                  style: TextStyle(
-                                      color: AppColors.textSecondary)),
+                              Text('Already have an account? ',
+                                  style: tt.bodySmall),
                               TextButton(
                                   onPressed: () => context.go('/login'),
                                   child: const Text('Sign In')),
