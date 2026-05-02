@@ -92,6 +92,13 @@ export function MeetingCard({ meeting, onEdit }: MeetingCardProps) {
             </span>
           )}
 
+          {meeting.clientName && (
+            <span className="flex items-center gap-1.5">
+              <User className="h-3.5 w-3.5 shrink-0" />
+              {meeting.clientName}
+            </span>
+          )}
+
           {meeting.dealTitle && (
             <span className="flex items-center gap-1.5">
               <Briefcase className="h-3.5 w-3.5 shrink-0" />
@@ -106,7 +113,7 @@ export function MeetingCard({ meeting, onEdit }: MeetingCardProps) {
               size="sm"
               variant="outline"
               className="h-7 text-xs gap-1.5"
-              onClick={() => complete(String(meeting.id))}
+              onClick={() => complete(meeting.id)}
               disabled={isPending}
             >
               {isPending ? (
@@ -118,14 +125,16 @@ export function MeetingCard({ meeting, onEdit }: MeetingCardProps) {
             </Button>
           )}
 
-          <Button
-            size="sm"
-            variant="ghost"
-            className="h-7 text-xs ml-auto"
-            onClick={() => onEdit(meeting)}
-          >
-            Edit
-          </Button>
+          {onEdit && (
+            <Button
+              size="sm"
+              variant="ghost"
+              className="h-7 text-xs ml-auto"
+              onClick={() => onEdit(meeting)}
+            >
+              Edit
+            </Button>
+          )}
         </div>
       </div>
     </div>

@@ -65,9 +65,11 @@ export function AgentsPage() {
   }
 
   return (
-    <div className="flex-1 space-y-6 p-6">
-      <div className="flex items-center justify-between">
-        <h2 className="text-3xl font-bold tracking-tight">Agent Management</h2>
+    <div className="flex-1 space-y-6 p-4 md:p-6">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <h2 className="text-2xl font-bold tracking-tight md:text-3xl">
+          Agent Management
+        </h2>
         <Button onClick={() => setCreateDialogOpen(true)}>
           <Plus className="mr-2 size-4" />
           Create Agent
