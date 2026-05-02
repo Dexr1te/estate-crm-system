@@ -6,7 +6,6 @@ import {
   Handshake,
   Calendar,
   Bell,
-  ShieldCheck,
   Settings,
   HelpCircle,
   LogOut,
@@ -44,7 +43,7 @@ import { useAuthStore } from '@/entities/auth/model/authStore'
 // ─── Nav config ──────────────────────────────────────────────────────────────
 
 const navMain = [
-  { title: 'Dashboard', url: '/dashboard', icon: LayoutDashboard },
+  { title: 'Dashboard', url: '/', icon: LayoutDashboard },
   { title: 'Clients', url: '/clients', icon: Users },
   { title: 'Properties', url: '/properties', icon: Building2 },
   { title: 'Deals', url: '/deals', icon: Handshake },
@@ -77,12 +76,6 @@ export function AppSidebar() {
   const { isMobile } = useSidebar()
 
   const { fullName, email, role, clearAuth } = useAuthStore()
-  const navItems = [
-    ...navMain,
-    ...(role === 'ADMIN'
-      ? [{ title: 'Agents', url: '/agents', icon: ShieldCheck }]
-      : [])
-  ]
 
   const handleLogout = () => {
     clearAuth()
@@ -97,7 +90,7 @@ export function AppSidebar() {
           <SidebarMenuItem>
             <SidebarMenuButton
               size="lg"
-              onClick={() => navigate('/dashboard')}
+              onClick={() => navigate('/')}
               className="gap-3"
             >
               {/* Diamond brand mark */}
@@ -121,7 +114,7 @@ export function AppSidebar() {
           <SidebarGroupLabel>Navigation</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {navItems.map((item) => {
+              {navMain.map((item) => {
                 const active = pathname === item.url
                 return (
                   <SidebarMenuItem key={item.url}>
@@ -218,6 +211,10 @@ export function AppSidebar() {
                   <DropdownMenuItem onClick={() => navigate('/profile')}>
                     <UserCircle className="mr-2 size-4" />
                     Profile
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate('/settings')}>
+                    <Settings className="mr-2 size-4" />
+                    Settings
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
 

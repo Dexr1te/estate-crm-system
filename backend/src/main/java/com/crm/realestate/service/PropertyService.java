@@ -32,11 +32,7 @@ public class PropertyService {
 
     public List<PropertyResponse> filter(PropertyStatus status, PropertyType type,
                                           String city, BigDecimal minPrice, BigDecimal maxPrice) {
-        String normalizedCity = (city == null || city.isBlank())
-                ? null
-                : city.trim().toLowerCase();
-
-        return propertyRepository.filterProperties(status, type, normalizedCity, minPrice, maxPrice)
+        return propertyRepository.filterProperties(status, type, city, minPrice, maxPrice)
                 .stream().map(this::toResponse).collect(Collectors.toList());
     }
 

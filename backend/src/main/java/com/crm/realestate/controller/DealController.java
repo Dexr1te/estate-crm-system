@@ -18,7 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/deals")
 @RequiredArgsConstructor
-@Tag(name = "Deals", description = "Sales pipeline: LEAD → NEGOTIATION → CLOSED_WON / CLOSED_LOST")
+@Tag(name = "Deals", description = "Sales pipeline: LEAD → NEGOTIATION → CLOSED")
 @SecurityRequirement(name = "bearerAuth")
 public class DealController {
 
