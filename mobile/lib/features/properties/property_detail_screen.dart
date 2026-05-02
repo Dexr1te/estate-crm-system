@@ -4,8 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/services/api_service.dart';
-import 'package:real_estate_crm/core/theme/app_theme.dart';
 import 'package:real_estate_crm/features/widgets/shared_widgets.dart';
+import 'package:shimmer/shimmer.dart';
 import 'properties_bloc.dart';
 
 class PropertyDetailScreen extends StatefulWidget {
@@ -42,6 +42,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
     final ok = await showConfirmDialog(context,
         title: 'Delete Property', content: 'Delete "${_p!.title}"?');
     if (!ok) return;
+    // ignore: use_build_context_synchronously
     context.read<PropertiesBloc>().add(PropertiesDeleteEvent(widget.id));
     if (mounted) context.go('/properties');
   }
@@ -79,7 +80,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                       onPressed: _delete),
                 ]),
       body: _loading
-          ? const LoadingWidget()
+          ? const _PropertyDetailSkeleton()
           : _p == null
               ? const EmptyState(
                   title: 'Property not found', icon: Icons.home_work_outlined)
@@ -137,13 +138,12 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 10, vertical: 6),
                                           decoration: BoxDecoration(
-                                              color: cs.secondary
-                                                  .withOpacity(0.08),
+                                              color: cs.secondary.withAlpha(20),
                                               borderRadius:
                                                   BorderRadius.circular(8),
                                               border: Border.all(
                                                   color: cs.secondary
-                                                      .withOpacity(0.25))),
+                                                      .withAlpha(64))),
                                           child: Row(
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
@@ -282,6 +282,145 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
     );
   }
 }
+
+// ─── Skeleton ────────────────────────────────────────────────────
+
+class _PropertyDetailSkeleton extends StatelessWidget {
+  const _PropertyDetailSkeleton();
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final base = isDark ? const Color(0xFF252A3D) : const Color(0xFFE8ECF4);
+    final highlight =
+        isDark ? const Color(0xFF353B52) : const Color(0xFFF5F7FC);
+
+    return Shimmer.fromColors(
+      baseColor: base,
+      highlightColor: highlight,
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Hero card
+            const Card(
+              child: Padding(
+                padding: EdgeInsets.all(20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                            child:
+                                ShimmerBox(width: 180, height: 20, radius: 10)),
+                        SizedBox(width: 12),
+                        ShimmerBox(width: 76, height: 24, radius: 12),
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                    // Price
+                    ShimmerBox(width: 130, height: 28, radius: 8),
+                    SizedBox(height: 10),
+                    // Address
+                    Row(
+                      children: [
+                        ShimmerBox(width: 15, height: 15, radius: 4),
+                        SizedBox(width: 4),
+                        ShimmerBox(width: 190, height: 12, radius: 6),
+                      ],
+                    ),
+                    SizedBox(height: 6),
+                    // City
+                    ShimmerBox(width: 100, height: 12, radius: 6),
+                    SizedBox(height: 14),
+                    // ID badge
+                    ShimmerBox(width: 130, height: 32, radius: 8),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+            // Details card
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const ShimmerBox(width: 60, height: 14, radius: 7),
+                    const SizedBox(height: 14),
+                    Wrap(
+                      spacing: 16,
+                      runSpacing: 10,
+                      children: List.generate(
+                        5,
+                        (_) =>
+                            const ShimmerBox(width: 90, height: 14, radius: 7),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+            // Description card
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const ShimmerBox(width: 100, height: 14, radius: 7),
+                    const SizedBox(height: 10),
+                    ...List.generate(
+                      3,
+                      (_) => const Padding(
+                        padding: EdgeInsets.only(bottom: 6),
+                        child: ShimmerBox(
+                            width: double.infinity, height: 13, radius: 6),
+                      ),
+                    ),
+                    const ShimmerBox(width: 150, height: 13, radius: 6),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+            // Status buttons card
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const ShimmerBox(width: 110, height: 14, radius: 7),
+                    const SizedBox(height: 14),
+                    Row(
+                      children: List.generate(
+                        3,
+                        (i) => Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.only(right: i < 2 ? 8 : 0),
+                            child: const ShimmerBox(
+                                width: double.infinity, height: 40, radius: 8),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ─── Sub-widgets ─────────────────────────────────────────────────
 
 class _Spec extends StatelessWidget {
   final IconData icon;

@@ -32,7 +32,6 @@ class MainScaffold extends StatelessWidget {
     final location = GoRouterState.of(context).matchedLocation;
     final index = _locationIndex(location);
     final isWide = MediaQuery.of(context).size.width >= 800;
-    final cs = Theme.of(context).colorScheme;
 
     if (isWide) {
       return Scaffold(
@@ -172,10 +171,10 @@ class _SideNav extends StatelessWidget {
                     overflow: TextOverflow.ellipsis),
                 subtitle: Text(user?.role.name ?? '',
                     style: TextStyle(
-                        fontSize: 11, color: cs.onSurface.withOpacity(0.5))),
+                        fontSize: 11, color: cs.onSurface.withAlpha(128))),
                 trailing: IconButton(
                     icon: Icon(Icons.logout,
-                        size: 18, color: cs.onSurface.withOpacity(0.5)),
+                        size: 18, color: cs.onSurface.withAlpha(128)),
                     onPressed: () =>
                         ctx.read<AuthBloc>().add(AuthLogoutEvent()),
                     tooltip: 'Logout'),
@@ -213,13 +212,13 @@ class _NavItem extends StatelessWidget {
           duration: const Duration(milliseconds: 150),
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           decoration: BoxDecoration(
-            color: selected ? cs.primary.withOpacity(0.1) : Colors.transparent,
+            color: selected ? cs.primary.withAlpha(26) : Colors.transparent,
             borderRadius: BorderRadius.circular(10),
           ),
           child: Row(children: [
             Icon(selected ? activeIcon : icon,
                 size: 20,
-                color: selected ? cs.primary : cs.onSurface.withOpacity(0.4)),
+                color: selected ? cs.primary : cs.onSurface.withAlpha(102)),
             const SizedBox(width: 12),
             Text(label,
                 style: TextStyle(
@@ -227,7 +226,7 @@ class _NavItem extends StatelessWidget {
                     fontSize: 13,
                     fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
                     color:
-                        selected ? cs.primary : cs.onSurface.withOpacity(0.6))),
+                        selected ? cs.primary : cs.onSurface.withAlpha(153))),
           ]),
         ),
       ),

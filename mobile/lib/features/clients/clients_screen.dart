@@ -172,7 +172,7 @@ class _ClientCard extends StatelessWidget {
             Row(children: [
               CircleAvatar(
                   radius: 20,
-                  backgroundColor: cs.primary.withOpacity(0.1),
+                  backgroundColor: cs.primary.withAlpha(26),
                   child: Text(
                       client.fullName.isNotEmpty
                           ? client.fullName[0].toUpperCase()

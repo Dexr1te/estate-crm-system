@@ -6,6 +6,7 @@ import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/services/api_service.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
 import 'package:real_estate_crm/features/widgets/shared_widgets.dart';
+import 'package:shimmer/shimmer.dart';
 import 'clients_bloc.dart';
 
 class ClientDetailScreen extends StatefulWidget {
@@ -67,7 +68,7 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
               ],
       ),
       body: _loading
-          ? const LoadingWidget()
+          ? const _ClientDetailSkeleton()
           : _client == null
               ? const EmptyState(
                   title: 'Client not found', icon: Icons.person_off_outlined)
@@ -82,8 +83,7 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
                                 child: Row(children: [
                                   CircleAvatar(
                                       radius: 28,
-                                      backgroundColor:
-                                          cs.primary.withOpacity(0.1),
+                                      backgroundColor: cs.primary.withAlpha(26),
                                       child: Text(
                                           _client!.fullName.isNotEmpty
                                               ? _client!.fullName[0]
@@ -121,24 +121,30 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 10, vertical: 6),
                                       decoration: BoxDecoration(
-                                          color: cs.primary.withOpacity(0.08),
+                                          color:
+                                              AppColors.success.withAlpha(20),
                                           borderRadius:
                                               BorderRadius.circular(8),
                                           border: Border.all(
-                                              color:
-                                                  cs.primary.withOpacity(0.2))),
+                                              color: AppColors.success
+                                                  .withAlpha(64))),
                                       child: Row(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
+                                            const Icon(Icons.tag,
+                                                size: 13,
+                                                color: AppColors.success),
+                                            const SizedBox(width: 4),
                                             Text('ID: ${_client!.id}',
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                     fontSize: 13,
                                                     fontWeight: FontWeight.w700,
-                                                    color: cs.primary,
+                                                    color: AppColors.success,
                                                     fontFamily: 'Sora')),
-                                            const SizedBox(width: 4),
-                                            Icon(Icons.copy,
-                                                size: 13, color: cs.primary),
+                                            const SizedBox(width: 6),
+                                            const Icon(Icons.copy,
+                                                size: 13,
+                                                color: AppColors.success),
                                           ]),
                                     ),
                                   ),
@@ -190,6 +196,121 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
     );
   }
 }
+
+// ─── Skeleton ────────────────────────────────────────────────────
+
+class _ClientDetailSkeleton extends StatelessWidget {
+  const _ClientDetailSkeleton();
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final base = isDark ? const Color(0xFF252A3D) : const Color(0xFFE8ECF4);
+    final highlight =
+        isDark ? const Color(0xFF353B52) : const Color(0xFFF5F7FC);
+
+    return Shimmer.fromColors(
+      baseColor: base,
+      highlightColor: highlight,
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Header card
+            const Card(
+              child: Padding(
+                padding: EdgeInsets.all(20),
+                child: Row(
+                  children: [
+                    ShimmerBox(width: 56, height: 56, radius: 28),
+                    SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ShimmerBox(width: 160, height: 16, radius: 8),
+                          SizedBox(height: 8),
+                          ShimmerBox(width: 72, height: 22, radius: 12),
+                        ],
+                      ),
+                    ),
+                    SizedBox(width: 12),
+                    ShimmerBox(width: 90, height: 32, radius: 8),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+            // Contact card
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const ShimmerBox(width: 70, height: 14, radius: 7),
+                    const SizedBox(height: 8),
+                    const Divider(height: 1),
+                    const SizedBox(height: 4),
+                    ...List.generate(
+                      3,
+                      (_) => const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 8),
+                        child: Row(
+                          children: [
+                            ShimmerBox(width: 16, height: 16, radius: 4),
+                            SizedBox(width: 10),
+                            ShimmerBox(width: 55, height: 12, radius: 6),
+                            SizedBox(width: 8),
+                            ShimmerBox(width: 130, height: 12, radius: 6),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 12),
+            // Timestamps card
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const ShimmerBox(width: 100, height: 14, radius: 7),
+                    const SizedBox(height: 8),
+                    const Divider(height: 1),
+                    const SizedBox(height: 4),
+                    ...List.generate(
+                      2,
+                      (_) => const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 8),
+                        child: Row(
+                          children: [
+                            ShimmerBox(width: 16, height: 16, radius: 4),
+                            SizedBox(width: 10),
+                            ShimmerBox(width: 55, height: 12, radius: 6),
+                            SizedBox(width: 8),
+                            ShimmerBox(width: 150, height: 12, radius: 6),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ─── Sub-widgets ─────────────────────────────────────────────────
 
 class _InfoCard extends StatelessWidget {
   final String title;

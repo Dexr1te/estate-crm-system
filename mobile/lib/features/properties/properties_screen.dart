@@ -261,7 +261,7 @@ class _PropertyCard extends StatelessWidget {
                             width: 44,
                             height: 44,
                             decoration: BoxDecoration(
-                                color: AppColors.accent.withOpacity(0.12),
+                                color: AppColors.accent.withAlpha(31),
                                 borderRadius: BorderRadius.circular(10)),
                             child:
                                 Icon(_icon, color: AppColors.accent, size: 22)),
