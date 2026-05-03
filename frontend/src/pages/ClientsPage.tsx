@@ -88,7 +88,7 @@ export function ClientsPage() {
         <CreateClientDrawer />
       </div>
 
-      <div className="grid gap-2 sm:grid-cols-[minmax(0,1fr)_repeat(4,minmax(0,max-content))]">
+      <div className="grid gap-2 sm:grid-cols-[minmax(0,1fr)_repeat(5,minmax(0,max-content))]">
         <Input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
