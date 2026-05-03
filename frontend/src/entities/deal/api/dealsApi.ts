@@ -34,5 +34,10 @@ export const dealsApi = {
   updateStatus: (id: number, status: DealStatus) =>
     request<Deal>(`/deals/${id}/status?status=${status}`, {
       method: 'PATCH'
+    }),
+
+  delete: (id: number) =>
+    request<void>(`/deals/${id}`, {
+      method: 'DELETE'
     })
 }

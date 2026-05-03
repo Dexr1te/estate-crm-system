@@ -11,17 +11,23 @@ import {
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle
+} from '@/components/ui/dialog'
 import { CreateClientDrawer } from '@/features/create-client/CreateClientDrawer'
-import { useClients } from '@/entities/clients/model/hook'
+import { useClients, useDeleteClient } from '@/entities/clients/model/hook'
+import { useAuthStore } from '@/entities/auth/model/authStore'
 import type { ClientListItem, DealStatus } from '@/entities/clients/model/type'
 
 function formatDateTime(value?: string | null) {
   if (!value) return '-'
-
   const date = new Date(value)
-
   if (Number.isNaN(date.getTime())) return value
-
   return new Intl.DateTimeFormat('en', {
     dateStyle: 'medium',
     timeStyle: 'short'
@@ -30,13 +36,11 @@ function formatDateTime(value?: string | null) {
 
 function formatBudget(value?: number | null) {
   if (value == null) return '-'
-
   return new Intl.NumberFormat('en-US').format(value)
 }
 
 function StatusBadge({ status }: { status?: DealStatus | null }) {
   if (!status) return <span className="text-muted-foreground">-</span>
-
   if (status === 'LEAD') return <Badge variant="secondary">Lead</Badge>
   if (status === 'NEGOTIATION')
     return <Badge className="bg-amber-500/15 text-amber-700">Negotiation</Badge>
@@ -49,15 +53,17 @@ function StatusBadge({ status }: { status?: DealStatus | null }) {
 
 export function ClientsPage() {
   const { data: clients = [], isLoading, isError, error } = useClients()
+  const { mutate: deleteClient, isPending: isDeleting } = useDeleteClient()
+  const { role } = useAuthStore()
+
   const [search, setSearch] = useState('')
   const [statusFilter, setStatusFilter] = useState<'ALL' | DealStatus>('ALL')
+  const [confirmDeleteId, setConfirmDeleteId] = useState<number | null>(null)
 
   const filteredClients = useMemo(() => {
     return clients.filter((client) => {
       if (statusFilter !== 'ALL' && client.status !== statusFilter) return false
-
       if (!search.trim()) return true
-
       const q = search.toLowerCase().trim()
       const haystack = `${client.fullName} ${client.email ?? ''} ${
         client.phone ?? ''
@@ -65,6 +71,15 @@ export function ClientsPage() {
       return haystack.includes(q)
     })
   }, [clients, search, statusFilter])
+
+  const handleDelete = () => {
+    if (confirmDeleteId == null) return
+    deleteClient(confirmDeleteId, {
+      onSuccess: () => setConfirmDeleteId(null)
+    })
+  }
+
+  const confirmingClient = clients.find((c) => c.id === confirmDeleteId)
 
   return (
     <div className="space-y-6 p-4 md:p-6">
@@ -138,6 +153,7 @@ export function ClientsPage() {
               <TableHead>Property</TableHead>
               <TableHead>Next meeting</TableHead>
               <TableHead>Last contact</TableHead>
+              {role === 'ADMIN' && <TableHead className="w-20" />}
             </TableRow>
           </TableHeader>
 
@@ -145,7 +161,7 @@ export function ClientsPage() {
             {filteredClients.length === 0 ? (
               <TableRow>
                 <TableCell
-                  colSpan={8}
+                  colSpan={role === 'ADMIN' ? 9 : 8}
                   className="text-center py-6 text-muted-foreground"
                 >
                   No clients found
@@ -164,12 +180,59 @@ export function ClientsPage() {
                   <TableCell>{c.propertyTitle || '-'}</TableCell>
                   <TableCell>{formatDateTime(c.nextMeetingAt)}</TableCell>
                   <TableCell>{formatDateTime(c.lastContactAt)}</TableCell>
+                  {role === 'ADMIN' && (
+                    <TableCell>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="text-red-500 hover:text-red-600 hover:bg-red-500/10"
+                        onClick={() => setConfirmDeleteId(c.id)}
+                      >
+                        Delete
+                      </Button>
+                    </TableCell>
+                  )}
                 </TableRow>
               ))
             )}
           </TableBody>
         </Table>
       </div>
+
+      {/* Диалог подтверждения удаления */}
+      <Dialog
+        open={confirmDeleteId !== null}
+        onOpenChange={(open) => !open && setConfirmDeleteId(null)}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Delete client</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to delete{' '}
+              <span className="font-medium text-foreground">
+                {confirmingClient?.fullName}
+              </span>
+              ? This action cannot be undone.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setConfirmDeleteId(null)}
+              disabled={isDeleting}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={handleDelete}
+              disabled={isDeleting}
+            >
+              {isDeleting ? 'Deleting...' : 'Delete'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

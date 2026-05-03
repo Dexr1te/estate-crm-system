@@ -26,13 +26,8 @@ export function useUpdateDeal() {
   const qc = useQueryClient()
 
   return useMutation({
-    mutationFn: ({
-      id,
-      payload
-    }: {
-      id: number
-      payload: CreateDealPayload
-    }) => dealsApi.update(id, payload),
+    mutationFn: ({ id, payload }: { id: number; payload: CreateDealPayload }) =>
+      dealsApi.update(id, payload),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: DEALS_KEY })
     }
@@ -45,7 +40,17 @@ export function useUpdateDealStatus() {
   return useMutation({
     mutationFn: ({ id, status }: { id: number; status: DealStatus }) =>
       dealsApi.updateStatus(id, status),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: DEALS_KEY })
+    }
+  })
+}
 
+export function useDeleteDeal() {
+  const qc = useQueryClient()
+
+  return useMutation({
+    mutationFn: (id: number) => dealsApi.delete(id),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: DEALS_KEY })
     }

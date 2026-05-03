@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -55,7 +56,6 @@ public class ClientController {
     public ResponseEntity<ClientResponse> getById(@PathVariable Long id) {
         return ResponseEntity.ok(clientService.getById(id));
     }
-    
 
     @PostMapping
     @Operation(summary = "Create a new client")
@@ -71,6 +71,7 @@ public class ClientController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')") 
     @Operation(summary = "Delete client")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         clientService.delete(id);

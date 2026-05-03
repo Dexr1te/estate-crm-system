@@ -30,8 +30,10 @@ import { CreateDealDrawer } from '@/features/create-deal/CreateDealDrawer'
 import {
   useDeals,
   useUpdateDeal,
-  useUpdateDealStatus
+  useUpdateDealStatus,
+  useDeleteDeal
 } from '@/entities/deal/model/hook'
+import { useAuthStore } from '@/entities/auth/model/authStore'
 import { DealStatusBadge } from '@/entities/deal/ui/DealStatusBadge'
 import type {
   CreateDealPayload,
@@ -70,7 +72,10 @@ export function DealsPage() {
   const [statusFilter, setStatusFilter] = useState<'ALL' | DealStatus>('ALL')
   const [closeWonDeal, setCloseWonDeal] = useState<Deal | null>(null)
   const [closeWonPrice, setCloseWonPrice] = useState('')
+  const [confirmDeleteId, setConfirmDeleteId] = useState<number | null>(null)
   const [actionError, setActionError] = useState<string | null>(null)
+
+  const { role } = useAuthStore()
 
   const {
     data: deals = [],
@@ -81,6 +86,7 @@ export function DealsPage() {
   const { mutateAsync: updateStatus, isPending: isUpdatingStatus } =
     useUpdateDealStatus()
   const { mutateAsync: updateDeal, isPending: isUpdatingDeal } = useUpdateDeal()
+  const { mutate: deleteDeal, isPending: isDeleting } = useDeleteDeal()
 
   const filteredDeals = useMemo(() => {
     if (!search.trim()) return deals
@@ -101,7 +107,6 @@ export function DealsPage() {
     nextDealPrice?: number
   ): CreateDealPayload | null => {
     if (!deal.clientId || !deal.agentId) return null
-
     return {
       title: deal.title,
       status: nextStatus,
@@ -116,7 +121,6 @@ export function DealsPage() {
 
   const handleStatusChange = async (deal: Deal, nextStatus: DealStatus) => {
     setActionError(null)
-
     if (nextStatus === 'CLOSED_WON') {
       setCloseWonDeal(deal)
       setCloseWonPrice(
@@ -126,7 +130,6 @@ export function DealsPage() {
       )
       return
     }
-
     await updateStatus({ id: deal.id, status: nextStatus }).catch((err) => {
       setActionError(
         err instanceof Error ? err.message : 'Failed to update status'
@@ -136,7 +139,6 @@ export function DealsPage() {
 
   const confirmCloseWon = async () => {
     if (!closeWonDeal) return
-
     const numericPrice = Number(closeWonPrice)
     if (!Number.isFinite(numericPrice) || numericPrice <= 0) {
       setActionError(
@@ -144,13 +146,11 @@ export function DealsPage() {
       )
       return
     }
-
     const payload = buildUpdatePayload(closeWonDeal, 'CLOSED_WON', numericPrice)
     if (!payload) {
       setActionError('Cannot update deal: missing client or agent')
       return
     }
-
     try {
       setActionError(null)
       await updateDeal({ id: closeWonDeal.id, payload })
@@ -162,6 +162,15 @@ export function DealsPage() {
       )
     }
   }
+
+  const handleDelete = () => {
+    if (confirmDeleteId == null) return
+    deleteDeal(confirmDeleteId, {
+      onSuccess: () => setConfirmDeleteId(null)
+    })
+  }
+
+  const confirmingDeal = deals.find((d) => d.id === confirmDeleteId)
 
   return (
     <div className="space-y-6 p-4 md:p-6">
@@ -225,6 +234,7 @@ export function DealsPage() {
               <TableHead>Deal price</TableHead>
               <TableHead>Closed at</TableHead>
               <TableHead className="w-48">Change status</TableHead>
+              {role === 'ADMIN' && <TableHead className="w-20" />}
             </TableRow>
           </TableHeader>
 
@@ -232,7 +242,7 @@ export function DealsPage() {
             {filteredDeals.length === 0 ? (
               <TableRow>
                 <TableCell
-                  colSpan={8}
+                  colSpan={role === 'ADMIN' ? 9 : 8}
                   className="text-center py-6 text-muted-foreground"
                 >
                   No deals found
@@ -270,6 +280,18 @@ export function DealsPage() {
                       </SelectContent>
                     </Select>
                   </TableCell>
+                  {role === 'ADMIN' && (
+                    <TableCell>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="text-red-500 hover:text-red-600 hover:bg-red-500/10"
+                        onClick={() => setConfirmDeleteId(deal.id)}
+                      >
+                        Delete
+                      </Button>
+                    </TableCell>
+                  )}
                 </TableRow>
               ))
             )}
@@ -277,6 +299,42 @@ export function DealsPage() {
         </Table>
       </div>
 
+      {/* Диалог подтверждения удаления */}
+      <Dialog
+        open={confirmDeleteId !== null}
+        onOpenChange={(open) => !open && setConfirmDeleteId(null)}
+      >
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Delete deal</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to delete{' '}
+              <span className="font-medium text-foreground">
+                {confirmingDeal?.title}
+              </span>
+              ? This action cannot be undone.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button
+              variant="outline"
+              onClick={() => setConfirmDeleteId(null)}
+              disabled={isDeleting}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={handleDelete}
+              disabled={isDeleting}
+            >
+              {isDeleting ? 'Deleting...' : 'Delete'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Диалог закрытия сделки */}
       <Dialog
         open={!!closeWonDeal}
         onOpenChange={(open) => !open && setCloseWonDeal(null)}

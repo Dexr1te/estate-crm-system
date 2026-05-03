@@ -20,3 +20,14 @@ export function useCreateClient() {
     }
   })
 }
+
+export function useDeleteClient() {
+  const qc = useQueryClient()
+
+  return useMutation({
+    mutationFn: (id: number) => clientsApi.delete(id),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: CLIENTS_KEY })
+    }
+  })
+}

@@ -8,5 +8,10 @@ export const clientsApi = {
     request('/clients', {
       method: 'POST',
       body: JSON.stringify(data)
+    }),
+
+  delete: (id: number) =>
+    request<void>(`/clients/${id}`, {
+      method: 'DELETE'
     })
 }
