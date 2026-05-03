@@ -4,7 +4,7 @@
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Status](https://img.shields.io/badge/status-active-brightgreen.svg)
-![Stack](https://img.shields.io/badge/stack-React%20%7C%20Node.js%20%7C%20Flutter-blueviolet)
+![Stack](https://img.shields.io/badge/stack-React%20%7C%20Java%20%7C%20Flutter-blueviolet)
 
 ---
 
