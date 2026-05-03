@@ -27,6 +27,21 @@ import { useAuthStore } from '@/entities/auth/model/authStore'
 import { useAgentOptions } from '@/entities/user/model/useAgentOptions'
 import type { PropertyType } from '@/entities/properties/model/types'
 
+// ── Валидация ──────────────────────────────────────────────
+function validatePrice(value: string): string | null {
+  if (!value.trim()) return 'Price is required'
+  const num = Number(value)
+  if (!Number.isFinite(num) || num <= 0)
+    return 'Price must be a positive number'
+  return null
+}
+
+function validateRequired(value: string, fieldName: string): string | null {
+  if (!value.trim()) return `${fieldName} is required`
+  return null
+}
+// ───────────────────────────────────────────────────────────
+
 export function CreatePropertyDrawer() {
   const { mutate, isPending } = useCreateProperty()
   const { role, userId } = useAuthStore()
@@ -40,23 +55,33 @@ export function CreatePropertyDrawer() {
   const [price, setPrice] = useState('')
   const [type, setType] = useState<PropertyType>('APARTMENT')
   const [agentId, setAgentId] = useState('')
+
+  // Ошибки полей
   const [error, setError] = useState<string | null>(null)
+  const [titleError, setTitleError] = useState<string | null>(null)
+  const [addressError, setAddressError] = useState<string | null>(null)
+  const [priceError, setPriceError] = useState<string | null>(null)
 
   const handleSubmit = () => {
     setError(null)
-    if (!title.trim() || !address.trim() || !price.trim()) {
-      setError('Title, address and price are required')
-      return
-    }
 
-    const numericPrice = Number(price)
-    if (!Number.isFinite(numericPrice) || numericPrice <= 0) {
-      setError('Price must be a positive number')
-      return
-    }
+    // Валидируем все обязательные поля разом
+    const titleProblem = validateRequired(title, 'Title')
+    const addressProblem = validateRequired(address, 'Address')
+    const priceProblem = validatePrice(price)
+
+    setTitleError(titleProblem)
+    setAddressError(addressProblem)
+    setPriceError(priceProblem)
+
+    if (titleProblem || addressProblem || priceProblem) return
 
     const selectedAgentId =
-      role === 'AGENT' ? (userId ?? undefined) : agentId ? Number(agentId) : undefined
+      role === 'AGENT'
+        ? userId ?? undefined
+        : agentId
+        ? Number(agentId)
+        : undefined
 
     mutate(
       {
@@ -64,7 +89,7 @@ export function CreatePropertyDrawer() {
         title: title.trim(),
         city: city.trim() || undefined,
         address: address.trim(),
-        price: numericPrice,
+        price: Number(price),
         type,
         agentId: selectedAgentId
       },
@@ -77,10 +102,15 @@ export function CreatePropertyDrawer() {
           setPrice('')
           setType('APARTMENT')
           setAgentId('')
+          setTitleError(null)
+          setAddressError(null)
+          setPriceError(null)
           setOpen(false)
         },
         onError: (err) => {
-          setError(err instanceof Error ? err.message : 'Failed to create property')
+          setError(
+            err instanceof Error ? err.message : 'Failed to create property'
+          )
         }
       }
     )
@@ -109,11 +139,19 @@ export function CreatePropertyDrawer() {
             <Label>Title</Label>
             <Input
               value={title}
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={(e) => {
+                setTitle(e.target.value)
+                setTitleError(validateRequired(e.target.value, 'Title'))
+              }}
               placeholder="2-room apartment in city center"
+              className={
+                titleError ? 'border-red-500 focus-visible:ring-red-500' : ''
+              }
             />
+            {titleError && <p className="text-xs text-red-500">{titleError}</p>}
           </div>
 
+          {/* Description */}
           <div className="space-y-2">
             <Label>Description</Label>
             <Textarea
@@ -129,12 +167,21 @@ export function CreatePropertyDrawer() {
             <Label>Address</Label>
             <Input
               value={address}
-              onChange={(e) => setAddress(e.target.value)}
+              onChange={(e) => {
+                setAddress(e.target.value)
+                setAddressError(validateRequired(e.target.value, 'Address'))
+              }}
               placeholder="Abay 123"
+              className={
+                addressError ? 'border-red-500 focus-visible:ring-red-500' : ''
+              }
             />
+            {addressError && (
+              <p className="text-xs text-red-500">{addressError}</p>
+            )}
           </div>
 
-          {/* City */}
+          {/* City — необязательное, без валидации */}
           <div className="space-y-2">
             <Label>City</Label>
             <Input
@@ -149,20 +196,30 @@ export function CreatePropertyDrawer() {
             <Label>Price</Label>
             <Input
               type="number"
+              min={0}
               value={price}
-              onChange={(e) => setPrice(e.target.value)}
+              onChange={(e) => {
+                setPrice(e.target.value)
+                setPriceError(validatePrice(e.target.value))
+              }}
               placeholder="250000"
+              className={
+                priceError ? 'border-red-500 focus-visible:ring-red-500' : ''
+              }
             />
+            {priceError && <p className="text-xs text-red-500">{priceError}</p>}
           </div>
 
           {/* Type */}
           <div className="space-y-2">
             <Label>Type</Label>
-            <Select value={type} onValueChange={(v) => setType(v as PropertyType)}>
+            <Select
+              value={type}
+              onValueChange={(v) => setType(v as PropertyType)}
+            >
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
-
               <SelectContent>
                 <SelectItem value="APARTMENT">Apartment</SelectItem>
                 <SelectItem value="HOUSE">House</SelectItem>
@@ -193,7 +250,12 @@ export function CreatePropertyDrawer() {
         </div>
 
         <DrawerFooter>
-          <Button onClick={handleSubmit} disabled={isPending}>
+          <Button
+            onClick={handleSubmit}
+            disabled={
+              isPending || !!titleError || !!addressError || !!priceError
+            }
+          >
             {isPending ? 'Creating...' : 'Create'}
           </Button>
 

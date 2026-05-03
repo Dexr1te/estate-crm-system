@@ -28,6 +28,19 @@ import type { CreateDealPayload, DealStatus } from '@/entities/deal/model/type'
 
 const NO_PROPERTY = 'NO_PROPERTY'
 
+// ── Валидация ──────────────────────────────────────────────
+function validatePositiveNumber(
+  value: string,
+  fieldName: string
+): string | null {
+  if (!value.trim()) return null // необязательное поле
+  const num = Number(value)
+  if (!Number.isFinite(num) || num <= 0)
+    return `${fieldName} must be a positive number`
+  return null
+}
+// ───────────────────────────────────────────────────────────
+
 export function CreateDealDrawer() {
   const { mutate, isPending } = useCreateDeal()
   const { role, userId } = useAuthStore()
@@ -44,7 +57,11 @@ export function CreateDealDrawer() {
   const [dealPrice, setDealPrice] = useState('')
   const [notes, setNotes] = useState('')
   const [agentId, setAgentId] = useState('')
+
+  // Ошибки полей
   const [error, setError] = useState<string | null>(null)
+  const [budgetError, setBudgetError] = useState<string | null>(null)
+  const [dealPriceError, setDealPriceError] = useState<string | null>(null)
 
   const handleSubmit = () => {
     setError(null)
@@ -61,11 +78,26 @@ export function CreateDealDrawer() {
 
     const resolvedAgentId =
       role === 'ADMIN'
-        ? (agentId ? Number(agentId) : undefined)
-        : (userId ?? undefined)
+        ? agentId
+          ? Number(agentId)
+          : undefined
+        : userId ?? undefined
 
     if (!resolvedAgentId) {
       setError('Agent is required')
+      return
+    }
+
+    // Проверяем числовые поля перед отправкой
+    const budgetProblem = validatePositiveNumber(budget, 'Budget')
+    const dealPriceProblem = validatePositiveNumber(dealPrice, 'Deal price')
+
+    if (budgetProblem) {
+      setBudgetError(budgetProblem)
+      return
+    }
+    if (dealPriceProblem) {
+      setDealPriceError(dealPriceProblem)
       return
     }
 
@@ -80,12 +112,6 @@ export function CreateDealDrawer() {
       agentId: resolvedAgentId
     }
 
-    if ((payload.budget != null && payload.budget <= 0) ||
-        (payload.dealPrice != null && payload.dealPrice <= 0)) {
-      setError('Budget and deal price must be positive numbers')
-      return
-    }
-
     mutate(payload, {
       onSuccess: () => {
         setTitle('')
@@ -96,6 +122,8 @@ export function CreateDealDrawer() {
         setDealPrice('')
         setNotes('')
         setAgentId('')
+        setBudgetError(null)
+        setDealPriceError(null)
         setOpen(false)
       },
       onError: (err) => {
@@ -184,7 +212,10 @@ export function CreateDealDrawer() {
 
           <div className="space-y-2">
             <Label>Status</Label>
-            <Select value={status} onValueChange={(v) => setStatus(v as DealStatus)}>
+            <Select
+              value={status}
+              onValueChange={(v) => setStatus(v as DealStatus)}
+            >
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
@@ -198,25 +229,52 @@ export function CreateDealDrawer() {
           </div>
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            {/* Budget */}
             <div className="space-y-2">
               <Label>Budget</Label>
               <Input
                 type="number"
                 min={0}
                 value={budget}
-                onChange={(e) => setBudget(e.target.value)}
+                onChange={(e) => {
+                  setBudget(e.target.value)
+                  setBudgetError(
+                    validatePositiveNumber(e.target.value, 'Budget')
+                  )
+                }}
                 placeholder="200000"
+                className={
+                  budgetError ? 'border-red-500 focus-visible:ring-red-500' : ''
+                }
               />
+              {budgetError && (
+                <p className="text-xs text-red-500">{budgetError}</p>
+              )}
             </div>
+
+            {/* Deal price */}
             <div className="space-y-2">
               <Label>Deal price</Label>
               <Input
                 type="number"
                 min={0}
                 value={dealPrice}
-                onChange={(e) => setDealPrice(e.target.value)}
+                onChange={(e) => {
+                  setDealPrice(e.target.value)
+                  setDealPriceError(
+                    validatePositiveNumber(e.target.value, 'Deal price')
+                  )
+                }}
                 placeholder="180000"
+                className={
+                  dealPriceError
+                    ? 'border-red-500 focus-visible:ring-red-500'
+                    : ''
+                }
               />
+              {dealPriceError && (
+                <p className="text-xs text-red-500">{dealPriceError}</p>
+              )}
             </div>
           </div>
 
@@ -232,7 +290,10 @@ export function CreateDealDrawer() {
         </div>
 
         <DrawerFooter>
-          <Button onClick={handleSubmit} disabled={isPending}>
+          <Button
+            onClick={handleSubmit}
+            disabled={isPending || !!budgetError || !!dealPriceError}
+          >
             {isPending ? 'Creating...' : 'Create'}
           </Button>
           <DrawerClose asChild>

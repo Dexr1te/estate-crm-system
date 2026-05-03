@@ -40,11 +40,25 @@ export function CreateClientDrawer() {
   const [agentId, setAgentId] = useState('')
   const [type, setType] = useState<ClientType>('BUYER')
   const [error, setError] = useState<string | null>(null)
+  // После других useState
+  const [phoneError, setPhoneError] = useState<string | null>(null)
+
+  // Функция валидации — только цифры, +, -, пробелы, скобки, 7-20 символов
+  function validatePhone(value: string): string | null {
+    if (!value.trim()) return null // телефон необязателен
+    if (!/^\+?[\d\s\-(). ]{7,20}$/.test(value.trim()))
+      return 'Invalid phone number format'
+    return null
+  }
 
   const buildRequest = (): ClientRequest => {
     const trimmedFullName = fullName.trim()
     const selectedAgentId =
-      role === 'AGENT' ? (userId ?? undefined) : agentId.trim() ? Number(agentId) : undefined
+      role === 'AGENT'
+        ? userId ?? undefined
+        : agentId.trim()
+        ? Number(agentId)
+        : undefined
 
     return {
       fullName: trimmedFullName,
@@ -63,10 +77,17 @@ export function CreateClientDrawer() {
       return
     }
 
+    const phoneProblem = validatePhone(phone)
+    if (phoneProblem) {
+      setPhoneError(phoneProblem)
+      return
+    }
+
     mutate(buildRequest(), {
       onSuccess: () => {
         setFullName('')
         setPhone('')
+        setPhoneError(null)
         setEmail('')
         setNotes('')
         setAgentId('')
@@ -112,9 +133,26 @@ export function CreateClientDrawer() {
             <Label>Phone</Label>
             <Input
               value={phone}
-              onChange={(e) => setPhone(e.target.value)}
+              onChange={(e) => {
+                setPhone(e.target.value)
+                setPhoneError(validatePhone(e.target.value))
+              }}
               placeholder="+7 777 123 4567"
+              className={
+                phoneError ? 'border-red-500 focus-visible:ring-red-500' : ''
+              }
             />
+            {phoneError && (
+              <p
+                style={{
+                  fontSize: 12,
+                  color: 'var(--color-text-danger)',
+                  marginTop: 4
+                }}
+              >
+                {phoneError}
+              </p>
+            )}
           </div>
 
           {/* Email */}
@@ -158,7 +196,10 @@ export function CreateClientDrawer() {
 
           <div className="space-y-2">
             <Label>Client type</Label>
-            <Select value={type} onValueChange={(v) => setType(v as ClientType)}>
+            <Select
+              value={type}
+              onValueChange={(v) => setType(v as ClientType)}
+            >
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>
