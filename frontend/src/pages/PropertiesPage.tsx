@@ -10,13 +10,13 @@ import {
 } from '@/components/ui/table'
 import { Badge } from '@/components/ui/badge'
 import { Input } from '@/components/ui/input'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from '@/components/ui/select'
+// import {
+//   Select,
+//   SelectContent,
+//   SelectItem,
+//   SelectTrigger,
+//   SelectValue
+// } from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
 
 import { CreatePropertyDrawer } from '@/features/create-property/CreatePropertyDrawer'
@@ -42,8 +42,8 @@ function statusTone(status: PropertyStatus) {
 
 export function PropertiesPage() {
   const [search, setSearch] = useState('')
-  const [status, setStatus] = useState<'ALL' | PropertyStatus>('ALL')
-  const [type, setType] = useState<'ALL' | PropertyType>('ALL')
+  const [status] = useState<'ALL' | PropertyStatus>('ALL')
+  const [type] = useState<'ALL' | PropertyType>('ALL')
   const [city, setCity] = useState('')
 
   const filters = useMemo<PropertyFilters>(() => {
@@ -88,36 +88,6 @@ export function PropertiesPage() {
           onChange={(e) => setCity(e.target.value)}
           placeholder="City"
         />
-        <Select
-          value={status}
-          onValueChange={(v) => setStatus(v as 'ALL' | PropertyStatus)}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="Status" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="ALL">All statuses</SelectItem>
-            <SelectItem value="AVAILABLE">Available</SelectItem>
-            <SelectItem value="RESERVED">Reserved</SelectItem>
-            <SelectItem value="SOLD">Sold</SelectItem>
-          </SelectContent>
-        </Select>
-        <Select
-          value={type}
-          onValueChange={(v) => setType(v as 'ALL' | PropertyType)}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="Type" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="ALL">All types</SelectItem>
-            <SelectItem value="APARTMENT">Apartment</SelectItem>
-            <SelectItem value="HOUSE">House</SelectItem>
-            <SelectItem value="COMMERCIAL">Commercial</SelectItem>
-            <SelectItem value="LAND">Land</SelectItem>
-            <SelectItem value="OFFICE">Office</SelectItem>
-          </SelectContent>
-        </Select>
       </div>
 
       {isLoading && (
