@@ -138,12 +138,12 @@ export function CreateDealDrawer() {
         <Button>Add deal</Button>
       </DrawerTrigger>
 
-      <DrawerContent>
-        <DrawerHeader>
+      <DrawerContent className="max-h-[90dvh] flex flex-col">
+        <DrawerHeader className="shrink-0">
           <DrawerTitle>Create deal</DrawerTitle>
         </DrawerHeader>
 
-        <div className="p-4 space-y-4">
+        <div className="flex-1 overflow-y-auto px-4 pb-2 space-y-4">
           {error && (
             <div className="rounded-md border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-600">
               {error}
@@ -289,7 +289,7 @@ export function CreateDealDrawer() {
           </div>
         </div>
 
-        <DrawerFooter>
+        <DrawerFooter className="shrink-0 pt-2">
           <Button
             onClick={handleSubmit}
             disabled={isPending || !!budgetError || !!dealPriceError}
