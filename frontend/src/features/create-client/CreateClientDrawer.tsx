@@ -106,12 +106,14 @@ export function CreateClientDrawer() {
         <Button>Add client</Button>
       </DrawerTrigger>
 
-      <DrawerContent>
-        <DrawerHeader>
+      <DrawerContent className="max-h-[90dvh] flex flex-col">
+        {/* Header не тянется */}
+        <DrawerHeader className="shrink-0">
           <DrawerTitle>Create client</DrawerTitle>
         </DrawerHeader>
 
-        <div className="p-4 space-y-4">
+        {/* Контент скроллится внутри себя */}
+        <div className="flex-1 overflow-y-auto px-4 pb-2 space-y-4">
           {error && (
             <div className="rounded-md border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-600">
               {error}
@@ -212,7 +214,8 @@ export function CreateClientDrawer() {
           </div>
         </div>
 
-        <DrawerFooter>
+        {/* Footer всегда прибит к низу */}
+        <DrawerFooter className="shrink-0 pt-2">
           <Button onClick={handleSubmit} disabled={isPending}>
             {isPending ? 'Creating...' : 'Create'}
           </Button>
