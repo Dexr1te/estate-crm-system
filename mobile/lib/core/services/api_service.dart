@@ -88,6 +88,11 @@ class ApiService {
     await prefs.remove('auth_user');
   }
 
+  Future<List<AgentOption>> getAgentOptions() async {
+    final res = await _dio.get('/users/agents');
+    return (res.data as List).map((e) => AgentOption.fromJson(e)).toList();
+  }
+
   Future<AuthResponse?> getSavedUser() async {
     final prefs = await SharedPreferences.getInstance();
     final data = prefs.getString('auth_user');
