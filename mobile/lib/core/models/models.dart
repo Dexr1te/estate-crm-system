@@ -416,3 +416,15 @@ class DashboardSummary {
         upcomingMeetings: json['upcomingMeetings'] ?? 0,
       );
 }
+
+class AgentOption {
+  final int id;
+  final String fullName;
+  final String? email;
+  AgentOption({required this.id, required this.fullName, this.email});
+  factory AgentOption.fromJson(Map<String, dynamic> j) => AgentOption(
+        id: j['id'],
+        fullName: j['fullName'] ?? j['full_name'] ?? '',
+        email: j['email'],
+      );
+}
