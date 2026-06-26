@@ -1,430 +1,203 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'models.freezed.dart';
+part 'models.g.dart';
+
 // ─────────────────────────────────────────────
 // Enums
 // ─────────────────────────────────────────────
 
-// ignore: constant_identifier_names
 enum Role { ADMIN, AGENT }
-
-// ignore: constant_identifier_names
 enum ClientType { BUYER, SELLER }
-
-// ignore: constant_identifier_names
 enum PropertyType { APARTMENT, HOUSE, COMMERCIAL, LAND, OFFICE }
-
-// ignore: constant_identifier_names
 enum PropertyStatus { AVAILABLE, RESERVED, SOLD }
-
-// ignore: constant_identifier_names
 enum DealStatus { LEAD, NEGOTIATION, CLOSED_WON, CLOSED_LOST }
 
 // ─────────────────────────────────────────────
 // Auth
 // ─────────────────────────────────────────────
 
-class AuthResponse {
-  final String accessToken;
-  final String refreshToken;
-  final String tokenType;
-  final int userId;
-  final String fullName;
-  final String email;
-  final Role role;
+@freezed
+class AuthResponse with _$AuthResponse {
+  const factory AuthResponse({
+    @Default('') String accessToken,
+    @Default('') String refreshToken,
+    @Default('Bearer') String tokenType,
+    @Default(0) int userId,
+    @Default('') String fullName,
+    @Default('') String email,
+    @Default(Role.AGENT) Role role,
+  }) = _AuthResponse;
 
-  AuthResponse({
-    required this.accessToken,
-    required this.refreshToken,
-    required this.tokenType,
-    required this.userId,
-    required this.fullName,
-    required this.email,
-    required this.role,
-  });
-
-  factory AuthResponse.fromJson(Map<String, dynamic> json) => AuthResponse(
-        accessToken: json['accessToken'] ?? '',
-        refreshToken: json['refreshToken'] ?? '',
-        tokenType: json['tokenType'] ?? 'Bearer',
-        userId: json['userId'] ?? 0,
-        fullName: json['fullName'] ?? '',
-        email: json['email'] ?? '',
-        role: Role.values.firstWhere(
-          (e) => e.name == json['role'],
-          orElse: () => Role.AGENT,
-        ),
-      );
-
-  Map<String, dynamic> toJson() => {
-        'accessToken': accessToken,
-        'refreshToken': refreshToken,
-        'tokenType': tokenType,
-        'userId': userId,
-        'fullName': fullName,
-        'email': email,
-        'role': role.name,
-      };
+  factory AuthResponse.fromJson(Map<String, dynamic> json) =>
+      _$AuthResponseFromJson(json);
 }
 
 // ─────────────────────────────────────────────
 // Client
 // ─────────────────────────────────────────────
 
-class ClientResponse {
-  final int id;
-  final String fullName;
-  final String? email;
-  final String? phone;
-  final ClientType type;
-  final String? notes;
-  final int? agentId;
-  final String? agentName;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
+@freezed
+class ClientResponse with _$ClientResponse {
+  const factory ClientResponse({
+    required int id,
+    @Default('') String fullName,
+    String? email,
+    String? phone,
+    @Default(ClientType.BUYER) ClientType type,
+    String? notes,
+    int? agentId,
+    String? agentName,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) = _ClientResponse;
 
-  ClientResponse({
-    required this.id,
-    required this.fullName,
-    this.email,
-    this.phone,
-    required this.type,
-    this.notes,
-    this.agentId,
-    this.agentName,
-    this.createdAt,
-    this.updatedAt,
-  });
-
-  factory ClientResponse.fromJson(Map<String, dynamic> json) => ClientResponse(
-        id: json['id'],
-        fullName: json['fullName'] ?? '',
-        email: json['email'],
-        phone: json['phone'],
-        type: ClientType.values.firstWhere(
-          (e) => e.name == json['type'],
-          orElse: () => ClientType.BUYER,
-        ),
-        notes: json['notes'],
-        agentId: json['agentId'],
-        agentName: json['agentName'],
-        createdAt: json['createdAt'] != null
-            ? DateTime.parse(json['createdAt'])
-            : null,
-        updatedAt: json['updatedAt'] != null
-            ? DateTime.parse(json['updatedAt'])
-            : null,
-      );
+  factory ClientResponse.fromJson(Map<String, dynamic> json) =>
+      _$ClientResponseFromJson(json);
 }
 
-class ClientListItem {
-  final int id;
-  final String fullName;
-  final String? phone;
-  final String? email;
-  final DealStatus? status;
-  final double? budget;
-  final String? propertyTitle;
-  final DateTime? nextMeetingAt;
-  final DateTime? lastContactAt;
+@freezed
+class ClientListItem with _$ClientListItem {
+  const factory ClientListItem({
+    required int id,
+    @Default('') String fullName,
+    String? phone,
+    String? email,
+    DealStatus? status,
+    double? budget,
+    String? propertyTitle,
+    DateTime? nextMeetingAt,
+    DateTime? lastContactAt,
+  }) = _ClientListItem;
 
-  ClientListItem({
-    required this.id,
-    required this.fullName,
-    this.phone,
-    this.email,
-    this.status,
-    this.budget,
-    this.propertyTitle,
-    this.nextMeetingAt,
-    this.lastContactAt,
-  });
-
-  factory ClientListItem.fromJson(Map<String, dynamic> json) => ClientListItem(
-        id: json['id'],
-        fullName: json['fullName'] ?? '',
-        phone: json['phone'],
-        email: json['email'],
-        status: json['status'] != null
-            ? DealStatus.values.firstWhere(
-                (e) => e.name == json['status'],
-                orElse: () => DealStatus.LEAD,
-              )
-            : null,
-        budget:
-            json['budget'] != null ? (json['budget'] as num).toDouble() : null,
-        propertyTitle: json['propertyTitle'],
-        nextMeetingAt: json['nextMeetingAt'] != null
-            ? DateTime.parse(json['nextMeetingAt'])
-            : null,
-        lastContactAt: json['lastContactAt'] != null
-            ? DateTime.parse(json['lastContactAt'])
-            : null,
-      );
+  factory ClientListItem.fromJson(Map<String, dynamic> json) =>
+      _$ClientListItemFromJson(json);
 }
 
 // ─────────────────────────────────────────────
 // Property
 // ─────────────────────────────────────────────
 
-class PropertyResponse {
-  final int id;
-  final String title;
-  final String? description;
-  final String address;
-  final String? city;
-  final PropertyType type;
-  final PropertyStatus status;
-  final double price;
-  final double? areaSqm;
-  final int? rooms;
-  final int? floor;
-  final int? totalFloors;
-  final int? agentId;
-  final String? agentName;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
-
-  PropertyResponse({
-    required this.id,
-    required this.title,
-    this.description,
-    required this.address,
-    this.city,
-    required this.type,
-    required this.status,
-    required this.price,
-    this.areaSqm,
-    this.rooms,
-    this.floor,
-    this.totalFloors,
-    this.agentId,
-    this.agentName,
-    this.createdAt,
-    this.updatedAt,
-  });
+@freezed
+class PropertyResponse with _$PropertyResponse {
+  const factory PropertyResponse({
+    required int id,
+    @Default('') String title,
+    String? description,
+    @Default('') String address,
+    String? city,
+    @Default(PropertyType.APARTMENT) PropertyType type,
+    @Default(PropertyStatus.AVAILABLE) PropertyStatus status,
+    @Default(0.0) double price,
+    double? areaSqm,
+    int? rooms,
+    int? floor,
+    int? totalFloors,
+    int? agentId,
+    String? agentName,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) = _PropertyResponse;
 
   factory PropertyResponse.fromJson(Map<String, dynamic> json) =>
-      PropertyResponse(
-        id: json['id'],
-        title: json['title'] ?? '',
-        description: json['description'],
-        address: json['address'] ?? '',
-        city: json['city'],
-        type: PropertyType.values.firstWhere(
-          (e) => e.name == json['type'],
-          orElse: () => PropertyType.APARTMENT,
-        ),
-        status: PropertyStatus.values.firstWhere(
-          (e) => e.name == json['status'],
-          orElse: () => PropertyStatus.AVAILABLE,
-        ),
-        price: (json['price'] as num).toDouble(),
-        areaSqm: json['areaSqm'] != null
-            ? (json['areaSqm'] as num).toDouble()
-            : null,
-        rooms: json['rooms'],
-        floor: json['floor'],
-        totalFloors: json['totalFloors'],
-        agentId: json['agentId'],
-        agentName: json['agentName'],
-        createdAt: json['createdAt'] != null
-            ? DateTime.parse(json['createdAt'])
-            : null,
-        updatedAt: json['updatedAt'] != null
-            ? DateTime.parse(json['updatedAt'])
-            : null,
-      );
+      _$PropertyResponseFromJson(json);
 }
 
 // ─────────────────────────────────────────────
 // Deal
 // ─────────────────────────────────────────────
 
-class DealResponse {
-  final int id;
-  final String title;
-  final DealStatus status;
-  final double? dealPrice;
-  final double? budget;
-  final String? notes;
-  final int clientId;
-  final String clientName;
-  final int? propertyId;
-  final String? propertyTitle;
-  final String? propertyAddress;
-  final int agentId;
-  final String agentName;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
-  final DateTime? closedAt;
+@freezed
+class DealResponse with _$DealResponse {
+  const factory DealResponse({
+    required int id,
+    @Default('') String title,
+    @Default(DealStatus.LEAD) DealStatus status,
+    double? dealPrice,
+    double? budget,
+    String? notes,
+    required int clientId,
+    @Default('') String clientName,
+    int? propertyId,
+    String? propertyTitle,
+    String? propertyAddress,
+    required int agentId,
+    @Default('') String agentName,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    DateTime? closedAt,
+  }) = _DealResponse;
 
-  DealResponse({
-    required this.id,
-    required this.title,
-    required this.status,
-    this.dealPrice,
-    this.budget,
-    this.notes,
-    required this.clientId,
-    required this.clientName,
-    this.propertyId,
-    this.propertyTitle,
-    this.propertyAddress,
-    required this.agentId,
-    required this.agentName,
-    this.createdAt,
-    this.updatedAt,
-    this.closedAt,
-  });
-
-  factory DealResponse.fromJson(Map<String, dynamic> json) => DealResponse(
-        id: json['id'],
-        title: json['title'] ?? '',
-        status: DealStatus.values.firstWhere(
-          (e) => e.name == json['status'],
-          orElse: () => DealStatus.LEAD,
-        ),
-        dealPrice: json['dealPrice'] != null
-            ? (json['dealPrice'] as num).toDouble()
-            : null,
-        budget:
-            json['budget'] != null ? (json['budget'] as num).toDouble() : null,
-        notes: json['notes'],
-        clientId: json['clientId'],
-        clientName: json['clientName'] ?? '',
-        propertyId: json['propertyId'],
-        propertyTitle: json['propertyTitle'],
-        propertyAddress: json['propertyAddress'],
-        agentId: json['agentId'],
-        agentName: json['agentName'] ?? '',
-        createdAt: json['createdAt'] != null
-            ? DateTime.parse(json['createdAt'])
-            : null,
-        updatedAt: json['updatedAt'] != null
-            ? DateTime.parse(json['updatedAt'])
-            : null,
-        closedAt:
-            json['closedAt'] != null ? DateTime.parse(json['closedAt']) : null,
-      );
+  factory DealResponse.fromJson(Map<String, dynamic> json) =>
+      _$DealResponseFromJson(json);
 }
 
 // ─────────────────────────────────────────────
 // Meeting
 // ─────────────────────────────────────────────
 
-class MeetingResponse {
-  final int id;
-  final String title;
-  final String? description;
-  final DateTime scheduledAt;
-  final String? location;
-  final bool completed;
-  final int? dealId;
-  final String? dealTitle;
-  final int agentId;
-  final String agentName;
-  final int clientId;
-  final String clientName;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
-
-  MeetingResponse({
-    required this.id,
-    required this.title,
-    this.description,
-    required this.scheduledAt,
-    this.location,
-    required this.completed,
-    this.dealId,
-    this.dealTitle,
-    required this.agentId,
-    required this.agentName,
-    required this.clientId,
-    required this.clientName,
-    this.createdAt,
-    this.updatedAt,
-  });
+@freezed
+class MeetingResponse with _$MeetingResponse {
+  const factory MeetingResponse({
+    required int id,
+    @Default('') String title,
+    String? description,
+    required DateTime scheduledAt,
+    String? location,
+    @Default(false) bool completed,
+    int? dealId,
+    String? dealTitle,
+    required int agentId,
+    @Default('') String agentName,
+    required int clientId,
+    @Default('') String clientName,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) = _MeetingResponse;
 
   factory MeetingResponse.fromJson(Map<String, dynamic> json) =>
-      MeetingResponse(
-        id: json['id'],
-        title: json['title'] ?? '',
-        description: json['description'],
-        scheduledAt: DateTime.parse(json['scheduledAt']),
-        location: json['location'],
-        completed: json['completed'] ?? false,
-        dealId: json['dealId'],
-        dealTitle: json['dealTitle'],
-        agentId: json['agentId'],
-        agentName: json['agentName'] ?? '',
-        clientId: json['clientId'],
-        clientName: json['clientName'] ?? '',
-        createdAt: json['createdAt'] != null
-            ? DateTime.parse(json['createdAt'])
-            : null,
-        updatedAt: json['updatedAt'] != null
-            ? DateTime.parse(json['updatedAt'])
-            : null,
-      );
+      _$MeetingResponseFromJson(json);
 }
 
-class UpcomingMeetingResponse {
-  final int id;
-  final String title;
-  final DateTime scheduledAt;
-  final String clientName;
-
-  UpcomingMeetingResponse({
-    required this.id,
-    required this.title,
-    required this.scheduledAt,
-    required this.clientName,
-  });
+@freezed
+class UpcomingMeetingResponse with _$UpcomingMeetingResponse {
+  const factory UpcomingMeetingResponse({
+    required int id,
+    @Default('') String title,
+    required DateTime scheduledAt,
+    @Default('') String clientName,
+  }) = _UpcomingMeetingResponse;
 
   factory UpcomingMeetingResponse.fromJson(Map<String, dynamic> json) =>
-      UpcomingMeetingResponse(
-        id: json['id'],
-        title: json['title'] ?? '',
-        scheduledAt: DateTime.parse(json['scheduledAt']),
-        clientName: json['clientName'] ?? '',
-      );
+      _$UpcomingMeetingResponseFromJson(json);
 }
 
 // ─────────────────────────────────────────────
 // Dashboard
 // ─────────────────────────────────────────────
 
-class DashboardSummary {
-  final int totalDeals;
-  final int activeDeals;
-  final int closedDeals;
-  final int totalClients;
-  final int upcomingMeetings;
-
-  DashboardSummary({
-    required this.totalDeals,
-    required this.activeDeals,
-    required this.closedDeals,
-    required this.totalClients,
-    required this.upcomingMeetings,
-  });
+@freezed
+class DashboardSummary with _$DashboardSummary {
+  const factory DashboardSummary({
+    @Default(0) int totalDeals,
+    @Default(0) int activeDeals,
+    @Default(0) int closedDeals,
+    @Default(0) int totalClients,
+    @Default(0) int upcomingMeetings,
+  }) = _DashboardSummary;
 
   factory DashboardSummary.fromJson(Map<String, dynamic> json) =>
-      DashboardSummary(
-        totalDeals: json['totalDeals'] ?? 0,
-        activeDeals: json['activeDeals'] ?? 0,
-        closedDeals: json['closedDeals'] ?? 0,
-        totalClients: json['totalClients'] ?? 0,
-        upcomingMeetings: json['upcomingMeetings'] ?? 0,
-      );
+      _$DashboardSummaryFromJson(json);
 }
 
-class AgentOption {
-  final int id;
-  final String fullName;
-  final String? email;
-  AgentOption({required this.id, required this.fullName, this.email});
-  factory AgentOption.fromJson(Map<String, dynamic> j) => AgentOption(
-        id: j['id'],
-        fullName: j['fullName'] ?? j['full_name'] ?? '',
-        email: j['email'],
-      );
+@freezed
+class AgentOption with _$AgentOption {
+  const factory AgentOption({
+    required int id,
+    required String fullName,
+    String? email,
+  }) = _AgentOption;
+
+  factory AgentOption.fromJson(Map<String, dynamic> json) =>
+      _$AgentOptionFromJson(json);
 }
