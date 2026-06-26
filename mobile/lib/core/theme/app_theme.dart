@@ -116,7 +116,7 @@ class AppTheme {
             color: AppColors.textPrimary),
         iconTheme: IconThemeData(color: AppColors.textPrimary),
       ),
-      cardTheme: CardThemeData(
+      cardTheme: CardTheme(
         color: AppColors.surface,
         elevation: 0,
         shape: RoundedRectangleBorder(
@@ -272,7 +272,7 @@ class AppThemeDark {
             color: AppColors.darkTextPrimary),
         iconTheme: IconThemeData(color: AppColors.darkTextPrimary),
       ),
-      cardTheme: CardThemeData(
+      cardTheme: CardTheme(
         color: AppColors.darkSurface,
         elevation: 0,
         shape: RoundedRectangleBorder(
@@ -362,7 +362,7 @@ class AppThemeDark {
         textStyle: TextStyle(
             color: AppColors.darkTextPrimary, fontFamily: 'Sora', fontSize: 14),
       ),
-      dialogTheme: const DialogThemeData(
+      dialogTheme: const DialogTheme(
         backgroundColor: AppColors.darkSurface,
         titleTextStyle: TextStyle(
             color: AppColors.darkTextPrimary,
