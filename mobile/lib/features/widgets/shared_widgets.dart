@@ -76,15 +76,23 @@ class _StatusChip extends StatelessWidget {
   const _StatusChip({required this.label, required this.color});
   @override
   Widget build(BuildContext context) => Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
-            color: color.withAlpha(38),
-            borderRadius: BorderRadius.circular(20)),
+          color: color.withOpacity(0.16),
+          borderRadius: BorderRadius.circular(28),
+          boxShadow: [
+            BoxShadow(
+                color: color.withOpacity(0.08),
+                blurRadius: 10,
+                offset: const Offset(0, 2)),
+          ],
+        ),
         child: Text(label,
             style: TextStyle(
                 color: color,
-                fontSize: 11,
-                fontWeight: FontWeight.w600,
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+                letterSpacing: 0.15,
                 fontFamily: 'Sora')),
       );
 }
@@ -109,17 +117,20 @@ class StatCard extends StatelessWidget {
     final subColor =
         Theme.of(context).textTheme.bodySmall?.color ?? AppColors.textSecondary;
     return Card(
+      elevation: 4,
+      shadowColor: Colors.black.withOpacity(0.08),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(18),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Container(
-                width: 36,
-                height: 36,
+                width: 40,
+                height: 40,
                 decoration: BoxDecoration(
-                    color: color.withAlpha(31),
-                    borderRadius: BorderRadius.circular(10)),
-                child: Icon(icon, color: color, size: 18)),
+                    color: color.withOpacity(0.18),
+                    borderRadius: BorderRadius.circular(14)),
+                child: Icon(icon, color: color, size: 20)),
             const SizedBox(height: 12),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -186,23 +197,36 @@ class EmptyState extends StatelessWidget {
 
     return Center(
         child: Padding(
-            padding: const EdgeInsets.all(40),
-            child: Column(mainAxisSize: MainAxisSize.min, children: [
-              Container(
-                  width: 72,
-                  height: 72,
-                  decoration: BoxDecoration(
-                      color: iconBg, borderRadius: BorderRadius.circular(20)),
-                  child: Icon(icon, size: 36, color: iconColor)),
-              const SizedBox(height: 16),
-              Text(title, style: titleStyle, textAlign: TextAlign.center),
-              if (subtitle != null) ...[
-                const SizedBox(height: 8),
-                Text(subtitle!,
-                    style: subtitleStyle, textAlign: TextAlign.center)
-              ],
-              if (action != null) ...[const SizedBox(height: 24), action!],
-            ])));
+      padding: const EdgeInsets.all(24),
+      child: Card(
+        elevation: 2,
+        shadowColor: Colors.black.withOpacity(0.06),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(mainAxisSize: MainAxisSize.min, children: [
+            Container(
+              width: 68,
+              height: 68,
+              decoration: BoxDecoration(
+                color: iconBg,
+                borderRadius: BorderRadius.circular(22),
+              ),
+              child: Icon(icon, size: 36, color: iconColor),
+            ),
+            const SizedBox(height: 18),
+            Text(title,
+                style: titleStyle?.copyWith(fontSize: 20),
+                textAlign: TextAlign.center),
+            if (subtitle != null) ...[
+              const SizedBox(height: 10),
+              Text(subtitle!, style: subtitleStyle, textAlign: TextAlign.center)
+            ],
+            if (action != null) ...[const SizedBox(height: 22), action!],
+          ]),
+        ),
+      ),
+    ));
   }
 }
 
@@ -222,21 +246,46 @@ class ErrorWidget2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Center(
       child: Padding(
-          padding: const EdgeInsets.all(40),
-          child: Column(mainAxisSize: MainAxisSize.min, children: [
-            const Icon(Icons.error_outline, size: 48, color: AppColors.error),
-            const SizedBox(height: 16),
-            Text(message,
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyMedium),
-            if (onRetry != null) ...[
-              const SizedBox(height: 16),
-              TextButton.icon(
-                  onPressed: onRetry,
-                  icon: const Icon(Icons.refresh),
-                  label: const Text('Retry'))
-            ],
-          ])));
+          padding: const EdgeInsets.all(24),
+          child: Card(
+            elevation: 2,
+            shadowColor: Colors.black.withOpacity(0.08),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Column(mainAxisSize: MainAxisSize.min, children: [
+                Container(
+                  width: 72,
+                  height: 72,
+                  decoration: BoxDecoration(
+                    color: AppColors.error.withOpacity(0.12),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: const Icon(Icons.error_outline,
+                      size: 36, color: AppColors.error),
+                ),
+                const SizedBox(height: 18),
+                Text(message,
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(fontSize: 15, height: 1.5)),
+                if (onRetry != null) ...[
+                  const SizedBox(height: 18),
+                  SizedBox(
+                    width: 140,
+                    child: ElevatedButton.icon(
+                      onPressed: onRetry,
+                      icon: const Icon(Icons.refresh, size: 18),
+                      label: const Text('Retry'),
+                    ),
+                  )
+                ],
+              ]),
+            ),
+          )));
 }
 
 // ─── Shimmer Helpers ─────────────────────────────────────────────
