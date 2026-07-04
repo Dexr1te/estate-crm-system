@@ -4,8 +4,8 @@ class AppColors {
   // Primary palette
   static const primary = Color(0xFF0F1E3C);
   static const primaryLight = Color(0xFF1A3260);
-  static const accent = Color(0xFFD4A843);
-  static const accentLight = Color(0xFFF5C842);
+  static const accent = Color(0xFFE5B84C);
+  static const accentLight = Color(0xFFFFD54F);
 
   // Light surface
   static const background = Color(0xFFF4F6FB);
