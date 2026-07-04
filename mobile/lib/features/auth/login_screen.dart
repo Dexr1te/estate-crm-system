@@ -64,11 +64,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               child: const Icon(Icons.home_work,
                                   color: Colors.white, size: 26)),
                           const SizedBox(height: 28),
-                          Text('Welcome back',
+                          Text('Welcome back!',
                               style: tt.titleLarge?.copyWith(
                                   fontSize: 28, fontWeight: FontWeight.w700)),
                           const SizedBox(height: 8),
-                          Text('Sign in to your Estate CRM account',
+                          Text('Sign in to manage your properties',
                               style: tt.bodySmall?.copyWith(fontSize: 15)),
                           const SizedBox(height: 36),
                           Form(

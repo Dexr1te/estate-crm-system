@@ -45,7 +45,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                           Text(
-                            'Hello, ${user?.fullName.split(' ').first ?? 'there'} 👋',
+                            'Hey, ${user?.fullName.split(' ').first ?? 'there'} ✨',
                             style: TextStyle(
                                 fontSize: 22,
                                 fontWeight: FontWeight.w700,
