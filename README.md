@@ -30,8 +30,8 @@ Real estate agencies struggle to manage large volumes of clients, property listi
 | Layer | Technology |
 |---|---|
 | Frontend | React, TypeScript, Vite |
-| Backend | Java, Spring |
-| Mobile | Flutter |
+| Backend | Java, Spring Boot, Maven |
+| Mobile | Flutter (Dart) |
 | Database | PostgreSQL |
 
 ---
@@ -39,23 +39,38 @@ Real estate agencies struggle to manage large volumes of clients, property listi
 ## ⚙️ Installation
 
 ### Prerequisites
-- Java / Spring
-- npm or yarn
-- Flutter SDK (for mobile)
+
+- Java 17+
+- Node.js 18+ and npm
+- Flutter SDK 3.x (FVM supported — see `mobile/.fvmrc`)
+- Docker & Docker Compose (for backend + database)
+
+### Backend
+
+```bash
+cd backend
+docker-compose up --build
+```
+
+API runs on `http://localhost:8080`. PostgreSQL is exposed on port `5433`.
 
 ### Frontend
+
+```bash
 cd frontend
 npm install
 npm run dev
-
-### Backend
-cd backend
-docker-compose build
+```
 
 ### Mobile
+
+```bash
 cd mobile
 flutter pub get
 flutter run
+```
+
+See [mobile/README.md](mobile/README.md) for platform-specific notes.
 
 ---
 
@@ -71,26 +86,25 @@ flutter run
 
 ## 📁 Project Structure
 
+```
 estate-crm-system/
-├── backend/        # REST API and business logic
+├── backend/        # Spring Boot REST API
 ├── frontend/       # React web application
 ├── mobile/         # Flutter mobile app
 ├── docs/           # Documentation
-├── tests/          # Test files
-└── assets/         # Shared assets
+└── AGENTS.md       # AI agent instructions (optional)
+```
 
 ---
 
 ## 👥 Team
 
-Assan Sultan - 230103325
--
-Koibagar Nurserik - 230103145
--
-Amangeldi Dauirkhan - 230103386
--
-Muratbek Mukamet - 230103265
--
+| Name | ID |
+|---|---|
+| Assan Sultan | 230103325 |
+| Koibagar Nurserik | 230103145 |
+| Amangeldi Dauirkhan | 230103386 |
+| Muratbek Mukamet | 230103265 |
 
 ---
 

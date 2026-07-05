@@ -132,7 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     style: tt.bodySmall),
                                 TextButton(
                                     onPressed: () => context.go('/register'),
-                                    child: const Text('Register')),
+                                    child: const Text('Create account')),
                               ]),
                         ]),
                   )));

@@ -124,7 +124,7 @@ class ProfileScreen extends StatelessWidget {
                 const _Tile(
                     icon: Icons.home_work_outlined,
                     label: 'Estate CRM',
-                    trailing: Text('Real Estate Platform',
+                    trailing: Text('Built for real estate teams',
                         style: TextStyle(fontSize: 13)),
                     onTap: null),
               ]),
