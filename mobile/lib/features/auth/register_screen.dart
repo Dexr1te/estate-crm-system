@@ -79,7 +79,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             style: tt.titleLarge?.copyWith(
                                 fontSize: 28, fontWeight: FontWeight.w700)),
                         const SizedBox(height: 8),
-                        Text('Join Estate CRM',
+                        Text('Start managing properties today',
                             style: tt.bodySmall?.copyWith(fontSize: 15)),
                         const SizedBox(height: 36),
                         Form(
