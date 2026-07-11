@@ -80,7 +80,6 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
     final cs = Theme.of(context).colorScheme;
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    // Theme-aware colors for the buyer/seller toggle
     final unselectedBg = isDark ? AppColors.darkSurface : AppColors.surface;
     final unselectedBorder =
         isDark ? AppColors.darkBorder : const Color(0xFFE8ECF4);
@@ -113,11 +112,87 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
         body: _initLoading
             ? const LoadingWidget()
             : SingleChildScrollView(
-                padding: const EdgeInsets.all(24),
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
                 child: Form(
-                    key: _formKey,
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // ── Client type banner ──────────────────
+                      Text('Client Type',
+                          style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: 0.2,
+                              color: isDark
+                                  ? AppColors.darkTextSecondary
+                                  : AppColors.textSecondary)),
+                      const SizedBox(height: 10),
+                      Row(
+                          children: ClientType.values
+                              .map((t) => Expanded(
+                                      child: Padding(
+                                    padding: EdgeInsets.only(
+                                        right: t == ClientType.BUYER ? 10 : 0),
+                                    child: InkWell(
+                                      onTap: () => setState(() => _type = t),
+                                      borderRadius: BorderRadius.circular(14),
+                                      child: AnimatedContainer(
+                                        duration:
+                                            const Duration(milliseconds: 150),
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 16),
+                                        decoration: BoxDecoration(
+                                          gradient: _type == t
+                                              ? LinearGradient(
+                                                  begin: Alignment.topLeft,
+                                                  end: Alignment.bottomRight,
+                                                  colors: [
+                                                      cs.primary,
+                                                      cs.primary.withAlpha(210),
+                                                    ])
+                                              : null,
+                                          color:
+                                              _type == t ? null : unselectedBg,
+                                          borderRadius:
+                                              BorderRadius.circular(14),
+                                          border: Border.all(
+                                              color: _type == t
+                                                  ? cs.primary
+                                                  : unselectedBorder),
+                                          boxShadow: _type == t
+                                              ? [
+                                                  BoxShadow(
+                                                      color: cs.primary
+                                                          .withAlpha(60),
+                                                      blurRadius: 12,
+                                                      offset:
+                                                          const Offset(0, 4)),
+                                                ]
+                                              : null,
+                                        ),
+                                        child: Center(
+                                            child: Text(
+                                                t == ClientType.BUYER
+                                                    ? '🏠 Buyer'
+                                                    : '💰 Seller',
+                                                style: TextStyle(
+                                                    fontFamily: 'Sora',
+                                                    fontWeight: FontWeight.w600,
+                                                    color: _type == t
+                                                        ? Colors.white
+                                                        : unselectedText,
+                                                    fontSize: 14))),
+                                      ),
+                                    ),
+                                  )))
+                              .toList()),
+                      const SizedBox(height: 24),
+
+                      // ── Contact info section ────────────────
+                      _FormSectionCard(
+                        title: 'Contact Info',
+                        icon: Icons.badge_outlined,
                         children: [
                           TextFormField(
                               controller: _nameCtrl,
@@ -128,7 +203,7 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
                               validator: (v) => v == null || v.isEmpty
                                   ? 'Name is required'
                                   : null),
-                          const SizedBox(height: 12),
+                          const SizedBox(height: 14),
                           TextFormField(
                               controller: _emailCtrl,
                               keyboardType: TextInputType.emailAddress,
@@ -144,7 +219,7 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
                                 }
                                 return null;
                               }),
-                          const SizedBox(height: 12),
+                          const SizedBox(height: 14),
                           TextFormField(
                               controller: _phoneCtrl,
                               keyboardType: TextInputType.phone,
@@ -152,87 +227,101 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
                                   labelText: 'Phone',
                                   prefixIcon:
                                       Icon(Icons.phone_outlined, size: 20))),
-                          const SizedBox(height: 20),
-                          Text('Client Type',
-                              style: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w600,
-                                  color: isDark
-                                      ? AppColors.darkTextSecondary
-                                      : AppColors.textSecondary)),
-                          const SizedBox(height: 10),
-                          Row(
-                              children: ClientType.values
-                                  .map((t) => Expanded(
-                                          child: Padding(
-                                        padding: EdgeInsets.only(
-                                            right:
-                                                t == ClientType.BUYER ? 8 : 0),
-                                        child: InkWell(
-                                          onTap: () =>
-                                              setState(() => _type = t),
-                                          borderRadius:
-                                              BorderRadius.circular(12),
-                                          child: AnimatedContainer(
-                                            duration: const Duration(
-                                                milliseconds: 150),
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 14),
-                                            decoration: BoxDecoration(
-                                                color: _type == t
-                                                    ? cs.primary
-                                                    : unselectedBg,
-                                                borderRadius:
-                                                    BorderRadius.circular(12),
-                                                border: Border.all(
-                                                    color: _type == t
-                                                        ? cs.primary
-                                                        : unselectedBorder)),
-                                            child: Center(
-                                                child: Text(
-                                                    t == ClientType.BUYER
-                                                        ? '🏠 Buyer'
-                                                        : '💰 Seller',
-                                                    style: TextStyle(
-                                                        fontFamily: 'Sora',
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        color: _type == t
-                                                            ? Colors.white
-                                                            : unselectedText,
-                                                        fontSize: 14))),
-                                          ),
-                                        ),
-                                      )))
-                                  .toList()),
-                          const SizedBox(height: 20),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+
+                      // ── Notes section ────────────────────────
+                      _FormSectionCard(
+                        title: 'Notes',
+                        icon: Icons.notes_outlined,
+                        children: [
                           TextFormField(
                               controller: _notesCtrl,
                               maxLines: 4,
                               decoration: const InputDecoration(
-                                  hintText: 'Additional notes...',
-                                  alignLabelWithHint: true)),
-                          const SizedBox(height: 32),
-                          ElevatedButton(
-                            onPressed: _loading ? null : _submit,
-                            child: _loading
-                                ? const SizedBox(
-                                    height: 20,
-                                    width: 20,
-                                    child: CircularProgressIndicator(
-                                        color: Colors.white, strokeWidth: 2))
-                                : Text(widget.isEditing
-                                    ? 'Update Client'
-                                    : 'Create Client'),
-                          ),
-                          const SizedBox(height: 12),
-                          OutlinedButton(
-                              onPressed: () => context.pop(),
-                              style: OutlinedButton.styleFrom(
-                                  minimumSize: const Size(double.infinity, 52)),
-                              child: const Text('Cancel')),
-                        ])),
+                                  border: InputBorder.none,
+                                  hintText:
+                                      'Additional notes about this client…',
+                                  isCollapsed: false)),
+                        ],
+                      ),
+                      const SizedBox(height: 32),
+
+                      ElevatedButton(
+                        onPressed: _loading ? null : _submit,
+                        style: ElevatedButton.styleFrom(
+                            minimumSize: const Size(double.infinity, 54),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(14))),
+                        child: _loading
+                            ? const SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: CircularProgressIndicator(
+                                    color: Colors.white, strokeWidth: 2))
+                            : Text(widget.isEditing
+                                ? 'Update Client'
+                                : 'Create Client'),
+                      ),
+                      const SizedBox(height: 10),
+                      OutlinedButton(
+                          onPressed: () => context.pop(),
+                          style: OutlinedButton.styleFrom(
+                              minimumSize: const Size(double.infinity, 54),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(14))),
+                          child: const Text('Cancel')),
+                    ],
+                  ),
+                ),
               ),
+      ),
+    );
+  }
+}
+
+// ─── Reusable section card ─────────────────────────────────────
+
+class _FormSectionCard extends StatelessWidget {
+  final String title;
+  final IconData icon;
+  final List<Widget> children;
+  const _FormSectionCard(
+      {required this.title, required this.icon, required this.children});
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: cs.surface,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: cs.outline.withAlpha(35)),
+        boxShadow: [
+          BoxShadow(
+              color: Colors.black.withAlpha(8),
+              blurRadius: 14,
+              offset: const Offset(0, 4)),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(children: [
+            Icon(icon, size: 16, color: cs.primary),
+            const SizedBox(width: 8),
+            Text(title,
+                style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0.2,
+                    color: cs.primary)),
+          ]),
+          const SizedBox(height: 14),
+          ...children,
+        ],
       ),
     );
   }

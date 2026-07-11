@@ -20,6 +20,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
     context.read<DashboardBloc>().add(DashboardLoadEvent());
   }
 
+  String _greeting() {
+    final h = DateTime.now().hour;
+    if (h < 5) return 'Still up';
+    if (h < 12) return 'Good morning';
+    if (h < 18) return 'Good afternoon';
+    return 'Good evening';
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = context.watch<AuthBloc>().state is AuthAuthenticated
@@ -38,29 +46,39 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 // ── Header ──────────────────────────────────────
                 SliverToBoxAdapter(
                     child: Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 28, 24, 0),
-                  child: Row(children: [
-                    Expanded(
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                          Text(
-                            'Hey, ${user?.fullName.split(' ').first ?? 'there'} ✨',
-                            style: TextStyle(
-                                fontSize: 22,
-                                fontWeight: FontWeight.w700,
-                                color: Theme.of(context).colorScheme.onSurface,
-                                fontFamily: 'Sora'),
-                          ),
-                          const SizedBox(height: 4),
-                          Text("Here's your overview",
-                              style: Theme.of(context).textTheme.bodySmall),
-                        ])),
-                    GestureDetector(
-                      onTap: () => context.push('/profile'),
-                      child: _UserAvatar(name: user?.fullName ?? '?'),
-                    ),
-                  ]),
+                  padding: const EdgeInsets.fromLTRB(24, 20, 24, 8),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                            Text(
+                              '${_greeting()}, ${user?.fullName.split(' ').first ?? 'there'} ✨',
+                              style: TextStyle(
+                                  fontSize: 23,
+                                  fontWeight: FontWeight.w700,
+                                  height: 1.2,
+                                  letterSpacing: -0.3,
+                                  color:
+                                      Theme.of(context).colorScheme.onSurface,
+                                  fontFamily: 'Sora'),
+                            ),
+                            const SizedBox(height: 4),
+                            Text("Here's your overview for today",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(letterSpacing: 0.1)),
+                          ])),
+                      const SizedBox(width: 12),
+                      GestureDetector(
+                        onTap: () => context.push('/profile'),
+                        child: _UserAvatar(name: user?.fullName ?? '?'),
+                      ),
+                    ],
+                  ),
                 )),
 
                 if (state is DashboardLoading)
@@ -75,14 +93,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 else if (state is DashboardLoaded) ...[
                   SliverToBoxAdapter(
                       child: Padding(
-                    padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
+                    padding: const EdgeInsets.fromLTRB(24, 20, 24, 0),
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Overview',
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w600)),
-                          const SizedBox(height: 16),
+                          const _SectionHeader(title: 'Overview'),
+                          const SizedBox(height: 14),
                           GridView.count(
                             crossAxisCount: 2,
                             shrinkWrap: true,
@@ -116,94 +132,81 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   subtitle: 'meetings'),
                             ],
                           ),
-                          const SizedBox(height: 28),
+                          const SizedBox(height: 30),
                           Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const Text('Upcoming Meetings',
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600)),
-                                TextButton(
+                                const _SectionHeader(
+                                    title: 'Upcoming Meetings'),
+                                TextButton.icon(
                                     onPressed: () => context.go('/meetings'),
-                                    child: const Text('See all')),
+                                    icon: const Text('See all',
+                                        style: TextStyle(fontSize: 13)),
+                                    label: const Icon(
+                                        Icons.arrow_forward_rounded,
+                                        size: 15),
+                                    iconAlignment: IconAlignment.end,
+                                    style: TextButton.styleFrom(
+                                        padding: EdgeInsets.zero,
+                                        minimumSize: Size.zero,
+                                        tapTargetSize:
+                                            MaterialTapTargetSize.shrinkWrap)),
                               ]),
-                          const SizedBox(height: 8),
+                          const SizedBox(height: 10),
                         ]),
                   )),
                   if (state.upcoming.isEmpty)
-                    const SliverToBoxAdapter(
+                    SliverToBoxAdapter(
                         child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 24),
-                      child: Card(
-                          child: Padding(
-                              padding: EdgeInsets.all(20),
-                              child: Row(children: [
-                                Icon(Icons.calendar_today_outlined,
-                                    color: AppColors.textHint),
-                                SizedBox(width: 12),
-                                Text('No upcoming meetings'),
-                              ]))),
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 28, horizontal: 20),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .surfaceContainerHighest
+                              .withAlpha(90),
+                          borderRadius: BorderRadius.circular(18),
+                          border: Border.all(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .outline
+                                  .withAlpha(40)),
+                        ),
+                        child: Column(children: [
+                          Icon(Icons.event_available_outlined,
+                              color: AppColors.textHint, size: 30),
+                          const SizedBox(height: 10),
+                          Text('No upcoming meetings',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(color: AppColors.textHint)),
+                        ]),
+                      ),
                     ))
                   else
                     SliverList(
                         delegate: SliverChildBuilderDelegate(
                       (_, i) => Padding(
-                        padding: const EdgeInsets.fromLTRB(24, 0, 24, 8),
-                        child: Card(
-                            child: Padding(
-                                padding: const EdgeInsets.all(16),
-                                child: Row(children: [
-                                  Container(
-                                      width: 44,
-                                      height: 44,
-                                      decoration: BoxDecoration(
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .primary
-                                              .withAlpha(20),
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      child: Icon(Icons.calendar_today,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .primary,
-                                          size: 20)),
-                                  const SizedBox(width: 12),
-                                  Expanded(
-                                      child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                        Text(state.upcoming[i].title,
-                                            style: const TextStyle(
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 14)),
-                                        Text(state.upcoming[i].clientName,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodySmall),
-                                      ])),
-                                  Text(
-                                      formatDateTime(
-                                          state.upcoming[i].scheduledAt),
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelSmall),
-                                ]))),
+                        padding: const EdgeInsets.fromLTRB(24, 0, 24, 10),
+                        child: _MeetingTile(
+                          title: state.upcoming[i].title,
+                          clientName: state.upcoming[i].clientName,
+                          time: formatDateTime(state.upcoming[i].scheduledAt),
+                        ),
                       ),
                       childCount: state.upcoming.length,
                     )),
                   SliverToBoxAdapter(
                       child: Padding(
-                    padding: const EdgeInsets.all(24),
+                    padding: const EdgeInsets.fromLTRB(24, 26, 24, 28),
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text('Quick Actions',
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w600)),
-                          const SizedBox(height: 12),
+                          const _SectionHeader(title: 'Quick Actions'),
+                          const SizedBox(height: 14),
                           Row(children: [
                             Expanded(
                                 child: _QuickAction(
@@ -248,6 +251,108 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 }
 
+// ─── Section Header ──────────────────────────────────────────────
+
+class _SectionHeader extends StatelessWidget {
+  final String title;
+  const _SectionHeader({required this.title});
+  @override
+  Widget build(BuildContext context) => Text(title,
+      style: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w700,
+          letterSpacing: -0.2,
+          color: Theme.of(context).colorScheme.onSurface,
+          fontFamily: 'Sora'));
+}
+
+// ─── Meeting Tile ────────────────────────────────────────────────
+
+class _MeetingTile extends StatelessWidget {
+  final String title;
+  final String clientName;
+  final String time;
+  const _MeetingTile(
+      {required this.title, required this.clientName, required this.time});
+
+  @override
+  Widget build(BuildContext context) {
+    final primary = Theme.of(context).colorScheme.primary;
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.surface,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+              color: Colors.black.withAlpha(10),
+              blurRadius: 12,
+              offset: const Offset(0, 4)),
+        ],
+      ),
+      child: IntrinsicHeight(
+        child: Row(children: [
+          Container(
+            width: 4,
+            decoration: BoxDecoration(
+              color: primary,
+              borderRadius:
+                  const BorderRadius.horizontal(left: Radius.circular(16)),
+            ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+              child: Row(children: [
+                Container(
+                    width: 42,
+                    height: 42,
+                    decoration: BoxDecoration(
+                        color: primary.withAlpha(20),
+                        borderRadius: BorderRadius.circular(12)),
+                    child:
+                        Icon(Icons.calendar_today, color: primary, size: 18)),
+                const SizedBox(width: 12),
+                Expanded(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                      Text(title,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                              fontWeight: FontWeight.w600, fontSize: 14)),
+                      const SizedBox(height: 2),
+                      Text(clientName,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: Theme.of(context).textTheme.bodySmall),
+                    ])),
+                const SizedBox(width: 8),
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context)
+                        .colorScheme
+                        .surfaceContainerHighest
+                        .withAlpha(140),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Text(time,
+                      style: Theme.of(context)
+                          .textTheme
+                          .labelSmall
+                          ?.copyWith(fontWeight: FontWeight.w600)),
+                ),
+              ]),
+            ),
+          ),
+        ]),
+      ),
+    );
+  }
+}
+
 // ─── Dashboard Skeleton ──────────────────────────────────────────
 
 class _DashboardSkeleton extends StatelessWidget {
@@ -262,12 +367,10 @@ class _DashboardSkeleton extends StatelessWidget {
       baseColor: base,
       highlightColor: highlight,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
+        padding: const EdgeInsets.fromLTRB(24, 20, 24, 0),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          // "Overview" label
           const ShimmerBox(width: 80, height: 16, radius: 8),
-          const SizedBox(height: 16),
-          // Stats grid — 2x2
+          const SizedBox(height: 14),
           GridView.count(
             crossAxisCount: 2,
             shrinkWrap: true,
@@ -277,25 +380,23 @@ class _DashboardSkeleton extends StatelessWidget {
             childAspectRatio: 1.35,
             children: List.generate(4, (_) => const _StatCardSkeleton()),
           ),
-          const SizedBox(height: 28),
-          // "Upcoming Meetings" row
+          const SizedBox(height: 30),
           const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 ShimmerBox(width: 160, height: 16, radius: 8),
                 ShimmerBox(width: 50, height: 14, radius: 7),
               ]),
-          const SizedBox(height: 12),
-          // 3 meeting skeletons
+          const SizedBox(height: 14),
           ...List.generate(
               3,
               (_) => const Padding(
-                    padding: EdgeInsets.only(bottom: 8),
+                    padding: EdgeInsets.only(bottom: 10),
                     child: Card(
                       child: Padding(
                         padding: EdgeInsets.all(16),
                         child: Row(children: [
-                          ShimmerBox(width: 44, height: 44, radius: 10),
+                          ShimmerBox(width: 42, height: 42, radius: 12),
                           SizedBox(width: 12),
                           Expanded(
                               child: Column(
@@ -309,16 +410,14 @@ class _DashboardSkeleton extends StatelessWidget {
                                 ShimmerBox(width: 120, height: 12, radius: 6),
                               ])),
                           SizedBox(width: 12),
-                          ShimmerBox(width: 60, height: 11, radius: 5),
+                          ShimmerBox(width: 50, height: 20, radius: 8),
                         ]),
                       ),
                     ),
                   )),
-          const SizedBox(height: 8),
-          // "Quick Actions" label
+          const SizedBox(height: 16),
           const ShimmerBox(width: 110, height: 16, radius: 8),
-          const SizedBox(height: 12),
-          // Quick action rows
+          const SizedBox(height: 14),
           Row(children: [
             Expanded(child: _QuickActionSkeleton()),
             const SizedBox(width: 12),
@@ -400,18 +499,28 @@ class _UserAvatar extends StatelessWidget {
     return Hero(
       tag: 'user_avatar',
       child: Container(
-        width: 42,
-        height: 42,
+        width: 46,
+        height: 46,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: color.withAlpha(38),
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [color.withAlpha(60), color.withAlpha(20)],
+          ),
           border: Border.all(color: color, width: 2),
+          boxShadow: [
+            BoxShadow(
+                color: color.withAlpha(60),
+                blurRadius: 10,
+                offset: const Offset(0, 3)),
+          ],
         ),
         child: Center(
           child: Text(
             name.isNotEmpty ? name[0].toUpperCase() : '?',
             style: TextStyle(
-                fontSize: 17,
+                fontSize: 18,
                 fontWeight: FontWeight.w700,
                 color: color,
                 fontFamily: 'Sora'),
@@ -422,7 +531,9 @@ class _UserAvatar extends StatelessWidget {
   }
 }
 
-class _QuickAction extends StatelessWidget {
+// ─── Quick Action ────────────────────────────────────────────────
+
+class _QuickAction extends StatefulWidget {
   final IconData icon;
   final String label;
   final Color color;
@@ -432,26 +543,53 @@ class _QuickAction extends StatelessWidget {
       required this.label,
       required this.color,
       required this.onTap});
+
   @override
-  Widget build(BuildContext context) => InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(16),
-        child: Card(
-            child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Row(children: [
-                  Container(
-                      width: 36,
-                      height: 36,
-                      decoration: BoxDecoration(
-                          color: color.withAlpha(31),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Icon(icon, color: color, size: 18)),
-                  const SizedBox(width: 12),
-                  Expanded(
-                      child: Text(label,
-                          style: const TextStyle(
-                              fontSize: 13, fontWeight: FontWeight.w600))),
-                ]))),
-      );
+  State<_QuickAction> createState() => _QuickActionState();
+}
+
+class _QuickActionState extends State<_QuickAction> {
+  bool _pressed = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTapDown: (_) => setState(() => _pressed = true),
+      onTapUp: (_) => setState(() => _pressed = false),
+      onTapCancel: () => setState(() => _pressed = false),
+      onTap: widget.onTap,
+      child: AnimatedScale(
+        scale: _pressed ? 0.96 : 1.0,
+        duration: const Duration(milliseconds: 100),
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.surface,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: widget.color.withAlpha(45), width: 1),
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.black.withAlpha(8),
+                  blurRadius: 10,
+                  offset: const Offset(0, 3)),
+            ],
+          ),
+          child: Row(children: [
+            Container(
+                width: 38,
+                height: 38,
+                decoration: BoxDecoration(
+                    color: widget.color.withAlpha(31),
+                    borderRadius: BorderRadius.circular(11)),
+                child: Icon(widget.icon, color: widget.color, size: 19)),
+            const SizedBox(width: 12),
+            Expanded(
+                child: Text(widget.label,
+                    style: const TextStyle(
+                        fontSize: 13, fontWeight: FontWeight.w600))),
+          ]),
+        ),
+      ),
+    );
+  }
 }

@@ -55,6 +55,12 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
     if (mounted) context.go('/clients');
   }
 
+  void _copyId() {
+    Clipboard.setData(ClipboardData(text: _client!.id.toString()));
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('Client ID copied'), duration: Duration(seconds: 1)));
+  }
+
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
@@ -80,140 +86,120 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
               ? const EmptyState(
                   title: 'Client not found', icon: Icons.person_off_outlined)
               : SingleChildScrollView(
-                  padding: const EdgeInsets.all(24),
+                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // ── Profile card ──
-                        Card(
-                            child: Padding(
-                                padding: const EdgeInsets.all(20),
-                                child: Row(children: [
-                                  CircleAvatar(
-                                      radius: 28,
-                                      backgroundColor: cs.primary.withAlpha(26),
-                                      child: Text(
-                                          _client!.fullName.isNotEmpty
-                                              ? _client!.fullName[0]
-                                                  .toUpperCase()
-                                              : '?',
-                                          style: TextStyle(
-                                              fontSize: 22,
-                                              color: cs.primary,
-                                              fontWeight: FontWeight.w700,
-                                              fontFamily: 'Sora'))),
-                                  const SizedBox(width: 16),
-                                  Expanded(
-                                      child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                        Text(_client!.fullName,
-                                            style: tt.titleMedium?.copyWith(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w700)),
-                                        const SizedBox(height: 6),
-                                        ClientTypeChip(type: _client!.type),
-                                      ])),
-                                  // ── ID badge (tap to copy) ──
-                                  GestureDetector(
-                                    onTap: () {
-                                      Clipboard.setData(ClipboardData(
-                                          text: _client!.id.toString()));
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(const SnackBar(
-                                              content: Text('Client ID copied'),
-                                              duration: Duration(seconds: 1)));
-                                    },
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 10, vertical: 6),
-                                      decoration: BoxDecoration(
-                                          color:
-                                              AppColors.success.withAlpha(20),
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                          border: Border.all(
-                                              color: AppColors.success
-                                                  .withAlpha(64))),
-                                      child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            const Icon(Icons.tag,
-                                                size: 13,
-                                                color: AppColors.success),
-                                            const SizedBox(width: 4),
-                                            Text('ID: ${_client!.id}',
-                                                style: const TextStyle(
-                                                    fontSize: 13,
-                                                    fontWeight: FontWeight.w700,
-                                                    color: AppColors.success,
-                                                    fontFamily: 'Sora')),
-                                            const SizedBox(width: 6),
-                                            const Icon(Icons.copy,
-                                                size: 13,
-                                                color: AppColors.success),
-                                          ]),
-                                    ),
-                                  ),
-                                ]))),
+                        // ── Profile header ──
+                        _HeaderCard(
+                          child: Row(children: [
+                            Container(
+                              width: 60,
+                              height: 60,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                gradient: LinearGradient(
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                    colors: [
+                                      cs.primary.withAlpha(60),
+                                      cs.primary.withAlpha(20)
+                                    ]),
+                                border: Border.all(color: cs.primary, width: 2),
+                              ),
+                              child: Center(
+                                  child: Text(
+                                      _client!.fullName.isNotEmpty
+                                          ? _client!.fullName[0].toUpperCase()
+                                          : '?',
+                                      style: TextStyle(
+                                          fontSize: 24,
+                                          color: cs.primary,
+                                          fontWeight: FontWeight.w700,
+                                          fontFamily: 'Sora'))),
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                                child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                  Text(_client!.fullName,
+                                      style: tt.titleMedium?.copyWith(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w700)),
+                                  const SizedBox(height: 8),
+                                  Row(children: [
+                                    ClientTypeChip(type: _client!.type),
+                                    const SizedBox(width: 8),
+                                    _IdBadge(
+                                        label: 'ID ${_client!.id}',
+                                        color: AppColors.success,
+                                        onTap: _copyId),
+                                  ]),
+                                ])),
+                          ]),
+                        ),
 
                         // ── Contact card ──
-                        const SizedBox(height: 12),
-                        _InfoCard(title: 'Contact', rows: [
-                          if (_client!.email != null)
-                            _InfoRow(
-                                Icons.email_outlined, 'Email', _client!.email!),
-                          if (_client!.phone != null)
-                            _InfoRow(
-                                Icons.phone_outlined, 'Phone', _client!.phone!),
-                          if (_client!.agentName != null)
-                            _InfoRow(Icons.person_outlined, 'Agent',
-                                _client!.agentName!),
-                        ]),
+                        const SizedBox(height: 14),
+                        _InfoCard(
+                            title: 'Contact',
+                            icon: Icons.badge_outlined,
+                            rows: [
+                              if (_client!.email != null)
+                                _InfoRow(Icons.email_outlined, 'Email',
+                                    _client!.email!),
+                              if (_client!.phone != null)
+                                _InfoRow(Icons.phone_outlined, 'Phone',
+                                    _client!.phone!),
+                              if (_client!.agentName != null)
+                                _InfoRow(Icons.person_outlined, 'Agent',
+                                    _client!.agentName!),
+                            ]),
 
                         // ── Deals card ──
                         if (_deals.isNotEmpty) ...[
-                          const SizedBox(height: 12),
-                          Card(
-                            child: Padding(
-                              padding: const EdgeInsets.all(16),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(children: [
-                                    Expanded(
-                                      child: Text(
-                                        'Deals',
-                                        style: tt.bodyLarge?.copyWith(
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 14),
-                                      ),
-                                    ),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 8, vertical: 3),
-                                      decoration: BoxDecoration(
-                                        color: cs.primary.withAlpha(20),
-                                        borderRadius: BorderRadius.circular(20),
-                                      ),
-                                      child: Text(
-                                        '${_deals.length}',
-                                        style: TextStyle(
-                                          fontSize: 12,
+                          const SizedBox(height: 14),
+                          _HeaderCard(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(children: [
+                                  Icon(Icons.handshake_outlined,
+                                      size: 16, color: cs.primary),
+                                  const SizedBox(width: 8),
+                                  Expanded(
+                                    child: Text(
+                                      'Deals',
+                                      style: TextStyle(
+                                          fontSize: 13,
                                           fontWeight: FontWeight.w700,
-                                          color: cs.primary,
-                                          fontFamily: 'Sora',
-                                        ),
+                                          letterSpacing: 0.2,
+                                          color: cs.primary),
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8, vertical: 3),
+                                    decoration: BoxDecoration(
+                                      color: cs.primary.withAlpha(20),
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Text(
+                                      '${_deals.length}',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w700,
+                                        color: cs.primary,
+                                        fontFamily: 'Sora',
                                       ),
                                     ),
-                                  ]),
-                                  const SizedBox(height: 8),
-                                  const Divider(height: 1),
-                                  const SizedBox(height: 4),
-                                  ..._deals.map((deal) => _DealRow(deal: deal)),
-                                ],
-                              ),
+                                  ),
+                                ]),
+                                const SizedBox(height: 12),
+                                ..._deals.map((deal) => _DealRow(deal: deal)),
+                              ],
                             ),
                           ),
                         ],
@@ -221,36 +207,31 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
                         // ── Notes card ──
                         if (_client!.notes != null &&
                             _client!.notes!.isNotEmpty) ...[
-                          const SizedBox(height: 12),
-                          Card(
-                              child: Padding(
-                                  padding: const EdgeInsets.all(16),
-                                  child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text('Notes',
-                                            style: tt.bodyLarge?.copyWith(
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 14)),
-                                        const SizedBox(height: 8),
-                                        Text(_client!.notes!,
-                                            style: tt.bodyMedium?.copyWith(
-                                                color: tt.bodySmall?.color,
-                                                height: 1.5)),
-                                      ]))),
+                          const SizedBox(height: 14),
+                          _InfoCard(
+                              title: 'Notes',
+                              icon: Icons.notes_outlined,
+                              rows: [
+                                Text(_client!.notes!,
+                                    style: tt.bodyMedium?.copyWith(
+                                        color: tt.bodySmall?.color,
+                                        height: 1.5)),
+                              ]),
                         ],
 
                         // ── Timestamps card ──
                         if (_client!.createdAt != null) ...[
-                          const SizedBox(height: 12),
-                          _InfoCard(title: 'Timestamps', rows: [
-                            _InfoRow(Icons.access_time, 'Created',
-                                formatDateTime(_client!.createdAt!)),
-                            if (_client!.updatedAt != null)
-                              _InfoRow(Icons.update, 'Updated',
-                                  formatDateTime(_client!.updatedAt!)),
-                          ]),
+                          const SizedBox(height: 14),
+                          _InfoCard(
+                              title: 'Timestamps',
+                              icon: Icons.access_time,
+                              rows: [
+                                _InfoRow(Icons.access_time, 'Created',
+                                    formatDateTime(_client!.createdAt!)),
+                                if (_client!.updatedAt != null)
+                                  _InfoRow(Icons.update, 'Updated',
+                                      formatDateTime(_client!.updatedAt!)),
+                              ]),
                         ],
                       ])),
     );
@@ -266,13 +247,18 @@ class _DealRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tt = Theme.of(context).textTheme;
+    final cs = Theme.of(context).colorScheme;
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 10),
+    return Container(
+      margin: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: cs.surfaceContainerHighest.withAlpha(70),
+        borderRadius: BorderRadius.circular(12),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // ── Title + status ──
           Row(children: [
             Expanded(
               child: Text(
@@ -284,10 +270,8 @@ class _DealRow extends StatelessWidget {
             const SizedBox(width: 8),
             DealStatusChip(status: deal.status),
           ]),
-
-          // ── Property ──
           if (deal.propertyTitle != null) ...[
-            const SizedBox(height: 4),
+            const SizedBox(height: 6),
             Row(children: [
               Icon(Icons.home_outlined, size: 13, color: tt.bodySmall?.color),
               const SizedBox(width: 4),
@@ -300,8 +284,6 @@ class _DealRow extends StatelessWidget {
               ),
             ]),
           ],
-
-          // ── Budget / deal price ──
           if (deal.budget != null || deal.dealPrice != null) ...[
             const SizedBox(height: 4),
             Row(children: [
@@ -314,9 +296,6 @@ class _DealRow extends StatelessWidget {
               ),
             ]),
           ],
-
-          const SizedBox(height: 10),
-          const Divider(height: 1),
         ],
       ),
     );
@@ -339,17 +318,16 @@ class _ClientDetailSkeleton extends StatelessWidget {
       baseColor: base,
       highlightColor: highlight,
       child: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Header card
             const Card(
               child: Padding(
                 padding: EdgeInsets.all(20),
                 child: Row(
                   children: [
-                    ShimmerBox(width: 56, height: 56, radius: 28),
+                    ShimmerBox(width: 60, height: 60, radius: 30),
                     SizedBox(width: 16),
                     Expanded(
                       child: Column(
@@ -361,14 +339,11 @@ class _ClientDetailSkeleton extends StatelessWidget {
                         ],
                       ),
                     ),
-                    SizedBox(width: 12),
-                    ShimmerBox(width: 90, height: 32, radius: 8),
                   ],
                 ),
               ),
             ),
-            const SizedBox(height: 12),
-            // Contact card
+            const SizedBox(height: 14),
             Card(
               child: Padding(
                 padding: const EdgeInsets.all(16),
@@ -376,13 +351,11 @@ class _ClientDetailSkeleton extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const ShimmerBox(width: 70, height: 14, radius: 7),
-                    const SizedBox(height: 8),
-                    const Divider(height: 1),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: 14),
                     ...List.generate(
                       3,
                       (_) => const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 8),
+                        padding: EdgeInsets.symmetric(vertical: 6),
                         child: Row(
                           children: [
                             ShimmerBox(width: 16, height: 16, radius: 4),
@@ -398,8 +371,7 @@ class _ClientDetailSkeleton extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 12),
-            // Deals card skeleton
+            const SizedBox(height: 14),
             Card(
               child: Padding(
                 padding: const EdgeInsets.all(16),
@@ -411,60 +383,13 @@ class _ClientDetailSkeleton extends StatelessWidget {
                       Spacer(),
                       ShimmerBox(width: 24, height: 20, radius: 10),
                     ]),
-                    const SizedBox(height: 8),
-                    const Divider(height: 1),
-                    const SizedBox(height: 4),
+                    const SizedBox(height: 14),
                     ...List.generate(
                       2,
                       (_) => const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 10),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(children: [
-                              ShimmerBox(width: 160, height: 13, radius: 6),
-                              Spacer(),
-                              ShimmerBox(width: 64, height: 22, radius: 12),
-                            ]),
-                            SizedBox(height: 4),
-                            ShimmerBox(width: 120, height: 12, radius: 6),
-                            SizedBox(height: 4),
-                            ShimmerBox(width: 80, height: 12, radius: 6),
-                            SizedBox(height: 10),
-                            Divider(height: 1),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 12),
-            // Timestamps card
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const ShimmerBox(width: 100, height: 14, radius: 7),
-                    const SizedBox(height: 8),
-                    const Divider(height: 1),
-                    const SizedBox(height: 4),
-                    ...List.generate(
-                      2,
-                      (_) => const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 8),
-                        child: Row(
-                          children: [
-                            ShimmerBox(width: 16, height: 16, radius: 4),
-                            SizedBox(width: 10),
-                            ShimmerBox(width: 55, height: 12, radius: 6),
-                            SizedBox(width: 8),
-                            ShimmerBox(width: 150, height: 12, radius: 6),
-                          ],
-                        ),
+                        padding: EdgeInsets.only(bottom: 8),
+                        child: ShimmerBox(
+                            width: double.infinity, height: 70, radius: 12),
                       ),
                     ),
                   ],
@@ -480,26 +405,93 @@ class _ClientDetailSkeleton extends StatelessWidget {
 
 // ─── Sub-widgets ─────────────────────────────────────────────────
 
-class _InfoCard extends StatelessWidget {
-  final String title;
-  final List<Widget> rows;
-  const _InfoCard({required this.title, required this.rows});
+class _HeaderCard extends StatelessWidget {
+  final Widget child;
+  const _HeaderCard({required this.child});
   @override
   Widget build(BuildContext context) {
-    final tt = Theme.of(context).textTheme;
-    return Card(
-        child: Padding(
-            padding: const EdgeInsets.all(16),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+    final cs = Theme.of(context).colorScheme;
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: cs.surface,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: cs.outline.withAlpha(35)),
+        boxShadow: [
+          BoxShadow(
+              color: Colors.black.withAlpha(8),
+              blurRadius: 16,
+              offset: const Offset(0, 5)),
+        ],
+      ),
+      child: child,
+    );
+  }
+}
+
+class _IdBadge extends StatelessWidget {
+  final String label;
+  final Color color;
+  final VoidCallback onTap;
+  const _IdBadge(
+      {required this.label, required this.color, required this.onTap});
+  @override
+  Widget build(BuildContext context) => GestureDetector(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
+          decoration: BoxDecoration(
+              color: color.withAlpha(20),
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: color.withAlpha(64))),
+          child: Row(mainAxisSize: MainAxisSize.min, children: [
+            Icon(Icons.tag, size: 12, color: color),
+            const SizedBox(width: 3),
+            Text(label,
+                style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                    color: color,
+                    fontFamily: 'Sora')),
+            const SizedBox(width: 4),
+            Icon(Icons.copy, size: 11, color: color),
+          ]),
+        ),
+      );
+}
+
+class _InfoCard extends StatelessWidget {
+  final String title;
+  final IconData icon;
+  final List<Widget> rows;
+  const _InfoCard(
+      {required this.title, required this.icon, required this.rows});
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    return _HeaderCard(
+      child: Padding(
+        padding: EdgeInsets.zero,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(children: [
+              Icon(icon, size: 16, color: cs.primary),
+              const SizedBox(width: 8),
               Text(title,
-                  style: tt.bodyLarge
-                      ?.copyWith(fontWeight: FontWeight.w600, fontSize: 14)),
-              const SizedBox(height: 8),
-              const Divider(height: 1),
-              const SizedBox(height: 4),
-              ...rows,
-            ])));
+                  style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 0.2,
+                      color: cs.primary)),
+            ]),
+            const SizedBox(height: 12),
+            ...rows,
+          ],
+        ),
+      ),
+    );
   }
 }
 
@@ -511,7 +503,7 @@ class _InfoRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final tt = Theme.of(context).textTheme;
     return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8),
+        padding: const EdgeInsets.symmetric(vertical: 6),
         child: Row(children: [
           Icon(icon, size: 16, color: tt.labelSmall?.color),
           const SizedBox(width: 10),

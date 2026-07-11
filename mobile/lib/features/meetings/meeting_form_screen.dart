@@ -221,7 +221,7 @@ class _EntityTile extends StatelessWidget {
         Text(
           '$label${required ? ' *' : ''}',
           style: tt.labelMedium?.copyWith(
-            fontSize: 13,
+            fontSize: 12,
             fontWeight: FontWeight.w600,
             color: hasError ? cs.error : cs.onSurfaceVariant,
           ),
@@ -317,6 +317,52 @@ class _EntityTile extends StatelessWidget {
                 Text(error!, style: TextStyle(fontSize: 12, color: cs.error)),
           ),
       ],
+    );
+  }
+}
+
+// ─── Reusable section card ─────────────────────────────────────
+
+class _FormSectionCard extends StatelessWidget {
+  final String title;
+  final IconData icon;
+  final List<Widget> children;
+  const _FormSectionCard(
+      {required this.title, required this.icon, required this.children});
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: cs.surface,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: cs.outline.withAlpha(35)),
+        boxShadow: [
+          BoxShadow(
+              color: Colors.black.withAlpha(8),
+              blurRadius: 14,
+              offset: const Offset(0, 4)),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(children: [
+            Icon(icon, size: 16, color: cs.primary),
+            const SizedBox(width: 8),
+            Text(title,
+                style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0.2,
+                    color: cs.primary)),
+          ]),
+          const SizedBox(height: 14),
+          ...children,
+        ],
+      ),
     );
   }
 }
@@ -544,9 +590,8 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final pickerBg =
-        isDark ? AppColors.darkSurfaceVariant : AppColors.surfaceVariant;
     final pickerBorder =
         isDark ? AppColors.darkBorder : const Color(0xFFE8ECF4);
     final pickerTextColor =
@@ -560,104 +605,139 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
       body: _initLoading
           ? const LoadingWidget()
           : SingleChildScrollView(
-              padding: const EdgeInsets.all(24),
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
               child: Form(
                 key: _formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TextFormField(
-                      controller: _titleCtrl,
-                      decoration: const InputDecoration(
-                          labelText: 'Title *',
-                          prefixIcon: Icon(Icons.title, size: 20)),
-                      validator: (v) =>
-                          v == null || v.isEmpty ? 'Title is required' : null,
-                    ),
-                    const SizedBox(height: 20),
-                    _EntityTile(
-                      label: 'Client',
-                      icon: Icons.person_outline,
-                      selected: _selectedClient,
-                      loading: _clientsLoading,
-                      required: true,
-                      error: _clientError,
-                      onTap: _pickClient,
-                    ),
-                    const SizedBox(height: 16),
-                    _EntityTile(
-                      label: 'Agent',
-                      icon: Icons.support_agent_outlined,
-                      selected: _selectedAgent,
-                      loading: _agentsLoading,
-                      required: true,
-                      error: _agentError,
-                      onTap: _pickAgent,
-                    ),
-                    const SizedBox(height: 16),
-                    _EntityTile(
-                      label: 'Deal',
-                      icon: Icons.handshake_outlined,
-                      selected: _selectedDeal,
-                      loading: _dealsLoading,
-                      onTap: _pickDeal,
-                      onClear: _selectedDeal != null
-                          ? () => setState(() => _selectedDeal = null)
-                          : null,
-                    ),
-                    const SizedBox(height: 16),
-                    TextFormField(
-                      controller: _locationCtrl,
-                      decoration: const InputDecoration(
-                          labelText: 'Location',
-                          prefixIcon:
-                              Icon(Icons.location_on_outlined, size: 20)),
-                    ),
-                    const SizedBox(height: 16),
-                    GestureDetector(
-                      onTap: _pickDateTime,
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 16, vertical: 14),
-                        decoration: BoxDecoration(
-                            color: pickerBg,
-                            borderRadius: BorderRadius.circular(12),
-                            border: Border.all(color: pickerBorder)),
-                        child: Row(children: [
-                          Icon(Icons.calendar_today_outlined,
-                              size: 20, color: pickerTextColor),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Text(
-                              _scheduledAt != null
-                                  ? DateFormat('MMM d, yyyy • h:mm a')
-                                      .format(_scheduledAt!)
-                                  : 'Select date & time *',
-                              style: TextStyle(
-                                  fontSize: 14,
+                    _FormSectionCard(
+                      title: 'Details',
+                      icon: Icons.event_note_outlined,
+                      children: [
+                        TextFormField(
+                          controller: _titleCtrl,
+                          decoration: const InputDecoration(
+                              labelText: 'Title *',
+                              prefixIcon: Icon(Icons.title, size: 20)),
+                          validator: (v) => v == null || v.isEmpty
+                              ? 'Title is required'
+                              : null,
+                        ),
+                        const SizedBox(height: 14),
+                        TextFormField(
+                          controller: _locationCtrl,
+                          decoration: const InputDecoration(
+                              labelText: 'Location',
+                              prefixIcon:
+                                  Icon(Icons.location_on_outlined, size: 20)),
+                        ),
+                        const SizedBox(height: 14),
+                        InkWell(
+                          onTap: _pickDateTime,
+                          borderRadius: BorderRadius.circular(12),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 14, vertical: 13),
+                            decoration: BoxDecoration(
+                                color: _scheduledAt != null
+                                    ? cs.primary.withAlpha(12)
+                                    : cs.surfaceContainerLowest,
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                    color: _scheduledAt != null
+                                        ? cs.primary.withAlpha(180)
+                                        : pickerBorder)),
+                            child: Row(children: [
+                              Icon(Icons.calendar_today_outlined,
+                                  size: 20,
                                   color: _scheduledAt != null
-                                      ? (isDark
-                                          ? AppColors.darkTextPrimary
-                                          : AppColors.textPrimary)
-                                      : pickerHintColor),
-                            ),
+                                      ? cs.primary
+                                      : pickerTextColor),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Text(
+                                  _scheduledAt != null
+                                      ? DateFormat('MMM d, yyyy • h:mm a')
+                                          .format(_scheduledAt!)
+                                      : 'Select date & time *',
+                                  style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: _scheduledAt != null
+                                          ? FontWeight.w600
+                                          : FontWeight.normal,
+                                      color: _scheduledAt != null
+                                          ? (isDark
+                                              ? AppColors.darkTextPrimary
+                                              : AppColors.textPrimary)
+                                          : pickerHintColor),
+                                ),
+                              ),
+                              Icon(Icons.chevron_right,
+                                  color: pickerHintColor, size: 20),
+                            ]),
                           ),
-                          Icon(Icons.chevron_right,
-                              color: pickerHintColor, size: 20),
-                        ]),
-                      ),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 16),
-                    TextFormField(
-                      controller: _descCtrl,
-                      maxLines: 3,
-                      decoration: const InputDecoration(
-                          labelText: 'Description',
-                          prefixIcon: Icon(Icons.notes_outlined, size: 20)),
+                    _FormSectionCard(
+                      title: 'People & Deal',
+                      icon: Icons.groups_outlined,
+                      children: [
+                        _EntityTile(
+                          label: 'Client',
+                          icon: Icons.person_outline,
+                          selected: _selectedClient,
+                          loading: _clientsLoading,
+                          required: true,
+                          error: _clientError,
+                          onTap: _pickClient,
+                        ),
+                        const SizedBox(height: 14),
+                        _EntityTile(
+                          label: 'Agent',
+                          icon: Icons.support_agent_outlined,
+                          selected: _selectedAgent,
+                          loading: _agentsLoading,
+                          required: true,
+                          error: _agentError,
+                          onTap: _pickAgent,
+                        ),
+                        const SizedBox(height: 14),
+                        _EntityTile(
+                          label: 'Deal',
+                          icon: Icons.handshake_outlined,
+                          selected: _selectedDeal,
+                          loading: _dealsLoading,
+                          onTap: _pickDeal,
+                          onClear: _selectedDeal != null
+                              ? () => setState(() => _selectedDeal = null)
+                              : null,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    _FormSectionCard(
+                      title: 'Description',
+                      icon: Icons.notes_outlined,
+                      children: [
+                        TextFormField(
+                          controller: _descCtrl,
+                          maxLines: 3,
+                          decoration: const InputDecoration(
+                              border: InputBorder.none,
+                              hintText: 'Meeting agenda, talking points…'),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 32),
                     ElevatedButton(
                       onPressed: _loading ? null : _submit,
+                      style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(double.infinity, 54),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14))),
                       child: _loading
                           ? const SizedBox(
                               height: 20,
@@ -668,11 +748,13 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
                               ? 'Update Meeting'
                               : 'Schedule Meeting'),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 10),
                     OutlinedButton(
                       onPressed: () => context.pop(),
                       style: OutlinedButton.styleFrom(
-                          minimumSize: const Size(double.infinity, 52)),
+                          minimumSize: const Size(double.infinity, 54),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14))),
                       child: const Text('Cancel'),
                     ),
                   ],

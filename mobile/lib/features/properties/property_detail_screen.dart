@@ -85,203 +85,100 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
               ? const EmptyState(
                   title: 'Property not found', icon: Icons.home_work_outlined)
               : SingleChildScrollView(
-                  padding: const EdgeInsets.all(24),
+                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Card(
-                            child: Padding(
-                                padding: const EdgeInsets.all(20),
-                                child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(children: [
-                                        Expanded(
-                                            child: Text(_p!.title,
-                                                style: tt.titleLarge?.copyWith(
-                                                    fontSize: 20,
-                                                    fontWeight:
-                                                        FontWeight.w700))),
-                                        PropertyStatusChip(status: _p!.status),
-                                      ]),
-                                      const SizedBox(height: 8),
-                                      Text(formatPrice(_p!.price),
-                                          style: TextStyle(
-                                              fontSize: 26,
-                                              fontWeight: FontWeight.w700,
-                                              color: cs.primary,
-                                              fontFamily: 'Sora')),
-                                      const SizedBox(height: 8),
-                                      Row(children: [
-                                        Icon(Icons.location_on_outlined,
-                                            size: 15,
-                                            color: tt.labelSmall?.color),
-                                        const SizedBox(width: 4),
-                                        Flexible(
-                                            child: Text(_p!.address,
-                                                style: tt.bodySmall
-                                                    ?.copyWith(fontSize: 13)))
-                                      ]),
-                                      if (_p!.city != null)
-                                        Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 4),
-                                            child: Text(_p!.city!,
-                                                style: tt.labelSmall
-                                                    ?.copyWith(fontSize: 13))),
-                                      const SizedBox(height: 12),
-                                      // ── ID badge (tap to copy) ──
-                                      GestureDetector(
-                                        onTap: _copyId,
-                                        child: Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 10, vertical: 6),
-                                          decoration: BoxDecoration(
-                                              color: cs.secondary.withAlpha(20),
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                              border: Border.all(
-                                                  color: cs.secondary
-                                                      .withAlpha(64))),
-                                          child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Icon(Icons.tag,
-                                                    size: 13,
-                                                    color: cs.secondary),
-                                                const SizedBox(width: 4),
-                                                Text('Property ID: ${_p!.id}',
-                                                    style: TextStyle(
-                                                        fontSize: 13,
-                                                        fontWeight:
-                                                            FontWeight.w700,
-                                                        color: cs.secondary,
-                                                        fontFamily: 'Sora')),
-                                                const SizedBox(width: 6),
-                                                Icon(Icons.copy,
-                                                    size: 13,
-                                                    color: cs.secondary),
-                                              ]),
-                                        ),
-                                      ),
-                                    ]))),
-                        const SizedBox(height: 12),
-                        Card(
-                            child: Padding(
-                                padding: const EdgeInsets.all(16),
-                                child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text('Details',
-                                          style: tt.bodyLarge?.copyWith(
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 14)),
-                                      const SizedBox(height: 12),
-                                      Wrap(
-                                          spacing: 16,
-                                          runSpacing: 8,
-                                          children: [
-                                            _Spec(Icons.category_outlined,
-                                                'Type', _p!.type.name),
-                                            if (_p!.areaSqm != null)
-                                              _Spec(Icons.square_foot, 'Area',
-                                                  '${_p!.areaSqm!.toStringAsFixed(0)} m²'),
-                                            if (_p!.rooms != null)
-                                              _Spec(Icons.bed_outlined, 'Rooms',
-                                                  '${_p!.rooms}'),
-                                            if (_p!.floor != null)
-                                              _Spec(
-                                                  Icons.stairs_outlined,
-                                                  'Floor',
-                                                  '${_p!.floor}/${_p!.totalFloors ?? '?'}'),
-                                            if (_p!.agentName != null)
-                                              _Spec(Icons.person_outlined,
-                                                  'Agent', _p!.agentName!),
-                                          ]),
-                                    ]))),
+                        _Card(
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                              Row(children: [
+                                Expanded(
+                                    child: Text(_p!.title,
+                                        style: tt.titleLarge?.copyWith(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w700))),
+                                const SizedBox(width: 8),
+                                PropertyStatusChip(status: _p!.status),
+                              ]),
+                              const SizedBox(height: 10),
+                              Text(formatPrice(_p!.price),
+                                  style: TextStyle(
+                                      fontSize: 28,
+                                      fontWeight: FontWeight.w700,
+                                      color: cs.primary,
+                                      fontFamily: 'Sora')),
+                              const SizedBox(height: 10),
+                              Row(children: [
+                                Icon(Icons.location_on_outlined,
+                                    size: 15, color: tt.labelSmall?.color),
+                                const SizedBox(width: 4),
+                                Flexible(
+                                    child: Text(_p!.address,
+                                        style: tt.bodySmall
+                                            ?.copyWith(fontSize: 13)))
+                              ]),
+                              if (_p!.city != null)
+                                Padding(
+                                    padding: const EdgeInsets.only(top: 4),
+                                    child: Text(_p!.city!,
+                                        style: tt.labelSmall
+                                            ?.copyWith(fontSize: 13))),
+                              const SizedBox(height: 14),
+                              _IdBadge(
+                                  label: 'Property ID: ${_p!.id}',
+                                  color: cs.secondary,
+                                  onTap: _copyId),
+                            ])),
+                        const SizedBox(height: 14),
+                        _Card(
+                            title: 'Details',
+                            icon: Icons.info_outline,
+                            child: Wrap(spacing: 20, runSpacing: 12, children: [
+                              _Spec(Icons.category_outlined, 'Type',
+                                  _p!.type.name),
+                              if (_p!.areaSqm != null)
+                                _Spec(Icons.square_foot, 'Area',
+                                    '${_p!.areaSqm!.toStringAsFixed(0)} m²'),
+                              if (_p!.rooms != null)
+                                _Spec(Icons.bed_outlined, 'Rooms',
+                                    '${_p!.rooms}'),
+                              if (_p!.floor != null)
+                                _Spec(Icons.stairs_outlined, 'Floor',
+                                    '${_p!.floor}/${_p!.totalFloors ?? '?'}'),
+                              if (_p!.agentName != null)
+                                _Spec(Icons.person_outlined, 'Agent',
+                                    _p!.agentName!),
+                            ])),
                         if (_p!.description != null &&
                             _p!.description!.isNotEmpty) ...[
-                          const SizedBox(height: 12),
-                          Card(
-                              child: Padding(
-                                  padding: const EdgeInsets.all(16),
-                                  child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text('Description',
-                                            style: tt.bodyLarge?.copyWith(
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 14)),
-                                        const SizedBox(height: 8),
-                                        Text(_p!.description!,
-                                            style: tt.bodyMedium?.copyWith(
-                                                color: tt.bodySmall?.color,
-                                                height: 1.6)),
-                                      ]))),
+                          const SizedBox(height: 14),
+                          _Card(
+                              title: 'Description',
+                              icon: Icons.notes_outlined,
+                              child: Text(_p!.description!,
+                                  style: tt.bodyMedium?.copyWith(
+                                      color: tt.bodySmall?.color,
+                                      height: 1.6))),
                         ],
-                        const SizedBox(height: 12),
-                        Card(
-                            child: Padding(
-                                padding: const EdgeInsets.all(16),
-                                child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text('Update Status',
-                                          style: tt.bodyLarge?.copyWith(
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 14)),
-                                      const SizedBox(height: 12),
-                                      Row(
-                                          children:
-                                              PropertyStatus.values.map((s) {
-                                        final sel = _p!.status == s;
-                                        return Expanded(
-                                            child: Padding(
-                                                padding: EdgeInsets.only(
-                                                    right:
-                                                        s != PropertyStatus.SOLD
-                                                            ? 8
-                                                            : 0),
-                                                child: OutlinedButton(
-                                                  onPressed: sel
-                                                      ? null
-                                                      : () => _updateStatus(s),
-                                                  style: OutlinedButton.styleFrom(
-                                                      backgroundColor: sel
-                                                          ? cs.primary
-                                                          : null,
-                                                      foregroundColor: sel
-                                                          ? Colors.white
-                                                          : tt.bodySmall?.color,
-                                                      disabledBackgroundColor:
-                                                          cs.primary,
-                                                      disabledForegroundColor:
-                                                          Colors.white,
-                                                      side: BorderSide(
-                                                          color: sel
-                                                              ? cs.primary
-                                                              : cs.outline),
-                                                      padding: const EdgeInsets
-                                                          .symmetric(
-                                                          vertical: 10),
-                                                      minimumSize:
-                                                          const Size(0, 40),
-                                                      textStyle:
-                                                          const TextStyle(
-                                                              fontFamily:
-                                                                  'Sora',
-                                                              fontSize: 12,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600)),
-                                                  child: Text(s.name),
-                                                )));
-                                      }).toList()),
-                                    ]))),
+                        const SizedBox(height: 14),
+                        _Card(
+                          title: 'Update Status',
+                          icon: Icons.flag_outlined,
+                          child: Wrap(
+                            spacing: 8,
+                            runSpacing: 8,
+                            children: PropertyStatus.values.map((s) {
+                              final sel = _p!.status == s;
+                              return _StatusPill(
+                                label: s.name,
+                                selected: sel,
+                                onTap: sel ? null : () => _updateStatus(s),
+                              );
+                            }).toList(),
+                          ),
+                        ),
                       ])),
     );
   }
@@ -303,7 +200,7 @@ class _PropertyDetailSkeleton extends StatelessWidget {
       baseColor: base,
       highlightColor: highlight,
       child: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -340,7 +237,7 @@ class _PropertyDetailSkeleton extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 14),
             Card(
               child: Padding(
                 padding: const EdgeInsets.all(16),
@@ -362,29 +259,7 @@ class _PropertyDetailSkeleton extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 12),
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const ShimmerBox(width: 100, height: 14, radius: 7),
-                    const SizedBox(height: 10),
-                    ...List.generate(
-                      3,
-                      (_) => const Padding(
-                        padding: EdgeInsets.only(bottom: 6),
-                        child: ShimmerBox(
-                            width: double.infinity, height: 13, radius: 6),
-                      ),
-                    ),
-                    const ShimmerBox(width: 150, height: 13, radius: 6),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 14),
             Card(
               child: Padding(
                 padding: const EdgeInsets.all(16),
@@ -393,16 +268,13 @@ class _PropertyDetailSkeleton extends StatelessWidget {
                   children: [
                     const ShimmerBox(width: 110, height: 14, radius: 7),
                     const SizedBox(height: 14),
-                    Row(
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
                       children: List.generate(
                         3,
-                        (i) => Expanded(
-                          child: Padding(
-                            padding: EdgeInsets.only(right: i < 2 ? 8 : 0),
-                            child: const ShimmerBox(
-                                width: double.infinity, height: 40, radius: 8),
-                          ),
-                        ),
+                        (_) =>
+                            const ShimmerBox(width: 90, height: 34, radius: 20),
                       ),
                     ),
                   ],
@@ -417,6 +289,123 @@ class _PropertyDetailSkeleton extends StatelessWidget {
 }
 
 // ─── Sub-widgets ─────────────────────────────────────────────────
+
+class _Card extends StatelessWidget {
+  final String? title;
+  final IconData? icon;
+  final Widget child;
+  const _Card({this.title, this.icon, required this.child});
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: cs.surface,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: cs.outline.withAlpha(35)),
+        boxShadow: [
+          BoxShadow(
+              color: Colors.black.withAlpha(8),
+              blurRadius: 16,
+              offset: const Offset(0, 5)),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (title != null) ...[
+            Row(children: [
+              Icon(icon, size: 16, color: cs.primary),
+              const SizedBox(width: 8),
+              Text(title!,
+                  style: TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 0.2,
+                      color: cs.primary)),
+            ]),
+            const SizedBox(height: 14),
+          ],
+          child,
+        ],
+      ),
+    );
+  }
+}
+
+class _IdBadge extends StatelessWidget {
+  final String label;
+  final Color color;
+  final VoidCallback onTap;
+  const _IdBadge(
+      {required this.label, required this.color, required this.onTap});
+  @override
+  Widget build(BuildContext context) => GestureDetector(
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+          decoration: BoxDecoration(
+              color: color.withAlpha(20),
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: color.withAlpha(64))),
+          child: Row(mainAxisSize: MainAxisSize.min, children: [
+            Icon(Icons.tag, size: 13, color: color),
+            const SizedBox(width: 4),
+            Text(label,
+                style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                    color: color,
+                    fontFamily: 'Sora')),
+            const SizedBox(width: 6),
+            Icon(Icons.copy, size: 13, color: color),
+          ]),
+        ),
+      );
+}
+
+class _StatusPill extends StatelessWidget {
+  final String label;
+  final bool selected;
+  final VoidCallback? onTap;
+  const _StatusPill(
+      {required this.label, required this.selected, required this.onTap});
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(20),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 150),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        decoration: BoxDecoration(
+          color:
+              selected ? cs.primary : cs.surfaceContainerHighest.withAlpha(120),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+              color: selected ? cs.primary : cs.outline.withAlpha(60)),
+          boxShadow: selected
+              ? [
+                  BoxShadow(
+                      color: cs.primary.withAlpha(60),
+                      blurRadius: 10,
+                      offset: const Offset(0, 3)),
+                ]
+              : null,
+        ),
+        child: Text(label.replaceAll('_', ' '),
+            style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+                fontFamily: 'Sora',
+                color: selected ? Colors.white : cs.onSurfaceVariant)),
+      ),
+    );
+  }
+}
 
 class _Spec extends StatelessWidget {
   final IconData icon;

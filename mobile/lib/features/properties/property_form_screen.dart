@@ -110,7 +110,6 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
-    final tt = Theme.of(context).textTheme;
 
     return BlocListener<PropertiesBloc, PropertiesState>(
       listener: (context, state) {
@@ -136,55 +135,77 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
         body: _initLoading
             ? const LoadingWidget()
             : SingleChildScrollView(
-                padding: const EdgeInsets.all(24),
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
                 child: Form(
-                    key: _formKey,
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _FormSectionCard(
+                        title: 'Basic Info',
+                        icon: Icons.description_outlined,
                         children: [
                           _f(_titleCtrl, 'Title *', Icons.title, req: true),
-                          const SizedBox(height: 12),
+                          const SizedBox(height: 14),
+                          _f(_priceCtrl, 'Price *', Icons.attach_money,
+                              req: true, num: true),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      _FormSectionCard(
+                        title: 'Location',
+                        icon: Icons.location_on_outlined,
+                        children: [
                           _f(_addressCtrl, 'Address *',
                               Icons.location_on_outlined,
                               req: true),
-                          const SizedBox(height: 12),
+                          const SizedBox(height: 14),
                           _f(_cityCtrl, 'City', Icons.location_city_outlined),
-                          const SizedBox(height: 12),
-                          _f(_priceCtrl, 'Price *', Icons.attach_money,
-                              req: true, num: true),
-                          const SizedBox(height: 16),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      _FormSectionCard(
+                        title: 'Type & Status',
+                        icon: Icons.tune_outlined,
+                        children: [
                           Text('Type',
-                              style: tt.labelMedium?.copyWith(
-                                  fontSize: 13, fontWeight: FontWeight.w600)),
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                  color: cs.onSurfaceVariant)),
                           const SizedBox(height: 8),
                           Wrap(
                               spacing: 8,
+                              runSpacing: 8,
                               children: PropertyType.values
-                                  .map((t) => ChoiceChip(
-                                      label: Text(t.name,
-                                          style: const TextStyle(fontSize: 12)),
+                                  .map((t) => _PillChip(
+                                      label: t.name,
                                       selected: _type == t,
-                                      onSelected: (_) =>
-                                          setState(() => _type = t),
-                                      selectedColor: cs.primary.withAlpha(38)))
+                                      onTap: () => setState(() => _type = t)))
                                   .toList()),
                           const SizedBox(height: 16),
                           Text('Status',
-                              style: tt.labelMedium?.copyWith(
-                                  fontSize: 13, fontWeight: FontWeight.w600)),
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                  color: cs.onSurfaceVariant)),
                           const SizedBox(height: 8),
                           Wrap(
                               spacing: 8,
+                              runSpacing: 8,
                               children: PropertyStatus.values
-                                  .map((s) => ChoiceChip(
-                                      label: Text(s.name,
-                                          style: const TextStyle(fontSize: 12)),
+                                  .map((s) => _PillChip(
+                                      label: s.name,
                                       selected: _status == s,
-                                      onSelected: (_) =>
-                                          setState(() => _status = s),
-                                      selectedColor: cs.primary.withAlpha(38)))
+                                      onTap: () => setState(() => _status = s)))
                                   .toList()),
-                          const SizedBox(height: 16),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      _FormSectionCard(
+                        title: 'Details',
+                        icon: Icons.straighten_outlined,
+                        children: [
                           Row(children: [
                             Expanded(
                                 child: _f(
@@ -196,7 +217,7 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
                                     _roomsCtrl, 'Rooms', Icons.bed_outlined,
                                     num: true))
                           ]),
-                          const SizedBox(height: 12),
+                          const SizedBox(height: 14),
                           Row(children: [
                             Expanded(
                                 child: _f(
@@ -208,33 +229,49 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
                                     Icons.stairs,
                                     num: true))
                           ]),
-                          const SizedBox(height: 12),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      _FormSectionCard(
+                        title: 'Description',
+                        icon: Icons.notes_outlined,
+                        children: [
                           TextFormField(
                               controller: _descCtrl,
                               maxLines: 3,
                               decoration: const InputDecoration(
-                                  labelText: 'Description',
-                                  prefixIcon:
-                                      Icon(Icons.notes_outlined, size: 20))),
-                          const SizedBox(height: 32),
-                          ElevatedButton(
-                              onPressed: _loading ? null : _submit,
-                              child: _loading
-                                  ? const SizedBox(
-                                      height: 20,
-                                      width: 20,
-                                      child: CircularProgressIndicator(
-                                          color: Colors.white, strokeWidth: 2))
-                                  : Text(widget.isEditing
-                                      ? 'Update Property'
-                                      : 'Create Property')),
-                          const SizedBox(height: 12),
-                          OutlinedButton(
-                              onPressed: () => context.pop(),
-                              style: OutlinedButton.styleFrom(
-                                  minimumSize: const Size(double.infinity, 52)),
-                              child: const Text('Cancel')),
-                        ]))),
+                                  border: InputBorder.none,
+                                  hintText: 'Describe the property…')),
+                        ],
+                      ),
+                      const SizedBox(height: 32),
+                      ElevatedButton(
+                          onPressed: _loading ? null : _submit,
+                          style: ElevatedButton.styleFrom(
+                              minimumSize: const Size(double.infinity, 54),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(14))),
+                          child: _loading
+                              ? const SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: CircularProgressIndicator(
+                                      color: Colors.white, strokeWidth: 2))
+                              : Text(widget.isEditing
+                                  ? 'Update Property'
+                                  : 'Create Property')),
+                      const SizedBox(height: 10),
+                      OutlinedButton(
+                          onPressed: () => context.pop(),
+                          style: OutlinedButton.styleFrom(
+                              minimumSize: const Size(double.infinity, 54),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(14))),
+                          child: const Text('Cancel')),
+                    ],
+                  ),
+                ),
+              ),
       ),
     );
   }
@@ -252,4 +289,85 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
             ? (v) => v == null || v.isEmpty ? '$label is required' : null
             : null,
       );
+}
+
+// ─── Reusable section card ─────────────────────────────────────
+
+class _FormSectionCard extends StatelessWidget {
+  final String title;
+  final IconData icon;
+  final List<Widget> children;
+  const _FormSectionCard(
+      {required this.title, required this.icon, required this.children});
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: cs.surface,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: cs.outline.withAlpha(35)),
+        boxShadow: [
+          BoxShadow(
+              color: Colors.black.withAlpha(8),
+              blurRadius: 14,
+              offset: const Offset(0, 4)),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(children: [
+            Icon(icon, size: 16, color: cs.primary),
+            const SizedBox(width: 8),
+            Text(title,
+                style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0.2,
+                    color: cs.primary)),
+          ]),
+          const SizedBox(height: 14),
+          ...children,
+        ],
+      ),
+    );
+  }
+}
+
+// ─── Pill-style selectable chip ─────────────────────────────────
+
+class _PillChip extends StatelessWidget {
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+  const _PillChip(
+      {required this.label, required this.selected, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(20),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 150),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
+        decoration: BoxDecoration(
+          color:
+              selected ? cs.primary : cs.surfaceContainerHighest.withAlpha(120),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+              color: selected ? cs.primary : cs.outline.withAlpha(60)),
+        ),
+        child: Text(label.replaceAll('_', ' '),
+            style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                color: selected ? Colors.white : cs.onSurfaceVariant)),
+      ),
+    );
+  }
 }

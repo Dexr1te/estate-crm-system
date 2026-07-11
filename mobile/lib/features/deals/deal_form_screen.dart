@@ -220,7 +220,7 @@ class _EntityTile extends StatelessWidget {
         Text(
           '$label${required ? ' *' : ''}',
           style: tt.labelMedium?.copyWith(
-            fontSize: 13,
+            fontSize: 12,
             fontWeight: FontWeight.w600,
             color: hasError ? cs.error : cs.onSurfaceVariant,
           ),
@@ -316,6 +316,87 @@ class _EntityTile extends StatelessWidget {
                 Text(error!, style: TextStyle(fontSize: 12, color: cs.error)),
           ),
       ],
+    );
+  }
+}
+
+// ─── Reusable section card ─────────────────────────────────────
+
+class _FormSectionCard extends StatelessWidget {
+  final String title;
+  final IconData icon;
+  final List<Widget> children;
+  const _FormSectionCard(
+      {required this.title, required this.icon, required this.children});
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: cs.surface,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: cs.outline.withAlpha(35)),
+        boxShadow: [
+          BoxShadow(
+              color: Colors.black.withAlpha(8),
+              blurRadius: 14,
+              offset: const Offset(0, 4)),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(children: [
+            Icon(icon, size: 16, color: cs.primary),
+            const SizedBox(width: 8),
+            Text(title,
+                style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0.2,
+                    color: cs.primary)),
+          ]),
+          const SizedBox(height: 14),
+          ...children,
+        ],
+      ),
+    );
+  }
+}
+
+// ─── Pill-style selectable chip ─────────────────────────────────
+
+class _PillChip extends StatelessWidget {
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+  const _PillChip(
+      {required this.label, required this.selected, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(20),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 150),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
+        decoration: BoxDecoration(
+          color:
+              selected ? cs.primary : cs.surfaceContainerHighest.withAlpha(120),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+              color: selected ? cs.primary : cs.outline.withAlpha(60)),
+        ),
+        child: Text(label.replaceAll('_', ' '),
+            style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                color: selected ? Colors.white : cs.onSurfaceVariant)),
+      ),
     );
   }
 }
@@ -529,112 +610,133 @@ class _DealFormScreenState extends State<DealFormScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    final tt = Theme.of(context).textTheme;
-
     return Scaffold(
       appBar: AppBar(title: Text(widget.isEditing ? 'Edit Deal' : 'New Deal')),
       body: _initLoading
           ? const LoadingWidget()
           : SingleChildScrollView(
-              padding: const EdgeInsets.all(24),
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
               child: Form(
                 key: _formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TextFormField(
-                      controller: _titleCtrl,
-                      decoration: const InputDecoration(
-                          labelText: 'Title *',
-                          prefixIcon: Icon(Icons.title, size: 20)),
-                      validator: (v) =>
-                          v == null || v.isEmpty ? 'Title is required' : null,
-                    ),
-                    const SizedBox(height: 20),
-                    _EntityTile(
-                      label: 'Client',
-                      icon: Icons.person_outline,
-                      selected: _selectedClient,
-                      loading: _clientsLoading,
-                      required: true,
-                      error: _clientError,
-                      onTap: _pickClient,
-                    ),
-                    const SizedBox(height: 16),
-                    _EntityTile(
-                      label: 'Agent',
-                      icon: Icons.support_agent_outlined,
-                      selected: _selectedAgent,
-                      loading: _agentsLoading,
-                      required: true,
-                      error: _agentError,
-                      onTap: _pickAgent,
-                    ),
-                    const SizedBox(height: 16),
-                    _EntityTile(
-                      label: 'Property',
-                      icon: Icons.home_outlined,
-                      selected: _selectedProperty,
-                      loading: _propertiesLoading,
-                      onTap: _pickProperty,
-                      onClear: _selectedProperty != null
-                          ? () => setState(() => _selectedProperty = null)
-                          : null,
-                    ),
-                    const SizedBox(height: 20),
-                    Row(children: [
-                      Expanded(
-                        child: TextFormField(
-                          controller: _priceCtrl,
-                          keyboardType: TextInputType.number,
+                    _FormSectionCard(
+                      title: 'Details',
+                      icon: Icons.description_outlined,
+                      children: [
+                        TextFormField(
+                          controller: _titleCtrl,
                           decoration: const InputDecoration(
-                              labelText: 'Deal Price',
-                              prefixIcon: Icon(Icons.attach_money, size: 20)),
+                              labelText: 'Title *',
+                              prefixIcon: Icon(Icons.title, size: 20)),
+                          validator: (v) => v == null || v.isEmpty
+                              ? 'Title is required'
+                              : null,
                         ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: TextFormField(
-                          controller: _budgetCtrl,
-                          keyboardType: TextInputType.number,
-                          decoration: const InputDecoration(
-                              labelText: 'Budget',
-                              prefixIcon: Icon(
-                                  Icons.account_balance_wallet_outlined,
-                                  size: 20)),
-                        ),
-                      ),
-                    ]),
-                    const SizedBox(height: 20),
-                    Text('Status',
-                        style: tt.labelMedium?.copyWith(
-                            fontSize: 13, fontWeight: FontWeight.w600)),
-                    const SizedBox(height: 8),
-                    Wrap(
-                      spacing: 8,
-                      runSpacing: 4,
-                      children: DealStatus.values
-                          .map((s) => ChoiceChip(
-                                label: Text(s.name.replaceAll('_', ' '),
-                                    style: const TextStyle(fontSize: 12)),
-                                selected: _status == s,
-                                onSelected: (_) => setState(() => _status = s),
-                                selectedColor: cs.primary.withAlpha(38),
-                              ))
-                          .toList(),
+                      ],
                     ),
                     const SizedBox(height: 16),
-                    TextFormField(
-                      controller: _notesCtrl,
-                      maxLines: 3,
-                      decoration: const InputDecoration(
-                          labelText: 'Notes',
-                          prefixIcon: Icon(Icons.notes_outlined, size: 20)),
+                    _FormSectionCard(
+                      title: 'People & Property',
+                      icon: Icons.groups_outlined,
+                      children: [
+                        _EntityTile(
+                          label: 'Client',
+                          icon: Icons.person_outline,
+                          selected: _selectedClient,
+                          loading: _clientsLoading,
+                          required: true,
+                          error: _clientError,
+                          onTap: _pickClient,
+                        ),
+                        const SizedBox(height: 14),
+                        _EntityTile(
+                          label: 'Agent',
+                          icon: Icons.support_agent_outlined,
+                          selected: _selectedAgent,
+                          loading: _agentsLoading,
+                          required: true,
+                          error: _agentError,
+                          onTap: _pickAgent,
+                        ),
+                        const SizedBox(height: 14),
+                        _EntityTile(
+                          label: 'Property',
+                          icon: Icons.home_outlined,
+                          selected: _selectedProperty,
+                          loading: _propertiesLoading,
+                          onTap: _pickProperty,
+                          onClear: _selectedProperty != null
+                              ? () => setState(() => _selectedProperty = null)
+                              : null,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    _FormSectionCard(
+                      title: 'Financials',
+                      icon: Icons.payments_outlined,
+                      children: [
+                        Row(children: [
+                          Expanded(
+                            child: TextFormField(
+                              controller: _priceCtrl,
+                              keyboardType: TextInputType.number,
+                              decoration: const InputDecoration(
+                                  labelText: 'Deal Price',
+                                  prefixIcon:
+                                      Icon(Icons.attach_money, size: 20)),
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: TextFormField(
+                              controller: _budgetCtrl,
+                              keyboardType: TextInputType.number,
+                              decoration: const InputDecoration(
+                                  labelText: 'Budget',
+                                  prefixIcon: Icon(
+                                      Icons.account_balance_wallet_outlined,
+                                      size: 20)),
+                            ),
+                          ),
+                        ]),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+                    _FormSectionCard(
+                      title: 'Status & Notes',
+                      icon: Icons.flag_outlined,
+                      children: [
+                        Wrap(
+                          spacing: 8,
+                          runSpacing: 8,
+                          children: DealStatus.values
+                              .map((s) => _PillChip(
+                                    label: s.name,
+                                    selected: _status == s,
+                                    onTap: () => setState(() => _status = s),
+                                  ))
+                              .toList(),
+                        ),
+                        const SizedBox(height: 16),
+                        TextFormField(
+                          controller: _notesCtrl,
+                          maxLines: 3,
+                          decoration: const InputDecoration(
+                              border: InputBorder.none,
+                              hintText: 'Notes about this deal…'),
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 32),
                     ElevatedButton(
                       onPressed: _loading ? null : _submit,
+                      style: ElevatedButton.styleFrom(
+                          minimumSize: const Size(double.infinity, 54),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14))),
                       child: _loading
                           ? const SizedBox(
                               height: 20,
@@ -644,11 +746,13 @@ class _DealFormScreenState extends State<DealFormScreen> {
                           : Text(
                               widget.isEditing ? 'Update Deal' : 'Create Deal'),
                     ),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 10),
                     OutlinedButton(
                       onPressed: () => context.pop(),
                       style: OutlinedButton.styleFrom(
-                          minimumSize: const Size(double.infinity, 52)),
+                          minimumSize: const Size(double.infinity, 54),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14))),
                       child: const Text('Cancel'),
                     ),
                   ],
