@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
-import 'auth_bloc.dart';
+import 'package:real_estate_crm/features/auth/bloc/auth_bloc.dart';
+import 'package:real_estate_crm/features/auth/bloc/auth_event.dart';
+import 'package:real_estate_crm/features/auth/bloc/auth_state.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});

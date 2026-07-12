@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:real_estate_crm/features/auth/auth_bloc.dart';
+import 'package:real_estate_crm/features/auth/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/login_screen.dart';
 import 'package:real_estate_crm/features/auth/register_screen.dart';
 import 'package:real_estate_crm/features/clients/client_detail_screen.dart';

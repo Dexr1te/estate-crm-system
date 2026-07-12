@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
-import 'auth_bloc.dart';
+import 'package:real_estate_crm/features/auth/bloc/auth_bloc.dart';
+import 'package:real_estate_crm/features/auth/bloc/auth_event.dart';
+import 'package:real_estate_crm/features/auth/bloc/auth_state.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
