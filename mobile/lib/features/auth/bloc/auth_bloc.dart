@@ -1,52 +1,12 @@
-import 'package:flutter/foundation.dart';
+import 'dart:ui';
+
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/services/api_service.dart';
+import 'package:real_estate_crm/features/auth/bloc/auth_event.dart';
+import 'package:real_estate_crm/features/auth/bloc/auth_state.dart';
 
-// Events
-abstract class AuthEvent {}
-
-class AuthCheckEvent extends AuthEvent {}
-
-class AuthLoginEvent extends AuthEvent {
-  final String email, password;
-  AuthLoginEvent(this.email, this.password);
-}
-
-class AuthRegisterEvent extends AuthEvent {
-  final String fullName, email, password;
-  final String? phone;
-  final Role role;
-  AuthRegisterEvent(
-      {required this.fullName,
-      required this.email,
-      required this.password,
-      this.phone,
-      this.role = Role.AGENT});
-}
-
-class AuthLogoutEvent extends AuthEvent {}
-
-// States
-abstract class AuthState {}
-
-class AuthInitial extends AuthState {}
-
-class AuthLoading extends AuthState {}
-
-class AuthAuthenticated extends AuthState {
-  final AuthResponse user;
-  AuthAuthenticated(this.user);
-}
-
-class AuthUnauthenticated extends AuthState {}
-
-class AuthError extends AuthState {
-  final String message;
-  AuthError(this.message);
-}
-
-// BLoC
 class AuthBloc extends Bloc<AuthEvent, AuthState> implements Listenable {
   final ApiService _api;
   final List<VoidCallback> _listeners = [];
