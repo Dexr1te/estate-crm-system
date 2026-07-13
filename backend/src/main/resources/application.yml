@@ -1,0 +1,75 @@
+spring:
+  application:
+    name: real-estate-crm
+
+  # DATABASE
+  datasource:
+    url: ${DB_URL:}
+    username: ${DB_USERNAME:}
+    password: ${DB_PASSWORD:}
+    driver-class-name: org.postgresql.Driver
+
+  #JPA 
+  jpa:
+    hibernate:
+      ddl-auto: validate        # Flyway manages schema, so we use validate to ensure it matches the entities
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+  # FLYWAY 
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+
+  # FILE UPLOAD 
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 20MB
+      max-request-size: 25MB
+
+# SERVER 
+server:
+  port: ${PORT:8080}
+  servlet:
+    context-path: /api
+
+# JWT 
+jwt:
+  secret: ${JWT_SECRET:}
+  access-token-expiration: 86400000     # 1 день (ms)
+  refresh-token-expiration: 604800000   # 7 дней (ms)
+
+# FIREBASE
+firebase:
+  credentials-path: ${FIREBASE_CREDENTIALS_PATH:firebase-service-account.json}
+  project-id: ${FIREBASE_PROJECT_ID:your-firebase-project-id}
+
+
+# SWAGGER / OPENAPI
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+    tagsSorter: alpha
+    display-request-duration: true
+  info:
+    title: Real Estate CRM API
+    description: REST API for Real Estate CRM System
+    version: 1.0.0
+
+#  LOGGING
+logging:
+  level:
+    com.crm: DEBUG
+    org.springframework.security: INFO
+    org.hibernate.SQL: INFO
+
+app:
+  base-url: ${APP_BASE_URL:http://localhost:8080}
