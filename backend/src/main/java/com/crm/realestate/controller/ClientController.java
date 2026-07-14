@@ -44,12 +44,33 @@ public class ClientController {
         boolean hasAnyFilter = type != null || agentId != null || (search != null && !search.isBlank())
                 || createdFrom != null || createdTo != null;
 
+        // If no paging and no filters -> legacy full list
         if (!hasPageParams && !hasAnyFilter) {
-            // Legacy behavior
             return ResponseEntity.ok(clientService.getAll());
         }
 
-        // Parse createdFrom / createdTo as LocalDate if provided
+        // If filters provided but no paging -> preserve legacy filtered list behavior (mobile/frontend compatibility)
+        if (!hasPageParams && hasAnyFilter) {
+            if (search != null && !search.isBlank()) {
+                return ResponseEntity.ok(clientService.search(search));
+            }
+            if (type != null && agentId != null) {
+                // both provided - fallback to repository method
+                return ResponseEntity.ok(clientService.getByType(type).stream()
+                        .filter(c -> c.getAgentId() != null && c.getAgentId().equals(agentId))
+                        .toList());
+            }
+            if (type != null) {
+                return ResponseEntity.ok(clientService.getByType(type));
+            }
+            if (agentId != null) {
+                return ResponseEntity.ok(clientService.getByAgent(agentId));
+            }
+            // fallback
+            return ResponseEntity.ok(clientService.getAll());
+        }
+
+        // Now hasPageParams == true -> perform paged search. Parse createdFrom / createdTo if present
         java.time.LocalDate fromDate = null;
         java.time.LocalDate toDate = null;
         try {
