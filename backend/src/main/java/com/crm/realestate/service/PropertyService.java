@@ -45,6 +45,26 @@ public class PropertyService {
                 .stream().map(this::toResponse).collect(Collectors.toList());
     }
 
+    // New: pageable + specification-based search for production-ready filtering and pagination
+    public org.springframework.data.domain.Page<PropertyResponse> search(
+            com.crm.realestate.enums.PropertyStatus status,
+            com.crm.realestate.enums.PropertyType type,
+            String city,
+            java.math.BigDecimal minPrice,
+            java.math.BigDecimal maxPrice,
+            Integer rooms,
+            Long agentId,
+            String search,
+            org.springframework.data.domain.Pageable pageable
+    ) {
+        org.springframework.data.jpa.domain.Specification<com.crm.realestate.entity.Property> spec =
+                com.crm.realestate.specification.PropertySpecification.build(status, type, city, minPrice, maxPrice, rooms, agentId, search);
+
+        org.springframework.data.domain.Page<com.crm.realestate.entity.Property> page = propertyRepository.findAll(spec, pageable);
+
+        return page.map(this::toResponse);
+    }
+
     public PropertyResponse getById(Long id) {
         return toResponse(findById(id));
     }
