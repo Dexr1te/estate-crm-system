@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/features/admin/presentation/screens/admin_console_screen.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:real_estate_crm/features/auth/presentation/screens/accept_invite_screen.dart';
 import 'package:real_estate_crm/features/auth/presentation/screens/login_screen.dart';
 import 'package:real_estate_crm/features/teams/presentation/screens/manager_console_screen.dart';
 import 'package:real_estate_crm/features/clients/presentation/screens/client_detail_screen.dart';
@@ -42,7 +43,9 @@ GoRouter createRouter(AuthBloc authBloc) {
     redirect: (context, state) {
       final authed = authBloc.isAuthenticated;
       final loc = state.matchedLocation;
-      final onAuth = loc.startsWith('/login');
+      // Routes reachable while logged out: login and invite acceptance.
+      final onAuth =
+          loc.startsWith('/login') || loc.startsWith('/accept-invite');
       if (!authed && !onAuth) return '/login';
       if (authed && onAuth) return '/dashboard';
       // Role-gated areas: bounce users without the right role home.
@@ -57,6 +60,12 @@ GoRouter createRouter(AuthBloc authBloc) {
       GoRoute(
         path: '/login',
         pageBuilder: (_, __) => const NoTransitionPage(child: LoginScreen()),
+      ),
+      GoRoute(
+        path: '/accept-invite',
+        pageBuilder: (_, s) => NoTransitionPage(
+          child: AcceptInviteScreen(token: s.uri.queryParameters['token']),
+        ),
       ),
       GoRoute(
         path: '/profile',

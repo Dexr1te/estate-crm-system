@@ -14,4 +14,14 @@ class AuthRemoteDataSource {
     });
     return AuthResponse.fromJson(res.data);
   }
+
+  /// Accepts an invite by exchanging the one-time [token] for a password. The
+  /// backend returns a full auth session, so the user is logged in immediately.
+  Future<AuthResponse> acceptInvite(String token, String newPassword) async {
+    final res = await _client.dio.post('/auth/accept-invite', data: {
+      'token': token,
+      'newPassword': newPassword,
+    });
+    return AuthResponse.fromJson(res.data);
+  }
 }

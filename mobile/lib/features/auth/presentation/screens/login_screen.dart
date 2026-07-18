@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart';
@@ -124,6 +125,12 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 color: Colors.white,
                                                 strokeWidth: 2))
                                         : const Text('Sign In')),
+                                const SizedBox(height: 4),
+                                TextButton(
+                                    onPressed: loading
+                                        ? null
+                                        : () => ctx.go('/accept-invite'),
+                                    child: const Text('Have an invite?')),
                               ])),
                         ]),
                   )));

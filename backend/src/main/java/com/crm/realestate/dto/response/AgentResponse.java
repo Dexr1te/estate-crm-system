@@ -20,4 +20,11 @@ public class AgentResponse {
     private Role role;
     private boolean isActive;
     private LocalDateTime createdAt;
+
+    /**
+     * One-time invite token, populated ONLY in the response to a create/invite
+     * call so the admin/manager can hand it to the new user. Always null in list
+     * responses so tokens are never leaked when enumerating users.
+     */
+    private String inviteToken;
 }

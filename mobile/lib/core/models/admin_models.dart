@@ -29,6 +29,10 @@ class AgentResponse {
   final bool isActive;
   final DateTime? createdAt;
 
+  /// One-time invite token, present only in the response to an invite call so
+  /// it can be shared with the new user. Null when listing existing users.
+  final String? inviteToken;
+
   const AgentResponse({
     required this.id,
     required this.fullName,
@@ -37,6 +41,7 @@ class AgentResponse {
     required this.role,
     required this.isActive,
     this.createdAt,
+    this.inviteToken,
   });
 
   factory AgentResponse.fromJson(Map<String, dynamic> json) => AgentResponse(
@@ -47,6 +52,7 @@ class AgentResponse {
         role: roleFromName(json['role']),
         isActive: _activeOf(json),
         createdAt: _date(json['createdAt']),
+        inviteToken: json['inviteToken'] as String?,
       );
 }
 

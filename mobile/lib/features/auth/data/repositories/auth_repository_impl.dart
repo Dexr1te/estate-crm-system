@@ -16,6 +16,13 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<AuthResponse> acceptInvite(String token, String newPassword) async {
+    final auth = await _remote.acceptInvite(token, newPassword);
+    await _session.save(auth);
+    return auth;
+  }
+
+  @override
   Future<void> logout() => _session.clear();
 
   @override
