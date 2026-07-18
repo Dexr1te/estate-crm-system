@@ -27,22 +27,36 @@ public class PropertyController {
     private final PropertyService propertyService;
 
     @GetMapping
-    @Operation(summary = "Get all properties (with optional filters)")
-    public ResponseEntity<List<PropertyResponse>> getAll(
+    @Operation(summary = "Get all properties (with optional filters). Supports pagination & sorting via Pageable (page, size, sort)")
+    public ResponseEntity<?> getAll(
             @RequestParam(required = false) PropertyStatus status,
             @RequestParam(required = false) PropertyType type,
             @RequestParam(required = false) String city,
             @RequestParam(required = false) BigDecimal minPrice,
             @RequestParam(required = false) BigDecimal maxPrice,
-            @RequestParam(required = false) String search) {
+            @RequestParam(required = false) Integer rooms,
+            @RequestParam(required = false) Long agentId,
+            @RequestParam(required = false) String search,
+            org.springframework.data.domain.Pageable pageable,
+            jakarta.servlet.http.HttpServletRequest request) {
 
-        if (search != null && !search.isBlank()) {
-            return ResponseEntity.ok(propertyService.search(search));
+        // Preserve backward compatibility: if no pagination params were provided and no filters/search used,
+        // return previous behavior (full list) as JSON array to avoid breaking existing clients.
+        boolean hasPageParams = request.getParameterMap().containsKey("page")
+                || request.getParameterMap().containsKey("size")
+                || request.getParameterMap().containsKey("sort");
+
+        boolean hasAnyFilter = status != null || type != null || city != null || minPrice != null
+                || maxPrice != null || rooms != null || agentId != null || (search != null && !search.isBlank());
+
+        if (!hasPageParams && !hasAnyFilter) {
+            // legacy behavior
+            return ResponseEntity.ok(propertyService.getAll());
         }
-        if (status != null || type != null || city != null || minPrice != null || maxPrice != null) {
-            return ResponseEntity.ok(propertyService.filter(status, type, city, minPrice, maxPrice));
-        }
-        return ResponseEntity.ok(propertyService.getAll());
+
+        org.springframework.data.domain.Page<PropertyResponse> page = propertyService.search(
+                status, type, city, minPrice, maxPrice, rooms, agentId, search, pageable);
+        return ResponseEntity.ok(page);
     }
 
     @GetMapping("/{id}")

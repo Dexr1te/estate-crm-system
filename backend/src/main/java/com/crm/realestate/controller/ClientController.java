@@ -27,22 +27,77 @@ public class ClientController {
     private final ClientService clientService;
 
     @GetMapping
-    @Operation(summary = "Get all clients (optional filter by type or agent)")
-    public ResponseEntity<List<ClientResponse>> getAll(
+    @Operation(summary = "Get all clients (supports pagination, sorting, and filters). Backward-compatible: returns legacy list when no paging/filters provided.")
+    public ResponseEntity<?> getAll(
             @RequestParam(required = false) ClientType type,
             @RequestParam(required = false) Long agentId,
-            @RequestParam(required = false) String search) {
+            @RequestParam(required = false) String search,
+            @RequestParam(required = false) String createdFrom,
+            @RequestParam(required = false) String createdTo,
+            org.springframework.data.domain.Pageable pageable,
+            jakarta.servlet.http.HttpServletRequest request) {
 
-        if (search != null && !search.isBlank()) {
-            return ResponseEntity.ok(clientService.search(search));
+        boolean hasPageParams = request.getParameterMap().containsKey("page")
+                || request.getParameterMap().containsKey("size")
+                || request.getParameterMap().containsKey("sort");
+
+        boolean hasAnyFilter = type != null || agentId != null || (search != null && !search.isBlank())
+                || createdFrom != null || createdTo != null;
+
+        // If no paging and no filters -> legacy full list
+        if (!hasPageParams && !hasAnyFilter) {
+            return ResponseEntity.ok(clientService.getAll());
         }
-        if (type != null) {
-            return ResponseEntity.ok(clientService.getByType(type));
+
+        // If filters provided but no paging -> preserve legacy filtered list behavior (mobile/frontend compatibility)
+        if (!hasPageParams && hasAnyFilter) {
+            if (search != null && !search.isBlank()) {
+                return ResponseEntity.ok(clientService.search(search));
+            }
+            if (type != null && agentId != null) {
+                // both provided - fallback to repository method
+                return ResponseEntity.ok(clientService.getByType(type).stream()
+                        .filter(c -> c.getAgentId() != null && c.getAgentId().equals(agentId))
+                        .toList());
+            }
+            if (type != null) {
+                return ResponseEntity.ok(clientService.getByType(type));
+            }
+            if (agentId != null) {
+                return ResponseEntity.ok(clientService.getByAgent(agentId));
+            }
+            // fallback
+            return ResponseEntity.ok(clientService.getAll());
         }
-        if (agentId != null) {
-            return ResponseEntity.ok(clientService.getByAgent(agentId));
+
+        // Now hasPageParams == true -> perform paged search. Parse createdFrom / createdTo if present
+        java.time.LocalDate fromDate = null;
+        java.time.LocalDate toDate = null;
+        try {
+            if (createdFrom != null && !createdFrom.isBlank()) {
+                fromDate = java.time.LocalDate.parse(createdFrom);
+            }
+            if (createdTo != null && !createdTo.isBlank()) {
+                toDate = java.time.LocalDate.parse(createdTo);
+            }
+        } catch (java.time.format.DateTimeParseException ex) {
+            return ResponseEntity.badRequest().body("Invalid date format for createdFrom/createdTo. Use ISO format: yyyy-MM-dd");
         }
-        return ResponseEntity.ok(clientService.getAll());
+
+        // Enforce maximum page size to protect from large requests
+        final int MAX_PAGE_SIZE = 100;
+        final int DEFAULT_PAGE_SIZE = 20;
+        org.springframework.data.domain.Pageable effectivePageable = pageable;
+        if (pageable.getPageSize() <= 0) {
+            effectivePageable = org.springframework.data.domain.PageRequest.of(pageable.getPageNumber(), DEFAULT_PAGE_SIZE, pageable.getSort());
+        } else if (pageable.getPageSize() > MAX_PAGE_SIZE) {
+            effectivePageable = org.springframework.data.domain.PageRequest.of(pageable.getPageNumber(), MAX_PAGE_SIZE, pageable.getSort());
+        }
+
+        org.springframework.data.domain.Page<com.crm.realestate.dto.response.ClientResponse> page = clientService.search(
+                type, agentId, fromDate, toDate, search, effectivePageable);
+
+        return ResponseEntity.ok(page);
     }
 
     @GetMapping("/with-details")

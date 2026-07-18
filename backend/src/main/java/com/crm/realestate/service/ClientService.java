@@ -32,6 +32,22 @@ public class ClientService {
                 .stream().map(this::toResponse).collect(Collectors.toList());
     }
 
+    public org.springframework.data.domain.Page<ClientResponse> search(
+            ClientType type,
+            Long agentId,
+            java.time.LocalDate createdFrom,
+            java.time.LocalDate createdTo,
+            String search,
+            org.springframework.data.domain.Pageable pageable
+    ) {
+        org.springframework.data.jpa.domain.Specification<com.crm.realestate.entity.Client> spec =
+                com.crm.realestate.specification.ClientSpecification.build(type, agentId, createdFrom, createdTo, search);
+
+        org.springframework.data.domain.Page<com.crm.realestate.entity.Client> page = clientRepository.findAll(spec, pageable);
+        return page.map(this::toResponse);
+    }
+
+
     public List<ClientResponse> getByAgent(Long agentId) {
         return clientRepository.findByAgentId(agentId)
                 .stream().map(this::toResponse).collect(Collectors.toList());
