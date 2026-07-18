@@ -12,6 +12,7 @@ import com.crm.realestate.repository.ClientRepository;
 import com.crm.realestate.repository.DealRepository;
 import com.crm.realestate.repository.MeetingRepository;
 import com.crm.realestate.repository.UserRepository;
+import com.crm.realestate.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,14 +30,34 @@ public class MeetingService {
     private final UserRepository    userRepository;
     private final ClientRepository  clientRepository;
     private final DealRepository    dealRepository;
+    private final SecurityUtils      securityUtils;
+    private final ScopeService       scopeService;
 
     public List<MeetingResponse> getAll() {
-        return meetingRepository.findAll()
+        User currentUser = securityUtils.getCurrentUser();
+        List<Long> allowedAgentIds = scopeService.getAllowedAgentIds(currentUser);
+        if (allowedAgentIds == null) {
+            return meetingRepository.findAll().stream().map(this::toResponse).collect(Collectors.toList());
+        }
+        return meetingRepository.findByAgentIdIn(allowedAgentIds)
                 .stream().map(this::toResponse).collect(Collectors.toList());
     }
 
     public List<UpcomingMeetingResponse> getAllUpcoming() {
-        return meetingRepository.findAllUpcoming(LocalDateTime.now())
+        User currentUser = securityUtils.getCurrentUser();
+        List<Long> allowedAgentIds = scopeService.getAllowedAgentIds(currentUser);
+        if (allowedAgentIds == null) {
+            return meetingRepository.findAllUpcoming(LocalDateTime.now())
+                    .stream()
+                    .map(m -> UpcomingMeetingResponse.builder()
+                            .id(m.getId())
+                            .title(m.getTitle())
+                            .scheduledAt(m.getScheduledAt())
+                            .clientName(m.getClient().getFullName())
+                            .build())
+                    .collect(Collectors.toList());
+        }
+        return meetingRepository.findAllUpcomingForAgents(allowedAgentIds, LocalDateTime.now())
                 .stream()
                 .map(m -> UpcomingMeetingResponse.builder()
                         .id(m.getId())
@@ -45,14 +66,22 @@ public class MeetingService {
                         .clientName(m.getClient().getFullName())
                         .build())
                 .collect(Collectors.toList());
-    }    
+    }
 
     public List<MeetingResponse> getByAgent(Long agentId) {
+        User currentUser = securityUtils.getCurrentUser();
+        if (!scopeService.isWithinScope(currentUser, agentId)) {
+            throw new ResourceNotFoundException("Meeting not found");
+        }
         return meetingRepository.findByAgentId(agentId)
                 .stream().map(this::toResponse).collect(Collectors.toList());
     }
 
     public List<MeetingResponse> getUpcoming(Long agentId) {
+        User currentUser = securityUtils.getCurrentUser();
+        if (!scopeService.isWithinScope(currentUser, agentId)) {
+            throw new ResourceNotFoundException("Meeting not found");
+        }
         LocalDateTime now  = LocalDateTime.now();
         LocalDateTime week = now.plusDays(7);
         return meetingRepository.findUpcomingByAgent(agentId, now, week)
@@ -60,33 +89,51 @@ public class MeetingService {
     }
 
     public MeetingResponse getById(Long id) {
-        return toResponse(findById(id));
+        Meeting meeting = findById(id);
+        User currentUser = securityUtils.getCurrentUser();
+        if (!scopeService.isWithinScope(currentUser, meeting.getAgent() == null ? null : meeting.getAgent().getId())) {
+            throw new ResourceNotFoundException("Meeting not found");
+        }
+        return toResponse(meeting);
     }
 
     @Transactional
     public MeetingResponse create(MeetingRequest request) {
         Meeting meeting = new Meeting();
-        mapRequestToEntity(request, meeting);
+        mapRequestToEntity(request, meeting, securityUtils.getCurrentUser());
         return toResponse(meetingRepository.save(meeting));
     }
 
     @Transactional
     public MeetingResponse update(Long id, MeetingRequest request) {
         Meeting meeting = findById(id);
-        mapRequestToEntity(request, meeting);
+        User currentUser = securityUtils.getCurrentUser();
+        if (!scopeService.isWithinScope(currentUser, meeting.getAgent() == null ? null : meeting.getAgent().getId())) {
+            throw new ResourceNotFoundException("Meeting not found");
+        }
+        mapRequestToEntity(request, meeting, currentUser);
         return toResponse(meetingRepository.save(meeting));
     }
 
     @Transactional
     public MeetingResponse markCompleted(Long id) {
         Meeting meeting = findById(id);
+        User currentUser = securityUtils.getCurrentUser();
+        if (!scopeService.isWithinScope(currentUser, meeting.getAgent() == null ? null : meeting.getAgent().getId())) {
+            throw new ResourceNotFoundException("Meeting not found");
+        }
         meeting.setCompleted(true);
         return toResponse(meetingRepository.save(meeting));
     }
 
     @Transactional
     public void delete(Long id) {
-        meetingRepository.delete(findById(id));
+        Meeting meeting = findById(id);
+        User currentUser = securityUtils.getCurrentUser();
+        if (!scopeService.isWithinScope(currentUser, meeting.getAgent() == null ? null : meeting.getAgent().getId())) {
+            throw new ResourceNotFoundException("Meeting not found");
+        }
+        meetingRepository.delete(meeting);
     }
 
 
@@ -95,20 +142,28 @@ public class MeetingService {
                 .orElseThrow(() -> new ResourceNotFoundException("Meeting not found with id: " + id));
     }
 
-    private void mapRequestToEntity(MeetingRequest request, Meeting meeting) {
+    private void mapRequestToEntity(MeetingRequest request, Meeting meeting, User currentUser) {
         meeting.setTitle(request.getTitle());
         meeting.setDescription(request.getDescription());
         meeting.setScheduledAt(request.getScheduledAt());
         meeting.setLocation(request.getLocation());
 
-        User agent = userRepository.findById(request.getAgentId())
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Agent not found with id: " + request.getAgentId()));
+        User agent;
+        if (currentUser.getRole() == com.crm.realestate.enums.Role.ADMIN && request.getAgentId() != null) {
+            agent = userRepository.findById(request.getAgentId())
+                    .orElseThrow(() -> new ResourceNotFoundException(
+                            "Agent not found with id: " + request.getAgentId()));
+        } else {
+            agent = currentUser;
+        }
         meeting.setAgent(agent);
 
         Client client = clientRepository.findById(request.getClientId())
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Client not found with id: " + request.getClientId()));
+        if (!scopeService.isWithinScope(currentUser, client.getAgent() == null ? null : client.getAgent().getId())) {
+            throw new ResourceNotFoundException("Client not found");
+        }
         meeting.setClient(client);
 
         if (request.getDealId() != null) {

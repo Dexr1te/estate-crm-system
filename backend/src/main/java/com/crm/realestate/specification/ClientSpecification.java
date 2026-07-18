@@ -20,7 +20,8 @@ public final class ClientSpecification {
             Long agentId,
             LocalDate createdFrom,
             LocalDate createdTo,
-            String search
+            String search,
+            java.util.Collection<Long> allowedAgentIds
     ) {
         return (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
@@ -50,6 +51,13 @@ public final class ClientSpecification {
                         cb.like(cb.lower(root.get("email")), like),
                         cb.like(root.get("phone"), like)
                 ));
+            }
+
+            if (allowedAgentIds != null) {
+                if (allowedAgentIds.isEmpty()) {
+                    return cb.disjunction();
+                }
+                predicates.add(root.get("agent").get("id").in(allowedAgentIds));
             }
 
             return cb.and(predicates.toArray(new Predicate[0]));

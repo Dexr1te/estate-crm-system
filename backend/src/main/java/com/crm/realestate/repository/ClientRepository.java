@@ -13,6 +13,7 @@ import java.util.List;
 public interface ClientRepository extends JpaRepository<Client, Long>, org.springframework.data.jpa.repository.JpaSpecificationExecutor<Client> {
 
     List<Client> findByAgentId(Long agentId);
+    long countByAgentIdIn(List<Long> agentIds);
 
     List<Client> findByType(ClientType type);
 
@@ -33,6 +34,7 @@ public interface ClientRepository extends JpaRepository<Client, Long>, org.sprin
                 c.full_name,
                 c.phone,
                 c.email,
+                c.agent_id,
                 d.status,
                 d.budget,
                 p.title AS property_title,

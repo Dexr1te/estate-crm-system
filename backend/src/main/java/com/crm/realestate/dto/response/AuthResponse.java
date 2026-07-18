@@ -1,6 +1,8 @@
 package com.crm.realestate.dto.response;
 
+import com.crm.realestate.enums.DataScope;
 import com.crm.realestate.enums.Role;
+import com.crm.realestate.enums.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,4 +20,8 @@ public class AuthResponse {
     private String fullName;
     private String email;
     private Role role;
+    private DataScope dataScope;
+    private UserStatus status;
+    private Long teamId;
+    private boolean mustChangePassword;
 }

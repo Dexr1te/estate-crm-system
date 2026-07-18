@@ -25,26 +25,48 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
 
     public AuthResponse register(RegisterRequest request) {
-        if (userRepository.existsByEmail(request.getEmail())) {
-            throw new RuntimeException("Email already registered: " + request.getEmail());
+        throw new UnsupportedOperationException("Self registration is disabled. Users must be invited by an admin or manager.");
+    }
+
+    public AuthResponse acceptInvite(com.crm.realestate.dto.request.AcceptInviteRequest request) {
+        User user = userRepository.findByInviteToken(request.getToken())
+                .orElseThrow(() -> new RuntimeException("Invalid invite token"));
+        if (user.getInviteTokenExpiresAt() == null || user.getInviteTokenExpiresAt().isBefore(java.time.LocalDateTime.now())) {
+            throw new RuntimeException("Invite token expired");
         }
-
-        // Security note: We always assign AGENT role for self-registration.
-        // ADMIN can be created only through the /admin/agents endpoint
-        User user = User.builder()
-                .fullName(request.getFullName())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .phone(request.getPhone())
-                .role(Role.AGENT)   // Always assign AGENT role for self-registration
-                .isActive(true)
-                .build();
-
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        user.setStatus(com.crm.realestate.enums.UserStatus.ACTIVE);
+        user.setMustChangePassword(false);
+        user.setInviteToken(null);
+        user.setInviteTokenExpiresAt(null);
         userRepository.save(user);
 
-        String accessToken  = jwtService.generateAccessToken(user);
+        String accessToken = jwtService.generateAccessToken(user);
         String refreshToken = jwtService.generateRefreshToken(user);
+        return buildAuthResponse(user, accessToken, refreshToken);
+    }
 
+    public void requestPasswordReset(String email) {
+        userRepository.findByEmail(email).ifPresent(user -> {
+            user.setPasswordResetToken(java.util.UUID.randomUUID().toString());
+            user.setPasswordResetTokenExpiresAt(java.time.LocalDateTime.now().plusHours(24));
+            userRepository.save(user);
+        });
+    }
+
+    public AuthResponse resetPassword(com.crm.realestate.dto.request.ResetPasswordRequest request) {
+        User user = userRepository.findByPasswordResetToken(request.getToken())
+                .orElseThrow(() -> new RuntimeException("Invalid reset token"));
+        if (user.getPasswordResetTokenExpiresAt() == null || user.getPasswordResetTokenExpiresAt().isBefore(java.time.LocalDateTime.now())) {
+            throw new RuntimeException("Reset token expired");
+        }
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        user.setPasswordResetToken(null);
+        user.setPasswordResetTokenExpiresAt(null);
+        userRepository.save(user);
+
+        String accessToken = jwtService.generateAccessToken(user);
+        String refreshToken = jwtService.generateRefreshToken(user);
         return buildAuthResponse(user, accessToken, refreshToken);
     }
 

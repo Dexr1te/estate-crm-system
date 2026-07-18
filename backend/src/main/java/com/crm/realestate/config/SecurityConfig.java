@@ -35,9 +35,11 @@ public class SecurityConfig {
 
     // публичные endpoints (без токена)
     private static final String[] PUBLIC_URLS = {
-            "/auth/register",
             "/auth/login",
             "/auth/refresh",
+            "/auth/accept-invite",
+            "/auth/forgot-password",
+            "/auth/reset-password",
             "/v3/api-docs/**",
             "/swagger-ui/**",
             "/swagger-ui.html"

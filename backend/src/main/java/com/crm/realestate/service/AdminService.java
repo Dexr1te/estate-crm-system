@@ -3,14 +3,20 @@ package com.crm.realestate.service;
 import com.crm.realestate.dto.request.CreateAgentRequest;
 import com.crm.realestate.dto.response.AgentResponse;
 import com.crm.realestate.dto.response.AgentStatsResponse;
+import com.crm.realestate.entity.Team;
 import com.crm.realestate.entity.User;
+import com.crm.realestate.enums.DataScope;
 import com.crm.realestate.enums.DealStatus;
 import com.crm.realestate.enums.Role;
+import com.crm.realestate.enums.UserStatus;
 import com.crm.realestate.exception.ResourceNotFoundException;
 import com.crm.realestate.repository.ClientRepository;
 import com.crm.realestate.repository.DealRepository;
 import com.crm.realestate.repository.MeetingRepository;
+import com.crm.realestate.repository.TeamRepository;
 import com.crm.realestate.repository.UserRepository;
+import com.crm.realestate.security.SecurityUtils;
+import com.crm.realestate.service.AuditLogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -29,36 +36,73 @@ public class AdminService {
     private final ClientRepository  clientRepository;
     private final DealRepository    dealRepository;
     private final MeetingRepository meetingRepository;
+    private final TeamRepository    teamRepository;
     private final PasswordEncoder   passwordEncoder;
+    private final SecurityUtils      securityUtils;
+    private final AuditLogService    auditLogService;
 
-    // list all agents (only ADMIN can do this)
-    public List<AgentResponse> getAllAgents() {
-        return userRepository.findByRoleOrderByFullNameAsc(Role.AGENT)
+    public List<AgentResponse> getAllUsers() {
+        return userRepository.findAllByOrderByCreatedAtDesc()
                 .stream()
                 .map(this::toAgentResponse)
                 .collect(Collectors.toList());
     }
 
-    // create a new agent (only ADMIN can do this)
     @Transactional
-    public AgentResponse createAgent(CreateAgentRequest request) {
+    public AgentResponse createUser(CreateAgentRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new RuntimeException("Email already registered: " + request.getEmail());
         }
 
+        Team team = null;
+        if (request.getTeamId() != null) {
+            team = teamRepository.findById(request.getTeamId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Team not found"));
+        }
+
+        User currentUser = securityUtils.getCurrentUser();
         User user = User.builder()
                 .fullName(request.getFullName())
                 .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
                 .phone(request.getPhone())
                 .role(request.getRole() != null ? request.getRole() : Role.AGENT)
+                .dataScope(request.getDataScope() != null ? request.getDataScope() : DataScope.OWN)
+                .team(team)
+                .status(UserStatus.PENDING_INVITE)
                 .isActive(true)
+                .inviteToken(UUID.randomUUID().toString())
+                .inviteTokenExpiresAt(LocalDateTime.now().plusHours(48))
+                .createdBy(currentUser)
                 .build();
 
+        User saved = userRepository.save(user);
+        return toAgentResponse(saved);
+    }
+
+    @Transactional
+    public AgentResponse inviteAgentToManagerTeam(CreateAgentRequest request, User manager) {
+        if (userRepository.existsByEmail(request.getEmail())) {
+            throw new RuntimeException("Email already registered: " + request.getEmail());
+        }
+        if (manager.getTeam() == null) {
+            throw new IllegalStateException("Manager must belong to a team before inviting agents");
+        }
+        User user = User.builder()
+                .fullName(request.getFullName())
+                .email(request.getEmail())
+                .phone(request.getPhone())
+                .role(Role.AGENT)
+                .dataScope(DataScope.OWN)
+                .team(manager.getTeam())
+                .status(UserStatus.PENDING_INVITE)
+                .isActive(true)
+                .inviteToken(UUID.randomUUID().toString())
+                .inviteTokenExpiresAt(LocalDateTime.now().plusHours(48))
+                .createdBy(manager)
+                .build();
         return toAgentResponse(userRepository.save(user));
     }
 
-    // statistics for a specific agent (total clients, total deals, active deals, closed deals, upcoming meetings)
     public AgentStatsResponse getAgentStats(Long agentId) {
         User agent = findById(agentId);
 
@@ -85,34 +129,63 @@ public class AdminService {
                 .build();
     }
 
-    // deactivate agent (only ADMIN can do this)
     @Transactional
-    public AgentResponse deactivateAgent(Long agentId) {
-        User agent = findById(agentId);
-        if (agent.getRole() == Role.ADMIN) {
-            throw new RuntimeException("Cannot deactivate an ADMIN user");
+    public AgentResponse deactivateUser(Long userId) {
+        User user = findById(userId);
+        if (user.getRole() == Role.ADMIN) {
+            ensureNotLastActiveAdmin(user);
         }
-        agent.setActive(false);
-        return toAgentResponse(userRepository.save(agent));
+        user.setActive(false);
+        return toAgentResponse(userRepository.save(user));
     }
 
-    // activate agent 
     @Transactional
-    public AgentResponse activateAgent(Long agentId) {
-        User agent = findById(agentId);
-        agent.setActive(true);
-        return toAgentResponse(userRepository.save(agent));
+    public AgentResponse activateUser(Long userId) {
+        User user = findById(userId);
+        user.setActive(true);
+        return toAgentResponse(userRepository.save(user));
     }
 
-    // Change role (ADMIN only can change)
     @Transactional
-    public AgentResponse changeRole(Long agentId, Role newRole) {
-        User agent = findById(agentId);
-        agent.setRole(newRole);
-        return toAgentResponse(userRepository.save(agent));
+    public AgentResponse changeRole(Long userId, Role newRole) {
+        User user = findById(userId);
+        if (user.getRole() == Role.ADMIN && newRole != Role.ADMIN) {
+            ensureNotLastActiveAdmin(user);
+        }
+        user.setRole(newRole);
+        return toAgentResponse(userRepository.save(user));
     }
 
-    //Private helpers 
+    @Transactional
+    public AgentResponse assignTeam(Long userId, Long teamId) {
+        User user = findById(userId);
+        Team team = teamRepository.findById(teamId)
+                .orElseThrow(() -> new ResourceNotFoundException("Team not found"));
+        user.setTeam(team);
+        return toAgentResponse(userRepository.save(user));
+    }
+
+    @Transactional
+    public AgentResponse resendInvite(Long userId) {
+        User user = findById(userId);
+        user.setInviteToken(UUID.randomUUID().toString());
+        user.setInviteTokenExpiresAt(LocalDateTime.now().plusHours(48));
+        if (user.getStatus() != UserStatus.ACTIVE) {
+            user.setStatus(UserStatus.PENDING_INVITE);
+        }
+        return toAgentResponse(userRepository.save(user));
+    }
+
+    public List<com.crm.realestate.dto.response.AuditLogResponse> getAuditLogs(Long actorId, String entityType, java.time.LocalDate fromDate, java.time.LocalDate toDate) {
+        return auditLogService.getAuditLogs(actorId, entityType, fromDate, toDate);
+    }
+
+    private void ensureNotLastActiveAdmin(User user) {
+        long activeAdmins = userRepository.countByRoleAndStatusAndIsActiveTrue(Role.ADMIN, UserStatus.ACTIVE);
+        if (activeAdmins <= 1) {
+            throw new RuntimeException("Cannot remove role ADMIN from the last active admin");
+        }
+    }
 
     private User findById(Long id) {
         return userRepository.findById(id)

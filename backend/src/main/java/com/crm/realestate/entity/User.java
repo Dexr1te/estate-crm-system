@@ -1,6 +1,8 @@
 package com.crm.realestate.entity;
 
+import com.crm.realestate.enums.DataScope;
 import com.crm.realestate.enums.Role;
+import com.crm.realestate.enums.UserStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -39,11 +41,39 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private Role role;
 
-    private String fcmToken;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    @Builder.Default
+    private DataScope dataScope = DataScope.OWN;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "team_id")
+    private Team team;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    @Builder.Default
+    private UserStatus status = UserStatus.PENDING_INVITE;
 
     @Column(nullable = false)
     @Builder.Default
-    private boolean isActive = true;  // false = the agent was fired
+    private boolean isActive = true;  // false = the agent was fired or pending invite
+
+    @Column(nullable = false)
+    @Builder.Default
+    private boolean mustChangePassword = false;
+
+    private String inviteToken;
+    private LocalDateTime inviteTokenExpiresAt;
+
+    private String passwordResetToken;
+    private LocalDateTime passwordResetTokenExpiresAt;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "created_by")
+    private User createdBy;
+
+    private String fcmToken;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -77,11 +107,15 @@ public class User implements UserDetails {
     public boolean isAccountNonExpired() { return true; }
 
     @Override
-    public boolean isAccountNonLocked() { return isActive; } // when the agent was fired he can't log in, so account is locked
+    public boolean isAccountNonLocked() {
+        return isActive && status == UserStatus.ACTIVE;
+    }
 
     @Override
     public boolean isCredentialsNonExpired() { return true; }
 
     @Override
-    public boolean isEnabled() { return isActive; }
+    public boolean isEnabled() {
+        return isActive && status == UserStatus.ACTIVE;
+    }
 }

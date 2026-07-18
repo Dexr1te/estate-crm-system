@@ -22,7 +22,9 @@ public class DashboardController {
 
     @GetMapping("/summary")
     @Operation(summary = "Get dashboard summary - total deals, clients, upcoming meetings")
-    public ResponseEntity<DashboardSummary> getSummary() {
-        return ResponseEntity.ok(dashboardService.getSummary());
+    public ResponseEntity<DashboardSummary> getSummary(
+            @RequestParam(required = false) Long agentId,
+            @RequestParam(required = false) Long teamId) {
+        return ResponseEntity.ok(dashboardService.getSummary(agentId, teamId));
     }
 }

@@ -23,16 +23,29 @@ public class AuthController {
 
     private final AuthService authService;
 
-    @PostMapping("/register")
-    @Operation(summary = "Register a new agent (always creates AGENT role)")
-    public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest request) {
-        return ResponseEntity.ok(authService.register(request));
-    }
-
     @PostMapping("/login")
     @Operation(summary = "Login and get JWT tokens")
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request) {
         return ResponseEntity.ok(authService.login(request));
+    }
+
+    @PostMapping("/accept-invite")
+    @Operation(summary = "Accept an invite and set a password")
+    public ResponseEntity<AuthResponse> acceptInvite(@Valid @RequestBody com.crm.realestate.dto.request.AcceptInviteRequest request) {
+        return ResponseEntity.ok(authService.acceptInvite(request));
+    }
+
+    @PostMapping("/forgot-password")
+    @Operation(summary = "Request a password reset email")
+    public ResponseEntity<String> forgotPassword(@Valid @RequestBody com.crm.realestate.dto.request.ForgotPasswordRequest request) {
+        authService.requestPasswordReset(request.getEmail());
+        return ResponseEntity.ok("Password reset requested if that email exists.");
+    }
+
+    @PostMapping("/reset-password")
+    @Operation(summary = "Reset password using a reset token")
+    public ResponseEntity<AuthResponse> resetPassword(@Valid @RequestBody com.crm.realestate.dto.request.ResetPasswordRequest request) {
+        return ResponseEntity.ok(authService.resetPassword(request));
     }
 
     @PostMapping("/refresh")

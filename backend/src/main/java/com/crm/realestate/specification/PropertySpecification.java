@@ -22,7 +22,8 @@ public final class PropertySpecification {
             BigDecimal maxPrice,
             Integer rooms,
             Long agentId,
-            String search
+            String search,
+            java.util.Collection<Long> allowedAgentIds
     ) {
         return (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
@@ -47,6 +48,12 @@ public final class PropertySpecification {
             }
             if (agentId != null) {
                 predicates.add(cb.equal(root.get("agent").get("id"), agentId));
+            }
+            if (allowedAgentIds != null) {
+                if (allowedAgentIds.isEmpty()) {
+                    return cb.disjunction();
+                }
+                predicates.add(root.get("agent").get("id").in(allowedAgentIds));
             }
             if (search != null && !search.isBlank()) {
                 String like = "%" + search.trim().toLowerCase() + "%";

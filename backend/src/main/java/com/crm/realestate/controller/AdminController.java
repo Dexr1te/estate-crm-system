@@ -3,6 +3,7 @@ package com.crm.realestate.controller;
 import com.crm.realestate.dto.request.CreateAgentRequest;
 import com.crm.realestate.dto.response.AgentResponse;
 import com.crm.realestate.dto.response.AgentStatsResponse;
+import com.crm.realestate.dto.response.AuditLogResponse;
 import com.crm.realestate.enums.Role;
 import com.crm.realestate.service.AdminService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -20,53 +21,70 @@ import java.util.List;
 @RestController
 @RequestMapping("/admin")
 @RequiredArgsConstructor
-@Tag(name = "Admin", description = "Admin only - manage agents and system")
+@Tag(name = "Admin", description = "Admin only - manage users, teams and audit")
 @SecurityRequirement(name = "bearerAuth")
-@PreAuthorize("hasRole('ADMIN')")   // only ADMIN can access these endpoints
+@PreAuthorize("hasRole('ADMIN')")
 public class AdminController {
 
     private final AdminService adminService;
 
-    // list all agents (only ADMIN can see this)
-    @GetMapping("/agents")
-    @Operation(summary = "Get all agents (only ADMIN can do this)")
-    public ResponseEntity<List<AgentResponse>> getAllAgents() {
-        return ResponseEntity.ok(adminService.getAllAgents());
+    @GetMapping("/users")
+    @Operation(summary = "Get all users")
+    public ResponseEntity<List<AgentResponse>> getAllUsers() {
+        return ResponseEntity.ok(adminService.getAllUsers());
     }
 
-    // create a new agent or admin  (only ADMIN can do this)
-    @PostMapping("/agents")
-    @Operation(summary = "Create new agent or admin (only ADMIN can do this)")
-    public ResponseEntity<AgentResponse> createAgent(@Valid @RequestBody CreateAgentRequest request) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(adminService.createAgent(request));
+    @PostMapping("/users")
+    @Operation(summary = "Invite a new user")
+    public ResponseEntity<AgentResponse> createUser(@Valid @RequestBody CreateAgentRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(adminService.createUser(request));
     }
 
-    // statistics for a specific agent (total clients, total deals, active deals, closed deals, upcoming meetings)
-    @GetMapping("/agents/{id}/stats")
-    @Operation(summary = "Get agent work statistics (only ADMIN can do this)")
-    public ResponseEntity<AgentStatsResponse> getAgentStats(@PathVariable Long id) {
+    @GetMapping("/users/{id}/stats")
+    @Operation(summary = "Get user work statistics")
+    public ResponseEntity<AgentStatsResponse> getUserStats(@PathVariable Long id) {
         return ResponseEntity.ok(adminService.getAgentStats(id));
     }
 
-    // deactivate agent - fire the agent 
-    @PatchMapping("/agents/{id}/deactivate")
-    @Operation(summary = "Deactivate agent - fires the agent (only ADMIN can do this)")
-    public ResponseEntity<AgentResponse> deactivateAgent(@PathVariable Long id) {
-        return ResponseEntity.ok(adminService.deactivateAgent(id));
+    @PatchMapping("/users/{id}/deactivate")
+    @Operation(summary = "Deactivate a user")
+    public ResponseEntity<AgentResponse> deactivateUser(@PathVariable Long id) {
+        return ResponseEntity.ok(adminService.deactivateUser(id));
     }
 
-    // activate agent - rehire the agent
-    @PatchMapping("/agents/{id}/activate")
-    @Operation(summary = "Activate agent - rehire the agent (only ADMIN can do this)")
-    public ResponseEntity<AgentResponse> activateAgent(@PathVariable Long id) {
-        return ResponseEntity.ok(adminService.activateAgent(id));
+    @PatchMapping("/users/{id}/activate")
+    @Operation(summary = "Activate a user")
+    public ResponseEntity<AgentResponse> activateUser(@PathVariable Long id) {
+        return ResponseEntity.ok(adminService.activateUser(id));
     }
 
-    // chage role 
-    @PutMapping("/agents/{id}/role")
-    @Operation(summary = "Change user role (only ADMIN can do this)")
+    @PutMapping("/users/{id}/role")
+    @Operation(summary = "Change user role")
     public ResponseEntity<AgentResponse> changeRole(@PathVariable Long id,
-                                                     @RequestParam Role role) {
+                                                   @RequestParam Role role) {
         return ResponseEntity.ok(adminService.changeRole(id, role));
+    }
+
+    @PatchMapping("/users/{id}/team")
+    @Operation(summary = "Assign a user to a team")
+    public ResponseEntity<AgentResponse> assignTeam(@PathVariable Long id,
+                                                    @RequestParam Long teamId) {
+        return ResponseEntity.ok(adminService.assignTeam(id, teamId));
+    }
+
+    @PostMapping("/users/{id}/resend-invite")
+    @Operation(summary = "Resend invite email to a pending user")
+    public ResponseEntity<AgentResponse> resendInvite(@PathVariable Long id) {
+        return ResponseEntity.ok(adminService.resendInvite(id));
+    }
+
+    @GetMapping("/audit-log")
+    @Operation(summary = "Get audit log entries")
+    public ResponseEntity<List<AuditLogResponse>> getAuditLog(
+            @RequestParam(required = false) Long actorId,
+            @RequestParam(required = false) String entityType,
+            @RequestParam(required = false) java.time.LocalDate dateFrom,
+            @RequestParam(required = false) java.time.LocalDate dateTo) {
+        return ResponseEntity.ok(adminService.getAuditLogs(actorId, entityType, dateFrom, dateTo));
     }
 }

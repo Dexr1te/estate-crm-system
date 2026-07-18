@@ -3,6 +3,7 @@ package com.crm.realestate.repository;
 import com.crm.realestate.entity.Deal;
 import com.crm.realestate.enums.DealStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -10,9 +11,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface DealRepository extends JpaRepository<Deal, Long> {
+
+public interface DealRepository extends JpaRepository<Deal, Long>, JpaSpecificationExecutor<Deal> {
 
     List<Deal> findByAgentId(Long agentId);
+    long countByAgentIdIn(List<Long> agentIds);
+    List<Deal> findByAgentIdIn(List<Long> agentIds);
 
     List<Deal> findByClientId(Long clientId);
 
