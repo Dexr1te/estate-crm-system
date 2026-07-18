@@ -9,6 +9,9 @@ class ClientCard extends StatelessWidget {
   final int dealCount;
   final VoidCallback onTap, onEdit, onDelete;
 
+  /// Whether to show the delete action (client delete is admin-only server-side).
+  final bool canDelete;
+
   const ClientCard({
     super.key,
     required this.client,
@@ -16,6 +19,7 @@ class ClientCard extends StatelessWidget {
     required this.onTap,
     required this.onEdit,
     required this.onDelete,
+    this.canDelete = true,
   });
 
   @override
@@ -73,15 +77,16 @@ class ClientCard extends StatelessWidget {
                           SizedBox(width: 8),
                           Text('Edit')
                         ])),
-                    const PopupMenuItem(
-                        value: 'delete',
-                        child: Row(children: [
-                          Icon(Icons.delete_outline,
-                              size: 16, color: AppColors.error),
-                          SizedBox(width: 8),
-                          Text('Delete',
-                              style: TextStyle(color: AppColors.error))
-                        ])),
+                    if (canDelete)
+                      const PopupMenuItem(
+                          value: 'delete',
+                          child: Row(children: [
+                            Icon(Icons.delete_outline,
+                                size: 16, color: AppColors.error),
+                            SizedBox(width: 8),
+                            Text('Delete',
+                                style: TextStyle(color: AppColors.error))
+                          ])),
                   ],
                   child: Icon(Icons.more_vert,
                       color: tt.bodySmall?.color, size: 20),

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/auth/role_context.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_bloc.dart';
@@ -76,9 +77,10 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
                 IconButton(
                     icon: const Icon(Icons.edit_outlined),
                     onPressed: () => context.go('/clients/${widget.id}/edit')),
-                IconButton(
-                    icon: Icon(Icons.delete_outline, color: cs.error),
-                    onPressed: _delete),
+                if (context.isAdmin)
+                  IconButton(
+                      icon: Icon(Icons.delete_outline, color: cs.error),
+                      onPressed: _delete),
               ],
       ),
       body: _loading

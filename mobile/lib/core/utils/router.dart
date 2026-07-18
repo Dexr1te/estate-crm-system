@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/features/admin/presentation/screens/admin_console_screen.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/screens/login_screen.dart';
+import 'package:real_estate_crm/features/teams/presentation/screens/manager_console_screen.dart';
 import 'package:real_estate_crm/features/clients/presentation/screens/client_detail_screen.dart';
 import 'package:real_estate_crm/features/clients/presentation/screens/client_form_screen.dart';
 import 'package:real_estate_crm/features/clients/presentation/screens/clients_screen.dart';
@@ -38,9 +41,16 @@ GoRouter createRouter(AuthBloc authBloc) {
     refreshListenable: authBloc,
     redirect: (context, state) {
       final authed = authBloc.isAuthenticated;
-      final onAuth = state.matchedLocation.startsWith('/login');
+      final loc = state.matchedLocation;
+      final onAuth = loc.startsWith('/login');
       if (!authed && !onAuth) return '/login';
       if (authed && onAuth) return '/dashboard';
+      // Role-gated areas: bounce users without the right role home.
+      final role = authBloc.currentUser?.role;
+      if (loc.startsWith('/admin') && role != Role.ADMIN) return '/dashboard';
+      if (loc.startsWith('/team-console') && role != Role.MANAGER) {
+        return '/dashboard';
+      }
       return null;
     },
     routes: [
@@ -57,6 +67,16 @@ GoRouter createRouter(AuthBloc authBloc) {
         navigatorKey: _shellKey,
         builder: (_, __, child) => MainScaffold(child: child),
         routes: [
+          GoRoute(
+            path: '/admin',
+            pageBuilder: (_, __) =>
+                const NoTransitionPage(child: AdminConsoleScreen()),
+          ),
+          GoRoute(
+            path: '/team-console',
+            pageBuilder: (_, __) =>
+                const NoTransitionPage(child: ManagerConsoleScreen()),
+          ),
           GoRoute(
             path: '/dashboard',
             pageBuilder: (_, __) =>

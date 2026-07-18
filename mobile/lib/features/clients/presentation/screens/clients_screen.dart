@@ -6,6 +6,7 @@ import 'package:real_estate_crm/core/theme/app_theme.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_bloc.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_event.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_state.dart';
+import 'package:real_estate_crm/core/auth/role_context.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/client_card.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 
@@ -145,6 +146,7 @@ class _ClientsScreenState extends State<ClientsScreen> {
                     return ClientCard(
                       client: client,
                       dealCount: dealCount,
+                      canDelete: context.isAdmin,
                       onTap: () => context.go('/clients/${client.id}'),
                       onEdit: () => context.go('/clients/${client.id}/edit'),
                       onDelete: () async {

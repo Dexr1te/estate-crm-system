@@ -15,10 +15,10 @@ import java.io.IOException;
 @Slf4j
 public class FirebaseConfig {
 
-    @Value("${firebase.credentials-path}")
+    @Value("${firebase.credentials-path:firebase-service-account.json}")
     private String credentialsPath;
 
-    @Value("${firebase.project-id}")
+    @Value("${firebase.project-id:}")
     private String projectId;
 
     @PostConstruct
