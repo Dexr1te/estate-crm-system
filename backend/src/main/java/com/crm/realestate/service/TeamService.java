@@ -12,6 +12,7 @@ import com.crm.realestate.repository.DealRepository;
 import com.crm.realestate.repository.MeetingRepository;
 import com.crm.realestate.repository.TeamRepository;
 import com.crm.realestate.repository.UserRepository;
+import com.crm.realestate.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
