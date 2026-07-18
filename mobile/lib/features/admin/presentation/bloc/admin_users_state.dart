@@ -20,3 +20,10 @@ class AdminUsersActionSuccess extends AdminUsersState {
   final String message;
   AdminUsersActionSuccess(this.message);
 }
+
+/// Emitted after a successful invite. Carries the created user so the UI can
+/// surface the one-time [AgentResponse.inviteToken] for the admin to share.
+class AdminInviteSuccess extends AdminUsersState {
+  final AgentResponse user;
+  AdminInviteSuccess(this.user);
+}

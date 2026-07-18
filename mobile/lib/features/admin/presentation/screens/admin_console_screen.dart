@@ -10,6 +10,7 @@ import 'package:real_estate_crm/features/admin/presentation/bloc/admin_users_blo
 import 'package:real_estate_crm/features/admin/presentation/bloc/admin_users_event.dart';
 import 'package:real_estate_crm/features/admin/presentation/bloc/admin_users_state.dart';
 import 'package:real_estate_crm/features/admin/presentation/bloc/audit_log_bloc.dart';
+import 'package:real_estate_crm/features/admin/presentation/widgets/invite_result_dialog.dart';
 import 'package:real_estate_crm/features/admin/presentation/widgets/invite_user_sheet.dart';
 import 'package:real_estate_crm/features/admin/presentation/widgets/user_card.dart';
 import 'package:real_estate_crm/features/admin/presentation/widgets/user_stats_sheet.dart';
@@ -121,6 +122,9 @@ class _UsersTab extends StatelessWidget {
       ),
       body: BlocConsumer<AdminUsersBloc, AdminUsersState>(
         listener: (ctx, state) {
+          if (state is AdminInviteSuccess) {
+            showInviteResultDialog(ctx, state.user);
+          }
           if (state is AdminUsersActionSuccess) {
             ScaffoldMessenger.of(ctx)
                 .showSnackBar(SnackBar(content: Text(state.message)));

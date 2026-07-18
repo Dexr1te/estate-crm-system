@@ -37,9 +37,18 @@ class AdminUsersBloc extends Bloc<AdminUsersEvent, AdminUsersState> {
     }
   }
 
+  // Invite is special: we surface the returned user (with its one-time invite
+  // token) instead of a generic success message, then reload the list.
   Future<void> _onInvite(
-          AdminInviteUserEvent e, Emitter<AdminUsersState> emit) =>
-      _act(emit, 'Invite sent', () => _repo.inviteUser(e.body));
+      AdminInviteUserEvent e, Emitter<AdminUsersState> emit) async {
+    try {
+      final created = await _repo.inviteUser(e.body);
+      emit(AdminInviteSuccess(created));
+      add(AdminUsersLoadEvent());
+    } catch (err) {
+      emit(AdminUsersError(err.toString()));
+    }
+  }
 
   Future<void> _onActivate(
           AdminActivateUserEvent e, Emitter<AdminUsersState> emit) =>

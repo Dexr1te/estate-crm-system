@@ -76,7 +76,7 @@ public class AdminService {
                 .build();
 
         User saved = userRepository.save(user);
-        return toAgentResponse(saved);
+        return toInviteResponse(saved);
     }
 
     @Transactional
@@ -100,7 +100,7 @@ public class AdminService {
                 .inviteTokenExpiresAt(LocalDateTime.now().plusHours(48))
                 .createdBy(manager)
                 .build();
-        return toAgentResponse(userRepository.save(user));
+        return toInviteResponse(userRepository.save(user));
     }
 
     public AgentStatsResponse getAgentStats(Long agentId) {
@@ -202,5 +202,17 @@ public class AdminService {
                 .isActive(user.isActive())
                 .createdAt(user.getCreatedAt())
                 .build();
+    }
+
+    /**
+     * Same as {@link #toAgentResponse(User)} but also exposes the one-time invite
+     * token. Used only by the create/invite endpoints so the caller can hand the
+     * token to the new user (there is no email delivery). List endpoints keep
+     * using {@link #toAgentResponse(User)}, so tokens are never leaked in bulk.
+     */
+    private AgentResponse toInviteResponse(User user) {
+        AgentResponse response = toAgentResponse(user);
+        response.setInviteToken(user.getInviteToken());
+        return response;
     }
 }

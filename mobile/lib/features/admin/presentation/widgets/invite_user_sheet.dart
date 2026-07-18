@@ -104,7 +104,7 @@ class _InviteUserFormState extends State<_InviteUserForm> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                  onPressed: _submit, child: const Text('Send invite')),
+                  onPressed: _submit, child: const Text('Create invite')),
             ),
           ],
         ),
