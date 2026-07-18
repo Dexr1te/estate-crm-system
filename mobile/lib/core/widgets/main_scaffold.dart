@@ -1,93 +1,108 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_state.dart';
+
+/// A navigation destination in the app shell.
+class _Dest {
+  final String route;
+  final IconData icon;
+  final IconData activeIcon;
+  final String label;
+  const _Dest(this.route, this.icon, this.activeIcon, this.label);
+}
+
+const _baseDests = [
+  _Dest('/dashboard', Icons.dashboard_outlined, Icons.dashboard, 'Dashboard'),
+  _Dest('/clients', Icons.people_outline, Icons.people, 'Clients'),
+  _Dest('/properties', Icons.home_work_outlined, Icons.home_work, 'Properties'),
+  _Dest('/deals', Icons.handshake_outlined, Icons.handshake, 'Deals'),
+  _Dest('/meetings', Icons.calendar_today_outlined, Icons.calendar_today,
+      'Meetings'),
+];
+
+/// Destinations for the given [role]: agents get the base five; admins get an
+/// extra "Admin" tab, managers an extra "Team" tab.
+List<_Dest> _destsFor(Role? role) {
+  final dests = [..._baseDests];
+  if (role == Role.ADMIN) {
+    dests.add(
+        const _Dest('/admin', Icons.shield_outlined, Icons.shield, 'Admin'));
+  } else if (role == Role.MANAGER) {
+    dests.add(const _Dest(
+        '/team-console', Icons.groups_outlined, Icons.groups, 'Team'));
+  }
+  return dests;
+}
 
 class MainScaffold extends StatelessWidget {
   final Widget child;
   const MainScaffold({super.key, required this.child});
 
-  int _locationIndex(String loc) {
-    if (loc.startsWith('/dashboard')) return 0;
-    if (loc.startsWith('/clients')) return 1;
-    if (loc.startsWith('/properties')) return 2;
-    if (loc.startsWith('/deals')) return 3;
-    if (loc.startsWith('/meetings')) return 4;
-    return 0;
-  }
-
-  void _onTap(BuildContext context, int i) {
-    const routes = [
-      '/dashboard',
-      '/clients',
-      '/properties',
-      '/deals',
-      '/meetings'
-    ];
-    context.go(routes[i]);
+  int _locationIndex(List<_Dest> dests, String loc) {
+    final i = dests.indexWhere((d) => loc.startsWith(d.route));
+    return i < 0 ? 0 : i;
   }
 
   @override
   Widget build(BuildContext context) {
-    final location = GoRouterState.of(context).matchedLocation;
-    final index = _locationIndex(location);
-    final isWide = MediaQuery.of(context).size.width >= 800;
+    return BlocBuilder<AuthBloc, AuthState>(
+      buildWhen: (p, c) => p.runtimeType != c.runtimeType,
+      builder: (context, authState) {
+        final role =
+            authState is AuthAuthenticated ? authState.user.role : null;
+        final dests = _destsFor(role);
+        final location = GoRouterState.of(context).matchedLocation;
+        final index = _locationIndex(dests, location);
+        final isWide = MediaQuery.of(context).size.width >= 800;
 
-    if (isWide) {
-      return Scaffold(
-        body: Row(children: [
-          _SideNav(selectedIndex: index, onTap: (i) => _onTap(context, i)),
-          VerticalDivider(width: 1, color: Theme.of(context).dividerColor),
-          Expanded(child: child),
-        ]),
-      );
-    }
+        void onTap(int i) => context.go(dests[i].route);
 
-    return Scaffold(
-      body: child,
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-            border:
-                Border(top: BorderSide(color: Theme.of(context).dividerColor))),
-        child: BottomNavigationBar(
-          currentIndex: index,
-          onTap: (i) => _onTap(context, i),
-          type: BottomNavigationBarType.fixed,
-          elevation: 0,
-          items: const [
-            BottomNavigationBarItem(
-                icon: Icon(Icons.dashboard_outlined),
-                activeIcon: Icon(Icons.dashboard),
-                label: 'Dashboard'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.people_outline),
-                activeIcon: Icon(Icons.people),
-                label: 'Clients'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.home_work_outlined),
-                activeIcon: Icon(Icons.home_work),
-                label: 'Properties'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.handshake_outlined),
-                activeIcon: Icon(Icons.handshake),
-                label: 'Deals'),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.calendar_today_outlined),
-                activeIcon: Icon(Icons.calendar_today),
-                label: 'Meetings'),
-          ],
-        ),
-      ),
+        if (isWide) {
+          return Scaffold(
+            body: Row(children: [
+              _SideNav(dests: dests, selectedIndex: index, onTap: onTap),
+              VerticalDivider(width: 1, color: Theme.of(context).dividerColor),
+              Expanded(child: child),
+            ]),
+          );
+        }
+
+        return Scaffold(
+          body: child,
+          bottomNavigationBar: Container(
+            decoration: BoxDecoration(
+                border: Border(
+                    top: BorderSide(color: Theme.of(context).dividerColor))),
+            child: BottomNavigationBar(
+              currentIndex: index,
+              onTap: onTap,
+              type: BottomNavigationBarType.fixed,
+              elevation: 0,
+              items: [
+                for (final d in dests)
+                  BottomNavigationBarItem(
+                      icon: Icon(d.icon),
+                      activeIcon: Icon(d.activeIcon),
+                      label: d.label),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
 
 class _SideNav extends StatelessWidget {
+  final List<_Dest> dests;
   final int selectedIndex;
   final void Function(int) onTap;
-  const _SideNav({required this.selectedIndex, required this.onTap});
+  const _SideNav(
+      {required this.dests, required this.selectedIndex, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -119,36 +134,13 @@ class _SideNav extends StatelessWidget {
                         color: cs.onSurface)),
               ])),
           const SizedBox(height: 32),
-          _NavItem(
-              icon: Icons.dashboard_outlined,
-              activeIcon: Icons.dashboard,
-              label: 'Dashboard',
-              selected: selectedIndex == 0,
-              onTap: () => onTap(0)),
-          _NavItem(
-              icon: Icons.people_outline,
-              activeIcon: Icons.people,
-              label: 'Clients',
-              selected: selectedIndex == 1,
-              onTap: () => onTap(1)),
-          _NavItem(
-              icon: Icons.home_work_outlined,
-              activeIcon: Icons.home_work,
-              label: 'Properties',
-              selected: selectedIndex == 2,
-              onTap: () => onTap(2)),
-          _NavItem(
-              icon: Icons.handshake_outlined,
-              activeIcon: Icons.handshake,
-              label: 'Deals',
-              selected: selectedIndex == 3,
-              onTap: () => onTap(3)),
-          _NavItem(
-              icon: Icons.calendar_today_outlined,
-              activeIcon: Icons.calendar_today,
-              label: 'Meetings',
-              selected: selectedIndex == 4,
-              onTap: () => onTap(4)),
+          for (var i = 0; i < dests.length; i++)
+            _NavItem(
+                icon: dests[i].icon,
+                activeIcon: dests[i].activeIcon,
+                label: dests[i].label,
+                selected: selectedIndex == i,
+                onTap: () => onTap(i)),
           const Spacer(),
           Divider(color: Theme.of(context).dividerColor),
           Padding(
@@ -177,8 +169,7 @@ class _SideNav extends StatelessWidget {
                 trailing: IconButton(
                     icon: Icon(Icons.logout,
                         size: 18, color: cs.onSurface.withAlpha(128)),
-                    onPressed: () =>
-                        ctx.read<AuthBloc>().add(AuthLogoutEvent()),
+                    onPressed: () => ctx.read<AuthBloc>().add(AuthLogoutEvent()),
                     tooltip: 'Logout'),
                 onTap: () => context.push('/profile'),
                 contentPadding: EdgeInsets.zero,

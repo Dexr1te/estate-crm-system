@@ -7,7 +7,8 @@ part 'models.g.dart';
 // Enums
 // ─────────────────────────────────────────────
 
-enum Role { ADMIN, AGENT }
+enum Role { ADMIN, MANAGER, AGENT }
+enum DataScope { OWN, TEAM, ALL }
 enum ClientType { BUYER, SELLER }
 enum PropertyType { APARTMENT, HOUSE, COMMERCIAL, LAND, OFFICE }
 enum PropertyStatus { AVAILABLE, RESERVED, SOLD }
@@ -26,6 +27,9 @@ class AuthResponse with _$AuthResponse {
     @Default(0) int userId,
     @Default('') String fullName,
     @Default('') String email,
+    // NOTE: models.g.dart is hand-patched with `unknownValue: Role.AGENT` for
+    // this field so unknown/new server roles fall back to AGENT instead of
+    // throwing. Re-add that when regenerating with build_runner.
     @Default(Role.AGENT) Role role,
   }) = _AuthResponse;
 
