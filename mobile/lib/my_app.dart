@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:real_estate_crm/core/services/api_service.dart';
+import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
 import 'package:real_estate_crm/core/theme/bloc/theme_bloc.dart';
 import 'package:real_estate_crm/core/utils/router.dart';
-import 'package:real_estate_crm/features/auth/bloc/auth_bloc.dart';
-import 'package:real_estate_crm/features/auth/bloc/auth_event.dart';
-import 'package:real_estate_crm/features/clients/bloc/clients_bloc.dart';
-import 'package:real_estate_crm/features/dashboard/bloc/dashboard_bloc.dart';
-import 'package:real_estate_crm/features/deals/bloc/deals_bloc.dart';
-import 'package:real_estate_crm/features/meetings/bloc/meetings_bloc.dart';
-import 'package:real_estate_crm/features/properties/bloc/properties_bloc.dart';
+import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart';
+import 'package:real_estate_crm/features/clients/presentation/bloc/clients_bloc.dart';
+import 'package:real_estate_crm/features/dashboard/presentation/bloc/dashboard_bloc.dart';
+import 'package:real_estate_crm/features/deals/presentation/bloc/deals_bloc.dart';
+import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_bloc.dart';
+import 'package:real_estate_crm/features/properties/presentation/bloc/properties_bloc.dart';
 
 class MyApp extends StatefulWidget {
-  final ApiService api;
-  const MyApp({super.key, required this.api});
+  const MyApp({super.key});
   @override
   State<MyApp> createState() => _MyAppState();
 }
@@ -34,15 +33,15 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    _authBloc = AuthBloc(widget.api)..add(AuthCheckEvent());
+    _authBloc = AuthBloc(Injector.authRepository)..add(AuthCheckEvent());
     _themeBloc = ThemeBloc()..add(ThemeLoadEvent());
-    _dashboardBloc = DashboardBloc(widget.api);
-    _clientsBloc = ClientsBloc(widget.api);
-    _propertiesBloc = PropertiesBloc(widget.api);
-    _dealsBloc = DealsBloc(widget.api);
-    _meetingsBloc = MeetingsBloc(widget.api);
+    _dashboardBloc =
+        DashboardBloc(Injector.dashboardRepository, Injector.meetingsRepository);
+    _clientsBloc = ClientsBloc(Injector.clientsRepository);
+    _propertiesBloc = PropertiesBloc(Injector.propertiesRepository);
+    _dealsBloc = DealsBloc(Injector.dealsRepository);
+    _meetingsBloc = MeetingsBloc(Injector.meetingsRepository);
     router = createRouter(_authBloc); // created once
-    
   }
 
   @override
