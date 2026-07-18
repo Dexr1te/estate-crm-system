@@ -1,11 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:real_estate_crm/core/services/api_service.dart';
-import 'package:real_estate_crm/features/properties/bloc/properties_event.dart';
-import 'package:real_estate_crm/features/properties/bloc/properties_state.dart';
+import 'package:real_estate_crm/features/properties/domain/repositories/properties_repository.dart';
+import 'package:real_estate_crm/features/properties/presentation/bloc/properties_event.dart';
+import 'package:real_estate_crm/features/properties/presentation/bloc/properties_state.dart';
 
 class PropertiesBloc extends Bloc<PropertiesEvent, PropertiesState> {
-  final ApiService _api;
-  PropertiesBloc(this._api) : super(PropertiesInitial()) {
+  final PropertiesRepository _repo;
+  PropertiesBloc(this._repo) : super(PropertiesInitial()) {
     on<PropertiesLoadEvent>(_onLoad);
     on<PropertiesDeleteEvent>(_onDelete);
     on<PropertiesCreateEvent>(_onCreate);
@@ -17,7 +17,7 @@ class PropertiesBloc extends Bloc<PropertiesEvent, PropertiesState> {
       PropertiesLoadEvent e, Emitter<PropertiesState> emit) async {
     emit(PropertiesLoading());
     try {
-      emit(PropertiesLoaded(await _api.getProperties(
+      emit(PropertiesLoaded(await _repo.getProperties(
           status: e.status, type: e.type, search: e.search)));
     } catch (err) {
       emit(PropertiesError(err.toString()));
@@ -27,7 +27,7 @@ class PropertiesBloc extends Bloc<PropertiesEvent, PropertiesState> {
   Future<void> _onDelete(
       PropertiesDeleteEvent e, Emitter<PropertiesState> emit) async {
     try {
-      await _api.deleteProperty(e.id);
+      await _repo.deleteProperty(e.id);
       emit(PropertiesActionSuccess('Property deleted'));
       add(PropertiesLoadEvent());
     } catch (err) {
@@ -38,7 +38,7 @@ class PropertiesBloc extends Bloc<PropertiesEvent, PropertiesState> {
   Future<void> _onCreate(
       PropertiesCreateEvent e, Emitter<PropertiesState> emit) async {
     try {
-      final created = await _api.createProperty(e.data);
+      final created = await _repo.createProperty(e.data);
       emit(PropertyCreated(created)); // emit the full object with id
     } catch (err) {
       emit(PropertiesError(err.toString()));
@@ -48,7 +48,7 @@ class PropertiesBloc extends Bloc<PropertiesEvent, PropertiesState> {
   Future<void> _onUpdate(
       PropertiesUpdateEvent e, Emitter<PropertiesState> emit) async {
     try {
-      await _api.updateProperty(e.id, e.data);
+      await _repo.updateProperty(e.id, e.data);
       emit(PropertiesActionSuccess('Property updated'));
     } catch (err) {
       emit(PropertiesError(err.toString()));
@@ -58,7 +58,7 @@ class PropertiesBloc extends Bloc<PropertiesEvent, PropertiesState> {
   Future<void> _onUpdateStatus(
       PropertiesUpdateStatusEvent e, Emitter<PropertiesState> emit) async {
     try {
-      await _api.updatePropertyStatus(e.id, e.status);
+      await _repo.updatePropertyStatus(e.id, e.status);
       emit(PropertiesActionSuccess('Status updated'));
       add(PropertiesLoadEvent());
     } catch (err) {

@@ -3,10 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/models/models.dart';
-import 'package:real_estate_crm/core/services/api_service.dart';
-import 'package:real_estate_crm/features/properties/bloc/properties_bloc.dart';
-import 'package:real_estate_crm/features/properties/bloc/properties_event.dart';
-import 'package:real_estate_crm/features/widgets/shared_widgets.dart';
+import 'package:real_estate_crm/core/di/injector.dart';
+import 'package:real_estate_crm/features/properties/presentation/bloc/properties_bloc.dart';
+import 'package:real_estate_crm/features/properties/presentation/bloc/properties_event.dart';
+import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:shimmer/shimmer.dart';
 
 class PropertyDetailScreen extends StatefulWidget {
@@ -29,7 +29,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
   Future<void> _load() async {
     setState(() => _loading = true);
     try {
-      final p = await ApiService().getProperty(widget.id);
+      final p = await Injector.propertiesRepository.getProperty(widget.id);
       setState(() {
         _p = p;
         _loading = false;

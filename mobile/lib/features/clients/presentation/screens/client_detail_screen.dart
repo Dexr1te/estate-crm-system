@@ -3,11 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/models/models.dart';
-import 'package:real_estate_crm/core/services/api_service.dart';
+import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
-import 'package:real_estate_crm/features/clients/bloc/clients_bloc.dart';
-import 'package:real_estate_crm/features/clients/bloc/clients_event.dart';
-import 'package:real_estate_crm/features/widgets/shared_widgets.dart';
+import 'package:real_estate_crm/features/clients/presentation/bloc/clients_bloc.dart';
+import 'package:real_estate_crm/features/clients/presentation/bloc/clients_event.dart';
+import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ClientDetailScreen extends StatefulWidget {
@@ -32,8 +32,8 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
     setState(() => _loading = true);
     try {
       final results = await Future.wait([
-        ApiService().getClient(widget.id),
-        ApiService().getDeals(),
+        Injector.clientsRepository.getClient(widget.id),
+        Injector.dealsRepository.getDeals(),
       ]);
       final client = results[0] as ClientResponse;
       final allDeals = results[1] as List<DealResponse>;

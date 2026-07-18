@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/models/models.dart';
-import 'package:real_estate_crm/core/services/api_service.dart';
-import 'package:real_estate_crm/features/deals/bloc/deals_bloc.dart';
-import 'package:real_estate_crm/features/deals/bloc/deals_event.dart';
-import 'package:real_estate_crm/features/widgets/shared_widgets.dart';
+import 'package:real_estate_crm/core/di/injector.dart';
+import 'package:real_estate_crm/features/deals/presentation/bloc/deals_bloc.dart';
+import 'package:real_estate_crm/features/deals/presentation/bloc/deals_event.dart';
+import 'package:real_estate_crm/core/widgets/widgets.dart';
 
 // ─────────────────────────────────────────────────────────────
 // Generic picker helpers
@@ -460,7 +460,7 @@ class _DealFormScreenState extends State<DealFormScreen> {
 
   Future<void> _loadClients() async {
     try {
-      final data = await ApiService().getClients();
+      final data = await Injector.clientsRepository.getClients();
       if (!mounted) return;
       setState(() {
         _clients = data
@@ -478,7 +478,7 @@ class _DealFormScreenState extends State<DealFormScreen> {
   Future<void> _loadAgents() async {
     try {
       // ✅ GET /users/agents — agents only, not clients
-      final data = await ApiService().getAgentOptions();
+      final data = await Injector.agentsRepository.getAgentOptions();
       if (!mounted) return;
       setState(() {
         _agents = data
@@ -495,7 +495,7 @@ class _DealFormScreenState extends State<DealFormScreen> {
 
   Future<void> _loadProperties() async {
     try {
-      final data = await ApiService().getProperties();
+      final data = await Injector.propertiesRepository.getProperties();
       if (!mounted) return;
       setState(() {
         _properties = data
@@ -527,7 +527,7 @@ class _DealFormScreenState extends State<DealFormScreen> {
   Future<void> _loadDeal() async {
     setState(() => _initLoading = true);
     try {
-      final d = await ApiService().getDeal(widget.dealId!);
+      final d = await Injector.dealsRepository.getDeal(widget.dealId!);
       _titleCtrl.text = d.title;
       _priceCtrl.text = d.dealPrice?.toStringAsFixed(0) ?? '';
       _budgetCtrl.text = d.budget?.toStringAsFixed(0) ?? '';

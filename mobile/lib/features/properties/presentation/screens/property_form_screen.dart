@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/models/models.dart';
-import 'package:real_estate_crm/core/services/api_service.dart';
-import 'package:real_estate_crm/features/properties/bloc/properties_bloc.dart';
-import 'package:real_estate_crm/features/properties/bloc/properties_event.dart';
-import 'package:real_estate_crm/features/properties/bloc/properties_state.dart';
-import 'package:real_estate_crm/features/widgets/shared_widgets.dart';
+import 'package:real_estate_crm/core/di/injector.dart';
+import 'package:real_estate_crm/features/properties/presentation/bloc/properties_bloc.dart';
+import 'package:real_estate_crm/features/properties/presentation/bloc/properties_event.dart';
+import 'package:real_estate_crm/features/properties/presentation/bloc/properties_state.dart';
+import 'package:real_estate_crm/core/widgets/widgets.dart';
 
 class PropertyFormScreen extends StatefulWidget {
   final int? propertyId;
@@ -58,7 +58,7 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
   Future<void> _load() async {
     setState(() => _initLoading = true);
     try {
-      final p = await ApiService().getProperty(widget.propertyId!);
+      final p = await Injector.propertiesRepository.getProperty(widget.propertyId!);
       _titleCtrl.text = p.title;
       _descCtrl.text = p.description ?? '';
       _addressCtrl.text = p.address;

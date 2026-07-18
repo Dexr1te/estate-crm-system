@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
-import 'package:real_estate_crm/features/auth/bloc/auth_bloc.dart';
-import 'package:real_estate_crm/features/auth/bloc/auth_state.dart';
-import 'package:real_estate_crm/features/dashboard/bloc/dashboard_bloc.dart';
-import 'package:real_estate_crm/features/dashboard/bloc/dashboard_event.dart';
-import 'package:real_estate_crm/features/dashboard/bloc/dashboard_state.dart';
-import 'package:real_estate_crm/features/widgets/shared_widgets.dart';
+import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:real_estate_crm/features/auth/presentation/bloc/auth_state.dart';
+import 'package:real_estate_crm/features/dashboard/presentation/bloc/dashboard_bloc.dart';
+import 'package:real_estate_crm/features/dashboard/presentation/bloc/dashboard_event.dart';
+import 'package:real_estate_crm/features/dashboard/presentation/bloc/dashboard_state.dart';
+import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:shimmer/shimmer.dart';
 
 class DashboardScreen extends StatefulWidget {

@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/models/models.dart';
-import 'package:real_estate_crm/core/services/api_service.dart';
+import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
-import 'package:real_estate_crm/features/clients/bloc/clients_bloc.dart';
-import 'package:real_estate_crm/features/clients/bloc/clients_event.dart';
-import 'package:real_estate_crm/features/clients/bloc/clients_state.dart';
-import 'package:real_estate_crm/features/widgets/shared_widgets.dart';
+import 'package:real_estate_crm/features/clients/presentation/bloc/clients_bloc.dart';
+import 'package:real_estate_crm/features/clients/presentation/bloc/clients_event.dart';
+import 'package:real_estate_crm/features/clients/presentation/bloc/clients_state.dart';
+import 'package:real_estate_crm/core/widgets/widgets.dart';
 
 class ClientFormScreen extends StatefulWidget {
   final int? clientId;
@@ -43,7 +43,7 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
   Future<void> _load() async {
     setState(() => _initLoading = true);
     try {
-      final c = await ApiService().getClient(widget.clientId!);
+      final c = await Injector.clientsRepository.getClient(widget.clientId!);
       _nameCtrl.text = c.fullName;
       _emailCtrl.text = c.email ?? '';
       _phoneCtrl.text = c.phone ?? '';

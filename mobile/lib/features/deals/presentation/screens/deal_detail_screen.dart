@@ -3,11 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/models/models.dart';
-import 'package:real_estate_crm/core/services/api_service.dart';
+import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
-import 'package:real_estate_crm/features/deals/bloc/deals_bloc.dart';
-import 'package:real_estate_crm/features/deals/bloc/deals_event.dart';
-import 'package:real_estate_crm/features/widgets/shared_widgets.dart';
+import 'package:real_estate_crm/features/deals/presentation/bloc/deals_bloc.dart';
+import 'package:real_estate_crm/features/deals/presentation/bloc/deals_event.dart';
+import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:shimmer/shimmer.dart';
 
 class DealDetailScreen extends StatefulWidget {
@@ -30,7 +30,7 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
   Future<void> _load() async {
     setState(() => _loading = true);
     try {
-      final d = await ApiService().getDeal(widget.id);
+      final d = await Injector.dealsRepository.getDeal(widget.id);
       setState(() {
         _d = d;
         _loading = false;

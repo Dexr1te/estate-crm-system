@@ -1,17 +1,15 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:real_estate_crm/core/models/models.dart';
-import 'package:real_estate_crm/core/services/api_service.dart';
-import 'package:real_estate_crm/features/auth/bloc/auth_event.dart';
-import 'package:real_estate_crm/features/auth/bloc/auth_state.dart';
+import 'package:real_estate_crm/features/auth/domain/repositories/auth_repository.dart';
+import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart';
+import 'package:real_estate_crm/features/auth/presentation/bloc/auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> implements Listenable {
-  final ApiService _api;
+  final AuthRepository _repo;
   final List<VoidCallback> _listeners = [];
 
-  AuthBloc(this._api) : super(AuthInitial()) {
+  AuthBloc(this._repo) : super(AuthInitial()) {
     on<AuthCheckEvent>(_onCheck);
     on<AuthLoginEvent>(_onLogin);
     on<AuthRegisterEvent>(_onRegister);
@@ -34,8 +32,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> implements Listenable {
       state is AuthAuthenticated ? (state as AuthAuthenticated).user : null;
 
   Future<void> _onCheck(AuthCheckEvent e, Emitter<AuthState> emit) async {
-    final user = await _api.getSavedUser();
-    if (user != null && _api.isLoggedIn) {
+    final user = await _repo.getSavedUser();
+    if (user != null && _repo.isLoggedIn) {
       emit(AuthAuthenticated(user));
     } else {
       emit(AuthUnauthenticated());
@@ -46,8 +44,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> implements Listenable {
   Future<void> _onLogin(AuthLoginEvent e, Emitter<AuthState> emit) async {
     emit(AuthLoading());
     try {
-      final auth = await _api.login(e.email, e.password);
-      await _api.saveAuth(auth);
+      final auth = await _repo.login(e.email, e.password);
       emit(AuthAuthenticated(auth));
       _notify();
     } catch (err) {
@@ -58,13 +55,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> implements Listenable {
   Future<void> _onRegister(AuthRegisterEvent e, Emitter<AuthState> emit) async {
     emit(AuthLoading());
     try {
-      final auth = await _api.register(
+      final auth = await _repo.register(
           fullName: e.fullName,
           email: e.email,
           password: e.password,
           phone: e.phone,
           role: e.role);
-      await _api.saveAuth(auth);
       emit(AuthAuthenticated(auth));
       _notify();
     } catch (err) {
@@ -73,7 +69,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> implements Listenable {
   }
 
   Future<void> _onLogout(AuthLogoutEvent e, Emitter<AuthState> emit) async {
-    await _api.clearAuth();
+    await _repo.logout();
     emit(AuthUnauthenticated());
     _notify();
   }
