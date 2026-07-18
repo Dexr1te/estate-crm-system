@@ -26,6 +26,7 @@ public class PropertyService {
     private final PropertyRepository propertyRepository;
     private final UserRepository     userRepository;
     private final SecurityUtils      securityUtils;
+    private final ScopeService       scopeService;
 
     public List<PropertyResponse> getAll() {
         return propertyRepository.findAll()
@@ -63,8 +64,9 @@ public class PropertyService {
         if (currentUser.getRole() != com.crm.realestate.enums.Role.ADMIN) {
             agentId = null;
         }
+        java.util.List<Long> allowedAgentIds = scopeService.getAllowedAgentIds(currentUser);
         org.springframework.data.jpa.domain.Specification<com.crm.realestate.entity.Property> spec =
-                com.crm.realestate.specification.PropertySpecification.build(status, type, city, minPrice, maxPrice, rooms, agentId, search);
+                com.crm.realestate.specification.PropertySpecification.build(status, type, city, minPrice, maxPrice, rooms, agentId, search, allowedAgentIds);
 
         return propertyRepository.findAll(spec, pageable).map(this::toResponse);
     }

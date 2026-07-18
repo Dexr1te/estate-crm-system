@@ -108,7 +108,7 @@ public class TeamService {
                 .teamName(team.getName())
                 .managerId(team.getManager().getId())
                 .managerName(team.getManager().getFullName())
-                .totalAgents(agentIds.size())
+                .totalAgents(Long.valueOf(agentIds.size()))
                 .totalClients(totalClients)
                 .totalDeals(totalDeals)
                 .activeDeals(activeDeals)
@@ -127,7 +127,7 @@ public class TeamService {
                 .name(team.getName())
                 .managerId(team.getManager() != null ? team.getManager().getId() : null)
                 .managerName(team.getManager() != null ? team.getManager().getFullName() : null)
-                .memberCount(userRepository.findByTeamId(team.getId()).size())
+                .memberCount(Long.valueOf(userRepository.findByTeamId(team.getId()).size()))
                 .createdAt(team.getCreatedAt())
                 .build();
     }

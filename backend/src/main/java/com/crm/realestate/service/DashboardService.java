@@ -33,28 +33,15 @@ public class DashboardService {
 
     public DashboardSummary getSummary(Long agentId, Long teamId) {
         User currentUser = securityUtils.getCurrentUser();
-        List<Long> allowedAgentIds = scopeService.getAllowedAgentIds(currentUser);
+        final List<Long> resolvedAgentIds = resolveAgentIds(currentUser, agentId, teamId);
 
-        if (currentUser.getDataScope() == DataScope.ALL) {
-            if (teamId != null) {
-                List<Long> teamAgentIds = userRepository.findByTeamId(teamId).stream().map(User::getId).toList();
-                allowedAgentIds = teamAgentIds;
-            } else if (agentId != null) {
-                allowedAgentIds = List.of(agentId);
-            }
-        } else {
-            if (agentId != null && !scopeService.isWithinScope(currentUser, agentId)) {
-                throw new ResourceNotFoundException("Agent not found");
-            }
-        }
-
-        long totalDeals = allowedAgentIds == null ? dealRepository.count() : dealRepository.countByAgentIdIn(allowedAgentIds);
-        long closedDeals = (allowedAgentIds == null ? dealRepository.findByStatus(DealStatus.CLOSED_WON) : dealRepository.findAll(DealSpecification.build(DealStatus.CLOSED_WON, null, null, allowedAgentIds)))
-                .size() + (allowedAgentIds == null ? dealRepository.findByStatus(DealStatus.CLOSED_LOST) : dealRepository.findAll(DealSpecification.build(DealStatus.CLOSED_LOST, null, null, allowedAgentIds))).size();
+        long totalDeals = resolvedAgentIds == null ? dealRepository.count() : dealRepository.countByAgentIdIn(resolvedAgentIds);
+        long closedDeals = (resolvedAgentIds == null ? dealRepository.findByStatus(DealStatus.CLOSED_WON) : dealRepository.findAll(DealSpecification.build(DealStatus.CLOSED_WON, null, null, resolvedAgentIds)))
+                .size() + (resolvedAgentIds == null ? dealRepository.findByStatus(DealStatus.CLOSED_LOST) : dealRepository.findAll(DealSpecification.build(DealStatus.CLOSED_LOST, null, null, resolvedAgentIds))).size();
         long activeDeals = totalDeals - closedDeals;
-        long totalClients = allowedAgentIds == null ? clientRepository.count() : clientRepository.countByAgentIdIn(allowedAgentIds);
+        long totalClients = resolvedAgentIds == null ? clientRepository.count() : clientRepository.countByAgentIdIn(resolvedAgentIds);
         long upcomingMeetings = meetingRepository.findAllUpcoming(LocalDateTime.now()).stream()
-                .filter(m -> allowedAgentIds == null || allowedAgentIds.contains(m.getAgent().getId()))
+                .filter(m -> resolvedAgentIds == null || resolvedAgentIds.contains(m.getAgent().getId()))
                 .count();
 
         return DashboardSummary.builder()
@@ -64,5 +51,20 @@ public class DashboardService {
                 .totalClients(totalClients)
                 .upcomingMeetings(upcomingMeetings)
                 .build();
+    }
+
+    private List<Long> resolveAgentIds(User currentUser, Long agentId, Long teamId) {
+        if (currentUser.getDataScope() == DataScope.ALL) {
+            if (teamId != null) {
+                return userRepository.findByTeamId(teamId).stream().map(User::getId).collect(java.util.stream.Collectors.toList());
+            } else if (agentId != null) {
+                return List.of(agentId);
+            }
+            return null;
+        }
+        if (agentId != null && !scopeService.isWithinScope(currentUser, agentId)) {
+            throw new ResourceNotFoundException("Agent not found");
+        }
+        return scopeService.getAllowedAgentIds(currentUser);
     }
 }
