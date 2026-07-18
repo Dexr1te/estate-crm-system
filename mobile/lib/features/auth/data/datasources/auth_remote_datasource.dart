@@ -14,21 +14,4 @@ class AuthRemoteDataSource {
     });
     return AuthResponse.fromJson(res.data);
   }
-
-  Future<AuthResponse> register({
-    required String fullName,
-    required String email,
-    required String password,
-    String? phone,
-    Role role = Role.AGENT,
-  }) async {
-    final res = await _client.dio.post('/auth/register', data: {
-      'fullName': fullName,
-      'email': email,
-      'password': password,
-      if (phone != null && phone.isNotEmpty) 'phone': phone,
-      'role': role.name,
-    });
-    return AuthResponse.fromJson(res.data);
-  }
 }

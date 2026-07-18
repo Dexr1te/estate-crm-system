@@ -8,7 +8,18 @@ class PropertiesLoading extends PropertiesState {}
 
 class PropertiesLoaded extends PropertiesState {
   final List<PropertyResponse> properties;
-  PropertiesLoaded(this.properties);
+
+  /// Whether more pages are available to load.
+  final bool hasMore;
+
+  /// True while a "load more" page request is in flight (footer spinner).
+  final bool isLoadingMore;
+
+  PropertiesLoaded(
+    this.properties, {
+    this.hasMore = false,
+    this.isLoadingMore = false,
+  });
 }
 
 class PropertiesError extends PropertiesState {

@@ -12,7 +12,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> implements Listenable {
   AuthBloc(this._repo) : super(AuthInitial()) {
     on<AuthCheckEvent>(_onCheck);
     on<AuthLoginEvent>(_onLogin);
-    on<AuthRegisterEvent>(_onRegister);
     on<AuthLogoutEvent>(_onLogout);
   }
 
@@ -45,22 +44,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> implements Listenable {
     emit(AuthLoading());
     try {
       final auth = await _repo.login(e.email, e.password);
-      emit(AuthAuthenticated(auth));
-      _notify();
-    } catch (err) {
-      emit(AuthError(_parseError(err)));
-    }
-  }
-
-  Future<void> _onRegister(AuthRegisterEvent e, Emitter<AuthState> emit) async {
-    emit(AuthLoading());
-    try {
-      final auth = await _repo.register(
-          fullName: e.fullName,
-          email: e.email,
-          password: e.password,
-          phone: e.phone,
-          role: e.role);
       emit(AuthAuthenticated(auth));
       _notify();
     } catch (err) {

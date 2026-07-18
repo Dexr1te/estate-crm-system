@@ -9,6 +9,9 @@ class PropertiesLoadEvent extends PropertiesEvent {
   PropertiesLoadEvent({this.status, this.type, this.search});
 }
 
+/// Load the next page, appending to the current list (infinite scroll).
+class PropertiesLoadMoreEvent extends PropertiesEvent {}
+
 class PropertiesDeleteEvent extends PropertiesEvent {
   final int id;
   PropertiesDeleteEvent(this.id);

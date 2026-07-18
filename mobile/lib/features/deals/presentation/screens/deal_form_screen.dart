@@ -495,7 +495,7 @@ class _DealFormScreenState extends State<DealFormScreen> {
 
   Future<void> _loadProperties() async {
     try {
-      final data = await Injector.propertiesRepository.getProperties();
+      final data = await Injector.propertiesRepository.getAllProperties();
       if (!mounted) return;
       setState(() {
         _properties = data
