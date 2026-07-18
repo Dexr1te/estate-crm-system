@@ -1,28 +1,8 @@
-// dashboard_bloc.dart
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/services/api_service.dart';
-
-abstract class DashboardEvent {}
-
-class DashboardLoadEvent extends DashboardEvent {}
-
-abstract class DashboardState {}
-
-class DashboardInitial extends DashboardState {}
-
-class DashboardLoading extends DashboardState {}
-
-class DashboardLoaded extends DashboardState {
-  final DashboardSummary summary;
-  final List<UpcomingMeetingResponse> upcoming;
-  DashboardLoaded(this.summary, this.upcoming);
-}
-
-class DashboardError extends DashboardState {
-  final String message;
-  DashboardError(this.message);
-}
+import 'package:real_estate_crm/features/dashboard/bloc/dashboard_event.dart';
+import 'package:real_estate_crm/features/dashboard/bloc/dashboard_state.dart';
 
 class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
   final ApiService _api;

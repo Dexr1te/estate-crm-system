@@ -4,7 +4,9 @@ import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
 import 'package:real_estate_crm/features/auth/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/bloc/auth_state.dart';
-import 'package:real_estate_crm/features/dashboard/dashboard_bloc.dart';
+import 'package:real_estate_crm/features/dashboard/bloc/dashboard_bloc.dart';
+import 'package:real_estate_crm/features/dashboard/bloc/dashboard_event.dart';
+import 'package:real_estate_crm/features/dashboard/bloc/dashboard_state.dart';
 import 'package:real_estate_crm/features/widgets/shared_widgets.dart';
 import 'package:shimmer/shimmer.dart';
 
