@@ -33,28 +33,29 @@ public class DashboardService {
 
     public DashboardSummary getSummary(Long agentId, Long teamId) {
         User currentUser = securityUtils.getCurrentUser();
-        List<Long> allowedAgentIds = scopeService.getAllowedAgentIds(currentUser);
-
+        final List<Long> resolvedAgentIds;
         if (currentUser.getDataScope() == DataScope.ALL) {
             if (teamId != null) {
-                List<Long> teamAgentIds = userRepository.findByTeamId(teamId).stream().map(User::getId).toList();
-                allowedAgentIds = teamAgentIds;
+                resolvedAgentIds = userRepository.findByTeamId(teamId).stream().map(User::getId).collect(java.util.stream.Collectors.toList());
             } else if (agentId != null) {
-                allowedAgentIds = List.of(agentId);
+                resolvedAgentIds = List.of(agentId);
+            } else {
+                resolvedAgentIds = null;
             }
         } else {
             if (agentId != null && !scopeService.isWithinScope(currentUser, agentId)) {
                 throw new ResourceNotFoundException("Agent not found");
             }
+            resolvedAgentIds = scopeService.getAllowedAgentIds(currentUser);
         }
 
-        long totalDeals = allowedAgentIds == null ? dealRepository.count() : dealRepository.countByAgentIdIn(allowedAgentIds);
-        long closedDeals = (allowedAgentIds == null ? dealRepository.findByStatus(DealStatus.CLOSED_WON) : dealRepository.findAll(DealSpecification.build(DealStatus.CLOSED_WON, null, null, allowedAgentIds)))
-                .size() + (allowedAgentIds == null ? dealRepository.findByStatus(DealStatus.CLOSED_LOST) : dealRepository.findAll(DealSpecification.build(DealStatus.CLOSED_LOST, null, null, allowedAgentIds))).size();
+        long totalDeals = resolvedAgentIds == null ? dealRepository.count() : dealRepository.countByAgentIdIn(resolvedAgentIds);
+        long closedDeals = (resolvedAgentIds == null ? dealRepository.findByStatus(DealStatus.CLOSED_WON) : dealRepository.findAll(DealSpecification.build(DealStatus.CLOSED_WON, null, null, resolvedAgentIds)))
+                .size() + (resolvedAgentIds == null ? dealRepository.findByStatus(DealStatus.CLOSED_LOST) : dealRepository.findAll(DealSpecification.build(DealStatus.CLOSED_LOST, null, null, resolvedAgentIds))).size();
         long activeDeals = totalDeals - closedDeals;
-        long totalClients = allowedAgentIds == null ? clientRepository.count() : clientRepository.countByAgentIdIn(allowedAgentIds);
+        long totalClients = resolvedAgentIds == null ? clientRepository.count() : clientRepository.countByAgentIdIn(resolvedAgentIds);
         long upcomingMeetings = meetingRepository.findAllUpcoming(LocalDateTime.now()).stream()
-                .filter(m -> allowedAgentIds == null || allowedAgentIds.contains(m.getAgent().getId()))
+                .filter(m -> resolvedAgentIds == null || resolvedAgentIds.contains(m.getAgent().getId()))
                 .count();
 
         return DashboardSummary.builder()
