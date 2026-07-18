@@ -33,21 +33,7 @@ public class DashboardService {
 
     public DashboardSummary getSummary(Long agentId, Long teamId) {
         User currentUser = securityUtils.getCurrentUser();
-        final List<Long> resolvedAgentIds;
-        if (currentUser.getDataScope() == DataScope.ALL) {
-            if (teamId != null) {
-                resolvedAgentIds = userRepository.findByTeamId(teamId).stream().map(User::getId).collect(java.util.stream.Collectors.toList());
-            } else if (agentId != null) {
-                resolvedAgentIds = List.of(agentId);
-            } else {
-                resolvedAgentIds = null;
-            }
-        } else {
-            if (agentId != null && !scopeService.isWithinScope(currentUser, agentId)) {
-                throw new ResourceNotFoundException("Agent not found");
-            }
-            resolvedAgentIds = scopeService.getAllowedAgentIds(currentUser);
-        }
+        final List<Long> resolvedAgentIds = resolveAgentIds(currentUser, agentId, teamId);
 
         long totalDeals = resolvedAgentIds == null ? dealRepository.count() : dealRepository.countByAgentIdIn(resolvedAgentIds);
         long closedDeals = (resolvedAgentIds == null ? dealRepository.findByStatus(DealStatus.CLOSED_WON) : dealRepository.findAll(DealSpecification.build(DealStatus.CLOSED_WON, null, null, resolvedAgentIds)))
@@ -65,5 +51,20 @@ public class DashboardService {
                 .totalClients(totalClients)
                 .upcomingMeetings(upcomingMeetings)
                 .build();
+    }
+
+    private List<Long> resolveAgentIds(User currentUser, Long agentId, Long teamId) {
+        if (currentUser.getDataScope() == DataScope.ALL) {
+            if (teamId != null) {
+                return userRepository.findByTeamId(teamId).stream().map(User::getId).collect(java.util.stream.Collectors.toList());
+            } else if (agentId != null) {
+                return List.of(agentId);
+            }
+            return null;
+        }
+        if (agentId != null && !scopeService.isWithinScope(currentUser, agentId)) {
+            throw new ResourceNotFoundException("Agent not found");
+        }
+        return scopeService.getAllowedAgentIds(currentUser);
     }
 }
