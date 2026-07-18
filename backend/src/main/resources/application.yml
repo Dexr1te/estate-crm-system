@@ -44,11 +44,6 @@ jwt:
   access-token-expiration: 86400000     # 1 день (ms)
   refresh-token-expiration: 604800000   # 7 дней (ms)
 
-# FIREBASE
-firebase:
-  credentials-path: ${FIREBASE_CREDENTIALS_PATH:firebase-service-account.json}
-  project-id: ${FIREBASE_PROJECT_ID:your-firebase-project-id}
-
 
 # SWAGGER / OPENAPI
 springdoc:
