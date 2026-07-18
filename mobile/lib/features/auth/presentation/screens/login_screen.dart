@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart';
@@ -126,16 +125,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                                 strokeWidth: 2))
                                         : const Text('Sign In')),
                               ])),
-                          const SizedBox(height: 24),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text("Don't have an account? ",
-                                    style: tt.bodySmall),
-                                TextButton(
-                                    onPressed: () => context.go('/register'),
-                                    child: const Text('Create account')),
-                              ]),
                         ]),
                   )));
         },

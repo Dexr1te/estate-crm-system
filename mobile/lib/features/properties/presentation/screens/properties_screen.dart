@@ -19,22 +19,37 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
   PropertyStatus? _filterStatus;
   PropertyType? _filterType;
   final _searchCtrl = TextEditingController();
+  final _scrollCtrl = ScrollController();
 
   @override
   void initState() {
     super.initState();
+    _scrollCtrl.addListener(_onScroll);
     _reload();
   }
 
   @override
   void dispose() {
     _searchCtrl.dispose();
+    _scrollCtrl.dispose();
     super.dispose();
   }
 
-  void _reload() => context
-      .read<PropertiesBloc>()
-      .add(PropertiesLoadEvent(status: _filterStatus, type: _filterType));
+  void _onScroll() {
+    if (_scrollCtrl.position.pixels >=
+        _scrollCtrl.position.maxScrollExtent - 300) {
+      context.read<PropertiesBloc>().add(PropertiesLoadMoreEvent());
+    }
+  }
+
+  void _reload() {
+    final q = _searchCtrl.text.trim();
+    context.read<PropertiesBloc>().add(PropertiesLoadEvent(
+          status: _filterStatus,
+          type: _filterType,
+          search: q.isEmpty ? null : q,
+        ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,9 +86,7 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: TextField(
               controller: _searchCtrl,
-              onSubmitted: (v) => context
-                  .read<PropertiesBloc>()
-                  .add(PropertiesLoadEvent(search: v)),
+              onSubmitted: (_) => _reload(),
               decoration: InputDecoration(
                   hintText: 'Search...',
                   prefixIcon: const Icon(Icons.search, size: 20),
@@ -137,10 +150,18 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
                 onRefresh: () async => _reload(),
                 color: cs.primary,
                 child: ListView.separated(
+                  controller: _scrollCtrl,
                   padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
-                  itemCount: state.properties.length,
+                  itemCount:
+                      state.properties.length + (state.isLoadingMore ? 1 : 0),
                   separatorBuilder: (_, __) => const SizedBox(height: 8),
                   itemBuilder: (_, i) {
+                    if (i >= state.properties.length) {
+                      return const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 16),
+                        child: Center(child: CircularProgressIndicator()),
+                      );
+                    }
                     final p = state.properties[i];
                     return PropertyCard(
                         property: p,

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/screens/login_screen.dart';
-import 'package:real_estate_crm/features/auth/presentation/screens/register_screen.dart';
 import 'package:real_estate_crm/features/clients/presentation/screens/client_detail_screen.dart';
 import 'package:real_estate_crm/features/clients/presentation/screens/client_form_screen.dart';
 import 'package:real_estate_crm/features/clients/presentation/screens/clients_screen.dart';
@@ -39,8 +38,7 @@ GoRouter createRouter(AuthBloc authBloc) {
     refreshListenable: authBloc,
     redirect: (context, state) {
       final authed = authBloc.isAuthenticated;
-      final onAuth = state.matchedLocation.startsWith('/login') ||
-          state.matchedLocation.startsWith('/register');
+      final onAuth = state.matchedLocation.startsWith('/login');
       if (!authed && !onAuth) return '/login';
       if (authed && onAuth) return '/dashboard';
       return null;
@@ -49,10 +47,6 @@ GoRouter createRouter(AuthBloc authBloc) {
       GoRoute(
         path: '/login',
         pageBuilder: (_, __) => const NoTransitionPage(child: LoginScreen()),
-      ),
-      GoRoute(
-        path: '/register',
-        pageBuilder: (_, __) => const NoTransitionPage(child: RegisterScreen()),
       ),
       GoRoute(
         path: '/profile',
