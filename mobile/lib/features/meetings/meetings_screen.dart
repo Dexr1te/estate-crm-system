@@ -3,8 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
+import 'package:real_estate_crm/features/meetings/bloc/meetings_bloc.dart';
+import 'package:real_estate_crm/features/meetings/bloc/meetings_event.dart';
+import 'package:real_estate_crm/features/meetings/bloc/meetings_state.dart';
 import 'package:real_estate_crm/features/widgets/shared_widgets.dart';
-import 'meetings_bloc.dart';
 
 class MeetingsScreen extends StatefulWidget {
   const MeetingsScreen({super.key});

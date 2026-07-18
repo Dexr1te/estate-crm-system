@@ -1,64 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/services/api_service.dart';
-
-abstract class PropertiesEvent {}
-
-class PropertiesLoadEvent extends PropertiesEvent {
-  final PropertyStatus? status;
-  final PropertyType? type;
-  final String? search;
-  PropertiesLoadEvent({this.status, this.type, this.search});
-}
-
-class PropertiesDeleteEvent extends PropertiesEvent {
-  final int id;
-  PropertiesDeleteEvent(this.id);
-}
-
-class PropertiesCreateEvent extends PropertiesEvent {
-  final Map<String, dynamic> data;
-  PropertiesCreateEvent(this.data);
-}
-
-class PropertiesUpdateEvent extends PropertiesEvent {
-  final int id;
-  final Map<String, dynamic> data;
-  PropertiesUpdateEvent(this.id, this.data);
-}
-
-class PropertiesUpdateStatusEvent extends PropertiesEvent {
-  final int id;
-  final PropertyStatus status;
-  PropertiesUpdateStatusEvent(this.id, this.status);
-}
-
-abstract class PropertiesState {}
-
-class PropertiesInitial extends PropertiesState {}
-
-class PropertiesLoading extends PropertiesState {}
-
-class PropertiesLoaded extends PropertiesState {
-  final List<PropertyResponse> properties;
-  PropertiesLoaded(this.properties);
-}
-
-class PropertiesError extends PropertiesState {
-  final String message;
-  PropertiesError(this.message);
-}
-
-class PropertiesActionSuccess extends PropertiesState {
-  final String message;
-  PropertiesActionSuccess(this.message);
-}
-
-// NEW: emitted after a successful create, carries the new property's id
-class PropertyCreated extends PropertiesState {
-  final PropertyResponse property;
-  PropertyCreated(this.property);
-}
+import 'package:real_estate_crm/features/properties/bloc/properties_event.dart';
+import 'package:real_estate_crm/features/properties/bloc/properties_state.dart';
 
 class PropertiesBloc extends Bloc<PropertiesEvent, PropertiesState> {
   final ApiService _api;

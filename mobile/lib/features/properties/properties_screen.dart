@@ -3,8 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
+import 'package:real_estate_crm/features/properties/bloc/properties_bloc.dart';
+import 'package:real_estate_crm/features/properties/bloc/properties_event.dart';
+import 'package:real_estate_crm/features/properties/bloc/properties_state.dart';
 import 'package:real_estate_crm/features/widgets/shared_widgets.dart';
-import 'properties_bloc.dart';
 
 class PropertiesScreen extends StatefulWidget {
   const PropertiesScreen({super.key});

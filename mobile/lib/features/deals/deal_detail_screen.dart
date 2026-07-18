@@ -5,9 +5,10 @@ import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/services/api_service.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
+import 'package:real_estate_crm/features/deals/bloc/deals_bloc.dart';
+import 'package:real_estate_crm/features/deals/bloc/deals_event.dart';
 import 'package:real_estate_crm/features/widgets/shared_widgets.dart';
 import 'package:shimmer/shimmer.dart';
-import 'deals_bloc.dart';
 
 class DealDetailScreen extends StatefulWidget {
   final int id;

@@ -1,53 +1,9 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/services/api_service.dart';
+import 'package:real_estate_crm/features/clients/bloc/clients_event.dart';
+import 'package:real_estate_crm/features/clients/bloc/clients_state.dart';
 
-abstract class ClientsEvent {}
 
-class ClientsLoadEvent extends ClientsEvent {}
-
-class ClientsDeleteEvent extends ClientsEvent {
-  final int id;
-  ClientsDeleteEvent(this.id);
-}
-
-class ClientsCreateEvent extends ClientsEvent {
-  final Map<String, dynamic> data;
-  ClientsCreateEvent(this.data);
-}
-
-class ClientsUpdateEvent extends ClientsEvent {
-  final int id;
-  final Map<String, dynamic> data;
-  ClientsUpdateEvent(this.id, this.data);
-}
-
-abstract class ClientsState {}
-
-class ClientsInitial extends ClientsState {}
-
-class ClientsLoading extends ClientsState {}
-
-class ClientsLoaded extends ClientsState {
-  final List<ClientListItem> clients;
-  ClientsLoaded(this.clients);
-}
-
-class ClientsError extends ClientsState {
-  final String message;
-  ClientsError(this.message);
-}
-
-class ClientsActionSuccess extends ClientsState {
-  final String message;
-  ClientsActionSuccess(this.message);
-}
-
-// NEW: emitted after a successful create, carries the new client's id
-class ClientCreated extends ClientsState {
-  final ClientResponse client;
-  ClientCreated(this.client);
-}
 
 class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
   final ApiService _api;

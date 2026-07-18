@@ -1,56 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/services/api_service.dart';
-
-abstract class DealsEvent {}
-
-class DealsLoadEvent extends DealsEvent {
-  final DealStatus? status;
-  DealsLoadEvent({this.status});
-}
-
-class DealsDeleteEvent extends DealsEvent {
-  final int id;
-  DealsDeleteEvent(this.id);
-}
-
-class DealsCreateEvent extends DealsEvent {
-  final Map<String, dynamic> data;
-  DealsCreateEvent(this.data);
-}
-
-class DealsUpdateEvent extends DealsEvent {
-  final int id;
-  final Map<String, dynamic> data;
-  DealsUpdateEvent(this.id, this.data);
-}
-
-class DealsUpdateStatusEvent extends DealsEvent {
-  final int id;
-  final DealStatus status;
-  DealsUpdateStatusEvent(this.id, this.status);
-}
-
-abstract class DealsState {}
-
-class DealsInitial extends DealsState {}
-
-class DealsLoading extends DealsState {}
-
-class DealsLoaded extends DealsState {
-  final List<DealResponse> deals;
-  DealsLoaded(this.deals);
-}
-
-class DealsError extends DealsState {
-  final String message;
-  DealsError(this.message);
-}
-
-class DealsActionSuccess extends DealsState {
-  final String message;
-  DealsActionSuccess(this.message);
-}
+import 'package:real_estate_crm/features/deals/bloc/deals_event.dart';
+import 'package:real_estate_crm/features/deals/bloc/deals_state.dart';
 
 class DealsBloc extends Bloc<DealsEvent, DealsState> {
   final ApiService _api;
