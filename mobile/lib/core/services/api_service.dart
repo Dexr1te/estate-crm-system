@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-const _baseUrl = 'http://localhost:8080/api';
+const _baseUrl = 'https://estate-crm-system.onrender.com/api';
 
 class ApiService {
   static final ApiService _instance = ApiService._internal();
