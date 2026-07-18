@@ -9,6 +9,7 @@ import com.crm.realestate.enums.PropertyType;
 import com.crm.realestate.exception.ResourceNotFoundException;
 import com.crm.realestate.repository.PropertyRepository;
 import com.crm.realestate.repository.UserRepository;
+import com.crm.realestate.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +25,7 @@ public class PropertyService {
 
     private final PropertyRepository propertyRepository;
     private final UserRepository     userRepository;
+    private final SecurityUtils      securityUtils;
 
     public List<PropertyResponse> getAll() {
         return propertyRepository.findAll()
@@ -57,12 +59,14 @@ public class PropertyService {
             String search,
             org.springframework.data.domain.Pageable pageable
     ) {
+        User currentUser = securityUtils.getCurrentUser();
+        if (currentUser.getRole() != com.crm.realestate.enums.Role.ADMIN) {
+            agentId = null;
+        }
         org.springframework.data.jpa.domain.Specification<com.crm.realestate.entity.Property> spec =
                 com.crm.realestate.specification.PropertySpecification.build(status, type, city, minPrice, maxPrice, rooms, agentId, search);
 
-        org.springframework.data.domain.Page<com.crm.realestate.entity.Property> page = propertyRepository.findAll(spec, pageable);
-
-        return page.map(this::toResponse);
+        return propertyRepository.findAll(spec, pageable).map(this::toResponse);
     }
 
     public PropertyResponse getById(Long id) {
@@ -103,6 +107,7 @@ public class PropertyService {
     }
 
     private void mapRequestToEntity(PropertyRequest request, Property property) {
+        User currentUser = securityUtils.getCurrentUser();
         property.setTitle(request.getTitle());
         property.setDescription(request.getDescription());
         property.setAddress(request.getAddress());
@@ -115,7 +120,7 @@ public class PropertyService {
         property.setFloor(request.getFloor());
         property.setTotalFloors(request.getTotalFloors());
 
-        if (request.getAgentId() != null) {
+        if (currentUser.getRole() == com.crm.realestate.enums.Role.ADMIN && request.getAgentId() != null) {
             User agent = userRepository.findById(request.getAgentId())
                     .orElseThrow(() -> new ResourceNotFoundException(
                             "Agent not found with id: " + request.getAgentId()));

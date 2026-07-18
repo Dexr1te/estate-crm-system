@@ -2,6 +2,7 @@ package com.crm.realestate.repository;
 
 import com.crm.realestate.entity.User;
 import com.crm.realestate.enums.Role;
+import com.crm.realestate.enums.UserStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,8 +13,12 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByEmail(String email);
+    Optional<User> findByInviteToken(String inviteToken);
+    Optional<User> findByPasswordResetToken(String resetToken);
 
     boolean existsByEmail(String email);
+
+    long countByRoleAndStatusAndIsActiveTrue(Role role, UserStatus status);
 
     // active agents for frontend select (only active!)
     List<User> findByRoleAndIsActiveTrueOrderByFullNameAsc(Role role);
@@ -23,4 +28,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     // all users sorted by createdAt desc (for admin dashboard)
     List<User> findAllByOrderByCreatedAtDesc();
+    List<User> findByTeamId(Long teamId);
 }

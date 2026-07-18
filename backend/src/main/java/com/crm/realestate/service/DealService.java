@@ -13,6 +13,7 @@ import com.crm.realestate.repository.ClientRepository;
 import com.crm.realestate.repository.DealRepository;
 import com.crm.realestate.repository.PropertyRepository;
 import com.crm.realestate.repository.UserRepository;
+import com.crm.realestate.security.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,30 +31,52 @@ public class DealService {
     private final ClientRepository   clientRepository;
     private final PropertyRepository propertyRepository;
     private final UserRepository     userRepository;
+    private final SecurityUtils      securityUtils;
+    private final ScopeService       scopeService;
 
     public List<DealResponse> getAll() {
-        return dealRepository.findAll()
+        User currentUser = securityUtils.getCurrentUser();
+        List<Long> allowedAgentIds = scopeService.getAllowedAgentIds(currentUser);
+        if (allowedAgentIds == null) {
+            return dealRepository.findAll().stream().map(this::toResponse).collect(Collectors.toList());
+        }
+        return dealRepository.findByAgentIdIn(allowedAgentIds)
                 .stream().map(this::toResponse).collect(Collectors.toList());
     }
 
     public List<DealResponse> getByAgent(Long agentId) {
+        User currentUser = securityUtils.getCurrentUser();
+        if (!scopeService.isWithinScope(currentUser, agentId)) {
+            throw new ResourceNotFoundException("Deal not found");
+        }
         return dealRepository.findByAgentId(agentId)
                 .stream().map(this::toResponse).collect(Collectors.toList());
     }
 
     public List<DealResponse> getByStatus(DealStatus status) {
-        return dealRepository.findByStatus(status)
+        User currentUser = securityUtils.getCurrentUser();
+        List<Long> allowedAgentIds = scopeService.getAllowedAgentIds(currentUser);
+        if (allowedAgentIds == null) {
+            return dealRepository.findByStatus(status)
+                    .stream().map(this::toResponse).collect(Collectors.toList());
+        }
+        return dealRepository.findAll(com.crm.realestate.specification.DealSpecification.build(status, null, null, allowedAgentIds))
                 .stream().map(this::toResponse).collect(Collectors.toList());
     }
 
     public DealResponse getById(Long id) {
-        return toResponse(findById(id));
+        Deal deal = findById(id);
+        if (!scopeService.isWithinScope(securityUtils.getCurrentUser(), deal.getAgent() == null ? null : deal.getAgent().getId())) {
+            throw new ResourceNotFoundException("Deal not found");
+        }
+        return toResponse(deal);
     }
 
     @Transactional
     public DealResponse create(DealRequest request) {
+        User currentUser = securityUtils.getCurrentUser();
         Deal deal = new Deal();
-        mapRequestToEntity(request, deal);
+        mapRequestToEntity(request, deal, currentUser);
         syncPropertyStatusWithDeal(deal);
         return toResponse(dealRepository.save(deal));
     }
@@ -61,8 +84,11 @@ public class DealService {
     @Transactional
     public DealResponse update(Long id, DealRequest request) {
         Deal deal = findById(id);
+        if (!scopeService.isWithinScope(securityUtils.getCurrentUser(), deal.getAgent() == null ? null : deal.getAgent().getId())) {
+            throw new ResourceNotFoundException("Deal not found");
+        }
         Property previousProperty = deal.getProperty();
-        mapRequestToEntity(request, deal);
+        mapRequestToEntity(request, deal, securityUtils.getCurrentUser());
 
         if (request.getStatus() == DealStatus.CLOSED_WON || request.getStatus() == DealStatus.CLOSED_LOST) {
             deal.setClosedAt(LocalDateTime.now());
@@ -70,14 +96,12 @@ public class DealService {
             deal.setClosedAt(null);
         }
 
-        // If property is detached from deal, release previous one.
         if (previousProperty != null && deal.getProperty() == null
                 && previousProperty.getStatus() == PropertyStatus.RESERVED) {
             previousProperty.setStatus(PropertyStatus.AVAILABLE);
             propertyRepository.save(previousProperty);
         }
 
-        // If property changed, release previous reserved property.
         if (previousProperty != null && deal.getProperty() != null
                 && !previousProperty.getId().equals(deal.getProperty().getId())
                 && previousProperty.getStatus() == PropertyStatus.RESERVED) {
@@ -92,9 +116,11 @@ public class DealService {
     @Transactional
     public DealResponse updateStatus(Long id, DealStatus newStatus) {
         Deal deal = findById(id);
+        if (!scopeService.isWithinScope(securityUtils.getCurrentUser(), deal.getAgent() == null ? null : deal.getAgent().getId())) {
+            throw new ResourceNotFoundException("Deal not found");
+        }
         deal.setStatus(newStatus);
 
-        // Если сделка закрыта — фиксируем время
         if (newStatus == DealStatus.CLOSED_WON || newStatus == DealStatus.CLOSED_LOST) {
             deal.setClosedAt(LocalDateTime.now());
         } else {
@@ -108,7 +134,11 @@ public class DealService {
 
     @Transactional
     public void delete(Long id) {
-        dealRepository.delete(findById(id));
+        Deal deal = findById(id);
+        if (!scopeService.isWithinScope(securityUtils.getCurrentUser(), deal.getAgent() == null ? null : deal.getAgent().getId())) {
+            throw new ResourceNotFoundException("Deal not found");
+        }
+        dealRepository.delete(deal);
     }
 
 
@@ -117,7 +147,7 @@ public class DealService {
                 .orElseThrow(() -> new ResourceNotFoundException("Deal not found with id: " + id));
     }
 
-    private void mapRequestToEntity(DealRequest request, Deal deal) {
+    private void mapRequestToEntity(DealRequest request, Deal deal, User currentUser) {
         deal.setTitle(request.getTitle());
         deal.setStatus(request.getStatus() != null ? request.getStatus() : DealStatus.LEAD);
         deal.setDealPrice(request.getDealPrice());
@@ -125,29 +155,36 @@ public class DealService {
         deal.setNotes(request.getNotes());
 
         Client client = clientRepository.findById(request.getClientId())
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Client not found with id: " + request.getClientId()));
-        deal.setClient(client);
+               .orElseThrow(() -> new ResourceNotFoundException(
+                       "Client not found with id: " + request.getClientId()));
+       if (!scopeService.isWithinScope(currentUser, client.getAgent() == null ? null : client.getAgent().getId())) {
+           throw new ResourceNotFoundException("Client not found");
+       }
+       deal.setClient(client);
 
-        if (request.getPropertyId() != null) {
-            Property property = propertyRepository.findById(request.getPropertyId())
-                    .orElseThrow(() -> new ResourceNotFoundException(
-                            "Property not found with id: " + request.getPropertyId()));
-            boolean isCurrentProperty = deal.getProperty() != null
-                && deal.getProperty().getId().equals(property.getId());
-            if (property.getStatus() == PropertyStatus.SOLD && !isCurrentProperty) {
-                throw new RuntimeException(
-                        "Property is already sold and cannot be assigned to a deal: id=" + request.getPropertyId());
-            }
-            deal.setProperty(property);
-        } else {
-            deal.setProperty(null);
-        }
+       if (request.getPropertyId() != null) {
+           Property property = propertyRepository.findById(request.getPropertyId())
+                   .orElseThrow(() -> new ResourceNotFoundException(
+                           "Property not found with id: " + request.getPropertyId()));
+           boolean isCurrentProperty = deal.getProperty() != null
+                   && deal.getProperty().getId().equals(property.getId());
+           if (property.getStatus() == PropertyStatus.SOLD && !isCurrentProperty) {
+               throw new RuntimeException(
+                       "Property is already sold and cannot be assigned to a deal: id=" + request.getPropertyId());
+           }
+           deal.setProperty(property);
+       } else {
+           deal.setProperty(null);
+       }
 
-        User agent = userRepository.findById(request.getAgentId())
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Agent not found with id: " + request.getAgentId()));
-        deal.setAgent(agent);
+       if (currentUser.getRole() == com.crm.realestate.enums.Role.ADMIN && request.getAgentId() != null) {
+           User agent = userRepository.findById(request.getAgentId())
+                   .orElseThrow(() -> new ResourceNotFoundException(
+                           "Agent not found with id: " + request.getAgentId()));
+           deal.setAgent(agent);
+       } else {
+           deal.setAgent(currentUser);
+       }
     }
 
     private void syncPropertyStatusWithDeal(Deal deal) {
