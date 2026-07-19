@@ -40,6 +40,7 @@ public class AdminService {
     private final PasswordEncoder   passwordEncoder;
     private final SecurityUtils      securityUtils;
     private final AuditLogService    auditLogService;
+    private final EmailService       emailService;
 
     public List<AgentResponse> getAllUsers() {
         return userRepository.findAllByOrderByCreatedAtDesc()
@@ -76,6 +77,7 @@ public class AdminService {
                 .build();
 
         User saved = userRepository.save(user);
+        emailService.sendInvite(saved.getEmail(), saved.getFullName(), saved.getInviteToken());
         return toInviteResponse(saved);
     }
 
@@ -100,7 +102,9 @@ public class AdminService {
                 .inviteTokenExpiresAt(LocalDateTime.now().plusHours(48))
                 .createdBy(manager)
                 .build();
-        return toInviteResponse(userRepository.save(user));
+        User saved = userRepository.save(user);
+        emailService.sendInvite(saved.getEmail(), saved.getFullName(), saved.getInviteToken());
+        return toInviteResponse(saved);
     }
 
     public AgentStatsResponse getAgentStats(Long agentId) {

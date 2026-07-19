@@ -25,12 +25,28 @@ spring:
     locations: classpath:db/migration
     baseline-on-migrate: true
 
-  # FILE UPLOAD 
+  # FILE UPLOAD
   servlet:
     multipart:
       enabled: true
       max-file-size: 20MB
       max-request-size: 25MB
+
+  # MAIL (SMTP) — used to email invite codes. Defaults target Gmail SMTP.
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
 
 # SERVER 
 server:
@@ -68,3 +84,8 @@ logging:
 
 app:
   base-url: ${APP_BASE_URL:http://localhost:8080}
+  mail:
+    # Master switch: emails are only sent when true AND SMTP creds are set.
+    enabled: ${MAIL_ENABLED:false}
+    # Gmail rewrites From to the authenticated account, so default to it.
+    from: ${MAIL_FROM:${MAIL_USERNAME:no-reply@estatecrm.app}}
