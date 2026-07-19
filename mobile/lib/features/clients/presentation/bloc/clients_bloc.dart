@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:real_estate_crm/core/network/api_error.dart';
 import 'package:real_estate_crm/features/clients/domain/repositories/clients_repository.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_event.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_state.dart';
@@ -17,7 +18,7 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
     try {
       emit(ClientsLoaded(await _repo.getClientsWithDetails()));
     } catch (err) {
-      emit(ClientsError(err.toString()));
+      emit(ClientsError(apiErrorMessage(err)));
     }
   }
 
@@ -28,7 +29,7 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
       emit(ClientsActionSuccess('Client deleted'));
       add(ClientsLoadEvent());
     } catch (err) {
-      emit(ClientsError(err.toString()));
+      emit(ClientsError(apiErrorMessage(err)));
     }
   }
 
@@ -38,7 +39,7 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
       final created = await _repo.createClient(e.data);
       emit(ClientCreated(created)); // emit the full object with id
     } catch (err) {
-      emit(ClientsError(err.toString()));
+      emit(ClientsError(apiErrorMessage(err)));
     }
   }
 
@@ -48,7 +49,7 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> {
       await _repo.updateClient(e.id, e.data);
       emit(ClientsActionSuccess('Client updated'));
     } catch (err) {
-      emit(ClientsError(err.toString()));
+      emit(ClientsError(apiErrorMessage(err)));
     }
   }
 }

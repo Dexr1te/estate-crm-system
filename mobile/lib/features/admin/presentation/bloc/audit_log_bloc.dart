@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:real_estate_crm/core/network/api_error.dart';
 import 'package:real_estate_crm/core/models/admin_models.dart';
 import 'package:real_estate_crm/features/admin/domain/repositories/admin_repository.dart';
 
@@ -39,7 +40,7 @@ class AuditLogBloc extends Bloc<AuditLogEvent, AuditLogState> {
     try {
       emit(AuditLogLoaded(await _repo.getAuditLog(entityType: e.entityType)));
     } catch (err) {
-      emit(AuditLogError(err.toString()));
+      emit(AuditLogError(apiErrorMessage(err)));
     }
   }
 }

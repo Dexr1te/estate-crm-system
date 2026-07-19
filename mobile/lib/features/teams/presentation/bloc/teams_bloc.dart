@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:real_estate_crm/core/network/api_error.dart';
 import 'package:real_estate_crm/core/models/team_models.dart';
 import 'package:real_estate_crm/features/teams/domain/repositories/teams_repository.dart';
 
@@ -60,7 +61,7 @@ class TeamsBloc extends Bloc<TeamsEvent, TeamsState> {
     try {
       emit(TeamsLoaded(await _repo.getTeams()));
     } catch (err) {
-      emit(TeamsError(err.toString()));
+      emit(TeamsError(apiErrorMessage(err)));
     }
   }
 
@@ -70,7 +71,7 @@ class TeamsBloc extends Bloc<TeamsEvent, TeamsState> {
       emit(TeamsActionSuccess('Team created'));
       add(TeamsLoadEvent());
     } catch (err) {
-      emit(TeamsError(err.toString()));
+      emit(TeamsError(apiErrorMessage(err)));
     }
   }
 
@@ -80,7 +81,7 @@ class TeamsBloc extends Bloc<TeamsEvent, TeamsState> {
       emit(TeamsActionSuccess('Team updated'));
       add(TeamsLoadEvent());
     } catch (err) {
-      emit(TeamsError(err.toString()));
+      emit(TeamsError(apiErrorMessage(err)));
     }
   }
 
@@ -91,7 +92,7 @@ class TeamsBloc extends Bloc<TeamsEvent, TeamsState> {
       emit(TeamsActionSuccess('Agent invited'));
       add(TeamsLoadEvent());
     } catch (err) {
-      emit(TeamsError(err.toString()));
+      emit(TeamsError(apiErrorMessage(err)));
     }
   }
 }
