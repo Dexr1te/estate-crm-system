@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/network/api_error.dart';
 import 'package:real_estate_crm/features/auth/domain/repositories/auth_repository.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_state.dart';
@@ -48,7 +49,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> implements Listenable {
       emit(AuthAuthenticated(auth));
       _notify();
     } catch (err) {
-      emit(AuthError(_parseError(err)));
+      emit(AuthError(apiErrorMessage(err)));
     }
   }
 
@@ -60,7 +61,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> implements Listenable {
       emit(AuthAuthenticated(auth));
       _notify();
     } catch (err) {
-      emit(AuthError(_parseError(err)));
+      emit(AuthError(apiErrorMessage(err)));
     }
   }
 
@@ -68,15 +69,5 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> implements Listenable {
     await _repo.logout();
     emit(AuthUnauthenticated());
     _notify();
-  }
-
-  String _parseError(dynamic e) {
-    final s = e.toString();
-    if (s.contains('401')) return 'Invalid email or password';
-    if (s.contains('409')) return 'Email already registered';
-    if (s.contains('SocketException') || s.contains('Connection')) {
-      return 'Cannot connect to server';
-    }
-    return 'Something went wrong. Please try again.';
   }
 }

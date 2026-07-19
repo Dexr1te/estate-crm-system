@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/network/api_error.dart';
 import 'package:real_estate_crm/core/session/session_store.dart';
 
 const _baseUrl = 'https://estate-crm-system.onrender.com/api';
@@ -76,35 +77,9 @@ class ApiClient {
     if (e is DioException) {
       debugPrint(
           '[API ERROR] type: ${e.type} | status: ${e.response?.statusCode} | data: ${e.response?.data}');
-      final status = e.response?.statusCode;
-
-      // Try to get message from backend response body
-      final data = e.response?.data;
-      if (data is Map) {
-        final msg = data['message'] ?? data['error'];
-        if (msg != null && msg.toString().isNotEmpty) {
-          return msg.toString();
-        }
-      }
-
-      if (status == 400) return 'Invalid request. Check your input.';
-      if (status == 401) return 'Invalid email or password.';
-      if (status == 403) return 'Access denied.';
-      if (status == 404) return 'Not found.';
-      if (status == 409) return 'Email already registered.';
-      if (status != null && status >= 500) {
-        return 'Server error. Try again later.';
-      }
-
-      if (e.type == DioExceptionType.connectionTimeout ||
-          e.type == DioExceptionType.receiveTimeout) {
-        return 'Connection timed out. Check your internet.';
-      }
-      if (e.type == DioExceptionType.connectionError) {
-        return 'Cannot connect to server. Check your internet.';
-      }
+    } else {
+      debugPrint('[API ERROR] unknown: $e');
     }
-    debugPrint('[API ERROR] unknown: $e');
-    return 'Something went wrong. Please try again.';
+    return apiErrorMessage(e);
   }
 }

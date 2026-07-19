@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:real_estate_crm/core/network/api_error.dart';
 import 'package:real_estate_crm/features/deals/domain/repositories/deals_repository.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_event.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_state.dart';
@@ -17,7 +18,7 @@ class DealsBloc extends Bloc<DealsEvent, DealsState> {
     try {
       emit(DealsLoaded(await _repo.getDeals(status: e.status)));
     } catch (err) {
-      emit(DealsError(err.toString()));
+      emit(DealsError(apiErrorMessage(err)));
     }
   }
 
@@ -27,7 +28,7 @@ class DealsBloc extends Bloc<DealsEvent, DealsState> {
       emit(DealsActionSuccess('Deal deleted'));
       add(DealsLoadEvent());
     } catch (err) {
-      emit(DealsError(err.toString()));
+      emit(DealsError(apiErrorMessage(err)));
     }
   }
 
@@ -36,7 +37,7 @@ class DealsBloc extends Bloc<DealsEvent, DealsState> {
       await _repo.createDeal(e.data);
       emit(DealsActionSuccess('Deal created'));
     } catch (err) {
-      emit(DealsError(err.toString()));
+      emit(DealsError(apiErrorMessage(err)));
     }
   }
 
@@ -45,7 +46,7 @@ class DealsBloc extends Bloc<DealsEvent, DealsState> {
       await _repo.updateDeal(e.id, e.data);
       emit(DealsActionSuccess('Deal updated'));
     } catch (err) {
-      emit(DealsError(err.toString()));
+      emit(DealsError(apiErrorMessage(err)));
     }
   }
 
@@ -56,7 +57,7 @@ class DealsBloc extends Bloc<DealsEvent, DealsState> {
       emit(DealsActionSuccess('Status updated'));
       add(DealsLoadEvent());
     } catch (err) {
-      emit(DealsError(err.toString()));
+      emit(DealsError(apiErrorMessage(err)));
     }
   }
 }

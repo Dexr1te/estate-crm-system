@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:real_estate_crm/core/network/api_error.dart';
 import 'package:real_estate_crm/features/admin/domain/repositories/admin_repository.dart';
 import 'package:real_estate_crm/features/admin/presentation/bloc/admin_users_event.dart';
 import 'package:real_estate_crm/features/admin/presentation/bloc/admin_users_state.dart';
@@ -21,7 +22,7 @@ class AdminUsersBloc extends Bloc<AdminUsersEvent, AdminUsersState> {
     try {
       emit(AdminUsersLoaded(await _repo.getUsers()));
     } catch (err) {
-      emit(AdminUsersError(err.toString()));
+      emit(AdminUsersError(apiErrorMessage(err)));
     }
   }
 
@@ -33,7 +34,7 @@ class AdminUsersBloc extends Bloc<AdminUsersEvent, AdminUsersState> {
       emit(AdminUsersActionSuccess(success));
       add(AdminUsersLoadEvent());
     } catch (err) {
-      emit(AdminUsersError(err.toString()));
+      emit(AdminUsersError(apiErrorMessage(err)));
     }
   }
 
@@ -46,7 +47,7 @@ class AdminUsersBloc extends Bloc<AdminUsersEvent, AdminUsersState> {
       emit(AdminInviteSuccess(created));
       add(AdminUsersLoadEvent());
     } catch (err) {
-      emit(AdminUsersError(err.toString()));
+      emit(AdminUsersError(apiErrorMessage(err)));
     }
   }
 

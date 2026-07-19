@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:real_estate_crm/core/network/api_error.dart';
 import 'package:real_estate_crm/features/meetings/domain/repositories/meetings_repository.dart';
 import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_event.dart';
 import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_state.dart';
@@ -17,7 +18,7 @@ class MeetingsBloc extends Bloc<MeetingsEvent, MeetingsState> {
     try {
       emit(MeetingsLoaded(await _repo.getMeetings()));
     } catch (err) {
-      emit(MeetingsError(err.toString()));
+      emit(MeetingsError(apiErrorMessage(err)));
     }
   }
 
@@ -28,7 +29,7 @@ class MeetingsBloc extends Bloc<MeetingsEvent, MeetingsState> {
       emit(MeetingsActionSuccess('Meeting deleted'));
       add(MeetingsLoadEvent());
     } catch (err) {
-      emit(MeetingsError(err.toString()));
+      emit(MeetingsError(apiErrorMessage(err)));
     }
   }
 
@@ -38,7 +39,7 @@ class MeetingsBloc extends Bloc<MeetingsEvent, MeetingsState> {
       await _repo.createMeeting(e.data);
       emit(MeetingsActionSuccess('Meeting created'));
     } catch (err) {
-      emit(MeetingsError(err.toString()));
+      emit(MeetingsError(apiErrorMessage(err)));
     }
   }
 
@@ -48,7 +49,7 @@ class MeetingsBloc extends Bloc<MeetingsEvent, MeetingsState> {
       await _repo.updateMeeting(e.id, e.data);
       emit(MeetingsActionSuccess('Meeting updated'));
     } catch (err) {
-      emit(MeetingsError(err.toString()));
+      emit(MeetingsError(apiErrorMessage(err)));
     }
   }
 
@@ -59,7 +60,7 @@ class MeetingsBloc extends Bloc<MeetingsEvent, MeetingsState> {
       emit(MeetingsActionSuccess('Meeting completed'));
       add(MeetingsLoadEvent());
     } catch (err) {
-      emit(MeetingsError(err.toString()));
+      emit(MeetingsError(apiErrorMessage(err)));
     }
   }
 }

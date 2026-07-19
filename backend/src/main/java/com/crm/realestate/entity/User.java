@@ -29,7 +29,8 @@ public class User implements UserDetails {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
+    // Nullable: invited users have no password until they accept their invite.
+    @Column(nullable = true)
     private String password;
 
     @Column(nullable = false)

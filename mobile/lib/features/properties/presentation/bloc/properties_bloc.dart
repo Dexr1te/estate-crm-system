@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:real_estate_crm/core/network/api_error.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/features/properties/domain/repositories/properties_repository.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_event.dart';
@@ -50,7 +51,7 @@ class PropertiesBloc extends Bloc<PropertiesEvent, PropertiesState> {
       _hasMore = res.hasMore;
       emit(PropertiesLoaded(List.of(_items), hasMore: _hasMore));
     } catch (err) {
-      emit(PropertiesError(err.toString()));
+      emit(PropertiesError(apiErrorMessage(err)));
     }
   }
 
@@ -86,7 +87,7 @@ class PropertiesBloc extends Bloc<PropertiesEvent, PropertiesState> {
       emit(PropertiesActionSuccess('Property deleted'));
       _reload();
     } catch (err) {
-      emit(PropertiesError(err.toString()));
+      emit(PropertiesError(apiErrorMessage(err)));
     }
   }
 
@@ -96,7 +97,7 @@ class PropertiesBloc extends Bloc<PropertiesEvent, PropertiesState> {
       final created = await _repo.createProperty(e.data);
       emit(PropertyCreated(created)); // emit the full object with id
     } catch (err) {
-      emit(PropertiesError(err.toString()));
+      emit(PropertiesError(apiErrorMessage(err)));
     }
   }
 
@@ -106,7 +107,7 @@ class PropertiesBloc extends Bloc<PropertiesEvent, PropertiesState> {
       await _repo.updateProperty(e.id, e.data);
       emit(PropertiesActionSuccess('Property updated'));
     } catch (err) {
-      emit(PropertiesError(err.toString()));
+      emit(PropertiesError(apiErrorMessage(err)));
     }
   }
 
@@ -117,7 +118,7 @@ class PropertiesBloc extends Bloc<PropertiesEvent, PropertiesState> {
       emit(PropertiesActionSuccess('Status updated'));
       _reload();
     } catch (err) {
-      emit(PropertiesError(err.toString()));
+      emit(PropertiesError(apiErrorMessage(err)));
     }
   }
 }
