@@ -4,7 +4,7 @@ import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/network/api_error.dart';
 import 'package:real_estate_crm/core/session/session_store.dart';
 
-const _baseUrl = 'https://estate-crm-system.onrender.com/api';
+const _baseUrl = 'http://20.213.138.132/api';
 
 /// Owns the [Dio] instance and the cross-cutting HTTP concerns: auth header
 /// injection, transparent 401 refresh, debug logging and error parsing.
