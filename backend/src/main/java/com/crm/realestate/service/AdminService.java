@@ -32,15 +32,15 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 public class AdminService {
 
-    private final UserRepository    userRepository;
-    private final ClientRepository  clientRepository;
-    private final DealRepository    dealRepository;
+    private final UserRepository userRepository;
+    private final ClientRepository clientRepository;
+    private final DealRepository dealRepository;
     private final MeetingRepository meetingRepository;
-    private final TeamRepository    teamRepository;
-    private final PasswordEncoder   passwordEncoder;
-    private final SecurityUtils      securityUtils;
-    private final AuditLogService    auditLogService;
-    private final EmailService       emailService;
+    private final TeamRepository teamRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final SecurityUtils securityUtils;
+    private final AuditLogService auditLogService;
+    private final EmailService emailService;
 
     public List<AgentResponse> getAllUsers() {
         return userRepository.findAllByOrderByCreatedAtDesc()
@@ -77,8 +77,8 @@ public class AdminService {
                 .build();
 
         User saved = userRepository.save(user);
-        emailService.sendInvite(saved.getEmail(), saved.getFullName(), saved.getInviteToken());
-        return toInviteResponse(saved);
+        boolean emailSent = emailService.sendInvite(saved.getEmail(), saved.getFullName(), saved.getInviteToken());
+        return toInviteResponse(saved, emailSent);
     }
 
     @Transactional
@@ -103,18 +103,18 @@ public class AdminService {
                 .createdBy(manager)
                 .build();
         User saved = userRepository.save(user);
-        emailService.sendInvite(saved.getEmail(), saved.getFullName(), saved.getInviteToken());
-        return toInviteResponse(saved);
+        boolean emailSent = emailService.sendInvite(saved.getEmail(), saved.getFullName(), saved.getInviteToken());
+        return toInviteResponse(saved, emailSent);
     }
 
     public AgentStatsResponse getAgentStats(Long agentId) {
         User agent = findById(agentId);
 
-        long totalClients     = clientRepository.findByAgentId(agentId).size();
-        long totalDeals       = dealRepository.findByAgentId(agentId).size();
-        long closedDeals      = dealRepository.findByAgentIdAndStatus(agentId, DealStatus.CLOSED_WON).size()
-                              + dealRepository.findByAgentIdAndStatus(agentId, DealStatus.CLOSED_LOST).size();
-        long activeDeals      = totalDeals - closedDeals;
+        long totalClients = clientRepository.findByAgentId(agentId).size();
+        long totalDeals = dealRepository.findByAgentId(agentId).size();
+        long closedDeals = dealRepository.findByAgentIdAndStatus(agentId, DealStatus.CLOSED_WON).size()
+                + dealRepository.findByAgentIdAndStatus(agentId, DealStatus.CLOSED_LOST).size();
+        long activeDeals = totalDeals - closedDeals;
         long upcomingMeetings = meetingRepository.findAllUpcoming(LocalDateTime.now())
                 .stream()
                 .filter(m -> m.getAgent().getId().equals(agentId))
@@ -177,10 +177,13 @@ public class AdminService {
         if (user.getStatus() != UserStatus.ACTIVE) {
             user.setStatus(UserStatus.PENDING_INVITE);
         }
-        return toAgentResponse(userRepository.save(user));
+        User saved = userRepository.save(user);
+        boolean emailSent = emailService.sendInvite(saved.getEmail(), saved.getFullName(), saved.getInviteToken());
+        return toInviteResponse(saved, emailSent);
     }
 
-    public List<com.crm.realestate.dto.response.AuditLogResponse> getAuditLogs(Long actorId, String entityType, java.time.LocalDate fromDate, java.time.LocalDate toDate) {
+    public List<com.crm.realestate.dto.response.AuditLogResponse> getAuditLogs(Long actorId, String entityType,
+            java.time.LocalDate fromDate, java.time.LocalDate toDate) {
         return auditLogService.getAuditLogs(actorId, entityType, fromDate, toDate);
     }
 
@@ -214,9 +217,10 @@ public class AdminService {
      * token to the new user (there is no email delivery). List endpoints keep
      * using {@link #toAgentResponse(User)}, so tokens are never leaked in bulk.
      */
-    private AgentResponse toInviteResponse(User user) {
+    private AgentResponse toInviteResponse(User user, boolean emailSent) {
         AgentResponse response = toAgentResponse(user);
         response.setInviteToken(user.getInviteToken());
+        response.setEmailSent(emailSent);
         return response;
     }
 }

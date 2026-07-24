@@ -27,4 +27,12 @@ public class AgentResponse {
      * responses so tokens are never leaked when enumerating users.
      */
     private String inviteToken;
+
+    /**
+     * Whether the invite email was actually handed to the SMTP server.
+     * Always {@code false} when {@code app.mail.enabled} is {@code false} or
+     * when SMTP credentials are missing/wrong. {@code null} for users whose
+     * invite was never sent (legacy data or list endpoints).
+     */
+    private Boolean emailSent;
 }

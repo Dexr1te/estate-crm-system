@@ -5,17 +5,20 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 /**
  * Sends transactional emails (currently invite codes).
  *
- * <p>Every send is asynchronous and swallows its own exceptions: the admin/manager
- * already receives the invite code in the API response, so a mail failure (bad
- * SMTP creds, network, etc.) must never break invite creation. When
- * {@code app.mail.enabled} is false the service is a no-op, so the app runs fine
- * with no SMTP configured.
+ * <p>
+ * Returns {@code true} when the email was actually handed to the SMTP server,
+ * {@code false} when mail is disabled or sending failed. The caller
+ * (admin/manager
+ * service) stores this flag in the API response so the frontend can show
+ * whether
+ * the invite was really dispatched. A send failure never throws — the user was
+ * already saved in the database, and the invite token is still returned in the
+ * response body so the admin can deliver it manually.
  */
 @Service
 @RequiredArgsConstructor
@@ -30,11 +33,10 @@ public class EmailService {
     @Value("${app.mail.from:no-reply@estatecrm.app}")
     private String from;
 
-    @Async
-    public void sendInvite(String toEmail, String fullName, String inviteToken) {
+    public boolean sendInvite(String toEmail, String fullName, String inviteToken) {
         if (!enabled) {
             log.info("Mail disabled (app.mail.enabled=false); skipping invite email to {}", toEmail);
-            return;
+            return false;
         }
         try {
             SimpleMailMessage message = new SimpleMailMessage();
@@ -44,8 +46,10 @@ public class EmailService {
             message.setText(buildInviteBody(fullName, inviteToken));
             mailSender.send(message);
             log.info("Invite email sent to {}", toEmail);
+            return true;
         } catch (Exception e) {
-            log.error("Failed to send invite email to {}: {}", toEmail, e.getMessage());
+            log.error("Failed to send invite email to {}: {}", toEmail, e.getMessage(), e);
+            return false;
         }
     }
 
