@@ -5,6 +5,7 @@ import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_state.dart';
+import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 /// A navigation destination in the app shell.
 class _Dest {
@@ -15,25 +16,26 @@ class _Dest {
   const _Dest(this.route, this.icon, this.activeIcon, this.label);
 }
 
-const _baseDests = [
-  _Dest('/dashboard', Icons.dashboard_outlined, Icons.dashboard, 'Dashboard'),
-  _Dest('/clients', Icons.people_outline, Icons.people, 'Clients'),
-  _Dest('/properties', Icons.home_work_outlined, Icons.home_work, 'Properties'),
-  _Dest('/deals', Icons.handshake_outlined, Icons.handshake, 'Deals'),
-  _Dest('/meetings', Icons.calendar_today_outlined, Icons.calendar_today,
-      'Meetings'),
-];
-
 /// Destinations for the given [role]: agents get the base five; admins get an
 /// extra "Admin" tab, managers an extra "Team" tab.
-List<_Dest> _destsFor(Role? role) {
-  final dests = [..._baseDests];
+List<_Dest> _destsFor(Role? role, AppLocalizations l10n) {
+  final dests = [
+    _Dest('/dashboard', Icons.dashboard_outlined, Icons.dashboard,
+        l10n.coreNavDashboard),
+    _Dest('/clients', Icons.people_outline, Icons.people, l10n.coreNavClients),
+    _Dest('/properties', Icons.home_work_outlined, Icons.home_work,
+        l10n.coreNavProperties),
+    _Dest('/deals', Icons.handshake_outlined, Icons.handshake,
+        l10n.coreNavDeals),
+    _Dest('/meetings', Icons.calendar_today_outlined, Icons.calendar_today,
+        l10n.coreNavMeetings),
+  ];
   if (role == Role.ADMIN) {
-    dests.add(
-        const _Dest('/admin', Icons.shield_outlined, Icons.shield, 'Admin'));
+    dests.add(_Dest(
+        '/admin', Icons.shield_outlined, Icons.shield, l10n.coreNavAdmin));
   } else if (role == Role.MANAGER) {
-    dests.add(const _Dest(
-        '/team-console', Icons.groups_outlined, Icons.groups, 'Team'));
+    dests.add(_Dest('/team-console', Icons.groups_outlined, Icons.groups,
+        l10n.coreNavTeam));
   }
   return dests;
 }
@@ -52,9 +54,10 @@ class MainScaffold extends StatelessWidget {
     return BlocBuilder<AuthBloc, AuthState>(
       buildWhen: (p, c) => p.runtimeType != c.runtimeType,
       builder: (context, authState) {
+        final l10n = AppLocalizations.of(context);
         final role =
             authState is AuthAuthenticated ? authState.user.role : null;
-        final dests = _destsFor(role);
+        final dests = _destsFor(role, l10n);
         final location = GoRouterState.of(context).matchedLocation;
         final index = _locationIndex(dests, location);
         final isWide = MediaQuery.of(context).size.width >= 800;
@@ -107,6 +110,7 @@ class _SideNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context);
     return BlocBuilder<AuthBloc, AuthState>(builder: (ctx, state) {
       final user = state is AuthAuthenticated ? state.user : null;
       return Container(
@@ -170,7 +174,7 @@ class _SideNav extends StatelessWidget {
                     icon: Icon(Icons.logout,
                         size: 18, color: cs.onSurface.withAlpha(128)),
                     onPressed: () => ctx.read<AuthBloc>().add(AuthLogoutEvent()),
-                    tooltip: 'Logout'),
+                    tooltip: l10n.coreLogout),
                 onTap: () => context.push('/profile'),
                 contentPadding: EdgeInsets.zero,
               )),

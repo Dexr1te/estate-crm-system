@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:real_estate_crm/l10n/app_localizations.dart';
 import 'package:real_estate_crm/core/models/admin_models.dart';
 import 'package:real_estate_crm/core/models/team_models.dart';
 
@@ -55,6 +56,7 @@ class _TeamFormState extends State<_TeamForm> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final bottom = MediaQuery.of(context).viewInsets.bottom;
     // Manager options: only include the current managerId if it's present in
     // the list, to satisfy the dropdown's single-selection invariant.
@@ -70,22 +72,22 @@ class _TeamFormState extends State<_TeamForm> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(widget.existing == null ? 'Create team' : 'Edit team',
+            Text(widget.existing == null ? l10n.teamsCreateTeam : l10n.teamsEditTeam,
                 style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(height: 16),
             TextFormField(
               controller: _name,
-              decoration: const InputDecoration(labelText: 'Team name'),
+              decoration: InputDecoration(labelText: l10n.teamsTeamName),
               validator: (v) =>
-                  (v == null || v.trim().isEmpty) ? 'Required' : null,
+                  (v == null || v.trim().isEmpty) ? l10n.teamsRequired : null,
             ),
             const SizedBox(height: 12),
             DropdownButtonFormField<int?>(
               initialValue: selected,
-              decoration: const InputDecoration(labelText: 'Manager (optional)'),
+              decoration: InputDecoration(labelText: l10n.teamsManagerOptional),
               items: [
-                const DropdownMenuItem<int?>(
-                    value: null, child: Text('No manager')),
+                DropdownMenuItem<int?>(
+                    value: null, child: Text(l10n.teamsNoManager)),
                 ...widget.managers.map((m) =>
                     DropdownMenuItem<int?>(value: m.id, child: Text(m.fullName))),
               ],
@@ -96,7 +98,7 @@ class _TeamFormState extends State<_TeamForm> {
               width: double.infinity,
               child: ElevatedButton(
                   onPressed: _submit,
-                  child: Text(widget.existing == null ? 'Create' : 'Save')),
+                  child: Text(widget.existing == null ? l10n.teamsCreate : l10n.teamsSave)),
             ),
           ],
         ),

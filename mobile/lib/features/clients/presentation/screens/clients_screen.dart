@@ -9,6 +9,7 @@ import 'package:real_estate_crm/features/clients/presentation/bloc/clients_state
 import 'package:real_estate_crm/core/auth/role_context.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/client_card.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class ClientsScreen extends StatefulWidget {
   const ClientsScreen({super.key});
@@ -46,6 +47,7 @@ class _ClientsScreenState extends State<ClientsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final cs = Theme.of(context).colorScheme;
     final tt = Theme.of(context).textTheme;
 
@@ -56,12 +58,12 @@ class _ClientsScreenState extends State<ClientsScreen> {
           padding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
           child: Row(children: [
             Expanded(
-                child: Text('Clients',
+                child: Text(l10n.clientsTitle,
                     style: tt.titleLarge?.copyWith(fontSize: 22))),
             FilledButton.icon(
               onPressed: () => context.go('/clients/new'),
               icon: const Icon(Icons.add, size: 18),
-              label: const Text('Add Client'),
+              label: Text(l10n.clientsAddClient),
               style: FilledButton.styleFrom(
                   backgroundColor: cs.primary,
                   foregroundColor: cs.onPrimary,
@@ -80,9 +82,9 @@ class _ClientsScreenState extends State<ClientsScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: TextField(
                 controller: _searchCtrl,
-                decoration: const InputDecoration(
-                    hintText: 'Search clients...',
-                    prefixIcon: Icon(Icons.search, size: 20)))),
+                decoration: InputDecoration(
+                    hintText: l10n.clientsSearchHint,
+                    prefixIcon: const Icon(Icons.search, size: 20)))),
         const SizedBox(height: 16),
         Expanded(
             child: BlocConsumer<ClientsBloc, ClientsState>(
@@ -111,11 +113,11 @@ class _ClientsScreenState extends State<ClientsScreen> {
               final filtered = _filter(state.clients);
               if (filtered.isEmpty) {
                 return EmptyState(
-                    title: 'No clients found',
+                    title: l10n.clientsNoClientsFound,
                     icon: Icons.people_outline,
                     subtitle: _search.isNotEmpty
-                        ? 'Try a different search'
-                        : 'Add your first client');
+                        ? l10n.clientsTryDifferentSearch
+                        : l10n.clientsAddFirstClient);
               }
 
               // Group deals by client ID
@@ -151,8 +153,9 @@ class _ClientsScreenState extends State<ClientsScreen> {
                       onEdit: () => context.go('/clients/${client.id}/edit'),
                       onDelete: () async {
                         final ok = await showConfirmDialog(ctx,
-                            title: 'Delete Client',
-                            content: 'Delete "${client.fullName}"?');
+                            title: AppLocalizations.of(ctx).clientsDeleteClient,
+                            content: AppLocalizations.of(ctx)
+                                .clientsDeleteConfirm(client.fullName));
                         if (ok && ctx.mounted) {
                           ctx
                               .read<ClientsBloc>()

@@ -9,6 +9,7 @@ import 'package:real_estate_crm/features/deals/presentation/bloc/deals_state.dar
 import 'package:real_estate_crm/features/deals/presentation/widgets/deal_card.dart';
 import 'package:real_estate_crm/features/deals/presentation/widgets/deal_filter_tab.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class DealsScreen extends StatefulWidget {
   const DealsScreen({super.key});
@@ -30,6 +31,7 @@ class _DealsScreenState extends State<DealsScreen> {
     final cs = Theme.of(context).colorScheme;
     final tt = Theme.of(context).textTheme;
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       body: SafeArea(
@@ -38,12 +40,12 @@ class _DealsScreenState extends State<DealsScreen> {
           padding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
           child: Row(children: [
             Expanded(
-                child: Text('Deals',
+                child: Text(l10n.dealsTitle,
                     style: tt.titleLarge?.copyWith(fontSize: 22))),
             FilledButton.icon(
               onPressed: () => context.go('/deals/new'),
               icon: const Icon(Icons.add, size: 18),
-              label: const Text('Add Deal'),
+              label: Text(l10n.dealsAddDeal),
               style: FilledButton.styleFrom(
                   backgroundColor: cs.primary,
                   foregroundColor: cs.onPrimary,
@@ -65,7 +67,7 @@ class _DealsScreenState extends State<DealsScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 children: [
                   DealFilterTab(
-                      label: 'All',
+                      label: l10n.dealsFilterAll,
                       selected: _filter == null,
                       isDark: isDark,
                       onTap: () {
@@ -73,7 +75,12 @@ class _DealsScreenState extends State<DealsScreen> {
                         context.read<DealsBloc>().add(DealsLoadEvent());
                       }),
                   ...DealStatus.values.map((s) => DealFilterTab(
-                      label: s.name.replaceAll('_', ' '),
+                      label: switch (s) {
+                        DealStatus.LEAD => l10n.dealsStatusLead,
+                        DealStatus.NEGOTIATION => l10n.dealsStatusNegotiation,
+                        DealStatus.CLOSED_WON => l10n.dealsStatusClosedWon,
+                        DealStatus.CLOSED_LOST => l10n.dealsStatusClosedLost,
+                      },
                       selected: _filter == s,
                       isDark: isDark,
                       onTap: () {
@@ -108,10 +115,10 @@ class _DealsScreenState extends State<DealsScreen> {
             }
             if (state is DealsLoaded) {
               if (state.deals.isEmpty) {
-                return const EmptyState(
-                    title: 'No deals',
+                return EmptyState(
+                    title: AppLocalizations.of(ctx).dealsEmptyTitle,
                     icon: Icons.handshake_outlined,
-                    subtitle: 'Start your pipeline');
+                    subtitle: AppLocalizations.of(ctx).dealsEmptySubtitle);
               }
               return RefreshIndicator(
                 onRefresh: () async =>

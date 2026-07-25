@@ -8,6 +8,7 @@ import 'package:real_estate_crm/features/properties/presentation/bloc/properties
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_state.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_card.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class PropertiesScreen extends StatefulWidget {
   const PropertiesScreen({super.key});
@@ -55,6 +56,7 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     final tt = Theme.of(context).textTheme;
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       body: SafeArea(
@@ -63,12 +65,12 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
             padding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
             child: Row(children: [
               Expanded(
-                  child: Text('Properties',
+                  child: Text(l10n.propertiesTitle,
                       style: tt.titleLarge?.copyWith(fontSize: 22))),
               FilledButton.icon(
                 onPressed: () => context.go('/properties/new'),
                 icon: const Icon(Icons.add, size: 18),
-                label: const Text('Add'),
+                label: Text(l10n.propertiesAdd),
                 style: FilledButton.styleFrom(
                     backgroundColor: cs.primary,
                     foregroundColor: cs.onPrimary,
@@ -88,7 +90,7 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
               controller: _searchCtrl,
               onSubmitted: (_) => _reload(),
               decoration: InputDecoration(
-                  hintText: 'Search...',
+                  hintText: l10n.propertiesSearchHint,
                   prefixIcon: const Icon(Icons.search, size: 20),
                   suffixIcon: IconButton(
                       icon: const Icon(Icons.tune_outlined, size: 20),
@@ -141,10 +143,10 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
             }
             if (state is PropertiesLoaded) {
               if (state.properties.isEmpty) {
-                return const EmptyState(
-                    title: 'No properties',
+                return EmptyState(
+                    title: l10n.propertiesNoProperties,
                     icon: Icons.home_work_outlined,
-                    subtitle: 'Add your first listing');
+                    subtitle: l10n.propertiesAddFirstListing);
               }
               return RefreshIndicator(
                 onRefresh: () async => _reload(),
@@ -169,8 +171,8 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
                         onEdit: () => context.go('/properties/${p.id}/edit'),
                         onDelete: () async {
                           final ok = await showConfirmDialog(ctx,
-                              title: 'Delete Property',
-                              content: 'Delete "${p.title}"?');
+                              title: l10n.propertiesDeleteProperty,
+                              content: l10n.propertiesDeleteConfirm(p.title));
                           if (ok && ctx.mounted) {
                             ctx
                                 .read<PropertiesBloc>()
@@ -199,15 +201,15 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Filters',
+                      Text(AppLocalizations.of(ctx).propertiesFilters,
                           style: Theme.of(ctx).textTheme.titleLarge),
                       const SizedBox(height: 16),
-                      Text('Status',
+                      Text(AppLocalizations.of(ctx).propertiesStatus,
                           style: Theme.of(ctx).textTheme.labelMedium),
                       const SizedBox(height: 8),
                       Wrap(spacing: 8, children: [
                         FilterChip(
-                            label: const Text('All'),
+                            label: Text(AppLocalizations.of(ctx).propertiesAll),
                             selected: _filterStatus == null,
                             onSelected: (_) =>
                                 setModal(() => _filterStatus = null)),
@@ -218,11 +220,12 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
                                 setModal(() => _filterStatus = s)))
                       ]),
                       const SizedBox(height: 12),
-                      Text('Type', style: Theme.of(ctx).textTheme.labelMedium),
+                      Text(AppLocalizations.of(ctx).propertiesType,
+                          style: Theme.of(ctx).textTheme.labelMedium),
                       const SizedBox(height: 8),
                       Wrap(spacing: 8, children: [
                         FilterChip(
-                            label: const Text('All'),
+                            label: Text(AppLocalizations.of(ctx).propertiesAll),
                             selected: _filterType == null,
                             onSelected: (_) =>
                                 setModal(() => _filterType = null)),
@@ -237,7 +240,7 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
                             Navigator.pop(context);
                             _reload();
                           },
-                          child: const Text('Apply')),
+                          child: Text(AppLocalizations.of(ctx).propertiesApply)),
                     ]))),
       );
 }

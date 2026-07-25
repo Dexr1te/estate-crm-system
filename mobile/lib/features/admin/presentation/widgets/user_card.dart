@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/models/admin_models.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
+import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 /// List-item card for a managed user (admin Users tab).
 class UserCard extends StatelessWidget {
@@ -30,6 +31,7 @@ class UserCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final cs = Theme.of(context).colorScheme;
     final tt = Theme.of(context).textTheme;
     final roleColor = _roleColor(user.role);
@@ -65,7 +67,7 @@ class UserCard extends StatelessWidget {
                   _Pill(text: user.role.name, color: roleColor),
                   if (!user.isActive) ...[
                     const SizedBox(width: 6),
-                    const _Pill(text: 'INACTIVE', color: AppColors.error),
+                    _Pill(text: l10n.adminInactive, color: AppColors.error),
                   ],
                 ]),
                 const SizedBox(height: 2),
@@ -89,13 +91,14 @@ class UserCard extends StatelessWidget {
               }
             },
             itemBuilder: (_) => [
-              const PopupMenuItem(value: 'stats', child: Text('View stats')),
-              const PopupMenuItem(value: 'role', child: Text('Change role')),
-              const PopupMenuItem(value: 'team', child: Text('Assign team')),
-              const PopupMenuItem(value: 'resend', child: Text('Resend invite')),
+              PopupMenuItem(value: 'stats', child: Text(l10n.adminViewStats)),
+              PopupMenuItem(value: 'role', child: Text(l10n.adminChangeRole)),
+              PopupMenuItem(value: 'team', child: Text(l10n.adminAssignTeam)),
+              PopupMenuItem(
+                  value: 'resend', child: Text(l10n.adminResendInvite)),
               PopupMenuItem(
                   value: 'active',
-                  child: Text(user.isActive ? 'Deactivate' : 'Activate',
+                  child: Text(user.isActive ? l10n.adminDeactivate : l10n.adminActivate,
                       style: TextStyle(
                           color: user.isActive
                               ? AppColors.error

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:real_estate_crm/l10n/app_localizations.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/team_models.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
@@ -12,14 +13,15 @@ void showTeamStatsSheet(BuildContext context, int teamId) {
     builder: (_) => FutureBuilder<TeamStatsResponse>(
       future: Injector.teamsRepository.getTeamStats(teamId),
       builder: (ctx, snap) {
+        final l10n = AppLocalizations.of(ctx);
         if (snap.connectionState != ConnectionState.done) {
           return const SizedBox(
               height: 180, child: Center(child: CircularProgressIndicator()));
         }
         if (snap.hasError || !snap.hasData) {
-          return const SizedBox(
+          return SizedBox(
               height: 180,
-              child: Center(child: Text('Could not load stats')));
+              child: Center(child: Text(l10n.teamsCouldNotLoadStats)));
         }
         final s = snap.data!;
         return Padding(
@@ -30,7 +32,7 @@ void showTeamStatsSheet(BuildContext context, int teamId) {
             children: [
               Text(s.teamName, style: Theme.of(ctx).textTheme.titleLarge),
               if (s.managerName != null)
-                Text('Manager: ${s.managerName}',
+                Text(l10n.teamsManagerLabel(s.managerName!),
                     style: Theme.of(ctx).textTheme.bodySmall),
               const SizedBox(height: 16),
               GridView.count(
@@ -41,15 +43,15 @@ void showTeamStatsSheet(BuildContext context, int teamId) {
                 mainAxisSpacing: 10,
                 crossAxisSpacing: 10,
                 children: [
-                  _Stat('Agents', s.totalAgents, Icons.badge_outlined,
+                  _Stat(l10n.teamsAgents, s.totalAgents, Icons.badge_outlined,
                       AppColors.info),
-                  _Stat('Clients', s.totalClients, Icons.people_outline,
+                  _Stat(l10n.teamsClients, s.totalClients, Icons.people_outline,
                       AppColors.accent),
-                  _Stat('Deals', s.totalDeals, Icons.handshake_outlined,
+                  _Stat(l10n.teamsDeals, s.totalDeals, Icons.handshake_outlined,
                       AppColors.warning),
-                  _Stat('Active', s.activeDeals, Icons.trending_up,
+                  _Stat(l10n.teamsActive, s.activeDeals, Icons.trending_up,
                       AppColors.success),
-                  _Stat('Upcoming', s.upcomingMeetings,
+                  _Stat(l10n.teamsUpcoming, s.upcomingMeetings,
                       Icons.calendar_today_outlined, AppColors.lead),
                 ],
               ),

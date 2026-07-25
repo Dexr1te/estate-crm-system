@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 /// List-item card for a single property: type icon, title/city, status chip,
 /// price, area/rooms and address. Actions are delegated via callbacks.
@@ -34,6 +35,7 @@ class PropertyCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     final tt = Theme.of(context).textTheme;
+    final l10n = AppLocalizations.of(context);
 
     return Card(
         child: InkWell(
@@ -71,21 +73,22 @@ class PropertyCard extends StatelessWidget {
                               if (v == 'delete') onDelete();
                             },
                             itemBuilder: (_) => [
-                                  const PopupMenuItem(
+                                  PopupMenuItem(
                                       value: 'edit',
                                       child: Row(children: [
-                                        Icon(Icons.edit_outlined, size: 16),
-                                        SizedBox(width: 8),
-                                        Text('Edit')
+                                        const Icon(Icons.edit_outlined,
+                                            size: 16),
+                                        const SizedBox(width: 8),
+                                        Text(l10n.propertiesEdit)
                                       ])),
-                                  const PopupMenuItem(
+                                  PopupMenuItem(
                                       value: 'delete',
                                       child: Row(children: [
-                                        Icon(Icons.delete_outline,
+                                        const Icon(Icons.delete_outline,
                                             size: 16, color: AppColors.error),
-                                        SizedBox(width: 8),
-                                        Text('Delete',
-                                            style: TextStyle(
+                                        const SizedBox(width: 8),
+                                        Text(l10n.propertiesDelete,
+                                            style: const TextStyle(
                                                 color: AppColors.error))
                                       ]))
                                 ],
@@ -108,7 +111,9 @@ class PropertyCard extends StatelessWidget {
                             Icon(Icons.square_foot,
                                 size: 13, color: tt.bodySmall?.color),
                             const SizedBox(width: 3),
-                            Text('${property.areaSqm!.toStringAsFixed(0)} m²',
+                            Text(
+                                l10n.propertiesAreaValue(
+                                    property.areaSqm!.toStringAsFixed(0)),
                                 style: tt.bodySmall)
                           ]),
                         if (property.rooms != null) ...[
@@ -117,7 +122,8 @@ class PropertyCard extends StatelessWidget {
                             Icon(Icons.bed_outlined,
                                 size: 13, color: tt.bodySmall?.color),
                             const SizedBox(width: 3),
-                            Text('${property.rooms} rooms', style: tt.bodySmall)
+                            Text(l10n.propertiesRoomsCount(property.rooms!),
+                                style: tt.bodySmall)
                           ])
                         ],
                       ]),

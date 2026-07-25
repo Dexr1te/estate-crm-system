@@ -9,6 +9,7 @@ import 'package:real_estate_crm/core/theme/app_theme.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_bloc.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_event.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/l10n/app_localizations.dart';
 import 'package:shimmer/shimmer.dart';
 
 class DealDetailScreen extends StatefulWidget {
@@ -42,8 +43,9 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
   }
 
   Future<void> _delete() async {
+    final l10n = AppLocalizations.of(context);
     final ok = await showConfirmDialog(context,
-        title: 'Delete Deal', content: 'Delete "${_d!.title}"?');
+        title: l10n.dealsDeleteTitle, content: l10n.dealsDeleteConfirm(_d!.title));
     if (!ok) return;
     // ignore: use_build_context_synchronously
     context.read<DealsBloc>().add(DealsDeleteEvent(widget.id));
@@ -57,18 +59,20 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
 
   void _copyId() {
     Clipboard.setData(ClipboardData(text: _d!.id.toString()));
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text('Deal ID copied'), duration: Duration(seconds: 1)));
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(AppLocalizations.of(context).dealsIdCopied),
+        duration: const Duration(seconds: 1)));
   }
 
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     final tt = Theme.of(context).textTheme;
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       appBar: AppBar(
-          title: Text(_d?.title ?? 'Deal'),
+          title: Text(_d?.title ?? l10n.dealsFallbackTitle),
           actions: _d == null
               ? []
               : [
@@ -83,8 +87,8 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
       body: _loading
           ? const _DealDetailSkeleton()
           : _d == null
-              ? const EmptyState(
-                  title: 'Deal not found', icon: Icons.handshake_outlined)
+              ? EmptyState(
+                  title: l10n.dealsNotFound, icon: Icons.handshake_outlined)
               : SingleChildScrollView(
                   padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
                   child: Column(
@@ -112,7 +116,7 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
                                         color: AppColors.success,
                                         fontFamily: 'Sora'))
                               else if (_d!.budget != null)
-                                Text('Budget: ${formatPrice(_d!.budget!)}',
+                                Text(l10n.dealsBudgetValue(formatPrice(_d!.budget!)),
                                     style: TextStyle(
                                         fontSize: 22,
                                         fontWeight: FontWeight.w700,
@@ -120,36 +124,36 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
                                         fontFamily: 'Sora')),
                               const SizedBox(height: 14),
                               _IdBadge(
-                                  label: 'Deal ID: ${_d!.id}',
+                                  label: l10n.dealsIdLabel(_d!.id),
                                   color: AppColors.success,
                                   onTap: _copyId),
                             ])),
                         const SizedBox(height: 14),
                         _Card(
-                            title: 'Details',
+                            title: l10n.dealsDetails,
                             icon: Icons.info_outline,
                             child: Wrap(spacing: 20, runSpacing: 12, children: [
-                              _Spec(Icons.person_outline, 'Client',
+                              _Spec(Icons.person_outline, l10n.dealsClient,
                                   _d!.clientName),
-                              _Spec(Icons.support_agent_outlined, 'Agent',
+                              _Spec(Icons.support_agent_outlined, l10n.dealsAgent,
                                   _d!.agentName),
                               if (_d!.propertyTitle != null)
-                                _Spec(Icons.home_outlined, 'Property',
+                                _Spec(Icons.home_outlined, l10n.dealsProperty,
                                     _d!.propertyTitle!),
                               if (_d!.dealPrice != null && _d!.budget != null)
                                 _Spec(Icons.account_balance_wallet_outlined,
-                                    'Budget', formatPrice(_d!.budget!)),
+                                    l10n.dealsBudget, formatPrice(_d!.budget!)),
                               if (_d!.createdAt != null)
-                                _Spec(Icons.access_time, 'Created',
+                                _Spec(Icons.access_time, l10n.dealsCreated,
                                     formatDate(_d!.createdAt!)),
                               if (_d!.closedAt != null)
-                                _Spec(Icons.check_circle_outline, 'Closed',
+                                _Spec(Icons.check_circle_outline, l10n.dealsClosed,
                                     formatDate(_d!.closedAt!)),
                             ])),
                         if (_d!.notes != null && _d!.notes!.isNotEmpty) ...[
                           const SizedBox(height: 14),
                           _Card(
-                              title: 'Notes',
+                              title: l10n.dealsNotes,
                               icon: Icons.notes_outlined,
                               child: Text(_d!.notes!,
                                   style: tt.bodyMedium?.copyWith(
@@ -158,7 +162,7 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
                         ],
                         const SizedBox(height: 14),
                         _Card(
-                          title: 'Pipeline Stage',
+                          title: l10n.dealsPipelineStage,
                           icon: Icons.flag_outlined,
                           child: Wrap(
                             spacing: 8,
@@ -166,7 +170,15 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
                             children: DealStatus.values.map((s) {
                               final sel = _d!.status == s;
                               return _StatusPill(
-                                label: s.name,
+                                label: switch (s) {
+                                  DealStatus.LEAD => l10n.dealsStatusLead,
+                                  DealStatus.NEGOTIATION =>
+                                    l10n.dealsStatusNegotiation,
+                                  DealStatus.CLOSED_WON =>
+                                    l10n.dealsStatusClosedWon,
+                                  DealStatus.CLOSED_LOST =>
+                                    l10n.dealsStatusClosedLost,
+                                },
                                 selected: sel,
                                 onTap: sel ? null : () => _updateStatus(s),
                               );

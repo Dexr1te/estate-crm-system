@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 /// List-item card for a single meeting: icon, title/client, schedule, location
 /// and a completed badge. Actions are delegated via callbacks.
@@ -17,6 +18,7 @@ class MeetingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final cs = Theme.of(context).colorScheme;
     final tt = Theme.of(context).textTheme;
 
@@ -60,27 +62,29 @@ class MeetingCard extends StatelessWidget {
                 },
                 itemBuilder: (_) => [
                   if (!meeting.completed)
-                    const PopupMenuItem(
+                    PopupMenuItem(
                         value: 'complete',
                         child: Row(children: [
-                          Icon(Icons.check, size: 16, color: AppColors.success),
-                          SizedBox(width: 8),
-                          Text('Mark Complete')
+                          const Icon(Icons.check,
+                              size: 16, color: AppColors.success),
+                          const SizedBox(width: 8),
+                          Text(l10n.meetingsMarkComplete)
                         ])),
-                  const PopupMenuItem(
+                  PopupMenuItem(
                       value: 'edit',
                       child: Row(children: [
-                        Icon(Icons.edit_outlined, size: 16),
-                        SizedBox(width: 8),
-                        Text('Edit')
+                        const Icon(Icons.edit_outlined, size: 16),
+                        const SizedBox(width: 8),
+                        Text(l10n.meetingsEdit)
                       ])),
-                  const PopupMenuItem(
+                  PopupMenuItem(
                       value: 'delete',
                       child: Row(children: [
-                        Icon(Icons.delete_outline,
+                        const Icon(Icons.delete_outline,
                             size: 16, color: AppColors.error),
-                        SizedBox(width: 8),
-                        Text('Delete', style: TextStyle(color: AppColors.error))
+                        const SizedBox(width: 8),
+                        Text(l10n.meetingsDelete,
+                            style: const TextStyle(color: AppColors.error))
                       ])),
                 ],
                 child:
@@ -118,8 +122,8 @@ class MeetingCard extends StatelessWidget {
                     decoration: BoxDecoration(
                         color: AppColors.success.withAlpha(26),
                         borderRadius: BorderRadius.circular(20)),
-                    child: const Text('Completed',
-                        style: TextStyle(
+                    child: Text(l10n.meetingsCompleted,
+                        style: const TextStyle(
                             fontSize: 11,
                             color: AppColors.success,
                             fontWeight: FontWeight.w600)),

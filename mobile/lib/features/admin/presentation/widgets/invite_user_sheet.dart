@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 /// Shows the "Invite user" bottom sheet and returns a CreateAgentRequest body
 /// ({fullName, email, phone?, role, dataScope}), or null if cancelled.
@@ -48,6 +49,7 @@ class _InviteUserFormState extends State<_InviteUserForm> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final bottom = MediaQuery.of(context).viewInsets.bottom;
     return Padding(
       padding: EdgeInsets.fromLTRB(24, 24, 24, 24 + bottom),
@@ -57,33 +59,34 @@ class _InviteUserFormState extends State<_InviteUserForm> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Invite user', style: Theme.of(context).textTheme.titleLarge),
+            Text(l10n.adminInviteUser,
+                style: Theme.of(context).textTheme.titleLarge),
             const SizedBox(height: 16),
             TextFormField(
               controller: _name,
-              decoration: const InputDecoration(labelText: 'Full name'),
+              decoration: InputDecoration(labelText: l10n.adminFullName),
               validator: (v) =>
-                  (v == null || v.trim().isEmpty) ? 'Required' : null,
+                  (v == null || v.trim().isEmpty) ? l10n.adminRequired : null,
             ),
             const SizedBox(height: 12),
             TextFormField(
               controller: _email,
               keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(labelText: 'Email'),
+              decoration: InputDecoration(labelText: l10n.adminEmail),
               validator: (v) => (v == null || !v.contains('@'))
-                  ? 'Enter a valid email'
+                  ? l10n.adminEnterValidEmail
                   : null,
             ),
             const SizedBox(height: 12),
             TextFormField(
               controller: _phone,
               keyboardType: TextInputType.phone,
-              decoration: const InputDecoration(labelText: 'Phone (optional)'),
+              decoration: InputDecoration(labelText: l10n.adminPhoneOptional),
             ),
             const SizedBox(height: 12),
             DropdownButtonFormField<Role>(
               initialValue: _role,
-              decoration: const InputDecoration(labelText: 'Role'),
+              decoration: InputDecoration(labelText: l10n.adminRole),
               items: Role.values
                   .map((r) =>
                       DropdownMenuItem(value: r, child: Text(r.name)))
@@ -93,7 +96,7 @@ class _InviteUserFormState extends State<_InviteUserForm> {
             const SizedBox(height: 12),
             DropdownButtonFormField<DataScope>(
               initialValue: _scope,
-              decoration: const InputDecoration(labelText: 'Data scope'),
+              decoration: InputDecoration(labelText: l10n.adminDataScope),
               items: DataScope.values
                   .map((s) =>
                       DropdownMenuItem(value: s, child: Text(s.name)))
@@ -104,7 +107,7 @@ class _InviteUserFormState extends State<_InviteUserForm> {
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
-                  onPressed: _submit, child: const Text('Create invite')),
+                  onPressed: _submit, child: Text(l10n.adminCreateInvite)),
             ),
           ],
         ),

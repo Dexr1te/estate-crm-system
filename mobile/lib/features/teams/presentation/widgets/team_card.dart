@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:real_estate_crm/l10n/app_localizations.dart';
 import 'package:real_estate_crm/core/models/team_models.dart';
 
 /// List-item card for a team. Tap opens stats; [onEdit] (admin) is optional.
@@ -11,8 +12,13 @@ class TeamCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final cs = Theme.of(context).colorScheme;
     final tt = Theme.of(context).textTheme;
+    final memberText = l10n.teamsMemberCount(team.memberCount);
+    final subtitle = team.managerName != null
+        ? '$memberText • ${team.managerName}'
+        : memberText;
 
     return Card(
       child: InkWell(
@@ -38,8 +44,7 @@ class TeamCard extends StatelessWidget {
                       style: tt.bodyLarge?.copyWith(fontWeight: FontWeight.w600)),
                   const SizedBox(height: 2),
                   Text(
-                    '${team.memberCount} member${team.memberCount == 1 ? '' : 's'}'
-                    '${team.managerName != null ? ' • ${team.managerName}' : ''}',
+                    subtitle,
                     style: tt.bodySmall,
                     overflow: TextOverflow.ellipsis,
                   ),

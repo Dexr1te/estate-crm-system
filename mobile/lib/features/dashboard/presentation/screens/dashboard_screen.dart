@@ -8,6 +8,7 @@ import 'package:real_estate_crm/features/dashboard/presentation/bloc/dashboard_b
 import 'package:real_estate_crm/features/dashboard/presentation/bloc/dashboard_event.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/bloc/dashboard_state.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/l10n/app_localizations.dart';
 import 'package:shimmer/shimmer.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -23,16 +24,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
     context.read<DashboardBloc>().add(DashboardLoadEvent());
   }
 
-  String _greeting() {
+  String _greeting(AppLocalizations l10n) {
     final h = DateTime.now().hour;
-    if (h < 5) return 'Still up';
-    if (h < 12) return 'Good morning';
-    if (h < 18) return 'Good afternoon';
-    return 'Good evening';
+    if (h < 5) return l10n.dashboardGreetingStillUp;
+    if (h < 12) return l10n.dashboardGreetingMorning;
+    if (h < 18) return l10n.dashboardGreetingAfternoon;
+    return l10n.dashboardGreetingEvening;
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final user = context.watch<AuthBloc>().state is AuthAuthenticated
         ? (context.read<AuthBloc>().state as AuthAuthenticated).user
         : null;
@@ -58,7 +60,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                             Text(
-                              '${_greeting()}, ${user?.fullName.split(' ').first ?? 'there'} ✨',
+                              l10n.dashboardGreeting(
+                                  _greeting(l10n),
+                                  user?.fullName.split(' ').first ??
+                                      l10n.dashboardGreetingFallbackName),
                               style: TextStyle(
                                   fontSize: 23,
                                   fontWeight: FontWeight.w700,
@@ -69,7 +74,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   fontFamily: 'Sora'),
                             ),
                             const SizedBox(height: 4),
-                            Text("Here's your overview for today",
+                            Text(l10n.dashboardOverviewSubtitle,
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodySmall
@@ -100,7 +105,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const _SectionHeader(title: 'Overview'),
+                          _SectionHeader(title: l10n.dashboardOverviewTitle),
                           const SizedBox(height: 14),
                           GridView.count(
                             crossAxisCount: 2,
@@ -111,40 +116,40 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             childAspectRatio: 1.35,
                             children: [
                               StatCard(
-                                  label: 'Total Deals',
+                                  label: l10n.dashboardTotalDeals,
                                   value: '${state.summary.totalDeals}',
                                   icon: Icons.handshake_outlined,
                                   color: AppColors.error,
-                                  subtitle:
-                                      '${state.summary.activeDeals} active'),
+                                  subtitle: l10n.dashboardActiveDeals(
+                                      state.summary.activeDeals)),
                               StatCard(
-                                  label: 'Clients',
+                                  label: l10n.dashboardClients,
                                   value: '${state.summary.totalClients}',
                                   icon: Icons.people_outline,
                                   color: AppColors.info),
                               StatCard(
-                                  label: 'Closed Won',
+                                  label: l10n.dashboardClosedWon,
                                   value: '${state.summary.closedDeals}',
                                   icon: Icons.check_circle_outline,
                                   color: AppColors.success),
                               StatCard(
-                                  label: 'Upcoming',
+                                  label: l10n.dashboardUpcoming,
                                   value: '${state.summary.upcomingMeetings}',
                                   icon: Icons.calendar_today_outlined,
                                   color: AppColors.accent,
-                                  subtitle: 'meetings'),
+                                  subtitle: l10n.dashboardMeetingsSubtitle),
                             ],
                           ),
                           const SizedBox(height: 30),
                           Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                const _SectionHeader(
-                                    title: 'Upcoming Meetings'),
+                                _SectionHeader(
+                                    title: l10n.dashboardUpcomingMeetings),
                                 TextButton.icon(
                                     onPressed: () => context.go('/meetings'),
-                                    icon: const Text('See all',
-                                        style: TextStyle(fontSize: 13)),
+                                    icon: Text(l10n.dashboardSeeAll,
+                                        style: const TextStyle(fontSize: 13)),
                                     label: const Icon(
                                         Icons.arrow_forward_rounded,
                                         size: 15),
@@ -178,10 +183,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   .withAlpha(40)),
                         ),
                         child: Column(children: [
-                          Icon(Icons.event_available_outlined,
+                          const Icon(Icons.event_available_outlined,
                               color: AppColors.textHint, size: 30),
                           const SizedBox(height: 10),
-                          Text('No upcoming meetings',
+                          Text(l10n.dashboardNoUpcomingMeetings,
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyMedium
@@ -208,20 +213,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const _SectionHeader(title: 'Quick Actions'),
+                          _SectionHeader(title: l10n.dashboardQuickActions),
                           const SizedBox(height: 14),
                           Row(children: [
                             Expanded(
                                 child: _QuickAction(
                                     icon: Icons.person_add_outlined,
-                                    label: 'Add Client',
+                                    label: l10n.dashboardAddClient,
                                     color: AppColors.info,
                                     onTap: () => context.go('/clients/new'))),
                             const SizedBox(width: 12),
                             Expanded(
                                 child: _QuickAction(
                                     icon: Icons.add_home_outlined,
-                                    label: 'Add Property',
+                                    label: l10n.dashboardAddProperty,
                                     color: AppColors.accent,
                                     onTap: () =>
                                         context.go('/properties/new'))),
@@ -231,14 +236,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             Expanded(
                                 child: _QuickAction(
                                     icon: Icons.handshake_outlined,
-                                    label: 'New Deal',
+                                    label: l10n.dashboardNewDeal,
                                     color: AppColors.lead,
                                     onTap: () => context.go('/deals/new'))),
                             const SizedBox(width: 12),
                             Expanded(
                                 child: _QuickAction(
                                     icon: Icons.event_outlined,
-                                    label: 'Schedule Meeting',
+                                    label: l10n.dashboardScheduleMeeting,
                                     color: AppColors.success,
                                     onTap: () => context.go('/meetings/new'))),
                           ]),

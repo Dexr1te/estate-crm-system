@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
+import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 /// List-item card for a single client, showing avatar, name/email and a
 /// deal-count badge. Navigation and delete are delegated via callbacks.
@@ -24,6 +25,7 @@ class ClientCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final cs = Theme.of(context).colorScheme;
     final tt = Theme.of(context).textTheme;
 
@@ -70,22 +72,22 @@ class ClientCard extends StatelessWidget {
                     if (v == 'delete') onDelete();
                   },
                   itemBuilder: (_) => [
-                    const PopupMenuItem(
+                    PopupMenuItem(
                         value: 'edit',
                         child: Row(children: [
-                          Icon(Icons.edit_outlined, size: 16),
-                          SizedBox(width: 8),
-                          Text('Edit')
+                          const Icon(Icons.edit_outlined, size: 16),
+                          const SizedBox(width: 8),
+                          Text(l10n.clientsEdit)
                         ])),
                     if (canDelete)
-                      const PopupMenuItem(
+                      PopupMenuItem(
                           value: 'delete',
                           child: Row(children: [
-                            Icon(Icons.delete_outline,
+                            const Icon(Icons.delete_outline,
                                 size: 16, color: AppColors.error),
-                            SizedBox(width: 8),
-                            Text('Delete',
-                                style: TextStyle(color: AppColors.error))
+                            const SizedBox(width: 8),
+                            Text(l10n.clientsDelete,
+                                style: const TextStyle(color: AppColors.error))
                           ])),
                   ],
                   child: Icon(Icons.more_vert,
@@ -102,7 +104,7 @@ class ClientCard extends StatelessWidget {
                   Icon(Icons.handshake_outlined, size: 14, color: cs.primary),
                   const SizedBox(width: 6),
                   Text(
-                    '$dealCount ${dealCount == 1 ? 'deal' : 'deals'}',
+                    l10n.clientsDealCount(dealCount),
                     style: tt.bodySmall?.copyWith(
                       fontWeight: FontWeight.w600,
                       color: cs.primary,

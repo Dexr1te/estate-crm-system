@@ -7,6 +7,7 @@ import 'package:real_estate_crm/core/theme/app_theme.dart';
 import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_bloc.dart';
 import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_event.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 // ─────────────────────────────────────────────────────────────
 // Generic picker helpers
@@ -77,6 +78,7 @@ class _PickerSheetState extends State<_PickerSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final cs = Theme.of(context).colorScheme;
     final tt = Theme.of(context).textTheme;
     final mq = MediaQuery.of(context);
@@ -105,7 +107,7 @@ class _PickerSheetState extends State<_PickerSheet> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Row(children: [
-                Text('Select ${widget.label}',
+                Text(l10n.meetingsSelectEntity(widget.label),
                     style:
                         tt.titleMedium?.copyWith(fontWeight: FontWeight.w700)),
                 const Spacer(),
@@ -120,7 +122,7 @@ class _PickerSheetState extends State<_PickerSheet> {
                 controller: _searchCtrl,
                 autofocus: true,
                 decoration: InputDecoration(
-                  hintText: 'Search by name or ID…',
+                  hintText: l10n.meetingsSearchByNameOrId,
                   prefixIcon: const Icon(Icons.search, size: 20),
                   suffixIcon: _searchCtrl.text.isNotEmpty
                       ? IconButton(
@@ -136,7 +138,7 @@ class _PickerSheetState extends State<_PickerSheet> {
             Expanded(
               child: _filtered.isEmpty
                   ? Center(
-                      child: Text('No results',
+                      child: Text(l10n.meetingsNoResults,
                           style: tt.bodyMedium?.copyWith(color: cs.outline)))
                   : ListView.builder(
                       controller: scrollCtrl,
@@ -212,6 +214,7 @@ class _EntityTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final cs = Theme.of(context).colorScheme;
     final tt = Theme.of(context).textTheme;
     final hasError = error != null;
@@ -255,7 +258,7 @@ class _EntityTile extends StatelessWidget {
                         child: CircularProgressIndicator(
                             strokeWidth: 2, color: cs.outline)),
                     const SizedBox(width: 12),
-                    Text('Loading…',
+                    Text(l10n.meetingsLoading,
                         style: TextStyle(color: cs.outline, fontSize: 14)),
                   ])
                 : Row(children: [
@@ -267,7 +270,7 @@ class _EntityTile extends StatelessWidget {
                     const SizedBox(width: 12),
                     Expanded(
                       child: selected == null
-                          ? Text('Tap to select $label',
+                          ? Text(l10n.meetingsTapToSelect(label),
                               style: TextStyle(color: cs.outline, fontSize: 14))
                           : Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -489,18 +492,20 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
     setState(() => _initLoading = true);
     try {
       final m = await Injector.meetingsRepository.getMeeting(widget.meetingId!);
+      if (!mounted) return;
+      final l10n = AppLocalizations.of(context);
       _titleCtrl.text = m.title;
       _descCtrl.text = m.description ?? '';
       _locationCtrl.text = m.location ?? '';
       setState(() {
         _scheduledAt = m.scheduledAt;
         _selectedClient =
-            _PickerItem(id: m.clientId, title: 'Client #${m.clientId}');
+            _PickerItem(id: m.clientId, title: l10n.meetingsClientNumber(m.clientId));
         _selectedAgent =
-            _PickerItem(id: m.agentId, title: 'Agent #${m.agentId}');
+            _PickerItem(id: m.agentId, title: l10n.meetingsAgentNumber(m.agentId));
         if (m.dealId != null) {
           _selectedDeal =
-              _PickerItem(id: m.dealId!, title: 'Deal #${m.dealId}');
+              _PickerItem(id: m.dealId!, title: l10n.meetingsDealNumber(m.dealId!));
         }
         _initLoading = false;
       });
@@ -511,7 +516,9 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
 
   Future<void> _pickClient() async {
     final r = await _showPicker(context,
-        label: 'Client', items: _clients, selectedId: _selectedClient?.id);
+        label: AppLocalizations.of(context).meetingsClient,
+        items: _clients,
+        selectedId: _selectedClient?.id);
     if (r != null) {
       setState(() {
         _selectedClient = r;
@@ -522,7 +529,9 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
 
   Future<void> _pickAgent() async {
     final r = await _showPicker(context,
-        label: 'Agent', items: _agents, selectedId: _selectedAgent?.id);
+        label: AppLocalizations.of(context).meetingsAgent,
+        items: _agents,
+        selectedId: _selectedAgent?.id);
     if (r != null) {
       setState(() {
         _selectedAgent = r;
@@ -533,7 +542,9 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
 
   Future<void> _pickDeal() async {
     final r = await _showPicker(context,
-        label: 'Deal', items: _deals, selectedId: _selectedDeal?.id);
+        label: AppLocalizations.of(context).meetingsDeal,
+        items: _deals,
+        selectedId: _selectedDeal?.id);
     if (r != null) setState(() => _selectedDeal = r);
   }
 
@@ -554,15 +565,18 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
   }
 
   void _submit() {
+    final l10n = AppLocalizations.of(context);
     final formValid = _formKey.currentState!.validate();
     setState(() {
-      _clientError = _selectedClient == null ? 'Please select a client' : null;
-      _agentError = _selectedAgent == null ? 'Please select an agent' : null;
+      _clientError =
+          _selectedClient == null ? l10n.meetingsPleaseSelectClient : null;
+      _agentError =
+          _selectedAgent == null ? l10n.meetingsPleaseSelectAgent : null;
     });
     if (!formValid || _selectedClient == null || _selectedAgent == null) return;
     if (_scheduledAt == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Please select a date and time')));
+          SnackBar(content: Text(l10n.meetingsPleaseSelectDateTime)));
       return;
     }
 
@@ -591,6 +605,7 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final cs = Theme.of(context).colorScheme;
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final pickerBorder =
@@ -602,7 +617,9 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
 
     return Scaffold(
       appBar: AppBar(
-          title: Text(widget.isEditing ? 'Edit Meeting' : 'Schedule Meeting')),
+          title: Text(widget.isEditing
+              ? l10n.meetingsEditMeeting
+              : l10n.meetingsScheduleMeeting)),
       body: _initLoading
           ? const LoadingWidget()
           : SingleChildScrollView(
@@ -613,25 +630,25 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _FormSectionCard(
-                      title: 'Details',
+                      title: l10n.meetingsDetails,
                       icon: Icons.event_note_outlined,
                       children: [
                         TextFormField(
                           controller: _titleCtrl,
-                          decoration: const InputDecoration(
-                              labelText: 'Title *',
-                              prefixIcon: Icon(Icons.title, size: 20)),
+                          decoration: InputDecoration(
+                              labelText: l10n.meetingsTitleFieldLabel,
+                              prefixIcon: const Icon(Icons.title, size: 20)),
                           validator: (v) => v == null || v.isEmpty
-                              ? 'Title is required'
+                              ? l10n.meetingsTitleRequired
                               : null,
                         ),
                         const SizedBox(height: 14),
                         TextFormField(
                           controller: _locationCtrl,
-                          decoration: const InputDecoration(
-                              labelText: 'Location',
-                              prefixIcon:
-                                  Icon(Icons.location_on_outlined, size: 20)),
+                          decoration: InputDecoration(
+                              labelText: l10n.meetingsLocation,
+                              prefixIcon: const Icon(Icons.location_on_outlined,
+                                  size: 20)),
                         ),
                         const SizedBox(height: 14),
                         InkWell(
@@ -661,7 +678,7 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
                                   _scheduledAt != null
                                       ? DateFormat('MMM d, yyyy • h:mm a')
                                           .format(_scheduledAt!)
-                                      : 'Select date & time *',
+                                      : l10n.meetingsSelectDateTime,
                                   style: TextStyle(
                                       fontSize: 14,
                                       fontWeight: _scheduledAt != null
@@ -683,11 +700,11 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
                     ),
                     const SizedBox(height: 16),
                     _FormSectionCard(
-                      title: 'People & Deal',
+                      title: l10n.meetingsPeopleAndDeal,
                       icon: Icons.groups_outlined,
                       children: [
                         _EntityTile(
-                          label: 'Client',
+                          label: l10n.meetingsClient,
                           icon: Icons.person_outline,
                           selected: _selectedClient,
                           loading: _clientsLoading,
@@ -697,7 +714,7 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
                         ),
                         const SizedBox(height: 14),
                         _EntityTile(
-                          label: 'Agent',
+                          label: l10n.meetingsAgent,
                           icon: Icons.support_agent_outlined,
                           selected: _selectedAgent,
                           loading: _agentsLoading,
@@ -707,7 +724,7 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
                         ),
                         const SizedBox(height: 14),
                         _EntityTile(
-                          label: 'Deal',
+                          label: l10n.meetingsDeal,
                           icon: Icons.handshake_outlined,
                           selected: _selectedDeal,
                           loading: _dealsLoading,
@@ -720,15 +737,15 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
                     ),
                     const SizedBox(height: 16),
                     _FormSectionCard(
-                      title: 'Description',
+                      title: l10n.meetingsDescription,
                       icon: Icons.notes_outlined,
                       children: [
                         TextFormField(
                           controller: _descCtrl,
                           maxLines: 3,
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText: 'Meeting agenda, talking points…'),
+                              hintText: l10n.meetingsAgendaHint),
                         ),
                       ],
                     ),
@@ -746,8 +763,8 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
                               child: CircularProgressIndicator(
                                   color: Colors.white, strokeWidth: 2))
                           : Text(widget.isEditing
-                              ? 'Update Meeting'
-                              : 'Schedule Meeting'),
+                              ? l10n.meetingsUpdateMeeting
+                              : l10n.meetingsScheduleMeeting),
                     ),
                     const SizedBox(height: 10),
                     OutlinedButton(
@@ -756,7 +773,7 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
                           minimumSize: const Size(double.infinity, 54),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(14))),
-                      child: const Text('Cancel'),
+                      child: Text(l10n.meetingsCancel),
                     ),
                   ],
                 ),

@@ -1,30 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
+import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class DealStatusChip extends StatelessWidget {
   final DealStatus status;
   const DealStatusChip({super.key, required this.status});
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     Color color;
     String label;
     switch (status) {
       case DealStatus.LEAD:
         color = AppColors.lead;
-        label = 'Lead';
+        label = l10n.coreStatusLead;
         break;
       case DealStatus.NEGOTIATION:
         color = AppColors.negotiation;
-        label = 'Negotiation';
+        label = l10n.coreStatusNegotiation;
         break;
       case DealStatus.CLOSED_WON:
         color = AppColors.closedWon;
-        label = 'Won';
+        label = l10n.coreStatusWon;
         break;
       case DealStatus.CLOSED_LOST:
         color = AppColors.closedLost;
-        label = 'Lost';
+        label = l10n.coreStatusLost;
         break;
     }
     return _StatusChip(label: label, color: color);
@@ -36,20 +38,21 @@ class PropertyStatusChip extends StatelessWidget {
   const PropertyStatusChip({super.key, required this.status});
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     Color color;
     String label;
     switch (status) {
       case PropertyStatus.AVAILABLE:
         color = AppColors.available;
-        label = 'Available';
+        label = l10n.coreStatusAvailable;
         break;
       case PropertyStatus.RESERVED:
         color = AppColors.reserved;
-        label = 'Reserved';
+        label = l10n.coreStatusReserved;
         break;
       case PropertyStatus.SOLD:
         color = AppColors.sold;
-        label = 'Sold';
+        label = l10n.coreStatusSold;
         break;
     }
     return _StatusChip(label: label, color: color);
@@ -60,10 +63,15 @@ class ClientTypeChip extends StatelessWidget {
   final ClientType type;
   const ClientTypeChip({super.key, required this.type});
   @override
-  Widget build(BuildContext context) => _StatusChip(
-        label: type == ClientType.BUYER ? 'Buyer' : 'Seller',
-        color: type == ClientType.BUYER ? AppColors.info : AppColors.accent,
-      );
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return _StatusChip(
+      label: type == ClientType.BUYER
+          ? l10n.coreClientTypeBuyer
+          : l10n.coreClientTypeSeller,
+      color: type == ClientType.BUYER ? AppColors.info : AppColors.accent,
+    );
+  }
 }
 
 class _StatusChip extends StatelessWidget {

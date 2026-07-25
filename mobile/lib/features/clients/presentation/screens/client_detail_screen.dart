@@ -9,6 +9,7 @@ import 'package:real_estate_crm/core/theme/app_theme.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_bloc.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_event.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/l10n/app_localizations.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ClientDetailScreen extends StatefulWidget {
@@ -49,8 +50,10 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
   }
 
   Future<void> _delete() async {
+    final l10n = AppLocalizations.of(context);
     final ok = await showConfirmDialog(context,
-        title: 'Delete Client', content: 'Delete "${_client!.fullName}"?');
+        title: l10n.clientsDeleteClient,
+        content: l10n.clientsDeleteConfirm(_client!.fullName));
     if (!ok) return;
     // ignore: use_build_context_synchronously
     context.read<ClientsBloc>().add(ClientsDeleteEvent(widget.id));
@@ -59,18 +62,20 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
 
   void _copyId() {
     Clipboard.setData(ClipboardData(text: _client!.id.toString()));
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text('Client ID copied'), duration: Duration(seconds: 1)));
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(AppLocalizations.of(context).clientsClientIdCopied),
+        duration: const Duration(seconds: 1)));
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final cs = Theme.of(context).colorScheme;
     final tt = Theme.of(context).textTheme;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(_client?.fullName ?? 'Client'),
+        title: Text(_client?.fullName ?? l10n.clientsClientFallback),
         actions: _client == null
             ? []
             : [
@@ -86,8 +91,9 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
       body: _loading
           ? const _ClientDetailSkeleton()
           : _client == null
-              ? const EmptyState(
-                  title: 'Client not found', icon: Icons.person_off_outlined)
+              ? EmptyState(
+                  title: l10n.clientsClientNotFound,
+                  icon: Icons.person_off_outlined)
               : SingleChildScrollView(
                   padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
                   child: Column(
@@ -136,7 +142,7 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
                                     ClientTypeChip(type: _client!.type),
                                     const SizedBox(width: 8),
                                     _IdBadge(
-                                        label: 'ID ${_client!.id}',
+                                        label: l10n.clientsIdBadge(_client!.id),
                                         color: AppColors.success,
                                         onTap: _copyId),
                                   ]),
@@ -147,17 +153,17 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
                         // ── Contact card ──
                         const SizedBox(height: 14),
                         _InfoCard(
-                            title: 'Contact',
+                            title: l10n.clientsContact,
                             icon: Icons.badge_outlined,
                             rows: [
                               if (_client!.email != null)
-                                _InfoRow(Icons.email_outlined, 'Email',
+                                _InfoRow(Icons.email_outlined, l10n.clientsEmail,
                                     _client!.email!),
                               if (_client!.phone != null)
-                                _InfoRow(Icons.phone_outlined, 'Phone',
+                                _InfoRow(Icons.phone_outlined, l10n.clientsPhone,
                                     _client!.phone!),
                               if (_client!.agentName != null)
-                                _InfoRow(Icons.person_outlined, 'Agent',
+                                _InfoRow(Icons.person_outlined, l10n.clientsAgent,
                                     _client!.agentName!),
                             ]),
 
@@ -174,7 +180,7 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
                                   const SizedBox(width: 8),
                                   Expanded(
                                     child: Text(
-                                      'Deals',
+                                      l10n.clientsDeals,
                                       style: TextStyle(
                                           fontSize: 13,
                                           fontWeight: FontWeight.w700,
@@ -212,7 +218,7 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
                             _client!.notes!.isNotEmpty) ...[
                           const SizedBox(height: 14),
                           _InfoCard(
-                              title: 'Notes',
+                              title: l10n.clientsNotes,
                               icon: Icons.notes_outlined,
                               rows: [
                                 Text(_client!.notes!,
@@ -226,13 +232,13 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
                         if (_client!.createdAt != null) ...[
                           const SizedBox(height: 14),
                           _InfoCard(
-                              title: 'Timestamps',
+                              title: l10n.clientsTimestamps,
                               icon: Icons.access_time,
                               rows: [
-                                _InfoRow(Icons.access_time, 'Created',
+                                _InfoRow(Icons.access_time, l10n.clientsCreated,
                                     formatDateTime(_client!.createdAt!)),
                                 if (_client!.updatedAt != null)
-                                  _InfoRow(Icons.update, 'Updated',
+                                  _InfoRow(Icons.update, l10n.clientsUpdated,
                                       formatDateTime(_client!.updatedAt!)),
                               ]),
                         ],

@@ -6,6 +6,7 @@ import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_bloc.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_event.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 // ─────────────────────────────────────────────────────────────
 // Generic picker helpers
@@ -79,6 +80,7 @@ class _PickerSheetState extends State<_PickerSheet> {
     final cs = Theme.of(context).colorScheme;
     final tt = Theme.of(context).textTheme;
     final mq = MediaQuery.of(context);
+    final l10n = AppLocalizations.of(context);
 
     return DraggableScrollableSheet(
       initialChildSize: 0.75,
@@ -104,7 +106,7 @@ class _PickerSheetState extends State<_PickerSheet> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Row(children: [
-                Text('Select ${widget.label}',
+                Text(l10n.dealsSelectLabel(widget.label),
                     style:
                         tt.titleMedium?.copyWith(fontWeight: FontWeight.w700)),
                 const Spacer(),
@@ -119,7 +121,7 @@ class _PickerSheetState extends State<_PickerSheet> {
                 controller: _searchCtrl,
                 autofocus: true,
                 decoration: InputDecoration(
-                  hintText: 'Search by name or ID…',
+                  hintText: l10n.dealsSearchHint,
                   prefixIcon: const Icon(Icons.search, size: 20),
                   suffixIcon: _searchCtrl.text.isNotEmpty
                       ? IconButton(
@@ -135,7 +137,7 @@ class _PickerSheetState extends State<_PickerSheet> {
             Expanded(
               child: _filtered.isEmpty
                   ? Center(
-                      child: Text('No results',
+                      child: Text(l10n.dealsNoResults,
                           style: tt.bodyMedium?.copyWith(color: cs.outline)))
                   : ListView.builder(
                       controller: scrollCtrl,
@@ -214,6 +216,7 @@ class _EntityTile extends StatelessWidget {
     final cs = Theme.of(context).colorScheme;
     final tt = Theme.of(context).textTheme;
     final hasError = error != null;
+    final l10n = AppLocalizations.of(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -254,7 +257,7 @@ class _EntityTile extends StatelessWidget {
                         child: CircularProgressIndicator(
                             strokeWidth: 2, color: cs.outline)),
                     const SizedBox(width: 12),
-                    Text('Loading…',
+                    Text(l10n.dealsLoading,
                         style: TextStyle(color: cs.outline, fontSize: 14)),
                   ])
                 : Row(children: [
@@ -266,7 +269,7 @@ class _EntityTile extends StatelessWidget {
                     const SizedBox(width: 12),
                     Expanded(
                       child: selected == null
-                          ? Text('Tap to select $label',
+                          ? Text(l10n.dealsTapToSelect(label),
                               style: TextStyle(color: cs.outline, fontSize: 14))
                           : Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -551,7 +554,9 @@ class _DealFormScreenState extends State<DealFormScreen> {
 
   Future<void> _pickClient() async {
     final r = await _showPicker(context,
-        label: 'Client', items: _clients, selectedId: _selectedClient?.id);
+        label: AppLocalizations.of(context).dealsClient,
+        items: _clients,
+        selectedId: _selectedClient?.id);
     if (r != null) {
       setState(() {
         _selectedClient = r;
@@ -562,7 +567,9 @@ class _DealFormScreenState extends State<DealFormScreen> {
 
   Future<void> _pickAgent() async {
     final r = await _showPicker(context,
-        label: 'Agent', items: _agents, selectedId: _selectedAgent?.id);
+        label: AppLocalizations.of(context).dealsAgent,
+        items: _agents,
+        selectedId: _selectedAgent?.id);
     if (r != null) {
       setState(() {
         _selectedAgent = r;
@@ -573,17 +580,19 @@ class _DealFormScreenState extends State<DealFormScreen> {
 
   Future<void> _pickProperty() async {
     final r = await _showPicker(context,
-        label: 'Property',
+        label: AppLocalizations.of(context).dealsProperty,
         items: _properties,
         selectedId: _selectedProperty?.id);
     if (r != null) setState(() => _selectedProperty = r);
   }
 
   void _submit() {
+    final l10n = AppLocalizations.of(context);
     final formValid = _formKey.currentState!.validate();
     setState(() {
-      _clientError = _selectedClient == null ? 'Please select a client' : null;
-      _agentError = _selectedAgent == null ? 'Please select an agent' : null;
+      _clientError =
+          _selectedClient == null ? l10n.dealsSelectClientError : null;
+      _agentError = _selectedAgent == null ? l10n.dealsSelectAgentError : null;
     });
     if (!formValid || _selectedClient == null || _selectedAgent == null) return;
 
@@ -611,8 +620,10 @@ class _DealFormScreenState extends State<DealFormScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text(widget.isEditing ? 'Edit Deal' : 'New Deal')),
+      appBar: AppBar(
+          title: Text(widget.isEditing ? l10n.dealsEditTitle : l10n.dealsNewTitle)),
       body: _initLoading
           ? const LoadingWidget()
           : SingleChildScrollView(
@@ -623,27 +634,27 @@ class _DealFormScreenState extends State<DealFormScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _FormSectionCard(
-                      title: 'Details',
+                      title: l10n.dealsDetails,
                       icon: Icons.description_outlined,
                       children: [
                         TextFormField(
                           controller: _titleCtrl,
-                          decoration: const InputDecoration(
-                              labelText: 'Title *',
-                              prefixIcon: Icon(Icons.title, size: 20)),
+                          decoration: InputDecoration(
+                              labelText: l10n.dealsTitleLabel,
+                              prefixIcon: const Icon(Icons.title, size: 20)),
                           validator: (v) => v == null || v.isEmpty
-                              ? 'Title is required'
+                              ? l10n.dealsTitleRequired
                               : null,
                         ),
                       ],
                     ),
                     const SizedBox(height: 16),
                     _FormSectionCard(
-                      title: 'People & Property',
+                      title: l10n.dealsPeopleProperty,
                       icon: Icons.groups_outlined,
                       children: [
                         _EntityTile(
-                          label: 'Client',
+                          label: l10n.dealsClient,
                           icon: Icons.person_outline,
                           selected: _selectedClient,
                           loading: _clientsLoading,
@@ -653,7 +664,7 @@ class _DealFormScreenState extends State<DealFormScreen> {
                         ),
                         const SizedBox(height: 14),
                         _EntityTile(
-                          label: 'Agent',
+                          label: l10n.dealsAgent,
                           icon: Icons.support_agent_outlined,
                           selected: _selectedAgent,
                           loading: _agentsLoading,
@@ -663,7 +674,7 @@ class _DealFormScreenState extends State<DealFormScreen> {
                         ),
                         const SizedBox(height: 14),
                         _EntityTile(
-                          label: 'Property',
+                          label: l10n.dealsProperty,
                           icon: Icons.home_outlined,
                           selected: _selectedProperty,
                           loading: _propertiesLoading,
@@ -676,7 +687,7 @@ class _DealFormScreenState extends State<DealFormScreen> {
                     ),
                     const SizedBox(height: 16),
                     _FormSectionCard(
-                      title: 'Financials',
+                      title: l10n.dealsFinancials,
                       icon: Icons.payments_outlined,
                       children: [
                         Row(children: [
@@ -684,10 +695,10 @@ class _DealFormScreenState extends State<DealFormScreen> {
                             child: TextFormField(
                               controller: _priceCtrl,
                               keyboardType: TextInputType.number,
-                              decoration: const InputDecoration(
-                                  labelText: 'Deal Price',
-                                  prefixIcon:
-                                      Icon(Icons.attach_money, size: 20)),
+                              decoration: InputDecoration(
+                                  labelText: l10n.dealsDealPrice,
+                                  prefixIcon: const Icon(Icons.attach_money,
+                                      size: 20)),
                             ),
                           ),
                           const SizedBox(width: 12),
@@ -695,9 +706,9 @@ class _DealFormScreenState extends State<DealFormScreen> {
                             child: TextFormField(
                               controller: _budgetCtrl,
                               keyboardType: TextInputType.number,
-                              decoration: const InputDecoration(
-                                  labelText: 'Budget',
-                                  prefixIcon: Icon(
+                              decoration: InputDecoration(
+                                  labelText: l10n.dealsBudget,
+                                  prefixIcon: const Icon(
                                       Icons.account_balance_wallet_outlined,
                                       size: 20)),
                             ),
@@ -707,7 +718,7 @@ class _DealFormScreenState extends State<DealFormScreen> {
                     ),
                     const SizedBox(height: 16),
                     _FormSectionCard(
-                      title: 'Status & Notes',
+                      title: l10n.dealsStatusNotes,
                       icon: Icons.flag_outlined,
                       children: [
                         Wrap(
@@ -715,7 +726,15 @@ class _DealFormScreenState extends State<DealFormScreen> {
                           runSpacing: 8,
                           children: DealStatus.values
                               .map((s) => _PillChip(
-                                    label: s.name,
+                                    label: switch (s) {
+                                      DealStatus.LEAD => l10n.dealsStatusLead,
+                                      DealStatus.NEGOTIATION =>
+                                        l10n.dealsStatusNegotiation,
+                                      DealStatus.CLOSED_WON =>
+                                        l10n.dealsStatusClosedWon,
+                                      DealStatus.CLOSED_LOST =>
+                                        l10n.dealsStatusClosedLost,
+                                    },
                                     selected: _status == s,
                                     onTap: () => setState(() => _status = s),
                                   ))
@@ -725,9 +744,9 @@ class _DealFormScreenState extends State<DealFormScreen> {
                         TextFormField(
                           controller: _notesCtrl,
                           maxLines: 3,
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                               border: InputBorder.none,
-                              hintText: 'Notes about this deal…'),
+                              hintText: l10n.dealsNotesHint),
                         ),
                       ],
                     ),
@@ -744,8 +763,9 @@ class _DealFormScreenState extends State<DealFormScreen> {
                               width: 20,
                               child: CircularProgressIndicator(
                                   color: Colors.white, strokeWidth: 2))
-                          : Text(
-                              widget.isEditing ? 'Update Deal' : 'Create Deal'),
+                          : Text(widget.isEditing
+                              ? l10n.dealsUpdateDeal
+                              : l10n.dealsCreateDeal),
                     ),
                     const SizedBox(height: 10),
                     OutlinedButton(
@@ -754,7 +774,7 @@ class _DealFormScreenState extends State<DealFormScreen> {
                           minimumSize: const Size(double.infinity, 54),
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(14))),
-                      child: const Text('Cancel'),
+                      child: Text(l10n.dealsCancel),
                     ),
                   ],
                 ),
