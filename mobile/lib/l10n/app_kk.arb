@@ -1,0 +1,509 @@
+{
+  "@@locale": "kk",
+  "appTitle": "Estate CRM",
+  "@appTitle": {
+    "description": "The application title"
+  },
+  "adminActivate": "Белсендіру",
+  "adminAssignTeam": "Команда тағайындау",
+  "adminAssignToTeam": "Командаға тағайындау",
+  "adminChangeRole": "Рөлді өзгерту",
+  "adminConsoleTitle": "Әкімшілік",
+  "adminCopyCode": "Кодты көшіру",
+  "adminCouldNotLoadStats": "Статистиканы жүктеу мүмкін болмады",
+  "adminCreateInvite": "Шақыру жасау",
+  "adminDataScope": "Деректер аясы",
+  "adminDeactivate": "Өшіру",
+  "adminDone": "Дайын",
+  "adminEmail": "Электрондық пошта",
+  "adminEnterValidEmail": "Жарамды email енгізіңіз",
+  "adminFullName": "Толық аты-жөні",
+  "adminInactive": "БЕЛСЕНДІ ЕМЕС",
+  "adminInvite": "Шақыру",
+  "adminInviteCodeCopied": "Шақыру коды көшірілді",
+  "adminInviteCreated": "Шақыру жасалды",
+  "adminInviteInstructions": "Олар қосымшаны ашып, кіру экранындағы «Шақыруыңыз бар ма?» түймесін басып, осы кодты қойып, өз құпия сөзін таңдайды.",
+  "adminInviteUser": "Пайдаланушыны шақыру",
+  "adminInvitedAs": "{name} ({email}) {role} ретінде шақырылды.",
+  "@adminInvitedAs": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "email": {
+        "type": "String"
+      },
+      "role": {
+        "type": "String"
+      }
+    }
+  },
+  "adminNewTeam": "Жаңа команда",
+  "adminNoAuditEntries": "Аудит жазбалары жоқ",
+  "adminNoInviteToken": "Шақыру токені қайтарылмады. Бұл шешілмейінше пайдаланушы құпия сөз орната алмайды.",
+  "adminNoTeams": "Командалар жоқ",
+  "adminNoTeamsYet": "Әзірге командалар жоқ",
+  "adminNoUsers": "Пайдаланушылар жоқ",
+  "adminPhoneOptional": "Телефон (міндетті емес)",
+  "adminRequired": "Міндетті",
+  "adminResendInvite": "Шақыруды қайта жіберу",
+  "adminRole": "Рөл",
+  "adminShareInviteCode": "Осы шақыру кодын олармен бөлісіңіз:",
+  "adminStatActive": "Белсенді",
+  "adminStatClients": "Клиенттер",
+  "adminStatClosed": "Жабылған",
+  "adminStatDeals": "Мәмілелер",
+  "adminStatUpcoming": "Алдағы",
+  "adminTabAudit": "Аудит",
+  "adminTabTeams": "Командалар",
+  "adminTabUsers": "Пайдаланушылар",
+  "adminViewStats": "Статистиканы қарау",
+  "authAcceptInviteSubtitle": "Сізге берілген шақыру кодын енгізіп, құпия сөз таңдаңыз.",
+  "authAcceptYourInvite": "Шақыруыңызды қабылдаңыз",
+  "authBackToSignIn": "Кіруге оралу",
+  "authConfirmPassword": "Құпия сөзді растаңыз",
+  "authEmail": "Электрондық пошта",
+  "authEmailInvalid": "Жарамды электрондық пошта енгізіңіз",
+  "authEmailRequired": "Электрондық поштаны енгізіңіз",
+  "authHaveAnInvite": "Шақыруыңыз бар ма?",
+  "authInviteCode": "Шақыру коды",
+  "authInviteCodeRequired": "Шақыру кодын енгізіңіз",
+  "authNewPassword": "Жаңа құпия сөз",
+  "authPassword": "Құпия сөз",
+  "authPasswordMinLength": "Кемінде 6 таңба",
+  "authPasswordRequired": "Құпия сөзді енгізіңіз",
+  "authPasswordsDoNotMatch": "Құпия сөздер сәйкес келмейді",
+  "authSetPasswordContinue": "Құпия сөзді орнатып, жалғастыру",
+  "authSignIn": "Кіру",
+  "authSignInSubtitle": "Нысандарыңызды басқару үшін кіріңіз",
+  "authWelcomeBack": "Қайта оралуыңызбен!",
+  "clientsAddClient": "Клиент қосу",
+  "clientsAddFirstClient": "Алғашқы клиентіңізді қосыңыз",
+  "clientsAgent": "Агент",
+  "clientsBuyer": "🏠 Сатып алушы",
+  "clientsCancel": "Бас тарту",
+  "clientsClientCreatedId": "Клиент құрылды (ID: {id})",
+  "@clientsClientCreatedId": {
+    "placeholders": {
+      "id": {
+        "type": "int"
+      }
+    }
+  },
+  "clientsClientFallback": "Клиент",
+  "clientsClientIdCopied": "Клиент ID көшірілді",
+  "clientsClientNotFound": "Клиент табылмады",
+  "clientsClientType": "Клиент түрі",
+  "clientsContact": "Байланыс",
+  "clientsContactInfo": "Байланыс ақпараты",
+  "clientsCreateClient": "Клиент құру",
+  "clientsCreated": "Құрылды",
+  "clientsDealCount": "{count, plural, =1{1 мәміле} other{{count} мәміле}}",
+  "@clientsDealCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "clientsDeals": "Мәмілелер",
+  "clientsDelete": "Жою",
+  "clientsDeleteClient": "Клиентті жою",
+  "clientsDeleteConfirm": "«{name}» жойылсын ба?",
+  "@clientsDeleteConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "clientsEdit": "Өңдеу",
+  "clientsEditClient": "Клиентті өңдеу",
+  "clientsEmail": "Электрондық пошта",
+  "clientsFullNameLabel": "Толық аты *",
+  "clientsIdBadge": "ID {id}",
+  "@clientsIdBadge": {
+    "placeholders": {
+      "id": {
+        "type": "int"
+      }
+    }
+  },
+  "clientsInvalidEmail": "Қате email",
+  "clientsNameRequired": "Атын енгізіңіз",
+  "clientsNewClient": "Жаңа клиент",
+  "clientsNoClientsFound": "Клиенттер табылмады",
+  "clientsNotes": "Ескертпелер",
+  "clientsNotesHint": "Осы клиент туралы қосымша ескертпелер…",
+  "clientsPhone": "Телефон",
+  "clientsSearchHint": "Клиенттерді іздеу...",
+  "clientsSeller": "💰 Сатушы",
+  "clientsTimestamps": "Уақыт белгілері",
+  "clientsTitle": "Клиенттер",
+  "clientsTryDifferentSearch": "Басқа сұранысты байқап көріңіз",
+  "clientsUpdateClient": "Клиентті жаңарту",
+  "clientsUpdated": "Жаңартылды",
+  "coreCancel": "Бас тарту",
+  "coreClientTypeBuyer": "Сатып алушы",
+  "coreClientTypeSeller": "Сатушы",
+  "coreDelete": "Жою",
+  "coreLogout": "Шығу",
+  "coreNavAdmin": "Әкімшілік",
+  "coreNavClients": "Клиенттер",
+  "coreNavDashboard": "Басқару тақтасы",
+  "coreNavDeals": "Мәмілелер",
+  "coreNavMeetings": "Кездесулер",
+  "coreNavProperties": "Нысандар",
+  "coreNavTeam": "Команда",
+  "coreRetry": "Қайталау",
+  "coreStatusAvailable": "Қолжетімді",
+  "coreStatusLead": "Лид",
+  "coreStatusLost": "Жоғалтылды",
+  "coreStatusNegotiation": "Келіссөздер",
+  "coreStatusReserved": "Брондалған",
+  "coreStatusSold": "Сатылды",
+  "coreStatusWon": "Жеңіске жетті",
+  "dashboardActiveDeals": "{count} белсенді",
+  "@dashboardActiveDeals": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dashboardAddClient": "Клиент қосу",
+  "dashboardAddProperty": "Нысан қосу",
+  "dashboardClients": "Клиенттер",
+  "dashboardClosedWon": "Сәтті жабылды",
+  "dashboardGreeting": "{greeting}, {name} ✨",
+  "@dashboardGreeting": {
+    "placeholders": {
+      "greeting": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "dashboardGreetingAfternoon": "Қайырлы күн",
+  "dashboardGreetingEvening": "Қайырлы кеш",
+  "dashboardGreetingFallbackName": "досым",
+  "dashboardGreetingMorning": "Қайырлы таң",
+  "dashboardGreetingStillUp": "Әлі оянсыз ба",
+  "dashboardMeetingsSubtitle": "кездесулер",
+  "dashboardNewDeal": "Жаңа мәміле",
+  "dashboardNoUpcomingMeetings": "Алдағы кездесулер жоқ",
+  "dashboardOverviewSubtitle": "Бүгінгі шолуыңыз",
+  "dashboardOverviewTitle": "Шолу",
+  "dashboardQuickActions": "Жылдам әрекеттер",
+  "dashboardScheduleMeeting": "Кездесу жоспарлау",
+  "dashboardSeeAll": "Барлығы",
+  "dashboardTotalDeals": "Барлық мәмілелер",
+  "dashboardUpcoming": "Алдағы",
+  "dashboardUpcomingMeetings": "Алдағы кездесулер",
+  "dealsAddDeal": "Мәміле қосу",
+  "dealsAgent": "Агент",
+  "dealsAgentValue": "Агент: {name}",
+  "@dealsAgentValue": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "dealsBudget": "Бюджет",
+  "dealsBudgetValue": "Бюджет: {price}",
+  "@dealsBudgetValue": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "dealsCancel": "Бас тарту",
+  "dealsClient": "Клиент",
+  "dealsClosed": "Жабылды",
+  "dealsCreateDeal": "Мәміле құру",
+  "dealsCreated": "Құрылды",
+  "dealsDealPrice": "Мәміле бағасы",
+  "dealsDeleteConfirm": "«{title}» жойылсын ба?",
+  "@dealsDeleteConfirm": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "dealsDeleteTitle": "Мәмілені жою",
+  "dealsDetails": "Мәліметтер",
+  "dealsEditTitle": "Мәмілені өңдеу",
+  "dealsEmptySubtitle": "Сату воронкасын бастаңыз",
+  "dealsEmptyTitle": "Мәмілелер жоқ",
+  "dealsFallbackTitle": "Мәміле",
+  "dealsFilterAll": "Барлығы",
+  "dealsFinancials": "Қаржы",
+  "dealsIdCopied": "Мәміле ID көшірілді",
+  "dealsIdLabel": "Мәміле ID: {id}",
+  "@dealsIdLabel": {
+    "placeholders": {
+      "id": {
+        "type": "int"
+      }
+    }
+  },
+  "dealsLoading": "Жүктелуде…",
+  "dealsNewTitle": "Жаңа мәміле",
+  "dealsNoResults": "Нәтиже жоқ",
+  "dealsNotFound": "Мәміле табылмады",
+  "dealsNotes": "Ескертпелер",
+  "dealsNotesHint": "Осы мәміле туралы ескертпелер…",
+  "dealsPeopleProperty": "Адамдар және нысан",
+  "dealsPipelineStage": "Воронка кезеңі",
+  "dealsProperty": "Нысан",
+  "dealsSearchHint": "Аты немесе ID бойынша іздеу…",
+  "dealsSelectAgentError": "Агентті таңдаңыз",
+  "dealsSelectClientError": "Клиентті таңдаңыз",
+  "dealsSelectLabel": "{label} таңдаңыз",
+  "@dealsSelectLabel": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "dealsStatusClosedLost": "Сәтсіз жабылды",
+  "dealsStatusClosedWon": "Сәтті жабылды",
+  "dealsStatusLead": "Лид",
+  "dealsStatusNegotiation": "Келіссөздер",
+  "dealsStatusNotes": "Мәртебе және ескертпелер",
+  "dealsTapToSelect": "{label} таңдау үшін басыңыз",
+  "@dealsTapToSelect": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "dealsTitle": "Мәмілелер",
+  "dealsTitleLabel": "Атауы *",
+  "dealsTitleRequired": "Атауы міндетті",
+  "dealsUpdateDeal": "Мәмілені жаңарту",
+  "meetingsAgendaHint": "Кездесу күн тәртібі, талқылау тақырыптары…",
+  "meetingsAgent": "Агент",
+  "meetingsAgentNumber": "Агент №{id}",
+  "@meetingsAgentNumber": {
+    "placeholders": {
+      "id": {
+        "type": "int"
+      }
+    }
+  },
+  "meetingsCancel": "Бас тарту",
+  "meetingsClient": "Клиент",
+  "meetingsClientNumber": "Клиент №{id}",
+  "@meetingsClientNumber": {
+    "placeholders": {
+      "id": {
+        "type": "int"
+      }
+    }
+  },
+  "meetingsCompleted": "Аяқталды",
+  "meetingsDeal": "Мәміле",
+  "meetingsDealNumber": "Мәміле №{id}",
+  "@meetingsDealNumber": {
+    "placeholders": {
+      "id": {
+        "type": "int"
+      }
+    }
+  },
+  "meetingsDelete": "Жою",
+  "meetingsDeleteConfirm": "Бұл кездесуді жою керек пе?",
+  "meetingsDeleteMeeting": "Кездесуді жою",
+  "meetingsDescription": "Сипаттама",
+  "meetingsDetails": "Мәліметтер",
+  "meetingsEdit": "Өңдеу",
+  "meetingsEditMeeting": "Кездесуді өңдеу",
+  "meetingsLoading": "Жүктелуде…",
+  "meetingsLocation": "Орны",
+  "meetingsMarkComplete": "Аяқталды деп белгілеу",
+  "meetingsNoMeetings": "Кездесулер жоқ",
+  "meetingsNoResults": "Нәтиже жоқ",
+  "meetingsPeopleAndDeal": "Қатысушылар және мәміле",
+  "meetingsPleaseSelectAgent": "Агентті таңдаңыз",
+  "meetingsPleaseSelectClient": "Клиентті таңдаңыз",
+  "meetingsPleaseSelectDateTime": "Күн мен уақытты таңдаңыз",
+  "meetingsSchedule": "Жоспарлау",
+  "meetingsScheduleFirst": "Алғашқы кездесуіңізді жоспарлаңыз",
+  "meetingsScheduleMeeting": "Кездесуді жоспарлау",
+  "meetingsSearchByNameOrId": "Аты немесе ID бойынша іздеу…",
+  "meetingsSelectDateTime": "Күн мен уақытты таңдаңыз *",
+  "meetingsSelectEntity": "{label} таңдаңыз",
+  "@meetingsSelectEntity": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "meetingsTapToSelect": "{label} таңдау үшін басыңыз",
+  "@meetingsTapToSelect": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "meetingsTitle": "Кездесулер",
+  "meetingsTitleFieldLabel": "Атауы *",
+  "meetingsTitleRequired": "Атауы міндетті",
+  "meetingsUpdateMeeting": "Кездесуді жаңарту",
+  "profileAbout": "Қолданба туралы",
+  "profileAccount": "Аккаунт",
+  "profileAgentId": "Агент ID",
+  "profileAgentIdCopied": "Агент ID көшірілді",
+  "profileBuiltForTeams": "Жылжымайтын мүлік командаларына арналған",
+  "profileCancel": "Бас тарту",
+  "profileDarkMode": "Қараңғы режим",
+  "profileEditName": "Атын өзгерту",
+  "profileEmail": "Электрондық пошта",
+  "profileEstateCrm": "Estate CRM",
+  "profileFullName": "Толық аты",
+  "profileLanguage": "Тіл",
+  "profileNameUpdated": "Аты жергілікті жаңартылды",
+  "profilePreferences": "Баптаулар",
+  "profileRole": "Рөлі",
+  "profileSave": "Сақтау",
+  "profileSignOut": "Шығу",
+  "profileSignOutConfirm": "Шынымен шығып кеткіңіз келе ме?",
+  "profileSystemDefault": "Жүйелік",
+  "profileTitle": "Профиль",
+  "profileVersion": "Нұсқа",
+  "propertiesAdd": "Қосу",
+  "propertiesAddFirstListing": "Алғашқы нысаныңызды қосыңыз",
+  "propertiesAddressLabel": "Мекенжайы *",
+  "propertiesAgent": "Агент",
+  "propertiesAll": "Барлығы",
+  "propertiesApply": "Қолдану",
+  "propertiesArea": "Ауданы",
+  "propertiesAreaLabel": "Ауданы м²",
+  "propertiesAreaValue": "{area} м²",
+  "@propertiesAreaValue": {
+    "placeholders": {
+      "area": {
+        "type": "String"
+      }
+    }
+  },
+  "propertiesBasicInfo": "Негізгі ақпарат",
+  "propertiesCancel": "Болдырмау",
+  "propertiesCityLabel": "Қала",
+  "propertiesCreateProperty": "Нысанды құру",
+  "propertiesDelete": "Жою",
+  "propertiesDeleteConfirm": "«{title}» жойылсын ба?",
+  "@propertiesDeleteConfirm": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "propertiesDeleteProperty": "Нысанды жою",
+  "propertiesDescribeHint": "Нысанды сипаттаңыз…",
+  "propertiesDescription": "Сипаттама",
+  "propertiesDetails": "Мәліметтер",
+  "propertiesEdit": "Өңдеу",
+  "propertiesEditProperty": "Нысанды өңдеу",
+  "propertiesFieldRequired": "{label} міндетті",
+  "@propertiesFieldRequired": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "propertiesFilters": "Сүзгілер",
+  "propertiesFloor": "Қабат",
+  "propertiesLocation": "Орналасуы",
+  "propertiesNewProperty": "Жаңа нысан",
+  "propertiesNoProperties": "Нысандар жоқ",
+  "propertiesPriceLabel": "Бағасы *",
+  "propertiesProperty": "Нысан",
+  "propertiesPropertyCreated": "Нысан құрылды (ID: {id})",
+  "@propertiesPropertyCreated": {
+    "placeholders": {
+      "id": {
+        "type": "int"
+      }
+    }
+  },
+  "propertiesPropertyIdCopied": "Нысан ID көшірілді",
+  "propertiesPropertyIdLabel": "Нысан ID: {id}",
+  "@propertiesPropertyIdLabel": {
+    "placeholders": {
+      "id": {
+        "type": "int"
+      }
+    }
+  },
+  "propertiesPropertyNotFound": "Нысан табылмады",
+  "propertiesRooms": "Бөлмелер",
+  "propertiesRoomsCount": "{rooms} бөлме",
+  "@propertiesRoomsCount": {
+    "placeholders": {
+      "rooms": {
+        "type": "int"
+      }
+    }
+  },
+  "propertiesSearchHint": "Іздеу...",
+  "propertiesStatus": "Мәртебесі",
+  "propertiesTitle": "Нысандар",
+  "propertiesTitleLabel": "Атауы *",
+  "propertiesTotalFloors": "Барлық қабаттар",
+  "propertiesType": "Түрі",
+  "propertiesTypeAndStatus": "Түрі мен мәртебесі",
+  "propertiesUpdateProperty": "Нысанды жаңарту",
+  "propertiesUpdateStatus": "Мәртебені жаңарту",
+  "teamsActive": "Белсенді",
+  "teamsAgents": "Агенттер",
+  "teamsClients": "Клиенттер",
+  "teamsCouldNotLoadStats": "Статистиканы жүктеу мүмкін болмады",
+  "teamsCreate": "Құру",
+  "teamsCreateTeam": "Команда құру",
+  "teamsDeals": "Мәмілелер",
+  "teamsEditTeam": "Команданы өңдеу",
+  "teamsEmail": "Электрондық пошта",
+  "teamsEnterValidEmail": "Жарамды email енгізіңіз",
+  "teamsFullName": "Толық аты-жөні",
+  "teamsInviteAgent": "Агент шақыру",
+  "teamsManagerLabel": "Менеджер: {name}",
+  "@teamsManagerLabel": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "teamsManagerOptional": "Менеджер (міндетті емес)",
+  "teamsMemberCount": "{count, plural, other{{count} мүше}}",
+  "@teamsMemberCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "teamsMyTeam": "Менің командам",
+  "teamsNoManager": "Менеджерсіз",
+  "teamsNoTeamSubtitle": "Сіз команданы басқармайсыз",
+  "teamsNoTeamYet": "Әзірге команда жоқ",
+  "teamsPhoneOptional": "Телефон (міндетті емес)",
+  "teamsRequired": "Міндетті",
+  "teamsSave": "Сақтау",
+  "teamsSendInvite": "Шақыру жіберу",
+  "teamsTeamName": "Команда атауы",
+  "teamsUpcoming": "Алдағы"
+}

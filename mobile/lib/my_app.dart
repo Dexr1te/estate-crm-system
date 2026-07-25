@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:real_estate_crm/l10n/app_localizations.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
+import 'package:real_estate_crm/core/locale/bloc/locale_bloc.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
 import 'package:real_estate_crm/core/theme/bloc/theme_bloc.dart';
 import 'package:real_estate_crm/core/utils/router.dart';
@@ -22,6 +24,7 @@ class _MyAppState extends State<MyApp> {
   // Create once — never recreated on rebuild
   late final AuthBloc _authBloc;
   late final ThemeBloc _themeBloc;
+  late final LocaleBloc _localeBloc;
   late final DashboardBloc _dashboardBloc;
   late final ClientsBloc _clientsBloc;
   late final PropertiesBloc _propertiesBloc;
@@ -35,6 +38,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     _authBloc = AuthBloc(Injector.authRepository)..add(AuthCheckEvent());
     _themeBloc = ThemeBloc()..add(ThemeLoadEvent());
+    _localeBloc = LocaleBloc()..add(LocaleLoadEvent());
     _dashboardBloc =
         DashboardBloc(Injector.dashboardRepository, Injector.meetingsRepository);
     _clientsBloc = ClientsBloc(Injector.clientsRepository);
@@ -48,6 +52,7 @@ class _MyAppState extends State<MyApp> {
   void dispose() {
     _authBloc.close();
     _themeBloc.close();
+    _localeBloc.close();
     _dashboardBloc.close();
     _clientsBloc.close();
     _propertiesBloc.close();
@@ -62,6 +67,7 @@ class _MyAppState extends State<MyApp> {
       providers: [
         BlocProvider.value(value: _authBloc),
         BlocProvider.value(value: _themeBloc),
+        BlocProvider.value(value: _localeBloc),
         BlocProvider.value(value: _dashboardBloc),
         BlocProvider.value(value: _clientsBloc),
         BlocProvider.value(value: _propertiesBloc),
@@ -71,13 +77,21 @@ class _MyAppState extends State<MyApp> {
       child: BlocBuilder<ThemeBloc, ThemeState>(
         // Only rebuild when theme actually changes, not on every state
         buildWhen: (prev, curr) => prev.mode != curr.mode,
-        builder: (context, themeState) => MaterialApp.router(
-          title: 'Estate CRM',
-          theme: AppTheme.light,
-          darkTheme: AppThemeDark.dark,
-          themeMode: themeState.mode,
-          routerConfig: router, // stable reference — no freeze!
-          debugShowCheckedModeBanner: false,
+        builder: (context, themeState) =>
+            BlocBuilder<LocaleBloc, LocaleState>(
+          buildWhen: (prev, curr) => prev.locale != curr.locale,
+          builder: (context, localeState) => MaterialApp.router(
+            onGenerateTitle: (context) =>
+                AppLocalizations.of(context).appTitle,
+            theme: AppTheme.light,
+            darkTheme: AppThemeDark.dark,
+            themeMode: themeState.mode,
+            locale: localeState.locale, // null → follow device locale
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            routerConfig: router, // stable reference — no freeze!
+            debugShowCheckedModeBanner: false,
+          ),
         ),
       ),
     );

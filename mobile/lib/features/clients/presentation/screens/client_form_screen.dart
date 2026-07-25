@@ -8,6 +8,7 @@ import 'package:real_estate_crm/features/clients/presentation/bloc/clients_bloc.
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_event.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_state.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class ClientFormScreen extends StatefulWidget {
   final int? clientId;
@@ -79,6 +80,7 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final cs = Theme.of(context).colorScheme;
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
@@ -93,7 +95,8 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
         if (state is ClientCreated) {
           setState(() => _loading = false);
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Client created (ID: ${state.client.id})')),
+            SnackBar(
+                content: Text(l10n.clientsClientCreatedId(state.client.id))),
           );
           context.go('/clients');
         }
@@ -110,7 +113,8 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-            title: Text(widget.isEditing ? 'Edit Client' : 'New Client')),
+            title: Text(
+                widget.isEditing ? l10n.clientsEditClient : l10n.clientsNewClient)),
         body: _initLoading
             ? const LoadingWidget()
             : SingleChildScrollView(
@@ -121,7 +125,7 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // ── Client type banner ──────────────────
-                      Text('Client Type',
+                      Text(l10n.clientsClientType,
                           style: TextStyle(
                               fontSize: 13,
                               fontWeight: FontWeight.w600,
@@ -176,8 +180,8 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
                                         child: Center(
                                             child: Text(
                                                 t == ClientType.BUYER
-                                                    ? '🏠 Buyer'
-                                                    : '💰 Seller',
+                                                    ? l10n.clientsBuyer
+                                                    : l10n.clientsSeller,
                                                 style: TextStyle(
                                                     fontFamily: 'Sora',
                                                     fontWeight: FontWeight.w600,
@@ -193,31 +197,31 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
 
                       // ── Contact info section ────────────────
                       _FormSectionCard(
-                        title: 'Contact Info',
+                        title: l10n.clientsContactInfo,
                         icon: Icons.badge_outlined,
                         children: [
                           TextFormField(
                               controller: _nameCtrl,
-                              decoration: const InputDecoration(
-                                  labelText: 'Full Name *',
-                                  prefixIcon:
-                                      Icon(Icons.person_outline, size: 20)),
+                              decoration: InputDecoration(
+                                  labelText: l10n.clientsFullNameLabel,
+                                  prefixIcon: const Icon(Icons.person_outline,
+                                      size: 20)),
                               validator: (v) => v == null || v.isEmpty
-                                  ? 'Name is required'
+                                  ? l10n.clientsNameRequired
                                   : null),
                           const SizedBox(height: 14),
                           TextFormField(
                               controller: _emailCtrl,
                               keyboardType: TextInputType.emailAddress,
-                              decoration: const InputDecoration(
-                                  labelText: 'Email',
-                                  prefixIcon:
-                                      Icon(Icons.email_outlined, size: 20)),
+                              decoration: InputDecoration(
+                                  labelText: l10n.clientsEmail,
+                                  prefixIcon: const Icon(Icons.email_outlined,
+                                      size: 20)),
                               validator: (v) {
                                 if (v != null &&
                                     v.isNotEmpty &&
                                     !v.contains('@')) {
-                                  return 'Invalid email';
+                                  return l10n.clientsInvalidEmail;
                                 }
                                 return null;
                               }),
@@ -225,26 +229,25 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
                           TextFormField(
                               controller: _phoneCtrl,
                               keyboardType: TextInputType.phone,
-                              decoration: const InputDecoration(
-                                  labelText: 'Phone',
-                                  prefixIcon:
-                                      Icon(Icons.phone_outlined, size: 20))),
+                              decoration: InputDecoration(
+                                  labelText: l10n.clientsPhone,
+                                  prefixIcon: const Icon(Icons.phone_outlined,
+                                      size: 20))),
                         ],
                       ),
                       const SizedBox(height: 16),
 
                       // ── Notes section ────────────────────────
                       _FormSectionCard(
-                        title: 'Notes',
+                        title: l10n.clientsNotes,
                         icon: Icons.notes_outlined,
                         children: [
                           TextFormField(
                               controller: _notesCtrl,
                               maxLines: 4,
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  hintText:
-                                      'Additional notes about this client…',
+                                  hintText: l10n.clientsNotesHint,
                                   isCollapsed: false)),
                         ],
                       ),
@@ -263,8 +266,8 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
                                 child: CircularProgressIndicator(
                                     color: Colors.white, strokeWidth: 2))
                             : Text(widget.isEditing
-                                ? 'Update Client'
-                                : 'Create Client'),
+                                ? l10n.clientsUpdateClient
+                                : l10n.clientsCreateClient),
                       ),
                       const SizedBox(height: 10),
                       OutlinedButton(
@@ -273,7 +276,7 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
                               minimumSize: const Size(double.infinity, 54),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(14))),
-                          child: const Text('Cancel')),
+                          child: Text(l10n.clientsCancel)),
                     ],
                   ),
                 ),

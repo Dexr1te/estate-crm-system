@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/admin_models.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
+import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 /// Bottom sheet showing a single agent's work statistics.
 void showUserStatsSheet(BuildContext context, int userId) {
@@ -17,11 +18,13 @@ void showUserStatsSheet(BuildContext context, int userId) {
               height: 180, child: Center(child: CircularProgressIndicator()));
         }
         if (snap.hasError || !snap.hasData) {
-          return const SizedBox(
+          return SizedBox(
               height: 180,
-              child: Center(child: Text('Could not load stats')));
+              child: Center(
+                  child: Text(AppLocalizations.of(ctx).adminCouldNotLoadStats)));
         }
         final s = snap.data!;
+        final l10n = AppLocalizations.of(ctx);
         return Padding(
           padding: const EdgeInsets.all(24),
           child: Column(
@@ -39,15 +42,15 @@ void showUserStatsSheet(BuildContext context, int userId) {
                 mainAxisSpacing: 10,
                 crossAxisSpacing: 10,
                 children: [
-                  _Stat('Clients', s.totalClients, Icons.people_outline,
-                      AppColors.info),
-                  _Stat('Deals', s.totalDeals, Icons.handshake_outlined,
-                      AppColors.accent),
-                  _Stat('Active', s.activeDeals, Icons.trending_up,
+                  _Stat(l10n.adminStatClients, s.totalClients,
+                      Icons.people_outline, AppColors.info),
+                  _Stat(l10n.adminStatDeals, s.totalDeals,
+                      Icons.handshake_outlined, AppColors.accent),
+                  _Stat(l10n.adminStatActive, s.activeDeals, Icons.trending_up,
                       AppColors.warning),
-                  _Stat('Closed', s.closedDeals, Icons.check_circle_outline,
-                      AppColors.success),
-                  _Stat('Upcoming', s.upcomingMeetings,
+                  _Stat(l10n.adminStatClosed, s.closedDeals,
+                      Icons.check_circle_outline, AppColors.success),
+                  _Stat(l10n.adminStatUpcoming, s.upcomingMeetings,
                       Icons.calendar_today_outlined, AppColors.lead),
                 ],
               ),

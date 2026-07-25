@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
+import 'package:real_estate_crm/l10n/app_localizations.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_state.dart';
@@ -42,6 +43,7 @@ class _AcceptInviteScreenState extends State<AcceptInviteScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final tt = Theme.of(context).textTheme;
     final cs = Theme.of(context).colorScheme;
 
@@ -76,12 +78,11 @@ class _AcceptInviteScreenState extends State<AcceptInviteScreen> {
                             color: Colors.white, size: 26),
                       ),
                       const SizedBox(height: 28),
-                      Text('Accept your invite',
+                      Text(l10n.authAcceptYourInvite,
                           style: tt.titleLarge?.copyWith(
                               fontSize: 28, fontWeight: FontWeight.w700)),
                       const SizedBox(height: 8),
-                      Text('Enter the invite code you were given and choose a '
-                          'password.',
+                      Text(l10n.authAcceptInviteSubtitle,
                           style: tt.bodySmall?.copyWith(fontSize: 15)),
                       const SizedBox(height: 36),
                       Form(
@@ -89,13 +90,13 @@ class _AcceptInviteScreenState extends State<AcceptInviteScreen> {
                         child: Column(children: [
                           TextFormField(
                             controller: _tokenCtrl,
-                            decoration: const InputDecoration(
-                                labelText: 'Invite code',
-                                prefixIcon:
-                                    Icon(Icons.confirmation_number_outlined,
-                                        size: 20)),
+                            decoration: InputDecoration(
+                                labelText: l10n.authInviteCode,
+                                prefixIcon: const Icon(
+                                    Icons.confirmation_number_outlined,
+                                    size: 20)),
                             validator: (v) => (v == null || v.trim().isEmpty)
-                                ? 'Invite code is required'
+                                ? l10n.authInviteCodeRequired
                                 : null,
                           ),
                           const SizedBox(height: 16),
@@ -103,7 +104,7 @@ class _AcceptInviteScreenState extends State<AcceptInviteScreen> {
                             controller: _passCtrl,
                             obscureText: _obscure,
                             decoration: InputDecoration(
-                              labelText: 'New password',
+                              labelText: l10n.authNewPassword,
                               prefixIcon:
                                   const Icon(Icons.lock_outline, size: 20),
                               suffixIcon: IconButton(
@@ -117,19 +118,19 @@ class _AcceptInviteScreenState extends State<AcceptInviteScreen> {
                               ),
                             ),
                             validator: (v) => (v == null || v.length < 6)
-                                ? 'At least 6 characters'
+                                ? l10n.authPasswordMinLength
                                 : null,
                           ),
                           const SizedBox(height: 16),
                           TextFormField(
                             controller: _confirmCtrl,
                             obscureText: _obscure,
-                            decoration: const InputDecoration(
-                                labelText: 'Confirm password',
-                                prefixIcon:
-                                    Icon(Icons.lock_outline, size: 20)),
+                            decoration: InputDecoration(
+                                labelText: l10n.authConfirmPassword,
+                                prefixIcon: const Icon(Icons.lock_outline,
+                                    size: 20)),
                             validator: (v) => v != _passCtrl.text
-                                ? 'Passwords do not match'
+                                ? l10n.authPasswordsDoNotMatch
                                 : null,
                             onFieldSubmitted: (_) => _submit(),
                           ),
@@ -142,13 +143,13 @@ class _AcceptInviteScreenState extends State<AcceptInviteScreen> {
                                     width: 20,
                                     child: CircularProgressIndicator(
                                         color: Colors.white, strokeWidth: 2))
-                                : const Text('Set password & continue'),
+                                : Text(l10n.authSetPasswordContinue),
                           ),
                           const SizedBox(height: 8),
                           TextButton(
                             onPressed:
                                 loading ? null : () => ctx.go('/login'),
-                            child: const Text('Back to sign in'),
+                            child: Text(l10n.authBackToSignIn),
                           ),
                         ]),
                       ),

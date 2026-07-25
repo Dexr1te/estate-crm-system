@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:real_estate_crm/l10n/app_localizations.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
@@ -23,12 +24,14 @@ class ManagerConsoleScreen extends StatelessWidget {
     return BlocProvider(
       create: (_) => TeamsBloc(Injector.teamsRepository)..add(TeamsLoadEvent()),
       child: Builder(
-        builder: (context) => Scaffold(
-          appBar: AppBar(title: const Text('My Team')),
+        builder: (context) {
+          final l10n = AppLocalizations.of(context);
+          return Scaffold(
+          appBar: AppBar(title: Text(l10n.teamsMyTeam)),
           floatingActionButton: FloatingActionButton.extended(
             onPressed: () => _inviteAgent(context),
             icon: const Icon(Icons.person_add_alt),
-            label: const Text('Invite agent'),
+            label: Text(l10n.teamsInviteAgent),
           ),
           body: BlocConsumer<TeamsBloc, TeamsState>(
             listener: (ctx, state) {
@@ -53,10 +56,10 @@ class ManagerConsoleScreen extends StatelessWidget {
               }
               if (state is TeamsLoaded) {
                 if (state.teams.isEmpty) {
-                  return const EmptyState(
-                      title: 'No team yet',
+                  return EmptyState(
+                      title: l10n.teamsNoTeamYet,
                       icon: Icons.groups_outlined,
-                      subtitle: 'You are not managing a team');
+                      subtitle: l10n.teamsNoTeamSubtitle);
                 }
                 return RefreshIndicator(
                   onRefresh: () async =>
@@ -77,7 +80,8 @@ class ManagerConsoleScreen extends StatelessWidget {
               return const SizedBox();
             },
           ),
-        ),
+        );
+        },
       ),
     );
   }
@@ -96,6 +100,7 @@ Future<Map<String, dynamic>?> _showInviteAgentSheet(BuildContext context) {
     shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
     builder: (ctx) {
+      final l10n = AppLocalizations.of(ctx);
       final bottom = MediaQuery.of(ctx).viewInsets.bottom;
       return Padding(
         padding: EdgeInsets.fromLTRB(24, 24, 24, 24 + bottom),
@@ -105,28 +110,28 @@ Future<Map<String, dynamic>?> _showInviteAgentSheet(BuildContext context) {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Invite agent',
+              Text(l10n.teamsInviteAgent,
                   style: Theme.of(ctx).textTheme.titleLarge),
               const SizedBox(height: 16),
               TextFormField(
                 controller: name,
-                decoration: const InputDecoration(labelText: 'Full name'),
+                decoration: InputDecoration(labelText: l10n.teamsFullName),
                 validator: (v) =>
-                    (v == null || v.trim().isEmpty) ? 'Required' : null,
+                    (v == null || v.trim().isEmpty) ? l10n.teamsRequired : null,
               ),
               const SizedBox(height: 12),
               TextFormField(
                 controller: email,
                 keyboardType: TextInputType.emailAddress,
-                decoration: const InputDecoration(labelText: 'Email'),
+                decoration: InputDecoration(labelText: l10n.teamsEmail),
                 validator: (v) =>
-                    (v == null || !v.contains('@')) ? 'Enter a valid email' : null,
+                    (v == null || !v.contains('@')) ? l10n.teamsEnterValidEmail : null,
               ),
               const SizedBox(height: 12),
               TextFormField(
                 controller: phone,
                 keyboardType: TextInputType.phone,
-                decoration: const InputDecoration(labelText: 'Phone (optional)'),
+                decoration: InputDecoration(labelText: l10n.teamsPhoneOptional),
               ),
               const SizedBox(height: 20),
               SizedBox(
@@ -141,7 +146,7 @@ Future<Map<String, dynamic>?> _showInviteAgentSheet(BuildContext context) {
                         'phone': phone.text.trim(),
                     });
                   },
-                  child: const Text('Send invite'),
+                  child: Text(l10n.teamsSendInvite),
                 ),
               ),
             ],

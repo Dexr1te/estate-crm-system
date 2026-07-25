@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
+import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 Future<bool> showConfirmDialog(BuildContext context,
     {required String title,
     required String content,
-    String confirmLabel = 'Delete',
+    String? confirmLabel,
     Color confirmColor = AppColors.error}) async {
   final result = await showDialog<bool>(
     context: context,
@@ -17,11 +18,11 @@ Future<bool> showConfirmDialog(BuildContext context,
       actions: [
         TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Cancel')),
+            child: Text(AppLocalizations.of(ctx).coreCancel)),
         TextButton(
             onPressed: () => Navigator.pop(ctx, true),
             style: TextButton.styleFrom(foregroundColor: confirmColor),
-            child: Text(confirmLabel)),
+            child: Text(confirmLabel ?? AppLocalizations.of(ctx).coreDelete)),
       ],
     ),
   );

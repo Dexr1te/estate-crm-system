@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 /// List-item card for a single deal: title, status chip, client/property,
 /// price/budget and agent. Tap is delegated via [onTap].
@@ -13,6 +14,7 @@ class DealCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tt = Theme.of(context).textTheme;
+    final l10n = AppLocalizations.of(context);
 
     return Card(
       child: InkWell(
@@ -62,13 +64,13 @@ class DealCard extends StatelessWidget {
                     const SizedBox(width: 12),
                     Icon(Icons.account_balance_wallet_outlined,
                         size: 14, color: tt.bodySmall?.color),
-                    Text('Budget: ${formatPrice(deal.budget!)}',
+                    Text(l10n.dealsBudgetValue(formatPrice(deal.budget!)),
                         style: tt.bodySmall)
                   ],
                 ]),
               ],
               const SizedBox(height: 4),
-              Text('Agent: ${deal.agentName}', style: tt.labelSmall),
+              Text(l10n.dealsAgentValue(deal.agentName), style: tt.labelSmall),
             ]),
           )),
     );

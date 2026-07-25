@@ -7,6 +7,7 @@ import 'package:real_estate_crm/features/properties/presentation/bloc/properties
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_event.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_state.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class PropertyFormScreen extends StatefulWidget {
   final int? propertyId;
@@ -112,6 +113,7 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context);
 
     return BlocListener<PropertiesBloc, PropertiesState>(
       listener: (context, state) {
@@ -119,7 +121,8 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
           setState(() => _loading = false);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('Property created (ID: ${state.property.id})'),
+              content: Text(AppLocalizations.of(context)
+                  .propertiesPropertyCreated(state.property.id)),
             ),
           );
           context.go('/properties');
@@ -133,7 +136,9 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
-            title: Text(widget.isEditing ? 'Edit Property' : 'New Property')),
+            title: Text(widget.isEditing
+                ? l10n.propertiesEditProperty
+                : l10n.propertiesNewProperty)),
         body: _initLoading
             ? const LoadingWidget()
             : SingleChildScrollView(
@@ -144,33 +149,36 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _FormSectionCard(
-                        title: 'Basic Info',
+                        title: l10n.propertiesBasicInfo,
                         icon: Icons.description_outlined,
                         children: [
-                          _f(_titleCtrl, 'Title *', Icons.title, req: true),
+                          _f(_titleCtrl, l10n.propertiesTitleLabel, Icons.title,
+                              req: true),
                           const SizedBox(height: 14),
-                          _f(_priceCtrl, 'Price *', Icons.attach_money,
+                          _f(_priceCtrl, l10n.propertiesPriceLabel,
+                              Icons.attach_money,
                               req: true, num: true),
                         ],
                       ),
                       const SizedBox(height: 16),
                       _FormSectionCard(
-                        title: 'Location',
+                        title: l10n.propertiesLocation,
                         icon: Icons.location_on_outlined,
                         children: [
-                          _f(_addressCtrl, 'Address *',
+                          _f(_addressCtrl, l10n.propertiesAddressLabel,
                               Icons.location_on_outlined,
                               req: true),
                           const SizedBox(height: 14),
-                          _f(_cityCtrl, 'City', Icons.location_city_outlined),
+                          _f(_cityCtrl, l10n.propertiesCityLabel,
+                              Icons.location_city_outlined),
                         ],
                       ),
                       const SizedBox(height: 16),
                       _FormSectionCard(
-                        title: 'Type & Status',
+                        title: l10n.propertiesTypeAndStatus,
                         icon: Icons.tune_outlined,
                         children: [
-                          Text('Type',
+                          Text(l10n.propertiesType,
                               style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w600,
@@ -186,7 +194,7 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
                                       onTap: () => setState(() => _type = t)))
                                   .toList()),
                           const SizedBox(height: 16),
-                          Text('Status',
+                          Text(l10n.propertiesStatus,
                               style: TextStyle(
                                   fontSize: 12,
                                   fontWeight: FontWeight.w600,
@@ -205,45 +213,45 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
                       ),
                       const SizedBox(height: 16),
                       _FormSectionCard(
-                        title: 'Details',
+                        title: l10n.propertiesDetails,
                         icon: Icons.straighten_outlined,
                         children: [
                           Row(children: [
                             Expanded(
-                                child: _f(
-                                    _areaCtrl, 'Area m²', Icons.square_foot,
+                                child: _f(_areaCtrl, l10n.propertiesAreaLabel,
+                                    Icons.square_foot,
                                     num: true)),
                             const SizedBox(width: 12),
                             Expanded(
-                                child: _f(
-                                    _roomsCtrl, 'Rooms', Icons.bed_outlined,
+                                child: _f(_roomsCtrl, l10n.propertiesRooms,
+                                    Icons.bed_outlined,
                                     num: true))
                           ]),
                           const SizedBox(height: 14),
                           Row(children: [
                             Expanded(
-                                child: _f(
-                                    _floorCtrl, 'Floor', Icons.stairs_outlined,
+                                child: _f(_floorCtrl, l10n.propertiesFloor,
+                                    Icons.stairs_outlined,
                                     num: true)),
                             const SizedBox(width: 12),
                             Expanded(
-                                child: _f(_totalFloorsCtrl, 'Total Floors',
-                                    Icons.stairs,
+                                child: _f(_totalFloorsCtrl,
+                                    l10n.propertiesTotalFloors, Icons.stairs,
                                     num: true))
                           ]),
                         ],
                       ),
                       const SizedBox(height: 16),
                       _FormSectionCard(
-                        title: 'Description',
+                        title: l10n.propertiesDescription,
                         icon: Icons.notes_outlined,
                         children: [
                           TextFormField(
                               controller: _descCtrl,
                               maxLines: 3,
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  hintText: 'Describe the property…')),
+                                  hintText: l10n.propertiesDescribeHint)),
                         ],
                       ),
                       const SizedBox(height: 32),
@@ -260,8 +268,8 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
                                   child: CircularProgressIndicator(
                                       color: Colors.white, strokeWidth: 2))
                               : Text(widget.isEditing
-                                  ? 'Update Property'
-                                  : 'Create Property')),
+                                  ? l10n.propertiesUpdateProperty
+                                  : l10n.propertiesCreateProperty)),
                       const SizedBox(height: 10),
                       OutlinedButton(
                           onPressed: () => context.pop(),
@@ -269,7 +277,7 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
                               minimumSize: const Size(double.infinity, 54),
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(14))),
-                          child: const Text('Cancel')),
+                          child: Text(l10n.propertiesCancel)),
                     ],
                   ),
                 ),
@@ -288,7 +296,9 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
         decoration:
             InputDecoration(labelText: label, prefixIcon: Icon(icon, size: 20)),
         validator: req
-            ? (v) => v == null || v.isEmpty ? '$label is required' : null
+            ? (v) => v == null || v.isEmpty
+                ? AppLocalizations.of(context).propertiesFieldRequired(label)
+                : null
             : null,
       );
 }

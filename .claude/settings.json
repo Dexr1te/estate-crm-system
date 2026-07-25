@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(/Users/asansultan25gmail.com/fvm/versions/3.24.3/bin/flutter pub *)",
+      "Bash(/Users/asansultan25gmail.com/fvm/versions/3.24.3/bin/flutter gen-l10n *)",
+      "Bash(/Users/asansultan25gmail.com/fvm/versions/3.24.3/bin/dart --version)",
+      "Bash(cd /Users/asansultan25gmail.com/Desktop/DevProjects/FlutterDev/projects/estate-crm-system; cat mobile/.fvmrc .fvmrc 2>/dev/null; echo \"--- fvm versions ---\"; ls /Users/asansultan25gmail.com/fvm/versions/ 2>/dev/null; echo \"--- lock build_runner/intl ---\"; grep -A3 -E \"^  \\(build_runner|intl\\):\" mobile/pubspec.lock)",
+      "Read(//Users/asansultan25gmail.com/fvm/versions/**)",
+      "Bash(/Users/asansultan25gmail.com/fvm/versions/stable/bin/flutter --version)",
+      "Read(//dev/**)",
+      "Bash(python3 -c ' *)",
+      "Bash(python3 -c \"import json;d=json.load\\(open\\('/private/tmp/claude-501/-Users-asansultan25gmail-com-Desktop-DevProjects-FlutterDev-projects-estate-crm-system/c583ba14-8ae4-4c17-8890-e258b0068bbd/scratchpad/l10n/deals.json'\\)\\);print\\('valid',len\\(d\\),'keys'\\);ks=[x['key'] for x in d];print\\('dupes:',[k for k in ks if ks.count\\(k\\)>1]\\)\")",
+      "Bash(python3 /private/tmp/claude-501/-Users-asansultan25gmail-com-Desktop-DevProjects-FlutterDev-projects-estate-crm-system/c583ba14-8ae4-4c17-8890-e258b0068bbd/scratchpad/merge_arb.py)",
+      "Bash(git rm *)"
+    ]
+  }
+}

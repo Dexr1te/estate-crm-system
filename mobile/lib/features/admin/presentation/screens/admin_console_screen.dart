@@ -6,6 +6,7 @@ import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/models/team_models.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/l10n/app_localizations.dart';
 import 'package:real_estate_crm/features/admin/presentation/bloc/admin_users_bloc.dart';
 import 'package:real_estate_crm/features/admin/presentation/bloc/admin_users_event.dart';
 import 'package:real_estate_crm/features/admin/presentation/bloc/admin_users_state.dart';
@@ -25,6 +26,7 @@ class AdminConsoleScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -41,11 +43,11 @@ class AdminConsoleScreen extends StatelessWidget {
         length: 3,
         child: Scaffold(
           appBar: AppBar(
-            title: const Text('Admin'),
-            bottom: const TabBar(tabs: [
-              Tab(text: 'Users'),
-              Tab(text: 'Teams'),
-              Tab(text: 'Audit'),
+            title: Text(l10n.adminConsoleTitle),
+            bottom: TabBar(tabs: [
+              Tab(text: l10n.adminTabUsers),
+              Tab(text: l10n.adminTabTeams),
+              Tab(text: l10n.adminTabAudit),
             ]),
           ),
           body: const TabBarView(children: [
@@ -74,7 +76,7 @@ class _UsersTab extends StatelessWidget {
     final role = await showDialog<Role>(
       context: context,
       builder: (ctx) => SimpleDialog(
-        title: const Text('Change role'),
+        title: Text(AppLocalizations.of(ctx).adminChangeRole),
         children: Role.values
             .map((r) => SimpleDialogOption(
                 onPressed: () => Navigator.pop(ctx, r),
@@ -91,14 +93,14 @@ class _UsersTab extends StatelessWidget {
     final teamsState = context.read<TeamsBloc>().state;
     final teams = teamsState is TeamsLoaded ? teamsState.teams : const [];
     if (teams.isEmpty) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(const SnackBar(content: Text('No teams yet')));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(AppLocalizations.of(context).adminNoTeamsYet)));
       return;
     }
     final teamId = await showDialog<int>(
       context: context,
       builder: (ctx) => SimpleDialog(
-        title: const Text('Assign to team'),
+        title: Text(AppLocalizations.of(ctx).adminAssignToTeam),
         children: teams
             .map((t) => SimpleDialogOption(
                 onPressed: () => Navigator.pop(ctx, t.id),
@@ -113,12 +115,13 @@ class _UsersTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Colors.transparent,
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _invite(context),
         icon: const Icon(Icons.person_add_alt),
-        label: const Text('Invite'),
+        label: Text(l10n.adminInvite),
       ),
       body: BlocConsumer<AdminUsersBloc, AdminUsersState>(
         listener: (ctx, state) {
@@ -147,8 +150,9 @@ class _UsersTab extends StatelessWidget {
           }
           if (state is AdminUsersLoaded) {
             if (state.users.isEmpty) {
-              return const EmptyState(
-                  title: 'No users', icon: Icons.people_outline);
+              return EmptyState(
+                  title: AppLocalizations.of(ctx).adminNoUsers,
+                  icon: Icons.people_outline);
             }
             return RefreshIndicator(
               onRefresh: () async =>
@@ -212,12 +216,13 @@ class _TeamsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Colors.transparent,
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => _create(context),
         icon: const Icon(Icons.add),
-        label: const Text('New team'),
+        label: Text(l10n.adminNewTeam),
       ),
       body: BlocConsumer<TeamsBloc, TeamsState>(
         listener: (ctx, state) {
@@ -242,8 +247,9 @@ class _TeamsTab extends StatelessWidget {
           }
           if (state is TeamsLoaded) {
             if (state.teams.isEmpty) {
-              return const EmptyState(
-                  title: 'No teams', icon: Icons.groups_outlined);
+              return EmptyState(
+                  title: AppLocalizations.of(ctx).adminNoTeams,
+                  icon: Icons.groups_outlined);
             }
             return RefreshIndicator(
               onRefresh: () async => ctx.read<TeamsBloc>().add(TeamsLoadEvent()),
@@ -287,8 +293,9 @@ class _AuditTab extends StatelessWidget {
         }
         if (state is AuditLogLoaded) {
           if (state.entries.isEmpty) {
-            return const EmptyState(
-                title: 'No audit entries', icon: Icons.receipt_long_outlined);
+            return EmptyState(
+                title: AppLocalizations.of(ctx).adminNoAuditEntries,
+                icon: Icons.receipt_long_outlined);
           }
           return RefreshIndicator(
             onRefresh: () async =>

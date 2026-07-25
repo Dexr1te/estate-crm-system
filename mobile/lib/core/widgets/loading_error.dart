@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
+import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class LoadingWidget extends StatelessWidget {
   const LoadingWidget({super.key});
@@ -14,7 +15,9 @@ class ErrorWidget2 extends StatelessWidget {
   final VoidCallback? onRetry;
   const ErrorWidget2({super.key, required this.message, this.onRetry});
   @override
-  Widget build(BuildContext context) => Center(
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return Center(
       child: Padding(
           padding: const EdgeInsets.all(24),
           child: Card(
@@ -49,11 +52,12 @@ class ErrorWidget2 extends StatelessWidget {
                     child: ElevatedButton.icon(
                       onPressed: onRetry,
                       icon: const Icon(Icons.refresh, size: 18),
-                      label: const Text('Retry'),
+                      label: Text(l10n.coreRetry),
                     ),
                   )
                 ],
               ]),
             ),
           )));
+  }
 }

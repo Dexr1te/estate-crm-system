@@ -7,6 +7,7 @@ import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_bloc.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_event.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/l10n/app_localizations.dart';
 import 'package:shimmer/shimmer.dart';
 
 class PropertyDetailScreen extends StatefulWidget {
@@ -40,8 +41,10 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
   }
 
   Future<void> _delete() async {
+    final l10n = AppLocalizations.of(context);
     final ok = await showConfirmDialog(context,
-        title: 'Delete Property', content: 'Delete "${_p!.title}"?');
+        title: l10n.propertiesDeleteProperty,
+        content: l10n.propertiesDeleteConfirm(_p!.title));
     if (!ok) return;
     // ignore: use_build_context_synchronously
     context.read<PropertiesBloc>().add(PropertiesDeleteEvent(widget.id));
@@ -57,18 +60,20 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
 
   void _copyId() {
     Clipboard.setData(ClipboardData(text: _p!.id.toString()));
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text('Property ID copied'), duration: Duration(seconds: 1)));
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(AppLocalizations.of(context).propertiesPropertyIdCopied),
+        duration: const Duration(seconds: 1)));
   }
 
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     final tt = Theme.of(context).textTheme;
+    final l10n = AppLocalizations.of(context);
 
     return Scaffold(
       appBar: AppBar(
-          title: Text(_p?.title ?? 'Property'),
+          title: Text(_p?.title ?? l10n.propertiesProperty),
           actions: _p == null
               ? []
               : [
@@ -83,8 +88,9 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
       body: _loading
           ? const _PropertyDetailSkeleton()
           : _p == null
-              ? const EmptyState(
-                  title: 'Property not found', icon: Icons.home_work_outlined)
+              ? EmptyState(
+                  title: l10n.propertiesPropertyNotFound,
+                  icon: Icons.home_work_outlined)
               : SingleChildScrollView(
                   padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
                   child: Column(
@@ -128,35 +134,38 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                                             ?.copyWith(fontSize: 13))),
                               const SizedBox(height: 14),
                               _IdBadge(
-                                  label: 'Property ID: ${_p!.id}',
+                                  label: l10n.propertiesPropertyIdLabel(_p!.id),
                                   color: cs.secondary,
                                   onTap: _copyId),
                             ])),
                         const SizedBox(height: 14),
                         _Card(
-                            title: 'Details',
+                            title: l10n.propertiesDetails,
                             icon: Icons.info_outline,
                             child: Wrap(spacing: 20, runSpacing: 12, children: [
-                              _Spec(Icons.category_outlined, 'Type',
+                              _Spec(Icons.category_outlined, l10n.propertiesType,
                                   _p!.type.name),
                               if (_p!.areaSqm != null)
-                                _Spec(Icons.square_foot, 'Area',
-                                    '${_p!.areaSqm!.toStringAsFixed(0)} m²'),
+                                _Spec(
+                                    Icons.square_foot,
+                                    l10n.propertiesArea,
+                                    l10n.propertiesAreaValue(
+                                        _p!.areaSqm!.toStringAsFixed(0))),
                               if (_p!.rooms != null)
-                                _Spec(Icons.bed_outlined, 'Rooms',
+                                _Spec(Icons.bed_outlined, l10n.propertiesRooms,
                                     '${_p!.rooms}'),
                               if (_p!.floor != null)
-                                _Spec(Icons.stairs_outlined, 'Floor',
+                                _Spec(Icons.stairs_outlined, l10n.propertiesFloor,
                                     '${_p!.floor}/${_p!.totalFloors ?? '?'}'),
                               if (_p!.agentName != null)
-                                _Spec(Icons.person_outlined, 'Agent',
+                                _Spec(Icons.person_outlined, l10n.propertiesAgent,
                                     _p!.agentName!),
                             ])),
                         if (_p!.description != null &&
                             _p!.description!.isNotEmpty) ...[
                           const SizedBox(height: 14),
                           _Card(
-                              title: 'Description',
+                              title: l10n.propertiesDescription,
                               icon: Icons.notes_outlined,
                               child: Text(_p!.description!,
                                   style: tt.bodyMedium?.copyWith(
@@ -165,7 +174,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                         ],
                         const SizedBox(height: 14),
                         _Card(
-                          title: 'Update Status',
+                          title: l10n.propertiesUpdateStatus,
                           icon: Icons.flag_outlined,
                           child: Wrap(
                             spacing: 8,

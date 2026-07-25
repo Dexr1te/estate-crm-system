@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
+import 'package:real_estate_crm/l10n/app_localizations.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_state.dart';
@@ -34,6 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final tt = Theme.of(context).textTheme;
     final cs = Theme.of(context).colorScheme;
 
@@ -66,11 +68,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               child: const Icon(Icons.home_work,
                                   color: Colors.white, size: 26)),
                           const SizedBox(height: 28),
-                          Text('Welcome back!',
+                          Text(l10n.authWelcomeBack,
                               style: tt.titleLarge?.copyWith(
                                   fontSize: 28, fontWeight: FontWeight.w700)),
                           const SizedBox(height: 8),
-                          Text('Sign in to manage your properties',
+                          Text(l10n.authSignInSubtitle,
                               style: tt.bodySmall?.copyWith(fontSize: 15)),
                           const SizedBox(height: 36),
                           Form(
@@ -79,16 +81,17 @@ class _LoginScreenState extends State<LoginScreen> {
                                 TextFormField(
                                     controller: _emailCtrl,
                                     keyboardType: TextInputType.emailAddress,
-                                    decoration: const InputDecoration(
-                                        labelText: 'Email',
-                                        prefixIcon: Icon(Icons.email_outlined,
+                                    decoration: InputDecoration(
+                                        labelText: l10n.authEmail,
+                                        prefixIcon: const Icon(
+                                            Icons.email_outlined,
                                             size: 20)),
                                     validator: (v) {
                                       if (v == null || v.isEmpty) {
-                                        return 'Email is required';
+                                        return l10n.authEmailRequired;
                                       }
                                       if (!v.contains('@')) {
-                                        return 'Enter a valid email';
+                                        return l10n.authEmailInvalid;
                                       }
                                       return null;
                                     }),
@@ -97,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     controller: _passCtrl,
                                     obscureText: _obscure,
                                     decoration: InputDecoration(
-                                        labelText: 'Password',
+                                        labelText: l10n.authPassword,
                                         prefixIcon: const Icon(
                                             Icons.lock_outline,
                                             size: 20),
@@ -111,7 +114,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                             onPressed: () => setState(
                                                 () => _obscure = !_obscure))),
                                     validator: (v) => v == null || v.isEmpty
-                                        ? 'Password is required'
+                                        ? l10n.authPasswordRequired
                                         : null,
                                     onFieldSubmitted: (_) => _submit()),
                                 const SizedBox(height: 24),
@@ -124,13 +127,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                             child: CircularProgressIndicator(
                                                 color: Colors.white,
                                                 strokeWidth: 2))
-                                        : const Text('Sign In')),
+                                        : Text(l10n.authSignIn)),
                                 const SizedBox(height: 4),
                                 TextButton(
                                     onPressed: loading
                                         ? null
                                         : () => ctx.go('/accept-invite'),
-                                    child: const Text('Have an invite?')),
+                                    child: Text(l10n.authHaveAnInvite)),
                               ])),
                         ]),
                   )));

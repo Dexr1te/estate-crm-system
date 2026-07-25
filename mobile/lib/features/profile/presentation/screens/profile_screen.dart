@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/locale/bloc/locale_bloc.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
 import 'package:real_estate_crm/core/theme/bloc/theme_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_state.dart';
+import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -15,11 +17,12 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (ctx, state) {
+        final l10n = AppLocalizations.of(ctx);
         final user = state is AuthAuthenticated ? state.user : null;
         if (user == null) return const SizedBox();
 
         return Scaffold(
-          appBar: AppBar(title: const Text('Profile')),
+          appBar: AppBar(title: Text(l10n.profileTitle)),
           body: SingleChildScrollView(
             padding: const EdgeInsets.all(24),
             child: Column(children: [
@@ -28,10 +31,10 @@ class ProfileScreen extends StatelessWidget {
               const SizedBox(height: 28),
 
               // Account section
-              _Section(title: 'Account', children: [
+              _Section(title: l10n.profileAccount, children: [
                 _Tile(
                   icon: Icons.person_outline,
-                  label: 'Edit Name',
+                  label: l10n.profileEditName,
                   trailing:
                       Text(user.fullName, style: const TextStyle(fontSize: 13)),
                   onTap: () => _showEditName(context, user.fullName),
@@ -39,7 +42,7 @@ class ProfileScreen extends StatelessWidget {
                 _Divider(),
                 _Tile(
                   icon: Icons.email_outlined,
-                  label: 'Email',
+                  label: l10n.profileEmail,
                   trailing:
                       Text(user.email, style: const TextStyle(fontSize: 13)),
                   onTap: null,
@@ -47,7 +50,7 @@ class ProfileScreen extends StatelessWidget {
                 _Divider(),
                 _Tile(
                   icon: Icons.badge_outlined,
-                  label: 'Role',
+                  label: l10n.profileRole,
                   trailing: _RoleChip(role: user.role),
                   onTap: null,
                 ),
@@ -55,15 +58,15 @@ class ProfileScreen extends StatelessWidget {
                 // ── Agent ID row (tap to copy) ──
                 _Tile(
                   icon: Icons.fingerprint,
-                  label: 'Agent ID',
+                  label: l10n.profileAgentId,
                   trailing: GestureDetector(
                     onTap: () {
                       Clipboard.setData(
                           ClipboardData(text: user.userId.toString()));
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            content: Text('Agent ID copied'),
-                            duration: Duration(seconds: 1)),
+                        SnackBar(
+                            content: Text(l10n.profileAgentIdCopied),
+                            duration: const Duration(seconds: 1)),
                       );
                     },
                     child: Container(
@@ -94,13 +97,13 @@ class ProfileScreen extends StatelessWidget {
               const SizedBox(height: 16),
 
               // Preferences section
-              _Section(title: 'Preferences', children: [
+              _Section(title: l10n.profilePreferences, children: [
                 BlocBuilder<ThemeBloc, ThemeState>(
                   builder: (ctx, themeState) => _Tile(
                     icon: themeState.isDark
                         ? Icons.dark_mode
                         : Icons.light_mode_outlined,
-                    label: 'Dark Mode',
+                    label: l10n.profileDarkMode,
                     trailing: Switch.adaptive(
                       value: themeState.isDark,
                       onChanged: (_) =>
@@ -111,23 +114,37 @@ class ProfileScreen extends StatelessWidget {
                     onTap: () => ctx.read<ThemeBloc>().add(ThemeToggleEvent()),
                   ),
                 ),
+                _Divider(),
+                BlocBuilder<LocaleBloc, LocaleState>(
+                  builder: (ctx, localeState) => _Tile(
+                    icon: Icons.translate_outlined,
+                    label: l10n.profileLanguage,
+                    trailing: Row(mainAxisSize: MainAxisSize.min, children: [
+                      Text(_languageLabel(l10n, localeState.locale),
+                          style: const TextStyle(fontSize: 13)),
+                      const SizedBox(width: 4),
+                      const Icon(Icons.chevron_right,
+                          size: 18, color: AppColors.textHint),
+                    ]),
+                    onTap: () => _showLanguagePicker(ctx, localeState.locale),
+                  ),
+                ),
               ]),
 
               const SizedBox(height: 16),
 
               // App info section
-              _Section(title: 'About', children: [
-                const _Tile(
+              _Section(title: l10n.profileAbout, children: [
+                _Tile(
                     icon: Icons.info_outline,
-                    label: 'Version',
-                    trailing: Text('1.0.0', style: TextStyle(fontSize: 13)),
+                    label: l10n.profileVersion,
+                    trailing:
+                        const Text('1.0.0', style: TextStyle(fontSize: 13)),
                     onTap: null),
                 _Divider(),
-                const _Tile(
+                _Tile(
                     icon: Icons.home_work_outlined,
-                    label: 'Estate CRM',
-                    trailing: Text('Built for real estate teams',
-                        style: TextStyle(fontSize: 13)),
+                    label: l10n.profileEstateCrm,
                     onTap: null),
               ]),
 
@@ -140,8 +157,8 @@ class ProfileScreen extends StatelessWidget {
                   onPressed: () => _confirmLogout(context),
                   icon: const Icon(Icons.logout,
                       size: 18, color: AppColors.error),
-                  label: const Text('Sign Out',
-                      style: TextStyle(
+                  label: Text(l10n.profileSignOut,
+                      style: const TextStyle(
                           color: AppColors.error, fontWeight: FontWeight.w600)),
                   style: OutlinedButton.styleFrom(
                     minimumSize: const Size(double.infinity, 52),
@@ -160,6 +177,7 @@ class ProfileScreen extends StatelessWidget {
   }
 
   void _showEditName(BuildContext context, String current) {
+    final l10n = AppLocalizations.of(context);
     final ctrl = TextEditingController(text: current);
     showModalBottomSheet(
       context: context,
@@ -173,8 +191,8 @@ class ProfileScreen extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Edit Name',
-                  style: TextStyle(
+              Text(l10n.profileEditName,
+                  style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
                       fontFamily: 'Sora')),
@@ -182,46 +200,101 @@ class ProfileScreen extends StatelessWidget {
               TextField(
                 controller: ctrl,
                 autofocus: true,
-                decoration: const InputDecoration(
-                    labelText: 'Full Name',
-                    prefixIcon: Icon(Icons.person_outline, size: 20)),
+                decoration: InputDecoration(
+                    labelText: l10n.profileFullName,
+                    prefixIcon: const Icon(Icons.person_outline, size: 20)),
               ),
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
                   if (ctrl.text.trim().isNotEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Name updated locally')),
+                      SnackBar(content: Text(l10n.profileNameUpdated)),
                     );
                     Navigator.pop(ctx);
                   }
                 },
-                child: const Text('Save'),
+                child: Text(l10n.profileSave),
               ),
             ]),
       ),
     );
   }
 
+  // Endonyms — a language is always shown written in itself.
+  static const _endonyms = {'en': 'English', 'ru': 'Русский', 'kk': 'Қазақша'};
+
+  String _languageLabel(AppLocalizations l10n, Locale? locale) =>
+      locale == null
+          ? l10n.profileSystemDefault
+          : _endonyms[locale.languageCode] ?? locale.languageCode;
+
+  void _showLanguagePicker(BuildContext context, Locale? current) {
+    final l10n = AppLocalizations.of(context);
+    final bloc = context.read<LocaleBloc>();
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+      builder: (ctx) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(24, 20, 24, 8),
+              child: Text(l10n.profileLanguage,
+                  style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                      fontFamily: 'Sora')),
+            ),
+            _LanguageOption(
+              label: l10n.profileSystemDefault,
+              selected: current == null,
+              onTap: () {
+                bloc.add(LocaleChangedEvent(null));
+                Navigator.pop(ctx);
+              },
+            ),
+            for (final locale in LocaleBloc.supported)
+              _LanguageOption(
+                label: _endonyms[locale.languageCode] ?? locale.languageCode,
+                selected: current?.languageCode == locale.languageCode,
+                onTap: () {
+                  bloc.add(LocaleChangedEvent(locale));
+                  Navigator.pop(ctx);
+                },
+              ),
+            const SizedBox(height: 8),
+          ],
+        ),
+      ),
+    );
+  }
+
   void _confirmLogout(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: const Text('Sign Out',
-            style: TextStyle(fontFamily: 'Sora', fontWeight: FontWeight.w700)),
-        content: const Text('Are you sure you want to sign out?'),
+        title: Text(l10n.profileSignOut,
+            style: const TextStyle(
+                fontFamily: 'Sora', fontWeight: FontWeight.w700)),
+        content: Text(l10n.profileSignOutConfirm),
         actions: [
           TextButton(
-              onPressed: () => Navigator.pop(ctx), child: const Text('Cancel')),
+              onPressed: () => Navigator.pop(ctx),
+              child: Text(l10n.profileCancel)),
           TextButton(
             onPressed: () {
               Navigator.pop(ctx);
               context.read<AuthBloc>().add(AuthLogoutEvent());
             },
             style: TextButton.styleFrom(foregroundColor: AppColors.error),
-            child: const Text('Sign Out',
-                style: TextStyle(fontWeight: FontWeight.w600)),
+            child: Text(l10n.profileSignOut,
+                style: const TextStyle(fontWeight: FontWeight.w600)),
           ),
         ],
       ),
@@ -351,4 +424,24 @@ class _Tile extends StatelessWidget {
 class _Divider extends StatelessWidget {
   @override
   Widget build(BuildContext context) => const Divider(height: 1, indent: 52);
+}
+
+class _LanguageOption extends StatelessWidget {
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+  const _LanguageOption(
+      {required this.label, required this.selected, required this.onTap});
+  @override
+  Widget build(BuildContext context) => ListTile(
+        title: Text(label,
+            style: TextStyle(
+                fontSize: 15,
+                fontWeight: selected ? FontWeight.w700 : FontWeight.w400,
+                color: selected ? AppColors.primary : null)),
+        trailing: selected
+            ? const Icon(Icons.check, color: AppColors.primary, size: 20)
+            : null,
+        onTap: onTap,
+      );
 }

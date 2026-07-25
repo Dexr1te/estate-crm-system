@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
 import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_bloc.dart';
 import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_event.dart';
 import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_state.dart';
 import 'package:real_estate_crm/features/meetings/presentation/widgets/meeting_card.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class MeetingsScreen extends StatefulWidget {
   const MeetingsScreen({super.key});
@@ -23,8 +23,9 @@ class _MeetingsScreenState extends State<MeetingsScreen> {
   }
 
   Future<void> _delete(int id) async {
+    final l10n = AppLocalizations.of(context);
     final ok = await showConfirmDialog(context,
-        title: 'Delete Meeting', content: 'Delete this meeting?');
+        title: l10n.meetingsDeleteMeeting, content: l10n.meetingsDeleteConfirm);
     if (!ok) return;
     // ignore: use_build_context_synchronously
     context.read<MeetingsBloc>().add(MeetingsDeleteEvent(id));
@@ -35,6 +36,7 @@ class _MeetingsScreenState extends State<MeetingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final cs = Theme.of(context).colorScheme;
     final tt = Theme.of(context).textTheme;
 
@@ -45,12 +47,12 @@ class _MeetingsScreenState extends State<MeetingsScreen> {
           padding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
           child: Row(children: [
             Expanded(
-                child: Text('Meetings',
+                child: Text(l10n.meetingsTitle,
                     style: tt.titleLarge?.copyWith(fontSize: 22))),
             FilledButton.icon(
               onPressed: () => context.go('/meetings/new'),
               icon: const Icon(Icons.add, size: 18),
-              label: const Text('Schedule'),
+              label: Text(l10n.meetingsSchedule),
               style: FilledButton.styleFrom(
                   backgroundColor: cs.primary,
                   foregroundColor: cs.onPrimary,
@@ -91,10 +93,10 @@ class _MeetingsScreenState extends State<MeetingsScreen> {
             }
             if (state is MeetingsLoaded) {
               if (state.meetings.isEmpty) {
-                return const EmptyState(
-                    title: 'No meetings',
+                return EmptyState(
+                    title: l10n.meetingsNoMeetings,
                     icon: Icons.calendar_today_outlined,
-                    subtitle: 'Schedule your first meeting');
+                    subtitle: l10n.meetingsScheduleFirst);
               }
               return RefreshIndicator(
                 onRefresh: () async =>

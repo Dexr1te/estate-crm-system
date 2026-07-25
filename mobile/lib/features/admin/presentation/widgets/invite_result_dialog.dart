@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:real_estate_crm/core/models/admin_models.dart';
+import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 /// Shows the result of an invite: the one-time invite token for [user], with a
 /// copy button and instructions for the admin to pass it on. Because there is
@@ -18,6 +19,7 @@ class _InviteResultDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
     final tt = Theme.of(context).textTheme;
     final cs = Theme.of(context).colorScheme;
     final token = user.inviteToken;
@@ -27,24 +29,23 @@ class _InviteResultDialog extends StatelessWidget {
         children: [
           Icon(Icons.mark_email_read_outlined, color: cs.primary),
           const SizedBox(width: 10),
-          const Text('Invite created'),
+          Text(l10n.adminInviteCreated),
         ],
       ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('${user.fullName} (${user.email}) was invited as '
-              '${user.role.name}.'),
+          Text(l10n.adminInvitedAs(
+              user.fullName, user.email, user.role.name)),
           const SizedBox(height: 16),
           if (token == null || token.isEmpty)
             Text(
-              'No invite token was returned. The user cannot set a password '
-              'until this is resolved.',
+              l10n.adminNoInviteToken,
               style: tt.bodySmall?.copyWith(color: cs.error),
             )
           else ...[
-            Text('Share this invite code with them:', style: tt.bodySmall),
+            Text(l10n.adminShareInviteCode, style: tt.bodySmall),
             const SizedBox(height: 8),
             Container(
               width: double.infinity,
@@ -64,8 +65,7 @@ class _InviteResultDialog extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             Text(
-              'They open the app, tap “Have an invite?” on the login screen, '
-              'paste this code and choose their own password.',
+              l10n.adminInviteInstructions,
               style: tt.bodySmall?.copyWith(color: cs.onSurfaceVariant),
             ),
           ],
@@ -75,12 +75,12 @@ class _InviteResultDialog extends StatelessWidget {
         if (token != null && token.isNotEmpty)
           TextButton.icon(
             icon: const Icon(Icons.copy, size: 18),
-            label: const Text('Copy code'),
+            label: Text(l10n.adminCopyCode),
             onPressed: () async {
               await Clipboard.setData(ClipboardData(text: token));
               if (context.mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('Invite code copied')),
+                  SnackBar(content: Text(l10n.adminInviteCodeCopied)),
                 );
                 Navigator.of(context).pop();
               }
@@ -88,7 +88,7 @@ class _InviteResultDialog extends StatelessWidget {
           ),
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Done'),
+          child: Text(l10n.adminDone),
         ),
       ],
     );
