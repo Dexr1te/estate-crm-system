@@ -11,7 +11,10 @@
       "Bash(python3 -c ' *)",
       "Bash(python3 -c \"import json;d=json.load\\(open\\('/private/tmp/claude-501/-Users-asansultan25gmail-com-Desktop-DevProjects-FlutterDev-projects-estate-crm-system/c583ba14-8ae4-4c17-8890-e258b0068bbd/scratchpad/l10n/deals.json'\\)\\);print\\('valid',len\\(d\\),'keys'\\);ks=[x['key'] for x in d];print\\('dupes:',[k for k in ks if ks.count\\(k\\)>1]\\)\")",
       "Bash(python3 /private/tmp/claude-501/-Users-asansultan25gmail-com-Desktop-DevProjects-FlutterDev-projects-estate-crm-system/c583ba14-8ae4-4c17-8890-e258b0068bbd/scratchpad/merge_arb.py)",
-      "Bash(git rm *)"
+      "Bash(git rm *)",
+      "Bash(fvm flutter *)",
+      "Bash(flutter --version)",
+      "Bash(fvm list *)"
     ]
   }
 }
