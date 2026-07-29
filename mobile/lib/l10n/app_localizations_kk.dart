@@ -73,7 +73,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get adminInviteUser => 'Пайдаланушыны шақыру';
 
   @override
-  String adminInvitedAs(String name, String email, String role) {
+  String adminInvitedAs(Object email, Object name, Object role) {
     return '$name ($email) $role ретінде шақырылды.';
   }
 
@@ -212,7 +212,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get clientsCancel => 'Бас тарту';
 
   @override
-  String clientsClientCreatedId(int id) {
+  String clientsClientCreatedId(Object id) {
     return 'Клиент құрылды (ID: $id)';
   }
 
@@ -241,7 +241,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get clientsCreated => 'Құрылды';
 
   @override
-  String clientsDealCount(int count) {
+  String clientsDealCount(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
@@ -261,7 +261,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get clientsDeleteClient => 'Клиентті жою';
 
   @override
-  String clientsDeleteConfirm(String name) {
+  String clientsDeleteConfirm(Object name) {
     return '«$name» жойылсын ба?';
   }
 
@@ -278,7 +278,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get clientsFullNameLabel => 'Толық аты *';
 
   @override
-  String clientsIdBadge(int id) {
+  String clientsIdBadge(Object id) {
     return 'ID $id';
   }
 
@@ -385,7 +385,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get coreStatusWon => 'Жеңіске жетті';
 
   @override
-  String dashboardActiveDeals(int count) {
+  String dashboardActiveDeals(Object count) {
     return '$count белсенді';
   }
 
@@ -402,7 +402,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get dashboardClosedWon => 'Сәтті жабылды';
 
   @override
-  String dashboardGreeting(String greeting, String name) {
+  String dashboardGreeting(Object greeting, Object name) {
     return '$greeting, $name ✨';
   }
 
@@ -461,7 +461,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get dealsAgent => 'Агент';
 
   @override
-  String dealsAgentValue(String name) {
+  String dealsAgentValue(Object name) {
     return 'Агент: $name';
   }
 
@@ -469,7 +469,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get dealsBudget => 'Бюджет';
 
   @override
-  String dealsBudgetValue(String price) {
+  String dealsBudgetValue(Object price) {
     return 'Бюджет: $price';
   }
 
@@ -492,7 +492,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get dealsDealPrice => 'Мәміле бағасы';
 
   @override
-  String dealsDeleteConfirm(String title) {
+  String dealsDeleteConfirm(Object title) {
     return '«$title» жойылсын ба?';
   }
 
@@ -524,7 +524,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get dealsIdCopied => 'Мәміле ID көшірілді';
 
   @override
-  String dealsIdLabel(int id) {
+  String dealsIdLabel(Object id) {
     return 'Мәміле ID: $id';
   }
 
@@ -565,7 +565,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get dealsSelectClientError => 'Клиентті таңдаңыз';
 
   @override
-  String dealsSelectLabel(String label) {
+  String dealsSelectLabel(Object label) {
     return '$label таңдаңыз';
   }
 
@@ -585,7 +585,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get dealsStatusNotes => 'Мәртебе және ескертпелер';
 
   @override
-  String dealsTapToSelect(String label) {
+  String dealsTapToSelect(Object label) {
     return '$label таңдау үшін басыңыз';
   }
 
@@ -608,7 +608,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get meetingsAgent => 'Агент';
 
   @override
-  String meetingsAgentNumber(int id) {
+  String meetingsAgentNumber(Object id) {
     return 'Агент №$id';
   }
 
@@ -619,7 +619,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get meetingsClient => 'Клиент';
 
   @override
-  String meetingsClientNumber(int id) {
+  String meetingsClientNumber(Object id) {
     return 'Клиент №$id';
   }
 
@@ -630,7 +630,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get meetingsDeal => 'Мәміле';
 
   @override
-  String meetingsDealNumber(int id) {
+  String meetingsDealNumber(Object id) {
     return 'Мәміле №$id';
   }
 
@@ -698,12 +698,12 @@ class AppLocalizationsKk extends AppLocalizations {
   String get meetingsSelectDateTime => 'Күн мен уақытты таңдаңыз *';
 
   @override
-  String meetingsSelectEntity(String label) {
+  String meetingsSelectEntity(Object label) {
     return '$label таңдаңыз';
   }
 
   @override
-  String meetingsTapToSelect(String label) {
+  String meetingsTapToSelect(Object label) {
     return '$label таңдау үшін басыңыз';
   }
 
@@ -807,7 +807,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get propertiesAreaLabel => 'Ауданы м²';
 
   @override
-  String propertiesAreaValue(String area) {
+  String propertiesAreaValue(Object area) {
     return '$area м²';
   }
 
@@ -827,7 +827,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get propertiesDelete => 'Жою';
 
   @override
-  String propertiesDeleteConfirm(String title) {
+  String propertiesDeleteConfirm(Object title) {
     return '«$title» жойылсын ба?';
   }
 
@@ -850,7 +850,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get propertiesEditProperty => 'Нысанды өңдеу';
 
   @override
-  String propertiesFieldRequired(String label) {
+  String propertiesFieldRequired(Object label) {
     return '$label міндетті';
   }
 
@@ -876,7 +876,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get propertiesProperty => 'Нысан';
 
   @override
-  String propertiesPropertyCreated(int id) {
+  String propertiesPropertyCreated(Object id) {
     return 'Нысан құрылды (ID: $id)';
   }
 
@@ -884,7 +884,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get propertiesPropertyIdCopied => 'Нысан ID көшірілді';
 
   @override
-  String propertiesPropertyIdLabel(int id) {
+  String propertiesPropertyIdLabel(Object id) {
     return 'Нысан ID: $id';
   }
 
@@ -895,7 +895,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get propertiesRooms => 'Бөлмелер';
 
   @override
-  String propertiesRoomsCount(int rooms) {
+  String propertiesRoomsCount(Object rooms) {
     return '$rooms бөлме';
   }
 
@@ -963,7 +963,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get teamsInviteAgent => 'Агент шақыру';
 
   @override
-  String teamsManagerLabel(String name) {
+  String teamsManagerLabel(Object name) {
     return 'Менеджер: $name';
   }
 
@@ -971,7 +971,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get teamsManagerOptional => 'Менеджер (міндетті емес)';
 
   @override
-  String teamsMemberCount(int count) {
+  String teamsMemberCount(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,

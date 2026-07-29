@@ -22,6 +22,7 @@ class ErrorWidget2 extends StatelessWidget {
           padding: const EdgeInsets.all(24),
           child: Card(
             elevation: 2,
+            // ignore: deprecated_member_use
             shadowColor: Colors.black.withOpacity(0.08),
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -32,6 +33,7 @@ class ErrorWidget2 extends StatelessWidget {
                   width: 72,
                   height: 72,
                   decoration: BoxDecoration(
+                    // ignore: deprecated_member_use
                     color: AppColors.error.withOpacity(0.12),
                     borderRadius: BorderRadius.circular(20),
                   ),

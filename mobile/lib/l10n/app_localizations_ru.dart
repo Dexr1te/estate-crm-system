@@ -73,7 +73,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get adminInviteUser => 'Пригласить пользователя';
 
   @override
-  String adminInvitedAs(String name, String email, String role) {
+  String adminInvitedAs(Object email, Object name, Object role) {
     return '$name ($email) приглашён(а) как $role.';
   }
 
@@ -213,7 +213,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get clientsCancel => 'Отмена';
 
   @override
-  String clientsClientCreatedId(int id) {
+  String clientsClientCreatedId(Object id) {
     return 'Клиент создан (ID: $id)';
   }
 
@@ -242,7 +242,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get clientsCreated => 'Создано';
 
   @override
-  String clientsDealCount(int count) {
+  String clientsDealCount(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
@@ -264,7 +264,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get clientsDeleteClient => 'Удалить клиента';
 
   @override
-  String clientsDeleteConfirm(String name) {
+  String clientsDeleteConfirm(Object name) {
     return 'Удалить «$name»?';
   }
 
@@ -281,7 +281,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get clientsFullNameLabel => 'Полное имя *';
 
   @override
-  String clientsIdBadge(int id) {
+  String clientsIdBadge(Object id) {
     return 'ID $id';
   }
 
@@ -388,7 +388,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get coreStatusWon => 'Выиграна';
 
   @override
-  String dashboardActiveDeals(int count) {
+  String dashboardActiveDeals(Object count) {
     return '$count активных';
   }
 
@@ -405,7 +405,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get dashboardClosedWon => 'Успешно закрыто';
 
   @override
-  String dashboardGreeting(String greeting, String name) {
+  String dashboardGreeting(Object greeting, Object name) {
     return '$greeting, $name ✨';
   }
 
@@ -464,7 +464,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get dealsAgent => 'Агент';
 
   @override
-  String dealsAgentValue(String name) {
+  String dealsAgentValue(Object name) {
     return 'Агент: $name';
   }
 
@@ -472,7 +472,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get dealsBudget => 'Бюджет';
 
   @override
-  String dealsBudgetValue(String price) {
+  String dealsBudgetValue(Object price) {
     return 'Бюджет: $price';
   }
 
@@ -495,7 +495,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get dealsDealPrice => 'Цена сделки';
 
   @override
-  String dealsDeleteConfirm(String title) {
+  String dealsDeleteConfirm(Object title) {
     return 'Удалить «$title»?';
   }
 
@@ -527,7 +527,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get dealsIdCopied => 'ID сделки скопирован';
 
   @override
-  String dealsIdLabel(int id) {
+  String dealsIdLabel(Object id) {
     return 'ID сделки: $id';
   }
 
@@ -568,7 +568,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get dealsSelectClientError => 'Пожалуйста, выберите клиента';
 
   @override
-  String dealsSelectLabel(String label) {
+  String dealsSelectLabel(Object label) {
     return 'Выберите $label';
   }
 
@@ -588,7 +588,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get dealsStatusNotes => 'Статус и заметки';
 
   @override
-  String dealsTapToSelect(String label) {
+  String dealsTapToSelect(Object label) {
     return 'Нажмите, чтобы выбрать $label';
   }
 
@@ -611,7 +611,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get meetingsAgent => 'Агент';
 
   @override
-  String meetingsAgentNumber(int id) {
+  String meetingsAgentNumber(Object id) {
     return 'Агент №$id';
   }
 
@@ -622,7 +622,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get meetingsClient => 'Клиент';
 
   @override
-  String meetingsClientNumber(int id) {
+  String meetingsClientNumber(Object id) {
     return 'Клиент №$id';
   }
 
@@ -633,7 +633,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get meetingsDeal => 'Сделка';
 
   @override
-  String meetingsDealNumber(int id) {
+  String meetingsDealNumber(Object id) {
     return 'Сделка №$id';
   }
 
@@ -702,12 +702,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get meetingsSelectDateTime => 'Выберите дату и время *';
 
   @override
-  String meetingsSelectEntity(String label) {
+  String meetingsSelectEntity(Object label) {
     return 'Выберите $label';
   }
 
   @override
-  String meetingsTapToSelect(String label) {
+  String meetingsTapToSelect(Object label) {
     return 'Нажмите, чтобы выбрать: $label';
   }
 
@@ -811,7 +811,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get propertiesAreaLabel => 'Площадь м²';
 
   @override
-  String propertiesAreaValue(String area) {
+  String propertiesAreaValue(Object area) {
     return '$area м²';
   }
 
@@ -831,7 +831,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get propertiesDelete => 'Удалить';
 
   @override
-  String propertiesDeleteConfirm(String title) {
+  String propertiesDeleteConfirm(Object title) {
     return 'Удалить «$title»?';
   }
 
@@ -854,7 +854,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get propertiesEditProperty => 'Редактировать объект';
 
   @override
-  String propertiesFieldRequired(String label) {
+  String propertiesFieldRequired(Object label) {
     return '$label обязательно';
   }
 
@@ -880,7 +880,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get propertiesProperty => 'Объект';
 
   @override
-  String propertiesPropertyCreated(int id) {
+  String propertiesPropertyCreated(Object id) {
     return 'Объект создан (ID: $id)';
   }
 
@@ -888,7 +888,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get propertiesPropertyIdCopied => 'ID объекта скопирован';
 
   @override
-  String propertiesPropertyIdLabel(int id) {
+  String propertiesPropertyIdLabel(Object id) {
     return 'ID объекта: $id';
   }
 
@@ -899,7 +899,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get propertiesRooms => 'Комнаты';
 
   @override
-  String propertiesRoomsCount(int rooms) {
+  String propertiesRoomsCount(Object rooms) {
     return '$rooms комн.';
   }
 
@@ -967,7 +967,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get teamsInviteAgent => 'Пригласить агента';
 
   @override
-  String teamsManagerLabel(String name) {
+  String teamsManagerLabel(Object name) {
     return 'Менеджер: $name';
   }
 
@@ -975,7 +975,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get teamsManagerOptional => 'Менеджер (необязательно)';
 
   @override
-  String teamsMemberCount(int count) {
+  String teamsMemberCount(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,

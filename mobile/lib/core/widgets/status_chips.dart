@@ -82,10 +82,12 @@ class _StatusChip extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         decoration: BoxDecoration(
+          // ignore: deprecated_member_use
           color: color.withOpacity(0.16),
           borderRadius: BorderRadius.circular(28),
           boxShadow: [
             BoxShadow(
+                // ignore: deprecated_member_use
                 color: color.withOpacity(0.08),
                 blurRadius: 10,
                 offset: const Offset(0, 2)),

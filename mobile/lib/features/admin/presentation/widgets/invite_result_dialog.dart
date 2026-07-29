@@ -36,8 +36,10 @@ class _InviteResultDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Params are alphabetical (email, name, role) — the ARB placeholder
+          // types were dropped, so gen-l10n no longer preserves declared order.
           Text(l10n.adminInvitedAs(
-              user.fullName, user.email, user.role.name)),
+              user.email, user.fullName, user.role.name)),
           const SizedBox(height: 16),
           if (token == null || token.isEmpty)
             Text(

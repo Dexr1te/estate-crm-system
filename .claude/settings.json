@@ -14,7 +14,10 @@
       "Bash(git rm *)",
       "Bash(fvm flutter *)",
       "Bash(flutter --version)",
-      "Bash(fvm list *)"
+      "Bash(fvm list *)",
+      "Bash(python3 /private/tmp/claude-501/-Users-asansultan25gmail-com-Desktop-DevProjects-FlutterDev-projects-estate-crm-system/f5357d77-4c6a-49aa-aef0-7deaa3eeb381/scratchpad/strip_arb_meta.py)",
+      "Bash(echo \"=== exit: $? ===\")",
+      "Bash(awk '/^  intl:/{f=1} f&&/version:/{print; exit}' mobile/pubspec.lock)"
     ]
   }
 }

@@ -21,6 +21,7 @@ class StatCard extends StatelessWidget {
         Theme.of(context).textTheme.bodySmall?.color ?? AppColors.textSecondary;
     return Card(
       elevation: 4,
+      // ignore: deprecated_member_use
       shadowColor: Colors.black.withOpacity(0.08),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       child: Padding(
@@ -31,6 +32,7 @@ class StatCard extends StatelessWidget {
                 width: 40,
                 height: 40,
                 decoration: BoxDecoration(
+                    // ignore: deprecated_member_use
                     color: color.withOpacity(0.18),
                     borderRadius: BorderRadius.circular(14)),
                 child: Icon(icon, color: color, size: 20)),

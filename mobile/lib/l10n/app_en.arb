@@ -1,9 +1,6 @@
 {
   "@@locale": "en",
   "appTitle": "Estate CRM",
-  "@appTitle": {
-    "description": "The application title"
-  },
   "adminActivate": "Activate",
   "adminAssignTeam": "Assign team",
   "adminAssignToTeam": "Assign to team",
@@ -25,19 +22,6 @@
   "adminInviteInstructions": "They open the app, tap “Have an invite?” on the login screen, paste this code and choose their own password.",
   "adminInviteUser": "Invite user",
   "adminInvitedAs": "{name} ({email}) was invited as {role}.",
-  "@adminInvitedAs": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      },
-      "email": {
-        "type": "String"
-      },
-      "role": {
-        "type": "String"
-      }
-    }
-  },
   "adminNewTeam": "New team",
   "adminNoAuditEntries": "No audit entries",
   "adminNoInviteToken": "No invite token was returned. The user cannot set a password until this is resolved.",
@@ -83,13 +67,6 @@
   "clientsBuyer": "🏠 Buyer",
   "clientsCancel": "Cancel",
   "clientsClientCreatedId": "Client created (ID: {id})",
-  "@clientsClientCreatedId": {
-    "placeholders": {
-      "id": {
-        "type": "int"
-      }
-    }
-  },
   "clientsClientFallback": "Client",
   "clientsClientIdCopied": "Client ID copied",
   "clientsClientNotFound": "Client not found",
@@ -99,36 +76,15 @@
   "clientsCreateClient": "Create Client",
   "clientsCreated": "Created",
   "clientsDealCount": "{count, plural, =1{1 deal} other{{count} deals}}",
-  "@clientsDealCount": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "clientsDeals": "Deals",
   "clientsDelete": "Delete",
   "clientsDeleteClient": "Delete Client",
   "clientsDeleteConfirm": "Delete \"{name}\"?",
-  "@clientsDeleteConfirm": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "clientsEdit": "Edit",
   "clientsEditClient": "Edit Client",
   "clientsEmail": "Email",
   "clientsFullNameLabel": "Full Name *",
   "clientsIdBadge": "ID {id}",
-  "@clientsIdBadge": {
-    "placeholders": {
-      "id": {
-        "type": "int"
-      }
-    }
-  },
   "clientsInvalidEmail": "Invalid email",
   "clientsNameRequired": "Name is required",
   "clientsNewClient": "New Client",
@@ -164,28 +120,11 @@
   "coreStatusSold": "Sold",
   "coreStatusWon": "Won",
   "dashboardActiveDeals": "{count} active",
-  "@dashboardActiveDeals": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "dashboardAddClient": "Add Client",
   "dashboardAddProperty": "Add Property",
   "dashboardClients": "Clients",
   "dashboardClosedWon": "Closed Won",
   "dashboardGreeting": "{greeting}, {name} ✨",
-  "@dashboardGreeting": {
-    "placeholders": {
-      "greeting": {
-        "type": "String"
-      },
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "dashboardGreetingAfternoon": "Good afternoon",
   "dashboardGreetingEvening": "Good evening",
   "dashboardGreetingFallbackName": "there",
@@ -205,22 +144,8 @@
   "dealsAddDeal": "Add Deal",
   "dealsAgent": "Agent",
   "dealsAgentValue": "Agent: {name}",
-  "@dealsAgentValue": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "dealsBudget": "Budget",
   "dealsBudgetValue": "Budget: {price}",
-  "@dealsBudgetValue": {
-    "placeholders": {
-      "price": {
-        "type": "String"
-      }
-    }
-  },
   "dealsCancel": "Cancel",
   "dealsClient": "Client",
   "dealsClosed": "Closed",
@@ -228,13 +153,6 @@
   "dealsCreated": "Created",
   "dealsDealPrice": "Deal Price",
   "dealsDeleteConfirm": "Delete \"{title}\"?",
-  "@dealsDeleteConfirm": {
-    "placeholders": {
-      "title": {
-        "type": "String"
-      }
-    }
-  },
   "dealsDeleteTitle": "Delete Deal",
   "dealsDetails": "Details",
   "dealsEditTitle": "Edit Deal",
@@ -245,13 +163,6 @@
   "dealsFinancials": "Financials",
   "dealsIdCopied": "Deal ID copied",
   "dealsIdLabel": "Deal ID: {id}",
-  "@dealsIdLabel": {
-    "placeholders": {
-      "id": {
-        "type": "int"
-      }
-    }
-  },
   "dealsLoading": "Loading…",
   "dealsNewTitle": "New Deal",
   "dealsNoResults": "No results",
@@ -265,26 +176,12 @@
   "dealsSelectAgentError": "Please select an agent",
   "dealsSelectClientError": "Please select a client",
   "dealsSelectLabel": "Select {label}",
-  "@dealsSelectLabel": {
-    "placeholders": {
-      "label": {
-        "type": "String"
-      }
-    }
-  },
   "dealsStatusClosedLost": "Closed Lost",
   "dealsStatusClosedWon": "Closed Won",
   "dealsStatusLead": "Lead",
   "dealsStatusNegotiation": "Negotiation",
   "dealsStatusNotes": "Status & Notes",
   "dealsTapToSelect": "Tap to select {label}",
-  "@dealsTapToSelect": {
-    "placeholders": {
-      "label": {
-        "type": "String"
-      }
-    }
-  },
   "dealsTitle": "Deals",
   "dealsTitleLabel": "Title *",
   "dealsTitleRequired": "Title is required",
@@ -292,33 +189,12 @@
   "meetingsAgendaHint": "Meeting agenda, talking points…",
   "meetingsAgent": "Agent",
   "meetingsAgentNumber": "Agent #{id}",
-  "@meetingsAgentNumber": {
-    "placeholders": {
-      "id": {
-        "type": "int"
-      }
-    }
-  },
   "meetingsCancel": "Cancel",
   "meetingsClient": "Client",
   "meetingsClientNumber": "Client #{id}",
-  "@meetingsClientNumber": {
-    "placeholders": {
-      "id": {
-        "type": "int"
-      }
-    }
-  },
   "meetingsCompleted": "Completed",
   "meetingsDeal": "Deal",
   "meetingsDealNumber": "Deal #{id}",
-  "@meetingsDealNumber": {
-    "placeholders": {
-      "id": {
-        "type": "int"
-      }
-    }
-  },
   "meetingsDelete": "Delete",
   "meetingsDeleteConfirm": "Delete this meeting?",
   "meetingsDeleteMeeting": "Delete Meeting",
@@ -341,21 +217,7 @@
   "meetingsSearchByNameOrId": "Search by name or ID…",
   "meetingsSelectDateTime": "Select date & time *",
   "meetingsSelectEntity": "Select {label}",
-  "@meetingsSelectEntity": {
-    "placeholders": {
-      "label": {
-        "type": "String"
-      }
-    }
-  },
   "meetingsTapToSelect": "Tap to select {label}",
-  "@meetingsTapToSelect": {
-    "placeholders": {
-      "label": {
-        "type": "String"
-      }
-    }
-  },
   "meetingsTitle": "Meetings",
   "meetingsTitleFieldLabel": "Title *",
   "meetingsTitleRequired": "Title is required",
@@ -390,26 +252,12 @@
   "propertiesArea": "Area",
   "propertiesAreaLabel": "Area m²",
   "propertiesAreaValue": "{area} m²",
-  "@propertiesAreaValue": {
-    "placeholders": {
-      "area": {
-        "type": "String"
-      }
-    }
-  },
   "propertiesBasicInfo": "Basic Info",
   "propertiesCancel": "Cancel",
   "propertiesCityLabel": "City",
   "propertiesCreateProperty": "Create Property",
   "propertiesDelete": "Delete",
   "propertiesDeleteConfirm": "Delete \"{title}\"?",
-  "@propertiesDeleteConfirm": {
-    "placeholders": {
-      "title": {
-        "type": "String"
-      }
-    }
-  },
   "propertiesDeleteProperty": "Delete Property",
   "propertiesDescribeHint": "Describe the property…",
   "propertiesDescription": "Description",
@@ -417,13 +265,6 @@
   "propertiesEdit": "Edit",
   "propertiesEditProperty": "Edit Property",
   "propertiesFieldRequired": "{label} is required",
-  "@propertiesFieldRequired": {
-    "placeholders": {
-      "label": {
-        "type": "String"
-      }
-    }
-  },
   "propertiesFilters": "Filters",
   "propertiesFloor": "Floor",
   "propertiesLocation": "Location",
@@ -432,32 +273,11 @@
   "propertiesPriceLabel": "Price *",
   "propertiesProperty": "Property",
   "propertiesPropertyCreated": "Property created (ID: {id})",
-  "@propertiesPropertyCreated": {
-    "placeholders": {
-      "id": {
-        "type": "int"
-      }
-    }
-  },
   "propertiesPropertyIdCopied": "Property ID copied",
   "propertiesPropertyIdLabel": "Property ID: {id}",
-  "@propertiesPropertyIdLabel": {
-    "placeholders": {
-      "id": {
-        "type": "int"
-      }
-    }
-  },
   "propertiesPropertyNotFound": "Property not found",
   "propertiesRooms": "Rooms",
   "propertiesRoomsCount": "{rooms} rooms",
-  "@propertiesRoomsCount": {
-    "placeholders": {
-      "rooms": {
-        "type": "int"
-      }
-    }
-  },
   "propertiesSearchHint": "Search...",
   "propertiesStatus": "Status",
   "propertiesTitle": "Properties",
@@ -480,22 +300,8 @@
   "teamsFullName": "Full name",
   "teamsInviteAgent": "Invite agent",
   "teamsManagerLabel": "Manager: {name}",
-  "@teamsManagerLabel": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "teamsManagerOptional": "Manager (optional)",
   "teamsMemberCount": "{count, plural, =1{1 member} other{{count} members}}",
-  "@teamsMemberCount": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "teamsMyTeam": "My Team",
   "teamsNoManager": "No manager",
   "teamsNoTeamSubtitle": "You are not managing a team",

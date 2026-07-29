@@ -100,7 +100,7 @@ abstract class AppLocalizations {
     Locale('ru')
   ];
 
-  /// The application title
+  /// No description provided for @appTitle.
   ///
   /// In en, this message translates to:
   /// **'Estate CRM'**
@@ -230,7 +230,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'{name} ({email}) was invited as {role}.'**
-  String adminInvitedAs(String name, String email, String role);
+  String adminInvitedAs(Object email, Object name, Object role);
 
   /// No description provided for @adminNewTeam.
   ///
@@ -500,7 +500,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Client created (ID: {id})'**
-  String clientsClientCreatedId(int id);
+  String clientsClientCreatedId(Object id);
 
   /// No description provided for @clientsClientFallback.
   ///
@@ -554,7 +554,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'{count, plural, =1{1 deal} other{{count} deals}}'**
-  String clientsDealCount(int count);
+  String clientsDealCount(num count);
 
   /// No description provided for @clientsDeals.
   ///
@@ -578,7 +578,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Delete \"{name}\"?'**
-  String clientsDeleteConfirm(String name);
+  String clientsDeleteConfirm(Object name);
 
   /// No description provided for @clientsEdit.
   ///
@@ -608,7 +608,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'ID {id}'**
-  String clientsIdBadge(int id);
+  String clientsIdBadge(Object id);
 
   /// No description provided for @clientsInvalidEmail.
   ///
@@ -818,7 +818,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'{count} active'**
-  String dashboardActiveDeals(int count);
+  String dashboardActiveDeals(Object count);
 
   /// No description provided for @dashboardAddClient.
   ///
@@ -848,7 +848,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'{greeting}, {name} ✨'**
-  String dashboardGreeting(String greeting, String name);
+  String dashboardGreeting(Object greeting, Object name);
 
   /// No description provided for @dashboardGreetingAfternoon.
   ///
@@ -962,7 +962,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Agent: {name}'**
-  String dealsAgentValue(String name);
+  String dealsAgentValue(Object name);
 
   /// No description provided for @dealsBudget.
   ///
@@ -974,7 +974,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Budget: {price}'**
-  String dealsBudgetValue(String price);
+  String dealsBudgetValue(Object price);
 
   /// No description provided for @dealsCancel.
   ///
@@ -1016,7 +1016,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Delete \"{title}\"?'**
-  String dealsDeleteConfirm(String title);
+  String dealsDeleteConfirm(Object title);
 
   /// No description provided for @dealsDeleteTitle.
   ///
@@ -1076,7 +1076,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Deal ID: {id}'**
-  String dealsIdLabel(int id);
+  String dealsIdLabel(Object id);
 
   /// No description provided for @dealsLoading.
   ///
@@ -1154,7 +1154,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Select {label}'**
-  String dealsSelectLabel(String label);
+  String dealsSelectLabel(Object label);
 
   /// No description provided for @dealsStatusClosedLost.
   ///
@@ -1190,7 +1190,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Tap to select {label}'**
-  String dealsTapToSelect(String label);
+  String dealsTapToSelect(Object label);
 
   /// No description provided for @dealsTitle.
   ///
@@ -1232,7 +1232,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Agent #{id}'**
-  String meetingsAgentNumber(int id);
+  String meetingsAgentNumber(Object id);
 
   /// No description provided for @meetingsCancel.
   ///
@@ -1250,7 +1250,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Client #{id}'**
-  String meetingsClientNumber(int id);
+  String meetingsClientNumber(Object id);
 
   /// No description provided for @meetingsCompleted.
   ///
@@ -1268,7 +1268,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Deal #{id}'**
-  String meetingsDealNumber(int id);
+  String meetingsDealNumber(Object id);
 
   /// No description provided for @meetingsDelete.
   ///
@@ -1400,13 +1400,13 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Select {label}'**
-  String meetingsSelectEntity(String label);
+  String meetingsSelectEntity(Object label);
 
   /// No description provided for @meetingsTapToSelect.
   ///
   /// In en, this message translates to:
   /// **'Tap to select {label}'**
-  String meetingsTapToSelect(String label);
+  String meetingsTapToSelect(Object label);
 
   /// No description provided for @meetingsTitle.
   ///
@@ -1610,7 +1610,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'{area} m²'**
-  String propertiesAreaValue(String area);
+  String propertiesAreaValue(Object area);
 
   /// No description provided for @propertiesBasicInfo.
   ///
@@ -1646,7 +1646,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Delete \"{title}\"?'**
-  String propertiesDeleteConfirm(String title);
+  String propertiesDeleteConfirm(Object title);
 
   /// No description provided for @propertiesDeleteProperty.
   ///
@@ -1688,7 +1688,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'{label} is required'**
-  String propertiesFieldRequired(String label);
+  String propertiesFieldRequired(Object label);
 
   /// No description provided for @propertiesFilters.
   ///
@@ -1736,7 +1736,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Property created (ID: {id})'**
-  String propertiesPropertyCreated(int id);
+  String propertiesPropertyCreated(Object id);
 
   /// No description provided for @propertiesPropertyIdCopied.
   ///
@@ -1748,7 +1748,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Property ID: {id}'**
-  String propertiesPropertyIdLabel(int id);
+  String propertiesPropertyIdLabel(Object id);
 
   /// No description provided for @propertiesPropertyNotFound.
   ///
@@ -1766,7 +1766,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'{rooms} rooms'**
-  String propertiesRoomsCount(int rooms);
+  String propertiesRoomsCount(Object rooms);
 
   /// No description provided for @propertiesSearchHint.
   ///
@@ -1898,7 +1898,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Manager: {name}'**
-  String teamsManagerLabel(String name);
+  String teamsManagerLabel(Object name);
 
   /// No description provided for @teamsManagerOptional.
   ///
@@ -1910,7 +1910,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'{count, plural, =1{1 member} other{{count} members}}'**
-  String teamsMemberCount(int count);
+  String teamsMemberCount(num count);
 
   /// No description provided for @teamsMyTeam.
   ///
