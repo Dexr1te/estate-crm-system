@@ -7,11 +7,17 @@ part 'models.g.dart';
 // Enums
 // ─────────────────────────────────────────────
 
+// ignore: constant_identifier_names
 enum Role { ADMIN, MANAGER, AGENT }
+// ignore: constant_identifier_names
 enum DataScope { OWN, TEAM, ALL }
+// ignore: constant_identifier_names
 enum ClientType { BUYER, SELLER }
+// ignore: constant_identifier_names
 enum PropertyType { APARTMENT, HOUSE, COMMERCIAL, LAND, OFFICE }
+// ignore: constant_identifier_names
 enum PropertyStatus { AVAILABLE, RESERVED, SOLD }
+// ignore: constant_identifier_names
 enum DealStatus { LEAD, NEGOTIATION, CLOSED_WON, CLOSED_LOST }
 
 // ─────────────────────────────────────────────

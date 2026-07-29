@@ -73,7 +73,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get adminInviteUser => 'Invite user';
 
   @override
-  String adminInvitedAs(String name, String email, String role) {
+  String adminInvitedAs(Object email, Object name, Object role) {
     return '$name ($email) was invited as $role.';
   }
 
@@ -212,7 +212,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clientsCancel => 'Cancel';
 
   @override
-  String clientsClientCreatedId(int id) {
+  String clientsClientCreatedId(Object id) {
     return 'Client created (ID: $id)';
   }
 
@@ -241,7 +241,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clientsCreated => 'Created';
 
   @override
-  String clientsDealCount(int count) {
+  String clientsDealCount(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,
@@ -261,7 +261,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clientsDeleteClient => 'Delete Client';
 
   @override
-  String clientsDeleteConfirm(String name) {
+  String clientsDeleteConfirm(Object name) {
     return 'Delete \"$name\"?';
   }
 
@@ -278,7 +278,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clientsFullNameLabel => 'Full Name *';
 
   @override
-  String clientsIdBadge(int id) {
+  String clientsIdBadge(Object id) {
     return 'ID $id';
   }
 
@@ -385,7 +385,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get coreStatusWon => 'Won';
 
   @override
-  String dashboardActiveDeals(int count) {
+  String dashboardActiveDeals(Object count) {
     return '$count active';
   }
 
@@ -402,7 +402,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dashboardClosedWon => 'Closed Won';
 
   @override
-  String dashboardGreeting(String greeting, String name) {
+  String dashboardGreeting(Object greeting, Object name) {
     return '$greeting, $name ✨';
   }
 
@@ -461,7 +461,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dealsAgent => 'Agent';
 
   @override
-  String dealsAgentValue(String name) {
+  String dealsAgentValue(Object name) {
     return 'Agent: $name';
   }
 
@@ -469,7 +469,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dealsBudget => 'Budget';
 
   @override
-  String dealsBudgetValue(String price) {
+  String dealsBudgetValue(Object price) {
     return 'Budget: $price';
   }
 
@@ -492,7 +492,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dealsDealPrice => 'Deal Price';
 
   @override
-  String dealsDeleteConfirm(String title) {
+  String dealsDeleteConfirm(Object title) {
     return 'Delete \"$title\"?';
   }
 
@@ -524,7 +524,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dealsIdCopied => 'Deal ID copied';
 
   @override
-  String dealsIdLabel(int id) {
+  String dealsIdLabel(Object id) {
     return 'Deal ID: $id';
   }
 
@@ -565,7 +565,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dealsSelectClientError => 'Please select a client';
 
   @override
-  String dealsSelectLabel(String label) {
+  String dealsSelectLabel(Object label) {
     return 'Select $label';
   }
 
@@ -585,7 +585,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dealsStatusNotes => 'Status & Notes';
 
   @override
-  String dealsTapToSelect(String label) {
+  String dealsTapToSelect(Object label) {
     return 'Tap to select $label';
   }
 
@@ -608,7 +608,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get meetingsAgent => 'Agent';
 
   @override
-  String meetingsAgentNumber(int id) {
+  String meetingsAgentNumber(Object id) {
     return 'Agent #$id';
   }
 
@@ -619,7 +619,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get meetingsClient => 'Client';
 
   @override
-  String meetingsClientNumber(int id) {
+  String meetingsClientNumber(Object id) {
     return 'Client #$id';
   }
 
@@ -630,7 +630,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get meetingsDeal => 'Deal';
 
   @override
-  String meetingsDealNumber(int id) {
+  String meetingsDealNumber(Object id) {
     return 'Deal #$id';
   }
 
@@ -698,12 +698,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get meetingsSelectDateTime => 'Select date & time *';
 
   @override
-  String meetingsSelectEntity(String label) {
+  String meetingsSelectEntity(Object label) {
     return 'Select $label';
   }
 
   @override
-  String meetingsTapToSelect(String label) {
+  String meetingsTapToSelect(Object label) {
     return 'Tap to select $label';
   }
 
@@ -807,7 +807,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get propertiesAreaLabel => 'Area m²';
 
   @override
-  String propertiesAreaValue(String area) {
+  String propertiesAreaValue(Object area) {
     return '$area m²';
   }
 
@@ -827,7 +827,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get propertiesDelete => 'Delete';
 
   @override
-  String propertiesDeleteConfirm(String title) {
+  String propertiesDeleteConfirm(Object title) {
     return 'Delete \"$title\"?';
   }
 
@@ -850,7 +850,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get propertiesEditProperty => 'Edit Property';
 
   @override
-  String propertiesFieldRequired(String label) {
+  String propertiesFieldRequired(Object label) {
     return '$label is required';
   }
 
@@ -876,7 +876,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get propertiesProperty => 'Property';
 
   @override
-  String propertiesPropertyCreated(int id) {
+  String propertiesPropertyCreated(Object id) {
     return 'Property created (ID: $id)';
   }
 
@@ -884,7 +884,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get propertiesPropertyIdCopied => 'Property ID copied';
 
   @override
-  String propertiesPropertyIdLabel(int id) {
+  String propertiesPropertyIdLabel(Object id) {
     return 'Property ID: $id';
   }
 
@@ -895,7 +895,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get propertiesRooms => 'Rooms';
 
   @override
-  String propertiesRoomsCount(int rooms) {
+  String propertiesRoomsCount(Object rooms) {
     return '$rooms rooms';
   }
 
@@ -963,7 +963,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get teamsInviteAgent => 'Invite agent';
 
   @override
-  String teamsManagerLabel(String name) {
+  String teamsManagerLabel(Object name) {
     return 'Manager: $name';
   }
 
@@ -971,7 +971,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get teamsManagerOptional => 'Manager (optional)';
 
   @override
-  String teamsMemberCount(int count) {
+  String teamsMemberCount(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
       locale: localeName,

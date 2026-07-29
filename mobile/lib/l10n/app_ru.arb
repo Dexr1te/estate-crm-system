@@ -1,9 +1,6 @@
 {
   "@@locale": "ru",
   "appTitle": "Estate CRM",
-  "@appTitle": {
-    "description": "The application title"
-  },
   "adminActivate": "Активировать",
   "adminAssignTeam": "Назначить команду",
   "adminAssignToTeam": "Назначить в команду",
@@ -25,19 +22,6 @@
   "adminInviteInstructions": "Они открывают приложение, нажимают «Есть приглашение?» на экране входа, вставляют этот код и выбирают собственный пароль.",
   "adminInviteUser": "Пригласить пользователя",
   "adminInvitedAs": "{name} ({email}) приглашён(а) как {role}.",
-  "@adminInvitedAs": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      },
-      "email": {
-        "type": "String"
-      },
-      "role": {
-        "type": "String"
-      }
-    }
-  },
   "adminNewTeam": "Новая команда",
   "adminNoAuditEntries": "Нет записей аудита",
   "adminNoInviteToken": "Токен приглашения не получен. Пользователь не сможет задать пароль, пока это не будет решено.",
@@ -83,13 +67,6 @@
   "clientsBuyer": "🏠 Покупатель",
   "clientsCancel": "Отмена",
   "clientsClientCreatedId": "Клиент создан (ID: {id})",
-  "@clientsClientCreatedId": {
-    "placeholders": {
-      "id": {
-        "type": "int"
-      }
-    }
-  },
   "clientsClientFallback": "Клиент",
   "clientsClientIdCopied": "ID клиента скопирован",
   "clientsClientNotFound": "Клиент не найден",
@@ -99,36 +76,15 @@
   "clientsCreateClient": "Создать клиента",
   "clientsCreated": "Создано",
   "clientsDealCount": "{count, plural, =1{1 сделка} few{{count} сделки} many{{count} сделок} other{{count} сделки}}",
-  "@clientsDealCount": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "clientsDeals": "Сделки",
   "clientsDelete": "Удалить",
   "clientsDeleteClient": "Удалить клиента",
   "clientsDeleteConfirm": "Удалить «{name}»?",
-  "@clientsDeleteConfirm": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "clientsEdit": "Редактировать",
   "clientsEditClient": "Редактировать клиента",
   "clientsEmail": "Эл. почта",
   "clientsFullNameLabel": "Полное имя *",
   "clientsIdBadge": "ID {id}",
-  "@clientsIdBadge": {
-    "placeholders": {
-      "id": {
-        "type": "int"
-      }
-    }
-  },
   "clientsInvalidEmail": "Неверный email",
   "clientsNameRequired": "Укажите имя",
   "clientsNewClient": "Новый клиент",
@@ -164,28 +120,11 @@
   "coreStatusSold": "Продан",
   "coreStatusWon": "Выиграна",
   "dashboardActiveDeals": "{count} активных",
-  "@dashboardActiveDeals": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "dashboardAddClient": "Добавить клиента",
   "dashboardAddProperty": "Добавить объект",
   "dashboardClients": "Клиенты",
   "dashboardClosedWon": "Успешно закрыто",
   "dashboardGreeting": "{greeting}, {name} ✨",
-  "@dashboardGreeting": {
-    "placeholders": {
-      "greeting": {
-        "type": "String"
-      },
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "dashboardGreetingAfternoon": "Добрый день",
   "dashboardGreetingEvening": "Добрый вечер",
   "dashboardGreetingFallbackName": "друг",
@@ -205,22 +144,8 @@
   "dealsAddDeal": "Добавить сделку",
   "dealsAgent": "Агент",
   "dealsAgentValue": "Агент: {name}",
-  "@dealsAgentValue": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "dealsBudget": "Бюджет",
   "dealsBudgetValue": "Бюджет: {price}",
-  "@dealsBudgetValue": {
-    "placeholders": {
-      "price": {
-        "type": "String"
-      }
-    }
-  },
   "dealsCancel": "Отмена",
   "dealsClient": "Клиент",
   "dealsClosed": "Закрыта",
@@ -228,13 +153,6 @@
   "dealsCreated": "Создана",
   "dealsDealPrice": "Цена сделки",
   "dealsDeleteConfirm": "Удалить «{title}»?",
-  "@dealsDeleteConfirm": {
-    "placeholders": {
-      "title": {
-        "type": "String"
-      }
-    }
-  },
   "dealsDeleteTitle": "Удалить сделку",
   "dealsDetails": "Детали",
   "dealsEditTitle": "Редактировать сделку",
@@ -245,13 +163,6 @@
   "dealsFinancials": "Финансы",
   "dealsIdCopied": "ID сделки скопирован",
   "dealsIdLabel": "ID сделки: {id}",
-  "@dealsIdLabel": {
-    "placeholders": {
-      "id": {
-        "type": "int"
-      }
-    }
-  },
   "dealsLoading": "Загрузка…",
   "dealsNewTitle": "Новая сделка",
   "dealsNoResults": "Ничего не найдено",
@@ -265,26 +176,12 @@
   "dealsSelectAgentError": "Пожалуйста, выберите агента",
   "dealsSelectClientError": "Пожалуйста, выберите клиента",
   "dealsSelectLabel": "Выберите {label}",
-  "@dealsSelectLabel": {
-    "placeholders": {
-      "label": {
-        "type": "String"
-      }
-    }
-  },
   "dealsStatusClosedLost": "Закрыта с потерей",
   "dealsStatusClosedWon": "Успешно закрыта",
   "dealsStatusLead": "Лид",
   "dealsStatusNegotiation": "Переговоры",
   "dealsStatusNotes": "Статус и заметки",
   "dealsTapToSelect": "Нажмите, чтобы выбрать {label}",
-  "@dealsTapToSelect": {
-    "placeholders": {
-      "label": {
-        "type": "String"
-      }
-    }
-  },
   "dealsTitle": "Сделки",
   "dealsTitleLabel": "Название *",
   "dealsTitleRequired": "Название обязательно",
@@ -292,33 +189,12 @@
   "meetingsAgendaHint": "Повестка встречи, темы для обсуждения…",
   "meetingsAgent": "Агент",
   "meetingsAgentNumber": "Агент №{id}",
-  "@meetingsAgentNumber": {
-    "placeholders": {
-      "id": {
-        "type": "int"
-      }
-    }
-  },
   "meetingsCancel": "Отмена",
   "meetingsClient": "Клиент",
   "meetingsClientNumber": "Клиент №{id}",
-  "@meetingsClientNumber": {
-    "placeholders": {
-      "id": {
-        "type": "int"
-      }
-    }
-  },
   "meetingsCompleted": "Выполнено",
   "meetingsDeal": "Сделка",
   "meetingsDealNumber": "Сделка №{id}",
-  "@meetingsDealNumber": {
-    "placeholders": {
-      "id": {
-        "type": "int"
-      }
-    }
-  },
   "meetingsDelete": "Удалить",
   "meetingsDeleteConfirm": "Удалить эту встречу?",
   "meetingsDeleteMeeting": "Удалить встречу",
@@ -341,21 +217,7 @@
   "meetingsSearchByNameOrId": "Поиск по имени или ID…",
   "meetingsSelectDateTime": "Выберите дату и время *",
   "meetingsSelectEntity": "Выберите {label}",
-  "@meetingsSelectEntity": {
-    "placeholders": {
-      "label": {
-        "type": "String"
-      }
-    }
-  },
   "meetingsTapToSelect": "Нажмите, чтобы выбрать: {label}",
-  "@meetingsTapToSelect": {
-    "placeholders": {
-      "label": {
-        "type": "String"
-      }
-    }
-  },
   "meetingsTitle": "Встречи",
   "meetingsTitleFieldLabel": "Название *",
   "meetingsTitleRequired": "Название обязательно",
@@ -390,26 +252,12 @@
   "propertiesArea": "Площадь",
   "propertiesAreaLabel": "Площадь м²",
   "propertiesAreaValue": "{area} м²",
-  "@propertiesAreaValue": {
-    "placeholders": {
-      "area": {
-        "type": "String"
-      }
-    }
-  },
   "propertiesBasicInfo": "Основная информация",
   "propertiesCancel": "Отмена",
   "propertiesCityLabel": "Город",
   "propertiesCreateProperty": "Создать объект",
   "propertiesDelete": "Удалить",
   "propertiesDeleteConfirm": "Удалить «{title}»?",
-  "@propertiesDeleteConfirm": {
-    "placeholders": {
-      "title": {
-        "type": "String"
-      }
-    }
-  },
   "propertiesDeleteProperty": "Удалить объект",
   "propertiesDescribeHint": "Опишите объект…",
   "propertiesDescription": "Описание",
@@ -417,13 +265,6 @@
   "propertiesEdit": "Редактировать",
   "propertiesEditProperty": "Редактировать объект",
   "propertiesFieldRequired": "{label} обязательно",
-  "@propertiesFieldRequired": {
-    "placeholders": {
-      "label": {
-        "type": "String"
-      }
-    }
-  },
   "propertiesFilters": "Фильтры",
   "propertiesFloor": "Этаж",
   "propertiesLocation": "Расположение",
@@ -432,32 +273,11 @@
   "propertiesPriceLabel": "Цена *",
   "propertiesProperty": "Объект",
   "propertiesPropertyCreated": "Объект создан (ID: {id})",
-  "@propertiesPropertyCreated": {
-    "placeholders": {
-      "id": {
-        "type": "int"
-      }
-    }
-  },
   "propertiesPropertyIdCopied": "ID объекта скопирован",
   "propertiesPropertyIdLabel": "ID объекта: {id}",
-  "@propertiesPropertyIdLabel": {
-    "placeholders": {
-      "id": {
-        "type": "int"
-      }
-    }
-  },
   "propertiesPropertyNotFound": "Объект не найден",
   "propertiesRooms": "Комнаты",
   "propertiesRoomsCount": "{rooms} комн.",
-  "@propertiesRoomsCount": {
-    "placeholders": {
-      "rooms": {
-        "type": "int"
-      }
-    }
-  },
   "propertiesSearchHint": "Поиск...",
   "propertiesStatus": "Статус",
   "propertiesTitle": "Объекты",
@@ -480,22 +300,8 @@
   "teamsFullName": "Полное имя",
   "teamsInviteAgent": "Пригласить агента",
   "teamsManagerLabel": "Менеджер: {name}",
-  "@teamsManagerLabel": {
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "teamsManagerOptional": "Менеджер (необязательно)",
   "teamsMemberCount": "{count, plural, one{{count} участник} few{{count} участника} many{{count} участников} other{{count} участников}}",
-  "@teamsMemberCount": {
-    "placeholders": {
-      "count": {
-        "type": "int"
-      }
-    }
-  },
   "teamsMyTeam": "Моя команда",
   "teamsNoManager": "Без менеджера",
   "teamsNoTeamSubtitle": "Вы не управляете командой",

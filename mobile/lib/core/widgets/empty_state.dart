@@ -30,6 +30,7 @@ class EmptyState extends StatelessWidget {
       padding: const EdgeInsets.all(24),
       child: Card(
         elevation: 2,
+        // ignore: deprecated_member_use
         shadowColor: Colors.black.withOpacity(0.06),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         child: Padding(
