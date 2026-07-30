@@ -94,7 +94,7 @@ Future<Map<String, dynamic>?> _showInviteAgentSheet(BuildContext context) {
   final email = TextEditingController();
   final phone = TextEditingController();
 
-  return showModalBottomSheet<Map<String, dynamic>>(
+  return showAppBottomSheet<Map<String, dynamic>>(
     context: context,
     isScrollControlled: true,
     shape: const RoundedRectangleBorder(

@@ -2,6 +2,7 @@
 // common chips, cards, states, skeletons, dialogs and formatters that were
 // previously bundled in `features/widgets/shared_widgets.dart`.
 export 'package:real_estate_crm/core/utils/formatters.dart';
+export 'package:real_estate_crm/core/widgets/app_bottom_sheet.dart';
 export 'package:real_estate_crm/core/widgets/dialogs.dart';
 export 'package:real_estate_crm/core/widgets/empty_state.dart';
 export 'package:real_estate_crm/core/widgets/loading_error.dart';

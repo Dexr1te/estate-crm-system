@@ -180,6 +180,20 @@ class AppTheme {
           side: BorderSide.none),
       dividerTheme:
           const DividerThemeData(color: AppColors.border, thickness: 1),
+      // Without this, M3 falls back to ColorScheme.surfaceContainerLow, which
+      // fromSeed derives from the seed colour and our `surface` override does
+      // not touch — so sheets pick up a tint that is off-palette.
+      // surfaceTintColor is cleared for the same reason: elevation overlay
+      // would re-introduce it.
+      bottomSheetTheme: const BottomSheetThemeData(
+        backgroundColor: AppColors.surface,
+        modalBackgroundColor: AppColors.surface,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
+        modalElevation: 0,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+      ),
       listTileTheme: const ListTileThemeData(
           titleTextStyle: TextStyle(
               fontFamily: 'Sora',
@@ -355,6 +369,17 @@ class AppThemeDark {
       ),
       dividerTheme:
           const DividerThemeData(color: AppColors.darkBorder, thickness: 1),
+      // See the light theme: the gold seed made surfaceContainerLow a brownish
+      // tint in dark mode, which is what made sheets look off.
+      bottomSheetTheme: const BottomSheetThemeData(
+        backgroundColor: AppColors.darkSurface,
+        modalBackgroundColor: AppColors.darkSurface,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
+        modalElevation: 0,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+      ),
       listTileTheme: const ListTileThemeData(
         titleTextStyle: TextStyle(
             fontFamily: 'Sora',

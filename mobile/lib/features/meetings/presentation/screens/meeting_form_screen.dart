@@ -26,7 +26,7 @@ Future<_PickerItem?> _showPicker(
   required List<_PickerItem> items,
   int? selectedId,
 }) =>
-    showModalBottomSheet<_PickerItem>(
+    showAppBottomSheet<_PickerItem>(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,

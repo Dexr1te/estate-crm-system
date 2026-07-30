@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 import 'package:real_estate_crm/core/models/admin_models.dart';
 import 'package:real_estate_crm/core/models/team_models.dart';
+import 'package:real_estate_crm/core/widgets/widgets.dart';
 
 /// Shows the create/edit team sheet. Returns a TeamRequest body
 /// ({name, managerId?}) or null if cancelled. [managers] populates the
@@ -11,7 +12,7 @@ Future<Map<String, dynamic>?> showTeamFormSheet(
   TeamResponse? existing,
   List<AgentResponse> managers = const [],
 }) {
-  return showModalBottomSheet<Map<String, dynamic>>(
+  return showAppBottomSheet<Map<String, dynamic>>(
     context: context,
     isScrollControlled: true,
     shape: const RoundedRectangleBorder(
