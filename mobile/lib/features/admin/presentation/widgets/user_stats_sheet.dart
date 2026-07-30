@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/admin_models.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
+import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 /// Bottom sheet showing a single agent's work statistics.
 void showUserStatsSheet(BuildContext context, int userId) {
-  showModalBottomSheet(
+  showAppBottomSheet(
     context: context,
     shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20))),

@@ -3,10 +3,11 @@ import 'package:real_estate_crm/l10n/app_localizations.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/team_models.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
+import 'package:real_estate_crm/core/widgets/widgets.dart';
 
 /// Bottom sheet showing aggregated statistics for a team.
 void showTeamStatsSheet(BuildContext context, int teamId) {
-  showModalBottomSheet(
+  showAppBottomSheet(
     context: context,
     shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20))),

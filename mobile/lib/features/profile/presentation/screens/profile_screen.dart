@@ -5,6 +5,7 @@ import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/locale/bloc/locale_bloc.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
 import 'package:real_estate_crm/core/theme/bloc/theme_bloc.dart';
+import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_state.dart';
@@ -179,7 +180,7 @@ class ProfileScreen extends StatelessWidget {
   void _showEditName(BuildContext context, String current) {
     final l10n = AppLocalizations.of(context);
     final ctrl = TextEditingController(text: current);
-    showModalBottomSheet(
+    showAppBottomSheet(
       context: context,
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
@@ -232,7 +233,7 @@ class ProfileScreen extends StatelessWidget {
   void _showLanguagePicker(BuildContext context, Locale? current) {
     final l10n = AppLocalizations.of(context);
     final bloc = context.read<LocaleBloc>();
-    showModalBottomSheet(
+    showAppBottomSheet(
       context: context,
       shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(20))),

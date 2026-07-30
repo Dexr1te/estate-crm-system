@@ -190,7 +190,7 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
     );
   }
 
-  void _showFilters() => showModalBottomSheet(
+  void _showFilters() => showAppBottomSheet(
         context: context,
         shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(top: Radius.circular(20))),

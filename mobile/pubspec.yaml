@@ -35,16 +35,20 @@ dev_dependencies:
 flutter_launcher_icons:
   android: true
   ios: true
-  # Full-bleed square 1024 render of estatecrm-app-icon.svg; the OS applies its
-  # own corner mask, so no rounded corners are baked in.
-  image_path: "assets/images/estatecrm-app-icon-1024.png"
+  # Full-bleed square 1024 render of estatecrm-app-icon-light.svg on opaque
+  # white. The canvas is square: the OS applies its own corner mask.
+  # The dark variant (estatecrm-app-icon*.png) is kept as brand art but is not
+  # installed: switching icons at runtime needs iOS alternate icons, which are
+  # broken on iOS 26 (see git history).
+  image_path: "assets/images/estatecrm-app-icon-light-1024.png"
   remove_alpha_ios: true
   min_sdk_android: 21
-  # Android adaptive: the mark sits inside the centre 66% safe zone so it
-  # survives circle/squircle/teardrop masks.
-  adaptive_icon_background: "#0F1E3C"
-  adaptive_icon_foreground: "assets/images/estatecrm-app-icon-foreground.png"
-  adaptive_icon_monochrome: "assets/images/estatecrm-app-icon-monochrome.png"
+  # Android adaptive: background matches the art's white field, and the
+  # foreground is drawn at full scale -- the generator wraps it in its own
+  # <inset android:inset="16%"> safe zone, so pre-shrinking would double up.
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: "assets/images/estatecrm-app-icon-light-foreground.png"
+  adaptive_icon_monochrome: "assets/images/estatecrm-app-icon-light-monochrome.png"
 
 flutter:
   uses-material-design: true

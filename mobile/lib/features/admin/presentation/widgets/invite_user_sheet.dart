@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 /// Shows the "Invite user" bottom sheet and returns a CreateAgentRequest body
 /// ({fullName, email, phone?, role, dataScope}), or null if cancelled.
 Future<Map<String, dynamic>?> showInviteUserSheet(BuildContext context) {
-  return showModalBottomSheet<Map<String, dynamic>>(
+  return showAppBottomSheet<Map<String, dynamic>>(
     context: context,
     isScrollControlled: true,
     shape: const RoundedRectangleBorder(
