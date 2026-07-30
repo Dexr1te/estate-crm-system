@@ -11,6 +11,7 @@ class AppColors {
   static const background = Color(0xFFF4F6FB);
   static const surface = Color(0xFFFFFFFF);
   static const surfaceVariant = Color(0xFFEEF1F8);
+  static const border = Color(0xFFE8ECF4);
 
   // Light text
   static const textPrimary = Color(0xFF0F1E3C);
@@ -28,14 +29,15 @@ class AppColors {
   static const darkTextSecondary = Color(0xFF8B9CC8);
   static const darkTextHint = Color(0xFF4A5070);
 
-  // Dark primary (lighter blue for contrast on dark bg)
-  static const darkPrimary = Color(0xFF5B8FE8);
+  // Dark primary — gold accent (was #5B8FE8 blue)
+  static const darkPrimary = accent;
+  static const onDarkPrimary = Color(0xFF0F1E3C);
 
   // Status
   static const success = Color(0xFF22C55E);
   static const warning = Color(0xFFF59E0B);
   static const error = Color(0xFFEF4444);
-  static const info = Color(0xFF3B82F6);
+  static const info = Color(0xFF8B9CC8); // neutral, no blue accent
 
   // Deal status
   static const lead = Color(0xFF8B5CF6);
@@ -46,7 +48,7 @@ class AppColors {
   // Property status
   static const available = Color(0xFF22C55E);
   static const reserved = Color(0xFFF59E0B);
-  static const sold = Color.fromARGB(255, 93, 0, 255);
+  static const sold = Color(0xFF8B5CF6);
 }
 
 // ─── Light Theme ───────────────────────────────────────────────
@@ -60,7 +62,9 @@ class AppTheme {
         seedColor: AppColors.primary,
         brightness: Brightness.light,
         primary: AppColors.primary,
+        onPrimary: Colors.white,
         secondary: AppColors.accent,
+        onSecondary: AppColors.primary,
         surface: AppColors.surface,
         // ignore: deprecated_member_use
         background: AppColors.background,
@@ -121,7 +125,7 @@ class AppTheme {
         elevation: 0,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
-            side: const BorderSide(color: Color(0xFFE8ECF4), width: 1)),
+            side: const BorderSide(color: AppColors.border, width: 1)),
         margin: EdgeInsets.zero,
       ),
       inputDecorationTheme: InputDecorationTheme(
@@ -132,7 +136,7 @@ class AppTheme {
             borderSide: BorderSide.none),
         enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: const BorderSide(color: Color(0xFFE8ECF4))),
+            borderSide: const BorderSide(color: AppColors.border)),
         focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
             borderSide: const BorderSide(color: AppColors.primary, width: 1.5)),
@@ -166,7 +170,7 @@ class AppTheme {
       outlinedButtonTheme: OutlinedButtonThemeData(
           style: OutlinedButton.styleFrom(
               foregroundColor: AppColors.primary,
-              side: const BorderSide(color: AppColors.primary),
+              side: const BorderSide(color: AppColors.border),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12)),
               textStyle: const TextStyle(
@@ -175,7 +179,7 @@ class AppTheme {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           side: BorderSide.none),
       dividerTheme:
-          const DividerThemeData(color: Color(0xFFE8ECF4), thickness: 1),
+          const DividerThemeData(color: AppColors.border, thickness: 1),
       listTileTheme: const ListTileThemeData(
           titleTextStyle: TextStyle(
               fontFamily: 'Sora',
@@ -195,11 +199,21 @@ class AppTheme {
             fontFamily: 'Sora', fontWeight: FontWeight.w600, fontSize: 11),
         unselectedLabelStyle: TextStyle(fontFamily: 'Sora', fontSize: 11),
       ),
+      switchTheme: SwitchThemeData(
+        thumbColor: WidgetStateProperty.resolveWith((s) =>
+            s.contains(WidgetState.selected)
+                ? AppColors.primary
+                : AppColors.textHint),
+        trackColor: WidgetStateProperty.resolveWith((s) =>
+            s.contains(WidgetState.selected)
+                ? AppColors.primary.withAlpha(102)
+                : AppColors.border),
+      ),
     );
   }
 }
 
-// ─── Dark Theme ────────────────────────────────────────────────
+// ─── Dark Theme (gold accent, no blue) ─────────────────────────
 class AppThemeDark {
   static ThemeData get dark {
     return ThemeData(
@@ -207,10 +221,12 @@ class AppThemeDark {
       fontFamily: 'Sora',
       brightness: Brightness.dark,
       colorScheme: ColorScheme.fromSeed(
-        seedColor: AppColors.darkPrimary,
+        seedColor: AppColors.accent,
         brightness: Brightness.dark,
         primary: AppColors.darkPrimary,
+        onPrimary: AppColors.onDarkPrimary,
         secondary: AppColors.accent,
+        onSecondary: AppColors.onDarkPrimary,
         surface: AppColors.darkSurface,
         // ignore: deprecated_member_use
         background: AppColors.darkBackground,
@@ -218,10 +234,8 @@ class AppThemeDark {
         // ignore: deprecated_member_use
         onBackground: AppColors.darkTextPrimary,
         onSurface: AppColors.darkTextPrimary,
-        onPrimary: Colors.white,
       ),
       scaffoldBackgroundColor: AppColors.darkBackground,
-      // ─ This is the key fix: all text white in dark mode ─
       textTheme: const TextTheme(
         displayLarge:
             TextStyle(color: AppColors.darkTextPrimary, fontFamily: 'Sora'),
@@ -261,7 +275,7 @@ class AppThemeDark {
             TextStyle(color: AppColors.darkTextHint, fontFamily: 'Sora'),
       ),
       appBarTheme: const AppBarTheme(
-        backgroundColor: AppColors.darkSurface,
+        backgroundColor: AppColors.darkBackground,
         foregroundColor: AppColors.darkTextPrimary,
         elevation: 0,
         centerTitle: false,
@@ -293,6 +307,9 @@ class AppThemeDark {
             borderRadius: BorderRadius.circular(12),
             borderSide:
                 const BorderSide(color: AppColors.darkPrimary, width: 1.5)),
+        errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: const BorderSide(color: AppColors.error)),
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         hintStyle: const TextStyle(
@@ -302,10 +319,11 @@ class AppThemeDark {
             fontSize: 14,
             fontFamily: 'Sora'),
       ),
+      // Filled buttons are gold with navy label
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.darkPrimary,
-          foregroundColor: Colors.white,
+          foregroundColor: AppColors.onDarkPrimary,
           minimumSize: const Size(double.infinity, 52),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -319,10 +337,11 @@ class AppThemeDark {
               foregroundColor: AppColors.darkPrimary,
               textStyle: const TextStyle(
                   fontFamily: 'Sora', fontWeight: FontWeight.w600))),
+      // Secondary action stays neutral so gold reads as the single accent
       outlinedButtonTheme: OutlinedButtonThemeData(
           style: OutlinedButton.styleFrom(
-              foregroundColor: AppColors.darkPrimary,
-              side: const BorderSide(color: AppColors.darkPrimary),
+              foregroundColor: AppColors.darkTextPrimary,
+              side: const BorderSide(color: AppColors.darkBorder),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12)),
               textStyle: const TextStyle(
@@ -356,6 +375,17 @@ class AppThemeDark {
         selectedLabelStyle: TextStyle(
             fontFamily: 'Sora', fontWeight: FontWeight.w600, fontSize: 11),
         unselectedLabelStyle: TextStyle(fontFamily: 'Sora', fontSize: 11),
+      ),
+      floatingActionButtonTheme: const FloatingActionButtonThemeData(
+        backgroundColor: AppColors.darkPrimary,
+        foregroundColor: AppColors.onDarkPrimary,
+      ),
+      progressIndicatorTheme:
+          const ProgressIndicatorThemeData(color: AppColors.darkPrimary),
+      tabBarTheme: const TabBarThemeData(
+        labelColor: AppColors.darkPrimary,
+        unselectedLabelColor: AppColors.darkTextHint,
+        indicatorColor: AppColors.darkPrimary,
       ),
       popupMenuTheme: const PopupMenuThemeData(
         color: AppColors.darkSurface,

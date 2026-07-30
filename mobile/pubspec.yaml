@@ -35,7 +35,16 @@ dev_dependencies:
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: "assets/images/Estate_logo.png"
+  # Full-bleed square 1024 render of estatecrm-app-icon.svg; the OS applies its
+  # own corner mask, so no rounded corners are baked in.
+  image_path: "assets/images/estatecrm-app-icon-1024.png"
+  remove_alpha_ios: true
+  min_sdk_android: 21
+  # Android adaptive: the mark sits inside the centre 66% safe zone so it
+  # survives circle/squircle/teardrop masks.
+  adaptive_icon_background: "#0F1E3C"
+  adaptive_icon_foreground: "assets/images/estatecrm-app-icon-foreground.png"
+  adaptive_icon_monochrome: "assets/images/estatecrm-app-icon-monochrome.png"
 
 flutter:
   uses-material-design: true
