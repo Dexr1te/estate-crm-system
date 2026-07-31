@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:real_estate_crm/l10n/app_localizations.dart';
 import 'package:real_estate_crm/core/models/admin_models.dart';
 import 'package:real_estate_crm/core/models/team_models.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 /// Shows the create/edit team sheet. Returns a TeamRequest body
 /// ({name, managerId?}) or null if cancelled. [managers] populates the
@@ -12,11 +12,10 @@ Future<Map<String, dynamic>?> showTeamFormSheet(
   TeamResponse? existing,
   List<AgentResponse> managers = const [],
 }) {
+  final l10n = AppLocalizations.of(context);
   return showAppBottomSheet<Map<String, dynamic>>(
-    context: context,
-    isScrollControlled: true,
-    shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+    context,
+    title: existing == null ? l10n.teamsCreateTeam : l10n.teamsEditTeam,
     builder: (_) => _TeamForm(existing: existing, managers: managers),
   );
 }
@@ -55,54 +54,63 @@ class _TeamFormState extends State<_TeamForm> {
     });
   }
 
+  Future<void> _pickManager() async {
+    final l10n = AppLocalizations.of(context);
+    final picked = await showEntityPicker(
+      context,
+      title: l10n.teamsManagerOptional,
+      items: [
+        for (final m in widget.managers)
+          PickerItem(id: m.id, title: m.fullName, subtitle: m.email),
+      ],
+      selectedId: _managerId,
+      searchHint: l10n.teamsManagerOptional,
+      emptyLabel: l10n.teamsNoManager,
+    );
+    if (picked != null && mounted) setState(() => _managerId = picked.id);
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final bottom = MediaQuery.of(context).viewInsets.bottom;
-    // Manager options: only include the current managerId if it's present in
-    // the list, to satisfy the dropdown's single-selection invariant.
-    final managerIds = widget.managers.map((m) => m.id).toSet();
-    final selected =
-        (_managerId != null && managerIds.contains(_managerId)) ? _managerId : null;
+    // Only resolve a name for a manager still present in the list.
+    final selected = widget.managers
+        .where((m) => m.id == _managerId)
+        .map((m) => m.fullName)
+        .firstOrNull;
 
-    return Padding(
-      padding: EdgeInsets.fromLTRB(24, 24, 24, 24 + bottom),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(widget.existing == null ? l10n.teamsCreateTeam : l10n.teamsEditTeam,
-                style: Theme.of(context).textTheme.titleLarge),
-            const SizedBox(height: 16),
-            TextFormField(
+    return Form(
+      key: _formKey,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          LabelledField(
+            label: l10n.teamsTeamName,
+            required: true,
+            child: AppTextField(
               controller: _name,
-              decoration: InputDecoration(labelText: l10n.teamsTeamName),
+              hint: l10n.teamsTeamName,
+              textInputAction: TextInputAction.done,
               validator: (v) =>
                   (v == null || v.trim().isEmpty) ? l10n.teamsRequired : null,
             ),
-            const SizedBox(height: 12),
-            DropdownButtonFormField<int?>(
-              initialValue: selected,
-              decoration: InputDecoration(labelText: l10n.teamsManagerOptional),
-              items: [
-                DropdownMenuItem<int?>(
-                    value: null, child: Text(l10n.teamsNoManager)),
-                ...widget.managers.map((m) =>
-                    DropdownMenuItem<int?>(value: m.id, child: Text(m.fullName))),
-              ],
-              onChanged: (v) => setState(() => _managerId = v),
+          ),
+          const SizedBox(height: 9),
+          LabelledField(
+            label: l10n.teamsManagerOptional,
+            child: PickerField(
+              value: selected,
+              placeholder: l10n.teamsNoManager,
+              onTap: _pickManager,
             ),
-            const SizedBox(height: 20),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                  onPressed: _submit,
-                  child: Text(widget.existing == null ? l10n.teamsCreate : l10n.teamsSave)),
-            ),
-          ],
-        ),
+          ),
+          const SizedBox(height: 18),
+          AppFilledButton(
+            label: widget.existing == null ? l10n.teamsCreate : l10n.teamsSave,
+            onPressed: _submit,
+          ),
+        ],
       ),
     );
   }

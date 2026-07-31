@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_state.dart';
@@ -60,7 +61,10 @@ class MainScaffold extends StatelessWidget {
         final dests = _destsFor(role, l10n);
         final location = GoRouterState.of(context).matchedLocation;
         final index = _locationIndex(dests, location);
-        final isWide = MediaQuery.of(context).size.width >= 800;
+        // The bottom nav only becomes a rail on a genuinely large canvas;
+        // tablets in between keep the phone shell with centred content.
+        final isWide =
+            MediaQuery.sizeOf(context).width >= AppMetrics.railBreakpoint;
 
         void onTap(int i) => context.go(dests[i].route);
 
@@ -68,7 +72,7 @@ class MainScaffold extends StatelessWidget {
           return Scaffold(
             body: Row(children: [
               _SideNav(dests: dests, selectedIndex: index, onTap: onTap),
-              VerticalDivider(width: 1, color: Theme.of(context).dividerColor),
+              VerticalDivider(width: 1, color: context.tokens.border),
               Expanded(child: child),
             ]),
           );
@@ -76,23 +80,14 @@ class MainScaffold extends StatelessWidget {
 
         return Scaffold(
           body: child,
-          bottomNavigationBar: Container(
-            decoration: BoxDecoration(
-                border: Border(
-                    top: BorderSide(color: Theme.of(context).dividerColor))),
-            child: BottomNavigationBar(
-              currentIndex: index,
-              onTap: onTap,
-              type: BottomNavigationBarType.fixed,
-              elevation: 0,
-              items: [
-                for (final d in dests)
-                  BottomNavigationBarItem(
-                      icon: Icon(d.icon),
-                      activeIcon: Icon(d.activeIcon),
-                      label: d.label),
-              ],
-            ),
+          bottomNavigationBar: AppBottomNav(
+            currentIndex: index,
+            onTap: onTap,
+            items: [
+              for (final d in dests)
+                AppNavItem(
+                    icon: d.icon, activeIcon: d.activeIcon, label: d.label),
+            ],
           ),
         );
       },
@@ -132,7 +127,7 @@ class _SideNav extends StatelessWidget {
                 const SizedBox(width: 10),
                 Text('Estate CRM',
                     style: TextStyle(
-                        fontFamily: 'Sora',
+                        fontFamily: AppFonts.sans,
                         fontWeight: FontWeight.w700,
                         fontSize: 15,
                         color: cs.onSurface)),
@@ -158,18 +153,22 @@ class _SideNav extends StatelessWidget {
                             : '?',
                         style: const TextStyle(
                             color: Colors.white,
-                            fontFamily: 'Sora',
+                            fontFamily: AppFonts.sans,
                             fontWeight: FontWeight.w600))),
                 title: Text(user?.fullName ?? '',
                     style: TextStyle(
-                        fontFamily: 'Sora',
+                        fontFamily: AppFonts.sans,
                         fontWeight: FontWeight.w600,
                         fontSize: 13,
                         color: cs.onSurface),
                     overflow: TextOverflow.ellipsis),
-                subtitle: Text(user?.role.name ?? '',
+                subtitle: Text(
+                    user == null ? '' : roleLabel(l10n, user.role),
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                        fontSize: 11, color: cs.onSurface.withAlpha(128))),
+                        fontFamily: AppFonts.sans,
+                        fontSize: 11,
+                        color: context.tokens.textSecondary)),
                 trailing: IconButton(
                     icon: Icon(Icons.logout,
                         size: 18, color: cs.onSurface.withAlpha(128)),
@@ -219,7 +218,7 @@ class _NavItem extends StatelessWidget {
             const SizedBox(width: 12),
             Text(label,
                 style: TextStyle(
-                    fontFamily: 'Sora',
+                    fontFamily: AppFonts.sans,
                     fontSize: 13,
                     fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
                     color:

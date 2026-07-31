@@ -1,121 +1,127 @@
 import 'package:flutter/material.dart';
-import 'package:real_estate_crm/core/models/models.dart';
-import 'package:real_estate_crm/core/theme/app_theme.dart';
+import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/features/clients/presentation/bloc/clients_state.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// List-item card for a single client, showing avatar, name/email and a
-/// deal-count badge. Navigation and delete are delegated via callbacks.
+/// List-item card for a client: 42px initial avatar, name and phone, a
+/// trailing type chip, a hairline divider, then deal count on the left and
+/// value (or stage) on the right.
 class ClientCard extends StatelessWidget {
-  final ClientListItem client;
-  final int dealCount;
-  final VoidCallback onTap, onEdit, onDelete;
+  final ClientSummary client;
+  final VoidCallback onTap;
 
-  /// Whether to show the delete action (client delete is admin-only server-side).
-  final bool canDelete;
-
-  const ClientCard({
-    super.key,
-    required this.client,
-    required this.dealCount,
-    required this.onTap,
-    required this.onEdit,
-    required this.onDelete,
-    this.canDelete = true,
-  });
+  const ClientCard({super.key, required this.client, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
+    final t = context.tokens;
     final l10n = AppLocalizations.of(context);
-    final cs = Theme.of(context).colorScheme;
-    final tt = Theme.of(context).textTheme;
 
-    return Card(
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(16),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+    final footerLeft = [
+      l10n.clientsDealCount(client.dealCount),
+      if (client.agentName != null && client.agentName!.isNotEmpty)
+        l10n.clientsAgentMeta(client.agentName!),
+    ].join(' · ');
+
+    // Value when there is one; otherwise the stage carries the signal.
+    final showValue = client.totalBudget > 0;
+    final trailingLabel = showValue
+        ? formatPrice(client.totalBudget)
+        : (client.status == null ? '' : dealStatusLabel(l10n, client.status!));
+    final trailingColor = showValue || client.status == null
+        ? t.textPrimary
+        : StatusPalette.resolve(t, dealStatusHue(client.status!)).label;
+
+    return AppCard(
+      onTap: onTap,
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
             children: [
-              // ── Header: avatar + name/email + menu ──
-              Row(children: [
-                CircleAvatar(
-                  radius: 20,
-                  backgroundColor: cs.primary.withAlpha(26),
-                  child: Text(
-                    client.fullName.isNotEmpty
-                        ? client.fullName[0].toUpperCase()
-                        : '?',
-                    style: TextStyle(
-                        color: cs.primary,
-                        fontWeight: FontWeight.w700,
-                        fontFamily: 'Sora'),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(client.fullName,
-                          style: tt.bodyLarge
-                              ?.copyWith(fontWeight: FontWeight.w600)),
-                      if (client.email != null)
-                        Text(client.email!, style: tt.bodySmall),
-                    ],
-                  ),
-                ),
-                PopupMenuButton<String>(
-                  onSelected: (v) {
-                    if (v == 'edit') onEdit();
-                    if (v == 'delete') onDelete();
-                  },
-                  itemBuilder: (_) => [
-                    PopupMenuItem(
-                        value: 'edit',
-                        child: Row(children: [
-                          const Icon(Icons.edit_outlined, size: 16),
-                          const SizedBox(width: 8),
-                          Text(l10n.clientsEdit)
-                        ])),
-                    if (canDelete)
-                      PopupMenuItem(
-                          value: 'delete',
-                          child: Row(children: [
-                            const Icon(Icons.delete_outline,
-                                size: 16, color: AppColors.error),
-                            const SizedBox(width: 8),
-                            Text(l10n.clientsDelete,
-                                style: const TextStyle(color: AppColors.error))
-                          ])),
-                  ],
-                  child: Icon(Icons.more_vert,
-                      color: tt.bodySmall?.color, size: 20),
-                ),
-              ]),
-
-              // ── Deal count badge ──
-              if (dealCount > 0) ...[
-                const SizedBox(height: 10),
-                const Divider(height: 1),
-                const SizedBox(height: 10),
-                Row(children: [
-                  Icon(Icons.handshake_outlined, size: 14, color: cs.primary),
-                  const SizedBox(width: 6),
-                  Text(
-                    l10n.clientsDealCount(dealCount),
-                    style: tt.bodySmall?.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: cs.primary,
+              InitialAvatar(name: client.fullName, size: 42),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      client.fullName,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          fontFamily: AppFonts.sans,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: t.textPrimary),
                     ),
-                  ),
-                ]),
-              ],
+                    if (client.phone != null && client.phone!.isNotEmpty) ...[
+                      const SizedBox(height: 3),
+                      Text(
+                        client.phone!,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontFamily: AppFonts.sans,
+                            fontSize: 11.5,
+                            color: t.textSecondary),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+              const SizedBox(width: 8),
+              ClientTypeChip(type: client.type),
             ],
           ),
-        ),
+          if (client.dealCount > 0 || trailingLabel.isNotEmpty) ...[
+            Padding(
+              padding: const EdgeInsets.only(top: 11, bottom: 10),
+              child: Container(height: 1, color: t.border),
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              textBaseline: TextBaseline.alphabetic,
+              children: [
+                Expanded(
+                  child: Text(
+                    footerLeft,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontFamily: AppFonts.sans,
+                        fontSize: 11.5,
+                        color: t.textSecondary),
+                  ),
+                ),
+                if (trailingLabel.isNotEmpty) ...[
+                  const SizedBox(width: 8),
+                  Text(
+                    trailingLabel,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontFamily: AppFonts.sans,
+                        fontSize: 11.5,
+                        fontWeight: FontWeight.w600,
+                        color: trailingColor),
+                  ),
+                ],
+              ],
+            ),
+          ],
+        ],
       ),
     );
   }
+}
+
+/// Skeleton matching [ClientCard]'s footprint.
+class ClientCardBone extends StatelessWidget {
+  const ClientCardBone({super.key});
+
+  @override
+  Widget build(BuildContext context) => const ShimmerBox(
+      width: double.infinity, height: 96, radius: AppMetrics.radiusMd);
 }

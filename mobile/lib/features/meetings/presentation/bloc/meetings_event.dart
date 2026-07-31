@@ -2,6 +2,9 @@ abstract class MeetingsEvent {}
 
 class MeetingsLoadEvent extends MeetingsEvent {}
 
+/// Drops the cached list on sign-out. See `ClientsResetEvent` for why.
+class MeetingsResetEvent extends MeetingsEvent {}
+
 class MeetingsDeleteEvent extends MeetingsEvent {
   final int id;
   MeetingsDeleteEvent(this.id);

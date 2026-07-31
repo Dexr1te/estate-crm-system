@@ -22,10 +22,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> implements Listenable {
   void addListener(VoidCallback listener) => _listeners.add(listener);
   @override
   void removeListener(VoidCallback listener) => _listeners.remove(listener);
+
   void _notify() {
-    for (final l in _listeners) {
+    // Iterate a copy: a listener is free to remove itself (or another) while
+    // being notified, which would otherwise throw mid-redirect.
+    for (final l in List<VoidCallback>.of(_listeners)) {
       l();
     }
+  }
+
+  @override
+  Future<void> close() {
+    _listeners.clear();
+    return super.close();
   }
 
   bool get isAuthenticated => state is AuthAuthenticated;

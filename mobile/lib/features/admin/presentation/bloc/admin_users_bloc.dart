@@ -1,10 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:real_estate_crm/core/bloc/load_generation.dart';
+import 'package:real_estate_crm/core/models/admin_models.dart';
 import 'package:real_estate_crm/core/network/api_error.dart';
 import 'package:real_estate_crm/features/admin/domain/repositories/admin_repository.dart';
 import 'package:real_estate_crm/features/admin/presentation/bloc/admin_users_event.dart';
 import 'package:real_estate_crm/features/admin/presentation/bloc/admin_users_state.dart';
 
-class AdminUsersBloc extends Bloc<AdminUsersEvent, AdminUsersState> {
+class AdminUsersBloc extends Bloc<AdminUsersEvent, AdminUsersState>
+    with LoadGeneration {
   final AdminRepository _repo;
   AdminUsersBloc(this._repo) : super(AdminUsersInitial()) {
     on<AdminUsersLoadEvent>(_onLoad);
@@ -16,12 +19,30 @@ class AdminUsersBloc extends Bloc<AdminUsersEvent, AdminUsersState> {
     on<AdminResendInviteEvent>(_onResendInvite);
   }
 
+  /// Whatever is currently on screen, so a write's outcome can carry it
+  /// forward instead of blanking the list.
+  List<AgentResponse> get _current {
+    final s = state;
+    return s is AdminUsersLoaded ? s.users : const [];
+  }
+
+  /// A write failed. Keep whatever is on screen; only a failed *load* leaves
+  /// the user with nothing to look at.
+  AdminUsersState _failure(Object err) => _current.isEmpty
+      ? AdminUsersError(apiErrorMessage(err))
+      : AdminUsersActionFailure(apiErrorMessage(err), _current);
+
   Future<void> _onLoad(
       AdminUsersLoadEvent e, Emitter<AdminUsersState> emit) async {
+    final ticket = startLoad();
     emit(AdminUsersLoading());
     try {
-      emit(AdminUsersLoaded(await _repo.getUsers()));
+      final users = await _repo.getUsers();
+      // A newer load started while this one was in flight — its result wins.
+      if (isStale(ticket)) return;
+      emit(AdminUsersLoaded(users));
     } catch (err) {
+      if (isStale(ticket)) return;
       emit(AdminUsersError(apiErrorMessage(err)));
     }
   }
@@ -31,10 +52,10 @@ class AdminUsersBloc extends Bloc<AdminUsersEvent, AdminUsersState> {
       Future<void> Function() action) async {
     try {
       await action();
-      emit(AdminUsersActionSuccess(success));
+      emit(AdminUsersActionSuccess(success, _current));
       add(AdminUsersLoadEvent());
     } catch (err) {
-      emit(AdminUsersError(apiErrorMessage(err)));
+      emit(_failure(err));
     }
   }
 
@@ -47,7 +68,7 @@ class AdminUsersBloc extends Bloc<AdminUsersEvent, AdminUsersState> {
       emit(AdminInviteSuccess(created));
       add(AdminUsersLoadEvent());
     } catch (err) {
-      emit(AdminUsersError(apiErrorMessage(err)));
+      emit(_failure(err));
     }
   }
 

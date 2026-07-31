@@ -1,142 +1,135 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/models/models.dart';
-import 'package:real_estate_crm/core/theme/app_theme.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// List-item card for a single property: type icon, title/city, status chip,
-/// price, area/rooms and address. Actions are delegated via callbacks.
+/// List-item card for a property: a 44px rounded type tile (gold while the
+/// listing is live, grey once sold), title and address, a status chip, then a
+/// hairline divider over price and specs.
 class PropertyCard extends StatelessWidget {
   final PropertyResponse property;
-  final VoidCallback onTap, onEdit, onDelete;
-  const PropertyCard(
-      {super.key,
-      required this.property,
-      required this.onTap,
-      required this.onEdit,
-      required this.onDelete});
+  final VoidCallback onTap;
 
-  IconData get _icon {
-    switch (property.type) {
-      case PropertyType.APARTMENT:
-        return Icons.apartment;
-      case PropertyType.HOUSE:
-        return Icons.home;
-      case PropertyType.COMMERCIAL:
-        return Icons.store;
-      case PropertyType.LAND:
-        return Icons.landscape;
-      case PropertyType.OFFICE:
-        return Icons.business;
-    }
-  }
+  const PropertyCard({super.key, required this.property, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    final tt = Theme.of(context).textTheme;
+    final t = context.tokens;
     final l10n = AppLocalizations.of(context);
+    final live = property.status != PropertyStatus.SOLD;
 
-    return Card(
-        child: InkWell(
-            onTap: onTap,
-            borderRadius: BorderRadius.circular(16),
-            child: Padding(
-                padding: const EdgeInsets.all(16),
+    return AppCard(
+      onTap: onTap,
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 44,
+                height: 44,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: t.surfaceVariant,
+                  borderRadius: BorderRadius.circular(13),
+                  border:
+                      Border.all(color: t.border, width: AppMetrics.borderWidth),
+                ),
+                child: Icon(propertyTypeIcon(property.type),
+                    size: 18, color: live ? t.accent : t.textHint),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
                 child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(children: [
-                        Container(
-                            width: 44,
-                            height: 44,
-                            decoration: BoxDecoration(
-                                color: AppColors.accent.withAlpha(31),
-                                borderRadius: BorderRadius.circular(10)),
-                            child:
-                                Icon(_icon, color: AppColors.accent, size: 22)),
-                        const SizedBox(width: 12),
-                        Expanded(
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                              Text(property.title,
-                                  style: tt.bodyLarge
-                                      ?.copyWith(fontWeight: FontWeight.w600)),
-                              if (property.city != null)
-                                Text(property.city!, style: tt.bodySmall)
-                            ])),
-                        PropertyStatusChip(status: property.status),
-                        PopupMenuButton<String>(
-                            onSelected: (v) {
-                              if (v == 'edit') onEdit();
-                              if (v == 'delete') onDelete();
-                            },
-                            itemBuilder: (_) => [
-                                  PopupMenuItem(
-                                      value: 'edit',
-                                      child: Row(children: [
-                                        const Icon(Icons.edit_outlined,
-                                            size: 16),
-                                        const SizedBox(width: 8),
-                                        Text(l10n.propertiesEdit)
-                                      ])),
-                                  PopupMenuItem(
-                                      value: 'delete',
-                                      child: Row(children: [
-                                        const Icon(Icons.delete_outline,
-                                            size: 16, color: AppColors.error),
-                                        const SizedBox(width: 8),
-                                        Text(l10n.propertiesDelete,
-                                            style: const TextStyle(
-                                                color: AppColors.error))
-                                      ]))
-                                ],
-                            child: Icon(Icons.more_vert,
-                                color: tt.bodySmall?.color, size: 20)),
-                      ]),
-                      const SizedBox(height: 10),
-                      const Divider(height: 1),
-                      const SizedBox(height: 10),
-                      Row(children: [
-                        Text(formatPrice(property.price),
-                            style: TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.w700,
-                                color: cs.primary,
-                                fontFamily: 'Sora')),
-                        const Spacer(),
-                        if (property.areaSqm != null)
-                          Row(children: [
-                            Icon(Icons.square_foot,
-                                size: 13, color: tt.bodySmall?.color),
-                            const SizedBox(width: 3),
-                            Text(
-                                l10n.propertiesAreaValue(
-                                    property.areaSqm!.toStringAsFixed(0)),
-                                style: tt.bodySmall)
-                          ]),
-                        if (property.rooms != null) ...[
-                          const SizedBox(width: 8),
-                          Row(children: [
-                            Icon(Icons.bed_outlined,
-                                size: 13, color: tt.bodySmall?.color),
-                            const SizedBox(width: 3),
-                            Text(l10n.propertiesRoomsCount(property.rooms!),
-                                style: tt.bodySmall)
-                          ])
-                        ],
-                      ]),
-                      const SizedBox(height: 6),
-                      Row(children: [
-                        Icon(Icons.location_on_outlined,
-                            size: 13, color: tt.bodySmall?.color),
-                        const SizedBox(width: 4),
-                        Flexible(
-                            child: Text(property.address,
-                                style: tt.bodySmall,
-                                overflow: TextOverflow.ellipsis))
-                      ]),
-                    ]))));
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      property.title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          fontFamily: AppFonts.sans,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: t.textPrimary),
+                    ),
+                    if (property.address.isNotEmpty) ...[
+                      const SizedBox(height: 3),
+                      Text(
+                        property.address,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontFamily: AppFonts.sans,
+                            fontSize: 11.5,
+                            color: t.textSecondary),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+              const SizedBox(width: 8),
+              PropertyStatusChip(status: property.status),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 11, bottom: 10),
+            child: Container(height: 1, color: t.border),
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            textBaseline: TextBaseline.alphabetic,
+            children: [
+              Text(
+                formatPrice(property.price),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    fontFamily: AppFonts.sans,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    color: t.textPrimary),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  propertySpecs(l10n, property),
+                  textAlign: TextAlign.right,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      fontFamily: AppFonts.sans,
+                      fontSize: 11.5,
+                      color: t.textSecondary),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
+}
+
+/// "58 m² · 2 rooms · 5/24" — whichever of those the record actually carries.
+String propertySpecs(AppLocalizations l10n, PropertyResponse p) {
+  final parts = <String>[
+    if (p.areaSqm != null) l10n.propertiesAreaValue(p.areaSqm!.toStringAsFixed(0)),
+    if (p.rooms != null) l10n.propertiesRoomsCount(p.rooms!),
+    if (p.floor != null)
+      p.totalFloors != null ? '${p.floor}/${p.totalFloors}' : '${p.floor}',
+  ];
+  if (parts.isEmpty) return propertyTypeLabel(l10n, p.type);
+  return parts.join(' · ');
+}
+
+/// Skeleton matching [PropertyCard]'s footprint.
+class PropertyCardBone extends StatelessWidget {
+  const PropertyCardBone({super.key});
+
+  @override
+  Widget build(BuildContext context) => const ShimmerBox(
+      width: double.infinity, height: 108, radius: AppMetrics.radiusMd);
 }

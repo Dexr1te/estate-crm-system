@@ -1,413 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
+import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_bloc.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_event.dart';
-import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/features/deals/presentation/bloc/deals_state.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
-
-// ─────────────────────────────────────────────────────────────
-// Generic picker helpers
-// ─────────────────────────────────────────────────────────────
-
-class _PickerItem {
-  final int id;
-  final String title;
-  final String? subtitle;
-  const _PickerItem({required this.id, required this.title, this.subtitle});
-}
-
-Future<_PickerItem?> _showPicker(
-  BuildContext context, {
-  required String label,
-  required List<_PickerItem> items,
-  int? selectedId,
-}) =>
-    showAppBottomSheet<_PickerItem>(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (_) =>
-          _PickerSheet(label: label, items: items, selectedId: selectedId),
-    );
-
-class _PickerSheet extends StatefulWidget {
-  final String label;
-  final List<_PickerItem> items;
-  final int? selectedId;
-  const _PickerSheet(
-      {required this.label, required this.items, required this.selectedId});
-
-  @override
-  State<_PickerSheet> createState() => _PickerSheetState();
-}
-
-class _PickerSheetState extends State<_PickerSheet> {
-  late List<_PickerItem> _filtered;
-  final _searchCtrl = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    _filtered = widget.items;
-    _searchCtrl.addListener(_onSearch);
-  }
-
-  @override
-  void dispose() {
-    _searchCtrl.dispose();
-    super.dispose();
-  }
-
-  void _onSearch() {
-    final q = _searchCtrl.text.toLowerCase();
-    setState(() {
-      _filtered = q.isEmpty
-          ? widget.items
-          : widget.items
-              .where((i) =>
-                  i.title.toLowerCase().contains(q) ||
-                  (i.subtitle?.toLowerCase().contains(q) ?? false) ||
-                  i.id.toString().contains(q))
-              .toList();
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    final tt = Theme.of(context).textTheme;
-    final mq = MediaQuery.of(context);
-    final l10n = AppLocalizations.of(context);
-
-    return DraggableScrollableSheet(
-      initialChildSize: 0.75,
-      minChildSize: 0.4,
-      maxChildSize: 0.92,
-      expand: false,
-      builder: (ctx, scrollCtrl) => Container(
-        decoration: BoxDecoration(
-          color: Theme.of(context).scaffoldBackgroundColor,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-        ),
-        child: Column(
-          children: [
-            const SizedBox(height: 12),
-            Container(
-              width: 40,
-              height: 4,
-              decoration: BoxDecoration(
-                  color: cs.outlineVariant,
-                  borderRadius: BorderRadius.circular(2)),
-            ),
-            const SizedBox(height: 16),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Row(children: [
-                Text(l10n.dealsSelectLabel(widget.label),
-                    style:
-                        tt.titleMedium?.copyWith(fontWeight: FontWeight.w700)),
-                const Spacer(),
-                IconButton(
-                    icon: const Icon(Icons.close),
-                    onPressed: () => Navigator.pop(context)),
-              ]),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: TextField(
-                controller: _searchCtrl,
-                autofocus: true,
-                decoration: InputDecoration(
-                  hintText: l10n.dealsSearchHint,
-                  prefixIcon: const Icon(Icons.search, size: 20),
-                  suffixIcon: _searchCtrl.text.isNotEmpty
-                      ? IconButton(
-                          icon: const Icon(Icons.clear, size: 18),
-                          onPressed: () => _searchCtrl.clear())
-                      : null,
-                  isDense: true,
-                  contentPadding: const EdgeInsets.symmetric(vertical: 10),
-                ),
-              ),
-            ),
-            const Divider(height: 1),
-            Expanded(
-              child: _filtered.isEmpty
-                  ? Center(
-                      child: Text(l10n.dealsNoResults,
-                          style: tt.bodyMedium?.copyWith(color: cs.outline)))
-                  : ListView.builder(
-                      controller: scrollCtrl,
-                      itemCount: _filtered.length,
-                      itemBuilder: (_, i) {
-                        final item = _filtered[i];
-                        final selected = item.id == widget.selectedId;
-                        return ListTile(
-                          onTap: () => Navigator.pop(context, item),
-                          selected: selected,
-                          selectedTileColor: cs.primary.withAlpha(20),
-                          leading: CircleAvatar(
-                            radius: 18,
-                            backgroundColor: selected
-                                ? cs.primary
-                                : cs.surfaceContainerHighest,
-                            child: Text('#${item.id}',
-                                style: TextStyle(
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w700,
-                                    color: selected
-                                        ? cs.onPrimary
-                                        : cs.onSurfaceVariant)),
-                          ),
-                          title: Text(item.title,
-                              style: const TextStyle(
-                                  fontWeight: FontWeight.w600, fontSize: 14)),
-                          subtitle: item.subtitle != null
-                              ? Text(item.subtitle!,
-                                  style: TextStyle(
-                                      fontSize: 12, color: cs.outline))
-                              : null,
-                          trailing: selected
-                              ? Icon(Icons.check_circle,
-                                  color: cs.primary, size: 20)
-                              : null,
-                        );
-                      },
-                    ),
-            ),
-            SizedBox(height: mq.viewInsets.bottom + 8),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// ─────────────────────────────────────────────────────────────
-// Entity selector tile
-// ─────────────────────────────────────────────────────────────
-
-class _EntityTile extends StatelessWidget {
-  final String label;
-  final IconData icon;
-  final _PickerItem? selected;
-  final bool loading;
-  final String? error;
-  final bool required;
-  final VoidCallback onTap;
-  final VoidCallback? onClear;
-
-  const _EntityTile({
-    required this.label,
-    required this.icon,
-    required this.selected,
-    required this.loading,
-    required this.onTap,
-    this.error,
-    this.required = false,
-    this.onClear,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    final tt = Theme.of(context).textTheme;
-    final hasError = error != null;
-    final l10n = AppLocalizations.of(context);
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          '$label${required ? ' *' : ''}',
-          style: tt.labelMedium?.copyWith(
-            fontSize: 12,
-            fontWeight: FontWeight.w600,
-            color: hasError ? cs.error : cs.onSurfaceVariant,
-          ),
-        ),
-        const SizedBox(height: 6),
-        InkWell(
-          onTap: loading ? null : onTap,
-          borderRadius: BorderRadius.circular(12),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: hasError
-                    ? cs.error
-                    : selected != null
-                        ? cs.primary.withAlpha(180)
-                        : cs.outline.withAlpha(120),
-                width: selected != null ? 1.5 : 1,
-              ),
-              borderRadius: BorderRadius.circular(12),
-              color: selected != null
-                  ? cs.primary.withAlpha(12)
-                  : cs.surfaceContainerLowest,
-            ),
-            child: loading
-                ? Row(children: [
-                    SizedBox(
-                        width: 16,
-                        height: 16,
-                        child: CircularProgressIndicator(
-                            strokeWidth: 2, color: cs.outline)),
-                    const SizedBox(width: 12),
-                    Text(l10n.dealsLoading,
-                        style: TextStyle(color: cs.outline, fontSize: 14)),
-                  ])
-                : Row(children: [
-                    Icon(icon,
-                        size: 20,
-                        color: selected != null
-                            ? cs.primary
-                            : cs.onSurfaceVariant),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: selected == null
-                          ? Text(l10n.dealsTapToSelect(label),
-                              style: TextStyle(color: cs.outline, fontSize: 14))
-                          : Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(selected!.title,
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 14)),
-                                if (selected!.subtitle != null)
-                                  Text(selected!.subtitle!,
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          color: cs.onSurfaceVariant)),
-                              ],
-                            ),
-                    ),
-                    if (selected != null) ...[
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 2),
-                        decoration: BoxDecoration(
-                          color: cs.primary.withAlpha(30),
-                          borderRadius: BorderRadius.circular(6),
-                        ),
-                        child: Text('#${selected!.id}',
-                            style: TextStyle(
-                                fontSize: 11,
-                                fontWeight: FontWeight.w700,
-                                color: cs.primary)),
-                      ),
-                      if (onClear != null) ...[
-                        const SizedBox(width: 4),
-                        GestureDetector(
-                          onTap: onClear,
-                          child: Icon(Icons.close, size: 16, color: cs.outline),
-                        ),
-                      ],
-                    ] else
-                      Icon(Icons.keyboard_arrow_down,
-                          color: cs.outline, size: 20),
-                  ]),
-          ),
-        ),
-        if (hasError)
-          Padding(
-            padding: const EdgeInsets.only(top: 4, left: 4),
-            child:
-                Text(error!, style: TextStyle(fontSize: 12, color: cs.error)),
-          ),
-      ],
-    );
-  }
-}
-
-// ─── Reusable section card ─────────────────────────────────────
-
-class _FormSectionCard extends StatelessWidget {
-  final String title;
-  final IconData icon;
-  final List<Widget> children;
-  const _FormSectionCard(
-      {required this.title, required this.icon, required this.children});
-
-  @override
-  Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: cs.surface,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: cs.outline.withAlpha(35)),
-        boxShadow: [
-          BoxShadow(
-              color: Colors.black.withAlpha(8),
-              blurRadius: 14,
-              offset: const Offset(0, 4)),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(children: [
-            Icon(icon, size: 16, color: cs.primary),
-            const SizedBox(width: 8),
-            Text(title,
-                style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 0.2,
-                    color: cs.primary)),
-          ]),
-          const SizedBox(height: 14),
-          ...children,
-        ],
-      ),
-    );
-  }
-}
-
-// ─── Pill-style selectable chip ─────────────────────────────────
-
-class _PillChip extends StatelessWidget {
-  final String label;
-  final bool selected;
-  final VoidCallback onTap;
-  const _PillChip(
-      {required this.label, required this.selected, required this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(20),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 150),
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
-        decoration: BoxDecoration(
-          color:
-              selected ? cs.primary : cs.surfaceContainerHighest.withAlpha(120),
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-              color: selected ? cs.primary : cs.outline.withAlpha(60)),
-        ),
-        child: Text(label.replaceAll('_', ' '),
-            style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-                color: selected ? Colors.white : cs.onSurfaceVariant)),
-      ),
-    );
-  }
-}
-
-// ─────────────────────────────────────────────────────────────
-// Main screen
-// ─────────────────────────────────────────────────────────────
 
 class DealFormScreen extends StatefulWidget {
   final int? dealId;
@@ -426,17 +26,19 @@ class _DealFormScreenState extends State<DealFormScreen> {
   final _notesCtrl = TextEditingController();
 
   DealStatus _status = DealStatus.LEAD;
-  bool _loading = false, _initLoading = false;
+  bool _loading = false;
+  bool _initLoading = false;
 
-  List<_PickerItem> _clients = [];
-  List<_PickerItem> _agents = []; // ✅ real agents from GET /users/agents
-  List<_PickerItem> _properties = [];
-  bool _clientsLoading = true, _agentsLoading = true, _propertiesLoading = true;
+  List<PickerItem> _clients = const [];
+  List<PickerItem> _agents = const [];
+  List<PickerItem> _properties = const [];
 
-  _PickerItem? _selectedClient;
-  _PickerItem? _selectedAgent;
-  _PickerItem? _selectedProperty;
+  PickerItem? _client;
+  PickerItem? _agent;
+  PickerItem? _property;
 
+  /// Set when submit is attempted without a required selection — the picker
+  /// rows sit outside the Form, so they validate by hand.
   String? _clientError;
   String? _agentError;
 
@@ -456,94 +58,98 @@ class _DealFormScreenState extends State<DealFormScreen> {
   }
 
   Future<void> _loadLists() async {
-    _loadClients();
-    _loadAgents();
-    _loadProperties();
-  }
-
-  Future<void> _loadClients() async {
-    try {
-      final data = await Injector.clientsRepository.getClients();
-      if (!mounted) return;
-      setState(() {
-        _clients = data
-            .map((c) => _PickerItem(
-                id: c.id, title: c.fullName, subtitle: c.email ?? c.phone))
-            .toList();
-        _clientsLoading = false;
-        _resolve(_clients, _selectedClient, (v) => _selectedClient = v);
-      });
-    } catch (_) {
-      if (mounted) setState(() => _clientsLoading = false);
+    Future<void> load<T>(
+      Future<List<T>> Function() fetch,
+      PickerItem Function(T) map,
+      void Function(List<PickerItem>) assign,
+    ) async {
+      try {
+        final data = await fetch();
+        if (!mounted) return;
+        setState(() => assign(data.map(map).toList()));
+      } catch (_) {
+        // A picker that fails to load stays empty; the field still opens and
+        // shows its empty state rather than blocking the form.
+      }
     }
+
+    await Future.wait([
+      load<ClientResponse>(
+        () => Injector.clientsRepository.getClients(),
+        (c) => PickerItem(
+            id: c.id, title: c.fullName, subtitle: c.email ?? c.phone),
+        (v) {
+          _clients = v;
+          _client = _reconcile(v, _client);
+        },
+      ),
+      load<AgentOption>(
+        () => Injector.agentsRepository.getAgentOptions(),
+        (a) => PickerItem(id: a.id, title: a.fullName, subtitle: a.email),
+        (v) {
+          _agents = v;
+          _agent = _reconcile(v, _agent);
+        },
+      ),
+      load<PropertyResponse>(
+        () => Injector.propertiesRepository.getAllProperties(),
+        (p) => PickerItem(
+          id: p.id,
+          title: p.title,
+          subtitle:
+              [if (p.city != null) p.city!, formatPrice(p.price)].join(' · '),
+        ),
+        (v) {
+          _properties = v;
+          _property = _reconcile(v, _property);
+        },
+      ),
+    ]);
   }
 
-  Future<void> _loadAgents() async {
-    try {
-      // ✅ GET /users/agents — agents only, not clients
-      final data = await Injector.agentsRepository.getAgentOptions();
-      if (!mounted) return;
-      setState(() {
-        _agents = data
-            .map((a) =>
-                _PickerItem(id: a.id, title: a.fullName, subtitle: a.email))
-            .toList();
-        _agentsLoading = false;
-        _resolve(_agents, _selectedAgent, (v) => _selectedAgent = v);
-      });
-    } catch (_) {
-      if (mounted) setState(() => _agentsLoading = false);
+  /// Swaps a placeholder ("Client #7", built while editing before the lists
+  /// arrive) for the real record once it loads.
+  PickerItem? _reconcile(List<PickerItem> list, PickerItem? current) {
+    if (current == null) return null;
+    for (final i in list) {
+      if (i.id == current.id) return i;
     }
-  }
-
-  Future<void> _loadProperties() async {
-    try {
-      final data = await Injector.propertiesRepository.getAllProperties();
-      if (!mounted) return;
-      setState(() {
-        _properties = data
-            .map((p) => _PickerItem(
-                id: p.id,
-                title: p.title,
-                subtitle: [
-                  if (p.city != null) p.city,
-                  '\$${p.price.toStringAsFixed(0)}',
-                ].join(' · ')))
-            .toList();
-        _propertiesLoading = false;
-        _resolve(_properties, _selectedProperty, (v) => _selectedProperty = v);
-      });
-    } catch (_) {
-      if (mounted) setState(() => _propertiesLoading = false);
-    }
-  }
-
-  void _resolve(List<_PickerItem> list, _PickerItem? current,
-      void Function(_PickerItem?) setter) {
-    if (current == null) return;
-    final match = list
-        .cast<_PickerItem?>()
-        .firstWhere((i) => i?.id == current.id, orElse: () => current);
-    setter(match);
+    return current;
   }
 
   Future<void> _loadDeal() async {
     setState(() => _initLoading = true);
     try {
+      final l10n = AppLocalizations.of(context);
       final d = await Injector.dealsRepository.getDeal(widget.dealId!);
       _titleCtrl.text = d.title;
       _priceCtrl.text = d.dealPrice?.toStringAsFixed(0) ?? '';
       _budgetCtrl.text = d.budget?.toStringAsFixed(0) ?? '';
       _notesCtrl.text = d.notes ?? '';
+      if (!mounted) return;
       setState(() {
-        _selectedClient =
-            _PickerItem(id: d.clientId, title: 'Client #${d.clientId}');
-        _selectedAgent =
-            _PickerItem(id: d.agentId, title: 'Agent #${d.agentId}');
-        if (d.propertyId != null) {
-          _selectedProperty = _PickerItem(
-              id: d.propertyId!, title: 'Property #${d.propertyId}');
-        }
+        _client = _reconcile(
+            _clients,
+            PickerItem(
+                id: d.clientId,
+                title: d.clientName.isNotEmpty
+                    ? d.clientName
+                    : l10n.dealsClientRef(d.clientId)));
+        _agent = _reconcile(
+            _agents,
+            PickerItem(
+                id: d.agentId,
+                title: d.agentName.isNotEmpty
+                    ? d.agentName
+                    : l10n.dealsAgentRef(d.agentId)));
+        _property = d.propertyId == null
+            ? null
+            : _reconcile(
+                _properties,
+                PickerItem(
+                    id: d.propertyId!,
+                    title: d.propertyTitle ??
+                        l10n.dealsPropertyRef(d.propertyId!)));
         _status = d.status;
         _initLoading = false;
       });
@@ -552,62 +158,51 @@ class _DealFormScreenState extends State<DealFormScreen> {
     }
   }
 
-  Future<void> _pickClient() async {
-    final r = await _showPicker(context,
-        label: AppLocalizations.of(context).dealsClient,
-        items: _clients,
-        selectedId: _selectedClient?.id);
-    if (r != null) {
-      setState(() {
-        _selectedClient = r;
-        _clientError = null;
-      });
-    }
+  Future<void> _pick(
+    String title,
+    List<PickerItem> items,
+    PickerItem? current,
+    ValueChanged<PickerItem> onPicked,
+  ) async {
+    final l10n = AppLocalizations.of(context);
+    final picked = await showEntityPicker(
+      context,
+      title: l10n.dealsSelectLabel(title),
+      items: items,
+      selectedId: current?.id,
+      searchHint: l10n.dealsSearchHint,
+      emptyLabel: l10n.coreNoResults,
+    );
+    if (picked != null && mounted) setState(() => onPicked(picked));
   }
 
-  Future<void> _pickAgent() async {
-    final r = await _showPicker(context,
-        label: AppLocalizations.of(context).dealsAgent,
-        items: _agents,
-        selectedId: _selectedAgent?.id);
-    if (r != null) {
-      setState(() {
-        _selectedAgent = r;
-        _agentError = null;
-      });
-    }
-  }
-
-  Future<void> _pickProperty() async {
-    final r = await _showPicker(context,
-        label: AppLocalizations.of(context).dealsProperty,
-        items: _properties,
-        selectedId: _selectedProperty?.id);
-    if (r != null) setState(() => _selectedProperty = r);
+  double? _double(TextEditingController c) {
+    final v = c.text.trim().replaceAll(' ', '').replaceAll(',', '.');
+    return v.isEmpty ? null : double.tryParse(v);
   }
 
   void _submit() {
     final l10n = AppLocalizations.of(context);
-    final formValid = _formKey.currentState!.validate();
+    final formOk = _formKey.currentState?.validate() ?? false;
     setState(() {
-      _clientError =
-          _selectedClient == null ? l10n.dealsSelectClientError : null;
-      _agentError = _selectedAgent == null ? l10n.dealsSelectAgentError : null;
+      _clientError = _client == null ? l10n.dealsSelectClientError : null;
+      _agentError = _agent == null ? l10n.dealsSelectAgentError : null;
     });
-    if (!formValid || _selectedClient == null || _selectedAgent == null) return;
+    if (!formOk || _client == null || _agent == null) return;
 
     setState(() => _loading = true);
-    final data = {
+    final price = _double(_priceCtrl);
+    final budget = _double(_budgetCtrl);
+
+    final data = <String, dynamic>{
       'title': _titleCtrl.text.trim(),
+      'clientId': _client!.id,
+      'agentId': _agent!.id,
       'status': _status.name,
-      'clientId': _selectedClient!.id,
-      'agentId': _selectedAgent!.id,
-      if (_priceCtrl.text.trim().isNotEmpty)
-        'dealPrice': double.parse(_priceCtrl.text.trim()),
-      if (_budgetCtrl.text.trim().isNotEmpty)
-        'budget': double.parse(_budgetCtrl.text.trim()),
+      if (_property != null) 'propertyId': _property!.id,
+      if (price != null) 'dealPrice': price,
+      if (budget != null) 'budget': budget,
       if (_notesCtrl.text.trim().isNotEmpty) 'notes': _notesCtrl.text.trim(),
-      if (_selectedProperty != null) 'propertyId': _selectedProperty!.id,
     };
 
     if (widget.isEditing) {
@@ -615,171 +210,235 @@ class _DealFormScreenState extends State<DealFormScreen> {
     } else {
       context.read<DealsBloc>().add(DealsCreateEvent(data));
     }
-    context.go('/deals');
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return Scaffold(
-      appBar: AppBar(
-          title: Text(widget.isEditing ? l10n.dealsEditTitle : l10n.dealsNewTitle)),
-      body: _initLoading
-          ? const LoadingWidget()
-          : SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+    final t = context.tokens;
+
+    return BlocListener<DealsBloc, DealsState>(
+      listener: (context, state) {
+        if (state is DealsActionSuccess) {
+          setState(() => _loading = false);
+          showActionOutcome(context, state);
+          context.go('/deals');
+        }
+        // A rejected save leaves the user on the form with their input intact.
+        if (state is DealsActionFailure) {
+          setState(() => _loading = false);
+          showActionOutcome(context, state);
+        }
+        if (state is DealsError) {
+          setState(() => _loading = false);
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(SnackBar(
+                content: Text(state.message),
+                backgroundColor: t.dangerSolid));
+        }
+      },
+      child: Form(
+        key: _formKey,
+        child: DetailScaffold(
+          title: widget.isEditing ? l10n.dealsEditTitle : l10n.dealsNewTitle,
+          bottomAction: _initLoading
+              ? null
+              : Column(
                   children: [
-                    _FormSectionCard(
-                      title: l10n.dealsDetails,
-                      icon: Icons.description_outlined,
-                      children: [
-                        TextFormField(
-                          controller: _titleCtrl,
-                          decoration: InputDecoration(
-                              labelText: l10n.dealsTitleLabel,
-                              prefixIcon: const Icon(Icons.title, size: 20)),
-                          validator: (v) => v == null || v.isEmpty
-                              ? l10n.dealsTitleRequired
-                              : null,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    _FormSectionCard(
-                      title: l10n.dealsPeopleProperty,
-                      icon: Icons.groups_outlined,
-                      children: [
-                        _EntityTile(
-                          label: l10n.dealsClient,
-                          icon: Icons.person_outline,
-                          selected: _selectedClient,
-                          loading: _clientsLoading,
-                          required: true,
-                          error: _clientError,
-                          onTap: _pickClient,
-                        ),
-                        const SizedBox(height: 14),
-                        _EntityTile(
-                          label: l10n.dealsAgent,
-                          icon: Icons.support_agent_outlined,
-                          selected: _selectedAgent,
-                          loading: _agentsLoading,
-                          required: true,
-                          error: _agentError,
-                          onTap: _pickAgent,
-                        ),
-                        const SizedBox(height: 14),
-                        _EntityTile(
-                          label: l10n.dealsProperty,
-                          icon: Icons.home_outlined,
-                          selected: _selectedProperty,
-                          loading: _propertiesLoading,
-                          onTap: _pickProperty,
-                          onClear: _selectedProperty != null
-                              ? () => setState(() => _selectedProperty = null)
-                              : null,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    _FormSectionCard(
-                      title: l10n.dealsFinancials,
-                      icon: Icons.payments_outlined,
-                      children: [
-                        Row(children: [
-                          Expanded(
-                            child: TextFormField(
-                              controller: _priceCtrl,
-                              keyboardType: TextInputType.number,
-                              decoration: InputDecoration(
-                                  labelText: l10n.dealsDealPrice,
-                                  prefixIcon: const Icon(Icons.attach_money,
-                                      size: 20)),
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: TextFormField(
-                              controller: _budgetCtrl,
-                              keyboardType: TextInputType.number,
-                              decoration: InputDecoration(
-                                  labelText: l10n.dealsBudget,
-                                  prefixIcon: const Icon(
-                                      Icons.account_balance_wallet_outlined,
-                                      size: 20)),
-                            ),
-                          ),
-                        ]),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    _FormSectionCard(
-                      title: l10n.dealsStatusNotes,
-                      icon: Icons.flag_outlined,
-                      children: [
-                        Wrap(
-                          spacing: 8,
-                          runSpacing: 8,
-                          children: DealStatus.values
-                              .map((s) => _PillChip(
-                                    label: switch (s) {
-                                      DealStatus.LEAD => l10n.dealsStatusLead,
-                                      DealStatus.NEGOTIATION =>
-                                        l10n.dealsStatusNegotiation,
-                                      DealStatus.CLOSED_WON =>
-                                        l10n.dealsStatusClosedWon,
-                                      DealStatus.CLOSED_LOST =>
-                                        l10n.dealsStatusClosedLost,
-                                    },
-                                    selected: _status == s,
-                                    onTap: () => setState(() => _status = s),
-                                  ))
-                              .toList(),
-                        ),
-                        const SizedBox(height: 16),
-                        TextFormField(
-                          controller: _notesCtrl,
-                          maxLines: 3,
-                          decoration: InputDecoration(
-                              border: InputBorder.none,
-                              hintText: l10n.dealsNotesHint),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 32),
-                    ElevatedButton(
+                    AppFilledButton(
+                      label: widget.isEditing
+                          ? l10n.dealsUpdateDeal
+                          : l10n.dealsCreateDeal,
+                      loading: _loading,
                       onPressed: _loading ? null : _submit,
-                      style: ElevatedButton.styleFrom(
-                          minimumSize: const Size(double.infinity, 54),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(14))),
-                      child: _loading
-                          ? const SizedBox(
-                              height: 20,
-                              width: 20,
-                              child: CircularProgressIndicator(
-                                  color: Colors.white, strokeWidth: 2))
-                          : Text(widget.isEditing
-                              ? l10n.dealsUpdateDeal
-                              : l10n.dealsCreateDeal),
                     ),
-                    const SizedBox(height: 10),
-                    OutlinedButton(
-                      onPressed: () => context.pop(),
-                      style: OutlinedButton.styleFrom(
-                          minimumSize: const Size(double.infinity, 54),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(14))),
-                      child: Text(l10n.dealsCancel),
+                    const SizedBox(height: 8),
+                    AppGhostButton(
+                      label: l10n.coreCancel,
+                      onPressed: _loading ? null : () => context.go('/deals'),
                     ),
                   ],
                 ),
-              ),
+          children: _initLoading
+              ? const [
+                  ShimmerGroup(
+                    child: Column(children: [
+                      ShimmerBox(
+                          width: double.infinity,
+                          height: 90,
+                          radius: AppMetrics.radiusMd),
+                      SizedBox(height: 14),
+                      ShimmerBox(
+                          width: double.infinity,
+                          height: 230,
+                          radius: AppMetrics.radiusMd),
+                    ]),
+                  )
+                ]
+              : [
+                  FormSectionCard(children: [
+                    LabelledField(
+                      label: l10n.dealsTitleLabel,
+                      required: true,
+                      child: AppTextField(
+                        controller: _titleCtrl,
+                        hint: l10n.dealsFallbackTitle,
+                        textInputAction: TextInputAction.next,
+                        validator: (v) => v == null || v.trim().isEmpty
+                            ? l10n.dealsTitleRequired
+                            : null,
+                      ),
+                    ),
+                  ]),
+                  FormSectionCard(
+                    eyebrow: l10n.dealsPeopleProperty,
+                    children: [
+                      _PickerRow(
+                        label: l10n.dealsClient,
+                        required: true,
+                        value: _client?.title,
+                        error: _clientError,
+                        onTap: () => _pick(l10n.dealsClient, _clients, _client,
+                            (v) {
+                          _client = v;
+                          _clientError = null;
+                        }),
+                      ),
+                      _PickerRow(
+                        label: l10n.dealsAgent,
+                        required: true,
+                        value: _agent?.title,
+                        error: _agentError,
+                        onTap: () =>
+                            _pick(l10n.dealsAgent, _agents, _agent, (v) {
+                          _agent = v;
+                          _agentError = null;
+                        }),
+                      ),
+                      _PickerRow(
+                        label: l10n.dealsProperty,
+                        value: _property?.title,
+                        onTap: () => _pick(
+                            l10n.dealsProperty, _properties, _property,
+                            (v) => _property = v),
+                      ),
+                    ],
+                  ),
+                  FormSectionCard(
+                    eyebrow: l10n.dealsFinancials,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: LabelledField(
+                              label: l10n.dealsDealPrice,
+                              child: AppTextField(
+                                controller: _priceCtrl,
+                                hint: '12 300 000',
+                                keyboardType: TextInputType.number,
+                                textInputAction: TextInputAction.next,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 9),
+                          Expanded(
+                            child: LabelledField(
+                              label: l10n.dealsBudget,
+                              child: AppTextField(
+                                controller: _budgetCtrl,
+                                hint: '13 000 000',
+                                keyboardType: TextInputType.number,
+                                textInputAction: TextInputAction.next,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  FormSectionCard(
+                    eyebrow: l10n.dealsPipelineStage,
+                    children: [
+                      FilterPillWrap(pills: [
+                        for (final s in DealStatus.values)
+                          FilterPill(
+                            label: dealStatusLabel(l10n, s),
+                            selected: _status == s,
+                            onCard: true,
+                            onTap: () => setState(() => _status = s),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 9),
+                          ),
+                      ]),
+                    ],
+                  ),
+                  FormSectionCard(
+                    eyebrow: l10n.dealsNotes,
+                    children: [
+                      AppTextField(
+                        controller: _notesCtrl,
+                        hint: l10n.dealsNotesHint,
+                        maxLines: 4,
+                        minLines: 3,
+                        textInputAction: TextInputAction.newline,
+                      ),
+                    ],
+                  ),
+                ],
+        ),
+      ),
+    );
+  }
+}
+
+/// A labelled [PickerField] with an optional inline error, for the selections
+/// that live outside the `Form`.
+class _PickerRow extends StatelessWidget {
+  final String label;
+  final String? value;
+  final String? error;
+  final bool required;
+  final VoidCallback onTap;
+
+  const _PickerRow({
+    required this.label,
+    required this.value,
+    required this.onTap,
+    this.error,
+    this.required = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final t = context.tokens;
+    final l10n = AppLocalizations.of(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        LabelledField(
+          label: label,
+          required: required,
+          child: PickerField(
+            value: value,
+            placeholder: l10n.coreNotSelected,
+            onTap: onTap,
+          ),
+        ),
+        if (error != null)
+          Padding(
+            padding: const EdgeInsets.only(top: 5, left: 2),
+            child: Text(
+              error!,
+              style: TextStyle(
+                  fontFamily: AppFonts.sans,
+                  fontSize: 11,
+                  color: t.dangerText),
             ),
+          ),
+      ],
     );
   }
 }

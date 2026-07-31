@@ -7,6 +7,9 @@ class DealsLoadEvent extends DealsEvent {
   DealsLoadEvent({this.status});
 }
 
+/// Drops the cached list on sign-out. See [ClientsResetEvent] for why.
+class DealsResetEvent extends DealsEvent {}
+
 class DealsDeleteEvent extends DealsEvent {
   final int id;
   DealsDeleteEvent(this.id);

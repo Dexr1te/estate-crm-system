@@ -13,6 +13,7 @@ import 'package:real_estate_crm/features/dashboard/presentation/screens/dashboar
 import 'package:real_estate_crm/features/deals/presentation/screens/deal_detail_screen.dart';
 import 'package:real_estate_crm/features/deals/presentation/screens/deal_form_screen.dart';
 import 'package:real_estate_crm/features/deals/presentation/screens/deals_screen.dart';
+import 'package:real_estate_crm/features/meetings/presentation/screens/meeting_detail_screen.dart';
 import 'package:real_estate_crm/features/meetings/presentation/screens/meeting_form_screen.dart';
 import 'package:real_estate_crm/features/meetings/presentation/screens/meetings_screen.dart';
 import 'package:real_estate_crm/features/profile/presentation/screens/profile_screen.dart';
@@ -155,8 +156,14 @@ GoRouter createRouter(AuthBloc authBloc) {
           ),
           GoRoute(
             path: '/deals',
-            pageBuilder: (_, __) =>
-                const NoTransitionPage(child: DealsScreen()),
+            // `?status=LEAD` deep-links a stage filter — the dashboard's
+            // pipeline segments and metric cells link here.
+            pageBuilder: (_, s) => NoTransitionPage(
+              child: DealsScreen(
+                initialStatus:
+                    DealsScreen.parseStatus(s.uri.queryParameters['status']),
+              ),
+            ),
             routes: [
               GoRoute(
                 path: 'new',
@@ -196,12 +203,22 @@ GoRouter createRouter(AuthBloc authBloc) {
                     const NoTransitionPage(child: MeetingFormScreen()),
               ),
               GoRoute(
-                path: ':id/edit',
+                path: ':id',
                 parentNavigatorKey: _rootKey,
                 pageBuilder: (_, s) => NoTransitionPage(
-                  child: MeetingFormScreen(
-                      meetingId: int.parse(s.pathParameters['id']!)),
+                  child: MeetingDetailScreen(
+                      id: int.parse(s.pathParameters['id']!)),
                 ),
+                routes: [
+                  GoRoute(
+                    path: 'edit',
+                    parentNavigatorKey: _rootKey,
+                    pageBuilder: (_, s) => NoTransitionPage(
+                      child: MeetingFormScreen(
+                          meetingId: int.parse(s.pathParameters['id']!)),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

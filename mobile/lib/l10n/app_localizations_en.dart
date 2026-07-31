@@ -21,6 +21,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get adminAssignToTeam => 'Assign to team';
 
   @override
+  String get adminAuditEmptyBody =>
+      'Team activity shows up here: deals created, status changes, invitations.';
+
+  @override
   String get adminChangeRole => 'Change role';
 
   @override
@@ -64,6 +68,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get adminInviteCreated => 'Invite created';
+
+  @override
+  String get adminInviteHelper =>
+      'The code is emailed to them and stays valid for 7 days.';
 
   @override
   String get adminInviteInstructions =>
@@ -146,6 +154,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authAcceptYourInvite => 'Accept your invite';
 
   @override
+  String get authActivate => 'Activate';
+
+  @override
   String get authBackToSignIn => 'Back to sign in';
 
   @override
@@ -176,6 +187,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authPassword => 'Password';
 
   @override
+  String get authPasswordHelp => 'At least 8 characters, including a digit.';
+
+  @override
   String get authPasswordMinLength => 'At least 6 characters';
 
   @override
@@ -186,6 +200,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get authSetPasswordContinue => 'Set password & continue';
+
+  @override
+  String get authSetPasswordSignIn => 'Set password & sign in';
 
   @override
   String get authSignIn => 'Sign In';
@@ -203,10 +220,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clientsAddFirstClient => 'Add your first client';
 
   @override
+  String get clientsAddShort => 'Client';
+
+  @override
   String get clientsAgent => 'Agent';
 
   @override
-  String get clientsBuyer => '🏠 Buyer';
+  String clientsAgentMeta(Object name) {
+    return 'agent $name';
+  }
+
+  @override
+  String get clientsBuyer => 'Buyer';
 
   @override
   String get clientsCancel => 'Cancel';
@@ -235,6 +260,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clientsContactInfo => 'Contact Info';
 
   @override
+  String clientsCounter(Object active, Object total) {
+    return '$total total · $active in progress';
+  }
+
+  @override
   String get clientsCreateClient => 'Create Client';
 
   @override
@@ -258,6 +288,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clientsDelete => 'Delete';
 
   @override
+  String clientsDeleteCascade(num count, Object name) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'and $count linked deals will be deleted permanently',
+      one: 'and 1 linked deal will be deleted permanently',
+      zero: 'will be deleted permanently',
+    );
+    return '$name $_temp0. This cannot be undone.';
+  }
+
+  @override
   String get clientsDeleteClient => 'Delete Client';
 
   @override
@@ -275,6 +317,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clientsEmail => 'Email';
 
   @override
+  String get clientsFilterAll => 'All';
+
+  @override
+  String get clientsFilterBuyers => 'Buyers';
+
+  @override
+  String get clientsFilterSellers => 'Sellers';
+
+  @override
+  String get clientsFullName => 'Full name';
+
+  @override
   String get clientsFullNameLabel => 'Full Name *';
 
   @override
@@ -286,6 +340,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clientsInvalidEmail => 'Invalid email';
 
   @override
+  String get clientsMessage => 'Message';
+
+  @override
   String get clientsNameRequired => 'Name is required';
 
   @override
@@ -293,6 +350,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get clientsNoClientsFound => 'No clients found';
+
+  @override
+  String get clientsNoEmail => 'No email address on file';
+
+  @override
+  String get clientsNoPhone => 'No phone number on file';
 
   @override
   String get clientsNotes => 'Notes';
@@ -304,10 +367,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clientsPhone => 'Phone';
 
   @override
-  String get clientsSearchHint => 'Search clients...';
+  String get clientsSearchHint => 'Search by name, phone…';
 
   @override
-  String get clientsSeller => '💰 Seller';
+  String get clientsSeller => 'Seller';
 
   @override
   String get clientsTimestamps => 'Timestamps';
@@ -325,6 +388,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clientsUpdated => 'Updated';
 
   @override
+  String clientsUpdatedAt(Object date) {
+    return 'Updated $date';
+  }
+
+  @override
+  String get coreCall => 'Call';
+
+  @override
   String get coreCancel => 'Cancel';
 
   @override
@@ -332,6 +403,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get coreClientTypeSeller => 'Seller';
+
+  @override
+  String get coreDataScopeAll => 'All';
+
+  @override
+  String get coreDataScopeOwn => 'Own';
+
+  @override
+  String get coreDataScopeTeam => 'Team';
 
   @override
   String get coreDelete => 'Delete';
@@ -361,7 +441,40 @@ class AppLocalizationsEn extends AppLocalizations {
   String get coreNavTeam => 'Team';
 
   @override
+  String get coreNoResults => 'Nothing found';
+
+  @override
+  String get coreNotSelected => 'Not selected';
+
+  @override
+  String get coreOpen => 'Open';
+
+  @override
+  String get corePropertyTypeApartment => 'Apartment';
+
+  @override
+  String get corePropertyTypeCommercial => 'Commercial';
+
+  @override
+  String get corePropertyTypeHouse => 'House';
+
+  @override
+  String get corePropertyTypeLand => 'Land';
+
+  @override
+  String get corePropertyTypeOffice => 'Office';
+
+  @override
   String get coreRetry => 'Retry';
+
+  @override
+  String get coreRoleAdmin => 'Admin';
+
+  @override
+  String get coreRoleAgent => 'Agent';
+
+  @override
+  String get coreRoleManager => 'Manager';
 
   @override
   String get coreStatusAvailable => 'Available';
@@ -390,10 +503,18 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get dashboardActiveDealsLabel => 'Active deals';
+
+  @override
   String get dashboardAddClient => 'Add Client';
 
   @override
   String get dashboardAddProperty => 'Add Property';
+
+  @override
+  String dashboardAgentMeta(Object name) {
+    return 'agent: $name';
+  }
 
   @override
   String get dashboardClients => 'Clients';
@@ -402,8 +523,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dashboardClosedWon => 'Closed Won';
 
   @override
+  String dashboardDateSummary(Object date) {
+    return '$date · team overview';
+  }
+
+  @override
   String dashboardGreeting(Object greeting, Object name) {
-    return '$greeting, $name ✨';
+    return '$greeting, $name';
   }
 
   @override
@@ -422,10 +548,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dashboardGreetingStillUp => 'Still up';
 
   @override
+  String get dashboardMeetingsLabel => 'Meetings';
+
+  @override
   String get dashboardMeetingsSubtitle => 'meetings';
 
   @override
   String get dashboardNewDeal => 'New Deal';
+
+  @override
+  String get dashboardNextMeeting => 'Next meeting';
+
+  @override
+  String get dashboardNoMoreMeetingsToday => 'Nothing else scheduled today';
+
+  @override
+  String get dashboardNoPhone => 'No phone number on file for this client';
 
   @override
   String get dashboardNoUpcomingMeetings => 'No upcoming meetings';
@@ -440,10 +578,37 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dashboardQuickActions => 'Quick Actions';
 
   @override
+  String dashboardRelativeInHours(Object count) {
+    return 'in $count h';
+  }
+
+  @override
+  String dashboardRelativeInMinutes(Object count) {
+    return 'in $count min';
+  }
+
+  @override
+  String get dashboardRelativeNow => 'now';
+
+  @override
+  String get dashboardRelativeToday => 'today';
+
+  @override
+  String get dashboardRelativeTomorrow => 'tomorrow';
+
+  @override
   String get dashboardScheduleMeeting => 'Schedule Meeting';
 
   @override
   String get dashboardSeeAll => 'See all';
+
+  @override
+  String get dashboardTeamPipeline => 'Team pipeline';
+
+  @override
+  String dashboardTodayCount(Object count) {
+    return '$count today';
+  }
 
   @override
   String get dashboardTotalDeals => 'Total Deals';
@@ -458,7 +623,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dealsAddDeal => 'Add Deal';
 
   @override
+  String get dealsAddShort => 'Deal';
+
+  @override
   String get dealsAgent => 'Agent';
+
+  @override
+  String dealsAgentRef(Object id) {
+    return 'Agent #$id';
+  }
 
   @override
   String dealsAgentValue(Object name) {
@@ -480,7 +653,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dealsClient => 'Client';
 
   @override
+  String dealsClientRef(Object id) {
+    return 'Client #$id';
+  }
+
+  @override
   String get dealsClosed => 'Closed';
+
+  @override
+  String dealsCounter(Object active, Object total) {
+    return '$active active · $total';
+  }
 
   @override
   String get dealsCreateDeal => 'Create Deal';
@@ -490,6 +673,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dealsDealPrice => 'Deal Price';
+
+  @override
+  String dealsDeleteCascade(Object title) {
+    return '$title will be deleted permanently. This cannot be undone.';
+  }
 
   @override
   String dealsDeleteConfirm(Object title) {
@@ -518,6 +706,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dealsFilterAll => 'All';
 
   @override
+  String dealsFilterWithCount(Object count, Object label) {
+    return '$label $count';
+  }
+
+  @override
   String get dealsFinancials => 'Financials';
 
   @override
@@ -535,7 +728,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dealsNewTitle => 'New Deal';
 
   @override
+  String dealsNextCall(Object when) {
+    return 'call $when';
+  }
+
+  @override
   String get dealsNoResults => 'No results';
+
+  @override
+  String get dealsNoResultsSubtitle => 'Try a different stage filter';
 
   @override
   String get dealsNotFound => 'Deal not found';
@@ -556,6 +757,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dealsProperty => 'Property';
 
   @override
+  String dealsPropertyRef(Object id) {
+    return 'Property #$id';
+  }
+
+  @override
   String get dealsSearchHint => 'Search by name or ID…';
 
   @override
@@ -567,6 +773,11 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String dealsSelectLabel(Object label) {
     return 'Select $label';
+  }
+
+  @override
+  String dealsStaleWarning(Object days) {
+    return 'no activity for $days days';
   }
 
   @override
@@ -590,6 +801,18 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get dealsTimeline => 'Timeline';
+
+  @override
+  String get dealsTimelineClosed => 'Deal closed';
+
+  @override
+  String get dealsTimelineCreated => 'Created';
+
+  @override
+  String get dealsTimelineUpdated => 'Last updated';
+
+  @override
   String get dealsTitle => 'Deals';
 
   @override
@@ -600,6 +823,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dealsUpdateDeal => 'Update Deal';
+
+  @override
+  String get meetingsAddShort => 'Meeting';
 
   @override
   String get meetingsAgendaHint => 'Meeting agenda, talking points…';
@@ -627,6 +853,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get meetingsCompleted => 'Completed';
 
   @override
+  String meetingsCounter(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count this week',
+      one: '1 this week',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get meetingsDate => 'Date';
+
+  @override
   String get meetingsDeal => 'Deal';
 
   @override
@@ -636,6 +876,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get meetingsDelete => 'Delete';
+
+  @override
+  String meetingsDeleteCascade(Object title) {
+    return '$title will be deleted permanently. This cannot be undone.';
+  }
 
   @override
   String get meetingsDeleteConfirm => 'Delete this meeting?';
@@ -650,10 +895,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get meetingsDetails => 'Details';
 
   @override
+  String get meetingsDirections => 'Directions';
+
+  @override
   String get meetingsEdit => 'Edit';
 
   @override
   String get meetingsEditMeeting => 'Edit Meeting';
+
+  @override
+  String get meetingsGroupToday => 'Today';
+
+  @override
+  String get meetingsGroupTomorrow => 'Tomorrow';
 
   @override
   String get meetingsLoading => 'Loading…';
@@ -665,10 +919,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get meetingsMarkComplete => 'Mark Complete';
 
   @override
+  String get meetingsNoLocation => 'No location on this meeting';
+
+  @override
   String get meetingsNoMeetings => 'No meetings';
 
   @override
   String get meetingsNoResults => 'No results';
+
+  @override
+  String get meetingsNoResultsSubtitle => 'Nothing scheduled in this range';
+
+  @override
+  String get meetingsNote => 'Meeting note';
 
   @override
   String get meetingsPeopleAndDeal => 'People & Deal';
@@ -703,9 +966,21 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get meetingsStatus => 'Status';
+
+  @override
+  String get meetingsStatusHeld => 'Held';
+
+  @override
+  String get meetingsStatusScheduled => 'Scheduled';
+
+  @override
   String meetingsTapToSelect(Object label) {
     return 'Tap to select $label';
   }
+
+  @override
+  String get meetingsTime => 'Time';
 
   @override
   String get meetingsTitle => 'Meetings';
@@ -717,7 +992,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get meetingsTitleRequired => 'Title is required';
 
   @override
+  String get meetingsUpcomingEyebrow => 'Next up';
+
+  @override
   String get meetingsUpdateMeeting => 'Update Meeting';
+
+  @override
+  String get meetingsWhen => 'When';
+
+  @override
+  String get meetingsWhoAndWhere => 'Who & where';
 
   @override
   String get profileAbout => 'About';
@@ -730,6 +1014,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileAgentIdCopied => 'Agent ID copied';
+
+  @override
+  String get profileApp => 'App';
 
   @override
   String get profileBuiltForTeams => 'Built for real estate teams';
@@ -750,10 +1037,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileEstateCrm => 'Estate CRM';
 
   @override
+  String get profileFollowSystem => 'Follow system';
+
+  @override
   String get profileFullName => 'Full Name';
 
   @override
   String get profileLanguage => 'Language';
+
+  @override
+  String get profileName => 'Name';
 
   @override
   String get profileNameUpdated => 'Name updated locally';
@@ -766,6 +1059,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileSave => 'Save';
+
+  @override
+  String get profileSettings => 'Settings';
 
   @override
   String get profileSignOut => 'Sign Out';
@@ -787,6 +1083,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get propertiesAddFirstListing => 'Add your first listing';
+
+  @override
+  String get propertiesAddShort => 'Property';
 
   @override
   String get propertiesAddressLabel => 'Address *';
@@ -812,6 +1111,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get propertiesBack => 'Back';
+
+  @override
   String get propertiesBasicInfo => 'Basic Info';
 
   @override
@@ -821,10 +1123,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get propertiesCityLabel => 'City';
 
   @override
+  String propertiesCounter(Object reserved, Object total) {
+    return '$total listed · $reserved reserved';
+  }
+
+  @override
   String get propertiesCreateProperty => 'Create Property';
 
   @override
   String get propertiesDelete => 'Delete';
+
+  @override
+  String propertiesDeleteCascade(Object title) {
+    return '$title will be deleted permanently. This cannot be undone.';
+  }
 
   @override
   String propertiesDeleteConfirm(Object title) {
@@ -861,16 +1173,32 @@ class AppLocalizationsEn extends AppLocalizations {
   String get propertiesFloor => 'Floor';
 
   @override
+  String propertiesFloorOf(Object floor, Object total) {
+    return '$floor of $total';
+  }
+
+  @override
   String get propertiesLocation => 'Location';
 
   @override
   String get propertiesNewProperty => 'New Property';
 
   @override
+  String get propertiesNextDetails => 'Next — details';
+
+  @override
   String get propertiesNoProperties => 'No properties';
 
   @override
+  String get propertiesNoResultsSubtitle => 'Try a different search or filter';
+
+  @override
   String get propertiesPriceLabel => 'Price *';
+
+  @override
+  String propertiesPricePerSqm(Object price) {
+    return '$price per m²';
+  }
 
   @override
   String get propertiesProperty => 'Property';
@@ -903,7 +1231,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get propertiesSearchHint => 'Search...';
 
   @override
+  String get propertiesSearchHintFull => 'Address, complex, ID…';
+
+  @override
   String get propertiesStatus => 'Status';
+
+  @override
+  String propertiesStepOf(Object current, Object total) {
+    return 'Step $current of $total';
+  }
 
   @override
   String get propertiesTitle => 'Properties';

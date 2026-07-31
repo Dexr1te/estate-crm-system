@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:real_estate_crm/core/models/admin_models.dart';
+import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 /// Shows the result of an invite: the one-time invite token for [user], with a
@@ -39,7 +40,7 @@ class _InviteResultDialog extends StatelessWidget {
           // Params are alphabetical (email, name, role) — the ARB placeholder
           // types were dropped, so gen-l10n no longer preserves declared order.
           Text(l10n.adminInvitedAs(
-              user.email, user.fullName, user.role.name)),
+              user.email, user.fullName, roleLabel(l10n, user.role))),
           const SizedBox(height: 16),
           if (token == null || token.isEmpty)
             Text(

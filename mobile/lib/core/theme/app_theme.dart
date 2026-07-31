@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:real_estate_crm/core/theme/app_fonts.dart';
+
+// Re-exported so anything with the theme in scope can name the typeface.
+export 'package:real_estate_crm/core/theme/app_fonts.dart';
 
 class AppColors {
   // Primary palette
@@ -56,7 +60,7 @@ class AppTheme {
   static ThemeData get light {
     return ThemeData(
       useMaterial3: true,
-      fontFamily: 'Sora',
+      fontFamily: AppFonts.sans,
       brightness: Brightness.light,
       colorScheme: ColorScheme.fromSeed(
         seedColor: AppColors.primary,
@@ -76,37 +80,37 @@ class AppTheme {
       scaffoldBackgroundColor: AppColors.background,
       textTheme: const TextTheme(
         displayLarge:
-            TextStyle(color: AppColors.textPrimary, fontFamily: 'Sora'),
+            TextStyle(color: AppColors.textPrimary, fontFamily: AppFonts.sans),
         displayMedium:
-            TextStyle(color: AppColors.textPrimary, fontFamily: 'Sora'),
+            TextStyle(color: AppColors.textPrimary, fontFamily: AppFonts.sans),
         displaySmall:
-            TextStyle(color: AppColors.textPrimary, fontFamily: 'Sora'),
+            TextStyle(color: AppColors.textPrimary, fontFamily: AppFonts.sans),
         headlineLarge:
-            TextStyle(color: AppColors.textPrimary, fontFamily: 'Sora'),
+            TextStyle(color: AppColors.textPrimary, fontFamily: AppFonts.sans),
         headlineMedium:
-            TextStyle(color: AppColors.textPrimary, fontFamily: 'Sora'),
+            TextStyle(color: AppColors.textPrimary, fontFamily: AppFonts.sans),
         headlineSmall:
-            TextStyle(color: AppColors.textPrimary, fontFamily: 'Sora'),
+            TextStyle(color: AppColors.textPrimary, fontFamily: AppFonts.sans),
         titleLarge: TextStyle(
             color: AppColors.textPrimary,
-            fontFamily: 'Sora',
+            fontFamily: AppFonts.sans,
             fontWeight: FontWeight.w600),
         titleMedium: TextStyle(
             color: AppColors.textPrimary,
-            fontFamily: 'Sora',
+            fontFamily: AppFonts.sans,
             fontWeight: FontWeight.w600),
-        titleSmall: TextStyle(color: AppColors.textPrimary, fontFamily: 'Sora'),
-        bodyLarge: TextStyle(color: AppColors.textPrimary, fontFamily: 'Sora'),
-        bodyMedium: TextStyle(color: AppColors.textPrimary, fontFamily: 'Sora'),
+        titleSmall: TextStyle(color: AppColors.textPrimary, fontFamily: AppFonts.sans),
+        bodyLarge: TextStyle(color: AppColors.textPrimary, fontFamily: AppFonts.sans),
+        bodyMedium: TextStyle(color: AppColors.textPrimary, fontFamily: AppFonts.sans),
         bodySmall:
-            TextStyle(color: AppColors.textSecondary, fontFamily: 'Sora'),
+            TextStyle(color: AppColors.textSecondary, fontFamily: AppFonts.sans),
         labelLarge: TextStyle(
             color: AppColors.textPrimary,
-            fontFamily: 'Sora',
+            fontFamily: AppFonts.sans,
             fontWeight: FontWeight.w600),
         labelMedium:
-            TextStyle(color: AppColors.textSecondary, fontFamily: 'Sora'),
-        labelSmall: TextStyle(color: AppColors.textHint, fontFamily: 'Sora'),
+            TextStyle(color: AppColors.textSecondary, fontFamily: AppFonts.sans),
+        labelSmall: TextStyle(color: AppColors.textHint, fontFamily: AppFonts.sans),
       ),
       appBarTheme: const AppBarTheme(
         backgroundColor: AppColors.surface,
@@ -114,7 +118,7 @@ class AppTheme {
         elevation: 0,
         centerTitle: false,
         titleTextStyle: TextStyle(
-            fontFamily: 'Sora',
+            fontFamily: AppFonts.sans,
             fontSize: 18,
             fontWeight: FontWeight.w600,
             color: AppColors.textPrimary),
@@ -146,9 +150,9 @@ class AppTheme {
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         hintStyle: const TextStyle(
-            color: AppColors.textHint, fontSize: 14, fontFamily: 'Sora'),
+            color: AppColors.textHint, fontSize: 14, fontFamily: AppFonts.sans),
         labelStyle: const TextStyle(
-            color: AppColors.textSecondary, fontSize: 14, fontFamily: 'Sora'),
+            color: AppColors.textSecondary, fontSize: 14, fontFamily: AppFonts.sans),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -158,7 +162,7 @@ class AppTheme {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           textStyle: const TextStyle(
-              fontFamily: 'Sora', fontWeight: FontWeight.w600, fontSize: 15),
+              fontFamily: AppFonts.sans, fontWeight: FontWeight.w600, fontSize: 15),
           elevation: 0,
         ),
       ),
@@ -166,7 +170,7 @@ class AppTheme {
           style: TextButton.styleFrom(
               foregroundColor: AppColors.primary,
               textStyle: const TextStyle(
-                  fontFamily: 'Sora', fontWeight: FontWeight.w600))),
+                  fontFamily: AppFonts.sans, fontWeight: FontWeight.w600))),
       outlinedButtonTheme: OutlinedButtonThemeData(
           style: OutlinedButton.styleFrom(
               foregroundColor: AppColors.primary,
@@ -174,7 +178,7 @@ class AppTheme {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12)),
               textStyle: const TextStyle(
-                  fontFamily: 'Sora', fontWeight: FontWeight.w600))),
+                  fontFamily: AppFonts.sans, fontWeight: FontWeight.w600))),
       chipTheme: ChipThemeData(
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           side: BorderSide.none),
@@ -192,16 +196,30 @@ class AppTheme {
         elevation: 0,
         modalElevation: 0,
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
+      ),
+      dialogTheme: DialogThemeData(
+        backgroundColor: AppColors.surface,
+        surfaceTintColor: Colors.transparent,
+        elevation: 0,
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        titleTextStyle: const TextStyle(
+            color: AppColors.textPrimary,
+            fontFamily: AppFonts.sans,
+            fontSize: 18,
+            fontWeight: FontWeight.w700),
+        contentTextStyle: const TextStyle(
+            color: AppColors.textSecondary, fontFamily: AppFonts.sans, fontSize: 14),
       ),
       listTileTheme: const ListTileThemeData(
           titleTextStyle: TextStyle(
-              fontFamily: 'Sora',
+              fontFamily: AppFonts.sans,
               color: AppColors.textPrimary,
               fontSize: 14,
               fontWeight: FontWeight.w500),
           subtitleTextStyle: TextStyle(
-              fontFamily: 'Sora',
+              fontFamily: AppFonts.sans,
               color: AppColors.textSecondary,
               fontSize: 12)),
       bottomNavigationBarTheme: const BottomNavigationBarThemeData(
@@ -210,8 +228,8 @@ class AppTheme {
         unselectedItemColor: AppColors.textHint,
         elevation: 0,
         selectedLabelStyle: TextStyle(
-            fontFamily: 'Sora', fontWeight: FontWeight.w600, fontSize: 11),
-        unselectedLabelStyle: TextStyle(fontFamily: 'Sora', fontSize: 11),
+            fontFamily: AppFonts.sans, fontWeight: FontWeight.w600, fontSize: 11),
+        unselectedLabelStyle: TextStyle(fontFamily: AppFonts.sans, fontSize: 11),
       ),
       switchTheme: SwitchThemeData(
         thumbColor: WidgetStateProperty.resolveWith((s) =>
@@ -232,7 +250,7 @@ class AppThemeDark {
   static ThemeData get dark {
     return ThemeData(
       useMaterial3: true,
-      fontFamily: 'Sora',
+      fontFamily: AppFonts.sans,
       brightness: Brightness.dark,
       colorScheme: ColorScheme.fromSeed(
         seedColor: AppColors.accent,
@@ -252,41 +270,41 @@ class AppThemeDark {
       scaffoldBackgroundColor: AppColors.darkBackground,
       textTheme: const TextTheme(
         displayLarge:
-            TextStyle(color: AppColors.darkTextPrimary, fontFamily: 'Sora'),
+            TextStyle(color: AppColors.darkTextPrimary, fontFamily: AppFonts.sans),
         displayMedium:
-            TextStyle(color: AppColors.darkTextPrimary, fontFamily: 'Sora'),
+            TextStyle(color: AppColors.darkTextPrimary, fontFamily: AppFonts.sans),
         displaySmall:
-            TextStyle(color: AppColors.darkTextPrimary, fontFamily: 'Sora'),
+            TextStyle(color: AppColors.darkTextPrimary, fontFamily: AppFonts.sans),
         headlineLarge:
-            TextStyle(color: AppColors.darkTextPrimary, fontFamily: 'Sora'),
+            TextStyle(color: AppColors.darkTextPrimary, fontFamily: AppFonts.sans),
         headlineMedium:
-            TextStyle(color: AppColors.darkTextPrimary, fontFamily: 'Sora'),
+            TextStyle(color: AppColors.darkTextPrimary, fontFamily: AppFonts.sans),
         headlineSmall:
-            TextStyle(color: AppColors.darkTextPrimary, fontFamily: 'Sora'),
+            TextStyle(color: AppColors.darkTextPrimary, fontFamily: AppFonts.sans),
         titleLarge: TextStyle(
             color: AppColors.darkTextPrimary,
-            fontFamily: 'Sora',
+            fontFamily: AppFonts.sans,
             fontWeight: FontWeight.w600),
         titleMedium: TextStyle(
             color: AppColors.darkTextPrimary,
-            fontFamily: 'Sora',
+            fontFamily: AppFonts.sans,
             fontWeight: FontWeight.w600),
         titleSmall:
-            TextStyle(color: AppColors.darkTextPrimary, fontFamily: 'Sora'),
+            TextStyle(color: AppColors.darkTextPrimary, fontFamily: AppFonts.sans),
         bodyLarge:
-            TextStyle(color: AppColors.darkTextPrimary, fontFamily: 'Sora'),
+            TextStyle(color: AppColors.darkTextPrimary, fontFamily: AppFonts.sans),
         bodyMedium:
-            TextStyle(color: AppColors.darkTextPrimary, fontFamily: 'Sora'),
+            TextStyle(color: AppColors.darkTextPrimary, fontFamily: AppFonts.sans),
         bodySmall:
-            TextStyle(color: AppColors.darkTextSecondary, fontFamily: 'Sora'),
+            TextStyle(color: AppColors.darkTextSecondary, fontFamily: AppFonts.sans),
         labelLarge: TextStyle(
             color: AppColors.darkTextPrimary,
-            fontFamily: 'Sora',
+            fontFamily: AppFonts.sans,
             fontWeight: FontWeight.w600),
         labelMedium:
-            TextStyle(color: AppColors.darkTextSecondary, fontFamily: 'Sora'),
+            TextStyle(color: AppColors.darkTextSecondary, fontFamily: AppFonts.sans),
         labelSmall:
-            TextStyle(color: AppColors.darkTextHint, fontFamily: 'Sora'),
+            TextStyle(color: AppColors.darkTextHint, fontFamily: AppFonts.sans),
       ),
       appBarTheme: const AppBarTheme(
         backgroundColor: AppColors.darkBackground,
@@ -294,7 +312,7 @@ class AppThemeDark {
         elevation: 0,
         centerTitle: false,
         titleTextStyle: TextStyle(
-            fontFamily: 'Sora',
+            fontFamily: AppFonts.sans,
             fontSize: 18,
             fontWeight: FontWeight.w600,
             color: AppColors.darkTextPrimary),
@@ -327,11 +345,11 @@ class AppThemeDark {
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         hintStyle: const TextStyle(
-            color: AppColors.darkTextHint, fontSize: 14, fontFamily: 'Sora'),
+            color: AppColors.darkTextHint, fontSize: 14, fontFamily: AppFonts.sans),
         labelStyle: const TextStyle(
             color: AppColors.darkTextSecondary,
             fontSize: 14,
-            fontFamily: 'Sora'),
+            fontFamily: AppFonts.sans),
       ),
       // Filled buttons are gold with navy label
       elevatedButtonTheme: ElevatedButtonThemeData(
@@ -342,7 +360,7 @@ class AppThemeDark {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           textStyle: const TextStyle(
-              fontFamily: 'Sora', fontWeight: FontWeight.w600, fontSize: 15),
+              fontFamily: AppFonts.sans, fontWeight: FontWeight.w600, fontSize: 15),
           elevation: 0,
         ),
       ),
@@ -350,7 +368,7 @@ class AppThemeDark {
           style: TextButton.styleFrom(
               foregroundColor: AppColors.darkPrimary,
               textStyle: const TextStyle(
-                  fontFamily: 'Sora', fontWeight: FontWeight.w600))),
+                  fontFamily: AppFonts.sans, fontWeight: FontWeight.w600))),
       // Secondary action stays neutral so gold reads as the single accent
       outlinedButtonTheme: OutlinedButtonThemeData(
           style: OutlinedButton.styleFrom(
@@ -359,13 +377,13 @@ class AppThemeDark {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12)),
               textStyle: const TextStyle(
-                  fontFamily: 'Sora', fontWeight: FontWeight.w600))),
+                  fontFamily: AppFonts.sans, fontWeight: FontWeight.w600))),
       chipTheme: ChipThemeData(
         backgroundColor: AppColors.darkSurfaceVariant,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         side: BorderSide.none,
         labelStyle: const TextStyle(
-            color: AppColors.darkTextPrimary, fontFamily: 'Sora'),
+            color: AppColors.darkTextPrimary, fontFamily: AppFonts.sans),
       ),
       dividerTheme:
           const DividerThemeData(color: AppColors.darkBorder, thickness: 1),
@@ -378,16 +396,16 @@ class AppThemeDark {
         elevation: 0,
         modalElevation: 0,
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
       ),
       listTileTheme: const ListTileThemeData(
         titleTextStyle: TextStyle(
-            fontFamily: 'Sora',
+            fontFamily: AppFonts.sans,
             color: AppColors.darkTextPrimary,
             fontSize: 14,
             fontWeight: FontWeight.w500),
         subtitleTextStyle: TextStyle(
-            fontFamily: 'Sora',
+            fontFamily: AppFonts.sans,
             color: AppColors.darkTextSecondary,
             fontSize: 12),
         iconColor: AppColors.darkTextSecondary,
@@ -398,8 +416,8 @@ class AppThemeDark {
         unselectedItemColor: AppColors.darkTextHint,
         elevation: 0,
         selectedLabelStyle: TextStyle(
-            fontFamily: 'Sora', fontWeight: FontWeight.w600, fontSize: 11),
-        unselectedLabelStyle: TextStyle(fontFamily: 'Sora', fontSize: 11),
+            fontFamily: AppFonts.sans, fontWeight: FontWeight.w600, fontSize: 11),
+        unselectedLabelStyle: TextStyle(fontFamily: AppFonts.sans, fontSize: 11),
       ),
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
         backgroundColor: AppColors.darkPrimary,
@@ -415,18 +433,21 @@ class AppThemeDark {
       popupMenuTheme: const PopupMenuThemeData(
         color: AppColors.darkSurface,
         textStyle: TextStyle(
-            color: AppColors.darkTextPrimary, fontFamily: 'Sora', fontSize: 14),
+            color: AppColors.darkTextPrimary, fontFamily: AppFonts.sans, fontSize: 14),
       ),
-      dialogTheme: const DialogThemeData(
+      dialogTheme: DialogThemeData(
         backgroundColor: AppColors.darkSurface,
-        titleTextStyle: TextStyle(
+        surfaceTintColor: Colors.transparent,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20)),
+        titleTextStyle: const TextStyle(
             color: AppColors.darkTextPrimary,
-            fontFamily: 'Sora',
+            fontFamily: AppFonts.sans,
             fontSize: 18,
             fontWeight: FontWeight.w700),
-        contentTextStyle: TextStyle(
+        contentTextStyle: const TextStyle(
             color: AppColors.darkTextSecondary,
-            fontFamily: 'Sora',
+            fontFamily: AppFonts.sans,
             fontSize: 14),
       ),
       switchTheme: SwitchThemeData(
@@ -442,7 +463,7 @@ class AppThemeDark {
       snackBarTheme: const SnackBarThemeData(
         backgroundColor: AppColors.darkSurface,
         contentTextStyle:
-            TextStyle(color: AppColors.darkTextPrimary, fontFamily: 'Sora'),
+            TextStyle(color: AppColors.darkTextPrimary, fontFamily: AppFonts.sans),
       ),
     );
   }

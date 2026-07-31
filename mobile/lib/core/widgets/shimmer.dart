@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:real_estate_crm/core/theme/app_tokens.dart';
 import 'package:shimmer/shimmer.dart';
 
 /// A plain white box that becomes the shimmer "bone" shape.
@@ -17,28 +18,39 @@ class ShimmerBox extends StatelessWidget {
           color: Colors.white, borderRadius: BorderRadius.circular(radius)));
 }
 
+/// Wraps any tree of [ShimmerBox] bones in the app's shimmer sweep. The single
+/// place the base/highlight colours are defined.
+class ShimmerGroup extends StatelessWidget {
+  final Widget child;
+  const ShimmerGroup({super.key, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    final t = context.tokens;
+    return Shimmer.fromColors(
+      baseColor: t.isDark ? t.surfaceVariant : t.border,
+      highlightColor:
+          t.isDark ? const Color(0xFF353B52) : const Color(0xFFF5F7FC),
+      child: child,
+    );
+  }
+}
+
 /// Wraps a list of skeleton cards in a Shimmer effect.
 class ShimmerList extends StatelessWidget {
   final Widget Function() cardBuilder;
   final int count;
-  const ShimmerList({super.key, required this.cardBuilder, this.count = 6});
+  final EdgeInsetsGeometry? padding;
+  const ShimmerList(
+      {super.key, required this.cardBuilder, this.count = 6, this.padding});
 
   @override
-  Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final base = isDark ? const Color(0xFF252A3D) : const Color(0xFFE8ECF4);
-    final highlight =
-        isDark ? const Color(0xFF353B52) : const Color(0xFFF5F7FC);
-
-    return Shimmer.fromColors(
-      baseColor: base,
-      highlightColor: highlight,
-      child: ListView.separated(
-        padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
-        itemCount: count,
-        separatorBuilder: (_, __) => const SizedBox(height: 8),
-        itemBuilder: (_, __) => cardBuilder(),
-      ),
-    );
-  }
+  Widget build(BuildContext context) => ShimmerGroup(
+        child: ListView.separated(
+          padding: padding ?? const EdgeInsets.fromLTRB(20, 0, 20, 24),
+          itemCount: count,
+          separatorBuilder: (_, __) => const SizedBox(height: 8),
+          itemBuilder: (_, __) => cardBuilder(),
+        ),
+      );
 }

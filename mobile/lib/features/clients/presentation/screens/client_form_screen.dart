@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
-import 'package:real_estate_crm/core/theme/app_theme.dart';
+import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_bloc.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_event.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_state.dart';
-import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class ClientFormScreen extends StatefulWidget {
@@ -25,7 +24,8 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
   final _phoneCtrl = TextEditingController();
   final _notesCtrl = TextEditingController();
   ClientType _type = ClientType.BUYER;
-  bool _loading = false, _initLoading = false;
+  bool _loading = false;
+  bool _initLoading = false;
 
   @override
   void initState() {
@@ -49,12 +49,13 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
       _emailCtrl.text = c.email ?? '';
       _phoneCtrl.text = c.phone ?? '';
       _notesCtrl.text = c.notes ?? '';
+      if (!mounted) return;
       setState(() {
         _type = c.type;
         _initLoading = false;
       });
     } catch (_) {
-      setState(() => _initLoading = false);
+      if (mounted) setState(() => _initLoading = false);
     }
   }
 
@@ -69,9 +70,7 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
       if (_notesCtrl.text.trim().isNotEmpty) 'notes': _notesCtrl.text.trim(),
     };
     if (widget.isEditing) {
-      context
-          .read<ClientsBloc>()
-          .add(ClientsUpdateEvent(widget.clientId!, data));
+      context.read<ClientsBloc>().add(ClientsUpdateEvent(widget.clientId!, data));
       context.go('/clients');
     } else {
       context.read<ClientsBloc>().add(ClientsCreateEvent(data));
@@ -81,253 +80,191 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final cs = Theme.of(context).colorScheme;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
-    final unselectedBg = isDark ? AppColors.darkSurface : AppColors.surface;
-    final unselectedBorder =
-        isDark ? AppColors.darkBorder : const Color(0xFFE8ECF4);
-    final unselectedText =
-        isDark ? AppColors.darkTextSecondary : AppColors.textSecondary;
+    final t = context.tokens;
 
     return BlocListener<ClientsBloc, ClientsState>(
       listener: (context, state) {
         if (state is ClientCreated) {
           setState(() => _loading = false);
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-                content: Text(l10n.clientsClientCreatedId(state.client.id))),
-          );
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(SnackBar(
+                content: Text(l10n.clientsClientCreatedId(state.client.id))));
           context.go('/clients');
+        }
+        // A rejected save leaves the user on the form with their input intact.
+        if (state is ClientsActionFailure) {
+          setState(() => _loading = false);
+          showActionOutcome(context, state);
         }
         if (state is ClientsError) {
           setState(() => _loading = false);
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-                content: Text(state.message), backgroundColor: AppColors.error),
-          );
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(SnackBar(
+                content: Text(state.message),
+                backgroundColor: t.dangerSolid));
         }
         if (state is ClientsActionSuccess) {
           setState(() => _loading = false);
         }
       },
-      child: Scaffold(
-        appBar: AppBar(
-            title: Text(
-                widget.isEditing ? l10n.clientsEditClient : l10n.clientsNewClient)),
-        body: _initLoading
-            ? const LoadingWidget()
-            : SingleChildScrollView(
-                padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+      child: Form(
+        key: _formKey,
+        child: DetailScaffold(
+          title:
+              widget.isEditing ? l10n.clientsEditClient : l10n.clientsNewClient,
+          bottomAction: _initLoading
+              ? null
+              : Column(
+                  children: [
+                    AppFilledButton(
+                      label: widget.isEditing
+                          ? l10n.clientsUpdateClient
+                          : l10n.clientsCreateClient,
+                      loading: _loading,
+                      onPressed: _loading ? null : _submit,
+                    ),
+                    const SizedBox(height: 9),
+                    AppGhostButton(
+                      label: l10n.coreCancel,
+                      onPressed: _loading ? null : () => context.go('/clients'),
+                    ),
+                  ],
+                ),
+          children: _initLoading
+              ? const [
+                  ShimmerGroup(
+                    child: Column(children: [
+                      ShimmerBox(
+                          width: double.infinity,
+                          height: 74,
+                          radius: AppMetrics.radiusSm),
+                      SizedBox(height: 14),
+                      ShimmerBox(
+                          width: double.infinity,
+                          height: 250,
+                          radius: AppMetrics.radiusMd),
+                    ]),
+                  )
+                ]
+              : [
+                  _TypeSelector(
+                    type: _type,
+                    onChanged: (v) => setState(() => _type = v),
+                  ),
+                  FormSectionCard(
+                    eyebrow: l10n.clientsContactInfo,
                     children: [
-                      // ── Client type banner ──────────────────
-                      Text(l10n.clientsClientType,
-                          style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w600,
-                              letterSpacing: 0.2,
-                              color: isDark
-                                  ? AppColors.darkTextSecondary
-                                  : AppColors.textSecondary)),
-                      const SizedBox(height: 10),
-                      Row(
-                          children: ClientType.values
-                              .map((t) => Expanded(
-                                      child: Padding(
-                                    padding: EdgeInsets.only(
-                                        right: t == ClientType.BUYER ? 10 : 0),
-                                    child: InkWell(
-                                      onTap: () => setState(() => _type = t),
-                                      borderRadius: BorderRadius.circular(14),
-                                      child: AnimatedContainer(
-                                        duration:
-                                            const Duration(milliseconds: 150),
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 16),
-                                        decoration: BoxDecoration(
-                                          gradient: _type == t
-                                              ? LinearGradient(
-                                                  begin: Alignment.topLeft,
-                                                  end: Alignment.bottomRight,
-                                                  colors: [
-                                                      cs.primary,
-                                                      cs.primary.withAlpha(210),
-                                                    ])
-                                              : null,
-                                          color:
-                                              _type == t ? null : unselectedBg,
-                                          borderRadius:
-                                              BorderRadius.circular(14),
-                                          border: Border.all(
-                                              color: _type == t
-                                                  ? cs.primary
-                                                  : unselectedBorder),
-                                          boxShadow: _type == t
-                                              ? [
-                                                  BoxShadow(
-                                                      color: cs.primary
-                                                          .withAlpha(60),
-                                                      blurRadius: 12,
-                                                      offset:
-                                                          const Offset(0, 4)),
-                                                ]
-                                              : null,
-                                        ),
-                                        child: Center(
-                                            child: Text(
-                                                t == ClientType.BUYER
-                                                    ? l10n.clientsBuyer
-                                                    : l10n.clientsSeller,
-                                                style: TextStyle(
-                                                    fontFamily: 'Sora',
-                                                    fontWeight: FontWeight.w600,
-                                                    color: _type == t
-                                                        ? Colors.white
-                                                        : unselectedText,
-                                                    fontSize: 14))),
-                                      ),
-                                    ),
-                                  )))
-                              .toList()),
-                      const SizedBox(height: 24),
-
-                      // ── Contact info section ────────────────
-                      _FormSectionCard(
-                        title: l10n.clientsContactInfo,
-                        icon: Icons.badge_outlined,
-                        children: [
-                          TextFormField(
-                              controller: _nameCtrl,
-                              decoration: InputDecoration(
-                                  labelText: l10n.clientsFullNameLabel,
-                                  prefixIcon: const Icon(Icons.person_outline,
-                                      size: 20)),
-                              validator: (v) => v == null || v.isEmpty
-                                  ? l10n.clientsNameRequired
-                                  : null),
-                          const SizedBox(height: 14),
-                          TextFormField(
-                              controller: _emailCtrl,
-                              keyboardType: TextInputType.emailAddress,
-                              decoration: InputDecoration(
-                                  labelText: l10n.clientsEmail,
-                                  prefixIcon: const Icon(Icons.email_outlined,
-                                      size: 20)),
-                              validator: (v) {
-                                if (v != null &&
-                                    v.isNotEmpty &&
-                                    !v.contains('@')) {
-                                  return l10n.clientsInvalidEmail;
-                                }
-                                return null;
-                              }),
-                          const SizedBox(height: 14),
-                          TextFormField(
-                              controller: _phoneCtrl,
-                              keyboardType: TextInputType.phone,
-                              decoration: InputDecoration(
-                                  labelText: l10n.clientsPhone,
-                                  prefixIcon: const Icon(Icons.phone_outlined,
-                                      size: 20))),
-                        ],
+                      LabelledField(
+                        label: l10n.clientsFullName,
+                        required: true,
+                        child: AppTextField(
+                          controller: _nameCtrl,
+                          hint: l10n.clientsFullName,
+                          textInputAction: TextInputAction.next,
+                          validator: (v) => v == null || v.trim().isEmpty
+                              ? l10n.clientsNameRequired
+                              : null,
+                        ),
                       ),
-                      const SizedBox(height: 16),
-
-                      // ── Notes section ────────────────────────
-                      _FormSectionCard(
-                        title: l10n.clientsNotes,
-                        icon: Icons.notes_outlined,
-                        children: [
-                          TextFormField(
-                              controller: _notesCtrl,
-                              maxLines: 4,
-                              decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: l10n.clientsNotesHint,
-                                  isCollapsed: false)),
-                        ],
+                      LabelledField(
+                        label: l10n.clientsPhone,
+                        required: true,
+                        child: AppTextField(
+                          controller: _phoneCtrl,
+                          hint: '+7 ___ ___-__-__',
+                          keyboardType: TextInputType.phone,
+                          textInputAction: TextInputAction.next,
+                        ),
                       ),
-                      const SizedBox(height: 32),
-
-                      ElevatedButton(
-                        onPressed: _loading ? null : _submit,
-                        style: ElevatedButton.styleFrom(
-                            minimumSize: const Size(double.infinity, 54),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(14))),
-                        child: _loading
-                            ? const SizedBox(
-                                height: 20,
-                                width: 20,
-                                child: CircularProgressIndicator(
-                                    color: Colors.white, strokeWidth: 2))
-                            : Text(widget.isEditing
-                                ? l10n.clientsUpdateClient
-                                : l10n.clientsCreateClient),
+                      LabelledField(
+                        label: l10n.clientsEmail,
+                        child: AppTextField(
+                          controller: _emailCtrl,
+                          hint: 'name@mail.com',
+                          keyboardType: TextInputType.emailAddress,
+                          textInputAction: TextInputAction.next,
+                          validator: (v) =>
+                              v != null && v.isNotEmpty && !v.contains('@')
+                                  ? l10n.clientsInvalidEmail
+                                  : null,
+                        ),
                       ),
-                      const SizedBox(height: 10),
-                      OutlinedButton(
-                          onPressed: () => context.pop(),
-                          style: OutlinedButton.styleFrom(
-                              minimumSize: const Size(double.infinity, 54),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(14))),
-                          child: Text(l10n.clientsCancel)),
                     ],
                   ),
-                ),
-              ),
+                  FormSectionCard(
+                    eyebrow: l10n.clientsNotes,
+                    children: [
+                      AppTextField(
+                        controller: _notesCtrl,
+                        hint: l10n.clientsNotesHint,
+                        maxLines: 4,
+                        minLines: 3,
+                        textInputAction: TextInputAction.newline,
+                      ),
+                    ],
+                  ),
+                ],
+        ),
       ),
     );
   }
 }
 
-// ─── Reusable section card ─────────────────────────────────────
-
-class _FormSectionCard extends StatelessWidget {
-  final String title;
-  final IconData icon;
-  final List<Widget> children;
-  const _FormSectionCard(
-      {required this.title, required this.icon, required this.children});
+/// The two-button segmented control at the top of the form.
+class _TypeSelector extends StatelessWidget {
+  final ClientType type;
+  final ValueChanged<ClientType> onChanged;
+  const _TypeSelector({required this.type, required this.onChanged});
 
   @override
   Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: cs.surface,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: cs.outline.withAlpha(35)),
-        boxShadow: [
-          BoxShadow(
-              color: Colors.black.withAlpha(8),
-              blurRadius: 14,
-              offset: const Offset(0, 4)),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(children: [
-            Icon(icon, size: 16, color: cs.primary),
-            const SizedBox(width: 8),
-            Text(title,
-                style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 0.2,
-                    color: cs.primary)),
-          ]),
-          const SizedBox(height: 14),
-          ...children,
-        ],
-      ),
+    final l10n = AppLocalizations.of(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(bottom: 9),
+          child: EyebrowLabel(l10n.clientsClientType,
+              color: context.tokens.textSecondary),
+        ),
+        Row(
+          children: [
+            Expanded(
+              child: _TypeButton(
+                label: l10n.clientsBuyer,
+                selected: type == ClientType.BUYER,
+                onTap: () => onChanged(ClientType.BUYER),
+              ),
+            ),
+            const SizedBox(width: 9),
+            Expanded(
+              child: _TypeButton(
+                label: l10n.clientsSeller,
+                selected: type == ClientType.SELLER,
+                onTap: () => onChanged(ClientType.SELLER),
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
+}
+
+class _TypeButton extends StatelessWidget {
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+  const _TypeButton(
+      {required this.label, required this.selected, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) => selected
+      ? AppFilledButton(
+          label: label, onPressed: onTap, height: 48, fontSize: 13)
+      : AppGhostButton(
+          label: label, onPressed: onTap, height: 48, fontSize: 13);
 }

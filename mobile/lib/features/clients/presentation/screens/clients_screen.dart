@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/models/models.dart';
-import 'package:real_estate_crm/core/theme/app_theme.dart';
+import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_bloc.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_event.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_state.dart';
-import 'package:real_estate_crm/core/auth/role_context.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/client_card.dart';
-import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class ClientsScreen extends StatefulWidget {
@@ -20,6 +18,9 @@ class ClientsScreen extends StatefulWidget {
 class _ClientsScreenState extends State<ClientsScreen> {
   final _searchCtrl = TextEditingController();
   String _search = '';
+
+  /// null = "All"; otherwise the type the pill row is filtered to.
+  ClientType? _typeFilter;
 
   @override
   void initState() {
@@ -34,143 +35,142 @@ class _ClientsScreenState extends State<ClientsScreen> {
     super.dispose();
   }
 
-  List<ClientListItem> _filter(List<ClientListItem> all) {
-    if (_search.isEmpty) return all;
-    final q = _search.toLowerCase();
-    return all
-        .where((c) =>
-            c.fullName.toLowerCase().contains(q) ||
-            (c.email?.toLowerCase().contains(q) ?? false) ||
-            (c.phone?.contains(q) ?? false))
-        .toList();
-  }
+  List<ClientSummary> _visible(List<ClientSummary> all) => all
+      .where((c) => _typeFilter == null || c.type == _typeFilter)
+      .where((c) => _search.isEmpty || c.matches(_search))
+      .toList();
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final cs = Theme.of(context).colorScheme;
-    final tt = Theme.of(context).textTheme;
+    final t = context.tokens;
+    final pad = AppMetrics.pagePadding(context);
 
     return Scaffold(
       body: SafeArea(
-          child: Column(children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
-          child: Row(children: [
-            Expanded(
-                child: Text(l10n.clientsTitle,
-                    style: tt.titleLarge?.copyWith(fontSize: 22))),
-            FilledButton.icon(
-              onPressed: () => context.go('/clients/new'),
-              icon: const Icon(Icons.add, size: 18),
-              label: Text(l10n.clientsAddClient),
-              style: FilledButton.styleFrom(
-                  backgroundColor: cs.primary,
-                  foregroundColor: cs.onPrimary,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                  textStyle: const TextStyle(
-                      fontFamily: 'Sora',
-                      fontWeight: FontWeight.w600,
-                      fontSize: 13)),
-            ),
-          ]),
-        ),
-        Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: TextField(
-                controller: _searchCtrl,
-                decoration: InputDecoration(
-                    hintText: l10n.clientsSearchHint,
-                    prefixIcon: const Icon(Icons.search, size: 20)))),
-        const SizedBox(height: 16),
-        Expanded(
-            child: BlocConsumer<ClientsBloc, ClientsState>(
-          listener: (ctx, state) {
-            if (state is ClientsError) {
-              ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
-                  content: Text(state.message),
-                  backgroundColor: AppColors.error));
-            }
-            if (state is ClientsActionSuccess) {
-              ScaffoldMessenger.of(ctx)
-                  .showSnackBar(SnackBar(content: Text(state.message)));
-            }
-          },
-          builder: (ctx, state) {
-            if (state is ClientsLoading) {
-              return ShimmerList(cardBuilder: () => const ClientCardSkeleton());
-            }
-            if (state is ClientsError) {
-              return ErrorWidget2(
-                  message: state.message,
-                  onRetry: () =>
-                      ctx.read<ClientsBloc>().add(ClientsLoadEvent()));
-            }
-            if (state is ClientsLoaded) {
-              final filtered = _filter(state.clients);
-              if (filtered.isEmpty) {
-                return EmptyState(
-                    title: l10n.clientsNoClientsFound,
-                    icon: Icons.people_outline,
-                    subtitle: _search.isNotEmpty
-                        ? l10n.clientsTryDifferentSearch
-                        : l10n.clientsAddFirstClient);
+        bottom: false,
+        child: AppMetrics.constrain(
+          BlocConsumer<ClientsBloc, ClientsState>(
+            listener: (ctx, state) {
+              if (state is ClientsError) {
+                ScaffoldMessenger.of(ctx)
+                  ..hideCurrentSnackBar()
+                  ..showSnackBar(SnackBar(
+                      content: Text(state.message),
+                      backgroundColor: t.dangerSolid));
               }
+              showActionOutcome(ctx, state);
+            },
+            builder: (ctx, state) {
+              final all =
+                  state is ClientsLoaded ? state.clients : <ClientSummary>[];
+              final visible = _visible(all);
 
-              // Group deals by client ID
-              final grouped = <int, List<ClientListItem>>{};
-              for (final c in filtered) {
-                grouped.putIfAbsent(c.id, () => []).add(c);
-              }
-              final uniqueClients =
-                  grouped.values.map((deals) => deals.first).toList();
-
-              return RefreshIndicator(
-                onRefresh: () async =>
-                    ctx.read<ClientsBloc>().add(ClientsLoadEvent()),
-                color: cs.primary,
-                child: ListView.separated(
-                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
-                  itemCount: uniqueClients.length,
-                  separatorBuilder: (_, __) => const SizedBox(height: 8),
-                  itemBuilder: (_, i) {
-                    final client = uniqueClients[i];
-                    final clientRows = grouped[client.id]!;
-                    final dealCount = clientRows
-                        .where((c) =>
-                            c.propertyTitle != null ||
-                            c.budget != null ||
-                            c.status != null)
-                        .length;
-                    return ClientCard(
-                      client: client,
-                      dealCount: dealCount,
-                      canDelete: context.isAdmin,
-                      onTap: () => context.go('/clients/${client.id}'),
-                      onEdit: () => context.go('/clients/${client.id}/edit'),
-                      onDelete: () async {
-                        final ok = await showConfirmDialog(ctx,
-                            title: AppLocalizations.of(ctx).clientsDeleteClient,
-                            content: AppLocalizations.of(ctx)
-                                .clientsDeleteConfirm(client.fullName));
-                        if (ok && ctx.mounted) {
-                          ctx
-                              .read<ClientsBloc>()
-                              .add(ClientsDeleteEvent(client.id));
-                        }
-                      },
-                    );
-                  },
-                ),
+              return Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(pad, 10, pad, 0),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              child: ScreenTitle(
+                                l10n.clientsTitle,
+                                subtitle: state is ClientsLoaded
+                                    ? l10n.clientsCounter(
+                                        all.length,
+                                        all
+                                            .where((c) => c.dealCount > 0)
+                                            .length)
+                                    : null,
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            AppHeaderAction(
+                              label: l10n.clientsAddShort,
+                              onPressed: () => context.go('/clients/new'),
+                            )
+                          ],
+                        ),
+                        const SizedBox(height: 14),
+                        AppTextField(
+                          controller: _searchCtrl,
+                          skin: FieldSkin.page,
+                          hint: l10n.clientsSearchHint,
+                          icon: Icons.search_rounded,
+                        ),
+                        const SizedBox(height: 10),
+                        FilterPillRow(pills: [
+                          FilterPill(
+                            label: l10n.clientsFilterAll,
+                            selected: _typeFilter == null,
+                            onTap: () => setState(() => _typeFilter = null),
+                          ),
+                          FilterPill(
+                            label: l10n.clientsFilterBuyers,
+                            selected: _typeFilter == ClientType.BUYER,
+                            onTap: () =>
+                                setState(() => _typeFilter = ClientType.BUYER),
+                          ),
+                          FilterPill(
+                            label: l10n.clientsFilterSellers,
+                            selected: _typeFilter == ClientType.SELLER,
+                            onTap: () =>
+                                setState(() => _typeFilter = ClientType.SELLER),
+                          ),
+                        ]),
+                        const SizedBox(height: 14),
+                      ],
+                    ),
+                  ),
+                  Expanded(child: _body(ctx, state, visible, l10n, pad)),
+                ],
               );
-            }
-            return const SizedBox();
-          },
-        )),
-      ])),
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _body(BuildContext ctx, ClientsState state,
+      List<ClientSummary> visible, AppLocalizations l10n, double pad) {
+    if (state is ClientsLoading || state is ClientsInitial) {
+      return ShimmerList(
+        count: 5,
+        padding: EdgeInsets.fromLTRB(pad, 0, pad, 24),
+        cardBuilder: () => const ClientCardBone(),
+      );
+    }
+    if (state is ClientsError) {
+      return ErrorWidget2(
+        message: state.message,
+        onRetry: () => ctx.read<ClientsBloc>().add(ClientsLoadEvent()),
+      );
+    }
+    if (visible.isEmpty) {
+      return EmptyState(
+        icon: Icons.people_outline_rounded,
+        title: l10n.clientsNoClientsFound,
+        subtitle: _search.isNotEmpty || _typeFilter != null
+            ? l10n.clientsTryDifferentSearch
+            : l10n.clientsAddFirstClient,
+      );
+    }
+
+    return RefreshIndicator(
+      onRefresh: () async => ctx.read<ClientsBloc>().add(ClientsLoadEvent()),
+      color: ctx.tokens.primary,
+      child: ListView.separated(
+        padding: EdgeInsets.fromLTRB(pad, 0, pad, 24),
+        itemCount: visible.length,
+        separatorBuilder: (_, __) => const SizedBox(height: 9),
+        itemBuilder: (_, i) => ClientCard(
+          client: visible[i],
+          onTap: () => context.go('/clients/${visible[i].id}'),
+        ),
+      ),
     );
   }
 }

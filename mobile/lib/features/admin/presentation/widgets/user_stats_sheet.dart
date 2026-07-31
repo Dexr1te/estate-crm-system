@@ -1,95 +1,103 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/admin_models.dart';
-import 'package:real_estate_crm/core/theme/app_theme.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// Bottom sheet showing a single agent's work statistics.
+/// Bottom sheet showing a single agent's work statistics, as one metrics card
+/// with hairline dividers — not tinted tiles.
 void showUserStatsSheet(BuildContext context, int userId) {
   showAppBottomSheet(
-    context: context,
-    shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
-    builder: (_) => FutureBuilder<AgentStatsResponse>(
-      future: Injector.adminRepository.getUserStats(userId),
-      builder: (ctx, snap) {
-        if (snap.connectionState != ConnectionState.done) {
-          return const SizedBox(
-              height: 180, child: Center(child: CircularProgressIndicator()));
-        }
-        if (snap.hasError || !snap.hasData) {
-          return SizedBox(
-              height: 180,
-              child: Center(
-                  child: Text(AppLocalizations.of(ctx).adminCouldNotLoadStats)));
-        }
-        final s = snap.data!;
-        final l10n = AppLocalizations.of(ctx);
-        return Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(s.fullName, style: Theme.of(ctx).textTheme.titleLarge),
-              Text(s.email, style: Theme.of(ctx).textTheme.bodySmall),
-              const SizedBox(height: 16),
-              GridView.count(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                crossAxisCount: 2,
-                childAspectRatio: 2.4,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 10,
-                children: [
-                  _Stat(l10n.adminStatClients, s.totalClients,
-                      Icons.people_outline, AppColors.info),
-                  _Stat(l10n.adminStatDeals, s.totalDeals,
-                      Icons.handshake_outlined, AppColors.accent),
-                  _Stat(l10n.adminStatActive, s.activeDeals, Icons.trending_up,
-                      AppColors.warning),
-                  _Stat(l10n.adminStatClosed, s.closedDeals,
-                      Icons.check_circle_outline, AppColors.success),
-                  _Stat(l10n.adminStatUpcoming, s.upcomingMeetings,
-                      Icons.calendar_today_outlined, AppColors.lead),
-                ],
-              ),
-            ],
-          ),
-        );
-      },
-    ),
+    context,
+    builder: (_) => _UserStats(userId: userId),
   );
 }
 
-class _Stat extends StatelessWidget {
-  final String label;
-  final int value;
-  final IconData icon;
-  final Color color;
-  const _Stat(this.label, this.value, this.icon, this.color);
+class _UserStats extends StatelessWidget {
+  final int userId;
+  const _UserStats({required this.userId});
+
   @override
   Widget build(BuildContext context) {
-    final tt = Theme.of(context).textTheme;
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(
-          color: color.withAlpha(20),
-          borderRadius: BorderRadius.circular(14)),
-      child: Row(children: [
-        Icon(icon, color: color, size: 20),
-        const SizedBox(width: 10),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+    final t = context.tokens;
+
+    return FutureBuilder<AgentStatsResponse>(
+      future: Injector.adminRepository.getUserStats(userId),
+      builder: (ctx, snap) {
+        final l10n = AppLocalizations.of(ctx);
+
+        if (snap.connectionState != ConnectionState.done) {
+          return const SizedBox(
+              height: 160, child: Center(child: CircularProgressIndicator()));
+        }
+        if (snap.hasError || !snap.hasData) {
+          return SizedBox(
+            height: 160,
+            child: Center(
+              child: Text(
+                l10n.adminCouldNotLoadStats,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontFamily: AppFonts.sans,
+                    fontSize: 12.5,
+                    color: t.textSecondary),
+              ),
+            ),
+          );
+        }
+
+        final s = snap.data!;
+        return Column(
           mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text('$value',
-                style: tt.titleMedium?.copyWith(fontWeight: FontWeight.w700)),
-            Text(label, style: tt.bodySmall),
+            Row(
+              children: [
+                InitialAvatar(name: s.fullName, size: 44),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        s.fullName,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontFamily: AppFonts.sans,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                            color: t.textPrimary),
+                      ),
+                      const SizedBox(height: 3),
+                      Text(
+                        s.email,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontFamily: AppFonts.sans,
+                            fontSize: 11.5,
+                            color: t.textSecondary),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: AppMetrics.blockGap(context)),
+            MetricsCard(metrics: [
+              Metric(
+                  value: '${s.totalClients}', caption: l10n.adminStatClients),
+              Metric(value: '${s.totalDeals}', caption: l10n.adminStatDeals),
+              Metric(value: '${s.activeDeals}', caption: l10n.adminStatActive),
+              Metric(value: '${s.closedDeals}', caption: l10n.adminStatClosed),
+              Metric(
+                  value: '${s.upcomingMeetings}',
+                  caption: l10n.adminStatUpcoming),
+            ]),
           ],
-        ),
-      ]),
+        );
+      },
     );
   }
 }

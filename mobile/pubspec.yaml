@@ -22,6 +22,7 @@ dependencies:
   json_annotation: ^4.9.0
   freezed_annotation: ^2.4.0
   flutter_secure_storage: ^10.3.1
+  url_launcher: ^6.3.2
 
 dev_dependencies:
   flutter_test:
@@ -53,3 +54,27 @@ flutter_launcher_icons:
 flutter:
   uses-material-design: true
   generate: true
+
+  # Brand typeface. The design handoff specifies Sora, which ships latin +
+  # latin-ext only — every Russian and Kazakh string would fall back to the
+  # platform font. Commissioner is the closest low-contrast geometric sans
+  # with complete Cyrillic (including the Kazakh Ә Ғ Қ Ң Ө Ұ Ү Һ І) plus ₽
+  # and ₸.
+  #
+  # Static instances cut from the upstream variable `Commissioner[…wght].ttf`
+  # (OFL, see assets/fonts/OFL.txt) so `fontWeight` maps to a real cut rather
+  # than a synthetic bold, then subset to latin + latin-ext + cyrillic +
+  # cyrillic-ext + punctuation/currency.
+  #
+  # The family name is referenced through `AppFonts.sans` — never hardcode it.
+  fonts:
+    - family: Commissioner
+      fonts:
+        - asset: assets/fonts/Commissioner-400.ttf
+          weight: 400
+        - asset: assets/fonts/Commissioner-500.ttf
+          weight: 500
+        - asset: assets/fonts/Commissioner-600.ttf
+          weight: 600
+        - asset: assets/fonts/Commissioner-700.ttf
+          weight: 700
