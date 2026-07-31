@@ -42,9 +42,13 @@ class ClientsActionFailure extends ClientsLoaded implements ActionOutcome {
 }
 
 /// Emitted after a successful create, carrying the new client's id.
-class ClientCreated extends ClientsState {
+///
+/// Extends [ClientsLoaded] so the list survives the round trip: the reload
+/// this triggers checks whether anything is already on screen before deciding
+/// to show a skeleton.
+class ClientCreated extends ClientsLoaded {
   final ClientResponse client;
-  ClientCreated(this.client);
+  ClientCreated(this.client, super.clients);
 }
 
 /// One row of the clients list.

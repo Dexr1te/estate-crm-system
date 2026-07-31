@@ -30,7 +30,10 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState>
   Future<void> _onLoad(
       DashboardLoadEvent e, Emitter<DashboardState> emit) async {
     final ticket = startLoad();
-    emit(DashboardLoading());
+    // Keep the last dashboard on screen while it refreshes. Switching tabs
+    // remounts this screen, so blanking unconditionally meant the full
+    // skeleton every time the user came back to it.
+    if (state is! DashboardLoaded) emit(DashboardLoading());
     try {
       // The pipeline card is a nice-to-have: if `/deals` fails (or the role
       // can't see it) the rest of the dashboard still renders.

@@ -92,7 +92,11 @@ class TeamsBloc extends Bloc<TeamsEvent, TeamsState> with LoadGeneration {
 
   Future<void> _onLoad(TeamsLoadEvent e, Emitter<TeamsState> emit) async {
     final ticket = startLoad();
-    emit(TeamsLoading());
+    // Only blank the screen when there is nothing to blank. Every screen
+    // fires a load in initState and switching tabs remounts it, so emitting
+    // Loading unconditionally meant a full-page skeleton on every visit,
+    // however fresh the data already was.
+    if (_current.isEmpty) emit(TeamsLoading());
     try {
       final teams = await _repo.getTeams();
       // A newer load started while this one was in flight — its result wins.

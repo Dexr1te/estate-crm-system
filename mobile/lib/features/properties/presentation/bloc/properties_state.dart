@@ -54,8 +54,9 @@ class PropertiesActionFailure extends PropertiesLoaded implements ActionOutcome 
   PropertiesActionFailure(this.message, super.properties, {super.hasMore});
 }
 
-// NEW: emitted after a successful create, carries the new property's id
-class PropertyCreated extends PropertiesState {
+/// Emitted after a successful create, carrying the new property's id.
+/// Extends [PropertiesLoaded] so the list stays rendered behind the form.
+class PropertyCreated extends PropertiesLoaded {
   final PropertyResponse property;
-  PropertyCreated(this.property);
+  PropertyCreated(this.property, super.properties, {super.hasMore});
 }

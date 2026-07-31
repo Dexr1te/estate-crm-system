@@ -51,6 +51,11 @@ class FilterPill extends StatelessWidget {
               label,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
+              // A no-op where the pill shrink-wraps its label (the scrolling
+              // filter rows), but the status and stage selectors stretch each
+              // pill with an Expanded — without this the label sits against
+              // the left edge of a pill that is wider than its text.
+              textAlign: TextAlign.center,
               style: TextStyle(
                 fontFamily: AppFonts.sans,
                 fontSize: fontSize,

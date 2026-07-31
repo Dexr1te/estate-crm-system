@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/models.dart';
-import 'package:real_estate_crm/core/theme/app_theme.dart';
 import 'package:real_estate_crm/core/utils/contact_actions.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
@@ -14,6 +13,11 @@ import 'package:real_estate_crm/features/dashboard/presentation/bloc/dashboard_s
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/dashboard_hero.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/meeting_row.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/pipeline_card.dart';
+import 'package:real_estate_crm/core/auth/role_context.dart';
+import 'package:real_estate_crm/features/dashboard/presentation/widgets/conversion_card.dart';
+import 'package:real_estate_crm/features/dashboard/presentation/widgets/meeting_load_card.dart';
+import 'package:real_estate_crm/features/dashboard/presentation/widgets/stage_value_card.dart';
+import 'package:real_estate_crm/features/dashboard/presentation/widgets/top_agents_card.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 /// How many rows the "upcoming" list shows before deferring to the meetings
@@ -132,11 +136,17 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final next = state.nextMeeting;
     final pipeline = PipelineBreakdown.from(state.deals);
     final todayCount = state.meetingsToday(now);
+    final agents = state.topAgents();
     final later = state.laterMeetings.take(_kUpcomingPreviewCount).toList();
     final locale = Localizations.localeOf(context).toLanguageTag();
 
+    void openStage(DealStatus status) =>
+        context.go('/deals?status=${status.name}');
+
     return [
-      if (next != null) ...[
+      // The hero used to disappear entirely with nothing scheduled, which left
+      // the top of the screen empty and made the dashboard look broken.
+      if (next != null)
         NextMeetingHero(
           meeting: next,
           eyebrow: l10n.dashboardNextMeeting,
@@ -144,9 +154,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
           onPrimary: () => _openMeeting(next),
           secondaryLabel: l10n.coreCall,
           onSecondary: () => _call(next),
+        )
+      else
+        _ZeroCard(
+          icon: Icons.event_available_outlined,
+          title: l10n.dashboardNothingScheduled,
+          hint: l10n.dashboardNothingScheduledHint,
+          actionLabel: l10n.dashboardScheduleMeeting,
+          onAction: () => context.go('/meetings/new'),
         ),
-        SizedBox(height: gap),
-      ],
+      SizedBox(height: gap),
       MetricsCard(metrics: [
         Metric(
           value: '${state.summary.activeDeals}',
@@ -167,17 +184,40 @@ class _DashboardScreenState extends State<DashboardScreen> {
           value: '${state.summary.upcomingMeetings}',
           caption: l10n.dashboardMeetingsLabel,
           delta: todayCount > 0 ? l10n.dashboardTodayCount(todayCount) : null,
-          deltaColor: AppColors.warning,
+          // Not AppColors.warning: raw amber is ~2:1 on the light background
+          // at this size. `statusText` keeps the hue and fixes the contrast.
+          deltaColor: context.tokens.statusText(StatusHue.negotiation),
           onTap: () => context.go('/meetings'),
         ),
       ]),
-      if (!pipeline.isEmpty) ...[
+      SizedBox(height: gap),
+      // Also no longer conditional: an empty pipeline is information, and
+      // hiding the card left a hole where the chart should be.
+      if (pipeline.isEmpty)
+        _ZeroCard(
+          icon: Icons.handshake_outlined,
+          title: l10n.dashboardNoDealsYet,
+          hint: l10n.dashboardNoDealsYetHint,
+          actionLabel: l10n.dashboardNewDeal,
+          onAction: () => context.go('/deals/new'),
+        )
+      else ...[
+        PipelineCard(pipeline: pipeline, onStageTap: openStage),
         SizedBox(height: gap),
-        PipelineCard(
-          pipeline: pipeline,
-          onStageTap: (status) => context.go('/deals?status=${status.name}'),
-        ),
+        StageValueCard(pipeline: pipeline, onStageTap: openStage),
+        SizedBox(height: gap),
+        ConversionCard(pipeline: pipeline, onStageTap: openStage),
+        if (context.isAdminOrManager && agents.isNotEmpty) ...[
+          SizedBox(height: gap),
+          TopAgentsCard(agents: agents),
+        ],
       ],
+      SizedBox(height: gap),
+      MeetingLoadCard(
+        load: state.meetingLoad(now),
+        today: now,
+        onTap: () => context.go('/meetings'),
+      ),
       SizedBox(height: gap + 4),
       SectionHeader(
         title: l10n.dashboardUpcomingMeetings,
@@ -258,6 +298,87 @@ class _GreetingRow extends StatelessWidget {
         const SizedBox(width: 12),
         UserAvatar(name: initial, size: 44, onTap: onTap),
       ],
+    );
+  }
+}
+
+// ─── Inline zero state ───────────────────────────────────────────
+
+/// Stands in for a card whose data is empty, so the slot keeps its shape and
+/// offers the action that would fill it — rather than vanishing and leaving
+/// the dashboard looking half-loaded.
+class _ZeroCard extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final String hint;
+  final String actionLabel;
+  final VoidCallback onAction;
+
+  const _ZeroCard({
+    required this.icon,
+    required this.title,
+    required this.hint,
+    required this.actionLabel,
+    required this.onAction,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final t = context.tokens;
+    return AppCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                width: 34,
+                height: 34,
+                decoration: BoxDecoration(
+                  color: t.surfaceVariant,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Icon(icon, size: 17, color: t.textSecondary),
+              ),
+              const SizedBox(width: 11),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          fontFamily: AppFonts.sans,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          color: t.textPrimary),
+                    ),
+                    const SizedBox(height: 3),
+                    Text(
+                      hint,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          fontFamily: AppFonts.sans,
+                          fontSize: 11.5,
+                          height: 1.35,
+                          color: t.textSecondary),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          AppGhostButton(
+            label: actionLabel,
+            onPressed: onAction,
+            height: AppMetrics.buttonHeightInline,
+          ),
+        ],
+      ),
     );
   }
 }

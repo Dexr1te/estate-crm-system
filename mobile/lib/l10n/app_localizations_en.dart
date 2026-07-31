@@ -9,9 +9,6 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
-  String get appTitle => 'Estate CRM';
-
-  @override
   String get adminActivate => 'Activate';
 
   @override
@@ -145,6 +142,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get adminViewStats => 'View stats';
+
+  @override
+  String get appTitle => 'Estate CRM';
 
   @override
   String get authAcceptInviteSubtitle =>
@@ -512,6 +512,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dashboardAddProperty => 'Add Property';
 
   @override
+  String dashboardAgentDeals(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count deals',
+      one: '1 deal',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String dashboardAgentMeta(Object name) {
     return 'agent: $name';
   }
@@ -523,8 +534,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dashboardClosedWon => 'Closed Won';
 
   @override
+  String get dashboardConversion => 'Conversion';
+
+  @override
   String dashboardDateSummary(Object date) {
     return '$date · team overview';
+  }
+
+  @override
+  String dashboardDecidedDeals(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count deals decided',
+      one: '1 deal decided',
+      zero: 'Nothing closed yet',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -548,6 +574,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dashboardGreetingStillUp => 'Still up';
 
   @override
+  String dashboardLoadTotal(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count meetings',
+      one: '1 meeting',
+      zero: 'nothing booked',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get dashboardMeetingLoad => 'Next two weeks';
+
+  @override
   String get dashboardMeetingsLabel => 'Meetings';
 
   @override
@@ -560,6 +601,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dashboardNextMeeting => 'Next meeting';
 
   @override
+  String get dashboardNoDealsYet => 'No deals yet';
+
+  @override
+  String get dashboardNoDealsYetHint =>
+      'Your pipeline will appear here once you add one';
+
+  @override
   String get dashboardNoMoreMeetingsToday => 'Nothing else scheduled today';
 
   @override
@@ -567,6 +615,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dashboardNoUpcomingMeetings => 'No upcoming meetings';
+
+  @override
+  String get dashboardNothingScheduled => 'Nothing scheduled';
+
+  @override
+  String get dashboardNothingScheduledHint =>
+      'Book a meeting and it will show up here';
 
   @override
   String get dashboardOverviewSubtitle => 'Here\'s your overview for today';
@@ -606,9 +661,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dashboardTeamPipeline => 'Team pipeline';
 
   @override
+  String get dashboardToday => 'Today';
+
+  @override
   String dashboardTodayCount(Object count) {
     return '$count today';
   }
+
+  @override
+  String get dashboardTopAgents => 'Top agents';
 
   @override
   String get dashboardTotalDeals => 'Total Deals';
@@ -618,6 +679,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dashboardUpcomingMeetings => 'Upcoming Meetings';
+
+  @override
+  String get dashboardValueByStage => 'Value by stage';
 
   @override
   String get dealsAddDeal => 'Add Deal';

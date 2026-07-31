@@ -31,6 +31,9 @@ class ShimmerGroup extends StatelessWidget {
       baseColor: t.isDark ? t.surfaceVariant : t.border,
       highlightColor:
           t.isDark ? const Color(0xFF353B52) : const Color(0xFFF5F7FC),
+      // Faster than the package default of 1500ms. A slow sweep on a screen
+      // that is genuinely waiting reads as stuck rather than as loading.
+      period: const Duration(milliseconds: 1100),
       child: child,
     );
   }

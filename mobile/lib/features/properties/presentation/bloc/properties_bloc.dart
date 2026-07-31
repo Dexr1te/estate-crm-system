@@ -56,10 +56,18 @@ class PropertiesBloc extends Bloc<PropertiesEvent, PropertiesState>
   Future<void> _onLoad(
       PropertiesLoadEvent e, Emitter<PropertiesState> emit) async {
     final ticket = startLoad();
+    final queryChanged =
+        e.status != _status || e.type != _type || e.search != _search;
     _status = e.status;
     _type = e.type;
     _search = e.search;
-    emit(PropertiesLoading());
+
+    // Only blank the screen when what is on it no longer answers the request.
+    // Every screen fires a load in initState and switching tabs remounts it,
+    // so blanking unconditionally meant a full-page skeleton on every visit,
+    // however fresh the rows already were. A *changed* filter is different:
+    // the rows on screen are the wrong ones, so the skeleton is honest.
+    if (_items.isEmpty || queryChanged) emit(PropertiesLoading());
 
     try {
       final res = await _repo.getProperties(
@@ -127,7 +135,11 @@ class PropertiesBloc extends Bloc<PropertiesEvent, PropertiesState>
       PropertiesCreateEvent e, Emitter<PropertiesState> emit) async {
     try {
       final created = await _repo.createProperty(e.data);
-      emit(PropertyCreated(created)); // emit the full object with id
+      // The full object, with its id.
+      emit(PropertyCreated(created, _items, hasMore: _hasMore));
+      // The form sits on the root navigator, so the list screen underneath
+      // never remounts — nothing else would pick the new row up.
+      _reload();
     } catch (err) {
       emit(_failure(err));
     }
@@ -139,6 +151,7 @@ class PropertiesBloc extends Bloc<PropertiesEvent, PropertiesState>
       await _repo.updateProperty(e.id, e.data);
       emit(PropertiesActionSuccess('Property updated', _items,
           hasMore: _hasMore));
+      _reload();
     } catch (err) {
       emit(_failure(err));
     }

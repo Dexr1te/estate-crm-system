@@ -43,7 +43,7 @@ class AdminUsersActionFailure extends AdminUsersLoaded implements ActionOutcome 
 
 /// Emitted after a successful invite. Carries the created user so the UI can
 /// surface the one-time [AgentResponse.inviteToken] for the admin to share.
-class AdminInviteSuccess extends AdminUsersState {
+class AdminInviteSuccess extends AdminUsersLoaded {
   final AgentResponse user;
-  AdminInviteSuccess(this.user);
+  AdminInviteSuccess(this.user, super.users);
 }

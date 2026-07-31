@@ -100,12 +100,6 @@ abstract class AppLocalizations {
     Locale('ru')
   ];
 
-  /// No description provided for @appTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Estate CRM'**
-  String get appTitle;
-
   /// No description provided for @adminActivate.
   ///
   /// In en, this message translates to:
@@ -363,6 +357,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'View stats'**
   String get adminViewStats;
+
+  /// No description provided for @appTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Estate CRM'**
+  String get appTitle;
 
   /// No description provided for @authAcceptInviteSubtitle.
   ///
@@ -1030,6 +1030,12 @@ abstract class AppLocalizations {
   /// **'Add Property'**
   String get dashboardAddProperty;
 
+  /// No description provided for @dashboardAgentDeals.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 deal} other{{count} deals}}'**
+  String dashboardAgentDeals(num count);
+
   /// No description provided for @dashboardAgentMeta.
   ///
   /// In en, this message translates to:
@@ -1048,11 +1054,23 @@ abstract class AppLocalizations {
   /// **'Closed Won'**
   String get dashboardClosedWon;
 
+  /// No description provided for @dashboardConversion.
+  ///
+  /// In en, this message translates to:
+  /// **'Conversion'**
+  String get dashboardConversion;
+
   /// No description provided for @dashboardDateSummary.
   ///
   /// In en, this message translates to:
   /// **'{date} · team overview'**
   String dashboardDateSummary(Object date);
+
+  /// No description provided for @dashboardDecidedDeals.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Nothing closed yet} =1{1 deal decided} other{{count} deals decided}}'**
+  String dashboardDecidedDeals(num count);
 
   /// No description provided for @dashboardGreeting.
   ///
@@ -1090,6 +1108,18 @@ abstract class AppLocalizations {
   /// **'Still up'**
   String get dashboardGreetingStillUp;
 
+  /// No description provided for @dashboardLoadTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{nothing booked} =1{1 meeting} other{{count} meetings}}'**
+  String dashboardLoadTotal(num count);
+
+  /// No description provided for @dashboardMeetingLoad.
+  ///
+  /// In en, this message translates to:
+  /// **'Next two weeks'**
+  String get dashboardMeetingLoad;
+
   /// No description provided for @dashboardMeetingsLabel.
   ///
   /// In en, this message translates to:
@@ -1114,6 +1144,18 @@ abstract class AppLocalizations {
   /// **'Next meeting'**
   String get dashboardNextMeeting;
 
+  /// No description provided for @dashboardNoDealsYet.
+  ///
+  /// In en, this message translates to:
+  /// **'No deals yet'**
+  String get dashboardNoDealsYet;
+
+  /// No description provided for @dashboardNoDealsYetHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your pipeline will appear here once you add one'**
+  String get dashboardNoDealsYetHint;
+
   /// No description provided for @dashboardNoMoreMeetingsToday.
   ///
   /// In en, this message translates to:
@@ -1131,6 +1173,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No upcoming meetings'**
   String get dashboardNoUpcomingMeetings;
+
+  /// No description provided for @dashboardNothingScheduled.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing scheduled'**
+  String get dashboardNothingScheduled;
+
+  /// No description provided for @dashboardNothingScheduledHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Book a meeting and it will show up here'**
+  String get dashboardNothingScheduledHint;
 
   /// No description provided for @dashboardOverviewSubtitle.
   ///
@@ -1198,11 +1252,23 @@ abstract class AppLocalizations {
   /// **'Team pipeline'**
   String get dashboardTeamPipeline;
 
+  /// No description provided for @dashboardToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get dashboardToday;
+
   /// No description provided for @dashboardTodayCount.
   ///
   /// In en, this message translates to:
   /// **'{count} today'**
   String dashboardTodayCount(Object count);
+
+  /// No description provided for @dashboardTopAgents.
+  ///
+  /// In en, this message translates to:
+  /// **'Top agents'**
+  String get dashboardTopAgents;
 
   /// No description provided for @dashboardTotalDeals.
   ///
@@ -1221,6 +1287,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Upcoming Meetings'**
   String get dashboardUpcomingMeetings;
+
+  /// No description provided for @dashboardValueByStage.
+  ///
+  /// In en, this message translates to:
+  /// **'Value by stage'**
+  String get dashboardValueByStage;
 
   /// No description provided for @dealsAddDeal.
   ///

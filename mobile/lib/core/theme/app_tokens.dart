@@ -119,6 +119,29 @@ class AppTokens {
   /// Scrim behind bottom sheets (.42) and dialogs (.5).
   Color get sheetScrim => AppColors.primary.withValues(alpha: 0.42);
   Color get dialogScrim => AppColors.primary.withValues(alpha: 0.5);
+
+  // ── Charts ────────────────────────────────────────────────────
+  // Fills for bars, rings and segments. Lightened in dark so a saturated hue
+  // doesn't disappear into a #141625 background.
+  Color get chartLead =>
+      isDark ? const Color(0xFFA78BFA) : AppColors.lead;
+  Color get chartNegotiation =>
+      isDark ? const Color(0xFFFBBF24) : AppColors.negotiation;
+  Color get chartWon =>
+      isDark ? const Color(0xFF4ADE80) : AppColors.closedWon;
+  Color get chartLost =>
+      isDark ? const Color(0xFFF87171) : AppColors.closedLost;
+
+  /// The unfilled remainder of a bar or ring.
+  Color get chartTrack => surfaceVariant;
+
+  /// A status hue safe for *small text*.
+  ///
+  /// The raw [AppColors] hues are tuned as fills: amber #F59E0B on the light
+  /// background is about 2:1, which is unreadable at 10–11px. This returns the
+  /// darkened/lightened label from the chip palette instead, which is the same
+  /// hue at a contrast that actually works in both themes.
+  Color statusText(StatusHue hue) => StatusPalette.resolve(this, hue).label;
 }
 
 extension AppTokensContext on BuildContext {

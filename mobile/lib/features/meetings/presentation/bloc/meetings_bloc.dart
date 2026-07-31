@@ -40,7 +40,11 @@ class MeetingsBloc extends Bloc<MeetingsEvent, MeetingsState>
 
   Future<void> _onLoad(MeetingsLoadEvent e, Emitter<MeetingsState> emit) async {
     final ticket = startLoad();
-    emit(MeetingsLoading());
+    // Only blank the screen when there is nothing to blank. Every screen
+    // fires a load in initState and switching tabs remounts it, so emitting
+    // Loading unconditionally meant a full-page skeleton on every visit,
+    // however fresh the data already was.
+    if (_current.isEmpty) emit(MeetingsLoading());
     try {
       final meetings = await _repo.getMeetings();
       // A newer load started while this one was in flight — its result wins.
@@ -68,6 +72,8 @@ class MeetingsBloc extends Bloc<MeetingsEvent, MeetingsState>
     try {
       await _repo.createMeeting(e.data);
       emit(MeetingsActionSuccess('Meeting created', _current));
+      // The list screen stays mounted under the form and never remounts.
+      add(MeetingsLoadEvent());
     } catch (err) {
       emit(_failure(err));
     }
@@ -78,6 +84,7 @@ class MeetingsBloc extends Bloc<MeetingsEvent, MeetingsState>
     try {
       await _repo.updateMeeting(e.id, e.data);
       emit(MeetingsActionSuccess('Meeting updated', _current));
+      add(MeetingsLoadEvent());
     } catch (err) {
       emit(_failure(err));
     }

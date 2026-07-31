@@ -87,10 +87,18 @@ class SettingsRow extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 12),
+          // Neither of these is a flex child. `Flexible` defaults to flex 1,
+          // which split the row 50/50 with the label and then laid the control
+          // out at natural size against the *left* edge of its half — leaving
+          // the switch stranded in the middle of the row instead of flush
+          // right. Non-flex children take their natural width, and the
+          // label's Expanded absorbs everything left over.
           if (trailing != null)
-            Flexible(child: trailing!)
+            trailing!
           else if (value != null)
-            Flexible(
+            ConstrainedBox(
+              // Bounds a long value so it ellipsises instead of overflowing.
+              constraints: const BoxConstraints(maxWidth: 150),
               child: Text(
                 value!,
                 textAlign: TextAlign.right,

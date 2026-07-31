@@ -3,8 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/bloc/dashboard_bloc.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/screens/dashboard_screen.dart';
+import 'package:real_estate_crm/features/dashboard/presentation/widgets/conversion_card.dart';
+import 'package:real_estate_crm/features/dashboard/presentation/widgets/top_agents_card.dart';
 
 import 'fakes.dart';
 import 'responsive_harness.dart';
@@ -32,6 +35,14 @@ final _meetings = [
   _meeting(5, const Duration(days: 3), 'Handover · Severny Residence'),
 ];
 
+/// Long names on purpose: the agent rows and legends have to survive a name
+/// that does not fit, at 320pt and 1.3× scale.
+const _agentNames = [
+  'Maria Kim-Doroshenko',
+  'Aleksandr Konstantinovich Vishnevsky',
+  'Aigerim Serikbaykyzy',
+];
+
 final _deals = [
   for (var i = 0; i < 11; i++)
     DealResponse(
@@ -40,6 +51,7 @@ final _deals = [
         status: DealStatus.LEAD,
         clientId: 1,
         agentId: 1,
+        agentName: _agentNames[i % _agentNames.length],
         dealPrice: 12300000),
   for (var i = 0; i < 8; i++)
     DealResponse(
@@ -48,6 +60,7 @@ final _deals = [
         status: DealStatus.NEGOTIATION,
         clientId: 1,
         agentId: 1,
+        agentName: _agentNames[i % _agentNames.length],
         dealPrice: 26000000),
   for (var i = 0; i < 9; i++)
     DealResponse(
@@ -56,16 +69,37 @@ final _deals = [
         status: DealStatus.CLOSED_WON,
         clientId: 1,
         agentId: 1,
+        agentName: _agentNames[i % _agentNames.length],
         dealPrice: 54800000),
+  // Without these the win rate would be a flat 100% and never exercise the
+  // lost arc.
+  for (var i = 0; i < 4; i++)
+    DealResponse(
+        id: 400 + i,
+        title: 'Lost $i',
+        status: DealStatus.CLOSED_LOST,
+        clientId: 1,
+        agentId: 1,
+        agentName: _agentNames[i % _agentNames.length],
+        dealPrice: 9100000),
 ];
+
+const _admin = AuthResponse(
+    userId: 1,
+    fullName: 'Yekaterina Vsevolodovna Ponomaryova',
+    email: 'admin@estate.crm',
+    role: Role.ADMIN);
 
 Widget _dashboard({
   List<MeetingResponse> meetings = const [],
   List<DealResponse> deals = const [],
+  AuthResponse? user,
 }) =>
     MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => AuthBloc(FakeAuthRepository())),
+        BlocProvider(
+            create: (_) => AuthBloc(FakeAuthRepository(user: user))
+              ..add(AuthCheckEvent())),
         BlocProvider(
           create: (_) => DashboardBloc(
             FakeDashboardRepository(const DashboardSummary(
@@ -111,12 +145,27 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
+  // The agent ranking only renders for a role that can see other people's
+  // deals, so it needs its own pass through the matrix.
+  forEachAcceptanceCase('dashboard — admin, with agent ranking',
+      (tester, size, brightness, scale) async {
+    await expectNoOverflow(
+      tester,
+      _dashboard(meetings: _meetings, deals: _deals, user: _admin),
+      size: size,
+      brightness: brightness,
+      textScale: scale,
+    );
+    await tester.pumpAndSettle();
+    expect(tester.takeException(), isNull);
+  });
+
   for (final locale in kAcceptanceLocales) {
     testWidgets('dashboard renders in ${locale.languageCode}',
         (tester) async {
       await expectNoOverflow(
         tester,
-        _dashboard(meetings: _meetings, deals: _deals),
+        _dashboard(meetings: _meetings, deals: _deals, user: _admin),
         size: const Size(390, 844),
         brightness: Brightness.light,
         textScale: 1.0,
@@ -126,4 +175,41 @@ void main() {
       expect(tester.takeException(), isNull);
     });
   }
+
+  testWidgets('an empty dashboard offers the actions that would fill it',
+      (tester) async {
+    // The hero and the pipeline card used to disappear with no data, leaving
+    // the screen looking half-loaded.
+    await expectNoOverflow(
+      tester,
+      _dashboard(),
+      size: const Size(390, 844),
+      brightness: Brightness.light,
+      textScale: 1.0,
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Nothing scheduled'), findsOneWidget);
+    expect(find.text('No deals yet'), findsOneWidget);
+  });
+
+  testWidgets('the agent ranking stays hidden from a plain agent',
+      (tester) async {
+    await expectNoOverflow(
+      tester,
+      _dashboard(
+        meetings: _meetings,
+        deals: _deals,
+        user: const AuthResponse(userId: 2, fullName: 'A', role: Role.AGENT),
+      ),
+      size: const Size(390, 844),
+      brightness: Brightness.light,
+      textScale: 1.0,
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byType(TopAgentsCard), findsNothing);
+    expect(find.byType(ConversionCard), findsOneWidget,
+        reason: 'the other charts are not role-gated');
+  });
 }
