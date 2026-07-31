@@ -47,8 +47,14 @@ class DealsBloc extends Bloc<DealsEvent, DealsState> with LoadGeneration {
 
   Future<void> _onLoad(DealsLoadEvent e, Emitter<DealsState> emit) async {
     final ticket = startLoad();
+    final queryChanged = e.status != _status;
     _status = e.status;
-    emit(DealsLoading());
+
+    // Only blank the screen when what is on it no longer answers the request.
+    // Every screen fires a load in initState and switching tabs remounts it,
+    // so blanking unconditionally meant a full-page skeleton on every visit,
+    // however fresh the rows already were.
+    if (_current.isEmpty || queryChanged) emit(DealsLoading());
     try {
       final deals = await _repo.getDeals(status: e.status);
       // A newer load started while this one was in flight — its result wins.
@@ -74,6 +80,8 @@ class DealsBloc extends Bloc<DealsEvent, DealsState> with LoadGeneration {
     try {
       await _repo.createDeal(e.data);
       emit(DealsActionSuccess('Deal created', _current));
+      // The list screen stays mounted under the form and never remounts.
+      _reload();
     } catch (err) {
       emit(_failure(err));
     }
@@ -83,6 +91,7 @@ class DealsBloc extends Bloc<DealsEvent, DealsState> with LoadGeneration {
     try {
       await _repo.updateDeal(e.id, e.data);
       emit(DealsActionSuccess('Deal updated', _current));
+      _reload();
     } catch (err) {
       emit(_failure(err));
     }

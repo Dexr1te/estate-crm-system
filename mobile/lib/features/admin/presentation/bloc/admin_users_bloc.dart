@@ -35,7 +35,11 @@ class AdminUsersBloc extends Bloc<AdminUsersEvent, AdminUsersState>
   Future<void> _onLoad(
       AdminUsersLoadEvent e, Emitter<AdminUsersState> emit) async {
     final ticket = startLoad();
-    emit(AdminUsersLoading());
+    // Only blank the screen when there is nothing to blank. Every screen
+    // fires a load in initState and switching tabs remounts it, so emitting
+    // Loading unconditionally meant a full-page skeleton on every visit,
+    // however fresh the data already was.
+    if (_current.isEmpty) emit(AdminUsersLoading());
     try {
       final users = await _repo.getUsers();
       // A newer load started while this one was in flight — its result wins.
@@ -65,7 +69,7 @@ class AdminUsersBloc extends Bloc<AdminUsersEvent, AdminUsersState>
       AdminInviteUserEvent e, Emitter<AdminUsersState> emit) async {
     try {
       final created = await _repo.inviteUser(e.body);
-      emit(AdminInviteSuccess(created));
+      emit(AdminInviteSuccess(created, _current));
       add(AdminUsersLoadEvent());
     } catch (err) {
       emit(_failure(err));

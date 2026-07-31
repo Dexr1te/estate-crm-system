@@ -9,9 +9,6 @@ class AppLocalizationsRu extends AppLocalizations {
   AppLocalizationsRu([String locale = 'ru']) : super(locale);
 
   @override
-  String get appTitle => 'Estate CRM';
-
-  @override
   String get adminActivate => 'Активировать';
 
   @override
@@ -145,6 +142,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get adminViewStats => 'Просмотр статистики';
+
+  @override
+  String get appTitle => 'Estate CRM';
 
   @override
   String get authAcceptInviteSubtitle =>
@@ -516,6 +516,18 @@ class AppLocalizationsRu extends AppLocalizations {
   String get dashboardAddProperty => 'Добавить объект';
 
   @override
+  String dashboardAgentDeals(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count сделок',
+      few: '$count сделки',
+      one: '1 сделка',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String dashboardAgentMeta(Object name) {
     return 'агент: $name';
   }
@@ -527,8 +539,24 @@ class AppLocalizationsRu extends AppLocalizations {
   String get dashboardClosedWon => 'Успешно закрыто';
 
   @override
+  String get dashboardConversion => 'Конверсия';
+
+  @override
   String dashboardDateSummary(Object date) {
     return '$date · сводка команды';
+  }
+
+  @override
+  String dashboardDecidedDeals(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count сделок завершено',
+      few: '$count сделки завершены',
+      one: '1 сделка завершена',
+      zero: 'Пока ничего не закрыто',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -552,6 +580,22 @@ class AppLocalizationsRu extends AppLocalizations {
   String get dashboardGreetingStillUp => 'Ещё не спите';
 
   @override
+  String dashboardLoadTotal(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count встреч',
+      few: '$count встречи',
+      one: '1 встреча',
+      zero: 'ничего не назначено',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get dashboardMeetingLoad => 'Ближайшие две недели';
+
+  @override
   String get dashboardMeetingsLabel => 'Встречи';
 
   @override
@@ -564,6 +608,13 @@ class AppLocalizationsRu extends AppLocalizations {
   String get dashboardNextMeeting => 'Ближайшая встреча';
 
   @override
+  String get dashboardNoDealsYet => 'Сделок пока нет';
+
+  @override
+  String get dashboardNoDealsYetHint =>
+      'Здесь появится воронка, как только вы добавите сделку';
+
+  @override
   String get dashboardNoMoreMeetingsToday => 'На сегодня встреч больше нет';
 
   @override
@@ -571,6 +622,13 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get dashboardNoUpcomingMeetings => 'Нет предстоящих встреч';
+
+  @override
+  String get dashboardNothingScheduled => 'Встреч не запланировано';
+
+  @override
+  String get dashboardNothingScheduledHint =>
+      'Назначьте встречу — она появится здесь';
 
   @override
   String get dashboardOverviewSubtitle => 'Ваша сводка на сегодня';
@@ -610,9 +668,15 @@ class AppLocalizationsRu extends AppLocalizations {
   String get dashboardTeamPipeline => 'Воронка команды';
 
   @override
+  String get dashboardToday => 'Сегодня';
+
+  @override
   String dashboardTodayCount(Object count) {
     return '$count сегодня';
   }
+
+  @override
+  String get dashboardTopAgents => 'Лучшие агенты';
 
   @override
   String get dashboardTotalDeals => 'Всего сделок';
@@ -622,6 +686,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get dashboardUpcomingMeetings => 'Предстоящие встречи';
+
+  @override
+  String get dashboardValueByStage => 'Суммы по стадиям';
 
   @override
   String get dealsAddDeal => 'Добавить сделку';

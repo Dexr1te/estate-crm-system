@@ -38,7 +38,11 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> with LoadGeneration {
 
   Future<void> _onLoad(ClientsLoadEvent e, Emitter<ClientsState> emit) async {
     final ticket = startLoad();
-    emit(ClientsLoading());
+    // Only blank the screen when there is nothing to blank. Every screen
+    // fires a load in initState and switching tabs remounts it, so emitting
+    // Loading unconditionally meant a full-page skeleton on every visit,
+    // however fresh the data already was.
+    if (_current.isEmpty) emit(ClientsLoading());
     try {
       // Two calls: `/clients` is the authoritative record (type, agent),
       // `/clients/with-details` carries the per-deal figures. See
@@ -74,7 +78,10 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> with LoadGeneration {
       ClientsCreateEvent e, Emitter<ClientsState> emit) async {
     try {
       final created = await _repo.createClient(e.data);
-      emit(ClientCreated(created)); // emit the full object with id
+      emit(ClientCreated(created, _current)); // the full object, with its id
+      // The form sits on the root navigator, so the list screen underneath
+      // never remounts — nothing else would pick the new row up.
+      add(ClientsLoadEvent());
     } catch (err) {
       emit(_failure(err));
     }
@@ -85,6 +92,7 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> with LoadGeneration {
     try {
       await _repo.updateClient(e.id, e.data);
       emit(ClientsActionSuccess('Client updated', _current));
+      add(ClientsLoadEvent());
     } catch (err) {
       emit(_failure(err));
     }
