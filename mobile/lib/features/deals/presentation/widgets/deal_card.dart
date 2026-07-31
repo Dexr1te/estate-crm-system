@@ -3,14 +3,10 @@ import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// A deal in the list: title with its stage chip, the client/agent line, a
-/// hairline divider, then the amount with right-hand context — budget, or a
-/// red staleness warning when the deal has gone quiet.
 class DealCard extends StatelessWidget {
   final DealResponse deal;
   final VoidCallback onTap;
 
-  /// A deal untouched for this long is called out in red.
   static const staleAfter = Duration(days: 5);
 
   const DealCard({super.key, required this.deal, required this.onTap});
@@ -100,9 +96,7 @@ class DealCard extends StatelessWidget {
                     fontSize: 11.5,
                     fontWeight:
                         staleDays != null ? FontWeight.w600 : FontWeight.w400,
-                    color: staleDays != null
-                        ? t.dangerText
-                        : t.textSecondary,
+                    color: staleDays != null ? t.dangerText : t.textSecondary,
                   ),
                 ),
               ),
@@ -113,7 +107,6 @@ class DealCard extends StatelessWidget {
     );
   }
 
-  /// Days since the deal last moved — null when it is closed or still fresh.
   static int? _staleDays(DealResponse deal) {
     if (deal.status == DealStatus.CLOSED_WON ||
         deal.status == DealStatus.CLOSED_LOST) {
@@ -126,7 +119,6 @@ class DealCard extends StatelessWidget {
   }
 }
 
-/// Skeleton matching [DealCard]'s footprint.
 class DealCardBone extends StatelessWidget {
   const DealCardBone({super.key});
 

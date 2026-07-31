@@ -10,11 +10,6 @@ class AppNavItem {
       {required this.icon, required this.activeIcon, required this.label});
 }
 
-/// Bottom navigation per the handoff: 6 items, surface fill, 1px top border.
-///
-/// Each item is a two-row grid with a **fixed 18px icon box** above the label,
-/// so every label shares one baseline regardless of glyph height. Labels stay
-/// at 11px and never wrap or ellipsise — the copy is shortened instead.
 class AppBottomNav extends StatelessWidget {
   final List<AppNavItem> items;
   final int currentIndex;
@@ -100,17 +95,13 @@ class _NavCell extends StatelessWidget {
                   item.label,
                   maxLines: 1,
                   softWrap: false,
-                  // Labels are shortened in copy, never truncated with an
-                  // ellipsis — clip is the visible failure mode if a
-                  // translation is ever too long.
                   overflow: TextOverflow.clip,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: AppFonts.sans,
                     fontSize: 11,
                     height: 1.1,
-                    fontWeight:
-                        selected ? FontWeight.w600 : FontWeight.w400,
+                    fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
                     color: color,
                   ),
                 ),

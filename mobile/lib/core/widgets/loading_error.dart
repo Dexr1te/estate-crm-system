@@ -11,8 +11,6 @@ class LoadingWidget extends StatelessWidget {
       Center(child: CircularProgressIndicator(color: context.tokens.primary));
 }
 
-/// The failure state — the same shape as [EmptyState], with a red-tinted icon
-/// tile and a ghost retry button. No card, no shadow.
 class ErrorWidget2 extends StatelessWidget {
   final String message;
   final VoidCallback? onRetry;

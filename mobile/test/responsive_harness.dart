@@ -3,26 +3,18 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// The acceptance matrix from the design handoff: every screen must render
-/// with zero overflow at each of these sizes, in both themes, at text scale
-/// 1.0 and 1.3.
 const kAcceptanceSizes = <Size>[
-  Size(320, 568), // iPhone SE 1st gen
-  Size(375, 667), // iPhone SE 2nd/3rd gen
-  Size(390, 844), // reference — the size the mocks are drawn at
-  Size(430, 932), // Pro Max
-  Size(768, 1024), // tablet
+  Size(320, 568),
+  Size(375, 667),
+  Size(390, 844),
+  Size(430, 932),
+  Size(768, 1024),
 ];
 
 const kAcceptanceTextScales = <double>[1.0, 1.3];
 
 const kAcceptanceLocales = <Locale>[Locale('en'), Locale('ru'), Locale('kk')];
 
-/// Pumps [child] inside a themed, localised app at a fixed size and text
-/// scale, then fails if the frame produced any layout overflow.
-///
-/// Overflow surfaces as a `FlutterError` during paint, which the test binding
-/// records; [WidgetTester.takeException] is how we assert on it.
 Future<void> expectNoOverflow(
   WidgetTester tester,
   Widget child, {
@@ -66,7 +58,6 @@ Future<void> expectNoOverflow(
   );
 }
 
-/// Runs [body] once per (size × theme × text scale) combination.
 void forEachAcceptanceCase(
   String description,
   Future<void> Function(WidgetTester tester, Size size, Brightness brightness,

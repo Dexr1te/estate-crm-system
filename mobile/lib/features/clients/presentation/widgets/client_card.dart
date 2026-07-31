@@ -3,9 +3,6 @@ import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_state.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// List-item card for a client: 42px initial avatar, name and phone, a
-/// trailing type chip, a hairline divider, then deal count on the left and
-/// value (or stage) on the right.
 class ClientCard extends StatelessWidget {
   final ClientSummary client;
   final VoidCallback onTap;
@@ -23,7 +20,6 @@ class ClientCard extends StatelessWidget {
         l10n.clientsAgentMeta(client.agentName!),
     ].join(' · ');
 
-    // Value when there is one; otherwise the stage carries the signal.
     final showValue = client.totalBudget > 0;
     final trailingLabel = showValue
         ? formatPrice(client.totalBudget)
@@ -117,7 +113,6 @@ class ClientCard extends StatelessWidget {
   }
 }
 
-/// Skeleton matching [ClientCard]'s footprint.
 class ClientCardBone extends StatelessWidget {
   const ClientCardBone({super.key});
 

@@ -33,10 +33,8 @@ void main() {
       await tester.pumpAndSettle();
 
       final button = tester.getRect(find.byType(AppHeaderAction));
-      // The action must end at the page's right margin, not float mid-row —
-      // wrapping it in a Flexible gave it half the row and left a gap.
-      final expectedRight = _size.width - AppMetrics.pagePadding(
-          tester.element(find.byType(AppHeaderAction)));
+      final expectedRight = _size.width -
+          AppMetrics.pagePadding(tester.element(find.byType(AppHeaderAction)));
       expect(button.right, moreOrLessEquals(expectedRight, epsilon: 0.5));
     }
 
@@ -62,7 +60,8 @@ void main() {
           providers: [
             BlocProvider(create: (_) => AuthBloc(FakeAuthRepository())),
             BlocProvider(
-                create: (_) => PropertiesBloc(FakePropertiesRepository(const []))),
+                create: (_) =>
+                    PropertiesBloc(FakePropertiesRepository(const []))),
           ],
           child: const PropertiesScreen(),
         ),
@@ -72,8 +71,6 @@ void main() {
 
   testWidgets('constrain() top-aligns content shorter than the viewport',
       (tester) async {
-    // The mechanism, not one screen's content height: `Center` here floated
-    // every short detail and form screen in the middle of the viewport.
     await expectNoOverflow(
       tester,
       Scaffold(

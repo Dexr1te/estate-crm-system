@@ -8,7 +8,6 @@ part 'locale_state.dart';
 class LocaleBloc extends Bloc<LocaleEvent, LocaleState> {
   static const _key = 'locale_code';
 
-  /// Languages the user can pick (excludes "system default").
   static const supported = <Locale>[
     Locale('en'),
     Locale('ru'),
@@ -30,7 +29,7 @@ class LocaleBloc extends Bloc<LocaleEvent, LocaleState> {
       LocaleChangedEvent e, Emitter<LocaleState> emit) async {
     final prefs = await SharedPreferences.getInstance();
     if (e.locale == null) {
-      await prefs.remove(_key); // fall back to the device locale
+      await prefs.remove(_key);
     } else {
       await prefs.setString(_key, e.locale!.languageCode);
     }

@@ -20,8 +20,6 @@ import 'package:real_estate_crm/features/dashboard/presentation/widgets/stage_va
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/top_agents_card.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// How many rows the "upcoming" list shows before deferring to the meetings
-/// screen.
 const _kUpcomingPreviewCount = 4;
 
 class DashboardScreen extends StatefulWidget {
@@ -49,8 +47,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final l10n = AppLocalizations.of(context);
     String? phone;
     try {
-      phone = (await Injector.clientsRepository.getClient(meeting.clientId))
-          .phone;
+      phone =
+          (await Injector.clientsRepository.getClient(meeting.clientId)).phone;
     } catch (_) {
       phone = null;
     }
@@ -62,7 +60,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   void _openMeeting(MeetingResponse meeting) {
-    // The deal is the richer destination when the meeting is attached to one.
     if (meeting.dealId != null) {
       context.push('/deals/${meeting.dealId}');
     } else {
@@ -114,8 +111,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         padding: const EdgeInsets.only(top: 40),
                         child: ErrorWidget2(
                           message: state.message,
-                          onRetry: () =>
-                              ctx.read<DashboardBloc>().add(DashboardLoadEvent()),
+                          onRetry: () => ctx
+                              .read<DashboardBloc>()
+                              .add(DashboardLoadEvent()),
                         ),
                       )
                     else if (state is DashboardLoaded)
@@ -144,8 +142,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
         context.go('/deals?status=${status.name}');
 
     return [
-      // The hero used to disappear entirely with nothing scheduled, which left
-      // the top of the screen empty and made the dashboard look broken.
       if (next != null)
         NextMeetingHero(
           meeting: next,
@@ -184,15 +180,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
           value: '${state.summary.upcomingMeetings}',
           caption: l10n.dashboardMeetingsLabel,
           delta: todayCount > 0 ? l10n.dashboardTodayCount(todayCount) : null,
-          // Not AppColors.warning: raw amber is ~2:1 on the light background
-          // at this size. `statusText` keeps the hue and fixes the contrast.
           deltaColor: context.tokens.statusText(StatusHue.negotiation),
           onTap: () => context.go('/meetings'),
         ),
       ]),
       SizedBox(height: gap),
-      // Also no longer conditional: an empty pipeline is information, and
-      // hiding the card left a hole where the chart should be.
       if (pipeline.isEmpty)
         _ZeroCard(
           icon: Icons.handshake_outlined,
@@ -245,8 +237,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     ];
   }
 }
-
-// ─── Greeting ────────────────────────────────────────────────────
 
 class _GreetingRow extends StatelessWidget {
   final String title;
@@ -302,11 +292,6 @@ class _GreetingRow extends StatelessWidget {
   }
 }
 
-// ─── Inline zero state ───────────────────────────────────────────
-
-/// Stands in for a card whose data is empty, so the slot keeps its shape and
-/// offers the action that would fill it — rather than vanishing and leaving
-/// the dashboard looking half-loaded.
 class _ZeroCard extends StatelessWidget {
   final IconData icon;
   final String title;
@@ -383,8 +368,6 @@ class _ZeroCard extends StatelessWidget {
   }
 }
 
-// ─── Empty state for the schedule list ───────────────────────────
-
 class _NoMoreMeetings extends StatelessWidget {
   final String message;
   const _NoMoreMeetings({required this.message});
@@ -399,14 +382,14 @@ class _NoMoreMeetings extends StatelessWidget {
           message,
           textAlign: TextAlign.center,
           style: TextStyle(
-              fontFamily: AppFonts.sans, fontSize: 12.5, color: t.textSecondary),
+              fontFamily: AppFonts.sans,
+              fontSize: 12.5,
+              color: t.textSecondary),
         ),
       ),
     );
   }
 }
-
-// ─── Skeleton ────────────────────────────────────────────────────
 
 class _DashboardSkeleton extends StatelessWidget {
   const _DashboardSkeleton();

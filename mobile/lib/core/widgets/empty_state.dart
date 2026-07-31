@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/theme/app_metrics.dart';
 import 'package:real_estate_crm/core/theme/app_tokens.dart';
 
-/// The empty state every list in the app uses: a centred 64px rounded icon
-/// tile, title 600/15.5, body 400/12.5 capped at 250pt wide.
 class EmptyState extends StatelessWidget {
   final String title;
   final String? subtitle;

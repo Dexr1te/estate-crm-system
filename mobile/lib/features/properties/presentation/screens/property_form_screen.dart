@@ -9,8 +9,6 @@ import 'package:real_estate_crm/features/properties/presentation/bloc/properties
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_state.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// Two-step create/edit, per screen 4h: basics → details, with a 2-segment
-/// progress bar and a "Step 1 of 2" label in the app bar.
 class PropertyFormScreen extends StatefulWidget {
   final int? propertyId;
   const PropertyFormScreen({super.key, this.propertyId});
@@ -124,7 +122,8 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
       'price': _double(_priceCtrl) ?? 0,
       'type': _type.name,
       'status': _status.name,
-      if (_descCtrl.text.trim().isNotEmpty) 'description': _descCtrl.text.trim(),
+      if (_descCtrl.text.trim().isNotEmpty)
+        'description': _descCtrl.text.trim(),
       if (_cityCtrl.text.trim().isNotEmpty) 'city': _cityCtrl.text.trim(),
       if (area != null) 'areaSqm': area,
       if (rooms != null) 'rooms': rooms,
@@ -158,7 +157,6 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
                     Text(l10n.propertiesPropertyCreated(state.property.id))));
           context.go('/properties');
         }
-        // A rejected save leaves the user on the form with their input intact.
         if (state is PropertiesActionFailure) {
           setState(() => _loading = false);
           showActionOutcome(context, state);
@@ -168,15 +166,15 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(SnackBar(
-                content: Text(state.message),
-                backgroundColor: t.dangerSolid));
+                content: Text(state.message), backgroundColor: t.dangerSolid));
         }
       },
       child: DetailScaffold(
         title: widget.isEditing
             ? l10n.propertiesEditProperty
             : l10n.propertiesNewProperty,
-        trailingLabel: _initLoading ? null : l10n.propertiesStepOf(_step + 1, 2),
+        trailingLabel:
+            _initLoading ? null : l10n.propertiesStepOf(_step + 1, 2),
         onBack: _step == 1 ? _back : null,
         bottomAction: _initLoading ? null : _actions(l10n),
         children: _initLoading
@@ -207,8 +205,7 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
   }
 
   Widget _actions(AppLocalizations l10n) => _step == 0
-      ? AppFilledButton(
-          label: l10n.propertiesNextDetails, onPressed: _next)
+      ? AppFilledButton(label: l10n.propertiesNextDetails, onPressed: _next)
       : Column(
           children: [
             AppFilledButton(
@@ -225,8 +222,6 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
             ),
           ],
         );
-
-  // ── Step 1: the basics ──────────────────────────────────────
 
   Widget _stepOne(AppLocalizations l10n) {
     final gap = AppMetrics.blockGap(context);
@@ -260,11 +255,11 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
                       hint: '12 300 000',
                       keyboardType: TextInputType.number,
                       textInputAction: TextInputAction.next,
-                      validator: (v) =>
-                          _double(_priceCtrl) == null || _double(_priceCtrl)! <= 0
-                              ? l10n.propertiesFieldRequired(
-                                  l10n.propertiesPriceLabel)
-                              : null,
+                      validator: (v) => _double(_priceCtrl) == null ||
+                              _double(_priceCtrl)! <= 0
+                          ? l10n.propertiesFieldRequired(
+                              l10n.propertiesPriceLabel)
+                          : null,
                     ),
                   ),
                 ),
@@ -330,8 +325,6 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
       ],
     );
   }
-
-  // ── Step 2: the rest ────────────────────────────────────────
 
   Widget _stepTwo(AppLocalizations l10n) {
     final gap = AppMetrics.blockGap(context);
@@ -426,7 +419,6 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
   }
 }
 
-/// The 2-segment progress bar: active gold, remainder in the border token.
 class _StepBar extends StatelessWidget {
   final int step;
   const _StepBar({required this.step});

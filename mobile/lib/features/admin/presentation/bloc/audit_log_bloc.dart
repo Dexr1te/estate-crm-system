@@ -3,7 +3,6 @@ import 'package:real_estate_crm/core/network/api_error.dart';
 import 'package:real_estate_crm/core/models/admin_models.dart';
 import 'package:real_estate_crm/features/admin/domain/repositories/admin_repository.dart';
 
-// ── Events ──
 abstract class AuditLogEvent {}
 
 class AuditLogLoadEvent extends AuditLogEvent {
@@ -11,7 +10,6 @@ class AuditLogLoadEvent extends AuditLogEvent {
   AuditLogLoadEvent({this.entityType});
 }
 
-// ── States ──
 abstract class AuditLogState {}
 
 class AuditLogInitial extends AuditLogState {}
@@ -28,7 +26,6 @@ class AuditLogError extends AuditLogState {
   AuditLogError(this.message);
 }
 
-// ── Bloc ──
 class AuditLogBloc extends Bloc<AuditLogEvent, AuditLogState> {
   final AdminRepository _repo;
   AuditLogBloc(this._repo) : super(AuditLogInitial()) {

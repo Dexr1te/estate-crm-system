@@ -10,13 +10,9 @@ import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart'
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_state.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// Screen 4q. Centred identity block, then grouped settings cards, ending in
-/// the destructive sign-out — red text on a red-tinted fill, never a solid
-/// red button.
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
-  /// Endonyms — a language is always shown written in itself.
   static const _endonyms = {'en': 'English', 'ru': 'Русский', 'kk': 'Қазақша'};
 
   @override
@@ -39,8 +35,7 @@ class ProfileScreen extends StatelessWidget {
                 trailing: _IdChip(
                   id: user.userId,
                   onCopied: () {
-                    Clipboard.setData(
-                        ClipboardData(text: '${user.userId}'));
+                    Clipboard.setData(ClipboardData(text: '${user.userId}'));
                     ScaffoldMessenger.of(context)
                       ..hideCurrentSnackBar()
                       ..showSnackBar(SnackBar(
@@ -171,8 +166,6 @@ class ProfileScreen extends StatelessWidget {
     if (ok) bloc.add(AuthLogoutEvent());
   }
 }
-
-// ─── Identity ────────────────────────────────────────────────────
 
 class _Identity extends StatelessWidget {
   final AuthResponse user;

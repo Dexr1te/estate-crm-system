@@ -151,7 +151,6 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Step 1 of 2'), findsOneWidget);
 
-    // Empty required fields — the step must not advance.
     await tester.ensureVisible(find.text('Next — details'));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Next — details'));

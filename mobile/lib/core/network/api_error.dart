@@ -1,16 +1,5 @@
 import 'package:dio/dio.dart';
 
-/// Converts any thrown error — usually a [DioException] — into a concise,
-/// user-facing message.
-///
-/// Priority:
-///   1. Backend field-level validation errors (`validationErrors` map)
-///   2. The backend's own `message` / `error` body field
-///      (e.g. "Email already registered: john@x.com")
-///   3. A sensible fallback based on HTTP status or connection failure type
-///
-/// This is the single source of truth for turning API failures into text, so
-/// blocs never surface raw `DioException.toString()` boilerplate to the user.
 String apiErrorMessage(Object? error) {
   if (error is DioException) {
     final data = error.response?.data;

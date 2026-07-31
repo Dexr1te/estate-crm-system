@@ -70,7 +70,9 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
       if (_notesCtrl.text.trim().isNotEmpty) 'notes': _notesCtrl.text.trim(),
     };
     if (widget.isEditing) {
-      context.read<ClientsBloc>().add(ClientsUpdateEvent(widget.clientId!, data));
+      context
+          .read<ClientsBloc>()
+          .add(ClientsUpdateEvent(widget.clientId!, data));
       context.go('/clients');
     } else {
       context.read<ClientsBloc>().add(ClientsCreateEvent(data));
@@ -92,7 +94,6 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
                 content: Text(l10n.clientsClientCreatedId(state.client.id))));
           context.go('/clients');
         }
-        // A rejected save leaves the user on the form with their input intact.
         if (state is ClientsActionFailure) {
           setState(() => _loading = false);
           showActionOutcome(context, state);
@@ -102,8 +103,7 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(SnackBar(
-                content: Text(state.message),
-                backgroundColor: t.dangerSolid));
+                content: Text(state.message), backgroundColor: t.dangerSolid));
         }
         if (state is ClientsActionSuccess) {
           setState(() => _loading = false);
@@ -212,7 +212,6 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
   }
 }
 
-/// The two-button segmented control at the top of the form.
 class _TypeSelector extends StatelessWidget {
   final ClientType type;
   final ValueChanged<ClientType> onChanged;

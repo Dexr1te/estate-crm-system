@@ -4,10 +4,6 @@ import 'package:real_estate_crm/core/theme/app_metrics.dart';
 import 'package:real_estate_crm/core/theme/app_tokens.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// Status chip — radius 999, padding 4/9, font 600/10, **no shadow**.
-///
-/// Light draws a solid pastel fill; dark keeps the same hue at low alpha with
-/// a lightened label. Colour here signals status and nothing else.
 class StatusChip extends StatelessWidget {
   final String label;
   final StatusHue hue;
@@ -37,8 +33,6 @@ class StatusChip extends StatelessWidget {
   }
 }
 
-/// The admin role chip: navy fill with a gold label in light, inverted in
-/// dark so gold stays the single accent.
 class BrandChip extends StatelessWidget {
   final String label;
   const BrandChip({super.key, required this.label});
@@ -115,7 +109,6 @@ String propertyStatusLabel(AppLocalizations l10n, PropertyStatus status) {
   }
 }
 
-/// Role names must never render as raw enum values.
 String roleLabel(AppLocalizations l10n, Role role) {
   switch (role) {
     case Role.ADMIN:
@@ -127,7 +120,6 @@ String roleLabel(AppLocalizations l10n, Role role) {
   }
 }
 
-/// Property types must never render as raw enum names.
 String propertyTypeLabel(AppLocalizations l10n, PropertyType type) {
   switch (type) {
     case PropertyType.APARTMENT:
@@ -189,8 +181,6 @@ class ClientTypeChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) => StatusChip(
         label: clientTypeLabel(AppLocalizations.of(context), type),
-        // Buyers read as leads (violet), sellers as in-negotiation (amber) —
-        // the same two hues the deal pipeline already uses.
         hue: type == ClientType.BUYER ? StatusHue.lead : StatusHue.negotiation,
       );
 }

@@ -3,8 +3,6 @@ import 'package:real_estate_crm/core/theme/app_metrics.dart';
 import 'package:real_estate_crm/core/theme/app_tokens.dart';
 import 'package:real_estate_crm/core/widgets/app_card.dart';
 
-/// A grouped settings card — rows separated by 1px dividers inside a single
-/// bordered card, as on the Profile screen.
 class SettingsGroup extends StatelessWidget {
   final List<Widget> rows;
   const SettingsGroup({super.key, required this.rows});
@@ -29,8 +27,6 @@ class SettingsGroup extends StatelessWidget {
   }
 }
 
-/// One row of a [SettingsGroup]: label on the left (with an optional
-/// sub-label), value or control on the right.
 class SettingsRow extends StatelessWidget {
   final String label;
   final String? subLabel;
@@ -87,17 +83,10 @@ class SettingsRow extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 12),
-          // Neither of these is a flex child. `Flexible` defaults to flex 1,
-          // which split the row 50/50 with the label and then laid the control
-          // out at natural size against the *left* edge of its half — leaving
-          // the switch stranded in the middle of the row instead of flush
-          // right. Non-flex children take their natural width, and the
-          // label's Expanded absorbs everything left over.
           if (trailing != null)
             trailing!
           else if (value != null)
             ConstrainedBox(
-              // Bounds a long value so it ellipsises instead of overflowing.
               constraints: const BoxConstraints(maxWidth: 150),
               child: Text(
                 value!,
@@ -126,8 +115,6 @@ class SettingsRow extends StatelessWidget {
   }
 }
 
-/// The switch used in settings rows — gold in dark, navy in light, per the
-/// "no blue anywhere" rule.
 class AppSwitch extends StatelessWidget {
   final bool value;
   final ValueChanged<bool> onChanged;

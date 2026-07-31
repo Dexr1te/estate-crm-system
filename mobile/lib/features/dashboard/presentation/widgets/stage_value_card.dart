@@ -4,12 +4,6 @@ import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/bloc/dashboard_state.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// Money per stage as horizontal bars.
-///
-/// The pipeline card next to this one counts *deals*; this one counts money,
-/// which ranks the stages very differently when a single large deal sits in
-/// negotiation. Bars are scaled to the largest stage, not to the total, so a
-/// small stage still reads as a visible sliver.
 class StageValueCard extends StatelessWidget {
   final PipelineBreakdown pipeline;
   final void Function(DealStatus status) onStageTap;
@@ -40,7 +34,10 @@ class StageValueCard extends StatelessWidget {
           const SizedBox(height: 14),
           for (var i = 0; i < rows.length; i++) ...[
             if (i > 0) const SizedBox(height: 12),
-            _Bar(row: rows[i], peak: peak, onTap: () => onStageTap(rows[i].status)),
+            _Bar(
+                row: rows[i],
+                peak: peak,
+                onTap: () => onStageTap(rows[i].status)),
           ],
         ],
       ),
@@ -67,8 +64,6 @@ class _Bar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.tokens;
-    // A stage with money always keeps a visible stub, so "small" never reads
-    // as "none".
     final fraction = peak <= 0 ? 0.0 : (row.value / peak).clamp(0.0, 1.0);
     final drawn = row.value > 0 ? fraction.clamp(0.04, 1.0) : 0.0;
 

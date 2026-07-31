@@ -4,17 +4,8 @@ import 'package:real_estate_crm/core/theme/app_tokens.dart';
 import 'package:real_estate_crm/core/widgets/app_card.dart';
 import 'package:real_estate_crm/core/widgets/app_text.dart';
 
-/// The two field skins in the handoff.
-///
-/// [page] — surface fill with a 1px border. Used on the auth screens and for
-/// search bars that sit directly on the page background.
-///
-/// [card] — surfaceVariant fill, no border. Used inside a form card, under a
-/// small [FieldLabel].
 enum FieldSkin { page, card }
 
-/// A themed text field. Radius 12, padding 15/14, hint in textHint, leading
-/// icon at 18px.
 class AppTextField extends StatelessWidget {
   final TextEditingController? controller;
   final String? hint;
@@ -97,8 +88,7 @@ class AppTextField extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 14, right: 11),
                 child: Icon(icon, size: 18, color: t.textHint),
               ),
-        prefixIconConstraints:
-            const BoxConstraints(minWidth: 0, minHeight: 0),
+        prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
         suffixIcon: suffix,
         border: border(t.border),
         enabledBorder: border(t.border),
@@ -112,8 +102,6 @@ class AppTextField extends StatelessWidget {
   }
 }
 
-/// The 500/11 secondary caption above an in-card field. Required fields carry
-/// a trailing asterisk.
 class FieldLabel extends StatelessWidget {
   final String text;
   final bool required;
@@ -138,7 +126,6 @@ class FieldLabel extends StatelessWidget {
   }
 }
 
-/// A labelled field: caption above, control below.
 class LabelledField extends StatelessWidget {
   final String label;
   final bool required;
@@ -157,8 +144,6 @@ class LabelledField extends StatelessWidget {
       );
 }
 
-/// A tappable row that stands in for a dropdown: surfaceVariant fill, radius
-/// 12, value on the left, chevron on the right.
 class PickerField extends StatelessWidget {
   final String? value;
   final String placeholder;
@@ -211,8 +196,6 @@ class PickerField extends StatelessWidget {
   }
 }
 
-/// The card that groups form fields, with an accent eyebrow at the top and a
-/// 9pt gap between rows.
 class FormSectionCard extends StatelessWidget {
   final String? eyebrow;
   final List<Widget> children;

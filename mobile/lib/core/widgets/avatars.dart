@@ -2,11 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/theme/app_metrics.dart';
 import 'package:real_estate_crm/core/theme/app_tokens.dart';
 
-/// The brand avatar — a navy disc with a gold initial in light, a
-/// surfaceVariant disc with a gold initial in dark. No gradient, no glow.
-///
-/// Reserved for the signed-in user and identity headers; list rows use
-/// [InitialAvatar].
 class UserAvatar extends StatelessWidget {
   final String name;
   final double size;
@@ -50,8 +45,6 @@ class UserAvatar extends StatelessWidget {
   }
 }
 
-/// A neutral initial disc — surfaceVariant fill with a 1px border, used in
-/// list rows where the brand avatar would over-signal.
 class InitialAvatar extends StatelessWidget {
   final String name;
   final double size;

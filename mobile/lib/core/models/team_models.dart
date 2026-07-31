@@ -1,4 +1,3 @@
-/// A team as returned by `/teams`.
 class TeamResponse {
   final int id;
   final String name;
@@ -22,12 +21,12 @@ class TeamResponse {
         managerId: (json['managerId'] as num?)?.toInt(),
         managerName: json['managerName'] as String?,
         memberCount: (json['memberCount'] as num?)?.toInt() ?? 0,
-        createdAt:
-            json['createdAt'] is String ? DateTime.tryParse(json['createdAt']) : null,
+        createdAt: json['createdAt'] is String
+            ? DateTime.tryParse(json['createdAt'])
+            : null,
       );
 }
 
-/// Aggregated statistics for a team (`/teams/{id}/stats`).
 class TeamStatsResponse {
   final int teamId;
   final String teamName;

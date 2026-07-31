@@ -1,7 +1,6 @@
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/network/api_client.dart';
 
-/// Raw HTTP access to the `/meetings` endpoints.
 class MeetingsRemoteDataSource {
   final ApiClient _client;
   MeetingsRemoteDataSource(this._client);

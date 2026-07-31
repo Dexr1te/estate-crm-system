@@ -4,9 +4,6 @@ import 'package:real_estate_crm/core/models/team_models.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// Shows the create/edit team sheet. Returns a TeamRequest body
-/// ({name, managerId?}) or null if cancelled. [managers] populates the
-/// optional manager picker.
 Future<Map<String, dynamic>?> showTeamFormSheet(
   BuildContext context, {
   TeamResponse? existing,
@@ -73,7 +70,6 @@ class _TeamFormState extends State<_TeamForm> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    // Only resolve a name for a manager still present in the list.
     final selected = widget.managers
         .where((m) => m.id == _managerId)
         .map((m) => m.fullName)

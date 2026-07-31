@@ -3,12 +3,6 @@ import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// The "next meeting" hero — the same card the meetings list uses at the top
-/// of its own screen.
-///
-/// Light: navy fill with white text. Dark: bordered surface. The gold time
-/// chip, title, meta line and the filled/ghost action pair are identical in
-/// both.
 class NextMeetingHero extends StatelessWidget {
   final MeetingResponse meeting;
   final String eyebrow;
@@ -36,7 +30,8 @@ class NextMeetingHero extends StatelessWidget {
 
     final meta = [
       if (meeting.clientName.isNotEmpty) meeting.clientName,
-      if (meeting.agentName.isNotEmpty) l10n.dashboardAgentMeta(meeting.agentName),
+      if (meeting.agentName.isNotEmpty)
+        l10n.dashboardAgentMeta(meeting.agentName),
     ].join(' · ');
 
     return AppHeroCard(
@@ -130,8 +125,6 @@ class NextMeetingHero extends StatelessWidget {
   }
 }
 
-/// Gold chip holding the start time, with the day beneath it. (The API carries
-/// no duration, so the second line marks the day instead.)
 class _TimeChip extends StatelessWidget {
   final DateTime at;
   const _TimeChip({required this.at});
@@ -178,8 +171,6 @@ class _TimeChip extends StatelessWidget {
   }
 }
 
-/// "now" / "in 25 min" / "in 3 h" / "tomorrow" / a date, whichever is the most
-/// useful at this distance.
 String relativeTimeLabel(
     AppLocalizations l10n, DateTime at, DateTime now, String locale) {
   final diff = at.difference(now);
@@ -194,7 +185,6 @@ String relativeTimeLabel(
   return formatDayMonth(at, locale);
 }
 
-/// "today" / "tomorrow" / "31 Jul" — the day a meeting falls on.
 String dayLabel(
     AppLocalizations l10n, DateTime at, DateTime now, String locale) {
   if (isSameDay(at, now)) return l10n.dashboardRelativeToday;

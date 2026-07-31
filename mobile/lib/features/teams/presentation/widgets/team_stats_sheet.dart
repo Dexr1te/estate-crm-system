@@ -4,8 +4,6 @@ import 'package:real_estate_crm/core/models/team_models.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// Bottom sheet showing aggregated statistics for a team, as one metrics card
-/// with hairline dividers — not tinted tiles.
 void showTeamStatsSheet(BuildContext context, int teamId) {
   showAppBottomSheet(context, builder: (_) => _TeamStats(teamId: teamId));
 }
@@ -60,8 +58,7 @@ class _TeamStats extends StatelessWidget {
                     border: Border.all(
                         color: t.border, width: AppMetrics.borderWidth),
                   ),
-                  child:
-                      Icon(Icons.groups_outlined, size: 18, color: t.accent),
+                  child: Icon(Icons.groups_outlined, size: 18, color: t.accent),
                 ),
                 const SizedBox(width: 12),
                 Expanded(

@@ -12,16 +12,13 @@ class AdminUsersLoaded extends AdminUsersState {
   AdminUsersLoaded(this.users);
 }
 
-/// The *load* failed and there is nothing to show — the screen renders a
-/// full-page error. A failed write uses [AdminUsersActionFailure] instead.
 class AdminUsersError extends AdminUsersState {
   final String message;
   AdminUsersError(this.message);
 }
 
-/// A write succeeded. Extends [AdminUsersLoaded] and carries the list forward
-/// so the console keeps its content while the reload runs.
-class AdminUsersActionSuccess extends AdminUsersLoaded implements ActionOutcome {
+class AdminUsersActionSuccess extends AdminUsersLoaded
+    implements ActionOutcome {
   @override
   final String message;
   @override
@@ -30,9 +27,8 @@ class AdminUsersActionSuccess extends AdminUsersLoaded implements ActionOutcome 
   AdminUsersActionSuccess(this.message, super.users);
 }
 
-/// A write failed, but what is already loaded is still valid: show the message
-/// and keep the list rather than replacing the console with an error page.
-class AdminUsersActionFailure extends AdminUsersLoaded implements ActionOutcome {
+class AdminUsersActionFailure extends AdminUsersLoaded
+    implements ActionOutcome {
   @override
   final String message;
   @override
@@ -41,8 +37,6 @@ class AdminUsersActionFailure extends AdminUsersLoaded implements ActionOutcome 
   AdminUsersActionFailure(this.message, super.users);
 }
 
-/// Emitted after a successful invite. Carries the created user so the UI can
-/// surface the one-time [AgentResponse.inviteToken] for the admin to share.
 class AdminInviteSuccess extends AdminUsersLoaded {
   final AgentResponse user;
   AdminInviteSuccess(this.user, super.users);

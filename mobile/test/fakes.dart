@@ -7,10 +7,6 @@ import 'package:real_estate_crm/features/deals/domain/repositories/deals_reposit
 import 'package:real_estate_crm/features/meetings/domain/repositories/meetings_repository.dart';
 import 'package:real_estate_crm/features/properties/domain/repositories/properties_repository.dart';
 
-/// In-memory repositories for widget tests. Every method returns canned data
-/// (or throws `UnimplementedError` for the write paths a render test never
-/// reaches), so screens can be pumped without a backend.
-
 class FakeAuthRepository implements AuthRepository {
   final AuthResponse? user;
   FakeAuthRepository({this.user});
@@ -62,8 +58,7 @@ class FakeMeetingsRepository implements MeetingsRepository {
   Future<MeetingResponse> updateMeeting(int id, Map<String, dynamic> data) =>
       throw UnimplementedError();
   @override
-  Future<MeetingResponse> completeMeeting(int id) =>
-      throw UnimplementedError();
+  Future<MeetingResponse> completeMeeting(int id) => throw UnimplementedError();
   @override
   Future<void> deleteMeeting(int id) => throw UnimplementedError();
 }
@@ -73,7 +68,8 @@ class FakeDealsRepository implements DealsRepository {
   FakeDealsRepository(this.deals);
 
   @override
-  Future<List<DealResponse>> getDeals({int? agentId, DealStatus? status}) async =>
+  Future<List<DealResponse>> getDeals(
+          {int? agentId, DealStatus? status}) async =>
       status == null ? deals : deals.where((d) => d.status == status).toList();
   @override
   Future<DealResponse> getDeal(int id) async =>

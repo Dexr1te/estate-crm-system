@@ -21,8 +21,6 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState>
   }
 
   void _onReset(DashboardResetEvent e, Emitter<DashboardState> emit) {
-    // Invalidate any load still in flight, so a response fetched with the old
-    // session's token can't repopulate the screen after the reset.
     startLoad();
     emit(DashboardInitial());
   }
@@ -30,20 +28,14 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState>
   Future<void> _onLoad(
       DashboardLoadEvent e, Emitter<DashboardState> emit) async {
     final ticket = startLoad();
-    // Keep the last dashboard on screen while it refreshes. Switching tabs
-    // remounts this screen, so blanking unconditionally meant the full
-    // skeleton every time the user came back to it.
     if (state is! DashboardLoaded) emit(DashboardLoading());
     try {
-      // The pipeline card is a nice-to-have: if `/deals` fails (or the role
-      // can't see it) the rest of the dashboard still renders.
       final results = await Future.wait([
         _dashboard.getDashboardSummary(),
         _meetings.getMeetings(),
         _deals.getDeals().catchError((_) => <DealResponse>[]),
       ]);
 
-      // A newer load started while this one was in flight — its result wins.
       if (isStale(ticket)) return;
 
       final now = DateTime.now();

@@ -27,7 +27,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  // Create once — never recreated on rebuild
   late final AuthBloc _authBloc;
   late final ThemeBloc _themeBloc;
   late final LocaleBloc _localeBloc;
@@ -43,9 +42,6 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     _authBloc = AuthBloc(Injector.authRepository)..add(AuthCheckEvent());
-    // A refresh that can't be recovered clears the tokens down in the network
-    // layer. Without this the router would go on believing the user is signed
-    // in, and every screen would sit there failing with 401s.
     Injector.apiClient.onSessionExpired = () {
       if (!_authBloc.isClosed) _authBloc.add(AuthLogoutEvent());
     };
@@ -57,7 +53,7 @@ class _MyAppState extends State<MyApp> {
     _propertiesBloc = PropertiesBloc(Injector.propertiesRepository);
     _dealsBloc = DealsBloc(Injector.dealsRepository);
     _meetingsBloc = MeetingsBloc(Injector.meetingsRepository);
-    router = createRouter(_authBloc); // created once
+    router = createRouter(_authBloc);
   }
 
   @override
@@ -88,9 +84,6 @@ class _MyAppState extends State<MyApp> {
         BlocProvider.value(value: _meetingsBloc),
       ],
       child: BlocListener<AuthBloc, AuthState>(
-        // Every feature bloc outlives the session. Without this the next
-        // account renders the previous one's rows on its first frame, before
-        // the reload each screen queues in `initState` has landed.
         listenWhen: (prev, curr) =>
             prev is AuthAuthenticated && curr is! AuthAuthenticated,
         listener: (_, __) {
@@ -101,7 +94,6 @@ class _MyAppState extends State<MyApp> {
           _meetingsBloc.add(MeetingsResetEvent());
         },
         child: BlocBuilder<ThemeBloc, ThemeState>(
-          // Only rebuild when theme actually changes, not on every state
           buildWhen: (prev, curr) => prev.mode != curr.mode,
           builder: (context, themeState) =>
               BlocBuilder<LocaleBloc, LocaleState>(
@@ -112,13 +104,11 @@ class _MyAppState extends State<MyApp> {
               theme: AppTheme.light,
               darkTheme: AppThemeDark.dark,
               themeMode: themeState.mode,
-              locale: localeState.locale, // null → follow device locale
+              locale: localeState.locale,
               localizationsDelegates: AppLocalizations.localizationsDelegates,
               supportedLocales: AppLocalizations.supportedLocales,
-              routerConfig: router, // stable reference — no freeze!
+              routerConfig: router,
               debugShowCheckedModeBanner: false,
-              // Respect the user's text-size setting, but clamp it: every screen
-              // is designed to stay readable and overflow-free up to 1.3×.
               builder: (context, child) => MediaQuery.withClampedTextScaling(
                 minScaleFactor: 1.0,
                 maxScaleFactor: 1.3,

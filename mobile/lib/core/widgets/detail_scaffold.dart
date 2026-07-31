@@ -4,26 +4,15 @@ import 'package:real_estate_crm/core/theme/app_metrics.dart';
 import 'package:real_estate_crm/core/theme/app_tokens.dart';
 import 'package:real_estate_crm/core/widgets/app_buttons.dart';
 
-/// The shell every detail and form screen sits in: a surface app bar with a
-/// 1px bottom border, a back chevron, a 600/16 title, optional trailing
-/// content, then a scrolling stack of cards.
-///
-/// The body scrolls at every size — the handoff's rule is that no screen may
-/// rely on 844pt of height.
 class DetailScaffold extends StatelessWidget {
   final String title;
 
-  /// Small right-aligned label in the app bar (e.g. "Step 1 of 2").
   final String? trailingLabel;
 
-  /// Icon tiles at the right of the app bar (edit / delete).
   final List<Widget> actions;
 
-  /// Cards, laid out with [AppMetrics.blockGap] between them.
   final List<Widget> children;
 
-  /// Pinned to the end of the scroll content, clear of the home indicator and
-  /// the keyboard.
   final Widget? bottomAction;
 
   final VoidCallback? onBack;
@@ -47,9 +36,7 @@ class DetailScaffold extends StatelessWidget {
     final gap = AppMetrics.blockGap(context);
 
     Widget body = SingleChildScrollView(
-      physics: onRefresh == null
-          ? null
-          : const AlwaysScrollableScrollPhysics(),
+      physics: onRefresh == null ? null : const AlwaysScrollableScrollPhysics(),
       padding: EdgeInsets.fromLTRB(pad, 14, pad, 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -90,7 +77,6 @@ class DetailScaffold extends StatelessWidget {
   }
 }
 
-/// The app bar used by detail and form screens.
 class DetailAppBar extends StatelessWidget {
   final String title;
   final List<Widget> actions;
@@ -160,7 +146,6 @@ class DetailAppBar extends StatelessWidget {
   }
 }
 
-/// The standard edit + delete pair for a detail app bar.
 List<Widget> detailActions({
   VoidCallback? onEdit,
   VoidCallback? onDelete,

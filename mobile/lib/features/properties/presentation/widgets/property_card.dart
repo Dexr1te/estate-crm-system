@@ -3,9 +3,6 @@ import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// List-item card for a property: a 44px rounded type tile (gold while the
-/// listing is live, grey once sold), title and address, a status chip, then a
-/// hairline divider over price and specs.
 class PropertyCard extends StatelessWidget {
   final PropertyResponse property;
   final VoidCallback onTap;
@@ -34,8 +31,8 @@ class PropertyCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: t.surfaceVariant,
                   borderRadius: BorderRadius.circular(13),
-                  border:
-                      Border.all(color: t.border, width: AppMetrics.borderWidth),
+                  border: Border.all(
+                      color: t.border, width: AppMetrics.borderWidth),
                 ),
                 child: Icon(propertyTypeIcon(property.type),
                     size: 18, color: live ? t.accent : t.textHint),
@@ -113,10 +110,10 @@ class PropertyCard extends StatelessWidget {
   }
 }
 
-/// "58 m² · 2 rooms · 5/24" — whichever of those the record actually carries.
 String propertySpecs(AppLocalizations l10n, PropertyResponse p) {
   final parts = <String>[
-    if (p.areaSqm != null) l10n.propertiesAreaValue(p.areaSqm!.toStringAsFixed(0)),
+    if (p.areaSqm != null)
+      l10n.propertiesAreaValue(p.areaSqm!.toStringAsFixed(0)),
     if (p.rooms != null) l10n.propertiesRoomsCount(p.rooms!),
     if (p.floor != null)
       p.totalFloors != null ? '${p.floor}/${p.totalFloors}' : '${p.floor}',
@@ -125,7 +122,6 @@ String propertySpecs(AppLocalizations l10n, PropertyResponse p) {
   return parts.join(' · ');
 }
 
-/// Skeleton matching [PropertyCard]'s footprint.
 class PropertyCardBone extends StatelessWidget {
   const PropertyCardBone({super.key});
 

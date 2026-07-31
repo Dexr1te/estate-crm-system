@@ -1,9 +1,7 @@
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/models/paged_response.dart';
 
-/// Contract for property data access.
 abstract class PropertiesRepository {
-  /// A single page of properties (backend paginates when filters/paging sent).
   Future<PagedResponse<PropertyResponse>> getProperties({
     PropertyStatus? status,
     PropertyType? type,
@@ -15,7 +13,6 @@ abstract class PropertiesRepository {
     int size,
   });
 
-  /// Full unpaged list, for pickers.
   Future<List<PropertyResponse>> getAllProperties();
 
   Future<PropertyResponse> getProperty(int id);

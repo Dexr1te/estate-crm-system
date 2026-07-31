@@ -2,15 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/theme/app_metrics.dart';
 import 'package:real_estate_crm/core/theme/app_tokens.dart';
 
-/// Opens a modal bottom sheet with the handoff's chrome: radius 24 top
-/// corners, a 38×4 grab handle, an optional 700/19 title over a helper line,
-/// and a `rgba(15,30,60,.42)` scrim.
-///
-/// The sheet follows the app theme — dark in dark mode, per screens 5n/5o.
-/// (It used to be forced light in both themes; that predates this design.)
-///
-/// The content is wrapped so it scrolls and clears the keyboard, which is what
-/// the invite and picker sheets need.
 Future<T?> showAppBottomSheet<T>(
   BuildContext context, {
   required WidgetBuilder builder,
@@ -23,11 +14,11 @@ Future<T?> showAppBottomSheet<T>(
     isScrollControlled: isScrollControlled,
     backgroundColor: Colors.transparent,
     barrierColor: AppTokens.of(context).sheetScrim,
-    builder: (ctx) => AppSheetShell(title: title, subtitle: subtitle, child: builder(ctx)),
+    builder: (ctx) =>
+        AppSheetShell(title: title, subtitle: subtitle, child: builder(ctx)),
   );
 }
 
-/// The sheet body: grab handle, optional heading, then the caller's content.
 class AppSheetShell extends StatelessWidget {
   final String? title;
   final String? subtitle;

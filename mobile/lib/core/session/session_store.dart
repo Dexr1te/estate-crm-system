@@ -1,10 +1,6 @@
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-/// Holds auth tokens in memory and persists the session to [SharedPreferences].
-///
-/// This is infrastructure shared by the network layer (the refresh interceptor
-/// reads/writes tokens here) and the auth feature (login/logout persist here).
 class SessionStore {
   String? _accessToken;
   String? _refreshToken;

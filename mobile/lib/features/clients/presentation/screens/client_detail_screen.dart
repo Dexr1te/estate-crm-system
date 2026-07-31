@@ -106,8 +106,7 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
             EmptyState(
                 icon: Icons.person_off_outlined,
                 title: _error!,
-                action: AppGhostButton(
-                    label: l10n.coreRetry, onPressed: _load))
+                action: AppGhostButton(label: l10n.coreRetry, onPressed: _load))
           else
             const ShimmerGroup(
               child: Column(children: [
@@ -150,8 +149,6 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
     );
   }
 }
-
-// ─── Identity ────────────────────────────────────────────────────
 
 class _IdentityCard extends StatelessWidget {
   final ClientResponse client;
@@ -225,8 +222,6 @@ class _IdentityCard extends StatelessWidget {
   }
 }
 
-// ─── Contact ─────────────────────────────────────────────────────
-
 class _ContactCard extends StatelessWidget {
   final ClientResponse client;
   final VoidCallback onCall;
@@ -278,8 +273,6 @@ class _ContactCard extends StatelessWidget {
     );
   }
 }
-
-// ─── Deals ───────────────────────────────────────────────────────
 
 class _DealsCard extends StatelessWidget {
   final List<DealResponse> deals;
@@ -397,8 +390,6 @@ class _DealRow extends StatelessWidget {
     );
   }
 }
-
-// ─── Notes ───────────────────────────────────────────────────────
 
 class _NotesCard extends StatelessWidget {
   final ClientResponse client;

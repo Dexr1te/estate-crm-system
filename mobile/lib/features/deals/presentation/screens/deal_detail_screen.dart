@@ -63,9 +63,6 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
     context.go('/deals');
   }
 
-  /// The stage the server last confirmed. The card moves optimistically so
-  /// the tap feels instant; if the write is rejected we fall back to this
-  /// instead of leaving a stage on screen that was never saved.
   DealStatus? _confirmedStatus;
 
   void _updateStatus(DealStatus s) {
@@ -82,8 +79,6 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
       setState(() => _d = _d?.copyWith(status: _confirmedStatus!));
       _confirmedStatus = null;
     }
-    // The message itself is surfaced by the list screen's listener, which
-    // stays mounted underneath this route.
   }
 
   void _copyId() {
@@ -155,8 +150,6 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
     );
   }
 }
-
-// ─── Summary ─────────────────────────────────────────────────────
 
 class _SummaryCard extends StatelessWidget {
   final DealResponse deal;
@@ -232,8 +225,6 @@ class _SummaryCard extends StatelessWidget {
   }
 }
 
-// ─── Stage ───────────────────────────────────────────────────────
-
 class _StageCard extends StatelessWidget {
   final DealStatus status;
   final ValueChanged<DealStatus> onChanged;
@@ -244,7 +235,6 @@ class _StageCard extends StatelessWidget {
     final t = context.tokens;
     final l10n = AppLocalizations.of(context);
 
-    // The bar shows where in the funnel this deal sits — not a distribution.
     const track = [
       DealStatus.LEAD,
       DealStatus.NEGOTIATION,
@@ -309,8 +299,6 @@ class _StageCard extends StatelessWidget {
   }
 }
 
-// ─── Participants ────────────────────────────────────────────────
-
 class _ParticipantsCard extends StatelessWidget {
   final DealResponse deal;
   const _ParticipantsCard({required this.deal});
@@ -345,8 +333,6 @@ class _ParticipantsCard extends StatelessWidget {
     );
   }
 }
-
-// ─── Timeline ────────────────────────────────────────────────────
 
 class _TimelineCard extends StatelessWidget {
   final DealResponse deal;
@@ -387,7 +373,6 @@ class _Event {
   final String label;
   final DateTime at;
 
-  /// Done events get a status-coloured dot; past ones the border colour.
   final bool done;
   const _Event(this.label, this.at, {this.done = false});
 }
@@ -442,8 +427,6 @@ class _TimelineRow extends StatelessWidget {
     );
   }
 }
-
-// ─── Notes ───────────────────────────────────────────────────────
 
 class _NotesCard extends StatelessWidget {
   final String text;

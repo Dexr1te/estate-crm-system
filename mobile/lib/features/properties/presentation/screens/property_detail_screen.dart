@@ -61,9 +61,6 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
     context.go('/properties');
   }
 
-  /// The status the server last confirmed. The chip moves optimistically so
-  /// the tap feels instant; if the write is rejected we fall back to this
-  /// instead of leaving a status on screen that was never saved.
   PropertyStatus? _confirmedStatus;
 
   void _updateStatus(PropertyStatus s) {
@@ -82,8 +79,6 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
       setState(() => _p = _p?.copyWith(status: _confirmedStatus!));
       _confirmedStatus = null;
     }
-    // The message itself is surfaced by the list screen's listener, which
-    // stays mounted underneath this route.
   }
 
   void _copyId() {
@@ -157,8 +152,6 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
   }
 }
 
-// ─── Hero ────────────────────────────────────────────────────────
-
 class _PropertyHero extends StatelessWidget {
   final PropertyResponse property;
   final VoidCallback onCopyId;
@@ -214,8 +207,6 @@ class _PropertyHero extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16),
-          // The only 30px type in the app; scaled down rather than wrapped so
-          // a ten-digit amount still fits.
           FittedBox(
             fit: BoxFit.scaleDown,
             alignment: Alignment.centerLeft,
@@ -252,8 +243,6 @@ class _PropertyHero extends StatelessWidget {
     );
   }
 }
-
-// ─── Details ─────────────────────────────────────────────────────
 
 class _DetailsCard extends StatelessWidget {
   final PropertyResponse property;
@@ -300,8 +289,6 @@ class _DetailsCard extends StatelessWidget {
   }
 }
 
-// ─── Status ──────────────────────────────────────────────────────
-
 class _StatusCard extends StatelessWidget {
   final PropertyStatus status;
   final ValueChanged<PropertyStatus> onChanged;
@@ -339,8 +326,6 @@ class _StatusCard extends StatelessWidget {
     );
   }
 }
-
-// ─── Description ─────────────────────────────────────────────────
 
 class _DescriptionCard extends StatelessWidget {
   final String text;

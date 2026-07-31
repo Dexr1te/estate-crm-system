@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 
-/// A schedule row: a 44pt time column, a 28pt hairline divider, then the
-/// title and meta. Used by the dashboard's upcoming list and the meetings
-/// screen's day groups.
 class MeetingRow extends StatelessWidget {
   final String time;
   final String dayOrType;
@@ -50,7 +47,9 @@ class MeetingRow extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                      fontFamily: AppFonts.sans, fontSize: 10, color: t.textHint),
+                      fontFamily: AppFonts.sans,
+                      fontSize: 10,
+                      color: t.textHint),
                 ),
               ],
             ),

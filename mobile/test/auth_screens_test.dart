@@ -24,7 +24,8 @@ void main() {
     );
   });
 
-  forEachAcceptanceCase('accept invite', (tester, size, brightness, scale) async {
+  forEachAcceptanceCase('accept invite',
+      (tester, size, brightness, scale) async {
     await expectNoOverflow(
       tester,
       _wrap(const AcceptInviteScreen(token: 'ABCD-1234')),

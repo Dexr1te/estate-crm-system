@@ -3,10 +3,6 @@ import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/bloc/dashboard_state.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// Agents ranked by closed value, as bars scaled to the leader.
-///
-/// Only shown to roles that can see other people's deals — for an agent whose
-/// scope is their own book it would be a one-row chart of themselves.
 class TopAgentsCard extends StatelessWidget {
   final List<AgentTotal> agents;
   const TopAgentsCard({super.key, required this.agents});
@@ -93,8 +89,6 @@ class _AgentRow extends StatelessWidget {
                     children: [
                       Positioned.fill(child: ColoredBox(color: t.chartTrack)),
                       FractionallySizedBox(
-                        // The leader is a full bar; everyone else reads as a
-                        // share of them.
                         widthFactor: fraction.clamp(0.04, 1.0),
                         child: ColoredBox(
                             color: rank == 0 ? t.chartWon : t.chartLead),

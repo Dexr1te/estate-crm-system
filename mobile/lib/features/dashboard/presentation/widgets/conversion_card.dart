@@ -6,10 +6,6 @@ import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/bloc/dashboard_state.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// Win rate as a ring: won versus lost over the deals that actually concluded.
-///
-/// Open deals are excluded on purpose — counting them as "not yet won" would
-/// drag the rate down for a team that is simply still working.
 class ConversionCard extends StatelessWidget {
   final PipelineBreakdown pipeline;
   final void Function(DealStatus status) onStageTap;
@@ -42,7 +38,6 @@ class ConversionCard extends StatelessWidget {
                   ),
                   child: Center(
                     child: Text(
-                      // Nothing decided yet reads as an em dash, not "0%".
                       rate == null ? '—' : '${(rate * 100).round()}%',
                       maxLines: 1,
                       style: TextStyle(
@@ -157,8 +152,8 @@ class _RingPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final rect = Rect.fromLTWH(0, 0, size.width, size.height)
-        .deflate(_stroke / 2);
+    final rect =
+        Rect.fromLTWH(0, 0, size.width, size.height).deflate(_stroke / 2);
     final base = Paint()
       ..style = PaintingStyle.stroke
       ..strokeWidth = _stroke
@@ -172,7 +167,6 @@ class _RingPainter extends CustomPainter {
       ..strokeWidth = _stroke
       ..strokeCap = StrokeCap.round
       ..color = fill;
-    // Start at 12 o'clock and run clockwise, the way a gauge is read.
     canvas.drawArc(rect, -math.pi / 2, sweep, false, arc);
   }
 

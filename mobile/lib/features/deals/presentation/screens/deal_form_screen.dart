@@ -37,8 +37,6 @@ class _DealFormScreenState extends State<DealFormScreen> {
   PickerItem? _agent;
   PickerItem? _property;
 
-  /// Set when submit is attempted without a required selection — the picker
-  /// rows sit outside the Form, so they validate by hand.
   String? _clientError;
   String? _agentError;
 
@@ -67,10 +65,7 @@ class _DealFormScreenState extends State<DealFormScreen> {
         final data = await fetch();
         if (!mounted) return;
         setState(() => assign(data.map(map).toList()));
-      } catch (_) {
-        // A picker that fails to load stays empty; the field still opens and
-        // shows its empty state rather than blocking the form.
-      }
+      } catch (_) {}
     }
 
     await Future.wait([
@@ -107,8 +102,6 @@ class _DealFormScreenState extends State<DealFormScreen> {
     ]);
   }
 
-  /// Swaps a placeholder ("Client #7", built while editing before the lists
-  /// arrive) for the real record once it loads.
   PickerItem? _reconcile(List<PickerItem> list, PickerItem? current) {
     if (current == null) return null;
     for (final i in list) {
@@ -224,7 +217,6 @@ class _DealFormScreenState extends State<DealFormScreen> {
           showActionOutcome(context, state);
           context.go('/deals');
         }
-        // A rejected save leaves the user on the form with their input intact.
         if (state is DealsActionFailure) {
           setState(() => _loading = false);
           showActionOutcome(context, state);
@@ -234,8 +226,7 @@ class _DealFormScreenState extends State<DealFormScreen> {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(SnackBar(
-                content: Text(state.message),
-                backgroundColor: t.dangerSolid));
+                content: Text(state.message), backgroundColor: t.dangerSolid));
         }
       },
       child: Form(
@@ -299,8 +290,8 @@ class _DealFormScreenState extends State<DealFormScreen> {
                         required: true,
                         value: _client?.title,
                         error: _clientError,
-                        onTap: () => _pick(l10n.dealsClient, _clients, _client,
-                            (v) {
+                        onTap: () =>
+                            _pick(l10n.dealsClient, _clients, _client, (v) {
                           _client = v;
                           _clientError = null;
                         }),
@@ -319,9 +310,8 @@ class _DealFormScreenState extends State<DealFormScreen> {
                       _PickerRow(
                         label: l10n.dealsProperty,
                         value: _property?.title,
-                        onTap: () => _pick(
-                            l10n.dealsProperty, _properties, _property,
-                            (v) => _property = v),
+                        onTap: () => _pick(l10n.dealsProperty, _properties,
+                            _property, (v) => _property = v),
                       ),
                     ],
                   ),
@@ -393,8 +383,6 @@ class _DealFormScreenState extends State<DealFormScreen> {
   }
 }
 
-/// A labelled [PickerField] with an optional inline error, for the selections
-/// that live outside the `Form`.
 class _PickerRow extends StatelessWidget {
   final String label;
   final String? value;
@@ -433,9 +421,7 @@ class _PickerRow extends StatelessWidget {
             child: Text(
               error!,
               style: TextStyle(
-                  fontFamily: AppFonts.sans,
-                  fontSize: 11,
-                  color: t.dangerText),
+                  fontFamily: AppFonts.sans, fontSize: 11, color: t.dangerText),
             ),
           ),
       ],

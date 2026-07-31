@@ -3,26 +3,23 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'models.freezed.dart';
 part 'models.g.dart';
 
-// ─────────────────────────────────────────────
-// Enums
-// ─────────────────────────────────────────────
-
 // ignore: constant_identifier_names
 enum Role { ADMIN, MANAGER, AGENT }
+
 // ignore: constant_identifier_names
 enum DataScope { OWN, TEAM, ALL }
+
 // ignore: constant_identifier_names
 enum ClientType { BUYER, SELLER }
+
 // ignore: constant_identifier_names
 enum PropertyType { APARTMENT, HOUSE, COMMERCIAL, LAND, OFFICE }
+
 // ignore: constant_identifier_names
 enum PropertyStatus { AVAILABLE, RESERVED, SOLD }
+
 // ignore: constant_identifier_names
 enum DealStatus { LEAD, NEGOTIATION, CLOSED_WON, CLOSED_LOST }
-
-// ─────────────────────────────────────────────
-// Auth
-// ─────────────────────────────────────────────
 
 @freezed
 class AuthResponse with _$AuthResponse {
@@ -33,19 +30,12 @@ class AuthResponse with _$AuthResponse {
     @Default(0) int userId,
     @Default('') String fullName,
     @Default('') String email,
-    // NOTE: models.g.dart is hand-patched with `unknownValue: Role.AGENT` for
-    // this field so unknown/new server roles fall back to AGENT instead of
-    // throwing. Re-add that when regenerating with build_runner.
     @Default(Role.AGENT) Role role,
   }) = _AuthResponse;
 
   factory AuthResponse.fromJson(Map<String, dynamic> json) =>
       _$AuthResponseFromJson(json);
 }
-
-// ─────────────────────────────────────────────
-// Client
-// ─────────────────────────────────────────────
 
 @freezed
 class ClientResponse with _$ClientResponse {
@@ -84,10 +74,6 @@ class ClientListItem with _$ClientListItem {
       _$ClientListItemFromJson(json);
 }
 
-// ─────────────────────────────────────────────
-// Property
-// ─────────────────────────────────────────────
-
 @freezed
 class PropertyResponse with _$PropertyResponse {
   const factory PropertyResponse({
@@ -113,10 +99,6 @@ class PropertyResponse with _$PropertyResponse {
       _$PropertyResponseFromJson(json);
 }
 
-// ─────────────────────────────────────────────
-// Deal
-// ─────────────────────────────────────────────
-
 @freezed
 class DealResponse with _$DealResponse {
   const factory DealResponse({
@@ -141,10 +123,6 @@ class DealResponse with _$DealResponse {
   factory DealResponse.fromJson(Map<String, dynamic> json) =>
       _$DealResponseFromJson(json);
 }
-
-// ─────────────────────────────────────────────
-// Meeting
-// ─────────────────────────────────────────────
 
 @freezed
 class MeetingResponse with _$MeetingResponse {
@@ -181,10 +159,6 @@ class UpcomingMeetingResponse with _$UpcomingMeetingResponse {
   factory UpcomingMeetingResponse.fromJson(Map<String, dynamic> json) =>
       _$UpcomingMeetingResponseFromJson(json);
 }
-
-// ─────────────────────────────────────────────
-// Dashboard
-// ─────────────────────────────────────────────
 
 @freezed
 class DashboardSummary with _$DashboardSummary {
