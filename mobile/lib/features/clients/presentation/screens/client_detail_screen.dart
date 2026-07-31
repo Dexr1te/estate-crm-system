@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/auth/role_context.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
-import 'package:real_estate_crm/core/theme/app_theme.dart';
+import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/utils/contact_actions.dart';
+import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_bloc.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_event.dart';
-import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
-import 'package:shimmer/shimmer.dart';
 
 class ClientDetailScreen extends StatefulWidget {
   final int id;
@@ -21,8 +20,9 @@ class ClientDetailScreen extends StatefulWidget {
 
 class _ClientDetailScreenState extends State<ClientDetailScreen> {
   ClientResponse? _client;
-  List<DealResponse> _deals = [];
+  List<DealResponse> _deals = const [];
   bool _loading = true;
+  String? _error;
 
   @override
   void initState() {
@@ -31,223 +31,301 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
   }
 
   Future<void> _load() async {
-    setState(() => _loading = true);
+    setState(() {
+      _loading = true;
+      _error = null;
+    });
     try {
       final results = await Future.wait([
         Injector.clientsRepository.getClient(widget.id),
         Injector.dealsRepository.getDeals(),
       ]);
-      final client = results[0] as ClientResponse;
-      final allDeals = results[1] as List<DealResponse>;
+      if (!mounted) return;
       setState(() {
-        _client = client;
-        _deals = allDeals.where((d) => d.clientId == widget.id).toList();
+        _client = results[0] as ClientResponse;
+        _deals = (results[1] as List<DealResponse>)
+            .where((d) => d.clientId == widget.id)
+            .toList();
         _loading = false;
       });
-    } catch (_) {
-      setState(() => _loading = false);
+    } catch (err) {
+      if (!mounted) return;
+      setState(() {
+        _loading = false;
+        _error = AppLocalizations.of(context).clientsClientNotFound;
+      });
     }
   }
 
   Future<void> _delete() async {
     final l10n = AppLocalizations.of(context);
-    final ok = await showConfirmDialog(context,
-        title: l10n.clientsDeleteClient,
-        content: l10n.clientsDeleteConfirm(_client!.fullName));
-    if (!ok) return;
-    // ignore: use_build_context_synchronously
+    final client = _client!;
+    final ok = await showConfirmDialog(
+      context,
+      title: l10n.clientsDeleteClient,
+      content: l10n.clientsDeleteCascade(_deals.length, client.fullName),
+    );
+    if (!ok || !mounted) return;
     context.read<ClientsBloc>().add(ClientsDeleteEvent(widget.id));
-    if (mounted) context.go('/clients');
+    context.go('/clients');
   }
 
   void _copyId() {
-    Clipboard.setData(ClipboardData(text: _client!.id.toString()));
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(AppLocalizations.of(context).clientsClientIdCopied),
-        duration: const Duration(seconds: 1)));
+    Clipboard.setData(ClipboardData(text: '${widget.id}'));
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(SnackBar(
+          content: Text(AppLocalizations.of(context).clientsClientIdCopied),
+          duration: const Duration(seconds: 1)));
+  }
+
+  Future<void> _call() async {
+    final l10n = AppLocalizations.of(context);
+    if (!await ContactActions.call(_client?.phone) && mounted) {
+      showActionUnavailable(context, l10n.clientsNoPhone);
+    }
+  }
+
+  Future<void> _message() async {
+    final l10n = AppLocalizations.of(context);
+    if (!await ContactActions.email(_client?.email) && mounted) {
+      showActionUnavailable(context, l10n.clientsNoEmail);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final cs = Theme.of(context).colorScheme;
-    final tt = Theme.of(context).textTheme;
+    final client = _client;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(_client?.fullName ?? l10n.clientsClientFallback),
-        actions: _client == null
-            ? []
-            : [
-                IconButton(
-                    icon: const Icon(Icons.edit_outlined),
-                    onPressed: () => context.go('/clients/${widget.id}/edit')),
-                if (context.isAdmin)
-                  IconButton(
-                      icon: Icon(Icons.delete_outline, color: cs.error),
-                      onPressed: _delete),
-              ],
+    if (_loading || client == null) {
+      return DetailScaffold(
+        title: client?.fullName ?? l10n.clientsClientFallback,
+        children: [
+          if (_error != null)
+            EmptyState(
+                icon: Icons.person_off_outlined,
+                title: _error!,
+                action: AppGhostButton(
+                    label: l10n.coreRetry, onPressed: _load))
+          else
+            const ShimmerGroup(
+              child: Column(children: [
+                ShimmerBox(
+                    width: double.infinity,
+                    height: 84,
+                    radius: AppMetrics.radiusMd),
+                SizedBox(height: 14),
+                ShimmerBox(
+                    width: double.infinity,
+                    height: 190,
+                    radius: AppMetrics.radiusMd),
+                SizedBox(height: 14),
+                ShimmerBox(
+                    width: double.infinity,
+                    height: 150,
+                    radius: AppMetrics.radiusMd),
+              ]),
+            ),
+        ],
+      );
+    }
+
+    return DetailScaffold(
+      title: client.fullName,
+      onRefresh: _load,
+      actions: detailActions(
+        onEdit: () => context.push('/clients/${widget.id}/edit'),
+        onDelete: context.isAdmin ? _delete : null,
+        editTooltip: l10n.clientsEdit,
+        deleteTooltip: l10n.clientsDelete,
       ),
-      body: _loading
-          ? const _ClientDetailSkeleton()
-          : _client == null
-              ? EmptyState(
-                  title: l10n.clientsClientNotFound,
-                  icon: Icons.person_off_outlined)
-              : SingleChildScrollView(
-                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // ── Profile header ──
-                        _HeaderCard(
-                          child: Row(children: [
-                            Container(
-                              width: 60,
-                              height: 60,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                gradient: LinearGradient(
-                                    begin: Alignment.topLeft,
-                                    end: Alignment.bottomRight,
-                                    colors: [
-                                      cs.primary.withAlpha(60),
-                                      cs.primary.withAlpha(20)
-                                    ]),
-                                border: Border.all(color: cs.primary, width: 2),
-                              ),
-                              child: Center(
-                                  child: Text(
-                                      _client!.fullName.isNotEmpty
-                                          ? _client!.fullName[0].toUpperCase()
-                                          : '?',
-                                      style: TextStyle(
-                                          fontSize: 24,
-                                          color: cs.primary,
-                                          fontWeight: FontWeight.w700,
-                                          fontFamily: 'Sora'))),
-                            ),
-                            const SizedBox(width: 16),
-                            Expanded(
-                                child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                  Text(_client!.fullName,
-                                      style: tt.titleMedium?.copyWith(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w700)),
-                                  const SizedBox(height: 8),
-                                  Row(children: [
-                                    ClientTypeChip(type: _client!.type),
-                                    const SizedBox(width: 8),
-                                    _IdBadge(
-                                        label: l10n.clientsIdBadge(_client!.id),
-                                        color: AppColors.success,
-                                        onTap: _copyId),
-                                  ]),
-                                ])),
-                          ]),
-                        ),
-
-                        // ── Contact card ──
-                        const SizedBox(height: 14),
-                        _InfoCard(
-                            title: l10n.clientsContact,
-                            icon: Icons.badge_outlined,
-                            rows: [
-                              if (_client!.email != null)
-                                _InfoRow(Icons.email_outlined, l10n.clientsEmail,
-                                    _client!.email!),
-                              if (_client!.phone != null)
-                                _InfoRow(Icons.phone_outlined, l10n.clientsPhone,
-                                    _client!.phone!),
-                              if (_client!.agentName != null)
-                                _InfoRow(Icons.person_outlined, l10n.clientsAgent,
-                                    _client!.agentName!),
-                            ]),
-
-                        // ── Deals card ──
-                        if (_deals.isNotEmpty) ...[
-                          const SizedBox(height: 14),
-                          _HeaderCard(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(children: [
-                                  Icon(Icons.handshake_outlined,
-                                      size: 16, color: cs.primary),
-                                  const SizedBox(width: 8),
-                                  Expanded(
-                                    child: Text(
-                                      l10n.clientsDeals,
-                                      style: TextStyle(
-                                          fontSize: 13,
-                                          fontWeight: FontWeight.w700,
-                                          letterSpacing: 0.2,
-                                          color: cs.primary),
-                                    ),
-                                  ),
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8, vertical: 3),
-                                    decoration: BoxDecoration(
-                                      color: cs.primary.withAlpha(20),
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    child: Text(
-                                      '${_deals.length}',
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w700,
-                                        color: cs.primary,
-                                        fontFamily: 'Sora',
-                                      ),
-                                    ),
-                                  ),
-                                ]),
-                                const SizedBox(height: 12),
-                                ..._deals.map((deal) => _DealRow(deal: deal)),
-                              ],
-                            ),
-                          ),
-                        ],
-
-                        // ── Notes card ──
-                        if (_client!.notes != null &&
-                            _client!.notes!.isNotEmpty) ...[
-                          const SizedBox(height: 14),
-                          _InfoCard(
-                              title: l10n.clientsNotes,
-                              icon: Icons.notes_outlined,
-                              rows: [
-                                Text(_client!.notes!,
-                                    style: tt.bodyMedium?.copyWith(
-                                        color: tt.bodySmall?.color,
-                                        height: 1.5)),
-                              ]),
-                        ],
-
-                        // ── Timestamps card ──
-                        if (_client!.createdAt != null) ...[
-                          const SizedBox(height: 14),
-                          _InfoCard(
-                              title: l10n.clientsTimestamps,
-                              icon: Icons.access_time,
-                              rows: [
-                                _InfoRow(Icons.access_time, l10n.clientsCreated,
-                                    formatDateTime(_client!.createdAt!)),
-                                if (_client!.updatedAt != null)
-                                  _InfoRow(Icons.update, l10n.clientsUpdated,
-                                      formatDateTime(_client!.updatedAt!)),
-                              ]),
-                        ],
-                      ])),
+      children: [
+        _IdentityCard(client: client, onCopyId: _copyId),
+        _ContactCard(client: client, onCall: _call, onMessage: _message),
+        _DealsCard(deals: _deals),
+        if (client.notes != null && client.notes!.trim().isNotEmpty)
+          _NotesCard(client: client),
+      ],
     );
   }
 }
 
-// ─── Deal Row ────────────────────────────────────────────────────
+// ─── Identity ────────────────────────────────────────────────────
+
+class _IdentityCard extends StatelessWidget {
+  final ClientResponse client;
+  final VoidCallback onCopyId;
+  const _IdentityCard({required this.client, required this.onCopyId});
+
+  @override
+  Widget build(BuildContext context) {
+    final t = context.tokens;
+    final l10n = AppLocalizations.of(context);
+
+    return AppCard(
+      child: Row(
+        children: [
+          Container(
+            width: 52,
+            height: 52,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: t.isDark ? t.surfaceVariant : t.primary,
+            ),
+            child: Text(
+              client.fullName.trim().isNotEmpty
+                  ? client.fullName.trim()[0].toUpperCase()
+                  : '?',
+              style: TextStyle(
+                  fontFamily: AppFonts.sans,
+                  fontSize: 19,
+                  fontWeight: FontWeight.w600,
+                  color: t.accent),
+            ),
+          ),
+          const SizedBox(width: 13),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  client.fullName,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      fontFamily: AppFonts.sans,
+                      fontSize: 18,
+                      height: 1.15,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: -0.3,
+                      color: t.textPrimary),
+                ),
+                const SizedBox(height: 8),
+                Wrap(
+                  spacing: 7,
+                  runSpacing: 7,
+                  children: [
+                    ClientTypeChip(type: client.type),
+                    GestureDetector(
+                      onTap: onCopyId,
+                      child: StatusChip(
+                          label: l10n.clientsIdBadge(client.id),
+                          hue: StatusHue.neutral),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ─── Contact ─────────────────────────────────────────────────────
+
+class _ContactCard extends StatelessWidget {
+  final ClientResponse client;
+  final VoidCallback onCall;
+  final VoidCallback onMessage;
+  const _ContactCard(
+      {required this.client, required this.onCall, required this.onMessage});
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    const dash = '—';
+
+    return AppCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          EyebrowLabel(l10n.clientsContact),
+          const SizedBox(height: 12),
+          InfoRow(label: l10n.clientsPhone, value: client.phone ?? dash),
+          const SizedBox(height: 10),
+          InfoRow(label: l10n.clientsEmail, value: client.email ?? dash),
+          const SizedBox(height: 10),
+          InfoRow(label: l10n.clientsAgent, value: client.agentName ?? dash),
+          const SizedBox(height: 14),
+          Row(
+            children: [
+              Expanded(
+                child: AppFilledButton(
+                  label: l10n.coreCall,
+                  onPressed: onCall,
+                  height: AppMetrics.minHitTarget,
+                  fontSize: 12.5,
+                  radius: 11,
+                ),
+              ),
+              const SizedBox(width: 8),
+              Expanded(
+                child: AppGhostButton(
+                  label: l10n.clientsMessage,
+                  onPressed: onMessage,
+                  height: AppMetrics.minHitTarget,
+                  fontSize: 12.5,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ─── Deals ───────────────────────────────────────────────────────
+
+class _DealsCard extends StatelessWidget {
+  final List<DealResponse> deals;
+  const _DealsCard({required this.deals});
+
+  @override
+  Widget build(BuildContext context) {
+    final t = context.tokens;
+    final l10n = AppLocalizations.of(context);
+
+    return AppCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            textBaseline: TextBaseline.alphabetic,
+            children: [
+              Expanded(child: EyebrowLabel(l10n.clientsDeals)),
+              Text('${deals.length}',
+                  style: TextStyle(
+                      fontFamily: AppFonts.sans,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w600,
+                      color: t.textSecondary)),
+            ],
+          ),
+          const SizedBox(height: 11),
+          if (deals.isEmpty)
+            Text(
+              l10n.dealsEmptyTitle,
+              style: TextStyle(
+                  fontFamily: AppFonts.sans,
+                  fontSize: 12.5,
+                  color: t.textSecondary),
+            )
+          else
+            for (var i = 0; i < deals.length; i++) ...[
+              if (i > 0) const SizedBox(height: 8),
+              _DealRow(deal: deals[i]),
+            ],
+        ],
+      ),
+    );
+  }
+}
 
 class _DealRow extends StatelessWidget {
   final DealResponse deal;
@@ -255,274 +333,108 @@ class _DealRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tt = Theme.of(context).textTheme;
-    final cs = Theme.of(context).colorScheme;
+    final t = context.tokens;
+    final l10n = AppLocalizations.of(context);
+    final price = deal.dealPrice ?? deal.budget;
 
-    return Container(
-      margin: const EdgeInsets.only(bottom: 8),
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: cs.surfaceContainerHighest.withAlpha(70),
-        borderRadius: BorderRadius.circular(12),
-      ),
+    return AppCard(
+      nested: true,
+      radius: AppMetrics.radiusSm,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
+      onTap: () => context.push('/deals/${deal.id}'),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(children: [
-            Expanded(
-              child: Text(
-                deal.title,
-                style: tt.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-            const SizedBox(width: 8),
-            DealStatusChip(status: deal.status),
-          ]),
-          if (deal.propertyTitle != null) ...[
-            const SizedBox(height: 6),
-            Row(children: [
-              Icon(Icons.home_outlined, size: 13, color: tt.bodySmall?.color),
-              const SizedBox(width: 4),
-              Flexible(
+          Row(
+            children: [
+              Expanded(
                 child: Text(
-                  deal.propertyTitle!,
-                  style: tt.bodySmall,
+                  deal.title,
+                  maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ]),
-          ],
-          if (deal.budget != null || deal.dealPrice != null) ...[
-            const SizedBox(height: 4),
-            Row(children: [
-              Icon(Icons.account_balance_wallet_outlined,
-                  size: 13, color: tt.bodySmall?.color),
-              const SizedBox(width: 4),
-              Text(
-                formatPrice((deal.dealPrice ?? deal.budget)!),
-                style: tt.bodySmall?.copyWith(fontWeight: FontWeight.w600),
-              ),
-            ]),
-          ],
-        ],
-      ),
-    );
-  }
-}
-
-// ─── Skeleton ────────────────────────────────────────────────────
-
-class _ClientDetailSkeleton extends StatelessWidget {
-  const _ClientDetailSkeleton();
-
-  @override
-  Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final base = isDark ? const Color(0xFF252A3D) : const Color(0xFFE8ECF4);
-    final highlight =
-        isDark ? const Color(0xFF353B52) : const Color(0xFFF5F7FC);
-
-    return Shimmer.fromColors(
-      baseColor: base,
-      highlightColor: highlight,
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Card(
-              child: Padding(
-                padding: EdgeInsets.all(20),
-                child: Row(
-                  children: [
-                    ShimmerBox(width: 60, height: 60, radius: 30),
-                    SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ShimmerBox(width: 160, height: 16, radius: 8),
-                          SizedBox(height: 8),
-                          ShimmerBox(width: 72, height: 22, radius: 12),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 14),
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const ShimmerBox(width: 70, height: 14, radius: 7),
-                    const SizedBox(height: 14),
-                    ...List.generate(
-                      3,
-                      (_) => const Padding(
-                        padding: EdgeInsets.symmetric(vertical: 6),
-                        child: Row(
-                          children: [
-                            ShimmerBox(width: 16, height: 16, radius: 4),
-                            SizedBox(width: 10),
-                            ShimmerBox(width: 55, height: 12, radius: 6),
-                            SizedBox(width: 8),
-                            ShimmerBox(width: 130, height: 12, radius: 6),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 14),
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Row(children: [
-                      ShimmerBox(width: 50, height: 14, radius: 7),
-                      Spacer(),
-                      ShimmerBox(width: 24, height: 20, radius: 10),
-                    ]),
-                    const SizedBox(height: 14),
-                    ...List.generate(
-                      2,
-                      (_) => const Padding(
-                        padding: EdgeInsets.only(bottom: 8),
-                        child: ShimmerBox(
-                            width: double.infinity, height: 70, radius: 12),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-// ─── Sub-widgets ─────────────────────────────────────────────────
-
-class _HeaderCard extends StatelessWidget {
-  final Widget child;
-  const _HeaderCard({required this.child});
-  @override
-  Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: cs.surface,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: cs.outline.withAlpha(35)),
-        boxShadow: [
-          BoxShadow(
-              color: Colors.black.withAlpha(8),
-              blurRadius: 16,
-              offset: const Offset(0, 5)),
-        ],
-      ),
-      child: child,
-    );
-  }
-}
-
-class _IdBadge extends StatelessWidget {
-  final String label;
-  final Color color;
-  final VoidCallback onTap;
-  const _IdBadge(
-      {required this.label, required this.color, required this.onTap});
-  @override
-  Widget build(BuildContext context) => GestureDetector(
-        onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
-          decoration: BoxDecoration(
-              color: color.withAlpha(20),
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: color.withAlpha(64))),
-          child: Row(mainAxisSize: MainAxisSize.min, children: [
-            Icon(Icons.tag, size: 12, color: color),
-            const SizedBox(width: 3),
-            Text(label,
-                style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                    color: color,
-                    fontFamily: 'Sora')),
-            const SizedBox(width: 4),
-            Icon(Icons.copy, size: 11, color: color),
-          ]),
-        ),
-      );
-}
-
-class _InfoCard extends StatelessWidget {
-  final String title;
-  final IconData icon;
-  final List<Widget> rows;
-  const _InfoCard(
-      {required this.title, required this.icon, required this.rows});
-  @override
-  Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    return _HeaderCard(
-      child: Padding(
-        padding: EdgeInsets.zero,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(children: [
-              Icon(icon, size: 16, color: cs.primary),
-              const SizedBox(width: 8),
-              Text(title,
                   style: TextStyle(
+                      fontFamily: AppFonts.sans,
                       fontSize: 13,
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: 0.2,
-                      color: cs.primary)),
-            ]),
-            const SizedBox(height: 12),
-            ...rows,
-          ],
-        ),
+                      fontWeight: FontWeight.w600,
+                      color: t.textPrimary),
+                ),
+              ),
+              const SizedBox(width: 8),
+              DealStatusChip(status: deal.status),
+            ],
+          ),
+          const SizedBox(height: 7),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            textBaseline: TextBaseline.alphabetic,
+            children: [
+              Expanded(
+                child: Text(
+                  deal.propertyTitle ?? l10n.dealsFallbackTitle,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      fontFamily: AppFonts.sans,
+                      fontSize: 11.5,
+                      color: t.textSecondary),
+                ),
+              ),
+              if (price != null && price > 0) ...[
+                const SizedBox(width: 8),
+                Text(
+                  formatPrice(price),
+                  style: TextStyle(
+                      fontFamily: AppFonts.sans,
+                      fontSize: 11.5,
+                      fontWeight: FontWeight.w600,
+                      color: t.textPrimary),
+                ),
+              ],
+            ],
+          ),
+        ],
       ),
     );
   }
 }
 
-class _InfoRow extends StatelessWidget {
-  final IconData icon;
-  final String label, value;
-  const _InfoRow(this.icon, this.label, this.value);
+// ─── Notes ───────────────────────────────────────────────────────
+
+class _NotesCard extends StatelessWidget {
+  final ClientResponse client;
+  const _NotesCard({required this.client});
+
   @override
   Widget build(BuildContext context) {
-    final tt = Theme.of(context).textTheme;
-    return Padding(
-        padding: const EdgeInsets.symmetric(vertical: 6),
-        child: Row(children: [
-          Icon(icon, size: 16, color: tt.labelSmall?.color),
-          const SizedBox(width: 10),
-          Text('$label: ',
-              style: tt.bodySmall
-                  ?.copyWith(fontSize: 13, fontWeight: FontWeight.w500)),
-          Flexible(
-              child: Text(value,
-                  style: tt.bodyMedium
-                      ?.copyWith(fontSize: 13, fontWeight: FontWeight.w500))),
-        ]));
+    final t = context.tokens;
+    final l10n = AppLocalizations.of(context);
+    final locale = Localizations.localeOf(context).toLanguageTag();
+
+    return AppCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          EyebrowLabel(l10n.clientsNotes),
+          const SizedBox(height: 9),
+          Text(
+            client.notes!,
+            style: TextStyle(
+                fontFamily: AppFonts.sans,
+                fontSize: 12.5,
+                height: 1.55,
+                color: t.textSecondary),
+          ),
+          if (client.updatedAt != null) ...[
+            const SizedBox(height: 11),
+            Text(
+              l10n.clientsUpdatedAt(
+                  formatWeekdayDate(client.updatedAt!, locale)),
+              style: TextStyle(
+                  fontFamily: AppFonts.sans, fontSize: 11, color: t.textHint),
+            ),
+          ],
+        ],
+      ),
+    );
   }
 }

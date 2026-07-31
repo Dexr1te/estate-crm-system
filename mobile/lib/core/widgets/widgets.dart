@@ -1,12 +1,26 @@
 // Barrel of shared, cross-feature UI. Import this single file to get the
-// common chips, cards, states, skeletons, dialogs and formatters that were
-// previously bundled in `features/widgets/shared_widgets.dart`.
+// design-system primitives (card, buttons, typography, pills, chips), the
+// common states/skeletons/dialogs, and the colour + layout tokens.
+export 'package:real_estate_crm/core/bloc/action_outcome.dart';
+export 'package:real_estate_crm/core/theme/app_fonts.dart';
+export 'package:real_estate_crm/core/theme/app_metrics.dart';
+export 'package:real_estate_crm/core/theme/app_tokens.dart';
 export 'package:real_estate_crm/core/utils/formatters.dart';
+export 'package:real_estate_crm/core/widgets/app_bottom_nav.dart';
 export 'package:real_estate_crm/core/widgets/app_bottom_sheet.dart';
+export 'package:real_estate_crm/core/widgets/app_buttons.dart';
+export 'package:real_estate_crm/core/widgets/app_card.dart';
+export 'package:real_estate_crm/core/widgets/app_field.dart';
+export 'package:real_estate_crm/core/widgets/app_text.dart';
+export 'package:real_estate_crm/core/widgets/avatars.dart';
+export 'package:real_estate_crm/core/widgets/brand_mark.dart';
+export 'package:real_estate_crm/core/widgets/detail_scaffold.dart';
 export 'package:real_estate_crm/core/widgets/dialogs.dart';
 export 'package:real_estate_crm/core/widgets/empty_state.dart';
+export 'package:real_estate_crm/core/widgets/entity_picker.dart';
+export 'package:real_estate_crm/core/widgets/filter_pill.dart';
 export 'package:real_estate_crm/core/widgets/loading_error.dart';
+export 'package:real_estate_crm/core/widgets/metrics_card.dart';
+export 'package:real_estate_crm/core/widgets/settings_group.dart';
 export 'package:real_estate_crm/core/widgets/shimmer.dart';
-export 'package:real_estate_crm/core/widgets/skeletons.dart';
-export 'package:real_estate_crm/core/widgets/stat_card.dart';
 export 'package:real_estate_crm/core/widgets/status_chips.dart';

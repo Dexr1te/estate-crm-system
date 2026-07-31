@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
+import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_bloc.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_event.dart';
-import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/features/properties/presentation/bloc/properties_state.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
-import 'package:shimmer/shimmer.dart';
 
 class PropertyDetailScreen extends StatefulWidget {
   final int id;
@@ -20,6 +20,7 @@ class PropertyDetailScreen extends StatefulWidget {
 class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
   PropertyResponse? _p;
   bool _loading = true;
+  String? _error;
 
   @override
   void initState() {
@@ -28,409 +29,344 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
   }
 
   Future<void> _load() async {
-    setState(() => _loading = true);
+    setState(() {
+      _loading = true;
+      _error = null;
+    });
     try {
       final p = await Injector.propertiesRepository.getProperty(widget.id);
+      if (!mounted) return;
       setState(() {
         _p = p;
         _loading = false;
       });
     } catch (_) {
-      setState(() => _loading = false);
+      if (!mounted) return;
+      setState(() {
+        _loading = false;
+        _error = AppLocalizations.of(context).propertiesPropertyNotFound;
+      });
     }
   }
 
   Future<void> _delete() async {
     final l10n = AppLocalizations.of(context);
-    final ok = await showConfirmDialog(context,
-        title: l10n.propertiesDeleteProperty,
-        content: l10n.propertiesDeleteConfirm(_p!.title));
-    if (!ok) return;
-    // ignore: use_build_context_synchronously
+    final ok = await showConfirmDialog(
+      context,
+      title: l10n.propertiesDeleteProperty,
+      content: l10n.propertiesDeleteCascade(_p!.title),
+    );
+    if (!ok || !mounted) return;
     context.read<PropertiesBloc>().add(PropertiesDeleteEvent(widget.id));
-    if (mounted) context.go('/properties');
+    context.go('/properties');
   }
 
+  /// The status the server last confirmed. The chip moves optimistically so
+  /// the tap feels instant; if the write is rejected we fall back to this
+  /// instead of leaving a status on screen that was never saved.
+  PropertyStatus? _confirmedStatus;
+
   void _updateStatus(PropertyStatus s) {
+    if (s == _p?.status) return;
+    _confirmedStatus = _p?.status;
     context
         .read<PropertiesBloc>()
         .add(PropertiesUpdateStatusEvent(widget.id, s));
-    _load();
+    setState(() => _p = _p?.copyWith(status: s));
+  }
+
+  void _onWriteResult(BuildContext _, PropertiesState state) {
+    if (state is PropertiesActionSuccess) {
+      _confirmedStatus = null;
+    } else if (state is PropertiesActionFailure && _confirmedStatus != null) {
+      setState(() => _p = _p?.copyWith(status: _confirmedStatus!));
+      _confirmedStatus = null;
+    }
+    // The message itself is surfaced by the list screen's listener, which
+    // stays mounted underneath this route.
   }
 
   void _copyId() {
-    Clipboard.setData(ClipboardData(text: _p!.id.toString()));
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(AppLocalizations.of(context).propertiesPropertyIdCopied),
-        duration: const Duration(seconds: 1)));
+    Clipboard.setData(ClipboardData(text: '${widget.id}'));
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(SnackBar(
+          content:
+              Text(AppLocalizations.of(context).propertiesPropertyIdCopied),
+          duration: const Duration(seconds: 1)));
   }
 
   @override
   Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    final tt = Theme.of(context).textTheme;
     final l10n = AppLocalizations.of(context);
+    final p = _p;
 
-    return Scaffold(
-      appBar: AppBar(
-          title: Text(_p?.title ?? l10n.propertiesProperty),
-          actions: _p == null
-              ? []
-              : [
-                  IconButton(
-                      icon: const Icon(Icons.edit_outlined),
-                      onPressed: () =>
-                          context.go('/properties/${widget.id}/edit')),
-                  IconButton(
-                      icon: Icon(Icons.delete_outline, color: cs.error),
-                      onPressed: _delete),
-                ]),
-      body: _loading
-          ? const _PropertyDetailSkeleton()
-          : _p == null
-              ? EmptyState(
-                  title: l10n.propertiesPropertyNotFound,
-                  icon: Icons.home_work_outlined)
-              : SingleChildScrollView(
-                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _Card(
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                              Row(children: [
-                                Expanded(
-                                    child: Text(_p!.title,
-                                        style: tt.titleLarge?.copyWith(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.w700))),
-                                const SizedBox(width: 8),
-                                PropertyStatusChip(status: _p!.status),
-                              ]),
-                              const SizedBox(height: 10),
-                              Text(formatPrice(_p!.price),
-                                  style: TextStyle(
-                                      fontSize: 28,
-                                      fontWeight: FontWeight.w700,
-                                      color: cs.primary,
-                                      fontFamily: 'Sora')),
-                              const SizedBox(height: 10),
-                              Row(children: [
-                                Icon(Icons.location_on_outlined,
-                                    size: 15, color: tt.labelSmall?.color),
-                                const SizedBox(width: 4),
-                                Flexible(
-                                    child: Text(_p!.address,
-                                        style: tt.bodySmall
-                                            ?.copyWith(fontSize: 13)))
-                              ]),
-                              if (_p!.city != null)
-                                Padding(
-                                    padding: const EdgeInsets.only(top: 4),
-                                    child: Text(_p!.city!,
-                                        style: tt.labelSmall
-                                            ?.copyWith(fontSize: 13))),
-                              const SizedBox(height: 14),
-                              _IdBadge(
-                                  label: l10n.propertiesPropertyIdLabel(_p!.id),
-                                  color: cs.secondary,
-                                  onTap: _copyId),
-                            ])),
-                        const SizedBox(height: 14),
-                        _Card(
-                            title: l10n.propertiesDetails,
-                            icon: Icons.info_outline,
-                            child: Wrap(spacing: 20, runSpacing: 12, children: [
-                              _Spec(Icons.category_outlined, l10n.propertiesType,
-                                  _p!.type.name),
-                              if (_p!.areaSqm != null)
-                                _Spec(
-                                    Icons.square_foot,
-                                    l10n.propertiesArea,
-                                    l10n.propertiesAreaValue(
-                                        _p!.areaSqm!.toStringAsFixed(0))),
-                              if (_p!.rooms != null)
-                                _Spec(Icons.bed_outlined, l10n.propertiesRooms,
-                                    '${_p!.rooms}'),
-                              if (_p!.floor != null)
-                                _Spec(Icons.stairs_outlined, l10n.propertiesFloor,
-                                    '${_p!.floor}/${_p!.totalFloors ?? '?'}'),
-                              if (_p!.agentName != null)
-                                _Spec(Icons.person_outlined, l10n.propertiesAgent,
-                                    _p!.agentName!),
-                            ])),
-                        if (_p!.description != null &&
-                            _p!.description!.isNotEmpty) ...[
-                          const SizedBox(height: 14),
-                          _Card(
-                              title: l10n.propertiesDescription,
-                              icon: Icons.notes_outlined,
-                              child: Text(_p!.description!,
-                                  style: tt.bodyMedium?.copyWith(
-                                      color: tt.bodySmall?.color,
-                                      height: 1.6))),
-                        ],
-                        const SizedBox(height: 14),
-                        _Card(
-                          title: l10n.propertiesUpdateStatus,
-                          icon: Icons.flag_outlined,
-                          child: Wrap(
-                            spacing: 8,
-                            runSpacing: 8,
-                            children: PropertyStatus.values.map((s) {
-                              final sel = _p!.status == s;
-                              return _StatusPill(
-                                label: s.name,
-                                selected: sel,
-                                onTap: sel ? null : () => _updateStatus(s),
-                              );
-                            }).toList(),
-                          ),
-                        ),
-                      ])),
-    );
-  }
-}
-
-// ─── Skeleton ────────────────────────────────────────────────────
-
-class _PropertyDetailSkeleton extends StatelessWidget {
-  const _PropertyDetailSkeleton();
-
-  @override
-  Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final base = isDark ? const Color(0xFF252A3D) : const Color(0xFFE8ECF4);
-    final highlight =
-        isDark ? const Color(0xFF353B52) : const Color(0xFFF5F7FC);
-
-    return Shimmer.fromColors(
-      baseColor: base,
-      highlightColor: highlight,
-      child: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Card(
-              child: Padding(
-                padding: EdgeInsets.all(20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                            child:
-                                ShimmerBox(width: 180, height: 20, radius: 10)),
-                        SizedBox(width: 12),
-                        ShimmerBox(width: 76, height: 24, radius: 12),
-                      ],
-                    ),
-                    SizedBox(height: 10),
-                    ShimmerBox(width: 130, height: 28, radius: 8),
-                    SizedBox(height: 10),
-                    Row(
-                      children: [
-                        ShimmerBox(width: 15, height: 15, radius: 4),
-                        SizedBox(width: 4),
-                        ShimmerBox(width: 190, height: 12, radius: 6),
-                      ],
-                    ),
-                    SizedBox(height: 6),
-                    ShimmerBox(width: 100, height: 12, radius: 6),
-                    SizedBox(height: 14),
-                    ShimmerBox(width: 130, height: 32, radius: 8),
-                  ],
-                ),
-              ),
+    if (_loading || p == null) {
+      return DetailScaffold(
+        title: l10n.propertiesProperty,
+        children: [
+          if (_error != null)
+            EmptyState(
+              icon: Icons.home_work_outlined,
+              title: _error!,
+              action: AppGhostButton(label: l10n.coreRetry, onPressed: _load),
+            )
+          else
+            const ShimmerGroup(
+              child: Column(children: [
+                ShimmerBox(
+                    width: double.infinity,
+                    height: 170,
+                    radius: AppMetrics.radiusLg),
+                SizedBox(height: 14),
+                ShimmerBox(
+                    width: double.infinity,
+                    height: 150,
+                    radius: AppMetrics.radiusMd),
+                SizedBox(height: 14),
+                ShimmerBox(
+                    width: double.infinity,
+                    height: 110,
+                    radius: AppMetrics.radiusMd),
+              ]),
             ),
-            const SizedBox(height: 14),
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const ShimmerBox(width: 60, height: 14, radius: 7),
-                    const SizedBox(height: 14),
-                    Wrap(
-                      spacing: 16,
-                      runSpacing: 10,
-                      children: List.generate(
-                        5,
-                        (_) =>
-                            const ShimmerBox(width: 90, height: 14, radius: 7),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            const SizedBox(height: 14),
-            Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const ShimmerBox(width: 110, height: 14, radius: 7),
-                    const SizedBox(height: 14),
-                    Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
-                      children: List.generate(
-                        3,
-                        (_) =>
-                            const ShimmerBox(width: 90, height: 34, radius: 20),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
+        ],
+      );
+    }
+
+    return BlocListener<PropertiesBloc, PropertiesState>(
+      listener: _onWriteResult,
+      child: DetailScaffold(
+        title: l10n.propertiesPropertyIdLabel(p.id),
+        onRefresh: _load,
+        actions: detailActions(
+          onEdit: () => context.push('/properties/${widget.id}/edit'),
+          onDelete: _delete,
+          editTooltip: l10n.propertiesEdit,
+          deleteTooltip: l10n.propertiesDelete,
         ),
-      ),
-    );
-  }
-}
-
-// ─── Sub-widgets ─────────────────────────────────────────────────
-
-class _Card extends StatelessWidget {
-  final String? title;
-  final IconData? icon;
-  final Widget child;
-  const _Card({this.title, this.icon, required this.child});
-  @override
-  Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: cs.surface,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: cs.outline.withAlpha(35)),
-        boxShadow: [
-          BoxShadow(
-              color: Colors.black.withAlpha(8),
-              blurRadius: 16,
-              offset: const Offset(0, 5)),
+        children: [
+          _PropertyHero(property: p, onCopyId: _copyId),
+          _DetailsCard(property: p),
+          _StatusCard(status: p.status, onChanged: _updateStatus),
+          if (p.description != null && p.description!.trim().isNotEmpty)
+            _DescriptionCard(text: p.description!),
         ],
       ),
+    );
+  }
+}
+
+// ─── Hero ────────────────────────────────────────────────────────
+
+class _PropertyHero extends StatelessWidget {
+  final PropertyResponse property;
+  final VoidCallback onCopyId;
+  const _PropertyHero({required this.property, required this.onCopyId});
+
+  @override
+  Widget build(BuildContext context) {
+    final t = context.tokens;
+    final l10n = AppLocalizations.of(context);
+    final perSqm = property.areaSqm != null && property.areaSqm! > 0
+        ? formatPrice(property.price / property.areaSqm!)
+        : null;
+
+    return AppHeroCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (title != null) ...[
-            Row(children: [
-              Icon(icon, size: 16, color: cs.primary),
-              const SizedBox(width: 8),
-              Text(title!,
-                  style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: 0.2,
-                      color: cs.primary)),
-            ]),
-            const SizedBox(height: 14),
-          ],
-          child,
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      property.title,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          fontFamily: AppFonts.sans,
+                          fontSize: 15,
+                          height: 1.3,
+                          fontWeight: FontWeight.w600,
+                          color: t.heroText),
+                    ),
+                    if (property.address.isNotEmpty) ...[
+                      const SizedBox(height: 5),
+                      Text(
+                        property.address,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontFamily: AppFonts.sans,
+                            fontSize: 11.5,
+                            color: t.heroTextMuted),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+              const SizedBox(width: 10),
+              PropertyStatusChip(status: property.status),
+            ],
+          ),
+          const SizedBox(height: 16),
+          // The only 30px type in the app; scaled down rather than wrapped so
+          // a ten-digit amount still fits.
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: Text(
+              formatPrice(property.price),
+              maxLines: 1,
+              style: TextStyle(
+                  fontFamily: AppFonts.sans,
+                  fontSize: 30,
+                  height: 1,
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: -0.8,
+                  color: t.heroText),
+            ),
+          ),
+          const SizedBox(height: 7),
+          GestureDetector(
+            onTap: onCopyId,
+            child: Text(
+              [
+                if (perSqm != null) l10n.propertiesPricePerSqm(perSqm),
+                l10n.propertiesPropertyIdLabel(property.id),
+              ].join(' · '),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                  fontFamily: AppFonts.sans,
+                  fontSize: 11.5,
+                  color: t.heroTextMuted),
+            ),
+          ),
         ],
       ),
     );
   }
 }
 
-class _IdBadge extends StatelessWidget {
-  final String label;
-  final Color color;
-  final VoidCallback onTap;
-  const _IdBadge(
-      {required this.label, required this.color, required this.onTap});
-  @override
-  Widget build(BuildContext context) => GestureDetector(
-        onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-          decoration: BoxDecoration(
-              color: color.withAlpha(20),
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: color.withAlpha(64))),
-          child: Row(mainAxisSize: MainAxisSize.min, children: [
-            Icon(Icons.tag, size: 13, color: color),
-            const SizedBox(width: 4),
-            Text(label,
-                style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w700,
-                    color: color,
-                    fontFamily: 'Sora')),
-            const SizedBox(width: 6),
-            Icon(Icons.copy, size: 13, color: color),
-          ]),
-        ),
-      );
-}
+// ─── Details ─────────────────────────────────────────────────────
 
-class _StatusPill extends StatelessWidget {
-  final String label;
-  final bool selected;
-  final VoidCallback? onTap;
-  const _StatusPill(
-      {required this.label, required this.selected, required this.onTap});
+class _DetailsCard extends StatelessWidget {
+  final PropertyResponse property;
+  const _DetailsCard({required this.property});
+
   @override
   Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(20),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 150),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-        decoration: BoxDecoration(
-          color:
-              selected ? cs.primary : cs.surfaceContainerHighest.withAlpha(120),
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-              color: selected ? cs.primary : cs.outline.withAlpha(60)),
-          boxShadow: selected
-              ? [
-                  BoxShadow(
-                      color: cs.primary.withAlpha(60),
-                      blurRadius: 10,
-                      offset: const Offset(0, 3)),
-                ]
-              : null,
-        ),
-        child: Text(label.replaceAll('_', ' '),
-            style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w700,
-                fontFamily: 'Sora',
-                color: selected ? Colors.white : cs.onSurfaceVariant)),
+    final l10n = AppLocalizations.of(context);
+    const dash = '—';
+
+    return AppCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          EyebrowLabel(l10n.propertiesDetails),
+          const SizedBox(height: 13),
+          DetailGrid(cells: [
+            DetailCell(
+                label: l10n.propertiesType,
+                value: propertyTypeLabel(l10n, property.type)),
+            DetailCell(
+              label: l10n.propertiesArea,
+              value: property.areaSqm == null
+                  ? dash
+                  : l10n.propertiesAreaValue(
+                      property.areaSqm!.toStringAsFixed(0)),
+            ),
+            DetailCell(
+                label: l10n.propertiesRooms,
+                value: property.rooms?.toString() ?? dash),
+            DetailCell(
+              label: l10n.propertiesFloor,
+              value: property.floor == null
+                  ? dash
+                  : (property.totalFloors == null
+                      ? '${property.floor}'
+                      : l10n.propertiesFloorOf(
+                          property.floor!, property.totalFloors!)),
+            ),
+          ]),
+        ],
       ),
     );
   }
 }
 
-class _Spec extends StatelessWidget {
-  final IconData icon;
-  final String label, value;
-  const _Spec(this.icon, this.label, this.value);
+// ─── Status ──────────────────────────────────────────────────────
+
+class _StatusCard extends StatelessWidget {
+  final PropertyStatus status;
+  final ValueChanged<PropertyStatus> onChanged;
+  const _StatusCard({required this.status, required this.onChanged});
+
   @override
   Widget build(BuildContext context) {
-    final tt = Theme.of(context).textTheme;
-    return Row(mainAxisSize: MainAxisSize.min, children: [
-      Icon(icon, size: 15, color: tt.labelSmall?.color),
-      const SizedBox(width: 4),
-      Text('$label: ', style: tt.labelSmall?.copyWith(fontSize: 13)),
-      Text(value,
-          style: tt.bodyMedium
-              ?.copyWith(fontSize: 13, fontWeight: FontWeight.w600))
-    ]);
+    final l10n = AppLocalizations.of(context);
+
+    return AppCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          EyebrowLabel(l10n.propertiesStatus),
+          const SizedBox(height: 12),
+          Row(
+            children: [
+              for (var i = 0; i < PropertyStatus.values.length; i++) ...[
+                if (i > 0) const SizedBox(width: 8),
+                Expanded(
+                  child: FilterPill(
+                    label: propertyStatusLabel(l10n, PropertyStatus.values[i]),
+                    selected: status == PropertyStatus.values[i],
+                    onCard: true,
+                    onTap: () => onChanged(PropertyStatus.values[i]),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 6, vertical: 11),
+                  ),
+                ),
+              ],
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ─── Description ─────────────────────────────────────────────────
+
+class _DescriptionCard extends StatelessWidget {
+  final String text;
+  const _DescriptionCard({required this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    final t = context.tokens;
+    final l10n = AppLocalizations.of(context);
+
+    return AppCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          EyebrowLabel(l10n.propertiesDescription),
+          const SizedBox(height: 9),
+          Text(
+            text,
+            style: TextStyle(
+                fontFamily: AppFonts.sans,
+                fontSize: 12.5,
+                height: 1.55,
+                color: t.textSecondary),
+          ),
+        ],
+      ),
+    );
   }
 }

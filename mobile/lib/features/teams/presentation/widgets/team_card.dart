@@ -1,65 +1,78 @@
 import 'package:flutter/material.dart';
-import 'package:real_estate_crm/l10n/app_localizations.dart';
 import 'package:real_estate_crm/core/models/team_models.dart';
+import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// List-item card for a team. Tap opens stats; [onEdit] (admin) is optional.
+/// List-item card for a team (screen 4o): a 40px rounded icon tile, the team
+/// name over a member/manager line, and an edit tile for admins.
 class TeamCard extends StatelessWidget {
   final TeamResponse team;
   final VoidCallback onTap;
   final VoidCallback? onEdit;
 
-  const TeamCard({super.key, required this.team, required this.onTap, this.onEdit});
+  const TeamCard(
+      {super.key, required this.team, required this.onTap, this.onEdit});
 
   @override
   Widget build(BuildContext context) {
+    final t = context.tokens;
     final l10n = AppLocalizations.of(context);
-    final cs = Theme.of(context).colorScheme;
-    final tt = Theme.of(context).textTheme;
     final memberText = l10n.teamsMemberCount(team.memberCount);
     final subtitle = team.managerName != null
-        ? '$memberText • ${team.managerName}'
+        ? '$memberText · ${team.managerName}'
         : memberText;
 
-    return Card(
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(16),
-        child: Padding(
-          padding: const EdgeInsets.all(14),
-          child: Row(children: [
-            Container(
-              width: 44,
-              height: 44,
-              decoration: BoxDecoration(
-                  color: cs.primary.withAlpha(20),
-                  borderRadius: BorderRadius.circular(12)),
-              child: Icon(Icons.groups_outlined, color: cs.primary, size: 22),
+    return AppCard(
+      radius: 14,
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
+      onTap: onTap,
+      child: Row(
+        children: [
+          Container(
+            width: 40,
+            height: 40,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: t.surfaceVariant,
+              borderRadius: BorderRadius.circular(13),
+              border:
+                  Border.all(color: t.border, width: AppMetrics.borderWidth),
             ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(team.name,
-                      style: tt.bodyLarge?.copyWith(fontWeight: FontWeight.w600)),
-                  const SizedBox(height: 2),
-                  Text(
-                    subtitle,
-                    style: tt.bodySmall,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-              ),
+            child: Icon(Icons.groups_outlined, size: 18, color: t.accent),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  team.name,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      fontFamily: AppFonts.sans,
+                      fontSize: 13.5,
+                      fontWeight: FontWeight.w600,
+                      color: t.textPrimary),
+                ),
+                const SizedBox(height: 3),
+                Text(
+                  subtitle,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      fontFamily: AppFonts.sans,
+                      fontSize: 11.5,
+                      color: t.textSecondary),
+                ),
+              ],
             ),
-            if (onEdit != null)
-              IconButton(
-                  icon: Icon(Icons.edit_outlined,
-                      size: 20, color: tt.bodySmall?.color),
-                  onPressed: onEdit)
-            else
-              Icon(Icons.chevron_right, color: tt.bodySmall?.color),
-          ]),
-        ),
+          ),
+          if (onEdit != null)
+            AppIconTile(icon: Icons.edit_outlined, onPressed: onEdit!)
+          else
+            Icon(Icons.chevron_right_rounded, size: 18, color: t.textHint),
+        ],
       ),
     );
   }

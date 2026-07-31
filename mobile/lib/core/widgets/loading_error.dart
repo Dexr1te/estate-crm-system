@@ -1,65 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:real_estate_crm/core/theme/app_theme.dart';
+import 'package:real_estate_crm/core/theme/app_tokens.dart';
+import 'package:real_estate_crm/core/widgets/app_buttons.dart';
+import 'package:real_estate_crm/core/widgets/empty_state.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class LoadingWidget extends StatelessWidget {
   const LoadingWidget({super.key});
   @override
-  Widget build(BuildContext context) => Center(
-      child: CircularProgressIndicator(
-          color: Theme.of(context).colorScheme.primary));
+  Widget build(BuildContext context) =>
+      Center(child: CircularProgressIndicator(color: context.tokens.primary));
 }
 
+/// The failure state — the same shape as [EmptyState], with a red-tinted icon
+/// tile and a ghost retry button. No card, no shadow.
 class ErrorWidget2 extends StatelessWidget {
   final String message;
   final VoidCallback? onRetry;
   const ErrorWidget2({super.key, required this.message, this.onRetry});
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return Center(
-      child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Card(
-            elevation: 2,
-            // ignore: deprecated_member_use
-            shadowColor: Colors.black.withOpacity(0.08),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(mainAxisSize: MainAxisSize.min, children: [
-                Container(
-                  width: 72,
-                  height: 72,
-                  decoration: BoxDecoration(
-                    // ignore: deprecated_member_use
-                    color: AppColors.error.withOpacity(0.12),
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const Icon(Icons.error_outline,
-                      size: 36, color: AppColors.error),
-                ),
-                const SizedBox(height: 18),
-                Text(message,
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium
-                        ?.copyWith(fontSize: 15, height: 1.5)),
-                if (onRetry != null) ...[
-                  const SizedBox(height: 18),
-                  SizedBox(
-                    width: 140,
-                    child: ElevatedButton.icon(
-                      onPressed: onRetry,
-                      icon: const Icon(Icons.refresh, size: 18),
-                      label: Text(l10n.coreRetry),
-                    ),
-                  )
-                ],
-              ]),
+    return EmptyState(
+      icon: Icons.error_outline_rounded,
+      title: message,
+      action: onRetry == null
+          ? null
+          : SizedBox(
+              width: 160,
+              child: AppGhostButton(label: l10n.coreRetry, onPressed: onRetry),
             ),
-          )));
+    );
   }
 }

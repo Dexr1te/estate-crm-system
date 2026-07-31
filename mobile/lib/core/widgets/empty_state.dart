@@ -1,62 +1,75 @@
 import 'package:flutter/material.dart';
+import 'package:real_estate_crm/core/theme/app_metrics.dart';
+import 'package:real_estate_crm/core/theme/app_tokens.dart';
 
+/// The empty state every list in the app uses: a centred 64px rounded icon
+/// tile, title 600/15.5, body 400/12.5 capped at 250pt wide.
 class EmptyState extends StatelessWidget {
   final String title;
   final String? subtitle;
   final IconData icon;
   final Widget? action;
-  const EmptyState(
-      {super.key,
-      required this.title,
-      this.subtitle,
-      required this.icon,
-      this.action});
+
+  const EmptyState({
+    super.key,
+    required this.title,
+    this.subtitle,
+    required this.icon,
+    this.action,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final iconBg = isDark ? const Color(0xFF252A3D) : const Color(0xFFEEF1F8);
-    final iconColor =
-        isDark ? const Color(0xFF4A5070) : const Color(0xFFADB5CC);
-    final titleStyle = Theme.of(context).textTheme.titleMedium?.copyWith(
-          color: isDark ? const Color(0xFFF0F2FF) : const Color(0xFF0F1E3C),
-        );
-    final subtitleStyle = Theme.of(context).textTheme.bodySmall?.copyWith(
-          color: isDark ? const Color(0xFF8B9CC8) : const Color(0xFF6B7A99),
-        );
-
+    final t = context.tokens;
     return Center(
-        child: Padding(
-      padding: const EdgeInsets.all(24),
-      child: Card(
-        elevation: 2,
-        // ignore: deprecated_member_use
-        shadowColor: Colors.black.withOpacity(0.06),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(mainAxisSize: MainAxisSize.min, children: [
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+            horizontal: AppMetrics.pagePadding(context), vertical: 24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
             Container(
-              width: 68,
-              height: 68,
+              width: 64,
+              height: 64,
               decoration: BoxDecoration(
-                color: iconBg,
-                borderRadius: BorderRadius.circular(22),
+                color: t.surface,
+                borderRadius: BorderRadius.circular(20),
+                border:
+                    Border.all(color: t.border, width: AppMetrics.borderWidth),
               ),
-              child: Icon(icon, size: 36, color: iconColor),
+              child: Icon(icon, size: 26, color: t.textHint),
             ),
             const SizedBox(height: 18),
-            Text(title,
-                style: titleStyle?.copyWith(fontSize: 20),
-                textAlign: TextAlign.center),
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: AppFonts.sans,
+                fontSize: 15.5,
+                fontWeight: FontWeight.w600,
+                color: t.textPrimary,
+              ),
+            ),
             if (subtitle != null) ...[
-              const SizedBox(height: 10),
-              Text(subtitle!, style: subtitleStyle, textAlign: TextAlign.center)
+              const SizedBox(height: 8),
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 250),
+                child: Text(
+                  subtitle!,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: AppFonts.sans,
+                    fontSize: 12.5,
+                    height: 1.55,
+                    color: t.textSecondary,
+                  ),
+                ),
+              ),
             ],
             if (action != null) ...[const SizedBox(height: 22), action!],
-          ]),
+          ],
         ),
       ),
-    ));
+    );
   }
 }

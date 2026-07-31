@@ -33,6 +33,10 @@ import 'package:real_estate_crm/features/properties/domain/repositories/properti
 /// Everything is exposed typed against its **domain abstraction**, so blocs
 /// and screens depend on interfaces (e.g. [ClientsRepository]), never on the
 /// concrete impls or Dio. Call [bootstrap] once at startup before `runApp`.
+///
+/// The repository fields are assignable so widget tests can swap in fakes for
+/// the detail/form screens, which fetch through this class directly rather
+/// than via a bloc. Production code never reassigns them.
 class Injector {
   Injector._();
 
@@ -40,32 +44,37 @@ class Injector {
   static final SessionStore session = SessionStore();
   static final ApiClient _apiClient = ApiClient(session);
 
+  /// Exposed so the app root can hook [ApiClient.onSessionExpired] up to the
+  /// auth bloc — the network layer detects a dead session, but only the bloc
+  /// can move the router off the authenticated screens.
+  static ApiClient get apiClient => _apiClient;
+
   // ── Repositories (typed against domain abstractions) ──────
-  static final AuthRepository authRepository =
+  static AuthRepository authRepository =
       AuthRepositoryImpl(AuthRemoteDataSource(_apiClient), session);
 
-  static final ClientsRepository clientsRepository =
+  static ClientsRepository clientsRepository =
       ClientsRepositoryImpl(ClientsRemoteDataSource(_apiClient));
 
-  static final PropertiesRepository propertiesRepository =
+  static PropertiesRepository propertiesRepository =
       PropertiesRepositoryImpl(PropertiesRemoteDataSource(_apiClient));
 
-  static final DealsRepository dealsRepository =
+  static DealsRepository dealsRepository =
       DealsRepositoryImpl(DealsRemoteDataSource(_apiClient));
 
-  static final MeetingsRepository meetingsRepository =
+  static MeetingsRepository meetingsRepository =
       MeetingsRepositoryImpl(MeetingsRemoteDataSource(_apiClient));
 
-  static final DashboardRepository dashboardRepository =
+  static DashboardRepository dashboardRepository =
       DashboardRepositoryImpl(DashboardRemoteDataSource(_apiClient));
 
-  static final AgentsRepository agentsRepository =
+  static AgentsRepository agentsRepository =
       AgentsRepositoryImpl(AgentsRemoteDataSource(_apiClient));
 
-  static final AdminRepository adminRepository =
+  static AdminRepository adminRepository =
       AdminRepositoryImpl(AdminRemoteDataSource(_apiClient));
 
-  static final TeamsRepository teamsRepository =
+  static TeamsRepository teamsRepository =
       TeamsRepositoryImpl(TeamsRemoteDataSource(_apiClient));
 
   /// Loads any persisted session so the first request is authenticated.

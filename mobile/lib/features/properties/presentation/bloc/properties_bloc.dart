@@ -1,11 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:real_estate_crm/core/bloc/load_generation.dart';
 import 'package:real_estate_crm/core/network/api_error.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/features/properties/domain/repositories/properties_repository.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_event.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_state.dart';
 
-class PropertiesBloc extends Bloc<PropertiesEvent, PropertiesState> {
+class PropertiesBloc extends Bloc<PropertiesEvent, PropertiesState>
+    with LoadGeneration {
   final PropertiesRepository _repo;
   static const _pageSize = 20;
 
@@ -15,42 +17,65 @@ class PropertiesBloc extends Bloc<PropertiesEvent, PropertiesState> {
   String? _search;
   int _page = 0;
   bool _hasMore = false;
-  final List<PropertyResponse> _items = [];
+  List<PropertyResponse> _items = const [];
 
   PropertiesBloc(this._repo) : super(PropertiesInitial()) {
     on<PropertiesLoadEvent>(_onLoad);
     on<PropertiesLoadMoreEvent>(_onLoadMore);
+    on<PropertiesResetEvent>(_onReset);
     on<PropertiesDeleteEvent>(_onDelete);
     on<PropertiesCreateEvent>(_onCreate);
     on<PropertiesUpdateEvent>(_onUpdate);
     on<PropertiesUpdateStatusEvent>(_onUpdateStatus);
   }
 
-  // Reload the first page, keeping the current filters.
-  void _reload() => add(PropertiesLoadEvent(
-      status: _status, type: _type, search: _search));
+  /// Reload the first page, keeping the current filters.
+  void _reload() =>
+      add(PropertiesLoadEvent(status: _status, type: _type, search: _search));
+
+  /// A write failed. Keep whatever is on screen; only a failed *load* leaves
+  /// the user with nothing to look at.
+  PropertiesState _failure(Object err) => _items.isEmpty
+      ? PropertiesError(apiErrorMessage(err))
+      : PropertiesActionFailure(apiErrorMessage(err), _items,
+          hasMore: _hasMore);
+
+  void _onReset(PropertiesResetEvent e, Emitter<PropertiesState> emit) {
+    // Invalidate any load still in flight, so a response fetched with the old
+    // session's token can't repopulate the list after the reset.
+    startLoad();
+    _status = null;
+    _type = null;
+    _search = null;
+    _page = 0;
+    _hasMore = false;
+    _items = const [];
+    emit(PropertiesInitial());
+  }
 
   Future<void> _onLoad(
       PropertiesLoadEvent e, Emitter<PropertiesState> emit) async {
+    final ticket = startLoad();
     _status = e.status;
     _type = e.type;
     _search = e.search;
-    _page = 0;
-    _items.clear();
-    _hasMore = false;
     emit(PropertiesLoading());
+
     try {
       final res = await _repo.getProperties(
-          status: _status,
-          type: _type,
-          search: _search,
+          status: e.status,
+          type: e.type,
+          search: e.search,
           page: 0,
           size: _pageSize);
-      _items.addAll(res.content);
+      // A newer load started while this one was in flight — its result wins.
+      if (isStale(ticket)) return;
       _page = res.page;
       _hasMore = res.hasMore;
-      emit(PropertiesLoaded(List.of(_items), hasMore: _hasMore));
+      _items = List.unmodifiable(res.content);
+      emit(PropertiesLoaded(_items, hasMore: _hasMore));
     } catch (err) {
+      if (isStale(ticket)) return;
       emit(PropertiesError(apiErrorMessage(err)));
     }
   }
@@ -61,22 +86,28 @@ class PropertiesBloc extends Bloc<PropertiesEvent, PropertiesState> {
     final current = state;
     if (current is PropertiesLoaded && current.isLoadingMore) return;
 
-    emit(PropertiesLoaded(List.of(_items),
-        hasMore: _hasMore, isLoadingMore: true));
+    // Not a fresh load, so it takes no ticket — it only has to notice when a
+    // reload supersedes it, since appending would then duplicate that page.
+    final ticket = currentLoad;
+    final nextPage = _page + 1;
+    emit(PropertiesLoaded(_items, hasMore: _hasMore, isLoadingMore: true));
+
     try {
       final res = await _repo.getProperties(
           status: _status,
           type: _type,
           search: _search,
-          page: _page + 1,
+          page: nextPage,
           size: _pageSize);
+      if (isStale(ticket)) return;
       _page = res.page;
       _hasMore = res.hasMore;
-      _items.addAll(res.content);
-      emit(PropertiesLoaded(List.of(_items), hasMore: _hasMore));
+      _items = List.unmodifiable([..._items, ...res.content]);
+      emit(PropertiesLoaded(_items, hasMore: _hasMore));
     } catch (_) {
-      // Keep the loaded items and stop the footer spinner.
-      emit(PropertiesLoaded(List.of(_items), hasMore: _hasMore));
+      if (isStale(ticket)) return;
+      // Keep what is loaded and stop the footer spinner.
+      emit(PropertiesLoaded(_items, hasMore: _hasMore));
     }
   }
 
@@ -84,10 +115,11 @@ class PropertiesBloc extends Bloc<PropertiesEvent, PropertiesState> {
       PropertiesDeleteEvent e, Emitter<PropertiesState> emit) async {
     try {
       await _repo.deleteProperty(e.id);
-      emit(PropertiesActionSuccess('Property deleted'));
+      emit(PropertiesActionSuccess('Property deleted', _items,
+          hasMore: _hasMore));
       _reload();
     } catch (err) {
-      emit(PropertiesError(apiErrorMessage(err)));
+      emit(_failure(err));
     }
   }
 
@@ -97,7 +129,7 @@ class PropertiesBloc extends Bloc<PropertiesEvent, PropertiesState> {
       final created = await _repo.createProperty(e.data);
       emit(PropertyCreated(created)); // emit the full object with id
     } catch (err) {
-      emit(PropertiesError(apiErrorMessage(err)));
+      emit(_failure(err));
     }
   }
 
@@ -105,9 +137,10 @@ class PropertiesBloc extends Bloc<PropertiesEvent, PropertiesState> {
       PropertiesUpdateEvent e, Emitter<PropertiesState> emit) async {
     try {
       await _repo.updateProperty(e.id, e.data);
-      emit(PropertiesActionSuccess('Property updated'));
+      emit(PropertiesActionSuccess('Property updated', _items,
+          hasMore: _hasMore));
     } catch (err) {
-      emit(PropertiesError(apiErrorMessage(err)));
+      emit(_failure(err));
     }
   }
 
@@ -115,10 +148,10 @@ class PropertiesBloc extends Bloc<PropertiesEvent, PropertiesState> {
       PropertiesUpdateStatusEvent e, Emitter<PropertiesState> emit) async {
     try {
       await _repo.updatePropertyStatus(e.id, e.status);
-      emit(PropertiesActionSuccess('Status updated'));
+      emit(PropertiesActionSuccess('Status updated', _items, hasMore: _hasMore));
       _reload();
     } catch (err) {
-      emit(PropertiesError(apiErrorMessage(err)));
+      emit(_failure(err));
     }
   }
 }

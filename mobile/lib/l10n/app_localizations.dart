@@ -124,6 +124,12 @@ abstract class AppLocalizations {
   /// **'Assign to team'**
   String get adminAssignToTeam;
 
+  /// No description provided for @adminAuditEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Team activity shows up here: deals created, status changes, invitations.'**
+  String get adminAuditEmptyBody;
+
   /// No description provided for @adminChangeRole.
   ///
   /// In en, this message translates to:
@@ -213,6 +219,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Invite created'**
   String get adminInviteCreated;
+
+  /// No description provided for @adminInviteHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'The code is emailed to them and stays valid for 7 days.'**
+  String get adminInviteHelper;
 
   /// No description provided for @adminInviteInstructions.
   ///
@@ -364,6 +376,12 @@ abstract class AppLocalizations {
   /// **'Accept your invite'**
   String get authAcceptYourInvite;
 
+  /// No description provided for @authActivate.
+  ///
+  /// In en, this message translates to:
+  /// **'Activate'**
+  String get authActivate;
+
   /// No description provided for @authBackToSignIn.
   ///
   /// In en, this message translates to:
@@ -424,6 +442,12 @@ abstract class AppLocalizations {
   /// **'Password'**
   String get authPassword;
 
+  /// No description provided for @authPasswordHelp.
+  ///
+  /// In en, this message translates to:
+  /// **'At least 8 characters, including a digit.'**
+  String get authPasswordHelp;
+
   /// No description provided for @authPasswordMinLength.
   ///
   /// In en, this message translates to:
@@ -447,6 +471,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Set password & continue'**
   String get authSetPasswordContinue;
+
+  /// No description provided for @authSetPasswordSignIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Set password & sign in'**
+  String get authSetPasswordSignIn;
 
   /// No description provided for @authSignIn.
   ///
@@ -478,16 +508,28 @@ abstract class AppLocalizations {
   /// **'Add your first client'**
   String get clientsAddFirstClient;
 
+  /// No description provided for @clientsAddShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Client'**
+  String get clientsAddShort;
+
   /// No description provided for @clientsAgent.
   ///
   /// In en, this message translates to:
   /// **'Agent'**
   String get clientsAgent;
 
+  /// No description provided for @clientsAgentMeta.
+  ///
+  /// In en, this message translates to:
+  /// **'agent {name}'**
+  String clientsAgentMeta(Object name);
+
   /// No description provided for @clientsBuyer.
   ///
   /// In en, this message translates to:
-  /// **'🏠 Buyer'**
+  /// **'Buyer'**
   String get clientsBuyer;
 
   /// No description provided for @clientsCancel.
@@ -538,6 +580,12 @@ abstract class AppLocalizations {
   /// **'Contact Info'**
   String get clientsContactInfo;
 
+  /// No description provided for @clientsCounter.
+  ///
+  /// In en, this message translates to:
+  /// **'{total} total · {active} in progress'**
+  String clientsCounter(Object active, Object total);
+
   /// No description provided for @clientsCreateClient.
   ///
   /// In en, this message translates to:
@@ -567,6 +615,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete'**
   String get clientsDelete;
+
+  /// No description provided for @clientsDeleteCascade.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} {count, plural, =0{will be deleted permanently} =1{and 1 linked deal will be deleted permanently} other{and {count} linked deals will be deleted permanently}}. This cannot be undone.'**
+  String clientsDeleteCascade(num count, Object name);
 
   /// No description provided for @clientsDeleteClient.
   ///
@@ -598,6 +652,30 @@ abstract class AppLocalizations {
   /// **'Email'**
   String get clientsEmail;
 
+  /// No description provided for @clientsFilterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get clientsFilterAll;
+
+  /// No description provided for @clientsFilterBuyers.
+  ///
+  /// In en, this message translates to:
+  /// **'Buyers'**
+  String get clientsFilterBuyers;
+
+  /// No description provided for @clientsFilterSellers.
+  ///
+  /// In en, this message translates to:
+  /// **'Sellers'**
+  String get clientsFilterSellers;
+
+  /// No description provided for @clientsFullName.
+  ///
+  /// In en, this message translates to:
+  /// **'Full name'**
+  String get clientsFullName;
+
   /// No description provided for @clientsFullNameLabel.
   ///
   /// In en, this message translates to:
@@ -616,6 +694,12 @@ abstract class AppLocalizations {
   /// **'Invalid email'**
   String get clientsInvalidEmail;
 
+  /// No description provided for @clientsMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Message'**
+  String get clientsMessage;
+
   /// No description provided for @clientsNameRequired.
   ///
   /// In en, this message translates to:
@@ -633,6 +717,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No clients found'**
   String get clientsNoClientsFound;
+
+  /// No description provided for @clientsNoEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'No email address on file'**
+  String get clientsNoEmail;
+
+  /// No description provided for @clientsNoPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'No phone number on file'**
+  String get clientsNoPhone;
 
   /// No description provided for @clientsNotes.
   ///
@@ -655,13 +751,13 @@ abstract class AppLocalizations {
   /// No description provided for @clientsSearchHint.
   ///
   /// In en, this message translates to:
-  /// **'Search clients...'**
+  /// **'Search by name, phone…'**
   String get clientsSearchHint;
 
   /// No description provided for @clientsSeller.
   ///
   /// In en, this message translates to:
-  /// **'💰 Seller'**
+  /// **'Seller'**
   String get clientsSeller;
 
   /// No description provided for @clientsTimestamps.
@@ -694,6 +790,18 @@ abstract class AppLocalizations {
   /// **'Updated'**
   String get clientsUpdated;
 
+  /// No description provided for @clientsUpdatedAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Updated {date}'**
+  String clientsUpdatedAt(Object date);
+
+  /// No description provided for @coreCall.
+  ///
+  /// In en, this message translates to:
+  /// **'Call'**
+  String get coreCall;
+
   /// No description provided for @coreCancel.
   ///
   /// In en, this message translates to:
@@ -711,6 +819,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Seller'**
   String get coreClientTypeSeller;
+
+  /// No description provided for @coreDataScopeAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get coreDataScopeAll;
+
+  /// No description provided for @coreDataScopeOwn.
+  ///
+  /// In en, this message translates to:
+  /// **'Own'**
+  String get coreDataScopeOwn;
+
+  /// No description provided for @coreDataScopeTeam.
+  ///
+  /// In en, this message translates to:
+  /// **'Team'**
+  String get coreDataScopeTeam;
 
   /// No description provided for @coreDelete.
   ///
@@ -766,11 +892,77 @@ abstract class AppLocalizations {
   /// **'Team'**
   String get coreNavTeam;
 
+  /// No description provided for @coreNoResults.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing found'**
+  String get coreNoResults;
+
+  /// No description provided for @coreNotSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'Not selected'**
+  String get coreNotSelected;
+
+  /// No description provided for @coreOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get coreOpen;
+
+  /// No description provided for @corePropertyTypeApartment.
+  ///
+  /// In en, this message translates to:
+  /// **'Apartment'**
+  String get corePropertyTypeApartment;
+
+  /// No description provided for @corePropertyTypeCommercial.
+  ///
+  /// In en, this message translates to:
+  /// **'Commercial'**
+  String get corePropertyTypeCommercial;
+
+  /// No description provided for @corePropertyTypeHouse.
+  ///
+  /// In en, this message translates to:
+  /// **'House'**
+  String get corePropertyTypeHouse;
+
+  /// No description provided for @corePropertyTypeLand.
+  ///
+  /// In en, this message translates to:
+  /// **'Land'**
+  String get corePropertyTypeLand;
+
+  /// No description provided for @corePropertyTypeOffice.
+  ///
+  /// In en, this message translates to:
+  /// **'Office'**
+  String get corePropertyTypeOffice;
+
   /// No description provided for @coreRetry.
   ///
   /// In en, this message translates to:
   /// **'Retry'**
   String get coreRetry;
+
+  /// No description provided for @coreRoleAdmin.
+  ///
+  /// In en, this message translates to:
+  /// **'Admin'**
+  String get coreRoleAdmin;
+
+  /// No description provided for @coreRoleAgent.
+  ///
+  /// In en, this message translates to:
+  /// **'Agent'**
+  String get coreRoleAgent;
+
+  /// No description provided for @coreRoleManager.
+  ///
+  /// In en, this message translates to:
+  /// **'Manager'**
+  String get coreRoleManager;
 
   /// No description provided for @coreStatusAvailable.
   ///
@@ -820,6 +1012,12 @@ abstract class AppLocalizations {
   /// **'{count} active'**
   String dashboardActiveDeals(Object count);
 
+  /// No description provided for @dashboardActiveDealsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Active deals'**
+  String get dashboardActiveDealsLabel;
+
   /// No description provided for @dashboardAddClient.
   ///
   /// In en, this message translates to:
@@ -831,6 +1029,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add Property'**
   String get dashboardAddProperty;
+
+  /// No description provided for @dashboardAgentMeta.
+  ///
+  /// In en, this message translates to:
+  /// **'agent: {name}'**
+  String dashboardAgentMeta(Object name);
 
   /// No description provided for @dashboardClients.
   ///
@@ -844,10 +1048,16 @@ abstract class AppLocalizations {
   /// **'Closed Won'**
   String get dashboardClosedWon;
 
+  /// No description provided for @dashboardDateSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'{date} · team overview'**
+  String dashboardDateSummary(Object date);
+
   /// No description provided for @dashboardGreeting.
   ///
   /// In en, this message translates to:
-  /// **'{greeting}, {name} ✨'**
+  /// **'{greeting}, {name}'**
   String dashboardGreeting(Object greeting, Object name);
 
   /// No description provided for @dashboardGreetingAfternoon.
@@ -880,6 +1090,12 @@ abstract class AppLocalizations {
   /// **'Still up'**
   String get dashboardGreetingStillUp;
 
+  /// No description provided for @dashboardMeetingsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Meetings'**
+  String get dashboardMeetingsLabel;
+
   /// No description provided for @dashboardMeetingsSubtitle.
   ///
   /// In en, this message translates to:
@@ -891,6 +1107,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'New Deal'**
   String get dashboardNewDeal;
+
+  /// No description provided for @dashboardNextMeeting.
+  ///
+  /// In en, this message translates to:
+  /// **'Next meeting'**
+  String get dashboardNextMeeting;
+
+  /// No description provided for @dashboardNoMoreMeetingsToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing else scheduled today'**
+  String get dashboardNoMoreMeetingsToday;
+
+  /// No description provided for @dashboardNoPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'No phone number on file for this client'**
+  String get dashboardNoPhone;
 
   /// No description provided for @dashboardNoUpcomingMeetings.
   ///
@@ -916,6 +1150,36 @@ abstract class AppLocalizations {
   /// **'Quick Actions'**
   String get dashboardQuickActions;
 
+  /// No description provided for @dashboardRelativeInHours.
+  ///
+  /// In en, this message translates to:
+  /// **'in {count} h'**
+  String dashboardRelativeInHours(Object count);
+
+  /// No description provided for @dashboardRelativeInMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'in {count} min'**
+  String dashboardRelativeInMinutes(Object count);
+
+  /// No description provided for @dashboardRelativeNow.
+  ///
+  /// In en, this message translates to:
+  /// **'now'**
+  String get dashboardRelativeNow;
+
+  /// No description provided for @dashboardRelativeToday.
+  ///
+  /// In en, this message translates to:
+  /// **'today'**
+  String get dashboardRelativeToday;
+
+  /// No description provided for @dashboardRelativeTomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'tomorrow'**
+  String get dashboardRelativeTomorrow;
+
   /// No description provided for @dashboardScheduleMeeting.
   ///
   /// In en, this message translates to:
@@ -927,6 +1191,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'See all'**
   String get dashboardSeeAll;
+
+  /// No description provided for @dashboardTeamPipeline.
+  ///
+  /// In en, this message translates to:
+  /// **'Team pipeline'**
+  String get dashboardTeamPipeline;
+
+  /// No description provided for @dashboardTodayCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} today'**
+  String dashboardTodayCount(Object count);
 
   /// No description provided for @dashboardTotalDeals.
   ///
@@ -952,11 +1228,23 @@ abstract class AppLocalizations {
   /// **'Add Deal'**
   String get dealsAddDeal;
 
+  /// No description provided for @dealsAddShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Deal'**
+  String get dealsAddShort;
+
   /// No description provided for @dealsAgent.
   ///
   /// In en, this message translates to:
   /// **'Agent'**
   String get dealsAgent;
+
+  /// No description provided for @dealsAgentRef.
+  ///
+  /// In en, this message translates to:
+  /// **'Agent #{id}'**
+  String dealsAgentRef(Object id);
 
   /// No description provided for @dealsAgentValue.
   ///
@@ -988,11 +1276,23 @@ abstract class AppLocalizations {
   /// **'Client'**
   String get dealsClient;
 
+  /// No description provided for @dealsClientRef.
+  ///
+  /// In en, this message translates to:
+  /// **'Client #{id}'**
+  String dealsClientRef(Object id);
+
   /// No description provided for @dealsClosed.
   ///
   /// In en, this message translates to:
   /// **'Closed'**
   String get dealsClosed;
+
+  /// No description provided for @dealsCounter.
+  ///
+  /// In en, this message translates to:
+  /// **'{active} active · {total}'**
+  String dealsCounter(Object active, Object total);
 
   /// No description provided for @dealsCreateDeal.
   ///
@@ -1011,6 +1311,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Deal Price'**
   String get dealsDealPrice;
+
+  /// No description provided for @dealsDeleteCascade.
+  ///
+  /// In en, this message translates to:
+  /// **'{title} will be deleted permanently. This cannot be undone.'**
+  String dealsDeleteCascade(Object title);
 
   /// No description provided for @dealsDeleteConfirm.
   ///
@@ -1060,6 +1366,12 @@ abstract class AppLocalizations {
   /// **'All'**
   String get dealsFilterAll;
 
+  /// No description provided for @dealsFilterWithCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{label} {count}'**
+  String dealsFilterWithCount(Object count, Object label);
+
   /// No description provided for @dealsFinancials.
   ///
   /// In en, this message translates to:
@@ -1090,11 +1402,23 @@ abstract class AppLocalizations {
   /// **'New Deal'**
   String get dealsNewTitle;
 
+  /// No description provided for @dealsNextCall.
+  ///
+  /// In en, this message translates to:
+  /// **'call {when}'**
+  String dealsNextCall(Object when);
+
   /// No description provided for @dealsNoResults.
   ///
   /// In en, this message translates to:
   /// **'No results'**
   String get dealsNoResults;
+
+  /// No description provided for @dealsNoResultsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Try a different stage filter'**
+  String get dealsNoResultsSubtitle;
 
   /// No description provided for @dealsNotFound.
   ///
@@ -1132,6 +1456,12 @@ abstract class AppLocalizations {
   /// **'Property'**
   String get dealsProperty;
 
+  /// No description provided for @dealsPropertyRef.
+  ///
+  /// In en, this message translates to:
+  /// **'Property #{id}'**
+  String dealsPropertyRef(Object id);
+
   /// No description provided for @dealsSearchHint.
   ///
   /// In en, this message translates to:
@@ -1155,6 +1485,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Select {label}'**
   String dealsSelectLabel(Object label);
+
+  /// No description provided for @dealsStaleWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'no activity for {days} days'**
+  String dealsStaleWarning(Object days);
 
   /// No description provided for @dealsStatusClosedLost.
   ///
@@ -1192,6 +1528,30 @@ abstract class AppLocalizations {
   /// **'Tap to select {label}'**
   String dealsTapToSelect(Object label);
 
+  /// No description provided for @dealsTimeline.
+  ///
+  /// In en, this message translates to:
+  /// **'Timeline'**
+  String get dealsTimeline;
+
+  /// No description provided for @dealsTimelineClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'Deal closed'**
+  String get dealsTimelineClosed;
+
+  /// No description provided for @dealsTimelineCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Created'**
+  String get dealsTimelineCreated;
+
+  /// No description provided for @dealsTimelineUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Last updated'**
+  String get dealsTimelineUpdated;
+
   /// No description provided for @dealsTitle.
   ///
   /// In en, this message translates to:
@@ -1215,6 +1575,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Update Deal'**
   String get dealsUpdateDeal;
+
+  /// No description provided for @meetingsAddShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Meeting'**
+  String get meetingsAddShort;
 
   /// No description provided for @meetingsAgendaHint.
   ///
@@ -1258,6 +1624,18 @@ abstract class AppLocalizations {
   /// **'Completed'**
   String get meetingsCompleted;
 
+  /// No description provided for @meetingsCounter.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 this week} other{{count} this week}}'**
+  String meetingsCounter(num count);
+
+  /// No description provided for @meetingsDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get meetingsDate;
+
   /// No description provided for @meetingsDeal.
   ///
   /// In en, this message translates to:
@@ -1275,6 +1653,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete'**
   String get meetingsDelete;
+
+  /// No description provided for @meetingsDeleteCascade.
+  ///
+  /// In en, this message translates to:
+  /// **'{title} will be deleted permanently. This cannot be undone.'**
+  String meetingsDeleteCascade(Object title);
 
   /// No description provided for @meetingsDeleteConfirm.
   ///
@@ -1300,6 +1684,12 @@ abstract class AppLocalizations {
   /// **'Details'**
   String get meetingsDetails;
 
+  /// No description provided for @meetingsDirections.
+  ///
+  /// In en, this message translates to:
+  /// **'Directions'**
+  String get meetingsDirections;
+
   /// No description provided for @meetingsEdit.
   ///
   /// In en, this message translates to:
@@ -1311,6 +1701,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Edit Meeting'**
   String get meetingsEditMeeting;
+
+  /// No description provided for @meetingsGroupToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get meetingsGroupToday;
+
+  /// No description provided for @meetingsGroupTomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Tomorrow'**
+  String get meetingsGroupTomorrow;
 
   /// No description provided for @meetingsLoading.
   ///
@@ -1330,6 +1732,12 @@ abstract class AppLocalizations {
   /// **'Mark Complete'**
   String get meetingsMarkComplete;
 
+  /// No description provided for @meetingsNoLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'No location on this meeting'**
+  String get meetingsNoLocation;
+
   /// No description provided for @meetingsNoMeetings.
   ///
   /// In en, this message translates to:
@@ -1341,6 +1749,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No results'**
   String get meetingsNoResults;
+
+  /// No description provided for @meetingsNoResultsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing scheduled in this range'**
+  String get meetingsNoResultsSubtitle;
+
+  /// No description provided for @meetingsNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Meeting note'**
+  String get meetingsNote;
 
   /// No description provided for @meetingsPeopleAndDeal.
   ///
@@ -1402,11 +1822,35 @@ abstract class AppLocalizations {
   /// **'Select {label}'**
   String meetingsSelectEntity(Object label);
 
+  /// No description provided for @meetingsStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get meetingsStatus;
+
+  /// No description provided for @meetingsStatusHeld.
+  ///
+  /// In en, this message translates to:
+  /// **'Held'**
+  String get meetingsStatusHeld;
+
+  /// No description provided for @meetingsStatusScheduled.
+  ///
+  /// In en, this message translates to:
+  /// **'Scheduled'**
+  String get meetingsStatusScheduled;
+
   /// No description provided for @meetingsTapToSelect.
   ///
   /// In en, this message translates to:
   /// **'Tap to select {label}'**
   String meetingsTapToSelect(Object label);
+
+  /// No description provided for @meetingsTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get meetingsTime;
 
   /// No description provided for @meetingsTitle.
   ///
@@ -1426,11 +1870,29 @@ abstract class AppLocalizations {
   /// **'Title is required'**
   String get meetingsTitleRequired;
 
+  /// No description provided for @meetingsUpcomingEyebrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Next up'**
+  String get meetingsUpcomingEyebrow;
+
   /// No description provided for @meetingsUpdateMeeting.
   ///
   /// In en, this message translates to:
   /// **'Update Meeting'**
   String get meetingsUpdateMeeting;
+
+  /// No description provided for @meetingsWhen.
+  ///
+  /// In en, this message translates to:
+  /// **'When'**
+  String get meetingsWhen;
+
+  /// No description provided for @meetingsWhoAndWhere.
+  ///
+  /// In en, this message translates to:
+  /// **'Who & where'**
+  String get meetingsWhoAndWhere;
 
   /// No description provided for @profileAbout.
   ///
@@ -1455,6 +1917,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Agent ID copied'**
   String get profileAgentIdCopied;
+
+  /// No description provided for @profileApp.
+  ///
+  /// In en, this message translates to:
+  /// **'App'**
+  String get profileApp;
 
   /// No description provided for @profileBuiltForTeams.
   ///
@@ -1492,6 +1960,12 @@ abstract class AppLocalizations {
   /// **'Estate CRM'**
   String get profileEstateCrm;
 
+  /// No description provided for @profileFollowSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow system'**
+  String get profileFollowSystem;
+
   /// No description provided for @profileFullName.
   ///
   /// In en, this message translates to:
@@ -1503,6 +1977,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Language'**
   String get profileLanguage;
+
+  /// No description provided for @profileName.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get profileName;
 
   /// No description provided for @profileNameUpdated.
   ///
@@ -1527,6 +2007,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Save'**
   String get profileSave;
+
+  /// No description provided for @profileSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get profileSettings;
 
   /// No description provided for @profileSignOut.
   ///
@@ -1570,6 +2056,12 @@ abstract class AppLocalizations {
   /// **'Add your first listing'**
   String get propertiesAddFirstListing;
 
+  /// No description provided for @propertiesAddShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Property'**
+  String get propertiesAddShort;
+
   /// No description provided for @propertiesAddressLabel.
   ///
   /// In en, this message translates to:
@@ -1612,6 +2104,12 @@ abstract class AppLocalizations {
   /// **'{area} m²'**
   String propertiesAreaValue(Object area);
 
+  /// No description provided for @propertiesBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get propertiesBack;
+
   /// No description provided for @propertiesBasicInfo.
   ///
   /// In en, this message translates to:
@@ -1630,6 +2128,12 @@ abstract class AppLocalizations {
   /// **'City'**
   String get propertiesCityLabel;
 
+  /// No description provided for @propertiesCounter.
+  ///
+  /// In en, this message translates to:
+  /// **'{total} listed · {reserved} reserved'**
+  String propertiesCounter(Object reserved, Object total);
+
   /// No description provided for @propertiesCreateProperty.
   ///
   /// In en, this message translates to:
@@ -1641,6 +2145,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete'**
   String get propertiesDelete;
+
+  /// No description provided for @propertiesDeleteCascade.
+  ///
+  /// In en, this message translates to:
+  /// **'{title} will be deleted permanently. This cannot be undone.'**
+  String propertiesDeleteCascade(Object title);
 
   /// No description provided for @propertiesDeleteConfirm.
   ///
@@ -1702,6 +2212,12 @@ abstract class AppLocalizations {
   /// **'Floor'**
   String get propertiesFloor;
 
+  /// No description provided for @propertiesFloorOf.
+  ///
+  /// In en, this message translates to:
+  /// **'{floor} of {total}'**
+  String propertiesFloorOf(Object floor, Object total);
+
   /// No description provided for @propertiesLocation.
   ///
   /// In en, this message translates to:
@@ -1714,17 +2230,35 @@ abstract class AppLocalizations {
   /// **'New Property'**
   String get propertiesNewProperty;
 
+  /// No description provided for @propertiesNextDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Next — details'**
+  String get propertiesNextDetails;
+
   /// No description provided for @propertiesNoProperties.
   ///
   /// In en, this message translates to:
   /// **'No properties'**
   String get propertiesNoProperties;
 
+  /// No description provided for @propertiesNoResultsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Try a different search or filter'**
+  String get propertiesNoResultsSubtitle;
+
   /// No description provided for @propertiesPriceLabel.
   ///
   /// In en, this message translates to:
   /// **'Price *'**
   String get propertiesPriceLabel;
+
+  /// No description provided for @propertiesPricePerSqm.
+  ///
+  /// In en, this message translates to:
+  /// **'{price} per m²'**
+  String propertiesPricePerSqm(Object price);
 
   /// No description provided for @propertiesProperty.
   ///
@@ -1774,11 +2308,23 @@ abstract class AppLocalizations {
   /// **'Search...'**
   String get propertiesSearchHint;
 
+  /// No description provided for @propertiesSearchHintFull.
+  ///
+  /// In en, this message translates to:
+  /// **'Address, complex, ID…'**
+  String get propertiesSearchHintFull;
+
   /// No description provided for @propertiesStatus.
   ///
   /// In en, this message translates to:
   /// **'Status'**
   String get propertiesStatus;
+
+  /// No description provided for @propertiesStepOf.
+  ///
+  /// In en, this message translates to:
+  /// **'Step {current} of {total}'**
+  String propertiesStepOf(Object current, Object total);
 
   /// No description provided for @propertiesTitle.
   ///

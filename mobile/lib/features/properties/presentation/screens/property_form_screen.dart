@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
+import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_bloc.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_event.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_state.dart';
-import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
+/// Two-step create/edit, per screen 4h: basics → details, with a 2-segment
+/// progress bar and a "Step 1 of 2" label in the app bar.
 class PropertyFormScreen extends StatefulWidget {
   final int? propertyId;
   const PropertyFormScreen({super.key, this.propertyId});
@@ -18,7 +20,9 @@ class PropertyFormScreen extends StatefulWidget {
 }
 
 class _PropertyFormScreenState extends State<PropertyFormScreen> {
-  final _formKey = GlobalKey<FormState>();
+  final _stepOneKey = GlobalKey<FormState>();
+  final _stepTwoKey = GlobalKey<FormState>();
+
   final _titleCtrl = TextEditingController();
   final _descCtrl = TextEditingController();
   final _addressCtrl = TextEditingController();
@@ -28,9 +32,12 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
   final _roomsCtrl = TextEditingController();
   final _floorCtrl = TextEditingController();
   final _totalFloorsCtrl = TextEditingController();
+
   PropertyType _type = PropertyType.APARTMENT;
   PropertyStatus _status = PropertyStatus.AVAILABLE;
-  bool _loading = false, _initLoading = false;
+  int _step = 0;
+  bool _loading = false;
+  bool _initLoading = false;
 
   @override
   void initState() {
@@ -49,7 +56,7 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
       _areaCtrl,
       _roomsCtrl,
       _floorCtrl,
-      _totalFloorsCtrl
+      _totalFloorsCtrl,
     ]) {
       c.dispose();
     }
@@ -59,7 +66,8 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
   Future<void> _load() async {
     setState(() => _initLoading = true);
     try {
-      final p = await Injector.propertiesRepository.getProperty(widget.propertyId!);
+      final p =
+          await Injector.propertiesRepository.getProperty(widget.propertyId!);
       _titleCtrl.text = p.title;
       _descCtrl.text = p.description ?? '';
       _addressCtrl.text = p.address;
@@ -69,37 +77,61 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
       _roomsCtrl.text = p.rooms?.toString() ?? '';
       _floorCtrl.text = p.floor?.toString() ?? '';
       _totalFloorsCtrl.text = p.totalFloors?.toString() ?? '';
+      if (!mounted) return;
       setState(() {
         _type = p.type;
         _status = p.status;
         _initLoading = false;
       });
     } catch (_) {
-      setState(() => _initLoading = false);
+      if (mounted) setState(() => _initLoading = false);
     }
   }
 
+  void _next() {
+    if (!(_stepOneKey.currentState?.validate() ?? false)) return;
+    FocusScope.of(context).unfocus();
+    setState(() => _step = 1);
+  }
+
+  void _back() {
+    FocusScope.of(context).unfocus();
+    setState(() => _step = 0);
+  }
+
+  int? _int(TextEditingController c) {
+    final v = c.text.trim();
+    return v.isEmpty ? null : int.tryParse(v);
+  }
+
+  double? _double(TextEditingController c) {
+    final v = c.text.trim().replaceAll(',', '.');
+    return v.isEmpty ? null : double.tryParse(v);
+  }
+
   void _submit() {
-    if (!_formKey.currentState!.validate()) return;
+    if (!(_stepTwoKey.currentState?.validate() ?? false)) return;
     setState(() => _loading = true);
-    final data = {
+
+    final area = _double(_areaCtrl);
+    final rooms = _int(_roomsCtrl);
+    final floor = _int(_floorCtrl);
+    final totalFloors = _int(_totalFloorsCtrl);
+
+    final data = <String, dynamic>{
       'title': _titleCtrl.text.trim(),
       'address': _addressCtrl.text.trim(),
-      'price': double.parse(_priceCtrl.text.trim()),
+      'price': _double(_priceCtrl) ?? 0,
       'type': _type.name,
       'status': _status.name,
-      if (_descCtrl.text.trim().isNotEmpty)
-        'description': _descCtrl.text.trim(),
+      if (_descCtrl.text.trim().isNotEmpty) 'description': _descCtrl.text.trim(),
       if (_cityCtrl.text.trim().isNotEmpty) 'city': _cityCtrl.text.trim(),
-      if (_areaCtrl.text.trim().isNotEmpty)
-        'areaSqm': double.parse(_areaCtrl.text.trim()),
-      if (_roomsCtrl.text.trim().isNotEmpty)
-        'rooms': int.parse(_roomsCtrl.text.trim()),
-      if (_floorCtrl.text.trim().isNotEmpty)
-        'floor': int.parse(_floorCtrl.text.trim()),
-      if (_totalFloorsCtrl.text.trim().isNotEmpty)
-        'totalFloors': int.parse(_totalFloorsCtrl.text.trim()),
+      if (area != null) 'areaSqm': area,
+      if (rooms != null) 'rooms': rooms,
+      if (floor != null) 'floor': floor,
+      if (totalFloors != null) 'totalFloors': totalFloors,
     };
+
     if (widget.isEditing) {
       context
           .read<PropertiesBloc>()
@@ -112,274 +144,311 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
     final l10n = AppLocalizations.of(context);
+    final t = context.tokens;
 
     return BlocListener<PropertiesBloc, PropertiesState>(
       listener: (context, state) {
         if (state is PropertyCreated) {
           setState(() => _loading = false);
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(AppLocalizations.of(context)
-                  .propertiesPropertyCreated(state.property.id)),
-            ),
-          );
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(SnackBar(
+                content:
+                    Text(l10n.propertiesPropertyCreated(state.property.id))));
           context.go('/properties');
+        }
+        // A rejected save leaves the user on the form with their input intact.
+        if (state is PropertiesActionFailure) {
+          setState(() => _loading = false);
+          showActionOutcome(context, state);
         }
         if (state is PropertiesError) {
           setState(() => _loading = false);
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.message), backgroundColor: cs.error),
-          );
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(SnackBar(
+                content: Text(state.message),
+                backgroundColor: t.dangerSolid));
         }
       },
-      child: Scaffold(
-        appBar: AppBar(
-            title: Text(widget.isEditing
-                ? l10n.propertiesEditProperty
-                : l10n.propertiesNewProperty)),
-        body: _initLoading
-            ? const LoadingWidget()
-            : SingleChildScrollView(
-                padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _FormSectionCard(
-                        title: l10n.propertiesBasicInfo,
-                        icon: Icons.description_outlined,
-                        children: [
-                          _f(_titleCtrl, l10n.propertiesTitleLabel, Icons.title,
-                              req: true),
-                          const SizedBox(height: 14),
-                          _f(_priceCtrl, l10n.propertiesPriceLabel,
-                              Icons.attach_money,
-                              req: true, num: true),
-                        ],
-                      ),
-                      const SizedBox(height: 16),
-                      _FormSectionCard(
-                        title: l10n.propertiesLocation,
-                        icon: Icons.location_on_outlined,
-                        children: [
-                          _f(_addressCtrl, l10n.propertiesAddressLabel,
-                              Icons.location_on_outlined,
-                              req: true),
-                          const SizedBox(height: 14),
-                          _f(_cityCtrl, l10n.propertiesCityLabel,
-                              Icons.location_city_outlined),
-                        ],
-                      ),
-                      const SizedBox(height: 16),
-                      _FormSectionCard(
-                        title: l10n.propertiesTypeAndStatus,
-                        icon: Icons.tune_outlined,
-                        children: [
-                          Text(l10n.propertiesType,
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                  color: cs.onSurfaceVariant)),
-                          const SizedBox(height: 8),
-                          Wrap(
-                              spacing: 8,
-                              runSpacing: 8,
-                              children: PropertyType.values
-                                  .map((t) => _PillChip(
-                                      label: t.name,
-                                      selected: _type == t,
-                                      onTap: () => setState(() => _type = t)))
-                                  .toList()),
-                          const SizedBox(height: 16),
-                          Text(l10n.propertiesStatus,
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                  color: cs.onSurfaceVariant)),
-                          const SizedBox(height: 8),
-                          Wrap(
-                              spacing: 8,
-                              runSpacing: 8,
-                              children: PropertyStatus.values
-                                  .map((s) => _PillChip(
-                                      label: s.name,
-                                      selected: _status == s,
-                                      onTap: () => setState(() => _status = s)))
-                                  .toList()),
-                        ],
-                      ),
-                      const SizedBox(height: 16),
-                      _FormSectionCard(
-                        title: l10n.propertiesDetails,
-                        icon: Icons.straighten_outlined,
-                        children: [
-                          Row(children: [
-                            Expanded(
-                                child: _f(_areaCtrl, l10n.propertiesAreaLabel,
-                                    Icons.square_foot,
-                                    num: true)),
-                            const SizedBox(width: 12),
-                            Expanded(
-                                child: _f(_roomsCtrl, l10n.propertiesRooms,
-                                    Icons.bed_outlined,
-                                    num: true))
-                          ]),
-                          const SizedBox(height: 14),
-                          Row(children: [
-                            Expanded(
-                                child: _f(_floorCtrl, l10n.propertiesFloor,
-                                    Icons.stairs_outlined,
-                                    num: true)),
-                            const SizedBox(width: 12),
-                            Expanded(
-                                child: _f(_totalFloorsCtrl,
-                                    l10n.propertiesTotalFloors, Icons.stairs,
-                                    num: true))
-                          ]),
-                        ],
-                      ),
-                      const SizedBox(height: 16),
-                      _FormSectionCard(
-                        title: l10n.propertiesDescription,
-                        icon: Icons.notes_outlined,
-                        children: [
-                          TextFormField(
-                              controller: _descCtrl,
-                              maxLines: 3,
-                              decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: l10n.propertiesDescribeHint)),
-                        ],
-                      ),
-                      const SizedBox(height: 32),
-                      ElevatedButton(
-                          onPressed: _loading ? null : _submit,
-                          style: ElevatedButton.styleFrom(
-                              minimumSize: const Size(double.infinity, 54),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(14))),
-                          child: _loading
-                              ? const SizedBox(
-                                  height: 20,
-                                  width: 20,
-                                  child: CircularProgressIndicator(
-                                      color: Colors.white, strokeWidth: 2))
-                              : Text(widget.isEditing
-                                  ? l10n.propertiesUpdateProperty
-                                  : l10n.propertiesCreateProperty)),
-                      const SizedBox(height: 10),
-                      OutlinedButton(
-                          onPressed: () => context.pop(),
-                          style: OutlinedButton.styleFrom(
-                              minimumSize: const Size(double.infinity, 54),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(14))),
-                          child: Text(l10n.propertiesCancel)),
-                    ],
+      child: DetailScaffold(
+        title: widget.isEditing
+            ? l10n.propertiesEditProperty
+            : l10n.propertiesNewProperty,
+        trailingLabel: _initLoading ? null : l10n.propertiesStepOf(_step + 1, 2),
+        onBack: _step == 1 ? _back : null,
+        bottomAction: _initLoading ? null : _actions(l10n),
+        children: _initLoading
+            ? const [
+                ShimmerGroup(
+                  child: Column(children: [
+                    ShimmerBox(
+                        width: double.infinity,
+                        height: 200,
+                        radius: AppMetrics.radiusMd),
+                    SizedBox(height: 14),
+                    ShimmerBox(
+                        width: double.infinity,
+                        height: 160,
+                        radius: AppMetrics.radiusMd),
+                  ]),
+                )
+              ]
+            : [
+                _StepBar(step: _step),
+                if (_step == 0)
+                  Form(key: _stepOneKey, child: _stepOne(l10n))
+                else
+                  Form(key: _stepTwoKey, child: _stepTwo(l10n)),
+              ],
+      ),
+    );
+  }
+
+  Widget _actions(AppLocalizations l10n) => _step == 0
+      ? AppFilledButton(
+          label: l10n.propertiesNextDetails, onPressed: _next)
+      : Column(
+          children: [
+            AppFilledButton(
+              label: widget.isEditing
+                  ? l10n.propertiesUpdateProperty
+                  : l10n.propertiesCreateProperty,
+              loading: _loading,
+              onPressed: _loading ? null : _submit,
+            ),
+            const SizedBox(height: 9),
+            AppGhostButton(
+              label: l10n.propertiesBack,
+              onPressed: _loading ? null : _back,
+            ),
+          ],
+        );
+
+  // ── Step 1: the basics ──────────────────────────────────────
+
+  Widget _stepOne(AppLocalizations l10n) {
+    final gap = AppMetrics.blockGap(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        FormSectionCard(
+          eyebrow: l10n.propertiesBasicInfo,
+          children: [
+            LabelledField(
+              label: l10n.propertiesProperty,
+              required: true,
+              child: AppTextField(
+                controller: _titleCtrl,
+                hint: l10n.propertiesTitleLabel,
+                textInputAction: TextInputAction.next,
+                validator: (v) => v == null || v.trim().isEmpty
+                    ? l10n.propertiesFieldRequired(l10n.propertiesProperty)
+                    : null,
+              ),
+            ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: LabelledField(
+                    label: l10n.propertiesPriceLabel,
+                    required: true,
+                    child: AppTextField(
+                      controller: _priceCtrl,
+                      hint: '12 300 000',
+                      keyboardType: TextInputType.number,
+                      textInputAction: TextInputAction.next,
+                      validator: (v) =>
+                          _double(_priceCtrl) == null || _double(_priceCtrl)! <= 0
+                              ? l10n.propertiesFieldRequired(
+                                  l10n.propertiesPriceLabel)
+                              : null,
+                    ),
                   ),
                 ),
-              ),
-      ),
-    );
-  }
-
-  Widget _f(TextEditingController c, String label, IconData icon,
-          {bool req = false, bool num = false}) =>
-      TextFormField(
-        controller: c,
-        keyboardType: num
-            ? const TextInputType.numberWithOptions(decimal: true)
-            : TextInputType.text,
-        decoration:
-            InputDecoration(labelText: label, prefixIcon: Icon(icon, size: 20)),
-        validator: req
-            ? (v) => v == null || v.isEmpty
-                ? AppLocalizations.of(context).propertiesFieldRequired(label)
-                : null
-            : null,
-      );
-}
-
-// ─── Reusable section card ─────────────────────────────────────
-
-class _FormSectionCard extends StatelessWidget {
-  final String title;
-  final IconData icon;
-  final List<Widget> children;
-  const _FormSectionCard(
-      {required this.title, required this.icon, required this.children});
-
-  @override
-  Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: cs.surface,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: cs.outline.withAlpha(35)),
-        boxShadow: [
-          BoxShadow(
-              color: Colors.black.withAlpha(8),
-              blurRadius: 14,
-              offset: const Offset(0, 4)),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(children: [
-            Icon(icon, size: 16, color: cs.primary),
-            const SizedBox(width: 8),
-            Text(title,
-                style: TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 0.2,
-                    color: cs.primary)),
-          ]),
-          const SizedBox(height: 14),
-          ...children,
-        ],
-      ),
-    );
-  }
-}
-
-// ─── Pill-style selectable chip ─────────────────────────────────
-
-class _PillChip extends StatelessWidget {
-  final String label;
-  final bool selected;
-  final VoidCallback onTap;
-  const _PillChip(
-      {required this.label, required this.selected, required this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(20),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 150),
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
-        decoration: BoxDecoration(
-          color:
-              selected ? cs.primary : cs.surfaceContainerHighest.withAlpha(120),
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-              color: selected ? cs.primary : cs.outline.withAlpha(60)),
+                const SizedBox(width: 9),
+                Expanded(
+                  child: LabelledField(
+                    label: l10n.propertiesAreaLabel,
+                    child: AppTextField(
+                      controller: _areaCtrl,
+                      hint: '58',
+                      keyboardType: TextInputType.number,
+                      textInputAction: TextInputAction.next,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
-        child: Text(label.replaceAll('_', ' '),
-            style: TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w600,
-                color: selected ? Colors.white : cs.onSurfaceVariant)),
-      ),
+        SizedBox(height: gap),
+        FormSectionCard(
+          eyebrow: l10n.propertiesLocation,
+          children: [
+            LabelledField(
+              label: l10n.propertiesAddressLabel,
+              required: true,
+              child: AppTextField(
+                controller: _addressCtrl,
+                hint: l10n.propertiesAddressLabel,
+                textInputAction: TextInputAction.next,
+                validator: (v) => v == null || v.trim().isEmpty
+                    ? l10n.propertiesFieldRequired(l10n.propertiesAddressLabel)
+                    : null,
+              ),
+            ),
+            LabelledField(
+              label: l10n.propertiesCityLabel,
+              child: AppTextField(
+                controller: _cityCtrl,
+                hint: l10n.propertiesCityLabel,
+                textInputAction: TextInputAction.done,
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: gap),
+        FormSectionCard(
+          eyebrow: l10n.propertiesType,
+          children: [
+            FilterPillWrap(pills: [
+              for (final type in PropertyType.values)
+                FilterPill(
+                  label: propertyTypeLabel(l10n, type),
+                  selected: _type == type,
+                  onCard: true,
+                  onTap: () => setState(() => _type = type),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 9),
+                ),
+            ]),
+          ],
+        ),
+      ],
+    );
+  }
+
+  // ── Step 2: the rest ────────────────────────────────────────
+
+  Widget _stepTwo(AppLocalizations l10n) {
+    final gap = AppMetrics.blockGap(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        FormSectionCard(
+          eyebrow: l10n.propertiesDetails,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: LabelledField(
+                    label: l10n.propertiesRooms,
+                    child: AppTextField(
+                      controller: _roomsCtrl,
+                      hint: '2',
+                      keyboardType: TextInputType.number,
+                      textInputAction: TextInputAction.next,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 9),
+                Expanded(
+                  child: LabelledField(
+                    label: l10n.propertiesFloor,
+                    child: AppTextField(
+                      controller: _floorCtrl,
+                      hint: '5',
+                      keyboardType: TextInputType.number,
+                      textInputAction: TextInputAction.next,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 9),
+                Expanded(
+                  child: LabelledField(
+                    label: l10n.propertiesTotalFloors,
+                    child: AppTextField(
+                      controller: _totalFloorsCtrl,
+                      hint: '24',
+                      keyboardType: TextInputType.number,
+                      textInputAction: TextInputAction.next,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+        SizedBox(height: gap),
+        FormSectionCard(
+          eyebrow: l10n.propertiesStatus,
+          children: [
+            Row(
+              children: [
+                for (var i = 0; i < PropertyStatus.values.length; i++) ...[
+                  if (i > 0) const SizedBox(width: 8),
+                  Expanded(
+                    child: FilterPill(
+                      label:
+                          propertyStatusLabel(l10n, PropertyStatus.values[i]),
+                      selected: _status == PropertyStatus.values[i],
+                      onCard: true,
+                      onTap: () =>
+                          setState(() => _status = PropertyStatus.values[i]),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 6, vertical: 11),
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          ],
+        ),
+        SizedBox(height: gap),
+        FormSectionCard(
+          eyebrow: l10n.propertiesDescription,
+          children: [
+            AppTextField(
+              controller: _descCtrl,
+              hint: l10n.propertiesDescribeHint,
+              maxLines: 5,
+              minLines: 3,
+              textInputAction: TextInputAction.newline,
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+/// The 2-segment progress bar: active gold, remainder in the border token.
+class _StepBar extends StatelessWidget {
+  final int step;
+  const _StepBar({required this.step});
+
+  @override
+  Widget build(BuildContext context) {
+    final t = context.tokens;
+    return Row(
+      children: [
+        for (var i = 0; i < 2; i++) ...[
+          if (i > 0) const SizedBox(width: 5),
+          Expanded(
+            child: Container(
+              height: 3,
+              decoration: BoxDecoration(
+                color: i <= step ? t.accent : t.border,
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+          ),
+        ],
+      ],
     );
   }
 }

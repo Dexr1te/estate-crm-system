@@ -1,40 +1,108 @@
 import 'package:flutter/material.dart';
-import 'package:real_estate_crm/core/theme/app_theme.dart';
+import 'package:real_estate_crm/core/theme/app_metrics.dart';
+import 'package:real_estate_crm/core/theme/app_tokens.dart';
 
-/// Built once, not per sheet: `AppTheme.light` constructs a fresh [ThemeData]
-/// on every read, and a sheet can be opened many times.
-final ThemeData _sheetTheme = AppTheme.light;
-
-/// Opens a modal bottom sheet that is **always light**, in both app themes.
+/// Opens a modal bottom sheet with the handoff's chrome: radius 24 top
+/// corners, a 38×4 grab handle, an optional 700/19 title over a helper line,
+/// and a `rgba(15,30,60,.42)` scrim.
 ///
-/// Forcing only the background colour is not enough — the content would keep
-/// the dark theme's near-white text and render invisible on a light sheet. So
-/// the whole subtree is re-themed, which also covers text fields, list tiles
-/// and icons inside sheet forms.
+/// The sheet follows the app theme — dark in dark mode, per screens 5n/5o.
+/// (It used to be forced light in both themes; that predates this design.)
 ///
-/// Prefer this over calling `showModalBottomSheet` directly: a raw call picks
-/// up the ambient theme and will be dark in dark mode, which is now
-/// inconsistent with every other sheet in the app.
-Future<T?> showAppBottomSheet<T>({
-  required BuildContext context,
+/// The content is wrapped so it scrolls and clears the keyboard, which is what
+/// the invite and picker sheets need.
+Future<T?> showAppBottomSheet<T>(
+  BuildContext context, {
   required WidgetBuilder builder,
-  bool isScrollControlled = false,
-  Color? backgroundColor,
-  ShapeBorder? shape,
+  String? title,
+  String? subtitle,
+  bool isScrollControlled = true,
 }) {
   return showModalBottomSheet<T>(
     context: context,
     isScrollControlled: isScrollControlled,
-    // Resolved here rather than left to the ambient theme, which would supply
-    // the dark surface. Callers that draw their own container still pass
-    // Colors.transparent explicitly and keep it.
-    backgroundColor: backgroundColor ?? AppColors.surface,
-    shape: shape ??
-        const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
-    // Builder re-roots the caller's context below the Theme, so
-    // Theme.of(context) inside `builder` sees the light theme.
-    builder: (ctx) =>
-        Theme(data: _sheetTheme, child: Builder(builder: builder)),
+    backgroundColor: Colors.transparent,
+    barrierColor: AppTokens.of(context).sheetScrim,
+    builder: (ctx) => AppSheetShell(title: title, subtitle: subtitle, child: builder(ctx)),
   );
+}
+
+/// The sheet body: grab handle, optional heading, then the caller's content.
+class AppSheetShell extends StatelessWidget {
+  final String? title;
+  final String? subtitle;
+  final Widget child;
+
+  const AppSheetShell({
+    super.key,
+    required this.child,
+    this.title,
+    this.subtitle,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final t = context.tokens;
+    final mq = MediaQuery.of(context);
+
+    return Container(
+      decoration: BoxDecoration(
+        color: t.surface,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      constraints: BoxConstraints(maxHeight: mq.size.height * 0.9),
+      child: SafeArea(
+        top: false,
+        child: SingleChildScrollView(
+          padding: EdgeInsets.only(
+            left: 20,
+            right: 20,
+            top: 10,
+            bottom: 26 + mq.viewInsets.bottom,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Center(
+                child: Container(
+                  width: 38,
+                  height: 4,
+                  margin: const EdgeInsets.only(bottom: 16),
+                  decoration: BoxDecoration(
+                    color: t.border,
+                    borderRadius: BorderRadius.circular(3),
+                  ),
+                ),
+              ),
+              if (title != null)
+                Text(
+                  title!,
+                  style: TextStyle(
+                      fontFamily: AppFonts.sans,
+                      fontSize: 19,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: -0.3,
+                      color: t.textPrimary),
+                ),
+              if (subtitle != null) ...[
+                const SizedBox(height: 5),
+                Text(
+                  subtitle!,
+                  style: TextStyle(
+                      fontFamily: AppFonts.sans,
+                      fontSize: 12,
+                      height: 1.5,
+                      color: t.textSecondary),
+                ),
+              ],
+              if (title != null || subtitle != null)
+                SizedBox(height: AppMetrics.blockGap(context) + 4),
+              child,
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }

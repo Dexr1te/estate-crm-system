@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:real_estate_crm/core/theme/app_theme.dart';
+import 'package:real_estate_crm/core/di/injector.dart';
+import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/utils/contact_actions.dart';
+import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/features/dashboard/presentation/widgets/dashboard_hero.dart';
+import 'package:real_estate_crm/features/dashboard/presentation/widgets/meeting_row.dart';
 import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_bloc.dart';
 import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_event.dart';
 import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_state.dart';
-import 'package:real_estate_crm/features/meetings/presentation/widgets/meeting_card.dart';
-import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class MeetingsScreen extends StatefulWidget {
@@ -22,104 +25,217 @@ class _MeetingsScreenState extends State<MeetingsScreen> {
     context.read<MeetingsBloc>().add(MeetingsLoadEvent());
   }
 
-  Future<void> _delete(int id) async {
+  Future<void> _call(MeetingResponse meeting) async {
     final l10n = AppLocalizations.of(context);
-    final ok = await showConfirmDialog(context,
-        title: l10n.meetingsDeleteMeeting, content: l10n.meetingsDeleteConfirm);
-    if (!ok) return;
-    // ignore: use_build_context_synchronously
-    context.read<MeetingsBloc>().add(MeetingsDeleteEvent(id));
+    String? phone;
+    try {
+      phone =
+          (await Injector.clientsRepository.getClient(meeting.clientId)).phone;
+    } catch (_) {
+      phone = null;
+    }
+    if (!mounted) return;
+    if (!await ContactActions.call(phone) && mounted) {
+      showActionUnavailable(context, l10n.clientsNoPhone);
+    }
   }
-
-  void _complete(int id) =>
-      context.read<MeetingsBloc>().add(MeetingsCompleteEvent(id));
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final cs = Theme.of(context).colorScheme;
-    final tt = Theme.of(context).textTheme;
+    final t = context.tokens;
+    final pad = AppMetrics.pagePadding(context);
+    final gap = AppMetrics.blockGap(context);
 
     return Scaffold(
       body: SafeArea(
-          child: Column(children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
-          child: Row(children: [
-            Expanded(
-                child: Text(l10n.meetingsTitle,
-                    style: tt.titleLarge?.copyWith(fontSize: 22))),
-            FilledButton.icon(
-              onPressed: () => context.go('/meetings/new'),
-              icon: const Icon(Icons.add, size: 18),
-              label: Text(l10n.meetingsSchedule),
-              style: FilledButton.styleFrom(
-                  backgroundColor: cs.primary,
-                  foregroundColor: cs.onPrimary,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10)),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                  textStyle: const TextStyle(
-                      fontFamily: 'Sora',
-                      fontWeight: FontWeight.w600,
-                      fontSize: 13)),
-            ),
-          ]),
-        ),
-        Expanded(
-            child: BlocConsumer<MeetingsBloc, MeetingsState>(
-          listener: (ctx, state) {
-            if (state is MeetingsError) {
-              ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
-                  content: Text(state.message),
-                  backgroundColor: AppColors.error));
-            }
-            if (state is MeetingsActionSuccess) {
-              ScaffoldMessenger.of(ctx)
-                  .showSnackBar(SnackBar(content: Text(state.message)));
-            }
-          },
-          builder: (ctx, state) {
-            if (state is MeetingsLoading) {
-              return ShimmerList(
-                  cardBuilder: () => const MeetingCardSkeleton());
-            }
-            if (state is MeetingsError) {
-              return ErrorWidget2(
-                  message: state.message,
-                  onRetry: () =>
-                      ctx.read<MeetingsBloc>().add(MeetingsLoadEvent()));
-            }
-            if (state is MeetingsLoaded) {
-              if (state.meetings.isEmpty) {
-                return EmptyState(
-                    title: l10n.meetingsNoMeetings,
-                    icon: Icons.calendar_today_outlined,
-                    subtitle: l10n.meetingsScheduleFirst);
+        bottom: false,
+        child: AppMetrics.constrain(
+          BlocConsumer<MeetingsBloc, MeetingsState>(
+            listener: (ctx, state) {
+              if (state is MeetingsError) {
+                ScaffoldMessenger.of(ctx)
+                  ..hideCurrentSnackBar()
+                  ..showSnackBar(SnackBar(
+                      content: Text(state.message),
+                      backgroundColor: t.dangerSolid));
               }
+              showActionOutcome(ctx, state);
+            },
+            builder: (ctx, state) {
+              if (state is MeetingsLoading || state is MeetingsInitial) {
+                return _loadingLayout(l10n, pad, gap);
+              }
+              if (state is MeetingsError) {
+                return Column(children: [
+                  _header(l10n, pad, null),
+                  Expanded(
+                    child: ErrorWidget2(
+                      message: state.message,
+                      onRetry: () =>
+                          ctx.read<MeetingsBloc>().add(MeetingsLoadEvent()),
+                    ),
+                  ),
+                ]);
+              }
+
+              final all = state is MeetingsLoaded
+                  ? state.meetings
+                  : <MeetingResponse>[];
+              final now = DateTime.now();
+              final upcoming = all
+                  .where((m) => !m.completed && m.scheduledAt.isAfter(now))
+                  .toList()
+                ..sort((a, b) => a.scheduledAt.compareTo(b.scheduledAt));
+              final next = upcoming.isEmpty ? null : upcoming.first;
+              final rest = upcoming.length < 2
+                  ? const <MeetingResponse>[]
+                  : upcoming.sublist(1);
+              final thisWeek = upcoming
+                  .where((m) => m.scheduledAt.difference(now).inDays < 7)
+                  .length;
+
+              if (all.isEmpty) {
+                return Column(children: [
+                  _header(l10n, pad, l10n.meetingsCounter(0)),
+                  Expanded(
+                    child: EmptyState(
+                      icon: Icons.event_available_outlined,
+                      title: l10n.meetingsNoMeetings,
+                      subtitle: l10n.meetingsScheduleFirst,
+                    ),
+                  ),
+                ]);
+              }
+
               return RefreshIndicator(
                 onRefresh: () async =>
                     ctx.read<MeetingsBloc>().add(MeetingsLoadEvent()),
-                color: cs.primary,
-                child: ListView.separated(
-                  padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
-                  itemCount: state.meetings.length,
-                  separatorBuilder: (_, __) => const SizedBox(height: 8),
-                  itemBuilder: (_, i) => MeetingCard(
-                    meeting: state.meetings[i],
-                    onComplete: () => _complete(state.meetings[i].id),
-                    onEdit: () =>
-                        context.go('/meetings/${state.meetings[i].id}/edit'),
-                    onDelete: () => _delete(state.meetings[i].id),
+                color: t.primary,
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      _header(l10n, pad, l10n.meetingsCounter(thisWeek)),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(pad, 0, pad, 24),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            if (next != null) ...[
+                              NextMeetingHero(
+                                meeting: next,
+                                eyebrow: l10n.meetingsUpcomingEyebrow,
+                                primaryLabel: l10n.coreOpen,
+                                onPrimary: () =>
+                                    context.push('/meetings/${next.id}'),
+                                secondaryLabel: l10n.coreCall,
+                                onSecondary: () => _call(next),
+                              ),
+                              SizedBox(height: gap + 2),
+                            ],
+                            ..._groups(rest, now, l10n),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               );
-            }
-            return const SizedBox();
-          },
-        )),
-      ])),
+            },
+          ),
+        ),
+      ),
     );
+  }
+
+  Widget _header(AppLocalizations l10n, double pad, String? subtitle) =>
+      Padding(
+        padding: EdgeInsets.fromLTRB(pad, 10, pad, 14),
+        child: Row(
+          children: [
+            Expanded(
+                child: ScreenTitle(l10n.meetingsTitle, subtitle: subtitle)),
+            const SizedBox(width: 12),
+            AppHeaderAction(
+              label: l10n.meetingsAddShort,
+              onPressed: () => context.go('/meetings/new'),
+            )
+          ],
+        ),
+      );
+
+  Widget _loadingLayout(AppLocalizations l10n, double pad, double gap) =>
+      Column(
+        children: [
+          _header(l10n, pad, null),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: pad),
+              child: ShimmerGroup(
+                child: Column(children: [
+                  const ShimmerBox(
+                      width: double.infinity,
+                      height: 150,
+                      radius: AppMetrics.radiusLg),
+                  SizedBox(height: gap + 6),
+                  for (var i = 0; i < 3; i++) ...[
+                    if (i > 0) const SizedBox(height: 9),
+                    const ShimmerBox(
+                        width: double.infinity, height: 62, radius: 14),
+                  ],
+                ]),
+              ),
+            ),
+          ),
+        ],
+      );
+
+  /// Date-grouped sections with an uppercase group label, as drawn in 4l.
+  List<Widget> _groups(
+      List<MeetingResponse> meetings, DateTime now, AppLocalizations l10n) {
+    if (meetings.isEmpty) return const [];
+    final locale = Localizations.localeOf(context).toLanguageTag();
+
+    final byDay = <DateTime, List<MeetingResponse>>{};
+    for (final m in meetings) {
+      final day =
+          DateTime(m.scheduledAt.year, m.scheduledAt.month, m.scheduledAt.day);
+      byDay.putIfAbsent(day, () => []).add(m);
+    }
+    final days = byDay.keys.toList()..sort();
+
+    final out = <Widget>[];
+    for (final day in days) {
+      if (out.isNotEmpty) out.add(const SizedBox(height: 16));
+      out.add(EyebrowLabel(
+        _groupLabel(day, now, l10n, locale),
+        color: context.tokens.textSecondary,
+      ));
+      out.add(const SizedBox(height: 10));
+      final items = byDay[day]!;
+      for (var i = 0; i < items.length; i++) {
+        if (i > 0) out.add(const SizedBox(height: 9));
+        final m = items[i];
+        out.add(MeetingRow(
+          time: formatTimeOfDay(m.scheduledAt),
+          dayOrType: m.location ?? '',
+          title: m.title,
+          meta: m.clientName,
+          onTap: () => context.push('/meetings/${m.id}'),
+        ));
+      }
+    }
+    return out;
+  }
+
+  String _groupLabel(
+      DateTime day, DateTime now, AppLocalizations l10n, String locale) {
+    if (isSameDay(day, now)) return l10n.meetingsGroupToday;
+    if (isSameDay(day, now.add(const Duration(days: 1)))) {
+      return '${l10n.meetingsGroupTomorrow}, ${formatDayMonth(day, locale)}';
+    }
+    return formatWeekdayDate(day, locale);
   }
 }
