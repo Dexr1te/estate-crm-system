@@ -4,12 +4,6 @@ import 'package:real_estate_crm/core/theme/app_tokens.dart';
 import 'package:real_estate_crm/core/widgets/app_buttons.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// The destructive confirm dialog — the single shape used for every delete
-/// across clients, properties, deals and meetings.
-///
-/// Radius 20, a 52px red-tinted circle icon, title 700/18, then a body that
-/// must name **exactly** what is deleted and what it cascades to. The solid
-/// red button lives here and nowhere else in the app.
 Future<bool> showConfirmDialog(
   BuildContext context, {
   required String title,

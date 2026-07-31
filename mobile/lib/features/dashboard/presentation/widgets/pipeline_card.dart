@@ -5,10 +5,6 @@ import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/bloc/dashboard_state.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// Team pipeline: a segmented bar over a legend. Segment widths are the stage
-/// counts, so the bar reads as a share of the pipeline rather than a fixed
-/// design ratio. Tapping a segment or legend chip opens the filtered deals
-/// list.
 class PipelineCard extends StatelessWidget {
   final PipelineBreakdown pipeline;
   final void Function(DealStatus status) onStageTap;
@@ -22,8 +18,8 @@ class PipelineCard extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
 
     final stages = <_Stage>[
-      _Stage(DealStatus.LEAD, l10n.coreStatusLead, pipeline.leads,
-          AppColors.lead),
+      _Stage(
+          DealStatus.LEAD, l10n.coreStatusLead, pipeline.leads, AppColors.lead),
       _Stage(DealStatus.NEGOTIATION, l10n.coreStatusNegotiation,
           pipeline.negotiation, AppColors.negotiation),
       _Stage(DealStatus.CLOSED_WON, l10n.coreStatusWon, pipeline.won,
@@ -79,8 +75,6 @@ class PipelineCard extends StatelessWidget {
                     ),
                   ),
                 ],
-                // The lost/idle remainder keeps the bar full-width when the
-                // three live stages don't fill it.
                 if (pipeline.lost > 0) ...[
                   if (visible.isNotEmpty) const SizedBox(width: 3),
                   Expanded(
@@ -160,7 +154,9 @@ class _LegendChip extends StatelessWidget {
           Text(
             label,
             style: TextStyle(
-                fontFamily: AppFonts.sans, fontSize: 11, color: t.textSecondary),
+                fontFamily: AppFonts.sans,
+                fontSize: 11,
+                color: t.textSecondary),
           ),
         ],
       ),

@@ -2,16 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/theme/app_metrics.dart';
 import 'package:real_estate_crm/core/theme/app_tokens.dart';
 
-/// Filled button — radius 12, height 52 full-width / 40 inline.
-/// Light = navy fill / white label. Dark = gold fill / navy label.
 class AppFilledButton extends StatelessWidget {
   final String label;
   final VoidCallback? onPressed;
   final double height;
   final double fontSize;
 
-  /// Overrides for the two places a filled button is drawn on a coloured
-  /// surface (inside the navy hero) rather than on the page.
   final Color? fill;
   final Color? labelColor;
   final double radius;
@@ -49,8 +45,7 @@ class AppFilledButton extends StatelessWidget {
                 ? SizedBox(
                     width: 20,
                     height: 20,
-                    child: CircularProgressIndicator(
-                        strokeWidth: 2, color: fg),
+                    child: CircularProgressIndicator(strokeWidth: 2, color: fg),
                   )
                 : Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 12),
@@ -74,8 +69,6 @@ class AppFilledButton extends StatelessWidget {
   }
 }
 
-/// Ghost button — transparent, 1px border in the border token, label in
-/// textPrimary. Same radius and height as the filled button.
 class AppGhostButton extends StatelessWidget {
   final String label;
   final VoidCallback? onPressed;
@@ -136,8 +129,6 @@ class AppGhostButton extends StatelessWidget {
   }
 }
 
-/// The inline "+ Клиент" action that sits in a list header — a filled button,
-/// radius 11, padding 11/15. Not a FAB.
 class AppHeaderAction extends StatelessWidget {
   final String label;
   final VoidCallback onPressed;
@@ -154,8 +145,6 @@ class AppHeaderAction extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = context.tokens;
     return ConstrainedBox(
-      // Never let a long translation push the screen title off-screen: the
-      // action gives way first, ellipsising its own label.
       constraints: const BoxConstraints(
           minHeight: AppMetrics.minHitTarget, maxWidth: 190),
       child: Material(
@@ -193,8 +182,6 @@ class AppHeaderAction extends StatelessWidget {
   }
 }
 
-/// Destructive action — red label on a red-tinted fill with a 1px red border.
-/// Never a solid red button (that is reserved for the confirm dialog).
 class AppDangerButton extends StatelessWidget {
   final String label;
   final VoidCallback onPressed;
@@ -244,8 +231,6 @@ class AppDangerButton extends StatelessWidget {
   }
 }
 
-/// A 34×34 icon tile used in detail app bars (edit / delete). The delete
-/// variant is red-tinted.
 class AppIconTile extends StatelessWidget {
   final IconData icon;
   final VoidCallback onPressed;
@@ -264,7 +249,6 @@ class AppIconTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = context.tokens;
     final tile = SizedBox(
-      // 34pt visual box, but the tap target stays at the 44pt minimum.
       width: AppMetrics.minHitTarget,
       height: AppMetrics.minHitTarget,
       child: Center(

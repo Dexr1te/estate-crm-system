@@ -2,13 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// Meetings per day over the next two weeks, as columns.
-///
-/// Answers "how busy am I about to be", which no other block on the dashboard
-/// does — the metric card gives one total and the list only shows the next
-/// four. Today is marked so the run of columns has an anchor.
 class MeetingLoadCard extends StatelessWidget {
-  /// One count per day, index 0 = today.
   final List<int> load;
   final DateTime today;
   final VoidCallback onTap;
@@ -115,8 +109,6 @@ class _Column extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.tokens;
-    // Empty days keep a 3px stub of track so the two-week rhythm stays legible
-    // instead of collapsing into gaps.
     final fraction = peak == 0 ? 0.0 : count / peak;
     final filled = count > 0;
 
@@ -129,9 +121,8 @@ class _Column extends StatelessWidget {
             heightFactor: filled ? fraction.clamp(0.18, 1.0) : 0.06,
             child: DecoratedBox(
               decoration: BoxDecoration(
-                color: filled
-                    ? (isToday ? t.accent : t.chartLead)
-                    : t.chartTrack,
+                color:
+                    filled ? (isToday ? t.accent : t.chartLead) : t.chartTrack,
                 borderRadius: BorderRadius.circular(3),
               ),
             ),

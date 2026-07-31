@@ -62,7 +62,8 @@ Widget _wrap(Widget child, {List<MeetingResponse> meetings = const []}) =>
 void main() {
   setUp(_installFakes);
 
-  forEachAcceptanceCase('meetings list', (tester, size, brightness, scale) async {
+  forEachAcceptanceCase('meetings list',
+      (tester, size, brightness, scale) async {
     await expectNoOverflow(
       tester,
       _wrap(const MeetingsScreen(), meetings: _meetings),
@@ -100,7 +101,8 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  forEachAcceptanceCase('meeting form', (tester, size, brightness, scale) async {
+  forEachAcceptanceCase('meeting form',
+      (tester, size, brightness, scale) async {
     await expectNoOverflow(
       tester,
       _wrap(const MeetingFormScreen()),
@@ -145,8 +147,6 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    // The hero carries the eyebrow; the later ones are plain schedule rows.
-    // Eyebrows render uppercase, per the design token.
     expect(find.text('NEXT UP'), findsOneWidget);
     expect(find.textContaining('Viewing · Severny'), findsOneWidget);
     expect(find.text('TODAY'), findsOneWidget);

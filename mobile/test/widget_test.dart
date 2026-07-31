@@ -8,8 +8,6 @@ import 'package:real_estate_crm/features/dashboard/presentation/widgets/pipeline
 
 import 'responsive_harness.dart';
 
-/// Deliberately long strings: the components have to hold up under the worst
-/// realistic content, not just the copy in the mocks.
 final _meeting = MeetingResponse(
   id: 1,
   title: 'Viewing · Severny Residence, apartment 84 with a very long title',
@@ -33,7 +31,8 @@ Widget _page(Widget child) => Builder(
     );
 
 void main() {
-  forEachAcceptanceCase('next-meeting hero', (t, size, brightness, scale) async {
+  forEachAcceptanceCase('next-meeting hero',
+      (t, size, brightness, scale) async {
     await expectNoOverflow(
       t,
       _page(NextMeetingHero(
@@ -70,11 +69,7 @@ void main() {
       t,
       _page(PipelineCard(
         pipeline: const PipelineBreakdown(
-            leads: 11,
-            negotiation: 8,
-            won: 9,
-            lost: 2,
-            totalValue: 412000000),
+            leads: 11, negotiation: 8, won: 9, lost: 2, totalValue: 412000000),
         onStageTap: (_) {},
       )),
       size: size,

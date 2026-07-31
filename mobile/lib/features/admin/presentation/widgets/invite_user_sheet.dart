@@ -3,8 +3,6 @@ import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// Screen 4n. Returns a CreateAgentRequest body
-/// ({fullName, email, phone?, role, dataScope}), or null if cancelled.
 Future<Map<String, dynamic>?> showInviteUserSheet(BuildContext context) {
   final l10n = AppLocalizations.of(context);
   return showAppBottomSheet<Map<String, dynamic>>(
@@ -15,7 +13,6 @@ Future<Map<String, dynamic>?> showInviteUserSheet(BuildContext context) {
   );
 }
 
-/// Data scope never renders as a raw enum name.
 String dataScopeLabel(AppLocalizations l10n, DataScope scope) {
   switch (scope) {
     case DataScope.OWN:
@@ -108,9 +105,13 @@ class _InviteUserFormState extends State<_InviteUserForm> {
             label: l10n.adminRole,
             options: [
               for (final r in Role.values)
-                (label: roleLabel(l10n, r), selected: _role == r, onTap: () {
-                  setState(() => _role = r);
-                }),
+                (
+                  label: roleLabel(l10n, r),
+                  selected: _role == r,
+                  onTap: () {
+                    setState(() => _role = r);
+                  }
+                ),
             ],
           ),
           const SizedBox(height: 12),
@@ -118,10 +119,13 @@ class _InviteUserFormState extends State<_InviteUserForm> {
             label: l10n.adminDataScope,
             options: [
               for (final s in DataScope.values)
-                (label: dataScopeLabel(l10n, s), selected: _scope == s,
-                    onTap: () {
-                  setState(() => _scope = s);
-                }),
+                (
+                  label: dataScopeLabel(l10n, s),
+                  selected: _scope == s,
+                  onTap: () {
+                    setState(() => _scope = s);
+                  }
+                ),
             ],
           ),
           const SizedBox(height: 18),

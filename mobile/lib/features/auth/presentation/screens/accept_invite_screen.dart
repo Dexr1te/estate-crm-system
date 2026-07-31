@@ -8,11 +8,7 @@ import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart'
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_state.dart';
 import 'package:real_estate_crm/features/auth/presentation/screens/login_screen.dart';
 
-/// Where an invited user redeems their invite code and sets a password. On
-/// success the backend returns a full session, so the router redirect moves
-/// them straight into the app.
 class AcceptInviteScreen extends StatefulWidget {
-  /// Optional token to pre-fill (e.g. from a deep link).
   final String? token;
   const AcceptInviteScreen({super.key, this.token});
   @override
@@ -59,7 +55,6 @@ class _AcceptInviteScreenState extends State<AcceptInviteScreen> {
                     content: Text(state.message),
                     backgroundColor: t.dangerSolid));
             }
-            // On AuthAuthenticated the GoRouter redirect handles navigation.
           },
           builder: (ctx, state) {
             final loading = state is AuthLoading;
@@ -166,8 +161,6 @@ class _AcceptInviteScreenState extends State<AcceptInviteScreen> {
   }
 }
 
-/// The invite screen's mark: an outlined key glyph in a surface tile rather
-/// than the filled brand mark, so it reads as a one-off flow.
 class _InviteMark extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

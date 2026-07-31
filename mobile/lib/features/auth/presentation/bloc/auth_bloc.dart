@@ -17,15 +17,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> implements Listenable {
     on<AuthLogoutEvent>(_onLogout);
   }
 
-  // Listenable for GoRouter
   @override
   void addListener(VoidCallback listener) => _listeners.add(listener);
   @override
   void removeListener(VoidCallback listener) => _listeners.remove(listener);
 
   void _notify() {
-    // Iterate a copy: a listener is free to remove itself (or another) while
-    // being notified, which would otherwise throw mid-redirect.
     for (final l in List<VoidCallback>.of(_listeners)) {
       l();
     }
@@ -38,6 +35,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> implements Listenable {
   }
 
   bool get isAuthenticated => state is AuthAuthenticated;
+
+  bool get isSessionResolved => state is! AuthInitial;
   AuthResponse? get currentUser =>
       state is AuthAuthenticated ? (state as AuthAuthenticated).user : null;
 

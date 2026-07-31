@@ -19,15 +19,11 @@ class AdminUsersBloc extends Bloc<AdminUsersEvent, AdminUsersState>
     on<AdminResendInviteEvent>(_onResendInvite);
   }
 
-  /// Whatever is currently on screen, so a write's outcome can carry it
-  /// forward instead of blanking the list.
   List<AgentResponse> get _current {
     final s = state;
     return s is AdminUsersLoaded ? s.users : const [];
   }
 
-  /// A write failed. Keep whatever is on screen; only a failed *load* leaves
-  /// the user with nothing to look at.
   AdminUsersState _failure(Object err) => _current.isEmpty
       ? AdminUsersError(apiErrorMessage(err))
       : AdminUsersActionFailure(apiErrorMessage(err), _current);
@@ -35,14 +31,9 @@ class AdminUsersBloc extends Bloc<AdminUsersEvent, AdminUsersState>
   Future<void> _onLoad(
       AdminUsersLoadEvent e, Emitter<AdminUsersState> emit) async {
     final ticket = startLoad();
-    // Only blank the screen when there is nothing to blank. Every screen
-    // fires a load in initState and switching tabs remounts it, so emitting
-    // Loading unconditionally meant a full-page skeleton on every visit,
-    // however fresh the data already was.
     if (_current.isEmpty) emit(AdminUsersLoading());
     try {
       final users = await _repo.getUsers();
-      // A newer load started while this one was in flight — its result wins.
       if (isStale(ticket)) return;
       emit(AdminUsersLoaded(users));
     } catch (err) {
@@ -51,7 +42,6 @@ class AdminUsersBloc extends Bloc<AdminUsersEvent, AdminUsersState>
     }
   }
 
-  // Runs [action], surfaces a success message, then reloads the list.
   Future<void> _act(Emitter<AdminUsersState> emit, String success,
       Future<void> Function() action) async {
     try {
@@ -63,8 +53,6 @@ class AdminUsersBloc extends Bloc<AdminUsersEvent, AdminUsersState>
     }
   }
 
-  // Invite is special: we surface the returned user (with its one-time invite
-  // token) instead of a generic success message, then reload the list.
   Future<void> _onInvite(
       AdminInviteUserEvent e, Emitter<AdminUsersState> emit) async {
     try {

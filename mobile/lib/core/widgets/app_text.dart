@@ -2,14 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/theme/app_metrics.dart';
 import 'package:real_estate_crm/core/theme/app_tokens.dart';
 
-/// Section header — font 600/14 in textPrimary, with an optional trailing
-/// "Все →" / "All →" link at 600/12 in textSecondary.
 class SectionHeader extends StatelessWidget {
   final String title;
   final String? actionLabel;
   final VoidCallback? onAction;
 
-  /// A plain count or total shown instead of a tappable link.
   final String? trailingText;
 
   const SectionHeader({
@@ -64,8 +61,6 @@ class SectionHeader extends StatelessWidget {
   }
 }
 
-/// Eyebrow label — font 600/10.5, letter-spacing 1.1, uppercase, accent
-/// colour. Marks the top of a card section.
 class EyebrowLabel extends StatelessWidget {
   final String text;
   final Color? color;
@@ -89,12 +84,18 @@ class EyebrowLabel extends StatelessWidget {
   }
 }
 
-/// Screen title — font 700/24, letter-spacing -0.5, with an optional counter
-/// line beneath it.
 class ScreenTitle extends StatelessWidget {
   final String title;
   final String? subtitle;
-  const ScreenTitle(this.title, {super.key, this.subtitle});
+
+  final bool reserveSubtitle;
+
+  const ScreenTitle(
+    this.title, {
+    super.key,
+    this.subtitle,
+    this.reserveSubtitle = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -115,10 +116,10 @@ class ScreenTitle extends StatelessWidget {
             color: t.textPrimary,
           ),
         ),
-        if (subtitle != null) ...[
+        if (subtitle != null || reserveSubtitle) ...[
           const SizedBox(height: 4),
           Text(
-            subtitle!,
+            subtitle ?? ' ',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
@@ -133,8 +134,6 @@ class ScreenTitle extends StatelessWidget {
   }
 }
 
-/// A label → value row inside a card. Label 400/12.5 secondary on the left,
-/// value 500/12.5 primary on the right.
 class InfoRow extends StatelessWidget {
   final String label;
   final String value;
@@ -152,8 +151,6 @@ class InfoRow extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Both sides give way: a long translated label wraps rather than
-        // pushing the value off the card.
         Flexible(
           child: Text(
             label,
@@ -188,7 +185,6 @@ class InfoRow extends StatelessWidget {
   }
 }
 
-/// One cell of the 2-column detail grid: caption 400/11 above value 600/13.
 class DetailCell extends StatelessWidget {
   final String label;
   final String value;
@@ -204,7 +200,9 @@ class DetailCell extends StatelessWidget {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
-                fontFamily: AppFonts.sans, fontSize: 11, color: t.textSecondary)),
+                fontFamily: AppFonts.sans,
+                fontSize: 11,
+                color: t.textSecondary)),
         const SizedBox(height: 3),
         Text(value,
             maxLines: 2,
@@ -219,16 +217,14 @@ class DetailCell extends StatelessWidget {
   }
 }
 
-/// A 2-column grid of [DetailCell]s that collapses to a single column below
-/// 340pt.
 class DetailGrid extends StatelessWidget {
   final List<DetailCell> cells;
   const DetailGrid({super.key, required this.cells});
 
   @override
   Widget build(BuildContext context) {
-    final single = MediaQuery.sizeOf(context).width <
-        AppMetrics.singleColumnBreakpoint;
+    final single =
+        MediaQuery.sizeOf(context).width < AppMetrics.singleColumnBreakpoint;
     if (single) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,

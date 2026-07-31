@@ -16,42 +16,28 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> with LoadGeneration {
     on<ClientsUpdateEvent>(_onUpdate);
   }
 
-  /// Whatever is currently on screen, so a write's outcome can carry it
-  /// forward instead of blanking the list.
   List<ClientSummary> get _current {
     final s = state;
     return s is ClientsLoaded ? s.clients : const [];
   }
 
-  /// A write failed. Keep whatever is on screen; only a failed *load* leaves
-  /// the user with nothing to look at.
   ClientsState _failure(Object err) => _current.isEmpty
       ? ClientsError(apiErrorMessage(err))
       : ClientsActionFailure(apiErrorMessage(err), _current);
 
   void _onReset(ClientsResetEvent e, Emitter<ClientsState> emit) {
-    // Invalidate any load still in flight, so a response fetched with the old
-    // session's token can't repopulate the list after the reset.
     startLoad();
     emit(ClientsInitial());
   }
 
   Future<void> _onLoad(ClientsLoadEvent e, Emitter<ClientsState> emit) async {
     final ticket = startLoad();
-    // Only blank the screen when there is nothing to blank. Every screen
-    // fires a load in initState and switching tabs remounts it, so emitting
-    // Loading unconditionally meant a full-page skeleton on every visit,
-    // however fresh the data already was.
     if (_current.isEmpty) emit(ClientsLoading());
     try {
-      // Two calls: `/clients` is the authoritative record (type, agent),
-      // `/clients/with-details` carries the per-deal figures. See
-      // [ClientSummary.join].
       final results = await Future.wait([
         _repo.getClients(),
         _repo.getClientsWithDetails(),
       ]);
-      // A newer load started while this one was in flight — its result wins.
       if (isStale(ticket)) return;
       emit(ClientsLoaded(ClientSummary.join(
         results[0] as List<ClientResponse>,
@@ -78,9 +64,7 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState> with LoadGeneration {
       ClientsCreateEvent e, Emitter<ClientsState> emit) async {
     try {
       final created = await _repo.createClient(e.data);
-      emit(ClientCreated(created, _current)); // the full object, with its id
-      // The form sits on the root navigator, so the list screen underneath
-      // never remounts — nothing else would pick the new row up.
+      emit(ClientCreated(created, _current));
       add(ClientsLoadEvent());
     } catch (err) {
       emit(_failure(err));

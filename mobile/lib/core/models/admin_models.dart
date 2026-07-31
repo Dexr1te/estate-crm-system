@@ -1,7 +1,5 @@
 import 'package:real_estate_crm/core/models/models.dart';
 
-/// Parses a backend role string to [Role], defaulting to [Role.AGENT] for
-/// unknown/absent values (mirrors the AuthResponse fallback).
 Role roleFromName(dynamic value) {
   if (value is String) {
     for (final r in Role.values) {
@@ -11,15 +9,11 @@ Role roleFromName(dynamic value) {
   return Role.AGENT;
 }
 
-/// Reads a nullable ISO date-time.
 DateTime? _date(dynamic v) => v is String ? DateTime.tryParse(v) : null;
 
-/// Jackson serializes a `boolean isActive` getter as the JSON key `active`;
-/// accept either spelling.
 bool _activeOf(Map<String, dynamic> json) =>
     (json['active'] ?? json['isActive'] ?? false) as bool;
 
-/// A user/agent as returned by the admin endpoints (`/admin/users`).
 class AgentResponse {
   final int id;
   final String fullName;
@@ -29,8 +23,6 @@ class AgentResponse {
   final bool isActive;
   final DateTime? createdAt;
 
-  /// One-time invite token, present only in the response to an invite call so
-  /// it can be shared with the new user. Null when listing existing users.
   final String? inviteToken;
 
   const AgentResponse({
@@ -56,7 +48,6 @@ class AgentResponse {
       );
 }
 
-/// Work statistics for a single agent (`/admin/users/{id}/stats`).
 class AgentStatsResponse {
   final int agentId;
   final String fullName;
@@ -94,7 +85,6 @@ class AgentStatsResponse {
       );
 }
 
-/// One audit-log entry (`/admin/audit-log`).
 class AuditLogResponse {
   final int id;
   final int? actorId;

@@ -1,7 +1,5 @@
 import 'package:real_estate_crm/core/models/models.dart';
 
-/// Contract for client data access. Presentation (blocs/screens) depends on
-/// this abstraction, never on Dio or a concrete data source.
 abstract class ClientsRepository {
   Future<List<ClientResponse>> getClients({
     ClientType? type,

@@ -123,7 +123,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 
-/// Title 700/27 (letter-spacing -0.7) over a 400/13.5 secondary subtitle.
 class AuthTitle extends StatelessWidget {
   final String title;
   final String subtitle;
@@ -171,9 +170,7 @@ class _ObscureToggle extends StatelessWidget {
       onPressed: onTap,
       splashRadius: 20,
       icon: Icon(
-        obscured
-            ? Icons.visibility_outlined
-            : Icons.visibility_off_outlined,
+        obscured ? Icons.visibility_outlined : Icons.visibility_off_outlined,
         size: 18,
         color: t.textHint,
       ),
@@ -200,7 +197,9 @@ class _FooterLink extends StatelessWidget {
         children: [
           Text(question,
               style: TextStyle(
-                  fontFamily: AppFonts.sans, fontSize: 13, color: t.textSecondary)),
+                  fontFamily: AppFonts.sans,
+                  fontSize: 13,
+                  color: t.textSecondary)),
           GestureDetector(
             onTap: onTap,
             child: Text(action,

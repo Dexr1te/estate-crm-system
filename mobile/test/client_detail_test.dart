@@ -51,7 +51,8 @@ Widget _wrap(Widget child) => MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => AuthBloc(FakeAuthRepository())),
         BlocProvider(
-            create: (_) => ClientsBloc(FakeClientsRepository(clients: const []))),
+            create: (_) =>
+                ClientsBloc(FakeClientsRepository(clients: const []))),
       ],
       child: child,
     );
@@ -59,7 +60,8 @@ Widget _wrap(Widget child) => MultiBlocProvider(
 void main() {
   setUp(_installFakes);
 
-  forEachAcceptanceCase('client detail', (tester, size, brightness, scale) async {
+  forEachAcceptanceCase('client detail',
+      (tester, size, brightness, scale) async {
     await expectNoOverflow(
       tester,
       _wrap(const ClientDetailScreen(id: 1)),

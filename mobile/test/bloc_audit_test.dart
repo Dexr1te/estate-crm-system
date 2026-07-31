@@ -21,13 +21,11 @@ import 'package:real_estate_crm/features/properties/presentation/bloc/properties
 
 import 'fakes.dart';
 
-/// Lets the bloc's event queue and any completed futures drain.
 Future<void> _settle() async {
   await Future<void>.delayed(Duration.zero);
   await Future<void>.delayed(Duration.zero);
 }
 
-// ── Repositories whose write paths fail ───────────────────────────────
 class _FailingProperties extends FakePropertiesRepository {
   _FailingProperties() : super(const [PropertyResponse(id: 1, title: 'A')]);
   @override
@@ -53,7 +51,11 @@ class _FailingMeetings extends FakeMeetingsRepository {
   _FailingMeetings()
       : super([
           MeetingResponse(
-              id: 1, title: 'A', scheduledAt: DateTime(2030), agentId: 1, clientId: 1)
+              id: 1,
+              title: 'A',
+              scheduledAt: DateTime(2030),
+              agentId: 1,
+              clientId: 1)
         ]);
   @override
   Future<MeetingResponse> completeMeeting(int id) =>
@@ -131,7 +133,6 @@ void main() {
     await _settle();
     expect(repo.inFlight, 2, reason: 'both loads should be in flight');
 
-    // The newer request answers first, the stale one last.
     repo.complete(1, 'fresh');
     await _settle();
     repo.complete(0, 'stale');
@@ -144,8 +145,8 @@ void main() {
 
   group('signing out drops the previous account\'s data', () {
     test('clients', () async {
-      final bloc = ClientsBloc(
-          FakeClientsRepository(clients: const [ClientResponse(id: 1, fullName: 'A')]));
+      final bloc = ClientsBloc(FakeClientsRepository(
+          clients: const [ClientResponse(id: 1, fullName: 'A')]));
       addTearDown(bloc.close);
       bloc.add(ClientsLoadEvent());
       await _settle();
@@ -168,7 +169,6 @@ void main() {
       bloc.add(ClientsResetEvent());
       await _settle();
 
-      // The old session's request finally answers.
       repo.complete(0, 'previous account');
       await _settle();
 
@@ -178,8 +178,6 @@ void main() {
   });
 
   test('an in-flight mutation survives the bloc being closed', () async {
-    // AdminUsersBloc is per-screen: leaving the admin console closes it while
-    // a deactivate (and the reload it queues) can still be in flight.
     final repo = _SlowAdmin();
     final bloc = AdminUsersBloc(repo);
     bloc.add(AdminDeactivateUserEvent(1));
@@ -190,7 +188,6 @@ void main() {
   });
 }
 
-// ── Manually-completed repositories ───────────────────────────────────
 class _ManualClients extends FakeClientsRepository {
   final _pending = <Completer<List<ClientResponse>>>[];
   int get inFlight => _pending.length;

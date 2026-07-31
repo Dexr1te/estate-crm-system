@@ -35,8 +35,6 @@ final _meetings = [
   _meeting(5, const Duration(days: 3), 'Handover · Severny Residence'),
 ];
 
-/// Long names on purpose: the agent rows and legends have to survive a name
-/// that does not fit, at 320pt and 1.3× scale.
 const _agentNames = [
   'Maria Kim-Doroshenko',
   'Aleksandr Konstantinovich Vishnevsky',
@@ -71,8 +69,6 @@ final _deals = [
         agentId: 1,
         agentName: _agentNames[i % _agentNames.length],
         dealPrice: 54800000),
-  // Without these the win rate would be a flat 100% and never exercise the
-  // lost arc.
   for (var i = 0; i < 4; i++)
     DealResponse(
         id: 400 + i,
@@ -127,7 +123,6 @@ void main() {
       brightness: brightness,
       textScale: scale,
     );
-    // Settle the bloc's async load, then check the laid-out frame too.
     await tester.pumpAndSettle();
     expect(tester.takeException(), isNull);
   });
@@ -145,8 +140,6 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  // The agent ranking only renders for a role that can see other people's
-  // deals, so it needs its own pass through the matrix.
   forEachAcceptanceCase('dashboard — admin, with agent ranking',
       (tester, size, brightness, scale) async {
     await expectNoOverflow(
@@ -161,8 +154,7 @@ void main() {
   });
 
   for (final locale in kAcceptanceLocales) {
-    testWidgets('dashboard renders in ${locale.languageCode}',
-        (tester) async {
+    testWidgets('dashboard renders in ${locale.languageCode}', (tester) async {
       await expectNoOverflow(
         tester,
         _dashboard(meetings: _meetings, deals: _deals, user: _admin),
@@ -178,8 +170,6 @@ void main() {
 
   testWidgets('an empty dashboard offers the actions that would fill it',
       (tester) async {
-    // The hero and the pipeline card used to disappear with no data, leaving
-    // the screen looking half-loaded.
     await expectNoOverflow(
       tester,
       _dashboard(),

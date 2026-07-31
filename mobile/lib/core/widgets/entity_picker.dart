@@ -6,7 +6,6 @@ import 'package:real_estate_crm/core/widgets/app_card.dart';
 import 'package:real_estate_crm/core/widgets/app_field.dart';
 import 'package:real_estate_crm/core/widgets/empty_state.dart';
 
-/// One selectable row in an [showEntityPicker] sheet.
 class PickerItem {
   final int id;
   final String title;
@@ -14,9 +13,6 @@ class PickerItem {
   const PickerItem({required this.id, required this.title, this.subtitle});
 }
 
-/// A searchable bottom sheet for choosing a client, agent or property.
-///
-/// Shared by the deal and meeting forms, which previously carried a copy each.
 Future<PickerItem?> showEntityPicker(
   BuildContext context, {
   required String title,
@@ -105,8 +101,6 @@ class _PickerBodyState extends State<_PickerBody> {
                 icon: Icons.search_off_rounded, title: widget.emptyLabel),
           )
         else
-          // Bounded so the sheet stays inside its 90%-height cap and the list
-          // scrolls internally rather than overflowing.
           ConstrainedBox(
             constraints: BoxConstraints(
                 maxHeight: MediaQuery.sizeOf(context).height * 0.5),
@@ -120,8 +114,8 @@ class _PickerBodyState extends State<_PickerBody> {
                 return AppCard(
                   nested: true,
                   radius: AppMetrics.radiusSm,
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 13, vertical: 12),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 13, vertical: 12),
                   onTap: () => Navigator.pop(context, item),
                   child: Row(
                     children: [

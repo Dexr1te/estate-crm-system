@@ -156,7 +156,8 @@ class _MeetingsScreenState extends State<MeetingsScreen> {
         child: Row(
           children: [
             Expanded(
-                child: ScreenTitle(l10n.meetingsTitle, subtitle: subtitle)),
+                child: ScreenTitle(l10n.meetingsTitle,
+                    subtitle: subtitle, reserveSubtitle: true)),
             const SizedBox(width: 12),
             AppHeaderAction(
               label: l10n.meetingsAddShort,
@@ -192,7 +193,6 @@ class _MeetingsScreenState extends State<MeetingsScreen> {
         ],
       );
 
-  /// Date-grouped sections with an uppercase group label, as drawn in 4l.
   List<Widget> _groups(
       List<MeetingResponse> meetings, DateTime now, AppLocalizations l10n) {
     if (meetings.isEmpty) return const [];

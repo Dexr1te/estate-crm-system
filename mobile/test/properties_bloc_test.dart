@@ -14,8 +14,6 @@ const _properties = [
   PropertyResponse(id: 2, title: 'B', status: PropertyStatus.RESERVED),
 ];
 
-/// Serves each `getProperties` call from a future the test completes by hand,
-/// so two loads can be put in flight at once.
 class _ManualPropertiesRepository extends FakePropertiesRepository {
   _ManualPropertiesRepository() : super(_properties);
 
@@ -51,8 +49,6 @@ class _ManualPropertiesRepository extends FakePropertiesRepository {
 
 void main() {
   test('overlapping reloads do not duplicate the list', () async {
-    // Reproduces the reported bug: changing a property's status twice fires
-    // two reloads, and bloc's default transformer runs them concurrently.
     final repo = _ManualPropertiesRepository();
     final bloc = PropertiesBloc(repo);
     addTearDown(bloc.close);
@@ -63,7 +59,6 @@ void main() {
     await Future<void>.delayed(Duration.zero);
     expect(repo.inFlight, 2, reason: 'both loads should be in flight');
 
-    // Resolve out of order: the first request answers last.
     repo.complete(1, _properties);
     await Future<void>.delayed(Duration.zero);
     repo.complete(0, _properties);
@@ -82,7 +77,6 @@ void main() {
     final bloc = PropertiesBloc(repo);
     addTearDown(bloc.close);
 
-    // First page, with more available.
     bloc.add(PropertiesLoadEvent());
     await Future<void>.delayed(Duration.zero);
     repo._pending[0].complete(const PagedResponse(
@@ -94,15 +88,14 @@ void main() {
     ));
     await Future<void>.delayed(Duration.zero);
 
-    // Page two starts, then a reload overtakes it.
     bloc.add(PropertiesLoadMoreEvent());
     await Future<void>.delayed(Duration.zero);
     bloc.add(PropertiesLoadEvent());
     await Future<void>.delayed(Duration.zero);
 
-    repo.complete(1, const [PropertyResponse(id: 2, title: 'B')]); // load-more
+    repo.complete(1, const [PropertyResponse(id: 2, title: 'B')]);
     await Future<void>.delayed(Duration.zero);
-    repo.complete(2, const [PropertyResponse(id: 1, title: 'A')]); // reload
+    repo.complete(2, const [PropertyResponse(id: 1, title: 'A')]);
     await Future<void>.delayed(Duration.zero);
 
     final loaded = bloc.state as PropertiesLoaded;

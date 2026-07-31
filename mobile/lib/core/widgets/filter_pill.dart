@@ -2,15 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/theme/app_metrics.dart';
 import 'package:real_estate_crm/core/theme/app_tokens.dart';
 
-/// A filter / selector pill. Active = primary fill with the onPrimary label;
-/// inactive = surface (or surfaceVariant inside a card) with a 1px border.
 class FilterPill extends StatelessWidget {
   final String label;
   final bool selected;
   final VoidCallback onTap;
 
-  /// Pills drawn inside a card sit on surfaceVariant with no border; pills on
-  /// the page background get a surface fill and a border.
   final bool onCard;
   final double fontSize;
   final EdgeInsetsGeometry padding;
@@ -31,9 +27,7 @@ class FilterPill extends StatelessWidget {
     final radius = BorderRadius.circular(AppMetrics.radiusPill);
 
     return Material(
-      color: selected
-          ? t.primary
-          : (onCard ? t.surfaceVariant : t.surface),
+      color: selected ? t.primary : (onCard ? t.surfaceVariant : t.surface),
       borderRadius: radius,
       child: InkWell(
         borderRadius: radius,
@@ -51,10 +45,6 @@ class FilterPill extends StatelessWidget {
               label,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              // A no-op where the pill shrink-wraps its label (the scrolling
-              // filter rows), but the status and stage selectors stretch each
-              // pill with an Expanded — without this the label sits against
-              // the left edge of a pill that is wider than its text.
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontFamily: AppFonts.sans,
@@ -70,7 +60,6 @@ class FilterPill extends StatelessWidget {
   }
 }
 
-/// A wrapping row of pills — used for type/stage selectors inside forms.
 class FilterPillWrap extends StatelessWidget {
   final List<Widget> pills;
   const FilterPillWrap({super.key, required this.pills});
@@ -80,8 +69,6 @@ class FilterPillWrap extends StatelessWidget {
       Wrap(spacing: 8, runSpacing: 8, children: pills);
 }
 
-/// A horizontally scrollable row of pills — used for list filters that carry
-/// counts and can overflow the screen.
 class FilterPillRow extends StatelessWidget {
   final List<Widget> pills;
   final EdgeInsetsGeometry padding;
@@ -106,8 +93,6 @@ class FilterPillRow extends StatelessWidget {
       );
 }
 
-/// The segmented tab bar used on the Admin screen: a surfaceVariant track with
-/// radius 12 and 4pt padding; the active tab is a surface pill at radius 9.
 class SegmentedTabs extends StatelessWidget {
   final List<String> labels;
   final int selectedIndex;

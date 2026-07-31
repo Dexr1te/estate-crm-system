@@ -29,7 +29,8 @@ void main() {
         _deal(DealStatus.NEGOTIATION, price: 200),
       ]);
       expect(p.winRate, isNull,
-          reason: 'drawing 0% here would report a failure the team has not had');
+          reason:
+              'drawing 0% here would report a failure the team has not had');
       expect(p.decided, 0);
     });
 
@@ -37,7 +38,6 @@ void main() {
       final p = PipelineBreakdown.from([
         _deal(DealStatus.CLOSED_WON, price: 1),
         _deal(DealStatus.CLOSED_LOST, price: 1),
-        // Ten still-open deals must not drag the rate down.
         for (var i = 0; i < 10; i++) _deal(DealStatus.LEAD, price: 1),
       ]);
       expect(p.winRate, 0.5);
@@ -70,9 +70,9 @@ void main() {
     test('buckets by day, with today at index 0', () {
       final now = DateTime(2026, 7, 31, 14);
       final state = _loaded(meetings: [
-        _meeting(DateTime(2026, 7, 31, 9)), // earlier today
+        _meeting(DateTime(2026, 7, 31, 9)),
         _meeting(DateTime(2026, 7, 31, 18)),
-        _meeting(DateTime(2026, 8, 2, 11)), // +2 days
+        _meeting(DateTime(2026, 8, 2, 11)),
       ]);
 
       final load = state.meetingLoad(now);
@@ -85,8 +85,8 @@ void main() {
     test('drops meetings outside the window instead of clamping them', () {
       final now = DateTime(2026, 7, 31);
       final state = _loaded(meetings: [
-        _meeting(DateTime(2026, 9, 30)), // far future
-        _meeting(DateTime(2026, 7, 1)), // past
+        _meeting(DateTime(2026, 9, 30)),
+        _meeting(DateTime(2026, 7, 1)),
       ]);
       expect(state.meetingLoad(now).every((c) => c == 0), isTrue,
           reason: 'a far-off meeting must not pile onto the last column');
@@ -98,7 +98,6 @@ void main() {
       final state = _loaded(deals: [
         _deal(DealStatus.CLOSED_WON, price: 100, agent: 'Quiet closer'),
         _deal(DealStatus.CLOSED_WON, price: 900, agent: 'Big closer'),
-        // A huge open deal must not buy anyone the top spot.
         _deal(DealStatus.NEGOTIATION, price: 100000, agent: 'Optimist'),
       ]);
 

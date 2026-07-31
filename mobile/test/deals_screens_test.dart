@@ -37,7 +37,6 @@ final _deals = [
     agentId: 6,
     agentName: 'Андрей Волк',
     dealPrice: 26000000,
-    // Untouched for a fortnight — the card must flag it.
     updatedAt: DateTime.now().subtract(const Duration(days: 14)),
   ),
   const DealResponse(

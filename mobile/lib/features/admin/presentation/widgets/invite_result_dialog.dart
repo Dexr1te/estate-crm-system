@@ -4,9 +4,6 @@ import 'package:real_estate_crm/core/models/admin_models.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// Shows the result of an invite: the one-time invite token for [user], with a
-/// copy button and instructions for the admin to pass it on. Because there is
-/// no email delivery, this dialog IS the delivery mechanism.
 Future<void> showInviteResultDialog(BuildContext context, AgentResponse user) {
   return showDialog<void>(
     context: context,
@@ -37,8 +34,6 @@ class _InviteResultDialog extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Params are alphabetical (email, name, role) — the ARB placeholder
-          // types were dropped, so gen-l10n no longer preserves declared order.
           Text(l10n.adminInvitedAs(
               user.email, user.fullName, roleLabel(l10n, user.role))),
           const SizedBox(height: 16),

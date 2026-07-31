@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 
-/// One cell of the metrics card: the number at 700/22, an optional delta chip
-/// in a status colour, and a caption at 400/11.5.
 class Metric {
   final String value;
   final String caption;
@@ -19,8 +17,6 @@ class Metric {
   });
 }
 
-/// Four metrics in a single card as a 2×2 grid with 1px internal dividers —
-/// not four separate tiles. Fractional widths, so it holds down to 320pt.
 class MetricsCard extends StatelessWidget {
   final List<Metric> metrics;
   const MetricsCard({super.key, required this.metrics});
@@ -114,7 +110,9 @@ class _Cell extends StatelessWidget {
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
-                fontFamily: AppFonts.sans, fontSize: 11.5, color: t.textSecondary),
+                fontFamily: AppFonts.sans,
+                fontSize: 11.5,
+                color: t.textSecondary),
           ),
         ],
       ),

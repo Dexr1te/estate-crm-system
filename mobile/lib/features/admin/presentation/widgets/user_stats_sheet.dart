@@ -4,8 +4,6 @@ import 'package:real_estate_crm/core/models/admin_models.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// Bottom sheet showing a single agent's work statistics, as one metrics card
-/// with hairline dividers — not tinted tiles.
 void showUserStatsSheet(BuildContext context, int userId) {
   showAppBottomSheet(
     context,

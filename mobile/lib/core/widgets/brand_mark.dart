@@ -1,16 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/theme/app_tokens.dart';
 
-/// The EstateCRM mark: a rounded tile holding the "e." wordmark — light text
-/// with a gold full stop.
-///
-/// Light draws it on navy; dark on surfaceVariant, so the tile still reads as
-/// a mark rather than a filled button.
 class BrandMark extends StatelessWidget {
   final double size;
 
-  /// Corner radius. Defaults to ~30% of [size], matching the 62/19 and 40/12
-  /// pairs in the mocks.
   final double? radius;
 
   const BrandMark({super.key, this.size = 62, this.radius});
@@ -46,7 +39,6 @@ class BrandMark extends StatelessWidget {
   }
 }
 
-/// The full wordmark — "EstateCRM" with a gold full stop.
 class BrandWordmark extends StatelessWidget {
   final double fontSize;
   const BrandWordmark({super.key, this.fontSize = 19});
@@ -75,9 +67,6 @@ class BrandWordmark extends StatelessWidget {
   }
 }
 
-/// A scroll view whose content is vertically centred when it fits and scrolls
-/// when it doesn't — the auth screens' layout, which must survive a 568pt-tall
-/// phone at 1.3× text.
 class CenteredScrollView extends StatelessWidget {
   final Widget child;
   final EdgeInsetsGeometry padding;

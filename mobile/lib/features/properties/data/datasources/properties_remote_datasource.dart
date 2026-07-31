@@ -2,12 +2,6 @@ import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/models/paged_response.dart';
 import 'package:real_estate_crm/core/network/api_client.dart';
 
-/// Raw HTTP access to the `/properties` endpoints.
-///
-/// `GET /properties` returns a Spring `Page` object once any filter or paging
-/// param is sent, and a plain array otherwise. [getProperties] always sends
-/// `page`/`size` and normalizes via [PagedResponse.parse]; [getAllProperties]
-/// fetches the full (unpaged) list for pickers.
 class PropertiesRemoteDataSource {
   final ApiClient _client;
   PropertiesRemoteDataSource(this._client);
@@ -36,7 +30,6 @@ class PropertiesRemoteDataSource {
         requestedPage: page);
   }
 
-  /// Full unpaged list — used to populate pickers (e.g. the deal form).
   Future<List<PropertyResponse>> getAllProperties() async {
     final res = await _client.dio.get('/properties');
     final data = res.data;

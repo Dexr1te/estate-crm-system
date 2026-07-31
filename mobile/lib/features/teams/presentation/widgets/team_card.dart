@@ -3,8 +3,6 @@ import 'package:real_estate_crm/core/models/team_models.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// List-item card for a team (screen 4o): a 40px rounded icon tile, the team
-/// name over a member/manager line, and an edit tile for admins.
 class TeamCard extends StatelessWidget {
   final TeamResponse team;
   final VoidCallback onTap;

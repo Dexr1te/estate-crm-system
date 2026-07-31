@@ -19,8 +19,6 @@ import 'package:real_estate_crm/features/teams/presentation/widgets/team_form_sh
 import 'package:real_estate_crm/features/teams/presentation/widgets/team_stats_sheet.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// ADMIN-only console (screens 4m–4p): one screen with a segmented tab bar
-/// over users, teams and the audit log.
 class AdminConsoleScreen extends StatefulWidget {
   const AdminConsoleScreen({super.key});
 
@@ -88,8 +86,6 @@ class _AdminConsoleScreenState extends State<AdminConsoleScreen> {
     );
   }
 }
-
-// ─────────────────────────── Users ───────────────────────────
 
 class _UsersTab extends StatelessWidget {
   const _UsersTab();
@@ -168,14 +164,15 @@ class _UsersTab extends StatelessWidget {
 
     return BlocConsumer<AdminUsersBloc, AdminUsersState>(
       listener: (ctx, state) {
-        if (state is AdminInviteSuccess) showInviteResultDialog(ctx, state.user);
+        if (state is AdminInviteSuccess) {
+          showInviteResultDialog(ctx, state.user);
+        }
         showActionOutcome(ctx, state);
         if (state is AdminUsersError) {
           ScaffoldMessenger.of(ctx)
             ..hideCurrentSnackBar()
             ..showSnackBar(SnackBar(
-                content: Text(state.message),
-                backgroundColor: t.dangerSolid));
+                content: Text(state.message), backgroundColor: t.dangerSolid));
         }
       },
       builder: (ctx, state) {
@@ -244,7 +241,6 @@ class _UsersTab extends StatelessWidget {
   }
 }
 
-/// The full-width invite button that closes the Users tab, as drawn in 4m.
 class _InviteCta extends StatelessWidget {
   final VoidCallback onPressed;
   final double pad;
@@ -260,8 +256,6 @@ class _InviteCta extends StatelessWidget {
         ),
       );
 }
-
-// ─────────────────────────── Teams ───────────────────────────
 
 class _TeamsTab extends StatelessWidget {
   const _TeamsTab();
@@ -302,8 +296,7 @@ class _TeamsTab extends StatelessWidget {
           ScaffoldMessenger.of(ctx)
             ..hideCurrentSnackBar()
             ..showSnackBar(SnackBar(
-                content: Text(state.message),
-                backgroundColor: t.dangerSolid));
+                content: Text(state.message), backgroundColor: t.dangerSolid));
         }
       },
       builder: (ctx, state) {
@@ -358,8 +351,6 @@ class _TeamsTab extends StatelessWidget {
     );
   }
 }
-
-// ─────────────────────────── Audit ───────────────────────────
 
 class _AuditTab extends StatelessWidget {
   const _AuditTab();
@@ -459,7 +450,6 @@ class _AuditRow extends StatelessWidget {
   }
 }
 
-/// A selectable row inside a picker sheet.
 class _SheetOption extends StatelessWidget {
   final String label;
   final bool selected;

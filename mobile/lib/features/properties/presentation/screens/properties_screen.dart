@@ -123,6 +123,7 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
                             Expanded(
                               child: ScreenTitle(
                                 l10n.propertiesTitle,
+                                reserveSubtitle: true,
                                 subtitle: state is PropertiesLoaded
                                     ? l10n.propertiesCounter(
                                         items.length,
@@ -243,6 +244,4 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
   }
 }
 
-/// Sentinel returned by the type sheet for "any type", so `null` can keep
-/// meaning "dismissed".
 const _kAnyType = Object();

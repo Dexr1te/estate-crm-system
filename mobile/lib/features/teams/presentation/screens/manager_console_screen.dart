@@ -7,7 +7,6 @@ import 'package:real_estate_crm/features/teams/presentation/widgets/team_card.da
 import 'package:real_estate_crm/features/teams/presentation/widgets/team_stats_sheet.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// MANAGER-only console: view their team(s) and invite agents into the team.
 class ManagerConsoleScreen extends StatelessWidget {
   const ManagerConsoleScreen({super.key});
 
@@ -64,8 +63,9 @@ class ManagerConsoleScreen extends StatelessWidget {
                           if (state is TeamsError) {
                             return ErrorWidget2(
                                 message: state.message,
-                                onRetry: () =>
-                                    ctx.read<TeamsBloc>().add(TeamsLoadEvent()));
+                                onRetry: () => ctx
+                                    .read<TeamsBloc>()
+                                    .add(TeamsLoadEvent()));
                           }
                           if (state is! TeamsLoaded) {
                             return const SizedBox.shrink();
@@ -116,7 +116,6 @@ class ManagerConsoleScreen extends StatelessWidget {
   }
 }
 
-/// Invite-agent sheet (name/email/phone). Role and scope default server-side.
 Future<Map<String, dynamic>?> _showInviteAgentSheet(BuildContext context) {
   final formKey = GlobalKey<FormState>();
   final name = TextEditingController();

@@ -11,8 +11,6 @@ import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_eve
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_state.dart';
 
-/// Screen 4r. Navy hero with the meeting type eyebrow, gold time chip and the
-/// Directions/Call pair, then Details, Status and Note cards.
 class MeetingDetailScreen extends StatefulWidget {
   final int id;
   const MeetingDetailScreen({super.key, required this.id});
@@ -85,9 +83,6 @@ class _MeetingDetailScreenState extends State<MeetingDetailScreen> {
     }
   }
 
-  /// Whether the server last confirmed this meeting as completed. The toggle
-  /// flips optimistically; if the write is rejected we fall back to this
-  /// instead of showing a state that was never saved.
   bool? _confirmedCompleted;
 
   void _setCompleted(bool completed) {
@@ -110,8 +105,6 @@ class _MeetingDetailScreenState extends State<MeetingDetailScreen> {
       setState(() => _m = _m?.copyWith(completed: _confirmedCompleted!));
       _confirmedCompleted = null;
     }
-    // The message itself is surfaced by the list screen's listener, which
-    // stays mounted underneath this route.
   }
 
   @override

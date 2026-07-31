@@ -5,6 +5,7 @@ import 'package:real_estate_crm/features/admin/presentation/screens/admin_consol
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/screens/accept_invite_screen.dart';
 import 'package:real_estate_crm/features/auth/presentation/screens/login_screen.dart';
+import 'package:real_estate_crm/features/auth/presentation/screens/splash_screen.dart';
 import 'package:real_estate_crm/features/teams/presentation/screens/manager_console_screen.dart';
 import 'package:real_estate_crm/features/clients/presentation/screens/client_detail_screen.dart';
 import 'package:real_estate_crm/features/clients/presentation/screens/client_form_screen.dart';
@@ -36,28 +37,43 @@ class NoTransitionPage<T> extends CustomTransitionPage<T> {
   static Widget _noTransition(_, __, ___, Widget child) => child;
 }
 
+String? resolveRedirect({
+  required String location,
+  required bool sessionResolved,
+  required bool authenticated,
+  required Role? role,
+}) {
+  if (!sessionResolved) return location == '/splash' ? null : '/splash';
+  if (location == '/splash') return authenticated ? '/dashboard' : '/login';
+
+  final onAuth =
+      location.startsWith('/login') || location.startsWith('/accept-invite');
+  if (!authenticated && !onAuth) return '/login';
+  if (authenticated && onAuth) return '/dashboard';
+
+  if (location.startsWith('/admin') && role != Role.ADMIN) return '/dashboard';
+  if (location.startsWith('/team-console') && role != Role.MANAGER) {
+    return '/dashboard';
+  }
+  return null;
+}
+
 GoRouter createRouter(AuthBloc authBloc) {
   return GoRouter(
     navigatorKey: _rootKey,
     initialLocation: '/dashboard',
     refreshListenable: authBloc,
-    redirect: (context, state) {
-      final authed = authBloc.isAuthenticated;
-      final loc = state.matchedLocation;
-      // Routes reachable while logged out: login and invite acceptance.
-      final onAuth =
-          loc.startsWith('/login') || loc.startsWith('/accept-invite');
-      if (!authed && !onAuth) return '/login';
-      if (authed && onAuth) return '/dashboard';
-      // Role-gated areas: bounce users without the right role home.
-      final role = authBloc.currentUser?.role;
-      if (loc.startsWith('/admin') && role != Role.ADMIN) return '/dashboard';
-      if (loc.startsWith('/team-console') && role != Role.MANAGER) {
-        return '/dashboard';
-      }
-      return null;
-    },
+    redirect: (context, state) => resolveRedirect(
+      location: state.matchedLocation,
+      sessionResolved: authBloc.isSessionResolved,
+      authenticated: authBloc.isAuthenticated,
+      role: authBloc.currentUser?.role,
+    ),
     routes: [
+      GoRoute(
+        path: '/splash',
+        pageBuilder: (_, __) => const NoTransitionPage(child: SplashScreen()),
+      ),
       GoRoute(
         path: '/login',
         pageBuilder: (_, __) => const NoTransitionPage(child: LoginScreen()),
@@ -156,8 +172,6 @@ GoRouter createRouter(AuthBloc authBloc) {
           ),
           GoRoute(
             path: '/deals',
-            // `?status=LEAD` deep-links a stage filter — the dashboard's
-            // pipeline segments and metric cells link here.
             pageBuilder: (_, s) => NoTransitionPage(
               child: DealsScreen(
                 initialStatus:

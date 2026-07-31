@@ -22,7 +22,6 @@ Future<void> _settle() async {
   }
 }
 
-// ── Repositories that actually persist a create ───────────────────────
 class _GrowingClients extends FakeClientsRepository {
   final _rows = <ClientResponse>[const ClientResponse(id: 1, fullName: 'A')];
 
@@ -89,13 +88,13 @@ class _GrowingDeals extends FakeDealsRepository {
   ];
 
   @override
-  Future<List<DealResponse>> getDeals({int? agentId, DealStatus? status}) async =>
+  Future<List<DealResponse>> getDeals(
+          {int? agentId, DealStatus? status}) async =>
       List.of(_rows);
 
   @override
   Future<DealResponse> createDeal(Map<String, dynamic> data) async {
-    final created =
-        DealResponse(id: _rows.length + 1, clientId: 1, agentId: 1);
+    final created = DealResponse(id: _rows.length + 1, clientId: 1, agentId: 1);
     _rows.add(created);
     return created;
   }
@@ -125,10 +124,6 @@ class _GrowingMeetings extends FakeMeetingsRepository {
 
 void main() {
   group('a create is reflected in the list without a manual refresh', () {
-    // The form is pushed on the root navigator, so the list screen underneath
-    // stays mounted — its initState never runs again and nothing else would
-    // reload it.
-
     test('clients', () async {
       final bloc = ClientsBloc(_GrowingClients());
       addTearDown(bloc.close);
@@ -195,10 +190,6 @@ void main() {
   });
 
   group('refreshing already-loaded data does not blank it to a skeleton', () {
-    // Every screen fires a load in initState, and switching tabs rebuilds the
-    // screen. Emitting Loading unconditionally meant a full-page shimmer on
-    // every single visit, however fresh the data already was.
-
     test('clients', () async {
       final bloc = ClientsBloc(_GrowingClients());
       addTearDown(bloc.close);
@@ -234,8 +225,6 @@ void main() {
     });
 
     test('but changing a filter does', () async {
-      // The rows on screen answer the old query, so keeping them up would be
-      // showing the user the wrong list.
       final bloc = PropertiesBloc(_GrowingProperties());
       addTearDown(bloc.close);
       bloc.add(PropertiesLoadEvent());

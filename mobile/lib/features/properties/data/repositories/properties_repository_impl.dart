@@ -45,7 +45,8 @@ class PropertiesRepositoryImpl implements PropertiesRepository {
       _remote.updateProperty(id, data);
 
   @override
-  Future<PropertyResponse> updatePropertyStatus(int id, PropertyStatus status) =>
+  Future<PropertyResponse> updatePropertyStatus(
+          int id, PropertyStatus status) =>
       _remote.updatePropertyStatus(id, status);
 
   @override

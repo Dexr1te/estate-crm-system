@@ -65,9 +65,7 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
         final data = await fetch();
         if (!mounted) return;
         setState(() => assign(data.map(map).toList()));
-      } catch (_) {
-        // An unavailable list leaves its picker empty rather than blocking.
-      }
+      } catch (_) {}
     }
 
     await Future.wait([
@@ -217,7 +215,8 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
       if (_deal != null) 'dealId': _deal!.id,
       if (_locationCtrl.text.trim().isNotEmpty)
         'location': _locationCtrl.text.trim(),
-      if (_descCtrl.text.trim().isNotEmpty) 'description': _descCtrl.text.trim(),
+      if (_descCtrl.text.trim().isNotEmpty)
+        'description': _descCtrl.text.trim(),
     };
 
     if (widget.isEditing) {
@@ -242,7 +241,6 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
           showActionOutcome(context, state);
           context.go('/meetings');
         }
-        // A rejected save leaves the user on the form with their input intact.
         if (state is MeetingsActionFailure) {
           setState(() => _loading = false);
           showActionOutcome(context, state);
@@ -252,8 +250,7 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(SnackBar(
-                content: Text(state.message),
-                backgroundColor: t.dangerSolid));
+                content: Text(state.message), backgroundColor: t.dangerSolid));
         }
       },
       child: Form(
@@ -276,7 +273,8 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
                     const SizedBox(height: 8),
                     AppGhostButton(
                       label: l10n.coreCancel,
-                      onPressed: _loading ? null : () => context.go('/meetings'),
+                      onPressed:
+                          _loading ? null : () => context.go('/meetings'),
                     ),
                   ],
                 ),
@@ -418,8 +416,6 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
   }
 }
 
-/// A labelled [PickerField] with an inline error, for selections that sit
-/// outside the `Form`.
 class _PickerRow extends StatelessWidget {
   final String label;
   final String? value;

@@ -1,12 +1,12 @@
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/network/api_client.dart';
 
-/// Raw HTTP access to the `/deals` endpoints.
 class DealsRemoteDataSource {
   final ApiClient _client;
   DealsRemoteDataSource(this._client);
 
-  Future<List<DealResponse>> getDeals({int? agentId, DealStatus? status}) async {
+  Future<List<DealResponse>> getDeals(
+      {int? agentId, DealStatus? status}) async {
     final res = await _client.dio.get('/deals', queryParameters: {
       if (agentId != null) 'agentId': agentId,
       if (status != null) 'status': status.name,

@@ -8,7 +8,6 @@ import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart'
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_state.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// A navigation destination in the app shell.
 class _Dest {
   final String route;
   final IconData icon;
@@ -17,8 +16,6 @@ class _Dest {
   const _Dest(this.route, this.icon, this.activeIcon, this.label);
 }
 
-/// Destinations for the given [role]: agents get the base five; admins get an
-/// extra "Admin" tab, managers an extra "Team" tab.
 List<_Dest> _destsFor(Role? role, AppLocalizations l10n) {
   final dests = [
     _Dest('/dashboard', Icons.dashboard_outlined, Icons.dashboard,
@@ -26,8 +23,8 @@ List<_Dest> _destsFor(Role? role, AppLocalizations l10n) {
     _Dest('/clients', Icons.people_outline, Icons.people, l10n.coreNavClients),
     _Dest('/properties', Icons.home_work_outlined, Icons.home_work,
         l10n.coreNavProperties),
-    _Dest('/deals', Icons.handshake_outlined, Icons.handshake,
-        l10n.coreNavDeals),
+    _Dest(
+        '/deals', Icons.handshake_outlined, Icons.handshake, l10n.coreNavDeals),
     _Dest('/meetings', Icons.calendar_today_outlined, Icons.calendar_today,
         l10n.coreNavMeetings),
   ];
@@ -61,8 +58,6 @@ class MainScaffold extends StatelessWidget {
         final dests = _destsFor(role, l10n);
         final location = GoRouterState.of(context).matchedLocation;
         final index = _locationIndex(dests, location);
-        // The bottom nav only becomes a rail on a genuinely large canvas;
-        // tablets in between keep the phone shell with centred content.
         final isWide =
             MediaQuery.sizeOf(context).width >= AppMetrics.railBreakpoint;
 
@@ -162,8 +157,7 @@ class _SideNav extends StatelessWidget {
                         fontSize: 13,
                         color: cs.onSurface),
                     overflow: TextOverflow.ellipsis),
-                subtitle: Text(
-                    user == null ? '' : roleLabel(l10n, user.role),
+                subtitle: Text(user == null ? '' : roleLabel(l10n, user.role),
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
@@ -172,7 +166,8 @@ class _SideNav extends StatelessWidget {
                 trailing: IconButton(
                     icon: Icon(Icons.logout,
                         size: 18, color: cs.onSurface.withAlpha(128)),
-                    onPressed: () => ctx.read<AuthBloc>().add(AuthLogoutEvent()),
+                    onPressed: () =>
+                        ctx.read<AuthBloc>().add(AuthLogoutEvent()),
                     tooltip: l10n.coreLogout),
                 onTap: () => context.push('/profile'),
                 contentPadding: EdgeInsets.zero,

@@ -19,7 +19,6 @@ class _ClientsScreenState extends State<ClientsScreen> {
   final _searchCtrl = TextEditingController();
   String _search = '';
 
-  /// null = "All"; otherwise the type the pill row is filtered to.
   ClientType? _typeFilter;
 
   @override
@@ -77,6 +76,7 @@ class _ClientsScreenState extends State<ClientsScreen> {
                             Expanded(
                               child: ScreenTitle(
                                 l10n.clientsTitle,
+                                reserveSubtitle: true,
                                 subtitle: state is ClientsLoaded
                                     ? l10n.clientsCounter(
                                         all.length,

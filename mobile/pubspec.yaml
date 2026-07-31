@@ -29,9 +29,29 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^3.0.0
   flutter_launcher_icons: ^0.14.4
+  flutter_native_splash: ^2.4.4
   freezed: ^2.5.7
   json_serializable: ^6.8.0
   build_runner: ^2.5.4
+
+# Covers the window between the OS launching the app and Flutter painting its
+# first frame. Regenerate with `dart run flutter_native_splash:create`.
+#
+# The artwork's own field is pure white (sampled at every edge), so the native
+# window is white too and there is no seam when Flutter takes over and renders
+# the same image full-screen.
+flutter_native_splash:
+  color: "#FFFFFF"
+  image: "assets/images/estatecrm-app-icon-light-foreground.png"
+  # Android 12+ replaced custom splash layouts with an OS-drawn centred icon on
+  # a single colour — a full-bleed composition is not possible there, so both
+  # paths deliberately show the same mark rather than diverging.
+  android_12:
+    color: "#FFFFFF"
+    image: "assets/images/estatecrm-app-icon-light-foreground.png"
+  android: true
+  ios: true
+  web: false
 
 flutter_launcher_icons:
   android: true
@@ -54,6 +74,13 @@ flutter_launcher_icons:
 flutter:
   uses-material-design: true
   generate: true
+
+  assets:
+    # Only the splash composition is bundled. The icon artwork beside it is
+    # consumed at build time by flutter_launcher_icons / flutter_native_splash
+    # and never loaded at runtime, so listing the whole folder would ship ~1 MB
+    # of PNGs the app never reads.
+    - assets/images/splash-white.png
 
   # Brand typeface. The design handoff specifies Sora, which ships latin +
   # latin-ext only — every Russian and Kazakh string would fall back to the

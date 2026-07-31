@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/theme/app_tokens.dart';
 import 'package:shimmer/shimmer.dart';
 
-/// A plain white box that becomes the shimmer "bone" shape.
 class ShimmerBox extends StatelessWidget {
   final double width;
   final double height;
@@ -18,8 +17,6 @@ class ShimmerBox extends StatelessWidget {
           color: Colors.white, borderRadius: BorderRadius.circular(radius)));
 }
 
-/// Wraps any tree of [ShimmerBox] bones in the app's shimmer sweep. The single
-/// place the base/highlight colours are defined.
 class ShimmerGroup extends StatelessWidget {
   final Widget child;
   const ShimmerGroup({super.key, required this.child});
@@ -31,15 +28,12 @@ class ShimmerGroup extends StatelessWidget {
       baseColor: t.isDark ? t.surfaceVariant : t.border,
       highlightColor:
           t.isDark ? const Color(0xFF353B52) : const Color(0xFFF5F7FC),
-      // Faster than the package default of 1500ms. A slow sweep on a screen
-      // that is genuinely waiting reads as stuck rather than as loading.
       period: const Duration(milliseconds: 1100),
       child: child,
     );
   }
 }
 
-/// Wraps a list of skeleton cards in a Shimmer effect.
 class ShimmerList extends StatelessWidget {
   final Widget Function() cardBuilder;
   final int count;

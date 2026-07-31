@@ -1,6 +1,5 @@
 import 'package:real_estate_crm/core/models/models.dart';
 
-/// Contract for meeting data access.
 abstract class MeetingsRepository {
   Future<List<MeetingResponse>> getMeetings({int? agentId});
 

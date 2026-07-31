@@ -10,12 +10,10 @@ import 'package:real_estate_crm/features/deals/presentation/widgets/deal_card.da
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class DealsScreen extends StatefulWidget {
-  /// Stage to preselect, e.g. from the dashboard's `/deals?status=LEAD`.
   final DealStatus? initialStatus;
 
   const DealsScreen({super.key, this.initialStatus});
 
-  /// Parses the `status` query parameter; unknown values fall back to "all".
   static DealStatus? parseStatus(String? raw) {
     if (raw == null || raw.isEmpty) return null;
     for (final s in DealStatus.values) {
@@ -35,8 +33,6 @@ class _DealsScreenState extends State<DealsScreen> {
   void initState() {
     super.initState();
     _filter = widget.initialStatus;
-    // The list is fetched unfiltered and narrowed on the client, so the stage
-    // pills can carry live counts.
     context.read<DealsBloc>().add(DealsLoadEvent());
   }
 
@@ -93,6 +89,7 @@ class _DealsScreenState extends State<DealsScreen> {
                             Expanded(
                               child: ScreenTitle(
                                 l10n.dealsTitle,
+                                reserveSubtitle: true,
                                 subtitle: state is DealsLoaded
                                     ? l10n.dealsCounter(
                                         active, formatPrice(totalValue))

@@ -2,7 +2,6 @@ import 'package:real_estate_crm/core/models/admin_models.dart';
 import 'package:real_estate_crm/core/models/team_models.dart';
 import 'package:real_estate_crm/core/network/api_client.dart';
 
-/// Raw HTTP access to `/teams` and the manager `/team/agents` endpoint.
 class TeamsRemoteDataSource {
   final ApiClient _client;
   TeamsRemoteDataSource(this._client);

@@ -2,16 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/theme/app_metrics.dart';
 import 'package:real_estate_crm/core/theme/app_tokens.dart';
 
-/// The one card in the system: surface fill, 1px border in the border token,
-/// radius 16, **no elevation and no shadow**.
 class AppCard extends StatelessWidget {
   final Widget child;
   final EdgeInsetsGeometry? padding;
   final VoidCallback? onTap;
   final double radius;
 
-  /// Set when the card is drawn on top of another card (inner rows), where the
-  /// handoff uses a surfaceVariant fill and no border.
   final bool nested;
 
   const AppCard({
@@ -50,9 +46,6 @@ class AppCard extends StatelessWidget {
   }
 }
 
-/// The hero card — radius 18, navy in light with white text, a bordered
-/// surface in dark. A 130px accent circle is clipped into the top-right corner
-/// and always sits *behind* the content.
 class AppHeroCard extends StatelessWidget {
   final Widget child;
   final EdgeInsetsGeometry padding;
@@ -72,7 +65,6 @@ class AppHeroCard extends StatelessWidget {
 
     final content = Stack(
       children: [
-        // Decorative circle first so it paints under the text.
         Positioned(
           right: -40,
           top: -40,

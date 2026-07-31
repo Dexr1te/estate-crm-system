@@ -1,6 +1,3 @@
-// Barrel of shared, cross-feature UI. Import this single file to get the
-// design-system primitives (card, buttons, typography, pills, chips), the
-// common states/skeletons/dialogs, and the colour + layout tokens.
 export 'package:real_estate_crm/core/bloc/action_outcome.dart';
 export 'package:real_estate_crm/core/theme/app_fonts.dart';
 export 'package:real_estate_crm/core/theme/app_metrics.dart';

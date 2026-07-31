@@ -68,7 +68,8 @@ Widget _clientsScreen({
     );
 
 void main() {
-  forEachAcceptanceCase('clients list', (tester, size, brightness, scale) async {
+  forEachAcceptanceCase('clients list',
+      (tester, size, brightness, scale) async {
     await expectNoOverflow(
       tester,
       _clientsScreen(clients: _clients, details: _details),
@@ -119,10 +120,8 @@ void main() {
     expect(irina.totalBudget, 24800000);
     expect(irina.type, ClientType.BUYER);
     expect(irina.agentName, 'Maria Kim-Doroshenko');
-    // Most advanced stage wins, not the last row.
     expect(irina.status, DealStatus.CLOSED_WON);
 
-    // A client with no detail rows still appears, with zeroed figures.
     final family = joined.firstWhere((c) => c.id == 3);
     expect(family.dealCount, 0);
     expect(family.totalBudget, 0);

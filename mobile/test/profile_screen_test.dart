@@ -62,8 +62,6 @@ void main() {
 
   testWidgets('the role renders localised, never as a raw enum value',
       (tester) async {
-    // Checked in Russian, where the localised label and the enum name differ —
-    // in English "Admin" and `Role.ADMIN.name` collide and prove nothing.
     await expectNoOverflow(
       tester,
       _profile(),

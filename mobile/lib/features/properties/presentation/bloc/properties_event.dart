@@ -9,10 +9,8 @@ class PropertiesLoadEvent extends PropertiesEvent {
   PropertiesLoadEvent({this.status, this.type, this.search});
 }
 
-/// Load the next page, appending to the current list (infinite scroll).
 class PropertiesLoadMoreEvent extends PropertiesEvent {}
 
-/// Drops the cached list and filters on sign-out. See `ClientsResetEvent`.
 class PropertiesResetEvent extends PropertiesEvent {}
 
 class PropertiesDeleteEvent extends PropertiesEvent {

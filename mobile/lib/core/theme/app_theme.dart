@@ -1,61 +1,50 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/theme/app_fonts.dart';
 
-// Re-exported so anything with the theme in scope can name the typeface.
 export 'package:real_estate_crm/core/theme/app_fonts.dart';
 
 class AppColors {
-  // Primary palette
   static const primary = Color(0xFF0F1E3C);
   static const primaryLight = Color(0xFF1A3260);
   static const accent = Color(0xFFE5B84C);
   static const accentLight = Color(0xFFFFD54F);
 
-  // Light surface
   static const background = Color(0xFFF4F6FB);
   static const surface = Color(0xFFFFFFFF);
   static const surfaceVariant = Color(0xFFEEF1F8);
   static const border = Color(0xFFE8ECF4);
 
-  // Light text
   static const textPrimary = Color(0xFF0F1E3C);
   static const textSecondary = Color(0xFF6B7A99);
   static const textHint = Color(0xFFADB5CC);
 
-  // Dark surface
   static const darkBackground = Color(0xFF141625);
   static const darkSurface = Color(0xFF1E2130);
   static const darkSurfaceVariant = Color(0xFF252A3D);
   static const darkBorder = Color(0xFF2A2F45);
 
-  // Dark text
   static const darkTextPrimary = Color(0xFFF0F2FF);
   static const darkTextSecondary = Color(0xFF8B9CC8);
   static const darkTextHint = Color(0xFF4A5070);
 
-  // Dark primary — gold accent (was #5B8FE8 blue)
   static const darkPrimary = accent;
   static const onDarkPrimary = Color(0xFF0F1E3C);
 
-  // Status
   static const success = Color(0xFF22C55E);
   static const warning = Color(0xFFF59E0B);
   static const error = Color(0xFFEF4444);
-  static const info = Color(0xFF8B9CC8); // neutral, no blue accent
+  static const info = Color(0xFF8B9CC8);
 
-  // Deal status
   static const lead = Color(0xFF8B5CF6);
   static const negotiation = Color(0xFFF59E0B);
   static const closedWon = Color(0xFF22C55E);
   static const closedLost = Color(0xFFEF4444);
 
-  // Property status
   static const available = Color(0xFF22C55E);
   static const reserved = Color(0xFFF59E0B);
   static const sold = Color(0xFF8B5CF6);
 }
 
-// ─── Light Theme ───────────────────────────────────────────────
 class AppTheme {
   static ThemeData get light {
     return ThemeData(
@@ -99,18 +88,22 @@ class AppTheme {
             color: AppColors.textPrimary,
             fontFamily: AppFonts.sans,
             fontWeight: FontWeight.w600),
-        titleSmall: TextStyle(color: AppColors.textPrimary, fontFamily: AppFonts.sans),
-        bodyLarge: TextStyle(color: AppColors.textPrimary, fontFamily: AppFonts.sans),
-        bodyMedium: TextStyle(color: AppColors.textPrimary, fontFamily: AppFonts.sans),
-        bodySmall:
-            TextStyle(color: AppColors.textSecondary, fontFamily: AppFonts.sans),
+        titleSmall:
+            TextStyle(color: AppColors.textPrimary, fontFamily: AppFonts.sans),
+        bodyLarge:
+            TextStyle(color: AppColors.textPrimary, fontFamily: AppFonts.sans),
+        bodyMedium:
+            TextStyle(color: AppColors.textPrimary, fontFamily: AppFonts.sans),
+        bodySmall: TextStyle(
+            color: AppColors.textSecondary, fontFamily: AppFonts.sans),
         labelLarge: TextStyle(
             color: AppColors.textPrimary,
             fontFamily: AppFonts.sans,
             fontWeight: FontWeight.w600),
-        labelMedium:
-            TextStyle(color: AppColors.textSecondary, fontFamily: AppFonts.sans),
-        labelSmall: TextStyle(color: AppColors.textHint, fontFamily: AppFonts.sans),
+        labelMedium: TextStyle(
+            color: AppColors.textSecondary, fontFamily: AppFonts.sans),
+        labelSmall:
+            TextStyle(color: AppColors.textHint, fontFamily: AppFonts.sans),
       ),
       appBarTheme: const AppBarTheme(
         backgroundColor: AppColors.surface,
@@ -152,7 +145,9 @@ class AppTheme {
         hintStyle: const TextStyle(
             color: AppColors.textHint, fontSize: 14, fontFamily: AppFonts.sans),
         labelStyle: const TextStyle(
-            color: AppColors.textSecondary, fontSize: 14, fontFamily: AppFonts.sans),
+            color: AppColors.textSecondary,
+            fontSize: 14,
+            fontFamily: AppFonts.sans),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
@@ -162,7 +157,9 @@ class AppTheme {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           textStyle: const TextStyle(
-              fontFamily: AppFonts.sans, fontWeight: FontWeight.w600, fontSize: 15),
+              fontFamily: AppFonts.sans,
+              fontWeight: FontWeight.w600,
+              fontSize: 15),
           elevation: 0,
         ),
       ),
@@ -184,11 +181,6 @@ class AppTheme {
           side: BorderSide.none),
       dividerTheme:
           const DividerThemeData(color: AppColors.border, thickness: 1),
-      // Without this, M3 falls back to ColorScheme.surfaceContainerLow, which
-      // fromSeed derives from the seed colour and our `surface` override does
-      // not touch — so sheets pick up a tint that is off-palette.
-      // surfaceTintColor is cleared for the same reason: elevation overlay
-      // would re-introduce it.
       bottomSheetTheme: const BottomSheetThemeData(
         backgroundColor: AppColors.surface,
         modalBackgroundColor: AppColors.surface,
@@ -202,15 +194,16 @@ class AppTheme {
         backgroundColor: AppColors.surface,
         surfaceTintColor: Colors.transparent,
         elevation: 0,
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         titleTextStyle: const TextStyle(
             color: AppColors.textPrimary,
             fontFamily: AppFonts.sans,
             fontSize: 18,
             fontWeight: FontWeight.w700),
         contentTextStyle: const TextStyle(
-            color: AppColors.textSecondary, fontFamily: AppFonts.sans, fontSize: 14),
+            color: AppColors.textSecondary,
+            fontFamily: AppFonts.sans,
+            fontSize: 14),
       ),
       listTileTheme: const ListTileThemeData(
           titleTextStyle: TextStyle(
@@ -228,8 +221,11 @@ class AppTheme {
         unselectedItemColor: AppColors.textHint,
         elevation: 0,
         selectedLabelStyle: TextStyle(
-            fontFamily: AppFonts.sans, fontWeight: FontWeight.w600, fontSize: 11),
-        unselectedLabelStyle: TextStyle(fontFamily: AppFonts.sans, fontSize: 11),
+            fontFamily: AppFonts.sans,
+            fontWeight: FontWeight.w600,
+            fontSize: 11),
+        unselectedLabelStyle:
+            TextStyle(fontFamily: AppFonts.sans, fontSize: 11),
       ),
       switchTheme: SwitchThemeData(
         thumbColor: WidgetStateProperty.resolveWith((s) =>
@@ -245,7 +241,6 @@ class AppTheme {
   }
 }
 
-// ─── Dark Theme (gold accent, no blue) ─────────────────────────
 class AppThemeDark {
   static ThemeData get dark {
     return ThemeData(
@@ -269,18 +264,18 @@ class AppThemeDark {
       ),
       scaffoldBackgroundColor: AppColors.darkBackground,
       textTheme: const TextTheme(
-        displayLarge:
-            TextStyle(color: AppColors.darkTextPrimary, fontFamily: AppFonts.sans),
-        displayMedium:
-            TextStyle(color: AppColors.darkTextPrimary, fontFamily: AppFonts.sans),
-        displaySmall:
-            TextStyle(color: AppColors.darkTextPrimary, fontFamily: AppFonts.sans),
-        headlineLarge:
-            TextStyle(color: AppColors.darkTextPrimary, fontFamily: AppFonts.sans),
-        headlineMedium:
-            TextStyle(color: AppColors.darkTextPrimary, fontFamily: AppFonts.sans),
-        headlineSmall:
-            TextStyle(color: AppColors.darkTextPrimary, fontFamily: AppFonts.sans),
+        displayLarge: TextStyle(
+            color: AppColors.darkTextPrimary, fontFamily: AppFonts.sans),
+        displayMedium: TextStyle(
+            color: AppColors.darkTextPrimary, fontFamily: AppFonts.sans),
+        displaySmall: TextStyle(
+            color: AppColors.darkTextPrimary, fontFamily: AppFonts.sans),
+        headlineLarge: TextStyle(
+            color: AppColors.darkTextPrimary, fontFamily: AppFonts.sans),
+        headlineMedium: TextStyle(
+            color: AppColors.darkTextPrimary, fontFamily: AppFonts.sans),
+        headlineSmall: TextStyle(
+            color: AppColors.darkTextPrimary, fontFamily: AppFonts.sans),
         titleLarge: TextStyle(
             color: AppColors.darkTextPrimary,
             fontFamily: AppFonts.sans,
@@ -289,20 +284,20 @@ class AppThemeDark {
             color: AppColors.darkTextPrimary,
             fontFamily: AppFonts.sans,
             fontWeight: FontWeight.w600),
-        titleSmall:
-            TextStyle(color: AppColors.darkTextPrimary, fontFamily: AppFonts.sans),
-        bodyLarge:
-            TextStyle(color: AppColors.darkTextPrimary, fontFamily: AppFonts.sans),
-        bodyMedium:
-            TextStyle(color: AppColors.darkTextPrimary, fontFamily: AppFonts.sans),
-        bodySmall:
-            TextStyle(color: AppColors.darkTextSecondary, fontFamily: AppFonts.sans),
+        titleSmall: TextStyle(
+            color: AppColors.darkTextPrimary, fontFamily: AppFonts.sans),
+        bodyLarge: TextStyle(
+            color: AppColors.darkTextPrimary, fontFamily: AppFonts.sans),
+        bodyMedium: TextStyle(
+            color: AppColors.darkTextPrimary, fontFamily: AppFonts.sans),
+        bodySmall: TextStyle(
+            color: AppColors.darkTextSecondary, fontFamily: AppFonts.sans),
         labelLarge: TextStyle(
             color: AppColors.darkTextPrimary,
             fontFamily: AppFonts.sans,
             fontWeight: FontWeight.w600),
-        labelMedium:
-            TextStyle(color: AppColors.darkTextSecondary, fontFamily: AppFonts.sans),
+        labelMedium: TextStyle(
+            color: AppColors.darkTextSecondary, fontFamily: AppFonts.sans),
         labelSmall:
             TextStyle(color: AppColors.darkTextHint, fontFamily: AppFonts.sans),
       ),
@@ -345,13 +340,14 @@ class AppThemeDark {
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         hintStyle: const TextStyle(
-            color: AppColors.darkTextHint, fontSize: 14, fontFamily: AppFonts.sans),
+            color: AppColors.darkTextHint,
+            fontSize: 14,
+            fontFamily: AppFonts.sans),
         labelStyle: const TextStyle(
             color: AppColors.darkTextSecondary,
             fontSize: 14,
             fontFamily: AppFonts.sans),
       ),
-      // Filled buttons are gold with navy label
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.darkPrimary,
@@ -360,7 +356,9 @@ class AppThemeDark {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
           textStyle: const TextStyle(
-              fontFamily: AppFonts.sans, fontWeight: FontWeight.w600, fontSize: 15),
+              fontFamily: AppFonts.sans,
+              fontWeight: FontWeight.w600,
+              fontSize: 15),
           elevation: 0,
         ),
       ),
@@ -369,7 +367,6 @@ class AppThemeDark {
               foregroundColor: AppColors.darkPrimary,
               textStyle: const TextStyle(
                   fontFamily: AppFonts.sans, fontWeight: FontWeight.w600))),
-      // Secondary action stays neutral so gold reads as the single accent
       outlinedButtonTheme: OutlinedButtonThemeData(
           style: OutlinedButton.styleFrom(
               foregroundColor: AppColors.darkTextPrimary,
@@ -387,8 +384,6 @@ class AppThemeDark {
       ),
       dividerTheme:
           const DividerThemeData(color: AppColors.darkBorder, thickness: 1),
-      // See the light theme: the gold seed made surfaceContainerLow a brownish
-      // tint in dark mode, which is what made sheets look off.
       bottomSheetTheme: const BottomSheetThemeData(
         backgroundColor: AppColors.darkSurface,
         modalBackgroundColor: AppColors.darkSurface,
@@ -416,8 +411,11 @@ class AppThemeDark {
         unselectedItemColor: AppColors.darkTextHint,
         elevation: 0,
         selectedLabelStyle: TextStyle(
-            fontFamily: AppFonts.sans, fontWeight: FontWeight.w600, fontSize: 11),
-        unselectedLabelStyle: TextStyle(fontFamily: AppFonts.sans, fontSize: 11),
+            fontFamily: AppFonts.sans,
+            fontWeight: FontWeight.w600,
+            fontSize: 11),
+        unselectedLabelStyle:
+            TextStyle(fontFamily: AppFonts.sans, fontSize: 11),
       ),
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
         backgroundColor: AppColors.darkPrimary,
@@ -433,13 +431,14 @@ class AppThemeDark {
       popupMenuTheme: const PopupMenuThemeData(
         color: AppColors.darkSurface,
         textStyle: TextStyle(
-            color: AppColors.darkTextPrimary, fontFamily: AppFonts.sans, fontSize: 14),
+            color: AppColors.darkTextPrimary,
+            fontFamily: AppFonts.sans,
+            fontSize: 14),
       ),
       dialogTheme: DialogThemeData(
         backgroundColor: AppColors.darkSurface,
         surfaceTintColor: Colors.transparent,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         titleTextStyle: const TextStyle(
             color: AppColors.darkTextPrimary,
             fontFamily: AppFonts.sans,
@@ -462,8 +461,8 @@ class AppThemeDark {
       ),
       snackBarTheme: const SnackBarThemeData(
         backgroundColor: AppColors.darkSurface,
-        contentTextStyle:
-            TextStyle(color: AppColors.darkTextPrimary, fontFamily: AppFonts.sans),
+        contentTextStyle: TextStyle(
+            color: AppColors.darkTextPrimary, fontFamily: AppFonts.sans),
       ),
     );
   }

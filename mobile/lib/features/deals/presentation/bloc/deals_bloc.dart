@@ -9,8 +9,6 @@ import 'package:real_estate_crm/features/deals/presentation/bloc/deals_state.dar
 class DealsBloc extends Bloc<DealsEvent, DealsState> with LoadGeneration {
   final DealsRepository _repo;
 
-  /// The filter the current list was fetched with, so a reload triggered by a
-  /// write re-fetches the same slice instead of silently widening to "all".
   DealStatus? _status;
 
   DealsBloc(this._repo) : super(DealsInitial()) {
@@ -22,15 +20,11 @@ class DealsBloc extends Bloc<DealsEvent, DealsState> with LoadGeneration {
     on<DealsUpdateStatusEvent>(_onUpdateStatus);
   }
 
-  /// Whatever is currently on screen, so a write's outcome can carry it
-  /// forward instead of blanking the list.
   List<DealResponse> get _current {
     final s = state;
     return s is DealsLoaded ? s.deals : const [];
   }
 
-  /// A write failed. Keep whatever is on screen; only a failed *load* leaves
-  /// the user with nothing to look at.
   DealsState _failure(Object err) => _current.isEmpty
       ? DealsError(apiErrorMessage(err))
       : DealsActionFailure(apiErrorMessage(err), _current);
@@ -38,8 +32,6 @@ class DealsBloc extends Bloc<DealsEvent, DealsState> with LoadGeneration {
   void _reload() => add(DealsLoadEvent(status: _status));
 
   void _onReset(DealsResetEvent e, Emitter<DealsState> emit) {
-    // Invalidate any load still in flight, so a response fetched with the old
-    // session's token can't repopulate the list after the reset.
     startLoad();
     _status = null;
     emit(DealsInitial());
@@ -50,14 +42,9 @@ class DealsBloc extends Bloc<DealsEvent, DealsState> with LoadGeneration {
     final queryChanged = e.status != _status;
     _status = e.status;
 
-    // Only blank the screen when what is on it no longer answers the request.
-    // Every screen fires a load in initState and switching tabs remounts it,
-    // so blanking unconditionally meant a full-page skeleton on every visit,
-    // however fresh the rows already were.
     if (_current.isEmpty || queryChanged) emit(DealsLoading());
     try {
       final deals = await _repo.getDeals(status: e.status);
-      // A newer load started while this one was in flight — its result wins.
       if (isStale(ticket)) return;
       emit(DealsLoaded(deals));
     } catch (err) {
@@ -80,7 +67,6 @@ class DealsBloc extends Bloc<DealsEvent, DealsState> with LoadGeneration {
     try {
       await _repo.createDeal(e.data);
       emit(DealsActionSuccess('Deal created', _current));
-      // The list screen stays mounted under the form and never remounts.
       _reload();
     } catch (err) {
       emit(_failure(err));

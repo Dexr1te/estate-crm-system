@@ -4,11 +4,6 @@ import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// A managed user row (screen 4m): 40px avatar, name with a role chip, email,
-/// and a trailing overflow menu.
-///
-/// A deactivated account renders at 75% opacity with a dashed avatar and an
-/// "Inactive" chip — the same treatment the mock gives pending invites.
 class UserCard extends StatelessWidget {
   final AgentResponse user;
   final VoidCallback onStats;
@@ -133,7 +128,6 @@ class _Avatar extends StatelessWidget {
   }
 }
 
-/// A dashed ring, marking an account that isn't active yet.
 class _DashedCirclePainter extends CustomPainter {
   final Color color;
   const _DashedCirclePainter({required this.color});
@@ -206,7 +200,6 @@ class _Menu extends StatelessWidget {
   }
 }
 
-/// Skeleton matching [UserCard]'s footprint.
 class UserCardBone extends StatelessWidget {
   const UserCardBone({super.key});
 

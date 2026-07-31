@@ -2,7 +2,6 @@ import 'package:real_estate_crm/core/models/admin_models.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/network/api_client.dart';
 
-/// Raw HTTP access to the ADMIN-only `/admin/*` endpoints.
 class AdminRemoteDataSource {
   final ApiClient _client;
   AdminRemoteDataSource(this._client);
@@ -33,8 +32,8 @@ class AdminRemoteDataSource {
   }
 
   Future<AgentResponse> changeRole(int id, Role role) async {
-    final res = await _client.dio.put('/admin/users/$id/role',
-        queryParameters: {'role': role.name});
+    final res = await _client.dio
+        .put('/admin/users/$id/role', queryParameters: {'role': role.name});
     return AgentResponse.fromJson(res.data);
   }
 

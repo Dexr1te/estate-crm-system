@@ -1,6 +1,5 @@
 import 'package:real_estate_crm/core/models/models.dart';
 
-/// Contract for deal data access.
 abstract class DealsRepository {
   Future<List<DealResponse>> getDeals({int? agentId, DealStatus? status});
 
