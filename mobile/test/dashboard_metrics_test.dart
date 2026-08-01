@@ -93,6 +93,107 @@ void main() {
     });
   });
 
+  group('closed this month', () {
+    test('counts only won deals closed inside the current month', () {
+      final now = DateTime(2026, 8, 15);
+      final state = _loaded(deals: [
+        DealResponse(
+            id: 1,
+            status: DealStatus.CLOSED_WON,
+            clientId: 1,
+            agentId: 1,
+            dealPrice: 100,
+            closedAt: DateTime(2026, 8, 3)),
+        DealResponse(
+            id: 2,
+            status: DealStatus.CLOSED_WON,
+            clientId: 1,
+            agentId: 1,
+            dealPrice: 999,
+            closedAt: DateTime(2026, 7, 31)),
+        DealResponse(
+            id: 3,
+            status: DealStatus.CLOSED_LOST,
+            clientId: 1,
+            agentId: 1,
+            dealPrice: 500,
+            closedAt: DateTime(2026, 8, 4)),
+      ]);
+      expect(state.closedValueThisMonth(now), 100);
+    });
+
+    test('a won deal with no closing date is not counted', () {
+      final state = _loaded(deals: [_deal(DealStatus.CLOSED_WON, price: 100)]);
+      expect(state.closedValueThisMonth(DateTime(2026, 8, 15)), 0,
+          reason: 'guessing which month it belongs to would invent a number');
+    });
+  });
+
+  group('7-day series', () {
+    test('buckets creations by day, ending today', () {
+      final now = DateTime(2026, 8, 15, 18);
+      final state = _loaded(deals: [
+        DealResponse(
+            id: 1,
+            clientId: 1,
+            agentId: 1,
+            createdAt: DateTime(2026, 8, 15, 9)),
+        DealResponse(
+            id: 2, clientId: 1, agentId: 1, createdAt: DateTime(2026, 8, 9)),
+        DealResponse(
+            id: 3, clientId: 1, agentId: 1, createdAt: DateTime(2026, 8, 1)),
+      ]);
+      final series = state.dealsCreatedPerDay(now);
+      expect(series, hasLength(7));
+      expect(series.last, 1, reason: 'today is the last bar');
+      expect(series.first, 1, reason: 'seven days ago is the first');
+      expect(series.reduce((a, b) => a + b), 2,
+          reason: 'the deal from two weeks back falls outside the window');
+    });
+
+    test('the closed series ignores deals that are still open', () {
+      final now = DateTime(2026, 8, 15);
+      final state = _loaded(deals: [
+        DealResponse(
+            id: 1,
+            status: DealStatus.NEGOTIATION,
+            clientId: 1,
+            agentId: 1,
+            closedAt: DateTime(2026, 8, 15)),
+      ]);
+      expect(state.dealsClosedPerDay(now).every((c) => c == 0), isTrue);
+    });
+  });
+
+  group('needs attention', () {
+    DealResponse idle(int id, DealStatus status, int days) => DealResponse(
+        id: id,
+        status: status,
+        clientId: 1,
+        agentId: 1,
+        updatedAt: DateTime(2026, 8, 15).subtract(Duration(days: days)));
+
+    final now = DateTime(2026, 8, 15);
+
+    test('picks up open deals that have gone quiet, worst first', () {
+      final state = _loaded(deals: [
+        idle(1, DealStatus.LEAD, 20),
+        idle(2, DealStatus.NEGOTIATION, 40),
+        idle(3, DealStatus.LEAD, 2),
+      ]);
+      final flagged = state.needsAttention(now);
+      expect(flagged.map((s) => s.deal.id), [2, 1]);
+      expect(flagged.first.isSevere, isTrue);
+      expect(flagged.last.isSevere, isFalse);
+    });
+
+    test('a closed deal is never stale, however old', () {
+      final state = _loaded(deals: [idle(1, DealStatus.CLOSED_WON, 400)]);
+      expect(state.needsAttention(now), isEmpty,
+          reason: 'nothing is expected to happen to a deal that is done');
+    });
+  });
+
   group('top agents', () {
     test('ranks by closed value and ignores open deals', () {
       final state = _loaded(deals: [

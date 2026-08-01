@@ -36,6 +36,67 @@ class DashboardLoaded extends DashboardState {
     return buckets;
   }
 
+  List<MeetingResponse> meetingsOn(DateTime now) => upcoming
+      .where((m) =>
+          m.scheduledAt.year == now.year &&
+          m.scheduledAt.month == now.month &&
+          m.scheduledAt.day == now.day)
+      .toList();
+
+  double closedValueThisMonth(DateTime now) {
+    var total = 0.0;
+    for (final d in deals) {
+      if (d.status != DealStatus.CLOSED_WON) continue;
+      final at = d.closedAt ?? d.updatedAt;
+      if (at == null) continue;
+      if (at.year == now.year && at.month == now.month) {
+        total += d.dealPrice ?? d.budget ?? 0;
+      }
+    }
+    return total;
+  }
+
+  List<int> dealsCreatedPerDay(DateTime now, {int days = 7}) =>
+      _perDay(now, days, (d) => d.createdAt);
+
+  List<int> dealsClosedPerDay(DateTime now, {int days = 7}) => _perDay(
+        now,
+        days,
+        (d) => d.status == DealStatus.CLOSED_WON
+            ? (d.closedAt ?? d.updatedAt)
+            : null,
+      );
+
+  List<int> _perDay(
+      DateTime now, int days, DateTime? Function(DealResponse) at) {
+    final today = DateTime(now.year, now.month, now.day);
+    final start = today.subtract(Duration(days: days - 1));
+    final buckets = List<int>.filled(days, 0);
+    for (final d in deals) {
+      final when = at(d);
+      if (when == null) continue;
+      final offset =
+          DateTime(when.year, when.month, when.day).difference(start).inDays;
+      if (offset >= 0 && offset < days) buckets[offset]++;
+    }
+    return buckets;
+  }
+
+  List<StaleDeal> needsAttention(DateTime now, {int limit = 3}) {
+    final out = <StaleDeal>[];
+    for (final d in deals) {
+      if (d.status != DealStatus.LEAD && d.status != DealStatus.NEGOTIATION) {
+        continue;
+      }
+      final touched = d.updatedAt ?? d.createdAt;
+      if (touched == null) continue;
+      final idle = now.difference(touched).inDays;
+      if (idle >= 14) out.add(StaleDeal(d, idle));
+    }
+    out.sort((a, b) => b.idleDays.compareTo(a.idleDays));
+    return out.take(limit).toList();
+  }
+
   List<AgentTotal> topAgents({int limit = 4}) {
     final totals = <String, double>{};
     final counts = <String, int>{};
@@ -59,6 +120,14 @@ class AgentTotal {
   final double value;
   final int deals;
   const AgentTotal(this.name, this.value, this.deals);
+}
+
+class StaleDeal {
+  final DealResponse deal;
+  final int idleDays;
+  const StaleDeal(this.deal, this.idleDays);
+
+  bool get isSevere => idleDays >= 30;
 }
 
 class DashboardError extends DashboardState {

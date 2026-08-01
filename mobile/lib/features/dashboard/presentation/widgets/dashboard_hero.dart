@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/features/dashboard/presentation/widgets/day_rail.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class NextMeetingHero extends StatelessWidget {
   final MeetingResponse meeting;
+  final List<MeetingResponse> dayMeetings;
   final String eyebrow;
   final String primaryLabel;
   final VoidCallback onPrimary;
@@ -14,6 +16,7 @@ class NextMeetingHero extends StatelessWidget {
   const NextMeetingHero({
     super.key,
     required this.meeting,
+    this.dayMeetings = const [],
     required this.eyebrow,
     required this.primaryLabel,
     required this.onPrimary,
@@ -119,6 +122,12 @@ class NextMeetingHero extends StatelessWidget {
               ),
             ],
           ),
+          if (dayMeetings.isNotEmpty)
+            DayRail(
+              meetings: dayMeetings,
+              now: now,
+              focusId: meeting.id,
+            ),
         ],
       ),
     );

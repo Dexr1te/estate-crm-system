@@ -477,6 +477,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get coreRoleManager => 'Manager';
 
   @override
+  String get coreSave => 'Save';
+
+  @override
   String get coreStatusAvailable => 'Available';
 
   @override
@@ -528,6 +531,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get dashboardAttention => 'Needs attention';
+
+  @override
   String get dashboardClients => 'Clients';
 
   @override
@@ -554,6 +560,38 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get dashboardGoalClear => 'Remove target';
+
+  @override
+  String get dashboardGoalEyebrow => 'TARGET';
+
+  @override
+  String get dashboardGoalReached =>
+      'Target reached. Everything from here is ahead of plan.';
+
+  @override
+  String dashboardGoalRemaining(Object amount) {
+    return '$amount left to hit the target';
+  }
+
+  @override
+  String get dashboardGoalSheetField => 'Amount';
+
+  @override
+  String get dashboardGoalSheetHint =>
+      'Closed-won deals count towards it. Stored on this device only.';
+
+  @override
+  String get dashboardGoalSheetTitle => 'Monthly target';
+
+  @override
+  String get dashboardGoalTitle => 'Closed this month';
+
+  @override
+  String get dashboardGoalUnset =>
+      'Tap to set a monthly target and track it here';
+
+  @override
   String dashboardGreeting(Object greeting, Object name) {
     return '$greeting, $name';
   }
@@ -572,6 +610,20 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dashboardGreetingStillUp => 'Still up';
+
+  @override
+  String dashboardIdleDays(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'no movement for $count days',
+      one: 'no movement for 1 day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get dashboardLeaderboard => 'Top agents';
 
   @override
   String dashboardLoadTotal(num count) {

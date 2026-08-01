@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:real_estate_crm/core/goal/goal_bloc.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/bloc/dashboard_bloc.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/screens/dashboard_screen.dart';
-import 'package:real_estate_crm/features/dashboard/presentation/widgets/conversion_card.dart';
+import 'package:real_estate_crm/features/dashboard/presentation/widgets/day_rail.dart';
+import 'package:real_estate_crm/features/dashboard/presentation/widgets/pipeline_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/top_agents_card.dart';
 
 import 'fakes.dart';
@@ -80,6 +83,28 @@ final _deals = [
         dealPrice: 9100000),
 ];
 
+final _stale = [
+  ..._deals,
+  DealResponse(
+      id: 900,
+      title: 'Penthouse on Tverskaya, untouched for a month and a half',
+      status: DealStatus.NEGOTIATION,
+      clientId: 1,
+      agentId: 1,
+      agentName: _agentNames.first,
+      dealPrice: 88400000,
+      updatedAt: DateTime.now().subtract(const Duration(days: 46))),
+  DealResponse(
+      id: 901,
+      title: 'Studio, Severny',
+      status: DealStatus.LEAD,
+      clientId: 1,
+      agentId: 1,
+      agentName: _agentNames.last,
+      dealPrice: 7300000,
+      updatedAt: DateTime.now().subtract(const Duration(days: 18))),
+];
+
 const _admin = AuthResponse(
     userId: 1,
     fullName: 'Yekaterina Vsevolodovna Ponomaryova',
@@ -90,12 +115,16 @@ Widget _dashboard({
   List<MeetingResponse> meetings = const [],
   List<DealResponse> deals = const [],
   AuthResponse? user,
+  bool loadGoal = false,
 }) =>
     MultiBlocProvider(
       providers: [
         BlocProvider(
             create: (_) => AuthBloc(FakeAuthRepository(user: user))
               ..add(AuthCheckEvent())),
+        BlocProvider(
+            create: (_) => GoalBloc()
+              ..add(loadGoal ? GoalLoadEvent() : GoalChangedEvent(null))),
         BlocProvider(
           create: (_) => DashboardBloc(
             FakeDashboardRepository(const DashboardSummary(
@@ -199,7 +228,50 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(TopAgentsCard), findsNothing);
-    expect(find.byType(ConversionCard), findsOneWidget,
+    expect(find.byType(PipelineCard), findsOneWidget,
         reason: 'the other charts are not role-gated');
+  });
+
+  forEachAcceptanceCase('dashboard — deals that need attention',
+      (tester, size, brightness, scale) async {
+    await expectNoOverflow(
+      tester,
+      _dashboard(meetings: _meetings, deals: _stale, user: _admin),
+      size: size,
+      brightness: brightness,
+      textScale: scale,
+    );
+    await tester.pumpAndSettle();
+    expect(tester.takeException(), isNull);
+  });
+
+  forEachAcceptanceCase('dashboard — with a monthly target set',
+      (tester, size, brightness, scale) async {
+    // The ring only draws a sweep and a percentage once a target exists, so
+    // the unset path the other cases exercise never reaches that layout.
+    SharedPreferences.setMockInitialValues({'monthly_goal': 90000000.0});
+    await expectNoOverflow(
+      tester,
+      _dashboard(meetings: _meetings, deals: _deals, loadGoal: true),
+      size: size,
+      brightness: brightness,
+      textScale: scale,
+    );
+    await tester.pumpAndSettle();
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('the day rail marks every meeting scheduled today',
+      (tester) async {
+    await expectNoOverflow(
+      tester,
+      _dashboard(meetings: _meetings, deals: _deals),
+      size: const Size(390, 844),
+      brightness: Brightness.light,
+      textScale: 1.0,
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byType(DayRail), findsOneWidget);
   });
 }

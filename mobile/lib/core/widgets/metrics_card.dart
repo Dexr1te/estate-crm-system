@@ -8,13 +8,56 @@ class Metric {
   final Color? deltaColor;
   final VoidCallback? onTap;
 
+  final List<int>? series;
+  final Color? seriesColor;
+
   const Metric({
     required this.value,
     required this.caption,
     this.delta,
     this.deltaColor,
     this.onTap,
+    this.series,
+    this.seriesColor,
   });
+}
+
+class Sparkline extends StatelessWidget {
+  final List<int> values;
+  final Color color;
+  const Sparkline({super.key, required this.values, required this.color});
+
+  @override
+  Widget build(BuildContext context) {
+    final t = context.tokens;
+    final peak = values.fold<int>(0, (a, b) => b > a ? b : a);
+
+    return SizedBox(
+      height: 18,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          for (var i = 0; i < values.length; i++) ...[
+            if (i > 0) const SizedBox(width: 3),
+            Expanded(
+              child: FractionallySizedBox(
+                alignment: Alignment.bottomCenter,
+                heightFactor: peak == 0
+                    ? 0.08
+                    : (values[i] / peak).clamp(0.08, 1.0).toDouble(),
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    color: i == values.length - 1 ? color : t.border,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
 }
 
 class MetricsCard extends StatelessWidget {
@@ -81,7 +124,7 @@ class _Cell extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 22,
+                      fontSize: metric.series == null ? 22 : 21,
                       height: 1,
                       fontWeight: FontWeight.w700,
                       color: t.textPrimary),
@@ -114,6 +157,13 @@ class _Cell extends StatelessWidget {
                 fontSize: 11.5,
                 color: t.textSecondary),
           ),
+          if (metric.series != null) ...[
+            const SizedBox(height: 8),
+            Sparkline(
+              values: metric.series!,
+              color: metric.seriesColor ?? t.primary,
+            ),
+          ],
         ],
       ),
     );

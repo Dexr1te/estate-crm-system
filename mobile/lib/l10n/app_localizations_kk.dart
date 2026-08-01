@@ -476,6 +476,9 @@ class AppLocalizationsKk extends AppLocalizations {
   String get coreRoleManager => 'Менеджер';
 
   @override
+  String get coreSave => 'Сақтау';
+
+  @override
   String get coreStatusAvailable => 'Қолжетімді';
 
   @override
@@ -527,6 +530,9 @@ class AppLocalizationsKk extends AppLocalizations {
   }
 
   @override
+  String get dashboardAttention => 'Назар аудару керек';
+
+  @override
   String get dashboardClients => 'Клиенттер';
 
   @override
@@ -553,6 +559,37 @@ class AppLocalizationsKk extends AppLocalizations {
   }
 
   @override
+  String get dashboardGoalClear => 'Мақсатты алып тастау';
+
+  @override
+  String get dashboardGoalEyebrow => 'МАҚСАТ';
+
+  @override
+  String get dashboardGoalReached =>
+      'Мақсатқа жетті. Бұдан әрі бәрі жоспардан тыс.';
+
+  @override
+  String dashboardGoalRemaining(Object amount) {
+    return 'Мақсатқа $amount қалды';
+  }
+
+  @override
+  String get dashboardGoalSheetField => 'Сома';
+
+  @override
+  String get dashboardGoalSheetHint =>
+      'Жеңіске жеткен мәмілелер есептеледі. Тек осы құрылғыда сақталады.';
+
+  @override
+  String get dashboardGoalSheetTitle => 'Айлық мақсат';
+
+  @override
+  String get dashboardGoalTitle => 'Осы айда жабылды';
+
+  @override
+  String get dashboardGoalUnset => 'Айлық мақсат қою үшін басыңыз';
+
+  @override
   String dashboardGreeting(Object greeting, Object name) {
     return '$greeting, $name';
   }
@@ -571,6 +608,20 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get dashboardGreetingStillUp => 'Әлі оянсыз ба';
+
+  @override
+  String dashboardIdleDays(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count күн қозғалыссыз',
+      one: '1 күн қозғалыссыз',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get dashboardLeaderboard => 'Үздік агенттер';
 
   @override
   String dashboardLoadTotal(num count) {

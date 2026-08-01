@@ -14,9 +14,10 @@ import 'package:real_estate_crm/features/dashboard/presentation/widgets/dashboar
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/meeting_row.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/pipeline_card.dart';
 import 'package:real_estate_crm/core/auth/role_context.dart';
-import 'package:real_estate_crm/features/dashboard/presentation/widgets/conversion_card.dart';
+import 'package:real_estate_crm/core/goal/goal_bloc.dart';
+import 'package:real_estate_crm/features/dashboard/presentation/widgets/attention_card.dart';
+import 'package:real_estate_crm/features/dashboard/presentation/widgets/goal_ring_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/meeting_load_card.dart';
-import 'package:real_estate_crm/features/dashboard/presentation/widgets/stage_value_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/top_agents_card.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
@@ -135,6 +136,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final pipeline = PipelineBreakdown.from(state.deals);
     final todayCount = state.meetingsToday(now);
     final agents = state.topAgents();
+    final attention = state.needsAttention(now);
     final later = state.laterMeetings.take(_kUpcomingPreviewCount).toList();
     final locale = Localizations.localeOf(context).toLanguageTag();
 
@@ -145,6 +147,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       if (next != null)
         NextMeetingHero(
           meeting: next,
+          dayMeetings: state.meetingsOn(now),
           eyebrow: l10n.dashboardNextMeeting,
           primaryLabel: l10n.coreOpen,
           onPrimary: () => _openMeeting(next),
@@ -160,10 +163,25 @@ class _DashboardScreenState extends State<DashboardScreen> {
           onAction: () => context.go('/meetings/new'),
         ),
       SizedBox(height: gap),
+      BlocBuilder<GoalBloc, GoalState>(
+        builder: (goalCtx, goal) => GoalRingCard(
+          achieved: state.closedValueThisMonth(now),
+          target: goal.target,
+          onEdit: () async {
+            final picked = await showGoalSheet(goalCtx, goal.target);
+            if (picked != null && goalCtx.mounted) {
+              goalCtx.read<GoalBloc>().add(GoalChangedEvent(picked));
+            }
+          },
+        ),
+      ),
+      SizedBox(height: gap),
       MetricsCard(metrics: [
         Metric(
           value: '${state.summary.activeDeals}',
           caption: l10n.dashboardActiveDealsLabel,
+          series: state.dealsCreatedPerDay(now),
+          seriesColor: context.tokens.chartLead,
           onTap: () => context.go('/deals'),
         ),
         Metric(
@@ -174,6 +192,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
         Metric(
           value: '${state.summary.closedDeals}',
           caption: l10n.dashboardClosedWon,
+          series: state.dealsClosedPerDay(now),
+          seriesColor: context.tokens.chartWon,
           onTap: () => context.go('/deals?status=CLOSED_WON'),
         ),
         Metric(
@@ -181,6 +201,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
           caption: l10n.dashboardMeetingsLabel,
           delta: todayCount > 0 ? l10n.dashboardTodayCount(todayCount) : null,
           deltaColor: context.tokens.statusText(StatusHue.negotiation),
+          series: state.meetingLoad(now, days: 7),
+          seriesColor: context.tokens.chartNegotiation,
           onTap: () => context.go('/meetings'),
         ),
       ]),
@@ -193,15 +215,22 @@ class _DashboardScreenState extends State<DashboardScreen> {
           actionLabel: l10n.dashboardNewDeal,
           onAction: () => context.go('/deals/new'),
         )
-      else ...[
+      else
         PipelineCard(pipeline: pipeline, onStageTap: openStage),
-        SizedBox(height: gap),
-        StageValueCard(pipeline: pipeline, onStageTap: openStage),
-        SizedBox(height: gap),
-        ConversionCard(pipeline: pipeline, onStageTap: openStage),
-        if (context.isAdminOrManager && agents.isNotEmpty) ...[
-          SizedBox(height: gap),
-          TopAgentsCard(agents: agents),
+      if (attention.isNotEmpty) ...[
+        SizedBox(height: gap + 4),
+        SectionHeader(
+          title: l10n.dashboardAttention,
+          count: attention.length,
+          countIsAlert: true,
+        ),
+        const SizedBox(height: 10),
+        for (final item in attention) ...[
+          AttentionRow(
+            item: item,
+            onTap: () => context.go('/deals/${item.deal.id}'),
+          ),
+          if (item != attention.last) const SizedBox(height: 8),
         ],
       ],
       SizedBox(height: gap),
@@ -210,6 +239,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
         today: now,
         onTap: () => context.go('/meetings'),
       ),
+      if (context.isAdminOrManager && agents.isNotEmpty) ...[
+        SizedBox(height: gap + 4),
+        SectionHeader(title: l10n.dashboardLeaderboard),
+        const SizedBox(height: 10),
+        TopAgentsCard(agents: agents),
+      ],
       SizedBox(height: gap + 4),
       SectionHeader(
         title: l10n.dashboardUpcomingMeetings,
