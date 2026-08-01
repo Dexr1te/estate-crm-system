@@ -84,8 +84,18 @@ logging:
 
 app:
   base-url: ${APP_BASE_URL:http://localhost:8080}
+  # Where the invite email's button points. Defaults to the landing page this
+  # backend serves; repoint it at the web app or a verified deep link later
+  # without touching EmailService.
+  invite-url: ${INVITE_URL:${APP_BASE_URL:http://localhost:8080}/api/invite}
+  # Custom scheme the landing page offers as "Open in the app".
+  invite-deep-link: ${INVITE_DEEP_LINK:estatecrm://accept-invite}
   mail:
     # Master switch: emails are only sent when true AND SMTP creds are set.
     enabled: ${MAIL_ENABLED:false}
     # Gmail rewrites From to the authenticated account, so default to it.
     from: ${MAIL_FROM:${MAIL_USERNAME:no-reply@estatecrm.app}}
+    # Reject invites to domains that publish no MX/A record. Turn off for
+    # offline development, where every lookup fails.
+    verify-domain: ${MAIL_VERIFY_DOMAIN:true}
+    verify-domain-timeout-ms: ${MAIL_VERIFY_DOMAIN_TIMEOUT_MS:3000}

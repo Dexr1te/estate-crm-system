@@ -45,3 +45,6 @@ app:
   base-url: http://localhost:8080
   mail:
     enabled: false
+    # Tests must not depend on DNS being reachable, or on a domain still
+    # existing years from now.
+    verify-domain: false
