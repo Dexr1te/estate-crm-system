@@ -1,0 +1,55 @@
+name: Mobile Tests
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'mobile/**'
+      - '.github/workflows/mobile-tests.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'mobile/**'
+      - '.github/workflows/mobile-tests.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: mobile-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: mobile
+    steps:
+      - uses: actions/checkout@v4
+
+      # Pinned, not `channel: stable`: the app needs Dart 3.11+, and a floating
+      # channel turns an upstream release into a red build nobody asked for.
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.41.4'
+          channel: stable
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Verify formatting
+        run: dart format --output=none --set-exit-if-changed lib test
+
+      - name: Analyze
+        run: dart analyze --fatal-infos lib test
+
+      # The generated localisations are committed, so an edited .arb that was
+      # never regenerated has to fail here rather than at runtime.
+      - name: Verify localisations are in sync
+        run: |
+          flutter gen-l10n
+          git diff --exit-code lib/l10n
+
+      - name: Run tests
+        run: flutter test
