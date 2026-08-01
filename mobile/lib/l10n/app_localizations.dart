@@ -964,6 +964,12 @@ abstract class AppLocalizations {
   /// **'Manager'**
   String get coreRoleManager;
 
+  /// No description provided for @coreSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get coreSave;
+
   /// No description provided for @coreStatusAvailable.
   ///
   /// In en, this message translates to:
@@ -1042,6 +1048,12 @@ abstract class AppLocalizations {
   /// **'agent: {name}'**
   String dashboardAgentMeta(Object name);
 
+  /// No description provided for @dashboardAttention.
+  ///
+  /// In en, this message translates to:
+  /// **'Needs attention'**
+  String get dashboardAttention;
+
   /// No description provided for @dashboardClients.
   ///
   /// In en, this message translates to:
@@ -1071,6 +1083,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count, plural, =0{Nothing closed yet} =1{1 deal decided} other{{count} deals decided}}'**
   String dashboardDecidedDeals(num count);
+
+  /// No description provided for @dashboardGoalClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove target'**
+  String get dashboardGoalClear;
+
+  /// No description provided for @dashboardGoalEyebrow.
+  ///
+  /// In en, this message translates to:
+  /// **'TARGET'**
+  String get dashboardGoalEyebrow;
+
+  /// No description provided for @dashboardGoalReached.
+  ///
+  /// In en, this message translates to:
+  /// **'Target reached. Everything from here is ahead of plan.'**
+  String get dashboardGoalReached;
+
+  /// No description provided for @dashboardGoalRemaining.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} left to hit the target'**
+  String dashboardGoalRemaining(Object amount);
+
+  /// No description provided for @dashboardGoalSheetField.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get dashboardGoalSheetField;
+
+  /// No description provided for @dashboardGoalSheetHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed-won deals count towards it. Stored on this device only.'**
+  String get dashboardGoalSheetHint;
+
+  /// No description provided for @dashboardGoalSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly target'**
+  String get dashboardGoalSheetTitle;
+
+  /// No description provided for @dashboardGoalTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed this month'**
+  String get dashboardGoalTitle;
+
+  /// No description provided for @dashboardGoalUnset.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to set a monthly target and track it here'**
+  String get dashboardGoalUnset;
 
   /// No description provided for @dashboardGreeting.
   ///
@@ -1107,6 +1173,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Still up'**
   String get dashboardGreetingStillUp;
+
+  /// No description provided for @dashboardIdleDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{no movement for 1 day} other{no movement for {count} days}}'**
+  String dashboardIdleDays(num count);
+
+  /// No description provided for @dashboardLeaderboard.
+  ///
+  /// In en, this message translates to:
+  /// **'Top agents'**
+  String get dashboardLeaderboard;
 
   /// No description provided for @dashboardLoadTotal.
   ///

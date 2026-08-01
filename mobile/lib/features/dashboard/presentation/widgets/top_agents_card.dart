@@ -46,8 +46,8 @@ class _AgentRow extends StatelessWidget {
       children: [
         Row(
           children: [
-            InitialAvatar(name: agent.name, size: 22),
-            const SizedBox(width: 8),
+            _RankedAvatar(name: agent.name, rank: rank),
+            const SizedBox(width: 10),
             Expanded(
               child: Text(
                 agent.name,
@@ -77,7 +77,7 @@ class _AgentRow extends StatelessWidget {
             ),
           ],
         ),
-        const SizedBox(height: 6),
+        const SizedBox(height: 7),
         Row(
           children: [
             Expanded(
@@ -108,6 +108,52 @@ class _AgentRow extends StatelessWidget {
           ],
         ),
       ],
+    );
+  }
+}
+
+class _RankedAvatar extends StatelessWidget {
+  final String name;
+  final int rank;
+  const _RankedAvatar({required this.name, required this.rank});
+
+  @override
+  Widget build(BuildContext context) {
+    final t = context.tokens;
+    final first = rank == 0;
+    return SizedBox(
+      width: 34,
+      height: 34,
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          InitialAvatar(name: name, size: 34),
+          Positioned(
+            right: -3,
+            bottom: -3,
+            child: Container(
+              width: 16,
+              height: 16,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: first ? t.accent : t.surfaceVariant,
+                shape: BoxShape.circle,
+                border: Border.all(color: t.surface, width: 2),
+              ),
+              child: Text(
+                '${rank + 1}',
+                style: TextStyle(
+                  fontFamily: AppFonts.sans,
+                  fontSize: 8.5,
+                  height: 1,
+                  fontWeight: FontWeight.w700,
+                  color: first ? t.onAccent : t.textSecondary,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

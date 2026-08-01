@@ -9,12 +9,17 @@ class SectionHeader extends StatelessWidget {
 
   final String? trailingText;
 
+  final int? count;
+  final bool countIsAlert;
+
   const SectionHeader({
     super.key,
     required this.title,
     this.actionLabel,
     this.onAction,
     this.trailingText,
+    this.count,
+    this.countIsAlert = false,
   });
 
   @override
@@ -28,10 +33,18 @@ class SectionHeader extends StatelessWidget {
     );
 
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.baseline,
-      textBaseline: TextBaseline.alphabetic,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Expanded(
+        Container(
+          width: 3,
+          height: 14,
+          decoration: BoxDecoration(
+            color: t.accent,
+            borderRadius: BorderRadius.circular(2),
+          ),
+        ),
+        const SizedBox(width: 9),
+        Flexible(
           child: Text(
             title,
             maxLines: 1,
@@ -44,6 +57,11 @@ class SectionHeader extends StatelessWidget {
             ),
           ),
         ),
+        if (count != null) ...[
+          const SizedBox(width: 8),
+          _CountChip(count: count!, alert: countIsAlert),
+        ],
+        const Spacer(),
         if (trailingText != null)
           Text(trailingText!, style: trailingStyle)
         else if (actionLabel != null && onAction != null)
@@ -57,6 +75,33 @@ class SectionHeader extends StatelessWidget {
             ]),
           ),
       ],
+    );
+  }
+}
+
+class _CountChip extends StatelessWidget {
+  final int count;
+  final bool alert;
+  const _CountChip({required this.count, required this.alert});
+
+  @override
+  Widget build(BuildContext context) {
+    final t = context.tokens;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+      decoration: BoxDecoration(
+        color: alert ? t.dangerFill : t.surfaceVariant,
+        borderRadius: BorderRadius.circular(AppMetrics.radiusPill),
+      ),
+      child: Text(
+        '$count',
+        style: TextStyle(
+          fontFamily: AppFonts.sans,
+          fontSize: 10.5,
+          fontWeight: FontWeight.w600,
+          color: alert ? t.dangerText : t.textSecondary,
+        ),
+      ),
     );
   }
 }

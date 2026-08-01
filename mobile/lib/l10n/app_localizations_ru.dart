@@ -481,6 +481,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get coreRoleManager => 'Менеджер';
 
   @override
+  String get coreSave => 'Сохранить';
+
+  @override
   String get coreStatusAvailable => 'Доступен';
 
   @override
@@ -533,6 +536,9 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String get dashboardAttention => 'Требует внимания';
+
+  @override
   String get dashboardClients => 'Клиенты';
 
   @override
@@ -560,6 +566,38 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String get dashboardGoalClear => 'Убрать цель';
+
+  @override
+  String get dashboardGoalEyebrow => 'ЦЕЛЬ';
+
+  @override
+  String get dashboardGoalReached =>
+      'Цель достигнута. Всё дальше — сверх плана.';
+
+  @override
+  String dashboardGoalRemaining(Object amount) {
+    return 'До цели осталось $amount';
+  }
+
+  @override
+  String get dashboardGoalSheetField => 'Сумма';
+
+  @override
+  String get dashboardGoalSheetHint =>
+      'Засчитываются выигранные сделки. Хранится только на этом устройстве.';
+
+  @override
+  String get dashboardGoalSheetTitle => 'Цель на месяц';
+
+  @override
+  String get dashboardGoalTitle => 'Закрыто за месяц';
+
+  @override
+  String get dashboardGoalUnset =>
+      'Нажмите, чтобы задать цель на месяц и следить за ней здесь';
+
+  @override
   String dashboardGreeting(Object greeting, Object name) {
     return '$greeting, $name';
   }
@@ -578,6 +616,21 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get dashboardGreetingStillUp => 'Ещё не спите';
+
+  @override
+  String dashboardIdleDays(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'без движения $count дней',
+      few: 'без движения $count дня',
+      one: 'без движения 1 день',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get dashboardLeaderboard => 'Лучшие агенты';
 
   @override
   String dashboardLoadTotal(num count) {
