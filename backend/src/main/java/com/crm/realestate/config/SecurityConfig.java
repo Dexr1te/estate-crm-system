@@ -38,6 +38,7 @@ public class SecurityConfig {
             "/auth/login",
             "/auth/refresh",
             "/auth/accept-invite",
+            "/invite",
             "/auth/forgot-password",
             "/auth/reset-password",
             "/v3/api-docs/**",

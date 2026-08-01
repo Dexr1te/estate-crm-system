@@ -41,6 +41,7 @@ public class AdminService {
     private final SecurityUtils      securityUtils;
     private final AuditLogService    auditLogService;
     private final EmailService       emailService;
+    private final EmailDomainValidator emailDomainValidator;
 
     public List<AgentResponse> getAllUsers() {
         return userRepository.findAllByOrderByCreatedAtDesc()
@@ -53,6 +54,9 @@ public class AdminService {
     public AgentResponse createUser(CreateAgentRequest request) {
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new RuntimeException("Email already registered: " + request.getEmail());
+        }
+        if (!emailDomainValidator.acceptsMail(request.getEmail())) {
+            throw new RuntimeException("That email domain cannot receive mail: " + request.getEmail());
         }
 
         Team team = null;
@@ -85,6 +89,9 @@ public class AdminService {
     public AgentResponse inviteAgentToManagerTeam(CreateAgentRequest request, User manager) {
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new RuntimeException("Email already registered: " + request.getEmail());
+        }
+        if (!emailDomainValidator.acceptsMail(request.getEmail())) {
+            throw new RuntimeException("That email domain cannot receive mail: " + request.getEmail());
         }
         if (manager.getTeam() == null) {
             throw new IllegalStateException("Manager must belong to a team before inviting agents");
