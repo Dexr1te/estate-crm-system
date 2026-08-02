@@ -27,4 +27,11 @@ public class AgentResponse {
      * responses so tokens are never leaked when enumerating users.
      */
     private String inviteToken;
+
+    /**
+     * True for the one account that may delete users and that may never itself be deleted.
+     * Resolved from {@code app.primary-admin-email}, so the client does not need to know the
+     * rule — only which row it applies to.
+     */
+    private boolean isPrimaryAdmin;
 }

@@ -18,6 +18,8 @@ abstract class AdminRepository {
 
   Future<AgentResponse> resendInvite(int id);
 
+  Future<void> deleteUser(int id, {int? replacementId});
+
   Future<List<AuditLogResponse>> getAuditLog({
     int? actorId,
     String? entityType,

@@ -5,6 +5,7 @@ import 'package:real_estate_crm/core/models/admin_models.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/models/team_models.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/admin/presentation/bloc/admin_users_bloc.dart';
 import 'package:real_estate_crm/features/admin/presentation/bloc/admin_users_event.dart';
 import 'package:real_estate_crm/features/admin/presentation/bloc/admin_users_state.dart';
@@ -228,6 +229,9 @@ class _UsersTab extends StatelessWidget {
                           u.isActive
                               ? AdminDeactivateUserEvent(u.id)
                               : AdminActivateUserEvent(u.id)),
+                      onDelete: _canDelete(context, state.users, u)
+                          ? () => _deleteUser(context, u, state.users)
+                          : null,
                     );
                   },
                 ),
@@ -484,4 +488,47 @@ class _SheetOption extends StatelessWidget {
       ),
     );
   }
+}
+
+/// Only the primary admin gets the delete action, and never on itself. The
+/// backend enforces both again — this just keeps an action the user cannot
+/// perform out of the menu.
+bool _canDelete(
+    BuildContext context, List<AgentResponse> users, AgentResponse row) {
+  final me = context.read<AuthBloc>().currentUser;
+  if (me == null || row.isPrimaryAdmin || row.id == me.userId) return false;
+  for (final u in users) {
+    if (u.id == me.userId) return u.isPrimaryAdmin;
+  }
+  return false;
+}
+
+Future<void> _deleteUser(
+    BuildContext context, AgentResponse user, List<AgentResponse> all) async {
+  final l10n = AppLocalizations.of(context);
+  final bloc = context.read<AdminUsersBloc>();
+
+  // Deals, meetings and documents cannot be orphaned, so the successor is
+  // asked for up front rather than after the backend refuses.
+  final successor = await showEntityPicker(
+    context,
+    title: l10n.adminDeleteHandoverTitle,
+    searchHint: l10n.adminDeleteHandoverSearch,
+    emptyLabel: l10n.adminDeleteHandoverEmpty,
+    items: [
+      for (final u in all)
+        if (u.id != user.id && u.isActive)
+          PickerItem(id: u.id, title: u.fullName, subtitle: u.email),
+    ],
+  );
+  if (successor == null || !context.mounted) return;
+
+  final ok = await showConfirmDialog(
+    context,
+    title: l10n.adminDeleteUser,
+    content: l10n.adminDeleteCascade(successor.title, user.fullName),
+  );
+  if (!ok) return;
+
+  bloc.add(AdminDeleteUserEvent(user.id, replacementId: successor.id));
 }

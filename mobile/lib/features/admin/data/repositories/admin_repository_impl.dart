@@ -35,6 +35,10 @@ class AdminRepositoryImpl implements AdminRepository {
   Future<AgentResponse> resendInvite(int id) => _remote.resendInvite(id);
 
   @override
+  Future<void> deleteUser(int id, {int? replacementId}) =>
+      _remote.deleteUser(id, replacementId: replacementId);
+
+  @override
   Future<List<AuditLogResponse>> getAuditLog({
     int? actorId,
     String? entityType,

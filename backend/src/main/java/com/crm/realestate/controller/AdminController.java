@@ -78,6 +78,14 @@ public class AdminController {
         return ResponseEntity.ok(adminService.resendInvite(id));
     }
 
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<Void> deleteUser(
+            @PathVariable Long id,
+            @RequestParam(required = false) Long replacementId) {
+        adminService.deleteUser(id, replacementId);
+        return ResponseEntity.noContent().build();
+    }
+
     @GetMapping("/audit-log")
     @Operation(summary = "Get audit log entries")
     public ResponseEntity<List<AuditLogResponse>> getAuditLog(

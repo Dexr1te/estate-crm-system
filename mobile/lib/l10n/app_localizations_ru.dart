@@ -43,6 +43,23 @@ class AppLocalizationsRu extends AppLocalizations {
   String get adminDeactivate => 'Деактивировать';
 
   @override
+  String adminDeleteCascade(Object name, Object successor) {
+    return 'Клиенты, объекты, сделки и встречи ($name) перейдут к $successor. Аккаунт будет удалён навсегда, отменить это нельзя.';
+  }
+
+  @override
+  String get adminDeleteHandoverEmpty => 'Передать некому';
+
+  @override
+  String get adminDeleteHandoverSearch => 'Поиск по сотрудникам';
+
+  @override
+  String get adminDeleteHandoverTitle => 'Кому передать записи';
+
+  @override
+  String get adminDeleteUser => 'Удалить пользователя';
+
+  @override
   String get adminDone => 'Готово';
 
   @override

@@ -2,6 +2,8 @@ package com.crm.realestate.service;
 
 import com.crm.realestate.dto.response.AuditLogResponse;
 import com.crm.realestate.entity.AuditLog;
+import org.springframework.transaction.annotation.Transactional;
+import com.crm.realestate.entity.User;
 import com.crm.realestate.exception.ResourceNotFoundException;
 import com.crm.realestate.repository.AuditLogRepository;
 import com.crm.realestate.specification.AuditLogSpecification;
@@ -29,11 +31,27 @@ public class AuditLogService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Writes one journal entry. Deliberately not @Async: an audit line that may or may not have
+     * been written is worth less than no audit line at all.
+     */
+    @Transactional
+    public void record(User actor, String action, String entityType, Long entityId,
+                       String metadata) {
+        auditLogRepository.save(AuditLog.builder()
+                .actor(actor)
+                .action(action)
+                .entityType(entityType)
+                .entityId(entityId)
+                .metadata(metadata)
+                .build());
+    }
+
     private AuditLogResponse toResponse(AuditLog log) {
         return AuditLogResponse.builder()
                 .id(log.getId())
-                .actorId(log.getActor().getId())
-                .actorEmail(log.getActor().getEmail())
+                .actorId(log.getActor() == null ? null : log.getActor().getId())
+                .actorEmail(log.getActor() == null ? "deleted user" : log.getActor().getEmail())
                 .action(log.getAction())
                 .entityType(log.getEntityType())
                 .entityId(log.getEntityId())

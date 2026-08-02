@@ -14,6 +14,9 @@ DateTime? _date(dynamic v) => v is String ? DateTime.tryParse(v) : null;
 bool _activeOf(Map<String, dynamic> json) =>
     (json['active'] ?? json['isActive'] ?? false) as bool;
 
+bool _primaryAdminOf(Map<String, dynamic> json) =>
+    (json['primaryAdmin'] ?? json['isPrimaryAdmin'] ?? false) as bool;
+
 class AgentResponse {
   final int id;
   final String fullName;
@@ -25,6 +28,8 @@ class AgentResponse {
 
   final String? inviteToken;
 
+  final bool isPrimaryAdmin;
+
   const AgentResponse({
     required this.id,
     required this.fullName,
@@ -34,6 +39,7 @@ class AgentResponse {
     required this.isActive,
     this.createdAt,
     this.inviteToken,
+    this.isPrimaryAdmin = false,
   });
 
   factory AgentResponse.fromJson(Map<String, dynamic> json) => AgentResponse(
@@ -45,6 +51,7 @@ class AgentResponse {
         isActive: _activeOf(json),
         createdAt: _date(json['createdAt']),
         inviteToken: json['inviteToken'] as String?,
+        isPrimaryAdmin: _primaryAdminOf(json),
       );
 }
 

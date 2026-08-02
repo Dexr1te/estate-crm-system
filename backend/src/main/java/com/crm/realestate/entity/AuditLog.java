@@ -18,8 +18,12 @@ public class AuditLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /**
+     * Null once the acting user has been deleted. The entry itself is kept — a
+     * journal that drops its rows when someone leaves is not a journal.
+     */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "actor_id", nullable = false)
+    @JoinColumn(name = "actor_id")
     private User actor;
 
     @Column(nullable = false)

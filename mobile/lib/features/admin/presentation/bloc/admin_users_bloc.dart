@@ -17,6 +17,7 @@ class AdminUsersBloc extends Bloc<AdminUsersEvent, AdminUsersState>
     on<AdminChangeRoleEvent>(_onChangeRole);
     on<AdminAssignTeamEvent>(_onAssignTeam);
     on<AdminResendInviteEvent>(_onResendInvite);
+    on<AdminDeleteUserEvent>(_onDelete);
   }
 
   List<AgentResponse> get _current {
@@ -63,6 +64,11 @@ class AdminUsersBloc extends Bloc<AdminUsersEvent, AdminUsersState>
       emit(_failure(err));
     }
   }
+
+  Future<void> _onDelete(
+          AdminDeleteUserEvent e, Emitter<AdminUsersState> emit) =>
+      _act(emit, 'User deleted',
+          () => _repo.deleteUser(e.id, replacementId: e.replacementId));
 
   Future<void> _onActivate(
           AdminActivateUserEvent e, Emitter<AdminUsersState> emit) =>
