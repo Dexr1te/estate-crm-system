@@ -29,13 +29,18 @@ services:
     restart: always
     ports:
       - "8080:8080"
+    # Compose reads .env to substitute into this file; it does not forward the
+    # host environment into the container. env_file does, and it forwards only
+    # what is actually set — listing each var with a `:-` fallback would hand
+    # Spring empty strings, which are NOT absent, so the defaults in
+    # application.yml would stop applying.
+    env_file:
+      - path: .env
+        required: false
     environment:
+      # Overrides .env on purpose: inside the network the database is `db`.
       DB_URL: jdbc:postgresql://db:5432/crm_db
-      DB_USERNAME: ${DB_USERNAME}
-      DB_PASSWORD: ${DB_PASSWORD}
-      JWT_SECRET: ${JWT_SECRET}
       FIREBASE_CREDENTIALS_PATH: /app/firebase-service-account.json
-      FIREBASE_PROJECT_ID: ${FIREBASE_PROJECT_ID}
     depends_on:
       db:
         condition: service_healthy
