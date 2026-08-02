@@ -184,7 +184,11 @@ public class AdminService {
         if (user.getStatus() != UserStatus.ACTIVE) {
             user.setStatus(UserStatus.PENDING_INVITE);
         }
-        return toAgentResponse(userRepository.save(user));
+        User saved = userRepository.save(user);
+        // Rotating the token without mailing it out is what "resend" used to do,
+        // which left the recipient with nothing and the old link dead.
+        emailService.sendInvite(saved.getEmail(), saved.getFullName(), saved.getInviteToken());
+        return toAgentResponse(saved);
     }
 
     public List<com.crm.realestate.dto.response.AuditLogResponse> getAuditLogs(Long actorId, String entityType, java.time.LocalDate fromDate, java.time.LocalDate toDate) {
