@@ -43,6 +43,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get adminDeactivate => 'Deactivate';
 
   @override
+  String adminDeleteCascade(Object name, Object successor) {
+    return '$name\'s clients, properties, deals and meetings move to $successor. The account is removed permanently and this cannot be undone.';
+  }
+
+  @override
+  String get adminDeleteHandoverEmpty => 'No one else to hand them to';
+
+  @override
+  String get adminDeleteHandoverSearch => 'Search people';
+
+  @override
+  String get adminDeleteHandoverTitle => 'Hand the records over to';
+
+  @override
+  String get adminDeleteUser => 'Delete user';
+
+  @override
   String get adminDone => 'Done';
 
   @override

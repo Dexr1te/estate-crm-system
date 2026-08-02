@@ -48,6 +48,15 @@ class AdminRemoteDataSource {
     return AgentResponse.fromJson(res.data);
   }
 
+  Future<void> deleteUser(int id, {int? replacementId}) async {
+    await _client.dio.delete(
+      '/admin/users/$id',
+      queryParameters: {
+        if (replacementId != null) 'replacementId': replacementId
+      },
+    );
+  }
+
   Future<List<AuditLogResponse>> getAuditLog({
     int? actorId,
     String? entityType,

@@ -166,6 +166,36 @@ abstract class AppLocalizations {
   /// **'Deactivate'**
   String get adminDeactivate;
 
+  /// No description provided for @adminDeleteCascade.
+  ///
+  /// In en, this message translates to:
+  /// **'{name}\'s clients, properties, deals and meetings move to {successor}. The account is removed permanently and this cannot be undone.'**
+  String adminDeleteCascade(Object name, Object successor);
+
+  /// No description provided for @adminDeleteHandoverEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No one else to hand them to'**
+  String get adminDeleteHandoverEmpty;
+
+  /// No description provided for @adminDeleteHandoverSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Search people'**
+  String get adminDeleteHandoverSearch;
+
+  /// No description provided for @adminDeleteHandoverTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Hand the records over to'**
+  String get adminDeleteHandoverTitle;
+
+  /// No description provided for @adminDeleteUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete user'**
+  String get adminDeleteUser;
+
   /// No description provided for @adminDone.
   ///
   /// In en, this message translates to:

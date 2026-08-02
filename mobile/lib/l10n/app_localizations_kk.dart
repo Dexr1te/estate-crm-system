@@ -43,6 +43,23 @@ class AppLocalizationsKk extends AppLocalizations {
   String get adminDeactivate => 'Өшіру';
 
   @override
+  String adminDeleteCascade(Object name, Object successor) {
+    return '$name клиенттері, нысандары, мәмілелері мен кездесулері $successor адамына көшеді. Аккаунт біржола жойылады, кері қайтару мүмкін емес.';
+  }
+
+  @override
+  String get adminDeleteHandoverEmpty => 'Беретін адам жоқ';
+
+  @override
+  String get adminDeleteHandoverSearch => 'Қызметкерлерді іздеу';
+
+  @override
+  String get adminDeleteHandoverTitle => 'Жазбаларды кімге беру';
+
+  @override
+  String get adminDeleteUser => 'Пайдаланушыны жою';
+
+  @override
   String get adminDone => 'Дайын';
 
   @override

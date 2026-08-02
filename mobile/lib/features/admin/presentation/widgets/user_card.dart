@@ -12,6 +12,8 @@ class UserCard extends StatelessWidget {
   final VoidCallback onToggleActive;
   final VoidCallback onResendInvite;
 
+  final VoidCallback? onDelete;
+
   const UserCard({
     super.key,
     required this.user,
@@ -20,6 +22,7 @@ class UserCard extends StatelessWidget {
     required this.onAssignTeam,
     required this.onToggleActive,
     required this.onResendInvite,
+    this.onDelete,
   });
 
   @override
@@ -90,6 +93,7 @@ class UserCard extends StatelessWidget {
               onAssignTeam: onAssignTeam,
               onToggleActive: onToggleActive,
               onResendInvite: onResendInvite,
+              onDelete: onDelete,
             ),
           ],
         ),
@@ -163,6 +167,7 @@ class _Menu extends StatelessWidget {
   final VoidCallback onAssignTeam;
   final VoidCallback onToggleActive;
   final VoidCallback onResendInvite;
+  final VoidCallback? onDelete;
 
   const _Menu({
     required this.user,
@@ -171,6 +176,7 @@ class _Menu extends StatelessWidget {
     required this.onAssignTeam,
     required this.onToggleActive,
     required this.onResendInvite,
+    this.onDelete,
   });
 
   @override
@@ -195,6 +201,12 @@ class _Menu extends StatelessWidget {
             style: TextStyle(color: user.isActive ? t.dangerText : null),
           ),
         ),
+        if (onDelete != null)
+          PopupMenuItem(
+            value: onDelete,
+            child: Text(l10n.adminDeleteUser,
+                style: TextStyle(color: t.dangerText)),
+          ),
       ],
     );
   }

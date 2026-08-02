@@ -35,3 +35,9 @@ class AdminResendInviteEvent extends AdminUsersEvent {
   final int id;
   AdminResendInviteEvent(this.id);
 }
+
+class AdminDeleteUserEvent extends AdminUsersEvent {
+  final int id;
+  final int? replacementId;
+  AdminDeleteUserEvent(this.id, {this.replacementId});
+}
