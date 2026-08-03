@@ -2,6 +2,7 @@ package com.crm.realestate.service;
 
 import java.nio.charset.StandardCharsets;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +40,34 @@ public class EmailService {
      */
     @Value("${app.invite-url:${app.base-url:http://localhost:8080}/api/invite}")
     private String inviteUrl;
+
+    @Value("${spring.mail.host:}")
+    private String host;
+
+    @Value("${spring.mail.username:}")
+    private String username;
+
+    /**
+     * States the resolved mail configuration once, at boot.
+     *
+     * <p>Without this the only sign that mail is off is a line printed when somebody happens to
+     * click "invite", long after the deploy that broke it — and the usual cause is invisible from
+     * inside the container: Compose substitutes {@code .env} into the compose file but does not
+     * pass it through to the process unless the service declares {@code env_file}.
+     */
+    @PostConstruct
+    void logConfiguration() {
+        if (!enabled) {
+            log.warn("Mail is OFF (app.mail.enabled=false) — invite emails will be skipped. "
+                    + "If MAIL_ENABLED is set in .env, check that docker-compose actually "
+                    + "forwards it into the container (env_file).");
+            return;
+        }
+        if (username == null || username.isBlank()) {
+            log.warn("Mail is ON but spring.mail.username is empty — SMTP will reject every send.");
+        }
+        log.info("Mail is ON — host={}, from={}, invite links point at {}", host, from, inviteUrl);
+    }
 
     @Async
     public void sendInvite(String toEmail, String fullName, String inviteToken) {

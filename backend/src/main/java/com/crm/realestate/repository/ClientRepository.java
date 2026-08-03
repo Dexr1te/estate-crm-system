@@ -2,21 +2,41 @@ package com.crm.realestate.repository;
 
 import com.crm.realestate.entity.Client;
 import com.crm.realestate.enums.ClientType;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ClientRepository extends JpaRepository<Client, Long>, org.springframework.data.jpa.repository.JpaSpecificationExecutor<Client> {
 
+    /*
+     * The response mapper reads these lazy associations off every row, so without a fetch graph a
+     * list of N costs one statement plus one per association per row. Harmless against a local
+     * database, seconds against a hosted one in another region. All are to-one, so joining them
+     * cannot duplicate rows.
+     */
+
+    @Override
+    @EntityGraph(attributePaths = {"agent"})
+    List<Client> findAll();
+
+    @Override
+    @EntityGraph(attributePaths = {"agent"})
+    Optional<Client> findById(Long id);
+
+    @EntityGraph(attributePaths = {"agent"})
     List<Client> findByAgentId(Long agentId);
     long countByAgentIdIn(List<Long> agentIds);
 
+    @EntityGraph(attributePaths = {"agent"})
     List<Client> findByType(ClientType type);
 
+    @EntityGraph(attributePaths = {"agent"})
     List<Client> findByAgentIdAndType(Long agentId, ClientType type);
 
     @Query("SELECT c FROM Client c WHERE " +

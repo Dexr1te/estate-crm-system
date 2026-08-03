@@ -15,6 +15,9 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
+        # Lets a test count the statements a request actually issues, which is
+        # the only way to keep an N+1 from creeping back in unnoticed.
+        generate_statistics: true
 
   flyway:
     enabled: false

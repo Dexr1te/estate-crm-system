@@ -1,0 +1,28 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: crm_app
+    restart: unless-stopped
+    mem_limit: 700m
+    # Bound to loopback on purpose: the reverse proxy in front of it is what
+    # faces the internet.
+    ports:
+      - "127.0.0.1:8080:8080"
+
+    # env_file rather than a list of `VAR: ${VAR}` entries.
+    #
+    # Compose reads .env to substitute into this file; it does not forward the
+    # host environment into the container. Naming variables one by one works,
+    # but every new setting then has to be remembered here as well — which is
+    # exactly how MAIL_ENABLED went missing and invites stayed silent while the
+    # log said app.mail.enabled=false.
+    #
+    # It also avoids a subtler trap: `${MAIL_FROM}` for a variable absent from
+    # .env expands to an empty string, and an empty string is NOT an absent
+    # property, so the defaults in application.yml stop applying. env_file
+    # forwards only what is actually set.
+    env_file:
+      - path: .env
+        required: false
