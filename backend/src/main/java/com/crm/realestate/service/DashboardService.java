@@ -35,14 +35,38 @@ public class DashboardService {
         User currentUser = securityUtils.getCurrentUser();
         final List<Long> resolvedAgentIds = resolveAgentIds(currentUser, agentId, teamId);
 
-        long totalDeals = resolvedAgentIds == null ? dealRepository.count() : dealRepository.countByAgentIdIn(resolvedAgentIds);
-        long closedDeals = (resolvedAgentIds == null ? dealRepository.findByStatus(DealStatus.CLOSED_WON) : dealRepository.findAll(DealSpecification.build(DealStatus.CLOSED_WON, null, null, resolvedAgentIds)))
-                .size() + (resolvedAgentIds == null ? dealRepository.findByStatus(DealStatus.CLOSED_LOST) : dealRepository.findAll(DealSpecification.build(DealStatus.CLOSED_LOST, null, null, resolvedAgentIds))).size();
+        // Five numbers, five counting queries. This used to load every closed deal and every
+        // upcoming meeting into memory to call .size() on them, and the meeting filter read
+        // m.getAgent().getId() per row — an N+1 on top of a full table scan, to produce integers.
+        final List<DealStatus> closedStatuses =
+                List.of(DealStatus.CLOSED_WON, DealStatus.CLOSED_LOST);
+        final LocalDateTime now = LocalDateTime.now();
+
+        long totalDeals;
+        long closedDeals;
+        long totalClients;
+        long upcomingMeetings;
+
+        if (resolvedAgentIds == null) {
+            totalDeals = dealRepository.count();
+            closedDeals = dealRepository.countByStatusIn(closedStatuses);
+            totalClients = clientRepository.count();
+            upcomingMeetings = meetingRepository.countByScheduledAtAfter(now);
+        } else if (resolvedAgentIds.isEmpty()) {
+            // No agents in scope means nothing to count; an empty IN list is not valid SQL.
+            totalDeals = 0;
+            closedDeals = 0;
+            totalClients = 0;
+            upcomingMeetings = 0;
+        } else {
+            totalDeals = dealRepository.countByAgentIdIn(resolvedAgentIds);
+            closedDeals = dealRepository.countByAgentIdInAndStatusIn(resolvedAgentIds, closedStatuses);
+            totalClients = clientRepository.countByAgentIdIn(resolvedAgentIds);
+            upcomingMeetings =
+                    meetingRepository.countByAgentIdInAndScheduledAtAfter(resolvedAgentIds, now);
+        }
+
         long activeDeals = totalDeals - closedDeals;
-        long totalClients = resolvedAgentIds == null ? clientRepository.count() : clientRepository.countByAgentIdIn(resolvedAgentIds);
-        long upcomingMeetings = meetingRepository.findAllUpcoming(LocalDateTime.now()).stream()
-                .filter(m -> resolvedAgentIds == null || resolvedAgentIds.contains(m.getAgent().getId()))
-                .count();
 
         return DashboardSummary.builder()
                 .totalDeals(totalDeals)
