@@ -21,9 +21,27 @@
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
               />
+            <!-- The engine's own deep-link handling would race app_links for the
+                 same intent, and it derives the route from the URL path, which is
+                 empty for a custom scheme like estatecrm://accept-invite.
+                 DeepLinkHandler owns this instead. -->
+            <meta-data
+              android:name="flutter_deeplinking_enabled"
+              android:value="false"
+              />
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <!-- "Open in the app" on the invite landing page. A custom scheme
+                 needs no domain verification, so invites work before
+                 assetlinks.json is published; add an https intent-filter beside
+                 this one once it is, and resolveDeepLink already accepts it. -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="estatecrm" android:host="accept-invite"/>
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.

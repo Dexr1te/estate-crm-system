@@ -24,6 +24,22 @@
 		<string>????</string>
 		<key>CFBundleVersion</key>
 		<string>$(FLUTTER_BUILD_NUMBER)</string>
+		<!-- "Open in the app" on the invite landing page
+		     (estatecrm://accept-invite?token=...). FlutterDeepLinkingEnabled is
+		     deliberately left unset: DeepLinkHandler routes these, not the engine. -->
+		<key>CFBundleURLTypes</key>
+		<array>
+			<dict>
+				<key>CFBundleTypeRole</key>
+				<string>Editor</string>
+				<key>CFBundleURLName</key>
+				<string>app.estatecrm.invite</string>
+				<key>CFBundleURLSchemes</key>
+				<array>
+					<string>estatecrm</string>
+				</array>
+			</dict>
+		</array>
 		<key>LSRequiresIPhoneOS</key>
 		<true/>
 		<key>UIApplicationSceneManifest</key>

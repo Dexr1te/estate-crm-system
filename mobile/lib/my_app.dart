@@ -6,6 +6,7 @@ import 'package:real_estate_crm/core/goal/goal_bloc.dart';
 import 'package:real_estate_crm/core/locale/bloc/locale_bloc.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
 import 'package:real_estate_crm/core/theme/bloc/theme_bloc.dart';
+import 'package:real_estate_crm/core/utils/deep_links.dart';
 import 'package:real_estate_crm/core/utils/router.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart';
@@ -39,6 +40,7 @@ class _MyAppState extends State<MyApp> {
   late final MeetingsBloc _meetingsBloc;
   // ignore: prefer_typing_uninitialized_variables
   late final router;
+  late final DeepLinkHandler _deepLinks;
 
   @override
   void initState() {
@@ -57,11 +59,13 @@ class _MyAppState extends State<MyApp> {
     _dealsBloc = DealsBloc(Injector.dealsRepository);
     _meetingsBloc = MeetingsBloc(Injector.meetingsRepository);
     router = createRouter(_authBloc);
+    _deepLinks = DeepLinkHandler(router: router, auth: _authBloc)..start();
   }
 
   @override
   void dispose() {
     Injector.apiClient.onSessionExpired = null;
+    _deepLinks.dispose();
     _authBloc.close();
     _themeBloc.close();
     _localeBloc.close();
