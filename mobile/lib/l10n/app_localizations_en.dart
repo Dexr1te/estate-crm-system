@@ -198,6 +198,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authInviteCodeRequired => 'Invite code is required';
 
   @override
+  String authInviteSignOutBody(Object email) {
+    return 'You are signed in as $email. Accepting the invite means signing out of that account first.';
+  }
+
+  @override
+  String get authInviteSignOutConfirm => 'Sign out & continue';
+
+  @override
+  String get authInviteSignOutTitle => 'Accept this invite?';
+
+  @override
   String get authNewPassword => 'New password';
 
   @override

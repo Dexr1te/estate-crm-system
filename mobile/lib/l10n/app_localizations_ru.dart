@@ -198,6 +198,17 @@ class AppLocalizationsRu extends AppLocalizations {
   String get authInviteCodeRequired => 'Укажите код приглашения';
 
   @override
+  String authInviteSignOutBody(Object email) {
+    return 'Сейчас вы вошли как $email. Чтобы принять приглашение, нужно сначала выйти из этого аккаунта.';
+  }
+
+  @override
+  String get authInviteSignOutConfirm => 'Выйти и продолжить';
+
+  @override
+  String get authInviteSignOutTitle => 'Принять приглашение?';
+
+  @override
   String get authNewPassword => 'Новый пароль';
 
   @override

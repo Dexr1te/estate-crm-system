@@ -460,6 +460,24 @@ abstract class AppLocalizations {
   /// **'Invite code is required'**
   String get authInviteCodeRequired;
 
+  /// No description provided for @authInviteSignOutBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You are signed in as {email}. Accepting the invite means signing out of that account first.'**
+  String authInviteSignOutBody(Object email);
+
+  /// No description provided for @authInviteSignOutConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out & continue'**
+  String get authInviteSignOutConfirm;
+
+  /// No description provided for @authInviteSignOutTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept this invite?'**
+  String get authInviteSignOutTitle;
+
   /// No description provided for @authNewPassword.
   ///
   /// In en, this message translates to:

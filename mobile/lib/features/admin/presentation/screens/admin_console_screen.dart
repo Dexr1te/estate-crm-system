@@ -526,7 +526,8 @@ Future<void> _deleteUser(
   final ok = await showConfirmDialog(
     context,
     title: l10n.adminDeleteUser,
-    content: l10n.adminDeleteCascade(successor.title, user.fullName),
+    // Alphabetical, not source order: gen-l10n emits (name, successor).
+    content: l10n.adminDeleteCascade(user.fullName, successor.title),
   );
   if (!ok) return;
 

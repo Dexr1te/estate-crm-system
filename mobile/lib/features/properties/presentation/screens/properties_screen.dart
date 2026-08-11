@@ -125,13 +125,15 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
                                 l10n.propertiesTitle,
                                 reserveSubtitle: true,
                                 subtitle: state is PropertiesLoaded
+                                    // Alphabetical, not source order:
+                                    // gen-l10n emits (reserved, total).
                                     ? l10n.propertiesCounter(
-                                        items.length,
                                         items
                                             .where((p) =>
                                                 p.status ==
                                                 PropertyStatus.RESERVED)
-                                            .length)
+                                            .length,
+                                        items.length)
                                     : null,
                               ),
                             ),
