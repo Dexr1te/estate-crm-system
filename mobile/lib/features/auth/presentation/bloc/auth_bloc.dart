@@ -61,8 +61,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> implements Listenable {
     }
   }
 
+  /// The invite token is spent by the first request that reaches the backend,
+  /// so a second one — a double tap, or Enter and then the button — comes back
+  /// as "Invalid invite token". That tells the invitee their invite failed at
+  /// the exact moment it succeeded, and leaves them on the form with a password
+  /// that already works.
+  ///
+  /// Handlers run concurrently unless told otherwise, and the button's disabled
+  /// state only takes effect a rebuild later, so neither the screen nor the
+  /// default transformer can hold this. The guard belongs where the invariant
+  /// is: one accept per invite.
+  bool _acceptingInvite = false;
+
   Future<void> _onAcceptInvite(
       AuthAcceptInviteEvent e, Emitter<AuthState> emit) async {
+    if (_acceptingInvite) return;
+    _acceptingInvite = true;
     emit(AuthLoading());
     try {
       final auth = await _repo.acceptInvite(e.token, e.newPassword);
@@ -70,6 +84,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> implements Listenable {
       _notify();
     } catch (err) {
       emit(AuthError(apiErrorMessage(err)));
+    } finally {
+      _acceptingInvite = false;
     }
   }
 
