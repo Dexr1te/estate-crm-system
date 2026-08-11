@@ -8,6 +8,7 @@ import 'package:real_estate_crm/core/theme/app_theme.dart';
 import 'package:real_estate_crm/core/theme/bloc/theme_bloc.dart';
 import 'package:real_estate_crm/core/utils/deep_links.dart';
 import 'package:real_estate_crm/core/utils/router.dart';
+import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_state.dart';
@@ -59,7 +60,29 @@ class _MyAppState extends State<MyApp> {
     _dealsBloc = DealsBloc(Injector.dealsRepository);
     _meetingsBloc = MeetingsBloc(Injector.meetingsRepository);
     router = createRouter(_authBloc);
-    _deepLinks = DeepLinkHandler(router: router, auth: _authBloc)..start();
+    _deepLinks = DeepLinkHandler(
+      router: router,
+      auth: _authBloc,
+      confirmSignOut: _confirmInviteSignOut,
+    )..start();
+  }
+
+  /// An invite tapped during a live session can only be taken by giving that
+  /// session up, so the person holding it decides. The context comes from the
+  /// root navigator because the link arrives from the OS, outside any build.
+  Future<bool> _confirmInviteSignOut() async {
+    final context = rootNavigatorKey.currentContext;
+    final user = _authBloc.currentUser;
+    if (context == null || !context.mounted || user == null) return false;
+
+    final l10n = AppLocalizations.of(context);
+    return showConfirmDialog(
+      context,
+      title: l10n.authInviteSignOutTitle,
+      content: l10n.authInviteSignOutBody(user.email),
+      confirmLabel: l10n.authInviteSignOutConfirm,
+      icon: Icons.swap_horiz_rounded,
+    );
   }
 
   @override

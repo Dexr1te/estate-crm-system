@@ -91,6 +91,23 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
+  testWidgets('the header counts every listing, and reserved ones separately',
+      (tester) async {
+    await expectNoOverflow(
+      tester,
+      _wrap(const PropertiesScreen()),
+      size: const Size(390, 844),
+      brightness: Brightness.light,
+      textScale: 1.0,
+    );
+    await tester.pumpAndSettle();
+
+    // Three listings, one of them reserved. gen-l10n orders the placeholders
+    // alphabetically rather than by where they appear in the sentence, so the
+    // two counts are easy to hand over the wrong way round.
+    expect(find.text('3 listed · 1 reserved'), findsOneWidget);
+  });
+
   forEachAcceptanceCase('property detail',
       (tester, size, brightness, scale) async {
     await expectNoOverflow(

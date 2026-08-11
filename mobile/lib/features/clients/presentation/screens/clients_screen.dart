@@ -78,11 +78,13 @@ class _ClientsScreenState extends State<ClientsScreen> {
                                 l10n.clientsTitle,
                                 reserveSubtitle: true,
                                 subtitle: state is ClientsLoaded
+                                    // Alphabetical, not source order:
+                                    // gen-l10n emits (active, total).
                                     ? l10n.clientsCounter(
-                                        all.length,
                                         all
                                             .where((c) => c.dealCount > 0)
-                                            .length)
+                                            .length,
+                                        all.length)
                                     : null,
                               ),
                             ),

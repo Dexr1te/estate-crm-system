@@ -197,6 +197,17 @@ class AppLocalizationsKk extends AppLocalizations {
   String get authInviteCodeRequired => 'Шақыру кодын енгізіңіз';
 
   @override
+  String authInviteSignOutBody(Object email) {
+    return 'Қазір $email ретінде кіргенсіз. Шақыруды қабылдау үшін алдымен осы аккаунттан шығу қажет.';
+  }
+
+  @override
+  String get authInviteSignOutConfirm => 'Шығып, жалғастыру';
+
+  @override
+  String get authInviteSignOutTitle => 'Шақыруды қабылдайсыз ба?';
+
+  @override
   String get authNewPassword => 'Жаңа құпия сөз';
 
   @override

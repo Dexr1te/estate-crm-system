@@ -110,6 +110,23 @@ void main() {
     });
   }
 
+  testWidgets('the header counts all clients, and only the busy ones as active',
+      (tester) async {
+    await expectNoOverflow(
+      tester,
+      _clientsScreen(clients: _clients, details: _details),
+      size: const Size(390, 844),
+      brightness: Brightness.light,
+      textScale: 1.0,
+    );
+    await tester.pumpAndSettle();
+
+    // Three clients, two of them with deals. gen-l10n orders the placeholders
+    // alphabetically rather than by where they appear in the sentence, so the
+    // two counts are easy to hand over the wrong way round.
+    expect(find.text('3 total · 2 in progress'), findsOneWidget);
+  });
+
   test('ClientSummary.join folds detail rows into one row per client', () {
     final joined = ClientSummary.join(_clients, _details);
 

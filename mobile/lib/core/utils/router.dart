@@ -26,6 +26,11 @@ import 'package:real_estate_crm/core/widgets/main_scaffold.dart';
 final _rootKey = GlobalKey<NavigatorState>();
 final _shellKey = GlobalKey<NavigatorState>();
 
+/// The navigator every top-level route hangs off. Exposed so the pieces that
+/// live outside the widget tree — the deep-link handler's prompt, say — can
+/// reach a context that already carries the app's localizations and theme.
+GlobalKey<NavigatorState> get rootNavigatorKey => _rootKey;
+
 class NoTransitionPage<T> extends CustomTransitionPage<T> {
   const NoTransitionPage({required super.child})
       : super(
