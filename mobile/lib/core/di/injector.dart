@@ -1,3 +1,4 @@
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:real_estate_crm/core/network/api_client.dart';
 import 'package:real_estate_crm/core/session/session_store.dart';
 import 'package:real_estate_crm/features/admin/data/datasources/admin_remote_datasource.dart';
@@ -63,5 +64,17 @@ class Injector {
   static TeamsRepository teamsRepository =
       TeamsRepositoryImpl(TeamsRemoteDataSource(_apiClient));
 
-  static Future<void> bootstrap() => session.load();
+  /// What the profile screen reports. Read once at startup rather than
+  /// hardcoded, so a shipped build cannot claim a version it is not.
+  static String appVersion = '';
+
+  static Future<void> bootstrap() async {
+    await session.load();
+    try {
+      final info = await PackageInfo.fromPlatform();
+      appVersion = '${info.version} (${info.buildNumber})';
+    } catch (_) {
+      // A missing version is a cosmetic loss; it must not hold up the launch.
+    }
+  }
 }

@@ -20,4 +20,11 @@ class AuthRemoteDataSource {
     });
     return AuthResponse.fromJson(res.data);
   }
+
+  Future<void> deleteAccount({int? replacementId}) => _client.dio.delete(
+        '/auth/me',
+        queryParameters: {
+          if (replacementId != null) 'replacementId': replacementId
+        },
+      );
 }

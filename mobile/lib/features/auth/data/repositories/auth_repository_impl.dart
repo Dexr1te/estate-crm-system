@@ -26,6 +26,14 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<void> logout() => _session.clear();
 
   @override
+  Future<void> deleteAccount({int? replacementId}) async {
+    await _remote.deleteAccount(replacementId: replacementId);
+    // The tokens outlive the row they authenticate, so clear them here rather
+    // than leaving a session pointing at an account that no longer exists.
+    await _session.clear();
+  }
+
+  @override
   Future<AuthResponse?> getSavedUser() => _session.getSavedUser();
 
   @override

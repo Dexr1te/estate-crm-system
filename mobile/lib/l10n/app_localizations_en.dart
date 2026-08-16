@@ -1172,6 +1172,23 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileDarkMode => 'Dark Mode';
 
   @override
+  String get profileDeleteAccount => 'Delete Account';
+
+  @override
+  String profileDeleteAccountConfirm(Object successor) {
+    return 'Your clients, properties, deals and meetings move to $successor. The account is removed permanently and this cannot be undone.';
+  }
+
+  @override
+  String get profileDeleteHandoverEmpty => 'No one else to hand them to';
+
+  @override
+  String get profileDeleteHandoverSearch => 'Search colleagues';
+
+  @override
+  String get profileDeleteHandoverTitle => 'Hand your records over to';
+
+  @override
   String get profileEditName => 'Edit Name';
 
   @override
@@ -1190,6 +1207,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileLanguage => 'Language';
 
   @override
+  String get profileLegal => 'Legal';
+
+  @override
+  String get profileLinkFailed => 'Could not open the link';
+
+  @override
   String get profileName => 'Name';
 
   @override
@@ -1197,6 +1220,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profilePreferences => 'Preferences';
+
+  @override
+  String get profilePrivacyPolicy => 'Privacy Policy';
 
   @override
   String get profileRole => 'Role';
@@ -1212,6 +1238,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileSignOutConfirm => 'Are you sure you want to sign out?';
+
+  @override
+  String get profileSupport => 'Support';
 
   @override
   String get profileSystemDefault => 'System default';
