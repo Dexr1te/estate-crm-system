@@ -20,6 +20,7 @@ import 'package:real_estate_crm/features/dashboard/presentation/widgets/goal_rin
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/meeting_load_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/top_agents_card.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
+import 'package:real_estate_crm/core/utils/clock.dart';
 
 const _kUpcomingPreviewCount = 4;
 
@@ -37,7 +38,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   String _greeting(AppLocalizations l10n) {
-    final h = DateTime.now().hour;
+    final h = AppClock.now().hour;
     if (h < 5) return l10n.dashboardGreetingStillUp;
     if (h < 12) return l10n.dashboardGreetingMorning;
     if (h < 18) return l10n.dashboardGreetingAfternoon;
@@ -99,7 +100,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                             l10n.dashboardGreetingFallbackName,
                       ),
                       subtitle: l10n.dashboardDateSummary(formatWeekdayDate(
-                          DateTime.now(),
+                          AppClock.now(),
                           Localizations.localeOf(context).toLanguageTag())),
                       initial: user?.fullName ?? '',
                       onTap: () => context.push('/profile'),
@@ -131,7 +132,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   List<Widget> _loaded(BuildContext context, DashboardLoaded state,
       AppLocalizations l10n, double gap) {
-    final now = DateTime.now();
+    final now = AppClock.now();
     final next = state.nextMeeting;
     final pipeline = PipelineBreakdown.from(state.deals);
     final todayCount = state.meetingsToday(now);

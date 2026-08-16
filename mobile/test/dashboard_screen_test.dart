@@ -11,11 +11,15 @@ import 'package:real_estate_crm/features/dashboard/presentation/screens/dashboar
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/day_rail.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/pipeline_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/top_agents_card.dart';
+import 'package:real_estate_crm/core/utils/clock.dart';
 
 import 'fakes.dart';
 import 'responsive_harness.dart';
 
-final _now = DateTime.now();
+/// Mid-morning, so that a fixture placed a few hours out is still the same
+/// calendar day. Read from the wall clock, these suites passed before dinner
+/// and failed after it.
+final _now = DateTime(2026, 3, 12, 9, 0);
 
 MeetingResponse _meeting(int id, Duration fromNow, String title) =>
     MeetingResponse(
@@ -93,7 +97,7 @@ final _stale = [
       agentId: 1,
       agentName: _agentNames.first,
       dealPrice: 88400000,
-      updatedAt: DateTime.now().subtract(const Duration(days: 46))),
+      updatedAt: _now.subtract(const Duration(days: 46))),
   DealResponse(
       id: 901,
       title: 'Studio, Severny',
@@ -102,7 +106,7 @@ final _stale = [
       agentId: 1,
       agentName: _agentNames.last,
       dealPrice: 7300000,
-      updatedAt: DateTime.now().subtract(const Duration(days: 18))),
+      updatedAt: _now.subtract(const Duration(days: 18))),
 ];
 
 const _admin = AuthResponse(
@@ -143,6 +147,11 @@ Widget _dashboard({
     );
 
 void main() {
+  setUp(() {
+    AppClock.freeze(_now);
+    addTearDown(AppClock.reset);
+  });
+
   forEachAcceptanceCase('dashboard — loaded',
       (tester, size, brightness, scale) async {
     await expectNoOverflow(

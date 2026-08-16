@@ -9,6 +9,7 @@ import 'package:real_estate_crm/features/deals/presentation/screens/deal_detail_
 import 'package:real_estate_crm/features/deals/presentation/screens/deal_form_screen.dart';
 import 'package:real_estate_crm/features/deals/presentation/screens/deals_screen.dart';
 import 'package:real_estate_crm/features/deals/presentation/widgets/deal_card.dart';
+import 'package:real_estate_crm/core/utils/clock.dart';
 
 import 'fakes.dart';
 import 'responsive_harness.dart';
@@ -37,7 +38,7 @@ final _deals = [
     agentId: 6,
     agentName: 'Андрей Волк',
     dealPrice: 26000000,
-    updatedAt: DateTime.now().subtract(const Duration(days: 14)),
+    updatedAt: _now.subtract(const Duration(days: 14)),
   ),
   const DealResponse(
     id: 3,
@@ -67,7 +68,14 @@ Widget _wrap(Widget child, {List<DealResponse> deals = const []}) =>
       child: child,
     );
 
+final _now = DateTime(2026, 3, 12, 9, 0);
+
 void main() {
+  setUp(() {
+    AppClock.freeze(_now);
+    addTearDown(AppClock.reset);
+  });
+
   setUp(_installFakes);
 
   forEachAcceptanceCase('deals list', (tester, size, brightness, scale) async {

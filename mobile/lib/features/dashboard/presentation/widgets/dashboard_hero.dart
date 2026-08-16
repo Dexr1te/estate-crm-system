@@ -3,6 +3,7 @@ import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/day_rail.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
+import 'package:real_estate_crm/core/utils/clock.dart';
 
 class NextMeetingHero extends StatelessWidget {
   final MeetingResponse meeting;
@@ -28,7 +29,7 @@ class NextMeetingHero extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = context.tokens;
     final l10n = AppLocalizations.of(context);
-    final now = DateTime.now();
+    final now = AppClock.now();
     final locale = Localizations.localeOf(context).toLanguageTag();
 
     final meta = [
@@ -165,7 +166,7 @@ class _TimeChip extends StatelessWidget {
           ),
           const SizedBox(height: 3),
           Text(
-            dayLabel(l10n, at, DateTime.now(), locale),
+            dayLabel(l10n, at, AppClock.now(), locale),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(

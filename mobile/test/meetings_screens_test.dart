@@ -8,11 +8,15 @@ import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_blo
 import 'package:real_estate_crm/features/meetings/presentation/screens/meeting_detail_screen.dart';
 import 'package:real_estate_crm/features/meetings/presentation/screens/meeting_form_screen.dart';
 import 'package:real_estate_crm/features/meetings/presentation/screens/meetings_screen.dart';
+import 'package:real_estate_crm/core/utils/clock.dart';
 
 import 'fakes.dart';
 import 'responsive_harness.dart';
 
-final _now = DateTime.now();
+/// Mid-morning, so that a fixture placed a few hours out is still the same
+/// calendar day. Read from the wall clock, these suites passed before dinner
+/// and failed after it.
+final _now = DateTime(2026, 3, 12, 9, 0);
 
 MeetingResponse _meeting(int id, Duration fromNow, String title,
         {String? location}) =>
@@ -60,6 +64,11 @@ Widget _wrap(Widget child, {List<MeetingResponse> meetings = const []}) =>
     );
 
 void main() {
+  setUp(() {
+    AppClock.freeze(_now);
+    addTearDown(AppClock.reset);
+  });
+
   setUp(_installFakes);
 
   forEachAcceptanceCase('meetings list',
@@ -135,6 +144,29 @@ void main() {
       }
     });
   }
+
+  // The case that used to decide whether this suite passed: at 22:30 a meeting
+  // "four hours from now" is tomorrow's, and grouping it under TODAY would be
+  // wrong rather than merely untested.
+  testWidgets('a meeting that spills past midnight belongs to tomorrow',
+      (tester) async {
+    AppClock.freeze(DateTime(2026, 3, 12, 22, 30));
+
+    await expectNoOverflow(
+      tester,
+      _wrap(const MeetingsScreen(), meetings: _meetings),
+      size: const Size(430, 932),
+      brightness: Brightness.light,
+      textScale: 1.0,
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('NEXT UP'), findsOneWidget,
+        reason: 'the soonest meeting is still the soonest');
+    expect(find.text('TODAY'), findsNothing,
+        reason: 'nothing is left today — the 40-minute meeting is the hero and '
+            'the next one is after midnight');
+  });
 
   testWidgets('the soonest meeting is the hero, the rest are day-grouped',
       (tester) async {
