@@ -1325,6 +1325,9 @@ class AppLocalizationsKk extends AppLocalizations {
   String get profileEditName => 'Атын өзгерту';
 
   @override
+  String get profileEditProfile => 'Профильді өзгерту';
+
+  @override
   String get profileEmail => 'Электрондық пошта';
 
   @override
@@ -1377,6 +1380,18 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get profileSystemDefault => 'Жүйелік';
+
+  @override
+  String get profileTheme => 'Безендіру';
+
+  @override
+  String get profileThemeDark => 'Қараңғы';
+
+  @override
+  String get profileThemeLight => 'Ашық';
+
+  @override
+  String get profileThemeSystem => 'Жүйедегідей';
 
   @override
   String get profileTitle => 'Профиль';

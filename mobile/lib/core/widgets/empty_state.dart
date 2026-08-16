@@ -19,53 +19,59 @@ class EmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.tokens;
-    return Center(
-      child: Padding(
+    // Centred when it fits and scrollable when it does not, so a phone set to
+    // large text still reaches the action at the bottom instead of clipping it.
+    return LayoutBuilder(
+      builder: (context, constraints) => SingleChildScrollView(
         padding: EdgeInsets.symmetric(
             horizontal: AppMetrics.pagePadding(context), vertical: 24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: 64,
-              height: 64,
-              decoration: BoxDecoration(
-                color: t.surface,
-                borderRadius: BorderRadius.circular(20),
-                border:
-                    Border.all(color: t.border, width: AppMetrics.borderWidth),
+        child: ConstrainedBox(
+          constraints: BoxConstraints(minHeight: constraints.maxHeight - 48),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 64,
+                height: 64,
+                decoration: BoxDecoration(
+                  color: t.surface,
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                      color: t.border, width: AppMetrics.borderWidth),
+                ),
+                child: Icon(icon, size: 26, color: t.textHint),
               ),
-              child: Icon(icon, size: 26, color: t.textHint),
-            ),
-            const SizedBox(height: 18),
-            Text(
-              title,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontFamily: AppFonts.sans,
-                fontSize: 15.5,
-                fontWeight: FontWeight.w600,
-                color: t.textPrimary,
-              ),
-            ),
-            if (subtitle != null) ...[
-              const SizedBox(height: 8),
-              ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 250),
-                child: Text(
-                  subtitle!,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: AppFonts.sans,
-                    fontSize: 12.5,
-                    height: 1.55,
-                    color: t.textSecondary,
-                  ),
+              const SizedBox(height: 18),
+              Text(
+                title,
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: AppFonts.sans,
+                  fontSize: 15.5,
+                  fontWeight: FontWeight.w600,
+                  color: t.textPrimary,
                 ),
               ),
+              if (subtitle != null) ...[
+                const SizedBox(height: 8),
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 250),
+                  child: Text(
+                    subtitle!,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: AppFonts.sans,
+                      fontSize: 12.5,
+                      height: 1.55,
+                      color: t.textSecondary,
+                    ),
+                  ),
+                ),
+              ],
+              if (action != null) ...[const SizedBox(height: 22), action!],
             ],
-            if (action != null) ...[const SizedBox(height: 22), action!],
-          ],
+          ),
         ),
       ),
     );

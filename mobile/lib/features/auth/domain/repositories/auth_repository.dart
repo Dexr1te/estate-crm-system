@@ -5,6 +5,12 @@ abstract class AuthRepository {
 
   Future<AuthResponse> acceptInvite(String token, String newPassword);
 
+  /// Changes the signed-in user's own name and address.
+  ///
+  /// The backend reissues the tokens, because the address is the subject they
+  /// are signed with — so the session is replaced, not just the display name.
+  Future<AuthResponse> updateProfile(String fullName, String email);
+
   /// Asks the backend to email a reset link.
   ///
   /// Deliberately says nothing about whether the address exists: answering that

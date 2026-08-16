@@ -2434,6 +2434,12 @@ abstract class AppLocalizations {
   /// **'Edit Name'**
   String get profileEditName;
 
+  /// No description provided for @profileEditProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit profile'**
+  String get profileEditProfile;
+
   /// No description provided for @profileEmail.
   ///
   /// In en, this message translates to:
@@ -2541,6 +2547,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'System default'**
   String get profileSystemDefault;
+
+  /// No description provided for @profileTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance'**
+  String get profileTheme;
+
+  /// No description provided for @profileThemeDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get profileThemeDark;
+
+  /// No description provided for @profileThemeLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get profileThemeLight;
+
+  /// No description provided for @profileThemeSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow system'**
+  String get profileThemeSystem;
 
   /// No description provided for @profileTitle.
   ///

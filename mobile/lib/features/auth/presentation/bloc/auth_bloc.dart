@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:real_estate_crm/core/bloc/collection_bloc.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/widgets/messages.dart';
 import 'package:real_estate_crm/core/network/api_error.dart';
 import 'package:real_estate_crm/features/auth/domain/repositories/auth_repository.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart';
@@ -18,6 +19,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
     on<AuthLoginEvent>(_onLogin);
     on<AuthAcceptInviteEvent>(_onAcceptInvite);
     on<AuthResetPasswordEvent>(_onResetPassword);
+    on<AuthUpdateProfileEvent>(_onUpdateProfile);
     on<AuthLogoutEvent>(_onLogout);
   }
 
@@ -109,6 +111,25 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
           _notify();
         } catch (err) {
           emit(AuthError(ApiFailure.from(err)));
+        }
+      });
+
+  /// Renaming yourself, or correcting the address you sign in with.
+  ///
+  /// Deliberately never emits [AuthLoading]: the router reads the session off
+  /// this state, and a moment of "not authenticated" mid-save would land the
+  /// user on the sign-in screen. The sheet shows its own progress instead.
+  Future<void> _onUpdateProfile(
+          AuthUpdateProfileEvent e, Emitter<AuthState> emit) =>
+      once('update-profile', () async {
+        final current = currentUser;
+        if (current == null) return;
+        try {
+          final updated = await _repo.updateProfile(e.fullName, e.email);
+          emit(AuthProfileUpdated(updated, ActionMessage.profileUpdated));
+          _notify();
+        } catch (err) {
+          emit(AuthProfileUpdateFailed(current, ApiFailure.from(err)));
         }
       });
 

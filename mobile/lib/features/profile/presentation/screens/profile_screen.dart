@@ -10,6 +10,7 @@ import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_state.dart';
+import 'package:real_estate_crm/features/profile/presentation/widgets/profile_edit_sheet.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -20,7 +21,8 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthBloc, AuthState>(
+    return BlocConsumer<AuthBloc, AuthState>(
+      listener: showActionOutcome,
       builder: (ctx, state) {
         final l10n = AppLocalizations.of(ctx);
         final user = state is AuthAuthenticated ? state.user : null;
@@ -31,8 +33,18 @@ class ProfileScreen extends StatelessWidget {
           children: [
             _Identity(user: user),
             SettingsGroup(rows: [
-              SettingsRow(label: l10n.profileName, value: user.fullName),
-              SettingsRow(label: l10n.profileEmail, value: user.email),
+              SettingsRow(
+                label: l10n.profileName,
+                value: user.fullName,
+                showChevron: true,
+                onTap: () => _editProfile(ctx, user),
+              ),
+              SettingsRow(
+                label: l10n.profileEmail,
+                value: user.email,
+                showChevron: true,
+                onTap: () => _editProfile(ctx, user),
+              ),
               SettingsRow(
                 label: l10n.profileAgentId,
                 trailing: _IdChip(
@@ -54,13 +66,10 @@ class ProfileScreen extends StatelessWidget {
                   BlocBuilder<LocaleBloc, LocaleState>(
                 builder: (localeCtx, localeState) => SettingsGroup(rows: [
                   SettingsRow(
-                    label: l10n.profileDarkMode,
-                    subLabel: l10n.profileFollowSystem,
-                    trailing: AppSwitch(
-                      value: themeState.isDark,
-                      onChanged: (_) =>
-                          themeCtx.read<ThemeBloc>().add(ThemeToggleEvent()),
-                    ),
+                    label: l10n.profileTheme,
+                    value: _themeLabel(l10n, themeState.mode),
+                    showChevron: true,
+                    onTap: () => _showThemePicker(themeCtx, themeState.mode),
                   ),
                   SettingsRow(
                     label: l10n.profileLanguage,
@@ -130,6 +139,53 @@ class ProfileScreen extends StatelessWidget {
         );
       },
     );
+  }
+
+  String _themeLabel(AppLocalizations l10n, ThemeMode mode) {
+    switch (mode) {
+      case ThemeMode.system:
+        return l10n.profileThemeSystem;
+      case ThemeMode.light:
+        return l10n.profileThemeLight;
+      case ThemeMode.dark:
+        return l10n.profileThemeDark;
+    }
+  }
+
+  void _showThemePicker(BuildContext context, ThemeMode current) {
+    final l10n = AppLocalizations.of(context);
+    final bloc = context.read<ThemeBloc>();
+    showAppBottomSheet(
+      context,
+      title: l10n.profileTheme,
+      builder: (ctx) => Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          for (var i = 0; i < ThemeMode.values.length; i++) ...[
+            if (i > 0) const SizedBox(height: 8),
+            _LanguageOption(
+              label: _themeLabel(l10n, ThemeMode.values[i]),
+              selected: current == ThemeMode.values[i],
+              onTap: () {
+                bloc.add(ThemeChangedEvent(ThemeMode.values[i]));
+                Navigator.pop(ctx);
+              },
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  /// Correcting your own name or the address you sign in with — until now the
+  /// only way to fix a typo in either was to ask an administrator.
+  Future<void> _editProfile(BuildContext context, AuthResponse user) async {
+    final bloc = context.read<AuthBloc>();
+    final result = await showProfileEditSheet(context, user: user);
+    if (result != null) {
+      bloc.add(AuthUpdateProfileEvent(result.fullName, result.email));
+    }
   }
 
   String _languageLabel(AppLocalizations l10n, Locale? locale) => locale == null

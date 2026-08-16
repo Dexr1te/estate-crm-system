@@ -1326,6 +1326,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileEditName => 'Edit Name';
 
   @override
+  String get profileEditProfile => 'Edit profile';
+
+  @override
   String get profileEmail => 'Email';
 
   @override
@@ -1378,6 +1381,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileSystemDefault => 'System default';
+
+  @override
+  String get profileTheme => 'Appearance';
+
+  @override
+  String get profileThemeDark => 'Dark';
+
+  @override
+  String get profileThemeLight => 'Light';
+
+  @override
+  String get profileThemeSystem => 'Follow system';
 
   @override
   String get profileTitle => 'Profile';

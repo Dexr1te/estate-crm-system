@@ -23,6 +23,13 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<AuthResponse> updateProfile(String fullName, String email) async {
+    final auth = await _remote.updateProfile(fullName, email);
+    await _session.save(auth);
+    return auth;
+  }
+
+  @override
   Future<void> requestPasswordReset(String email) =>
       _remote.requestPasswordReset(email);
 

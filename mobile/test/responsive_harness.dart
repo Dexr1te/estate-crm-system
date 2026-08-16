@@ -11,7 +11,7 @@ const kAcceptanceSizes = <Size>[
   Size(768, 1024),
 ];
 
-const kAcceptanceTextScales = <double>[1.0, 1.3];
+const kAcceptanceTextScales = <double>[1.0, 1.3, 1.5];
 
 const kAcceptanceLocales = <Locale>[Locale('en'), Locale('ru'), Locale('kk')];
 

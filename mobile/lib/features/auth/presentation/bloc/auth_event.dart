@@ -17,4 +17,9 @@ class AuthResetPasswordEvent extends AuthEvent {
   AuthResetPasswordEvent(this.token, this.newPassword);
 }
 
+class AuthUpdateProfileEvent extends AuthEvent {
+  final String fullName, email;
+  AuthUpdateProfileEvent(this.fullName, this.email);
+}
+
 class AuthLogoutEvent extends AuthEvent {}

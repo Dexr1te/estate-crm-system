@@ -1338,6 +1338,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get profileEditName => 'Изменить имя';
 
   @override
+  String get profileEditProfile => 'Изменить профиль';
+
+  @override
   String get profileEmail => 'Электронная почта';
 
   @override
@@ -1390,6 +1393,18 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get profileSystemDefault => 'Системный';
+
+  @override
+  String get profileTheme => 'Оформление';
+
+  @override
+  String get profileThemeDark => 'Тёмное';
+
+  @override
+  String get profileThemeLight => 'Светлое';
+
+  @override
+  String get profileThemeSystem => 'Как в системе';
 
   @override
   String get profileTitle => 'Профиль';
