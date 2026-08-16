@@ -1,66 +1,14 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:real_estate_crm/core/bloc/load_generation.dart';
-import 'package:real_estate_crm/core/network/api_error.dart';
+import 'package:real_estate_crm/core/bloc/collection_bloc.dart';
 import 'package:real_estate_crm/core/models/team_models.dart';
 import 'package:real_estate_crm/features/teams/domain/repositories/teams_repository.dart';
-import 'package:real_estate_crm/core/bloc/action_outcome.dart';
+import 'package:real_estate_crm/features/teams/presentation/bloc/teams_event.dart';
+import 'package:real_estate_crm/features/teams/presentation/bloc/teams_state.dart';
 
-abstract class TeamsEvent {}
-
-class TeamsLoadEvent extends TeamsEvent {}
-
-class TeamsCreateEvent extends TeamsEvent {
-  final Map<String, dynamic> body;
-  TeamsCreateEvent(this.body);
-}
-
-class TeamsUpdateEvent extends TeamsEvent {
-  final int id;
-  final Map<String, dynamic> body;
-  TeamsUpdateEvent(this.id, this.body);
-}
-
-class TeamsInviteAgentEvent extends TeamsEvent {
-  final Map<String, dynamic> body;
-  TeamsInviteAgentEvent(this.body);
-}
-
-abstract class TeamsState {}
-
-class TeamsInitial extends TeamsState {}
-
-class TeamsLoading extends TeamsState {}
-
-class TeamsLoaded extends TeamsState {
-  final List<TeamResponse> teams;
-  TeamsLoaded(this.teams);
-}
-
-class TeamsError extends TeamsState {
-  final String message;
-  TeamsError(this.message);
-}
-
-class TeamsActionSuccess extends TeamsLoaded implements ActionOutcome {
-  @override
-  final String message;
-  @override
-  bool get isFailure => false;
-
-  TeamsActionSuccess(this.message, super.teams);
-}
-
-class TeamsActionFailure extends TeamsLoaded implements ActionOutcome {
-  @override
-  final String message;
-  @override
-  bool get isFailure => true;
-
-  TeamsActionFailure(this.message, super.teams);
-}
-
-class TeamsBloc extends Bloc<TeamsEvent, TeamsState> with LoadGeneration {
+class TeamsBloc extends Bloc<TeamsEvent, TeamsState>
+    with SingleFlight, CollectionBloc<TeamsEvent, TeamsState> {
   final TeamsRepository _repo;
+
   TeamsBloc(this._repo) : super(TeamsInitial()) {
     on<TeamsLoadEvent>(_onLoad);
     on<TeamsCreateEvent>(_onCreate);
@@ -73,51 +21,44 @@ class TeamsBloc extends Bloc<TeamsEvent, TeamsState> with LoadGeneration {
     return s is TeamsLoaded ? s.teams : const [];
   }
 
-  TeamsState _failure(Object err) => _current.isEmpty
-      ? TeamsError(apiErrorMessage(err))
-      : TeamsActionFailure(apiErrorMessage(err), _current);
+  TeamsState _failure(String message) => _current.isEmpty
+      ? TeamsError(message)
+      : TeamsActionFailure(message, _current);
 
-  Future<void> _onLoad(TeamsLoadEvent e, Emitter<TeamsState> emit) async {
-    final ticket = startLoad();
-    if (_current.isEmpty) emit(TeamsLoading());
-    try {
-      final teams = await _repo.getTeams();
-      if (isStale(ticket)) return;
-      emit(TeamsLoaded(teams));
-    } catch (err) {
-      if (isStale(ticket)) return;
-      emit(TeamsError(apiErrorMessage(err)));
-    }
-  }
+  Future<void> _onLoad(TeamsLoadEvent e, Emitter<TeamsState> emit) => load(
+        emit,
+        keepVisible: _current.isNotEmpty,
+        skeleton: TeamsLoading(),
+        fetch: _repo.getTeams,
+        onData: TeamsLoaded.new,
+        onFailure: TeamsError.new,
+      );
 
-  Future<void> _onCreate(TeamsCreateEvent e, Emitter<TeamsState> emit) async {
-    try {
-      await _repo.createTeam(e.body);
-      emit(TeamsActionSuccess('Team created', _current));
-      add(TeamsLoadEvent());
-    } catch (err) {
-      emit(_failure(err));
-    }
-  }
+  Future<void> _act(Emitter<TeamsState> emit, String key, String success,
+          Future<void> Function() action) =>
+      write(
+        emit,
+        key: key,
+        perform: action,
+        onSuccess: (_) => TeamsActionSuccess(success, _current),
+        onFailure: _failure,
+        reload: () => add(TeamsLoadEvent()),
+      );
 
-  Future<void> _onUpdate(TeamsUpdateEvent e, Emitter<TeamsState> emit) async {
-    try {
-      await _repo.updateTeam(e.id, e.body);
-      emit(TeamsActionSuccess('Team updated', _current));
-      add(TeamsLoadEvent());
-    } catch (err) {
-      emit(_failure(err));
-    }
-  }
+  Future<void> _onCreate(TeamsCreateEvent e, Emitter<TeamsState> emit) => _act(
+      emit,
+      'create-${e.body['name']}',
+      'Team created',
+      () => _repo.createTeam(e.body));
+
+  Future<void> _onUpdate(TeamsUpdateEvent e, Emitter<TeamsState> emit) => _act(
+      emit,
+      'update-${e.id}',
+      'Team updated',
+      () => _repo.updateTeam(e.id, e.body));
 
   Future<void> _onInviteAgent(
-      TeamsInviteAgentEvent e, Emitter<TeamsState> emit) async {
-    try {
-      await _repo.inviteAgentToMyTeam(e.body);
-      emit(TeamsActionSuccess('Agent invited', _current));
-      add(TeamsLoadEvent());
-    } catch (err) {
-      emit(_failure(err));
-    }
-  }
+          TeamsInviteAgentEvent e, Emitter<TeamsState> emit) =>
+      _act(emit, 'invite-${e.body['email']}', 'Agent invited',
+          () => _repo.inviteAgentToMyTeam(e.body));
 }

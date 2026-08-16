@@ -1,6 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:real_estate_crm/core/models/admin_models.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/models/paged_response.dart';
+import 'package:real_estate_crm/features/admin/presentation/bloc/audit_log_bloc.dart';
+import 'package:real_estate_crm/features/admin/presentation/bloc/audit_log_event.dart';
+import 'package:real_estate_crm/features/admin/presentation/bloc/audit_log_state.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_bloc.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_event.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_state.dart';
@@ -238,6 +242,45 @@ void main() {
       await _settle();
 
       expect(seen.whereType<PropertiesLoading>(), isNotEmpty);
+    });
+
+    test('audit log', () async {
+      final bloc = AuditLogBloc(FakeAdminRepository(auditLog: [
+        const AuditLogResponse(id: 1, action: 'USER_DEACTIVATED'),
+      ]));
+      addTearDown(bloc.close);
+      bloc.add(AuditLogLoadEvent());
+      await _settle();
+
+      final seen = <AuditLogState>[];
+      final sub = bloc.stream.listen(seen.add);
+      addTearDown(sub.cancel);
+
+      bloc.add(AuditLogLoadEvent());
+      await _settle();
+
+      expect(seen.whereType<AuditLogLoading>(), isEmpty,
+          reason: 'pulling the trail down again should not blank it');
+      expect(seen.whereType<AuditLogLoaded>(), isNotEmpty);
+    });
+
+    test('but narrowing the audit log to an entity type does', () async {
+      final bloc = AuditLogBloc(FakeAdminRepository(auditLog: [
+        const AuditLogResponse(id: 1, action: 'USER_DEACTIVATED'),
+      ]));
+      addTearDown(bloc.close);
+      bloc.add(AuditLogLoadEvent());
+      await _settle();
+
+      final seen = <AuditLogState>[];
+      final sub = bloc.stream.listen(seen.add);
+      addTearDown(sub.cancel);
+
+      bloc.add(AuditLogLoadEvent(entityType: 'USER'));
+      await _settle();
+
+      expect(seen.whereType<AuditLogLoading>(), isNotEmpty,
+          reason: 'a different question deserves a skeleton');
     });
 
     test('the first load still shows a skeleton', () async {

@@ -75,3 +75,17 @@ class TeamCard extends StatelessWidget {
     );
   }
 }
+
+class TeamCardBone extends StatelessWidget {
+  const TeamCardBone({super.key});
+
+  @override
+  Widget build(BuildContext context) => const ShimmerRowCard(
+        // A team is marked by a rounded square, not the round avatar a person
+        // gets — the skeleton should not promise the wrong row.
+        leading: ShimmerBox(width: 40, height: 40, radius: 13),
+        trailing: ShimmerBox(width: 16, height: 16, radius: 5),
+        titleFactor: 0.42,
+        subtitleFactor: 0.66,
+      );
+}

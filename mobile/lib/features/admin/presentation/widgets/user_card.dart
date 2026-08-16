@@ -44,34 +44,54 @@ class UserCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      Flexible(
-                        child: Text(
-                          user.fullName,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              fontFamily: AppFonts.sans,
-                              fontSize: 13.5,
-                              fontWeight: FontWeight.w600,
-                              color: t.textPrimary),
+                  LayoutBuilder(
+                    builder: (context, row) => Row(
+                      children: [
+                        Flexible(
+                          child: Text(
+                            user.fullName,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                fontFamily: AppFonts.sans,
+                                fontSize: 13.5,
+                                fontWeight: FontWeight.w600,
+                                color: t.textPrimary),
+                          ),
                         ),
-                      ),
-                      const SizedBox(width: 7),
-                      if (user.role == Role.ADMIN)
-                        BrandChip(label: roleLabel(l10n, user.role))
-                      else
-                        StatusChip(
-                            label: roleLabel(l10n, user.role),
-                            hue: StatusHue.neutral),
-                      if (!user.isActive) ...[
-                        const SizedBox(width: 6),
-                        StatusChip(
-                            label: l10n.adminInactive,
-                            hue: StatusHue.negotiation),
+                        const SizedBox(width: 7),
+                        // Chips take their natural width, so a deactivated user
+                        // with a long role label pushed the name clean out of
+                        // the card on a 320 dp row at large text. Capping the
+                        // pair makes the name give way first, and only then do
+                        // the labels themselves clip.
+                        ConstrainedBox(
+                          constraints:
+                              BoxConstraints(maxWidth: row.maxWidth * 0.6),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Flexible(
+                                child: user.role == Role.ADMIN
+                                    ? BrandChip(
+                                        label: roleLabel(l10n, user.role))
+                                    : StatusChip(
+                                        label: roleLabel(l10n, user.role),
+                                        hue: StatusHue.neutral),
+                              ),
+                              if (!user.isActive) ...[
+                                const SizedBox(width: 6),
+                                Flexible(
+                                  child: StatusChip(
+                                      label: l10n.adminInactive,
+                                      hue: StatusHue.negotiation),
+                                ),
+                              ],
+                            ],
+                          ),
+                        ),
                       ],
-                    ],
+                    ),
                   ),
                   const SizedBox(height: 3),
                   Text(
@@ -217,5 +237,5 @@ class UserCardBone extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) =>
-      const ShimmerBox(width: double.infinity, height: 66, radius: 14);
+      const ShimmerRowCard(leading: ShimmerCircle(size: 40));
 }

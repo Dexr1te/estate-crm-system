@@ -10,11 +10,15 @@ import 'package:real_estate_crm/features/admin/presentation/bloc/admin_users_blo
 import 'package:real_estate_crm/features/admin/presentation/bloc/admin_users_event.dart';
 import 'package:real_estate_crm/features/admin/presentation/bloc/admin_users_state.dart';
 import 'package:real_estate_crm/features/admin/presentation/bloc/audit_log_bloc.dart';
+import 'package:real_estate_crm/features/admin/presentation/bloc/audit_log_event.dart';
+import 'package:real_estate_crm/features/admin/presentation/bloc/audit_log_state.dart';
 import 'package:real_estate_crm/features/admin/presentation/widgets/invite_result_dialog.dart';
 import 'package:real_estate_crm/features/admin/presentation/widgets/invite_user_sheet.dart';
 import 'package:real_estate_crm/features/admin/presentation/widgets/user_card.dart';
 import 'package:real_estate_crm/features/admin/presentation/widgets/user_stats_sheet.dart';
 import 'package:real_estate_crm/features/teams/presentation/bloc/teams_bloc.dart';
+import 'package:real_estate_crm/features/teams/presentation/bloc/teams_event.dart';
+import 'package:real_estate_crm/features/teams/presentation/bloc/teams_state.dart';
 import 'package:real_estate_crm/features/teams/presentation/widgets/team_card.dart';
 import 'package:real_estate_crm/features/teams/presentation/widgets/team_form_sheet.dart';
 import 'package:real_estate_crm/features/teams/presentation/widgets/team_stats_sheet.dart';
@@ -308,7 +312,7 @@ class _TeamsTab extends StatelessWidget {
           return ShimmerList(
             count: 3,
             padding: EdgeInsets.fromLTRB(pad, 0, pad, 24),
-            cardBuilder: () => const UserCardBone(),
+            cardBuilder: () => const TeamCardBone(),
           );
         }
         if (state is TeamsError) {
@@ -368,9 +372,9 @@ class _AuditTab extends StatelessWidget {
       builder: (ctx, state) {
         if (state is AuditLogLoading || state is AuditLogInitial) {
           return ShimmerList(
-            count: 5,
+            count: 6,
             padding: EdgeInsets.fromLTRB(pad, 0, pad, 24),
-            cardBuilder: () => const UserCardBone(),
+            cardBuilder: () => const _AuditRowBone(),
           );
         }
         if (state is AuditLogError) {
@@ -452,6 +456,27 @@ class _AuditRow extends StatelessWidget {
       ),
     );
   }
+}
+
+/// An audit entry is two lines of text and nothing else, so its skeleton is
+/// shorter than the rows in the other two tabs — the list should not appear to
+/// shrink the moment it loads.
+class _AuditRowBone extends StatelessWidget {
+  const _AuditRowBone();
+
+  @override
+  Widget build(BuildContext context) => const ShimmerCard(
+        padding: EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            ShimmerBar(widthFactor: 0.46, height: 12),
+            SizedBox(height: 7),
+            ShimmerBar(widthFactor: 0.82, height: 10),
+          ],
+        ),
+      );
 }
 
 class _SheetOption extends StatelessWidget {

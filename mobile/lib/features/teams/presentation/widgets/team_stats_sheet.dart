@@ -22,8 +22,7 @@ class _TeamStats extends StatelessWidget {
         final l10n = AppLocalizations.of(ctx);
 
         if (snap.connectionState != ConnectionState.done) {
-          return const SizedBox(
-              height: 160, child: Center(child: CircularProgressIndicator()));
+          return const _TeamStatsBone();
         }
         if (snap.hasError || !snap.hasData) {
           return SizedBox(
@@ -106,4 +105,39 @@ class _TeamStats extends StatelessWidget {
       },
     );
   }
+}
+
+/// Mirrors the loaded sheet: the team's square mark, its name and manager, then
+/// five figures — so nothing shifts when the numbers land.
+class _TeamStatsBone extends StatelessWidget {
+  const _TeamStatsBone();
+
+  @override
+  Widget build(BuildContext context) => ShimmerGroup(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const Row(
+              children: [
+                ShimmerBox(width: 44, height: 44, radius: 14),
+                SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      ShimmerBar(widthFactor: 0.46, height: 14),
+                      SizedBox(height: 8),
+                      ShimmerBar(widthFactor: 0.66, height: 10),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: AppMetrics.blockGap(context)),
+            const ShimmerMetricsCard(),
+          ],
+        ),
+      );
 }
