@@ -1361,6 +1361,12 @@ class AppLocalizationsKk extends AppLocalizations {
   String get profilePrivacyPolicy => 'Құпиялылық саясаты';
 
   @override
+  String get profileReminders => 'Кездесу еске салғыштары';
+
+  @override
+  String get profileRemindersOff => 'Өшірулі';
+
+  @override
   String get profileRole => 'Рөлі';
 
   @override
@@ -1583,6 +1589,32 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get propertiesUpdateStatus => 'Мәртебені жаңарту';
+
+  @override
+  String remindersBody(Object time) {
+    return 'Басталуы $time';
+  }
+
+  @override
+  String remindersBodyWithClient(Object client, Object time) {
+    return 'Басталуы $time, клиент $client';
+  }
+
+  @override
+  String get remindersFallbackTitle => 'Кездесу';
+
+  @override
+  String get remindersLeadDay => 'Бір тәулік бұрын';
+
+  @override
+  String get remindersLeadHour => 'Бір сағат бұрын';
+
+  @override
+  String get remindersLeadQuarter => '15 минут бұрын';
+
+  @override
+  String get remindersPermissionDenied =>
+      'EstateCRM хабарландырулары өшірулі. Оларды телефон параметрлерінен қосыңыз.';
 
   @override
   String get teamsActive => 'Белсенді';

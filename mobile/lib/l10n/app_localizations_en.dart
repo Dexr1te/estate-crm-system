@@ -1362,6 +1362,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profilePrivacyPolicy => 'Privacy Policy';
 
   @override
+  String get profileReminders => 'Meeting reminders';
+
+  @override
+  String get profileRemindersOff => 'Off';
+
+  @override
   String get profileRole => 'Role';
 
   @override
@@ -1583,6 +1589,32 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get propertiesUpdateStatus => 'Update Status';
+
+  @override
+  String remindersBody(Object time) {
+    return 'Starts at $time';
+  }
+
+  @override
+  String remindersBodyWithClient(Object client, Object time) {
+    return 'Starts at $time with $client';
+  }
+
+  @override
+  String get remindersFallbackTitle => 'Meeting';
+
+  @override
+  String get remindersLeadDay => '1 day before';
+
+  @override
+  String get remindersLeadHour => '1 hour before';
+
+  @override
+  String get remindersLeadQuarter => '15 minutes before';
+
+  @override
+  String get remindersPermissionDenied =>
+      'Notifications are off for EstateCRM. Turn them on in your phone’s settings.';
 
   @override
   String get teamsActive => 'Active';

@@ -4,6 +4,10 @@ import 'package:real_estate_crm/l10n/app_localizations.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/goal/goal_bloc.dart';
 import 'package:real_estate_crm/core/locale/bloc/locale_bloc.dart';
+import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/notifications/notification_gateway.dart';
+import 'package:real_estate_crm/core/notifications/reminder_sync.dart';
+import 'package:real_estate_crm/core/notifications/reminders_bloc.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
 import 'package:real_estate_crm/core/theme/bloc/theme_bloc.dart';
 import 'package:real_estate_crm/core/utils/deep_links.dart';
@@ -16,10 +20,12 @@ import 'package:real_estate_crm/features/clients/presentation/bloc/clients_bloc.
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_event.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/bloc/dashboard_bloc.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/bloc/dashboard_event.dart';
+import 'package:real_estate_crm/features/dashboard/presentation/bloc/dashboard_state.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_bloc.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_event.dart';
 import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_bloc.dart';
 import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_event.dart';
+import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_state.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_bloc.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_event.dart';
 
@@ -39,6 +45,8 @@ class _MyAppState extends State<MyApp> {
   late final PropertiesBloc _propertiesBloc;
   late final DealsBloc _dealsBloc;
   late final MeetingsBloc _meetingsBloc;
+  late final RemindersBloc _remindersBloc;
+  final NotificationGateway _notifications = LocalNotificationGateway();
   // ignore: prefer_typing_uninitialized_variables
   late final router;
   late final DeepLinkHandler _deepLinks;
@@ -59,6 +67,7 @@ class _MyAppState extends State<MyApp> {
     _propertiesBloc = PropertiesBloc(Injector.propertiesRepository);
     _dealsBloc = DealsBloc(Injector.dealsRepository);
     _meetingsBloc = MeetingsBloc(Injector.meetingsRepository);
+    _remindersBloc = RemindersBloc(_notifications)..add(RemindersLoadEvent());
     router = createRouter(_authBloc);
     _deepLinks = DeepLinkHandler(
       router: router,
@@ -98,7 +107,17 @@ class _MyAppState extends State<MyApp> {
     _propertiesBloc.close();
     _dealsBloc.close();
     _meetingsBloc.close();
+    _remindersBloc.close();
     super.dispose();
+  }
+
+  void _syncReminders(BuildContext context, List<MeetingResponse> meetings) {
+    syncMeetingReminders(
+      gateway: _notifications,
+      meetings: meetings,
+      settings: _remindersBloc.state.settings,
+      l10n: AppLocalizations.of(context),
+    );
   }
 
   @override
@@ -114,17 +133,52 @@ class _MyAppState extends State<MyApp> {
         BlocProvider.value(value: _propertiesBloc),
         BlocProvider.value(value: _dealsBloc),
         BlocProvider.value(value: _meetingsBloc),
+        BlocProvider.value(value: _remindersBloc),
       ],
-      child: BlocListener<AuthBloc, AuthState>(
-        listenWhen: (prev, curr) =>
-            prev is AuthAuthenticated && curr is! AuthAuthenticated,
-        listener: (_, __) {
-          _dashboardBloc.add(DashboardResetEvent());
-          _clientsBloc.add(ClientsResetEvent());
-          _propertiesBloc.add(PropertiesResetEvent());
-          _dealsBloc.add(DealsResetEvent());
-          _meetingsBloc.add(MeetingsResetEvent());
-        },
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<AuthBloc, AuthState>(
+            listenWhen: (prev, curr) =>
+                prev is AuthAuthenticated && curr is! AuthAuthenticated,
+            listener: (_, __) {
+              _dashboardBloc.add(DashboardResetEvent());
+              _clientsBloc.add(ClientsResetEvent());
+              _propertiesBloc.add(PropertiesResetEvent());
+              _dealsBloc.add(DealsResetEvent());
+              _meetingsBloc.add(MeetingsResetEvent());
+              // The next account's meetings are not this one's.
+              _notifications.cancelAll();
+            },
+          ),
+          // Two sources, because either can be the first to know: the dashboard
+          // loads meetings on launch and the meetings screen reloads them after
+          // every edit.
+          BlocListener<MeetingsBloc, MeetingsState>(
+            listener: (context, state) {
+              if (state is MeetingsLoaded) {
+                _syncReminders(context, state.meetings);
+              }
+            },
+          ),
+          BlocListener<DashboardBloc, DashboardState>(
+            listener: (context, state) {
+              if (state is DashboardLoaded) {
+                _syncReminders(context, state.upcoming);
+              }
+            },
+          ),
+          BlocListener<RemindersBloc, RemindersState>(
+            listenWhen: (prev, curr) =>
+                prev.settings.enabled != curr.settings.enabled ||
+                prev.settings.lead != curr.settings.lead,
+            listener: (context, __) {
+              final meetings = _meetingsBloc.state;
+              if (meetings is MeetingsLoaded) {
+                _syncReminders(context, meetings.meetings);
+              }
+            },
+          ),
+        ],
         child: BlocBuilder<ThemeBloc, ThemeState>(
           buildWhen: (prev, curr) => prev.mode != curr.mode,
           builder: (context, themeState) =>

@@ -2506,6 +2506,18 @@ abstract class AppLocalizations {
   /// **'Privacy Policy'**
   String get profilePrivacyPolicy;
 
+  /// No description provided for @profileReminders.
+  ///
+  /// In en, this message translates to:
+  /// **'Meeting reminders'**
+  String get profileReminders;
+
+  /// No description provided for @profileRemindersOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Off'**
+  String get profileRemindersOff;
+
   /// No description provided for @profileRole.
   ///
   /// In en, this message translates to:
@@ -2907,6 +2919,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Update Status'**
   String get propertiesUpdateStatus;
+
+  /// No description provided for @remindersBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Starts at {time}'**
+  String remindersBody(Object time);
+
+  /// No description provided for @remindersBodyWithClient.
+  ///
+  /// In en, this message translates to:
+  /// **'Starts at {time} with {client}'**
+  String remindersBodyWithClient(Object client, Object time);
+
+  /// No description provided for @remindersFallbackTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Meeting'**
+  String get remindersFallbackTitle;
+
+  /// No description provided for @remindersLeadDay.
+  ///
+  /// In en, this message translates to:
+  /// **'1 day before'**
+  String get remindersLeadDay;
+
+  /// No description provided for @remindersLeadHour.
+  ///
+  /// In en, this message translates to:
+  /// **'1 hour before'**
+  String get remindersLeadHour;
+
+  /// No description provided for @remindersLeadQuarter.
+  ///
+  /// In en, this message translates to:
+  /// **'15 minutes before'**
+  String get remindersLeadQuarter;
+
+  /// No description provided for @remindersPermissionDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications are off for EstateCRM. Turn them on in your phone’s settings.'**
+  String get remindersPermissionDenied;
 
   /// No description provided for @teamsActive.
   ///

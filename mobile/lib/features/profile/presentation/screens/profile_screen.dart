@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/locale/bloc/locale_bloc.dart';
+import 'package:real_estate_crm/core/notifications/reminder_plan.dart';
+import 'package:real_estate_crm/core/notifications/reminders_bloc.dart';
 import 'package:real_estate_crm/core/network/api_client.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/theme/bloc/theme_bloc.dart';
@@ -64,21 +66,42 @@ class ProfileScreen extends StatelessWidget {
             BlocBuilder<ThemeBloc, ThemeState>(
               builder: (themeCtx, themeState) =>
                   BlocBuilder<LocaleBloc, LocaleState>(
-                builder: (localeCtx, localeState) => SettingsGroup(rows: [
-                  SettingsRow(
-                    label: l10n.profileTheme,
-                    value: _themeLabel(l10n, themeState.mode),
-                    showChevron: true,
-                    onTap: () => _showThemePicker(themeCtx, themeState.mode),
-                  ),
-                  SettingsRow(
-                    label: l10n.profileLanguage,
-                    value: _languageLabel(l10n, localeState.locale),
-                    showChevron: true,
-                    onTap: () =>
-                        _showLanguagePicker(localeCtx, localeState.locale),
-                  ),
-                ]),
+                builder: (localeCtx, localeState) =>
+                    BlocConsumer<RemindersBloc, RemindersState>(
+                  listener: (ctx, remindersState) {
+                    if (!remindersState.permissionDenied) return;
+                    // The OS only asks once. Saying so is the difference
+                    // between a switch that looks broken and one that is
+                    // waiting on something the app cannot change.
+                    ScaffoldMessenger.of(ctx)
+                      ..hideCurrentSnackBar()
+                      ..showSnackBar(SnackBar(
+                          content: Text(l10n.remindersPermissionDenied)));
+                  },
+                  builder: (remindersCtx, remindersState) =>
+                      SettingsGroup(rows: [
+                    SettingsRow(
+                      label: l10n.profileTheme,
+                      value: _themeLabel(l10n, themeState.mode),
+                      showChevron: true,
+                      onTap: () => _showThemePicker(themeCtx, themeState.mode),
+                    ),
+                    SettingsRow(
+                      label: l10n.profileReminders,
+                      value: _reminderLabel(l10n, remindersState.settings),
+                      showChevron: true,
+                      onTap: () => _showReminderPicker(
+                          remindersCtx, remindersState.settings),
+                    ),
+                    SettingsRow(
+                      label: l10n.profileLanguage,
+                      value: _languageLabel(l10n, localeState.locale),
+                      showChevron: true,
+                      onTap: () =>
+                          _showLanguagePicker(localeCtx, localeState.locale),
+                    ),
+                  ]),
+                ),
               ),
             ),
             _GroupLabel(l10n.profileApp),
@@ -138,6 +161,56 @@ class ProfileScreen extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+
+  String _reminderLabel(AppLocalizations l10n, ReminderSettings settings) =>
+      settings.enabled
+          ? _leadLabel(l10n, settings.lead)
+          : l10n.profileRemindersOff;
+
+  String _leadLabel(AppLocalizations l10n, ReminderLead lead) {
+    switch (lead) {
+      case ReminderLead.fifteenMinutes:
+        return l10n.remindersLeadQuarter;
+      case ReminderLead.oneHour:
+        return l10n.remindersLeadHour;
+      case ReminderLead.oneDay:
+        return l10n.remindersLeadDay;
+    }
+  }
+
+  void _showReminderPicker(BuildContext context, ReminderSettings current) {
+    final l10n = AppLocalizations.of(context);
+    final bloc = context.read<RemindersBloc>();
+    showAppBottomSheet(
+      context,
+      title: l10n.profileReminders,
+      builder: (ctx) => Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          _LanguageOption(
+            label: l10n.profileRemindersOff,
+            selected: !current.enabled,
+            onTap: () {
+              bloc.add(RemindersLeadChangedEvent(null));
+              Navigator.pop(ctx);
+            },
+          ),
+          for (final lead in ReminderLead.values) ...[
+            const SizedBox(height: 8),
+            _LanguageOption(
+              label: _leadLabel(l10n, lead),
+              selected: current.enabled && current.lead == lead,
+              onTap: () {
+                bloc.add(RemindersLeadChangedEvent(lead));
+                Navigator.pop(ctx);
+              },
+            ),
+          ],
+        ],
+      ),
     );
   }
 

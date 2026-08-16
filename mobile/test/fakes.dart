@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:real_estate_crm/core/models/admin_models.dart';
+import 'package:real_estate_crm/core/notifications/notification_gateway.dart';
 import 'package:real_estate_crm/core/models/team_models.dart';
 import 'package:real_estate_crm/features/admin/domain/repositories/admin_repository.dart';
 import 'package:real_estate_crm/features/agents/domain/repositories/agents_repository.dart';
@@ -193,6 +194,34 @@ class FakePropertiesRepository implements PropertiesRepository {
       throw UnimplementedError();
   @override
   Future<void> deleteProperty(int id) => throw UnimplementedError();
+}
+
+/// Records what would have been handed to the OS, so a test can assert on the
+/// reminders without a device to deliver them.
+class FakeNotificationGateway implements NotificationGateway {
+  FakeNotificationGateway({this.permissionGranted = true});
+
+  final bool permissionGranted;
+  List<ScheduledNotification> scheduled = const [];
+  int cancelAllCount = 0;
+  int permissionRequests = 0;
+
+  @override
+  Future<bool> requestPermission() async {
+    permissionRequests++;
+    return permissionGranted;
+  }
+
+  @override
+  Future<void> replaceAll(List<ScheduledNotification> reminders) async {
+    scheduled = reminders;
+  }
+
+  @override
+  Future<void> cancelAll() async {
+    cancelAllCount++;
+    scheduled = const [];
+  }
 }
 
 class FakeAgentsRepository implements AgentsRepository {
