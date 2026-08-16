@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/locale/bloc/locale_bloc.dart';
+import 'package:real_estate_crm/core/network/api_client.dart';
+import 'package:real_estate_crm/core/network/api_error.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/theme/bloc/theme_bloc.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
@@ -9,6 +12,7 @@ import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_state.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -91,7 +95,7 @@ class ProfileScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 3),
                         Text(
-                          '${l10n.profileVersion} 1.0.0',
+                          '${l10n.profileVersion} ${Injector.appVersion}',
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -105,10 +109,24 @@ class ProfileScreen extends StatelessWidget {
                 ],
               ),
             ),
+            _GroupLabel(l10n.profileLegal),
+            SettingsGroup(rows: [
+              SettingsRow(
+                label: l10n.profilePrivacyPolicy,
+                showChevron: true,
+                onTap: () => _openPage(context, '/privacy'),
+              ),
+              SettingsRow(
+                label: l10n.profileSupport,
+                showChevron: true,
+                onTap: () => _openPage(context, '/support'),
+              ),
+            ]),
             AppDangerButton(
               label: l10n.profileSignOut,
               onPressed: () => _confirmLogout(context),
             ),
+            _DeleteAccountButton(user: user),
           ],
         );
       },
@@ -153,6 +171,23 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
+  /// Opens a page the backend serves — the privacy policy and the support page
+  /// live next to the API so there is exactly one host to keep alive.
+  Future<void> _openPage(BuildContext context, String path) async {
+    final l10n = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    final opened = await launchUrl(
+      Uri.parse('$apiOrigin$path'),
+      mode: LaunchMode.externalApplication,
+    ).catchError((_) => false);
+
+    if (!opened) {
+      messenger
+        ..hideCurrentSnackBar()
+        ..showSnackBar(SnackBar(content: Text(l10n.profileLinkFailed)));
+    }
+  }
+
   Future<void> _confirmLogout(BuildContext context) async {
     final l10n = AppLocalizations.of(context);
     final bloc = context.read<AuthBloc>();
@@ -164,6 +199,100 @@ class ProfileScreen extends StatelessWidget {
       icon: Icons.logout_rounded,
     );
     if (ok) bloc.add(AuthLogoutEvent());
+  }
+}
+
+/// Closing your own account, which App Store Review Guideline 5.1.1(v) requires
+/// an app holding an account to offer without going through anyone else.
+///
+/// The records are the agency's, not the leaver's, so this asks who takes them
+/// over before it asks whether you are sure — the same handover an admin does.
+/// The backend refuses without a successor when there is anything to move, and
+/// refuses outright for the primary admin; both come back as a message rather
+/// than as a dead end.
+class _DeleteAccountButton extends StatefulWidget {
+  final AuthResponse user;
+  const _DeleteAccountButton({required this.user});
+
+  @override
+  State<_DeleteAccountButton> createState() => _DeleteAccountButtonState();
+}
+
+class _DeleteAccountButtonState extends State<_DeleteAccountButton> {
+  bool _busy = false;
+
+  Future<void> _start() async {
+    final l10n = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    final auth = context.read<AuthBloc>();
+
+    final successor = await _pickSuccessor(l10n, messenger);
+    if (successor == null || !mounted) return;
+
+    final confirmed = await showConfirmDialog(
+      context,
+      title: l10n.profileDeleteAccount,
+      content: l10n.profileDeleteAccountConfirm(successor.title),
+      confirmLabel: l10n.profileDeleteAccount,
+      icon: Icons.person_remove_outlined,
+    );
+    if (!confirmed || !mounted) return;
+
+    setState(() => _busy = true);
+    try {
+      await Injector.authRepository.deleteAccount(replacementId: successor.id);
+      // The session is already cleared; this is what moves the app off the
+      // screen belonging to an account that no longer exists.
+      auth.add(AuthLogoutEvent());
+    } catch (err) {
+      if (!mounted) return;
+      setState(() => _busy = false);
+      messenger
+        ..hideCurrentSnackBar()
+        ..showSnackBar(SnackBar(
+          content: Text(apiErrorMessage(err)),
+          backgroundColor: context.tokens.dangerSolid,
+        ));
+    }
+  }
+
+  Future<PickerItem?> _pickSuccessor(
+      AppLocalizations l10n, ScaffoldMessengerState messenger) async {
+    List<AgentOption> agents;
+    try {
+      agents = await Injector.agentsRepository.getAgentOptions();
+    } catch (err) {
+      messenger
+        ..hideCurrentSnackBar()
+        ..showSnackBar(SnackBar(content: Text(apiErrorMessage(err))));
+      return null;
+    }
+    if (!mounted) return null;
+
+    return showEntityPicker(
+      context,
+      title: l10n.profileDeleteHandoverTitle,
+      searchHint: l10n.profileDeleteHandoverSearch,
+      emptyLabel: l10n.profileDeleteHandoverEmpty,
+      items: [
+        for (final a in agents)
+          if (a.id != widget.user.userId)
+            PickerItem(id: a.id, title: a.fullName, subtitle: a.email),
+      ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final t = context.tokens;
+    // Outlined rather than solid: the design system keeps solid red for the
+    // confirm button of the dialog this opens.
+    return AppGhostButton(
+      label: AppLocalizations.of(context).profileDeleteAccount,
+      onPressed: _busy ? null : _start,
+      borderColor: t.dangerBorder,
+      labelColor: t.dangerText,
+    );
   }
 }
 

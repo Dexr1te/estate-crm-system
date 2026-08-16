@@ -2140,6 +2140,36 @@ abstract class AppLocalizations {
   /// **'Dark Mode'**
   String get profileDarkMode;
 
+  /// No description provided for @profileDeleteAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Account'**
+  String get profileDeleteAccount;
+
+  /// No description provided for @profileDeleteAccountConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Your clients, properties, deals and meetings move to {successor}. The account is removed permanently and this cannot be undone.'**
+  String profileDeleteAccountConfirm(Object successor);
+
+  /// No description provided for @profileDeleteHandoverEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No one else to hand them to'**
+  String get profileDeleteHandoverEmpty;
+
+  /// No description provided for @profileDeleteHandoverSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Search colleagues'**
+  String get profileDeleteHandoverSearch;
+
+  /// No description provided for @profileDeleteHandoverTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Hand your records over to'**
+  String get profileDeleteHandoverTitle;
+
   /// No description provided for @profileEditName.
   ///
   /// In en, this message translates to:
@@ -2176,6 +2206,18 @@ abstract class AppLocalizations {
   /// **'Language'**
   String get profileLanguage;
 
+  /// No description provided for @profileLegal.
+  ///
+  /// In en, this message translates to:
+  /// **'Legal'**
+  String get profileLegal;
+
+  /// No description provided for @profileLinkFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open the link'**
+  String get profileLinkFailed;
+
   /// No description provided for @profileName.
   ///
   /// In en, this message translates to:
@@ -2193,6 +2235,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Preferences'**
   String get profilePreferences;
+
+  /// No description provided for @profilePrivacyPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy Policy'**
+  String get profilePrivacyPolicy;
 
   /// No description provided for @profileRole.
   ///
@@ -2223,6 +2271,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Are you sure you want to sign out?'**
   String get profileSignOutConfirm;
+
+  /// No description provided for @profileSupport.
+  ///
+  /// In en, this message translates to:
+  /// **'Support'**
+  String get profileSupport;
 
   /// No description provided for @profileSystemDefault.
   ///

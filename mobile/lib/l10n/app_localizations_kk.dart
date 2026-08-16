@@ -1170,6 +1170,23 @@ class AppLocalizationsKk extends AppLocalizations {
   String get profileDarkMode => 'Қараңғы режим';
 
   @override
+  String get profileDeleteAccount => 'Аккаунтты жою';
+
+  @override
+  String profileDeleteAccountConfirm(Object successor) {
+    return 'Клиенттеріңіз, нысандарыңыз, мәмілелеріңіз және кездесулеріңіз $successor қарамағына өтеді. Аккаунт біржола жойылады.';
+  }
+
+  @override
+  String get profileDeleteHandoverEmpty => 'Жазбаларды тапсыратын адам жоқ';
+
+  @override
+  String get profileDeleteHandoverSearch => 'Әріптестерді іздеу';
+
+  @override
+  String get profileDeleteHandoverTitle => 'Жазбаларыңыз кімге өтеді';
+
+  @override
   String get profileEditName => 'Атын өзгерту';
 
   @override
@@ -1188,6 +1205,12 @@ class AppLocalizationsKk extends AppLocalizations {
   String get profileLanguage => 'Тіл';
 
   @override
+  String get profileLegal => 'Құжаттар';
+
+  @override
+  String get profileLinkFailed => 'Сілтемені ашу мүмкін болмады';
+
+  @override
   String get profileName => 'Аты';
 
   @override
@@ -1195,6 +1218,9 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get profilePreferences => 'Баптаулар';
+
+  @override
+  String get profilePrivacyPolicy => 'Құпиялылық саясаты';
 
   @override
   String get profileRole => 'Рөлі';
@@ -1210,6 +1236,9 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get profileSignOutConfirm => 'Шынымен шығып кеткіңіз келе ме?';
+
+  @override
+  String get profileSupport => 'Қолдау';
 
   @override
   String get profileSystemDefault => 'Жүйелік';

@@ -4,7 +4,20 @@ import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/network/api_error.dart';
 import 'package:real_estate_crm/core/session/session_store.dart';
 
-const _baseUrl = 'https://estate-crm-system.duckdns.org/api';
+/// Where the app talks to.
+///
+/// Overridden at build time so a release can be pointed at a new host without a
+/// code change:
+/// `flutter build ipa --dart-define=API_BASE_URL=https://api.example.com/api`.
+/// The default is the host 1.0 shipped against.
+const apiBaseUrl = String.fromEnvironment(
+  'API_BASE_URL',
+  defaultValue: 'https://estate-crm-system.duckdns.org/api',
+);
+
+/// The origin behind [apiBaseUrl], for pages served by the backend rather than
+/// its API — the privacy policy and the support page.
+final apiOrigin = Uri.parse(apiBaseUrl).origin;
 
 const _retriedKey = 'auth_retried';
 
@@ -72,7 +85,7 @@ class ApiClient {
   }
 
   static BaseOptions _options() => BaseOptions(
-        baseUrl: _baseUrl,
+        baseUrl: apiBaseUrl,
         connectTimeout: const Duration(seconds: 15),
         receiveTimeout: const Duration(seconds: 20),
         headers: {'Content-Type': 'application/json'},

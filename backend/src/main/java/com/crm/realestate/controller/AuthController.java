@@ -70,4 +70,22 @@ public class AuthController {
             @Valid @RequestBody UpdateProfileRequest request) {
         return ResponseEntity.ok(authService.updateMe(userDetails.getUsername(), request));
     }
+
+    /**
+     * Closes the caller's own account.
+     *
+     * <p>Required by App Store Review Guideline 5.1.1(v): an app that holds an account has to let
+     * the person holding it leave without going through anyone else. {@code replacementId} names
+     * who takes over their deals, meetings and documents — the same handover an admin does — and is
+     * mandatory for anyone who still holds records.
+     */
+    @DeleteMapping("/me")
+    @Operation(summary = "Delete the current user's own account")
+    @SecurityRequirement(name = "bearerAuth")
+    public ResponseEntity<Void> deleteMe(
+            @AuthenticationPrincipal UserDetails userDetails,
+            @RequestParam(required = false) Long replacementId) {
+        authService.deleteMe(userDetails.getUsername(), replacementId);
+        return ResponseEntity.noContent().build();
+    }
 }

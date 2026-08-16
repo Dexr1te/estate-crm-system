@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:real_estate_crm/core/models/admin_models.dart';
 import 'package:real_estate_crm/core/models/team_models.dart';
 import 'package:real_estate_crm/features/admin/domain/repositories/admin_repository.dart';
+import 'package:real_estate_crm/features/agents/domain/repositories/agents_repository.dart';
 import 'package:real_estate_crm/features/teams/domain/repositories/teams_repository.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/models/paged_response.dart';
@@ -28,6 +29,13 @@ class FakeAuthRepository implements AuthRepository {
       user!;
   @override
   Future<void> logout() async {}
+  @override
+  Future<void> deleteAccount({int? replacementId}) async =>
+      deletedWithReplacement = replacementId;
+
+  /// What the last [deleteAccount] handed the records to, or null if it was
+  /// never called.
+  int? deletedWithReplacement;
 }
 
 class FakeDashboardRepository implements DashboardRepository {
@@ -165,6 +173,14 @@ class FakePropertiesRepository implements PropertiesRepository {
       throw UnimplementedError();
   @override
   Future<void> deleteProperty(int id) => throw UnimplementedError();
+}
+
+class FakeAgentsRepository implements AgentsRepository {
+  final List<AgentOption> agents;
+  const FakeAgentsRepository(this.agents);
+
+  @override
+  Future<List<AgentOption>> getAgentOptions() async => agents;
 }
 
 class FakeAdminRepository implements AdminRepository {

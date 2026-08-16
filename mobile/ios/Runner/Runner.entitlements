@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!--
+	  Lets an invite link open the app instead of the web landing page. The
+	  matching apple-app-site-association is served by the backend at
+	  /.well-known/apple-app-site-association (see WellKnownController).
+
+	  Change this host together with the backend's app.ios-app-id and the app's
+	  API_BASE_URL, or the invite flow silently falls back to the landing page.
+	-->
+	<key>com.apple.developer.associated-domains</key>
+	<array>
+		<string>applinks:estate-crm-system.duckdns.org</string>
+	</array>
+</dict>
+</plist>

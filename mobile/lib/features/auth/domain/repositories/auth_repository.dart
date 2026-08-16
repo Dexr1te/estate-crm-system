@@ -7,6 +7,13 @@ abstract class AuthRepository {
 
   Future<void> logout();
 
+  /// Closes the signed-in account and ends the session.
+  ///
+  /// [replacementId] names the colleague who takes over the deals, meetings and
+  /// documents the account is responsible for; the backend refuses without one
+  /// when there is anything to hand over.
+  Future<void> deleteAccount({int? replacementId});
+
   Future<AuthResponse?> getSavedUser();
 
   bool get isLoggedIn;

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:real_estate_crm/core/network/api_client.dart';
 import 'package:real_estate_crm/core/session/session_store.dart';
@@ -71,6 +72,9 @@ class _Backend implements HttpClientAdapter {
 }
 
 Future<(ApiClient, _Backend, SessionStore)> _build() async {
+  // Tokens live in the keychain now. Seeding only the old SharedPreferences
+  // location means every case here also walks in through the migration.
+  FlutterSecureStorage.setMockInitialValues({});
   SharedPreferences.setMockInitialValues({
     'access_token': _expiredAccess,
     'refresh_token': _refresh,

@@ -1184,6 +1184,23 @@ class AppLocalizationsRu extends AppLocalizations {
   String get profileDarkMode => 'Тёмная тема';
 
   @override
+  String get profileDeleteAccount => 'Удалить аккаунт';
+
+  @override
+  String profileDeleteAccountConfirm(Object successor) {
+    return 'Ваши клиенты, объекты, сделки и встречи перейдут к $successor. Аккаунт будет удалён безвозвратно.';
+  }
+
+  @override
+  String get profileDeleteHandoverEmpty => 'Записи некому передать';
+
+  @override
+  String get profileDeleteHandoverSearch => 'Поиск коллег';
+
+  @override
+  String get profileDeleteHandoverTitle => 'Кому передать ваши записи';
+
+  @override
   String get profileEditName => 'Изменить имя';
 
   @override
@@ -1202,6 +1219,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get profileLanguage => 'Язык';
 
   @override
+  String get profileLegal => 'Документы';
+
+  @override
+  String get profileLinkFailed => 'Не удалось открыть ссылку';
+
+  @override
   String get profileName => 'Имя';
 
   @override
@@ -1209,6 +1232,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get profilePreferences => 'Настройки';
+
+  @override
+  String get profilePrivacyPolicy => 'Политика конфиденциальности';
 
   @override
   String get profileRole => 'Роль';
@@ -1224,6 +1250,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get profileSignOutConfirm => 'Вы уверены, что хотите выйти?';
+
+  @override
+  String get profileSupport => 'Поддержка';
 
   @override
   String get profileSystemDefault => 'Системный';

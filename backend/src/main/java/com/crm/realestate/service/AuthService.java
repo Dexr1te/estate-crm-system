@@ -23,6 +23,20 @@ public class AuthService {
     private final PasswordEncoder       passwordEncoder;
     private final JwtService            jwtService;
     private final AuthenticationManager authenticationManager;
+    private final AccountRemovalService accountRemovalService;
+
+    /**
+     * Closes the caller's own account, handing their records to {@code replacementId}.
+     *
+     * <p>The rules and the reassignment are the same ones an admin deletion goes through — see
+     * {@link AccountRemovalService}.
+     */
+    @Transactional
+    public void deleteMe(String email, Long replacementId) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Authenticated user not found"));
+        accountRemovalService.removeOwnAccount(user, replacementId);
+    }
 
     public AuthResponse register(RegisterRequest request) {
         throw new UnsupportedOperationException("Self registration is disabled. Users must be invited by an admin or manager.");
