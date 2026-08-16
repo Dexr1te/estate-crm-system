@@ -1374,6 +1374,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get profilePrivacyPolicy => 'Политика конфиденциальности';
 
   @override
+  String get profileReminders => 'Напоминания о встречах';
+
+  @override
+  String get profileRemindersOff => 'Выключены';
+
+  @override
   String get profileRole => 'Роль';
 
   @override
@@ -1595,6 +1601,32 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get propertiesUpdateStatus => 'Обновить статус';
+
+  @override
+  String remindersBody(Object time) {
+    return 'Начало в $time';
+  }
+
+  @override
+  String remindersBodyWithClient(Object client, Object time) {
+    return 'Начало в $time, клиент $client';
+  }
+
+  @override
+  String get remindersFallbackTitle => 'Встреча';
+
+  @override
+  String get remindersLeadDay => 'За сутки';
+
+  @override
+  String get remindersLeadHour => 'За час';
+
+  @override
+  String get remindersLeadQuarter => 'За 15 минут';
+
+  @override
+  String get remindersPermissionDenied =>
+      'Уведомления для EstateCRM отключены. Включите их в настройках телефона.';
 
   @override
   String get teamsActive => 'Активные';

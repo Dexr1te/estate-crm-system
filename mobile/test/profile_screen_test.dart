@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/locale/bloc/locale_bloc.dart';
+import 'package:real_estate_crm/core/notifications/reminders_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/core/theme/bloc/theme_bloc.dart';
@@ -35,6 +37,7 @@ Widget _profile() {
       BlocProvider.value(value: auth),
       BlocProvider(create: (_) => ThemeBloc()),
       BlocProvider(create: (_) => LocaleBloc()),
+      BlocProvider(create: (_) => RemindersBloc(FakeNotificationGateway())),
     ],
     child: const ProfileScreen(),
   );
@@ -166,6 +169,33 @@ void main() {
     expect(_authRepo.updatedProfile?.$1, 'Sultan Assan');
     expect(_authRepo.updatedProfile?.$2, 'asansultan25@gmail.com',
         reason: 'the address is sent unchanged, not dropped');
+  });
+
+  testWidgets('meeting reminders can be turned on and given a lead time',
+      (tester) async {
+    SharedPreferences.setMockInitialValues({});
+    await expectNoOverflow(tester, _profile(),
+        size: const Size(390, 844),
+        brightness: Brightness.light,
+        textScale: 1.0);
+    await tester.pumpAndSettle();
+
+    // Off by default: a CRM that starts sending notifications before being
+    // asked is one people turn off entirely.
+    expect(find.text('Off'), findsOneWidget);
+
+    await tester.tap(find.text('Off'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('15 minutes before'), findsOneWidget);
+    expect(find.text('1 hour before'), findsOneWidget);
+    expect(find.text('1 day before'), findsOneWidget);
+
+    await tester.tap(find.text('1 hour before'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('1 hour before'), findsOneWidget,
+        reason: 'the row now reports the chosen lead instead of Off');
   });
 
   testWidgets('the role renders localised, never as a raw enum value',
