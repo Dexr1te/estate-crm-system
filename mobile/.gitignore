@@ -55,3 +55,8 @@ app.*.map.json
 
 # FVM Version Cache
 .fvm/
+
+# Android signing. The example file is committed; the real one never is.
+android/key.properties
+**/*.jks
+**/*.keystore

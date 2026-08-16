@@ -1,0 +1,12 @@
+# Copy to android/key.properties and fill in. That file is gitignored: a signing
+# key in version control is a signing key you have to rotate.
+#
+# Generate the store once and keep it somewhere you will still have it in five
+# years — Play will not accept an upload signed with a different key:
+#
+#   keytool -genkey -v -keystore ~/estatecrm-upload.jks -keyalg RSA \
+#           -keysize 2048 -validity 10000 -alias upload
+storePassword=
+keyPassword=
+keyAlias=upload
+storeFile=/absolute/path/to/estatecrm-upload.jks
