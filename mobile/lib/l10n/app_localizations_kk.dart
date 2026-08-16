@@ -188,6 +188,16 @@ class AppLocalizationsKk extends AppLocalizations {
   String get authEmailRequired => 'Электрондық поштаны енгізіңіз';
 
   @override
+  String get authForgotPassword => 'Құпия сөзді ұмыттыңыз ба?';
+
+  @override
+  String get authForgotPasswordSubtitle =>
+      'Кіретін поштаңызды енгізіңіз — жаңа құпия сөз таңдауға сілтеме жібереміз.';
+
+  @override
+  String get authForgotPasswordTitle => 'Құпия сөзді қалпына келтіру';
+
+  @override
   String get authHaveAnInvite => 'Шақыруыңыз бар ма?';
 
   @override
@@ -224,6 +234,30 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get authPasswordsDoNotMatch => 'Құпия сөздер сәйкес келмейді';
+
+  @override
+  String get authResetCode => 'Қалпына келтіру коды';
+
+  @override
+  String get authResetCodeRequired => 'Қалпына келтіру кодын енгізіңіз';
+
+  @override
+  String authResetLinkSentBody(Object email) {
+    return 'Егер $email тіркелген болса, жаңа құпия сөз таңдау сілтемесі жіберілді. Ол 24 сағат жарамды.';
+  }
+
+  @override
+  String get authResetLinkSentTitle => 'Поштаңызды тексеріңіз';
+
+  @override
+  String get authResetPasswordSubtitle =>
+      'Хаттағы кодты қойып, құпия сөз таңдаңыз.';
+
+  @override
+  String get authResetPasswordTitle => 'Жаңа құпия сөз';
+
+  @override
+  String get authSendResetLink => 'Сілтеме жіберу';
 
   @override
   String get authSetPasswordContinue => 'Құпия сөзді орнатып, жалғастыру';

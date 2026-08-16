@@ -17,6 +17,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
     on<AuthCheckEvent>(_onCheck);
     on<AuthLoginEvent>(_onLogin);
     on<AuthAcceptInviteEvent>(_onAcceptInvite);
+    on<AuthResetPasswordEvent>(_onResetPassword);
     on<AuthLogoutEvent>(_onLogout);
   }
 
@@ -89,6 +90,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
         emit(AuthLoading());
         try {
           final auth = await _repo.acceptInvite(e.token, e.newPassword);
+          emit(AuthAuthenticated(auth));
+          _notify();
+        } catch (err) {
+          emit(AuthError(ApiFailure.from(err)));
+        }
+      });
+
+  /// A reset token is spent by the first request that reaches the backend, the
+  /// same as an invite — so it takes the same guard.
+  Future<void> _onResetPassword(
+          AuthResetPasswordEvent e, Emitter<AuthState> emit) =>
+      once('reset-password', () async {
+        emit(AuthLoading());
+        try {
+          final auth = await _repo.resetPassword(e.token, e.newPassword);
           emit(AuthAuthenticated(auth));
           _notify();
         } catch (err) {

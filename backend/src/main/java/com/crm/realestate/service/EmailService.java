@@ -41,6 +41,13 @@ public class EmailService {
     @Value("${app.invite-url:${app.base-url:http://localhost:8080}/api/invite}")
     private String inviteUrl;
 
+    /**
+     * Where the password-reset link points. Same shape as {@link #inviteUrl}: the landing page this
+     * backend serves, overridable without touching this class.
+     */
+    @Value("${app.reset-url:${app.base-url:http://localhost:8080}/api/reset}")
+    private String resetUrl;
+
     @Value("${spring.mail.host:}")
     private String host;
 
@@ -66,7 +73,8 @@ public class EmailService {
         if (username == null || username.isBlank()) {
             log.warn("Mail is ON but spring.mail.username is empty — SMTP will reject every send.");
         }
-        log.info("Mail is ON — host={}, from={}, invite links point at {}", host, from, inviteUrl);
+        log.info("Mail is ON — host={}, from={}, invite links point at {}, reset links at {}",
+                host, from, inviteUrl, resetUrl);
     }
 
     @Async
@@ -94,6 +102,83 @@ public class EmailService {
         } catch (Exception e) {
             log.error("Failed to send invite email to {}: {}", toEmail, e.getMessage());
         }
+    }
+
+    /**
+     * Tells someone how to get back in.
+     *
+     * <p>Until this existed {@code requestPasswordReset} minted a token, stored it and told nobody,
+     * so the only route back into an invite-only app was asking an administrator.
+     */
+    @Async
+    public void sendPasswordReset(String toEmail, String fullName, String resetToken) {
+        if (!enabled) {
+            log.info("Mail disabled (app.mail.enabled=false); skipping reset email to {}", toEmail);
+            return;
+        }
+        String link = UriComponentsBuilder.fromUriString(resetUrl)
+                .queryParam("token", resetToken)
+                .build()
+                .toUriString();
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper =
+                    new MimeMessageHelper(message, true, StandardCharsets.UTF_8.name());
+            helper.setFrom(from);
+            helper.setTo(toEmail);
+            helper.setSubject("Reset your Estate CRM password");
+            helper.setText(resetPlainBody(fullName, resetToken, link),
+                    resetHtmlBody(fullName, resetToken, link));
+            mailSender.send(message);
+            log.info("Password reset email sent to {}", toEmail);
+        } catch (Exception e) {
+            log.error("Failed to send reset email to {}: {}", toEmail, e.getMessage());
+        }
+    }
+
+    private String resetPlainBody(String fullName, String token, String link) {
+        return "Hi " + greeting(fullName) + ",\n\n"
+                + "Someone asked to reset the password for your Estate CRM account.\n\n"
+                + "Open this link to choose a new one:\n"
+                + link + "\n\n"
+                + "If the link does not work, open the Estate CRM app, tap \"Forgot password?\"\n"
+                + "and enter this code:\n\n"
+                + "     " + token + "\n\n"
+                + "The link expires in 24 hours. If this wasn't you, ignore this email —\n"
+                + "your password has not changed.\n\n"
+                + "— Estate CRM";
+    }
+
+    private String resetHtmlBody(String fullName, String token, String link) {
+        return """
+                <!doctype html>
+                <html>
+                  <body style="margin:0;padding:24px;background:#F4F6FB;
+                               font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;">
+                    <div style="max-width:480px;margin:0 auto;background:#FFFFFF;
+                                border:1px solid #E8ECF4;border-radius:16px;padding:28px;">
+                      <div style="font-size:20px;font-weight:700;color:#0F1E3C;">EstateCRM</div>
+                      <p style="font-size:14px;line-height:1.5;color:#0F1E3C;margin:20px 0 0;">
+                        Hi %s, someone asked to reset your password.
+                      </p>
+                      <p style="font-size:13px;line-height:1.5;color:#6B7A99;margin:10px 0 22px;">
+                        Choose a new one — the link expires in 24 hours. If this wasn't you,
+                        ignore this email and nothing changes.
+                      </p>
+                      <a href="%s" style="display:inline-block;background:#0F1E3C;color:#FFFFFF;
+                         text-decoration:none;font-size:14px;font-weight:600;padding:14px 22px;
+                         border-radius:12px;">Choose a new password</a>
+                      <p style="font-size:12px;line-height:1.5;color:#6B7A99;margin:22px 0 6px;">
+                        Or enter this code in the app:
+                      </p>
+                      <div style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+                                  font-size:13px;color:#0F1E3C;background:#EEF1F8;
+                                  border-radius:10px;padding:12px 14px;word-break:break-all;">%s</div>
+                    </div>
+                  </body>
+                </html>
+                """
+                .formatted(escape(greeting(fullName)), escape(link), escape(token));
     }
 
     private String greeting(String fullName) {

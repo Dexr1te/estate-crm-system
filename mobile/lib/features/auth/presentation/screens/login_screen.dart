@@ -99,14 +99,23 @@ class _LoginScreenState extends State<LoginScreen> {
                             ? l10n.authPasswordRequired
                             : null,
                       ),
-                      const SizedBox(height: 18),
+                      const SizedBox(height: 10),
+                      Align(
+                        alignment: AlignmentDirectional.centerEnd,
+                        child: AuthTextLink(
+                          label: l10n.authForgotPassword,
+                          onTap:
+                              loading ? null : () => ctx.go('/forgot-password'),
+                        ),
+                      ),
+                      const SizedBox(height: 14),
                       AppFilledButton(
                         label: l10n.authSignIn,
                         loading: loading,
                         onPressed: loading ? null : _submit,
                       ),
                       const SizedBox(height: 18),
-                      _FooterLink(
+                      AuthFooterLink(
                         question: l10n.authHaveAnInvite,
                         action: l10n.authActivate,
                         onTap: loading ? null : () => ctx.go('/accept-invite'),
@@ -117,6 +126,37 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             );
           },
+        ),
+      ),
+    );
+  }
+}
+
+/// A plain tappable line of text — "Forgot password?", "Back to sign in".
+class AuthTextLink extends StatelessWidget {
+  final String label;
+  final VoidCallback? onTap;
+  const AuthTextLink({super.key, required this.label, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    final t = context.tokens;
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: Padding(
+        // Keeps the tap target at the design system's minimum without moving
+        // the text off the line it belongs on.
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Text(
+          label,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+              fontFamily: AppFonts.sans,
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              color: onTap == null ? t.textHint : t.textPrimary),
         ),
       ),
     );
@@ -178,12 +218,15 @@ class _ObscureToggle extends StatelessWidget {
   }
 }
 
-class _FooterLink extends StatelessWidget {
+class AuthFooterLink extends StatelessWidget {
   final String question;
   final String action;
   final VoidCallback? onTap;
-  const _FooterLink(
-      {required this.question, required this.action, required this.onTap});
+  const AuthFooterLink(
+      {super.key,
+      required this.question,
+      required this.action,
+      required this.onTap});
 
   @override
   Widget build(BuildContext context) {

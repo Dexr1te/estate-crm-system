@@ -442,6 +442,24 @@ abstract class AppLocalizations {
   /// **'Email is required'**
   String get authEmailRequired;
 
+  /// No description provided for @authForgotPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot password?'**
+  String get authForgotPassword;
+
+  /// No description provided for @authForgotPasswordSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the address you sign in with and we’ll email you a link to choose a new password.'**
+  String get authForgotPasswordSubtitle;
+
+  /// No description provided for @authForgotPasswordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset your password'**
+  String get authForgotPasswordTitle;
+
   /// No description provided for @authHaveAnInvite.
   ///
   /// In en, this message translates to:
@@ -513,6 +531,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Passwords do not match'**
   String get authPasswordsDoNotMatch;
+
+  /// No description provided for @authResetCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset code'**
+  String get authResetCode;
+
+  /// No description provided for @authResetCodeRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset code is required'**
+  String get authResetCodeRequired;
+
+  /// No description provided for @authResetLinkSentBody.
+  ///
+  /// In en, this message translates to:
+  /// **'If {email} has an account, a link to choose a new password is on its way. It expires in 24 hours.'**
+  String authResetLinkSentBody(Object email);
+
+  /// No description provided for @authResetLinkSentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your email'**
+  String get authResetLinkSentTitle;
+
+  /// No description provided for @authResetPasswordSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste the code from the email, then choose a password.'**
+  String get authResetPasswordSubtitle;
+
+  /// No description provided for @authResetPasswordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a new password'**
+  String get authResetPasswordTitle;
+
+  /// No description provided for @authSendResetLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Send reset link'**
+  String get authSendResetLink;
 
   /// No description provided for @authSetPasswordContinue.
   ///

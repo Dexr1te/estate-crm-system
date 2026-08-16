@@ -39,6 +39,7 @@ public class SecurityConfig {
             "/auth/refresh",
             "/auth/accept-invite",
             "/invite",
+            "/reset",
             "/auth/forgot-password",
             "/auth/reset-password",
             // App Store Connect needs the policy to resolve before review starts, and a

@@ -24,6 +24,7 @@ public class AuthService {
     private final JwtService            jwtService;
     private final AuthenticationManager authenticationManager;
     private final AccountRemovalService accountRemovalService;
+    private final EmailService          emailService;
 
     /**
      * Closes the caller's own account, handing their records to {@code replacementId}.
@@ -65,6 +66,8 @@ public class AuthService {
             user.setPasswordResetToken(java.util.UUID.randomUUID().toString());
             user.setPasswordResetTokenExpiresAt(java.time.LocalDateTime.now().plusHours(24));
             userRepository.save(user);
+            emailService.sendPasswordReset(
+                    user.getEmail(), user.getFullName(), user.getPasswordResetToken());
         });
     }
 

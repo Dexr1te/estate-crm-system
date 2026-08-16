@@ -5,6 +5,15 @@ abstract class AuthRepository {
 
   Future<AuthResponse> acceptInvite(String token, String newPassword);
 
+  /// Asks the backend to email a reset link.
+  ///
+  /// Deliberately says nothing about whether the address exists: answering that
+  /// would turn the sign-in screen into a way to enumerate staff.
+  Future<void> requestPasswordReset(String email);
+
+  /// Spends a reset token and signs in with the new password.
+  Future<AuthResponse> resetPassword(String token, String newPassword);
+
   Future<void> logout();
 
   /// Closes the signed-in account and ends the session.

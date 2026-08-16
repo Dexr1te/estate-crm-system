@@ -5,23 +5,27 @@ import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart';
 
-/// The last segment of a link that means "accept an invite": the host of the
-/// custom scheme, or the final path segment of the landing URL.
-const _inviteTargets = {'accept-invite', 'invite'};
+/// The last segment of a link the app claims, and where it goes.
+///
+/// Both forms the backend hands out are listed: the custom scheme its landing
+/// pages offer (`estatecrm://accept-invite`, `estatecrm://reset-password`) and
+/// the landing URLs themselves (`https://host/api/invite`, `…/api/reset`).
+const _targets = {
+  'accept-invite': '/accept-invite',
+  'invite': '/accept-invite',
+  'reset-password': '/reset-password',
+  'reset': '/reset-password',
+};
 
 /// The in-app location an incoming link should open, or null for a link this
 /// app does not claim.
 ///
-/// Accepts both forms the backend can hand out: the custom scheme its invite
-/// landing page offers (`estatecrm://accept-invite?token=…`, see
-/// `app.invite-deep-link`) and the landing URL itself
-/// (`https://host/api/invite?token=…`, see `app.invite-url`). Matching on the
-/// last segment rather than the whole URL means publishing App Links /
-/// Universal Links later — which swaps one form for the other — needs no
-/// change here.
+/// Matching on the last segment rather than the whole URL means publishing App
+/// Links / Universal Links later — which swaps one form for the other — needs
+/// no change here.
 ///
-/// A token-less invite link still resolves: the screen simply opens with an
-/// empty field, which is what someone pasting a code by hand needs anyway.
+/// A token-less link still resolves: the screen simply opens with an empty
+/// field, which is what someone pasting a code by hand needs anyway.
 String? resolveDeepLink(Uri uri) {
   final custom = uri.scheme != 'http' && uri.scheme != 'https';
   final segments = [
@@ -30,12 +34,12 @@ String? resolveDeepLink(Uri uri) {
   ].where((s) => s.isNotEmpty).toList();
 
   if (segments.isEmpty) return null;
-  if (!_inviteTargets.contains(segments.last)) return null;
+  final path = _targets[segments.last];
+  if (path == null) return null;
 
   final token = uri.queryParameters['token']?.trim() ?? '';
-  if (token.isEmpty) return '/accept-invite';
-  return Uri(path: '/accept-invite', queryParameters: {'token': token})
-      .toString();
+  if (token.isEmpty) return path;
+  return Uri(path: path, queryParameters: {'token': token}).toString();
 }
 
 /// Hands links the OS delivers to the app over to the router.

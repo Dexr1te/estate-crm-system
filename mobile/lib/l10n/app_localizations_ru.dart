@@ -189,6 +189,16 @@ class AppLocalizationsRu extends AppLocalizations {
   String get authEmailRequired => 'Укажите эл. почту';
 
   @override
+  String get authForgotPassword => 'Забыли пароль?';
+
+  @override
+  String get authForgotPasswordSubtitle =>
+      'Укажите адрес, под которым вы входите, и мы пришлём ссылку для смены пароля.';
+
+  @override
+  String get authForgotPasswordTitle => 'Сброс пароля';
+
+  @override
   String get authHaveAnInvite => 'Есть приглашение?';
 
   @override
@@ -225,6 +235,30 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get authPasswordsDoNotMatch => 'Пароли не совпадают';
+
+  @override
+  String get authResetCode => 'Код сброса';
+
+  @override
+  String get authResetCodeRequired => 'Введите код сброса';
+
+  @override
+  String authResetLinkSentBody(Object email) {
+    return 'Если аккаунт с адресом $email существует, ссылка для смены пароля уже в пути. Она действует 24 часа.';
+  }
+
+  @override
+  String get authResetLinkSentTitle => 'Проверьте почту';
+
+  @override
+  String get authResetPasswordSubtitle =>
+      'Вставьте код из письма и придумайте пароль.';
+
+  @override
+  String get authResetPasswordTitle => 'Новый пароль';
+
+  @override
+  String get authSendResetLink => 'Отправить ссылку';
 
   @override
   String get authSetPasswordContinue => 'Задать пароль и продолжить';

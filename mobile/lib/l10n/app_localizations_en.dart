@@ -189,6 +189,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authEmailRequired => 'Email is required';
 
   @override
+  String get authForgotPassword => 'Forgot password?';
+
+  @override
+  String get authForgotPasswordSubtitle =>
+      'Enter the address you sign in with and we’ll email you a link to choose a new password.';
+
+  @override
+  String get authForgotPasswordTitle => 'Reset your password';
+
+  @override
   String get authHaveAnInvite => 'Have an invite?';
 
   @override
@@ -225,6 +235,30 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get authPasswordsDoNotMatch => 'Passwords do not match';
+
+  @override
+  String get authResetCode => 'Reset code';
+
+  @override
+  String get authResetCodeRequired => 'Reset code is required';
+
+  @override
+  String authResetLinkSentBody(Object email) {
+    return 'If $email has an account, a link to choose a new password is on its way. It expires in 24 hours.';
+  }
+
+  @override
+  String get authResetLinkSentTitle => 'Check your email';
+
+  @override
+  String get authResetPasswordSubtitle =>
+      'Paste the code from the email, then choose a password.';
+
+  @override
+  String get authResetPasswordTitle => 'Choose a new password';
+
+  @override
+  String get authSendResetLink => 'Send reset link';
 
   @override
   String get authSetPasswordContinue => 'Set password & continue';
