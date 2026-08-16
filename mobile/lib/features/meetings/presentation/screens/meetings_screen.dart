@@ -11,6 +11,7 @@ import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_blo
 import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_event.dart';
 import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_state.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
+import 'package:real_estate_crm/core/utils/clock.dart';
 
 class MeetingsScreen extends StatefulWidget {
   const MeetingsScreen({super.key});
@@ -82,7 +83,7 @@ class _MeetingsScreenState extends State<MeetingsScreen> {
               final all = state is MeetingsLoaded
                   ? state.meetings
                   : <MeetingResponse>[];
-              final now = DateTime.now();
+              final now = AppClock.now();
               final upcoming = all
                   .where((m) => !m.completed && m.scheduledAt.isAfter(now))
                   .toList()

@@ -6,6 +6,7 @@ import 'package:real_estate_crm/features/dashboard/presentation/bloc/dashboard_e
 import 'package:real_estate_crm/features/dashboard/presentation/bloc/dashboard_state.dart';
 import 'package:real_estate_crm/features/deals/domain/repositories/deals_repository.dart';
 import 'package:real_estate_crm/features/meetings/domain/repositories/meetings_repository.dart';
+import 'package:real_estate_crm/core/utils/clock.dart';
 
 class DashboardBloc extends Bloc<DashboardEvent, DashboardState>
     with SingleFlight, CollectionBloc<DashboardEvent, DashboardState> {
@@ -38,7 +39,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState>
           _deals.getDeals().catchError((_) => <DealResponse>[]),
         ]),
         onData: (results) {
-          final now = DateTime.now();
+          final now = AppClock.now();
           final upcoming = (results[1] as List<MeetingResponse>)
               .where((m) => !m.completed && m.scheduledAt.isAfter(now))
               .toList()

@@ -8,6 +8,7 @@ import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_blo
 import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_event.dart';
 import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_state.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
+import 'package:real_estate_crm/core/utils/clock.dart';
 
 class MeetingFormScreen extends StatefulWidget {
   final int? meetingId;
@@ -163,7 +164,7 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
   }
 
   Future<void> _pickDate() async {
-    final now = DateTime.now();
+    final now = AppClock.now();
     final base = _scheduledAt ?? now;
     final date = await showDatePicker(
       context: context,
@@ -180,7 +181,7 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
   }
 
   Future<void> _pickTime() async {
-    final base = _scheduledAt ?? DateTime.now();
+    final base = _scheduledAt ?? AppClock.now();
     final time = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.fromDateTime(base),
