@@ -41,6 +41,12 @@ public class SecurityConfig {
             "/invite",
             "/auth/forgot-password",
             "/auth/reset-password",
+            // App Store Connect needs the policy to resolve before review starts, and a
+            // reviewer must be able to reach account help without an account.
+            "/privacy",
+            "/support",
+            // Fetched by Apple's CDN to verify Universal Links, never by a signed-in device.
+            "/.well-known/**",
             "/v3/api-docs/**",
             "/swagger-ui/**",
             "/swagger-ui.html"

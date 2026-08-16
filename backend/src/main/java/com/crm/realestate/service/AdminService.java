@@ -5,9 +5,7 @@ import com.crm.realestate.dto.response.AgentResponse;
 import com.crm.realestate.dto.response.AgentStatsResponse;
 import com.crm.realestate.entity.Client;
 import com.crm.realestate.entity.Deal;
-import com.crm.realestate.entity.Document;
 import com.crm.realestate.entity.Meeting;
-import com.crm.realestate.entity.Property;
 import com.crm.realestate.entity.Team;
 import com.crm.realestate.entity.User;
 import com.crm.realestate.enums.DataScope;
@@ -17,15 +15,12 @@ import com.crm.realestate.enums.UserStatus;
 import com.crm.realestate.exception.ResourceNotFoundException;
 import com.crm.realestate.repository.ClientRepository;
 import com.crm.realestate.repository.DealRepository;
-import com.crm.realestate.repository.DocumentRepository;
 import com.crm.realestate.repository.MeetingRepository;
-import com.crm.realestate.repository.PropertyRepository;
 import com.crm.realestate.repository.TeamRepository;
 import com.crm.realestate.repository.UserRepository;
 import com.crm.realestate.security.SecurityUtils;
 import com.crm.realestate.service.AuditLogService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -51,11 +46,7 @@ public class AdminService {
     private final AuditLogService    auditLogService;
     private final EmailService       emailService;
     private final EmailDomainValidator emailDomainValidator;
-    private final DocumentRepository  documentRepository;
-    private final PropertyRepository  propertyRepository;
-
-    @Value("${app.primary-admin-email:admin@gmail.com}")
-    private String primaryAdminEmail;
+    private final AccountRemovalService accountRemovalService;
 
     public List<AgentResponse> getAllUsers() {
         return userRepository.findAllByOrderByCreatedAtDesc()
@@ -222,57 +213,11 @@ public class AdminService {
         if (!isPrimaryAdmin(actor)) {
             throw new AccessDeniedException("Only the primary admin can delete users");
         }
-
-        User target = findById(userId);
-        if (isPrimaryAdmin(target)) {
-            throw new RuntimeException("The primary admin account cannot be deleted");
-        }
-
-        final User replacement = replacementId == null ? null : findById(replacementId);
-        if (replacement != null && replacement.getId().equals(target.getId())) {
-            throw new RuntimeException("Pick a different user to take over the records");
-        }
-
-        List<Deal> deals = dealRepository.findByAgentId(userId);
-        List<Meeting> meetings = meetingRepository.findByAgentId(userId);
-        List<Document> documents = documentRepository.findByUploadedById(userId);
-        List<Client> clients = clientRepository.findByAgentId(userId);
-        List<Property> properties = propertyRepository.findByAgentId(userId);
-
-        // These three cannot be orphaned by the schema, so without somewhere to put
-        // them the delete would fail at the database with an opaque constraint error.
-        if (replacement == null
-                && !(deals.isEmpty() && meetings.isEmpty() && documents.isEmpty())) {
-            throw new RuntimeException(String.format(
-                    "%s still holds %d deal(s), %d meeting(s) and %d document(s). "
-                            + "Choose someone to take them over.",
-                    target.getFullName(), deals.size(), meetings.size(), documents.size()));
-        }
-
-        if (replacement != null) {
-            deals.forEach(d -> d.setAgent(replacement));
-            meetings.forEach(m -> m.setAgent(replacement));
-            documents.forEach(d -> d.setUploadedBy(replacement));
-            clients.forEach(c -> c.setAgent(replacement));
-            properties.forEach(p -> p.setAgent(replacement));
-            dealRepository.saveAll(deals);
-            meetingRepository.saveAll(meetings);
-            documentRepository.saveAll(documents);
-            clientRepository.saveAll(clients);
-            propertyRepository.saveAll(properties);
-        }
-
-        auditLogService.record(actor, "DELETE_USER", "User", target.getId(),
-                "email=" + target.getEmail()
-                        + (replacement == null ? "" : ", movedTo=" + replacement.getEmail()));
-
-        userRepository.delete(target);
+        accountRemovalService.remove(actor, findById(userId), replacementId, "DELETE_USER");
     }
 
     public boolean isPrimaryAdmin(User user) {
-        return user != null
-                && user.getEmail() != null
-                && user.getEmail().equalsIgnoreCase(primaryAdminEmail);
+        return accountRemovalService.isPrimaryAdmin(user);
     }
 
     public List<com.crm.realestate.dto.response.AuditLogResponse> getAuditLogs(Long actorId, String entityType, java.time.LocalDate fromDate, java.time.LocalDate toDate) {
