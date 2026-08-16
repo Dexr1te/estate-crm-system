@@ -1,4 +1,5 @@
 import 'package:real_estate_crm/core/models/admin_models.dart';
+import 'package:real_estate_crm/core/network/api_error.dart';
 
 abstract class AuditLogState {}
 
@@ -12,6 +13,6 @@ class AuditLogLoaded extends AuditLogState {
 }
 
 class AuditLogError extends AuditLogState {
-  final String message;
-  AuditLogError(this.message);
+  final ApiFailure failure;
+  AuditLogError(this.failure);
 }

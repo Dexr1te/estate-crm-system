@@ -1,4 +1,6 @@
 import 'package:real_estate_crm/core/bloc/action_outcome.dart';
+import 'package:real_estate_crm/core/network/api_error.dart';
+import 'package:real_estate_crm/core/widgets/messages.dart';
 import 'package:real_estate_crm/core/models/team_models.dart';
 
 abstract class TeamsState {}
@@ -13,24 +15,20 @@ class TeamsLoaded extends TeamsState {
 }
 
 class TeamsError extends TeamsState {
-  final String message;
-  TeamsError(this.message);
+  final ApiFailure failure;
+  TeamsError(this.failure);
 }
 
-class TeamsActionSuccess extends TeamsLoaded implements ActionOutcome {
+class TeamsActionSuccess extends TeamsLoaded with ActionSucceeded {
   @override
-  final String message;
-  @override
-  bool get isFailure => false;
+  final ActionMessage message;
 
   TeamsActionSuccess(this.message, super.teams);
 }
 
-class TeamsActionFailure extends TeamsLoaded implements ActionOutcome {
+class TeamsActionFailure extends TeamsLoaded with ActionFailed {
   @override
-  final String message;
-  @override
-  bool get isFailure => true;
+  final ApiFailure failure;
 
-  TeamsActionFailure(this.message, super.teams);
+  TeamsActionFailure(this.failure, super.teams);
 }

@@ -449,6 +449,34 @@ class AppLocalizationsRu extends AppLocalizations {
   String get coreDelete => 'Удалить';
 
   @override
+  String get coreErrorBadRequest =>
+      'Неверный запрос. Проверьте введённые данные.';
+
+  @override
+  String get coreErrorConflict => 'Такая запись уже существует.';
+
+  @override
+  String get coreErrorCredentials => 'Неверная почта или пароль.';
+
+  @override
+  String get coreErrorForbidden => 'У вас нет прав на это действие.';
+
+  @override
+  String get coreErrorNotFound => 'Не найдено.';
+
+  @override
+  String get coreErrorOffline => 'Нет связи с сервером. Проверьте интернет.';
+
+  @override
+  String get coreErrorServer => 'Ошибка сервера. Попробуйте позже.';
+
+  @override
+  String get coreErrorTimeout => 'Время ожидания истекло. Проверьте интернет.';
+
+  @override
+  String get coreErrorUnknown => 'Что-то пошло не так. Попробуйте ещё раз.';
+
+  @override
   String get coreLogout => 'Выйти';
 
   @override
@@ -1158,6 +1186,78 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get meetingsWhoAndWhere => 'С кем и где';
+
+  @override
+  String get msgAgentInvited => 'Агент приглашён';
+
+  @override
+  String get msgClientCreated => 'Клиент создан';
+
+  @override
+  String get msgClientDeleted => 'Клиент удалён';
+
+  @override
+  String get msgClientUpdated => 'Клиент обновлён';
+
+  @override
+  String get msgDealCreated => 'Сделка создана';
+
+  @override
+  String get msgDealDeleted => 'Сделка удалена';
+
+  @override
+  String get msgDealUpdated => 'Сделка обновлена';
+
+  @override
+  String get msgInviteResent => 'Приглашение отправлено повторно';
+
+  @override
+  String get msgMeetingCompleted => 'Встреча завершена';
+
+  @override
+  String get msgMeetingCreated => 'Встреча создана';
+
+  @override
+  String get msgMeetingDeleted => 'Встреча удалена';
+
+  @override
+  String get msgMeetingUpdated => 'Встреча обновлена';
+
+  @override
+  String get msgProfileUpdated => 'Профиль обновлён';
+
+  @override
+  String get msgPropertyCreated => 'Объект создан';
+
+  @override
+  String get msgPropertyDeleted => 'Объект удалён';
+
+  @override
+  String get msgPropertyUpdated => 'Объект обновлён';
+
+  @override
+  String get msgRoleUpdated => 'Роль обновлена';
+
+  @override
+  String get msgStatusUpdated => 'Статус обновлён';
+
+  @override
+  String get msgTeamAssigned => 'Команда назначена';
+
+  @override
+  String get msgTeamCreated => 'Команда создана';
+
+  @override
+  String get msgTeamUpdated => 'Команда обновлена';
+
+  @override
+  String get msgUserActivated => 'Пользователь активирован';
+
+  @override
+  String get msgUserDeactivated => 'Пользователь деактивирован';
+
+  @override
+  String get msgUserDeleted => 'Пользователь удалён';
 
   @override
   String get profileAbout => 'О приложении';

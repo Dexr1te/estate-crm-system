@@ -69,7 +69,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
           emit(AuthAuthenticated(auth));
           _notify();
         } catch (err) {
-          emit(AuthError(apiErrorMessage(err)));
+          emit(AuthError(ApiFailure.from(err)));
         }
       });
 
@@ -92,7 +92,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
           emit(AuthAuthenticated(auth));
           _notify();
         } catch (err) {
-          emit(AuthError(apiErrorMessage(err)));
+          emit(AuthError(ApiFailure.from(err)));
         }
       });
 

@@ -57,7 +57,7 @@ class _MeetingsScreenState extends State<MeetingsScreen> {
                 ScaffoldMessenger.of(ctx)
                   ..hideCurrentSnackBar()
                   ..showSnackBar(SnackBar(
-                      content: Text(state.message),
+                      content: Text(apiFailureLabel(l10n, state.failure)),
                       backgroundColor: t.dangerSolid));
               }
               showActionOutcome(ctx, state);
@@ -71,7 +71,7 @@ class _MeetingsScreenState extends State<MeetingsScreen> {
                   _header(l10n, pad, null),
                   Expanded(
                     child: ErrorWidget2(
-                      message: state.message,
+                      message: apiFailureLabel(l10n, state.failure),
                       onRetry: () =>
                           ctx.read<MeetingsBloc>().add(MeetingsLoadEvent()),
                     ),

@@ -445,6 +445,34 @@ class AppLocalizationsEn extends AppLocalizations {
   String get coreDelete => 'Delete';
 
   @override
+  String get coreErrorBadRequest => 'Invalid request. Please check your input.';
+
+  @override
+  String get coreErrorConflict => 'This already exists.';
+
+  @override
+  String get coreErrorCredentials => 'Invalid email or password.';
+
+  @override
+  String get coreErrorForbidden => 'You don’t have permission to do that.';
+
+  @override
+  String get coreErrorNotFound => 'Not found.';
+
+  @override
+  String get coreErrorOffline =>
+      'Cannot connect to server. Check your internet.';
+
+  @override
+  String get coreErrorServer => 'Server error. Please try again later.';
+
+  @override
+  String get coreErrorTimeout => 'Connection timed out. Check your internet.';
+
+  @override
+  String get coreErrorUnknown => 'Something went wrong. Please try again.';
+
+  @override
   String get coreLogout => 'Logout';
 
   @override
@@ -1146,6 +1174,78 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get meetingsWhoAndWhere => 'Who & where';
+
+  @override
+  String get msgAgentInvited => 'Agent invited';
+
+  @override
+  String get msgClientCreated => 'Client created';
+
+  @override
+  String get msgClientDeleted => 'Client deleted';
+
+  @override
+  String get msgClientUpdated => 'Client updated';
+
+  @override
+  String get msgDealCreated => 'Deal created';
+
+  @override
+  String get msgDealDeleted => 'Deal deleted';
+
+  @override
+  String get msgDealUpdated => 'Deal updated';
+
+  @override
+  String get msgInviteResent => 'Invite resent';
+
+  @override
+  String get msgMeetingCompleted => 'Meeting completed';
+
+  @override
+  String get msgMeetingCreated => 'Meeting created';
+
+  @override
+  String get msgMeetingDeleted => 'Meeting deleted';
+
+  @override
+  String get msgMeetingUpdated => 'Meeting updated';
+
+  @override
+  String get msgProfileUpdated => 'Profile updated';
+
+  @override
+  String get msgPropertyCreated => 'Property created';
+
+  @override
+  String get msgPropertyDeleted => 'Property deleted';
+
+  @override
+  String get msgPropertyUpdated => 'Property updated';
+
+  @override
+  String get msgRoleUpdated => 'Role updated';
+
+  @override
+  String get msgStatusUpdated => 'Status updated';
+
+  @override
+  String get msgTeamAssigned => 'Team assigned';
+
+  @override
+  String get msgTeamCreated => 'Team created';
+
+  @override
+  String get msgTeamUpdated => 'Team updated';
+
+  @override
+  String get msgUserActivated => 'User activated';
+
+  @override
+  String get msgUserDeactivated => 'User deactivated';
+
+  @override
+  String get msgUserDeleted => 'User deleted';
 
   @override
   String get profileAbout => 'About';

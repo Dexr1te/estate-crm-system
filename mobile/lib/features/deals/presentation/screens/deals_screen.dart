@@ -60,7 +60,7 @@ class _DealsScreenState extends State<DealsScreen> {
                 ScaffoldMessenger.of(ctx)
                   ..hideCurrentSnackBar()
                   ..showSnackBar(SnackBar(
-                      content: Text(state.message),
+                      content: Text(apiFailureLabel(l10n, state.failure)),
                       backgroundColor: t.dangerSolid));
               }
               showActionOutcome(ctx, state);
@@ -145,7 +145,7 @@ class _DealsScreenState extends State<DealsScreen> {
     }
     if (state is DealsError) {
       return ErrorWidget2(
-        message: state.message,
+        message: apiFailureLabel(l10n, state.failure),
         onRetry: () => ctx.read<DealsBloc>().add(DealsLoadEvent()),
       );
     }

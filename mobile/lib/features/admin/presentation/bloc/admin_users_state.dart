@@ -1,5 +1,7 @@
 import 'package:real_estate_crm/core/models/admin_models.dart';
 import 'package:real_estate_crm/core/bloc/action_outcome.dart';
+import 'package:real_estate_crm/core/network/api_error.dart';
+import 'package:real_estate_crm/core/widgets/messages.dart';
 
 abstract class AdminUsersState {}
 
@@ -13,28 +15,22 @@ class AdminUsersLoaded extends AdminUsersState {
 }
 
 class AdminUsersError extends AdminUsersState {
-  final String message;
-  AdminUsersError(this.message);
+  final ApiFailure failure;
+  AdminUsersError(this.failure);
 }
 
-class AdminUsersActionSuccess extends AdminUsersLoaded
-    implements ActionOutcome {
+class AdminUsersActionSuccess extends AdminUsersLoaded with ActionSucceeded {
   @override
-  final String message;
-  @override
-  bool get isFailure => false;
+  final ActionMessage message;
 
   AdminUsersActionSuccess(this.message, super.users);
 }
 
-class AdminUsersActionFailure extends AdminUsersLoaded
-    implements ActionOutcome {
+class AdminUsersActionFailure extends AdminUsersLoaded with ActionFailed {
   @override
-  final String message;
-  @override
-  bool get isFailure => true;
+  final ApiFailure failure;
 
-  AdminUsersActionFailure(this.message, super.users);
+  AdminUsersActionFailure(this.failure, super.users);
 }
 
 class AdminInviteSuccess extends AdminUsersLoaded {

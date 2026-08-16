@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/locale/bloc/locale_bloc.dart';
 import 'package:real_estate_crm/core/network/api_client.dart';
-import 'package:real_estate_crm/core/network/api_error.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/theme/bloc/theme_bloc.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
@@ -250,7 +249,7 @@ class _DeleteAccountButtonState extends State<_DeleteAccountButton> {
       messenger
         ..hideCurrentSnackBar()
         ..showSnackBar(SnackBar(
-          content: Text(apiErrorMessage(err)),
+          content: Text(apiFailureLabel(l10n, ApiFailure.from(err))),
           backgroundColor: context.tokens.dangerSolid,
         ));
     }
@@ -264,7 +263,8 @@ class _DeleteAccountButtonState extends State<_DeleteAccountButton> {
     } catch (err) {
       messenger
         ..hideCurrentSnackBar()
-        ..showSnackBar(SnackBar(content: Text(apiErrorMessage(err))));
+        ..showSnackBar(SnackBar(
+            content: Text(apiFailureLabel(l10n, ApiFailure.from(err)))));
       return null;
     }
     if (!mounted) return null;

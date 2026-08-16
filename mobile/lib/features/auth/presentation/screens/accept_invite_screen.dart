@@ -52,7 +52,7 @@ class _AcceptInviteScreenState extends State<AcceptInviteScreen> {
               ScaffoldMessenger.of(ctx)
                 ..hideCurrentSnackBar()
                 ..showSnackBar(SnackBar(
-                    content: Text(state.message),
+                    content: Text(apiFailureLabel(l10n, state.failure)),
                     backgroundColor: t.dangerSolid));
             }
           },

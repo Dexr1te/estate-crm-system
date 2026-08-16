@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:real_estate_crm/core/bloc/collection_bloc.dart';
+import 'package:real_estate_crm/core/widgets/messages.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/network/api_error.dart';
 import 'package:real_estate_crm/features/properties/domain/repositories/properties_repository.dart';
@@ -33,9 +34,9 @@ class PropertiesBloc extends Bloc<PropertiesEvent, PropertiesState>
   void _reload() =>
       add(PropertiesLoadEvent(status: _status, type: _type, search: _search));
 
-  PropertiesState _failure(String message) => _items.isEmpty
-      ? PropertiesError(message)
-      : PropertiesActionFailure(message, _items, hasMore: _hasMore);
+  PropertiesState _failure(ApiFailure failure) => _items.isEmpty
+      ? PropertiesError(failure)
+      : PropertiesActionFailure(failure, _items, hasMore: _hasMore);
 
   void _onReset(PropertiesResetEvent e, Emitter<PropertiesState> emit) {
     invalidate();
@@ -104,13 +105,13 @@ class PropertiesBloc extends Bloc<PropertiesEvent, PropertiesState>
       if (isStale(ticket)) return;
       // Just dropping the spinner reads as "that was the end of the list".
       // Keep the rows already paged in, and say why the next ones are missing.
-      emit(PropertiesActionFailure(apiErrorMessage(err), _items,
+      emit(PropertiesActionFailure(ApiFailure.from(err), _items,
           hasMore: _hasMore));
     }
   }
 
-  Future<void> _act(Emitter<PropertiesState> emit, String key, String success,
-          Future<void> Function() action) =>
+  Future<void> _act(Emitter<PropertiesState> emit, String key,
+          ActionMessage success, Future<void> Function() action) =>
       write(
         emit,
         key: key,
@@ -123,7 +124,7 @@ class PropertiesBloc extends Bloc<PropertiesEvent, PropertiesState>
 
   Future<void> _onDelete(
           PropertiesDeleteEvent e, Emitter<PropertiesState> emit) =>
-      _act(emit, 'delete-${e.id}', 'Property deleted',
+      _act(emit, 'delete-${e.id}', ActionMessage.propertyDeleted,
           () => _repo.deleteProperty(e.id));
 
   Future<void> _onCreate(
@@ -140,11 +141,11 @@ class PropertiesBloc extends Bloc<PropertiesEvent, PropertiesState>
 
   Future<void> _onUpdate(
           PropertiesUpdateEvent e, Emitter<PropertiesState> emit) =>
-      _act(emit, 'update-${e.id}', 'Property updated',
+      _act(emit, 'update-${e.id}', ActionMessage.propertyUpdated,
           () => _repo.updateProperty(e.id, e.data));
 
   Future<void> _onUpdateStatus(
           PropertiesUpdateStatusEvent e, Emitter<PropertiesState> emit) =>
-      _act(emit, 'status-${e.id}-${e.status.name}', 'Status updated',
+      _act(emit, 'status-${e.id}-${e.status.name}', ActionMessage.statusUpdated,
           () => _repo.updatePropertyStatus(e.id, e.status));
 }

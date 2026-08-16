@@ -250,7 +250,8 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(SnackBar(
-                content: Text(state.message), backgroundColor: t.dangerSolid));
+                content: Text(apiFailureLabel(l10n, state.failure)),
+                backgroundColor: t.dangerSolid));
         }
       },
       child: Form(

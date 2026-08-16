@@ -1,5 +1,7 @@
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/bloc/action_outcome.dart';
+import 'package:real_estate_crm/core/network/api_error.dart';
+import 'package:real_estate_crm/core/widgets/messages.dart';
 
 abstract class DealsState {}
 
@@ -13,24 +15,20 @@ class DealsLoaded extends DealsState {
 }
 
 class DealsError extends DealsState {
-  final String message;
-  DealsError(this.message);
+  final ApiFailure failure;
+  DealsError(this.failure);
 }
 
-class DealsActionSuccess extends DealsLoaded implements ActionOutcome {
+class DealsActionSuccess extends DealsLoaded with ActionSucceeded {
   @override
-  final String message;
-  @override
-  bool get isFailure => false;
+  final ActionMessage message;
 
   DealsActionSuccess(this.message, super.deals);
 }
 
-class DealsActionFailure extends DealsLoaded implements ActionOutcome {
+class DealsActionFailure extends DealsLoaded with ActionFailed {
   @override
-  final String message;
-  @override
-  bool get isFailure => true;
+  final ApiFailure failure;
 
-  DealsActionFailure(this.message, super.deals);
+  DealsActionFailure(this.failure, super.deals);
 }

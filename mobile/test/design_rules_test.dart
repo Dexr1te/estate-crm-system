@@ -49,6 +49,25 @@ void main() {
     }
   });
 
+  // A bloc has no BuildContext and so no localizations. A sentence written
+  // there ships in English to a reader who chose Russian or Kazakh — which is
+  // exactly how every snackbar in the app came to be English. Blocs name their
+  // outcomes (ActionMessage) and screens do the wording.
+  test('a completed write is named in a bloc, never worded', () {
+    final sentence = RegExp(r"'[A-Z][a-z]+ [a-z][a-z ]+'");
+    final offenders = <String>[];
+
+    for (final f in libFiles.where((f) => f.path.contains('/bloc/'))) {
+      for (final match in sentence.allMatches(f.readAsStringSync())) {
+        offenders.add('${f.path}: ${match.group(0)}');
+      }
+    }
+
+    expect(offenders, isEmpty,
+        reason: 'these read as user-facing sentences with no way to translate '
+            'them:\n${offenders.join('\n')}');
+  });
+
   test('every ARB carries the same key set', () {
     final keySets = {
       for (final f in arbFiles)

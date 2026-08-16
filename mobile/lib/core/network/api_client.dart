@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:real_estate_crm/core/models/models.dart';
-import 'package:real_estate_crm/core/network/api_error.dart';
 import 'package:real_estate_crm/core/session/session_store.dart';
 
 /// Where the app talks to.
@@ -113,15 +112,5 @@ class ApiClient {
     if (_session.refreshToken == null) return;
     await _session.clear();
     onSessionExpired?.call();
-  }
-
-  String parseError(dynamic e) {
-    if (e is DioException) {
-      debugPrint(
-          '[API ERROR] type: ${e.type} | status: ${e.response?.statusCode} | data: ${e.response?.data}');
-    } else {
-      debugPrint('[API ERROR] unknown: $e');
-    }
-    return apiErrorMessage(e);
   }
 }

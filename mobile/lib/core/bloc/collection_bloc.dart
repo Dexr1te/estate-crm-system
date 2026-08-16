@@ -67,7 +67,7 @@ mixin CollectionBloc<Event, State> on Bloc<Event, State>, SingleFlight {
     Emitter<State> emit, {
     required Future<T> Function() fetch,
     required State Function(T data) onData,
-    required State Function(String message) onFailure,
+    required State Function(ApiFailure failure) onFailure,
     State? skeleton,
     bool keepVisible = false,
   }) async {
@@ -79,20 +79,20 @@ mixin CollectionBloc<Event, State> on Bloc<Event, State>, SingleFlight {
       emit(onData(data));
     } catch (err) {
       if (isStale(ticket)) return;
-      emit(onFailure(apiErrorMessage(err)));
+      emit(onFailure(ApiFailure.from(err)));
     }
   }
 
   /// Runs a write, reports it, and refreshes the list behind it.
   ///
   /// [key] identifies the write for [SingleFlight]. [onFailure] is handed only
-  /// a message and is expected to hand back the rows it already had.
+  /// the reason and is expected to hand back the rows it already had.
   Future<void> write<T>(
     Emitter<State> emit, {
     required String key,
     required Future<T> Function() perform,
     required State Function(T result) onSuccess,
-    required State Function(String message) onFailure,
+    required State Function(ApiFailure failure) onFailure,
     void Function()? reload,
   }) =>
       once(key, () async {
@@ -103,7 +103,7 @@ mixin CollectionBloc<Event, State> on Bloc<Event, State>, SingleFlight {
           // by the time the server answers — and `add` throws on a closed bloc.
           if (reload != null && !isClosed) reload();
         } catch (err) {
-          emit(onFailure(apiErrorMessage(err)));
+          emit(onFailure(ApiFailure.from(err)));
         }
       });
 }

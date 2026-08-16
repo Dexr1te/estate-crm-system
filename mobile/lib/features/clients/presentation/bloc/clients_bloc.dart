@@ -1,5 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:real_estate_crm/core/bloc/collection_bloc.dart';
+import 'package:real_estate_crm/core/network/api_error.dart';
+import 'package:real_estate_crm/core/widgets/messages.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/features/clients/domain/repositories/clients_repository.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_event.dart';
@@ -22,9 +24,9 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState>
     return s is ClientsLoaded ? s.clients : const [];
   }
 
-  ClientsState _failure(String message) => _current.isEmpty
-      ? ClientsError(message)
-      : ClientsActionFailure(message, _current);
+  ClientsState _failure(ApiFailure failure) => _current.isEmpty
+      ? ClientsError(failure)
+      : ClientsActionFailure(failure, _current);
 
   void _onReset(ClientsResetEvent e, Emitter<ClientsState> emit) {
     invalidate();
@@ -54,7 +56,8 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState>
         emit,
         key: 'delete-${e.id}',
         perform: () => _repo.deleteClient(e.id),
-        onSuccess: (_) => ClientsActionSuccess('Client deleted', _current),
+        onSuccess: (_) =>
+            ClientsActionSuccess(ActionMessage.clientDeleted, _current),
         onFailure: _failure,
         reload: () => add(ClientsLoadEvent()),
       );
@@ -76,7 +79,8 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState>
         emit,
         key: 'update-${e.id}',
         perform: () => _repo.updateClient(e.id, e.data),
-        onSuccess: (_) => ClientsActionSuccess('Client updated', _current),
+        onSuccess: (_) =>
+            ClientsActionSuccess(ActionMessage.clientUpdated, _current),
         onFailure: _failure,
         reload: () => add(ClientsLoadEvent()),
       );

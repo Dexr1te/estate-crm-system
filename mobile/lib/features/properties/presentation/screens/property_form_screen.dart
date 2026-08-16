@@ -166,7 +166,8 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(SnackBar(
-                content: Text(state.message), backgroundColor: t.dangerSolid));
+                content: Text(apiFailureLabel(l10n, state.failure)),
+                backgroundColor: t.dangerSolid));
         }
       },
       child: DetailScaffold(

@@ -444,6 +444,35 @@ class AppLocalizationsKk extends AppLocalizations {
   String get coreDelete => 'Жою';
 
   @override
+  String get coreErrorBadRequest =>
+      'Сұрау қате. Енгізілген деректерді тексеріңіз.';
+
+  @override
+  String get coreErrorConflict => 'Мұндай жазба бұрыннан бар.';
+
+  @override
+  String get coreErrorCredentials => 'Пошта немесе құпия сөз қате.';
+
+  @override
+  String get coreErrorForbidden => 'Бұл әрекетке құқығыңыз жоқ.';
+
+  @override
+  String get coreErrorNotFound => 'Табылмады.';
+
+  @override
+  String get coreErrorOffline =>
+      'Сервермен байланыс жоқ. Интернетті тексеріңіз.';
+
+  @override
+  String get coreErrorServer => 'Сервер қатесі. Кейінірек қайталаңыз.';
+
+  @override
+  String get coreErrorTimeout => 'Күту уақыты бітті. Интернетті тексеріңіз.';
+
+  @override
+  String get coreErrorUnknown => 'Бірдеңе дұрыс болмады. Қайталап көріңіз.';
+
+  @override
   String get coreLogout => 'Шығу';
 
   @override
@@ -1144,6 +1173,78 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get meetingsWhoAndWhere => 'Кіммен және қайда';
+
+  @override
+  String get msgAgentInvited => 'Агент шақырылды';
+
+  @override
+  String get msgClientCreated => 'Клиент құрылды';
+
+  @override
+  String get msgClientDeleted => 'Клиент жойылды';
+
+  @override
+  String get msgClientUpdated => 'Клиент жаңартылды';
+
+  @override
+  String get msgDealCreated => 'Мәміле құрылды';
+
+  @override
+  String get msgDealDeleted => 'Мәміле жойылды';
+
+  @override
+  String get msgDealUpdated => 'Мәміле жаңартылды';
+
+  @override
+  String get msgInviteResent => 'Шақыру қайта жіберілді';
+
+  @override
+  String get msgMeetingCompleted => 'Кездесу аяқталды';
+
+  @override
+  String get msgMeetingCreated => 'Кездесу құрылды';
+
+  @override
+  String get msgMeetingDeleted => 'Кездесу жойылды';
+
+  @override
+  String get msgMeetingUpdated => 'Кездесу жаңартылды';
+
+  @override
+  String get msgProfileUpdated => 'Профиль жаңартылды';
+
+  @override
+  String get msgPropertyCreated => 'Нысан құрылды';
+
+  @override
+  String get msgPropertyDeleted => 'Нысан жойылды';
+
+  @override
+  String get msgPropertyUpdated => 'Нысан жаңартылды';
+
+  @override
+  String get msgRoleUpdated => 'Рөл жаңартылды';
+
+  @override
+  String get msgStatusUpdated => 'Мәртебе жаңартылды';
+
+  @override
+  String get msgTeamAssigned => 'Команда тағайындалды';
+
+  @override
+  String get msgTeamCreated => 'Команда құрылды';
+
+  @override
+  String get msgTeamUpdated => 'Команда жаңартылды';
+
+  @override
+  String get msgUserActivated => 'Пайдаланушы белсендірілді';
+
+  @override
+  String get msgUserDeactivated => 'Пайдаланушы өшірілді';
+
+  @override
+  String get msgUserDeleted => 'Пайдаланушы жойылды';
 
   @override
   String get profileAbout => 'Қолданба туралы';

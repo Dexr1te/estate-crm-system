@@ -1,4 +1,5 @@
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/network/api_error.dart';
 
 abstract class DashboardState {}
 
@@ -131,8 +132,8 @@ class StaleDeal {
 }
 
 class DashboardError extends DashboardState {
-  final String message;
-  DashboardError(this.message);
+  final ApiFailure failure;
+  DashboardError(this.failure);
 }
 
 class PipelineBreakdown {

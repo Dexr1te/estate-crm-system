@@ -47,7 +47,8 @@ class ManagerConsoleScreen extends StatelessWidget {
                             ScaffoldMessenger.of(ctx)
                               ..hideCurrentSnackBar()
                               ..showSnackBar(SnackBar(
-                                  content: Text(state.message),
+                                  content: Text(
+                                      apiFailureLabel(l10n, state.failure)),
                                   backgroundColor: t.dangerSolid));
                           }
                         },
@@ -61,7 +62,7 @@ class ManagerConsoleScreen extends StatelessWidget {
                           }
                           if (state is TeamsError) {
                             return ErrorWidget2(
-                                message: state.message,
+                                message: apiFailureLabel(l10n, state.failure),
                                 onRetry: () => ctx
                                     .read<TeamsBloc>()
                                     .add(TeamsLoadEvent()));
