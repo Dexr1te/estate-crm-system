@@ -1,12 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:real_estate_crm/core/bloc/load_generation.dart';
+import 'package:real_estate_crm/core/bloc/collection_bloc.dart';
 import 'package:real_estate_crm/core/models/models.dart';
-import 'package:real_estate_crm/core/network/api_error.dart';
 import 'package:real_estate_crm/features/deals/domain/repositories/deals_repository.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_event.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_state.dart';
 
-class DealsBloc extends Bloc<DealsEvent, DealsState> with LoadGeneration {
+class DealsBloc extends Bloc<DealsEvent, DealsState>
+    with SingleFlight, CollectionBloc<DealsEvent, DealsState> {
   final DealsRepository _repo;
 
   DealStatus? _status;
@@ -25,72 +25,62 @@ class DealsBloc extends Bloc<DealsEvent, DealsState> with LoadGeneration {
     return s is DealsLoaded ? s.deals : const [];
   }
 
-  DealsState _failure(Object err) => _current.isEmpty
-      ? DealsError(apiErrorMessage(err))
-      : DealsActionFailure(apiErrorMessage(err), _current);
+  DealsState _failure(String message) => _current.isEmpty
+      ? DealsError(message)
+      : DealsActionFailure(message, _current);
 
+  /// A write reloads under the filter the screen is actually showing, not the
+  /// unfiltered list.
   void _reload() => add(DealsLoadEvent(status: _status));
 
   void _onReset(DealsResetEvent e, Emitter<DealsState> emit) {
-    startLoad();
+    invalidate();
     _status = null;
     emit(DealsInitial());
   }
 
-  Future<void> _onLoad(DealsLoadEvent e, Emitter<DealsState> emit) async {
-    final ticket = startLoad();
+  Future<void> _onLoad(DealsLoadEvent e, Emitter<DealsState> emit) {
     final queryChanged = e.status != _status;
     _status = e.status;
 
-    if (_current.isEmpty || queryChanged) emit(DealsLoading());
-    try {
-      final deals = await _repo.getDeals(status: e.status);
-      if (isStale(ticket)) return;
-      emit(DealsLoaded(deals));
-    } catch (err) {
-      if (isStale(ticket)) return;
-      emit(DealsError(apiErrorMessage(err)));
-    }
+    return load(
+      emit,
+      keepVisible: _current.isNotEmpty && !queryChanged,
+      skeleton: DealsLoading(),
+      fetch: () => _repo.getDeals(status: e.status),
+      onData: DealsLoaded.new,
+      onFailure: DealsError.new,
+    );
   }
 
-  Future<void> _onDelete(DealsDeleteEvent e, Emitter<DealsState> emit) async {
-    try {
-      await _repo.deleteDeal(e.id);
-      emit(DealsActionSuccess('Deal deleted', _current));
-      _reload();
-    } catch (err) {
-      emit(_failure(err));
-    }
-  }
+  Future<void> _act(Emitter<DealsState> emit, String key, String success,
+          Future<void> Function() action) =>
+      write(
+        emit,
+        key: key,
+        perform: action,
+        onSuccess: (_) => DealsActionSuccess(success, _current),
+        onFailure: _failure,
+        reload: _reload,
+      );
 
-  Future<void> _onCreate(DealsCreateEvent e, Emitter<DealsState> emit) async {
-    try {
-      await _repo.createDeal(e.data);
-      emit(DealsActionSuccess('Deal created', _current));
-      _reload();
-    } catch (err) {
-      emit(_failure(err));
-    }
-  }
+  Future<void> _onDelete(DealsDeleteEvent e, Emitter<DealsState> emit) => _act(
+      emit, 'delete-${e.id}', 'Deal deleted', () => _repo.deleteDeal(e.id));
 
-  Future<void> _onUpdate(DealsUpdateEvent e, Emitter<DealsState> emit) async {
-    try {
-      await _repo.updateDeal(e.id, e.data);
-      emit(DealsActionSuccess('Deal updated', _current));
-      _reload();
-    } catch (err) {
-      emit(_failure(err));
-    }
-  }
+  Future<void> _onCreate(DealsCreateEvent e, Emitter<DealsState> emit) => _act(
+      emit,
+      'create-${e.data['clientId']}-${e.data['propertyId']}',
+      'Deal created',
+      () => _repo.createDeal(e.data));
+
+  Future<void> _onUpdate(DealsUpdateEvent e, Emitter<DealsState> emit) => _act(
+      emit,
+      'update-${e.id}',
+      'Deal updated',
+      () => _repo.updateDeal(e.id, e.data));
 
   Future<void> _onUpdateStatus(
-      DealsUpdateStatusEvent e, Emitter<DealsState> emit) async {
-    try {
-      await _repo.updateDealStatus(e.id, e.status);
-      emit(DealsActionSuccess('Status updated', _current));
-      _reload();
-    } catch (err) {
-      emit(_failure(err));
-    }
-  }
+          DealsUpdateStatusEvent e, Emitter<DealsState> emit) =>
+      _act(emit, 'status-${e.id}-${e.status.name}', 'Status updated',
+          () => _repo.updateDealStatus(e.id, e.status));
 }

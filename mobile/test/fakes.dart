@@ -1,3 +1,9 @@
+import 'dart:async';
+
+import 'package:real_estate_crm/core/models/admin_models.dart';
+import 'package:real_estate_crm/core/models/team_models.dart';
+import 'package:real_estate_crm/features/admin/domain/repositories/admin_repository.dart';
+import 'package:real_estate_crm/features/teams/domain/repositories/teams_repository.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/models/paged_response.dart';
 import 'package:real_estate_crm/features/auth/domain/repositories/auth_repository.dart';
@@ -159,4 +165,78 @@ class FakePropertiesRepository implements PropertiesRepository {
       throw UnimplementedError();
   @override
   Future<void> deleteProperty(int id) => throw UnimplementedError();
+}
+
+class FakeAdminRepository implements AdminRepository {
+  final List<AgentResponse> users;
+  final List<AuditLogResponse> auditLog;
+  final AgentStatsResponse stats;
+
+  /// Loads never resolve while true, which is how a skeleton is held still
+  /// long enough to be looked at.
+  final bool pending;
+
+  FakeAdminRepository({
+    this.users = const [],
+    this.auditLog = const [],
+    this.stats = const AgentStatsResponse(
+      agentId: 1,
+      fullName: 'Aisha Karimova',
+      email: 'aisha@estatecrm.kz',
+      isActive: true,
+      totalClients: 12,
+      totalDeals: 8,
+      activeDeals: 3,
+      closedDeals: 5,
+      upcomingMeetings: 2,
+    ),
+    this.pending = false,
+  });
+
+  Future<T> _answer<T>(T value) =>
+      pending ? Completer<T>().future : Future.value(value);
+
+  @override
+  Future<List<AgentResponse>> getUsers() => _answer(users);
+  @override
+  Future<List<AuditLogResponse>> getAuditLog({
+    int? actorId,
+    String? entityType,
+    String? dateFrom,
+    String? dateTo,
+  }) =>
+      _answer(auditLog);
+  @override
+  Future<AgentStatsResponse> getUserStats(int id) => _answer(stats);
+  @override
+  noSuchMethod(Invocation i) => throw UnimplementedError();
+}
+
+class FakeTeamsRepository implements TeamsRepository {
+  final List<TeamResponse> teams;
+  final TeamStatsResponse stats;
+  final bool pending;
+
+  FakeTeamsRepository({
+    this.teams = const [],
+    this.stats = const TeamStatsResponse(
+      teamId: 1,
+      teamName: 'Downtown desk',
+      managerName: 'Nurlan Bekov',
+      totalAgents: 6,
+      totalClients: 40,
+      totalDeals: 22,
+      activeDeals: 9,
+      upcomingMeetings: 4,
+    ),
+    this.pending = false,
+  });
+
+  @override
+  Future<List<TeamResponse>> getTeams() =>
+      pending ? Completer<List<TeamResponse>>().future : Future.value(teams);
+  @override
+  Future<TeamStatsResponse> getTeamStats(int id) => Future.value(stats);
+  @override
+  noSuchMethod(Invocation i) => throw UnimplementedError();
 }

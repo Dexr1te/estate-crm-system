@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/teams/presentation/bloc/teams_bloc.dart';
+import 'package:real_estate_crm/features/teams/presentation/bloc/teams_event.dart';
+import 'package:real_estate_crm/features/teams/presentation/bloc/teams_state.dart';
 import 'package:real_estate_crm/features/teams/presentation/widgets/team_card.dart';
 import 'package:real_estate_crm/features/teams/presentation/widgets/team_stats_sheet.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
@@ -54,10 +56,7 @@ class ManagerConsoleScreen extends StatelessWidget {
                             return ShimmerList(
                               count: 3,
                               padding: EdgeInsets.fromLTRB(pad, 0, pad, 24),
-                              cardBuilder: () => const ShimmerBox(
-                                  width: double.infinity,
-                                  height: 66,
-                                  radius: 14),
+                              cardBuilder: () => const TeamCardBone(),
                             );
                           }
                           if (state is TeamsError) {

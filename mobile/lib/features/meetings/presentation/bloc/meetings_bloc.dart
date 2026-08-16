@@ -1,14 +1,14 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:real_estate_crm/core/bloc/load_generation.dart';
+import 'package:real_estate_crm/core/bloc/collection_bloc.dart';
 import 'package:real_estate_crm/core/models/models.dart';
-import 'package:real_estate_crm/core/network/api_error.dart';
 import 'package:real_estate_crm/features/meetings/domain/repositories/meetings_repository.dart';
 import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_event.dart';
 import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_state.dart';
 
 class MeetingsBloc extends Bloc<MeetingsEvent, MeetingsState>
-    with LoadGeneration {
+    with SingleFlight, CollectionBloc<MeetingsEvent, MeetingsState> {
   final MeetingsRepository _repo;
+
   MeetingsBloc(this._repo) : super(MeetingsInitial()) {
     on<MeetingsLoadEvent>(_onLoad);
     on<MeetingsResetEvent>(_onReset);
@@ -23,69 +23,50 @@ class MeetingsBloc extends Bloc<MeetingsEvent, MeetingsState>
     return s is MeetingsLoaded ? s.meetings : const [];
   }
 
-  MeetingsState _failure(Object err) => _current.isEmpty
-      ? MeetingsError(apiErrorMessage(err))
-      : MeetingsActionFailure(apiErrorMessage(err), _current);
+  MeetingsState _failure(String message) => _current.isEmpty
+      ? MeetingsError(message)
+      : MeetingsActionFailure(message, _current);
 
   void _onReset(MeetingsResetEvent e, Emitter<MeetingsState> emit) {
-    startLoad();
+    invalidate();
     emit(MeetingsInitial());
   }
 
-  Future<void> _onLoad(MeetingsLoadEvent e, Emitter<MeetingsState> emit) async {
-    final ticket = startLoad();
-    if (_current.isEmpty) emit(MeetingsLoading());
-    try {
-      final meetings = await _repo.getMeetings();
-      if (isStale(ticket)) return;
-      emit(MeetingsLoaded(meetings));
-    } catch (err) {
-      if (isStale(ticket)) return;
-      emit(MeetingsError(apiErrorMessage(err)));
-    }
-  }
+  Future<void> _onLoad(MeetingsLoadEvent e, Emitter<MeetingsState> emit) =>
+      load(
+        emit,
+        keepVisible: _current.isNotEmpty,
+        skeleton: MeetingsLoading(),
+        fetch: _repo.getMeetings,
+        onData: MeetingsLoaded.new,
+        onFailure: MeetingsError.new,
+      );
 
-  Future<void> _onDelete(
-      MeetingsDeleteEvent e, Emitter<MeetingsState> emit) async {
-    try {
-      await _repo.deleteMeeting(e.id);
-      emit(MeetingsActionSuccess('Meeting deleted', _current));
-      add(MeetingsLoadEvent());
-    } catch (err) {
-      emit(_failure(err));
-    }
-  }
+  Future<void> _act(Emitter<MeetingsState> emit, String key, String success,
+          Future<void> Function() action) =>
+      write(
+        emit,
+        key: key,
+        perform: action,
+        onSuccess: (_) => MeetingsActionSuccess(success, _current),
+        onFailure: _failure,
+        reload: () => add(MeetingsLoadEvent()),
+      );
 
-  Future<void> _onCreate(
-      MeetingsCreateEvent e, Emitter<MeetingsState> emit) async {
-    try {
-      await _repo.createMeeting(e.data);
-      emit(MeetingsActionSuccess('Meeting created', _current));
-      add(MeetingsLoadEvent());
-    } catch (err) {
-      emit(_failure(err));
-    }
-  }
+  Future<void> _onDelete(MeetingsDeleteEvent e, Emitter<MeetingsState> emit) =>
+      _act(emit, 'delete-${e.id}', 'Meeting deleted',
+          () => _repo.deleteMeeting(e.id));
 
-  Future<void> _onUpdate(
-      MeetingsUpdateEvent e, Emitter<MeetingsState> emit) async {
-    try {
-      await _repo.updateMeeting(e.id, e.data);
-      emit(MeetingsActionSuccess('Meeting updated', _current));
-      add(MeetingsLoadEvent());
-    } catch (err) {
-      emit(_failure(err));
-    }
-  }
+  Future<void> _onCreate(MeetingsCreateEvent e, Emitter<MeetingsState> emit) =>
+      _act(emit, 'create-${e.data['clientId']}-${e.data['scheduledAt']}',
+          'Meeting created', () => _repo.createMeeting(e.data));
+
+  Future<void> _onUpdate(MeetingsUpdateEvent e, Emitter<MeetingsState> emit) =>
+      _act(emit, 'update-${e.id}', 'Meeting updated',
+          () => _repo.updateMeeting(e.id, e.data));
 
   Future<void> _onComplete(
-      MeetingsCompleteEvent e, Emitter<MeetingsState> emit) async {
-    try {
-      await _repo.completeMeeting(e.id);
-      emit(MeetingsActionSuccess('Meeting completed', _current));
-      add(MeetingsLoadEvent());
-    } catch (err) {
-      emit(_failure(err));
-    }
-  }
+          MeetingsCompleteEvent e, Emitter<MeetingsState> emit) =>
+      _act(emit, 'complete-${e.id}', 'Meeting completed',
+          () => _repo.completeMeeting(e.id));
 }

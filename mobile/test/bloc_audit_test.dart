@@ -6,6 +6,9 @@ import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/features/admin/domain/repositories/admin_repository.dart';
 import 'package:real_estate_crm/features/admin/presentation/bloc/admin_users_bloc.dart';
 import 'package:real_estate_crm/features/admin/presentation/bloc/admin_users_event.dart';
+import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart';
+import 'package:real_estate_crm/features/auth/presentation/bloc/auth_state.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_bloc.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_event.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_state.dart';
@@ -177,6 +180,70 @@ void main() {
     });
   });
 
+  group('a write that is already running is not sent twice', () {
+    test('a double-tapped create files one client', () async {
+      final repo = _GatedClients();
+      final bloc = ClientsBloc(repo);
+      addTearDown(bloc.close);
+      bloc.add(ClientsLoadEvent());
+      await _settle();
+
+      bloc.add(ClientsCreateEvent(const {'fullName': 'B'}));
+      bloc.add(ClientsCreateEvent(const {'fullName': 'B'}));
+      await _settle();
+
+      expect(repo.creates, 1,
+          reason: 'the second tap arrives before the button can disable, and '
+              'two rows is not what anyone meant by tapping twice');
+
+      repo.finish();
+      await _settle();
+    });
+
+    test('but a different row is still its own write', () async {
+      final repo = _GatedClients();
+      final bloc = ClientsBloc(repo);
+      addTearDown(bloc.close);
+      bloc.add(ClientsLoadEvent());
+      await _settle();
+
+      bloc.add(ClientsDeleteEvent(1));
+      bloc.add(ClientsDeleteEvent(2));
+      await _settle();
+
+      expect(repo.deleted, [1, 2],
+          reason: 'deleting two clients in a row is two intents');
+    });
+  });
+
+  group('signing out is local, and always lands', () {
+    test('a store that fails to clear still ends the session', () async {
+      final bloc = AuthBloc(_FailingLogout());
+      addTearDown(bloc.close);
+      bloc.add(AuthLoginEvent('a@b.c', 'pw'));
+      await _settle();
+      expect(bloc.state, isA<AuthAuthenticated>());
+
+      bloc.add(AuthLogoutEvent());
+      await _settle();
+
+      expect(bloc.state, isA<AuthUnauthenticated>(),
+          reason: 'nobody should be stranded on an account they have left');
+    });
+
+    test('an unreadable stored session still resolves the splash', () async {
+      final bloc = AuthBloc(_UnreadableSession());
+      addTearDown(bloc.close);
+      bloc.add(AuthCheckEvent());
+      await _settle();
+
+      expect(bloc.isSessionResolved, isTrue,
+          reason: 'the router waits on this; an unhandled throw parks the app '
+              'on the splash forever');
+      expect(bloc.state, isA<AuthUnauthenticated>());
+    });
+  });
+
   test('an in-flight mutation survives the bloc being closed', () async {
     final repo = _SlowAdmin();
     final bloc = AdminUsersBloc(repo);
@@ -186,6 +253,54 @@ void main() {
     repo.finish();
     await _settle();
   });
+}
+
+class _GatedClients extends FakeClientsRepository {
+  _GatedClients()
+      : super(clients: const [
+          ClientResponse(id: 1, fullName: 'A'),
+          ClientResponse(id: 2, fullName: 'B'),
+        ]);
+
+  int creates = 0;
+  final deleted = <int>[];
+  final _gate = Completer<ClientResponse>();
+
+  void finish() =>
+      _gate.complete(const ClientResponse(id: 3, fullName: 'created'));
+
+  @override
+  Future<List<ClientListItem>> getClientsWithDetails() async => const [];
+
+  @override
+  Future<ClientResponse> createClient(Map<String, dynamic> data) {
+    creates++;
+    return _gate.future;
+  }
+
+  @override
+  Future<void> deleteClient(int id) async => deleted.add(id);
+}
+
+class _FailingLogout extends FakeAuthRepository {
+  _FailingLogout()
+      : super(
+            user: const AuthResponse(
+                accessToken: 'a',
+                refreshToken: 'r',
+                userId: 1,
+                fullName: 'A',
+                email: 'a@b.c',
+                role: Role.AGENT));
+
+  @override
+  Future<void> logout() => Future.error(Exception('storage unavailable'));
+}
+
+class _UnreadableSession extends FakeAuthRepository {
+  @override
+  Future<AuthResponse?> getSavedUser() =>
+      Future.error(Exception('storage unavailable'));
 }
 
 class _ManualClients extends FakeClientsRepository {

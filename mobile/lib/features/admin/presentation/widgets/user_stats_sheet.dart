@@ -25,8 +25,7 @@ class _UserStats extends StatelessWidget {
         final l10n = AppLocalizations.of(ctx);
 
         if (snap.connectionState != ConnectionState.done) {
-          return const SizedBox(
-              height: 160, child: Center(child: CircularProgressIndicator()));
+          return const _UserStatsBone();
         }
         if (snap.hasError || !snap.hasData) {
           return SizedBox(
@@ -98,4 +97,41 @@ class _UserStats extends StatelessWidget {
       },
     );
   }
+}
+
+/// The sheet opens over the row that was tapped, so it is already committed to
+/// a shape: an identity line and five figures. Drawing that shape while the
+/// numbers arrive keeps the sheet from resizing under the reader's thumb, which
+/// a centred spinner could not avoid.
+class _UserStatsBone extends StatelessWidget {
+  const _UserStatsBone();
+
+  @override
+  Widget build(BuildContext context) => ShimmerGroup(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const Row(
+              children: [
+                ShimmerCircle(size: 44),
+                SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      ShimmerBar(widthFactor: 0.52, height: 14),
+                      SizedBox(height: 8),
+                      ShimmerBar(widthFactor: 0.72, height: 10),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: AppMetrics.blockGap(context)),
+            const ShimmerMetricsCard(),
+          ],
+        ),
+      );
 }
