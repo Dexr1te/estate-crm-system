@@ -111,7 +111,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       Padding(
                         padding: const EdgeInsets.only(top: 40),
                         child: ErrorWidget2(
-                          message: state.message,
+                          message: apiFailureLabel(l10n, state.failure),
                           onRetry: () => ctx
                               .read<DashboardBloc>()
                               .add(DashboardLoadEvent()),

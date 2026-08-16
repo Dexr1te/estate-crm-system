@@ -4,7 +4,9 @@ import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/features/admin/presentation/screens/admin_console_screen.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/screens/accept_invite_screen.dart';
+import 'package:real_estate_crm/features/auth/presentation/screens/forgot_password_screen.dart';
 import 'package:real_estate_crm/features/auth/presentation/screens/login_screen.dart';
+import 'package:real_estate_crm/features/auth/presentation/screens/reset_password_screen.dart';
 import 'package:real_estate_crm/features/auth/presentation/screens/splash_screen.dart';
 import 'package:real_estate_crm/features/teams/presentation/screens/manager_console_screen.dart';
 import 'package:real_estate_crm/features/clients/presentation/screens/client_detail_screen.dart';
@@ -51,8 +53,16 @@ String? resolveRedirect({
   if (!sessionResolved) return location == '/splash' ? null : '/splash';
   if (location == '/splash') return authenticated ? '/dashboard' : '/login';
 
-  final onAuth =
-      location.startsWith('/login') || location.startsWith('/accept-invite');
+  // Every screen someone can be on before they have a session. Missing one
+  // here bounces it straight to /login, which is what makes it worth listing
+  // rather than pattern-matching.
+  const authLocations = [
+    '/login',
+    '/accept-invite',
+    '/forgot-password',
+    '/reset-password',
+  ];
+  final onAuth = authLocations.any(location.startsWith);
   if (!authenticated && !onAuth) return '/login';
   if (authenticated && onAuth) return '/dashboard';
 
@@ -87,6 +97,17 @@ GoRouter createRouter(AuthBloc authBloc) {
         path: '/accept-invite',
         pageBuilder: (_, s) => NoTransitionPage(
           child: AcceptInviteScreen(token: s.uri.queryParameters['token']),
+        ),
+      ),
+      GoRoute(
+        path: '/forgot-password',
+        pageBuilder: (_, __) =>
+            const NoTransitionPage(child: ForgotPasswordScreen()),
+      ),
+      GoRoute(
+        path: '/reset-password',
+        pageBuilder: (_, s) => NoTransitionPage(
+          child: ResetPasswordScreen(token: s.uri.queryParameters['token']),
         ),
       ),
       GoRoute(

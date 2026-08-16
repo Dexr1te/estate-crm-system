@@ -189,6 +189,16 @@ class AppLocalizationsRu extends AppLocalizations {
   String get authEmailRequired => 'Укажите эл. почту';
 
   @override
+  String get authForgotPassword => 'Забыли пароль?';
+
+  @override
+  String get authForgotPasswordSubtitle =>
+      'Укажите адрес, под которым вы входите, и мы пришлём ссылку для смены пароля.';
+
+  @override
+  String get authForgotPasswordTitle => 'Сброс пароля';
+
+  @override
   String get authHaveAnInvite => 'Есть приглашение?';
 
   @override
@@ -225,6 +235,30 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get authPasswordsDoNotMatch => 'Пароли не совпадают';
+
+  @override
+  String get authResetCode => 'Код сброса';
+
+  @override
+  String get authResetCodeRequired => 'Введите код сброса';
+
+  @override
+  String authResetLinkSentBody(Object email) {
+    return 'Если аккаунт с адресом $email существует, ссылка для смены пароля уже в пути. Она действует 24 часа.';
+  }
+
+  @override
+  String get authResetLinkSentTitle => 'Проверьте почту';
+
+  @override
+  String get authResetPasswordSubtitle =>
+      'Вставьте код из письма и придумайте пароль.';
+
+  @override
+  String get authResetPasswordTitle => 'Новый пароль';
+
+  @override
+  String get authSendResetLink => 'Отправить ссылку';
 
   @override
   String get authSetPasswordContinue => 'Задать пароль и продолжить';
@@ -447,6 +481,34 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get coreDelete => 'Удалить';
+
+  @override
+  String get coreErrorBadRequest =>
+      'Неверный запрос. Проверьте введённые данные.';
+
+  @override
+  String get coreErrorConflict => 'Такая запись уже существует.';
+
+  @override
+  String get coreErrorCredentials => 'Неверная почта или пароль.';
+
+  @override
+  String get coreErrorForbidden => 'У вас нет прав на это действие.';
+
+  @override
+  String get coreErrorNotFound => 'Не найдено.';
+
+  @override
+  String get coreErrorOffline => 'Нет связи с сервером. Проверьте интернет.';
+
+  @override
+  String get coreErrorServer => 'Ошибка сервера. Попробуйте позже.';
+
+  @override
+  String get coreErrorTimeout => 'Время ожидания истекло. Проверьте интернет.';
+
+  @override
+  String get coreErrorUnknown => 'Что-то пошло не так. Попробуйте ещё раз.';
 
   @override
   String get coreLogout => 'Выйти';
@@ -1160,6 +1222,78 @@ class AppLocalizationsRu extends AppLocalizations {
   String get meetingsWhoAndWhere => 'С кем и где';
 
   @override
+  String get msgAgentInvited => 'Агент приглашён';
+
+  @override
+  String get msgClientCreated => 'Клиент создан';
+
+  @override
+  String get msgClientDeleted => 'Клиент удалён';
+
+  @override
+  String get msgClientUpdated => 'Клиент обновлён';
+
+  @override
+  String get msgDealCreated => 'Сделка создана';
+
+  @override
+  String get msgDealDeleted => 'Сделка удалена';
+
+  @override
+  String get msgDealUpdated => 'Сделка обновлена';
+
+  @override
+  String get msgInviteResent => 'Приглашение отправлено повторно';
+
+  @override
+  String get msgMeetingCompleted => 'Встреча завершена';
+
+  @override
+  String get msgMeetingCreated => 'Встреча создана';
+
+  @override
+  String get msgMeetingDeleted => 'Встреча удалена';
+
+  @override
+  String get msgMeetingUpdated => 'Встреча обновлена';
+
+  @override
+  String get msgProfileUpdated => 'Профиль обновлён';
+
+  @override
+  String get msgPropertyCreated => 'Объект создан';
+
+  @override
+  String get msgPropertyDeleted => 'Объект удалён';
+
+  @override
+  String get msgPropertyUpdated => 'Объект обновлён';
+
+  @override
+  String get msgRoleUpdated => 'Роль обновлена';
+
+  @override
+  String get msgStatusUpdated => 'Статус обновлён';
+
+  @override
+  String get msgTeamAssigned => 'Команда назначена';
+
+  @override
+  String get msgTeamCreated => 'Команда создана';
+
+  @override
+  String get msgTeamUpdated => 'Команда обновлена';
+
+  @override
+  String get msgUserActivated => 'Пользователь активирован';
+
+  @override
+  String get msgUserDeactivated => 'Пользователь деактивирован';
+
+  @override
+  String get msgUserDeleted => 'Пользователь удалён';
+
+  @override
   String get profileAbout => 'О приложении';
 
   @override
@@ -1202,6 +1336,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get profileEditName => 'Изменить имя';
+
+  @override
+  String get profileEditProfile => 'Изменить профиль';
 
   @override
   String get profileEmail => 'Электронная почта';
@@ -1256,6 +1393,18 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get profileSystemDefault => 'Системный';
+
+  @override
+  String get profileTheme => 'Оформление';
+
+  @override
+  String get profileThemeDark => 'Тёмное';
+
+  @override
+  String get profileThemeLight => 'Светлое';
+
+  @override
+  String get profileThemeSystem => 'Как в системе';
 
   @override
   String get profileTitle => 'Профиль';

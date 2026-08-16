@@ -143,7 +143,7 @@ class _MyAppState extends State<MyApp> {
               debugShowCheckedModeBanner: false,
               builder: (context, child) => MediaQuery.withClampedTextScaling(
                 minScaleFactor: 1.0,
-                maxScaleFactor: 1.3,
+                maxScaleFactor: 1.5,
                 child: child ?? const SizedBox.shrink(),
               ),
             ),

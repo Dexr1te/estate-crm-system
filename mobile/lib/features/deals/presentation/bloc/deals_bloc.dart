@@ -1,5 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:real_estate_crm/core/bloc/collection_bloc.dart';
+import 'package:real_estate_crm/core/network/api_error.dart';
+import 'package:real_estate_crm/core/widgets/messages.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/features/deals/domain/repositories/deals_repository.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_event.dart';
@@ -25,9 +27,9 @@ class DealsBloc extends Bloc<DealsEvent, DealsState>
     return s is DealsLoaded ? s.deals : const [];
   }
 
-  DealsState _failure(String message) => _current.isEmpty
-      ? DealsError(message)
-      : DealsActionFailure(message, _current);
+  DealsState _failure(ApiFailure failure) => _current.isEmpty
+      ? DealsError(failure)
+      : DealsActionFailure(failure, _current);
 
   /// A write reloads under the filter the screen is actually showing, not the
   /// unfiltered list.
@@ -53,7 +55,7 @@ class DealsBloc extends Bloc<DealsEvent, DealsState>
     );
   }
 
-  Future<void> _act(Emitter<DealsState> emit, String key, String success,
+  Future<void> _act(Emitter<DealsState> emit, String key, ActionMessage success,
           Future<void> Function() action) =>
       write(
         emit,
@@ -65,22 +67,25 @@ class DealsBloc extends Bloc<DealsEvent, DealsState>
       );
 
   Future<void> _onDelete(DealsDeleteEvent e, Emitter<DealsState> emit) => _act(
-      emit, 'delete-${e.id}', 'Deal deleted', () => _repo.deleteDeal(e.id));
+      emit,
+      'delete-${e.id}',
+      ActionMessage.dealDeleted,
+      () => _repo.deleteDeal(e.id));
 
   Future<void> _onCreate(DealsCreateEvent e, Emitter<DealsState> emit) => _act(
       emit,
       'create-${e.data['clientId']}-${e.data['propertyId']}',
-      'Deal created',
+      ActionMessage.dealCreated,
       () => _repo.createDeal(e.data));
 
   Future<void> _onUpdate(DealsUpdateEvent e, Emitter<DealsState> emit) => _act(
       emit,
       'update-${e.id}',
-      'Deal updated',
+      ActionMessage.dealUpdated,
       () => _repo.updateDeal(e.id, e.data));
 
   Future<void> _onUpdateStatus(
           DealsUpdateStatusEvent e, Emitter<DealsState> emit) =>
-      _act(emit, 'status-${e.id}-${e.status.name}', 'Status updated',
+      _act(emit, 'status-${e.id}-${e.status.name}', ActionMessage.statusUpdated,
           () => _repo.updateDealStatus(e.id, e.status));
 }

@@ -177,7 +177,8 @@ class _UsersTab extends StatelessWidget {
           ScaffoldMessenger.of(ctx)
             ..hideCurrentSnackBar()
             ..showSnackBar(SnackBar(
-                content: Text(state.message), backgroundColor: t.dangerSolid));
+                content: Text(apiFailureLabel(l10n, state.failure)),
+                backgroundColor: t.dangerSolid));
         }
       },
       builder: (ctx, state) {
@@ -190,7 +191,7 @@ class _UsersTab extends StatelessWidget {
         }
         if (state is AdminUsersError) {
           return ErrorWidget2(
-              message: state.message,
+              message: apiFailureLabel(l10n, state.failure),
               onRetry: () =>
                   ctx.read<AdminUsersBloc>().add(AdminUsersLoadEvent()));
         }
@@ -304,7 +305,8 @@ class _TeamsTab extends StatelessWidget {
           ScaffoldMessenger.of(ctx)
             ..hideCurrentSnackBar()
             ..showSnackBar(SnackBar(
-                content: Text(state.message), backgroundColor: t.dangerSolid));
+                content: Text(apiFailureLabel(l10n, state.failure)),
+                backgroundColor: t.dangerSolid));
         }
       },
       builder: (ctx, state) {
@@ -317,7 +319,7 @@ class _TeamsTab extends StatelessWidget {
         }
         if (state is TeamsError) {
           return ErrorWidget2(
-              message: state.message,
+              message: apiFailureLabel(l10n, state.failure),
               onRetry: () => ctx.read<TeamsBloc>().add(TeamsLoadEvent()));
         }
         if (state is! TeamsLoaded) return const SizedBox.shrink();
@@ -379,7 +381,7 @@ class _AuditTab extends StatelessWidget {
         }
         if (state is AuditLogError) {
           return ErrorWidget2(
-              message: state.message,
+              message: apiFailureLabel(l10n, state.failure),
               onRetry: () => ctx.read<AuditLogBloc>().add(AuditLogLoadEvent()));
         }
         if (state is! AuditLogLoaded) return const SizedBox.shrink();

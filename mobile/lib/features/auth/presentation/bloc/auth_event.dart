@@ -12,4 +12,14 @@ class AuthAcceptInviteEvent extends AuthEvent {
   AuthAcceptInviteEvent(this.token, this.newPassword);
 }
 
+class AuthResetPasswordEvent extends AuthEvent {
+  final String token, newPassword;
+  AuthResetPasswordEvent(this.token, this.newPassword);
+}
+
+class AuthUpdateProfileEvent extends AuthEvent {
+  final String fullName, email;
+  AuthUpdateProfileEvent(this.fullName, this.email);
+}
+
 class AuthLogoutEvent extends AuthEvent {}

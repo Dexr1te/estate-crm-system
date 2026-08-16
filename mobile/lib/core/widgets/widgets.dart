@@ -1,4 +1,5 @@
 export 'package:real_estate_crm/core/bloc/action_outcome.dart';
+export 'package:real_estate_crm/core/network/api_error.dart';
 export 'package:real_estate_crm/core/theme/app_fonts.dart';
 export 'package:real_estate_crm/core/theme/app_metrics.dart';
 export 'package:real_estate_crm/core/theme/app_tokens.dart';
@@ -17,6 +18,7 @@ export 'package:real_estate_crm/core/widgets/empty_state.dart';
 export 'package:real_estate_crm/core/widgets/entity_picker.dart';
 export 'package:real_estate_crm/core/widgets/filter_pill.dart';
 export 'package:real_estate_crm/core/widgets/loading_error.dart';
+export 'package:real_estate_crm/core/widgets/messages.dart';
 export 'package:real_estate_crm/core/widgets/metrics_card.dart';
 export 'package:real_estate_crm/core/widgets/settings_group.dart';
 export 'package:real_estate_crm/core/widgets/shimmer.dart';

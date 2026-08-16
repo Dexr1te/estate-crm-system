@@ -2,20 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
-import 'package:real_estate_crm/l10n/app_localizations.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_state.dart';
 import 'package:real_estate_crm/features/auth/presentation/screens/login_screen.dart';
+import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-class AcceptInviteScreen extends StatefulWidget {
+/// Spending a reset code on a new password.
+///
+/// Reached two ways, like accepting an invite: the link in the email, which
+/// arrives with the code already filled in, or by hand from the sign-in screen
+/// for someone whose mail client swallowed the link. A successful reset signs
+/// them straight in — they have just proved they hold the address.
+class ResetPasswordScreen extends StatefulWidget {
   final String? token;
-  const AcceptInviteScreen({super.key, this.token});
+  const ResetPasswordScreen({super.key, this.token});
+
   @override
-  State<AcceptInviteScreen> createState() => _AcceptInviteScreenState();
+  State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
 }
 
-class _AcceptInviteScreenState extends State<AcceptInviteScreen> {
+class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   final _formKey = GlobalKey<FormState>();
   late final TextEditingController _tokenCtrl =
       TextEditingController(text: widget.token ?? '');
@@ -35,7 +42,7 @@ class _AcceptInviteScreenState extends State<AcceptInviteScreen> {
     if (!_formKey.currentState!.validate()) return;
     context
         .read<AuthBloc>()
-        .add(AuthAcceptInviteEvent(_tokenCtrl.text.trim(), _passCtrl.text));
+        .add(AuthResetPasswordEvent(_tokenCtrl.text.trim(), _passCtrl.text));
   }
 
   @override
@@ -58,6 +65,7 @@ class _AcceptInviteScreenState extends State<AcceptInviteScreen> {
           },
           builder: (ctx, state) {
             final loading = state is AuthLoading;
+
             return AppMetrics.constrain(
               CenteredScrollView(
                 child: Form(
@@ -65,24 +73,22 @@ class _AcceptInviteScreenState extends State<AcceptInviteScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _InviteMark(),
-                      const SizedBox(height: 22),
                       AuthTitle(
-                        title: l10n.authAcceptYourInvite,
-                        subtitle: l10n.authAcceptInviteSubtitle,
+                        title: l10n.authResetPasswordTitle,
+                        subtitle: l10n.authResetPasswordSubtitle,
                       ),
                       const SizedBox(height: 26),
                       AppTextField(
                         controller: _tokenCtrl,
                         skin: FieldSkin.page,
-                        hint: l10n.authInviteCode,
+                        hint: l10n.authResetCode,
                         icon: Icons.confirmation_number_outlined,
                         textInputAction: TextInputAction.next,
                         validator: (v) => (v == null || v.trim().isEmpty)
-                            ? l10n.authInviteCodeRequired
+                            ? l10n.authResetCodeRequired
                             : null,
                       ),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 12),
                       AppTextField(
                         controller: _passCtrl,
                         skin: FieldSkin.page,
@@ -91,20 +97,24 @@ class _AcceptInviteScreenState extends State<AcceptInviteScreen> {
                         obscureText: _obscure,
                         textInputAction: TextInputAction.next,
                         suffix: IconButton(
-                          onPressed: () => setState(() => _obscure = !_obscure),
-                          splashRadius: 20,
                           icon: Icon(
-                              _obscure
-                                  ? Icons.visibility_outlined
-                                  : Icons.visibility_off_outlined,
-                              size: 18,
-                              color: t.textHint),
+                            _obscure
+                                ? Icons.visibility_outlined
+                                : Icons.visibility_off_outlined,
+                            size: 18,
+                            color: t.textHint,
+                          ),
+                          onPressed: () => setState(() => _obscure = !_obscure),
                         ),
-                        validator: (v) => (v == null || v.length < 6)
-                            ? l10n.authPasswordMinLength
-                            : null,
+                        validator: (v) {
+                          if (v == null || v.isEmpty) {
+                            return l10n.authPasswordRequired;
+                          }
+                          if (v.length < 6) return l10n.authPasswordMinLength;
+                          return null;
+                        },
                       ),
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 12),
                       AppTextField(
                         controller: _confirmCtrl,
                         skin: FieldSkin.page,
@@ -112,41 +122,32 @@ class _AcceptInviteScreenState extends State<AcceptInviteScreen> {
                         icon: Icons.lock_outline_rounded,
                         obscureText: _obscure,
                         textInputAction: TextInputAction.done,
-                        onSubmitted: (_) => _submit(),
+                        onSubmitted: (_) => loading ? null : _submit(),
                         validator: (v) => v != _passCtrl.text
                             ? l10n.authPasswordsDoNotMatch
                             : null,
                       ),
-                      const SizedBox(height: 10),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 2),
-                        child: Text(
-                          l10n.authPasswordHelp,
-                          style: TextStyle(
-                              fontFamily: AppFonts.sans,
-                              fontSize: 11.5,
-                              height: 1.5,
-                              color: t.textHint),
-                        ),
+                      const SizedBox(height: 8),
+                      Text(
+                        l10n.authPasswordHelp,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontFamily: AppFonts.sans,
+                            fontSize: 11.5,
+                            color: t.textSecondary),
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 20),
                       AppFilledButton(
                         label: l10n.authSetPasswordSignIn,
                         loading: loading,
                         onPressed: loading ? null : _submit,
                       ),
-                      const SizedBox(height: 18),
+                      const SizedBox(height: 14),
                       Center(
-                        child: GestureDetector(
+                        child: AuthTextLink(
+                          label: l10n.authBackToSignIn,
                           onTap: loading ? null : () => ctx.go('/login'),
-                          child: Text(
-                            l10n.authBackToSignIn,
-                            style: TextStyle(
-                                fontFamily: AppFonts.sans,
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
-                                color: t.textSecondary),
-                          ),
                         ),
                       ),
                     ],
@@ -157,24 +158,6 @@ class _AcceptInviteScreenState extends State<AcceptInviteScreen> {
           },
         ),
       ),
-    );
-  }
-}
-
-class _InviteMark extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final t = context.tokens;
-    return Container(
-      width: 62,
-      height: 62,
-      decoration: BoxDecoration(
-        color: t.surface,
-        borderRadius: BorderRadius.circular(19),
-        border: Border.all(color: t.border, width: AppMetrics.borderWidth),
-      ),
-      alignment: Alignment.center,
-      child: Icon(Icons.vpn_key_outlined, size: 26, color: t.accent),
     );
   }
 }

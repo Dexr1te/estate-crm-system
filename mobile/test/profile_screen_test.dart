@@ -126,6 +126,48 @@ void main() {
         reason: 'backing out of the dialog must not delete anything');
   });
 
+  testWidgets('appearance offers following the system, not just a dark switch',
+      (tester) async {
+    await expectNoOverflow(tester, _profile(),
+        size: const Size(390, 844),
+        brightness: Brightness.light,
+        textScale: 1.0);
+    await tester.pumpAndSettle();
+
+    // The row used to be a two-position switch captioned "Follow system",
+    // which was the one thing it could not do.
+    await tester.tap(find.text('Follow system'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Follow system'), findsWidgets);
+    expect(find.text('Light'), findsOneWidget);
+    expect(find.text('Dark'), findsOneWidget);
+  });
+
+  testWidgets('you can correct your own name without asking an admin',
+      (tester) async {
+    await expectNoOverflow(tester, _profile(),
+        size: const Size(390, 844),
+        brightness: Brightness.light,
+        textScale: 1.0);
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Sultan Assan-Doroshenko').last);
+    await tester.pumpAndSettle();
+
+    expect(find.text('Edit profile'), findsOneWidget);
+
+    await tester.enterText(
+        find.widgetWithText(TextField, 'Sultan Assan-Doroshenko'),
+        'Sultan Assan');
+    await tester.tap(find.widgetWithText(AppFilledButton, 'Save'));
+    await tester.pumpAndSettle();
+
+    expect(_authRepo.updatedProfile?.$1, 'Sultan Assan');
+    expect(_authRepo.updatedProfile?.$2, 'asansultan25@gmail.com',
+        reason: 'the address is sent unchanged, not dropped');
+  });
+
   testWidgets('the role renders localised, never as a raw enum value',
       (tester) async {
     await expectNoOverflow(

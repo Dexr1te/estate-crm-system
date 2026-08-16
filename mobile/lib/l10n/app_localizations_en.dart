@@ -189,6 +189,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authEmailRequired => 'Email is required';
 
   @override
+  String get authForgotPassword => 'Forgot password?';
+
+  @override
+  String get authForgotPasswordSubtitle =>
+      'Enter the address you sign in with and we’ll email you a link to choose a new password.';
+
+  @override
+  String get authForgotPasswordTitle => 'Reset your password';
+
+  @override
   String get authHaveAnInvite => 'Have an invite?';
 
   @override
@@ -225,6 +235,30 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get authPasswordsDoNotMatch => 'Passwords do not match';
+
+  @override
+  String get authResetCode => 'Reset code';
+
+  @override
+  String get authResetCodeRequired => 'Reset code is required';
+
+  @override
+  String authResetLinkSentBody(Object email) {
+    return 'If $email has an account, a link to choose a new password is on its way. It expires in 24 hours.';
+  }
+
+  @override
+  String get authResetLinkSentTitle => 'Check your email';
+
+  @override
+  String get authResetPasswordSubtitle =>
+      'Paste the code from the email, then choose a password.';
+
+  @override
+  String get authResetPasswordTitle => 'Choose a new password';
+
+  @override
+  String get authSendResetLink => 'Send reset link';
 
   @override
   String get authSetPasswordContinue => 'Set password & continue';
@@ -443,6 +477,34 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get coreDelete => 'Delete';
+
+  @override
+  String get coreErrorBadRequest => 'Invalid request. Please check your input.';
+
+  @override
+  String get coreErrorConflict => 'This already exists.';
+
+  @override
+  String get coreErrorCredentials => 'Invalid email or password.';
+
+  @override
+  String get coreErrorForbidden => 'You don’t have permission to do that.';
+
+  @override
+  String get coreErrorNotFound => 'Not found.';
+
+  @override
+  String get coreErrorOffline =>
+      'Cannot connect to server. Check your internet.';
+
+  @override
+  String get coreErrorServer => 'Server error. Please try again later.';
+
+  @override
+  String get coreErrorTimeout => 'Connection timed out. Check your internet.';
+
+  @override
+  String get coreErrorUnknown => 'Something went wrong. Please try again.';
 
   @override
   String get coreLogout => 'Logout';
@@ -1148,6 +1210,78 @@ class AppLocalizationsEn extends AppLocalizations {
   String get meetingsWhoAndWhere => 'Who & where';
 
   @override
+  String get msgAgentInvited => 'Agent invited';
+
+  @override
+  String get msgClientCreated => 'Client created';
+
+  @override
+  String get msgClientDeleted => 'Client deleted';
+
+  @override
+  String get msgClientUpdated => 'Client updated';
+
+  @override
+  String get msgDealCreated => 'Deal created';
+
+  @override
+  String get msgDealDeleted => 'Deal deleted';
+
+  @override
+  String get msgDealUpdated => 'Deal updated';
+
+  @override
+  String get msgInviteResent => 'Invite resent';
+
+  @override
+  String get msgMeetingCompleted => 'Meeting completed';
+
+  @override
+  String get msgMeetingCreated => 'Meeting created';
+
+  @override
+  String get msgMeetingDeleted => 'Meeting deleted';
+
+  @override
+  String get msgMeetingUpdated => 'Meeting updated';
+
+  @override
+  String get msgProfileUpdated => 'Profile updated';
+
+  @override
+  String get msgPropertyCreated => 'Property created';
+
+  @override
+  String get msgPropertyDeleted => 'Property deleted';
+
+  @override
+  String get msgPropertyUpdated => 'Property updated';
+
+  @override
+  String get msgRoleUpdated => 'Role updated';
+
+  @override
+  String get msgStatusUpdated => 'Status updated';
+
+  @override
+  String get msgTeamAssigned => 'Team assigned';
+
+  @override
+  String get msgTeamCreated => 'Team created';
+
+  @override
+  String get msgTeamUpdated => 'Team updated';
+
+  @override
+  String get msgUserActivated => 'User activated';
+
+  @override
+  String get msgUserDeactivated => 'User deactivated';
+
+  @override
+  String get msgUserDeleted => 'User deleted';
+
+  @override
   String get profileAbout => 'About';
 
   @override
@@ -1190,6 +1324,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileEditName => 'Edit Name';
+
+  @override
+  String get profileEditProfile => 'Edit profile';
 
   @override
   String get profileEmail => 'Email';
@@ -1244,6 +1381,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileSystemDefault => 'System default';
+
+  @override
+  String get profileTheme => 'Appearance';
+
+  @override
+  String get profileThemeDark => 'Dark';
+
+  @override
+  String get profileThemeLight => 'Light';
+
+  @override
+  String get profileThemeSystem => 'Follow system';
 
   @override
   String get profileTitle => 'Profile';

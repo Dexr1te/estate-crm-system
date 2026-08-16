@@ -55,7 +55,7 @@ class _ClientsScreenState extends State<ClientsScreen> {
                 ScaffoldMessenger.of(ctx)
                   ..hideCurrentSnackBar()
                   ..showSnackBar(SnackBar(
-                      content: Text(state.message),
+                      content: Text(apiFailureLabel(l10n, state.failure)),
                       backgroundColor: t.dangerSolid));
               }
               showActionOutcome(ctx, state);
@@ -147,7 +147,7 @@ class _ClientsScreenState extends State<ClientsScreen> {
     }
     if (state is ClientsError) {
       return ErrorWidget2(
-        message: state.message,
+        message: apiFailureLabel(l10n, state.failure),
         onRetry: () => ctx.read<ClientsBloc>().add(ClientsLoadEvent()),
       );
     }

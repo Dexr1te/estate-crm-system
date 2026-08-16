@@ -1,5 +1,7 @@
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/bloc/action_outcome.dart';
+import 'package:real_estate_crm/core/network/api_error.dart';
+import 'package:real_estate_crm/core/widgets/messages.dart';
 
 abstract class PropertiesState {}
 
@@ -22,28 +24,22 @@ class PropertiesLoaded extends PropertiesState {
 }
 
 class PropertiesError extends PropertiesState {
-  final String message;
-  PropertiesError(this.message);
+  final ApiFailure failure;
+  PropertiesError(this.failure);
 }
 
-class PropertiesActionSuccess extends PropertiesLoaded
-    implements ActionOutcome {
+class PropertiesActionSuccess extends PropertiesLoaded with ActionSucceeded {
   @override
-  final String message;
-  @override
-  bool get isFailure => false;
+  final ActionMessage message;
 
   PropertiesActionSuccess(this.message, super.properties, {super.hasMore});
 }
 
-class PropertiesActionFailure extends PropertiesLoaded
-    implements ActionOutcome {
+class PropertiesActionFailure extends PropertiesLoaded with ActionFailed {
   @override
-  final String message;
-  @override
-  bool get isFailure => true;
+  final ApiFailure failure;
 
-  PropertiesActionFailure(this.message, super.properties, {super.hasMore});
+  PropertiesActionFailure(this.failure, super.properties, {super.hasMore});
 }
 
 class PropertyCreated extends PropertiesLoaded {

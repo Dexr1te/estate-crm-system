@@ -21,6 +21,25 @@ class AuthRemoteDataSource {
     return AuthResponse.fromJson(res.data);
   }
 
+  Future<AuthResponse> updateProfile(String fullName, String email) async {
+    final res = await _client.dio.put('/auth/me', data: {
+      'fullName': fullName,
+      'email': email,
+    });
+    return AuthResponse.fromJson(res.data);
+  }
+
+  Future<void> requestPasswordReset(String email) =>
+      _client.dio.post('/auth/forgot-password', data: {'email': email});
+
+  Future<AuthResponse> resetPassword(String token, String newPassword) async {
+    final res = await _client.dio.post('/auth/reset-password', data: {
+      'token': token,
+      'newPassword': newPassword,
+    });
+    return AuthResponse.fromJson(res.data);
+  }
+
   Future<void> deleteAccount({int? replacementId}) => _client.dio.delete(
         '/auth/me',
         queryParameters: {

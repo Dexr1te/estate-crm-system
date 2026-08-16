@@ -102,7 +102,7 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
                 ScaffoldMessenger.of(ctx)
                   ..hideCurrentSnackBar()
                   ..showSnackBar(SnackBar(
-                      content: Text(state.message),
+                      content: Text(apiFailureLabel(l10n, state.failure)),
                       backgroundColor: t.dangerSolid));
               }
               showActionOutcome(ctx, state);
@@ -201,7 +201,8 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
       );
     }
     if (state is PropertiesError) {
-      return ErrorWidget2(message: state.message, onRetry: _reload);
+      return ErrorWidget2(
+          message: apiFailureLabel(l10n, state.failure), onRetry: _reload);
     }
     if (items.isEmpty) {
       return EmptyState(

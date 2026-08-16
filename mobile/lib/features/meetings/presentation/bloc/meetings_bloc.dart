@@ -1,5 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:real_estate_crm/core/bloc/collection_bloc.dart';
+import 'package:real_estate_crm/core/network/api_error.dart';
+import 'package:real_estate_crm/core/widgets/messages.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/features/meetings/domain/repositories/meetings_repository.dart';
 import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_event.dart';
@@ -23,9 +25,9 @@ class MeetingsBloc extends Bloc<MeetingsEvent, MeetingsState>
     return s is MeetingsLoaded ? s.meetings : const [];
   }
 
-  MeetingsState _failure(String message) => _current.isEmpty
-      ? MeetingsError(message)
-      : MeetingsActionFailure(message, _current);
+  MeetingsState _failure(ApiFailure failure) => _current.isEmpty
+      ? MeetingsError(failure)
+      : MeetingsActionFailure(failure, _current);
 
   void _onReset(MeetingsResetEvent e, Emitter<MeetingsState> emit) {
     invalidate();
@@ -42,8 +44,8 @@ class MeetingsBloc extends Bloc<MeetingsEvent, MeetingsState>
         onFailure: MeetingsError.new,
       );
 
-  Future<void> _act(Emitter<MeetingsState> emit, String key, String success,
-          Future<void> Function() action) =>
+  Future<void> _act(Emitter<MeetingsState> emit, String key,
+          ActionMessage success, Future<void> Function() action) =>
       write(
         emit,
         key: key,
@@ -54,19 +56,19 @@ class MeetingsBloc extends Bloc<MeetingsEvent, MeetingsState>
       );
 
   Future<void> _onDelete(MeetingsDeleteEvent e, Emitter<MeetingsState> emit) =>
-      _act(emit, 'delete-${e.id}', 'Meeting deleted',
+      _act(emit, 'delete-${e.id}', ActionMessage.meetingDeleted,
           () => _repo.deleteMeeting(e.id));
 
   Future<void> _onCreate(MeetingsCreateEvent e, Emitter<MeetingsState> emit) =>
       _act(emit, 'create-${e.data['clientId']}-${e.data['scheduledAt']}',
-          'Meeting created', () => _repo.createMeeting(e.data));
+          ActionMessage.meetingCreated, () => _repo.createMeeting(e.data));
 
   Future<void> _onUpdate(MeetingsUpdateEvent e, Emitter<MeetingsState> emit) =>
-      _act(emit, 'update-${e.id}', 'Meeting updated',
+      _act(emit, 'update-${e.id}', ActionMessage.meetingUpdated,
           () => _repo.updateMeeting(e.id, e.data));
 
   Future<void> _onComplete(
           MeetingsCompleteEvent e, Emitter<MeetingsState> emit) =>
-      _act(emit, 'complete-${e.id}', 'Meeting completed',
+      _act(emit, 'complete-${e.id}', ActionMessage.meetingCompleted,
           () => _repo.completeMeeting(e.id));
 }

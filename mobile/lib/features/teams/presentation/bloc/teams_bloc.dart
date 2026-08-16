@@ -1,5 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:real_estate_crm/core/bloc/collection_bloc.dart';
+import 'package:real_estate_crm/core/network/api_error.dart';
+import 'package:real_estate_crm/core/widgets/messages.dart';
 import 'package:real_estate_crm/core/models/team_models.dart';
 import 'package:real_estate_crm/features/teams/domain/repositories/teams_repository.dart';
 import 'package:real_estate_crm/features/teams/presentation/bloc/teams_event.dart';
@@ -21,9 +23,9 @@ class TeamsBloc extends Bloc<TeamsEvent, TeamsState>
     return s is TeamsLoaded ? s.teams : const [];
   }
 
-  TeamsState _failure(String message) => _current.isEmpty
-      ? TeamsError(message)
-      : TeamsActionFailure(message, _current);
+  TeamsState _failure(ApiFailure failure) => _current.isEmpty
+      ? TeamsError(failure)
+      : TeamsActionFailure(failure, _current);
 
   Future<void> _onLoad(TeamsLoadEvent e, Emitter<TeamsState> emit) => load(
         emit,
@@ -34,7 +36,7 @@ class TeamsBloc extends Bloc<TeamsEvent, TeamsState>
         onFailure: TeamsError.new,
       );
 
-  Future<void> _act(Emitter<TeamsState> emit, String key, String success,
+  Future<void> _act(Emitter<TeamsState> emit, String key, ActionMessage success,
           Future<void> Function() action) =>
       write(
         emit,
@@ -48,17 +50,17 @@ class TeamsBloc extends Bloc<TeamsEvent, TeamsState>
   Future<void> _onCreate(TeamsCreateEvent e, Emitter<TeamsState> emit) => _act(
       emit,
       'create-${e.body['name']}',
-      'Team created',
+      ActionMessage.teamCreated,
       () => _repo.createTeam(e.body));
 
   Future<void> _onUpdate(TeamsUpdateEvent e, Emitter<TeamsState> emit) => _act(
       emit,
       'update-${e.id}',
-      'Team updated',
+      ActionMessage.teamUpdated,
       () => _repo.updateTeam(e.id, e.body));
 
   Future<void> _onInviteAgent(
           TeamsInviteAgentEvent e, Emitter<TeamsState> emit) =>
-      _act(emit, 'invite-${e.body['email']}', 'Agent invited',
+      _act(emit, 'invite-${e.body['email']}', ActionMessage.agentInvited,
           () => _repo.inviteAgentToMyTeam(e.body));
 }

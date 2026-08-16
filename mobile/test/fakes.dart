@@ -28,6 +28,26 @@ class FakeAuthRepository implements AuthRepository {
   Future<AuthResponse> acceptInvite(String token, String newPassword) async =>
       user!;
   @override
+  Future<AuthResponse> updateProfile(String fullName, String email) async {
+    updatedProfile = (fullName, email);
+    return user!;
+  }
+
+  /// The name and address the last profile save sent, if any.
+  (String, String)? updatedProfile;
+
+  @override
+  Future<void> requestPasswordReset(String email) async =>
+      resetRequestedFor = email;
+
+  @override
+  Future<AuthResponse> resetPassword(String token, String newPassword) async =>
+      user!;
+
+  /// The address the last reset request named, or null if none was made.
+  String? resetRequestedFor;
+
+  @override
   Future<void> logout() async {}
   @override
   Future<void> deleteAccount({int? replacementId}) async =>

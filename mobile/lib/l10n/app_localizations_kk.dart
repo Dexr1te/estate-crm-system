@@ -188,6 +188,16 @@ class AppLocalizationsKk extends AppLocalizations {
   String get authEmailRequired => 'Электрондық поштаны енгізіңіз';
 
   @override
+  String get authForgotPassword => 'Құпия сөзді ұмыттыңыз ба?';
+
+  @override
+  String get authForgotPasswordSubtitle =>
+      'Кіретін поштаңызды енгізіңіз — жаңа құпия сөз таңдауға сілтеме жібереміз.';
+
+  @override
+  String get authForgotPasswordTitle => 'Құпия сөзді қалпына келтіру';
+
+  @override
   String get authHaveAnInvite => 'Шақыруыңыз бар ма?';
 
   @override
@@ -224,6 +234,30 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get authPasswordsDoNotMatch => 'Құпия сөздер сәйкес келмейді';
+
+  @override
+  String get authResetCode => 'Қалпына келтіру коды';
+
+  @override
+  String get authResetCodeRequired => 'Қалпына келтіру кодын енгізіңіз';
+
+  @override
+  String authResetLinkSentBody(Object email) {
+    return 'Егер $email тіркелген болса, жаңа құпия сөз таңдау сілтемесі жіберілді. Ол 24 сағат жарамды.';
+  }
+
+  @override
+  String get authResetLinkSentTitle => 'Поштаңызды тексеріңіз';
+
+  @override
+  String get authResetPasswordSubtitle =>
+      'Хаттағы кодты қойып, құпия сөз таңдаңыз.';
+
+  @override
+  String get authResetPasswordTitle => 'Жаңа құпия сөз';
+
+  @override
+  String get authSendResetLink => 'Сілтеме жіберу';
 
   @override
   String get authSetPasswordContinue => 'Құпия сөзді орнатып, жалғастыру';
@@ -442,6 +476,35 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get coreDelete => 'Жою';
+
+  @override
+  String get coreErrorBadRequest =>
+      'Сұрау қате. Енгізілген деректерді тексеріңіз.';
+
+  @override
+  String get coreErrorConflict => 'Мұндай жазба бұрыннан бар.';
+
+  @override
+  String get coreErrorCredentials => 'Пошта немесе құпия сөз қате.';
+
+  @override
+  String get coreErrorForbidden => 'Бұл әрекетке құқығыңыз жоқ.';
+
+  @override
+  String get coreErrorNotFound => 'Табылмады.';
+
+  @override
+  String get coreErrorOffline =>
+      'Сервермен байланыс жоқ. Интернетті тексеріңіз.';
+
+  @override
+  String get coreErrorServer => 'Сервер қатесі. Кейінірек қайталаңыз.';
+
+  @override
+  String get coreErrorTimeout => 'Күту уақыты бітті. Интернетті тексеріңіз.';
+
+  @override
+  String get coreErrorUnknown => 'Бірдеңе дұрыс болмады. Қайталап көріңіз.';
 
   @override
   String get coreLogout => 'Шығу';
@@ -1146,6 +1209,78 @@ class AppLocalizationsKk extends AppLocalizations {
   String get meetingsWhoAndWhere => 'Кіммен және қайда';
 
   @override
+  String get msgAgentInvited => 'Агент шақырылды';
+
+  @override
+  String get msgClientCreated => 'Клиент құрылды';
+
+  @override
+  String get msgClientDeleted => 'Клиент жойылды';
+
+  @override
+  String get msgClientUpdated => 'Клиент жаңартылды';
+
+  @override
+  String get msgDealCreated => 'Мәміле құрылды';
+
+  @override
+  String get msgDealDeleted => 'Мәміле жойылды';
+
+  @override
+  String get msgDealUpdated => 'Мәміле жаңартылды';
+
+  @override
+  String get msgInviteResent => 'Шақыру қайта жіберілді';
+
+  @override
+  String get msgMeetingCompleted => 'Кездесу аяқталды';
+
+  @override
+  String get msgMeetingCreated => 'Кездесу құрылды';
+
+  @override
+  String get msgMeetingDeleted => 'Кездесу жойылды';
+
+  @override
+  String get msgMeetingUpdated => 'Кездесу жаңартылды';
+
+  @override
+  String get msgProfileUpdated => 'Профиль жаңартылды';
+
+  @override
+  String get msgPropertyCreated => 'Нысан құрылды';
+
+  @override
+  String get msgPropertyDeleted => 'Нысан жойылды';
+
+  @override
+  String get msgPropertyUpdated => 'Нысан жаңартылды';
+
+  @override
+  String get msgRoleUpdated => 'Рөл жаңартылды';
+
+  @override
+  String get msgStatusUpdated => 'Мәртебе жаңартылды';
+
+  @override
+  String get msgTeamAssigned => 'Команда тағайындалды';
+
+  @override
+  String get msgTeamCreated => 'Команда құрылды';
+
+  @override
+  String get msgTeamUpdated => 'Команда жаңартылды';
+
+  @override
+  String get msgUserActivated => 'Пайдаланушы белсендірілді';
+
+  @override
+  String get msgUserDeactivated => 'Пайдаланушы өшірілді';
+
+  @override
+  String get msgUserDeleted => 'Пайдаланушы жойылды';
+
+  @override
   String get profileAbout => 'Қолданба туралы';
 
   @override
@@ -1188,6 +1323,9 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get profileEditName => 'Атын өзгерту';
+
+  @override
+  String get profileEditProfile => 'Профильді өзгерту';
 
   @override
   String get profileEmail => 'Электрондық пошта';
@@ -1242,6 +1380,18 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get profileSystemDefault => 'Жүйелік';
+
+  @override
+  String get profileTheme => 'Безендіру';
+
+  @override
+  String get profileThemeDark => 'Қараңғы';
+
+  @override
+  String get profileThemeLight => 'Ашық';
+
+  @override
+  String get profileThemeSystem => 'Жүйедегідей';
 
   @override
   String get profileTitle => 'Профиль';

@@ -1,5 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:real_estate_crm/core/bloc/collection_bloc.dart';
+import 'package:real_estate_crm/core/network/api_error.dart';
+import 'package:real_estate_crm/core/widgets/messages.dart';
 import 'package:real_estate_crm/core/models/admin_models.dart';
 import 'package:real_estate_crm/features/admin/domain/repositories/admin_repository.dart';
 import 'package:real_estate_crm/features/admin/presentation/bloc/admin_users_event.dart';
@@ -25,9 +27,9 @@ class AdminUsersBloc extends Bloc<AdminUsersEvent, AdminUsersState>
     return s is AdminUsersLoaded ? s.users : const [];
   }
 
-  AdminUsersState _failure(String message) => _current.isEmpty
-      ? AdminUsersError(message)
-      : AdminUsersActionFailure(message, _current);
+  AdminUsersState _failure(ApiFailure failure) => _current.isEmpty
+      ? AdminUsersError(failure)
+      : AdminUsersActionFailure(failure, _current);
 
   Future<void> _onLoad(AdminUsersLoadEvent e, Emitter<AdminUsersState> emit) =>
       load(
@@ -41,8 +43,8 @@ class AdminUsersBloc extends Bloc<AdminUsersEvent, AdminUsersState>
 
   /// Every user action reads the same: do it, say so, and let the reload put
   /// the row's new shape on screen.
-  Future<void> _act(Emitter<AdminUsersState> emit, String key, String success,
-          Future<void> Function() action) =>
+  Future<void> _act(Emitter<AdminUsersState> emit, String key,
+          ActionMessage success, Future<void> Function() action) =>
       write(
         emit,
         key: key,
@@ -66,31 +68,31 @@ class AdminUsersBloc extends Bloc<AdminUsersEvent, AdminUsersState>
 
   Future<void> _onDelete(
           AdminDeleteUserEvent e, Emitter<AdminUsersState> emit) =>
-      _act(emit, 'delete-${e.id}', 'User deleted',
+      _act(emit, 'delete-${e.id}', ActionMessage.userDeleted,
           () => _repo.deleteUser(e.id, replacementId: e.replacementId));
 
   Future<void> _onActivate(
           AdminActivateUserEvent e, Emitter<AdminUsersState> emit) =>
-      _act(emit, 'activate-${e.id}', 'User activated',
+      _act(emit, 'activate-${e.id}', ActionMessage.userActivated,
           () => _repo.activateUser(e.id));
 
   Future<void> _onDeactivate(
           AdminDeactivateUserEvent e, Emitter<AdminUsersState> emit) =>
-      _act(emit, 'deactivate-${e.id}', 'User deactivated',
+      _act(emit, 'deactivate-${e.id}', ActionMessage.userDeactivated,
           () => _repo.deactivateUser(e.id));
 
   Future<void> _onChangeRole(
           AdminChangeRoleEvent e, Emitter<AdminUsersState> emit) =>
-      _act(emit, 'role-${e.id}', 'Role updated',
+      _act(emit, 'role-${e.id}', ActionMessage.roleUpdated,
           () => _repo.changeRole(e.id, e.role));
 
   Future<void> _onAssignTeam(
           AdminAssignTeamEvent e, Emitter<AdminUsersState> emit) =>
-      _act(emit, 'team-${e.id}', 'Team assigned',
+      _act(emit, 'team-${e.id}', ActionMessage.teamAssigned,
           () => _repo.assignTeam(e.id, e.teamId));
 
   Future<void> _onResendInvite(
           AdminResendInviteEvent e, Emitter<AdminUsersState> emit) =>
-      _act(emit, 'resend-${e.id}', 'Invite resent',
+      _act(emit, 'resend-${e.id}', ActionMessage.inviteResent,
           () => _repo.resendInvite(e.id));
 }

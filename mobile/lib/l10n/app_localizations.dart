@@ -442,6 +442,24 @@ abstract class AppLocalizations {
   /// **'Email is required'**
   String get authEmailRequired;
 
+  /// No description provided for @authForgotPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot password?'**
+  String get authForgotPassword;
+
+  /// No description provided for @authForgotPasswordSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the address you sign in with and we’ll email you a link to choose a new password.'**
+  String get authForgotPasswordSubtitle;
+
+  /// No description provided for @authForgotPasswordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset your password'**
+  String get authForgotPasswordTitle;
+
   /// No description provided for @authHaveAnInvite.
   ///
   /// In en, this message translates to:
@@ -513,6 +531,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Passwords do not match'**
   String get authPasswordsDoNotMatch;
+
+  /// No description provided for @authResetCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset code'**
+  String get authResetCode;
+
+  /// No description provided for @authResetCodeRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset code is required'**
+  String get authResetCodeRequired;
+
+  /// No description provided for @authResetLinkSentBody.
+  ///
+  /// In en, this message translates to:
+  /// **'If {email} has an account, a link to choose a new password is on its way. It expires in 24 hours.'**
+  String authResetLinkSentBody(Object email);
+
+  /// No description provided for @authResetLinkSentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your email'**
+  String get authResetLinkSentTitle;
+
+  /// No description provided for @authResetPasswordSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Paste the code from the email, then choose a password.'**
+  String get authResetPasswordSubtitle;
+
+  /// No description provided for @authResetPasswordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a new password'**
+  String get authResetPasswordTitle;
+
+  /// No description provided for @authSendResetLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Send reset link'**
+  String get authSendResetLink;
 
   /// No description provided for @authSetPasswordContinue.
   ///
@@ -891,6 +951,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete'**
   String get coreDelete;
+
+  /// No description provided for @coreErrorBadRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid request. Please check your input.'**
+  String get coreErrorBadRequest;
+
+  /// No description provided for @coreErrorConflict.
+  ///
+  /// In en, this message translates to:
+  /// **'This already exists.'**
+  String get coreErrorConflict;
+
+  /// No description provided for @coreErrorCredentials.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid email or password.'**
+  String get coreErrorCredentials;
+
+  /// No description provided for @coreErrorForbidden.
+  ///
+  /// In en, this message translates to:
+  /// **'You don’t have permission to do that.'**
+  String get coreErrorForbidden;
+
+  /// No description provided for @coreErrorNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Not found.'**
+  String get coreErrorNotFound;
+
+  /// No description provided for @coreErrorOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot connect to server. Check your internet.'**
+  String get coreErrorOffline;
+
+  /// No description provided for @coreErrorServer.
+  ///
+  /// In en, this message translates to:
+  /// **'Server error. Please try again later.'**
+  String get coreErrorServer;
+
+  /// No description provided for @coreErrorTimeout.
+  ///
+  /// In en, this message translates to:
+  /// **'Connection timed out. Check your internet.'**
+  String get coreErrorTimeout;
+
+  /// No description provided for @coreErrorUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong. Please try again.'**
+  String get coreErrorUnknown;
 
   /// No description provided for @coreLogout.
   ///
@@ -2092,6 +2206,150 @@ abstract class AppLocalizations {
   /// **'Who & where'**
   String get meetingsWhoAndWhere;
 
+  /// No description provided for @msgAgentInvited.
+  ///
+  /// In en, this message translates to:
+  /// **'Agent invited'**
+  String get msgAgentInvited;
+
+  /// No description provided for @msgClientCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Client created'**
+  String get msgClientCreated;
+
+  /// No description provided for @msgClientDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Client deleted'**
+  String get msgClientDeleted;
+
+  /// No description provided for @msgClientUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Client updated'**
+  String get msgClientUpdated;
+
+  /// No description provided for @msgDealCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Deal created'**
+  String get msgDealCreated;
+
+  /// No description provided for @msgDealDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Deal deleted'**
+  String get msgDealDeleted;
+
+  /// No description provided for @msgDealUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Deal updated'**
+  String get msgDealUpdated;
+
+  /// No description provided for @msgInviteResent.
+  ///
+  /// In en, this message translates to:
+  /// **'Invite resent'**
+  String get msgInviteResent;
+
+  /// No description provided for @msgMeetingCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Meeting completed'**
+  String get msgMeetingCompleted;
+
+  /// No description provided for @msgMeetingCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Meeting created'**
+  String get msgMeetingCreated;
+
+  /// No description provided for @msgMeetingDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Meeting deleted'**
+  String get msgMeetingDeleted;
+
+  /// No description provided for @msgMeetingUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Meeting updated'**
+  String get msgMeetingUpdated;
+
+  /// No description provided for @msgProfileUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile updated'**
+  String get msgProfileUpdated;
+
+  /// No description provided for @msgPropertyCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Property created'**
+  String get msgPropertyCreated;
+
+  /// No description provided for @msgPropertyDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Property deleted'**
+  String get msgPropertyDeleted;
+
+  /// No description provided for @msgPropertyUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Property updated'**
+  String get msgPropertyUpdated;
+
+  /// No description provided for @msgRoleUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Role updated'**
+  String get msgRoleUpdated;
+
+  /// No description provided for @msgStatusUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Status updated'**
+  String get msgStatusUpdated;
+
+  /// No description provided for @msgTeamAssigned.
+  ///
+  /// In en, this message translates to:
+  /// **'Team assigned'**
+  String get msgTeamAssigned;
+
+  /// No description provided for @msgTeamCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Team created'**
+  String get msgTeamCreated;
+
+  /// No description provided for @msgTeamUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Team updated'**
+  String get msgTeamUpdated;
+
+  /// No description provided for @msgUserActivated.
+  ///
+  /// In en, this message translates to:
+  /// **'User activated'**
+  String get msgUserActivated;
+
+  /// No description provided for @msgUserDeactivated.
+  ///
+  /// In en, this message translates to:
+  /// **'User deactivated'**
+  String get msgUserDeactivated;
+
+  /// No description provided for @msgUserDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'User deleted'**
+  String get msgUserDeleted;
+
   /// No description provided for @profileAbout.
   ///
   /// In en, this message translates to:
@@ -2175,6 +2433,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Edit Name'**
   String get profileEditName;
+
+  /// No description provided for @profileEditProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit profile'**
+  String get profileEditProfile;
 
   /// No description provided for @profileEmail.
   ///
@@ -2283,6 +2547,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'System default'**
   String get profileSystemDefault;
+
+  /// No description provided for @profileTheme.
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance'**
+  String get profileTheme;
+
+  /// No description provided for @profileThemeDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get profileThemeDark;
+
+  /// No description provided for @profileThemeLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get profileThemeLight;
+
+  /// No description provided for @profileThemeSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow system'**
+  String get profileThemeSystem;
 
   /// No description provided for @profileTitle.
   ///
