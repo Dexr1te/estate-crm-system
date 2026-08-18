@@ -391,7 +391,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clientsFullName => 'Full name';
 
   @override
-  String get clientsFullNameLabel => 'Full Name *';
+  String get clientsFullNameLabel => 'Full Name';
 
   @override
   String clientsIdBadge(Object id) {
@@ -1022,7 +1022,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dealsTitle => 'Deals';
 
   @override
-  String get dealsTitleLabel => 'Title *';
+  String get dealsTitleLabel => 'Title';
 
   @override
   String get dealsTitleRequired => 'Title is required';
@@ -1057,6 +1057,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get meetingsCompleted => 'Completed';
+
+  @override
+  String get meetingsCouldNotLoadOptions =>
+      'Could not load clients and agents.';
 
   @override
   String meetingsCounter(num count) {
@@ -1125,6 +1129,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get meetingsMarkComplete => 'Mark Complete';
 
   @override
+  String get meetingsMustBeInFuture => 'Pick a time in the future';
+
+  @override
+  String get meetingsNoAgentsToAssign => 'No agents to assign';
+
+  @override
   String get meetingsNoLocation => 'No location on this meeting';
 
   @override
@@ -1138,6 +1148,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get meetingsNote => 'Meeting note';
+
+  @override
+  String get meetingsNothingUpcoming => 'Nothing upcoming';
+
+  @override
+  String get meetingsNothingUpcomingSubtitle =>
+      'Past meetings stay in your history.';
 
   @override
   String get meetingsPeopleAndDeal => 'People & Deal';
@@ -1164,7 +1181,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get meetingsSearchByNameOrId => 'Search by name or ID…';
 
   @override
-  String get meetingsSelectDateTime => 'Select date & time *';
+  String get meetingsSelectDateTime => 'Select date & time';
 
   @override
   String meetingsSelectEntity(Object label) {
@@ -1192,7 +1209,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get meetingsTitle => 'Meetings';
 
   @override
-  String get meetingsTitleFieldLabel => 'Title *';
+  String get meetingsTitleFieldLabel => 'Title';
 
   @override
   String get meetingsTitleRequired => 'Title is required';
@@ -1416,7 +1433,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get propertiesAddShort => 'Property';
 
   @override
-  String get propertiesAddressLabel => 'Address *';
+  String get propertiesAddressLabel => 'Address';
 
   @override
   String get propertiesAgent => 'Agent';
@@ -1521,7 +1538,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get propertiesNoResultsSubtitle => 'Try a different search or filter';
 
   @override
-  String get propertiesPriceLabel => 'Price *';
+  String get propertiesPriceLabel => 'Price';
 
   @override
   String propertiesPricePerSqm(Object price) {
@@ -1573,7 +1590,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get propertiesTitle => 'Properties';
 
   @override
-  String get propertiesTitleLabel => 'Title *';
+  String get propertiesTitleLabel => 'Title';
 
   @override
   String get propertiesTotalFloors => 'Total Floors';

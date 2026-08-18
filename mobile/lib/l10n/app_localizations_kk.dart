@@ -390,7 +390,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get clientsFullName => 'Толық аты-жөні';
 
   @override
-  String get clientsFullNameLabel => 'Толық аты *';
+  String get clientsFullNameLabel => 'Толық аты';
 
   @override
   String clientsIdBadge(Object id) {
@@ -1021,7 +1021,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get dealsTitle => 'Мәмілелер';
 
   @override
-  String get dealsTitleLabel => 'Атауы *';
+  String get dealsTitleLabel => 'Атауы';
 
   @override
   String get dealsTitleRequired => 'Атауы міндетті';
@@ -1056,6 +1056,10 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get meetingsCompleted => 'Аяқталды';
+
+  @override
+  String get meetingsCouldNotLoadOptions =>
+      'Клиенттер мен агенттерді жүктеу мүмкін болмады.';
 
   @override
   String meetingsCounter(num count) {
@@ -1124,6 +1128,12 @@ class AppLocalizationsKk extends AppLocalizations {
   String get meetingsMarkComplete => 'Аяқталды деп белгілеу';
 
   @override
+  String get meetingsMustBeInFuture => 'Болашақтағы уақытты таңдаңыз';
+
+  @override
+  String get meetingsNoAgentsToAssign => 'Тағайындайтын адам жоқ';
+
+  @override
   String get meetingsNoLocation => 'Кездесудің орны көрсетілмеген';
 
   @override
@@ -1137,6 +1147,13 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get meetingsNote => 'Кездесу жазбасы';
+
+  @override
+  String get meetingsNothingUpcoming => 'Алдағы кездесулер жоқ';
+
+  @override
+  String get meetingsNothingUpcomingSubtitle =>
+      'Өткен кездесулер тарихта қалады.';
 
   @override
   String get meetingsPeopleAndDeal => 'Қатысушылар және мәміле';
@@ -1163,7 +1180,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get meetingsSearchByNameOrId => 'Аты немесе ID бойынша іздеу…';
 
   @override
-  String get meetingsSelectDateTime => 'Күн мен уақытты таңдаңыз *';
+  String get meetingsSelectDateTime => 'Күн мен уақытты таңдаңыз';
 
   @override
   String meetingsSelectEntity(Object label) {
@@ -1191,7 +1208,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get meetingsTitle => 'Кездесулер';
 
   @override
-  String get meetingsTitleFieldLabel => 'Атауы *';
+  String get meetingsTitleFieldLabel => 'Атауы';
 
   @override
   String get meetingsTitleRequired => 'Атауы міндетті';
@@ -1415,7 +1432,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get propertiesAddShort => 'Нысан';
 
   @override
-  String get propertiesAddressLabel => 'Мекенжайы *';
+  String get propertiesAddressLabel => 'Мекенжайы';
 
   @override
   String get propertiesAgent => 'Агент';
@@ -1521,7 +1538,7 @@ class AppLocalizationsKk extends AppLocalizations {
       'Сұранысты немесе сүзгіні өзгертіңіз';
 
   @override
-  String get propertiesPriceLabel => 'Бағасы *';
+  String get propertiesPriceLabel => 'Бағасы';
 
   @override
   String propertiesPricePerSqm(Object price) {
@@ -1573,7 +1590,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get propertiesTitle => 'Нысандар';
 
   @override
-  String get propertiesTitleLabel => 'Атауы *';
+  String get propertiesTitleLabel => 'Атауы';
 
   @override
   String get propertiesTotalFloors => 'Барлық қабаттар';

@@ -26,7 +26,15 @@ class EmptyState extends StatelessWidget {
         padding: EdgeInsets.symmetric(
             horizontal: AppMetrics.pagePadding(context), vertical: 24),
         child: ConstrainedBox(
-          constraints: BoxConstraints(minHeight: constraints.maxHeight - 48),
+          // Only stretch to fill when there is a height to fill. In a bottom
+          // sheet the column is min-sized, so maxHeight is infinite and asking
+          // for it back would demand an infinite child — which is how the
+          // picker's "nothing found" turned into an empty sheet.
+          constraints: BoxConstraints(
+            minHeight: constraints.hasBoundedHeight
+                ? (constraints.maxHeight - 48).clamp(0.0, double.infinity)
+                : 0,
+          ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
