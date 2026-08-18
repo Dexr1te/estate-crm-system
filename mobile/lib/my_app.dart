@@ -8,6 +8,7 @@ import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/notifications/notification_gateway.dart';
 import 'package:real_estate_crm/core/notifications/reminder_sync.dart';
 import 'package:real_estate_crm/core/notifications/reminders_bloc.dart';
+import 'package:real_estate_crm/core/theme/app_text_scaling.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
 import 'package:real_estate_crm/core/theme/bloc/theme_bloc.dart';
 import 'package:real_estate_crm/core/utils/deep_links.dart';
@@ -195,11 +196,8 @@ class _MyAppState extends State<MyApp> {
               supportedLocales: AppLocalizations.supportedLocales,
               routerConfig: router,
               debugShowCheckedModeBanner: false,
-              builder: (context, child) => MediaQuery.withClampedTextScaling(
-                minScaleFactor: 1.0,
-                maxScaleFactor: 1.5,
-                child: child ?? const SizedBox.shrink(),
-              ),
+              builder: (context, child) =>
+                  AppTextScaling(child: child ?? const SizedBox.shrink()),
             ),
           ),
         ),

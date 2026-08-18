@@ -29,6 +29,11 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
   bool _loading = false;
   bool _initLoading = false;
 
+  /// Why the pickers are empty, when the reason is a failed request rather
+  /// than an empty agency. Swallowing this made a broken connection look
+  /// exactly like having no colleagues.
+  ApiFailure? _loadFailure;
+
   List<PickerItem> _clients = const [];
   List<PickerItem> _agents = const [];
   List<PickerItem> _deals = const [];
@@ -66,7 +71,10 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
         final data = await fetch();
         if (!mounted) return;
         setState(() => assign(data.map(map).toList()));
-      } catch (_) {}
+      } catch (err) {
+        if (!mounted) return;
+        setState(() => _loadFailure = ApiFailure.from(err));
+      }
     }
 
     await Future.wait([
@@ -149,8 +157,9 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
     String label,
     List<PickerItem> items,
     PickerItem? current,
-    ValueChanged<PickerItem> onPicked,
-  ) async {
+    ValueChanged<PickerItem> onPicked, {
+    String? whenNone,
+  }) async {
     final l10n = AppLocalizations.of(context);
     final picked = await showEntityPicker(
       context,
@@ -158,18 +167,40 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
       items: items,
       selectedId: current?.id,
       searchHint: l10n.meetingsSearchByNameOrId,
-      emptyLabel: l10n.coreNoResults,
+      emptyLabel: _emptyLabel(l10n, whenNone ?? l10n.coreNoResults),
     );
     if (picked != null && mounted) setState(() => onPicked(picked));
   }
 
+  /// What an empty picker should say: a failed load and an empty list look the
+  /// same on screen, and only one of them is the person's problem to solve.
+  String _emptyLabel(AppLocalizations l10n, String noneLabel) =>
+      _loadFailure == null ? noneLabel : apiFailureLabel(l10n, _loadFailure!);
+
+  /// Where the pickers start when nothing has been chosen: the next half hour,
+  /// not this instant. "Now" as a default meant picking today and leaving the
+  /// time alone produced a moment already in the past, which the backend
+  /// refuses outright (MeetingRequest.scheduledAt is @Future) — the form looked
+  /// filled in and the save came back as an error nobody expected.
+  DateTime get _defaultSlot {
+    final now = AppClock.now();
+    final rounded = DateTime(now.year, now.month, now.day, now.hour)
+        .add(Duration(minutes: now.minute < 30 ? 30 : 60));
+    return rounded;
+  }
+
   Future<void> _pickDate() async {
     final now = AppClock.now();
-    final base = _scheduledAt ?? now;
+    final base = _scheduledAt ?? _defaultSlot;
     final date = await showDatePicker(
       context: context,
       initialDate: base,
-      firstDate: now.subtract(const Duration(days: 365)),
+      // The backend requires a future time (MeetingRequest.scheduledAt is
+      // @Future), so a past date is a round trip that can only fail. Editing an
+      // older meeting still opens on its own date.
+      firstDate: _scheduledAt != null && _scheduledAt!.isBefore(now)
+          ? _scheduledAt!
+          : now,
       lastDate: now.add(const Duration(days: 365 * 3)),
     );
     if (date == null || !mounted) return;
@@ -181,7 +212,7 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
   }
 
   Future<void> _pickTime() async {
-    final base = _scheduledAt ?? AppClock.now();
+    final base = _scheduledAt ?? _defaultSlot;
     final time = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.fromDateTime(base),
@@ -200,10 +231,17 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
     setState(() {
       _clientError = _client == null ? l10n.meetingsPleaseSelectClient : null;
       _agentError = _agent == null ? l10n.meetingsPleaseSelectAgent : null;
-      _whenError =
-          _scheduledAt == null ? l10n.meetingsPleaseSelectDateTime : null;
+      _whenError = _scheduledAt == null
+          ? l10n.meetingsPleaseSelectDateTime
+          : !_scheduledAt!.isAfter(AppClock.now())
+              ? l10n.meetingsMustBeInFuture
+              : null;
     });
-    if (!formOk || _client == null || _agent == null || _scheduledAt == null) {
+    if (!formOk ||
+        _client == null ||
+        _agent == null ||
+        _scheduledAt == null ||
+        _whenError != null) {
       return;
     }
 
@@ -381,7 +419,7 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
                             _pick(l10n.meetingsAgent, _agents, _agent, (v) {
                           _agent = v;
                           _agentError = null;
-                        }),
+                        }, whenNone: l10n.meetingsNoAgentsToAssign),
                       ),
                       _PickerRow(
                         label: l10n.meetingsDeal,

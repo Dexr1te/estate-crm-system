@@ -23,6 +23,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     // active agents for frontend select (only active!)
     List<User> findByRoleAndIsActiveTrueOrderByFullNameAsc(Role role);
 
+    /** Everyone who can be assigned work — see UserService.getAgentOptions. */
+    List<User> findByIsActiveTrueOrderByFullNameAsc();
+
     // all users by role (for admin - including inactive)
     List<User> findByRoleOrderByFullNameAsc(Role role);
 

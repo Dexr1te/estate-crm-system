@@ -19,7 +19,11 @@ public class UserService {
 
     // only active agents for frontend select (for meetings, deals)
     public List<AgentOptionResponse> getAgentOptions() {
-        return userRepository.findByRoleAndIsActiveTrueOrderByFullNameAsc(Role.AGENT)
+        // Everyone who can be put on a deal or a meeting, not only Role.AGENT.
+        // Managers and admins run viewings too, and in a young agency they are
+        // often the only accounts there are — under the old filter that list
+        // came back empty and the meeting form could not be submitted at all.
+        return userRepository.findByIsActiveTrueOrderByFullNameAsc()
                 .stream()
                 .map(user -> AgentOptionResponse.builder()
                         .id(user.getId())

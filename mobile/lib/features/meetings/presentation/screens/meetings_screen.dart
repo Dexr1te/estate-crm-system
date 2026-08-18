@@ -124,6 +124,19 @@ class _MeetingsScreenState extends State<MeetingsScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
+                            if (next == null)
+                              // Meetings exist but they are all behind us, so
+                              // the hero and the day groups are both empty and
+                              // the screen said nothing at all.
+                              Padding(
+                                padding: const EdgeInsets.only(top: 8),
+                                child: EmptyState(
+                                  icon: Icons.event_available_outlined,
+                                  title: l10n.meetingsNothingUpcoming,
+                                  subtitle:
+                                      l10n.meetingsNothingUpcomingSubtitle,
+                                ),
+                              ),
                             if (next != null) ...[
                               NextMeetingHero(
                                 meeting: next,

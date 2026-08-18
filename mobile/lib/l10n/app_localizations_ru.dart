@@ -395,7 +395,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get clientsFullName => 'Полное имя';
 
   @override
-  String get clientsFullNameLabel => 'Полное имя *';
+  String get clientsFullNameLabel => 'Полное имя';
 
   @override
   String clientsIdBadge(Object id) {
@@ -1030,7 +1030,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get dealsTitle => 'Сделки';
 
   @override
-  String get dealsTitleLabel => 'Название *';
+  String get dealsTitleLabel => 'Название';
 
   @override
   String get dealsTitleRequired => 'Название обязательно';
@@ -1065,6 +1065,10 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get meetingsCompleted => 'Выполнено';
+
+  @override
+  String get meetingsCouldNotLoadOptions =>
+      'Не удалось загрузить клиентов и агентов.';
 
   @override
   String meetingsCounter(num count) {
@@ -1135,6 +1139,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get meetingsMarkComplete => 'Отметить выполненной';
 
   @override
+  String get meetingsMustBeInFuture => 'Выберите время в будущем';
+
+  @override
+  String get meetingsNoAgentsToAssign => 'Некого назначить';
+
+  @override
   String get meetingsNoLocation => 'У встречи не указано место';
 
   @override
@@ -1149,6 +1159,13 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get meetingsNote => 'Заметка к встрече';
+
+  @override
+  String get meetingsNothingUpcoming => 'Предстоящих встреч нет';
+
+  @override
+  String get meetingsNothingUpcomingSubtitle =>
+      'Прошедшие встречи остаются в истории.';
 
   @override
   String get meetingsPeopleAndDeal => 'Участники и сделка';
@@ -1176,7 +1193,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get meetingsSearchByNameOrId => 'Поиск по имени или ID…';
 
   @override
-  String get meetingsSelectDateTime => 'Выберите дату и время *';
+  String get meetingsSelectDateTime => 'Выберите дату и время';
 
   @override
   String meetingsSelectEntity(Object label) {
@@ -1204,7 +1221,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get meetingsTitle => 'Встречи';
 
   @override
-  String get meetingsTitleFieldLabel => 'Название *';
+  String get meetingsTitleFieldLabel => 'Название';
 
   @override
   String get meetingsTitleRequired => 'Название обязательно';
@@ -1428,7 +1445,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get propertiesAddShort => 'Объект';
 
   @override
-  String get propertiesAddressLabel => 'Адрес *';
+  String get propertiesAddressLabel => 'Адрес';
 
   @override
   String get propertiesAgent => 'Агент';
@@ -1533,7 +1550,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get propertiesNoResultsSubtitle => 'Измените запрос или фильтр';
 
   @override
-  String get propertiesPriceLabel => 'Цена *';
+  String get propertiesPriceLabel => 'Цена';
 
   @override
   String propertiesPricePerSqm(Object price) {
@@ -1585,7 +1602,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get propertiesTitle => 'Объекты';
 
   @override
-  String get propertiesTitleLabel => 'Название *';
+  String get propertiesTitleLabel => 'Название';
 
   @override
   String get propertiesTotalFloors => 'Всего этажей';

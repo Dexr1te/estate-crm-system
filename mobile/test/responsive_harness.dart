@@ -43,7 +43,13 @@ Future<void> expectNoOverflow(
           padding: const EdgeInsets.only(top: 47, bottom: 34),
           viewPadding: const EdgeInsets.only(top: 47, bottom: 34),
         ),
-        child: child,
+        // The same clamp my_app puts over every screen. Without it the suite
+        // was testing a text scaler the app never uses, which is how a clamp
+        // that crashed the date picker got through green tests.
+        child: MediaQuery.withClampedTextScaling(
+          maxScaleFactor: 1.5,
+          child: child,
+        ),
       ),
     ),
   );

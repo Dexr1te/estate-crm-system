@@ -123,6 +123,63 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
+  // The bug this guards: my_app clamps text scaling for the whole app, and a
+  // floor of 1.0 intersected with the date picker's own clamp to produce an
+  // empty range, which trips an assertion inside TextScaler and paints a red
+  // box where the field was. The suite never saw it because the harness set a
+  // scaler directly instead of clamping the way the app does.
+  testWidgets('the date picker opens instead of painting an error',
+      (tester) async {
+    await expectNoOverflow(
+      tester,
+      _wrap(const MeetingFormScreen()),
+      size: const Size(390, 844),
+      brightness: Brightness.light,
+      textScale: 1.0,
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Date'));
+    await tester.pumpAndSettle();
+
+    expect(tester.takeException(), isNull,
+        reason: 'the picker must open, not assert');
+    expect(find.byType(DatePickerDialog), findsOneWidget);
+  });
+
+  testWidgets('so does the time picker', (tester) async {
+    await expectNoOverflow(
+      tester,
+      _wrap(const MeetingFormScreen()),
+      size: const Size(390, 844),
+      brightness: Brightness.light,
+      textScale: 1.0,
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Time'));
+    await tester.pumpAndSettle();
+
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('a past-only history says nothing is coming up', (tester) async {
+    await expectNoOverflow(
+      tester,
+      _wrap(const MeetingsScreen(), meetings: [
+        _meeting(9, const Duration(days: -3), 'Показ, который уже прошёл'),
+      ]),
+      size: const Size(390, 844),
+      brightness: Brightness.light,
+      textScale: 1.0,
+    );
+    await tester.pumpAndSettle();
+
+    // The list is not empty, so the "no meetings" state does not apply — and
+    // before this the screen simply rendered a header and blank space.
+    expect(find.text('Nothing upcoming'), findsOneWidget);
+  });
+
   for (final locale in kAcceptanceLocales) {
     testWidgets('meetings render in ${locale.languageCode}', (tester) async {
       for (final screen in [

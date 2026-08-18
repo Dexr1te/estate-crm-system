@@ -787,7 +787,7 @@ abstract class AppLocalizations {
   /// No description provided for @clientsFullNameLabel.
   ///
   /// In en, this message translates to:
-  /// **'Full Name *'**
+  /// **'Full Name'**
   String get clientsFullNameLabel;
 
   /// No description provided for @clientsIdBadge.
@@ -1873,7 +1873,7 @@ abstract class AppLocalizations {
   /// No description provided for @dealsTitleLabel.
   ///
   /// In en, this message translates to:
-  /// **'Title *'**
+  /// **'Title'**
   String get dealsTitleLabel;
 
   /// No description provided for @dealsTitleRequired.
@@ -1935,6 +1935,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Completed'**
   String get meetingsCompleted;
+
+  /// No description provided for @meetingsCouldNotLoadOptions.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load clients and agents.'**
+  String get meetingsCouldNotLoadOptions;
 
   /// No description provided for @meetingsCounter.
   ///
@@ -2044,6 +2050,18 @@ abstract class AppLocalizations {
   /// **'Mark Complete'**
   String get meetingsMarkComplete;
 
+  /// No description provided for @meetingsMustBeInFuture.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a time in the future'**
+  String get meetingsMustBeInFuture;
+
+  /// No description provided for @meetingsNoAgentsToAssign.
+  ///
+  /// In en, this message translates to:
+  /// **'No agents to assign'**
+  String get meetingsNoAgentsToAssign;
+
   /// No description provided for @meetingsNoLocation.
   ///
   /// In en, this message translates to:
@@ -2073,6 +2091,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Meeting note'**
   String get meetingsNote;
+
+  /// No description provided for @meetingsNothingUpcoming.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing upcoming'**
+  String get meetingsNothingUpcoming;
+
+  /// No description provided for @meetingsNothingUpcomingSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Past meetings stay in your history.'**
+  String get meetingsNothingUpcomingSubtitle;
 
   /// No description provided for @meetingsPeopleAndDeal.
   ///
@@ -2125,7 +2155,7 @@ abstract class AppLocalizations {
   /// No description provided for @meetingsSelectDateTime.
   ///
   /// In en, this message translates to:
-  /// **'Select date & time *'**
+  /// **'Select date & time'**
   String get meetingsSelectDateTime;
 
   /// No description provided for @meetingsSelectEntity.
@@ -2173,7 +2203,7 @@ abstract class AppLocalizations {
   /// No description provided for @meetingsTitleFieldLabel.
   ///
   /// In en, this message translates to:
-  /// **'Title *'**
+  /// **'Title'**
   String get meetingsTitleFieldLabel;
 
   /// No description provided for @meetingsTitleRequired.
@@ -2617,7 +2647,7 @@ abstract class AppLocalizations {
   /// No description provided for @propertiesAddressLabel.
   ///
   /// In en, this message translates to:
-  /// **'Address *'**
+  /// **'Address'**
   String get propertiesAddressLabel;
 
   /// No description provided for @propertiesAgent.
@@ -2803,7 +2833,7 @@ abstract class AppLocalizations {
   /// No description provided for @propertiesPriceLabel.
   ///
   /// In en, this message translates to:
-  /// **'Price *'**
+  /// **'Price'**
   String get propertiesPriceLabel;
 
   /// No description provided for @propertiesPricePerSqm.
@@ -2887,7 +2917,7 @@ abstract class AppLocalizations {
   /// No description provided for @propertiesTitleLabel.
   ///
   /// In en, this message translates to:
-  /// **'Title *'**
+  /// **'Title'**
   String get propertiesTitleLabel;
 
   /// No description provided for @propertiesTotalFloors.
