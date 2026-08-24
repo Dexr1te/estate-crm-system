@@ -104,6 +104,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           Localizations.localeOf(context).toLanguageTag())),
                       initial: user?.fullName ?? '',
                       onTap: () => context.push('/profile'),
+                      onSearch: () => context.push('/search'),
                     ),
                     const SizedBox(height: 18),
                     if (state is DashboardLoading)
@@ -279,12 +280,14 @@ class _GreetingRow extends StatelessWidget {
   final String subtitle;
   final String initial;
   final VoidCallback onTap;
+  final VoidCallback onSearch;
 
   const _GreetingRow({
     required this.title,
     required this.subtitle,
     required this.initial,
     required this.onTap,
+    required this.onSearch,
   });
 
   @override
@@ -321,7 +324,14 @@ class _GreetingRow extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(width: 12),
+        const SizedBox(width: 8),
+        // The one way into search, on the screen every session starts from.
+        AppIconTile(
+          icon: Icons.search_rounded,
+          tooltip: AppLocalizations.of(context).searchTitle,
+          onPressed: onSearch,
+        ),
+        const SizedBox(width: 4),
         UserAvatar(name: initial, size: 44, onTap: onTap),
       ],
     );

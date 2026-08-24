@@ -28,6 +28,8 @@ import 'package:real_estate_crm/features/meetings/domain/repositories/meetings_r
 import 'package:real_estate_crm/features/properties/data/datasources/properties_remote_datasource.dart';
 import 'package:real_estate_crm/features/properties/data/repositories/properties_repository_impl.dart';
 import 'package:real_estate_crm/features/properties/domain/repositories/properties_repository.dart';
+import 'package:real_estate_crm/features/search/data/repositories/search_repository_impl.dart';
+import 'package:real_estate_crm/features/search/domain/repositories/search_repository.dart';
 
 class Injector {
   Injector._();
@@ -63,6 +65,12 @@ class Injector {
 
   static TeamsRepository teamsRepository =
       TeamsRepositoryImpl(TeamsRemoteDataSource(_apiClient));
+
+  /// Composed on demand rather than held, because it is a view over the three
+  /// listing repositories above: a test that swaps one of those has to be
+  /// searched through too, and a stored instance would still hold the real one.
+  static SearchRepository get searchRepository => SearchRepositoryImpl(
+      clientsRepository, propertiesRepository, dealsRepository);
 
   /// What the profile screen reports. Read once at startup rather than
   /// hardcoded, so a shipped build cannot claim a version it is not.

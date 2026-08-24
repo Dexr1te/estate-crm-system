@@ -1664,6 +1664,49 @@ class AppLocalizationsRu extends AppLocalizations {
       'Уведомления для EstateCRM отключены. Включите их в настройках телефона.';
 
   @override
+  String get searchClear => 'Очистить';
+
+  @override
+  String get searchClearRecent => 'Очистить';
+
+  @override
+  String get searchHint => 'Клиенты, объекты, сделки…';
+
+  @override
+  String searchMoreCount(Object count) {
+    return 'и ещё $count';
+  }
+
+  @override
+  String get searchNoResults => 'Ничего не найдено';
+
+  @override
+  String get searchNoResultsSubtitle =>
+      'Попробуйте другое имя, адрес или номер телефона';
+
+  @override
+  String get searchPromptSubtitle =>
+      'Найдите клиента, объект или сделку по имени, адресу, телефону или ID';
+
+  @override
+  String get searchPromptTitle => 'Поиск по всей базе';
+
+  @override
+  String get searchRecent => 'Недавние';
+
+  @override
+  String get searchSectionClients => 'Клиенты';
+
+  @override
+  String get searchSectionDeals => 'Сделки';
+
+  @override
+  String get searchSectionProperties => 'Объекты';
+
+  @override
+  String get searchTitle => 'Поиск';
+
+  @override
   String get teamsActive => 'Активные';
 
   @override

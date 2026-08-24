@@ -1652,6 +1652,49 @@ class AppLocalizationsKk extends AppLocalizations {
       'EstateCRM хабарландырулары өшірулі. Оларды телефон параметрлерінен қосыңыз.';
 
   @override
+  String get searchClear => 'Тазалау';
+
+  @override
+  String get searchClearRecent => 'Тазалау';
+
+  @override
+  String get searchHint => 'Клиенттер, нысандар, мәмілелер…';
+
+  @override
+  String searchMoreCount(Object count) {
+    return 'тағы $count';
+  }
+
+  @override
+  String get searchNoResults => 'Ештеңе табылмады';
+
+  @override
+  String get searchNoResultsSubtitle =>
+      'Басқа атты, мекенжайды немесе телефон нөмірін көріңіз';
+
+  @override
+  String get searchPromptSubtitle =>
+      'Клиентті, нысанды немесе мәмілені аты, мекенжайы, телефоны немесе ID бойынша табыңыз';
+
+  @override
+  String get searchPromptTitle => 'Бүкіл базадан іздеу';
+
+  @override
+  String get searchRecent => 'Соңғылары';
+
+  @override
+  String get searchSectionClients => 'Клиенттер';
+
+  @override
+  String get searchSectionDeals => 'Мәмілелер';
+
+  @override
+  String get searchSectionProperties => 'Нысандар';
+
+  @override
+  String get searchTitle => 'Іздеу';
+
+  @override
   String get teamsActive => 'Белсенді';
 
   @override

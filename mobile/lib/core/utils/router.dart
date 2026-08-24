@@ -23,6 +23,7 @@ import 'package:real_estate_crm/features/profile/presentation/screens/profile_sc
 import 'package:real_estate_crm/features/properties/presentation/screens/properties_screen.dart';
 import 'package:real_estate_crm/features/properties/presentation/screens/property_detail_screen.dart';
 import 'package:real_estate_crm/features/properties/presentation/screens/property_form_screen.dart';
+import 'package:real_estate_crm/features/search/presentation/screens/search_screen.dart';
 import 'package:real_estate_crm/core/widgets/main_scaffold.dart';
 
 final _rootKey = GlobalKey<NavigatorState>();
@@ -114,6 +115,14 @@ GoRouter createRouter(AuthBloc authBloc) {
         path: '/profile',
         parentNavigatorKey: _rootKey,
         pageBuilder: (_, __) => const NoTransitionPage(child: ProfileScreen()),
+      ),
+      // Outside the shell: search covers the app rather than sitting beside it
+      // in the nav bar, and a result is pushed on top so back returns to the
+      // query that found it.
+      GoRoute(
+        path: '/search',
+        parentNavigatorKey: _rootKey,
+        pageBuilder: (_, __) => const NoTransitionPage(child: SearchScreen()),
       ),
       ShellRoute(
         navigatorKey: _shellKey,
