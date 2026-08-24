@@ -845,6 +845,17 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String dealsBoardColumnMeta(Object count, Object total) {
+    return '$count · $total';
+  }
+
+  @override
+  String get dealsBoardDragHint => 'Hold a card to move it to another stage';
+
+  @override
+  String get dealsBoardStageEmpty => 'Nothing at this stage';
+
+  @override
   String get dealsBudget => 'Budget';
 
   @override
@@ -1029,6 +1040,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dealsUpdateDeal => 'Update Deal';
+
+  @override
+  String get dealsViewBoard => 'Board';
+
+  @override
+  String get dealsViewList => 'List';
 
   @override
   String get meetingsAddShort => 'Meeting';

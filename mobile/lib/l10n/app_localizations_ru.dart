@@ -853,6 +853,18 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String dealsBoardColumnMeta(Object count, Object total) {
+    return '$count · $total';
+  }
+
+  @override
+  String get dealsBoardDragHint =>
+      'Удерживайте карточку, чтобы перенести её на другой этап';
+
+  @override
+  String get dealsBoardStageEmpty => 'На этом этапе пусто';
+
+  @override
   String get dealsBudget => 'Бюджет';
 
   @override
@@ -1037,6 +1049,12 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get dealsUpdateDeal => 'Обновить сделку';
+
+  @override
+  String get dealsViewBoard => 'Доска';
+
+  @override
+  String get dealsViewList => 'Список';
 
   @override
   String get meetingsAddShort => 'Встреча';

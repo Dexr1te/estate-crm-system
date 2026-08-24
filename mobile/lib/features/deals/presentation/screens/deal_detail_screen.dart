@@ -258,7 +258,7 @@ class _StageCard extends StatelessWidget {
                     child: DecoratedBox(
                       decoration: BoxDecoration(
                         color: reachedTo >= i
-                            ? _stageColor(track[i])
+                            ? dealStageColor(t, track[i])
                             : t.surfaceVariant,
                         borderRadius: BorderRadius.circular(5),
                       ),
@@ -283,19 +283,6 @@ class _StageCard extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  static Color _stageColor(DealStatus s) {
-    switch (s) {
-      case DealStatus.LEAD:
-        return AppColors.lead;
-      case DealStatus.NEGOTIATION:
-        return AppColors.negotiation;
-      case DealStatus.CLOSED_WON:
-        return AppColors.closedWon;
-      case DealStatus.CLOSED_LOST:
-        return AppColors.closedLost;
-    }
   }
 }
 

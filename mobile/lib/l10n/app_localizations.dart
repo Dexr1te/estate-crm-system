@@ -1564,6 +1564,24 @@ abstract class AppLocalizations {
   /// **'Agent: {name}'**
   String dealsAgentValue(Object name);
 
+  /// No description provided for @dealsBoardColumnMeta.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} · {total}'**
+  String dealsBoardColumnMeta(Object count, Object total);
+
+  /// No description provided for @dealsBoardDragHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Hold a card to move it to another stage'**
+  String get dealsBoardDragHint;
+
+  /// No description provided for @dealsBoardStageEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing at this stage'**
+  String get dealsBoardStageEmpty;
+
   /// No description provided for @dealsBudget.
   ///
   /// In en, this message translates to:
@@ -1887,6 +1905,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Update Deal'**
   String get dealsUpdateDeal;
+
+  /// No description provided for @dealsViewBoard.
+  ///
+  /// In en, this message translates to:
+  /// **'Board'**
+  String get dealsViewBoard;
+
+  /// No description provided for @dealsViewList.
+  ///
+  /// In en, this message translates to:
+  /// **'List'**
+  String get dealsViewList;
 
   /// No description provided for @meetingsAddShort.
   ///
