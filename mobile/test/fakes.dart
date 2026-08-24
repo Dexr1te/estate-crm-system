@@ -133,7 +133,17 @@ class FakeClientsRepository implements ClientsRepository {
     int? agentId,
     String? search,
   }) async =>
-      clients;
+      clients.where((c) => _matches(c, search)).toList();
+
+  // The server filters on name, email and phone; global search leans on that,
+  // so the fake has to do it too or every query would look like a match.
+  static bool _matches(ClientResponse c, String? search) {
+    if (search == null || search.trim().isEmpty) return true;
+    final q = search.trim().toLowerCase();
+    return c.fullName.toLowerCase().contains(q) ||
+        (c.email?.toLowerCase().contains(q) ?? false) ||
+        (c.phone?.toLowerCase().contains(q) ?? false);
+  }
   @override
   Future<List<ClientListItem>> getClientsWithDetails() async => listItems;
   @override
@@ -167,6 +177,7 @@ class FakePropertiesRepository implements PropertiesRepository {
     final filtered = properties
         .where((p) => status == null || p.status == status)
         .where((p) => type == null || p.type == type)
+        .where((p) => _matches(p, search))
         .toList();
     return PagedResponse(
       content: filtered,
@@ -175,6 +186,14 @@ class FakePropertiesRepository implements PropertiesRepository {
       totalElements: filtered.length,
       isLast: true,
     );
+  }
+
+  static bool _matches(PropertyResponse p, String? search) {
+    if (search == null || search.trim().isEmpty) return true;
+    final q = search.trim().toLowerCase();
+    return p.title.toLowerCase().contains(q) ||
+        p.address.toLowerCase().contains(q) ||
+        (p.city?.toLowerCase().contains(q) ?? false);
   }
 
   @override

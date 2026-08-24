@@ -1651,6 +1651,49 @@ class AppLocalizationsEn extends AppLocalizations {
       'Notifications are off for EstateCRM. Turn them on in your phone’s settings.';
 
   @override
+  String get searchClear => 'Clear';
+
+  @override
+  String get searchClearRecent => 'Clear';
+
+  @override
+  String get searchHint => 'Clients, listings, deals…';
+
+  @override
+  String searchMoreCount(Object count) {
+    return 'and $count more';
+  }
+
+  @override
+  String get searchNoResults => 'Nothing found';
+
+  @override
+  String get searchNoResultsSubtitle =>
+      'Try a different name, address or phone number';
+
+  @override
+  String get searchPromptSubtitle =>
+      'Find a client, a listing or a deal by name, address, phone or id';
+
+  @override
+  String get searchPromptTitle => 'Search everything';
+
+  @override
+  String get searchRecent => 'Recent';
+
+  @override
+  String get searchSectionClients => 'Clients';
+
+  @override
+  String get searchSectionDeals => 'Deals';
+
+  @override
+  String get searchSectionProperties => 'Properties';
+
+  @override
+  String get searchTitle => 'Search';
+
+  @override
   String get teamsActive => 'Active';
 
   @override

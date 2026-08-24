@@ -3022,6 +3022,84 @@ abstract class AppLocalizations {
   /// **'Notifications are off for EstateCRM. Turn them on in your phone’s settings.'**
   String get remindersPermissionDenied;
 
+  /// No description provided for @searchClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get searchClear;
+
+  /// No description provided for @searchClearRecent.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get searchClearRecent;
+
+  /// No description provided for @searchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Clients, listings, deals…'**
+  String get searchHint;
+
+  /// No description provided for @searchMoreCount.
+  ///
+  /// In en, this message translates to:
+  /// **'and {count} more'**
+  String searchMoreCount(Object count);
+
+  /// No description provided for @searchNoResults.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing found'**
+  String get searchNoResults;
+
+  /// No description provided for @searchNoResultsSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Try a different name, address or phone number'**
+  String get searchNoResultsSubtitle;
+
+  /// No description provided for @searchPromptSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Find a client, a listing or a deal by name, address, phone or id'**
+  String get searchPromptSubtitle;
+
+  /// No description provided for @searchPromptTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Search everything'**
+  String get searchPromptTitle;
+
+  /// No description provided for @searchRecent.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent'**
+  String get searchRecent;
+
+  /// No description provided for @searchSectionClients.
+  ///
+  /// In en, this message translates to:
+  /// **'Clients'**
+  String get searchSectionClients;
+
+  /// No description provided for @searchSectionDeals.
+  ///
+  /// In en, this message translates to:
+  /// **'Deals'**
+  String get searchSectionDeals;
+
+  /// No description provided for @searchSectionProperties.
+  ///
+  /// In en, this message translates to:
+  /// **'Properties'**
+  String get searchSectionProperties;
+
+  /// No description provided for @searchTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get searchTitle;
+
   /// No description provided for @teamsActive.
   ///
   /// In en, this message translates to:
