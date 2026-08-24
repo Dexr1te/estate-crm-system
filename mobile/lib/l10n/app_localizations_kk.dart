@@ -844,6 +844,18 @@ class AppLocalizationsKk extends AppLocalizations {
   }
 
   @override
+  String dealsBoardColumnMeta(Object count, Object total) {
+    return '$count · $total';
+  }
+
+  @override
+  String get dealsBoardDragHint =>
+      'Картаны басып тұрып, оны басқа кезеңге апарыңыз';
+
+  @override
+  String get dealsBoardStageEmpty => 'Бұл кезеңде ештеңе жоқ';
+
+  @override
   String get dealsBudget => 'Бюджет';
 
   @override
@@ -1028,6 +1040,12 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get dealsUpdateDeal => 'Мәмілені жаңарту';
+
+  @override
+  String get dealsViewBoard => 'Тақта';
+
+  @override
+  String get dealsViewList => 'Тізім';
 
   @override
   String get meetingsAddShort => 'Кездесу';

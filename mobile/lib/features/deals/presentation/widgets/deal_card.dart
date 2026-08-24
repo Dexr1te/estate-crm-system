@@ -22,7 +22,7 @@ class DealCard extends StatelessWidget {
       if (deal.agentName.isNotEmpty) l10n.dealsAgentValue(deal.agentName),
     ].join(' · ');
 
-    final staleDays = _staleDays(deal);
+    final stale = staleDays(deal);
     final amount = deal.dealPrice ?? deal.budget ?? 0;
 
     return AppCard(
@@ -84,8 +84,8 @@ class DealCard extends StatelessWidget {
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
-                  staleDays != null
-                      ? l10n.dealsStaleWarning(staleDays)
+                  stale != null
+                      ? l10n.dealsStaleWarning(stale)
                       : (deal.budget != null
                           ? l10n.dealsBudgetValue(formatPrice(deal.budget!))
                           : ''),
@@ -96,8 +96,8 @@ class DealCard extends StatelessWidget {
                     fontFamily: AppFonts.sans,
                     fontSize: 11.5,
                     fontWeight:
-                        staleDays != null ? FontWeight.w600 : FontWeight.w400,
-                    color: staleDays != null ? t.dangerText : t.textSecondary,
+                        stale != null ? FontWeight.w600 : FontWeight.w400,
+                    color: stale != null ? t.dangerText : t.textSecondary,
                   ),
                 ),
               ),
@@ -108,7 +108,9 @@ class DealCard extends StatelessWidget {
     );
   }
 
-  static int? _staleDays(DealResponse deal) {
+  /// How long a deal has sat untouched, or null when it is closed or still
+  /// fresh. The board reads it too, so the two views call the same deal stale.
+  static int? staleDays(DealResponse deal) {
     if (deal.status == DealStatus.CLOSED_WON ||
         deal.status == DealStatus.CLOSED_LOST) {
       return null;

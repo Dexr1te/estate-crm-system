@@ -74,6 +74,23 @@ StatusHue dealStatusHue(DealStatus status) {
   }
 }
 
+/// The stage's own colour, for anything that draws the pipeline itself — the
+/// detail screen's progress track, the board's column headers and drop slots.
+/// Status chips keep using [dealStatusHue]; this is the darker, dark-mode-aware
+/// solid behind larger shapes.
+Color dealStageColor(AppTokens t, DealStatus status) {
+  switch (status) {
+    case DealStatus.LEAD:
+      return t.chartLead;
+    case DealStatus.NEGOTIATION:
+      return t.chartNegotiation;
+    case DealStatus.CLOSED_WON:
+      return t.chartWon;
+    case DealStatus.CLOSED_LOST:
+      return t.chartLost;
+  }
+}
+
 String dealStatusLabel(AppLocalizations l10n, DealStatus status) {
   switch (status) {
     case DealStatus.LEAD:
