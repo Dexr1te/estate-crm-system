@@ -74,6 +74,9 @@ class _SearchViewState extends State<_SearchView> {
   void _useRecent(String query) {
     _controller.text = query;
     _controller.selection = TextSelection.collapsed(offset: query.length);
+    // The clear button is drawn from what the field holds, and filling it from
+    // here is the one path that does not come through _onChanged.
+    setState(() {});
     _submit(query);
   }
 

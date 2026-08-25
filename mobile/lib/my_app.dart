@@ -173,9 +173,16 @@ class _MyAppState extends State<MyApp> {
                 prev.settings.enabled != curr.settings.enabled ||
                 prev.settings.lead != curr.settings.lead,
             listener: (context, __) {
+              // Either source will do, and on a launch that goes straight from
+              // the dashboard to the profile the dashboard is the only one that
+              // has any: the meetings screen may never have been opened, and a
+              // switch that schedules nothing until it is reads as broken.
               final meetings = _meetingsBloc.state;
+              final dashboard = _dashboardBloc.state;
               if (meetings is MeetingsLoaded) {
                 _syncReminders(context, meetings.meetings);
+              } else if (dashboard is DashboardLoaded) {
+                _syncReminders(context, dashboard.upcoming);
               }
             },
           ),

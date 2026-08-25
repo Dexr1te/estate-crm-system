@@ -306,6 +306,37 @@ void main() {
     expect(find.byType(ClientResultTile), findsOneWidget);
   });
 
+  testWidgets('a field filled from a recent query can be emptied again',
+      (tester) async {
+    SharedPreferences.setMockInitialValues({
+      'recent_searches': ['айгер'],
+    });
+
+    await expectNoOverflow(
+      tester,
+      const SearchScreen(),
+      size: const Size(390, 844),
+      brightness: Brightness.light,
+      textScale: 1.0,
+    );
+    await tester.pump();
+    await tester.tap(find.text('айгер'));
+    await tester.pump();
+    await tester.pump();
+
+    final clear = find.byIcon(Icons.close_rounded);
+    expect(clear, findsOneWidget,
+        reason: 'the field has a query in it, so there has to be a way out of '
+            'it that is not deleting five characters by hand');
+
+    await tester.tap(clear);
+    await tester.pump();
+
+    expect(find.byType(ClientResultTile), findsNothing);
+    // The field is empty again, so the query is back to being a suggestion.
+    expect(find.text('айгер'), findsOneWidget);
+  });
+
   testWidgets('opening a result navigates and remembers the query',
       (tester) async {
     await tester.pumpWidget(_routedApp());
