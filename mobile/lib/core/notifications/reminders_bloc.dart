@@ -65,6 +65,10 @@ class RemindersBloc extends Bloc<RemindersEvent, RemindersState> {
     // once anyway and answers from memory after that.
     final granted = await _gateway.requestPermission();
     if (!granted) {
+      // Written down as well as emitted: permission can be taken away in the
+      // system settings long after it was given, and a stored `true` would
+      // bring the switch back on next launch over notifications the OS drops.
+      await prefs.setBool(_enabledKey, false);
       emit(RemindersState(
         ReminderSettings(enabled: false, lead: state.settings.lead),
         permissionDenied: true,

@@ -141,6 +141,22 @@ void main() {
       expect(state.permissionDenied, isTrue);
     });
 
+    test('a refusal is written down, not only shown', () async {
+      SharedPreferences.setMockInitialValues({'reminders_enabled': true});
+      final gateway = FakeNotificationGateway(permissionGranted: false);
+      final bloc = RemindersBloc(gateway);
+      addTearDown(bloc.close);
+
+      bloc.add(RemindersLeadChangedEvent(ReminderLead.oneHour));
+      await bloc.stream.first;
+
+      final prefs = await SharedPreferences.getInstance();
+      expect(prefs.getBool('reminders_enabled'), isFalse,
+          reason: 'permission can be taken away in the system settings long '
+              'after it was given, and a stored true brings the switch back on '
+              'next launch over notifications the OS quietly drops');
+    });
+
     test('turning it off cancels what was already waiting', () async {
       final gateway = FakeNotificationGateway();
       final bloc = RemindersBloc(gateway);
