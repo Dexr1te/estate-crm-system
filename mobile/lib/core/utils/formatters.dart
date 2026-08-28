@@ -18,6 +18,11 @@ String formatWeekdayDate(DateTime dt, String locale) =>
 String formatDayMonth(DateTime dt, String locale) =>
     DateFormat.MMMd(_resolveLocale(locale)).format(dt);
 
+/// Day, month and year in the reader's language — for dates old enough that the
+/// year is the part that matters.
+String formatFullDate(DateTime dt, String locale) =>
+    DateFormat.yMMMd(_resolveLocale(locale)).format(dt);
+
 String _resolveLocale(String locale) =>
     DateFormat.localeExists(locale) ? locale : 'en';
 

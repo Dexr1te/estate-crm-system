@@ -1057,6 +1057,71 @@ class AppLocalizationsRu extends AppLocalizations {
   String get dealsViewList => 'Список';
 
   @override
+  String get documentsAdd => 'Прикрепить файл';
+
+  @override
+  String documentsCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count файлов',
+      few: '$count файла',
+      one: '1 файл',
+      zero: 'Нет файлов',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String documentsDeleteConfirm(Object name) {
+    return '$name будет удалён из сделки. Это действие необратимо.';
+  }
+
+  @override
+  String get documentsDeleteTitle => 'Удалить документ';
+
+  @override
+  String get documentsEmpty => 'К этой сделке пока не прикреплён ни один файл';
+
+  @override
+  String get documentsNoApp =>
+      'На этом телефоне нет приложения, которое откроет такой файл';
+
+  @override
+  String get documentsOpenFailed => 'Не удалось открыть файл';
+
+  @override
+  String documentsSizeBytes(Object size) {
+    return '$size Б';
+  }
+
+  @override
+  String documentsSizeKb(Object size) {
+    return '$size КБ';
+  }
+
+  @override
+  String documentsSizeMb(Object size) {
+    return '$size МБ';
+  }
+
+  @override
+  String get documentsTitle => 'Документы';
+
+  @override
+  String documentsTooLarge(Object limit) {
+    return 'Файлы больше $limit МБ прикрепить нельзя';
+  }
+
+  @override
+  String documentsUploadedBy(Object name) {
+    return 'Добавил: $name';
+  }
+
+  @override
+  String get documentsUploading => 'Отправляем…';
+
+  @override
   String get meetingsAddShort => 'Встреча';
 
   @override
@@ -1276,6 +1341,12 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get msgDealUpdated => 'Сделка обновлена';
+
+  @override
+  String get msgDocumentDeleted => 'Документ удалён';
+
+  @override
+  String get msgDocumentUploaded => 'Документ прикреплён';
 
   @override
   String get msgInviteResent => 'Приглашение отправлено повторно';

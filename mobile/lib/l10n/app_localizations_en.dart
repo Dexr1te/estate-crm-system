@@ -1048,6 +1048,69 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dealsViewList => 'List';
 
   @override
+  String get documentsAdd => 'Attach file';
+
+  @override
+  String documentsCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count files',
+      one: '1 file',
+      zero: 'No files',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String documentsDeleteConfirm(Object name) {
+    return '$name will be removed from this deal. This cannot be undone.';
+  }
+
+  @override
+  String get documentsDeleteTitle => 'Remove document';
+
+  @override
+  String get documentsEmpty => 'No files attached to this deal yet';
+
+  @override
+  String get documentsNoApp => 'No app on this phone can open this file';
+
+  @override
+  String get documentsOpenFailed => 'This file could not be opened';
+
+  @override
+  String documentsSizeBytes(Object size) {
+    return '$size B';
+  }
+
+  @override
+  String documentsSizeKb(Object size) {
+    return '$size KB';
+  }
+
+  @override
+  String documentsSizeMb(Object size) {
+    return '$size MB';
+  }
+
+  @override
+  String get documentsTitle => 'Documents';
+
+  @override
+  String documentsTooLarge(Object limit) {
+    return 'Files larger than $limit MB cannot be attached';
+  }
+
+  @override
+  String documentsUploadedBy(Object name) {
+    return 'Added by $name';
+  }
+
+  @override
+  String get documentsUploading => 'Sending…';
+
+  @override
   String get meetingsAddShort => 'Meeting';
 
   @override
@@ -1263,6 +1326,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get msgDealUpdated => 'Deal updated';
+
+  @override
+  String get msgDocumentDeleted => 'Document removed';
+
+  @override
+  String get msgDocumentUploaded => 'Document attached';
 
   @override
   String get msgInviteResent => 'Invite resent';

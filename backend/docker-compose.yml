@@ -41,11 +41,15 @@ services:
       # Overrides .env on purpose: inside the network the database is `db`.
       DB_URL: jdbc:postgresql://db:5432/crm_db
       FIREBASE_CREDENTIALS_PATH: /app/firebase-service-account.json
+      DOCUMENTS_DIR: /app/uploads/documents
     depends_on:
       db:
         condition: service_healthy
     volumes:
       - ./firebase-service-account.json:/app/firebase-service-account.json:ro
+      # Deal documents live on disk, not in Postgres. Without a volume every
+      # rebuild would drop the paperwork while leaving its rows behind.
+      - documents_data:/app/uploads
 
   pgadmin:
     image: dpage/pgadmin4:latest
@@ -63,3 +67,4 @@ services:
 
 volumes:
   postgres_data:
+  documents_data:

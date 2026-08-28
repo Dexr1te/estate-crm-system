@@ -53,6 +53,10 @@ final _deals = [
 
 void _installFakes() {
   Injector.dealsRepository = FakeDealsRepository(_deals);
+  // The deal screen loads its documents too; without this it would reach for
+  // the real repository and the assertions would wait on a network stub.
+  Injector.documentsRepository = FakeDocumentsRepository();
+  Injector.fileGateway = FakeFileGateway();
   Injector.clientsRepository = FakeClientsRepository(clients: const [
     ClientResponse(id: 1, fullName: 'Irina Sokolova', type: ClientType.BUYER),
   ]);

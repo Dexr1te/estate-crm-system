@@ -26,3 +26,14 @@ services:
     env_file:
       - path: .env
         required: false
+
+    environment:
+      DOCUMENTS_DIR: /app/uploads/documents
+
+    volumes:
+      # Deal documents live on disk, not in Postgres — a redeploy must not take
+      # them with it.
+      - documents_data:/app/uploads
+
+volumes:
+  documents_data:

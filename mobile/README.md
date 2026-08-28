@@ -74,7 +74,7 @@ lib/
 └── main.dart
 ```
 
-Features: `auth`, `dashboard`, `clients`, `properties`, `deals`, `meetings`, `admin`, `teams`, `agents`, `profile`.
+Features: `auth`, `dashboard`, `clients`, `properties`, `deals`, `documents`, `meetings`, `admin`, `teams`, `agents`, `profile`.
 
 **Dependency rule.** `presentation → domain ← data`. A bloc depends on the abstract repository, never on a data source or on Dio. That is what lets every screen test run against an in-memory fake.
 
@@ -82,7 +82,7 @@ Features: `auth`, `dashboard`, `clients`, `properties`, `deals`, `meetings`, `ad
 
 **Blocs are created once**, in `_MyAppState.initState`, and provided app-wide via `MultiBlocProvider`. They outlive every screen. Two consequences run through the whole app, and both are handled deliberately — see [State management](#state-management).
 
-Two blocs are per-screen instead, created by the console that owns them: `AdminUsersBloc`, `AuditLogBloc`, `TeamsBloc`.
+Four blocs are per-screen instead, created by the screen that owns them: `AdminUsersBloc`, `AuditLogBloc`, `TeamsBloc`, and `DocumentsBloc` — that last one is scoped to a single deal, so opening another one cannot inherit the previous deal's paperwork.
 
 ---
 
@@ -246,7 +246,7 @@ A test asserts the three files have identical key sets, and that no ARB contains
 | `/dashboard` | greeting, next meeting, metrics, pipeline, value by stage, conversion, meeting load, top agents, upcoming list |
 | `/clients`, `/clients/new`, `/clients/:id`, `/clients/:id/edit` | |
 | `/properties`, `…/new`, `…/:id`, `…/:id/edit` | paged list with server-side filters |
-| `/deals`, `…/new`, `…/:id`, `…/:id/edit` | stage pills filter client-side so the counts stay live |
+| `/deals`, `…/new`, `…/:id`, `…/:id/edit` | stage pills filter client-side so the counts stay live; the detail screen carries the deal's documents |
 | `/meetings`, `…/new`, `…/:id`, `…/:id/edit` | date-grouped |
 | `/admin` | ADMIN only — users, teams, audit log |
 | `/team-console` | MANAGER only |
@@ -257,6 +257,21 @@ A test asserts the three files have identical key sets, and that no ARB contains
 `resolveRedirect` in [`core/utils/router.dart`](lib/core/utils/router.dart) is a pure function, deliberately: `GoRouter` resolves nothing until its delegate is attached to a widget tree, so the startup ordering — the part that is easy to get wrong — is otherwise untestable without booting the whole app.
 
 That ordering matters. Reading the saved session is asynchronous, so at startup the app does not yet know whether anyone is signed in. `isSessionResolved` is separate from `isAuthenticated`: treating "don't know" as "signed out" sent every returning user to `/login` and bounced them to the dashboard a frame later.
+
+**Documents** hang off the deal detail screen rather than a route of their own.
+The card lists what is attached, an attach button opens the phone's file browser,
+tapping a row downloads it and hands it to whatever app claims the type, and a
+remove button appears on the rows you uploaded yourself (admins and managers see
+it on all of them — the same rule the backend enforces). Files over 20 MB are
+refused before the upload, because that is the backend's multipart limit.
+
+Everything that touches the phone itself sits behind [`FileGateway`](lib/core/utils/file_gateway.dart)
+— picking a file, writing a downloaded one, asking the OS to open it — so the
+tests run against a fake instead of three plugins with no platform under them.
+On Android the manifest has to declare a `VIEW` intent query: `open_file` asks
+`queryIntentActivities` which app can read the file, and on Android 11+ that call
+sees nothing without the declaration, so every document would come back "no app
+can open it".
 
 **Splash** is two layers. `flutter_native_splash` covers the window before Flutter paints — white, matching the artwork's own field, so there is no seam. Android 12+ replaced custom splash layouts with an OS-drawn centred icon on one colour, so a full-bleed composition is not possible there. The Flutter `/splash` route then renders the real artwork with `BoxFit.cover`; `fill` would squash the circles, since the image is 780×1688 and phones are not.
 
@@ -285,6 +300,7 @@ dart analyze lib test
 | `header_stability_test.dart` | the header does not move when data lands |
 | `layout_regression_test.dart` | header action is flush right, `constrain()` top-aligns |
 | `dashboard_metrics_test.dart` | win rate, stage values, meeting buckets, agent ranking |
+| `deal_documents_test.dart` | attaching, opening and removing a document, the size limit, who gets a remove button |
 | `design_rules_test.dart` | no hardcoded font family, no emoji in ARBs, ARB key parity |
 
 **Every bug fix here landed with a test that was first confirmed to fail against the pre-fix code.** That is the bar — a regression test that passes both before and after proves nothing.

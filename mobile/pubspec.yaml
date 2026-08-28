@@ -28,6 +28,11 @@ dependencies:
   flutter_local_notifications: ^17.2.4
   timezone: ^0.9.4
   flutter_timezone: ^5.1.0
+  # Deal documents: choosing a file to attach, somewhere to put a downloaded
+  # one, and handing it to whatever app on the phone can read it.
+  file_picker: ^11.0.0
+  path_provider: ^2.1.5
+  open_file: ^4.0.0
 
 dev_dependencies:
   flutter_test:

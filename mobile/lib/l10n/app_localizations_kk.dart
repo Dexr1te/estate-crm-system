@@ -1048,6 +1048,70 @@ class AppLocalizationsKk extends AppLocalizations {
   String get dealsViewList => 'Тізім';
 
   @override
+  String get documentsAdd => 'Файл тіркеу';
+
+  @override
+  String documentsCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count файл',
+      one: '1 файл',
+      zero: 'Файл жоқ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String documentsDeleteConfirm(Object name) {
+    return '$name осы мәміледен өшіріледі. Мұны қайтару мүмкін емес.';
+  }
+
+  @override
+  String get documentsDeleteTitle => 'Құжатты өшіру';
+
+  @override
+  String get documentsEmpty => 'Бұл мәмілеге әзірге бірде-бір файл тіркелмеген';
+
+  @override
+  String get documentsNoApp =>
+      'Бұл телефонда мұндай файлды ашатын қолданба жоқ';
+
+  @override
+  String get documentsOpenFailed => 'Файлды ашу мүмкін болмады';
+
+  @override
+  String documentsSizeBytes(Object size) {
+    return '$size Б';
+  }
+
+  @override
+  String documentsSizeKb(Object size) {
+    return '$size КБ';
+  }
+
+  @override
+  String documentsSizeMb(Object size) {
+    return '$size МБ';
+  }
+
+  @override
+  String get documentsTitle => 'Құжаттар';
+
+  @override
+  String documentsTooLarge(Object limit) {
+    return '$limit МБ-тан үлкен файлдарды тіркеуге болмайды';
+  }
+
+  @override
+  String documentsUploadedBy(Object name) {
+    return 'Қосқан: $name';
+  }
+
+  @override
+  String get documentsUploading => 'Жіберілуде…';
+
+  @override
   String get meetingsAddShort => 'Кездесу';
 
   @override
@@ -1263,6 +1327,12 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get msgDealUpdated => 'Мәміле жаңартылды';
+
+  @override
+  String get msgDocumentDeleted => 'Құжат өшірілді';
+
+  @override
+  String get msgDocumentUploaded => 'Құжат тіркелді';
 
   @override
   String get msgInviteResent => 'Шақыру қайта жіберілді';

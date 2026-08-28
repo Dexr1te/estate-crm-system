@@ -91,5 +91,13 @@
             <action android:name="android.intent.action.SENDTO"/>
             <data android:scheme="mailto"/>
         </intent>
+        <!-- Opening a downloaded deal document hands it to whatever app claims
+             the type. open_file asks queryIntentActivities which app that is,
+             and on Android 11+ that call sees nothing without this — every
+             document would come back "no app can open it". -->
+        <intent>
+            <action android:name="android.intent.action.VIEW"/>
+            <data android:mimeType="*/*"/>
+        </intent>
     </queries>
 </manifest>
