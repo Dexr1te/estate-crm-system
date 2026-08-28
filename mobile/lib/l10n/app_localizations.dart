@@ -1918,6 +1918,90 @@ abstract class AppLocalizations {
   /// **'List'**
   String get dealsViewList;
 
+  /// No description provided for @documentsAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Attach file'**
+  String get documentsAdd;
+
+  /// No description provided for @documentsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No files} =1{1 file} other{{count} files}}'**
+  String documentsCount(num count);
+
+  /// No description provided for @documentsDeleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} will be removed from this deal. This cannot be undone.'**
+  String documentsDeleteConfirm(Object name);
+
+  /// No description provided for @documentsDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove document'**
+  String get documentsDeleteTitle;
+
+  /// No description provided for @documentsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No files attached to this deal yet'**
+  String get documentsEmpty;
+
+  /// No description provided for @documentsNoApp.
+  ///
+  /// In en, this message translates to:
+  /// **'No app on this phone can open this file'**
+  String get documentsNoApp;
+
+  /// No description provided for @documentsOpenFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'This file could not be opened'**
+  String get documentsOpenFailed;
+
+  /// No description provided for @documentsSizeBytes.
+  ///
+  /// In en, this message translates to:
+  /// **'{size} B'**
+  String documentsSizeBytes(Object size);
+
+  /// No description provided for @documentsSizeKb.
+  ///
+  /// In en, this message translates to:
+  /// **'{size} KB'**
+  String documentsSizeKb(Object size);
+
+  /// No description provided for @documentsSizeMb.
+  ///
+  /// In en, this message translates to:
+  /// **'{size} MB'**
+  String documentsSizeMb(Object size);
+
+  /// No description provided for @documentsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Documents'**
+  String get documentsTitle;
+
+  /// No description provided for @documentsTooLarge.
+  ///
+  /// In en, this message translates to:
+  /// **'Files larger than {limit} MB cannot be attached'**
+  String documentsTooLarge(Object limit);
+
+  /// No description provided for @documentsUploadedBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Added by {name}'**
+  String documentsUploadedBy(Object name);
+
+  /// No description provided for @documentsUploading.
+  ///
+  /// In en, this message translates to:
+  /// **'Sending…'**
+  String get documentsUploading;
+
   /// No description provided for @meetingsAddShort.
   ///
   /// In en, this message translates to:
@@ -2307,6 +2391,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Deal updated'**
   String get msgDealUpdated;
+
+  /// No description provided for @msgDocumentDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Document removed'**
+  String get msgDocumentDeleted;
+
+  /// No description provided for @msgDocumentUploaded.
+  ///
+  /// In en, this message translates to:
+  /// **'Document attached'**
+  String get msgDocumentUploaded;
 
   /// No description provided for @msgInviteResent.
   ///

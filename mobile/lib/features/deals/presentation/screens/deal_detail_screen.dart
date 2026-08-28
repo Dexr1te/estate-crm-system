@@ -9,6 +9,9 @@ import 'package:real_estate_crm/core/theme/app_theme.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_bloc.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_event.dart';
+import 'package:real_estate_crm/features/documents/presentation/bloc/documents_bloc.dart';
+import 'package:real_estate_crm/features/documents/presentation/bloc/documents_event.dart';
+import 'package:real_estate_crm/features/documents/presentation/widgets/deal_documents_card.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_state.dart';
 
@@ -128,24 +131,41 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
       );
     }
 
-    return BlocListener<DealsBloc, DealsState>(
-      listener: _onWriteResult,
-      child: DetailScaffold(
-        title: l10n.dealsIdLabel(deal.id),
-        onRefresh: _load,
-        actions: detailActions(
-          onEdit: () => context.push('/deals/${widget.id}/edit'),
-          onDelete: context.isAdminOrManager ? _delete : null,
-          deleteTooltip: l10n.dealsDeleteTitle,
+    return BlocProvider(
+      // Scoped to this deal rather than to the app: the paperwork is only ever
+      // read on this screen, and a new deal must not inherit the last one's.
+      create: (_) => DocumentsBloc(
+        Injector.documentsRepository,
+        Injector.fileGateway,
+        dealId: widget.id,
+      )..add(DocumentsLoadEvent()),
+      child: BlocListener<DealsBloc, DealsState>(
+        listener: _onWriteResult,
+        // Below the provider, so pulling to refresh can reach the documents
+        // bloc as well as reload the deal.
+        child: Builder(
+          builder: (context) => DetailScaffold(
+            title: l10n.dealsIdLabel(deal.id),
+            onRefresh: () async {
+              context.read<DocumentsBloc>().add(DocumentsLoadEvent());
+              await _load();
+            },
+            actions: detailActions(
+              onEdit: () => context.push('/deals/${widget.id}/edit'),
+              onDelete: context.isAdminOrManager ? _delete : null,
+              deleteTooltip: l10n.dealsDeleteTitle,
+            ),
+            children: [
+              _SummaryCard(deal: deal, onCopyId: _copyId),
+              _StageCard(status: deal.status, onChanged: _updateStatus),
+              _ParticipantsCard(deal: deal),
+              const DealDocumentsCard(),
+              _TimelineCard(deal: deal),
+              if (deal.notes != null && deal.notes!.trim().isNotEmpty)
+                _NotesCard(text: deal.notes!),
+            ],
+          ),
         ),
-        children: [
-          _SummaryCard(deal: deal, onCopyId: _copyId),
-          _StageCard(status: deal.status, onChanged: _updateStatus),
-          _ParticipantsCard(deal: deal),
-          _TimelineCard(deal: deal),
-          if (deal.notes != null && deal.notes!.trim().isNotEmpty)
-            _NotesCard(text: deal.notes!),
-        ],
       ),
     );
   }

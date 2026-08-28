@@ -99,3 +99,8 @@ app:
     # offline development, where every lookup fails.
     verify-domain: ${MAIL_VERIFY_DOMAIN:true}
     verify-domain-timeout-ms: ${MAIL_VERIFY_DOMAIN_TIMEOUT_MS:3000}
+  documents:
+    # Where the bytes of deal documents are written. Relative paths resolve
+    # against the working directory; in Docker this is a mounted volume, so a
+    # rebuild does not take the paperwork with it.
+    dir: ${DOCUMENTS_DIR:uploads/documents}

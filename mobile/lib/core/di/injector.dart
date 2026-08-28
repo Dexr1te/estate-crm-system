@@ -1,5 +1,6 @@
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:real_estate_crm/core/network/api_client.dart';
+import 'package:real_estate_crm/core/utils/file_gateway.dart';
 import 'package:real_estate_crm/core/session/session_store.dart';
 import 'package:real_estate_crm/features/admin/data/datasources/admin_remote_datasource.dart';
 import 'package:real_estate_crm/features/admin/data/repositories/admin_repository_impl.dart';
@@ -22,6 +23,9 @@ import 'package:real_estate_crm/features/dashboard/domain/repositories/dashboard
 import 'package:real_estate_crm/features/deals/data/datasources/deals_remote_datasource.dart';
 import 'package:real_estate_crm/features/deals/data/repositories/deals_repository_impl.dart';
 import 'package:real_estate_crm/features/deals/domain/repositories/deals_repository.dart';
+import 'package:real_estate_crm/features/documents/data/datasources/documents_remote_datasource.dart';
+import 'package:real_estate_crm/features/documents/data/repositories/documents_repository_impl.dart';
+import 'package:real_estate_crm/features/documents/domain/repositories/documents_repository.dart';
 import 'package:real_estate_crm/features/meetings/data/datasources/meetings_remote_datasource.dart';
 import 'package:real_estate_crm/features/meetings/data/repositories/meetings_repository_impl.dart';
 import 'package:real_estate_crm/features/meetings/domain/repositories/meetings_repository.dart';
@@ -50,6 +54,14 @@ class Injector {
 
   static DealsRepository dealsRepository =
       DealsRepositoryImpl(DealsRemoteDataSource(_apiClient));
+
+  static DocumentsRepository documentsRepository =
+      DocumentsRepositoryImpl(DocumentsRemoteDataSource(_apiClient));
+
+  /// The phone's own file handling — picking one to attach, opening one that
+  /// came back. Held here so a widget test can hand the app a fake instead of
+  /// a plugin that has no platform under it.
+  static FileGateway fileGateway = const DeviceFileGateway();
 
   static MeetingsRepository meetingsRepository =
       MeetingsRepositoryImpl(MeetingsRemoteDataSource(_apiClient));

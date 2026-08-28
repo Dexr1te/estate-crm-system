@@ -1,4 +1,5 @@
 import 'package:real_estate_crm/core/network/api_error.dart';
+import 'package:real_estate_crm/core/utils/file_gateway.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 /// What a completed write says to the person who asked for it.
@@ -20,6 +21,8 @@ enum ActionMessage {
   meetingUpdated,
   meetingDeleted,
   meetingCompleted,
+  documentUploaded,
+  documentDeleted,
   statusUpdated,
   teamCreated,
   teamUpdated,
@@ -61,6 +64,10 @@ String actionMessageLabel(AppLocalizations l10n, ActionMessage message) {
       return l10n.msgMeetingDeleted;
     case ActionMessage.meetingCompleted:
       return l10n.msgMeetingCompleted;
+    case ActionMessage.documentUploaded:
+      return l10n.msgDocumentUploaded;
+    case ActionMessage.documentDeleted:
+      return l10n.msgDocumentDeleted;
     case ActionMessage.statusUpdated:
       return l10n.msgStatusUpdated;
     case ActionMessage.teamCreated:
@@ -83,6 +90,24 @@ String actionMessageLabel(AppLocalizations l10n, ActionMessage message) {
       return l10n.msgInviteResent;
     case ActionMessage.profileUpdated:
       return l10n.msgProfileUpdated;
+  }
+}
+
+/// Something the phone itself refused, with no request involved.
+///
+/// [ApiFailure] cannot say these: nothing was sent. A file too large to attach
+/// is caught before the upload, and a phone with no app for a downloaded type
+/// is a fact about the phone rather than an error from the server.
+enum LocalProblem { fileTooLarge, noAppForFile, fileOpenFailed }
+
+String localProblemLabel(AppLocalizations l10n, LocalProblem problem) {
+  switch (problem) {
+    case LocalProblem.fileTooLarge:
+      return l10n.documentsTooLarge(maxDocumentBytes ~/ (1024 * 1024));
+    case LocalProblem.noAppForFile:
+      return l10n.documentsNoApp;
+    case LocalProblem.fileOpenFailed:
+      return l10n.documentsOpenFailed;
   }
 }
 

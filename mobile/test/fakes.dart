@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:real_estate_crm/core/models/admin_models.dart';
+import 'package:real_estate_crm/core/models/document_models.dart';
+import 'package:real_estate_crm/core/utils/file_gateway.dart';
 import 'package:real_estate_crm/core/notifications/notification_gateway.dart';
 import 'package:real_estate_crm/core/models/team_models.dart';
 import 'package:real_estate_crm/features/admin/domain/repositories/admin_repository.dart';
@@ -12,6 +14,7 @@ import 'package:real_estate_crm/features/auth/domain/repositories/auth_repositor
 import 'package:real_estate_crm/features/clients/domain/repositories/clients_repository.dart';
 import 'package:real_estate_crm/features/dashboard/domain/repositories/dashboard_repository.dart';
 import 'package:real_estate_crm/features/deals/domain/repositories/deals_repository.dart';
+import 'package:real_estate_crm/features/documents/domain/repositories/documents_repository.dart';
 import 'package:real_estate_crm/features/meetings/domain/repositories/meetings_repository.dart';
 import 'package:real_estate_crm/features/properties/domain/repositories/properties_repository.dart';
 
@@ -144,6 +147,7 @@ class FakeClientsRepository implements ClientsRepository {
         (c.email?.toLowerCase().contains(q) ?? false) ||
         (c.phone?.toLowerCase().contains(q) ?? false);
   }
+
   @override
   Future<List<ClientListItem>> getClientsWithDetails() async => listItems;
   @override
@@ -323,4 +327,77 @@ class FakeTeamsRepository implements TeamsRepository {
   Future<TeamStatsResponse> getTeamStats(int id) => Future.value(stats);
   @override
   noSuchMethod(Invocation i) => throw UnimplementedError();
+}
+
+class FakeDocumentsRepository implements DocumentsRepository {
+  FakeDocumentsRepository([List<DocumentResponse> documents = const []])
+      : documents = [...documents];
+
+  final List<DocumentResponse> documents;
+
+  /// What a download hands back.
+  List<int> bytes = const [7, 8, 9];
+
+  /// Who the uploaded row comes back attributed to.
+  int uploaderId = 5;
+  String uploaderName = 'Sultan Assan-Doroshenko';
+
+  PickedFile? uploaded;
+  int? downloadedId;
+  int? deletedId;
+
+  @override
+  Future<List<DocumentResponse>> getDocuments(int dealId) async =>
+      List.of(documents);
+
+  @override
+  Future<DocumentResponse> uploadDocument(int dealId, PickedFile file) async {
+    uploaded = file;
+    final created = DocumentResponse(
+      id: documents.length + 100,
+      fileName: file.name,
+      fileType: file.name.split('.').last.toLowerCase(),
+      fileSize: file.size,
+      dealId: dealId,
+      uploadedById: uploaderId,
+      uploadedByName: uploaderName,
+      uploadedAt: DateTime(2026, 8, 27, 10, 30),
+    );
+    documents.add(created);
+    return created;
+  }
+
+  @override
+  Future<List<int>> downloadDocument(int dealId, int documentId) async {
+    downloadedId = documentId;
+    return bytes;
+  }
+
+  @override
+  Future<void> deleteDocument(int dealId, int documentId) async {
+    deletedId = documentId;
+    documents.removeWhere((d) => d.id == documentId);
+  }
+}
+
+/// A phone that always hands back [file] and never actually opens anything.
+class FakeFileGateway implements FileGateway {
+  FakeFileGateway({this.file, this.outcome = FileOpenOutcome.opened});
+
+  /// What the picker returns — null stands for backing out of it.
+  PickedFile? file;
+  FileOpenOutcome outcome;
+
+  String? openedName;
+  List<int>? openedBytes;
+
+  @override
+  Future<PickedFile?> pickFile() async => file;
+
+  @override
+  Future<FileOpenOutcome> openBytes(String fileName, List<int> bytes) async {
+    openedName = fileName;
+    openedBytes = bytes;
+    return outcome;
+  }
 }
