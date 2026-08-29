@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/network/json.dart';
 import 'package:real_estate_crm/core/session/session_store.dart';
 
 /// Where the app talks to.
@@ -105,7 +106,7 @@ class ApiClient {
     if (token == null) throw StateError('no refresh token');
     final res = await _refreshDio.post('/auth/refresh',
         options: Options(headers: {'Authorization': 'Bearer $token'}));
-    await _session.save(AuthResponse.fromJson(res.data));
+    await _session.save(AuthResponse.fromJson(jsonObject(res)));
   }
 
   Future<void> _endSession() async {

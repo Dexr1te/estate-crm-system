@@ -158,6 +158,8 @@ The detail screens move a status chip immediately so the tap feels instant, and 
 - A 401 from `/auth/*` is a **credential error**, not an expired session, and never triggers a refresh.
 - When the session cannot be recovered, `onSessionExpired` fires exactly once. `MyApp` wires it to a logout. Clearing storage alone left the router believing the user was still signed in, and every screen kept failing with 401s rendered as "Invalid email or password".
 
+**Decoding is a seam, not a cast.** Dio hands back `dynamic`, so every data source used to pour `res.data` straight into `fromJson`; a body that was not the promised shape — a proxy's HTML error page, a `null`, an array with one bad element — died as a bare `TypeError` with no request path in it. [`core/network/json.dart`](lib/core/network/json.dart) checks the shape first and throws `ApiFormatException`, which `ApiFailure` reads as a server error. `strict-casts` in [`analysis_options.yaml`](analysis_options.yaml) is what keeps a new data source from skipping it.
+
 `SessionStore` holds the tokens in memory and mirrors them to `SharedPreferences`, alongside a compact encoding of the signed-in user so a cold start knows who it is before the network answers.
 
 ---

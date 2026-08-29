@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:real_estate_crm/core/network/json.dart';
 
 /// Why a request failed, in terms the app can put words to.
 ///
@@ -32,6 +33,11 @@ class ApiFailure {
   const ApiFailure(this.kind, {this.serverText});
 
   factory ApiFailure.from(Object? error) {
+    // A body we cannot parse is the backend's fault, not the connection's, so
+    // it reads as a server error rather than the catch-all.
+    if (error is ApiFormatException) {
+      return const ApiFailure(ApiFailureKind.server);
+    }
     if (error is! DioException) return const ApiFailure(ApiFailureKind.unknown);
 
     final serverText = _serverText(error);

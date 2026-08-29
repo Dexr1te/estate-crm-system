@@ -1,5 +1,6 @@
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/network/api_client.dart';
+import 'package:real_estate_crm/core/network/json.dart';
 
 class AuthRemoteDataSource {
   final ApiClient _client;
@@ -10,7 +11,7 @@ class AuthRemoteDataSource {
       'email': email,
       'password': password,
     });
-    return AuthResponse.fromJson(res.data);
+    return AuthResponse.fromJson(jsonObject(res));
   }
 
   Future<AuthResponse> acceptInvite(String token, String newPassword) async {
@@ -18,7 +19,7 @@ class AuthRemoteDataSource {
       'token': token,
       'newPassword': newPassword,
     });
-    return AuthResponse.fromJson(res.data);
+    return AuthResponse.fromJson(jsonObject(res));
   }
 
   Future<AuthResponse> updateProfile(String fullName, String email) async {
@@ -26,7 +27,7 @@ class AuthRemoteDataSource {
       'fullName': fullName,
       'email': email,
     });
-    return AuthResponse.fromJson(res.data);
+    return AuthResponse.fromJson(jsonObject(res));
   }
 
   Future<void> requestPasswordReset(String email) =>
@@ -37,7 +38,7 @@ class AuthRemoteDataSource {
       'token': token,
       'newPassword': newPassword,
     });
-    return AuthResponse.fromJson(res.data);
+    return AuthResponse.fromJson(jsonObject(res));
   }
 
   Future<void> deleteAccount({int? replacementId}) => _client.dio.delete(
