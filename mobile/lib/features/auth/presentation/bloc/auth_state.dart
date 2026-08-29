@@ -1,7 +1,7 @@
 import 'package:real_estate_crm/core/bloc/action_outcome.dart';
 import 'package:real_estate_crm/core/models/models.dart';
-import 'package:real_estate_crm/core/widgets/messages.dart';
 import 'package:real_estate_crm/core/network/api_error.dart';
+import 'package:real_estate_crm/core/widgets/messages.dart';
 
 abstract class AuthState {}
 

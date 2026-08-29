@@ -1,16 +1,13 @@
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:real_estate_crm/core/network/api_client.dart';
-import 'package:real_estate_crm/core/utils/file_gateway.dart';
 import 'package:real_estate_crm/core/session/session_store.dart';
+import 'package:real_estate_crm/core/utils/file_gateway.dart';
 import 'package:real_estate_crm/features/admin/data/datasources/admin_remote_datasource.dart';
 import 'package:real_estate_crm/features/admin/data/repositories/admin_repository_impl.dart';
 import 'package:real_estate_crm/features/admin/domain/repositories/admin_repository.dart';
 import 'package:real_estate_crm/features/agents/data/datasources/agents_remote_datasource.dart';
 import 'package:real_estate_crm/features/agents/data/repositories/agents_repository_impl.dart';
 import 'package:real_estate_crm/features/agents/domain/repositories/agents_repository.dart';
-import 'package:real_estate_crm/features/teams/data/datasources/teams_remote_datasource.dart';
-import 'package:real_estate_crm/features/teams/data/repositories/teams_repository_impl.dart';
-import 'package:real_estate_crm/features/teams/domain/repositories/teams_repository.dart';
 import 'package:real_estate_crm/features/auth/data/datasources/auth_remote_datasource.dart';
 import 'package:real_estate_crm/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:real_estate_crm/features/auth/domain/repositories/auth_repository.dart';
@@ -34,6 +31,9 @@ import 'package:real_estate_crm/features/properties/data/repositories/properties
 import 'package:real_estate_crm/features/properties/domain/repositories/properties_repository.dart';
 import 'package:real_estate_crm/features/search/data/repositories/search_repository_impl.dart';
 import 'package:real_estate_crm/features/search/domain/repositories/search_repository.dart';
+import 'package:real_estate_crm/features/teams/data/datasources/teams_remote_datasource.dart';
+import 'package:real_estate_crm/features/teams/data/repositories/teams_repository_impl.dart';
+import 'package:real_estate_crm/features/teams/domain/repositories/teams_repository.dart';
 
 class Injector {
   Injector._();

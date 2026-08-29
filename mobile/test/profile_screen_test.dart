@@ -3,14 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/locale/bloc/locale_bloc.dart';
-import 'package:real_estate_crm/core/notifications/reminders_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:real_estate_crm/core/models/models.dart';
-import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/core/notifications/reminders_bloc.dart';
 import 'package:real_estate_crm/core/theme/bloc/theme_bloc.dart';
+import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart';
 import 'package:real_estate_crm/features/profile/presentation/screens/profile_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'fakes.dart';
 import 'responsive_harness.dart';

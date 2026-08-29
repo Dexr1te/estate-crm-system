@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/utils/clock.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/day_rail.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
-import 'package:real_estate_crm/core/utils/clock.dart';
 
 class NextMeetingHero extends StatelessWidget {
   final MeetingResponse meeting;

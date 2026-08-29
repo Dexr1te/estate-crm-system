@@ -108,8 +108,8 @@ class _StageColumn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final total = deals.fold<double>(
-        0, (sum, d) => sum + (d.dealPrice ?? d.budget ?? 0));
+    final total =
+        deals.fold<double>(0, (sum, d) => sum + (d.dealPrice ?? d.budget ?? 0));
 
     return LayoutBuilder(
       builder: (context, constraints) => Column(
@@ -248,8 +248,7 @@ class _DraggableCard extends StatelessWidget {
             ),
           ),
         ),
-        childWhenDragging:
-            Opacity(opacity: 0.3, child: _BoardCard(deal: deal)),
+        childWhenDragging: Opacity(opacity: 0.3, child: _BoardCard(deal: deal)),
         child: _BoardCard(deal: deal, onTap: () => onOpen(deal)),
       );
 }
@@ -351,8 +350,7 @@ class _DropRail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.tokens;
-    final targets =
-        DealStatus.values.where((s) => s != deal.status).toList();
+    final targets = DealStatus.values.where((s) => s != deal.status).toList();
     final shape = BorderRadius.circular(AppMetrics.radiusLg);
 
     return Material(
@@ -418,8 +416,7 @@ class _DropSlot extends StatelessWidget {
               Container(
                 width: 8,
                 height: 8,
-                decoration:
-                    BoxDecoration(shape: BoxShape.circle, color: color),
+                decoration: BoxDecoration(shape: BoxShape.circle, color: color),
               ),
               const SizedBox(height: 7),
               Text(

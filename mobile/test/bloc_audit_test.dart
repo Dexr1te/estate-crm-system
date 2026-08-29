@@ -335,5 +335,5 @@ class _SlowAdmin implements AdminRepository {
   @override
   Future<List<AgentResponse>> getUsers() async => const [];
   @override
-  noSuchMethod(Invocation i) => throw UnimplementedError();
+  Never noSuchMethod(Invocation i) => throw UnimplementedError();
 }

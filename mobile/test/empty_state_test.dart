@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
@@ -52,13 +54,15 @@ void main() {
       return const SizedBox.shrink();
     })));
 
-    showEntityPicker(
+    // Deliberately not awaited: the future completes when the sheet closes,
+    // and this test needs it open.
+    unawaited(showEntityPicker(
       ctx,
       title: 'Agent',
       items: const [],
       searchHint: 'Search',
       emptyLabel: 'No agents to assign',
-    );
+    ));
     await tester.pumpAndSettle();
 
     expect(find.text('No agents to assign'), findsOneWidget,

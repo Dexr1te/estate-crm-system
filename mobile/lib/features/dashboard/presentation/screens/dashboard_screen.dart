@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:real_estate_crm/core/auth/role_context.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
+import 'package:real_estate_crm/core/goal/goal_bloc.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/utils/clock.dart';
 import 'package:real_estate_crm/core/utils/contact_actions.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
@@ -10,17 +13,14 @@ import 'package:real_estate_crm/features/auth/presentation/bloc/auth_state.dart'
 import 'package:real_estate_crm/features/dashboard/presentation/bloc/dashboard_bloc.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/bloc/dashboard_event.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/bloc/dashboard_state.dart';
-import 'package:real_estate_crm/features/dashboard/presentation/widgets/dashboard_hero.dart';
-import 'package:real_estate_crm/features/dashboard/presentation/widgets/meeting_row.dart';
-import 'package:real_estate_crm/features/dashboard/presentation/widgets/pipeline_card.dart';
-import 'package:real_estate_crm/core/auth/role_context.dart';
-import 'package:real_estate_crm/core/goal/goal_bloc.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/attention_card.dart';
+import 'package:real_estate_crm/features/dashboard/presentation/widgets/dashboard_hero.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/goal_ring_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/meeting_load_card.dart';
+import 'package:real_estate_crm/features/dashboard/presentation/widgets/meeting_row.dart';
+import 'package:real_estate_crm/features/dashboard/presentation/widgets/pipeline_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/top_agents_card.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
-import 'package:real_estate_crm/core/utils/clock.dart';
 
 const _kUpcomingPreviewCount = 4;
 

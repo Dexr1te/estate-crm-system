@@ -9,11 +9,11 @@ import 'package:real_estate_crm/core/theme/app_theme.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_bloc.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_event.dart';
+import 'package:real_estate_crm/features/deals/presentation/bloc/deals_state.dart';
 import 'package:real_estate_crm/features/documents/presentation/bloc/documents_bloc.dart';
 import 'package:real_estate_crm/features/documents/presentation/bloc/documents_event.dart';
 import 'package:real_estate_crm/features/documents/presentation/widgets/deal_documents_card.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
-import 'package:real_estate_crm/features/deals/presentation/bloc/deals_state.dart';
 
 class DealDetailScreen extends StatefulWidget {
   final int id;
