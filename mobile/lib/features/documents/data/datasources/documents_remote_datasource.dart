@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:real_estate_crm/core/models/document_models.dart';
 import 'package:real_estate_crm/core/network/api_client.dart';
+import 'package:real_estate_crm/core/network/json.dart';
 import 'package:real_estate_crm/core/utils/file_gateway.dart';
 
 class DocumentsRemoteDataSource {
@@ -11,7 +12,7 @@ class DocumentsRemoteDataSource {
 
   Future<List<DocumentResponse>> getDocuments(int dealId) async {
     final res = await _client.dio.get(_path(dealId));
-    return (res.data as List).map((e) => DocumentResponse.fromJson(e)).toList();
+    return jsonArray(res).map(DocumentResponse.fromJson).toList();
   }
 
   Future<DocumentResponse> uploadDocument(int dealId, PickedFile file) async {
@@ -23,7 +24,7 @@ class DocumentsRemoteDataSource {
       data: form,
       options: Options(contentType: 'multipart/form-data'),
     );
-    return DocumentResponse.fromJson(res.data);
+    return DocumentResponse.fromJson(jsonObject(res));
   }
 
   Future<List<int>> downloadDocument(int dealId, int documentId) async {

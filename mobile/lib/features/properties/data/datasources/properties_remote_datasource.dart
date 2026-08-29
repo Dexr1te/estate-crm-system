@@ -1,6 +1,7 @@
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/models/paged_response.dart';
 import 'package:real_estate_crm/core/network/api_client.dart';
+import 'package:real_estate_crm/core/network/json.dart';
 
 class PropertiesRemoteDataSource {
   final ApiClient _client;
@@ -32,32 +33,32 @@ class PropertiesRemoteDataSource {
 
   Future<List<PropertyResponse>> getAllProperties() async {
     final res = await _client.dio.get('/properties');
-    final data = res.data;
-    final list = data is List ? data : (data['content'] as List);
-    return list.map((e) => PropertyResponse.fromJson(e)).toList();
+    // Unfiltered `/properties` answers with a bare array, but a filtered one
+    // answers with a Spring page — the same parser handles both shapes.
+    return PagedResponse.parse(res.data, PropertyResponse.fromJson).content;
   }
 
   Future<PropertyResponse> getProperty(int id) async {
     final res = await _client.dio.get('/properties/$id');
-    return PropertyResponse.fromJson(res.data);
+    return PropertyResponse.fromJson(jsonObject(res));
   }
 
   Future<PropertyResponse> createProperty(Map<String, dynamic> data) async {
     final res = await _client.dio.post('/properties', data: data);
-    return PropertyResponse.fromJson(res.data);
+    return PropertyResponse.fromJson(jsonObject(res));
   }
 
   Future<PropertyResponse> updateProperty(
       int id, Map<String, dynamic> data) async {
     final res = await _client.dio.put('/properties/$id', data: data);
-    return PropertyResponse.fromJson(res.data);
+    return PropertyResponse.fromJson(jsonObject(res));
   }
 
   Future<PropertyResponse> updatePropertyStatus(
       int id, PropertyStatus status) async {
     final res = await _client.dio.patch('/properties/$id/status',
         queryParameters: {'status': status.name});
-    return PropertyResponse.fromJson(res.data);
+    return PropertyResponse.fromJson(jsonObject(res));
   }
 
   Future<void> deleteProperty(int id) async {
