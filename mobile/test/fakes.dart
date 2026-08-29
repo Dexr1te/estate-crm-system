@@ -2,14 +2,13 @@ import 'dart:async';
 
 import 'package:real_estate_crm/core/models/admin_models.dart';
 import 'package:real_estate_crm/core/models/document_models.dart';
-import 'package:real_estate_crm/core/utils/file_gateway.dart';
-import 'package:real_estate_crm/core/notifications/notification_gateway.dart';
-import 'package:real_estate_crm/core/models/team_models.dart';
-import 'package:real_estate_crm/features/admin/domain/repositories/admin_repository.dart';
-import 'package:real_estate_crm/features/agents/domain/repositories/agents_repository.dart';
-import 'package:real_estate_crm/features/teams/domain/repositories/teams_repository.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/models/paged_response.dart';
+import 'package:real_estate_crm/core/models/team_models.dart';
+import 'package:real_estate_crm/core/notifications/notification_gateway.dart';
+import 'package:real_estate_crm/core/utils/file_gateway.dart';
+import 'package:real_estate_crm/features/admin/domain/repositories/admin_repository.dart';
+import 'package:real_estate_crm/features/agents/domain/repositories/agents_repository.dart';
 import 'package:real_estate_crm/features/auth/domain/repositories/auth_repository.dart';
 import 'package:real_estate_crm/features/clients/domain/repositories/clients_repository.dart';
 import 'package:real_estate_crm/features/dashboard/domain/repositories/dashboard_repository.dart';
@@ -17,6 +16,7 @@ import 'package:real_estate_crm/features/deals/domain/repositories/deals_reposit
 import 'package:real_estate_crm/features/documents/domain/repositories/documents_repository.dart';
 import 'package:real_estate_crm/features/meetings/domain/repositories/meetings_repository.dart';
 import 'package:real_estate_crm/features/properties/domain/repositories/properties_repository.dart';
+import 'package:real_estate_crm/features/teams/domain/repositories/teams_repository.dart';
 
 class FakeAuthRepository implements AuthRepository {
   final AuthResponse? user;
@@ -297,7 +297,7 @@ class FakeAdminRepository implements AdminRepository {
   @override
   Future<AgentStatsResponse> getUserStats(int id) => _answer(stats);
   @override
-  noSuchMethod(Invocation i) => throw UnimplementedError();
+  Never noSuchMethod(Invocation i) => throw UnimplementedError();
 }
 
 class FakeTeamsRepository implements TeamsRepository {
@@ -326,7 +326,7 @@ class FakeTeamsRepository implements TeamsRepository {
   @override
   Future<TeamStatsResponse> getTeamStats(int id) => Future.value(stats);
   @override
-  noSuchMethod(Invocation i) => throw UnimplementedError();
+  Never noSuchMethod(Invocation i) => throw UnimplementedError();
 }
 
 class FakeDocumentsRepository implements DocumentsRepository {

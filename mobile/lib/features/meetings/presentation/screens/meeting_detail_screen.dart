@@ -8,8 +8,8 @@ import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/dashboard_hero.dart';
 import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_bloc.dart';
 import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_event.dart';
-import 'package:real_estate_crm/l10n/app_localizations.dart';
 import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_state.dart';
+import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class MeetingDetailScreen extends StatefulWidget {
   final int id;

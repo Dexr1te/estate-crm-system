@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:real_estate_crm/l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/goal/goal_bloc.dart';
 import 'package:real_estate_crm/core/locale/bloc/locale_bloc.dart';
@@ -29,6 +29,7 @@ import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_eve
 import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_state.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_bloc.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_event.dart';
+import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -49,7 +50,7 @@ class _MyAppState extends State<MyApp> {
   late final RemindersBloc _remindersBloc;
   final NotificationGateway _notifications = LocalNotificationGateway();
   // ignore: prefer_typing_uninitialized_variables
-  late final router;
+  late final GoRouter router;
   late final DeepLinkHandler _deepLinks;
 
   @override

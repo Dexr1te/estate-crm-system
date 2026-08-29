@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:real_estate_crm/core/bloc/collection_bloc.dart';
-import 'package:real_estate_crm/core/widgets/messages.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/network/api_error.dart';
+import 'package:real_estate_crm/core/widgets/messages.dart';
 import 'package:real_estate_crm/features/properties/domain/repositories/properties_repository.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_event.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_state.dart';

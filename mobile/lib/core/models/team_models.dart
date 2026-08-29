@@ -22,7 +22,7 @@ class TeamResponse {
         managerName: json['managerName'] as String?,
         memberCount: (json['memberCount'] as num?)?.toInt() ?? 0,
         createdAt: json['createdAt'] is String
-            ? DateTime.tryParse(json['createdAt'])
+            ? DateTime.tryParse(json['createdAt'] as String)
             : null,
       );
 }

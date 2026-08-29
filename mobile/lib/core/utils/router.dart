@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/widgets/main_scaffold.dart';
 import 'package:real_estate_crm/features/admin/presentation/screens/admin_console_screen.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/screens/accept_invite_screen.dart';
@@ -8,7 +9,6 @@ import 'package:real_estate_crm/features/auth/presentation/screens/forgot_passwo
 import 'package:real_estate_crm/features/auth/presentation/screens/login_screen.dart';
 import 'package:real_estate_crm/features/auth/presentation/screens/reset_password_screen.dart';
 import 'package:real_estate_crm/features/auth/presentation/screens/splash_screen.dart';
-import 'package:real_estate_crm/features/teams/presentation/screens/manager_console_screen.dart';
 import 'package:real_estate_crm/features/clients/presentation/screens/client_detail_screen.dart';
 import 'package:real_estate_crm/features/clients/presentation/screens/client_form_screen.dart';
 import 'package:real_estate_crm/features/clients/presentation/screens/clients_screen.dart';
@@ -24,7 +24,7 @@ import 'package:real_estate_crm/features/properties/presentation/screens/propert
 import 'package:real_estate_crm/features/properties/presentation/screens/property_detail_screen.dart';
 import 'package:real_estate_crm/features/properties/presentation/screens/property_form_screen.dart';
 import 'package:real_estate_crm/features/search/presentation/screens/search_screen.dart';
-import 'package:real_estate_crm/core/widgets/main_scaffold.dart';
+import 'package:real_estate_crm/features/teams/presentation/screens/manager_console_screen.dart';
 
 final _rootKey = GlobalKey<NavigatorState>();
 final _shellKey = GlobalKey<NavigatorState>();

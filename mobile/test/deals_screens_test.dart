@@ -3,13 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/utils/clock.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_bloc.dart';
 import 'package:real_estate_crm/features/deals/presentation/screens/deal_detail_screen.dart';
 import 'package:real_estate_crm/features/deals/presentation/screens/deal_form_screen.dart';
 import 'package:real_estate_crm/features/deals/presentation/screens/deals_screen.dart';
 import 'package:real_estate_crm/features/deals/presentation/widgets/deal_card.dart';
-import 'package:real_estate_crm/core/utils/clock.dart';
 
 import 'fakes.dart';
 import 'responsive_harness.dart';

@@ -1,12 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:real_estate_crm/core/bloc/collection_bloc.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/utils/clock.dart';
 import 'package:real_estate_crm/features/dashboard/domain/repositories/dashboard_repository.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/bloc/dashboard_event.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/bloc/dashboard_state.dart';
 import 'package:real_estate_crm/features/deals/domain/repositories/deals_repository.dart';
 import 'package:real_estate_crm/features/meetings/domain/repositories/meetings_repository.dart';
-import 'package:real_estate_crm/core/utils/clock.dart';
 
 class DashboardBloc extends Bloc<DashboardEvent, DashboardState>
     with SingleFlight, CollectionBloc<DashboardEvent, DashboardState> {

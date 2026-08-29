@@ -235,8 +235,8 @@ class _DealsScreenState extends State<DealsScreen> {
           ),
       ];
 
-  Widget _boardBody(BuildContext ctx, DealsState state,
-      List<DealResponse> all, AppLocalizations l10n, double pad) {
+  Widget _boardBody(BuildContext ctx, DealsState state, List<DealResponse> all,
+      AppLocalizations l10n, double pad) {
     final placeholder = _placeholder(ctx, state, all, l10n, pad);
     if (placeholder != null) return placeholder;
 
