@@ -122,8 +122,8 @@ class _SearchViewState extends State<_SearchView> {
     );
   }
 
-  Widget _body(BuildContext ctx, SearchState state, AppLocalizations l10n,
-      double pad) {
+  Widget _body(
+      BuildContext ctx, SearchState state, AppLocalizations l10n, double pad) {
     if (state is SearchLoading) {
       return ShimmerList(
         count: 5,
@@ -134,7 +134,8 @@ class _SearchViewState extends State<_SearchView> {
     if (state is SearchError) {
       return ErrorWidget2(
         message: apiFailureLabel(l10n, state.failure),
-        onRetry: () => ctx.read<SearchBloc>().add(SearchQueryEvent(state.query)),
+        onRetry: () =>
+            ctx.read<SearchBloc>().add(SearchQueryEvent(state.query)),
       );
     }
     if (state is SearchLoaded) {
@@ -178,8 +179,8 @@ class _SearchViewState extends State<_SearchView> {
     );
   }
 
-  Widget _results(String query, SearchResults results, AppLocalizations l10n,
-      double pad) {
+  Widget _results(
+      String query, SearchResults results, AppLocalizations l10n, double pad) {
     return ListView(
       padding: EdgeInsets.fromLTRB(pad, 0, pad, 24),
       children: [
