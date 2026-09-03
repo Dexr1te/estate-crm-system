@@ -23,6 +23,35 @@ def flutter_root
   raise "FLUTTER_ROOT not found in #{generated_xcode_build_settings_path}. Try deleting Generated.xcconfig, then run flutter pub get"
 end
 
+# file_picker compiles three pickers; the app uses one.
+#
+# `FileGateway.pickFile` only ever calls `FilePicker.pickFiles()` — FileType.any,
+# which iOS serves with UIDocumentPickerViewController (the PICKER_DOCUMENT path,
+# left on). The media and audio pickers are dead weight, and expensive dead
+# weight: PICKER_MEDIA pulls in DKImagePickerController/DKPhotoGallery and puts
+# PHPhotoLibrary, PHAssetCreationRequest, PHPickerViewController and
+# UIImagePickerController in the binary, while PICKER_AUDIO adds
+# MPMediaPickerController.
+#
+# App Store Connect scans the binary for exactly those symbols and rejects the
+# upload with ITMS-90683 unless Info.plist carries NSPhotoLibraryUsageDescription,
+# NSPhotoLibraryAddUsageDescription, NSCameraUsageDescription and
+# NSAppleMusicUsageDescription. Declaring four permissions the app never asks for
+# — and answering for them in the privacy questionnaire — to ship code it never
+# reaches is the wrong trade. Compiling them out is the honest fix: it drops four
+# embedded frameworks (~4.4 MB) with them.
+#
+# Turning either back on means restoring the matching purpose strings in
+# ios/Runner/Info.plist first.
+#
+# Set on `Pod` rather than written as a bare `PICKER_MEDIA = false`: CocoaPods
+# instance_evals this file, so a plain assignment lands on the Podfile's
+# singleton class where the podspec's `Pod.const_defined?` check cannot see it,
+# and the flags silently do nothing.
+%w[PICKER_MEDIA PICKER_AUDIO].each do |flag|
+  Pod.const_set(flag, false) unless Pod.const_defined?(flag)
+end
+
 require File.expand_path(File.join('packages', 'flutter_tools', 'bin', 'podhelper'), flutter_root)
 
 flutter_ios_podfile_setup

@@ -49,6 +49,9 @@ public interface PropertyRepository extends JpaRepository<Property, Long>, JpaSp
     @EntityGraph(attributePaths = {"agent"})
     List<Property> findByCity(String city);
 
+    /** The seeder's own listings — see DemoDataSeeder for why the prefix is visible. */
+    List<Property> findByTitleStartingWith(String prefix);
+
     @Query("SELECT p FROM Property p WHERE " +
            "(:status   IS NULL OR p.status = :status) AND " +
            "(:type     IS NULL OR p.type   = :type)   AND " +

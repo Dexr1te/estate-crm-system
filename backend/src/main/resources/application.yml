@@ -99,6 +99,17 @@ app:
     # offline development, where every lookup fails.
     verify-domain: ${MAIL_VERIFY_DOMAIN:true}
     verify-domain-timeout-ms: ${MAIL_VERIFY_DOMAIN_TIMEOUT_MS:3000}
+  # The account App Review signs in with. Off by default, and it must stay off
+  # outside a submission window: it exists only so a reviewer can get past a
+  # login screen that has no sign-up behind it. See DemoDataSeeder, and
+  # docs/app-store-submission.md for how it is used.
+  demo:
+    enabled: ${DEMO_ENABLED:false}
+    email: ${DEMO_EMAIL:reviewer@demo.estatecrm.app}
+    # No default on purpose: the seeder refuses to create the account rather
+    # than put a guessable password on a real deployment.
+    password: ${DEMO_PASSWORD:}
+    full-name: ${DEMO_FULL_NAME:App Review}
   documents:
     # Where the bytes of deal documents are written. Relative paths resolve
     # against the working directory; in Docker this is a mounted volume, so a

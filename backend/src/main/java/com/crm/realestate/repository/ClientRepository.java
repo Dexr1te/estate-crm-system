@@ -47,6 +47,9 @@ public interface ClientRepository extends JpaRepository<Client, Long>, org.sprin
 
     boolean existsByEmail(String email);
 
+    /** Demo records carry a reserved email domain, which is how the seeder finds its own again. */
+    List<Client> findByEmailEndingWithIgnoreCase(String suffix);
+
     
     @Query(value = """
             SELECT
