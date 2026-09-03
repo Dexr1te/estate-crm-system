@@ -54,6 +54,9 @@ public interface DealRepository extends JpaRepository<Deal, Long>, JpaSpecificat
     @EntityGraph(attributePaths = {"client", "property", "agent"})
     List<Deal> findByStatus(DealStatus status);
 
+    /** Lets the demo seeder leave alone a listing some real deal has since been attached to. */
+    boolean existsByPropertyId(Long propertyId);
+
     @EntityGraph(attributePaths = {"client", "property", "agent"})
     List<Deal> findByAgentIdAndStatus(Long agentId, DealStatus status);
 
