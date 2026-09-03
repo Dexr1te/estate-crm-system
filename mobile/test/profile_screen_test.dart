@@ -226,7 +226,8 @@ void main() {
           reason: '$path must hang off the API base, not its origin');
       expect(url.path, endsWith(path));
       expect(Uri.parse(apiBaseUrl).path, isNotEmpty,
-          reason: 'if the base ever loses its path this test stops proving anything');
+          reason:
+              'if the base ever loses its path this test stops proving anything');
       expect(url.path, contains(Uri.parse(apiBaseUrl).path));
     }
   });
