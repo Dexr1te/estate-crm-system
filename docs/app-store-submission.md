@@ -1,8 +1,10 @@
 # Submitting the iOS app
 
-The build is ready and so is the account App Review signs in with. What is left
-is the part App Store Connect asks a person for, and one switch to throw on the
-production host before you submit.
+The build is ready and so is the account App Review signs in with. Production is
+not: it is running an older backend than the one the app is built against, and
+that has to be fixed before any of the rest of this is worth doing. After that,
+what is left is one switch to throw on the host and the part App Store Connect
+asks a person for.
 
 ## Already handled in the build
 
@@ -27,6 +29,26 @@ Verified against `build/ios/iphoneos/Runner.app`, not just read off the source:
 - **iPhone-only, portrait-only**, matching the layouts that are actually tested.
 - **`ITSAppUsesNonExemptEncryption` = false** — the app only uses HTTPS and the
   Keychain, both exempt.
+
+## Deploy the backend first
+
+The submitted build talks to production, and production is behind the
+repository. Checked against the live OpenAPI, it is missing `DELETE /auth/me` —
+the endpoint behind "Delete account" — along with `/search`,
+`/deals/{dealId}/documents`, `/privacy` and `/support`. A reviewer following
+Guideline 5.1.1(v) would tap Delete account and get a 405.
+
+Nothing else in this document works until that is fixed, the demo seeder
+included — it ships in the same build. Redeploy, then confirm:
+
+```sh
+curl -s https://estate-crm-system.duckdns.org/api/v3/api-docs \
+  | python3 -c "import json,sys; p=json.load(sys.stdin)['paths']; \
+      print([k for k in ('/privacy','/support','/search','/auth/me') if k in p])"
+# expect all four, and /auth/me carrying a delete verb
+
+curl -sI https://estate-crm-system.duckdns.org/api/privacy   # expect 200
+```
 
 ## The account App Review signs in with
 
@@ -108,9 +130,11 @@ distribution, and this whole question disappears.
   `mobile/ios/Runner/PrivacyInfo.xcprivacy`: name, email address, phone number
   and user content, all linked to the user, all for app functionality, none for
   tracking. Nothing else is collected.
-- **Privacy policy URL** — `https://<host>/privacy`. It must resolve before
-  review starts.
-- **Support URL** — `https://<host>/support`.
+- **Privacy policy URL** — `https://<host>/api/privacy`. It must resolve before
+  review starts, and the `/api` is not a typo: the backend is mounted under a
+  servlet context path, so the root copy of that path does not exist. Check it
+  with `curl -sI` before pasting it in.
+- **Support URL** — `https://<host>/api/support`, for the same reason.
 - **Screenshots** — 6.9" and 6.5" iPhone only, since the app ships iPhone-only.
   Portrait.
 - **Export compliance** — "No" to non-exempt encryption, matching the plist.
@@ -122,6 +146,10 @@ distribution, and this whole question disappears.
   to something real — a reviewer may write to that address.
 - The privacy text is a working draft written against what the app actually
   collects, and has not been through a lawyer. Read it before you submit.
+- Universal Links do not work yet: the entitlement claims the domain but the
+  association file is not served where Apple fetches it. Not a rejection —
+  invite links fall back to the custom scheme — but see
+  `invite-deep-link-deploy.md` for the one proxy rule that fixes it.
 - The backend host is baked in as `estate-crm-system.duckdns.org`. It is also
   what `Runner.entitlements` claims for Universal Links and what
   `WellKnownController` signs the association file for. If that host ever

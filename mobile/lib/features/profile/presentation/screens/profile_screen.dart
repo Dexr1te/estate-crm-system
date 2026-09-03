@@ -300,12 +300,13 @@ class ProfileScreen extends StatelessWidget {
   }
 
   /// Opens a page the backend serves — the privacy policy and the support page
-  /// live next to the API so there is exactly one host to keep alive.
+  /// live next to the API so there is exactly one host to keep alive, which is
+  /// also why the link carries the API's own prefix (see [backendPageUrl]).
   Future<void> _openPage(BuildContext context, String path) async {
     final l10n = AppLocalizations.of(context);
     final messenger = ScaffoldMessenger.of(context);
     final opened = await launchUrl(
-      Uri.parse('$apiOrigin$path'),
+      backendPageUrl(path),
       mode: LaunchMode.externalApplication,
     ).catchError((_) => false);
 

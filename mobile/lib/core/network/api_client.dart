@@ -15,9 +15,16 @@ const apiBaseUrl = String.fromEnvironment(
   defaultValue: 'https://estate-crm-system.duckdns.org/api',
 );
 
-/// The origin behind [apiBaseUrl], for pages served by the backend rather than
-/// its API — the privacy policy and the support page.
-final apiOrigin = Uri.parse(apiBaseUrl).origin;
+/// A page the backend serves for a browser rather than for the app — the
+/// privacy policy and the support page.
+///
+/// Built onto [apiBaseUrl] and not onto its origin. The backend runs under a
+/// servlet context path, so `https://host/privacy` arrives at Tomcat outside
+/// that context and is answered with a 404 however healthy the service is.
+/// These pages sit beside the API, under the same prefix, and the link the app
+/// opens has to say so — App Store Connect wants a privacy policy URL that
+/// resolves, and a reviewer taps both of these in the profile screen.
+Uri backendPageUrl(String path) => Uri.parse('$apiBaseUrl$path');
 
 const _retriedKey = 'auth_retried';
 

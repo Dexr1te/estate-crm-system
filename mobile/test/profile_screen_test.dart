@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/locale/bloc/locale_bloc.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/network/api_client.dart';
 import 'package:real_estate_crm/core/notifications/reminders_bloc.dart';
 import 'package:real_estate_crm/core/theme/bloc/theme_bloc.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
@@ -212,5 +213,21 @@ void main() {
 
     expect(find.text('АДМИН'), findsOneWidget);
     expect(find.text('ADMIN'), findsNothing);
+  });
+
+  test('the legal links keep the API prefix the backend is mounted under', () {
+    // The backend runs under a servlet context path. A link built from the bare
+    // origin — which is what these used to be — reaches Tomcat outside that
+    // context and comes back 404, so the privacy policy App Store Connect wants
+    // to resolve, and the support page a reviewer taps, were both dead.
+    for (final path in ['/privacy', '/support']) {
+      final url = backendPageUrl(path);
+      expect(url.toString(), startsWith(apiBaseUrl),
+          reason: '$path must hang off the API base, not its origin');
+      expect(url.path, endsWith(path));
+      expect(Uri.parse(apiBaseUrl).path, isNotEmpty,
+          reason: 'if the base ever loses its path this test stops proving anything');
+      expect(url.path, contains(Uri.parse(apiBaseUrl).path));
+    }
   });
 }
