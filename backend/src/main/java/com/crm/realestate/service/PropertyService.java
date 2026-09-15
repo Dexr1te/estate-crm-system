@@ -10,7 +10,9 @@ import com.crm.realestate.exception.ResourceNotFoundException;
 import com.crm.realestate.repository.PropertyRepository;
 import com.crm.realestate.repository.UserRepository;
 import com.crm.realestate.security.SecurityUtils;
+import com.crm.realestate.specification.PropertySpecification;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +20,10 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Listings are the agency's stock: everyone in a team sees and maintains all of the team's, whatever
+ * their data scope — see {@link ScopeService#visibleToTeam}.
+ */
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -29,87 +35,94 @@ public class PropertyService {
     private final ScopeService       scopeService;
 
     public List<PropertyResponse> getAll() {
-        return propertyRepository.findAll()
-                .stream().map(this::toResponse).collect(Collectors.toList());
+        return findVisible(PropertySpecification.build(null, null, null, null, null, null, null, null));
     }
 
     public List<PropertyResponse> filter(PropertyStatus status, PropertyType type,
                                           String city, BigDecimal minPrice, BigDecimal maxPrice) {
-        String normalizedCity = (city == null || city.isBlank())
-                ? null
-                : city.trim().toLowerCase();
-
-        return propertyRepository.filterProperties(status, type, normalizedCity, minPrice, maxPrice)
-                .stream().map(this::toResponse).collect(Collectors.toList());
+        return findVisible(PropertySpecification.build(status, type, city, minPrice, maxPrice, null, null, null));
     }
 
     public List<PropertyResponse> search(String query) {
-        return propertyRepository.searchProperties(query)
-                .stream().map(this::toResponse).collect(Collectors.toList());
+        return findVisible(PropertySpecification.build(null, null, null, null, null, null, null, query));
     }
 
     // New: pageable + specification-based search for production-ready filtering and pagination
     public org.springframework.data.domain.Page<PropertyResponse> search(
-            com.crm.realestate.enums.PropertyStatus status,
-            com.crm.realestate.enums.PropertyType type,
+            PropertyStatus status,
+            PropertyType type,
             String city,
-            java.math.BigDecimal minPrice,
-            java.math.BigDecimal maxPrice,
+            BigDecimal minPrice,
+            BigDecimal maxPrice,
             Integer rooms,
             Long agentId,
             String search,
             org.springframework.data.domain.Pageable pageable
     ) {
         User currentUser = securityUtils.getCurrentUser();
-        if (currentUser.getRole() != com.crm.realestate.enums.Role.ADMIN) {
-            agentId = null;
-        }
-        java.util.List<Long> allowedAgentIds = scopeService.getAllowedAgentIds(currentUser);
-        org.springframework.data.jpa.domain.Specification<com.crm.realestate.entity.Property> spec =
-                com.crm.realestate.specification.PropertySpecification.build(status, type, city, minPrice, maxPrice, rooms, agentId, search, allowedAgentIds);
+        Specification<Property> spec =
+                PropertySpecification.build(status, type, city, minPrice, maxPrice, rooms, agentId, search)
+                        .and(scopeService.visibleToTeam(currentUser));
 
         return propertyRepository.findAll(spec, pageable).map(this::toResponse);
     }
 
     public PropertyResponse getById(Long id) {
-        return toResponse(findById(id));
+        return toResponse(findVisibleById(id, securityUtils.getCurrentUser()));
     }
 
     @Transactional
     public PropertyResponse create(PropertyRequest request) {
         Property property = new Property();
-        mapRequestToEntity(request, property);
+        mapRequestToEntity(request, property, securityUtils.getCurrentUser());
         return toResponse(propertyRepository.save(property));
     }
 
     @Transactional
     public PropertyResponse update(Long id, PropertyRequest request) {
-        Property property = findById(id);
-        mapRequestToEntity(request, property);
+        User currentUser = securityUtils.getCurrentUser();
+        Property property = findVisibleById(id, currentUser);
+        mapRequestToEntity(request, property, currentUser);
         return toResponse(propertyRepository.save(property));
     }
 
     @Transactional
     public PropertyResponse updateStatus(Long id, PropertyStatus status) {
-        Property property = findById(id);
+        Property property = findVisibleById(id, securityUtils.getCurrentUser());
         property.setStatus(status);
         return toResponse(propertyRepository.save(property));
     }
 
     @Transactional
     public void delete(Long id) {
-        propertyRepository.delete(findById(id));
+        propertyRepository.delete(findVisibleById(id, securityUtils.getCurrentUser()));
     }
 
-    // Private helpers 
+    // Private helpers
 
-    private Property findById(Long id) {
-        return propertyRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Property not found with id: " + id));
-    }
-
-    private void mapRequestToEntity(PropertyRequest request, Property property) {
+    private List<PropertyResponse> findVisible(Specification<Property> filter) {
         User currentUser = securityUtils.getCurrentUser();
+        return propertyRepository.findAll(filter.and(scopeService.visibleToTeam(currentUser)))
+                .stream().map(this::toResponse).collect(Collectors.toList());
+    }
+
+    /** Another agency's listing reads as missing, so its existence is not confirmed either. */
+    private Property findVisibleById(Long id, User currentUser) {
+        Property property = propertyRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Property not found with id: " + id));
+        if (!scopeService.canSeeInTeam(currentUser, property.getTeam(), property.getAgent())) {
+            throw new ResourceNotFoundException("Property not found with id: " + id);
+        }
+        return property;
+    }
+
+    /**
+     * A new listing is held by whoever adds it, in their team — it used to be saved with no agent at
+     * all, which left it belonging to nobody. Only an admin may name another agent, and the listing
+     * then lives in that agent's team.
+     */
+    private void mapRequestToEntity(PropertyRequest request, Property property, User currentUser) {
+        boolean isNew = property.getId() == null;
         property.setTitle(request.getTitle());
         property.setDescription(request.getDescription());
         property.setAddress(request.getAddress());
@@ -122,11 +135,19 @@ public class PropertyService {
         property.setFloor(request.getFloor());
         property.setTotalFloors(request.getTotalFloors());
 
-        if (currentUser.getRole() == com.crm.realestate.enums.Role.ADMIN && request.getAgentId() != null) {
+        if (scopeService.isAdmin(currentUser) && request.getAgentId() != null) {
             User agent = userRepository.findById(request.getAgentId())
                     .orElseThrow(() -> new ResourceNotFoundException(
                             "Agent not found with id: " + request.getAgentId()));
+            // A listing already in an agency stays there; a team-less one may be placed in one.
+            if (!isNew && property.getTeam() != null) {
+                scopeService.requireSameTeam(property.getTeam(), agent.getTeam(), "Agent");
+            }
             property.setAgent(agent);
+            property.setTeam(agent.getTeam());
+        } else if (isNew && !scopeService.isAdmin(currentUser)) {
+            property.setAgent(currentUser);
+            property.setTeam(currentUser.getTeam());
         }
     }
 

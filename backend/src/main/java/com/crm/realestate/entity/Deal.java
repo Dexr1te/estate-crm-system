@@ -53,6 +53,11 @@ public class Deal {
     @JoinColumn(name = "agent_id", nullable = false)
     private User agent;
 
+    // The agency this record belongs to. See ScopeService for what it decides.
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "team_id")
+    private Team team;
+
     // Документы по сделке
     @OneToMany(mappedBy = "deal", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default

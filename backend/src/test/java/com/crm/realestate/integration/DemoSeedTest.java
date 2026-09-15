@@ -12,6 +12,7 @@ import com.crm.realestate.repository.DealRepository;
 import com.crm.realestate.repository.DocumentRepository;
 import com.crm.realestate.repository.MeetingRepository;
 import com.crm.realestate.repository.PropertyRepository;
+import com.crm.realestate.repository.TeamRepository;
 import com.crm.realestate.repository.UserRepository;
 import com.crm.realestate.service.AccountRemovalService;
 import com.crm.realestate.service.DocumentStorage;
@@ -48,6 +49,7 @@ public class DemoSeedTest {
     private static final String PASSWORD = "review-me-please";
 
     @Autowired private UserRepository     userRepository;
+    @Autowired private TeamRepository     teamRepository;
     @Autowired private ClientRepository   clientRepository;
     @Autowired private PropertyRepository propertyRepository;
     @Autowired private DealRepository     dealRepository;
@@ -67,7 +69,7 @@ public class DemoSeedTest {
         propertyRepository.deleteAll();
         userRepository.deleteAll();
 
-        seeder = new DemoDataSeeder(userRepository, clientRepository, propertyRepository,
+        seeder = new DemoDataSeeder(userRepository, teamRepository, clientRepository, propertyRepository,
                 dealRepository, meetingRepository, documentRepository, documentStorage,
                 passwordEncoder);
         configure(PASSWORD);
@@ -116,6 +118,13 @@ public class DemoSeedTest {
         // Own-data scope means the reviewer sees exactly these and nothing of the agency's.
         assertThat(clientRepository.findByAgentId(realAgent.getId())).isEmpty();
         assertThat(reviewer().getDataScope()).isEqualTo(DataScope.OWN);
+
+        // In a team of its own: outside one the app shows nothing but a waiting screen, and inside
+        // a real agency's the records would be that agency's to see.
+        assertThat(reviewer().getTeam()).isNotNull();
+        assertThat(reviewer().getTeam().getName()).isEqualTo("[Demo] Agency");
+        assertThat(clientRepository.findByAgentId(reviewerId))
+                .allMatch(c -> c.getTeam().getId().equals(reviewer().getTeam().getId()));
 
         // One deal per column, or the pipeline board has an empty lane to explain.
         assertThat(dealRepository.findByAgentId(reviewerId))

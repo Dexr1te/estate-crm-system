@@ -128,8 +128,7 @@ public class DocumentService {
     private Deal requireVisibleDeal(Long dealId) {
         Deal deal = dealRepository.findById(dealId)
                 .orElseThrow(() -> new ResourceNotFoundException("Deal not found with id: " + dealId));
-        Long agentId = deal.getAgent() == null ? null : deal.getAgent().getId();
-        if (!scopeService.isWithinScope(securityUtils.getCurrentUser(), agentId)) {
+        if (!scopeService.canSee(securityUtils.getCurrentUser(), deal.getTeam(), deal.getAgent())) {
             throw new ResourceNotFoundException("Deal not found");
         }
         return deal;

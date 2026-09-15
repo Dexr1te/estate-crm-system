@@ -52,6 +52,11 @@ public class Property {
     @JoinColumn(name = "agent_id")
     private User agent;
 
+    // The agency this record belongs to. See ScopeService for what it decides.
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "team_id")
+    private Team team;
+
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 

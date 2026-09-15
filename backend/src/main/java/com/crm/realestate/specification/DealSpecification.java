@@ -6,7 +6,6 @@ import org.springframework.data.jpa.domain.Specification;
 
 import jakarta.persistence.criteria.Predicate;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public final class DealSpecification {
@@ -16,8 +15,7 @@ public final class DealSpecification {
     public static Specification<Deal> build(
             DealStatus status,
             Long clientId,
-            Long agentId,
-            Collection<Long> allowedAgentIds
+            Long agentId
     ) {
         return (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
@@ -30,12 +28,6 @@ public final class DealSpecification {
             }
             if (agentId != null) {
                 predicates.add(cb.equal(root.get("agent").get("id"), agentId));
-            }
-            if (allowedAgentIds != null) {
-                if (allowedAgentIds.isEmpty()) {
-                    return cb.disjunction();
-                }
-                predicates.add(root.get("agent").get("id").in(allowedAgentIds));
             }
             return cb.and(predicates.toArray(new Predicate[0]));
         };

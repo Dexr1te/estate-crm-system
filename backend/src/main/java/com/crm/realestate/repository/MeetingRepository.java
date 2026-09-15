@@ -38,11 +38,17 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long>, JpaSpec
 
     @EntityGraph(attributePaths = {"agent", "client", "deal"})
     List<Meeting> findByAgentId(Long agentId);
-    @EntityGraph(attributePaths = {"agent", "client", "deal"})
-    List<Meeting> findByAgentIdIn(List<Long> agentIds);
-    long countByAgentIdIn(List<Long> agentIds);
 
-    long countByScheduledAtAfter(LocalDateTime now);
+    long countByTeamIdAndCompletedFalseAndScheduledAtAfter(Long teamId, LocalDateTime now);
+
+    @EntityGraph(attributePaths = {"agent", "client", "deal"})
+    List<Meeting> findAll(Specification<Meeting> spec, org.springframework.data.domain.Sort sort);
+
+    /** Moves this person's team-less meetings into their team — see RecordHandoverService. */
+    @org.springframework.data.jpa.repository.Modifying(flushAutomatically = true)
+    @Query("UPDATE Meeting m SET m.team = :team WHERE m.agent = :agent AND m.team IS NULL")
+    int adoptTeamless(@Param("agent") com.crm.realestate.entity.User agent,
+                      @Param("team") com.crm.realestate.entity.Team team);
 
     long countByAgentIdInAndScheduledAtAfter(List<Long> agentIds, LocalDateTime now);
 
@@ -54,24 +60,6 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long>, JpaSpec
 
     @EntityGraph(attributePaths = {"agent", "client", "deal"})
     List<Meeting> findByAgentIdAndCompleted(Long agentId, boolean completed);
-
-    @Query("SELECT m FROM Meeting m WHERE m.agent.id = :agentId " +
-           "AND m.scheduledAt BETWEEN :from AND :to ORDER BY m.scheduledAt ASC")
-    @EntityGraph(attributePaths = {"agent", "client", "deal"})
-    List<Meeting> findUpcomingByAgent(
-            @Param("agentId") Long agentId,
-            @Param("from")    LocalDateTime from,
-            @Param("to")      LocalDateTime to
-    );
-
-    @Query("SELECT m FROM Meeting m WHERE m.agent.id IN :agentIds " +
-           "AND m.completed = false " +
-           "AND m.scheduledAt > :now ORDER BY m.scheduledAt ASC")
-    @EntityGraph(attributePaths = {"agent", "client", "deal"})
-    List<Meeting> findAllUpcomingForAgents(
-            @Param("agentIds") List<Long> agentIds,
-            @Param("now") LocalDateTime now
-    );
 
     @Query("SELECT m FROM Meeting m WHERE m.completed = false " +
            "AND m.scheduledAt > :now ORDER BY m.scheduledAt ASC")

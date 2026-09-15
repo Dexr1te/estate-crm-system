@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "clients")
+@Table(name = "clients",
+        uniqueConstraints = @UniqueConstraint(name = "uq_clients_team_email", columnNames = {"team_id", "email"}))
 @Getter
 @Setter
 @NoArgsConstructor
@@ -24,7 +25,7 @@ public class Client {
     @Column(nullable = false)
     private String fullName;
 
-    @Column(unique = true)
+    // Unique within a team, not across the platform: two agencies may know the same person.
     private String email;
 
     private String phone;
@@ -39,6 +40,11 @@ public class Client {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "agent_id")
     private User agent;
+
+    // The agency this record belongs to. See ScopeService for what it decides.
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "team_id")
+    private Team team;
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default

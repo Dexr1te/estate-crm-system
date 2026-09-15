@@ -5,6 +5,7 @@ import com.crm.realestate.entity.Deal;
 import com.crm.realestate.entity.Document;
 import com.crm.realestate.entity.Meeting;
 import com.crm.realestate.entity.Property;
+import com.crm.realestate.entity.Team;
 import com.crm.realestate.entity.User;
 import com.crm.realestate.enums.ClientType;
 import com.crm.realestate.enums.DataScope;
@@ -18,6 +19,7 @@ import com.crm.realestate.repository.DealRepository;
 import com.crm.realestate.repository.DocumentRepository;
 import com.crm.realestate.repository.MeetingRepository;
 import com.crm.realestate.repository.PropertyRepository;
+import com.crm.realestate.repository.TeamRepository;
 import com.crm.realestate.repository.UserRepository;
 import com.crm.realestate.service.DocumentStorage;
 import lombok.RequiredArgsConstructor;
@@ -38,11 +40,11 @@ import java.util.List;
 /**
  * The account App Review signs in with, and enough work for it to have something to look at.
  *
- * <p>Guideline 2.1 wants working credentials for anything behind a login, and this app is
- * invite-only — there is no sign-up a reviewer could use. An account on the agency's own records is
- * not an option either: it would hand a stranger real clients' names and phone numbers. So the
- * reviewer gets an ordinary agent on {@link DataScope#OWN} whose only records are the ones seeded
- * here. The agency cannot see them unless it looks for them, and they cannot see the agency.
+ * <p>Guideline 2.1 wants working credentials for anything behind a login. An account on the
+ * agency's own records is not an option: it would hand a stranger real clients' names and phone
+ * numbers. So the reviewer gets an ordinary agent on {@link DataScope#OWN} in a team of its own,
+ * {@value #DEMO_TEAM}, whose only records are the ones seeded here. A team is the wall between
+ * agencies, so the real ones cannot see these records and the reviewer cannot see theirs.
  *
  * <p>It has to run against production, because that is the host the submitted build talks to. So it
  * is off unless {@code app.demo.enabled} is true, turning it on is a deliberate act, and the log
@@ -72,7 +74,11 @@ public class DemoDataSeeder implements ApplicationRunner {
     /** Visible on purpose: these rows live in the agency's production database. */
     static final String DEMO_PREFIX = "[Demo] ";
 
+    /** The reviewer's agency. An agent outside any team would be shown nothing but a waiting screen. */
+    static final String DEMO_TEAM = DEMO_PREFIX + "Agency";
+
     private final UserRepository     userRepository;
+    private final TeamRepository     teamRepository;
     private final ClientRepository   clientRepository;
     private final PropertyRepository propertyRepository;
     private final DealRepository     dealRepository;
@@ -106,13 +112,15 @@ public class DemoDataSeeder implements ApplicationRunner {
 
         clearPreviousRun();
 
-        // Someone for the reviewer to hand the records to. Deleting your own account requires
-        // nominating a successor, and the picker lists the whole agency — without this the obvious
-        // choice would be a real employee, who would inherit a pile of fake clients.
-        User successor = userRepository.findByEmail(handoverEmail())
-                .orElseGet(() -> userRepository.save(agent(handoverEmail(), DEMO_PREFIX + "Handover Account")));
+        Team team = teamRepository.findFirstByNameOrderByIdAsc(DEMO_TEAM)
+                .orElseGet(() -> teamRepository.save(Team.builder().name(DEMO_TEAM).build()));
 
-        User reviewer = userRepository.save(agent(reviewerEmail, reviewerName));
+        // Someone for the reviewer to hand the records to. Deleting your own account requires
+        // nominating a successor from the same team — without this there would be nobody to pick.
+        User successor = userRepository.findByEmail(handoverEmail())
+                .orElseGet(() -> userRepository.save(agent(handoverEmail(), DEMO_PREFIX + "Handover Account", team)));
+
+        User reviewer = userRepository.save(agent(reviewerEmail, reviewerName, team));
         seedRecords(reviewer);
 
         log.info("Seeded demo account {} (agent, own-data scope) with 6 clients, 5 listings, "
@@ -179,13 +187,14 @@ public class DemoDataSeeder implements ApplicationRunner {
      * remaining one, and a reviewer who cannot finish "Delete account" reads it as the feature
      * being missing — which is the one thing Guideline 5.1.1(v) is checked for by hand.
      */
-    private User agent(String email, String fullName) {
+    private User agent(String email, String fullName, Team team) {
         return User.builder()
                 .email(email)
                 .password(passwordEncoder.encode(reviewerPassword))
                 .fullName(fullName)
                 .role(Role.AGENT)
                 .dataScope(DataScope.OWN)
+                .team(team)
                 .status(UserStatus.ACTIVE)
                 .isActive(true)
                 // The reviewer gets one password and should not be asked to invent another.
@@ -251,6 +260,7 @@ public class DemoDataSeeder implements ApplicationRunner {
                 .type(type)
                 .notes(notes)
                 .agent(agent)
+                .team(agent.getTeam())
                 .build());
     }
 
@@ -269,6 +279,7 @@ public class DemoDataSeeder implements ApplicationRunner {
                 .floor(floor)
                 .totalFloors(totalFloors)
                 .agent(agent)
+                .team(agent.getTeam())
                 .build());
     }
 
@@ -280,6 +291,7 @@ public class DemoDataSeeder implements ApplicationRunner {
                 .client(client)
                 .property(property)
                 .agent(agent)
+                .team(agent.getTeam())
                 .dealPrice(dealPrice == null ? null : new BigDecimal(dealPrice))
                 .budget(budget == null ? null : new BigDecimal(budget))
                 .closedAt(closedAt)
@@ -296,6 +308,7 @@ public class DemoDataSeeder implements ApplicationRunner {
                 .client(client)
                 .deal(deal)
                 .agent(agent)
+                .team(agent.getTeam())
                 .build());
     }
 }

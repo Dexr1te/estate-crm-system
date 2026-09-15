@@ -32,4 +32,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     // all users sorted by createdAt desc (for admin dashboard)
     List<User> findAllByOrderByCreatedAtDesc();
     List<User> findByTeamId(Long teamId);
+
+    /** A team's assignable people — see UserService.getAgentOptions. */
+    List<User> findByTeamIdAndIsActiveTrueOrderByFullNameAsc(Long teamId);
 }

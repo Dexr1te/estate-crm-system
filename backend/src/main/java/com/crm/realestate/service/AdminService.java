@@ -47,6 +47,7 @@ public class AdminService {
     private final EmailService       emailService;
     private final EmailDomainValidator emailDomainValidator;
     private final AccountRemovalService accountRemovalService;
+    private final RecordHandoverService recordHandoverService;
 
     public List<AgentResponse> getAllUsers() {
         return userRepository.findAllByOrderByCreatedAtDesc()
@@ -178,7 +179,9 @@ public class AdminService {
         Team team = teamRepository.findById(teamId)
                 .orElseThrow(() -> new ResourceNotFoundException("Team not found"));
         user.setTeam(team);
-        return toAgentResponse(userRepository.save(user));
+        User saved = userRepository.save(user);
+        recordHandoverService.adoptTeamlessRecords(saved);
+        return toAgentResponse(saved);
     }
 
     @Transactional

@@ -1,21 +1,41 @@
 package com.crm.realestate.service;
 
+import com.crm.realestate.entity.Team;
 import com.crm.realestate.entity.User;
 import com.crm.realestate.enums.DataScope;
 import com.crm.realestate.enums.Role;
-import com.crm.realestate.repository.UserRepository;
-import lombok.RequiredArgsConstructor;
+import com.crm.realestate.exception.ResourceNotFoundException;
+import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.Objects;
 
+/**
+ * Decides which business records — clients, listings, deals, meetings — someone may see.
+ *
+ * <p>Two walls, applied together:
+ *
+ * <ol>
+ *   <li><b>The team.</b> A team is an agency, and nothing crosses between agencies. Someone who
+ *       belongs to no team sees only records that are their own and in no team either — what an
+ *       account accumulated before teams existed, until it joins one.
+ *   <li><b>The data scope, inside the team.</b> {@link DataScope#OWN} narrows to records the person
+ *       is the agent on; {@link DataScope#TEAM} sees the whole team. {@link DataScope#ALL} means the
+ *       whole platform and is honoured for admins only — anyone else holding it is treated as TEAM,
+ *       so a stray value on a manager can never open another agency's books.
+ * </ol>
+ *
+ * <p>Admins operate the platform and see everything.
+ *
+ * <p>Every read goes through {@link #visibleTo} or {@link #canSee}, so the rule lives here once
+ * rather than as a filter each service has to remember.
+ */
 @Component
-@RequiredArgsConstructor
 public class ScopeService {
 
-    private final UserRepository userRepository;
+    private static final String TEAM = "team";
+    private static final String AGENT = "agent";
 
     public boolean isAdmin(User user) {
         return user != null && user.getRole() == Role.ADMIN;
@@ -29,48 +49,104 @@ public class ScopeService {
         return user != null && user.getRole() == Role.AGENT;
     }
 
-    public List<Long> getAllowedAgentIds(User user) {
-        if (user == null) {
-            return Collections.emptyList();
-        }
-        if (user.getDataScope() == DataScope.ALL) {
-            return null;
-        }
-        if (user.getDataScope() == DataScope.OWN) {
-            return List.of(user.getId());
-        }
-        if (user.getDataScope() == DataScope.TEAM) {
-            if (user.getTeam() == null || user.getTeam().getId() == null) {
-                return List.of(user.getId());
-            }
-            return userRepository.findByTeamId(user.getTeam().getId())
-                    .stream()
-                    .map(User::getId)
-                    .toList();
-        }
-        return List.of(user.getId());
+    /** The agency this person works in, or null if they are not in one. */
+    public Long teamIdOf(User user) {
+        return user == null || user.getTeam() == null ? null : user.getTeam().getId();
     }
 
-    public boolean isWithinScope(User user, Long agentId) {
-        if (agentId == null || user == null) {
-            return false;
-        }
-        List<Long> allowed = getAllowedAgentIds(user);
-        if (allowed == null) {
-            return true;
-        }
-        return allowed.contains(agentId);
+    /** Whether, inside their team, this person sees colleagues' records as well as their own. */
+    public boolean seesWholeTeam(User user) {
+        return user != null && user.getDataScope() != DataScope.OWN;
     }
 
-    public <T> Specification<T> buildAgentScope(String agentPath, List<Long> allowedAgentIds) {
+    /** Records this person may see, filtered by both walls. */
+    public <T> Specification<T> visibleTo(User user) {
         return (root, query, cb) -> {
-            if (allowedAgentIds == null) {
-                return cb.conjunction();
-            }
-            if (allowedAgentIds.isEmpty()) {
+            if (user == null) {
                 return cb.disjunction();
             }
-            return root.get(agentPath).get("id").in(allowedAgentIds);
+            if (isAdmin(user)) {
+                return cb.conjunction();
+            }
+            Predicate mine = cb.equal(root.get(AGENT).get("id"), user.getId());
+            Long teamId = teamIdOf(user);
+            if (teamId == null) {
+                return cb.and(cb.isNull(root.get(TEAM)), mine);
+            }
+            Predicate inTeam = cb.equal(root.get(TEAM).get("id"), teamId);
+            return seesWholeTeam(user) ? inTeam : cb.and(inTeam, mine);
         };
+    }
+
+    /**
+     * Records anyone in this person's team may see, whatever their data scope.
+     *
+     * <p>For listings: an agency's stock is what its agents sell, so an agent on their own clients
+     * still needs every listing to put in front of them.
+     */
+    public <T> Specification<T> visibleToTeam(User user) {
+        return (root, query, cb) -> {
+            if (user == null) {
+                return cb.disjunction();
+            }
+            if (isAdmin(user)) {
+                return cb.conjunction();
+            }
+            Long teamId = teamIdOf(user);
+            if (teamId == null) {
+                return cb.and(cb.isNull(root.get(TEAM)), cb.equal(root.get(AGENT).get("id"), user.getId()));
+            }
+            return cb.equal(root.get(TEAM).get("id"), teamId);
+        };
+    }
+
+    /** The single-record form of {@link #visibleTo}. */
+    public boolean canSee(User user, Team recordTeam, User recordAgent) {
+        if (user == null) {
+            return false;
+        }
+        if (isAdmin(user)) {
+            return true;
+        }
+        boolean mine = recordAgent != null && Objects.equals(recordAgent.getId(), user.getId());
+        Long teamId = teamIdOf(user);
+        if (teamId == null) {
+            return recordTeam == null && mine;
+        }
+        if (recordTeam == null || !teamId.equals(recordTeam.getId())) {
+            return false;
+        }
+        return seesWholeTeam(user) || mine;
+    }
+
+    /** The single-record form of {@link #visibleToTeam}. */
+    public boolean canSeeInTeam(User user, Team recordTeam, User recordAgent) {
+        if (user == null) {
+            return false;
+        }
+        if (isAdmin(user)) {
+            return true;
+        }
+        Long teamId = teamIdOf(user);
+        if (teamId == null) {
+            return recordTeam == null
+                    && recordAgent != null && Objects.equals(recordAgent.getId(), user.getId());
+        }
+        return recordTeam != null && teamId.equals(recordTeam.getId());
+    }
+
+    /**
+     * Refuses to link records from two different agencies — a deal on another team's client, a
+     * meeting on another team's deal. Reported as not found, the same as reading one would be, so
+     * the refusal does not confirm the other record exists.
+     */
+    public void requireSameTeam(Team expected, Team actual, String what) {
+        if (!Objects.equals(idOf(expected), idOf(actual))) {
+            throw new ResourceNotFoundException(what + " not found");
+        }
+    }
+
+    private static Long idOf(Team team) {
+        return team == null ? null : team.getId();
     }
 }
