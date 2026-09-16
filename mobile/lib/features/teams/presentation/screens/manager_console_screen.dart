@@ -61,8 +61,8 @@ class _ManagerConsoleScreenState extends State<ManagerConsoleScreen> {
         .where((m) => m.id != member.id && m.isActive)
         .where((m) => m.status == UserAccountStatus.active)
         .toList();
-    final me = state.members.firstWhere((m) => m.isTeamManager,
-        orElse: () => member);
+    final me =
+        state.members.firstWhere((m) => m.isTeamManager, orElse: () => member);
 
     final picked = await showEntityPicker(
       context,
@@ -188,7 +188,8 @@ class _ManagerConsoleScreenState extends State<ManagerConsoleScreen> {
                           }
                         },
                         builder: (ctx, state) {
-                          if (state is MyTeamLoading || state is MyTeamInitial) {
+                          if (state is MyTeamLoading ||
+                              state is MyTeamInitial) {
                             return ShimmerList(
                               count: 3,
                               padding: EdgeInsets.fromLTRB(pad, 0, pad, 24),

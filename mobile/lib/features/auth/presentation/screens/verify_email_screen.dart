@@ -34,8 +34,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
     super.initState();
     _startCooldown();
     // The code screen exists to be typed into; nothing else on it takes input.
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => _focus.requestFocus());
+    WidgetsBinding.instance.addPostFrameCallback((_) => _focus.requestFocus());
   }
 
   @override
