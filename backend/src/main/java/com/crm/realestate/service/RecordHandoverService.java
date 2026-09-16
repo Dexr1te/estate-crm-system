@@ -1,5 +1,6 @@
 package com.crm.realestate.service;
 
+import com.crm.realestate.entity.Team;
 import com.crm.realestate.entity.User;
 import com.crm.realestate.repository.ClientRepository;
 import com.crm.realestate.repository.DealRepository;
@@ -33,6 +34,25 @@ public class RecordHandoverService {
      * <p>Only team-less records move. Anything already in a team stays with that team: a record
      * belongs to the agency it was made in, not to whoever carried it.
      */
+    /**
+     * Hands what {@code from} holds in {@code team} to {@code to}, who stays in that team.
+     *
+     * <p>Used when an agent leaves or is taken off a team: the clients, listings, deals and meetings
+     * are the agency's, so they stay behind with a colleague. Anything the agent holds outside that
+     * team is not the team's to keep, and does not move.
+     */
+    @Transactional
+    public void reassignTeamRecords(User from, User to, Team team) {
+        int clients    = clientRepository.reassignInTeam(from, to, team);
+        int properties = propertyRepository.reassignInTeam(from, to, team);
+        int deals      = dealRepository.reassignInTeam(from, to, team);
+        int meetings   = meetingRepository.reassignInTeam(from, to, team);
+        if (clients + properties + deals + meetings > 0) {
+            log.info("Handed {} clients, {} listings, {} deals and {} meetings in team {} from user {} to user {}",
+                    clients, properties, deals, meetings, team.getId(), from.getId(), to.getId());
+        }
+    }
+
     @Transactional
     public void adoptTeamlessRecords(User user) {
         if (user == null || user.getTeam() == null) {

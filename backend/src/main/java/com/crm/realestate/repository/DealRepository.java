@@ -49,6 +49,13 @@ public interface DealRepository extends JpaRepository<Deal, Long>, JpaSpecificat
     int adoptTeamless(@Param("agent") com.crm.realestate.entity.User agent,
                       @Param("team") com.crm.realestate.entity.Team team);
 
+    /** Hands deals held in a team to a colleague — see RecordHandoverService. */
+    @org.springframework.data.jpa.repository.Modifying(flushAutomatically = true)
+    @Query("UPDATE Deal d SET d.agent = :to WHERE d.agent = :from AND d.team = :team")
+    int reassignInTeam(@Param("from") com.crm.realestate.entity.User from,
+                       @Param("to") com.crm.realestate.entity.User to,
+                       @Param("team") com.crm.realestate.entity.Team team);
+
     @EntityGraph(attributePaths = {"client", "property", "agent"})
     List<Deal> findByClientId(Long clientId);
 

@@ -12,7 +12,13 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
+    // The team comes along: the auth response names it, and the scope checks read it on every request.
+    @org.springframework.data.jpa.repository.EntityGraph(attributePaths = {"team"})
     Optional<User> findByEmail(String email);
+
+    /** Sign-up and "add by email" must not treat Ivan@mail.kz and ivan@mail.kz as two people. */
+    @org.springframework.data.jpa.repository.EntityGraph(attributePaths = {"team"})
+    Optional<User> findFirstByEmailIgnoreCase(String email);
     Optional<User> findByInviteToken(String inviteToken);
     Optional<User> findByPasswordResetToken(String resetToken);
 

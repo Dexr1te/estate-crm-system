@@ -40,7 +40,9 @@ server:
     context-path: /api
 
 jwt:
-  secret: test-secret-key-for-ci-tests-only-not-used-in-production-1234567890
+  # Base64, because JwtService decodes it as such — a plain sentence here made every
+  # token-issuing test fail with "Illegal base64 character".
+  secret: ZXN0YXRlLWNybS10ZXN0LXNpZ25pbmcta2V5LW5vdC11c2VkLWluLXByb2R1Y3Rpb24tMDEyMzQ1Njc4OWFiY2RlZg==
   access-token-expiration: 86400000
   refresh-token-expiration: 604800000
 

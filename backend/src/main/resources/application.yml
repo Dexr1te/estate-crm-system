@@ -93,6 +93,9 @@ app:
   mail:
     # Master switch: emails are only sent when true AND SMTP creds are set.
     enabled: ${MAIL_ENABLED:false}
+    # Local development only: while mail is off, print sign-up codes to the log
+    # so an account can still be confirmed. Never enable this on a real host.
+    log-codes: ${MAIL_LOG_CODES:false}
     # Gmail rewrites From to the authenticated account, so default to it.
     from: ${MAIL_FROM:${MAIL_USERNAME:no-reply@estatecrm.app}}
     # Reject invites to domains that publish no MX/A record. Turn off for

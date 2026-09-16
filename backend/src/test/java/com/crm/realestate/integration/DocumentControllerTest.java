@@ -2,6 +2,7 @@ package com.crm.realestate.integration;
 
 import com.crm.realestate.entity.Client;
 import com.crm.realestate.entity.Deal;
+import com.crm.realestate.entity.Team;
 import com.crm.realestate.entity.User;
 import com.crm.realestate.enums.ClientType;
 import com.crm.realestate.enums.DataScope;
@@ -11,6 +12,7 @@ import com.crm.realestate.enums.UserStatus;
 import com.crm.realestate.repository.ClientRepository;
 import com.crm.realestate.repository.DealRepository;
 import com.crm.realestate.repository.DocumentRepository;
+import com.crm.realestate.repository.TeamRepository;
 import com.crm.realestate.repository.UserRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -58,6 +60,9 @@ class DocumentControllerTest {
     @Autowired private ClientRepository clientRepository;
     @Autowired private UserRepository userRepository;
     @Autowired private DocumentRepository documentRepository;
+    @Autowired private TeamRepository teamRepository;
+
+    private Team team;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -73,7 +78,11 @@ class DocumentControllerTest {
         dealRepository.deleteAll();
         clientRepository.deleteAll();
         userRepository.deleteAll();
+        teamRepository.deleteAll();
 
+        // Same agency, different agents: what must stay unreachable here is a colleague's deal,
+        // not another agency's.
+        team = teamRepository.save(Team.builder().name("Almaty Realty").build());
         agent = userRepository.save(user("agent@estate.crm", "Aigerim Serikbaykyzy"));
         User otherAgent = userRepository.save(user("other@estate.crm", "Daniyar Nurlanuly"));
 
@@ -162,6 +171,7 @@ class DocumentControllerTest {
                 .password("x")
                 .role(Role.AGENT)
                 .dataScope(DataScope.OWN)
+                .team(team)
                 .status(UserStatus.ACTIVE)
                 .isActive(true)
                 .build();
@@ -172,12 +182,14 @@ class DocumentControllerTest {
                 .fullName("Client of " + owner.getFullName())
                 .type(ClientType.BUYER)
                 .agent(owner)
+                .team(owner.getTeam())
                 .build());
         return Deal.builder()
                 .title(title)
                 .status(DealStatus.LEAD)
                 .client(client)
                 .agent(owner)
+                .team(owner.getTeam())
                 .build();
     }
 

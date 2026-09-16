@@ -50,6 +50,13 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long>, JpaSpec
     int adoptTeamless(@Param("agent") com.crm.realestate.entity.User agent,
                       @Param("team") com.crm.realestate.entity.Team team);
 
+    /** Hands meetings held in a team to a colleague — see RecordHandoverService. */
+    @org.springframework.data.jpa.repository.Modifying(flushAutomatically = true)
+    @Query("UPDATE Meeting m SET m.agent = :to WHERE m.agent = :from AND m.team = :team")
+    int reassignInTeam(@Param("from") com.crm.realestate.entity.User from,
+                       @Param("to") com.crm.realestate.entity.User to,
+                       @Param("team") com.crm.realestate.entity.Team team);
+
     long countByAgentIdInAndScheduledAtAfter(List<Long> agentIds, LocalDateTime now);
 
     @EntityGraph(attributePaths = {"agent", "client", "deal"})

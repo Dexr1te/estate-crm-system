@@ -68,6 +68,16 @@ public class GlobalExceptionHandler {
                 .body(buildError(HttpStatus.FORBIDDEN, "Access denied", request.getRequestURI()));
     }
 
+    // Правило, на которое клиент должен отреагировать: статус и код задаёт само исключение
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<ErrorResponse> handleBusiness(BusinessException ex,
+                                                        HttpServletRequest request) {
+        log.warn("Business rule {}: {}", ex.getCode(), ex.getMessage());
+        ErrorResponse body = buildError(ex.getStatus(), ex.getMessage(), request.getRequestURI());
+        body.setCode(ex.getCode());
+        return ResponseEntity.status(ex.getStatus()).body(body);
+    }
+
     // 400 — бизнес-логика (RuntimeException) 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErrorResponse> handleRuntime(RuntimeException ex,

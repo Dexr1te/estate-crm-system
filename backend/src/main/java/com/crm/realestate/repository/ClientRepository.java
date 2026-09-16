@@ -53,6 +53,13 @@ public interface ClientRepository extends JpaRepository<Client, Long>, org.sprin
     int adoptTeamless(@Param("agent") com.crm.realestate.entity.User agent,
                       @Param("team") com.crm.realestate.entity.Team team);
 
+    /** Hands clients held in a team to a colleague — see RecordHandoverService. */
+    @org.springframework.data.jpa.repository.Modifying(flushAutomatically = true)
+    @Query("UPDATE Client c SET c.agent = :to WHERE c.agent = :from AND c.team = :team")
+    int reassignInTeam(@Param("from") com.crm.realestate.entity.User from,
+                       @Param("to") com.crm.realestate.entity.User to,
+                       @Param("team") com.crm.realestate.entity.Team team);
+
     /** Demo records carry a reserved email domain, which is how the seeder finds its own again. */
     List<Client> findByEmailEndingWithIgnoreCase(String suffix);
 

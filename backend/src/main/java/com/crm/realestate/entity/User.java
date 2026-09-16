@@ -70,6 +70,15 @@ public class User implements UserDetails {
     private String passwordResetToken;
     private LocalDateTime passwordResetTokenExpiresAt;
 
+    // The six-digit code a self-registered account proves its address with. Stored hashed.
+    private String emailVerificationCodeHash;
+    private LocalDateTime emailVerificationExpiresAt;
+    private LocalDateTime emailVerificationSentAt;
+
+    @Column(nullable = false)
+    @Builder.Default
+    private int emailVerificationAttempts = 0;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by")
     private User createdBy;
