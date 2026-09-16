@@ -15,7 +15,6 @@ class TeamsBloc extends Bloc<TeamsEvent, TeamsState>
     on<TeamsLoadEvent>(_onLoad);
     on<TeamsCreateEvent>(_onCreate);
     on<TeamsUpdateEvent>(_onUpdate);
-    on<TeamsInviteAgentEvent>(_onInviteAgent);
   }
 
   List<TeamResponse> get _current {
@@ -58,9 +57,4 @@ class TeamsBloc extends Bloc<TeamsEvent, TeamsState>
       'update-${e.id}',
       ActionMessage.teamUpdated,
       () => _repo.updateTeam(e.id, e.body));
-
-  Future<void> _onInviteAgent(
-          TeamsInviteAgentEvent e, Emitter<TeamsState> emit) =>
-      _act(emit, 'invite-${e.body['email']}', ActionMessage.agentInvited,
-          () => _repo.inviteAgentToMyTeam(e.body));
 }

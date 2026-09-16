@@ -62,7 +62,8 @@ void main() {
               location: location,
               sessionResolved: true,
               authenticated: false,
-              role: null),
+              role: null,
+              hasTeam: false),
           isNull,
           reason: 'someone resetting a password has no session by definition',
         );

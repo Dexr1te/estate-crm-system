@@ -14,6 +14,39 @@ class AuthRemoteDataSource {
     return AuthResponse.fromJson(jsonObject(res));
   }
 
+  /// Opens an account. Deliberately returns no session: the address has to be
+  /// confirmed with [verifyEmail] first.
+  Future<void> register({
+    required String fullName,
+    required String email,
+    required String password,
+    required Role role,
+    String? phone,
+  }) =>
+      _client.dio.post('/auth/register', data: {
+        'fullName': fullName,
+        'email': email,
+        'password': password,
+        'role': role.name,
+        if (phone != null && phone.isNotEmpty) 'phone': phone,
+      });
+
+  Future<AuthResponse> verifyEmail(String email, String code) async {
+    final res = await _client.dio.post('/auth/verify-email', data: {
+      'email': email,
+      'code': code,
+    });
+    return AuthResponse.fromJson(jsonObject(res));
+  }
+
+  Future<void> resendVerification(String email) =>
+      _client.dio.post('/auth/resend-verification', data: {'email': email});
+
+  Future<AuthResponse> me() async {
+    final res = await _client.dio.get('/auth/me');
+    return AuthResponse.fromJson(jsonObject(res));
+  }
+
   Future<AuthResponse> acceptInvite(String token, String newPassword) async {
     final res = await _client.dio.post('/auth/accept-invite', data: {
       'token': token,

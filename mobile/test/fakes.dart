@@ -20,7 +20,11 @@ import 'package:real_estate_crm/features/teams/domain/repositories/teams_reposit
 
 class FakeAuthRepository implements AuthRepository {
   final AuthResponse? user;
-  FakeAuthRepository({this.user});
+
+  /// What a refreshed session says — how a test moves an agent into a team.
+  AuthResponse? refreshed;
+
+  FakeAuthRepository({this.user, this.refreshed});
 
   @override
   Future<AuthResponse?> getSavedUser() async => user;
@@ -50,6 +54,38 @@ class FakeAuthRepository implements AuthRepository {
 
   /// The address the last reset request named, or null if none was made.
   String? resetRequestedFor;
+
+  @override
+  Future<void> register({
+    required String fullName,
+    required String email,
+    required String password,
+    required Role role,
+    String? phone,
+  }) async =>
+      registered = (fullName, email, password, role);
+
+  /// What the last sign-up sent, or null if none was made.
+  (String, String, String, Role)? registered;
+
+  @override
+  Future<AuthResponse> verifyEmail(String email, String code) async {
+    verifiedWith = (email, code);
+    return user!;
+  }
+
+  /// The address and code the last confirmation sent.
+  (String, String)? verifiedWith;
+
+  @override
+  Future<void> resendVerification(String email) async =>
+      resentFor = email;
+
+  /// The address the last resend named.
+  String? resentFor;
+
+  @override
+  Future<AuthResponse> refreshMe() async => refreshed ?? user!;
 
   @override
   Future<void> logout() async {}
@@ -305,7 +341,19 @@ class FakeTeamsRepository implements TeamsRepository {
   final TeamStatsResponse stats;
   final bool pending;
 
+  /// The manager's own team, its people, and who has been asked to join.
+  final TeamResponse? myTeam;
+  final List<TeamMemberResponse> members;
+  final List<TeamJoinRequestResponse> requests;
+
+  /// What the next add-by-email answers with.
+  AddMemberResult addResult;
+
   FakeTeamsRepository({
+    this.myTeam,
+    this.members = const [],
+    this.requests = const [],
+    this.addResult = const AddMemberResult(requestSent: true),
     this.teams = const [],
     this.stats = const TeamStatsResponse(
       teamId: 1,
@@ -325,6 +373,86 @@ class FakeTeamsRepository implements TeamsRepository {
       pending ? Completer<List<TeamResponse>>().future : Future.value(teams);
   @override
   Future<TeamStatsResponse> getTeamStats(int id) => Future.value(stats);
+
+  @override
+  Future<TeamResponse> getMyTeam() => pending
+      ? Completer<TeamResponse>().future
+      : Future.value(myTeam ??
+          const TeamResponse(id: 1, name: 'Downtown desk', memberCount: 1));
+
+  @override
+  Future<List<TeamMemberResponse>> getMembers() => pending
+      ? Completer<List<TeamMemberResponse>>().future
+      : Future.value(members);
+
+  @override
+  Future<List<TeamJoinRequestResponse>> getOutgoingRequests() => pending
+      ? Completer<List<TeamJoinRequestResponse>>().future
+      : Future.value(requests);
+
+  @override
+  Future<List<TeamJoinRequestResponse>> getMyRequests() => pending
+      ? Completer<List<TeamJoinRequestResponse>>().future
+      : Future.value(requests);
+
+  @override
+  Future<AddMemberResult> addMember({
+    required String email,
+    required String fullName,
+    String? phone,
+  }) async {
+    added = (email, fullName);
+    return addResult;
+  }
+
+  /// The address and name the last add sent.
+  (String, String)? added;
+
+  @override
+  Future<void> removeMember(int userId, {int? replacementId}) async =>
+      removed = (userId, replacementId);
+
+  /// Who the last removal took off the team, and who inherited their records.
+  (int, int?)? removed;
+
+  @override
+  Future<void> cancelRequest(int requestId) async => cancelled = requestId;
+
+  /// The request the last withdrawal named.
+  int? cancelled;
+
+  @override
+  Future<AuthResponse> acceptRequest(int requestId) async {
+    accepted = requestId;
+    return const AuthResponse(teamId: 1, teamName: 'Downtown desk');
+  }
+
+  /// The request the last acceptance named.
+  int? accepted;
+
+  @override
+  Future<void> declineRequest(int requestId) async => declined = requestId;
+
+  /// The request the last refusal named.
+  int? declined;
+
+  @override
+  Future<TeamResponse> createMyTeam(String name) async {
+    createdTeamName = name;
+    return TeamResponse(id: 1, name: name, memberCount: 1);
+  }
+
+  /// The name the last agency was created with.
+  String? createdTeamName;
+
+  @override
+  Future<AuthResponse> leaveTeam() async {
+    leftTeam = true;
+    return const AuthResponse();
+  }
+
+  bool leftTeam = false;
+
   @override
   Never noSuchMethod(Invocation i) => throw UnimplementedError();
 }

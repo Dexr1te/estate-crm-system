@@ -14,9 +14,9 @@ _$AuthResponseImpl _$$AuthResponseImplFromJson(Map<String, dynamic> json) =>
       userId: (json['userId'] as num?)?.toInt() ?? 0,
       fullName: json['fullName'] as String? ?? '',
       email: json['email'] as String? ?? '',
-      role: $enumDecodeNullable(_$RoleEnumMap, json['role'],
-              unknownValue: Role.AGENT) ??
-          Role.AGENT,
+      role: $enumDecodeNullable(_$RoleEnumMap, json['role']) ?? Role.AGENT,
+      teamId: (json['teamId'] as num?)?.toInt(),
+      teamName: json['teamName'] as String?,
     );
 
 Map<String, dynamic> _$$AuthResponseImplToJson(_$AuthResponseImpl instance) =>
@@ -28,6 +28,8 @@ Map<String, dynamic> _$$AuthResponseImplToJson(_$AuthResponseImpl instance) =>
       'fullName': instance.fullName,
       'email': instance.email,
       'role': _$RoleEnumMap[instance.role]!,
+      'teamId': instance.teamId,
+      'teamName': instance.teamName,
     };
 
 const _$RoleEnumMap = {

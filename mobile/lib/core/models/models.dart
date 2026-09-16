@@ -31,6 +31,10 @@ class AuthResponse with _$AuthResponse {
     @Default('') String fullName,
     @Default('') String email,
     @Default(Role.AGENT) Role role,
+    // The agency, if this account is in one. Null sends a manager to "create
+    // your agency" and an agent to the waiting screen — see resolveRedirect.
+    int? teamId,
+    String? teamName,
   }) = _AuthResponse;
 
   factory AuthResponse.fromJson(Map<String, dynamic> json) =>

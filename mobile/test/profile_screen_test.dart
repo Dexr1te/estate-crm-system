@@ -23,10 +23,20 @@ const _user = AuthResponse(
   role: Role.ADMIN,
 );
 
+/// An agent in a team — the only role that can walk out of one.
+const _agentInTeam = AuthResponse(
+  userId: 6,
+  fullName: 'Aigerim Serikbaykyzy',
+  email: 'aigerim@almaty.kz',
+  role: Role.AGENT,
+  teamId: 1,
+  teamName: 'Almaty Realty',
+);
+
 FakeAuthRepository _authRepo = FakeAuthRepository(user: _user);
 
-Widget _profile() {
-  _authRepo = FakeAuthRepository(user: _user);
+Widget _profile({AuthResponse user = _user}) {
+  _authRepo = FakeAuthRepository(user: user);
   Injector.authRepository = _authRepo;
   Injector.agentsRepository = const FakeAgentsRepository([
     AgentOption(id: 5, fullName: 'Sultan Assan-Doroshenko', email: 'me@x.kz'),
@@ -230,5 +240,45 @@ void main() {
               'if the base ever loses its path this test stops proving anything');
       expect(url.path, contains(Uri.parse(apiBaseUrl).path));
     }
+  });
+
+  group('the team someone belongs to', () {
+    testWidgets('is named, and an agent can leave it', (tester) async {
+      final teams = FakeTeamsRepository();
+      Injector.teamsRepository = teams;
+
+      await expectNoOverflow(tester, _profile(user: _agentInTeam),
+          size: const Size(390, 844),
+          brightness: Brightness.light,
+          textScale: 1.0);
+      await tester.pumpAndSettle();
+
+      expect(find.text('Almaty Realty'), findsOneWidget);
+
+      await tester.scrollUntilVisible(find.text('Leave team'), 200);
+      await tester.tap(find.text('Leave team'));
+      await tester.pumpAndSettle();
+
+      // Leaving hands the clients over, so it is confirmed before it happens.
+      expect(teams.leftTeam, isFalse);
+      await tester.tap(find.widgetWithText(InkWell, 'Leave team').last);
+      await tester.pumpAndSettle();
+
+      expect(teams.leftTeam, isTrue);
+    });
+
+    testWidgets('an admin belongs to none, and has nothing to leave',
+        (tester) async {
+      Injector.teamsRepository = FakeTeamsRepository();
+
+      await expectNoOverflow(tester, _profile(),
+          size: const Size(390, 844),
+          brightness: Brightness.light,
+          textScale: 1.0);
+      await tester.pumpAndSettle();
+
+      expect(find.text('No team'), findsOneWidget);
+      expect(find.text('Leave team'), findsNothing);
+    });
   });
 }

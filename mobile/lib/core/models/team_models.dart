@@ -1,3 +1,5 @@
+import 'package:real_estate_crm/core/models/models.dart';
+
 class TeamResponse {
   final int id;
   final String name;
@@ -62,4 +64,131 @@ class TeamStatsResponse {
         activeDeals: (json['activeDeals'] as num?)?.toInt() ?? 0,
         upcomingMeetings: (json['upcomingMeetings'] as num?)?.toInt() ?? 0,
       );
+}
+
+/// Someone in a team, including a person who was invited by email and has not
+/// set a password yet — the manager needs to see that the invite is pending.
+class TeamMemberResponse {
+  final int id;
+  final String fullName;
+  final String email;
+  final String? phone;
+  final Role role;
+  final UserAccountStatus status;
+  final bool isActive;
+  final bool isTeamManager;
+
+  const TeamMemberResponse({
+    required this.id,
+    required this.fullName,
+    required this.email,
+    this.phone,
+    required this.role,
+    required this.status,
+    required this.isActive,
+    required this.isTeamManager,
+  });
+
+  factory TeamMemberResponse.fromJson(Map<String, dynamic> json) =>
+      TeamMemberResponse(
+        id: (json['id'] as num).toInt(),
+        fullName: (json['fullName'] ?? '') as String,
+        email: (json['email'] ?? '') as String,
+        phone: json['phone'] as String?,
+        role: Role.values.firstWhere(
+          (r) => r.name == json['role'],
+          orElse: () => Role.AGENT,
+        ),
+        status: UserAccountStatus.parse(json['status'] as String?),
+        // Jackson publishes a boolean `isActive` field as "active".
+        isActive: (json['active'] ?? json['isActive'] ?? false) as bool,
+        isTeamManager:
+            (json['teamManager'] ?? json['isTeamManager'] ?? false) as bool,
+      );
+}
+
+/// Where an account stands. Only the ones the app shows are named; anything
+/// else the backend adds later reads as [UserAccountStatus.active], which is
+/// what every account that can sign in is.
+enum UserAccountStatus {
+  active,
+  pendingInvite,
+  pendingVerification;
+
+  static UserAccountStatus parse(String? raw) {
+    switch (raw) {
+      case 'PENDING_INVITE':
+        return UserAccountStatus.pendingInvite;
+      case 'PENDING_VERIFICATION':
+        return UserAccountStatus.pendingVerification;
+      default:
+        return UserAccountStatus.active;
+    }
+  }
+}
+
+/// A manager asking an agent to join. Shown to both sides: the manager sees who
+/// has not answered, the agent sees who is asking.
+class TeamJoinRequestResponse {
+  final int id;
+  final int teamId;
+  final String teamName;
+  final String? invitedByName;
+  final int userId;
+  final String userFullName;
+  final String userEmail;
+  final DateTime? createdAt;
+
+  const TeamJoinRequestResponse({
+    required this.id,
+    required this.teamId,
+    required this.teamName,
+    this.invitedByName,
+    required this.userId,
+    required this.userFullName,
+    required this.userEmail,
+    this.createdAt,
+  });
+
+  factory TeamJoinRequestResponse.fromJson(Map<String, dynamic> json) =>
+      TeamJoinRequestResponse(
+        id: (json['id'] as num).toInt(),
+        teamId: (json['teamId'] as num).toInt(),
+        teamName: (json['teamName'] ?? '') as String,
+        invitedByName: json['invitedByName'] as String?,
+        userId: (json['userId'] as num).toInt(),
+        userFullName: (json['userFullName'] ?? '') as String,
+        userEmail: (json['userEmail'] ?? '') as String,
+        createdAt: json['createdAt'] is String
+            ? DateTime.tryParse(json['createdAt'] as String)
+            : null,
+      );
+}
+
+/// What "add an agent" turned into: an account that has to accept, or an email
+/// that has to be opened. The two need different words on screen.
+class AddMemberResult {
+  final bool requestSent;
+  final TeamJoinRequestResponse? request;
+  final TeamMemberResponse? member;
+
+  const AddMemberResult({
+    required this.requestSent,
+    this.request,
+    this.member,
+  });
+
+  factory AddMemberResult.fromJson(Map<String, dynamic> json) {
+    final request = json['request'];
+    final member = json['member'];
+    return AddMemberResult(
+      requestSent: json['result'] == 'REQUEST_SENT',
+      request: request is Map<String, dynamic>
+          ? TeamJoinRequestResponse.fromJson(request)
+          : null,
+      member: member is Map<String, dynamic>
+          ? TeamMemberResponse.fromJson(member)
+          : null,
+    );
+  }
 }

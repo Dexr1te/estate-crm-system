@@ -34,6 +34,13 @@ enum ActionMessage {
   teamAssigned,
   inviteResent,
   profileUpdated,
+  codeSent,
+  requestSent,
+  requestCancelled,
+  teamJoined,
+  requestDeclined,
+  memberRemoved,
+  teamLeft,
 }
 
 String actionMessageLabel(AppLocalizations l10n, ActionMessage message) {
@@ -88,6 +95,20 @@ String actionMessageLabel(AppLocalizations l10n, ActionMessage message) {
       return l10n.msgTeamAssigned;
     case ActionMessage.inviteResent:
       return l10n.msgInviteResent;
+    case ActionMessage.codeSent:
+      return l10n.msgCodeSent;
+    case ActionMessage.requestSent:
+      return l10n.msgRequestSent;
+    case ActionMessage.requestCancelled:
+      return l10n.msgRequestCancelled;
+    case ActionMessage.teamJoined:
+      return l10n.msgTeamJoined;
+    case ActionMessage.requestDeclined:
+      return l10n.msgRequestDeclined;
+    case ActionMessage.memberRemoved:
+      return l10n.msgMemberRemoved;
+    case ActionMessage.teamLeft:
+      return l10n.msgTeamLeft;
     case ActionMessage.profileUpdated:
       return l10n.msgProfileUpdated;
   }

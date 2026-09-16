@@ -12,8 +12,3 @@ class TeamsUpdateEvent extends TeamsEvent {
   final Map<String, dynamic> body;
   TeamsUpdateEvent(this.id, this.body);
 }
-
-class TeamsInviteAgentEvent extends TeamsEvent {
-  final Map<String, dynamic> body;
-  TeamsInviteAgentEvent(this.body);
-}
