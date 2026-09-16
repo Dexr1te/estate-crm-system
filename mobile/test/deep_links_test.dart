@@ -17,11 +17,15 @@ import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 import 'fakes.dart';
 
+// In a team: an agent without one is held on the waiting screen, which is a
+// different redirect from the one these tests are about.
 const _signedIn = AuthResponse(
     userId: 7,
     fullName: 'Sultan',
     email: 'sultan@estate.crm',
-    role: Role.AGENT);
+    role: Role.AGENT,
+    teamId: 1,
+    teamName: 'Downtown desk');
 
 /// Holds the saved-session read open so a link can arrive mid-splash, which is
 /// exactly what a cold start from an invite email does.

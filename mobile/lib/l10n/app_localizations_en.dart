@@ -1352,6 +1352,273 @@ class AppLocalizationsEn extends AppLocalizations {
   String get msgProfileUpdated => 'Profile updated';
 
   @override
+  String get msgCodeSent => 'Code sent';
+
+  @override
+  String get msgRequestSent => 'Request sent';
+
+  @override
+  String get msgRequestCancelled => 'Request withdrawn';
+
+  @override
+  String get msgTeamJoined => 'You have joined the team';
+
+  @override
+  String get msgRequestDeclined => 'Request declined';
+
+  @override
+  String get msgMemberRemoved => 'Agent removed from the team';
+
+  @override
+  String get msgTeamLeft => 'You have left the team';
+
+  @override
+  String get authNoAccount => 'No account?';
+
+  @override
+  String get authSignUp => 'Sign up';
+
+  @override
+  String get authChooseRoleTitle => 'How will you work?';
+
+  @override
+  String get authChooseRoleSubtitle =>
+      'This decides what you see. You can be moved later by your manager.';
+
+  @override
+  String get authRoleManagerTitle => 'I run an agency';
+
+  @override
+  String get authRoleManagerBody =>
+      'Create a team, add agents and see everything they work on.';
+
+  @override
+  String get authRoleAgentTitle => 'I am an agent';
+
+  @override
+  String get authRoleAgentBody =>
+      'Join your manager\'s team and work on your own clients and deals.';
+
+  @override
+  String get authContinue => 'Continue';
+
+  @override
+  String get authCreateAccountTitle => 'Create your account';
+
+  @override
+  String get authCreateAccountSubtitle =>
+      'We will email you a six-digit code to confirm the address.';
+
+  @override
+  String get authFullName => 'Full name';
+
+  @override
+  String get authFullNameRequired => 'Enter your name';
+
+  @override
+  String get authPhoneOptional => 'Phone (optional)';
+
+  @override
+  String get authPasswordMinLength8 => 'At least 8 characters';
+
+  @override
+  String get authAcceptTerms => 'I agree to the privacy policy';
+
+  @override
+  String get authAcceptTermsRequired => 'Please accept the privacy policy';
+
+  @override
+  String get authPrivacyPolicy => 'Privacy policy';
+
+  @override
+  String get authVerifyEmailTitle => 'Confirm your email';
+
+  @override
+  String authVerifyEmailSubtitle(Object email) {
+    return 'Enter the six-digit code we sent to $email.';
+  }
+
+  @override
+  String get authVerifyCodeRequired => 'Enter the six digits from the email';
+
+  @override
+  String get authVerify => 'Confirm';
+
+  @override
+  String get authResendCode => 'Send a new code';
+
+  @override
+  String authResendCodeIn(Object seconds) {
+    return 'Send a new code in ${seconds}s';
+  }
+
+  @override
+  String get authChangeEmail => 'Use a different email';
+
+  @override
+  String get authEmailTaken =>
+      'This email already has an account. Sign in instead.';
+
+  @override
+  String get authInvitePendingTitle => 'You already have an invite';
+
+  @override
+  String get authInvitePendingBody =>
+      'An invite was emailed to this address. Open it, or enter its code to set your password.';
+
+  @override
+  String get authCreateTeamTitle => 'Create your agency';
+
+  @override
+  String get authCreateTeamSubtitle =>
+      'Its name is what your agents will see. You can change it later.';
+
+  @override
+  String get authCreateTeamName => 'Agency name';
+
+  @override
+  String get authCreateTeamNameRequired => 'Enter a name';
+
+  @override
+  String get authCreateTeamAction => 'Create and continue';
+
+  @override
+  String get authWaitingTitle => 'Waiting for a team';
+
+  @override
+  String get authWaitingSubtitle =>
+      'Give this email to your manager. Once they add you and you accept, your clients and deals appear here.';
+
+  @override
+  String get authWaitingCopyEmail => 'Copy email';
+
+  @override
+  String get authWaitingEmailCopied => 'Email copied';
+
+  @override
+  String get authWaitingNoRequests => 'No invitations yet';
+
+  @override
+  String get authWaitingNoRequestsBody => 'Pull down to check again.';
+
+  @override
+  String authInvitedByTeam(Object team) {
+    return '$team invited you';
+  }
+
+  @override
+  String authInvitedBy(Object name) {
+    return 'From $name';
+  }
+
+  @override
+  String get authAcceptRequest => 'Accept';
+
+  @override
+  String get authDeclineRequest => 'Decline';
+
+  @override
+  String get authDeclineRequestTitle => 'Decline this invitation?';
+
+  @override
+  String authDeclineRequestBody(Object team) {
+    return '$team will not see your clients or deals. They can invite you again later.';
+  }
+
+  @override
+  String get teamsMembers => 'Members';
+
+  @override
+  String get teamsPending => 'Pending';
+
+  @override
+  String get teamsAddAgent => 'Add agent';
+
+  @override
+  String get teamsAddAgentHint =>
+      'If the agent already has an account they get a request to accept. If not, we email them an invite.';
+
+  @override
+  String get teamsAddAgentAction => 'Send';
+
+  @override
+  String teamsRequestSentBody(Object name) {
+    return '$name has to accept before joining your team.';
+  }
+
+  @override
+  String teamsInviteSentBody(Object email) {
+    return 'An invite has been emailed to $email.';
+  }
+
+  @override
+  String get teamsNoMembers => 'Nobody here yet';
+
+  @override
+  String get teamsNoMembersBody => 'Add your first agent by email.';
+
+  @override
+  String get teamsNoPending => 'Nothing pending';
+
+  @override
+  String get teamsNoPendingBody =>
+      'Requests waiting for an answer appear here.';
+
+  @override
+  String get teamsCancelRequest => 'Withdraw';
+
+  @override
+  String get teamsStatusPendingInvite => 'Invited';
+
+  @override
+  String get teamsStatusPendingVerification => 'Not confirmed';
+
+  @override
+  String get teamsManagerChip => 'Manager';
+
+  @override
+  String get teamsRemoveMember => 'Remove from team';
+
+  @override
+  String teamsRemoveMemberTitle(Object name) {
+    return 'Remove $name?';
+  }
+
+  @override
+  String teamsRemoveMemberBody(Object successor) {
+    return 'Their clients, deals and meetings stay in the team and go to $successor.';
+  }
+
+  @override
+  String teamsRemoveInviteBody(Object name) {
+    return 'The invite to $name will be revoked.';
+  }
+
+  @override
+  String get teamsSuccessor => 'Records go to';
+
+  @override
+  String get teamsSuccessorMe => 'Me';
+
+  @override
+  String get teamsLeaveTeam => 'Leave team';
+
+  @override
+  String teamsLeaveTeamTitle(Object team) {
+    return 'Leave $team?';
+  }
+
+  @override
+  String get teamsLeaveTeamBody =>
+      'Your clients, deals and meetings stay with the team. You will need a new invitation to come back.';
+
+  @override
+  String get teamsTeamLabel => 'Team';
+
+  @override
+  String get teamsNoTeamLabel => 'No team';
+
+  @override
   String get msgPropertyCreated => 'Property created';
 
   @override

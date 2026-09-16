@@ -25,12 +25,16 @@ class _SlowAuthRepository extends FakeAuthRepository {
 }
 
 String? _go(String location,
-        {bool resolved = true, bool authed = true, Role? role = Role.AGENT}) =>
+        {bool resolved = true,
+        bool authed = true,
+        Role? role = Role.AGENT,
+        bool hasTeam = true}) =>
     resolveRedirect(
       location: location,
       sessionResolved: resolved,
       authenticated: authed,
       role: role,
+      hasTeam: hasTeam,
     );
 
 void main() {

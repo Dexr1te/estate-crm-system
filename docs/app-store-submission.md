@@ -52,16 +52,18 @@ curl -sI https://estate-crm-system.duckdns.org/api/privacy   # expect 200
 
 ## The account App Review signs in with
 
-This is the likeliest way to get rejected. The app is invite-only with no public
-sign-up, so **App Review Information must carry working credentials** or it fails
-Guideline 2.1 before anything else is looked at.
+Anyone can sign up now, so a reviewer *could* make their own account — but a new
+account lands on an empty agency it has just created, or on a screen waiting for
+a manager to add it. Neither shows the app. **App Review Information must carry
+working credentials** or Guideline 2.1 is decided on a blank screen.
 
 Do not hand over an account on the agency's own records — a reviewer would be
 reading real clients' names and phone numbers. `DemoDataSeeder` creates a
-separate one instead: an ordinary agent on own-data scope, whose only records are
-six clients, five listings, five deals (one per pipeline column) and four
-meetings that it seeds itself. The agency cannot see them without looking, and it
-cannot see the agency.
+separate one instead: an ordinary agent on own-data scope, in a team of its own
+(`[Demo] Agency`), whose only records are six clients, five listings, five deals
+(one per pipeline column) and four meetings that it seeds itself. A team is the
+wall between agencies, so the real ones cannot see these records and the reviewer
+cannot see theirs.
 
 ### Turning it on
 
@@ -91,8 +93,16 @@ Deletion is real, so recreate the account afterwards: delete it from the admin
 console if it is still there, then restart with `DEMO_ENABLED=true`. Re-running
 clears the previous set first, so this can happen as many times as review takes.
 
-Put the credentials in the App Review notes, with a line saying the app is
-invite-only and there is no sign-up to find.
+Put the credentials in the App Review notes, with a line explaining that signing
+up creates an empty agency, so the demo account is the one that shows the app.
+
+### If a reviewer signs up anyway
+
+Worth knowing, because they may: sign-up asks for a role, then mails a six-digit
+code that has to be typed before the account works. That means `MAIL_ENABLED=true`
+with working SMTP credentials on the submission host — with mail off, a reviewer
+who tries to register is stuck on a code that was never sent, and the demo
+credentials will not save the review if they never reach the sign-in screen again.
 
 ### Afterwards
 

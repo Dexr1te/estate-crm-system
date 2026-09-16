@@ -43,6 +43,13 @@ class _LoginScreenState extends State<LoginScreen> {
       body: SafeArea(
         child: BlocConsumer<AuthBloc, AuthState>(
           listener: (ctx, state) {
+            // An account that never confirmed its address is not a failed
+            // sign-in: the backend has just mailed a fresh code, so carry on to
+            // the screen that takes it.
+            if (state is AuthVerificationRequired) {
+              ctx.go('/verify-email?email=${Uri.encodeComponent(state.email)}');
+              return;
+            }
             if (state is AuthError) {
               ScaffoldMessenger.of(ctx)
                 ..hideCurrentSnackBar()
@@ -116,9 +123,19 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       const SizedBox(height: 18),
                       AuthFooterLink(
-                        question: l10n.authHaveAnInvite,
-                        action: l10n.authActivate,
-                        onTap: loading ? null : () => ctx.go('/accept-invite'),
+                        question: l10n.authNoAccount,
+                        action: l10n.authSignUp,
+                        onTap: loading ? null : () => ctx.go('/register'),
+                      ),
+                      const SizedBox(height: 4),
+                      // Still here for the invite emails already sent, and for
+                      // an agency that adds an agent who has no account yet.
+                      Center(
+                        child: AuthTextLink(
+                          label: l10n.authHaveAnInvite,
+                          onTap:
+                              loading ? null : () => ctx.go('/accept-invite'),
+                        ),
                       ),
                     ],
                   ),

@@ -2440,6 +2440,474 @@ abstract class AppLocalizations {
   /// **'Profile updated'**
   String get msgProfileUpdated;
 
+  /// No description provided for @msgCodeSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Code sent'**
+  String get msgCodeSent;
+
+  /// No description provided for @msgRequestSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Request sent'**
+  String get msgRequestSent;
+
+  /// No description provided for @msgRequestCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Request withdrawn'**
+  String get msgRequestCancelled;
+
+  /// No description provided for @msgTeamJoined.
+  ///
+  /// In en, this message translates to:
+  /// **'You have joined the team'**
+  String get msgTeamJoined;
+
+  /// No description provided for @msgRequestDeclined.
+  ///
+  /// In en, this message translates to:
+  /// **'Request declined'**
+  String get msgRequestDeclined;
+
+  /// No description provided for @msgMemberRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Agent removed from the team'**
+  String get msgMemberRemoved;
+
+  /// No description provided for @msgTeamLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'You have left the team'**
+  String get msgTeamLeft;
+
+  /// No description provided for @authNoAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'No account?'**
+  String get authNoAccount;
+
+  /// No description provided for @authSignUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign up'**
+  String get authSignUp;
+
+  /// No description provided for @authChooseRoleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How will you work?'**
+  String get authChooseRoleTitle;
+
+  /// No description provided for @authChooseRoleSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This decides what you see. You can be moved later by your manager.'**
+  String get authChooseRoleSubtitle;
+
+  /// No description provided for @authRoleManagerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'I run an agency'**
+  String get authRoleManagerTitle;
+
+  /// No description provided for @authRoleManagerBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a team, add agents and see everything they work on.'**
+  String get authRoleManagerBody;
+
+  /// No description provided for @authRoleAgentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'I am an agent'**
+  String get authRoleAgentTitle;
+
+  /// No description provided for @authRoleAgentBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Join your manager\'s team and work on your own clients and deals.'**
+  String get authRoleAgentBody;
+
+  /// No description provided for @authContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get authContinue;
+
+  /// No description provided for @authCreateAccountTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create your account'**
+  String get authCreateAccountTitle;
+
+  /// No description provided for @authCreateAccountSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'We will email you a six-digit code to confirm the address.'**
+  String get authCreateAccountSubtitle;
+
+  /// No description provided for @authFullName.
+  ///
+  /// In en, this message translates to:
+  /// **'Full name'**
+  String get authFullName;
+
+  /// No description provided for @authFullNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your name'**
+  String get authFullNameRequired;
+
+  /// No description provided for @authPhoneOptional.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone (optional)'**
+  String get authPhoneOptional;
+
+  /// No description provided for @authPasswordMinLength8.
+  ///
+  /// In en, this message translates to:
+  /// **'At least 8 characters'**
+  String get authPasswordMinLength8;
+
+  /// No description provided for @authAcceptTerms.
+  ///
+  /// In en, this message translates to:
+  /// **'I agree to the privacy policy'**
+  String get authAcceptTerms;
+
+  /// No description provided for @authAcceptTermsRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Please accept the privacy policy'**
+  String get authAcceptTermsRequired;
+
+  /// No description provided for @authPrivacyPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy policy'**
+  String get authPrivacyPolicy;
+
+  /// No description provided for @authVerifyEmailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm your email'**
+  String get authVerifyEmailTitle;
+
+  /// No description provided for @authVerifyEmailSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the six-digit code we sent to {email}.'**
+  String authVerifyEmailSubtitle(Object email);
+
+  /// No description provided for @authVerifyCodeRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the six digits from the email'**
+  String get authVerifyCodeRequired;
+
+  /// No description provided for @authVerify.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get authVerify;
+
+  /// No description provided for @authResendCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Send a new code'**
+  String get authResendCode;
+
+  /// No description provided for @authResendCodeIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Send a new code in {seconds}s'**
+  String authResendCodeIn(Object seconds);
+
+  /// No description provided for @authChangeEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Use a different email'**
+  String get authChangeEmail;
+
+  /// No description provided for @authEmailTaken.
+  ///
+  /// In en, this message translates to:
+  /// **'This email already has an account. Sign in instead.'**
+  String get authEmailTaken;
+
+  /// No description provided for @authInvitePendingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You already have an invite'**
+  String get authInvitePendingTitle;
+
+  /// No description provided for @authInvitePendingBody.
+  ///
+  /// In en, this message translates to:
+  /// **'An invite was emailed to this address. Open it, or enter its code to set your password.'**
+  String get authInvitePendingBody;
+
+  /// No description provided for @authCreateTeamTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Create your agency'**
+  String get authCreateTeamTitle;
+
+  /// No description provided for @authCreateTeamSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Its name is what your agents will see. You can change it later.'**
+  String get authCreateTeamSubtitle;
+
+  /// No description provided for @authCreateTeamName.
+  ///
+  /// In en, this message translates to:
+  /// **'Agency name'**
+  String get authCreateTeamName;
+
+  /// No description provided for @authCreateTeamNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a name'**
+  String get authCreateTeamNameRequired;
+
+  /// No description provided for @authCreateTeamAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Create and continue'**
+  String get authCreateTeamAction;
+
+  /// No description provided for @authWaitingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for a team'**
+  String get authWaitingTitle;
+
+  /// No description provided for @authWaitingSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Give this email to your manager. Once they add you and you accept, your clients and deals appear here.'**
+  String get authWaitingSubtitle;
+
+  /// No description provided for @authWaitingCopyEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy email'**
+  String get authWaitingCopyEmail;
+
+  /// No description provided for @authWaitingEmailCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Email copied'**
+  String get authWaitingEmailCopied;
+
+  /// No description provided for @authWaitingNoRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'No invitations yet'**
+  String get authWaitingNoRequests;
+
+  /// No description provided for @authWaitingNoRequestsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Pull down to check again.'**
+  String get authWaitingNoRequestsBody;
+
+  /// No description provided for @authInvitedByTeam.
+  ///
+  /// In en, this message translates to:
+  /// **'{team} invited you'**
+  String authInvitedByTeam(Object team);
+
+  /// No description provided for @authInvitedBy.
+  ///
+  /// In en, this message translates to:
+  /// **'From {name}'**
+  String authInvitedBy(Object name);
+
+  /// No description provided for @authAcceptRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept'**
+  String get authAcceptRequest;
+
+  /// No description provided for @authDeclineRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'Decline'**
+  String get authDeclineRequest;
+
+  /// No description provided for @authDeclineRequestTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Decline this invitation?'**
+  String get authDeclineRequestTitle;
+
+  /// No description provided for @authDeclineRequestBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{team} will not see your clients or deals. They can invite you again later.'**
+  String authDeclineRequestBody(Object team);
+
+  /// No description provided for @teamsMembers.
+  ///
+  /// In en, this message translates to:
+  /// **'Members'**
+  String get teamsMembers;
+
+  /// No description provided for @teamsPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get teamsPending;
+
+  /// No description provided for @teamsAddAgent.
+  ///
+  /// In en, this message translates to:
+  /// **'Add agent'**
+  String get teamsAddAgent;
+
+  /// No description provided for @teamsAddAgentHint.
+  ///
+  /// In en, this message translates to:
+  /// **'If the agent already has an account they get a request to accept. If not, we email them an invite.'**
+  String get teamsAddAgentHint;
+
+  /// No description provided for @teamsAddAgentAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get teamsAddAgentAction;
+
+  /// No description provided for @teamsRequestSentBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} has to accept before joining your team.'**
+  String teamsRequestSentBody(Object name);
+
+  /// No description provided for @teamsInviteSentBody.
+  ///
+  /// In en, this message translates to:
+  /// **'An invite has been emailed to {email}.'**
+  String teamsInviteSentBody(Object email);
+
+  /// No description provided for @teamsNoMembers.
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody here yet'**
+  String get teamsNoMembers;
+
+  /// No description provided for @teamsNoMembersBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your first agent by email.'**
+  String get teamsNoMembersBody;
+
+  /// No description provided for @teamsNoPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing pending'**
+  String get teamsNoPending;
+
+  /// No description provided for @teamsNoPendingBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Requests waiting for an answer appear here.'**
+  String get teamsNoPendingBody;
+
+  /// No description provided for @teamsCancelRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'Withdraw'**
+  String get teamsCancelRequest;
+
+  /// No description provided for @teamsStatusPendingInvite.
+  ///
+  /// In en, this message translates to:
+  /// **'Invited'**
+  String get teamsStatusPendingInvite;
+
+  /// No description provided for @teamsStatusPendingVerification.
+  ///
+  /// In en, this message translates to:
+  /// **'Not confirmed'**
+  String get teamsStatusPendingVerification;
+
+  /// No description provided for @teamsManagerChip.
+  ///
+  /// In en, this message translates to:
+  /// **'Manager'**
+  String get teamsManagerChip;
+
+  /// No description provided for @teamsRemoveMember.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from team'**
+  String get teamsRemoveMember;
+
+  /// No description provided for @teamsRemoveMemberTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove {name}?'**
+  String teamsRemoveMemberTitle(Object name);
+
+  /// No description provided for @teamsRemoveMemberBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Their clients, deals and meetings stay in the team and go to {successor}.'**
+  String teamsRemoveMemberBody(Object successor);
+
+  /// No description provided for @teamsRemoveInviteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The invite to {name} will be revoked.'**
+  String teamsRemoveInviteBody(Object name);
+
+  /// No description provided for @teamsSuccessor.
+  ///
+  /// In en, this message translates to:
+  /// **'Records go to'**
+  String get teamsSuccessor;
+
+  /// No description provided for @teamsSuccessorMe.
+  ///
+  /// In en, this message translates to:
+  /// **'Me'**
+  String get teamsSuccessorMe;
+
+  /// No description provided for @teamsLeaveTeam.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave team'**
+  String get teamsLeaveTeam;
+
+  /// No description provided for @teamsLeaveTeamTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave {team}?'**
+  String teamsLeaveTeamTitle(Object team);
+
+  /// No description provided for @teamsLeaveTeamBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your clients, deals and meetings stay with the team. You will need a new invitation to come back.'**
+  String get teamsLeaveTeamBody;
+
+  /// No description provided for @teamsTeamLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Team'**
+  String get teamsTeamLabel;
+
+  /// No description provided for @teamsNoTeamLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'No team'**
+  String get teamsNoTeamLabel;
+
   /// No description provided for @msgPropertyCreated.
   ///
   /// In en, this message translates to:

@@ -17,6 +17,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
   AuthBloc(this._repo) : super(AuthInitial()) {
     on<AuthCheckEvent>(_onCheck);
     on<AuthLoginEvent>(_onLogin);
+    on<AuthRegisterEvent>(_onRegister);
+    on<AuthVerifyEmailEvent>(_onVerifyEmail);
+    on<AuthResendCodeEvent>(_onResendCode);
+    on<AuthRefreshMeEvent>(_onRefreshMe);
     on<AuthAcceptInviteEvent>(_onAcceptInvite);
     on<AuthResetPasswordEvent>(_onResetPassword);
     on<AuthUpdateProfileEvent>(_onUpdateProfile);
@@ -72,7 +76,77 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
           emit(AuthAuthenticated(auth));
           _notify();
         } catch (err) {
+          final failure = ApiFailure.from(err);
+          // An account that never confirmed its address is not a failed
+          // sign-in, it is an unfinished sign-up: the backend has just mailed
+          // another code, so carry on to the screen that takes it.
+          emit(failure.serverCode == 'EMAIL_NOT_VERIFIED'
+              ? AuthVerificationRequired(e.email)
+              : AuthError(failure));
+        }
+      });
+
+  /// Signing up. The account exists after this but cannot be used yet, so the
+  /// state stays outside [AuthAuthenticated] and the router keeps the person on
+  /// the sign-up side of the app until the code is entered.
+  Future<void> _onRegister(AuthRegisterEvent e, Emitter<AuthState> emit) =>
+      once('register', () async {
+        emit(AuthLoading());
+        try {
+          await _repo.register(
+            fullName: e.fullName,
+            email: e.email,
+            password: e.password,
+            role: e.role,
+            phone: e.phone,
+          );
+          emit(AuthVerificationRequired(e.email));
+        } catch (err) {
           emit(AuthError(ApiFailure.from(err)));
+        }
+      });
+
+  /// The code is spent by the first request that reaches the backend, the same
+  /// as an invite — so it takes the same one-at-a-time guard.
+  Future<void> _onVerifyEmail(AuthVerifyEmailEvent e, Emitter<AuthState> emit) =>
+      once('verify-email', () async {
+        emit(AuthLoading());
+        try {
+          final auth = await _repo.verifyEmail(e.email, e.code);
+          emit(AuthAuthenticated(auth));
+          _notify();
+        } catch (err) {
+          emit(AuthError(ApiFailure.from(err)));
+        }
+      });
+
+  /// Asking for another code must not disturb the screen: it stays on the code
+  /// form, which is why this reports through the outcome states instead of
+  /// [AuthLoading].
+  Future<void> _onResendCode(AuthResendCodeEvent e, Emitter<AuthState> emit) =>
+      once('resend-code', () async {
+        try {
+          await _repo.resendVerification(e.email);
+          emit(AuthCodeResent(e.email, ActionMessage.codeSent));
+        } catch (err) {
+          emit(AuthCodeResendFailed(e.email, ApiFailure.from(err)));
+        }
+      });
+
+  /// Re-reads the account the session belongs to — the only way to notice that
+  /// a manager has let this agent into their team, or that they have left one.
+  ///
+  /// Deliberately never emits [AuthLoading], for the same reason as a profile
+  /// edit: the router reads the session off this state and a moment of "not
+  /// authenticated" would bounce the user to the sign-in screen.
+  Future<void> _onRefreshMe(AuthRefreshMeEvent e, Emitter<AuthState> emit) =>
+      once('refresh-me', () async {
+        if (currentUser == null) return;
+        try {
+          emit(AuthAuthenticated(await _repo.refreshMe()));
+          _notify();
+        } catch (_) {
+          // Nothing to say: whatever the session was, it still is.
         }
       });
 

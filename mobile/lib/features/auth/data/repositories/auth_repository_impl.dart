@@ -16,6 +16,47 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<void> register({
+    required String fullName,
+    required String email,
+    required String password,
+    required Role role,
+    String? phone,
+  }) =>
+      _remote.register(
+        fullName: fullName,
+        email: email,
+        password: password,
+        role: role,
+        phone: phone,
+      );
+
+  @override
+  Future<AuthResponse> verifyEmail(String email, String code) async {
+    final auth = await _remote.verifyEmail(email, code);
+    await _session.save(auth);
+    return auth;
+  }
+
+  @override
+  Future<void> resendVerification(String email) =>
+      _remote.resendVerification(email);
+
+  @override
+  Future<AuthResponse> refreshMe() async {
+    final fresh = await _remote.me();
+    final saved = await _session.getSavedUser();
+    // GET /auth/me answers without tokens, and the stored ones are still good:
+    // saving the bare response would sign the user out on the next request.
+    final merged = fresh.copyWith(
+      accessToken: saved?.accessToken ?? fresh.accessToken,
+      refreshToken: saved?.refreshToken ?? fresh.refreshToken,
+    );
+    await _session.save(merged);
+    return merged;
+  }
+
+  @override
   Future<AuthResponse> acceptInvite(String token, String newPassword) async {
     final auth = await _remote.acceptInvite(token, newPassword);
     await _session.save(auth);

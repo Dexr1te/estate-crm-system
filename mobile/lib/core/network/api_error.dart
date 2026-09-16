@@ -30,7 +30,13 @@ class ApiFailure {
   /// cost is that these arrive in the backend's language.
   final String? serverText;
 
-  const ApiFailure(this.kind, {this.serverText});
+  /// The backend's machine-readable reason, when it named one — EMAIL_NOT_VERIFIED,
+  /// TEAM_REQUIRED, ALREADY_IN_TEAM. Unlike [serverText] this is stable enough to
+  /// branch on, which is how the app knows to open the code screen rather than
+  /// just complain.
+  final String? serverCode;
+
+  const ApiFailure(this.kind, {this.serverText, this.serverCode});
 
   factory ApiFailure.from(Object? error) {
     // A body we cannot parse is the backend's fault, not the connection's, so
@@ -43,7 +49,8 @@ class ApiFailure {
     final serverText = _serverText(error);
     final status = error.response?.statusCode;
 
-    return ApiFailure(_kindOf(error, status), serverText: serverText);
+    return ApiFailure(_kindOf(error, status),
+        serverText: serverText, serverCode: _serverCode(error));
   }
 
   static ApiFailureKind _kindOf(DioException error, int? status) {
@@ -71,6 +78,13 @@ class ApiFailure {
       default:
         return ApiFailureKind.unknown;
     }
+  }
+
+  static String? _serverCode(DioException error) {
+    final data = error.response?.data;
+    if (data is! Map) return null;
+    final code = data['code'];
+    return code == null || code.toString().isEmpty ? null : code.toString();
   }
 
   static String? _serverText(DioException error) {

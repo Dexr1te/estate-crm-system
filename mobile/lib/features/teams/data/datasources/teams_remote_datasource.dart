@@ -1,4 +1,4 @@
-import 'package:real_estate_crm/core/models/admin_models.dart';
+import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/models/team_models.dart';
 import 'package:real_estate_crm/core/network/api_client.dart';
 import 'package:real_estate_crm/core/network/json.dart';
@@ -27,8 +27,63 @@ class TeamsRemoteDataSource {
     return TeamStatsResponse.fromJson(jsonObject(res));
   }
 
-  Future<AgentResponse> inviteAgentToMyTeam(Map<String, dynamic> body) async {
-    final res = await _client.dio.post('/team/agents', data: body);
-    return AgentResponse.fromJson(jsonObject(res));
+  // The manager's own team ----------------------------------------------------
+
+  Future<TeamResponse> createMyTeam(String name) async {
+    final res = await _client.dio.post('/team', data: {'name': name});
+    return TeamResponse.fromJson(jsonObject(res));
+  }
+
+  Future<TeamResponse> renameMyTeam(String name) async {
+    final res = await _client.dio.patch('/team', data: {'name': name});
+    return TeamResponse.fromJson(jsonObject(res));
+  }
+
+  Future<TeamResponse> getMyTeam() async {
+    final res = await _client.dio.get('/team');
+    return TeamResponse.fromJson(jsonObject(res));
+  }
+
+  Future<List<TeamMemberResponse>> getMembers() async {
+    final res = await _client.dio.get('/team/members');
+    return jsonArray(res).map(TeamMemberResponse.fromJson).toList();
+  }
+
+  Future<AddMemberResult> addMember(Map<String, dynamic> body) async {
+    final res = await _client.dio.post('/team/members', data: body);
+    return AddMemberResult.fromJson(jsonObject(res));
+  }
+
+  Future<void> removeMember(int userId, {int? replacementId}) =>
+      _client.dio.delete('/team/members/$userId', queryParameters: {
+        if (replacementId != null) 'replacementId': replacementId,
+      });
+
+  Future<List<TeamJoinRequestResponse>> getOutgoingRequests() async {
+    final res = await _client.dio.get('/team/requests');
+    return jsonArray(res).map(TeamJoinRequestResponse.fromJson).toList();
+  }
+
+  Future<void> cancelRequest(int requestId) =>
+      _client.dio.delete('/team/requests/$requestId');
+
+  // The agent's own membership ------------------------------------------------
+
+  Future<List<TeamJoinRequestResponse>> getMyRequests() async {
+    final res = await _client.dio.get('/me/team-requests');
+    return jsonArray(res).map(TeamJoinRequestResponse.fromJson).toList();
+  }
+
+  Future<AuthResponse> acceptRequest(int requestId) async {
+    final res = await _client.dio.post('/me/team-requests/$requestId/accept');
+    return AuthResponse.fromJson(jsonObject(res));
+  }
+
+  Future<void> declineRequest(int requestId) =>
+      _client.dio.post('/me/team-requests/$requestId/decline');
+
+  Future<AuthResponse> leaveTeam() async {
+    final res = await _client.dio.delete('/me/team');
+    return AuthResponse.fromJson(jsonObject(res));
   }
 }
