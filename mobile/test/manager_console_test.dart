@@ -147,7 +147,8 @@ void main() {
     expect(teams.added, ('madina@almaty.kz', 'Madina Abenova'));
   });
 
-  testWidgets('an address with no account is reported as an invite, not a request',
+  testWidgets(
+      'an address with no account is reported as an invite, not a request',
       (tester) async {
     _teams(
         addResult: const AddMemberResult(

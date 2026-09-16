@@ -22,7 +22,8 @@ class MyTeamBloc extends Bloc<MyTeamEvent, MyTeamState>
     on<MyTeamCancelRequestEvent>(_onCancelRequest);
   }
 
-  MyTeamLoaded? get _loaded => state is MyTeamLoaded ? state as MyTeamLoaded : null;
+  MyTeamLoaded? get _loaded =>
+      state is MyTeamLoaded ? state as MyTeamLoaded : null;
 
   Future<void> _onLoad(MyTeamLoadEvent e, Emitter<MyTeamState> emit) => load(
         emit,
@@ -67,8 +68,7 @@ class MyTeamBloc extends Bloc<MyTeamEvent, MyTeamState>
       _act(emit, 'rename', () => _repo.renameMyTeam(e.name),
           (prev) => MyTeamActionSuccess(ActionMessage.teamUpdated, prev));
 
-  Future<void> _onAddMember(
-      MyTeamAddMemberEvent e, Emitter<MyTeamState> emit) {
+  Future<void> _onAddMember(MyTeamAddMemberEvent e, Emitter<MyTeamState> emit) {
     final previous = _loaded;
     if (previous == null) return Future.value();
     return write(
@@ -79,7 +79,8 @@ class MyTeamBloc extends Bloc<MyTeamEvent, MyTeamState>
         fullName: e.fullName,
         phone: e.phone,
       ),
-      onSuccess: (AddMemberResult result) => MyTeamMemberAdded(result, previous),
+      onSuccess: (AddMemberResult result) =>
+          MyTeamMemberAdded(result, previous),
       onFailure: (failure) => MyTeamActionFailure(failure, previous),
       reload: () => add(MyTeamLoadEvent()),
     );

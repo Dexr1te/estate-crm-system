@@ -45,7 +45,8 @@ class JoinRequestsAccepted extends JoinRequestsLoaded with ActionSucceeded {
   JoinRequestsAccepted(super.requests, this.message);
 }
 
-class JoinRequestsActionSuccess extends JoinRequestsLoaded with ActionSucceeded {
+class JoinRequestsActionSuccess extends JoinRequestsLoaded
+    with ActionSucceeded {
   @override
   final ActionMessage message;
 
@@ -75,7 +76,8 @@ class JoinRequestsBloc extends Bloc<JoinRequestsEvent, JoinRequestsState>
     return s is JoinRequestsLoaded ? s.requests : const [];
   }
 
-  Future<void> _onLoad(JoinRequestsLoadEvent e, Emitter<JoinRequestsState> emit) =>
+  Future<void> _onLoad(
+          JoinRequestsLoadEvent e, Emitter<JoinRequestsState> emit) =>
       load(
         emit,
         keepVisible: state is JoinRequestsLoaded,

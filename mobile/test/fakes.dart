@@ -78,8 +78,7 @@ class FakeAuthRepository implements AuthRepository {
   (String, String)? verifiedWith;
 
   @override
-  Future<void> resendVerification(String email) async =>
-      resentFor = email;
+  Future<void> resendVerification(String email) async => resentFor = email;
 
   /// The address the last resend named.
   String? resentFor;

@@ -108,7 +108,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
 
   /// The code is spent by the first request that reaches the backend, the same
   /// as an invite — so it takes the same one-at-a-time guard.
-  Future<void> _onVerifyEmail(AuthVerifyEmailEvent e, Emitter<AuthState> emit) =>
+  Future<void> _onVerifyEmail(
+          AuthVerifyEmailEvent e, Emitter<AuthState> emit) =>
       once('verify-email', () async {
         emit(AuthLoading());
         try {

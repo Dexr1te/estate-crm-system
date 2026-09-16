@@ -24,8 +24,8 @@ class WaitingForTeamScreen extends StatefulWidget {
 
 class _WaitingForTeamScreenState extends State<WaitingForTeamScreen>
     with WidgetsBindingObserver {
-  late final JoinRequestsBloc _bloc =
-      JoinRequestsBloc(Injector.teamsRepository)..add(JoinRequestsLoadEvent());
+  late final JoinRequestsBloc _bloc = JoinRequestsBloc(Injector.teamsRepository)
+    ..add(JoinRequestsLoadEvent());
 
   @override
   void initState() {
@@ -70,8 +70,8 @@ class _WaitingForTeamScreenState extends State<WaitingForTeamScreen>
     final l10n = AppLocalizations.of(context);
     final t = context.tokens;
     final pad = AppMetrics.pagePadding(context);
-    final email = context.select<AuthBloc, String>(
-        (bloc) => bloc.currentUser?.email ?? '');
+    final email = context
+        .select<AuthBloc, String>((bloc) => bloc.currentUser?.email ?? '');
 
     return BlocProvider.value(
       value: _bloc,

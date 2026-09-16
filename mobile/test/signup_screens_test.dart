@@ -44,18 +44,21 @@ void main() {
     Injector.teamsRepository = FakeTeamsRepository(requests: [_request]);
   });
 
-  forEachAcceptanceCase('sign-up role', (tester, size, brightness, scale) async {
+  forEachAcceptanceCase('sign-up role',
+      (tester, size, brightness, scale) async {
     await expectNoOverflow(tester, _wrap(const RegisterRoleScreen()),
         size: size, brightness: brightness, textScale: scale);
   });
 
-  forEachAcceptanceCase('sign-up form', (tester, size, brightness, scale) async {
+  forEachAcceptanceCase('sign-up form',
+      (tester, size, brightness, scale) async {
     await expectNoOverflow(
         tester, _wrap(const RegisterFormScreen(role: Role.MANAGER)),
         size: size, brightness: brightness, textScale: scale);
   });
 
-  forEachAcceptanceCase('verify email', (tester, size, brightness, scale) async {
+  forEachAcceptanceCase('verify email',
+      (tester, size, brightness, scale) async {
     await expectNoOverflow(
         tester, _wrap(const VerifyEmailScreen(email: 'boss@almaty.kz')),
         size: size, brightness: brightness, textScale: scale);
@@ -132,7 +135,8 @@ void main() {
 
       await tester.tap(find.text('Decline'));
       await tester.pumpAndSettle();
-      expect(teams.declined, isNull, reason: 'the dialog has not been answered');
+      expect(teams.declined, isNull,
+          reason: 'the dialog has not been answered');
 
       await tester.tap(find.widgetWithText(InkWell, 'Decline').last);
       await tester.pumpAndSettle();

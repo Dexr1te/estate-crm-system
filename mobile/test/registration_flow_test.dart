@@ -51,8 +51,8 @@ void main() {
         bloc.stream,
         emitsInOrder([
           isA<AuthLoading>(),
-          isA<AuthVerificationRequired>().having(
-              (s) => s.email, 'email', 'aigerim@almaty.kz'),
+          isA<AuthVerificationRequired>()
+              .having((s) => s.email, 'email', 'aigerim@almaty.kz'),
         ]),
       );
       expect(repo.registered?.$4, Role.MANAGER);
@@ -93,8 +93,8 @@ void main() {
         bloc.stream,
         emitsInOrder([
           isA<AuthLoading>(),
-          isA<AuthVerificationRequired>().having(
-              (s) => s.email, 'email', 'aigerim@almaty.kz'),
+          isA<AuthVerificationRequired>()
+              .having((s) => s.email, 'email', 'aigerim@almaty.kz'),
         ]),
       );
     });
@@ -137,7 +137,8 @@ void main() {
   });
 
   group('where an account without a team is sent', () {
-    String? go(Role role, {bool hasTeam = false, String location = '/clients'}) =>
+    String? go(Role role,
+            {bool hasTeam = false, String location = '/clients'}) =>
         resolveRedirect(
           location: location,
           sessionResolved: true,
@@ -154,8 +155,7 @@ void main() {
       expect(go(Role.AGENT), '/onboarding/waiting');
     });
 
-    test('the profile stays reachable, so they can sign out or leave',
-        () {
+    test('the profile stays reachable, so they can sign out or leave', () {
       expect(go(Role.AGENT, location: '/profile'), isNull);
     });
 
@@ -164,14 +164,17 @@ void main() {
     });
 
     test('once in a team the onboarding screens are behind them', () {
-      expect(
-          go(Role.AGENT, hasTeam: true, location: '/onboarding/waiting'),
+      expect(go(Role.AGENT, hasTeam: true, location: '/onboarding/waiting'),
           '/dashboard');
       expect(go(Role.MANAGER, hasTeam: true), isNull);
     });
 
     test('the sign-up screens are reachable without a session', () {
-      for (final location in ['/register', '/register/details', '/verify-email']) {
+      for (final location in [
+        '/register',
+        '/register/details',
+        '/verify-email'
+      ]) {
         expect(
           resolveRedirect(
               location: location,
