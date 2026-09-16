@@ -10,6 +10,7 @@ import com.crm.realestate.exception.ResourceNotFoundException;
 import com.crm.realestate.repository.ClientRepository;
 import com.crm.realestate.repository.UserRepository;
 import com.crm.realestate.security.SecurityUtils;
+import com.crm.realestate.specification.ClientSpecification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,11 +32,7 @@ public class ClientService {
     private final ScopeService     scopeService;
 
     public List<ClientResponse> getAll() {
-        User currentUser = securityUtils.getCurrentUser();
-        List<Long> allowedAgentIds = scopeService.getAllowedAgentIds(currentUser);
-        Specification<Client> spec = com.crm.realestate.specification.ClientSpecification.build(null, null, null, null, null, allowedAgentIds);
-        return clientRepository.findAll(spec)
-                .stream().map(this::toResponse).collect(Collectors.toList());
+        return findVisible(ClientSpecification.build(null, null, null, null, null));
     }
 
     public org.springframework.data.domain.Page<ClientResponse> search(
@@ -48,47 +44,32 @@ public class ClientService {
             org.springframework.data.domain.Pageable pageable
     ) {
         User currentUser = securityUtils.getCurrentUser();
-        List<Long> allowedAgentIds = scopeService.getAllowedAgentIds(currentUser);
-        if (allowedAgentIds != null) {
-            agentId = null; // ignore explicit agent filtering for scoped users
-        }
-        Specification<Client> spec = com.crm.realestate.specification.ClientSpecification.build(type, agentId, createdFrom, createdTo, search, allowedAgentIds);
+        Specification<Client> spec = ClientSpecification.build(type, agentId, createdFrom, createdTo, search)
+                .and(scopeService.visibleTo(currentUser));
         return clientRepository.findAll(spec, pageable).map(this::toResponse);
     }
 
     public List<ClientResponse> getByAgent(Long agentId) {
-        User currentUser = securityUtils.getCurrentUser();
-        if (!scopeService.isWithinScope(currentUser, agentId)) {
-            throw new ResourceNotFoundException("Client not found");
-        }
-        return clientRepository.findByAgentId(agentId)
-                .stream().map(this::toResponse).collect(Collectors.toList());
+        return findVisible(ClientSpecification.build(null, agentId, null, null, null));
     }
 
     public List<ClientResponse> getByType(ClientType type) {
-        return clientRepository.findByType(type)
-                .stream().map(this::toResponse).collect(Collectors.toList());
+        return findVisible(ClientSpecification.build(type, null, null, null, null));
     }
 
     public List<ClientResponse> search(String query) {
-        User currentUser = securityUtils.getCurrentUser();
-        List<Long> allowedAgentIds = scopeService.getAllowedAgentIds(currentUser);
-        return clientRepository.searchClients(query)
-                .stream()
-                .map(this::toResponse)
-                .filter(client -> allowedAgentIds == null || client.getAgentId() == null || allowedAgentIds.contains(client.getAgentId()))
-                .collect(Collectors.toList());
+        return findVisible(ClientSpecification.build(null, null, null, null, query));
     }
 
     public List<ClientListItem> getClientsWithDetails() {
         User currentUser = securityUtils.getCurrentUser();
-        List<Long> allowedAgentIds = scopeService.getAllowedAgentIds(currentUser);
-        List<Object[]> rows = clientRepository.findClientsWithDetails();
+        Long teamId = scopeService.teamIdOf(currentUser);
+        List<Object[]> rows = clientRepository.findClientsWithDetails(
+                scopeService.isAdmin(currentUser),
+                teamId == null ? -1L : teamId,
+                currentUser.getId(),
+                scopeService.seesWholeTeam(currentUser));
         return rows.stream()
-                .filter(row -> {
-                    Long agentId = row[4] != null ? ((Number) row[4]).longValue() : null;
-                    return allowedAgentIds == null || agentId == null || allowedAgentIds.contains(agentId);
-                })
                 .map(row -> ClientListItem.builder()
                         .id(((Number) row[0]).longValue())
                         .fullName((String) row[1])
@@ -104,62 +85,78 @@ public class ClientService {
     }
 
     public ClientResponse getById(Long id) {
-        Client client = findById(id);
-        if (!scopeService.isWithinScope(securityUtils.getCurrentUser(), client.getAgent() == null ? null : client.getAgent().getId())) {
-            throw new ResourceNotFoundException("Client not found");
-        }
-        return toResponse(client);
+        return toResponse(findVisibleById(id, securityUtils.getCurrentUser()));
     }
 
     @Transactional
     public ClientResponse create(ClientRequest request) {
-        if (request.getEmail() != null && clientRepository.existsByEmail(request.getEmail())) {
+        User currentUser = securityUtils.getCurrentUser();
+        Client client = new Client();
+        mapRequestToEntity(request, client, currentUser);
+
+        if (client.getEmail() != null && clientRepository.existsByEmailAndTeam(client.getEmail(), client.getTeam())) {
             throw new RuntimeException("Client with this email already exists");
         }
-
-        Client client = new Client();
-        mapRequestToEntity(request, client, securityUtils.getCurrentUser());
         return toResponse(clientRepository.save(client));
     }
 
     @Transactional
     public ClientResponse update(Long id, ClientRequest request) {
-        Client client = findById(id);
-        if (!scopeService.isWithinScope(securityUtils.getCurrentUser(), client.getAgent() == null ? null : client.getAgent().getId())) {
-            throw new ResourceNotFoundException("Client not found");
-        }
-        mapRequestToEntity(request, client, securityUtils.getCurrentUser());
+        User currentUser = securityUtils.getCurrentUser();
+        Client client = findVisibleById(id, currentUser);
+        mapRequestToEntity(request, client, currentUser);
         return toResponse(clientRepository.save(client));
     }
 
     @Transactional
     public void delete(Long id) {
-        Client client = findById(id);
-        if (!scopeService.isWithinScope(securityUtils.getCurrentUser(), client.getAgent() == null ? null : client.getAgent().getId())) {
-            throw new ResourceNotFoundException("Client not found");
-        }
-        clientRepository.delete(client);
+        clientRepository.delete(findVisibleById(id, securityUtils.getCurrentUser()));
     }
 
-    private Client findById(Long id) {
-        return clientRepository.findById(id)
+    private List<ClientResponse> findVisible(Specification<Client> filter) {
+        User currentUser = securityUtils.getCurrentUser();
+        return clientRepository.findAll(filter.and(scopeService.visibleTo(currentUser)))
+                .stream().map(this::toResponse).collect(Collectors.toList());
+    }
+
+    /** Someone else's client reads as missing, so its existence is not confirmed either. */
+    private Client findVisibleById(Long id, User currentUser) {
+        Client client = clientRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Client not found with id: " + id));
+        if (!scopeService.canSee(currentUser, client.getTeam(), client.getAgent())) {
+            throw new ResourceNotFoundException("Client not found with id: " + id);
+        }
+        return client;
     }
 
+    /**
+     * Who holds the client, and which agency it lives in.
+     *
+     * <p>A new client goes to whoever creates it, in their team. Only an admin may name another
+     * agent, and the client then lives in that agent's team. Editing never changes hands on its own:
+     * a manager correcting a phone number is not taking the client over.
+     */
     private void mapRequestToEntity(ClientRequest request, Client client, User currentUser) {
+        boolean isNew = client.getId() == null;
         client.setFullName(request.getFullName());
         client.setEmail(request.getEmail());
         client.setPhone(request.getPhone());
         client.setType(request.getType());
         client.setNotes(request.getNotes());
 
-        if (currentUser.getRole() == com.crm.realestate.enums.Role.ADMIN && request.getAgentId() != null) {
+        if (scopeService.isAdmin(currentUser) && request.getAgentId() != null) {
             User agent = userRepository.findById(request.getAgentId())
                     .orElseThrow(() -> new ResourceNotFoundException(
                             "Agent not found with id: " + request.getAgentId()));
+            // A client already in an agency stays there; a team-less one may be placed in one.
+            if (!isNew && client.getTeam() != null) {
+                scopeService.requireSameTeam(client.getTeam(), agent.getTeam(), "Agent");
+            }
             client.setAgent(agent);
-        } else {
+            client.setTeam(agent.getTeam());
+        } else if (isNew) {
             client.setAgent(currentUser);
+            client.setTeam(currentUser.getTeam());
         }
     }
 

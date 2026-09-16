@@ -20,7 +20,8 @@ public class Team {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    // Not unique: two agencies may well share a name.
+    @Column(nullable = false)
     private String name;
 
     @OneToOne(fetch = FetchType.LAZY)

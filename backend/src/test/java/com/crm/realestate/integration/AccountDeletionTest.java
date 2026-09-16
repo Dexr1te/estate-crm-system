@@ -2,14 +2,17 @@ package com.crm.realestate.integration;
 
 import com.crm.realestate.entity.Client;
 import com.crm.realestate.entity.Deal;
+import com.crm.realestate.entity.Team;
 import com.crm.realestate.entity.User;
 import com.crm.realestate.enums.ClientType;
 import com.crm.realestate.enums.DataScope;
 import com.crm.realestate.enums.DealStatus;
 import com.crm.realestate.enums.Role;
 import com.crm.realestate.enums.UserStatus;
+import com.crm.realestate.exception.ResourceNotFoundException;
 import com.crm.realestate.repository.ClientRepository;
 import com.crm.realestate.repository.DealRepository;
+import com.crm.realestate.repository.TeamRepository;
 import com.crm.realestate.repository.UserRepository;
 import com.crm.realestate.service.AccountRemovalService;
 import org.junit.jupiter.api.BeforeEach;
@@ -47,6 +50,9 @@ public class AccountDeletionTest {
 
     @Autowired
     private DealRepository dealRepository;
+
+    @Autowired
+    private TeamRepository teamRepository;
 
     private User leaver;
     private User successor;
@@ -155,5 +161,22 @@ public class AccountDeletionTest {
         assertThatThrownBy(
                 () -> accountRemovalService.removeOwnAccount(leaver, leaver.getId()))
                 .hasMessageContaining("Pick a different user");
+    }
+
+    @Test
+    @DisplayName("the records stay in the agency, so the successor has to work there")
+    public void refusesASuccessorFromAnotherAgency() {
+        Team almaty = teamRepository.save(Team.builder().name("Almaty Realty").build());
+        Team astana = teamRepository.save(Team.builder().name("Astana Homes").build());
+        leaver.setTeam(almaty);
+        successor.setTeam(astana);
+        userRepository.save(leaver);
+        userRepository.save(successor);
+        dealFor(leaver);
+
+        assertThatThrownBy(() -> accountRemovalService.removeOwnAccount(leaver, successor.getId()))
+                .isInstanceOf(ResourceNotFoundException.class);
+
+        assertThat(userRepository.findByEmail(leaver.getEmail())).isPresent();
     }
 }

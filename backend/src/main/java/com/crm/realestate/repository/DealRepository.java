@@ -39,14 +39,15 @@ public interface DealRepository extends JpaRepository<Deal, Long>, JpaSpecificat
     @EntityGraph(attributePaths = {"client", "property", "agent"})
     List<Deal> findByAgentId(Long agentId);
 
-    long countByAgentIdIn(List<Long> agentIds);
+    long countByTeamId(Long teamId);
 
-    long countByStatusIn(List<DealStatus> statuses);
+    long countByTeamIdAndStatusNotIn(Long teamId, List<DealStatus> statuses);
 
-    long countByAgentIdInAndStatusIn(List<Long> agentIds, List<DealStatus> statuses);
-
-    @EntityGraph(attributePaths = {"client", "property", "agent"})
-    List<Deal> findByAgentIdIn(List<Long> agentIds);
+    /** Moves this person's team-less deals into their team — see RecordHandoverService. */
+    @org.springframework.data.jpa.repository.Modifying(flushAutomatically = true)
+    @Query("UPDATE Deal d SET d.team = :team WHERE d.agent = :agent AND d.team IS NULL")
+    int adoptTeamless(@Param("agent") com.crm.realestate.entity.User agent,
+                      @Param("team") com.crm.realestate.entity.Team team);
 
     @EntityGraph(attributePaths = {"client", "property", "agent"})
     List<Deal> findByClientId(Long clientId);

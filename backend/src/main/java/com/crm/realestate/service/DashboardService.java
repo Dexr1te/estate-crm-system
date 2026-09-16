@@ -1,22 +1,23 @@
 package com.crm.realestate.service;
 
 import com.crm.realestate.dto.response.DashboardSummary;
+import com.crm.realestate.entity.Client;
+import com.crm.realestate.entity.Deal;
+import com.crm.realestate.entity.Meeting;
 import com.crm.realestate.entity.User;
-import com.crm.realestate.enums.DataScope;
 import com.crm.realestate.enums.DealStatus;
-import com.crm.realestate.exception.ResourceNotFoundException;
 import com.crm.realestate.repository.ClientRepository;
 import com.crm.realestate.repository.DealRepository;
 import com.crm.realestate.repository.MeetingRepository;
-import com.crm.realestate.repository.UserRepository;
 import com.crm.realestate.security.SecurityUtils;
-import com.crm.realestate.service.ScopeService;
-import com.crm.realestate.specification.DealSpecification;
+import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,44 +28,32 @@ public class DashboardService {
     private final DealRepository    dealRepository;
     private final ClientRepository  clientRepository;
     private final MeetingRepository meetingRepository;
-    private final UserRepository    userRepository;
     private final SecurityUtils     securityUtils;
     private final ScopeService      scopeService;
 
+    /**
+     * Five numbers, counted in the database over exactly the records the caller may see.
+     *
+     * <p>{@code agentId} and {@code teamId} only ever narrow that set — a manager asking about
+     * another agency's team gets zeros, not that agency's figures.
+     */
     public DashboardSummary getSummary(Long agentId, Long teamId) {
         User currentUser = securityUtils.getCurrentUser();
-        final List<Long> resolvedAgentIds = resolveAgentIds(currentUser, agentId, teamId);
 
-        // Five numbers, five counting queries. This used to load every closed deal and every
+        // Five numbers, four counting queries. This used to load every closed deal and every
         // upcoming meeting into memory to call .size() on them, and the meeting filter read
         // m.getAgent().getId() per row — an N+1 on top of a full table scan, to produce integers.
         final List<DealStatus> closedStatuses =
                 List.of(DealStatus.CLOSED_WON, DealStatus.CLOSED_LOST);
         final LocalDateTime now = LocalDateTime.now();
 
-        long totalDeals;
-        long closedDeals;
-        long totalClients;
-        long upcomingMeetings;
-
-        if (resolvedAgentIds == null) {
-            totalDeals = dealRepository.count();
-            closedDeals = dealRepository.countByStatusIn(closedStatuses);
-            totalClients = clientRepository.count();
-            upcomingMeetings = meetingRepository.countByScheduledAtAfter(now);
-        } else if (resolvedAgentIds.isEmpty()) {
-            // No agents in scope means nothing to count; an empty IN list is not valid SQL.
-            totalDeals = 0;
-            closedDeals = 0;
-            totalClients = 0;
-            upcomingMeetings = 0;
-        } else {
-            totalDeals = dealRepository.countByAgentIdIn(resolvedAgentIds);
-            closedDeals = dealRepository.countByAgentIdInAndStatusIn(resolvedAgentIds, closedStatuses);
-            totalClients = clientRepository.countByAgentIdIn(resolvedAgentIds);
-            upcomingMeetings =
-                    meetingRepository.countByAgentIdInAndScheduledAtAfter(resolvedAgentIds, now);
-        }
+        Specification<Deal> deals = this.<Deal>narrowed(currentUser, agentId, teamId);
+        long totalDeals = dealRepository.count(deals);
+        long closedDeals = dealRepository.count(
+                deals.and((root, query, cb) -> root.get("status").in(closedStatuses)));
+        long totalClients = clientRepository.count(this.<Client>narrowed(currentUser, agentId, teamId));
+        long upcomingMeetings = meetingRepository.count(this.<Meeting>narrowed(currentUser, agentId, teamId)
+                .and((root, query, cb) -> cb.greaterThan(root.get("scheduledAt"), now)));
 
         long activeDeals = totalDeals - closedDeals;
 
@@ -77,18 +66,17 @@ public class DashboardService {
                 .build();
     }
 
-    private List<Long> resolveAgentIds(User currentUser, Long agentId, Long teamId) {
-        if (currentUser.getDataScope() == DataScope.ALL) {
-            if (teamId != null) {
-                return userRepository.findByTeamId(teamId).stream().map(User::getId).collect(java.util.stream.Collectors.toList());
-            } else if (agentId != null) {
-                return List.of(agentId);
+    private <T> Specification<T> narrowed(User currentUser, Long agentId, Long teamId) {
+        Specification<T> filter = (root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            if (agentId != null) {
+                predicates.add(cb.equal(root.get("agent").get("id"), agentId));
             }
-            return null;
-        }
-        if (agentId != null && !scopeService.isWithinScope(currentUser, agentId)) {
-            throw new ResourceNotFoundException("Agent not found");
-        }
-        return scopeService.getAllowedAgentIds(currentUser);
+            if (teamId != null) {
+                predicates.add(cb.equal(root.get("team").get("id"), teamId));
+            }
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+        return filter.and(scopeService.visibleTo(currentUser));
     }
 }

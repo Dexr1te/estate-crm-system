@@ -33,6 +33,7 @@ public class TeamService {
     private final MeetingRepository meetingRepository;
     private final SecurityUtils securityUtils;
     private final ScopeService scopeService;
+    private final RecordHandoverService recordHandoverService;
 
     public List<TeamResponse> getTeams() {
         User currentUser = securityUtils.getCurrentUser();
@@ -59,6 +60,7 @@ public class TeamService {
         team = teamRepository.save(team);
         manager.setTeam(team);
         userRepository.save(manager);
+        recordHandoverService.adoptTeamlessRecords(manager);
         return toResponse(team);
     }
 
@@ -81,6 +83,7 @@ public class TeamService {
             team.setManager(manager);
             manager.setTeam(team);
             userRepository.save(manager);
+            recordHandoverService.adoptTeamlessRecords(manager);
         }
         return toResponse(teamRepository.save(team));
     }
@@ -92,23 +95,21 @@ public class TeamService {
                 && !(scopeService.isManager(currentUser) && currentUser.getTeam() != null && currentUser.getTeam().getId().equals(id))) {
             throw new ResourceNotFoundException("Team not found");
         }
-        List<Long> agentIds = userRepository.findByTeamId(team.getId()).stream().map(User::getId).toList();
-        long totalClients = clientRepository.countByAgentIdIn(agentIds);
-        long totalDeals = dealRepository.countByAgentIdIn(agentIds);
-        long activeDeals = dealRepository.findByAgentIdIn(agentIds).stream()
-                .filter(d -> d.getStatus() != com.crm.realestate.enums.DealStatus.CLOSED_WON
-                        && d.getStatus() != com.crm.realestate.enums.DealStatus.CLOSED_LOST)
-                .count();
-        long upcomingMeetings = meetingRepository.findAllUpcoming(LocalDateTime.now()).stream()
-                .filter(m -> agentIds.contains(m.getAgent().getId()))
-                .count();
+        long totalAgents = userRepository.findByTeamId(team.getId()).size();
+        long totalClients = clientRepository.countByTeamId(team.getId());
+        long totalDeals = dealRepository.countByTeamId(team.getId());
+        long activeDeals = dealRepository.countByTeamIdAndStatusNotIn(team.getId(),
+                List.of(com.crm.realestate.enums.DealStatus.CLOSED_WON, com.crm.realestate.enums.DealStatus.CLOSED_LOST));
+        long upcomingMeetings = meetingRepository.countByTeamIdAndCompletedFalseAndScheduledAtAfter(
+                team.getId(), LocalDateTime.now());
 
         return TeamStatsResponse.builder()
                 .teamId(team.getId())
                 .teamName(team.getName())
-                .managerId(team.getManager().getId())
-                .managerName(team.getManager().getFullName())
-                .totalAgents(Long.valueOf(agentIds.size()))
+                // A team outlives its manager (V14), so there may be nobody to name.
+                .managerId(team.getManager() != null ? team.getManager().getId() : null)
+                .managerName(team.getManager() != null ? team.getManager().getFullName() : null)
+                .totalAgents(totalAgents)
                 .totalClients(totalClients)
                 .totalDeals(totalDeals)
                 .activeDeals(activeDeals)

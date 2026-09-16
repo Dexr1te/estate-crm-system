@@ -41,6 +41,7 @@ public class AccountRemovalService {
     private final DocumentRepository documentRepository;
     private final PropertyRepository propertyRepository;
     private final AuditLogService    auditLogService;
+    private final ScopeService       scopeService;
 
     @Value("${app.primary-admin-email:admin@gmail.com}")
     private String primaryAdminEmail;
@@ -65,6 +66,11 @@ public class AccountRemovalService {
         final User replacement = replacementId == null ? null : findById(replacementId);
         if (replacement != null && replacement.getId().equals(target.getId())) {
             throw new RuntimeException("Pick a different user to take over the records");
+        }
+        // The records belong to the leaver's agency and stay in it, so whoever takes them over has
+        // to work there. Someone from another agency reads as not found, like anywhere else.
+        if (replacement != null) {
+            scopeService.requireSameTeam(target.getTeam(), replacement.getTeam(), "User");
         }
 
         Long targetId = target.getId();

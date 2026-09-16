@@ -42,6 +42,11 @@ public class Meeting {
     @JoinColumn(name = "client_id", nullable = false)
     private Client client;
 
+    // The agency this record belongs to. See ScopeService for what it decides.
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "team_id")
+    private Team team;
+
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 

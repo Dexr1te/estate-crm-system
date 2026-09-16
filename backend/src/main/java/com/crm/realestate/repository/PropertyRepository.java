@@ -11,7 +11,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,26 +48,13 @@ public interface PropertyRepository extends JpaRepository<Property, Long>, JpaSp
     @EntityGraph(attributePaths = {"agent"})
     List<Property> findByCity(String city);
 
+    /** Moves this person's team-less propertys into their team — see RecordHandoverService. */
+    @org.springframework.data.jpa.repository.Modifying(flushAutomatically = true)
+    @Query("UPDATE Property p SET p.team = :team WHERE p.agent = :agent AND p.team IS NULL")
+    int adoptTeamless(@Param("agent") com.crm.realestate.entity.User agent,
+                      @Param("team") com.crm.realestate.entity.Team team);
+
     /** The seeder's own listings — see DemoDataSeeder for why the prefix is visible. */
     List<Property> findByTitleStartingWith(String prefix);
 
-    @Query("SELECT p FROM Property p WHERE " +
-           "(:status   IS NULL OR p.status = :status) AND " +
-           "(:type     IS NULL OR p.type   = :type)   AND " +
-           "(:city     IS NULL OR LOWER(p.city) = LOWER(:city)) AND " +
-           "(:minPrice IS NULL OR p.price >= :minPrice) AND " +
-           "(:maxPrice IS NULL OR p.price <= :maxPrice)")
-    List<Property> filterProperties(
-            @Param("status")   PropertyStatus status,
-            @Param("type")     PropertyType type,
-            @Param("city")     String city,
-            @Param("minPrice") BigDecimal minPrice,
-            @Param("maxPrice") BigDecimal maxPrice
-    );
-
-    @Query("SELECT p FROM Property p WHERE " +
-           "LOWER(p.title)   LIKE LOWER(CONCAT('%', :query, '%')) OR " +
-           "LOWER(p.address) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
-           "LOWER(p.city)    LIKE LOWER(CONCAT('%', :query, '%'))")
-    List<Property> searchProperties(@Param("query") String query);
 }
