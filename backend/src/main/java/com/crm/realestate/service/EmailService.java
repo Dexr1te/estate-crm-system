@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
 /**
- * Sends transactional emails (currently invite links).
+ * Sends transactional emails: invites, password resets, sign-up codes and team requests.
  *
  * <p>Every send is asynchronous and swallows its own exceptions: the admin/manager already receives
  * the invite code in the API response, so a mail failure (bad SMTP creds, network, etc.) must never
@@ -47,6 +47,13 @@ public class EmailService {
      */
     @Value("${app.reset-url:${app.base-url:http://localhost:8080}/api/reset}")
     private String resetUrl;
+
+    /**
+     * Writes sign-up codes to the log while mail is off, so a developer without SMTP can still
+     * finish registering. Off by default: a code in a production log is a credential in a log.
+     */
+    @Value("${app.mail.log-codes:false}")
+    private boolean logCodes;
 
     @Value("${spring.mail.host:}")
     private String host;
@@ -134,6 +141,95 @@ public class EmailService {
         } catch (Exception e) {
             log.error("Failed to send reset email to {}: {}", toEmail, e.getMessage());
         }
+    }
+
+    /**
+     * The code a new account proves its address with. Six digits, because it is typed from one
+     * app into another on the same phone.
+     */
+    @Async
+    public void sendVerificationCode(String toEmail, String fullName, String code) {
+        if (!enabled) {
+            if (logCodes) {
+                log.info("Mail disabled; sign-up code for {} is {}", toEmail, code);
+            } else {
+                log.info("Mail disabled (app.mail.enabled=false); skipping sign-up code to {}", toEmail);
+            }
+            return;
+        }
+        send(toEmail, "Your Estate CRM code: " + code,
+                "Hi " + greeting(fullName) + ",\n\n"
+                        + "Enter this code in the Estate CRM app to confirm your email:\n\n"
+                        + "     " + code + "\n\n"
+                        + "It expires in 15 minutes. If you did not sign up, ignore this email.\n\n"
+                        + "— Estate CRM",
+                card("Hi %s, here is your code.".formatted(escape(greeting(fullName))),
+                        "Enter it in the app to confirm your email. It expires in 15 minutes. "
+                                + "If you did not sign up, ignore this email.",
+                        """
+                        <div style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+                                    font-size:28px;letter-spacing:8px;font-weight:700;color:#0F1E3C;
+                                    background:#EEF1F8;border-radius:12px;padding:16px;
+                                    text-align:center;">%s</div>
+                        """.formatted(escape(code))),
+                "sign-up code");
+    }
+
+    /** Tells an agent that a manager wants them in their team. The answer is given in the app. */
+    @Async
+    public void sendTeamRequest(String toEmail, String fullName, String teamName, String invitedByName) {
+        if (!enabled) {
+            log.info("Mail disabled (app.mail.enabled=false); skipping team request email to {}", toEmail);
+            return;
+        }
+        String who = invitedByName == null || invitedByName.isBlank() ? "A manager" : invitedByName;
+        send(toEmail, who + " invited you to " + teamName + " on Estate CRM",
+                "Hi " + greeting(fullName) + ",\n\n"
+                        + who + " would like you to join " + teamName + " on Estate CRM.\n\n"
+                        + "Open the app to accept or decline. Once you join, the team's manager\n"
+                        + "can see the clients and deals you work on there.\n\n"
+                        + "— Estate CRM",
+                card("Hi %s, %s would like you to join %s.".formatted(
+                                escape(greeting(fullName)), escape(who), escape(teamName)),
+                        "Open the Estate CRM app to accept or decline. Once you join, the team's "
+                                + "manager can see the clients and deals you work on there.",
+                        ""),
+                "team request");
+    }
+
+    private void send(String toEmail, String subject, String plain, String html, String what) {
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper =
+                    new MimeMessageHelper(message, true, StandardCharsets.UTF_8.name());
+            helper.setFrom(from);
+            helper.setTo(toEmail);
+            helper.setSubject(subject);
+            helper.setText(plain, html);
+            mailSender.send(message);
+            log.info("Sent {} email to {}", what, toEmail);
+        } catch (Exception e) {
+            log.error("Failed to send {} email to {}: {}", what, toEmail, e.getMessage());
+        }
+    }
+
+    /** The shared letterhead. Arguments are HTML already; escape anything user-supplied first. */
+    private String card(String headline, String body, String extra) {
+        return """
+                <!doctype html>
+                <html>
+                  <body style="margin:0;padding:24px;background:#F4F6FB;
+                               font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;">
+                    <div style="max-width:480px;margin:0 auto;background:#FFFFFF;
+                                border:1px solid #E8ECF4;border-radius:16px;padding:28px;">
+                      <div style="font-size:20px;font-weight:700;color:#0F1E3C;">EstateCRM</div>
+                      <p style="font-size:14px;line-height:1.5;color:#0F1E3C;margin:20px 0 0;">%s</p>
+                      <p style="font-size:13px;line-height:1.5;color:#6B7A99;margin:10px 0 22px;">%s</p>
+                      %s
+                    </div>
+                  </body>
+                </html>
+                """.formatted(headline, escape(body), extra);
     }
 
     private String resetPlainBody(String fullName, String token, String link) {

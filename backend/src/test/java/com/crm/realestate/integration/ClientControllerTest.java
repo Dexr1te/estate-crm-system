@@ -1,12 +1,14 @@
 package com.crm.realestate.integration;
 
 import com.crm.realestate.entity.Client;
+import com.crm.realestate.entity.Team;
 import com.crm.realestate.entity.User;
 import com.crm.realestate.enums.ClientType;
 import com.crm.realestate.enums.DataScope;
 import com.crm.realestate.enums.Role;
 import com.crm.realestate.enums.UserStatus;
 import com.crm.realestate.repository.ClientRepository;
+import com.crm.realestate.repository.TeamRepository;
 import com.crm.realestate.repository.UserRepository;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -42,7 +44,11 @@ public class ClientControllerTest {
         @Autowired
         private UserRepository userRepository;
 
+        @Autowired
+        private TeamRepository teamRepository;
+
         private User currentUser;
+        private Team team;
 
         private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -51,13 +57,16 @@ public class ClientControllerTest {
                 SecurityContextHolder.clearContext();
                 clientRepository.deleteAll();
                 userRepository.deleteAll();
+                teamRepository.deleteAll();
 
+                team = teamRepository.save(Team.builder().name("Almaty Realty").build());
                 currentUser = userRepository.save(User.builder()
                         .email("test-agent@example.com")
                         .password("secret")
                         .fullName("Test Agent")
                         .role(Role.AGENT)
                         .dataScope(DataScope.OWN)
+                        .team(team)
                         .status(UserStatus.ACTIVE)
                         .isActive(true)
                         .build());
@@ -73,12 +82,14 @@ public class ClientControllerTest {
                                 .type(ClientType.BUYER)
                                 .email("a@example.com")
                                 .agent(currentUser)
+                                                .team(team)
                                 .build());
                 clientRepository.save(Client.builder()
                                 .fullName("Bob")
                                 .type(ClientType.SELLER)
                                 .email("b@example.com")
                                 .agent(currentUser)
+                                                .team(team)
                                 .build());
 
                 String json = mockMvc.perform(get(CLIENTS_URL))
@@ -97,6 +108,7 @@ public class ClientControllerTest {
                                 .type(i % 2 == 0 ? ClientType.BUYER : ClientType.SELLER)
                                 .email("c" + i + "@ex.com")
                                 .agent(currentUser)
+                                                .team(team)
                                 .build()));
 
                 String json = mockMvc.perform(get(CLIENTS_URL + "?page=0&size=10"))
@@ -118,11 +130,13 @@ public class ClientControllerTest {
                                 .save(Client.builder().fullName("Buyer One").type(ClientType.BUYER)
                                                 .email("b1@example.com")
                                                 .agent(currentUser)
+                                                .team(team)
                                                 .build());
                 clientRepository
                                 .save(Client.builder().fullName("Seller One").type(ClientType.SELLER)
                                                 .email("s1@example.com")
                                                 .agent(currentUser)
+                                                .team(team)
                                                 .build());
 
                 String json = mockMvc.perform(get(CLIENTS_URL + "?type=BUYER"))
@@ -141,11 +155,13 @@ public class ClientControllerTest {
                                 .save(Client.builder().fullName("Example User").type(ClientType.BUYER)
                                                 .email("ex@example.com")
                                                 .agent(currentUser)
+                                                .team(team)
                                                 .build());
                 clientRepository
                                 .save(Client.builder().fullName("Another").type(ClientType.SELLER)
                                                 .email("another@foo.com")
                                                 .agent(currentUser)
+                                                .team(team)
                                                 .build());
 
                 String json = mockMvc.perform(get(CLIENTS_URL + "?search=Example"))

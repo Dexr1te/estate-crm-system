@@ -48,6 +48,10 @@ class ProfileScreen extends StatelessWidget {
                 onTap: () => _editProfile(ctx, user),
               ),
               SettingsRow(
+                label: l10n.teamsTeamLabel,
+                value: user.teamName ?? l10n.teamsNoTeamLabel,
+              ),
+              SettingsRow(
                 label: l10n.profileAgentId,
                 trailing: _IdChip(
                   id: user.userId,
@@ -153,6 +157,13 @@ class ProfileScreen extends StatelessWidget {
                 onTap: () => _openPage(context, '/support'),
               ),
             ]),
+            // Only an agent can walk out: a manager's team is theirs to run,
+            // and an admin has no team to be in.
+            if (user.role == Role.AGENT && user.teamName != null)
+              AppGhostButton(
+                label: l10n.teamsLeaveTeam,
+                onPressed: () => _confirmLeaveTeam(context, user.teamName!),
+              ),
             AppDangerButton(
               label: l10n.profileSignOut,
               onPressed: () => _confirmLogout(context),
@@ -314,6 +325,40 @@ class ProfileScreen extends StatelessWidget {
       messenger
         ..hideCurrentSnackBar()
         ..showSnackBar(SnackBar(content: Text(l10n.profileLinkFailed)));
+    }
+  }
+
+  /// Leaving hands the team's clients and deals back to it, so say so before
+  /// it happens rather than after.
+  Future<void> _confirmLeaveTeam(BuildContext context, String teamName) async {
+    final l10n = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    final auth = context.read<AuthBloc>();
+    final danger = context.tokens.dangerSolid;
+
+    final ok = await showConfirmDialog(
+      context,
+      title: l10n.teamsLeaveTeamTitle(teamName),
+      content: l10n.teamsLeaveTeamBody,
+      confirmLabel: l10n.teamsLeaveTeam,
+      icon: Icons.logout_rounded,
+    );
+    if (!ok) return;
+
+    try {
+      await Injector.teamsRepository.leaveTeam();
+      // The session names the team, and it no longer has one — which is what
+      // sends the app back to the waiting screen.
+      auth.add(AuthRefreshMeEvent());
+      messenger
+        ..hideCurrentSnackBar()
+        ..showSnackBar(SnackBar(content: Text(l10n.msgTeamLeft)));
+    } catch (err) {
+      messenger
+        ..hideCurrentSnackBar()
+        ..showSnackBar(SnackBar(
+            content: Text(apiFailureLabel(l10n, ApiFailure.from(err))),
+            backgroundColor: danger));
     }
   }
 

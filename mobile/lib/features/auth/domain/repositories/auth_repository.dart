@@ -3,6 +3,29 @@ import 'package:real_estate_crm/core/models/models.dart';
 abstract class AuthRepository {
   Future<AuthResponse> login(String email, String password);
 
+  /// Opens an account. No session comes back: [verifyEmail] is what signs in,
+  /// once the code from the email proves the address belongs to whoever typed it.
+  Future<void> register({
+    required String fullName,
+    required String email,
+    required String password,
+    required Role role,
+    String? phone,
+  });
+
+  /// Spends the six-digit code and starts the session.
+  Future<AuthResponse> verifyEmail(String email, String code);
+
+  /// Asks for another code. Says nothing about whether the address exists.
+  Future<void> resendVerification(String email);
+
+  /// Re-reads the signed-in account, keeping the tokens.
+  ///
+  /// This is how the app learns it has been let into a team: the JWT carries
+  /// only the address, so nothing about a session goes stale except what this
+  /// returns.
+  Future<AuthResponse> refreshMe();
+
   Future<AuthResponse> acceptInvite(String token, String newPassword);
 
   /// Changes the signed-in user's own name and address.

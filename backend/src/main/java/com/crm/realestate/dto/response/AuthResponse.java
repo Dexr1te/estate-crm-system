@@ -23,5 +23,6 @@ public class AuthResponse {
     private DataScope dataScope;
     private UserStatus status;
     private Long teamId;
+    private String teamName;
     private boolean mustChangePassword;
 }

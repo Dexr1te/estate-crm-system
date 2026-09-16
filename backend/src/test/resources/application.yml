@@ -40,7 +40,8 @@ server:
     context-path: /api
 
 jwt:
-  secret: test-secret-key-for-ci-tests-only-not-used-in-production-1234567890
+  # No key here on purpose: JwtService decodes it as Base64, and a Base64 blob in the
+  # repository looks exactly like a leaked one. TestJwtSecret supplies it at run time.
   access-token-expiration: 86400000
   refresh-token-expiration: 604800000
 

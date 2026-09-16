@@ -26,7 +26,11 @@ mixin _$AuthResponse {
   int get userId => throw _privateConstructorUsedError;
   String get fullName => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
-  Role get role => throw _privateConstructorUsedError;
+  Role get role =>
+      throw _privateConstructorUsedError; // The agency, if this account is in one. Null sends a manager to "create
+// your agency" and an agent to the waiting screen — see resolveRedirect.
+  int? get teamId => throw _privateConstructorUsedError;
+  String? get teamName => throw _privateConstructorUsedError;
 
   /// Serializes this AuthResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -51,7 +55,9 @@ abstract class $AuthResponseCopyWith<$Res> {
       int userId,
       String fullName,
       String email,
-      Role role});
+      Role role,
+      int? teamId,
+      String? teamName});
 }
 
 /// @nodoc
@@ -76,6 +82,8 @@ class _$AuthResponseCopyWithImpl<$Res, $Val extends AuthResponse>
     Object? fullName = null,
     Object? email = null,
     Object? role = null,
+    Object? teamId = freezed,
+    Object? teamName = freezed,
   }) {
     return _then(_value.copyWith(
       accessToken: null == accessToken
@@ -106,6 +114,14 @@ class _$AuthResponseCopyWithImpl<$Res, $Val extends AuthResponse>
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
               as Role,
+      teamId: freezed == teamId
+          ? _value.teamId
+          : teamId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      teamName: freezed == teamName
+          ? _value.teamName
+          : teamName // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -125,7 +141,9 @@ abstract class _$$AuthResponseImplCopyWith<$Res>
       int userId,
       String fullName,
       String email,
-      Role role});
+      Role role,
+      int? teamId,
+      String? teamName});
 }
 
 /// @nodoc
@@ -148,6 +166,8 @@ class __$$AuthResponseImplCopyWithImpl<$Res>
     Object? fullName = null,
     Object? email = null,
     Object? role = null,
+    Object? teamId = freezed,
+    Object? teamName = freezed,
   }) {
     return _then(_$AuthResponseImpl(
       accessToken: null == accessToken
@@ -178,6 +198,14 @@ class __$$AuthResponseImplCopyWithImpl<$Res>
           ? _value.role
           : role // ignore: cast_nullable_to_non_nullable
               as Role,
+      teamId: freezed == teamId
+          ? _value.teamId
+          : teamId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      teamName: freezed == teamName
+          ? _value.teamName
+          : teamName // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -192,7 +220,9 @@ class _$AuthResponseImpl implements _AuthResponse {
       this.userId = 0,
       this.fullName = '',
       this.email = '',
-      this.role = Role.AGENT});
+      this.role = Role.AGENT,
+      this.teamId,
+      this.teamName});
 
   factory _$AuthResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$AuthResponseImplFromJson(json);
@@ -218,10 +248,16 @@ class _$AuthResponseImpl implements _AuthResponse {
   @override
   @JsonKey()
   final Role role;
+// The agency, if this account is in one. Null sends a manager to "create
+// your agency" and an agent to the waiting screen — see resolveRedirect.
+  @override
+  final int? teamId;
+  @override
+  final String? teamName;
 
   @override
   String toString() {
-    return 'AuthResponse(accessToken: $accessToken, refreshToken: $refreshToken, tokenType: $tokenType, userId: $userId, fullName: $fullName, email: $email, role: $role)';
+    return 'AuthResponse(accessToken: $accessToken, refreshToken: $refreshToken, tokenType: $tokenType, userId: $userId, fullName: $fullName, email: $email, role: $role, teamId: $teamId, teamName: $teamName)';
   }
 
   @override
@@ -239,13 +275,16 @@ class _$AuthResponseImpl implements _AuthResponse {
             (identical(other.fullName, fullName) ||
                 other.fullName == fullName) &&
             (identical(other.email, email) || other.email == email) &&
-            (identical(other.role, role) || other.role == role));
+            (identical(other.role, role) || other.role == role) &&
+            (identical(other.teamId, teamId) || other.teamId == teamId) &&
+            (identical(other.teamName, teamName) ||
+                other.teamName == teamName));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, accessToken, refreshToken,
-      tokenType, userId, fullName, email, role);
+      tokenType, userId, fullName, email, role, teamId, teamName);
 
   /// Create a copy of AuthResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -271,7 +310,9 @@ abstract class _AuthResponse implements AuthResponse {
       final int userId,
       final String fullName,
       final String email,
-      final Role role}) = _$AuthResponseImpl;
+      final Role role,
+      final int? teamId,
+      final String? teamName}) = _$AuthResponseImpl;
 
   factory _AuthResponse.fromJson(Map<String, dynamic> json) =
       _$AuthResponseImpl.fromJson;
@@ -289,7 +330,13 @@ abstract class _AuthResponse implements AuthResponse {
   @override
   String get email;
   @override
-  Role get role;
+  Role
+      get role; // The agency, if this account is in one. Null sends a manager to "create
+// your agency" and an agent to the waiting screen — see resolveRedirect.
+  @override
+  int? get teamId;
+  @override
+  String? get teamName;
 
   /// Create a copy of AuthResponse
   /// with the given fields replaced by the non-null parameter values.

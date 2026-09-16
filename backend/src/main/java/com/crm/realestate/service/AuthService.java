@@ -1,14 +1,17 @@
 package com.crm.realestate.service;
 
 import com.crm.realestate.dto.request.LoginRequest;
-import com.crm.realestate.dto.request.RegisterRequest;
 import com.crm.realestate.dto.request.UpdateProfileRequest;
 import com.crm.realestate.dto.response.AuthResponse;
 import com.crm.realestate.entity.User;
-import com.crm.realestate.enums.Role;
+import com.crm.realestate.enums.UserStatus;
+import com.crm.realestate.exception.BusinessException;
 import com.crm.realestate.repository.UserRepository;
+import com.crm.realestate.security.AuthResponseFactory;
 import com.crm.realestate.security.JwtService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AccountStatusException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,6 +28,8 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final AccountRemovalService accountRemovalService;
     private final EmailService          emailService;
+    private final RegistrationService   registrationService;
+    private final AuthResponseFactory   authResponseFactory;
 
     /**
      * Closes the caller's own account, handing their records to {@code replacementId}.
@@ -39,10 +44,6 @@ public class AuthService {
         accountRemovalService.removeOwnAccount(user, replacementId);
     }
 
-    public AuthResponse register(RegisterRequest request) {
-        throw new UnsupportedOperationException("Self registration is disabled. Users must be invited by an admin or manager.");
-    }
-
     public AuthResponse acceptInvite(com.crm.realestate.dto.request.AcceptInviteRequest request) {
         User user = userRepository.findByInviteToken(request.getToken())
                 .orElseThrow(() -> new RuntimeException("Invalid invite token"));
@@ -50,15 +51,13 @@ public class AuthService {
             throw new RuntimeException("Invite token expired");
         }
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
-        user.setStatus(com.crm.realestate.enums.UserStatus.ACTIVE);
+        user.setStatus(UserStatus.ACTIVE);
         user.setMustChangePassword(false);
         user.setInviteToken(null);
         user.setInviteTokenExpiresAt(null);
         userRepository.save(user);
 
-        String accessToken = jwtService.generateAccessToken(user);
-        String refreshToken = jwtService.generateRefreshToken(user);
-        return buildAuthResponse(user, accessToken, refreshToken);
+        return authResponseFactory.withNewTokens(user);
     }
 
     public void requestPasswordReset(String email) {
@@ -82,26 +81,45 @@ public class AuthService {
         user.setPasswordResetTokenExpiresAt(null);
         userRepository.save(user);
 
-        String accessToken = jwtService.generateAccessToken(user);
-        String refreshToken = jwtService.generateRefreshToken(user);
-        return buildAuthResponse(user, accessToken, refreshToken);
+        return authResponseFactory.withNewTokens(user);
     }
 
     public AuthResponse login(LoginRequest request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
-                )
-        );
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getEmail(),
+                            request.getPassword()
+                    )
+            );
+        } catch (AccountStatusException e) {
+            throw unverifiedOr(e, request);
+        }
 
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        String accessToken  = jwtService.generateAccessToken(user);
-        String refreshToken = jwtService.generateRefreshToken(user);
+        return authResponseFactory.withNewTokens(user);
+    }
 
-        return buildAuthResponse(user, accessToken, refreshToken);
+    /**
+     * Turns "account disabled" into "confirm your email" — but only for the owner.
+     *
+     * <p>Spring checks whether an account is enabled before it checks the password, so the
+     * exception alone says nothing about who is asking. Saying EMAIL_NOT_VERIFIED to anyone would
+     * tell a stranger that the address has signed up, so the password is compared here first.
+     */
+    private RuntimeException unverifiedOr(AccountStatusException original, LoginRequest request) {
+        return userRepository.findByEmail(request.getEmail())
+                .filter(u -> u.getStatus() == UserStatus.PENDING_VERIFICATION)
+                .filter(u -> u.getPassword() != null
+                        && passwordEncoder.matches(request.getPassword(), u.getPassword()))
+                .<RuntimeException>map(user -> {
+                    registrationService.resendForSignIn(user);
+                    return new BusinessException(HttpStatus.FORBIDDEN, "EMAIL_NOT_VERIFIED",
+                            "Confirm your email first. We have sent you a code.");
+                })
+                .orElse(original);
     }
 
     public AuthResponse refreshToken(String refreshToken) {
@@ -114,13 +132,13 @@ public class AuthService {
         }
 
         String newAccessToken = jwtService.generateAccessToken(user);
-        return buildAuthResponse(user, newAccessToken, refreshToken);
+        return authResponseFactory.build(user, newAccessToken, refreshToken);
     }
 
     public AuthResponse getMe(String email) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        return buildAuthResponse(user, null, null);
+        return authResponseFactory.build(user, null, null);
     }
 
     @Transactional
@@ -137,20 +155,6 @@ public class AuthService {
         user.setEmail(request.getEmail());
         userRepository.save(user);
 
-        String accessToken  = jwtService.generateAccessToken(user);
-        String refreshToken = jwtService.generateRefreshToken(user);
-        return buildAuthResponse(user, accessToken, refreshToken);
-    }
-
-    private AuthResponse buildAuthResponse(User user, String accessToken, String refreshToken) {
-        return AuthResponse.builder()
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .tokenType("Bearer")
-                .userId(user.getId())
-                .fullName(user.getFullName())
-                .email(user.getEmail())
-                .role(user.getRole())
-                .build();
+        return authResponseFactory.withNewTokens(user);
     }
 }

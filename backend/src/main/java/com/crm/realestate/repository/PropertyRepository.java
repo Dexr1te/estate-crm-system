@@ -54,6 +54,13 @@ public interface PropertyRepository extends JpaRepository<Property, Long>, JpaSp
     int adoptTeamless(@Param("agent") com.crm.realestate.entity.User agent,
                       @Param("team") com.crm.realestate.entity.Team team);
 
+    /** Hands propertys held in a team to a colleague — see RecordHandoverService. */
+    @org.springframework.data.jpa.repository.Modifying(flushAutomatically = true)
+    @Query("UPDATE Property p SET p.agent = :to WHERE p.agent = :from AND p.team = :team")
+    int reassignInTeam(@Param("from") com.crm.realestate.entity.User from,
+                       @Param("to") com.crm.realestate.entity.User to,
+                       @Param("team") com.crm.realestate.entity.Team team);
+
     /** The seeder's own listings — see DemoDataSeeder for why the prefix is visible. */
     List<Property> findByTitleStartingWith(String prefix);
 

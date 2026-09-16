@@ -1,0 +1,2 @@
+# The test signing key is derived at run time rather than committed — see TestJwtSecret.
+org.springframework.boot.env.EnvironmentPostProcessor=com.crm.realestate.TestJwtSecret

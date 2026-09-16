@@ -1367,6 +1367,271 @@ class AppLocalizationsRu extends AppLocalizations {
   String get msgProfileUpdated => 'Профиль обновлён';
 
   @override
+  String get msgCodeSent => 'Код отправлен';
+
+  @override
+  String get msgRequestSent => 'Запрос отправлен';
+
+  @override
+  String get msgRequestCancelled => 'Запрос отозван';
+
+  @override
+  String get msgTeamJoined => 'Вы в команде';
+
+  @override
+  String get msgRequestDeclined => 'Запрос отклонён';
+
+  @override
+  String get msgMemberRemoved => 'Агент удалён из команды';
+
+  @override
+  String get msgTeamLeft => 'Вы вышли из команды';
+
+  @override
+  String get authNoAccount => 'Нет аккаунта?';
+
+  @override
+  String get authSignUp => 'Зарегистрироваться';
+
+  @override
+  String get authChooseRoleTitle => 'Как вы будете работать?';
+
+  @override
+  String get authChooseRoleSubtitle =>
+      'От этого зависит, что вы увидите. Позже руководитель сможет изменить это.';
+
+  @override
+  String get authRoleManagerTitle => 'Я руковожу агентством';
+
+  @override
+  String get authRoleManagerBody =>
+      'Создайте команду, добавляйте агентов и видьте всю их работу.';
+
+  @override
+  String get authRoleAgentTitle => 'Я агент';
+
+  @override
+  String get authRoleAgentBody =>
+      'Присоединитесь к команде руководителя и ведите своих клиентов и сделки.';
+
+  @override
+  String get authContinue => 'Продолжить';
+
+  @override
+  String get authCreateAccountTitle => 'Создайте аккаунт';
+
+  @override
+  String get authCreateAccountSubtitle =>
+      'Мы отправим на почту шестизначный код для подтверждения адреса.';
+
+  @override
+  String get authFullName => 'Имя и фамилия';
+
+  @override
+  String get authFullNameRequired => 'Введите имя';
+
+  @override
+  String get authPhoneOptional => 'Телефон (необязательно)';
+
+  @override
+  String get authPasswordMinLength8 => 'Минимум 8 символов';
+
+  @override
+  String get authAcceptTerms => 'Я согласен с политикой конфиденциальности';
+
+  @override
+  String get authAcceptTermsRequired => 'Примите политику конфиденциальности';
+
+  @override
+  String get authPrivacyPolicy => 'Политика конфиденциальности';
+
+  @override
+  String get authVerifyEmailTitle => 'Подтвердите почту';
+
+  @override
+  String authVerifyEmailSubtitle(Object email) {
+    return 'Введите шестизначный код, отправленный на $email.';
+  }
+
+  @override
+  String get authVerifyCodeRequired => 'Введите шесть цифр из письма';
+
+  @override
+  String get authVerify => 'Подтвердить';
+
+  @override
+  String get authResendCode => 'Отправить код снова';
+
+  @override
+  String authResendCodeIn(Object seconds) {
+    return 'Новый код через $seconds с';
+  }
+
+  @override
+  String get authChangeEmail => 'Другой адрес';
+
+  @override
+  String get authEmailTaken => 'На этот адрес уже есть аккаунт. Войдите.';
+
+  @override
+  String get authInvitePendingTitle => 'Вас уже приглашали';
+
+  @override
+  String get authInvitePendingBody =>
+      'На этот адрес отправлено приглашение. Откройте его или введите код, чтобы задать пароль.';
+
+  @override
+  String get authCreateTeamTitle => 'Создайте агентство';
+
+  @override
+  String get authCreateTeamSubtitle =>
+      'Название увидят ваши агенты. Его можно изменить позже.';
+
+  @override
+  String get authCreateTeamName => 'Название агентства';
+
+  @override
+  String get authCreateTeamNameRequired => 'Введите название';
+
+  @override
+  String get authCreateTeamAction => 'Создать и продолжить';
+
+  @override
+  String get authWaitingTitle => 'Ожидание команды';
+
+  @override
+  String get authWaitingSubtitle =>
+      'Передайте этот адрес руководителю. Как только он добавит вас и вы примете запрос, здесь появятся клиенты и сделки.';
+
+  @override
+  String get authWaitingCopyEmail => 'Скопировать адрес';
+
+  @override
+  String get authWaitingEmailCopied => 'Адрес скопирован';
+
+  @override
+  String get authWaitingNoRequests => 'Приглашений пока нет';
+
+  @override
+  String get authWaitingNoRequestsBody => 'Потяните вниз, чтобы обновить.';
+
+  @override
+  String authInvitedByTeam(Object team) {
+    return '$team приглашает вас';
+  }
+
+  @override
+  String authInvitedBy(Object name) {
+    return 'От $name';
+  }
+
+  @override
+  String get authAcceptRequest => 'Принять';
+
+  @override
+  String get authDeclineRequest => 'Отклонить';
+
+  @override
+  String get authDeclineRequestTitle => 'Отклонить приглашение?';
+
+  @override
+  String authDeclineRequestBody(Object team) {
+    return '$team не увидит ваших клиентов и сделок. Позже вас смогут пригласить снова.';
+  }
+
+  @override
+  String get teamsMembers => 'Участники';
+
+  @override
+  String get teamsPending => 'Ожидают';
+
+  @override
+  String get teamsAddAgent => 'Добавить агента';
+
+  @override
+  String get teamsAddAgentHint =>
+      'Если у агента уже есть аккаунт, он получит запрос. Если нет — мы отправим приглашение на почту.';
+
+  @override
+  String get teamsAddAgentAction => 'Отправить';
+
+  @override
+  String teamsRequestSentBody(Object name) {
+    return '$name должен принять запрос, чтобы войти в команду.';
+  }
+
+  @override
+  String teamsInviteSentBody(Object email) {
+    return 'Приглашение отправлено на $email.';
+  }
+
+  @override
+  String get teamsNoMembers => 'Пока никого';
+
+  @override
+  String get teamsNoMembersBody => 'Добавьте первого агента по адресу почты.';
+
+  @override
+  String get teamsNoPending => 'Ожидающих нет';
+
+  @override
+  String get teamsNoPendingBody => 'Здесь появятся запросы, ожидающие ответа.';
+
+  @override
+  String get teamsCancelRequest => 'Отозвать';
+
+  @override
+  String get teamsStatusPendingInvite => 'Приглашён';
+
+  @override
+  String get teamsStatusPendingVerification => 'Не подтвердил почту';
+
+  @override
+  String get teamsManagerChip => 'Руководитель';
+
+  @override
+  String get teamsRemoveMember => 'Удалить из команды';
+
+  @override
+  String teamsRemoveMemberTitle(Object name) {
+    return 'Удалить $name?';
+  }
+
+  @override
+  String teamsRemoveMemberBody(Object successor) {
+    return 'Клиенты, сделки и встречи останутся в команде и перейдут к $successor.';
+  }
+
+  @override
+  String teamsRemoveInviteBody(Object name) {
+    return 'Приглашение для $name будет отозвано.';
+  }
+
+  @override
+  String get teamsSuccessor => 'Записи перейдут';
+
+  @override
+  String get teamsSuccessorMe => 'Мне';
+
+  @override
+  String get teamsLeaveTeam => 'Покинуть команду';
+
+  @override
+  String teamsLeaveTeamTitle(Object team) {
+    return 'Покинуть $team?';
+  }
+
+  @override
+  String get teamsLeaveTeamBody =>
+      'Клиенты, сделки и встречи останутся в команде. Чтобы вернуться, понадобится новое приглашение.';
+
+  @override
+  String get teamsTeamLabel => 'Команда';
+
+  @override
+  String get teamsNoTeamLabel => 'Без команды';
+
+  @override
   String get msgPropertyCreated => 'Объект создан';
 
   @override

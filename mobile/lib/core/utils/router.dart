@@ -5,10 +5,15 @@ import 'package:real_estate_crm/core/widgets/main_scaffold.dart';
 import 'package:real_estate_crm/features/admin/presentation/screens/admin_console_screen.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/screens/accept_invite_screen.dart';
+import 'package:real_estate_crm/features/auth/presentation/screens/create_team_screen.dart';
 import 'package:real_estate_crm/features/auth/presentation/screens/forgot_password_screen.dart';
 import 'package:real_estate_crm/features/auth/presentation/screens/login_screen.dart';
+import 'package:real_estate_crm/features/auth/presentation/screens/register_form_screen.dart';
+import 'package:real_estate_crm/features/auth/presentation/screens/register_role_screen.dart';
 import 'package:real_estate_crm/features/auth/presentation/screens/reset_password_screen.dart';
 import 'package:real_estate_crm/features/auth/presentation/screens/splash_screen.dart';
+import 'package:real_estate_crm/features/auth/presentation/screens/verify_email_screen.dart';
+import 'package:real_estate_crm/features/auth/presentation/screens/waiting_for_team_screen.dart';
 import 'package:real_estate_crm/features/clients/presentation/screens/client_detail_screen.dart';
 import 'package:real_estate_crm/features/clients/presentation/screens/client_form_screen.dart';
 import 'package:real_estate_crm/features/clients/presentation/screens/clients_screen.dart';
@@ -50,6 +55,7 @@ String? resolveRedirect({
   required bool sessionResolved,
   required bool authenticated,
   required Role? role,
+  required bool hasTeam,
 }) {
   if (!sessionResolved) return location == '/splash' ? null : '/splash';
   if (location == '/splash') return authenticated ? '/dashboard' : '/login';
@@ -59,6 +65,8 @@ String? resolveRedirect({
   // rather than pattern-matching.
   const authLocations = [
     '/login',
+    '/register',
+    '/verify-email',
     '/accept-invite',
     '/forgot-password',
     '/reset-password',
@@ -66,6 +74,20 @@ String? resolveRedirect({
   final onAuth = authLocations.any(location.startsWith);
   if (!authenticated && !onAuth) return '/login';
   if (authenticated && onAuth) return '/dashboard';
+
+  // An account with no agency has nothing in the CRM to look at: records belong
+  // to a team, and the backend refuses these endpoints outright. A manager is
+  // one form away from having one; an agent has to be let in by somebody. Both
+  // keep the profile, which is where signing out and closing the account live.
+  final needsTeam = authenticated && !hasTeam && role != Role.ADMIN;
+  final onboarding = needsTeam
+      ? (role == Role.MANAGER ? '/onboarding/team' : '/onboarding/waiting')
+      : null;
+  if (onboarding != null) {
+    if (location.startsWith('/profile')) return null;
+    return location.startsWith(onboarding) ? null : onboarding;
+  }
+  if (location.startsWith('/onboarding')) return '/dashboard';
 
   if (location.startsWith('/admin') && role != Role.ADMIN) return '/dashboard';
   if (location.startsWith('/team-console') && role != Role.MANAGER) {
@@ -84,6 +106,7 @@ GoRouter createRouter(AuthBloc authBloc) {
       sessionResolved: authBloc.isSessionResolved,
       authenticated: authBloc.isAuthenticated,
       role: authBloc.currentUser?.role,
+      hasTeam: authBloc.currentUser?.teamId != null,
     ),
     routes: [
       GoRoute(
@@ -93,6 +116,45 @@ GoRouter createRouter(AuthBloc authBloc) {
       GoRoute(
         path: '/login',
         pageBuilder: (_, __) => const NoTransitionPage(child: LoginScreen()),
+      ),
+      GoRoute(
+        path: '/register',
+        pageBuilder: (_, __) =>
+            const NoTransitionPage(child: RegisterRoleScreen()),
+        routes: [
+          GoRoute(
+            path: 'details',
+            pageBuilder: (_, s) => NoTransitionPage(
+              child: RegisterFormScreen(
+                role: s.uri.queryParameters['role'] == Role.MANAGER.name
+                    ? Role.MANAGER
+                    : Role.AGENT,
+              ),
+            ),
+          ),
+        ],
+      ),
+      GoRoute(
+        path: '/verify-email',
+        pageBuilder: (_, s) => NoTransitionPage(
+          child: VerifyEmailScreen(
+            email: s.uri.queryParameters['email'] ?? '',
+          ),
+        ),
+      ),
+      // Signed in, but not in an agency yet. Outside the shell: there is no
+      // bottom navigation to show when none of its destinations would load.
+      GoRoute(
+        path: '/onboarding/team',
+        parentNavigatorKey: _rootKey,
+        pageBuilder: (_, __) =>
+            const NoTransitionPage(child: CreateTeamScreen()),
+      ),
+      GoRoute(
+        path: '/onboarding/waiting',
+        parentNavigatorKey: _rootKey,
+        pageBuilder: (_, __) =>
+            const NoTransitionPage(child: WaitingForTeamScreen()),
       ),
       GoRoute(
         path: '/accept-invite',

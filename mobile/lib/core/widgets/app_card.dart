@@ -10,6 +10,10 @@ class AppCard extends StatelessWidget {
 
   final bool nested;
 
+  /// Outlines the card, for the one case a border carries meaning: the option
+  /// the person has picked out of several. Defaults to the ordinary card border.
+  final Color? borderColor;
+
   const AppCard({
     super.key,
     required this.child,
@@ -17,6 +21,7 @@ class AppCard extends StatelessWidget {
     this.onTap,
     this.radius = AppMetrics.radiusMd,
     this.nested = false,
+    this.borderColor,
   });
 
   @override
@@ -32,9 +37,11 @@ class AppCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: nested ? t.surfaceVariant : t.surface,
         borderRadius: shape,
-        border: nested
+        border: nested && borderColor == null
             ? null
-            : Border.all(color: t.border, width: AppMetrics.borderWidth),
+            : Border.all(
+                color: borderColor ?? t.border,
+                width: borderColor == null ? AppMetrics.borderWidth : 1.5),
       ),
       child: onTap == null
           ? body
