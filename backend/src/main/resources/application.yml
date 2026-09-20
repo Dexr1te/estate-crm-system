@@ -113,8 +113,34 @@ app:
     # than put a guessable password on a real deployment.
     password: ${DEMO_PASSWORD:}
     full-name: ${DEMO_FULL_NAME:App Review}
+  # THE ADMINISTRATOR
+  #
+  # The account that reaches the admin console. It used to be seeded by a
+  # migration with the password written in it, which published the password to
+  # every deployment of this repository; V18 retires those, and the account is
+  # created or repaired at boot from what is set here.
+  #
+  # With no password set, nothing is created and nothing is changed — and a
+  # deployment with no working administrator says so in the log at every start.
+  admin:
+    # Defaults to primary-admin-email, so the account that cannot be deleted and
+    # the account that gets a password here are the same one.
+    email: ${ADMIN_EMAIL:${PRIMARY_ADMIN_EMAIL:admin@gmail.com}}
+    password: ${ADMIN_PASSWORD:}
+    full-name: ${ADMIN_FULL_NAME:Admin}
+
   documents:
-    # Where the bytes of deal documents are written. Relative paths resolve
-    # against the working directory; in Docker this is a mounted volume, so a
-    # rebuild does not take the paperwork with it.
+    # Which store holds the bytes of deal documents.
+    #
+    # `database` keeps them in document_blobs, alongside the rows that describe
+    # them. That is what a host with an ephemeral filesystem needs — a
+    # container platform rebuilds the disk on every deploy, and on a free plan
+    # on every wake from sleep, taking the paperwork with it.
+    #
+    # `filesystem` is the older store and still the right answer wherever a
+    # real volume is mounted: set it together with DOCUMENTS_DIR below.
+    storage: ${DOCUMENTS_STORAGE:database}
+    # Where `filesystem` writes. Relative paths resolve against the working
+    # directory; with Docker this should be a mounted volume, so a rebuild does
+    # not take the paperwork with it. Ignored by the `database` store.
     dir: ${DOCUMENTS_DIR:uploads/documents}

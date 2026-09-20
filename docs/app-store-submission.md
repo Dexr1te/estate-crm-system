@@ -33,10 +33,24 @@ Verified against `build/ios/iphoneos/Runner.app`, not just read off the source:
 ## Deploy the backend first
 
 The submitted build talks to production, and production is behind the
-repository. Checked against the live OpenAPI, it is missing `DELETE /auth/me` —
-the endpoint behind "Delete account" — along with `/search`,
-`/deals/{dealId}/documents`, `/privacy` and `/support`. A reviewer following
-Guideline 5.1.1(v) would tap Delete account and get a 405.
+repository. What it was missing when this was first written — `DELETE /auth/me`,
+`/deals/{dealId}/documents`, `/privacy`, `/support` — is answered now. What is
+still missing is everything open sign-up brought:
+
+```
+/auth/register            /team                  /me/team
+/auth/verify-email        /team/members          /me/team-requests
+/auth/resend-verification /team/members/{id}     /me/team-requests/{id}/accept
+                          /team/requests         /me/team-requests/{id}/decline
+                          /team/requests/{id}
+```
+
+Twelve endpoints, and between them the only way into the app for someone
+without an invite. A reviewer who taps "Create account" is answered 403 by a
+host that has never heard of the endpoint, and every team screen fails the same
+way. (`/search` is not on this list and never was: the app's search fans out
+over the list endpoints it already calls, and no such endpoint exists in this
+repository.)
 
 Nothing else in this document works until that is fixed, the demo seeder
 included — it ships in the same build. Redeploy, then confirm:
@@ -44,11 +58,35 @@ included — it ships in the same build. Redeploy, then confirm:
 ```sh
 curl -s https://estate-crm-system.onrender.com/api/v3/api-docs \
   | python3 -c "import json,sys; p=json.load(sys.stdin)['paths']; \
-      print([k for k in ('/privacy','/support','/search','/auth/me') if k in p])"
+      print(sorted(k for k in ('/auth/register','/team','/me/team','/auth/me') if k in p))"
 # expect all four, and /auth/me carrying a delete verb
 
 curl -sI https://estate-crm-system.onrender.com/api/privacy   # expect 200
 ```
+
+Give the first call a generous `--max-time`. The host sleeps when nothing has
+called it, and a cold start runs well past a minute — which is also why the app
+retries its first request on a longer budget rather than reporting the network
+as down.
+
+## What the host has to carry
+
+Production runs on Render now, so these are environment variables on the
+service rather than lines in a `.env` a compose file forwards. Everything the
+backend reads has a default in `application.yml`; these are the ones whose
+default is wrong for a submission host:
+
+| Variable | Why review cares |
+|---|---|
+| `DB_URL`, `DB_USERNAME`, `DB_PASSWORD` | No default. The service does not start without them. |
+| `JWT_SECRET` | No default. Signing key, Base64. |
+| `APP_BASE_URL` | Defaults to `localhost`. The invite email's button is built from it. |
+| `INVITE_URL` | Only if invites should point somewhere other than `<base>/api/invite`. |
+| `MAIL_ENABLED`, `MAIL_USERNAME`, `MAIL_PASSWORD` | Off by default, and sign-up needs them: with no way to send the code, `POST /auth/register` answers 503 `CODE_NOT_SENT` and creates nothing, so a reviewer who tries to register is told to come back rather than left holding an account they can never confirm. Gmail wants a 16-character App Password, not the account password. |
+| `ADMIN_PASSWORD` | No default, and nothing works without it: `V18` retires the admin passwords the migrations used to carry, so this is the only thing that opens the admin console. Set it **before** deploying, or the console is shut until you do. |
+| `DEMO_ENABLED`, `DEMO_PASSWORD` | Off by default, and the seeder refuses to run without a password. This is the account App Review signs in with. |
+| `APP_SUPPORT_EMAIL`, `APP_OPERATOR_NAME` | Default to `support@estatecrm.app` / `EstateCRM`, both printed on the privacy and support pages a reviewer opens. |
+| `DOCUMENTS_STORAGE` | Defaults to `database`, which is correct here. Set it to `filesystem` only where a real volume is mounted, and point `DOCUMENTS_DIR` at that mount — on a container host with no disk, anything written to the filesystem is gone on the next deploy or wake from sleep. |
 
 ## The account App Review signs in with
 
@@ -68,8 +106,7 @@ cannot see theirs.
 ### Turning it on
 
 It has to run against production, because that is the host the submitted build
-talks to. On the VM, add to `.env` — `docker-compose.prod.yml` forwards the whole
-file, so nothing else has to be edited:
+talks to. On Render, that is the service's **Environment** tab:
 
 ```ini
 DEMO_ENABLED=true
@@ -79,9 +116,10 @@ DEMO_EMAIL=reviewer@demo.estatecrm.app
 DEMO_FULL_NAME=App Review
 ```
 
-Restart the container and read the log — it says what it created, or why it
-refused. With no `DEMO_PASSWORD` it declines rather than putting a guessable
-account on a live deployment.
+Saving restarts the service. Read the log afterwards — it says what it created,
+or why it refused. With no `DEMO_PASSWORD` it declines rather than putting a
+guessable account on a live deployment. (On a self-hosted deployment the same
+values go in `.env`, which `docker-compose.prod.yml` forwards whole.)
 
 Then verify on a real device, signed in as that account:
 
@@ -100,9 +138,22 @@ up creates an empty agency, so the demo account is the one that shows the app.
 
 Worth knowing, because they may: sign-up asks for a role, then mails a six-digit
 code that has to be typed before the account works. That means `MAIL_ENABLED=true`
-with working SMTP credentials on the submission host — with mail off, a reviewer
-who tries to register is stuck on a code that was never sent, and the demo
-credentials will not save the review if they never reach the sign-in screen again.
+with working SMTP credentials on the submission host.
+
+With mail off the endpoint now refuses outright — 503, and no account — rather
+than accepting a registration whose code cannot be sent. That is the better of
+the two failures, but it is still a reviewer meeting an error on the way in, so
+it is not a substitute for configuring SMTP. Check it before submitting, because
+a bad App Password looks exactly like a working one from outside:
+
+```sh
+curl -s -o /dev/null -w '%{http_code}\n' -X POST \
+  https://estate-crm-system.onrender.com/api/auth/register \
+  -H 'Content-Type: application/json' \
+  -d '{"fullName":"Mail check","email":"<an address you can read>","password":"Passw0rd!23","role":"MANAGER"}'
+# 201 and an email arrives -> mail works
+# 503 CODE_NOT_SENT        -> the host cannot send; the log says why
+```
 
 ### Afterwards
 
@@ -159,7 +210,7 @@ distribution, and this whole question disappears.
 - Universal Links do not work yet: the entitlement claims the domain but the
   association file is not served where Apple fetches it. Not a rejection —
   invite links fall back to the custom scheme — but see
-  `invite-deep-link-deploy.md` for the one proxy rule that fixes it.
+  `invite-deep-link-deploy.md` for the one root rewrite that fixes it.
 - The backend host is baked in as `estate-crm-system.onrender.com`. It is also
   what `Runner.entitlements` claims for Universal Links and what
   `WellKnownController` signs the association file for. If that host ever

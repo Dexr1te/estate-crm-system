@@ -92,7 +92,13 @@ public class RegistrationService {
         user.setMustChangePassword(false);
         user = userRepository.save(user);
 
-        sendCodeIfDue(user);
+        // Rolls the account back with it. An account whose code never went out is one its owner
+        // can neither confirm nor sign into, and — since the address is now taken by a row in
+        // PENDING_VERIFICATION — one they can only escape by registering over it and hoping mail
+        // works the second time.
+        if (!sendCodeIfDue(user)) {
+            throw cannotSendCode();
+        }
         return pendingResponse(user);
     }
 
@@ -144,7 +150,9 @@ public class RegistrationService {
         return userRepository.findFirstByEmailIgnoreCase(trimmed)
                 .filter(u -> u.getStatus() == UserStatus.PENDING_VERIFICATION)
                 .map(user -> {
-                    sendCodeIfDue(user);
+                    if (!sendCodeIfDue(user)) {
+                        throw cannotSendCode();
+                    }
                     return pendingResponse(user);
                 })
                 .orElseGet(() -> RegisterResponse.builder()
@@ -157,26 +165,39 @@ public class RegistrationService {
     /**
      * Called when an unconfirmed account signs in with the right password: that person is plainly
      * the owner and has lost the code, so a new one is on its way.
+     *
+     * @return whether a code is actually on its way, so the sign-in error can stop promising one
      */
     @Transactional
-    public void resendForSignIn(User user) {
-        if (user.getStatus() == UserStatus.PENDING_VERIFICATION) {
-            sendCodeIfDue(user);
-        }
+    public boolean resendForSignIn(User user) {
+        return user.getStatus() == UserStatus.PENDING_VERIFICATION && sendCodeIfDue(user);
     }
 
-    private void sendCodeIfDue(User user) {
+    /**
+     * Sends a code unless one went out less than a minute ago, and records it only once it has
+     * gone.
+     *
+     * <p>That order matters: writing the new code first would retire the one already in somebody's
+     * inbox in favour of one that never left, turning a mail outage into an account that cannot be
+     * confirmed even after mail comes back.
+     *
+     * @return false only when nothing could be sent at all
+     */
+    private boolean sendCodeIfDue(User user) {
         if (secondsUntilResend(user) > 0) {
-            return;
+            return true;
         }
         String code = "%06d".formatted(RANDOM.nextInt(1_000_000));
+        if (!emailService.sendVerificationCode(user.getEmail(), user.getFullName(), code)) {
+            return false;
+        }
         LocalDateTime now = LocalDateTime.now();
         user.setEmailVerificationCodeHash(hash(code));
         user.setEmailVerificationExpiresAt(now.plus(CODE_TTL));
         user.setEmailVerificationSentAt(now);
         user.setEmailVerificationAttempts(0);
         userRepository.save(user);
-        emailService.sendVerificationCode(user.getEmail(), user.getFullName(), code);
+        return true;
     }
 
     private RegisterResponse pendingResponse(User user) {
@@ -217,6 +238,15 @@ public class RegistrationService {
 
     private static BusinessException invalidCode() {
         return new BusinessException(HttpStatus.BAD_REQUEST, "CODE_INVALID", "The code is incorrect");
+    }
+
+    /**
+     * The host cannot mail anything right now. A 503 and not a 500: nothing is broken in the
+     * request, and it is worth repeating once the deployment can send again.
+     */
+    private static BusinessException cannotSendCode() {
+        return new BusinessException(HttpStatus.SERVICE_UNAVAILABLE, "CODE_NOT_SENT",
+                "We could not send your code. Please try again in a few minutes.");
     }
 
     private static BusinessException attemptsExceeded() {
