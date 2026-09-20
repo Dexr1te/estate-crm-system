@@ -200,3 +200,197 @@ class ShimmerList extends StatelessWidget {
         ),
       );
 }
+
+/// The header above a section: its title, and the action or count opposite it.
+///
+/// Drawn outside a [ShimmerCard] because [SectionHeader] is not in one either —
+/// a skeleton that boxed it would move the first row of the list down by the
+/// height of a card that never arrives.
+class ShimmerSectionHeader extends StatelessWidget {
+  final double titleFactor;
+  final bool hasAction;
+
+  const ShimmerSectionHeader(
+      {super.key, this.titleFactor = 0.42, this.hasAction = true});
+
+  @override
+  Widget build(BuildContext context) => Row(
+        children: [
+          Expanded(child: ShimmerBar(widthFactor: titleFactor, height: 13)),
+          if (hasAction) const ShimmerBox(width: 54, height: 11, radius: 5.5),
+        ],
+      );
+}
+
+/// The tall card a screen opens with — an eyebrow, a headline, a line of
+/// detail, and the buttons under them.
+///
+/// The two pills at the bottom are why this is not a plain rectangle: the hero
+/// is the one card on the screen that can be acted on before it is read, and a
+/// skeleton that hides its buttons makes the layout jump at exactly the moment
+/// someone is reaching for one.
+class ShimmerHeroCard extends StatelessWidget {
+  final int lines;
+  final int buttons;
+
+  const ShimmerHeroCard({super.key, this.lines = 2, this.buttons = 2});
+
+  @override
+  Widget build(BuildContext context) => ShimmerCard(
+        radius: AppMetrics.radiusLg,
+        padding: const EdgeInsets.fromLTRB(18, 18, 18, 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const ShimmerBar(widthFactor: 0.3, height: 9),
+            const SizedBox(height: 14),
+            const ShimmerBar(widthFactor: 0.66, height: 17),
+            for (var i = 0; i < lines; i++) ...[
+              const SizedBox(height: 9),
+              ShimmerBar(widthFactor: i.isEven ? 0.86 : 0.54, height: 10),
+            ],
+            if (buttons > 0) ...[
+              const SizedBox(height: 18),
+              Row(
+                children: [
+                  for (var i = 0; i < buttons; i++) ...[
+                    if (i > 0) const SizedBox(width: 10),
+                    const Expanded(
+                        child: ShimmerBox(
+                            width: double.infinity, height: 38, radius: 12)),
+                  ],
+                ],
+              ),
+            ],
+          ],
+        ),
+      );
+}
+
+/// A label over its field — the shape every form row lands in.
+class ShimmerField extends StatelessWidget {
+  final double labelFactor;
+  final double height;
+
+  const ShimmerField({super.key, this.labelFactor = 0.3, this.height = 46});
+
+  @override
+  Widget build(BuildContext context) => Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ShimmerBar(widthFactor: labelFactor, height: 9),
+          const SizedBox(height: 9),
+          ShimmerBox(
+              width: double.infinity,
+              height: height,
+              radius: AppMetrics.radiusSm),
+        ],
+      );
+}
+
+/// The card a form section is drawn in: a heading, then [fields] of them.
+class ShimmerFormCard extends StatelessWidget {
+  final int fields;
+  final bool heading;
+
+  const ShimmerFormCard({super.key, this.fields = 3, this.heading = true});
+
+  @override
+  Widget build(BuildContext context) => ShimmerCard(
+        radius: AppMetrics.radiusMd,
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (heading) ...[
+              const ShimmerBar(widthFactor: 0.36, height: 11),
+              const SizedBox(height: 16),
+            ],
+            for (var i = 0; i < fields; i++) ...[
+              if (i > 0) const SizedBox(height: 14),
+              ShimmerField(labelFactor: i.isEven ? 0.3 : 0.24),
+            ],
+          ],
+        ),
+      );
+}
+
+/// Label-and-value pairs, at the rhythm `InfoRow` and `DetailGrid` set.
+class ShimmerInfoCard extends StatelessWidget {
+  final int rows;
+  final bool heading;
+
+  /// Pills along the bottom, for the cards that end in something to press —
+  /// call and message on a contact, directions on a meeting.
+  final int buttons;
+
+  const ShimmerInfoCard(
+      {super.key, this.rows = 4, this.heading = false, this.buttons = 0});
+
+  @override
+  Widget build(BuildContext context) => ShimmerCard(
+        radius: AppMetrics.radiusMd,
+        padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (heading) ...[
+              const ShimmerBar(widthFactor: 0.34, height: 11),
+              const SizedBox(height: 14),
+            ],
+            for (var i = 0; i < rows; i++) ...[
+              if (i > 0) const SizedBox(height: 15),
+              Row(
+                children: [
+                  // The label column is the narrow one, and every value is a
+                  // different length — a skeleton of equal bars reads as a
+                  // table, which is not what arrives.
+                  const SizedBox(
+                      width: 92,
+                      child: ShimmerBar(widthFactor: 0.82, height: 9)),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: ShimmerBar(
+                        widthFactor: [0.72, 0.46, 0.9, 0.58][i % 4],
+                        height: 10),
+                  ),
+                ],
+              ),
+            ],
+            if (buttons > 0) ...[
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  for (var i = 0; i < buttons; i++) ...[
+                    if (i > 0) const SizedBox(width: 10),
+                    const Expanded(
+                        child: ShimmerBox(
+                            width: double.infinity, height: 38, radius: 12)),
+                  ],
+                ],
+              ),
+            ],
+          ],
+        ),
+      );
+}
+
+/// The row of pills a detail screen carries under its title.
+class ShimmerChipRow extends StatelessWidget {
+  final List<double> widths;
+  const ShimmerChipRow({super.key, this.widths = const [76, 58]});
+
+  @override
+  Widget build(BuildContext context) => Row(
+        children: [
+          for (var i = 0; i < widths.length; i++) ...[
+            if (i > 0) const SizedBox(width: 8),
+            ShimmerBox(width: widths[i], height: 26, radius: 13),
+          ],
+        ],
+      );
+}

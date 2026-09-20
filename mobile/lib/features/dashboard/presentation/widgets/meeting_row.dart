@@ -91,3 +91,54 @@ class MeetingRow extends StatelessWidget {
     );
   }
 }
+
+/// The placeholder a [MeetingRow] leaves: a narrow time column, the rule that
+/// separates it, and the title and client beside them.
+///
+/// The rule is the reason this is not a bare rectangle — it is what makes the
+/// row read as a time and a meeting rather than as a list item in general, and
+/// it is where the eye goes first once the real rows land.
+class MeetingRowBone extends StatelessWidget {
+  final double titleFactor;
+  final double metaFactor;
+
+  const MeetingRowBone({
+    super.key,
+    this.titleFactor = 0.62,
+    this.metaFactor = 0.38,
+  });
+
+  @override
+  Widget build(BuildContext context) => ShimmerCard(
+        radius: 14,
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        child: Row(
+          children: [
+            const SizedBox(
+              width: 44,
+              child: Column(
+                children: [
+                  ShimmerBox(width: 38, height: 12, radius: 6),
+                  SizedBox(height: 5),
+                  ShimmerBox(width: 30, height: 9, radius: 4.5),
+                ],
+              ),
+            ),
+            const SizedBox(width: 12),
+            const ShimmerBox(width: 1, height: 28, radius: 0.5),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ShimmerBar(widthFactor: titleFactor, height: 12),
+                  const SizedBox(height: 7),
+                  ShimmerBar(widthFactor: metaFactor, height: 10),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+}

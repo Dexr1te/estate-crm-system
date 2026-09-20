@@ -274,6 +274,9 @@ class DocumentRow extends StatelessWidget {
                     child: SizedBox(
                       width: 16,
                       height: 16,
+                      // spinner-ok: the row is already on screen and its text
+                      // is not changing — what is running is the action on it,
+                      // in the space its own button just left.
                       child: CircularProgressIndicator(
                           strokeWidth: 2, color: t.primary),
                     ),

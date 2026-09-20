@@ -109,22 +109,29 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
               action: AppGhostButton(label: l10n.coreRetry, onPressed: _load),
             )
           else
-            const ShimmerGroup(
+            // Summary, stage, participants — the deal's title over its price
+            // and status, then the row of stages, then who is on it.
+            ShimmerGroup(
               child: Column(children: [
-                ShimmerBox(
-                    width: double.infinity,
-                    height: 130,
-                    radius: AppMetrics.radiusMd),
-                SizedBox(height: 14),
-                ShimmerBox(
-                    width: double.infinity,
-                    height: 150,
-                    radius: AppMetrics.radiusMd),
-                SizedBox(height: 14),
-                ShimmerBox(
-                    width: double.infinity,
-                    height: 130,
-                    radius: AppMetrics.radiusMd),
+                ShimmerCard(
+                  radius: AppMetrics.radiusMd,
+                  padding: EdgeInsets.all(AppMetrics.cardPadding(context)),
+                  child: const Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ShimmerBar(widthFactor: 0.78, height: 17),
+                      SizedBox(height: 12),
+                      ShimmerBar(widthFactor: 0.4, height: 22),
+                      SizedBox(height: 14),
+                      ShimmerChipRow(),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 14),
+                const ShimmerFormCard(fields: 1),
+                const SizedBox(height: 14),
+                const ShimmerInfoCard(rows: 3, heading: true),
               ]),
             ),
         ],

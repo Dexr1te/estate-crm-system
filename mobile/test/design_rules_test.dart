@@ -28,6 +28,48 @@ void main() {
     }
   });
 
+  test('a screen waits with a skeleton, never a spinner', () {
+    // A spinner says something is loading; a skeleton says what is loading and
+    // where it will sit. A spinner is only right where there is no layout left
+    // to describe — inside a button that has been pressed, or on a row already
+    // on screen while an action runs against it. Those sites say so with a
+    // `// spinner-ok:` line and a reason.
+    for (final f in libFiles.where((f) => f.path.contains('/features/'))) {
+      final lines = f.readAsLinesSync();
+      for (var i = 0; i < lines.length; i++) {
+        if (!lines[i].contains('CircularProgressIndicator')) continue;
+        final allowed = lines
+            .sublist((i - 8).clamp(0, i), i)
+            .any((l) => l.contains('spinner-ok:'));
+        expect(allowed, isTrue,
+            reason: '${f.path}:${i + 1} waits with a spinner; build a skeleton '
+                'out of core/widgets/shimmer.dart, or mark the line with '
+                '`// spinner-ok: <reason>` if there is no layout to describe');
+      }
+    }
+  });
+
+  test('a skeleton is shaped like what it stands in for', () {
+    // A full-width ShimmerBox this tall is a card-sized grey slab, which tells
+    // someone only that something is coming. The bones in shimmer.dart —
+    // ShimmerCard, ShimmerHeroCard, ShimmerInfoCard, ShimmerFormCard — say what
+    // shape it will arrive in, so nothing moves when it does.
+    final slab = RegExp(
+        r'ShimmerBox\(\s*width:\s*double\.infinity,\s*height:\s*(\d+)',
+        multiLine: true);
+
+    for (final f in libFiles.where((f) => f.path.contains('/features/'))) {
+      final offenders = slab
+          .allMatches(f.readAsStringSync())
+          .map((m) => int.parse(m.group(1)!))
+          .where((height) => height >= 80)
+          .toList();
+      expect(offenders, isEmpty,
+          reason: '${f.path} fills $offenders dp with one blank box; compose '
+              'the card it stands in for out of core/widgets/shimmer.dart');
+    }
+  });
+
   test('the typeface is referenced through AppFonts, never hardcoded', () {
     final hardcoded = RegExp(r"fontFamily: '(?!monospace)");
     for (final f in libFiles) {

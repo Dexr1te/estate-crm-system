@@ -236,3 +236,70 @@ class _Segment extends StatelessWidget {
         ),
       );
 }
+
+/// The placeholder a [PipelineCard] leaves: a title and a total, the stacked
+/// bar under them, and a stage column per segment.
+///
+/// The bar is split into uneven segments on purpose. A pipeline is never evenly
+/// distributed, and a skeleton of equal blocks would set an expectation the
+/// data immediately contradicts.
+class PipelineCardBone extends StatelessWidget {
+  final int stages;
+  const PipelineCardBone({super.key, this.stages = 4});
+
+  static const _weights = [5, 3, 2, 4];
+
+  @override
+  Widget build(BuildContext context) => ShimmerCard(
+        radius: AppMetrics.radiusMd,
+        padding: EdgeInsets.all(AppMetrics.cardPadding(context)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Row(
+              children: [
+                Expanded(child: ShimmerBar(widthFactor: 0.44, height: 12)),
+                SizedBox(width: 8),
+                ShimmerBox(width: 64, height: 11, radius: 5.5),
+              ],
+            ),
+            const SizedBox(height: 12),
+            SizedBox(
+              height: 10,
+              child: Row(
+                children: [
+                  for (var i = 0; i < stages; i++) ...[
+                    if (i > 0) const SizedBox(width: 3),
+                    Expanded(
+                      flex: _weights[i % _weights.length],
+                      child: const ShimmerBox(
+                          width: double.infinity, height: 10, radius: 5),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+            const SizedBox(height: 14),
+            Row(
+              children: [
+                for (var i = 0; i < stages; i++) ...[
+                  if (i > 0) const SizedBox(width: 10),
+                  const Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ShimmerBox(width: 22, height: 16, radius: 5),
+                        SizedBox(height: 7),
+                        ShimmerBar(widthFactor: 0.86, height: 9),
+                      ],
+                    ),
+                  ),
+                ],
+              ],
+            ),
+          ],
+        ),
+      );
+}

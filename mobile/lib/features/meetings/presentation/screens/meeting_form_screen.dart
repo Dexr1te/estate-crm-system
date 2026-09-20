@@ -322,15 +322,9 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
               ? const [
                   ShimmerGroup(
                     child: Column(children: [
-                      ShimmerBox(
-                          width: double.infinity,
-                          height: 90,
-                          radius: AppMetrics.radiusMd),
+                      ShimmerFormCard(fields: 2),
                       SizedBox(height: 14),
-                      ShimmerBox(
-                          width: double.infinity,
-                          height: 200,
-                          radius: AppMetrics.radiusMd),
+                      ShimmerFormCard(fields: 4),
                     ]),
                   )
                 ]

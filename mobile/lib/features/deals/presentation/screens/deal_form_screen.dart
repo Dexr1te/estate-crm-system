@@ -256,15 +256,9 @@ class _DealFormScreenState extends State<DealFormScreen> {
               ? const [
                   ShimmerGroup(
                     child: Column(children: [
-                      ShimmerBox(
-                          width: double.infinity,
-                          height: 90,
-                          radius: AppMetrics.radiusMd),
+                      ShimmerFormCard(fields: 2),
                       SizedBox(height: 14),
-                      ShimmerBox(
-                          width: double.infinity,
-                          height: 230,
-                          radius: AppMetrics.radiusMd),
+                      ShimmerFormCard(fields: 3),
                     ]),
                   )
                 ]

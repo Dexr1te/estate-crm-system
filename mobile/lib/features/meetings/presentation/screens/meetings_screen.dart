@@ -188,19 +188,31 @@ class _MeetingsScreenState extends State<MeetingsScreen> {
           Expanded(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: pad),
+              // The real screen is a hero and then rows under a day label, so
+              // the skeleton is too — including the label, which is what tells
+              // someone the list they are waiting for is grouped by day.
+              // Scrolls like the list it stands in for: on a 320 dp screen the
+              // hero and the first rows are already taller than the viewport,
+              // and a fixed column there overflows instead of running off the
+              // bottom edge the way the real list does.
               child: ShimmerGroup(
-                child: Column(children: [
-                  const ShimmerBox(
-                      width: double.infinity,
-                      height: 150,
-                      radius: AppMetrics.radiusLg),
+                child: SingleChildScrollView(
+                    child: Column(children: [
+                  const ShimmerHeroCard(),
                   SizedBox(height: gap + 6),
-                  for (var i = 0; i < 3; i++) ...[
+                  const Align(
+                    alignment: AlignmentDirectional.centerStart,
+                    child: ShimmerBox(width: 92, height: 10, radius: 5),
+                  ),
+                  const SizedBox(height: 10),
+                  for (var i = 0; i < 4; i++) ...[
                     if (i > 0) const SizedBox(height: 9),
-                    const ShimmerBox(
-                        width: double.infinity, height: 62, radius: 14),
+                    MeetingRowBone(
+                      titleFactor: [0.7, 0.5, 0.62, 0.44][i],
+                      metaFactor: [0.36, 0.46, 0.3, 0.4][i],
+                    ),
                   ],
-                ]),
+                ])),
               ),
             ),
           ),

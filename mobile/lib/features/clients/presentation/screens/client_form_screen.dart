@@ -135,17 +135,30 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
                 ),
           children: _initLoading
               ? const [
+                  // The type selector, then the fields — labelled rows rather
+                  // than one tall block, because a form is read top to bottom
+                  // and a block says nothing about how far down it goes.
                   ShimmerGroup(
                     child: Column(children: [
-                      ShimmerBox(
-                          width: double.infinity,
-                          height: 74,
-                          radius: AppMetrics.radiusSm),
+                      ShimmerCard(
+                        radius: AppMetrics.radiusSm,
+                        padding: EdgeInsets.all(6),
+                        child: Row(children: [
+                          Expanded(
+                              child: ShimmerBox(
+                                  width: double.infinity,
+                                  height: 40,
+                                  radius: 10)),
+                          SizedBox(width: 6),
+                          Expanded(
+                              child: ShimmerBox(
+                                  width: double.infinity,
+                                  height: 40,
+                                  radius: 10)),
+                        ]),
+                      ),
                       SizedBox(height: 14),
-                      ShimmerBox(
-                          width: double.infinity,
-                          height: 250,
-                          radius: AppMetrics.radiusMd),
+                      ShimmerFormCard(fields: 4),
                     ]),
                   )
                 ]

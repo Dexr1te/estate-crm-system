@@ -122,10 +122,55 @@ class DealCard extends StatelessWidget {
   }
 }
 
+/// The placeholder a [DealCard] leaves: a two-line title with its status chip,
+/// the client and agent under it, then the price across the rule.
+///
+/// The chip keeps its corner. It is the first thing read on a board of deals,
+/// and a skeleton that leaves it out lets the title stretch the full width and
+/// then snap back when the real card arrives.
 class DealCardBone extends StatelessWidget {
   const DealCardBone({super.key});
 
   @override
-  Widget build(BuildContext context) => const ShimmerBox(
-      width: double.infinity, height: 116, radius: AppMetrics.radiusMd);
+  Widget build(BuildContext context) => const ShimmerCard(
+        radius: AppMetrics.radiusMd,
+        padding: EdgeInsets.all(14),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ShimmerBar(widthFactor: 0.94, height: 12),
+                      SizedBox(height: 7),
+                      ShimmerBar(widthFactor: 0.52, height: 12),
+                    ],
+                  ),
+                ),
+                SizedBox(width: 10),
+                ShimmerBox(width: 64, height: 22, radius: 11),
+              ],
+            ),
+            SizedBox(height: 9),
+            ShimmerBar(widthFactor: 0.66, height: 10),
+            Padding(
+              padding: EdgeInsets.only(top: 11, bottom: 10),
+              child: ShimmerBox(width: double.infinity, height: 1, radius: 0.5),
+            ),
+            Row(
+              children: [
+                ShimmerBox(width: 92, height: 15, radius: 7),
+                Spacer(),
+                ShimmerBox(width: 54, height: 10, radius: 5),
+              ],
+            ),
+          ],
+        ),
+      );
 }
