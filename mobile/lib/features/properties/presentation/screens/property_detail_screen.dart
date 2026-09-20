@@ -107,22 +107,15 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
               action: AppGhostButton(label: l10n.coreRetry, onPressed: _load),
             )
           else
+            // The hero with the address and price, the details grid under it,
+            // and the status card that closes the screen.
             const ShimmerGroup(
               child: Column(children: [
-                ShimmerBox(
-                    width: double.infinity,
-                    height: 170,
-                    radius: AppMetrics.radiusLg),
+                ShimmerHeroCard(lines: 1, buttons: 0),
                 SizedBox(height: 14),
-                ShimmerBox(
-                    width: double.infinity,
-                    height: 150,
-                    radius: AppMetrics.radiusMd),
+                ShimmerInfoCard(rows: 5, heading: true),
                 SizedBox(height: 14),
-                ShimmerBox(
-                    width: double.infinity,
-                    height: 110,
-                    radius: AppMetrics.radiusMd),
+                ShimmerFormCard(fields: 1),
               ]),
             ),
         ],

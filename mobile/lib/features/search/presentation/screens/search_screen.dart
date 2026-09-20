@@ -340,6 +340,13 @@ class _ResultBone extends StatelessWidget {
   const _ResultBone();
 
   @override
-  Widget build(BuildContext context) => const ShimmerBox(
-      width: double.infinity, height: 64, radius: AppMetrics.radiusMd);
+  Widget build(BuildContext context) => const ShimmerRowCard(
+        // Every result carries the mark of what it is — a client, a listing, a
+        // deal — so the skeleton keeps the slot for it rather than sliding the
+        // text sideways when the real rows arrive.
+        leading: ShimmerBox(width: 38, height: 38, radius: 12),
+        trailing: ShimmerBox(width: 16, height: 16, radius: 4),
+        titleFactor: 0.54,
+        subtitleFactor: 0.36,
+      );
 }

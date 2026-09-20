@@ -108,22 +108,20 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
                 title: _error!,
                 action: AppGhostButton(label: l10n.coreRetry, onPressed: _load))
           else
+            // Identity, contact and deals — the three cards that arrive, in
+            // the order and at the height they arrive in.
             const ShimmerGroup(
               child: Column(children: [
-                ShimmerBox(
-                    width: double.infinity,
-                    height: 84,
-                    radius: AppMetrics.radiusMd),
+                ShimmerRowCard(
+                  leading: ShimmerCircle(size: 52),
+                  trailing: ShimmerBox(width: 20, height: 20, radius: 6),
+                  titleFactor: 0.56,
+                  subtitleFactor: 0.34,
+                ),
                 SizedBox(height: 14),
-                ShimmerBox(
-                    width: double.infinity,
-                    height: 190,
-                    radius: AppMetrics.radiusMd),
+                ShimmerInfoCard(rows: 3, heading: true, buttons: 2),
                 SizedBox(height: 14),
-                ShimmerBox(
-                    width: double.infinity,
-                    height: 150,
-                    radius: AppMetrics.radiusMd),
+                ShimmerInfoCard(rows: 2, heading: true),
               ]),
             ),
         ],

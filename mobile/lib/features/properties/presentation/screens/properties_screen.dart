@@ -228,14 +228,10 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
         separatorBuilder: (_, __) => const SizedBox(height: 9),
         itemBuilder: (_, i) {
           if (i >= items.length) {
-            return const Padding(
-              padding: EdgeInsets.symmetric(vertical: 18),
-              child: Center(
-                  child: SizedBox(
-                      width: 22,
-                      height: 22,
-                      child: CircularProgressIndicator(strokeWidth: 2))),
-            );
+            // The next page announces itself as the card it will be, not as a
+            // spinner: the list keeps its rhythm, and the row that lands does
+            // so where the placeholder already was.
+            return const ShimmerGroup(child: PropertyCardBone());
           }
           return PropertyCard(
             property: items[i],

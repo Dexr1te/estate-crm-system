@@ -122,10 +122,53 @@ String propertySpecs(AppLocalizations l10n, PropertyResponse p) {
   return parts.join(' · ');
 }
 
+/// The placeholder a [PropertyCard] leaves: the type tile, the title and
+/// address, the status chip, and the price over the specs across the rule.
+///
+/// The square tile is what tells a waiting list apart from a list of people —
+/// clients arrive behind a round avatar, listings behind a rounded square.
 class PropertyCardBone extends StatelessWidget {
   const PropertyCardBone({super.key});
 
   @override
-  Widget build(BuildContext context) => const ShimmerBox(
-      width: double.infinity, height: 108, radius: AppMetrics.radiusMd);
+  Widget build(BuildContext context) => const ShimmerCard(
+        radius: AppMetrics.radiusMd,
+        padding: EdgeInsets.symmetric(horizontal: 14, vertical: 13),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              children: [
+                ShimmerBox(width: 44, height: 44, radius: 13),
+                SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ShimmerBar(widthFactor: 0.58, height: 12),
+                      SizedBox(height: 8),
+                      ShimmerBar(widthFactor: 0.82, height: 10),
+                    ],
+                  ),
+                ),
+                SizedBox(width: 8),
+                ShimmerBox(width: 60, height: 22, radius: 11),
+              ],
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 11, bottom: 10),
+              child: ShimmerBox(width: double.infinity, height: 1, radius: 0.5),
+            ),
+            Row(
+              children: [
+                ShimmerBox(width: 88, height: 15, radius: 7),
+                Spacer(),
+                ShimmerBox(width: 72, height: 10, radius: 5),
+              ],
+            ),
+          ],
+        ),
+      );
 }

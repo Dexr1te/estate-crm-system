@@ -444,24 +444,30 @@ class _DashboardSkeleton extends StatelessWidget {
   Widget build(BuildContext context) {
     final gap = AppMetrics.blockGap(context);
 
+    // Shaped like the screen it stands in for, card for card: the hero with its
+    // two buttons, the goal ring, the four metrics, the pipeline, and the
+    // meetings under their header. Three grey rectangles said only that
+    // something was coming; this says what, so nothing moves when it lands.
     return ShimmerGroup(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const ShimmerBox(
-              width: double.infinity, height: 150, radius: AppMetrics.radiusLg),
+          const ShimmerHeroCard(),
           SizedBox(height: gap),
-          const ShimmerBox(
-              width: double.infinity, height: 148, radius: AppMetrics.radiusMd),
+          const GoalRingCardBone(),
           SizedBox(height: gap),
-          const ShimmerBox(
-              width: double.infinity, height: 108, radius: AppMetrics.radiusMd),
+          const ShimmerMetricsCard(rows: 2),
+          SizedBox(height: gap),
+          const PipelineCardBone(),
           SizedBox(height: gap + 4),
-          const ShimmerBox(width: 150, height: 14, radius: 7),
+          const ShimmerSectionHeader(),
           const SizedBox(height: 10),
           for (var i = 0; i < 3; i++) ...[
             if (i > 0) const SizedBox(height: 8),
-            const ShimmerBox(width: double.infinity, height: 62, radius: 14),
+            MeetingRowBone(
+              titleFactor: [0.66, 0.48, 0.58][i],
+              metaFactor: [0.34, 0.44, 0.3][i],
+            ),
           ],
         ],
       ),

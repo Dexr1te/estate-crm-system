@@ -113,10 +113,54 @@ class ClientCard extends StatelessWidget {
   }
 }
 
+/// The placeholder a [ClientCard] leaves: the avatar and name, the type chip
+/// opposite them, and the footer under the rule.
+///
+/// It was a blank 96 dp box, which is the height of the card and nothing else
+/// about it — the avatar, the chip and the footer all appeared at once when the
+/// list landed. Drawn this way the card only fills in.
 class ClientCardBone extends StatelessWidget {
   const ClientCardBone({super.key});
 
   @override
-  Widget build(BuildContext context) => const ShimmerBox(
-      width: double.infinity, height: 96, radius: AppMetrics.radiusMd);
+  Widget build(BuildContext context) => const ShimmerCard(
+        radius: AppMetrics.radiusMd,
+        padding: EdgeInsets.symmetric(horizontal: 14, vertical: 13),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              children: [
+                ShimmerCircle(size: 42),
+                SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ShimmerBar(widthFactor: 0.62, height: 12),
+                      SizedBox(height: 8),
+                      ShimmerBar(widthFactor: 0.4, height: 10),
+                    ],
+                  ),
+                ),
+                SizedBox(width: 8),
+                ShimmerBox(width: 58, height: 22, radius: 11),
+              ],
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 11, bottom: 10),
+              child: ShimmerBox(width: double.infinity, height: 1, radius: 0.5),
+            ),
+            Row(
+              children: [
+                Expanded(child: ShimmerBar(widthFactor: 0.54, height: 10)),
+                SizedBox(width: 8),
+                ShimmerBox(width: 56, height: 10, radius: 5),
+              ],
+            ),
+          ],
+        ),
+      );
 }

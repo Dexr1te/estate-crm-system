@@ -232,3 +232,63 @@ Future<double?> showGoalSheet(BuildContext context, double? current) {
     ),
   );
 }
+
+/// The placeholder a [GoalRingCard] leaves: the ring, and the three lines of
+/// money beside it.
+///
+/// The ring is drawn as a ring and not as a disc, because the shape is the
+/// card — a filled circle would read as an avatar and put the whole skeleton in
+/// the wrong genre.
+class GoalRingCardBone extends StatelessWidget {
+  const GoalRingCardBone({super.key});
+
+  @override
+  Widget build(BuildContext context) => ShimmerCard(
+        radius: AppMetrics.radiusMd,
+        padding: EdgeInsets.all(AppMetrics.cardPadding(context)),
+        child: Row(
+          children: [
+            SizedBox(
+              width: 104,
+              height: 104,
+              child: CustomPaint(painter: _RingBonePainter()),
+            ),
+            const SizedBox(width: 16),
+            const Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ShimmerBar(widthFactor: 0.52, height: 11),
+                  SizedBox(height: 12),
+                  ShimmerBar(widthFactor: 0.74, height: 18),
+                  SizedBox(height: 11),
+                  ShimmerBar(widthFactor: 0.62, height: 10),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+}
+
+class _RingBonePainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    // White, like every other bone: ShimmerGroup masks it with the sweep, so
+    // the colour here only decides how much of the sweep comes through.
+    canvas.drawArc(
+      Rect.fromLTWH(0, 0, size.width, size.height).deflate(5),
+      0,
+      math.pi * 2,
+      false,
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 10
+        ..color = Colors.white,
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+}
