@@ -11,6 +11,7 @@ import com.crm.realestate.enums.Role;
 import com.crm.realestate.enums.UserStatus;
 import com.crm.realestate.repository.ClientRepository;
 import com.crm.realestate.repository.DealRepository;
+import com.crm.realestate.repository.DocumentBlobRepository;
 import com.crm.realestate.repository.DocumentRepository;
 import com.crm.realestate.repository.TeamRepository;
 import com.crm.realestate.repository.UserRepository;
@@ -29,12 +30,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.File;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Comparator;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -48,18 +44,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * it down again — plus the two things that must not happen, an unknown file
  * type getting in and another agent's deal being reachable at all.
  */
-@SpringBootTest(properties = "app.documents.dir=target/test-documents")
+@SpringBootTest
 @AutoConfigureMockMvc(addFilters = false)
 @Transactional
 class DocumentControllerTest {
-
-    private static final Path STORAGE = Paths.get("target/test-documents");
 
     @Autowired private MockMvc mockMvc;
     @Autowired private DealRepository dealRepository;
     @Autowired private ClientRepository clientRepository;
     @Autowired private UserRepository userRepository;
     @Autowired private DocumentRepository documentRepository;
+    @Autowired private DocumentBlobRepository documentBlobRepository;
     @Autowired private TeamRepository teamRepository;
 
     private Team team;
@@ -72,9 +67,9 @@ class DocumentControllerTest {
 
     @BeforeEach
     void setUp() throws Exception {
-        clearStorage();
         SecurityContextHolder.clearContext();
         documentRepository.deleteAll();
+        documentBlobRepository.deleteAll();
         dealRepository.deleteAll();
         clientRepository.deleteAll();
         userRepository.deleteAll();
@@ -112,6 +107,7 @@ class DocumentControllerTest {
         assertThat(created.get("fileSize").asLong()).isEqualTo(bytes.length);
         assertThat(created.get("uploadedByName").asText()).isEqualTo(agent.getFullName());
         long documentId = created.get("id").asLong();
+        assertThat(storedFileCount()).isEqualTo(1);
 
         MvcResult listed = mockMvc.perform(get(documentsUrl(deal)))
                 .andExpect(status().isOk())
@@ -193,17 +189,12 @@ class DocumentControllerTest {
                 .build();
     }
 
-    private long storedFileCount() throws Exception {
-        if (!Files.exists(STORAGE)) return 0;
-        try (var files = Files.walk(STORAGE)) {
-            return files.filter(Files::isRegularFile).count();
-        }
-    }
-
-    private void clearStorage() throws Exception {
-        if (!Files.exists(STORAGE)) return;
-        try (var paths = Files.walk(STORAGE)) {
-            paths.sorted(Comparator.reverseOrder()).map(Path::toFile).forEach(File::delete);
-        }
+    /**
+     * What the store is actually holding. The row is only half the record —
+     * a delete that leaves the bytes behind fills the store with files nothing
+     * points at, and a refused upload that wrote them is the same leak.
+     */
+    private long storedFileCount() {
+        return documentBlobRepository.count();
     }
 }
