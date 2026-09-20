@@ -146,18 +146,28 @@ public class EmailService {
     /**
      * The code a new account proves its address with. Six digits, because it is typed from one
      * app into another on the same phone.
+     *
+     * <p>The one sender here that is neither asynchronous nor silent, because it is the only one
+     * whose failure strands somebody. An invite is read back from the API response and a reset can
+     * be asked for again; a sign-up code that never arrives leaves an account its owner cannot
+     * confirm, cannot sign into, and cannot register over. So this one waits for SMTP and says
+     * whether the message left, and {@code RegistrationService} refuses to create the account when
+     * it did not. The wait is bounded by the {@code mail.smtp.*timeout} settings.
+     *
+     * @return true when the code was accepted for delivery, or written to the log in place of it
      */
-    @Async
-    public void sendVerificationCode(String toEmail, String fullName, String code) {
+    public boolean sendVerificationCode(String toEmail, String fullName, String code) {
         if (!enabled) {
             if (logCodes) {
                 log.info("Mail disabled; sign-up code for {} is {}", toEmail, code);
-            } else {
-                log.info("Mail disabled (app.mail.enabled=false); skipping sign-up code to {}", toEmail);
+                return true;
             }
-            return;
+            log.error("Mail is off and codes are not logged, so sign-up cannot finish: no code can "
+                    + "reach {}. Set MAIL_ENABLED with SMTP credentials, or MAIL_LOG_CODES=true "
+                    + "for local work.", toEmail);
+            return false;
         }
-        send(toEmail, "Your Estate CRM code: " + code,
+        return send(toEmail, "Your Estate CRM code: " + code,
                 "Hi " + greeting(fullName) + ",\n\n"
                         + "Enter this code in the Estate CRM app to confirm your email:\n\n"
                         + "     " + code + "\n\n"
@@ -197,7 +207,15 @@ public class EmailService {
                 "team request");
     }
 
-    private void send(String toEmail, String subject, String plain, String html, String what) {
+    /**
+     * The shared send, reporting whether the message actually left.
+     *
+     * <p>Most callers ignore the answer on purpose — an invite carries its code in the API
+     * response, a reset can be asked for again — and for them a mail failure must never break the
+     * action that triggered it. A sign-up code has no such second path, so that one caller reads
+     * it.
+     */
+    private boolean send(String toEmail, String subject, String plain, String html, String what) {
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper =
@@ -208,8 +226,10 @@ public class EmailService {
             helper.setText(plain, html);
             mailSender.send(message);
             log.info("Sent {} email to {}", what, toEmail);
+            return true;
         } catch (Exception e) {
             log.error("Failed to send {} email to {}: {}", what, toEmail, e.getMessage());
+            return false;
         }
     }
 

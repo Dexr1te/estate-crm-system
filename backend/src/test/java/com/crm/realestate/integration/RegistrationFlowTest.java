@@ -32,6 +32,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
@@ -59,6 +60,9 @@ class RegistrationFlowTest {
     @BeforeEach
     void setUp() {
         userRepository.deleteAll();
+        // A host whose mail works. What happens when it does not is its own test class, because
+        // the answer is a rollback and a rollback cannot be seen from inside this one's transaction.
+        when(emailService.sendVerificationCode(any(), any(), any())).thenReturn(true);
     }
 
     private RegisterRequest request(String email, Role role, String password) {

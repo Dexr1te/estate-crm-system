@@ -115,9 +115,14 @@ public class AuthService {
                 .filter(u -> u.getPassword() != null
                         && passwordEncoder.matches(request.getPassword(), u.getPassword()))
                 .<RuntimeException>map(user -> {
-                    registrationService.resendForSignIn(user);
+                    // Only promise the code if one is really on its way: a host that cannot send
+                    // mail would otherwise leave someone waiting on an inbox forever, which is the
+                    // one thing this message must not do.
+                    boolean sent = registrationService.resendForSignIn(user);
                     return new BusinessException(HttpStatus.FORBIDDEN, "EMAIL_NOT_VERIFIED",
-                            "Confirm your email first. We have sent you a code.");
+                            sent ? "Confirm your email first. We have sent you a code."
+                                 : "Confirm your email first. We could not send a code just now — "
+                                         + "please try again in a few minutes.");
                 })
                 .orElse(original);
     }
