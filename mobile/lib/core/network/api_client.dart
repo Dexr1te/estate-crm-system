@@ -12,7 +12,7 @@ import 'package:real_estate_crm/core/session/session_store.dart';
 /// The default is the host 1.0 shipped against.
 const apiBaseUrl = String.fromEnvironment(
   'API_BASE_URL',
-  defaultValue: 'https://estate-crm-system.duckdns.org/api',
+  defaultValue: 'https://estate-crm-system.onrender.com/api',
 );
 
 /// A page the backend serves for a browser rather than for the app — the

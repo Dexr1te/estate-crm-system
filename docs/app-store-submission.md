@@ -42,12 +42,12 @@ Nothing else in this document works until that is fixed, the demo seeder
 included — it ships in the same build. Redeploy, then confirm:
 
 ```sh
-curl -s https://estate-crm-system.duckdns.org/api/v3/api-docs \
+curl -s https://estate-crm-system.onrender.com/api/v3/api-docs \
   | python3 -c "import json,sys; p=json.load(sys.stdin)['paths']; \
       print([k for k in ('/privacy','/support','/search','/auth/me') if k in p])"
 # expect all four, and /auth/me carrying a delete verb
 
-curl -sI https://estate-crm-system.duckdns.org/api/privacy   # expect 200
+curl -sI https://estate-crm-system.onrender.com/api/privacy   # expect 200
 ```
 
 ## The account App Review signs in with
@@ -160,7 +160,7 @@ distribution, and this whole question disappears.
   association file is not served where Apple fetches it. Not a rejection —
   invite links fall back to the custom scheme — but see
   `invite-deep-link-deploy.md` for the one proxy rule that fixes it.
-- The backend host is baked in as `estate-crm-system.duckdns.org`. It is also
+- The backend host is baked in as `estate-crm-system.onrender.com`. It is also
   what `Runner.entitlements` claims for Universal Links and what
   `WellKnownController` signs the association file for. If that host ever
   changes, all three change together, and `API_BASE_URL` is overridable at build
