@@ -108,42 +108,40 @@ No migration, no new endpoint, no API change, no image rebuild. The token is
 still the same one-time `UUID` on `users.invite_token`, still 48 hours, still
 spent by `POST /auth/accept-invite`.
 
-## Universal Links are half-shipped — one proxy rule short
+## Universal Links are half-shipped — one root rewrite short
 
 Since this was written, the iOS side went ahead: `Runner.entitlements` claims
-`applinks:estate-crm-system.duckdns.org`, and `WellKnownController` serves the
-association file. The proxy rule that section called for was never added, so the
+`applinks:estate-crm-system.onrender.com`, and `WellKnownController` serves the
+association file. The rewrite that section called for was never added, so the
 file is not where Apple looks:
 
 ```sh
-curl -sI https://estate-crm-system.duckdns.org/.well-known/apple-app-site-association
+curl -sI https://estate-crm-system.onrender.com/.well-known/apple-app-site-association
 # actual:   404, from Tomcat — outside its context path
 # needed:   200, application/json
 ```
 
 Spring is mounted at `/api`, so the app answers on
 `/api/.well-known/apple-app-site-association`, which Apple never requests. Until
-the proxy bridges the two, the entitlement promises a domain that cannot
+something bridges the two, the entitlement promises a domain that cannot
 validate and every invite link falls back to the landing page. The custom scheme
 still works, so nothing is broken for users — the feature simply is not live.
 
-In the Caddyfile for the site, before the catch-all `reverse_proxy`:
-
-```caddy
-# Apple fetches this from the root, and does not follow redirects — it has to be
-# an internal rewrite, not a 301 to the /api copy.
-@aasa path /.well-known/apple-app-site-association
-rewrite @aasa /api{uri}
-```
+On Render there is no proxy in front of the container to rewrite the path, so
+the fix has to come from the app itself. Either drop `server.servlet.context-path`
+and move the `/api` prefix into the controllers' mappings, or register the
+association file on a second, root-level route that Tomcat can reach — Apple
+fetches it from the root and does not follow redirects, so a 301 to the `/api`
+copy will not do.
 
 `SecurityConfig` already permits `/.well-known/**`, and the response is served
 with a JSON content type and no `.json` extension, which is what Apple requires.
-Reload Caddy and re-run the curl above; then reinstall the app, because iOS only
-fetches the association file at install time.
+Re-run the curl above once the route answers at the root; then reinstall the app,
+because iOS only fetches the association file at install time.
 
-The same rule shape would let `/privacy` and `/support` answer at the root. That
-is cosmetic now — the app builds those links with the `/api` prefix itself — but
-it makes for tidier URLs in the App Store Connect form.
+The same change would let `/privacy` and `/support` answer at the root. That is
+cosmetic now — the app builds those links with the `/api` prefix itself — but it
+makes for tidier URLs in the App Store Connect form.
 
 Android needs the equivalent whenever you want it: `/.well-known/assetlinks.json`
 at the root, carrying `com.sultan.estatecrm` and the release signing cert's

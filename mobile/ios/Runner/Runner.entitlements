@@ -12,7 +12,7 @@
 	-->
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>applinks:estate-crm-system.duckdns.org</string>
+		<string>applinks:estate-crm-system.onrender.com</string>
 	</array>
 </dict>
 </plist>
