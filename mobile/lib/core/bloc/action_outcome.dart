@@ -4,18 +4,12 @@ import 'package:real_estate_crm/core/theme/app_tokens.dart';
 import 'package:real_estate_crm/core/widgets/messages.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// A state that has something to say about a write that just finished.
-///
-/// The wording is resolved at the moment of showing rather than carried as a
-/// string, because the bloc that emitted it has no localizations to build one
-/// with — and this app is read in three languages.
 abstract mixin class ActionOutcome {
   String text(AppLocalizations l10n);
 
   bool get isFailure;
 }
 
-/// A write that succeeded, named rather than worded.
 mixin ActionSucceeded implements ActionOutcome {
   ActionMessage get message;
 
@@ -26,7 +20,6 @@ mixin ActionSucceeded implements ActionOutcome {
   bool get isFailure => false;
 }
 
-/// A write that failed, carrying why.
 mixin ActionFailed implements ActionOutcome {
   ApiFailure get failure;
 

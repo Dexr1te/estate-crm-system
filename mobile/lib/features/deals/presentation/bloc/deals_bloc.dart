@@ -31,8 +31,6 @@ class DealsBloc extends Bloc<DealsEvent, DealsState>
       ? DealsError(failure)
       : DealsActionFailure(failure, _current);
 
-  /// A write reloads under the filter the screen is actually showing, not the
-  /// unfiltered list.
   void _reload() => add(DealsLoadEvent(status: _status));
 
   void _onReset(DealsResetEvent e, Emitter<DealsState> emit) {

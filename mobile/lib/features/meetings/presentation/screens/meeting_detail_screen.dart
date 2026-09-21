@@ -123,8 +123,6 @@ class _MeetingDetailScreenState extends State<MeetingDetailScreen> {
               action: AppGhostButton(label: l10n.coreRetry, onPressed: _load),
             )
           else
-            // The hero, the four details under it and the status switch —
-            // the same three cards the loaded screen opens with.
             const ShimmerGroup(
               child: Column(children: [
                 ShimmerHeroCard(),

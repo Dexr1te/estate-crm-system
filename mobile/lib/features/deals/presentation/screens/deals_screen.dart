@@ -30,16 +30,10 @@ class DealsScreen extends StatefulWidget {
 class _DealsScreenState extends State<DealsScreen> {
   DealStatus? _filter;
 
-  /// The same deals, read either as one list under a stage filter or as the
-  /// pipeline with a column per stage. The board is the only place a deal can
-  /// be moved by hand, so it owns the drag; the list stays a list.
   bool _board = false;
   PageController? _pageCtrl;
   int _page = 0;
 
-  /// Stages a drop has asked for but the server has not confirmed yet. Without
-  /// them the card sits in its old column until the reload lands, which reads
-  /// as the drag having failed.
   final _pending = <int, DealStatus>{};
 
   @override
@@ -80,8 +74,7 @@ class _DealsScreenState extends State<DealsScreen> {
     setState(() {
       _board = !_board;
       if (!_board) return;
-      // Carry the stage the list was filtered to over to the board, so the
-      // toggle never lands on a column you were not already looking at.
+
       _page = _pageOf(_filter);
       _pageCtrl?.dispose();
       _pageCtrl = PageController(initialPage: _page);
@@ -102,9 +95,6 @@ class _DealsScreenState extends State<DealsScreen> {
     ];
   }
 
-  /// Whether [state] is the answer a pending move was waiting for. The success
-  /// state still carries the rows from before the write, so dropping the guess
-  /// on it would snap the card back for the frame before the reload arrives.
   static bool _settles(DealsState state) =>
       state is DealsError ||
       state is DealsActionFailure ||
@@ -184,8 +174,6 @@ class _DealsScreenState extends State<DealsScreen> {
                           ],
                         ),
                         const SizedBox(height: 14),
-                        // On the board the stages are the columns, so the same
-                        // row of pills steers the pages instead of filtering.
                         FilterPillRow(
                             pills: _board
                                 ? _stagePills(l10n, all)
@@ -271,8 +259,6 @@ class _DealsScreenState extends State<DealsScreen> {
     );
   }
 
-  /// What stands in for the deals when there are none to draw — the same
-  /// skeleton, error and empty screens whichever view is showing.
   Widget? _placeholder(BuildContext ctx, DealsState state,
       List<DealResponse> shown, AppLocalizations l10n, double pad) {
     if (state is DealsLoading || state is DealsInitial) {
@@ -289,8 +275,6 @@ class _DealsScreenState extends State<DealsScreen> {
       );
     }
     if (shown.isEmpty) {
-      // An empty stage on the board is the column's own business — the board
-      // only gives up when the whole pipeline is empty.
       final filtered = !_board && _filter != null;
       return EmptyState(
         icon: Icons.handshake_outlined,

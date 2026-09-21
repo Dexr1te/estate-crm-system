@@ -74,9 +74,7 @@ class ProfileScreen extends StatelessWidget {
                     BlocConsumer<RemindersBloc, RemindersState>(
                   listener: (ctx, remindersState) {
                     if (!remindersState.permissionDenied) return;
-                    // The OS only asks once. Saying so is the difference
-                    // between a switch that looks broken and one that is
-                    // waiting on something the app cannot change.
+
                     ScaffoldMessenger.of(ctx)
                       ..hideCurrentSnackBar()
                       ..showSnackBar(SnackBar(
@@ -157,8 +155,6 @@ class ProfileScreen extends StatelessWidget {
                 onTap: () => _openPage(context, '/support'),
               ),
             ]),
-            // Only an agent can walk out: a manager's team is theirs to run,
-            // and an admin has no team to be in.
             if (user.role == Role.AGENT && user.teamName != null)
               AppGhostButton(
                 label: l10n.teamsLeaveTeam,
@@ -262,8 +258,6 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  /// Correcting your own name or the address you sign in with — until now the
-  /// only way to fix a typo in either was to ask an administrator.
   Future<void> _editProfile(BuildContext context, AuthResponse user) async {
     final bloc = context.read<AuthBloc>();
     final result = await showProfileEditSheet(context, user: user);
@@ -310,9 +304,6 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  /// Opens a page the backend serves — the privacy policy and the support page
-  /// live next to the API so there is exactly one host to keep alive, which is
-  /// also why the link carries the API's own prefix (see [backendPageUrl]).
   Future<void> _openPage(BuildContext context, String path) async {
     final l10n = AppLocalizations.of(context);
     final messenger = ScaffoldMessenger.of(context);
@@ -328,8 +319,6 @@ class ProfileScreen extends StatelessWidget {
     }
   }
 
-  /// Leaving hands the team's clients and deals back to it, so say so before
-  /// it happens rather than after.
   Future<void> _confirmLeaveTeam(BuildContext context, String teamName) async {
     final l10n = AppLocalizations.of(context);
     final messenger = ScaffoldMessenger.of(context);
@@ -347,8 +336,7 @@ class ProfileScreen extends StatelessWidget {
 
     try {
       await Injector.teamsRepository.leaveTeam();
-      // The session names the team, and it no longer has one — which is what
-      // sends the app back to the waiting screen.
+
       auth.add(AuthRefreshMeEvent());
       messenger
         ..hideCurrentSnackBar()
@@ -376,14 +364,6 @@ class ProfileScreen extends StatelessWidget {
   }
 }
 
-/// Closing your own account, which App Store Review Guideline 5.1.1(v) requires
-/// an app holding an account to offer without going through anyone else.
-///
-/// The records are the agency's, not the leaver's, so this asks who takes them
-/// over before it asks whether you are sure — the same handover an admin does.
-/// The backend refuses without a successor when there is anything to move, and
-/// refuses outright for the primary admin; both come back as a message rather
-/// than as a dead end.
 class _DeleteAccountButton extends StatefulWidget {
   final AuthResponse user;
   const _DeleteAccountButton({required this.user});
@@ -415,8 +395,7 @@ class _DeleteAccountButtonState extends State<_DeleteAccountButton> {
     setState(() => _busy = true);
     try {
       await Injector.authRepository.deleteAccount(replacementId: successor.id);
-      // The session is already cleared; this is what moves the app off the
-      // screen belonging to an account that no longer exists.
+
       auth.add(AuthLogoutEvent());
     } catch (err) {
       if (!mounted) return;
@@ -460,8 +439,7 @@ class _DeleteAccountButtonState extends State<_DeleteAccountButton> {
   @override
   Widget build(BuildContext context) {
     final t = context.tokens;
-    // Outlined rather than solid: the design system keeps solid red for the
-    // confirm button of the dialog this opens.
+
     return AppGhostButton(
       label: AppLocalizations.of(context).profileDeleteAccount,
       onPressed: _busy ? null : _start,

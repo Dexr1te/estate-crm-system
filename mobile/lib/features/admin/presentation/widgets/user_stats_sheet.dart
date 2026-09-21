@@ -99,10 +99,6 @@ class _UserStats extends StatelessWidget {
   }
 }
 
-/// The sheet opens over the row that was tapped, so it is already committed to
-/// a shape: an identity line and five figures. Drawing that shape while the
-/// numbers arrive keeps the sheet from resizing under the reader's thumb, which
-/// a centred spinner could not avoid.
 class _UserStatsBone extends StatelessWidget {
   const _UserStatsBone();
 

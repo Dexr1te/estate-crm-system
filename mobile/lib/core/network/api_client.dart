@@ -4,39 +4,16 @@ import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/network/json.dart';
 import 'package:real_estate_crm/core/session/session_store.dart';
 
-/// Where the app talks to.
-///
-/// Overridden at build time so a release can be pointed at a new host without a
-/// code change:
-/// `flutter build ipa --dart-define=API_BASE_URL=https://api.example.com/api`.
-/// The default is the host 1.0 shipped against.
 const apiBaseUrl = String.fromEnvironment(
   'API_BASE_URL',
   defaultValue: 'https://estate-crm-system.onrender.com/api',
 );
 
-/// A page the backend serves for a browser rather than for the app — the
-/// privacy policy and the support page.
-///
-/// Built onto [apiBaseUrl] and not onto its origin. The backend runs under a
-/// servlet context path, so `https://host/privacy` arrives at Tomcat outside
-/// that context and is answered with a 404 however healthy the service is.
-/// These pages sit beside the API, under the same prefix, and the link the app
-/// opens has to say so — App Store Connect wants a privacy policy URL that
-/// resolves, and a reviewer taps both of these in the profile screen.
 Uri backendPageUrl(String path) => Uri.parse('$apiBaseUrl$path');
 
 const _retriedKey = 'auth_retried';
 const _wokeKey = 'cold_start_retried';
 
-/// How long one request may take while the host is waking up.
-///
-/// The backend sleeps when nothing has called it, and the first request after
-/// that waits for a container to be built and Spring to boot — measured at well
-/// over a minute, against timeouts sized for a server that is already running.
-/// Stretching every timeout to match would make a genuinely dead network take
-/// that long to report itself, so the short ones stay and a request that trips
-/// over one is given a single second chance on this budget instead.
 const _wakeUpTimeout = Duration(seconds: 90);
 
 class ApiClient {
@@ -106,10 +83,6 @@ class ApiClient {
     ));
   }
 
-  /// Retries once, patiently, when the failure looks like a sleeping host.
-  ///
-  /// The retry carries [_wokeKey], so a host that is genuinely unreachable
-  /// fails after one long wait rather than looping.
   Interceptor _wakeUpInterceptor(Dio client) => InterceptorsWrapper(
         onError: (error, handler) async {
           if (!_shouldWaitForWakeUp(error)) {
@@ -132,12 +105,10 @@ class ApiClient {
   static bool _shouldWaitForWakeUp(DioException e) {
     if (e.requestOptions.extra[_wokeKey] == true) return false;
     switch (e.type) {
-      // Nothing was answered and nothing was sent, so nothing can happen twice.
       case DioExceptionType.connectionTimeout:
       case DioExceptionType.connectionError:
         return true;
-      // The request did reach the wire. Replaying a write could duplicate it —
-      // a second POST /clients is a second client — so only a read is repeated.
+
       case DioExceptionType.receiveTimeout:
         return e.requestOptions.method.toUpperCase() == 'GET';
       default:

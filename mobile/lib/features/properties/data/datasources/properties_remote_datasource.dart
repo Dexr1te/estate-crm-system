@@ -33,8 +33,7 @@ class PropertiesRemoteDataSource {
 
   Future<List<PropertyResponse>> getAllProperties() async {
     final res = await _client.dio.get('/properties');
-    // Unfiltered `/properties` answers with a bare array, but a filtered one
-    // answers with a Spring page — the same parser handles both shapes.
+
     return PagedResponse.parse(res.data, PropertyResponse.fromJson).content;
   }
 

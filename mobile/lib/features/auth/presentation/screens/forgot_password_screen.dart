@@ -5,14 +5,6 @@ import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/auth/presentation/screens/login_screen.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// Asking for a reset link.
-///
-/// There is no sign-up in this app, so for someone who already has an account
-/// this is the only way back in that does not go through an administrator.
-///
-/// It never says whether the address exists. A sign-in screen that answers that
-/// question is a way to find out who works at an agency, and the honest-looking
-/// answer costs nothing: the mail either arrives or it does not.
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
 

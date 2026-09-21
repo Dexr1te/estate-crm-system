@@ -460,9 +460,6 @@ class _AuditRow extends StatelessWidget {
   }
 }
 
-/// An audit entry is two lines of text and nothing else, so its skeleton is
-/// shorter than the rows in the other two tabs — the list should not appear to
-/// shrink the moment it loads.
 class _AuditRowBone extends StatelessWidget {
   const _AuditRowBone();
 
@@ -517,9 +514,6 @@ class _SheetOption extends StatelessWidget {
   }
 }
 
-/// Only the primary admin gets the delete action, and never on itself. The
-/// backend enforces both again — this just keeps an action the user cannot
-/// perform out of the menu.
 bool _canDelete(
     BuildContext context, List<AgentResponse> users, AgentResponse row) {
   final me = context.read<AuthBloc>().currentUser;
@@ -535,8 +529,6 @@ Future<void> _deleteUser(
   final l10n = AppLocalizations.of(context);
   final bloc = context.read<AdminUsersBloc>();
 
-  // Deals, meetings and documents cannot be orphaned, so the successor is
-  // asked for up front rather than after the backend refuses.
   final successor = await showEntityPicker(
     context,
     title: l10n.adminDeleteHandoverTitle,
@@ -553,7 +545,6 @@ Future<void> _deleteUser(
   final ok = await showConfirmDialog(
     context,
     title: l10n.adminDeleteUser,
-    // Alphabetical, not source order: gen-l10n emits (name, successor).
     content: l10n.adminDeleteCascade(user.fullName, successor.title),
   );
   if (!ok) return;

@@ -107,8 +107,6 @@ class _TeamStats extends StatelessWidget {
   }
 }
 
-/// Mirrors the loaded sheet: the team's square mark, its name and manager, then
-/// five figures — so nothing shifts when the numbers land.
 class _TeamStatsBone extends StatelessWidget {
   const _TeamStatsBone();
 

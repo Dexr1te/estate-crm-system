@@ -233,12 +233,6 @@ Future<double?> showGoalSheet(BuildContext context, double? current) {
   );
 }
 
-/// The placeholder a [GoalRingCard] leaves: the ring, and the three lines of
-/// money beside it.
-///
-/// The ring is drawn as a ring and not as a disc, because the shape is the
-/// card — a filled circle would read as an avatar and put the whole skeleton in
-/// the wrong genre.
 class GoalRingCardBone extends StatelessWidget {
   const GoalRingCardBone({super.key});
 
@@ -275,8 +269,6 @@ class GoalRingCardBone extends StatelessWidget {
 class _RingBonePainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    // White, like every other bone: ShimmerGroup masks it with the sweep, so
-    // the colour here only decides how much of the sweep comes through.
     canvas.drawArc(
       Rect.fromLTWH(0, 0, size.width, size.height).deflate(5),
       0,

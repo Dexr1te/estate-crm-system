@@ -66,8 +66,6 @@ class TeamStatsResponse {
       );
 }
 
-/// Someone in a team, including a person who was invited by email and has not
-/// set a password yet — the manager needs to see that the invite is pending.
 class TeamMemberResponse {
   final int id;
   final String fullName;
@@ -100,16 +98,12 @@ class TeamMemberResponse {
           orElse: () => Role.AGENT,
         ),
         status: UserAccountStatus.parse(json['status'] as String?),
-        // Jackson publishes a boolean `isActive` field as "active".
         isActive: (json['active'] ?? json['isActive'] ?? false) as bool,
         isTeamManager:
             (json['teamManager'] ?? json['isTeamManager'] ?? false) as bool,
       );
 }
 
-/// Where an account stands. Only the ones the app shows are named; anything
-/// else the backend adds later reads as [UserAccountStatus.active], which is
-/// what every account that can sign in is.
 enum UserAccountStatus {
   active,
   pendingInvite,
@@ -127,8 +121,6 @@ enum UserAccountStatus {
   }
 }
 
-/// A manager asking an agent to join. Shown to both sides: the manager sees who
-/// has not answered, the agent sees who is asking.
 class TeamJoinRequestResponse {
   final int id;
   final int teamId;
@@ -165,8 +157,6 @@ class TeamJoinRequestResponse {
       );
 }
 
-/// What "add an agent" turned into: an account that has to accept, or an email
-/// that has to be opened. The two need different words on screen.
 class AddMemberResult {
   final bool requestSent;
   final TeamJoinRequestResponse? request;

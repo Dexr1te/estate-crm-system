@@ -46,8 +46,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<AuthResponse> refreshMe() async {
     final fresh = await _remote.me();
     final saved = await _session.getSavedUser();
-    // GET /auth/me answers without tokens, and the stored ones are still good:
-    // saving the bare response would sign the user out on the next request.
+
     final merged = fresh.copyWith(
       accessToken: saved?.accessToken ?? fresh.accessToken,
       refreshToken: saved?.refreshToken ?? fresh.refreshToken,
@@ -87,8 +86,7 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<void> deleteAccount({int? replacementId}) async {
     await _remote.deleteAccount(replacementId: replacementId);
-    // The tokens outlive the row they authenticate, so clear them here rather
-    // than leaving a session pointing at an account that no longer exists.
+
     await _session.clear();
   }
 

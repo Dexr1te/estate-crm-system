@@ -9,7 +9,6 @@ class MyTeamInitial extends MyTeamState {}
 
 class MyTeamLoading extends MyTeamState {}
 
-/// The agency as its manager sees it: who is in it, and who has been asked.
 class MyTeamLoaded extends MyTeamState {
   final TeamResponse team;
   final List<TeamMemberResponse> members;
@@ -31,8 +30,6 @@ class MyTeamActionSuccess extends MyTeamLoaded with ActionSucceeded {
       : super(previous.team, previous.members, previous.pending);
 }
 
-/// Adding an agent, reported with the words that case needs: an account that has
-/// to accept reads differently from an invite that has to arrive.
 class MyTeamMemberAdded extends MyTeamLoaded implements ActionOutcome {
   final AddMemberResult result;
 

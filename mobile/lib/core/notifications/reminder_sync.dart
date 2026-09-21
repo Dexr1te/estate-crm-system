@@ -5,14 +5,6 @@ import 'package:real_estate_crm/core/utils/clock.dart';
 import 'package:real_estate_crm/core/utils/formatters.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// Turns a plan into worded notifications and hands them to the OS.
-///
-/// Called whenever a fresh list of meetings arrives — from the meetings screen
-/// or from the dashboard — because that is the only moment the app knows the
-/// truth. A meeting moved on the web, completed by a colleague or deleted has
-/// no other way of reaching the pending notification it left behind, and
-/// [NotificationGateway.replaceAll] is a replacement rather than an addition
-/// for exactly that reason.
 Future<void> syncMeetingReminders({
   required NotificationGateway gateway,
   required List<MeetingResponse> meetings,

@@ -33,9 +33,6 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState>
         fetch: () => Future.wait([
           _dashboard.getDashboardSummary(),
           _meetings.getMeetings(),
-          // The pipeline charts degrade to empty rather than taking the
-          // dashboard down with them; the calendar does not, because "no
-          // meetings today" is a claim, not a blank.
           _deals.getDeals().catchError((_) => <DealResponse>[]),
         ]),
         onData: (results) {

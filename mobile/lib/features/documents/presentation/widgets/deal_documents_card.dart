@@ -8,10 +8,6 @@ import 'package:real_estate_crm/features/documents/presentation/bloc/documents_e
 import 'package:real_estate_crm/features/documents/presentation/bloc/documents_state.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// The paperwork on a deal: what is attached, and the ways to add one, read one
-/// and take one back off.
-///
-/// Expects a [DocumentsBloc] above it, scoped to the deal being shown.
 class DealDocumentsCard extends StatelessWidget {
   const DealDocumentsCard({super.key});
 
@@ -103,8 +99,6 @@ class _Body extends StatelessWidget {
     }
 
     if (state is! DocumentsLoaded) {
-      // Bones rather than a ShimmerRowCard: that one draws its own card, and
-      // this list already sits inside one.
       return const ShimmerGroup(
         child: Column(children: [
           _RowBone(),
@@ -164,7 +158,6 @@ class _RowBone extends StatelessWidget {
       );
 }
 
-/// One attached file: what it is, who put it there, and what can be done to it.
 class DocumentRow extends StatelessWidget {
   final DocumentResponse document;
   final bool busy;
@@ -274,9 +267,6 @@ class DocumentRow extends StatelessWidget {
                     child: SizedBox(
                       width: 16,
                       height: 16,
-                      // spinner-ok: the row is already on screen and its text
-                      // is not changing — what is running is the action on it,
-                      // in the space its own button just left.
                       child: CircularProgressIndicator(
                           strokeWidth: 2, color: t.primary),
                     ),
@@ -304,8 +294,6 @@ class DocumentRow extends StatelessWidget {
   }
 }
 
-/// The file's size in the reader's language: bytes below a kilobyte, whole
-/// kilobytes below a megabyte, one decimal above it.
 String documentSizeLabel(AppLocalizations l10n, int bytes) {
   const kb = 1024;
   const mb = kb * 1024;
@@ -315,7 +303,6 @@ String documentSizeLabel(AppLocalizations l10n, int bytes) {
   return l10n.documentsSizeBytes('$bytes');
 }
 
-/// A glyph for the kind of file, from the extension the backend recorded.
 IconData documentIcon(String fileType) {
   switch (fileType) {
     case 'pdf':

@@ -10,8 +10,6 @@ class AppCard extends StatelessWidget {
 
   final bool nested;
 
-  /// Outlines the card, for the one case a border carries meaning: the option
-  /// the person has picked out of several. Defaults to the ordinary card border.
   final Color? borderColor;
 
   const AppCard({

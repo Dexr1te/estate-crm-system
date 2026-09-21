@@ -31,21 +31,22 @@ void main() {
   test('a screen waits with a skeleton, never a spinner', () {
     // A spinner says something is loading; a skeleton says what is loading and
     // where it will sit. A spinner is only right where there is no layout left
-    // to describe — inside a button that has been pressed, or on a row already
-    // on screen while an action runs against it. Those sites say so with a
-    // `// spinner-ok:` line and a reason.
+    // to describe, and the exemption is kept here rather than as a comment at
+    // the site because lib/ carries no comments:
+    //
+    //   deal_documents_card — the row is already on screen and its text is not
+    //   changing. What is running is the action on that row, in the space its
+    //   own button just left.
+    const spinnerIsRight = {
+      'lib/features/documents/presentation/widgets/deal_documents_card.dart',
+    };
+
     for (final f in libFiles.where((f) => f.path.contains('/features/'))) {
-      final lines = f.readAsLinesSync();
-      for (var i = 0; i < lines.length; i++) {
-        if (!lines[i].contains('CircularProgressIndicator')) continue;
-        final allowed = lines
-            .sublist((i - 8).clamp(0, i), i)
-            .any((l) => l.contains('spinner-ok:'));
-        expect(allowed, isTrue,
-            reason: '${f.path}:${i + 1} waits with a spinner; build a skeleton '
-                'out of core/widgets/shimmer.dart, or mark the line with '
-                '`// spinner-ok: <reason>` if there is no layout to describe');
-      }
+      if (spinnerIsRight.contains(f.path)) continue;
+      expect(f.readAsStringSync(), isNot(contains('CircularProgressIndicator')),
+          reason: '${f.path} waits with a spinner; build a skeleton out of '
+              'core/widgets/shimmer.dart, or add the file to spinnerIsRight '
+              'with a reason if there is no layout to describe');
     }
   });
 

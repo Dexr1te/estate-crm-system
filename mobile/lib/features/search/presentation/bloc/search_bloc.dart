@@ -7,8 +7,6 @@ import 'package:real_estate_crm/features/search/presentation/bloc/search_state.d
 
 class SearchBloc extends Bloc<SearchEvent, SearchState>
     with SingleFlight, CollectionBloc<SearchEvent, SearchState> {
-  /// One letter matches most of the database, and every keystroke on the way to
-  /// a real query would spend a round trip saying so.
   static const minQueryLength = 2;
 
   final SearchRepository _repo;
@@ -34,7 +32,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState>
     try {
       return await _recent.load();
     } catch (_) {
-      // Preferences are a convenience here; search works without them.
       return null;
     }
   }
@@ -42,8 +39,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState>
   Future<void> _onQuery(SearchQueryEvent e, Emitter<SearchState> emit) async {
     final q = e.query.trim();
     if (q.length < minQueryLength) {
-      // Drop whatever a longer query already put in flight, or its answer would
-      // land on a screen that has since been emptied.
       invalidate();
       emit(SearchIdle(_remembered));
       return;
@@ -67,9 +62,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState>
       SearchRememberEvent e, Emitter<SearchState> emit) async {
     try {
       _remembered = await _recent.remember(e.query);
-    } catch (_) {
-      // See _loadRemembered.
-    }
+    } catch (_) {}
   }
 
   Future<void> _onForgetAll(

@@ -34,9 +34,6 @@ import 'package:real_estate_crm/features/teams/presentation/screens/manager_cons
 final _rootKey = GlobalKey<NavigatorState>();
 final _shellKey = GlobalKey<NavigatorState>();
 
-/// The navigator every top-level route hangs off. Exposed so the pieces that
-/// live outside the widget tree — the deep-link handler's prompt, say — can
-/// reach a context that already carries the app's localizations and theme.
 GlobalKey<NavigatorState> get rootNavigatorKey => _rootKey;
 
 class NoTransitionPage<T> extends CustomTransitionPage<T> {
@@ -60,9 +57,6 @@ String? resolveRedirect({
   if (!sessionResolved) return location == '/splash' ? null : '/splash';
   if (location == '/splash') return authenticated ? '/dashboard' : '/login';
 
-  // Every screen someone can be on before they have a session. Missing one
-  // here bounces it straight to /login, which is what makes it worth listing
-  // rather than pattern-matching.
   const authLocations = [
     '/login',
     '/register',
@@ -75,10 +69,6 @@ String? resolveRedirect({
   if (!authenticated && !onAuth) return '/login';
   if (authenticated && onAuth) return '/dashboard';
 
-  // An account with no agency has nothing in the CRM to look at: records belong
-  // to a team, and the backend refuses these endpoints outright. A manager is
-  // one form away from having one; an agent has to be let in by somebody. Both
-  // keep the profile, which is where signing out and closing the account live.
   final needsTeam = authenticated && !hasTeam && role != Role.ADMIN;
   final onboarding = needsTeam
       ? (role == Role.MANAGER ? '/onboarding/team' : '/onboarding/waiting')
@@ -142,8 +132,6 @@ GoRouter createRouter(AuthBloc authBloc) {
           ),
         ),
       ),
-      // Signed in, but not in an agency yet. Outside the shell: there is no
-      // bottom navigation to show when none of its destinations would load.
       GoRoute(
         path: '/onboarding/team',
         parentNavigatorKey: _rootKey,
@@ -178,9 +166,6 @@ GoRouter createRouter(AuthBloc authBloc) {
         parentNavigatorKey: _rootKey,
         pageBuilder: (_, __) => const NoTransitionPage(child: ProfileScreen()),
       ),
-      // Outside the shell: search covers the app rather than sitting beside it
-      // in the nav bar, and a result is pushed on top so back returns to the
-      // query that found it.
       GoRoute(
         path: '/search',
         parentNavigatorKey: _rootKey,

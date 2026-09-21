@@ -13,11 +13,6 @@ import 'package:real_estate_crm/features/search/presentation/bloc/search_state.d
 import 'package:real_estate_crm/features/search/presentation/widgets/search_result_tile.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// One field over the whole database.
-///
-/// The bloc is made here rather than in `my_app`: search is a pushed screen
-/// with a life of its own, and a query is worth exactly as long as the screen
-/// asking it.
 class SearchScreen extends StatelessWidget {
   const SearchScreen({super.key});
 
@@ -37,8 +32,6 @@ class _SearchView extends StatefulWidget {
 }
 
 class _SearchViewState extends State<_SearchView> {
-  /// Long enough that a name typed at speed costs one request rather than six,
-  /// short enough that stopping to read never feels like waiting.
   static const _debounce = Duration(milliseconds: 350);
 
   final _controller = TextEditingController();
@@ -74,8 +67,7 @@ class _SearchViewState extends State<_SearchView> {
   void _useRecent(String query) {
     _controller.text = query;
     _controller.selection = TextSelection.collapsed(offset: query.length);
-    // The clear button is drawn from what the field holds, and filling it from
-    // here is the one path that does not come through _onChanged.
+
     setState(() {});
     _submit(query);
   }
@@ -87,8 +79,6 @@ class _SearchViewState extends State<_SearchView> {
     context.read<SearchBloc>().add(SearchClearedEvent());
   }
 
-  /// Opens a result and keeps the query that found it — the only queries worth
-  /// offering back are the ones that led somewhere.
   void _open(String route, String query) {
     context.read<SearchBloc>().add(SearchRememberEvent(query));
     context.push(route);
@@ -239,8 +229,6 @@ class _SearchViewState extends State<_SearchView> {
         if (i > 0) const SizedBox(height: 9),
         rows[i],
       ],
-      // The listings endpoint pages. Saying how many were left behind beats a
-      // header that counts two hundred above twenty rows.
       if (rows.length < total) ...[
         const SizedBox(height: 10),
         _MoreRow(label: l10n.searchMoreCount(total - rows.length)),
@@ -341,9 +329,6 @@ class _ResultBone extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => const ShimmerRowCard(
-        // Every result carries the mark of what it is — a client, a listing, a
-        // deal — so the skeleton keeps the slot for it rather than sliding the
-        // text sideways when the real rows arrive.
         leading: ShimmerBox(width: 38, height: 38, radius: 12),
         trailing: ShimmerBox(width: 16, height: 16, radius: 4),
         titleFactor: 0.54,

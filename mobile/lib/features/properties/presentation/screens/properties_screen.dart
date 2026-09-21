@@ -125,8 +125,6 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
                                 l10n.propertiesTitle,
                                 reserveSubtitle: true,
                                 subtitle: state is PropertiesLoaded
-                                    // Alphabetical, not source order:
-                                    // gen-l10n emits (reserved, total).
                                     ? l10n.propertiesCounter(
                                         items
                                             .where((p) =>
@@ -228,9 +226,6 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
         separatorBuilder: (_, __) => const SizedBox(height: 9),
         itemBuilder: (_, i) {
           if (i >= items.length) {
-            // The next page announces itself as the card it will be, not as a
-            // spinner: the list keeps its rhythm, and the row that lands does
-            // so where the placeholder already was.
             return const ShimmerGroup(child: PropertyCardBone());
           }
           return PropertyCard(

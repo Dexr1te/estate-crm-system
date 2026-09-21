@@ -3,8 +3,6 @@ import 'package:real_estate_crm/core/models/team_models.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// One person in the team, with whatever is unfinished about them said out loud:
-/// an invite nobody opened, an address nobody confirmed, an account switched off.
 class MemberCard extends StatelessWidget {
   final TeamMemberResponse member;
   final VoidCallback? onTap;
@@ -72,7 +70,6 @@ class MemberCard extends StatelessWidget {
     );
   }
 
-  /// What still has to happen before this person can work, or null when nothing does.
   String? _note(AppLocalizations l10n) {
     if (!member.isActive) return l10n.adminInactive;
     switch (member.status) {
@@ -86,7 +83,6 @@ class MemberCard extends StatelessWidget {
   }
 }
 
-/// The card's outline, for the moment before the team has loaded.
 class MemberCardBone extends StatelessWidget {
   const MemberCardBone({super.key});
 

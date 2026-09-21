@@ -3,13 +3,6 @@ import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// One row of a mixed result list.
-///
-/// The three kinds share a shape on purpose: a search answer reads as one list
-/// someone scans top to bottom, not as three lists that happen to be stacked.
-/// What kind of thing a row is comes from its section header and its leading
-/// mark, and the status that would be a chip in the feature's own list is
-/// folded into the meta line so nothing competes with the title for width.
 class SearchResultTile extends StatelessWidget {
   final Widget leading;
   final String title;
@@ -71,8 +64,6 @@ class SearchResultTile extends StatelessWidget {
           if (trailing != null) ...[
             const SizedBox(width: 10),
             ConstrainedBox(
-              // Capped rather than flexible: a price competing with the title
-              // for the same free space would shrink both.
               constraints: const BoxConstraints(maxWidth: 110),
               child: Text(
                 trailing!,
@@ -180,8 +171,6 @@ class DealResultTile extends StatelessWidget {
   }
 }
 
-/// The square that stands in for an avatar where the thing has no name to take
-/// an initial from.
 class _MarkBox extends StatelessWidget {
   final IconData icon;
   final Color color;

@@ -7,7 +7,6 @@ abstract class RemindersEvent {}
 
 class RemindersLoadEvent extends RemindersEvent {}
 
-/// Picking a lead time turns reminders on; picking null turns them off.
 class RemindersLeadChangedEvent extends RemindersEvent {
   final ReminderLead? lead;
   RemindersLeadChangedEvent(this.lead);
@@ -16,18 +15,11 @@ class RemindersLeadChangedEvent extends RemindersEvent {
 class RemindersState {
   final ReminderSettings settings;
 
-  /// Set when the OS was asked and said no, so the screen can explain why the
-  /// switch bounced back instead of appearing to ignore the tap.
   final bool permissionDenied;
 
   const RemindersState(this.settings, {this.permissionDenied = false});
 }
 
-/// Whether the app warns you before a meeting, and how far ahead.
-///
-/// Permission is asked for here rather than at launch: the prompt then arrives
-/// attached to the thing that explains it, and an install that never wants
-/// reminders is never interrupted.
 class RemindersBloc extends Bloc<RemindersEvent, RemindersState> {
   static const _enabledKey = 'reminders_enabled';
   static const _leadKey = 'reminders_lead';
@@ -54,20 +46,15 @@ class RemindersBloc extends Bloc<RemindersEvent, RemindersState> {
 
     if (e.lead == null) {
       await prefs.setBool(_enabledKey, false);
-      // Nothing pending should outlive the setting that asked for it.
+
       await _gateway.cancelAll();
       emit(RemindersState(
           ReminderSettings(enabled: false, lead: state.settings.lead)));
       return;
     }
 
-    // Asking every time the lead changes would be noise; the OS only prompts
-    // once anyway and answers from memory after that.
     final granted = await _gateway.requestPermission();
     if (!granted) {
-      // Written down as well as emitted: permission can be taken away in the
-      // system settings long after it was given, and a stored `true` would
-      // bring the switch back on next launch over notifications the OS drops.
       await prefs.setBool(_enabledKey, false);
       emit(RemindersState(
         ReminderSettings(enabled: false, lead: state.settings.lead),

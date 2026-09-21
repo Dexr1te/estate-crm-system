@@ -8,11 +8,6 @@ import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart'
 import 'package:real_estate_crm/features/auth/presentation/screens/login_screen.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// Where a freshly confirmed manager lands: an agency with a name and nobody in
-/// it yet.
-///
-/// Until it exists there is nothing for a client or a listing to belong to, so
-/// the router keeps them here — see `resolveRedirect`.
 class CreateTeamScreen extends StatefulWidget {
   const CreateTeamScreen({super.key});
 
@@ -41,7 +36,7 @@ class _CreateTeamScreenState extends State<CreateTeamScreen> {
     setState(() => _saving = true);
     try {
       await Injector.teamsRepository.createMyTeam(_nameCtrl.text.trim());
-      // The session says which team this account is in, and it has just changed.
+
       auth.add(AuthRefreshMeEvent());
     } catch (err) {
       if (!mounted) return;

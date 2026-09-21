@@ -58,9 +58,6 @@ class Injector {
   static DocumentsRepository documentsRepository =
       DocumentsRepositoryImpl(DocumentsRemoteDataSource(_apiClient));
 
-  /// The phone's own file handling — picking one to attach, opening one that
-  /// came back. Held here so a widget test can hand the app a fake instead of
-  /// a plugin that has no platform under it.
   static FileGateway fileGateway = const DeviceFileGateway();
 
   static MeetingsRepository meetingsRepository =
@@ -78,14 +75,9 @@ class Injector {
   static TeamsRepository teamsRepository =
       TeamsRepositoryImpl(TeamsRemoteDataSource(_apiClient));
 
-  /// Composed on demand rather than held, because it is a view over the three
-  /// listing repositories above: a test that swaps one of those has to be
-  /// searched through too, and a stored instance would still hold the real one.
   static SearchRepository get searchRepository => SearchRepositoryImpl(
       clientsRepository, propertiesRepository, dealsRepository);
 
-  /// What the profile screen reports. Read once at startup rather than
-  /// hardcoded, so a shipped build cannot claim a version it is not.
   static String appVersion = '';
 
   static Future<void> bootstrap() async {
@@ -93,8 +85,6 @@ class Injector {
     try {
       final info = await PackageInfo.fromPlatform();
       appVersion = '${info.version} (${info.buildNumber})';
-    } catch (_) {
-      // A missing version is a cosmetic loss; it must not hold up the launch.
-    }
+    } catch (_) {}
   }
 }

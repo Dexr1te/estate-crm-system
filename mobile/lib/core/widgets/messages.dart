@@ -2,11 +2,6 @@ import 'package:real_estate_crm/core/network/api_error.dart';
 import 'package:real_estate_crm/core/utils/file_gateway.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// What a completed write says to the person who asked for it.
-///
-/// A bloc has no [BuildContext] and so cannot reach the localizations. It names
-/// the outcome instead and the screen showing it supplies the wording — the same
-/// split `roleLabel` and `dealStatusLabel` already use for enums.
 enum ActionMessage {
   clientCreated,
   clientUpdated,
@@ -114,11 +109,6 @@ String actionMessageLabel(AppLocalizations l10n, ActionMessage message) {
   }
 }
 
-/// Something the phone itself refused, with no request involved.
-///
-/// [ApiFailure] cannot say these: nothing was sent. A file too large to attach
-/// is caught before the upload, and a phone with no app for a downloaded type
-/// is a fact about the phone rather than an error from the server.
 enum LocalProblem { fileTooLarge, noAppForFile, fileOpenFailed }
 
 String localProblemLabel(AppLocalizations l10n, LocalProblem problem) {
@@ -132,11 +122,6 @@ String localProblemLabel(AppLocalizations l10n, LocalProblem problem) {
   }
 }
 
-/// The sentence shown for a failed request.
-///
-/// Anything the backend said wins: it knows the rule that was broken, and a
-/// generic line in the right language helps less than a specific one in the
-/// wrong one.
 String apiFailureLabel(AppLocalizations l10n, ApiFailure failure) {
   final server = failure.serverText;
   if (server != null) return server;
