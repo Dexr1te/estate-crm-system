@@ -21,8 +21,6 @@ class AuditLogBloc extends Bloc<AuditLogEvent, AuditLogState>
   }
 
   Future<void> _onLoad(AuditLogLoadEvent e, Emitter<AuditLogState> emit) {
-    // Narrowing to an entity type is a different question, so it earns the
-    // skeleton; pulling the same question down again does not.
     final filterChanged = e.entityType != _entityType;
     _entityType = e.entityType;
 

@@ -60,11 +60,6 @@ class UserCard extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 7),
-                        // Chips take their natural width, so a deactivated user
-                        // with a long role label pushed the name clean out of
-                        // the card on a 320 dp row at large text. Capping the
-                        // pair makes the name give way first, and only then do
-                        // the labels themselves clip.
                         ConstrainedBox(
                           constraints:
                               BoxConstraints(maxWidth: row.maxWidth * 0.6),

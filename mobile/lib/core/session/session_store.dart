@@ -2,14 +2,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-/// Where the signed-in session lives between launches.
-///
-/// The tokens are a credential, so they belong in the Keychain — and in
-/// Android's keystore-backed store — rather than in SharedPreferences, which on
-/// iOS is a plain plist inside the app container and rides along in unencrypted
-/// device backups. Builds up to 1.0.0 wrote them to SharedPreferences, so
-/// [load] moves anything it finds there and wipes the old copy; nobody is
-/// signed out by updating.
 class SessionStore {
   static const _accessKey = 'access_token';
   static const _refreshKey = 'refresh_token';
@@ -21,9 +13,6 @@ class SessionStore {
   SessionStore({FlutterSecureStorage? storage})
       : _storage = storage ?? const FlutterSecureStorage(iOptions: _ios);
 
-  /// The default keychain accessibility only unlocks while the screen is
-  /// unlocked, which loses the session to a token refresh that happens with the
-  /// phone in a pocket. After the first unlock since boot is the right line.
   static const _ios =
       IOSOptions(accessibility: KeychainAccessibility.first_unlock);
 
@@ -73,10 +62,6 @@ class SessionStore {
     }
   }
 
-  /// Carries a session written by an earlier build over to secure storage, then
-  /// removes the plaintext original. Best effort: a session that cannot be
-  /// moved is not worth blocking the launch for, and the worst case is one
-  /// sign-in.
   Future<void> _migrateFromPreferences() async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -96,9 +81,7 @@ class SessionStore {
       for (final key in _legacyKeys) {
         await prefs.remove(key);
       }
-    } catch (_) {
-      // Leave the tokens where they are; the next launch tries again.
-    }
+    } catch (_) {}
   }
 
   String _encodeAuthUser(AuthResponse auth) {

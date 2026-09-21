@@ -8,12 +8,6 @@ import 'package:real_estate_crm/features/auth/presentation/bloc/auth_state.dart'
 import 'package:real_estate_crm/features/auth/presentation/screens/login_screen.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// Spending a reset code on a new password.
-///
-/// Reached two ways, like accepting an invite: the link in the email, which
-/// arrives with the code already filled in, or by hand from the sign-in screen
-/// for someone whose mail client swallowed the link. A successful reset signs
-/// them straight in — they have just proved they hold the address.
 class ResetPasswordScreen extends StatefulWidget {
   final String? token;
   const ResetPasswordScreen({super.key, this.token});

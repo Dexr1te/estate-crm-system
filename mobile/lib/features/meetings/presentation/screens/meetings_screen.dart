@@ -125,9 +125,6 @@ class _MeetingsScreenState extends State<MeetingsScreen> {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             if (next == null)
-                              // Meetings exist but they are all behind us, so
-                              // the hero and the day groups are both empty and
-                              // the screen said nothing at all.
                               Padding(
                                 padding: const EdgeInsets.only(top: 8),
                                 child: EmptyState(
@@ -188,13 +185,6 @@ class _MeetingsScreenState extends State<MeetingsScreen> {
           Expanded(
             child: Padding(
               padding: EdgeInsets.symmetric(horizontal: pad),
-              // The real screen is a hero and then rows under a day label, so
-              // the skeleton is too — including the label, which is what tells
-              // someone the list they are waiting for is grouped by day.
-              // Scrolls like the list it stands in for: on a 320 dp screen the
-              // hero and the first rows are already taller than the viewport,
-              // and a fixed column there overflows instead of running off the
-              // bottom edge the way the real list does.
               child: ShimmerGroup(
                 child: SingleChildScrollView(
                     child: Column(children: [

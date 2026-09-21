@@ -108,8 +108,6 @@ class DealCard extends StatelessWidget {
     );
   }
 
-  /// How long a deal has sat untouched, or null when it is closed or still
-  /// fresh. The board reads it too, so the two views call the same deal stale.
   static int? staleDays(DealResponse deal) {
     if (deal.status == DealStatus.CLOSED_WON ||
         deal.status == DealStatus.CLOSED_LOST) {
@@ -122,12 +120,6 @@ class DealCard extends StatelessWidget {
   }
 }
 
-/// The placeholder a [DealCard] leaves: a two-line title with its status chip,
-/// the client and agent under it, then the price across the rule.
-///
-/// The chip keeps its corner. It is the first thing read on a board of deals,
-/// and a skeleton that leaves it out lets the title stretch the full width and
-/// then snap back when the real card arrives.
 class DealCardBone extends StatelessWidget {
   const DealCardBone({super.key});
 

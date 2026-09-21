@@ -29,9 +29,6 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
   bool _loading = false;
   bool _initLoading = false;
 
-  /// Why the pickers are empty, when the reason is a failed request rather
-  /// than an empty agency. Swallowing this made a broken connection look
-  /// exactly like having no colleagues.
   ApiFailure? _loadFailure;
 
   List<PickerItem> _clients = const [];
@@ -172,16 +169,9 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
     if (picked != null && mounted) setState(() => onPicked(picked));
   }
 
-  /// What an empty picker should say: a failed load and an empty list look the
-  /// same on screen, and only one of them is the person's problem to solve.
   String _emptyLabel(AppLocalizations l10n, String noneLabel) =>
       _loadFailure == null ? noneLabel : apiFailureLabel(l10n, _loadFailure!);
 
-  /// Where the pickers start when nothing has been chosen: the next half hour,
-  /// not this instant. "Now" as a default meant picking today and leaving the
-  /// time alone produced a moment already in the past, which the backend
-  /// refuses outright (MeetingRequest.scheduledAt is @Future) — the form looked
-  /// filled in and the save came back as an error nobody expected.
   DateTime get _defaultSlot {
     final now = AppClock.now();
     final rounded = DateTime(now.year, now.month, now.day, now.hour)
@@ -195,9 +185,6 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
     final date = await showDatePicker(
       context: context,
       initialDate: base,
-      // The backend requires a future time (MeetingRequest.scheduledAt is
-      // @Future), so a past date is a round trip that can only fail. Editing an
-      // older meeting still opens on its own date.
       firstDate: _scheduledAt != null && _scheduledAt!.isBefore(now)
           ? _scheduledAt!
           : now,

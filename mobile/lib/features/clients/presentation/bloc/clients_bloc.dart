@@ -37,9 +37,6 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState>
         emit,
         keepVisible: _current.isNotEmpty,
         skeleton: ClientsLoading(),
-        // The rows and their deal counts come from two endpoints, and a row
-        // without its counts would report a client as having no deals rather
-        // than as unknown — so they arrive together or not at all.
         fetch: () => Future.wait([
           _repo.getClients(),
           _repo.getClientsWithDetails(),
@@ -65,8 +62,6 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState>
   Future<void> _onCreate(ClientsCreateEvent e, Emitter<ClientsState> emit) =>
       write(
         emit,
-        // A new client has no id yet; the payload is what makes this submit
-        // distinguishable from the next one.
         key: 'create-${e.data['fullName']}-${e.data['phone']}',
         perform: () => _repo.createClient(e.data),
         onSuccess: (created) => ClientCreated(created, _current),

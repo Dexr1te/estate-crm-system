@@ -19,17 +19,12 @@ class EmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.tokens;
-    // Centred when it fits and scrollable when it does not, so a phone set to
-    // large text still reaches the action at the bottom instead of clipping it.
+
     return LayoutBuilder(
       builder: (context, constraints) => SingleChildScrollView(
         padding: EdgeInsets.symmetric(
             horizontal: AppMetrics.pagePadding(context), vertical: 24),
         child: ConstrainedBox(
-          // Only stretch to fill when there is a height to fill. In a bottom
-          // sheet the column is min-sized, so maxHeight is infinite and asking
-          // for it back would demand an infinite child — which is how the
-          // picker's "nothing found" turned into an empty sheet.
           constraints: BoxConstraints(
             minHeight: constraints.hasBoundedHeight
                 ? (constraints.maxHeight - 48).clamp(0.0, double.infinity)

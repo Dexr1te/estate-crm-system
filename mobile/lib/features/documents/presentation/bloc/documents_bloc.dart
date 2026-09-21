@@ -8,7 +8,6 @@ import 'package:real_estate_crm/features/documents/domain/repositories/documents
 import 'package:real_estate_crm/features/documents/presentation/bloc/documents_event.dart';
 import 'package:real_estate_crm/features/documents/presentation/bloc/documents_state.dart';
 
-/// The paperwork on one deal. Scoped to that deal, and created with it.
 class DocumentsBloc extends Bloc<DocumentsEvent, DocumentsState>
     with SingleFlight, CollectionBloc<DocumentsEvent, DocumentsState> {
   final DocumentsRepository _repo;
@@ -42,11 +41,9 @@ class DocumentsBloc extends Bloc<DocumentsEvent, DocumentsState>
       DocumentsUploadEvent e, Emitter<DocumentsState> emit) async {
     final rows = _current;
 
-    // The whole flow is single-flight, not just the upload: a second tap while
-    // the file browser is open would ask for a second one.
     await once('attach', () async {
       final picked = await _files.pickFile();
-      // Backing out of the file browser is an answer, not a failure.
+
       if (picked == null) return;
 
       if (picked.size > maxDocumentBytes) {
@@ -57,8 +54,7 @@ class DocumentsBloc extends Bloc<DocumentsEvent, DocumentsState>
       _emit(emit, DocumentsLoaded(rows, uploading: true));
       try {
         final created = await _repo.uploadDocument(dealId, picked);
-        // Appended rather than refetched: the response is the row, and a deal
-        // detail screen should not pay a second request to show it.
+
         _emit(
             emit,
             DocumentsActionSuccess(
@@ -113,8 +109,6 @@ class DocumentsBloc extends Bloc<DocumentsEvent, DocumentsState>
     });
   }
 
-  /// Every emit here follows an await, and the screen holding this bloc can be
-  /// popped in the meantime — emitting into a closed bloc throws.
   void _emit(Emitter<DocumentsState> emit, DocumentsState next) {
     if (!isClosed) emit(next);
   }

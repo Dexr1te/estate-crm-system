@@ -78,9 +78,6 @@ class _MyAppState extends State<MyApp> {
     )..start();
   }
 
-  /// An invite tapped during a live session can only be taken by giving that
-  /// session up, so the person holding it decides. The context comes from the
-  /// root navigator because the link arrives from the OS, outside any build.
   Future<bool> _confirmInviteSignOut() async {
     final context = rootNavigatorKey.currentContext;
     final user = _authBloc.currentUser;
@@ -148,13 +145,10 @@ class _MyAppState extends State<MyApp> {
               _propertiesBloc.add(PropertiesResetEvent());
               _dealsBloc.add(DealsResetEvent());
               _meetingsBloc.add(MeetingsResetEvent());
-              // The next account's meetings are not this one's.
+
               _notifications.cancelAll();
             },
           ),
-          // Two sources, because either can be the first to know: the dashboard
-          // loads meetings on launch and the meetings screen reloads them after
-          // every edit.
           BlocListener<MeetingsBloc, MeetingsState>(
             listener: (context, state) {
               if (state is MeetingsLoaded) {
@@ -174,10 +168,6 @@ class _MyAppState extends State<MyApp> {
                 prev.settings.enabled != curr.settings.enabled ||
                 prev.settings.lead != curr.settings.lead,
             listener: (context, __) {
-              // Either source will do, and on a launch that goes straight from
-              // the dashboard to the profile the dashboard is the only one that
-              // has any: the meetings screen may never have been opened, and a
-              // switch that schedules nothing until it is reads as broken.
               final meetings = _meetingsBloc.state;
               final dashboard = _dashboardBloc.state;
               if (meetings is MeetingsLoaded) {

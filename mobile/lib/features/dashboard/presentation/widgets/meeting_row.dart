@@ -92,12 +92,6 @@ class MeetingRow extends StatelessWidget {
   }
 }
 
-/// The placeholder a [MeetingRow] leaves: a narrow time column, the rule that
-/// separates it, and the title and client beside them.
-///
-/// The rule is the reason this is not a bare rectangle — it is what makes the
-/// row read as a time and a meeting rather than as a list item in general, and
-/// it is where the eye goes first once the real rows land.
 class MeetingRowBone extends StatelessWidget {
   final double titleFactor;
   final double metaFactor;

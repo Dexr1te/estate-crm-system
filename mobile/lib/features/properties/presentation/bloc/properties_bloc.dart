@@ -29,8 +29,6 @@ class PropertiesBloc extends Bloc<PropertiesEvent, PropertiesState>
     on<PropertiesUpdateStatusEvent>(_onUpdateStatus);
   }
 
-  /// A write reloads under the filters the screen is actually showing, and from
-  /// the first page — the rows behind it may have shifted.
   void _reload() =>
       add(PropertiesLoadEvent(status: _status, type: _type, search: _search));
 
@@ -76,9 +74,6 @@ class PropertiesBloc extends Bloc<PropertiesEvent, PropertiesState>
     );
   }
 
-  /// Paging is the one flow that appends instead of replacing, so it takes the
-  /// current load's ticket rather than starting a new one: a filter change that
-  /// lands mid-page must win, and this page must not be grafted onto its rows.
   Future<void> _onLoadMore(
       PropertiesLoadMoreEvent e, Emitter<PropertiesState> emit) async {
     if (!_hasMore) return;
@@ -103,8 +98,7 @@ class PropertiesBloc extends Bloc<PropertiesEvent, PropertiesState>
       emit(PropertiesLoaded(_items, hasMore: _hasMore));
     } catch (err) {
       if (isStale(ticket)) return;
-      // Just dropping the spinner reads as "that was the end of the list".
-      // Keep the rows already paged in, and say why the next ones are missing.
+
       emit(PropertiesActionFailure(ApiFailure.from(err), _items,
           hasMore: _hasMore));
     }

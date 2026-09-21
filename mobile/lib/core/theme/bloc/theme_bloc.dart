@@ -5,17 +5,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 part 'theme_event.dart';
 part 'theme_state.dart';
 
-/// Light, dark, or whatever the phone is doing.
-///
-/// The third option is the one this used to be missing: the profile row has
-/// always been captioned "Follow system", and until now the switch underneath
-/// it could only say light or dark — so a phone that turns dark at sunset took
-/// the app with it only if its owner remembered to flip the switch too.
 class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
   static const _key = 'theme_mode';
 
-  /// What builds before this one wrote. Read once, to carry a choice over
-  /// rather than resetting everyone to "follow system" on update.
   static const _legacyKey = 'theme_dark';
 
   ThemeBloc() : super(const ThemeState(ThemeMode.system)) {
@@ -47,8 +39,6 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
     emit(ThemeState(e.mode));
   }
 
-  /// Kept for the places that only offer two options. Following the system
-  /// counts as light for the purpose of "what does flipping this do next".
   Future<void> _onToggle(ThemeToggleEvent e, Emitter<ThemeState> emit) =>
       _onChanged(
         ThemeChangedEvent(

@@ -41,8 +41,6 @@ class AdminUsersBloc extends Bloc<AdminUsersEvent, AdminUsersState>
         onFailure: AdminUsersError.new,
       );
 
-  /// Every user action reads the same: do it, say so, and let the reload put
-  /// the row's new shape on screen.
   Future<void> _act(Emitter<AdminUsersState> emit, String key,
           ActionMessage success, Future<void> Function() action) =>
       write(
@@ -58,7 +56,6 @@ class AdminUsersBloc extends Bloc<AdminUsersEvent, AdminUsersState>
           AdminInviteUserEvent e, Emitter<AdminUsersState> emit) =>
       write(
         emit,
-        // An invite has no id yet, so the address it is going to identifies it.
         key: 'invite-${e.body['email']}',
         perform: () => _repo.inviteUser(e.body),
         onSuccess: (created) => AdminInviteSuccess(created, _current),

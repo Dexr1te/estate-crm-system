@@ -3,8 +3,6 @@ import 'package:real_estate_crm/features/search/domain/repositories/search_repos
 
 abstract class SearchState {}
 
-/// Nothing asked for yet: either the field is empty or what is in it is still
-/// too short to be worth a round trip.
 class SearchIdle extends SearchState {
   final List<String> recent;
   SearchIdle([this.recent = const []]);

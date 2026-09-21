@@ -122,11 +122,6 @@ String propertySpecs(AppLocalizations l10n, PropertyResponse p) {
   return parts.join(' · ');
 }
 
-/// The placeholder a [PropertyCard] leaves: the type tile, the title and
-/// address, the status chip, and the price over the specs across the rule.
-///
-/// The square tile is what tells a waiting list apart from a list of people —
-/// clients arrive behind a round avatar, listings behind a rounded square.
 class PropertyCardBone extends StatelessWidget {
   const PropertyCardBone({super.key});
 

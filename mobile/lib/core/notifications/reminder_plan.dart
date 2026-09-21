@@ -1,6 +1,5 @@
 import 'package:real_estate_crm/core/models/models.dart';
 
-/// How far ahead of a meeting its reminder fires.
 enum ReminderLead {
   fifteenMinutes(Duration(minutes: 15)),
   oneHour(Duration(hours: 1)),
@@ -22,14 +21,7 @@ class ReminderSettings {
           enabled: enabled ?? this.enabled, lead: lead ?? this.lead);
 }
 
-/// One notification the app intends to have waiting.
-///
-/// Carries the meeting rather than a finished sentence: this is decided far
-/// from any [BuildContext], and the wording has to come out in the reader's
-/// language when it is handed to the system.
 class PlannedReminder {
-  /// Stable across re-plans so rescheduling replaces rather than duplicates —
-  /// the platform keys pending notifications by id.
   final int id;
   final int meetingId;
   final DateTime fireAt;
@@ -49,27 +41,8 @@ class PlannedReminder {
   });
 }
 
-/// iOS keeps at most 64 pending local notifications and silently drops the
-/// rest, so the plan stays under that with room for anything else the app
-/// might one day schedule.
 const kMaxPendingReminders = 60;
 
-/// Which meetings deserve a reminder, and when.
-///
-/// Deliberately a pure function of the data, the settings and the clock: it is
-/// the part worth testing, and the part that would otherwise only be observable
-/// by waiting an hour with a real phone.
-///
-/// Rules, in the order they bite:
-///
-/// * Reminders off means no reminders at all — including cancelling ones
-///   already scheduled, which the caller does by acting on an empty plan.
-/// * A completed meeting is not upcoming, whatever its date says.
-/// * A meeting that has already started needs no warning.
-/// * Neither does one whose warning time has passed. Someone who asks for an
-///   hour's notice about a meeting starting in ten minutes is better served by
-///   silence than by a notification that fires the instant they set it.
-/// * The soonest survive the cap, because they are the ones that still matter.
 List<PlannedReminder> planReminders(
   List<MeetingResponse> meetings, {
   required ReminderSettings settings,

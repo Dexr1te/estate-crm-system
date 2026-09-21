@@ -325,7 +325,6 @@ class _GreetingRow extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 8),
-        // The one way into search, on the screen every session starts from.
         AppIconTile(
           icon: Icons.search_rounded,
           tooltip: AppLocalizations.of(context).searchTitle,
@@ -444,10 +443,6 @@ class _DashboardSkeleton extends StatelessWidget {
   Widget build(BuildContext context) {
     final gap = AppMetrics.blockGap(context);
 
-    // Shaped like the screen it stands in for, card for card: the hero with its
-    // two buttons, the goal ring, the four metrics, the pipeline, and the
-    // meetings under their header. Three grey rectangles said only that
-    // something was coming; this says what, so nothing moves when it lands.
     return ShimmerGroup(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

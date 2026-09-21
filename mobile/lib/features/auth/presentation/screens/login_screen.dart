@@ -43,9 +43,6 @@ class _LoginScreenState extends State<LoginScreen> {
       body: SafeArea(
         child: BlocConsumer<AuthBloc, AuthState>(
           listener: (ctx, state) {
-            // An account that never confirmed its address is not a failed
-            // sign-in: the backend has just mailed a fresh code, so carry on to
-            // the screen that takes it.
             if (state is AuthVerificationRequired) {
               ctx.go('/verify-email?email=${Uri.encodeComponent(state.email)}');
               return;
@@ -128,8 +125,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         onTap: loading ? null : () => ctx.go('/register'),
                       ),
                       const SizedBox(height: 4),
-                      // Still here for the invite emails already sent, and for
-                      // an agency that adds an agent who has no account yet.
                       Center(
                         child: AuthTextLink(
                           label: l10n.authHaveAnInvite,
@@ -149,7 +144,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 
-/// A plain tappable line of text — "Forgot password?", "Back to sign in".
 class AuthTextLink extends StatelessWidget {
   final String label;
   final VoidCallback? onTap;
@@ -162,8 +156,6 @@ class AuthTextLink extends StatelessWidget {
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
       child: Padding(
-        // Keeps the tap target at the design system's minimum without moving
-        // the text off the line it belongs on.
         padding: const EdgeInsets.symmetric(vertical: 8),
         child: Text(
           label,

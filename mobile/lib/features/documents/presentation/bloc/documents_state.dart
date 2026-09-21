@@ -13,10 +13,8 @@ class DocumentsLoading extends DocumentsState {}
 class DocumentsLoaded extends DocumentsState {
   final List<DocumentResponse> documents;
 
-  /// A file is on its way up. The attach button waits rather than queueing.
   final bool uploading;
 
-  /// Rows with a request of their own in flight — a download, a removal.
   final Set<int> busyIds;
 
   DocumentsLoaded(
@@ -45,9 +43,6 @@ class DocumentsActionFailure extends DocumentsLoaded with ActionFailed {
   DocumentsActionFailure(this.failure, super.documents);
 }
 
-/// The phone said no — the file is too large to send, or nothing here can open
-/// what came back. Reported the same way a failed request is, because to the
-/// person holding it the difference is invisible.
 class DocumentsProblemReported extends DocumentsLoaded
     implements ActionOutcome {
   final LocalProblem problem;

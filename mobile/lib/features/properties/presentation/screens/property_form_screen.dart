@@ -182,9 +182,6 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
             ? const [
                 ShimmerGroup(
                   child: Column(children: [
-                    // The step bar the loaded form opens with. Leaving it out
-                    // would push every field up by its height and then drop
-                    // them back down a moment later.
                     Row(children: [
                       Expanded(
                           child: ShimmerBox(

@@ -4,13 +4,6 @@ import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/deals/presentation/widgets/deal_card.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// The pipeline drawn as one column per stage.
-///
-/// A phone has no room for two columns side by side, so the columns are pages —
-/// which rules out the desktop gesture of dragging a card from one column into
-/// the next. Instead a long press lifts the card and the foot of the board
-/// becomes the stages it can land on, so every destination is one short drag
-/// away no matter which column is showing.
 class DealBoard extends StatefulWidget {
   final List<DealResponse> deals;
   final PageController controller;
@@ -75,9 +68,6 @@ class _DealBoardState extends State<DealBoard> {
             ],
           ),
         ),
-        // Held rather than hidden while a card is up: the rail floats over the
-        // list, and letting the bar collapse would shuffle the column out from
-        // under the finger that is still dragging.
         _HintBar(
           text: l10n.dealsBoardDragHint,
           faded: dragging != null,
@@ -134,9 +124,6 @@ class _StageColumn extends StatelessWidget {
                       separatorBuilder: (_, __) => const SizedBox(height: 9),
                       itemBuilder: (_, i) => _DraggableCard(
                         deal: deals[i],
-                        // The lifted card keeps the width it had in the
-                        // column; a feedback widget is otherwise unconstrained
-                        // and would shrink to its text.
                         width: constraints.maxWidth - padding * 2,
                         onOpen: onOpen,
                         onDragChanged: onDragChanged,
@@ -226,8 +213,6 @@ class _DraggableCard extends StatelessWidget {
   Widget build(BuildContext context) => LongPressDraggable<DealResponse>(
         data: deal,
         onDragStarted: () => onDragChanged(deal),
-        // Fires for a drop that landed and one that did not, which is every way
-        // a drag can end.
         onDragEnd: (_) => onDragChanged(null),
         feedback: SizedBox(
           width: width,
@@ -340,7 +325,6 @@ class _BoardCard extends StatelessWidget {
   }
 }
 
-/// The stages a lifted card can be dropped on — every stage but its own.
 class _DropRail extends StatelessWidget {
   final DealResponse deal;
   final void Function(DealResponse deal, DealStatus to) onMove;

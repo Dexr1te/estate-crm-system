@@ -109,8 +109,6 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
               action: AppGhostButton(label: l10n.coreRetry, onPressed: _load),
             )
           else
-            // Summary, stage, participants — the deal's title over its price
-            // and status, then the row of stages, then who is on it.
             ShimmerGroup(
               child: Column(children: [
                 ShimmerCard(
@@ -139,8 +137,6 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
     }
 
     return BlocProvider(
-      // Scoped to this deal rather than to the app: the paperwork is only ever
-      // read on this screen, and a new deal must not inherit the last one's.
       create: (_) => DocumentsBloc(
         Injector.documentsRepository,
         Injector.fileGateway,
@@ -148,8 +144,6 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
       )..add(DocumentsLoadEvent()),
       child: BlocListener<DealsBloc, DealsState>(
         listener: _onWriteResult,
-        // Below the provider, so pulling to refresh can reach the documents
-        // bloc as well as reload the deal.
         child: Builder(
           builder: (context) => DetailScaffold(
             title: l10n.dealsIdLabel(deal.id),

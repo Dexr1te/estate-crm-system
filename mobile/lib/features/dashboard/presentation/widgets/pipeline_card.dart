@@ -237,12 +237,6 @@ class _Segment extends StatelessWidget {
       );
 }
 
-/// The placeholder a [PipelineCard] leaves: a title and a total, the stacked
-/// bar under them, and a stage column per segment.
-///
-/// The bar is split into uneven segments on purpose. A pipeline is never evenly
-/// distributed, and a skeleton of equal blocks would set an expectation the
-/// data immediately contradicts.
 class PipelineCardBone extends StatelessWidget {
   final int stages;
   const PipelineCardBone({super.key, this.stages = 4});

@@ -27,8 +27,6 @@ class AuthResendCodeEvent extends AuthEvent {
   AuthResendCodeEvent(this.email);
 }
 
-/// Re-reads the account behind the session — after joining a team, leaving one,
-/// or coming back to a waiting screen that may no longer be waiting.
 class AuthRefreshMeEvent extends AuthEvent {}
 
 class AuthLoginEvent extends AuthEvent {

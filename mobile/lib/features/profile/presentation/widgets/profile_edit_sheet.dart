@@ -3,18 +3,12 @@ import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// What the edit sheet hands back when it is saved.
 class ProfileEdit {
   final String fullName;
   final String email;
   const ProfileEdit({required this.fullName, required this.email});
 }
 
-/// Correcting your own name and the address you sign in with.
-///
-/// The address is not cosmetic — the backend signs tokens with it and reissues
-/// them on change — so this is deliberately a deliberate act: a sheet you open,
-/// not a field you can brush against on the settings list.
 Future<ProfileEdit?> showProfileEditSheet(
   BuildContext context, {
   required AuthResponse user,

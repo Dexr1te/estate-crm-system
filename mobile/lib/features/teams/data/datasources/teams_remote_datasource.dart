@@ -27,8 +27,6 @@ class TeamsRemoteDataSource {
     return TeamStatsResponse.fromJson(jsonObject(res));
   }
 
-  // The manager's own team ----------------------------------------------------
-
   Future<TeamResponse> createMyTeam(String name) async {
     final res = await _client.dio.post('/team', data: {'name': name});
     return TeamResponse.fromJson(jsonObject(res));
@@ -66,8 +64,6 @@ class TeamsRemoteDataSource {
 
   Future<void> cancelRequest(int requestId) =>
       _client.dio.delete('/team/requests/$requestId');
-
-  // The agent's own membership ------------------------------------------------
 
   Future<List<TeamJoinRequestResponse>> getMyRequests() async {
     final res = await _client.dio.get('/me/team-requests');

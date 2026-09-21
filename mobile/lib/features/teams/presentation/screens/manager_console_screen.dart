@@ -10,8 +10,6 @@ import 'package:real_estate_crm/features/teams/presentation/widgets/member_card.
 import 'package:real_estate_crm/features/teams/presentation/widgets/team_stats_sheet.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// The agency, as its manager works with it: who is in it, who has been asked,
-/// and the two things that change either — adding someone, and letting them go.
 class ManagerConsoleScreen extends StatefulWidget {
   const ManagerConsoleScreen({super.key});
 
@@ -33,8 +31,6 @@ class _ManagerConsoleScreenState extends State<ManagerConsoleScreen> {
     }
   }
 
-  /// Removing an agent means deciding who keeps their work, so both questions
-  /// are asked before anything happens.
   Future<void> _removeMember(
     BuildContext context,
     MyTeamBloc bloc,

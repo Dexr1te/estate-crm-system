@@ -1,12 +1,7 @@
-/// A file attached to a deal.
-///
-/// Only what the list needs to show it — the bytes stay on the server until
-/// somebody asks to open one.
 class DocumentResponse {
   final int id;
   final String fileName;
 
-  /// The extension, lowercased, as the backend recorded it: `pdf`, `jpg`.
   final String fileType;
   final int fileSize;
   final int dealId;

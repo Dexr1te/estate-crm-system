@@ -36,8 +36,6 @@ class JoinRequestsError extends JoinRequestsState {
   JoinRequestsError(this.failure);
 }
 
-/// Accepted — the screen turns this into a session refresh, which is what moves
-/// the app off the waiting screen and into the team's dashboard.
 class JoinRequestsAccepted extends JoinRequestsLoaded with ActionSucceeded {
   @override
   final ActionMessage message;
@@ -60,7 +58,6 @@ class JoinRequestsActionFailure extends JoinRequestsLoaded with ActionFailed {
   JoinRequestsActionFailure(super.requests, this.failure);
 }
 
-/// The invitations waiting for an agent, and their answer to them.
 class JoinRequestsBloc extends Bloc<JoinRequestsEvent, JoinRequestsState>
     with SingleFlight, CollectionBloc<JoinRequestsEvent, JoinRequestsState> {
   final TeamsRepository _repo;
@@ -93,8 +90,6 @@ class JoinRequestsBloc extends Bloc<JoinRequestsEvent, JoinRequestsState>
         emit,
         key: 'accept-${e.requestId}',
         perform: () => _repo.acceptRequest(e.requestId),
-        // Joining empties this list — every other invitation is withdrawn with
-        // it — so there is nothing left to reload.
         onSuccess: (_) =>
             JoinRequestsAccepted(const [], ActionMessage.teamJoined),
         onFailure: (failure) => JoinRequestsActionFailure(_current, failure),

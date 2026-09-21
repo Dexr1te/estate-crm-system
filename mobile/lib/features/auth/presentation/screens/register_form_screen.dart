@@ -12,11 +12,6 @@ import 'package:real_estate_crm/features/auth/presentation/screens/login_screen.
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-/// The details a new account is made of.
-///
-/// Nothing is signed in at the end of this: the backend mails a code and the
-/// next screen takes it, which is what keeps someone from signing up on an
-/// address that is not theirs.
 class RegisterFormScreen extends StatefulWidget {
   final Role role;
   const RegisterFormScreen({super.key, required this.role});
@@ -58,8 +53,6 @@ class _RegisterFormScreenState extends State<RegisterFormScreen> {
         ));
   }
 
-  /// An address that already has an invite waiting cannot be registered again —
-  /// the invite is the way in, so offer it instead of repeating the refusal.
   Future<void> _offerInvite(BuildContext context, AppLocalizations l10n) async {
     final go = await showConfirmDialog(
       context,
@@ -217,8 +210,6 @@ class _RegisterFormScreenState extends State<RegisterFormScreen> {
   }
 }
 
-/// Apple wants the policy reachable before an account exists, and so does
-/// anyone typing their phone number into a stranger's app.
 class _PrivacyConsent extends StatelessWidget {
   final bool accepted;
   final bool missing;

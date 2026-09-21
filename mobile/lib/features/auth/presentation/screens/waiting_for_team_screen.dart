@@ -10,11 +10,6 @@ import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart'
 import 'package:real_estate_crm/features/teams/presentation/bloc/join_requests_bloc.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// Where an agent with no team waits.
-///
-/// Nothing in the CRM belongs to them yet, so the screen has exactly two jobs:
-/// show the address a manager has to be given, and take the answer to any
-/// invitation that arrives.
 class WaitingForTeamScreen extends StatefulWidget {
   const WaitingForTeamScreen({super.key});
 
@@ -40,8 +35,6 @@ class _WaitingForTeamScreenState extends State<WaitingForTeamScreen>
     super.dispose();
   }
 
-  /// An invitation is sent from another phone, so nothing tells this one about
-  /// it. Coming back to the app is the moment to look again.
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed && !_bloc.isClosed) {
@@ -82,8 +75,6 @@ class _WaitingForTeamScreenState extends State<WaitingForTeamScreen>
               listener: (ctx, state) {
                 showActionOutcome(ctx, state);
                 if (state is JoinRequestsAccepted) {
-                  // The account is in a team now; the router moves on as soon
-                  // as the session says so.
                   ctx.read<AuthBloc>().add(AuthRefreshMeEvent());
                 }
               },
@@ -122,8 +113,6 @@ class _WaitingForTeamScreenState extends State<WaitingForTeamScreen>
                       const SizedBox(height: 10),
                       if (state is JoinRequestsLoading ||
                           state is JoinRequestsInitial)
-                        // Not ShimmerList: that is a ListView, and this screen
-                        // is already one.
                         const ShimmerGroup(child: _RequestCardBone())
                       else if (state is JoinRequestsError)
                         ErrorWidget2(
@@ -161,7 +150,6 @@ class _WaitingForTeamScreenState extends State<WaitingForTeamScreen>
   }
 }
 
-/// The address to read out to a manager, with a way to copy it exactly.
 class _EmailCard extends StatelessWidget {
   final String email;
   const _EmailCard({required this.email});
@@ -291,7 +279,6 @@ class _RequestCard extends StatelessWidget {
   }
 }
 
-/// The request card's outline, so the wait for the list does not jump the page.
 class _RequestCardBone extends StatelessWidget {
   const _RequestCardBone();
 

@@ -6,8 +6,6 @@ abstract class DocumentsRepository {
 
   Future<DocumentResponse> uploadDocument(int dealId, PickedFile file);
 
-  /// The file's bytes. Small enough to hold in memory — the size limit above is
-  /// what makes that true.
   Future<List<int>> downloadDocument(int dealId, int documentId);
 
   Future<void> deleteDocument(int dealId, int documentId);

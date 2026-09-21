@@ -113,12 +113,6 @@ class ClientCard extends StatelessWidget {
   }
 }
 
-/// The placeholder a [ClientCard] leaves: the avatar and name, the type chip
-/// opposite them, and the footer under the rule.
-///
-/// It was a blank 96 dp box, which is the height of the card and nothing else
-/// about it — the avatar, the chip and the footer all appeared at once when the
-/// list landed. Drawn this way the card only fills in.
 class ClientCardBone extends StatelessWidget {
   const ClientCardBone({super.key});
 

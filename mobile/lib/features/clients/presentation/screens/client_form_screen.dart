@@ -135,9 +135,6 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
                 ),
           children: _initLoading
               ? const [
-                  // The type selector, then the fields — labelled rows rather
-                  // than one tall block, because a form is read top to bottom
-                  // and a block says nothing about how far down it goes.
                   ShimmerGroup(
                     child: Column(children: [
                       ShimmerCard(

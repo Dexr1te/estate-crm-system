@@ -6,10 +6,6 @@ import 'package:real_estate_crm/features/teams/domain/repositories/teams_reposit
 import 'package:real_estate_crm/features/teams/presentation/bloc/my_team_event.dart';
 import 'package:real_estate_crm/features/teams/presentation/bloc/my_team_state.dart';
 
-/// The agency a manager runs — its people and its unanswered invitations.
-///
-/// Distinct from [TeamsBloc], which is the administrator's list of every team:
-/// a manager has exactly one and needs its members, not its neighbours.
 class MyTeamBloc extends Bloc<MyTeamEvent, MyTeamState>
     with SingleFlight, CollectionBloc<MyTeamEvent, MyTeamState> {
   final TeamsRepository _repo;
@@ -29,8 +25,6 @@ class MyTeamBloc extends Bloc<MyTeamEvent, MyTeamState>
         emit,
         keepVisible: _loaded != null,
         skeleton: MyTeamLoading(),
-        // Three reads that do not depend on each other, so they go together:
-        // the screen shows all of it at once anyway.
         fetch: () => Future.wait([
           _repo.getMyTeam(),
           _repo.getMembers(),
@@ -44,8 +38,6 @@ class MyTeamBloc extends Bloc<MyTeamEvent, MyTeamState>
         onFailure: MyTeamError.new,
       );
 
-  /// A write reports on top of the rows already on screen, so a failure leaves
-  /// the team visible rather than replacing it with a full-page error.
   Future<void> _act(
     Emitter<MyTeamState> emit,
     String key,

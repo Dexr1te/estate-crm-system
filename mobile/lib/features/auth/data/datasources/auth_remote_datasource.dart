@@ -14,8 +14,6 @@ class AuthRemoteDataSource {
     return AuthResponse.fromJson(jsonObject(res));
   }
 
-  /// Opens an account. Deliberately returns no session: the address has to be
-  /// confirmed with [verifyEmail] first.
   Future<void> register({
     required String fullName,
     required String email,

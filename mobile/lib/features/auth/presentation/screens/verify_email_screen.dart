@@ -11,7 +11,6 @@ import 'package:real_estate_crm/features/auth/presentation/bloc/auth_state.dart'
 import 'package:real_estate_crm/features/auth/presentation/screens/login_screen.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// The six digits that prove the address belongs to whoever signed up.
 class VerifyEmailScreen extends StatefulWidget {
   final String email;
   const VerifyEmailScreen({super.key, required this.email});
@@ -33,7 +32,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
   void initState() {
     super.initState();
     _startCooldown();
-    // The code screen exists to be typed into; nothing else on it takes input.
+
     WidgetsBinding.instance.addPostFrameCallback((_) => _focus.requestFocus());
   }
 
@@ -63,8 +62,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
 
   void _onChanged(String value) {
     setState(() {});
-    // Six digits are the whole form: asking for a button press afterwards is a
-    // step with nothing left to decide.
+
     if (value.trim().length == _length) _submit();
   }
 
@@ -84,8 +82,6 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
               return;
             }
             if (state is AuthError) {
-              // The code stays on screen so a mistyped digit can be corrected
-              // rather than retyped from scratch.
               _codeCtrl.selection = TextSelection(
                   baseOffset: 0, extentOffset: _codeCtrl.text.length);
               _focus.requestFocus();
@@ -156,10 +152,6 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
   }
 }
 
-/// Six boxes over one field.
-///
-/// One real [TextField] rather than six: six fields mean six focus nodes, six
-/// backspace edge cases, and an autofilled code that lands in the first box.
 class _CodeField extends StatelessWidget {
   final TextEditingController controller;
   final FocusNode focusNode;
@@ -184,8 +176,6 @@ class _CodeField extends StatelessWidget {
 
     return Stack(
       children: [
-        // The field itself carries the keyboard, the autofill and the caret
-        // behaviour; it is invisible, and the boxes below are what is read.
         SizedBox(
           height: 58,
           child: Opacity(

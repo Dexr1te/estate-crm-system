@@ -5,11 +5,6 @@ import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/auth/presentation/screens/login_screen.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// The first thing a new account decides, because everything after it differs.
-///
-/// A manager gets an agency of their own to fill; an agent gets a waiting screen
-/// until someone adds them to theirs. Asking here rather than guessing avoids a
-/// role that has to be corrected by an administrator afterwards.
 class RegisterRoleScreen extends StatefulWidget {
   const RegisterRoleScreen({super.key});
 
@@ -98,8 +93,6 @@ class _RoleOption extends StatelessWidget {
       button: true,
       child: AppCard(
         onTap: onTap,
-        // The chosen one is outlined rather than filled: colour signals status
-        // in this app, and a choice is not a status.
         borderColor: selected ? t.primary : null,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
