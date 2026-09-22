@@ -42,9 +42,9 @@ class S3DocumentStorageTest {
 
         String key = storage.store(
                 new MockMultipartFile("file", "Договор №14.pdf", "application/pdf", bytes),
-                7L, "pdf");
+                "deals", 7L, "pdf");
 
-        assertThat(key).startsWith("7/").endsWith(".pdf");
+        assertThat(key).startsWith("deals/7/").endsWith(".pdf");
         assertThat(key).doesNotContain("Договор");
 
         ArgumentCaptor<PutObjectRequest> put = ArgumentCaptor.forClass(PutObjectRequest.class);
@@ -72,7 +72,7 @@ class S3DocumentStorageTest {
         when(s3.getObjectAsBytes(any(GetObjectRequest.class)))
                 .thenThrow(NoSuchKeyException.builder().message("nope").build());
 
-        assertThatThrownBy(() -> new S3DocumentStorage(s3, BUCKET).load("7/gone.pdf"))
+        assertThatThrownBy(() -> new S3DocumentStorage(s3, BUCKET).load("deals/7/gone.pdf"))
                 .isInstanceOf(IllegalStateException.class)
                 .hasMessageContaining("missing from storage");
     }
@@ -83,7 +83,7 @@ class S3DocumentStorageTest {
         when(s3.deleteObject(any(DeleteObjectRequest.class)))
                 .thenThrow(NoSuchKeyException.builder().message("nope").build());
 
-        new S3DocumentStorage(s3, BUCKET).delete("7/gone.pdf");
+        new S3DocumentStorage(s3, BUCKET).delete("deals/7/gone.pdf");
     }
 
     @Test

@@ -28,9 +28,10 @@ class FilesystemDocumentStorageTest {
         byte[] bytes = "a signed contract".getBytes(StandardCharsets.UTF_8);
 
         String key = storage.store(
-                new MockMultipartFile("file", "Договор №14.pdf", "application/pdf", bytes), 7L, "pdf");
+                new MockMultipartFile("file", "Договор №14.pdf", "application/pdf", bytes),
+                "deals", 7L, "pdf");
 
-        assertThat(key).startsWith("7/").endsWith(".pdf");
+        assertThat(key).startsWith("deals/7/").endsWith(".pdf");
         // The uploaded name is the database's business, never the disk's.
         assertThat(key).doesNotContain("Договор");
         assertThat(storage.load(key).getInputStream().readAllBytes()).isEqualTo(bytes);
@@ -54,6 +55,6 @@ class FilesystemDocumentStorageTest {
     void removingSomethingAlreadyGoneIsNotAnError() {
         FilesystemDocumentStorage storage = new FilesystemDocumentStorage(root.toString());
 
-        storage.delete("7/1a2b3c.pdf");
+        storage.delete("deals/7/1a2b3c.pdf");
     }
 }

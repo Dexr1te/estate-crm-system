@@ -23,34 +23,31 @@ def flutter_root
   raise "FLUTTER_ROOT not found in #{generated_xcode_build_settings_path}. Try deleting Generated.xcconfig, then run flutter pub get"
 end
 
-# file_picker compiles three pickers; the app uses one.
+# file_picker compiles three pickers; the app uses two.
 #
-# `FileGateway.pickFile` only ever calls `FilePicker.pickFiles()` — FileType.any,
-# which iOS serves with UIDocumentPickerViewController (the PICKER_DOCUMENT path,
-# left on). The media and audio pickers are dead weight, and expensive dead
-# weight: PICKER_MEDIA pulls in DKImagePickerController/DKPhotoGallery and puts
-# PHPhotoLibrary, PHAssetCreationRequest, PHPickerViewController and
-# UIImagePickerController in the binary, while PICKER_AUDIO adds
-# MPMediaPickerController.
+# PICKER_DOCUMENT serves `FileGateway.pickFile` — a deal's paperwork, through
+# UIDocumentPickerViewController. PICKER_MEDIA serves `pickImages`, and it is on
+# because a listing's photographs live in the photo library and nowhere else:
+# picking them through the document browser would mean asking an agent to export
+# their own camera roll into Files first.
 #
-# App Store Connect scans the binary for exactly those symbols and rejects the
-# upload with ITMS-90683 unless Info.plist carries NSPhotoLibraryUsageDescription,
-# NSPhotoLibraryAddUsageDescription, NSCameraUsageDescription and
-# NSAppleMusicUsageDescription. Declaring four permissions the app never asks for
-# — and answering for them in the privacy questionnaire — to ship code it never
-# reaches is the wrong trade. Compiling them out is the honest fix: it drops four
-# embedded frameworks (~4.4 MB) with them.
+# It is not free. PICKER_MEDIA pulls in DKImagePickerController/DKPhotoGallery
+# and puts PHPhotoLibrary, PHAssetCreationRequest, PHPickerViewController and
+# UIImagePickerController in the binary, which App Store Connect scans for: the
+# upload is rejected with ITMS-90683 unless Info.plist carries
+# NSPhotoLibraryUsageDescription, NSPhotoLibraryAddUsageDescription and
+# NSCameraUsageDescription. Those three are declared, and the privacy
+# questionnaire has to answer for them.
 #
-# Turning either back on means restoring the matching purpose strings in
-# ios/Runner/Info.plist first.
+# PICKER_AUDIO stays off. Nothing in the app picks a song, and leaving it on
+# would add MPMediaPickerController and a fourth permission
+# (NSAppleMusicUsageDescription) for code nothing reaches.
 #
-# Set on `Pod` rather than written as a bare `PICKER_MEDIA = false`: CocoaPods
+# Set on `Pod` rather than written as a bare `PICKER_AUDIO = false`: CocoaPods
 # instance_evals this file, so a plain assignment lands on the Podfile's
 # singleton class where the podspec's `Pod.const_defined?` check cannot see it,
-# and the flags silently do nothing.
-%w[PICKER_MEDIA PICKER_AUDIO].each do |flag|
-  Pod.const_set(flag, false) unless Pod.const_defined?(flag)
-end
+# and the flag silently does nothing.
+Pod.const_set('PICKER_AUDIO', false) unless Pod.const_defined?('PICKER_AUDIO')
 
 require File.expand_path(File.join('packages', 'flutter_tools', 'bin', 'podhelper'), flutter_root)
 

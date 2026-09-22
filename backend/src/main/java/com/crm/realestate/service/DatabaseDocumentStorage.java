@@ -34,8 +34,8 @@ public class DatabaseDocumentStorage implements DocumentStorage {
     private final DocumentBlobRepository blobs;
 
     @Override
-    public String store(MultipartFile file, Long dealId, String extension) {
-        String key = DocumentStorage.newKey(dealId, extension);
+    public String store(MultipartFile file, String folder, Long ownerId, String extension) {
+        String key = DocumentStorage.newKey(folder, ownerId, extension);
         try {
             blobs.save(new DocumentBlob(key, file.getBytes()));
         } catch (IOException e) {

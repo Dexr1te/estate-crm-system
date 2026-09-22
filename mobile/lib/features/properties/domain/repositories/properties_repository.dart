@@ -28,4 +28,12 @@ abstract class PropertiesRepository {
   Future<List<ClientMatch>> getInterested(int id);
 
   Future<List<MeetingResponse>> getViewings(int id);
+
+  Future<List<PropertyPhoto>> getPhotos(int id);
+
+  Future<PropertyPhoto> addPhoto(int id, String path, String name);
+
+  Future<List<int>> getPhotoBytes(int id, int photoId);
+
+  Future<void> deletePhoto(int id, int photoId);
 }

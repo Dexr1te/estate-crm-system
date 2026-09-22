@@ -78,6 +78,17 @@
 		</array>
 		<key>UIStatusBarHidden</key>
 		<false/>
+		<!--
+		  Required by ITMS-90683 because PICKER_MEDIA is on (see ios/Podfile).
+		  The photo library is read when an agent adds photographs to a listing;
+		  the add and camera strings cover the picker's own entry points.
+		-->
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>Choose photographs of a listing to attach to it.</string>
+		<key>NSPhotoLibraryAddUsageDescription</key>
+		<string>Save a listing's photograph back to your library.</string>
+		<key>NSCameraUsageDescription</key>
+		<string>Take a photograph of a listing without leaving the app.</string>
 		<key>ITSAppUsesNonExemptEncryption</key>
 		<false/>
 	</dict>

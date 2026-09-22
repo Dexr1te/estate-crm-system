@@ -57,4 +57,19 @@ class PropertiesRepositoryImpl implements PropertiesRepository {
 
   @override
   Future<List<MeetingResponse>> getViewings(int id) => _remote.getViewings(id);
+
+  @override
+  Future<List<PropertyPhoto>> getPhotos(int id) => _remote.getPhotos(id);
+
+  @override
+  Future<PropertyPhoto> addPhoto(int id, String path, String name) =>
+      _remote.addPhoto(id, path, name);
+
+  @override
+  Future<List<int>> getPhotoBytes(int id, int photoId) =>
+      _remote.getPhotoBytes(id, photoId);
+
+  @override
+  Future<void> deletePhoto(int id, int photoId) =>
+      _remote.deletePhoto(id, photoId);
 }

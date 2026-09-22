@@ -19,8 +19,14 @@ import java.util.UUID;
  */
 public interface DocumentStorage {
 
-    /** Stores [file] under the deal and returns the key to record on its row. */
-    String store(MultipartFile file, Long dealId, String extension);
+    /**
+     * Stores [file] and returns the key to record on its row.
+     *
+     * <p>[folder] keeps the kinds apart in a store somebody may one day open by hand —
+     * {@code deals/7/…} is paperwork, {@code properties/7/…} is photographs. Implementations treat
+     * the whole key as opaque and nothing more.
+     */
+    String store(MultipartFile file, String folder, Long ownerId, String extension);
 
     /** The stored bytes. Throws {@link IllegalStateException} if they are gone. */
     Resource load(String key);
@@ -34,8 +40,9 @@ public interface DocumentStorage {
      */
     void delete(String key);
 
-    /** The key every implementation writes: one folder per deal, a UUID per file. */
-    static String newKey(Long dealId, String extension) {
-        return dealId + "/" + UUID.randomUUID() + (extension.isEmpty() ? "" : "." + extension);
+    /** The key every implementation writes: a folder per kind and per owner, a UUID per file. */
+    static String newKey(String folder, Long ownerId, String extension) {
+        return folder + "/" + ownerId + "/" + UUID.randomUUID()
+                + (extension.isEmpty() ? "" : "." + extension);
     }
 }

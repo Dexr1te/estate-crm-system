@@ -3232,6 +3232,12 @@ abstract class AppLocalizations {
   /// **'Add your first listing'**
   String get propertiesAddFirstListing;
 
+  /// No description provided for @propertiesAddPhotos.
+  ///
+  /// In en, this message translates to:
+  /// **'Add photos'**
+  String get propertiesAddPhotos;
+
   /// No description provided for @propertiesAddShort.
   ///
   /// In en, this message translates to:
@@ -3424,6 +3430,12 @@ abstract class AppLocalizations {
   /// **'No buyer has asked for anything like this yet'**
   String get propertiesNoInterested;
 
+  /// No description provided for @propertiesNoPhotos.
+  ///
+  /// In en, this message translates to:
+  /// **'No photos yet — the first one becomes the cover'**
+  String get propertiesNoPhotos;
+
   /// No description provided for @propertiesNoProperties.
   ///
   /// In en, this message translates to:
@@ -3441,6 +3453,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This listing has not been shown yet'**
   String get propertiesNoViewings;
+
+  /// No description provided for @propertiesPhotoCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 photo} other{{count} photos}}'**
+  String propertiesPhotoCount(num count);
+
+  /// No description provided for @propertiesPhotoDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove photo'**
+  String get propertiesPhotoDelete;
+
+  /// No description provided for @propertiesPhotoDeleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove this photo from the listing?'**
+  String get propertiesPhotoDeleteConfirm;
+
+  /// No description provided for @propertiesPhotoFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not upload {name}'**
+  String propertiesPhotoFailed(String name);
+
+  /// No description provided for @propertiesPhotoTooLarge.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} is larger than 12 MB'**
+  String propertiesPhotoTooLarge(String name);
+
+  /// No description provided for @propertiesPhotos.
+  ///
+  /// In en, this message translates to:
+  /// **'Photos'**
+  String get propertiesPhotos;
 
   /// No description provided for @propertiesPriceLabel.
   ///

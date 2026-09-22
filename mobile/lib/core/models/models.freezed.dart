@@ -1831,6 +1831,311 @@ abstract class _PropertyMatch implements PropertyMatch {
       throw _privateConstructorUsedError;
 }
 
+PropertyPhoto _$PropertyPhotoFromJson(Map<String, dynamic> json) {
+  return _PropertyPhoto.fromJson(json);
+}
+
+/// @nodoc
+mixin _$PropertyPhoto {
+  int get id => throw _privateConstructorUsedError;
+  int get propertyId => throw _privateConstructorUsedError;
+  String get fileName => throw _privateConstructorUsedError;
+  String get contentType => throw _privateConstructorUsedError;
+  int get fileSize => throw _privateConstructorUsedError;
+  int get sortOrder => throw _privateConstructorUsedError;
+  int? get uploadedById => throw _privateConstructorUsedError;
+  DateTime? get uploadedAt => throw _privateConstructorUsedError;
+
+  /// Serializes this PropertyPhoto to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of PropertyPhoto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $PropertyPhotoCopyWith<PropertyPhoto> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $PropertyPhotoCopyWith<$Res> {
+  factory $PropertyPhotoCopyWith(
+          PropertyPhoto value, $Res Function(PropertyPhoto) then) =
+      _$PropertyPhotoCopyWithImpl<$Res, PropertyPhoto>;
+  @useResult
+  $Res call(
+      {int id,
+      int propertyId,
+      String fileName,
+      String contentType,
+      int fileSize,
+      int sortOrder,
+      int? uploadedById,
+      DateTime? uploadedAt});
+}
+
+/// @nodoc
+class _$PropertyPhotoCopyWithImpl<$Res, $Val extends PropertyPhoto>
+    implements $PropertyPhotoCopyWith<$Res> {
+  _$PropertyPhotoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of PropertyPhoto
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? propertyId = null,
+    Object? fileName = null,
+    Object? contentType = null,
+    Object? fileSize = null,
+    Object? sortOrder = null,
+    Object? uploadedById = freezed,
+    Object? uploadedAt = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      propertyId: null == propertyId
+          ? _value.propertyId
+          : propertyId // ignore: cast_nullable_to_non_nullable
+              as int,
+      fileName: null == fileName
+          ? _value.fileName
+          : fileName // ignore: cast_nullable_to_non_nullable
+              as String,
+      contentType: null == contentType
+          ? _value.contentType
+          : contentType // ignore: cast_nullable_to_non_nullable
+              as String,
+      fileSize: null == fileSize
+          ? _value.fileSize
+          : fileSize // ignore: cast_nullable_to_non_nullable
+              as int,
+      sortOrder: null == sortOrder
+          ? _value.sortOrder
+          : sortOrder // ignore: cast_nullable_to_non_nullable
+              as int,
+      uploadedById: freezed == uploadedById
+          ? _value.uploadedById
+          : uploadedById // ignore: cast_nullable_to_non_nullable
+              as int?,
+      uploadedAt: freezed == uploadedAt
+          ? _value.uploadedAt
+          : uploadedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$PropertyPhotoImplCopyWith<$Res>
+    implements $PropertyPhotoCopyWith<$Res> {
+  factory _$$PropertyPhotoImplCopyWith(
+          _$PropertyPhotoImpl value, $Res Function(_$PropertyPhotoImpl) then) =
+      __$$PropertyPhotoImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int id,
+      int propertyId,
+      String fileName,
+      String contentType,
+      int fileSize,
+      int sortOrder,
+      int? uploadedById,
+      DateTime? uploadedAt});
+}
+
+/// @nodoc
+class __$$PropertyPhotoImplCopyWithImpl<$Res>
+    extends _$PropertyPhotoCopyWithImpl<$Res, _$PropertyPhotoImpl>
+    implements _$$PropertyPhotoImplCopyWith<$Res> {
+  __$$PropertyPhotoImplCopyWithImpl(
+      _$PropertyPhotoImpl _value, $Res Function(_$PropertyPhotoImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of PropertyPhoto
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? propertyId = null,
+    Object? fileName = null,
+    Object? contentType = null,
+    Object? fileSize = null,
+    Object? sortOrder = null,
+    Object? uploadedById = freezed,
+    Object? uploadedAt = freezed,
+  }) {
+    return _then(_$PropertyPhotoImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      propertyId: null == propertyId
+          ? _value.propertyId
+          : propertyId // ignore: cast_nullable_to_non_nullable
+              as int,
+      fileName: null == fileName
+          ? _value.fileName
+          : fileName // ignore: cast_nullable_to_non_nullable
+              as String,
+      contentType: null == contentType
+          ? _value.contentType
+          : contentType // ignore: cast_nullable_to_non_nullable
+              as String,
+      fileSize: null == fileSize
+          ? _value.fileSize
+          : fileSize // ignore: cast_nullable_to_non_nullable
+              as int,
+      sortOrder: null == sortOrder
+          ? _value.sortOrder
+          : sortOrder // ignore: cast_nullable_to_non_nullable
+              as int,
+      uploadedById: freezed == uploadedById
+          ? _value.uploadedById
+          : uploadedById // ignore: cast_nullable_to_non_nullable
+              as int?,
+      uploadedAt: freezed == uploadedAt
+          ? _value.uploadedAt
+          : uploadedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$PropertyPhotoImpl implements _PropertyPhoto {
+  const _$PropertyPhotoImpl(
+      {required this.id,
+      required this.propertyId,
+      this.fileName = '',
+      this.contentType = 'image/jpeg',
+      this.fileSize = 0,
+      this.sortOrder = 0,
+      this.uploadedById,
+      this.uploadedAt});
+
+  factory _$PropertyPhotoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PropertyPhotoImplFromJson(json);
+
+  @override
+  final int id;
+  @override
+  final int propertyId;
+  @override
+  @JsonKey()
+  final String fileName;
+  @override
+  @JsonKey()
+  final String contentType;
+  @override
+  @JsonKey()
+  final int fileSize;
+  @override
+  @JsonKey()
+  final int sortOrder;
+  @override
+  final int? uploadedById;
+  @override
+  final DateTime? uploadedAt;
+
+  @override
+  String toString() {
+    return 'PropertyPhoto(id: $id, propertyId: $propertyId, fileName: $fileName, contentType: $contentType, fileSize: $fileSize, sortOrder: $sortOrder, uploadedById: $uploadedById, uploadedAt: $uploadedAt)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$PropertyPhotoImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.propertyId, propertyId) ||
+                other.propertyId == propertyId) &&
+            (identical(other.fileName, fileName) ||
+                other.fileName == fileName) &&
+            (identical(other.contentType, contentType) ||
+                other.contentType == contentType) &&
+            (identical(other.fileSize, fileSize) ||
+                other.fileSize == fileSize) &&
+            (identical(other.sortOrder, sortOrder) ||
+                other.sortOrder == sortOrder) &&
+            (identical(other.uploadedById, uploadedById) ||
+                other.uploadedById == uploadedById) &&
+            (identical(other.uploadedAt, uploadedAt) ||
+                other.uploadedAt == uploadedAt));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, propertyId, fileName,
+      contentType, fileSize, sortOrder, uploadedById, uploadedAt);
+
+  /// Create a copy of PropertyPhoto
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$PropertyPhotoImplCopyWith<_$PropertyPhotoImpl> get copyWith =>
+      __$$PropertyPhotoImplCopyWithImpl<_$PropertyPhotoImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$PropertyPhotoImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _PropertyPhoto implements PropertyPhoto {
+  const factory _PropertyPhoto(
+      {required final int id,
+      required final int propertyId,
+      final String fileName,
+      final String contentType,
+      final int fileSize,
+      final int sortOrder,
+      final int? uploadedById,
+      final DateTime? uploadedAt}) = _$PropertyPhotoImpl;
+
+  factory _PropertyPhoto.fromJson(Map<String, dynamic> json) =
+      _$PropertyPhotoImpl.fromJson;
+
+  @override
+  int get id;
+  @override
+  int get propertyId;
+  @override
+  String get fileName;
+  @override
+  String get contentType;
+  @override
+  int get fileSize;
+  @override
+  int get sortOrder;
+  @override
+  int? get uploadedById;
+  @override
+  DateTime? get uploadedAt;
+
+  /// Create a copy of PropertyPhoto
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$PropertyPhotoImplCopyWith<_$PropertyPhotoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 ClientMatch _$ClientMatchFromJson(Map<String, dynamic> json) {
   return _ClientMatch.fromJson(json);
 }

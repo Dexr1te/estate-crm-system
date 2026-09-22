@@ -418,3 +418,44 @@ class ShimmerNestedListCard extends StatelessWidget {
         ),
       );
 }
+
+class ShimmerPhotoStripCard extends StatelessWidget {
+  final int tiles;
+  const ShimmerPhotoStripCard({super.key, this.tiles = 3});
+
+  @override
+  Widget build(BuildContext context) => ShimmerCard(
+        radius: AppMetrics.radiusMd,
+        padding: EdgeInsets.all(AppMetrics.cardPadding(context)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Row(
+              children: [
+                Expanded(child: ShimmerBar(widthFactor: 0.24, height: 10)),
+                ShimmerBox(width: 46, height: 10, radius: 5),
+              ],
+            ),
+            const SizedBox(height: 12),
+            SizedBox(
+              height: 104,
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                physics: const NeverScrollableScrollPhysics(),
+                padding: EdgeInsets.zero,
+                itemCount: tiles,
+                separatorBuilder: (_, __) => const SizedBox(width: 8),
+                itemBuilder: (_, __) => const ShimmerBox(
+                    width: 132, height: 104, radius: AppMetrics.radiusSm),
+              ),
+            ),
+            const SizedBox(height: 12),
+            const ShimmerBox(
+                width: double.infinity,
+                height: 38,
+                radius: AppMetrics.radiusSm),
+          ],
+        ),
+      );
+}

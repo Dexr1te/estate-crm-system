@@ -9,6 +9,8 @@
 
     * Contact info (name, email, phone) and the agency's business records are
       collected, linked to the user, and used only to run the app.
+    * Photographs of a listing are uploaded to the agency's own backend, so
+      they are collected and linked to the user as well.
     * Nothing is used for tracking. There is no advertising or analytics SDK in
       the build, and no data leaves the agency's own backend.
 -->
@@ -47,6 +49,18 @@
 		<dict>
 			<key>NSPrivacyCollectedDataType</key>
 			<string>NSPrivacyCollectedDataTypePhoneNumber</string>
+			<key>NSPrivacyCollectedDataTypeLinked</key>
+			<true/>
+			<key>NSPrivacyCollectedDataTypeTracking</key>
+			<false/>
+			<key>NSPrivacyCollectedDataTypePurposes</key>
+			<array>
+				<string>NSPrivacyCollectedDataTypePurposeAppFunctionality</string>
+			</array>
+		</dict>
+		<dict>
+			<key>NSPrivacyCollectedDataType</key>
+			<string>NSPrivacyCollectedDataTypePhotosorVideos</string>
 			<key>NSPrivacyCollectedDataTypeLinked</key>
 			<true/>
 			<key>NSPrivacyCollectedDataTypeTracking</key>

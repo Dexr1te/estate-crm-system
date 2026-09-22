@@ -8,6 +8,7 @@ import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_bloc.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_event.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_state.dart';
+import 'package:real_estate_crm/features/properties/presentation/widgets/property_photos_card.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class PropertyDetailScreen extends StatefulWidget {
@@ -21,6 +22,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
   PropertyResponse? _p;
   List<ClientMatch> _interested = const [];
   List<MeetingResponse> _viewings = const [];
+  List<PropertyPhoto> _photos = const [];
   bool _loading = true;
   String? _error;
 
@@ -40,12 +42,14 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
         Injector.propertiesRepository.getProperty(widget.id),
         Injector.propertiesRepository.getInterested(widget.id),
         Injector.propertiesRepository.getViewings(widget.id),
+        Injector.propertiesRepository.getPhotos(widget.id),
       ]);
       if (!mounted) return;
       setState(() {
         _p = results[0] as PropertyResponse;
         _interested = results[1] as List<ClientMatch>;
         _viewings = results[2] as List<MeetingResponse>;
+        _photos = results[3] as List<PropertyPhoto>;
         _loading = false;
       });
     } catch (_) {
@@ -119,6 +123,8 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
               child: Column(children: [
                 ShimmerHeroCard(lines: 1, buttons: 0),
                 SizedBox(height: 14),
+                ShimmerPhotoStripCard(),
+                SizedBox(height: 14),
                 ShimmerInfoCard(rows: 5, heading: true),
                 SizedBox(height: 14),
                 ShimmerFormCard(fields: 1),
@@ -145,6 +151,11 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
         ),
         children: [
           _PropertyHero(property: p, onCopyId: _copyId),
+          PropertyPhotosCard(
+            propertyId: widget.id,
+            photos: _photos,
+            onChanged: _load,
+          ),
           _DetailsCard(property: p),
           _StatusCard(status: p.status, onChanged: _updateStatus),
           _InterestedCard(buyers: _interested, propertyId: widget.id),

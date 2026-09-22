@@ -1775,6 +1775,9 @@ class AppLocalizationsKk extends AppLocalizations {
   String get propertiesAddFirstListing => 'Алғашқы нысаныңызды қосыңыз';
 
   @override
+  String get propertiesAddPhotos => 'Фото қосу';
+
+  @override
   String get propertiesAddShort => 'Нысан';
 
   @override
@@ -1883,6 +1886,9 @@ class AppLocalizationsKk extends AppLocalizations {
   String get propertiesNoInterested => 'Әзірге мұндайды іздеген жоқ';
 
   @override
+  String get propertiesNoPhotos => 'Әзірге фото жоқ — біріншісі мұқаба болады';
+
+  @override
   String get propertiesNoProperties => 'Нысандар жоқ';
 
   @override
@@ -1891,6 +1897,36 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get propertiesNoViewings => 'Бұл нысан әлі көрсетілмеген';
+
+  @override
+  String propertiesPhotoCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count фото',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get propertiesPhotoDelete => 'Фотоны өшіру';
+
+  @override
+  String get propertiesPhotoDeleteConfirm =>
+      'Бұл фотоны нысаннан өшіру керек пе?';
+
+  @override
+  String propertiesPhotoFailed(String name) {
+    return '$name жүктелмеді';
+  }
+
+  @override
+  String propertiesPhotoTooLarge(String name) {
+    return '$name 12 МБ-тан үлкен';
+  }
+
+  @override
+  String get propertiesPhotos => 'Фото';
 
   @override
   String get propertiesPriceLabel => 'Бағасы';

@@ -123,6 +123,23 @@ class PropertyMatch with _$PropertyMatch {
 }
 
 @freezed
+class PropertyPhoto with _$PropertyPhoto {
+  const factory PropertyPhoto({
+    required int id,
+    required int propertyId,
+    @Default('') String fileName,
+    @Default('image/jpeg') String contentType,
+    @Default(0) int fileSize,
+    @Default(0) int sortOrder,
+    int? uploadedById,
+    DateTime? uploadedAt,
+  }) = _PropertyPhoto;
+
+  factory PropertyPhoto.fromJson(Map<String, dynamic> json) =>
+      _$PropertyPhotoFromJson(json);
+}
+
+@freezed
 class ClientMatch with _$ClientMatch {
   const factory ClientMatch({
     required ClientResponse client,
