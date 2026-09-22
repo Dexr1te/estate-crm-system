@@ -11,8 +11,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
- * The store behind {@code app.documents.storage=filesystem}, which is no longer
- * the default and so is no longer covered by the document endpoints' own test.
+ * The store behind {@code app.documents.storage=filesystem}, which is not the
+ * default and so is not covered by the document endpoints' own test.
  * It stays supported for a deployment with a volume mounted, and the two things
  * worth holding it to are that a file survives the round trip and that a
  * recorded key cannot reach outside the root it was given.

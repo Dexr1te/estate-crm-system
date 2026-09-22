@@ -86,7 +86,7 @@ default is wrong for a submission host:
 | `ADMIN_PASSWORD` | No default, and nothing works without it: `V18` retires the admin passwords the migrations used to carry, so this is the only thing that opens the admin console. Set it **before** deploying, or the console is shut until you do. |
 | `DEMO_ENABLED`, `DEMO_PASSWORD` | Off by default, and the seeder refuses to run without a password. This is the account App Review signs in with. |
 | `APP_SUPPORT_EMAIL`, `APP_OPERATOR_NAME` | Default to `support@estatecrm.app` / `EstateCRM`, both printed on the privacy and support pages a reviewer opens. |
-| `DOCUMENTS_STORAGE` | Defaults to `database`, which is correct here. Set it to `filesystem` only where a real volume is mounted, and point `DOCUMENTS_DIR` at that mount — on a container host with no disk, anything written to the filesystem is gone on the next deploy or wake from sleep. |
+| `DOCUMENTS_STORAGE` | Defaults to `database`. `s3` moves the bytes to a bucket and needs the `S3_*` variables with it — the right answer once attachments are photographs rather than contracts, since the database's own size limit is the ceiling otherwise. Set it to `filesystem` only where a real volume is mounted, and point `DOCUMENTS_DIR` at that mount — on a container host with no disk, anything written to the filesystem is gone on the next deploy or wake from sleep. |
 
 ## The account App Review signs in with
 
