@@ -1448,6 +1448,9 @@ class AppLocalizationsKk extends AppLocalizations {
   String get meetingsPleaseSelectDateTime => 'Күн мен уақытты таңдаңыз';
 
   @override
+  String get meetingsProperty => 'Нысан';
+
+  @override
   String get meetingsSchedule => 'Жоспарлау';
 
   @override
@@ -1455,6 +1458,9 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get meetingsScheduleMeeting => 'Кездесуді жоспарлау';
+
+  @override
+  String get meetingsScheduleViewing => 'Көрсетілім жазу';
 
   @override
   String get meetingsSearchByNameOrId => 'Аты немесе ID бойынша іздеу…';
@@ -1498,6 +1504,9 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get meetingsUpdateMeeting => 'Кездесуді жаңарту';
+
+  @override
+  String get meetingsViewingOf => 'Көрсетілім';
 
   @override
   String get meetingsWhen => 'Қашан';
@@ -1851,6 +1860,9 @@ class AppLocalizationsKk extends AppLocalizations {
       'Сұранысты немесе сүзгіні өзгертіңіз';
 
   @override
+  String get propertiesNoViewings => 'Бұл нысан әлі көрсетілмеген';
+
+  @override
   String get propertiesPriceLabel => 'Бағасы';
 
   @override
@@ -1919,6 +1931,9 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get propertiesUpdateStatus => 'Мәртебені жаңарту';
+
+  @override
+  String get propertiesViewings => 'Көрсетілімдер';
 
   @override
   String remindersBody(Object time) {

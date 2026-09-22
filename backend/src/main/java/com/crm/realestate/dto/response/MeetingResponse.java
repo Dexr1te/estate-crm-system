@@ -14,6 +14,9 @@ public class MeetingResponse {
     private boolean completed;
     private Long dealId;
     private String dealTitle;
+    private Long propertyId;
+    private String propertyTitle;
+    private String propertyAddress;
     private Long agentId;
     private String agentName;
     private Long clientId;

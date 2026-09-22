@@ -12,7 +12,17 @@ import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class MeetingFormScreen extends StatefulWidget {
   final int? meetingId;
-  const MeetingFormScreen({super.key, this.meetingId});
+
+  final int? initialClientId;
+  final int? initialPropertyId;
+
+  const MeetingFormScreen({
+    super.key,
+    this.meetingId,
+    this.initialClientId,
+    this.initialPropertyId,
+  });
+
   bool get isEditing => meetingId != null;
 
   @override
@@ -34,10 +44,12 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
   List<PickerItem> _clients = const [];
   List<PickerItem> _agents = const [];
   List<PickerItem> _deals = const [];
+  List<PickerItem> _properties = const [];
 
   PickerItem? _client;
   PickerItem? _agent;
   PickerItem? _deal;
+  PickerItem? _property;
 
   String? _clientError;
   String? _agentError;
@@ -46,6 +58,12 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
   @override
   void initState() {
     super.initState();
+    if (widget.initialClientId != null) {
+      _client = PickerItem(id: widget.initialClientId!, title: '');
+    }
+    if (widget.initialPropertyId != null) {
+      _property = PickerItem(id: widget.initialPropertyId!, title: '');
+    }
     _loadLists();
     if (widget.isEditing) _loadMeeting();
   }
@@ -100,7 +118,25 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
           _deal = _reconcile(v, _deal);
         },
       ),
+      load<PropertyResponse>(
+        () => Injector.propertiesRepository.getAllProperties(),
+        (p) => PickerItem(id: p.id, title: p.title, subtitle: p.address),
+        (v) {
+          _properties = v;
+          _property = _reconcile(v, _property);
+          _prefillLocation();
+        },
+      ),
     ]);
+  }
+
+  void _prefillLocation() {
+    final address = _property?.subtitle;
+    if (_locationCtrl.text.trim().isEmpty &&
+        address != null &&
+        address.isNotEmpty) {
+      _locationCtrl.text = address;
+    }
   }
 
   PickerItem? _reconcile(List<PickerItem> list, PickerItem? current) {
@@ -143,6 +179,14 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
                 PickerItem(
                     id: m.dealId!,
                     title: m.dealTitle ?? l10n.meetingsDealNumber(m.dealId!)));
+        _property = m.propertyId == null
+            ? null
+            : _reconcile(
+                _properties,
+                PickerItem(
+                    id: m.propertyId!,
+                    title: m.propertyTitle ?? l10n.meetingsViewingOf,
+                    subtitle: m.propertyAddress));
         _initLoading = false;
       });
     } catch (_) {
@@ -239,6 +283,7 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
       'clientId': _client!.id,
       'agentId': _agent!.id,
       if (_deal != null) 'dealId': _deal!.id,
+      if (_property != null) 'propertyId': _property!.id,
       if (_locationCtrl.text.trim().isNotEmpty)
         'location': _locationCtrl.text.trim(),
       if (_descCtrl.text.trim().isNotEmpty)
@@ -401,6 +446,15 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
                           _agent = v;
                           _agentError = null;
                         }, whenNone: l10n.meetingsNoAgentsToAssign),
+                      ),
+                      _PickerRow(
+                        label: l10n.meetingsProperty,
+                        value: _property?.title,
+                        onTap: () => _pick(
+                            l10n.meetingsProperty, _properties, _property, (v) {
+                          _property = v;
+                          _prefillLocation();
+                        }, whenNone: l10n.propertiesNoProperties),
                       ),
                       _PickerRow(
                         label: l10n.meetingsDeal,

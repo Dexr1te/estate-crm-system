@@ -26,4 +26,6 @@ abstract class PropertiesRepository {
   Future<void> deleteProperty(int id);
 
   Future<List<ClientMatch>> getInterested(int id);
+
+  Future<List<MeetingResponse>> getViewings(int id);
 }

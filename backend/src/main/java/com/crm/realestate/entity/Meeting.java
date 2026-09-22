@@ -2,6 +2,8 @@ package com.crm.realestate.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
 
@@ -41,6 +43,19 @@ public class Meeting {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id", nullable = false)
     private Client client;
+
+    /**
+     * The listing being shown, when this meeting is a viewing.
+     *
+     * <p>The showing outlives the listing: {@code SET NULL} rather than a cascade, so taking a
+     * flat off the books does not erase the record of having shown it. Declared here as well as in
+     * V20 so a schema generated from the entities — the test database is one — behaves the way the
+     * migrated one does.
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "property_id")
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    private Property property;
 
     // The agency this record belongs to. See ScopeService for what it decides.
     @ManyToOne(fetch = FetchType.LAZY)

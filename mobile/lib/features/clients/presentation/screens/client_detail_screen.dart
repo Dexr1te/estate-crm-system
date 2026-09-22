@@ -338,7 +338,7 @@ class _MatchesCard extends StatelessWidget {
           else
             for (var i = 0; i < matches.length; i++) ...[
               if (i > 0) const SizedBox(height: 8),
-              _MatchRow(match: matches[i]),
+              _MatchRow(match: matches[i], clientId: client.id),
             ],
         ],
       ),
@@ -348,7 +348,8 @@ class _MatchesCard extends StatelessWidget {
 
 class _MatchRow extends StatelessWidget {
   final PropertyMatch match;
-  const _MatchRow({required this.match});
+  final int clientId;
+  const _MatchRow({required this.match, required this.clientId});
 
   @override
   Widget build(BuildContext context) {
@@ -416,6 +417,12 @@ class _MatchRow extends StatelessWidget {
                     color: t.textPrimary),
               ),
             ],
+          ),
+          const SizedBox(height: 9),
+          AppGhostButton(
+            label: l10n.meetingsScheduleViewing,
+            onPressed: () => context
+                .push('/meetings/new?clientId=$clientId&propertyId=${p.id}'),
           ),
         ],
       ),

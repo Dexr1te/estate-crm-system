@@ -54,4 +54,7 @@ class PropertiesRepositoryImpl implements PropertiesRepository {
 
   @override
   Future<List<ClientMatch>> getInterested(int id) => _remote.getInterested(id);
+
+  @override
+  Future<List<MeetingResponse>> getViewings(int id) => _remote.getViewings(id);
 }

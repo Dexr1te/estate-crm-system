@@ -1462,6 +1462,9 @@ class AppLocalizationsRu extends AppLocalizations {
       'Пожалуйста, выберите дату и время';
 
   @override
+  String get meetingsProperty => 'Объект';
+
+  @override
   String get meetingsSchedule => 'Запланировать';
 
   @override
@@ -1469,6 +1472,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get meetingsScheduleMeeting => 'Запланировать встречу';
+
+  @override
+  String get meetingsScheduleViewing => 'Записать показ';
 
   @override
   String get meetingsSearchByNameOrId => 'Поиск по имени или ID…';
@@ -1512,6 +1518,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get meetingsUpdateMeeting => 'Обновить встречу';
+
+  @override
+  String get meetingsViewingOf => 'Показ';
 
   @override
   String get meetingsWhen => 'Когда';
@@ -1864,6 +1873,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get propertiesNoResultsSubtitle => 'Измените запрос или фильтр';
 
   @override
+  String get propertiesNoViewings => 'Этот объект ещё не показывали';
+
+  @override
   String get propertiesPriceLabel => 'Цена';
 
   @override
@@ -1932,6 +1944,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get propertiesUpdateStatus => 'Обновить статус';
+
+  @override
+  String get propertiesViewings => 'Показы';
 
   @override
   String remindersBody(Object time) {

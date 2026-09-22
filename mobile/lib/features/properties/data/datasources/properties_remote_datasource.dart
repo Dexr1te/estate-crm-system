@@ -64,6 +64,11 @@ class PropertiesRemoteDataSource {
     await _client.dio.delete('/properties/$id');
   }
 
+  Future<List<MeetingResponse>> getViewings(int id) async {
+    final res = await _client.dio.get('/properties/$id/viewings');
+    return jsonArray(res).map(MeetingResponse.fromJson).toList();
+  }
+
   Future<List<ClientMatch>> getInterested(int id) async {
     final res = await _client.dio.get('/properties/$id/interested');
     return jsonArray(res).map(ClientMatch.fromJson).toList();
