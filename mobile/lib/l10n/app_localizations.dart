@@ -2596,6 +2596,12 @@ abstract class AppLocalizations {
   /// **'Please select a date and time'**
   String get meetingsPleaseSelectDateTime;
 
+  /// No description provided for @meetingsProperty.
+  ///
+  /// In en, this message translates to:
+  /// **'Listing'**
+  String get meetingsProperty;
+
   /// No description provided for @meetingsSchedule.
   ///
   /// In en, this message translates to:
@@ -2613,6 +2619,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Schedule Meeting'**
   String get meetingsScheduleMeeting;
+
+  /// No description provided for @meetingsScheduleViewing.
+  ///
+  /// In en, this message translates to:
+  /// **'Schedule a viewing'**
+  String get meetingsScheduleViewing;
 
   /// No description provided for @meetingsSearchByNameOrId.
   ///
@@ -2691,6 +2703,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Update Meeting'**
   String get meetingsUpdateMeeting;
+
+  /// No description provided for @meetingsViewingOf.
+  ///
+  /// In en, this message translates to:
+  /// **'Viewing'**
+  String get meetingsViewingOf;
 
   /// No description provided for @meetingsWhen.
   ///
@@ -3364,6 +3382,12 @@ abstract class AppLocalizations {
   /// **'Try a different search or filter'**
   String get propertiesNoResultsSubtitle;
 
+  /// No description provided for @propertiesNoViewings.
+  ///
+  /// In en, this message translates to:
+  /// **'This listing has not been shown yet'**
+  String get propertiesNoViewings;
+
   /// No description provided for @propertiesPriceLabel.
   ///
   /// In en, this message translates to:
@@ -3483,6 +3507,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Update Status'**
   String get propertiesUpdateStatus;
+
+  /// No description provided for @propertiesViewings.
+  ///
+  /// In en, this message translates to:
+  /// **'Viewings'**
+  String get propertiesViewings;
 
   /// No description provided for @remindersBody.
   ///

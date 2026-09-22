@@ -20,6 +20,7 @@ class PropertyDetailScreen extends StatefulWidget {
 class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
   PropertyResponse? _p;
   List<ClientMatch> _interested = const [];
+  List<MeetingResponse> _viewings = const [];
   bool _loading = true;
   String? _error;
 
@@ -38,11 +39,13 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
       final results = await Future.wait([
         Injector.propertiesRepository.getProperty(widget.id),
         Injector.propertiesRepository.getInterested(widget.id),
+        Injector.propertiesRepository.getViewings(widget.id),
       ]);
       if (!mounted) return;
       setState(() {
         _p = results[0] as PropertyResponse;
         _interested = results[1] as List<ClientMatch>;
+        _viewings = results[2] as List<MeetingResponse>;
         _loading = false;
       });
     } catch (_) {
@@ -121,6 +124,8 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                 ShimmerFormCard(fields: 1),
                 SizedBox(height: 14),
                 ShimmerNestedListCard(rows: 2),
+                SizedBox(height: 14),
+                ShimmerNestedListCard(rows: 2),
               ]),
             ),
         ],
@@ -142,7 +147,8 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
           _PropertyHero(property: p, onCopyId: _copyId),
           _DetailsCard(property: p),
           _StatusCard(status: p.status, onChanged: _updateStatus),
-          _InterestedCard(buyers: _interested),
+          _InterestedCard(buyers: _interested, propertyId: widget.id),
+          _ViewingsCard(viewings: _viewings),
           if (p.description != null && p.description!.trim().isNotEmpty)
             _DescriptionCard(text: p.description!),
         ],
@@ -245,7 +251,8 @@ class _PropertyHero extends StatelessWidget {
 
 class _InterestedCard extends StatelessWidget {
   final List<ClientMatch> buyers;
-  const _InterestedCard({required this.buyers});
+  final int propertyId;
+  const _InterestedCard({required this.buyers, required this.propertyId});
 
   @override
   Widget build(BuildContext context) {
@@ -284,7 +291,7 @@ class _InterestedCard extends StatelessWidget {
           else
             for (var i = 0; i < buyers.length; i++) ...[
               if (i > 0) const SizedBox(height: 8),
-              _BuyerRow(match: buyers[i]),
+              _BuyerRow(match: buyers[i], propertyId: propertyId),
             ],
         ],
       ),
@@ -294,7 +301,8 @@ class _InterestedCard extends StatelessWidget {
 
 class _BuyerRow extends StatelessWidget {
   final ClientMatch match;
-  const _BuyerRow({required this.match});
+  final int propertyId;
+  const _BuyerRow({required this.match, required this.propertyId});
 
   @override
   Widget build(BuildContext context) {
@@ -306,7 +314,8 @@ class _BuyerRow extends StatelessWidget {
       nested: true,
       radius: AppMetrics.radiusSm,
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
-      onTap: () => context.push('/clients/${client.id}'),
+      onTap: () => context
+          .push('/meetings/new?clientId=${client.id}&propertyId=$propertyId'),
       child: Row(
         children: [
           InitialAvatar(name: client.fullName, size: 34),
@@ -346,6 +355,107 @@ class _BuyerRow extends StatelessWidget {
               child: StatusChip(
                   label: l10n.clientsOverBudget, hue: StatusHue.negotiation),
             ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _ViewingsCard extends StatelessWidget {
+  final List<MeetingResponse> viewings;
+  const _ViewingsCard({required this.viewings});
+
+  @override
+  Widget build(BuildContext context) {
+    final t = context.tokens;
+    final l10n = AppLocalizations.of(context);
+    return AppCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            textBaseline: TextBaseline.alphabetic,
+            children: [
+              Expanded(child: EyebrowLabel(l10n.propertiesViewings)),
+              Text('${viewings.length}',
+                  maxLines: 1,
+                  style: TextStyle(
+                      fontFamily: AppFonts.sans,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w600,
+                      color: t.textSecondary)),
+            ],
+          ),
+          const SizedBox(height: 11),
+          if (viewings.isEmpty)
+            Text(
+              l10n.propertiesNoViewings,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                  fontFamily: AppFonts.sans,
+                  fontSize: 12.5,
+                  color: t.textSecondary),
+            )
+          else
+            for (var i = 0; i < viewings.length; i++) ...[
+              if (i > 0) const SizedBox(height: 8),
+              _ViewingRow(viewing: viewings[i]),
+            ],
+        ],
+      ),
+    );
+  }
+}
+
+class _ViewingRow extends StatelessWidget {
+  final MeetingResponse viewing;
+  const _ViewingRow({required this.viewing});
+
+  @override
+  Widget build(BuildContext context) {
+    final t = context.tokens;
+
+    return AppCard(
+      nested: true,
+      radius: AppMetrics.radiusSm,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
+      onTap: () => context.push('/meetings/${viewing.id}'),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  viewing.clientName,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      fontFamily: AppFonts.sans,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: t.textPrimary),
+                ),
+                const SizedBox(height: 3),
+                Text(
+                  formatDateTime(viewing.scheduledAt),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      fontFamily: AppFonts.sans,
+                      fontSize: 11.5,
+                      color: t.textSecondary),
+                ),
+              ],
+            ),
+          ),
+          if (viewing.completed) ...[
+            const SizedBox(width: 8),
+            Icon(Icons.check_circle_outline_rounded,
+                size: 18, color: t.textHint),
           ],
         ],
       ),

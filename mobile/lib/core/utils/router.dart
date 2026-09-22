@@ -295,8 +295,14 @@ GoRouter createRouter(AuthBloc authBloc) {
               GoRoute(
                 path: 'new',
                 parentNavigatorKey: _rootKey,
-                pageBuilder: (_, __) =>
-                    const NoTransitionPage(child: MeetingFormScreen()),
+                pageBuilder: (_, s) => NoTransitionPage(
+                  child: MeetingFormScreen(
+                    initialClientId:
+                        int.tryParse(s.uri.queryParameters['clientId'] ?? ''),
+                    initialPropertyId:
+                        int.tryParse(s.uri.queryParameters['propertyId'] ?? ''),
+                  ),
+                ),
               ),
               GoRoute(
                 path: ':id',

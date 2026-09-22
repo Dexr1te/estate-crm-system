@@ -23,6 +23,9 @@ public class MeetingRequest {
 
     private Long dealId;      // опционально
 
+    /** The listing being shown, when this is a viewing. Optional. */
+    private Long propertyId;
+
     @NotNull(message = "Agent ID is required")
     private Long agentId;
 

@@ -216,10 +216,17 @@ class FakePropertiesRepository implements PropertiesRepository {
   /// What `/properties/{id}/interested` answers — see [FakeClientsRepository.matches].
   final List<ClientMatch> interested;
 
-  FakePropertiesRepository(this.properties, {this.interested = const []});
+  /// What `/properties/{id}/viewings` answers.
+  final List<MeetingResponse> viewings;
+
+  FakePropertiesRepository(this.properties,
+      {this.interested = const [], this.viewings = const []});
 
   @override
   Future<List<ClientMatch>> getInterested(int id) async => interested;
+
+  @override
+  Future<List<MeetingResponse>> getViewings(int id) async => viewings;
 
   @override
   Future<PagedResponse<PropertyResponse>> getProperties({

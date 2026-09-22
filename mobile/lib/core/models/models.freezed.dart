@@ -2491,6 +2491,9 @@ mixin _$MeetingResponse {
   bool get completed => throw _privateConstructorUsedError;
   int? get dealId => throw _privateConstructorUsedError;
   String? get dealTitle => throw _privateConstructorUsedError;
+  int? get propertyId => throw _privateConstructorUsedError;
+  String? get propertyTitle => throw _privateConstructorUsedError;
+  String? get propertyAddress => throw _privateConstructorUsedError;
   int get agentId => throw _privateConstructorUsedError;
   String get agentName => throw _privateConstructorUsedError;
   int get clientId => throw _privateConstructorUsedError;
@@ -2523,6 +2526,9 @@ abstract class $MeetingResponseCopyWith<$Res> {
       bool completed,
       int? dealId,
       String? dealTitle,
+      int? propertyId,
+      String? propertyTitle,
+      String? propertyAddress,
       int agentId,
       String agentName,
       int clientId,
@@ -2554,6 +2560,9 @@ class _$MeetingResponseCopyWithImpl<$Res, $Val extends MeetingResponse>
     Object? completed = null,
     Object? dealId = freezed,
     Object? dealTitle = freezed,
+    Object? propertyId = freezed,
+    Object? propertyTitle = freezed,
+    Object? propertyAddress = freezed,
     Object? agentId = null,
     Object? agentName = null,
     Object? clientId = null,
@@ -2593,6 +2602,18 @@ class _$MeetingResponseCopyWithImpl<$Res, $Val extends MeetingResponse>
       dealTitle: freezed == dealTitle
           ? _value.dealTitle
           : dealTitle // ignore: cast_nullable_to_non_nullable
+              as String?,
+      propertyId: freezed == propertyId
+          ? _value.propertyId
+          : propertyId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      propertyTitle: freezed == propertyTitle
+          ? _value.propertyTitle
+          : propertyTitle // ignore: cast_nullable_to_non_nullable
+              as String?,
+      propertyAddress: freezed == propertyAddress
+          ? _value.propertyAddress
+          : propertyAddress // ignore: cast_nullable_to_non_nullable
               as String?,
       agentId: null == agentId
           ? _value.agentId
@@ -2639,6 +2660,9 @@ abstract class _$$MeetingResponseImplCopyWith<$Res>
       bool completed,
       int? dealId,
       String? dealTitle,
+      int? propertyId,
+      String? propertyTitle,
+      String? propertyAddress,
       int agentId,
       String agentName,
       int clientId,
@@ -2668,6 +2692,9 @@ class __$$MeetingResponseImplCopyWithImpl<$Res>
     Object? completed = null,
     Object? dealId = freezed,
     Object? dealTitle = freezed,
+    Object? propertyId = freezed,
+    Object? propertyTitle = freezed,
+    Object? propertyAddress = freezed,
     Object? agentId = null,
     Object? agentName = null,
     Object? clientId = null,
@@ -2707,6 +2734,18 @@ class __$$MeetingResponseImplCopyWithImpl<$Res>
       dealTitle: freezed == dealTitle
           ? _value.dealTitle
           : dealTitle // ignore: cast_nullable_to_non_nullable
+              as String?,
+      propertyId: freezed == propertyId
+          ? _value.propertyId
+          : propertyId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      propertyTitle: freezed == propertyTitle
+          ? _value.propertyTitle
+          : propertyTitle // ignore: cast_nullable_to_non_nullable
+              as String?,
+      propertyAddress: freezed == propertyAddress
+          ? _value.propertyAddress
+          : propertyAddress // ignore: cast_nullable_to_non_nullable
               as String?,
       agentId: null == agentId
           ? _value.agentId
@@ -2748,6 +2787,9 @@ class _$MeetingResponseImpl implements _MeetingResponse {
       this.completed = false,
       this.dealId,
       this.dealTitle,
+      this.propertyId,
+      this.propertyTitle,
+      this.propertyAddress,
       required this.agentId,
       this.agentName = '',
       required this.clientId,
@@ -2777,6 +2819,12 @@ class _$MeetingResponseImpl implements _MeetingResponse {
   @override
   final String? dealTitle;
   @override
+  final int? propertyId;
+  @override
+  final String? propertyTitle;
+  @override
+  final String? propertyAddress;
+  @override
   final int agentId;
   @override
   @JsonKey()
@@ -2793,7 +2841,7 @@ class _$MeetingResponseImpl implements _MeetingResponse {
 
   @override
   String toString() {
-    return 'MeetingResponse(id: $id, title: $title, description: $description, scheduledAt: $scheduledAt, location: $location, completed: $completed, dealId: $dealId, dealTitle: $dealTitle, agentId: $agentId, agentName: $agentName, clientId: $clientId, clientName: $clientName, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'MeetingResponse(id: $id, title: $title, description: $description, scheduledAt: $scheduledAt, location: $location, completed: $completed, dealId: $dealId, dealTitle: $dealTitle, propertyId: $propertyId, propertyTitle: $propertyTitle, propertyAddress: $propertyAddress, agentId: $agentId, agentName: $agentName, clientId: $clientId, clientName: $clientName, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -2814,6 +2862,12 @@ class _$MeetingResponseImpl implements _MeetingResponse {
             (identical(other.dealId, dealId) || other.dealId == dealId) &&
             (identical(other.dealTitle, dealTitle) ||
                 other.dealTitle == dealTitle) &&
+            (identical(other.propertyId, propertyId) ||
+                other.propertyId == propertyId) &&
+            (identical(other.propertyTitle, propertyTitle) ||
+                other.propertyTitle == propertyTitle) &&
+            (identical(other.propertyAddress, propertyAddress) ||
+                other.propertyAddress == propertyAddress) &&
             (identical(other.agentId, agentId) || other.agentId == agentId) &&
             (identical(other.agentName, agentName) ||
                 other.agentName == agentName) &&
@@ -2839,6 +2893,9 @@ class _$MeetingResponseImpl implements _MeetingResponse {
       completed,
       dealId,
       dealTitle,
+      propertyId,
+      propertyTitle,
+      propertyAddress,
       agentId,
       agentName,
       clientId,
@@ -2873,6 +2930,9 @@ abstract class _MeetingResponse implements MeetingResponse {
       final bool completed,
       final int? dealId,
       final String? dealTitle,
+      final int? propertyId,
+      final String? propertyTitle,
+      final String? propertyAddress,
       required final int agentId,
       final String agentName,
       required final int clientId,
@@ -2899,6 +2959,12 @@ abstract class _MeetingResponse implements MeetingResponse {
   int? get dealId;
   @override
   String? get dealTitle;
+  @override
+  int? get propertyId;
+  @override
+  String? get propertyTitle;
+  @override
+  String? get propertyAddress;
   @override
   int get agentId;
   @override

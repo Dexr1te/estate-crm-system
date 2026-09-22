@@ -1448,6 +1448,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get meetingsPleaseSelectDateTime => 'Please select a date and time';
 
   @override
+  String get meetingsProperty => 'Listing';
+
+  @override
   String get meetingsSchedule => 'Schedule';
 
   @override
@@ -1455,6 +1458,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get meetingsScheduleMeeting => 'Schedule Meeting';
+
+  @override
+  String get meetingsScheduleViewing => 'Schedule a viewing';
 
   @override
   String get meetingsSearchByNameOrId => 'Search by name or ID…';
@@ -1498,6 +1504,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get meetingsUpdateMeeting => 'Update Meeting';
+
+  @override
+  String get meetingsViewingOf => 'Viewing';
 
   @override
   String get meetingsWhen => 'When';
@@ -1851,6 +1860,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get propertiesNoResultsSubtitle => 'Try a different search or filter';
 
   @override
+  String get propertiesNoViewings => 'This listing has not been shown yet';
+
+  @override
   String get propertiesPriceLabel => 'Price';
 
   @override
@@ -1919,6 +1931,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get propertiesUpdateStatus => 'Update Status';
+
+  @override
+  String get propertiesViewings => 'Viewings';
 
   @override
   String remindersBody(Object time) {
