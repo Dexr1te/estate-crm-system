@@ -194,6 +194,14 @@
   "clientsRequirementsHint": "Fill this in and the app will keep showing which listings fit.",
   "clientsSearchHint": "Search by name, phone…",
   "clientsSeller": "Seller",
+  "clientsShownOn": "Shown {date}",
+  "@clientsShownOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "clientsTimestamps": "Timestamps",
   "clientsTitle": "Clients",
   "clientsTryDifferentSearch": "Try a different search",
@@ -422,6 +430,14 @@
   "meetingsNote": "Meeting note",
   "meetingsNothingUpcoming": "Nothing upcoming",
   "meetingsNothingUpcomingSubtitle": "Past meetings stay in your history.",
+  "meetingsOutcome": "How it went",
+  "meetingsOutcomeInterested": "Interested",
+  "meetingsOutcomeNoShow": "No show",
+  "meetingsOutcomeNote": "What they said",
+  "meetingsOutcomeNoteHint": "Too dark, the road is loud…",
+  "meetingsOutcomeRejected": "Turned it down",
+  "meetingsOutcomeRejectedHint": "A listing turned down stops being offered to this buyer",
+  "meetingsOutcomeSave": "Save",
   "meetingsPeopleAndDeal": "People & Deal",
   "meetingsPleaseSelectAgent": "Please select an agent",
   "meetingsPleaseSelectClient": "Please select a client",

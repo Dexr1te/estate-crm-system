@@ -39,6 +39,17 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long>, JpaSpec
     @EntityGraph(attributePaths = {"agent", "client", "deal"})
     List<Meeting> findByAgentId(Long agentId);
 
+    /**
+     * Every showing this buyer has been to, whoever booked it.
+     *
+     * <p>Not narrowed to the asking agent on purpose: the buyer turned the flat down, not the
+     * agent, so a colleague's showing has to count or matching would offer it again.
+     */
+    List<Meeting> findByClientIdAndPropertyIdNotNull(Long clientId);
+
+    /** The same question from the listing's side: who has been shown it, and what did they say. */
+    List<Meeting> findByPropertyId(Long propertyId);
+
     long countByTeamIdAndCompletedFalseAndScheduledAtAfter(Long teamId, LocalDateTime now);
 
     @EntityGraph(attributePaths = {"agent", "client", "deal"})

@@ -3,6 +3,8 @@ package com.crm.realestate.dto.response;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 /**
  * A listing that fits what a buyer asked for.
  *
@@ -16,4 +18,13 @@ import lombok.Data;
 public class PropertyMatch {
     private PropertyResponse property;
     private boolean overBudget;
+
+    /**
+     * When this buyer was last shown it, if they have been.
+     *
+     * <p>Shown rather than hidden: people come back with a spouse and decide differently, and an
+     * agent who cannot see that a flat was already viewed will offer it as though it were new. A
+     * listing they turned down is a different matter — that one does not appear at all.
+     */
+    private LocalDateTime lastShownAt;
 }

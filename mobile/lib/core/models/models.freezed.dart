@@ -1632,6 +1632,7 @@ PropertyMatch _$PropertyMatchFromJson(Map<String, dynamic> json) {
 mixin _$PropertyMatch {
   PropertyResponse get property => throw _privateConstructorUsedError;
   bool get overBudget => throw _privateConstructorUsedError;
+  DateTime? get lastShownAt => throw _privateConstructorUsedError;
 
   /// Serializes this PropertyMatch to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1649,7 +1650,8 @@ abstract class $PropertyMatchCopyWith<$Res> {
           PropertyMatch value, $Res Function(PropertyMatch) then) =
       _$PropertyMatchCopyWithImpl<$Res, PropertyMatch>;
   @useResult
-  $Res call({PropertyResponse property, bool overBudget});
+  $Res call(
+      {PropertyResponse property, bool overBudget, DateTime? lastShownAt});
 
   $PropertyResponseCopyWith<$Res> get property;
 }
@@ -1671,6 +1673,7 @@ class _$PropertyMatchCopyWithImpl<$Res, $Val extends PropertyMatch>
   $Res call({
     Object? property = null,
     Object? overBudget = null,
+    Object? lastShownAt = freezed,
   }) {
     return _then(_value.copyWith(
       property: null == property
@@ -1681,6 +1684,10 @@ class _$PropertyMatchCopyWithImpl<$Res, $Val extends PropertyMatch>
           ? _value.overBudget
           : overBudget // ignore: cast_nullable_to_non_nullable
               as bool,
+      lastShownAt: freezed == lastShownAt
+          ? _value.lastShownAt
+          : lastShownAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
   }
 
@@ -1703,7 +1710,8 @@ abstract class _$$PropertyMatchImplCopyWith<$Res>
       __$$PropertyMatchImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({PropertyResponse property, bool overBudget});
+  $Res call(
+      {PropertyResponse property, bool overBudget, DateTime? lastShownAt});
 
   @override
   $PropertyResponseCopyWith<$Res> get property;
@@ -1724,6 +1732,7 @@ class __$$PropertyMatchImplCopyWithImpl<$Res>
   $Res call({
     Object? property = null,
     Object? overBudget = null,
+    Object? lastShownAt = freezed,
   }) {
     return _then(_$PropertyMatchImpl(
       property: null == property
@@ -1734,6 +1743,10 @@ class __$$PropertyMatchImplCopyWithImpl<$Res>
           ? _value.overBudget
           : overBudget // ignore: cast_nullable_to_non_nullable
               as bool,
+      lastShownAt: freezed == lastShownAt
+          ? _value.lastShownAt
+          : lastShownAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -1741,7 +1754,8 @@ class __$$PropertyMatchImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$PropertyMatchImpl implements _PropertyMatch {
-  const _$PropertyMatchImpl({required this.property, this.overBudget = false});
+  const _$PropertyMatchImpl(
+      {required this.property, this.overBudget = false, this.lastShownAt});
 
   factory _$PropertyMatchImpl.fromJson(Map<String, dynamic> json) =>
       _$$PropertyMatchImplFromJson(json);
@@ -1751,10 +1765,12 @@ class _$PropertyMatchImpl implements _PropertyMatch {
   @override
   @JsonKey()
   final bool overBudget;
+  @override
+  final DateTime? lastShownAt;
 
   @override
   String toString() {
-    return 'PropertyMatch(property: $property, overBudget: $overBudget)';
+    return 'PropertyMatch(property: $property, overBudget: $overBudget, lastShownAt: $lastShownAt)';
   }
 
   @override
@@ -1765,12 +1781,15 @@ class _$PropertyMatchImpl implements _PropertyMatch {
             (identical(other.property, property) ||
                 other.property == property) &&
             (identical(other.overBudget, overBudget) ||
-                other.overBudget == overBudget));
+                other.overBudget == overBudget) &&
+            (identical(other.lastShownAt, lastShownAt) ||
+                other.lastShownAt == lastShownAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, property, overBudget);
+  int get hashCode =>
+      Object.hash(runtimeType, property, overBudget, lastShownAt);
 
   /// Create a copy of PropertyMatch
   /// with the given fields replaced by the non-null parameter values.
@@ -1791,7 +1810,8 @@ class _$PropertyMatchImpl implements _PropertyMatch {
 abstract class _PropertyMatch implements PropertyMatch {
   const factory _PropertyMatch(
       {required final PropertyResponse property,
-      final bool overBudget}) = _$PropertyMatchImpl;
+      final bool overBudget,
+      final DateTime? lastShownAt}) = _$PropertyMatchImpl;
 
   factory _PropertyMatch.fromJson(Map<String, dynamic> json) =
       _$PropertyMatchImpl.fromJson;
@@ -1800,6 +1820,8 @@ abstract class _PropertyMatch implements PropertyMatch {
   PropertyResponse get property;
   @override
   bool get overBudget;
+  @override
+  DateTime? get lastShownAt;
 
   /// Create a copy of PropertyMatch
   /// with the given fields replaced by the non-null parameter values.
@@ -2494,6 +2516,8 @@ mixin _$MeetingResponse {
   int? get propertyId => throw _privateConstructorUsedError;
   String? get propertyTitle => throw _privateConstructorUsedError;
   String? get propertyAddress => throw _privateConstructorUsedError;
+  ViewingOutcome? get outcome => throw _privateConstructorUsedError;
+  String? get outcomeNote => throw _privateConstructorUsedError;
   int get agentId => throw _privateConstructorUsedError;
   String get agentName => throw _privateConstructorUsedError;
   int get clientId => throw _privateConstructorUsedError;
@@ -2529,6 +2553,8 @@ abstract class $MeetingResponseCopyWith<$Res> {
       int? propertyId,
       String? propertyTitle,
       String? propertyAddress,
+      ViewingOutcome? outcome,
+      String? outcomeNote,
       int agentId,
       String agentName,
       int clientId,
@@ -2563,6 +2589,8 @@ class _$MeetingResponseCopyWithImpl<$Res, $Val extends MeetingResponse>
     Object? propertyId = freezed,
     Object? propertyTitle = freezed,
     Object? propertyAddress = freezed,
+    Object? outcome = freezed,
+    Object? outcomeNote = freezed,
     Object? agentId = null,
     Object? agentName = null,
     Object? clientId = null,
@@ -2615,6 +2643,14 @@ class _$MeetingResponseCopyWithImpl<$Res, $Val extends MeetingResponse>
           ? _value.propertyAddress
           : propertyAddress // ignore: cast_nullable_to_non_nullable
               as String?,
+      outcome: freezed == outcome
+          ? _value.outcome
+          : outcome // ignore: cast_nullable_to_non_nullable
+              as ViewingOutcome?,
+      outcomeNote: freezed == outcomeNote
+          ? _value.outcomeNote
+          : outcomeNote // ignore: cast_nullable_to_non_nullable
+              as String?,
       agentId: null == agentId
           ? _value.agentId
           : agentId // ignore: cast_nullable_to_non_nullable
@@ -2663,6 +2699,8 @@ abstract class _$$MeetingResponseImplCopyWith<$Res>
       int? propertyId,
       String? propertyTitle,
       String? propertyAddress,
+      ViewingOutcome? outcome,
+      String? outcomeNote,
       int agentId,
       String agentName,
       int clientId,
@@ -2695,6 +2733,8 @@ class __$$MeetingResponseImplCopyWithImpl<$Res>
     Object? propertyId = freezed,
     Object? propertyTitle = freezed,
     Object? propertyAddress = freezed,
+    Object? outcome = freezed,
+    Object? outcomeNote = freezed,
     Object? agentId = null,
     Object? agentName = null,
     Object? clientId = null,
@@ -2747,6 +2787,14 @@ class __$$MeetingResponseImplCopyWithImpl<$Res>
           ? _value.propertyAddress
           : propertyAddress // ignore: cast_nullable_to_non_nullable
               as String?,
+      outcome: freezed == outcome
+          ? _value.outcome
+          : outcome // ignore: cast_nullable_to_non_nullable
+              as ViewingOutcome?,
+      outcomeNote: freezed == outcomeNote
+          ? _value.outcomeNote
+          : outcomeNote // ignore: cast_nullable_to_non_nullable
+              as String?,
       agentId: null == agentId
           ? _value.agentId
           : agentId // ignore: cast_nullable_to_non_nullable
@@ -2790,6 +2838,8 @@ class _$MeetingResponseImpl implements _MeetingResponse {
       this.propertyId,
       this.propertyTitle,
       this.propertyAddress,
+      this.outcome,
+      this.outcomeNote,
       required this.agentId,
       this.agentName = '',
       required this.clientId,
@@ -2825,6 +2875,10 @@ class _$MeetingResponseImpl implements _MeetingResponse {
   @override
   final String? propertyAddress;
   @override
+  final ViewingOutcome? outcome;
+  @override
+  final String? outcomeNote;
+  @override
   final int agentId;
   @override
   @JsonKey()
@@ -2841,7 +2895,7 @@ class _$MeetingResponseImpl implements _MeetingResponse {
 
   @override
   String toString() {
-    return 'MeetingResponse(id: $id, title: $title, description: $description, scheduledAt: $scheduledAt, location: $location, completed: $completed, dealId: $dealId, dealTitle: $dealTitle, propertyId: $propertyId, propertyTitle: $propertyTitle, propertyAddress: $propertyAddress, agentId: $agentId, agentName: $agentName, clientId: $clientId, clientName: $clientName, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'MeetingResponse(id: $id, title: $title, description: $description, scheduledAt: $scheduledAt, location: $location, completed: $completed, dealId: $dealId, dealTitle: $dealTitle, propertyId: $propertyId, propertyTitle: $propertyTitle, propertyAddress: $propertyAddress, outcome: $outcome, outcomeNote: $outcomeNote, agentId: $agentId, agentName: $agentName, clientId: $clientId, clientName: $clientName, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -2868,6 +2922,9 @@ class _$MeetingResponseImpl implements _MeetingResponse {
                 other.propertyTitle == propertyTitle) &&
             (identical(other.propertyAddress, propertyAddress) ||
                 other.propertyAddress == propertyAddress) &&
+            (identical(other.outcome, outcome) || other.outcome == outcome) &&
+            (identical(other.outcomeNote, outcomeNote) ||
+                other.outcomeNote == outcomeNote) &&
             (identical(other.agentId, agentId) || other.agentId == agentId) &&
             (identical(other.agentName, agentName) ||
                 other.agentName == agentName) &&
@@ -2883,25 +2940,28 @@ class _$MeetingResponseImpl implements _MeetingResponse {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      title,
-      description,
-      scheduledAt,
-      location,
-      completed,
-      dealId,
-      dealTitle,
-      propertyId,
-      propertyTitle,
-      propertyAddress,
-      agentId,
-      agentName,
-      clientId,
-      clientName,
-      createdAt,
-      updatedAt);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        id,
+        title,
+        description,
+        scheduledAt,
+        location,
+        completed,
+        dealId,
+        dealTitle,
+        propertyId,
+        propertyTitle,
+        propertyAddress,
+        outcome,
+        outcomeNote,
+        agentId,
+        agentName,
+        clientId,
+        clientName,
+        createdAt,
+        updatedAt
+      ]);
 
   /// Create a copy of MeetingResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -2933,6 +2993,8 @@ abstract class _MeetingResponse implements MeetingResponse {
       final int? propertyId,
       final String? propertyTitle,
       final String? propertyAddress,
+      final ViewingOutcome? outcome,
+      final String? outcomeNote,
       required final int agentId,
       final String agentName,
       required final int clientId,
@@ -2965,6 +3027,10 @@ abstract class _MeetingResponse implements MeetingResponse {
   String? get propertyTitle;
   @override
   String? get propertyAddress;
+  @override
+  ViewingOutcome? get outcome;
+  @override
+  String? get outcomeNote;
   @override
   int get agentId;
   @override

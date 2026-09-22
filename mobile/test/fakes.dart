@@ -133,6 +133,12 @@ class FakeMeetingsRepository implements MeetingsRepository {
   @override
   Future<MeetingResponse> completeMeeting(int id) => throw UnimplementedError();
   @override
+  Future<MeetingResponse> recordOutcome(
+          int id, ViewingOutcome outcome, String? note) async =>
+      meetings
+          .firstWhere((m) => m.id == id)
+          .copyWith(outcome: outcome, outcomeNote: note, completed: true);
+  @override
   Future<void> deleteMeeting(int id) => throw UnimplementedError();
 }
 

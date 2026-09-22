@@ -1,5 +1,6 @@
 package com.crm.realestate.dto.response;
 
+import com.crm.realestate.enums.ViewingOutcome;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -14,6 +15,8 @@ public class MeetingResponse {
     private boolean completed;
     private Long dealId;
     private String dealTitle;
+    private ViewingOutcome outcome;
+    private String outcomeNote;
     private Long propertyId;
     private String propertyTitle;
     private String propertyAddress;

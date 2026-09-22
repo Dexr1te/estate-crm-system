@@ -111,6 +111,17 @@ StatusHue propertyStatusHue(PropertyStatus status) {
   }
 }
 
+String viewingOutcomeLabel(AppLocalizations l10n, ViewingOutcome outcome) {
+  switch (outcome) {
+    case ViewingOutcome.INTERESTED:
+      return l10n.meetingsOutcomeInterested;
+    case ViewingOutcome.REJECTED:
+      return l10n.meetingsOutcomeRejected;
+    case ViewingOutcome.NO_SHOW:
+      return l10n.meetingsOutcomeNoShow;
+  }
+}
+
 String propertyStatusLabel(AppLocalizations l10n, PropertyStatus status) {
   switch (status) {
     case PropertyStatus.AVAILABLE:

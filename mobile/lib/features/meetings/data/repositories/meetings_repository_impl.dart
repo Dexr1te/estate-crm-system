@@ -34,5 +34,10 @@ class MeetingsRepositoryImpl implements MeetingsRepository {
       _remote.completeMeeting(id);
 
   @override
+  Future<MeetingResponse> recordOutcome(
+          int id, ViewingOutcome outcome, String? note) =>
+      _remote.recordOutcome(id, outcome, note);
+
+  @override
   Future<void> deleteMeeting(int id) => _remote.deleteMeeting(id);
 }

@@ -39,6 +39,15 @@ class MeetingsRemoteDataSource {
     return MeetingResponse.fromJson(jsonObject(res));
   }
 
+  Future<MeetingResponse> recordOutcome(
+      int id, ViewingOutcome outcome, String? note) async {
+    final res = await _client.dio.patch('/meetings/$id/outcome', data: {
+      'outcome': outcome.name,
+      if (note != null && note.trim().isNotEmpty) 'note': note.trim(),
+    });
+    return MeetingResponse.fromJson(jsonObject(res));
+  }
+
   Future<MeetingResponse> completeMeeting(int id) async {
     final res = await _client.dio.patch('/meetings/$id/complete');
     return MeetingResponse.fromJson(jsonObject(res));

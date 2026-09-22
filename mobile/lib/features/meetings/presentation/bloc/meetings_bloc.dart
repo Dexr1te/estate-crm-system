@@ -18,6 +18,7 @@ class MeetingsBloc extends Bloc<MeetingsEvent, MeetingsState>
     on<MeetingsCreateEvent>(_onCreate);
     on<MeetingsUpdateEvent>(_onUpdate);
     on<MeetingsCompleteEvent>(_onComplete);
+    on<MeetingsOutcomeEvent>(_onOutcome);
   }
 
   List<MeetingResponse> get _current {
@@ -71,4 +72,9 @@ class MeetingsBloc extends Bloc<MeetingsEvent, MeetingsState>
           MeetingsCompleteEvent e, Emitter<MeetingsState> emit) =>
       _act(emit, 'complete-${e.id}', ActionMessage.meetingCompleted,
           () => _repo.completeMeeting(e.id));
+
+  Future<void> _onOutcome(
+          MeetingsOutcomeEvent e, Emitter<MeetingsState> emit) =>
+      _act(emit, 'outcome-${e.id}', ActionMessage.meetingUpdated,
+          () => _repo.recordOutcome(e.id, e.outcome, e.note));
 }
