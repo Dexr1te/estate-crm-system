@@ -42,4 +42,9 @@ class ClientsRemoteDataSource {
   Future<void> deleteClient(int id) async {
     await _client.dio.delete('/clients/$id');
   }
+
+  Future<List<PropertyMatch>> getMatches(int id) async {
+    final res = await _client.dio.get('/clients/$id/matches');
+    return jsonArray(res).map(PropertyMatch.fromJson).toList();
+  }
 }

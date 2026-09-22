@@ -16,4 +16,6 @@ abstract class ClientsRepository {
   Future<ClientResponse> updateClient(int id, Map<String, dynamic> data);
 
   Future<void> deleteClient(int id);
+
+  Future<List<PropertyMatch>> getMatches(int id);
 }

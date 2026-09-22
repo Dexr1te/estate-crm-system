@@ -163,7 +163,19 @@ class FakeDealsRepository implements DealsRepository {
 class FakeClientsRepository implements ClientsRepository {
   final List<ClientResponse> clients;
   final List<ClientListItem> listItems;
-  FakeClientsRepository({this.clients = const [], this.listItems = const []});
+
+  /// What `/clients/{id}/matches` answers. The matching rules themselves live on
+  /// the backend and are tested there; a screen test only needs the shapes.
+  final List<PropertyMatch> matches;
+
+  FakeClientsRepository({
+    this.clients = const [],
+    this.listItems = const [],
+    this.matches = const [],
+  });
+
+  @override
+  Future<List<PropertyMatch>> getMatches(int id) async => matches;
 
   @override
   Future<List<ClientResponse>> getClients({
@@ -200,7 +212,14 @@ class FakeClientsRepository implements ClientsRepository {
 
 class FakePropertiesRepository implements PropertiesRepository {
   final List<PropertyResponse> properties;
-  FakePropertiesRepository(this.properties);
+
+  /// What `/properties/{id}/interested` answers — see [FakeClientsRepository.matches].
+  final List<ClientMatch> interested;
+
+  FakePropertiesRepository(this.properties, {this.interested = const []});
+
+  @override
+  Future<List<ClientMatch>> getInterested(int id) async => interested;
 
   @override
   Future<PagedResponse<PropertyResponse>> getProperties({

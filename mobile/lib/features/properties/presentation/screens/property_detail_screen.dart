@@ -19,6 +19,7 @@ class PropertyDetailScreen extends StatefulWidget {
 
 class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
   PropertyResponse? _p;
+  List<ClientMatch> _interested = const [];
   bool _loading = true;
   String? _error;
 
@@ -34,10 +35,14 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
       _error = null;
     });
     try {
-      final p = await Injector.propertiesRepository.getProperty(widget.id);
+      final results = await Future.wait([
+        Injector.propertiesRepository.getProperty(widget.id),
+        Injector.propertiesRepository.getInterested(widget.id),
+      ]);
       if (!mounted) return;
       setState(() {
-        _p = p;
+        _p = results[0] as PropertyResponse;
+        _interested = results[1] as List<ClientMatch>;
         _loading = false;
       });
     } catch (_) {
@@ -114,6 +119,8 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
                 ShimmerInfoCard(rows: 5, heading: true),
                 SizedBox(height: 14),
                 ShimmerFormCard(fields: 1),
+                SizedBox(height: 14),
+                ShimmerNestedListCard(rows: 2),
               ]),
             ),
         ],
@@ -135,6 +142,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
           _PropertyHero(property: p, onCopyId: _copyId),
           _DetailsCard(property: p),
           _StatusCard(status: p.status, onChanged: _updateStatus),
+          _InterestedCard(buyers: _interested),
           if (p.description != null && p.description!.trim().isNotEmpty)
             _DescriptionCard(text: p.description!),
         ],
@@ -229,6 +237,116 @@ class _PropertyHero extends StatelessWidget {
                   color: t.heroTextMuted),
             ),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class _InterestedCard extends StatelessWidget {
+  final List<ClientMatch> buyers;
+  const _InterestedCard({required this.buyers});
+
+  @override
+  Widget build(BuildContext context) {
+    final t = context.tokens;
+    final l10n = AppLocalizations.of(context);
+
+    return AppCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            textBaseline: TextBaseline.alphabetic,
+            children: [
+              Expanded(child: EyebrowLabel(l10n.propertiesInterested)),
+              Text('${buyers.length}',
+                  maxLines: 1,
+                  style: TextStyle(
+                      fontFamily: AppFonts.sans,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w600,
+                      color: t.textSecondary)),
+            ],
+          ),
+          const SizedBox(height: 11),
+          if (buyers.isEmpty)
+            Text(
+              l10n.propertiesNoInterested,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                  fontFamily: AppFonts.sans,
+                  fontSize: 12.5,
+                  color: t.textSecondary),
+            )
+          else
+            for (var i = 0; i < buyers.length; i++) ...[
+              if (i > 0) const SizedBox(height: 8),
+              _BuyerRow(match: buyers[i]),
+            ],
+        ],
+      ),
+    );
+  }
+}
+
+class _BuyerRow extends StatelessWidget {
+  final ClientMatch match;
+  const _BuyerRow({required this.match});
+
+  @override
+  Widget build(BuildContext context) {
+    final t = context.tokens;
+    final l10n = AppLocalizations.of(context);
+    final client = match.client;
+
+    return AppCard(
+      nested: true,
+      radius: AppMetrics.radiusSm,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
+      onTap: () => context.push('/clients/${client.id}'),
+      child: Row(
+        children: [
+          InitialAvatar(name: client.fullName, size: 34),
+          const SizedBox(width: 11),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  client.fullName,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      fontFamily: AppFonts.sans,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: t.textPrimary),
+                ),
+                if (client.phone != null && client.phone!.isNotEmpty) ...[
+                  const SizedBox(height: 3),
+                  Text(
+                    client.phone!,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontFamily: AppFonts.sans,
+                        fontSize: 11.5,
+                        color: t.textSecondary),
+                  ),
+                ],
+              ],
+            ),
+          ),
+          if (match.overBudget) ...[
+            const SizedBox(width: 8),
+            Flexible(
+              child: StatusChip(
+                  label: l10n.clientsOverBudget, hue: StatusHue.negotiation),
+            ),
+          ],
         ],
       ),
     );

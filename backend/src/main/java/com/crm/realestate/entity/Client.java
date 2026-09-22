@@ -1,9 +1,11 @@
 package com.crm.realestate.entity;
 
 import com.crm.realestate.enums.ClientType;
+import com.crm.realestate.enums.PropertyType;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +37,25 @@ public class Client {
     private ClientType type;     // BUYER или SELLER
 
     private String notes;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "wanted_type", length = 30)
+    private PropertyType wantedType;
+
+    @Column(name = "wanted_city", length = 120)
+    private String wantedCity;
+
+    @Column(name = "budget_min", precision = 15, scale = 2)
+    private BigDecimal budgetMin;
+
+    @Column(name = "budget_max", precision = 15, scale = 2)
+    private BigDecimal budgetMax;
+
+    @Column(name = "min_rooms")
+    private Integer minRooms;
+
+    @Column(name = "min_area_sqm")
+    private Double minAreaSqm;
 
     // Агент который ведёт клиента
     @ManyToOne(fetch = FetchType.LAZY)

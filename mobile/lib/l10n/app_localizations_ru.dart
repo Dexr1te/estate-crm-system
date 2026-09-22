@@ -168,6 +168,15 @@ class AppLocalizationsRu extends AppLocalizations {
       'Введите выданный вам код приглашения и придумайте пароль.';
 
   @override
+  String get authAcceptRequest => 'Принять';
+
+  @override
+  String get authAcceptTerms => 'Я согласен с политикой конфиденциальности';
+
+  @override
+  String get authAcceptTermsRequired => 'Примите политику конфиденциальности';
+
+  @override
   String get authAcceptYourInvite => 'Примите приглашение';
 
   @override
@@ -177,7 +186,54 @@ class AppLocalizationsRu extends AppLocalizations {
   String get authBackToSignIn => 'Назад ко входу';
 
   @override
+  String get authChangeEmail => 'Другой адрес';
+
+  @override
+  String get authChooseRoleSubtitle =>
+      'От этого зависит, что вы увидите. Позже руководитель сможет изменить это.';
+
+  @override
+  String get authChooseRoleTitle => 'Как вы будете работать?';
+
+  @override
   String get authConfirmPassword => 'Подтвердите пароль';
+
+  @override
+  String get authContinue => 'Продолжить';
+
+  @override
+  String get authCreateAccountSubtitle =>
+      'Мы отправим на почту шестизначный код для подтверждения адреса.';
+
+  @override
+  String get authCreateAccountTitle => 'Создайте аккаунт';
+
+  @override
+  String get authCreateTeamAction => 'Создать и продолжить';
+
+  @override
+  String get authCreateTeamName => 'Название агентства';
+
+  @override
+  String get authCreateTeamNameRequired => 'Введите название';
+
+  @override
+  String get authCreateTeamSubtitle =>
+      'Название увидят ваши агенты. Его можно изменить позже.';
+
+  @override
+  String get authCreateTeamTitle => 'Создайте агентство';
+
+  @override
+  String get authDeclineRequest => 'Отклонить';
+
+  @override
+  String authDeclineRequestBody(Object team) {
+    return '$team не увидит ваших клиентов и сделок. Позже вас смогут пригласить снова.';
+  }
+
+  @override
+  String get authDeclineRequestTitle => 'Отклонить приглашение?';
 
   @override
   String get authEmail => 'Эл. почта';
@@ -187,6 +243,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get authEmailRequired => 'Укажите эл. почту';
+
+  @override
+  String get authEmailTaken => 'На этот адрес уже есть аккаунт. Войдите.';
 
   @override
   String get authForgotPassword => 'Забыли пароль?';
@@ -199,6 +258,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get authForgotPasswordTitle => 'Сброс пароля';
 
   @override
+  String get authFullName => 'Имя и фамилия';
+
+  @override
+  String get authFullNameRequired => 'Введите имя';
+
+  @override
   String get authHaveAnInvite => 'Есть приглашение?';
 
   @override
@@ -206,6 +271,13 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get authInviteCodeRequired => 'Укажите код приглашения';
+
+  @override
+  String get authInvitePendingBody =>
+      'На этот адрес отправлено приглашение. Откройте его или введите код, чтобы задать пароль.';
+
+  @override
+  String get authInvitePendingTitle => 'Вас уже приглашали';
 
   @override
   String authInviteSignOutBody(Object email) {
@@ -219,7 +291,20 @@ class AppLocalizationsRu extends AppLocalizations {
   String get authInviteSignOutTitle => 'Принять приглашение?';
 
   @override
+  String authInvitedBy(Object name) {
+    return 'От $name';
+  }
+
+  @override
+  String authInvitedByTeam(Object team) {
+    return '$team приглашает вас';
+  }
+
+  @override
   String get authNewPassword => 'Новый пароль';
+
+  @override
+  String get authNoAccount => 'Нет аккаунта?';
 
   @override
   String get authPassword => 'Пароль';
@@ -231,10 +316,27 @@ class AppLocalizationsRu extends AppLocalizations {
   String get authPasswordMinLength => 'Не менее 6 символов';
 
   @override
+  String get authPasswordMinLength8 => 'Минимум 8 символов';
+
+  @override
   String get authPasswordRequired => 'Укажите пароль';
 
   @override
   String get authPasswordsDoNotMatch => 'Пароли не совпадают';
+
+  @override
+  String get authPhoneOptional => 'Телефон (необязательно)';
+
+  @override
+  String get authPrivacyPolicy => 'Политика конфиденциальности';
+
+  @override
+  String get authResendCode => 'Отправить код снова';
+
+  @override
+  String authResendCodeIn(Object seconds) {
+    return 'Новый код через $seconds с';
+  }
 
   @override
   String get authResetCode => 'Код сброса';
@@ -258,6 +360,20 @@ class AppLocalizationsRu extends AppLocalizations {
   String get authResetPasswordTitle => 'Новый пароль';
 
   @override
+  String get authRoleAgentBody =>
+      'Присоединитесь к команде руководителя и ведите своих клиентов и сделки.';
+
+  @override
+  String get authRoleAgentTitle => 'Я агент';
+
+  @override
+  String get authRoleManagerBody =>
+      'Создайте команду, добавляйте агентов и видьте всю их работу.';
+
+  @override
+  String get authRoleManagerTitle => 'Я руковожу агентством';
+
+  @override
   String get authSendResetLink => 'Отправить ссылку';
 
   @override
@@ -271,6 +387,42 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get authSignInSubtitle => 'Войдите, чтобы управлять своими объектами';
+
+  @override
+  String get authSignUp => 'Зарегистрироваться';
+
+  @override
+  String get authVerify => 'Подтвердить';
+
+  @override
+  String get authVerifyCodeRequired => 'Введите шесть цифр из письма';
+
+  @override
+  String authVerifyEmailSubtitle(Object email) {
+    return 'Введите шестизначный код, отправленный на $email.';
+  }
+
+  @override
+  String get authVerifyEmailTitle => 'Подтвердите почту';
+
+  @override
+  String get authWaitingCopyEmail => 'Скопировать адрес';
+
+  @override
+  String get authWaitingEmailCopied => 'Адрес скопирован';
+
+  @override
+  String get authWaitingNoRequests => 'Приглашений пока нет';
+
+  @override
+  String get authWaitingNoRequestsBody => 'Потяните вниз, чтобы обновить.';
+
+  @override
+  String get authWaitingSubtitle =>
+      'Передайте этот адрес руководителю. Как только он добавит вас и вы примете запрос, здесь появятся клиенты и сделки.';
+
+  @override
+  String get authWaitingTitle => 'Ожидание команды';
 
   @override
   String get authWelcomeBack => 'С возвращением!';
@@ -291,6 +443,20 @@ class AppLocalizationsRu extends AppLocalizations {
   String clientsAgentMeta(Object name) {
     return 'агент $name';
   }
+
+  @override
+  String get clientsAnyType => 'Любой';
+
+  @override
+  String get clientsBudgetFrom => 'Бюджет от';
+
+  @override
+  String clientsBudgetRange(String from, String to) {
+    return '$from – $to';
+  }
+
+  @override
+  String get clientsBudgetTo => 'Бюджет до';
 
   @override
   String get clientsBuyer => 'Покупатель';
@@ -406,7 +572,16 @@ class AppLocalizationsRu extends AppLocalizations {
   String get clientsInvalidEmail => 'Неверный email';
 
   @override
+  String get clientsMatches => 'Подходящие объекты';
+
+  @override
   String get clientsMessage => 'Написать';
+
+  @override
+  String get clientsMinArea => 'Площадь, минимум м²';
+
+  @override
+  String get clientsMinRooms => 'Комнат, минимум';
 
   @override
   String get clientsNameRequired => 'Укажите имя';
@@ -421,7 +596,14 @@ class AppLocalizationsRu extends AppLocalizations {
   String get clientsNoEmail => 'Эл. почта не указана';
 
   @override
+  String get clientsNoMatches => 'Пока ничего подходящего нет';
+
+  @override
   String get clientsNoPhone => 'Телефон не указан';
+
+  @override
+  String get clientsNoRequirements =>
+      'Укажите, что ищет покупатель, и здесь появятся подходящие объекты';
 
   @override
   String get clientsNotes => 'Заметки';
@@ -430,7 +612,17 @@ class AppLocalizationsRu extends AppLocalizations {
   String get clientsNotesHint => 'Дополнительные заметки об этом клиенте…';
 
   @override
+  String get clientsOverBudget => 'Дороже бюджета';
+
+  @override
   String get clientsPhone => 'Телефон';
+
+  @override
+  String get clientsRequirements => 'Что ищет';
+
+  @override
+  String get clientsRequirementsHint =>
+      'Заполните — и приложение будет само показывать подходящие объекты.';
 
   @override
   String get clientsSearchHint => 'Поиск по имени, телефону…';
@@ -457,6 +649,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String clientsUpdatedAt(Object date) {
     return 'Обновлено $date';
   }
+
+  @override
+  String get clientsWantedCity => 'Город';
+
+  @override
+  String get clientsWantedType => 'Тип объекта';
 
   @override
   String get coreCall => 'Позвонить';
@@ -1334,6 +1532,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get msgClientUpdated => 'Клиент обновлён';
 
   @override
+  String get msgCodeSent => 'Код отправлен';
+
+  @override
   String get msgDealCreated => 'Сделка создана';
 
   @override
@@ -1364,272 +1565,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get msgMeetingUpdated => 'Встреча обновлена';
 
   @override
-  String get msgProfileUpdated => 'Профиль обновлён';
-
-  @override
-  String get msgCodeSent => 'Код отправлен';
-
-  @override
-  String get msgRequestSent => 'Запрос отправлен';
-
-  @override
-  String get msgRequestCancelled => 'Запрос отозван';
-
-  @override
-  String get msgTeamJoined => 'Вы в команде';
-
-  @override
-  String get msgRequestDeclined => 'Запрос отклонён';
-
-  @override
   String get msgMemberRemoved => 'Агент удалён из команды';
 
   @override
-  String get msgTeamLeft => 'Вы вышли из команды';
-
-  @override
-  String get authNoAccount => 'Нет аккаунта?';
-
-  @override
-  String get authSignUp => 'Зарегистрироваться';
-
-  @override
-  String get authChooseRoleTitle => 'Как вы будете работать?';
-
-  @override
-  String get authChooseRoleSubtitle =>
-      'От этого зависит, что вы увидите. Позже руководитель сможет изменить это.';
-
-  @override
-  String get authRoleManagerTitle => 'Я руковожу агентством';
-
-  @override
-  String get authRoleManagerBody =>
-      'Создайте команду, добавляйте агентов и видьте всю их работу.';
-
-  @override
-  String get authRoleAgentTitle => 'Я агент';
-
-  @override
-  String get authRoleAgentBody =>
-      'Присоединитесь к команде руководителя и ведите своих клиентов и сделки.';
-
-  @override
-  String get authContinue => 'Продолжить';
-
-  @override
-  String get authCreateAccountTitle => 'Создайте аккаунт';
-
-  @override
-  String get authCreateAccountSubtitle =>
-      'Мы отправим на почту шестизначный код для подтверждения адреса.';
-
-  @override
-  String get authFullName => 'Имя и фамилия';
-
-  @override
-  String get authFullNameRequired => 'Введите имя';
-
-  @override
-  String get authPhoneOptional => 'Телефон (необязательно)';
-
-  @override
-  String get authPasswordMinLength8 => 'Минимум 8 символов';
-
-  @override
-  String get authAcceptTerms => 'Я согласен с политикой конфиденциальности';
-
-  @override
-  String get authAcceptTermsRequired => 'Примите политику конфиденциальности';
-
-  @override
-  String get authPrivacyPolicy => 'Политика конфиденциальности';
-
-  @override
-  String get authVerifyEmailTitle => 'Подтвердите почту';
-
-  @override
-  String authVerifyEmailSubtitle(Object email) {
-    return 'Введите шестизначный код, отправленный на $email.';
-  }
-
-  @override
-  String get authVerifyCodeRequired => 'Введите шесть цифр из письма';
-
-  @override
-  String get authVerify => 'Подтвердить';
-
-  @override
-  String get authResendCode => 'Отправить код снова';
-
-  @override
-  String authResendCodeIn(Object seconds) {
-    return 'Новый код через $seconds с';
-  }
-
-  @override
-  String get authChangeEmail => 'Другой адрес';
-
-  @override
-  String get authEmailTaken => 'На этот адрес уже есть аккаунт. Войдите.';
-
-  @override
-  String get authInvitePendingTitle => 'Вас уже приглашали';
-
-  @override
-  String get authInvitePendingBody =>
-      'На этот адрес отправлено приглашение. Откройте его или введите код, чтобы задать пароль.';
-
-  @override
-  String get authCreateTeamTitle => 'Создайте агентство';
-
-  @override
-  String get authCreateTeamSubtitle =>
-      'Название увидят ваши агенты. Его можно изменить позже.';
-
-  @override
-  String get authCreateTeamName => 'Название агентства';
-
-  @override
-  String get authCreateTeamNameRequired => 'Введите название';
-
-  @override
-  String get authCreateTeamAction => 'Создать и продолжить';
-
-  @override
-  String get authWaitingTitle => 'Ожидание команды';
-
-  @override
-  String get authWaitingSubtitle =>
-      'Передайте этот адрес руководителю. Как только он добавит вас и вы примете запрос, здесь появятся клиенты и сделки.';
-
-  @override
-  String get authWaitingCopyEmail => 'Скопировать адрес';
-
-  @override
-  String get authWaitingEmailCopied => 'Адрес скопирован';
-
-  @override
-  String get authWaitingNoRequests => 'Приглашений пока нет';
-
-  @override
-  String get authWaitingNoRequestsBody => 'Потяните вниз, чтобы обновить.';
-
-  @override
-  String authInvitedByTeam(Object team) {
-    return '$team приглашает вас';
-  }
-
-  @override
-  String authInvitedBy(Object name) {
-    return 'От $name';
-  }
-
-  @override
-  String get authAcceptRequest => 'Принять';
-
-  @override
-  String get authDeclineRequest => 'Отклонить';
-
-  @override
-  String get authDeclineRequestTitle => 'Отклонить приглашение?';
-
-  @override
-  String authDeclineRequestBody(Object team) {
-    return '$team не увидит ваших клиентов и сделок. Позже вас смогут пригласить снова.';
-  }
-
-  @override
-  String get teamsMembers => 'Участники';
-
-  @override
-  String get teamsPending => 'Ожидают';
-
-  @override
-  String get teamsAddAgent => 'Добавить агента';
-
-  @override
-  String get teamsAddAgentHint =>
-      'Если у агента уже есть аккаунт, он получит запрос. Если нет — мы отправим приглашение на почту.';
-
-  @override
-  String get teamsAddAgentAction => 'Отправить';
-
-  @override
-  String teamsRequestSentBody(Object name) {
-    return '$name должен принять запрос, чтобы войти в команду.';
-  }
-
-  @override
-  String teamsInviteSentBody(Object email) {
-    return 'Приглашение отправлено на $email.';
-  }
-
-  @override
-  String get teamsNoMembers => 'Пока никого';
-
-  @override
-  String get teamsNoMembersBody => 'Добавьте первого агента по адресу почты.';
-
-  @override
-  String get teamsNoPending => 'Ожидающих нет';
-
-  @override
-  String get teamsNoPendingBody => 'Здесь появятся запросы, ожидающие ответа.';
-
-  @override
-  String get teamsCancelRequest => 'Отозвать';
-
-  @override
-  String get teamsStatusPendingInvite => 'Приглашён';
-
-  @override
-  String get teamsStatusPendingVerification => 'Не подтвердил почту';
-
-  @override
-  String get teamsManagerChip => 'Руководитель';
-
-  @override
-  String get teamsRemoveMember => 'Удалить из команды';
-
-  @override
-  String teamsRemoveMemberTitle(Object name) {
-    return 'Удалить $name?';
-  }
-
-  @override
-  String teamsRemoveMemberBody(Object successor) {
-    return 'Клиенты, сделки и встречи останутся в команде и перейдут к $successor.';
-  }
-
-  @override
-  String teamsRemoveInviteBody(Object name) {
-    return 'Приглашение для $name будет отозвано.';
-  }
-
-  @override
-  String get teamsSuccessor => 'Записи перейдут';
-
-  @override
-  String get teamsSuccessorMe => 'Мне';
-
-  @override
-  String get teamsLeaveTeam => 'Покинуть команду';
-
-  @override
-  String teamsLeaveTeamTitle(Object team) {
-    return 'Покинуть $team?';
-  }
-
-  @override
-  String get teamsLeaveTeamBody =>
-      'Клиенты, сделки и встречи останутся в команде. Чтобы вернуться, понадобится новое приглашение.';
-
-  @override
-  String get teamsTeamLabel => 'Команда';
-
-  @override
-  String get teamsNoTeamLabel => 'Без команды';
+  String get msgProfileUpdated => 'Профиль обновлён';
 
   @override
   String get msgPropertyCreated => 'Объект создан';
@@ -1639,6 +1578,15 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get msgPropertyUpdated => 'Объект обновлён';
+
+  @override
+  String get msgRequestCancelled => 'Запрос отозван';
+
+  @override
+  String get msgRequestDeclined => 'Запрос отклонён';
+
+  @override
+  String get msgRequestSent => 'Запрос отправлен';
 
   @override
   String get msgRoleUpdated => 'Роль обновлена';
@@ -1651,6 +1599,12 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get msgTeamCreated => 'Команда создана';
+
+  @override
+  String get msgTeamJoined => 'Вы в команде';
+
+  @override
+  String get msgTeamLeft => 'Вы вышли из команды';
 
   @override
   String get msgTeamUpdated => 'Команда обновлена';
@@ -1889,6 +1843,9 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String get propertiesInterested => 'Кому подходит';
+
+  @override
   String get propertiesLocation => 'Расположение';
 
   @override
@@ -1896,6 +1853,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get propertiesNextDetails => 'Далее — детали';
+
+  @override
+  String get propertiesNoInterested => 'Пока никто такого не искал';
 
   @override
   String get propertiesNoProperties => 'Нет объектов';
@@ -2046,7 +2006,20 @@ class AppLocalizationsRu extends AppLocalizations {
   String get teamsActive => 'Активные';
 
   @override
+  String get teamsAddAgent => 'Добавить агента';
+
+  @override
+  String get teamsAddAgentAction => 'Отправить';
+
+  @override
+  String get teamsAddAgentHint =>
+      'Если у агента уже есть аккаунт, он получит запрос. Если нет — мы отправим приглашение на почту.';
+
+  @override
   String get teamsAgents => 'Агенты';
+
+  @override
+  String get teamsCancelRequest => 'Отозвать';
 
   @override
   String get teamsClients => 'Клиенты';
@@ -2079,6 +2052,26 @@ class AppLocalizationsRu extends AppLocalizations {
   String get teamsInviteAgent => 'Пригласить агента';
 
   @override
+  String teamsInviteSentBody(Object email) {
+    return 'Приглашение отправлено на $email.';
+  }
+
+  @override
+  String get teamsLeaveTeam => 'Покинуть команду';
+
+  @override
+  String get teamsLeaveTeamBody =>
+      'Клиенты, сделки и встречи останутся в команде. Чтобы вернуться, понадобится новое приглашение.';
+
+  @override
+  String teamsLeaveTeamTitle(Object team) {
+    return 'Покинуть $team?';
+  }
+
+  @override
+  String get teamsManagerChip => 'Руководитель';
+
+  @override
   String teamsManagerLabel(Object name) {
     return 'Менеджер: $name';
   }
@@ -2100,10 +2093,28 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String get teamsMembers => 'Участники';
+
+  @override
   String get teamsMyTeam => 'Моя команда';
 
   @override
   String get teamsNoManager => 'Без менеджера';
+
+  @override
+  String get teamsNoMembers => 'Пока никого';
+
+  @override
+  String get teamsNoMembersBody => 'Добавьте первого агента по адресу почты.';
+
+  @override
+  String get teamsNoPending => 'Ожидающих нет';
+
+  @override
+  String get teamsNoPendingBody => 'Здесь появятся запросы, ожидающие ответа.';
+
+  @override
+  String get teamsNoTeamLabel => 'Без команды';
 
   @override
   String get teamsNoTeamSubtitle => 'Вы не управляете командой';
@@ -2112,7 +2123,33 @@ class AppLocalizationsRu extends AppLocalizations {
   String get teamsNoTeamYet => 'Пока нет команды';
 
   @override
+  String get teamsPending => 'Ожидают';
+
+  @override
   String get teamsPhoneOptional => 'Телефон (необязательно)';
+
+  @override
+  String teamsRemoveInviteBody(Object name) {
+    return 'Приглашение для $name будет отозвано.';
+  }
+
+  @override
+  String get teamsRemoveMember => 'Удалить из команды';
+
+  @override
+  String teamsRemoveMemberBody(Object successor) {
+    return 'Клиенты, сделки и встречи останутся в команде и перейдут к $successor.';
+  }
+
+  @override
+  String teamsRemoveMemberTitle(Object name) {
+    return 'Удалить $name?';
+  }
+
+  @override
+  String teamsRequestSentBody(Object name) {
+    return '$name должен принять запрос, чтобы войти в команду.';
+  }
 
   @override
   String get teamsRequired => 'Обязательно';
@@ -2122,6 +2159,21 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get teamsSendInvite => 'Отправить приглашение';
+
+  @override
+  String get teamsStatusPendingInvite => 'Приглашён';
+
+  @override
+  String get teamsStatusPendingVerification => 'Не подтвердил почту';
+
+  @override
+  String get teamsSuccessor => 'Записи перейдут';
+
+  @override
+  String get teamsSuccessorMe => 'Мне';
+
+  @override
+  String get teamsTeamLabel => 'Команда';
 
   @override
   String get teamsTeamName => 'Название команды';

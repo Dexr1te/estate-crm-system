@@ -168,6 +168,15 @@ class AppLocalizationsEn extends AppLocalizations {
       'Enter the invite code you were given and choose a password.';
 
   @override
+  String get authAcceptRequest => 'Accept';
+
+  @override
+  String get authAcceptTerms => 'I agree to the privacy policy';
+
+  @override
+  String get authAcceptTermsRequired => 'Please accept the privacy policy';
+
+  @override
   String get authAcceptYourInvite => 'Accept your invite';
 
   @override
@@ -177,7 +186,54 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authBackToSignIn => 'Back to sign in';
 
   @override
+  String get authChangeEmail => 'Use a different email';
+
+  @override
+  String get authChooseRoleSubtitle =>
+      'This decides what you see. You can be moved later by your manager.';
+
+  @override
+  String get authChooseRoleTitle => 'How will you work?';
+
+  @override
   String get authConfirmPassword => 'Confirm password';
+
+  @override
+  String get authContinue => 'Continue';
+
+  @override
+  String get authCreateAccountSubtitle =>
+      'We will email you a six-digit code to confirm the address.';
+
+  @override
+  String get authCreateAccountTitle => 'Create your account';
+
+  @override
+  String get authCreateTeamAction => 'Create and continue';
+
+  @override
+  String get authCreateTeamName => 'Agency name';
+
+  @override
+  String get authCreateTeamNameRequired => 'Enter a name';
+
+  @override
+  String get authCreateTeamSubtitle =>
+      'Its name is what your agents will see. You can change it later.';
+
+  @override
+  String get authCreateTeamTitle => 'Create your agency';
+
+  @override
+  String get authDeclineRequest => 'Decline';
+
+  @override
+  String authDeclineRequestBody(Object team) {
+    return '$team will not see your clients or deals. They can invite you again later.';
+  }
+
+  @override
+  String get authDeclineRequestTitle => 'Decline this invitation?';
 
   @override
   String get authEmail => 'Email';
@@ -187,6 +243,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get authEmailRequired => 'Email is required';
+
+  @override
+  String get authEmailTaken =>
+      'This email already has an account. Sign in instead.';
 
   @override
   String get authForgotPassword => 'Forgot password?';
@@ -199,6 +259,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authForgotPasswordTitle => 'Reset your password';
 
   @override
+  String get authFullName => 'Full name';
+
+  @override
+  String get authFullNameRequired => 'Enter your name';
+
+  @override
   String get authHaveAnInvite => 'Have an invite?';
 
   @override
@@ -206,6 +272,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get authInviteCodeRequired => 'Invite code is required';
+
+  @override
+  String get authInvitePendingBody =>
+      'An invite was emailed to this address. Open it, or enter its code to set your password.';
+
+  @override
+  String get authInvitePendingTitle => 'You already have an invite';
 
   @override
   String authInviteSignOutBody(Object email) {
@@ -219,7 +292,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authInviteSignOutTitle => 'Accept this invite?';
 
   @override
+  String authInvitedBy(Object name) {
+    return 'From $name';
+  }
+
+  @override
+  String authInvitedByTeam(Object team) {
+    return '$team invited you';
+  }
+
+  @override
   String get authNewPassword => 'New password';
+
+  @override
+  String get authNoAccount => 'No account?';
 
   @override
   String get authPassword => 'Password';
@@ -231,10 +317,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authPasswordMinLength => 'At least 6 characters';
 
   @override
+  String get authPasswordMinLength8 => 'At least 8 characters';
+
+  @override
   String get authPasswordRequired => 'Password is required';
 
   @override
   String get authPasswordsDoNotMatch => 'Passwords do not match';
+
+  @override
+  String get authPhoneOptional => 'Phone (optional)';
+
+  @override
+  String get authPrivacyPolicy => 'Privacy policy';
+
+  @override
+  String get authResendCode => 'Send a new code';
+
+  @override
+  String authResendCodeIn(Object seconds) {
+    return 'Send a new code in ${seconds}s';
+  }
 
   @override
   String get authResetCode => 'Reset code';
@@ -258,6 +361,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authResetPasswordTitle => 'Choose a new password';
 
   @override
+  String get authRoleAgentBody =>
+      'Join your manager\'s team and work on your own clients and deals.';
+
+  @override
+  String get authRoleAgentTitle => 'I am an agent';
+
+  @override
+  String get authRoleManagerBody =>
+      'Create a team, add agents and see everything they work on.';
+
+  @override
+  String get authRoleManagerTitle => 'I run an agency';
+
+  @override
   String get authSendResetLink => 'Send reset link';
 
   @override
@@ -271,6 +388,42 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get authSignInSubtitle => 'Sign in to manage your properties';
+
+  @override
+  String get authSignUp => 'Sign up';
+
+  @override
+  String get authVerify => 'Confirm';
+
+  @override
+  String get authVerifyCodeRequired => 'Enter the six digits from the email';
+
+  @override
+  String authVerifyEmailSubtitle(Object email) {
+    return 'Enter the six-digit code we sent to $email.';
+  }
+
+  @override
+  String get authVerifyEmailTitle => 'Confirm your email';
+
+  @override
+  String get authWaitingCopyEmail => 'Copy email';
+
+  @override
+  String get authWaitingEmailCopied => 'Email copied';
+
+  @override
+  String get authWaitingNoRequests => 'No invitations yet';
+
+  @override
+  String get authWaitingNoRequestsBody => 'Pull down to check again.';
+
+  @override
+  String get authWaitingSubtitle =>
+      'Give this email to your manager. Once they add you and you accept, your clients and deals appear here.';
+
+  @override
+  String get authWaitingTitle => 'Waiting for a team';
 
   @override
   String get authWelcomeBack => 'Welcome back!';
@@ -291,6 +444,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String clientsAgentMeta(Object name) {
     return 'agent $name';
   }
+
+  @override
+  String get clientsAnyType => 'Any';
+
+  @override
+  String get clientsBudgetFrom => 'Budget from';
+
+  @override
+  String clientsBudgetRange(String from, String to) {
+    return '$from – $to';
+  }
+
+  @override
+  String get clientsBudgetTo => 'Budget to';
 
   @override
   String get clientsBuyer => 'Buyer';
@@ -402,7 +569,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clientsInvalidEmail => 'Invalid email';
 
   @override
+  String get clientsMatches => 'Matching listings';
+
+  @override
   String get clientsMessage => 'Message';
+
+  @override
+  String get clientsMinArea => 'Area, min m²';
+
+  @override
+  String get clientsMinRooms => 'Rooms, min';
 
   @override
   String get clientsNameRequired => 'Name is required';
@@ -417,7 +593,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clientsNoEmail => 'No email address on file';
 
   @override
+  String get clientsNoMatches => 'Nothing on the books fits yet';
+
+  @override
   String get clientsNoPhone => 'No phone number on file';
+
+  @override
+  String get clientsNoRequirements =>
+      'Say what this buyer is looking for and matching listings appear here';
 
   @override
   String get clientsNotes => 'Notes';
@@ -426,7 +609,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clientsNotesHint => 'Additional notes about this client…';
 
   @override
+  String get clientsOverBudget => 'Over budget';
+
+  @override
   String get clientsPhone => 'Phone';
+
+  @override
+  String get clientsRequirements => 'Looking for';
+
+  @override
+  String get clientsRequirementsHint =>
+      'Fill this in and the app will keep showing which listings fit.';
 
   @override
   String get clientsSearchHint => 'Search by name, phone…';
@@ -453,6 +646,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String clientsUpdatedAt(Object date) {
     return 'Updated $date';
   }
+
+  @override
+  String get clientsWantedCity => 'City';
+
+  @override
+  String get clientsWantedType => 'Property type';
 
   @override
   String get coreCall => 'Call';
@@ -1319,6 +1518,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get msgClientUpdated => 'Client updated';
 
   @override
+  String get msgCodeSent => 'Code sent';
+
+  @override
   String get msgDealCreated => 'Deal created';
 
   @override
@@ -1349,274 +1551,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get msgMeetingUpdated => 'Meeting updated';
 
   @override
-  String get msgProfileUpdated => 'Profile updated';
-
-  @override
-  String get msgCodeSent => 'Code sent';
-
-  @override
-  String get msgRequestSent => 'Request sent';
-
-  @override
-  String get msgRequestCancelled => 'Request withdrawn';
-
-  @override
-  String get msgTeamJoined => 'You have joined the team';
-
-  @override
-  String get msgRequestDeclined => 'Request declined';
-
-  @override
   String get msgMemberRemoved => 'Agent removed from the team';
 
   @override
-  String get msgTeamLeft => 'You have left the team';
-
-  @override
-  String get authNoAccount => 'No account?';
-
-  @override
-  String get authSignUp => 'Sign up';
-
-  @override
-  String get authChooseRoleTitle => 'How will you work?';
-
-  @override
-  String get authChooseRoleSubtitle =>
-      'This decides what you see. You can be moved later by your manager.';
-
-  @override
-  String get authRoleManagerTitle => 'I run an agency';
-
-  @override
-  String get authRoleManagerBody =>
-      'Create a team, add agents and see everything they work on.';
-
-  @override
-  String get authRoleAgentTitle => 'I am an agent';
-
-  @override
-  String get authRoleAgentBody =>
-      'Join your manager\'s team and work on your own clients and deals.';
-
-  @override
-  String get authContinue => 'Continue';
-
-  @override
-  String get authCreateAccountTitle => 'Create your account';
-
-  @override
-  String get authCreateAccountSubtitle =>
-      'We will email you a six-digit code to confirm the address.';
-
-  @override
-  String get authFullName => 'Full name';
-
-  @override
-  String get authFullNameRequired => 'Enter your name';
-
-  @override
-  String get authPhoneOptional => 'Phone (optional)';
-
-  @override
-  String get authPasswordMinLength8 => 'At least 8 characters';
-
-  @override
-  String get authAcceptTerms => 'I agree to the privacy policy';
-
-  @override
-  String get authAcceptTermsRequired => 'Please accept the privacy policy';
-
-  @override
-  String get authPrivacyPolicy => 'Privacy policy';
-
-  @override
-  String get authVerifyEmailTitle => 'Confirm your email';
-
-  @override
-  String authVerifyEmailSubtitle(Object email) {
-    return 'Enter the six-digit code we sent to $email.';
-  }
-
-  @override
-  String get authVerifyCodeRequired => 'Enter the six digits from the email';
-
-  @override
-  String get authVerify => 'Confirm';
-
-  @override
-  String get authResendCode => 'Send a new code';
-
-  @override
-  String authResendCodeIn(Object seconds) {
-    return 'Send a new code in ${seconds}s';
-  }
-
-  @override
-  String get authChangeEmail => 'Use a different email';
-
-  @override
-  String get authEmailTaken =>
-      'This email already has an account. Sign in instead.';
-
-  @override
-  String get authInvitePendingTitle => 'You already have an invite';
-
-  @override
-  String get authInvitePendingBody =>
-      'An invite was emailed to this address. Open it, or enter its code to set your password.';
-
-  @override
-  String get authCreateTeamTitle => 'Create your agency';
-
-  @override
-  String get authCreateTeamSubtitle =>
-      'Its name is what your agents will see. You can change it later.';
-
-  @override
-  String get authCreateTeamName => 'Agency name';
-
-  @override
-  String get authCreateTeamNameRequired => 'Enter a name';
-
-  @override
-  String get authCreateTeamAction => 'Create and continue';
-
-  @override
-  String get authWaitingTitle => 'Waiting for a team';
-
-  @override
-  String get authWaitingSubtitle =>
-      'Give this email to your manager. Once they add you and you accept, your clients and deals appear here.';
-
-  @override
-  String get authWaitingCopyEmail => 'Copy email';
-
-  @override
-  String get authWaitingEmailCopied => 'Email copied';
-
-  @override
-  String get authWaitingNoRequests => 'No invitations yet';
-
-  @override
-  String get authWaitingNoRequestsBody => 'Pull down to check again.';
-
-  @override
-  String authInvitedByTeam(Object team) {
-    return '$team invited you';
-  }
-
-  @override
-  String authInvitedBy(Object name) {
-    return 'From $name';
-  }
-
-  @override
-  String get authAcceptRequest => 'Accept';
-
-  @override
-  String get authDeclineRequest => 'Decline';
-
-  @override
-  String get authDeclineRequestTitle => 'Decline this invitation?';
-
-  @override
-  String authDeclineRequestBody(Object team) {
-    return '$team will not see your clients or deals. They can invite you again later.';
-  }
-
-  @override
-  String get teamsMembers => 'Members';
-
-  @override
-  String get teamsPending => 'Pending';
-
-  @override
-  String get teamsAddAgent => 'Add agent';
-
-  @override
-  String get teamsAddAgentHint =>
-      'If the agent already has an account they get a request to accept. If not, we email them an invite.';
-
-  @override
-  String get teamsAddAgentAction => 'Send';
-
-  @override
-  String teamsRequestSentBody(Object name) {
-    return '$name has to accept before joining your team.';
-  }
-
-  @override
-  String teamsInviteSentBody(Object email) {
-    return 'An invite has been emailed to $email.';
-  }
-
-  @override
-  String get teamsNoMembers => 'Nobody here yet';
-
-  @override
-  String get teamsNoMembersBody => 'Add your first agent by email.';
-
-  @override
-  String get teamsNoPending => 'Nothing pending';
-
-  @override
-  String get teamsNoPendingBody =>
-      'Requests waiting for an answer appear here.';
-
-  @override
-  String get teamsCancelRequest => 'Withdraw';
-
-  @override
-  String get teamsStatusPendingInvite => 'Invited';
-
-  @override
-  String get teamsStatusPendingVerification => 'Not confirmed';
-
-  @override
-  String get teamsManagerChip => 'Manager';
-
-  @override
-  String get teamsRemoveMember => 'Remove from team';
-
-  @override
-  String teamsRemoveMemberTitle(Object name) {
-    return 'Remove $name?';
-  }
-
-  @override
-  String teamsRemoveMemberBody(Object successor) {
-    return 'Their clients, deals and meetings stay in the team and go to $successor.';
-  }
-
-  @override
-  String teamsRemoveInviteBody(Object name) {
-    return 'The invite to $name will be revoked.';
-  }
-
-  @override
-  String get teamsSuccessor => 'Records go to';
-
-  @override
-  String get teamsSuccessorMe => 'Me';
-
-  @override
-  String get teamsLeaveTeam => 'Leave team';
-
-  @override
-  String teamsLeaveTeamTitle(Object team) {
-    return 'Leave $team?';
-  }
-
-  @override
-  String get teamsLeaveTeamBody =>
-      'Your clients, deals and meetings stay with the team. You will need a new invitation to come back.';
-
-  @override
-  String get teamsTeamLabel => 'Team';
-
-  @override
-  String get teamsNoTeamLabel => 'No team';
+  String get msgProfileUpdated => 'Profile updated';
 
   @override
   String get msgPropertyCreated => 'Property created';
@@ -1626,6 +1564,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get msgPropertyUpdated => 'Property updated';
+
+  @override
+  String get msgRequestCancelled => 'Request withdrawn';
+
+  @override
+  String get msgRequestDeclined => 'Request declined';
+
+  @override
+  String get msgRequestSent => 'Request sent';
 
   @override
   String get msgRoleUpdated => 'Role updated';
@@ -1638,6 +1585,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get msgTeamCreated => 'Team created';
+
+  @override
+  String get msgTeamJoined => 'You have joined the team';
+
+  @override
+  String get msgTeamLeft => 'You have left the team';
 
   @override
   String get msgTeamUpdated => 'Team updated';
@@ -1876,6 +1829,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get propertiesInterested => 'Buyers looking for this';
+
+  @override
   String get propertiesLocation => 'Location';
 
   @override
@@ -1883,6 +1839,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get propertiesNextDetails => 'Next — details';
+
+  @override
+  String get propertiesNoInterested =>
+      'No buyer has asked for anything like this yet';
 
   @override
   String get propertiesNoProperties => 'No properties';
@@ -2033,7 +1993,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get teamsActive => 'Active';
 
   @override
+  String get teamsAddAgent => 'Add agent';
+
+  @override
+  String get teamsAddAgentAction => 'Send';
+
+  @override
+  String get teamsAddAgentHint =>
+      'If the agent already has an account they get a request to accept. If not, we email them an invite.';
+
+  @override
   String get teamsAgents => 'Agents';
+
+  @override
+  String get teamsCancelRequest => 'Withdraw';
 
   @override
   String get teamsClients => 'Clients';
@@ -2066,6 +2039,26 @@ class AppLocalizationsEn extends AppLocalizations {
   String get teamsInviteAgent => 'Invite agent';
 
   @override
+  String teamsInviteSentBody(Object email) {
+    return 'An invite has been emailed to $email.';
+  }
+
+  @override
+  String get teamsLeaveTeam => 'Leave team';
+
+  @override
+  String get teamsLeaveTeamBody =>
+      'Your clients, deals and meetings stay with the team. You will need a new invitation to come back.';
+
+  @override
+  String teamsLeaveTeamTitle(Object team) {
+    return 'Leave $team?';
+  }
+
+  @override
+  String get teamsManagerChip => 'Manager';
+
+  @override
   String teamsManagerLabel(Object name) {
     return 'Manager: $name';
   }
@@ -2085,10 +2078,29 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get teamsMembers => 'Members';
+
+  @override
   String get teamsMyTeam => 'My Team';
 
   @override
   String get teamsNoManager => 'No manager';
+
+  @override
+  String get teamsNoMembers => 'Nobody here yet';
+
+  @override
+  String get teamsNoMembersBody => 'Add your first agent by email.';
+
+  @override
+  String get teamsNoPending => 'Nothing pending';
+
+  @override
+  String get teamsNoPendingBody =>
+      'Requests waiting for an answer appear here.';
+
+  @override
+  String get teamsNoTeamLabel => 'No team';
 
   @override
   String get teamsNoTeamSubtitle => 'You are not managing a team';
@@ -2097,7 +2109,33 @@ class AppLocalizationsEn extends AppLocalizations {
   String get teamsNoTeamYet => 'No team yet';
 
   @override
+  String get teamsPending => 'Pending';
+
+  @override
   String get teamsPhoneOptional => 'Phone (optional)';
+
+  @override
+  String teamsRemoveInviteBody(Object name) {
+    return 'The invite to $name will be revoked.';
+  }
+
+  @override
+  String get teamsRemoveMember => 'Remove from team';
+
+  @override
+  String teamsRemoveMemberBody(Object successor) {
+    return 'Their clients, deals and meetings stay in the team and go to $successor.';
+  }
+
+  @override
+  String teamsRemoveMemberTitle(Object name) {
+    return 'Remove $name?';
+  }
+
+  @override
+  String teamsRequestSentBody(Object name) {
+    return '$name has to accept before joining your team.';
+  }
 
   @override
   String get teamsRequired => 'Required';
@@ -2107,6 +2145,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get teamsSendInvite => 'Send invite';
+
+  @override
+  String get teamsStatusPendingInvite => 'Invited';
+
+  @override
+  String get teamsStatusPendingVerification => 'Not confirmed';
+
+  @override
+  String get teamsSuccessor => 'Records go to';
+
+  @override
+  String get teamsSuccessorMe => 'Me';
+
+  @override
+  String get teamsTeamLabel => 'Team';
 
   @override
   String get teamsTeamName => 'Team name';

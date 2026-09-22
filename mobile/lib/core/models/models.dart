@@ -52,6 +52,12 @@ class ClientResponse with _$ClientResponse {
     String? agentName,
     DateTime? createdAt,
     DateTime? updatedAt,
+    PropertyType? wantedType,
+    String? wantedCity,
+    double? budgetMin,
+    double? budgetMax,
+    int? minRooms,
+    double? minAreaSqm,
   }) = _ClientResponse;
 
   factory ClientResponse.fromJson(Map<String, dynamic> json) =>
@@ -99,6 +105,28 @@ class PropertyResponse with _$PropertyResponse {
 
   factory PropertyResponse.fromJson(Map<String, dynamic> json) =>
       _$PropertyResponseFromJson(json);
+}
+
+@freezed
+class PropertyMatch with _$PropertyMatch {
+  const factory PropertyMatch({
+    required PropertyResponse property,
+    @Default(false) bool overBudget,
+  }) = _PropertyMatch;
+
+  factory PropertyMatch.fromJson(Map<String, dynamic> json) =>
+      _$PropertyMatchFromJson(json);
+}
+
+@freezed
+class ClientMatch with _$ClientMatch {
+  const factory ClientMatch({
+    required ClientResponse client,
+    @Default(false) bool overBudget,
+  }) = _ClientMatch;
+
+  factory ClientMatch.fromJson(Map<String, dynamic> json) =>
+      _$ClientMatchFromJson(json);
 }
 
 @freezed

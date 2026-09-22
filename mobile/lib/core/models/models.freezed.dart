@@ -26,9 +26,7 @@ mixin _$AuthResponse {
   int get userId => throw _privateConstructorUsedError;
   String get fullName => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
-  Role get role =>
-      throw _privateConstructorUsedError; // The agency, if this account is in one. Null sends a manager to "create
-// your agency" and an agent to the waiting screen — see resolveRedirect.
+  Role get role => throw _privateConstructorUsedError;
   int? get teamId => throw _privateConstructorUsedError;
   String? get teamName => throw _privateConstructorUsedError;
 
@@ -248,8 +246,6 @@ class _$AuthResponseImpl implements _AuthResponse {
   @override
   @JsonKey()
   final Role role;
-// The agency, if this account is in one. Null sends a manager to "create
-// your agency" and an agent to the waiting screen — see resolveRedirect.
   @override
   final int? teamId;
   @override
@@ -330,9 +326,7 @@ abstract class _AuthResponse implements AuthResponse {
   @override
   String get email;
   @override
-  Role
-      get role; // The agency, if this account is in one. Null sends a manager to "create
-// your agency" and an agent to the waiting screen — see resolveRedirect.
+  Role get role;
   @override
   int? get teamId;
   @override
@@ -362,6 +356,12 @@ mixin _$ClientResponse {
   String? get agentName => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
+  PropertyType? get wantedType => throw _privateConstructorUsedError;
+  String? get wantedCity => throw _privateConstructorUsedError;
+  double? get budgetMin => throw _privateConstructorUsedError;
+  double? get budgetMax => throw _privateConstructorUsedError;
+  int? get minRooms => throw _privateConstructorUsedError;
+  double? get minAreaSqm => throw _privateConstructorUsedError;
 
   /// Serializes this ClientResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -389,7 +389,13 @@ abstract class $ClientResponseCopyWith<$Res> {
       int? agentId,
       String? agentName,
       DateTime? createdAt,
-      DateTime? updatedAt});
+      DateTime? updatedAt,
+      PropertyType? wantedType,
+      String? wantedCity,
+      double? budgetMin,
+      double? budgetMax,
+      int? minRooms,
+      double? minAreaSqm});
 }
 
 /// @nodoc
@@ -417,6 +423,12 @@ class _$ClientResponseCopyWithImpl<$Res, $Val extends ClientResponse>
     Object? agentName = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
+    Object? wantedType = freezed,
+    Object? wantedCity = freezed,
+    Object? budgetMin = freezed,
+    Object? budgetMax = freezed,
+    Object? minRooms = freezed,
+    Object? minAreaSqm = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -459,6 +471,30 @@ class _$ClientResponseCopyWithImpl<$Res, $Val extends ClientResponse>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      wantedType: freezed == wantedType
+          ? _value.wantedType
+          : wantedType // ignore: cast_nullable_to_non_nullable
+              as PropertyType?,
+      wantedCity: freezed == wantedCity
+          ? _value.wantedCity
+          : wantedCity // ignore: cast_nullable_to_non_nullable
+              as String?,
+      budgetMin: freezed == budgetMin
+          ? _value.budgetMin
+          : budgetMin // ignore: cast_nullable_to_non_nullable
+              as double?,
+      budgetMax: freezed == budgetMax
+          ? _value.budgetMax
+          : budgetMax // ignore: cast_nullable_to_non_nullable
+              as double?,
+      minRooms: freezed == minRooms
+          ? _value.minRooms
+          : minRooms // ignore: cast_nullable_to_non_nullable
+              as int?,
+      minAreaSqm: freezed == minAreaSqm
+          ? _value.minAreaSqm
+          : minAreaSqm // ignore: cast_nullable_to_non_nullable
+              as double?,
     ) as $Val);
   }
 }
@@ -481,7 +517,13 @@ abstract class _$$ClientResponseImplCopyWith<$Res>
       int? agentId,
       String? agentName,
       DateTime? createdAt,
-      DateTime? updatedAt});
+      DateTime? updatedAt,
+      PropertyType? wantedType,
+      String? wantedCity,
+      double? budgetMin,
+      double? budgetMax,
+      int? minRooms,
+      double? minAreaSqm});
 }
 
 /// @nodoc
@@ -507,6 +549,12 @@ class __$$ClientResponseImplCopyWithImpl<$Res>
     Object? agentName = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
+    Object? wantedType = freezed,
+    Object? wantedCity = freezed,
+    Object? budgetMin = freezed,
+    Object? budgetMax = freezed,
+    Object? minRooms = freezed,
+    Object? minAreaSqm = freezed,
   }) {
     return _then(_$ClientResponseImpl(
       id: null == id
@@ -549,6 +597,30 @@ class __$$ClientResponseImplCopyWithImpl<$Res>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      wantedType: freezed == wantedType
+          ? _value.wantedType
+          : wantedType // ignore: cast_nullable_to_non_nullable
+              as PropertyType?,
+      wantedCity: freezed == wantedCity
+          ? _value.wantedCity
+          : wantedCity // ignore: cast_nullable_to_non_nullable
+              as String?,
+      budgetMin: freezed == budgetMin
+          ? _value.budgetMin
+          : budgetMin // ignore: cast_nullable_to_non_nullable
+              as double?,
+      budgetMax: freezed == budgetMax
+          ? _value.budgetMax
+          : budgetMax // ignore: cast_nullable_to_non_nullable
+              as double?,
+      minRooms: freezed == minRooms
+          ? _value.minRooms
+          : minRooms // ignore: cast_nullable_to_non_nullable
+              as int?,
+      minAreaSqm: freezed == minAreaSqm
+          ? _value.minAreaSqm
+          : minAreaSqm // ignore: cast_nullable_to_non_nullable
+              as double?,
     ));
   }
 }
@@ -566,7 +638,13 @@ class _$ClientResponseImpl implements _ClientResponse {
       this.agentId,
       this.agentName,
       this.createdAt,
-      this.updatedAt});
+      this.updatedAt,
+      this.wantedType,
+      this.wantedCity,
+      this.budgetMin,
+      this.budgetMax,
+      this.minRooms,
+      this.minAreaSqm});
 
   factory _$ClientResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$ClientResponseImplFromJson(json);
@@ -593,10 +671,22 @@ class _$ClientResponseImpl implements _ClientResponse {
   final DateTime? createdAt;
   @override
   final DateTime? updatedAt;
+  @override
+  final PropertyType? wantedType;
+  @override
+  final String? wantedCity;
+  @override
+  final double? budgetMin;
+  @override
+  final double? budgetMax;
+  @override
+  final int? minRooms;
+  @override
+  final double? minAreaSqm;
 
   @override
   String toString() {
-    return 'ClientResponse(id: $id, fullName: $fullName, email: $email, phone: $phone, type: $type, notes: $notes, agentId: $agentId, agentName: $agentName, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'ClientResponse(id: $id, fullName: $fullName, email: $email, phone: $phone, type: $type, notes: $notes, agentId: $agentId, agentName: $agentName, createdAt: $createdAt, updatedAt: $updatedAt, wantedType: $wantedType, wantedCity: $wantedCity, budgetMin: $budgetMin, budgetMax: $budgetMax, minRooms: $minRooms, minAreaSqm: $minAreaSqm)';
   }
 
   @override
@@ -617,13 +707,41 @@ class _$ClientResponseImpl implements _ClientResponse {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+                other.updatedAt == updatedAt) &&
+            (identical(other.wantedType, wantedType) ||
+                other.wantedType == wantedType) &&
+            (identical(other.wantedCity, wantedCity) ||
+                other.wantedCity == wantedCity) &&
+            (identical(other.budgetMin, budgetMin) ||
+                other.budgetMin == budgetMin) &&
+            (identical(other.budgetMax, budgetMax) ||
+                other.budgetMax == budgetMax) &&
+            (identical(other.minRooms, minRooms) ||
+                other.minRooms == minRooms) &&
+            (identical(other.minAreaSqm, minAreaSqm) ||
+                other.minAreaSqm == minAreaSqm));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, fullName, email, phone, type,
-      notes, agentId, agentName, createdAt, updatedAt);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      fullName,
+      email,
+      phone,
+      type,
+      notes,
+      agentId,
+      agentName,
+      createdAt,
+      updatedAt,
+      wantedType,
+      wantedCity,
+      budgetMin,
+      budgetMax,
+      minRooms,
+      minAreaSqm);
 
   /// Create a copy of ClientResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -653,7 +771,13 @@ abstract class _ClientResponse implements ClientResponse {
       final int? agentId,
       final String? agentName,
       final DateTime? createdAt,
-      final DateTime? updatedAt}) = _$ClientResponseImpl;
+      final DateTime? updatedAt,
+      final PropertyType? wantedType,
+      final String? wantedCity,
+      final double? budgetMin,
+      final double? budgetMax,
+      final int? minRooms,
+      final double? minAreaSqm}) = _$ClientResponseImpl;
 
   factory _ClientResponse.fromJson(Map<String, dynamic> json) =
       _$ClientResponseImpl.fromJson;
@@ -678,6 +802,18 @@ abstract class _ClientResponse implements ClientResponse {
   DateTime? get createdAt;
   @override
   DateTime? get updatedAt;
+  @override
+  PropertyType? get wantedType;
+  @override
+  String? get wantedCity;
+  @override
+  double? get budgetMin;
+  @override
+  double? get budgetMax;
+  @override
+  int? get minRooms;
+  @override
+  double? get minAreaSqm;
 
   /// Create a copy of ClientResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -1485,6 +1621,375 @@ abstract class _PropertyResponse implements PropertyResponse {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PropertyResponseImplCopyWith<_$PropertyResponseImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+PropertyMatch _$PropertyMatchFromJson(Map<String, dynamic> json) {
+  return _PropertyMatch.fromJson(json);
+}
+
+/// @nodoc
+mixin _$PropertyMatch {
+  PropertyResponse get property => throw _privateConstructorUsedError;
+  bool get overBudget => throw _privateConstructorUsedError;
+
+  /// Serializes this PropertyMatch to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of PropertyMatch
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $PropertyMatchCopyWith<PropertyMatch> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $PropertyMatchCopyWith<$Res> {
+  factory $PropertyMatchCopyWith(
+          PropertyMatch value, $Res Function(PropertyMatch) then) =
+      _$PropertyMatchCopyWithImpl<$Res, PropertyMatch>;
+  @useResult
+  $Res call({PropertyResponse property, bool overBudget});
+
+  $PropertyResponseCopyWith<$Res> get property;
+}
+
+/// @nodoc
+class _$PropertyMatchCopyWithImpl<$Res, $Val extends PropertyMatch>
+    implements $PropertyMatchCopyWith<$Res> {
+  _$PropertyMatchCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of PropertyMatch
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? property = null,
+    Object? overBudget = null,
+  }) {
+    return _then(_value.copyWith(
+      property: null == property
+          ? _value.property
+          : property // ignore: cast_nullable_to_non_nullable
+              as PropertyResponse,
+      overBudget: null == overBudget
+          ? _value.overBudget
+          : overBudget // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ) as $Val);
+  }
+
+  /// Create a copy of PropertyMatch
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $PropertyResponseCopyWith<$Res> get property {
+    return $PropertyResponseCopyWith<$Res>(_value.property, (value) {
+      return _then(_value.copyWith(property: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$PropertyMatchImplCopyWith<$Res>
+    implements $PropertyMatchCopyWith<$Res> {
+  factory _$$PropertyMatchImplCopyWith(
+          _$PropertyMatchImpl value, $Res Function(_$PropertyMatchImpl) then) =
+      __$$PropertyMatchImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({PropertyResponse property, bool overBudget});
+
+  @override
+  $PropertyResponseCopyWith<$Res> get property;
+}
+
+/// @nodoc
+class __$$PropertyMatchImplCopyWithImpl<$Res>
+    extends _$PropertyMatchCopyWithImpl<$Res, _$PropertyMatchImpl>
+    implements _$$PropertyMatchImplCopyWith<$Res> {
+  __$$PropertyMatchImplCopyWithImpl(
+      _$PropertyMatchImpl _value, $Res Function(_$PropertyMatchImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of PropertyMatch
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? property = null,
+    Object? overBudget = null,
+  }) {
+    return _then(_$PropertyMatchImpl(
+      property: null == property
+          ? _value.property
+          : property // ignore: cast_nullable_to_non_nullable
+              as PropertyResponse,
+      overBudget: null == overBudget
+          ? _value.overBudget
+          : overBudget // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$PropertyMatchImpl implements _PropertyMatch {
+  const _$PropertyMatchImpl({required this.property, this.overBudget = false});
+
+  factory _$PropertyMatchImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PropertyMatchImplFromJson(json);
+
+  @override
+  final PropertyResponse property;
+  @override
+  @JsonKey()
+  final bool overBudget;
+
+  @override
+  String toString() {
+    return 'PropertyMatch(property: $property, overBudget: $overBudget)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$PropertyMatchImpl &&
+            (identical(other.property, property) ||
+                other.property == property) &&
+            (identical(other.overBudget, overBudget) ||
+                other.overBudget == overBudget));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, property, overBudget);
+
+  /// Create a copy of PropertyMatch
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$PropertyMatchImplCopyWith<_$PropertyMatchImpl> get copyWith =>
+      __$$PropertyMatchImplCopyWithImpl<_$PropertyMatchImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$PropertyMatchImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _PropertyMatch implements PropertyMatch {
+  const factory _PropertyMatch(
+      {required final PropertyResponse property,
+      final bool overBudget}) = _$PropertyMatchImpl;
+
+  factory _PropertyMatch.fromJson(Map<String, dynamic> json) =
+      _$PropertyMatchImpl.fromJson;
+
+  @override
+  PropertyResponse get property;
+  @override
+  bool get overBudget;
+
+  /// Create a copy of PropertyMatch
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$PropertyMatchImplCopyWith<_$PropertyMatchImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+ClientMatch _$ClientMatchFromJson(Map<String, dynamic> json) {
+  return _ClientMatch.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ClientMatch {
+  ClientResponse get client => throw _privateConstructorUsedError;
+  bool get overBudget => throw _privateConstructorUsedError;
+
+  /// Serializes this ClientMatch to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of ClientMatch
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $ClientMatchCopyWith<ClientMatch> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ClientMatchCopyWith<$Res> {
+  factory $ClientMatchCopyWith(
+          ClientMatch value, $Res Function(ClientMatch) then) =
+      _$ClientMatchCopyWithImpl<$Res, ClientMatch>;
+  @useResult
+  $Res call({ClientResponse client, bool overBudget});
+
+  $ClientResponseCopyWith<$Res> get client;
+}
+
+/// @nodoc
+class _$ClientMatchCopyWithImpl<$Res, $Val extends ClientMatch>
+    implements $ClientMatchCopyWith<$Res> {
+  _$ClientMatchCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of ClientMatch
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? client = null,
+    Object? overBudget = null,
+  }) {
+    return _then(_value.copyWith(
+      client: null == client
+          ? _value.client
+          : client // ignore: cast_nullable_to_non_nullable
+              as ClientResponse,
+      overBudget: null == overBudget
+          ? _value.overBudget
+          : overBudget // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ) as $Val);
+  }
+
+  /// Create a copy of ClientMatch
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $ClientResponseCopyWith<$Res> get client {
+    return $ClientResponseCopyWith<$Res>(_value.client, (value) {
+      return _then(_value.copyWith(client: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$ClientMatchImplCopyWith<$Res>
+    implements $ClientMatchCopyWith<$Res> {
+  factory _$$ClientMatchImplCopyWith(
+          _$ClientMatchImpl value, $Res Function(_$ClientMatchImpl) then) =
+      __$$ClientMatchImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({ClientResponse client, bool overBudget});
+
+  @override
+  $ClientResponseCopyWith<$Res> get client;
+}
+
+/// @nodoc
+class __$$ClientMatchImplCopyWithImpl<$Res>
+    extends _$ClientMatchCopyWithImpl<$Res, _$ClientMatchImpl>
+    implements _$$ClientMatchImplCopyWith<$Res> {
+  __$$ClientMatchImplCopyWithImpl(
+      _$ClientMatchImpl _value, $Res Function(_$ClientMatchImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ClientMatch
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? client = null,
+    Object? overBudget = null,
+  }) {
+    return _then(_$ClientMatchImpl(
+      client: null == client
+          ? _value.client
+          : client // ignore: cast_nullable_to_non_nullable
+              as ClientResponse,
+      overBudget: null == overBudget
+          ? _value.overBudget
+          : overBudget // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ClientMatchImpl implements _ClientMatch {
+  const _$ClientMatchImpl({required this.client, this.overBudget = false});
+
+  factory _$ClientMatchImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ClientMatchImplFromJson(json);
+
+  @override
+  final ClientResponse client;
+  @override
+  @JsonKey()
+  final bool overBudget;
+
+  @override
+  String toString() {
+    return 'ClientMatch(client: $client, overBudget: $overBudget)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ClientMatchImpl &&
+            (identical(other.client, client) || other.client == client) &&
+            (identical(other.overBudget, overBudget) ||
+                other.overBudget == overBudget));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, client, overBudget);
+
+  /// Create a copy of ClientMatch
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ClientMatchImplCopyWith<_$ClientMatchImpl> get copyWith =>
+      __$$ClientMatchImplCopyWithImpl<_$ClientMatchImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ClientMatchImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ClientMatch implements ClientMatch {
+  const factory _ClientMatch(
+      {required final ClientResponse client,
+      final bool overBudget}) = _$ClientMatchImpl;
+
+  factory _ClientMatch.fromJson(Map<String, dynamic> json) =
+      _$ClientMatchImpl.fromJson;
+
+  @override
+  ClientResponse get client;
+  @override
+  bool get overBudget;
+
+  /// Create a copy of ClientMatch
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ClientMatchImplCopyWith<_$ClientMatchImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

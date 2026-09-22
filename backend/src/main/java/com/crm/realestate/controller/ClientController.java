@@ -3,8 +3,10 @@ package com.crm.realestate.controller;
 import com.crm.realestate.dto.request.ClientRequest;
 import com.crm.realestate.dto.response.ClientListItem;
 import com.crm.realestate.dto.response.ClientResponse;
+import com.crm.realestate.dto.response.PropertyMatch;
 import com.crm.realestate.enums.ClientType;
 import com.crm.realestate.service.ClientService;
+import com.crm.realestate.service.MatchingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -24,7 +26,8 @@ import java.util.List;
 @SecurityRequirement(name = "bearerAuth")
 public class ClientController {
 
-    private final ClientService clientService;
+    private final ClientService   clientService;
+    private final MatchingService matchingService;
 
     @GetMapping
     @Operation(summary = "Get all clients (supports pagination, sorting, and filters). Backward-compatible: returns legacy list when no paging/filters provided.")
@@ -104,6 +107,12 @@ public class ClientController {
     @Operation(summary = "Get clients with deal status, property and next meeting - for frontend table")
     public ResponseEntity<List<ClientListItem>> getWithDetails() {
         return ResponseEntity.ok(clientService.getClientsWithDetails());
+    }
+
+    @GetMapping("/{id}/matches")
+    @Operation(summary = "Listings that fit what this buyer asked for, inside the budget first")
+    public ResponseEntity<List<PropertyMatch>> matches(@PathVariable Long id) {
+        return ResponseEntity.ok(matchingService.propertiesFor(id));
     }
 
     @GetMapping("/{id}")
