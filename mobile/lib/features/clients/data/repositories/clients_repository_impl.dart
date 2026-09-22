@@ -31,4 +31,7 @@ class ClientsRepositoryImpl implements ClientsRepository {
 
   @override
   Future<void> deleteClient(int id) => _remote.deleteClient(id);
+
+  @override
+  Future<List<PropertyMatch>> getMatches(int id) => _remote.getMatches(id);
 }

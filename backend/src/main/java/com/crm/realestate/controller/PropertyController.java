@@ -4,6 +4,8 @@ import com.crm.realestate.dto.request.PropertyRequest;
 import com.crm.realestate.dto.response.PropertyResponse;
 import com.crm.realestate.enums.PropertyStatus;
 import com.crm.realestate.enums.PropertyType;
+import com.crm.realestate.dto.response.ClientMatch;
+import com.crm.realestate.service.MatchingService;
 import com.crm.realestate.service.PropertyService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -25,6 +27,7 @@ import java.util.List;
 public class PropertyController {
 
     private final PropertyService propertyService;
+    private final MatchingService matchingService;
 
     @GetMapping
     @Operation(summary = "Get all properties (with optional filters). Supports pagination & sorting via Pageable (page, size, sort)")
@@ -57,6 +60,12 @@ public class PropertyController {
         org.springframework.data.domain.Page<PropertyResponse> page = propertyService.search(
                 status, type, city, minPrice, maxPrice, rooms, agentId, search, pageable);
         return ResponseEntity.ok(page);
+    }
+
+    @GetMapping("/{id}/interested")
+    @Operation(summary = "Buyers whose stated requirements this listing answers")
+    public ResponseEntity<List<ClientMatch>> interested(@PathVariable Long id) {
+        return ResponseEntity.ok(matchingService.buyersFor(id));
     }
 
     @GetMapping("/{id}")

@@ -23,7 +23,13 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
   final _emailCtrl = TextEditingController();
   final _phoneCtrl = TextEditingController();
   final _notesCtrl = TextEditingController();
+  final _cityCtrl = TextEditingController();
+  final _budgetMinCtrl = TextEditingController();
+  final _budgetMaxCtrl = TextEditingController();
+  final _roomsCtrl = TextEditingController();
+  final _areaCtrl = TextEditingController();
   ClientType _type = ClientType.BUYER;
+  PropertyType? _wantedType;
   bool _loading = false;
   bool _initLoading = false;
 
@@ -35,7 +41,17 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
 
   @override
   void dispose() {
-    for (final c in [_nameCtrl, _emailCtrl, _phoneCtrl, _notesCtrl]) {
+    for (final c in [
+      _nameCtrl,
+      _emailCtrl,
+      _phoneCtrl,
+      _notesCtrl,
+      _cityCtrl,
+      _budgetMinCtrl,
+      _budgetMaxCtrl,
+      _roomsCtrl,
+      _areaCtrl
+    ]) {
       c.dispose();
     }
     super.dispose();
@@ -49,14 +65,34 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
       _emailCtrl.text = c.email ?? '';
       _phoneCtrl.text = c.phone ?? '';
       _notesCtrl.text = c.notes ?? '';
+      _cityCtrl.text = c.wantedCity ?? '';
+      _budgetMinCtrl.text = _amount(c.budgetMin);
+      _budgetMaxCtrl.text = _amount(c.budgetMax);
+      _roomsCtrl.text = c.minRooms?.toString() ?? '';
+      _areaCtrl.text = _amount(c.minAreaSqm);
       if (!mounted) return;
       setState(() {
         _type = c.type;
+        _wantedType = c.wantedType;
         _initLoading = false;
       });
     } catch (_) {
       if (mounted) setState(() => _initLoading = false);
     }
+  }
+
+  static String _amount(double? value) {
+    if (value == null) return '';
+    return value == value.roundToDouble()
+        ? value.round().toString()
+        : value.toString();
+  }
+
+  double? _number(TextEditingController controller) {
+    final text =
+        controller.text.replaceAll(' ', '').replaceAll(',', '.').trim();
+    if (text.isEmpty) return null;
+    return double.tryParse(text);
   }
 
   void _submit() {
@@ -68,6 +104,18 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
       if (_phoneCtrl.text.trim().isNotEmpty) 'phone': _phoneCtrl.text.trim(),
       'type': _type.name,
       if (_notesCtrl.text.trim().isNotEmpty) 'notes': _notesCtrl.text.trim(),
+      if (_type == ClientType.BUYER) ...{
+        if (_wantedType != null) 'wantedType': _wantedType!.name,
+        if (_cityCtrl.text.trim().isNotEmpty)
+          'wantedCity': _cityCtrl.text.trim(),
+        if (_number(_budgetMinCtrl) != null)
+          'budgetMin': _number(_budgetMinCtrl),
+        if (_number(_budgetMaxCtrl) != null)
+          'budgetMax': _number(_budgetMaxCtrl),
+        if (_number(_roomsCtrl) != null)
+          'minRooms': _number(_roomsCtrl)!.round(),
+        if (_number(_areaCtrl) != null) 'minAreaSqm': _number(_areaCtrl),
+      },
     };
     if (widget.isEditing) {
       context
@@ -204,6 +252,16 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
                       ),
                     ],
                   ),
+                  if (_type == ClientType.BUYER)
+                    _RequirementsCard(
+                      wantedType: _wantedType,
+                      onTypeChanged: (v) => setState(() => _wantedType = v),
+                      cityCtrl: _cityCtrl,
+                      budgetMinCtrl: _budgetMinCtrl,
+                      budgetMaxCtrl: _budgetMaxCtrl,
+                      roomsCtrl: _roomsCtrl,
+                      areaCtrl: _areaCtrl,
+                    ),
                   FormSectionCard(
                     eyebrow: l10n.clientsNotes,
                     children: [
@@ -219,6 +277,135 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
                 ],
         ),
       ),
+    );
+  }
+}
+
+class _RequirementsCard extends StatelessWidget {
+  final PropertyType? wantedType;
+  final ValueChanged<PropertyType?> onTypeChanged;
+  final TextEditingController cityCtrl;
+  final TextEditingController budgetMinCtrl;
+  final TextEditingController budgetMaxCtrl;
+  final TextEditingController roomsCtrl;
+  final TextEditingController areaCtrl;
+
+  const _RequirementsCard({
+    required this.wantedType,
+    required this.onTypeChanged,
+    required this.cityCtrl,
+    required this.budgetMinCtrl,
+    required this.budgetMaxCtrl,
+    required this.roomsCtrl,
+    required this.areaCtrl,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
+    return FormSectionCard(
+      eyebrow: l10n.clientsRequirements,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(bottom: 4),
+          child: Text(
+            l10n.clientsRequirementsHint,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+                fontFamily: AppFonts.sans,
+                fontSize: 11.5,
+                height: 1.35,
+                color: context.tokens.textSecondary),
+          ),
+        ),
+        LabelledField(
+          label: l10n.clientsWantedType,
+          child: FilterPillWrap(pills: [
+            FilterPill(
+              label: l10n.clientsAnyType,
+              selected: wantedType == null,
+              onCard: true,
+              onTap: () => onTypeChanged(null),
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 9),
+            ),
+            for (final type in PropertyType.values)
+              FilterPill(
+                label: propertyTypeLabel(l10n, type),
+                selected: wantedType == type,
+                onCard: true,
+                onTap: () => onTypeChanged(type),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 15, vertical: 9),
+              ),
+          ]),
+        ),
+        LabelledField(
+          label: l10n.clientsWantedCity,
+          child: AppTextField(
+            controller: cityCtrl,
+            hint: l10n.clientsWantedCity,
+            textInputAction: TextInputAction.next,
+          ),
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: LabelledField(
+                label: l10n.clientsBudgetFrom,
+                child: AppTextField(
+                  controller: budgetMinCtrl,
+                  hint: '0',
+                  keyboardType: TextInputType.number,
+                  textInputAction: TextInputAction.next,
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: LabelledField(
+                label: l10n.clientsBudgetTo,
+                child: AppTextField(
+                  controller: budgetMaxCtrl,
+                  hint: '0',
+                  keyboardType: TextInputType.number,
+                  textInputAction: TextInputAction.next,
+                ),
+              ),
+            ),
+          ],
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: LabelledField(
+                label: l10n.clientsMinRooms,
+                child: AppTextField(
+                  controller: roomsCtrl,
+                  hint: '0',
+                  keyboardType: TextInputType.number,
+                  textInputAction: TextInputAction.next,
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: LabelledField(
+                label: l10n.clientsMinArea,
+                child: AppTextField(
+                  controller: areaCtrl,
+                  hint: '0',
+                  keyboardType: TextInputType.number,
+                  textInputAction: TextInputAction.done,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

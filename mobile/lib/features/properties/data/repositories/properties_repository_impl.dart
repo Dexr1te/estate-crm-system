@@ -51,4 +51,7 @@ class PropertiesRepositoryImpl implements PropertiesRepository {
 
   @override
   Future<void> deleteProperty(int id) => _remote.deleteProperty(id);
+
+  @override
+  Future<List<ClientMatch>> getInterested(int id) => _remote.getInterested(id);
 }

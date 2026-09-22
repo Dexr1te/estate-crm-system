@@ -8,6 +8,7 @@ Purpose: Give concise, actionable rules and shortcuts so AI coding agents (and h
   - **Backend build/test:** `cd backend && ./mvnw package` / `cd backend && ./mvnw test`
   - **Frontend dev/build/test:** `cd frontend && npm install && npm run dev` / `cd frontend && npm run build` / `cd frontend && npm test`
   - **Mobile (Flutter):** `cd mobile && flutter pub get` / `cd mobile && flutter run` / `cd mobile && flutter test`
+    - Run it through the SDK the project pins (`fvm flutter test`, or `.fvm/flutter_sdk/bin/flutter test`). `flutter` on the PATH may be a different version, and `mobile/build/unit_test_assets` belongs to whichever SDK wrote it last: a mismatch fails every test that taps anything, with `Asset 'shaders/ink_sparkle.frag' manifest could not be decoded`. `rm -rf mobile/build/unit_test_assets` after switching versions.
 
 - **Key files & locations:**
   - **Backend:** [backend/pom.xml](backend/pom.xml#L1) — Maven project and build config.

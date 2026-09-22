@@ -9,6 +9,7 @@ import 'package:real_estate_crm/core/utils/contact_actions.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_bloc.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_event.dart';
+import 'package:real_estate_crm/features/properties/presentation/widgets/property_card.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class ClientDetailScreen extends StatefulWidget {
@@ -21,6 +22,7 @@ class ClientDetailScreen extends StatefulWidget {
 class _ClientDetailScreenState extends State<ClientDetailScreen> {
   ClientResponse? _client;
   List<DealResponse> _deals = const [];
+  List<PropertyMatch> _matches = const [];
   bool _loading = true;
   String? _error;
 
@@ -39,6 +41,7 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
       final results = await Future.wait([
         Injector.clientsRepository.getClient(widget.id),
         Injector.dealsRepository.getDeals(),
+        Injector.clientsRepository.getMatches(widget.id),
       ]);
       if (!mounted) return;
       setState(() {
@@ -46,6 +49,7 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
         _deals = (results[1] as List<DealResponse>)
             .where((d) => d.clientId == widget.id)
             .toList();
+        _matches = results[2] as List<PropertyMatch>;
         _loading = false;
       });
     } catch (err) {
@@ -119,7 +123,7 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
                 SizedBox(height: 14),
                 ShimmerInfoCard(rows: 3, heading: true, buttons: 2),
                 SizedBox(height: 14),
-                ShimmerInfoCard(rows: 2, heading: true),
+                ShimmerNestedListCard(rows: 2),
               ]),
             ),
         ],
@@ -139,6 +143,8 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
         _IdentityCard(client: client, onCopyId: _copyId),
         _ContactCard(client: client, onCall: _call, onMessage: _message),
         _DealsCard(deals: _deals),
+        if (client.type == ClientType.BUYER)
+          _MatchesCard(client: client, matches: _matches),
         if (client.notes != null && client.notes!.trim().isNotEmpty)
           _NotesCard(client: client),
       ],
@@ -261,6 +267,153 @@ class _ContactCard extends StatelessWidget {
                   height: AppMetrics.minHitTarget,
                   fontSize: 12.5,
                 ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _MatchesCard extends StatelessWidget {
+  final ClientResponse client;
+  final List<PropertyMatch> matches;
+  const _MatchesCard({required this.client, required this.matches});
+
+  bool get _hasRequirements =>
+      client.wantedType != null ||
+      (client.wantedCity != null && client.wantedCity!.trim().isNotEmpty) ||
+      client.budgetMin != null ||
+      client.budgetMax != null ||
+      client.minRooms != null ||
+      client.minAreaSqm != null;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = context.tokens;
+    final l10n = AppLocalizations.of(context);
+
+    return AppCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            textBaseline: TextBaseline.alphabetic,
+            children: [
+              Expanded(child: EyebrowLabel(l10n.clientsMatches)),
+              if (_hasRequirements)
+                Text('${matches.length}',
+                    maxLines: 1,
+                    style: TextStyle(
+                        fontFamily: AppFonts.sans,
+                        fontSize: 11,
+                        fontWeight: FontWeight.w600,
+                        color: t.textSecondary)),
+            ],
+          ),
+          const SizedBox(height: 11),
+          if (!_hasRequirements)
+            Text(
+              l10n.clientsNoRequirements,
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                  fontFamily: AppFonts.sans,
+                  fontSize: 12.5,
+                  height: 1.35,
+                  color: t.textSecondary),
+            )
+          else if (matches.isEmpty)
+            Text(
+              l10n.clientsNoMatches,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                  fontFamily: AppFonts.sans,
+                  fontSize: 12.5,
+                  color: t.textSecondary),
+            )
+          else
+            for (var i = 0; i < matches.length; i++) ...[
+              if (i > 0) const SizedBox(height: 8),
+              _MatchRow(match: matches[i]),
+            ],
+        ],
+      ),
+    );
+  }
+}
+
+class _MatchRow extends StatelessWidget {
+  final PropertyMatch match;
+  const _MatchRow({required this.match});
+
+  @override
+  Widget build(BuildContext context) {
+    final t = context.tokens;
+    final l10n = AppLocalizations.of(context);
+    final p = match.property;
+
+    return AppCard(
+      nested: true,
+      radius: AppMetrics.radiusSm,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
+      onTap: () => context.push('/properties/${p.id}'),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  p.title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      fontFamily: AppFonts.sans,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: t.textPrimary),
+                ),
+              ),
+              if (match.overBudget) ...[
+                const SizedBox(width: 8),
+                Flexible(
+                  child: StatusChip(
+                      label: l10n.clientsOverBudget,
+                      hue: StatusHue.negotiation),
+                ),
+              ],
+            ],
+          ),
+          const SizedBox(height: 7),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.baseline,
+            textBaseline: TextBaseline.alphabetic,
+            children: [
+              Expanded(
+                child: Text(
+                  propertySpecs(l10n, p),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      fontFamily: AppFonts.sans,
+                      fontSize: 11.5,
+                      color: t.textSecondary),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Text(
+                formatPrice(p.price),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    fontFamily: AppFonts.sans,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                    color: t.textPrimary),
               ),
             ],
           ),

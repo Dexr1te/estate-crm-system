@@ -356,3 +356,65 @@ class ShimmerChipRow extends StatelessWidget {
         ],
       );
 }
+
+class ShimmerNestedListCard extends StatelessWidget {
+  final int rows;
+  final bool counted;
+
+  const ShimmerNestedListCard({super.key, this.rows = 2, this.counted = true});
+
+  @override
+  Widget build(BuildContext context) => ShimmerCard(
+        radius: AppMetrics.radiusMd,
+        padding: EdgeInsets.all(AppMetrics.cardPadding(context)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              children: [
+                const Expanded(
+                    child: ShimmerBar(widthFactor: 0.38, height: 10)),
+                if (counted) const ShimmerBox(width: 14, height: 10, radius: 5),
+              ],
+            ),
+            const SizedBox(height: 13),
+            for (var i = 0; i < rows; i++) ...[
+              if (i > 0) const SizedBox(height: 8),
+              ShimmerCard(
+                radius: AppMetrics.radiusSm,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                            child: ShimmerBar(
+                                widthFactor: i.isEven ? 0.7 : 0.52,
+                                height: 12)),
+                        const SizedBox(width: 8),
+                        const ShimmerBox(width: 56, height: 20, radius: 10),
+                      ],
+                    ),
+                    const SizedBox(height: 9),
+                    Row(
+                      children: [
+                        Expanded(
+                            child: ShimmerBar(
+                                widthFactor: i.isEven ? 0.44 : 0.6,
+                                height: 10)),
+                        const SizedBox(width: 8),
+                        const ShimmerBox(width: 68, height: 12, radius: 6),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ],
+        ),
+      );
+}

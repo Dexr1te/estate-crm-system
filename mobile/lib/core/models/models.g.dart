@@ -55,6 +55,13 @@ _$ClientResponseImpl _$$ClientResponseImplFromJson(Map<String, dynamic> json) =>
       updatedAt: json['updatedAt'] == null
           ? null
           : DateTime.parse(json['updatedAt'] as String),
+      wantedType:
+          $enumDecodeNullable(_$PropertyTypeEnumMap, json['wantedType']),
+      wantedCity: json['wantedCity'] as String?,
+      budgetMin: (json['budgetMin'] as num?)?.toDouble(),
+      budgetMax: (json['budgetMax'] as num?)?.toDouble(),
+      minRooms: (json['minRooms'] as num?)?.toInt(),
+      minAreaSqm: (json['minAreaSqm'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$$ClientResponseImplToJson(
@@ -70,11 +77,25 @@ Map<String, dynamic> _$$ClientResponseImplToJson(
       'agentName': instance.agentName,
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
+      'wantedType': _$PropertyTypeEnumMap[instance.wantedType],
+      'wantedCity': instance.wantedCity,
+      'budgetMin': instance.budgetMin,
+      'budgetMax': instance.budgetMax,
+      'minRooms': instance.minRooms,
+      'minAreaSqm': instance.minAreaSqm,
     };
 
 const _$ClientTypeEnumMap = {
   ClientType.BUYER: 'BUYER',
   ClientType.SELLER: 'SELLER',
+};
+
+const _$PropertyTypeEnumMap = {
+  PropertyType.APARTMENT: 'APARTMENT',
+  PropertyType.HOUSE: 'HOUSE',
+  PropertyType.COMMERCIAL: 'COMMERCIAL',
+  PropertyType.LAND: 'LAND',
+  PropertyType.OFFICE: 'OFFICE',
 };
 
 _$ClientListItemImpl _$$ClientListItemImplFromJson(Map<String, dynamic> json) =>
@@ -163,19 +184,36 @@ Map<String, dynamic> _$$PropertyResponseImplToJson(
       'updatedAt': instance.updatedAt?.toIso8601String(),
     };
 
-const _$PropertyTypeEnumMap = {
-  PropertyType.APARTMENT: 'APARTMENT',
-  PropertyType.HOUSE: 'HOUSE',
-  PropertyType.COMMERCIAL: 'COMMERCIAL',
-  PropertyType.LAND: 'LAND',
-  PropertyType.OFFICE: 'OFFICE',
-};
-
 const _$PropertyStatusEnumMap = {
   PropertyStatus.AVAILABLE: 'AVAILABLE',
   PropertyStatus.RESERVED: 'RESERVED',
   PropertyStatus.SOLD: 'SOLD',
 };
+
+_$PropertyMatchImpl _$$PropertyMatchImplFromJson(Map<String, dynamic> json) =>
+    _$PropertyMatchImpl(
+      property:
+          PropertyResponse.fromJson(json['property'] as Map<String, dynamic>),
+      overBudget: json['overBudget'] as bool? ?? false,
+    );
+
+Map<String, dynamic> _$$PropertyMatchImplToJson(_$PropertyMatchImpl instance) =>
+    <String, dynamic>{
+      'property': instance.property,
+      'overBudget': instance.overBudget,
+    };
+
+_$ClientMatchImpl _$$ClientMatchImplFromJson(Map<String, dynamic> json) =>
+    _$ClientMatchImpl(
+      client: ClientResponse.fromJson(json['client'] as Map<String, dynamic>),
+      overBudget: json['overBudget'] as bool? ?? false,
+    );
+
+Map<String, dynamic> _$$ClientMatchImplToJson(_$ClientMatchImpl instance) =>
+    <String, dynamic>{
+      'client': instance.client,
+      'overBudget': instance.overBudget,
+    };
 
 _$DealResponseImpl _$$DealResponseImplFromJson(Map<String, dynamic> json) =>
     _$DealResponseImpl(

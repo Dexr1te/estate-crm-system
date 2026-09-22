@@ -24,4 +24,6 @@ abstract class PropertiesRepository {
   Future<PropertyResponse> updatePropertyStatus(int id, PropertyStatus status);
 
   Future<void> deleteProperty(int id);
+
+  Future<List<ClientMatch>> getInterested(int id);
 }

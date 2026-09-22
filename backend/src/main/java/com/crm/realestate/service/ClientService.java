@@ -30,6 +30,7 @@ public class ClientService {
     private final UserRepository   userRepository;
     private final SecurityUtils    securityUtils;
     private final ScopeService     scopeService;
+    private final ClientMapper     clientMapper;
 
     public List<ClientResponse> getAll() {
         return findVisible(ClientSpecification.build(null, null, null, null, null));
@@ -143,6 +144,7 @@ public class ClientService {
         client.setPhone(request.getPhone());
         client.setType(request.getType());
         client.setNotes(request.getNotes());
+        applyRequirements(request, client);
 
         if (scopeService.isAdmin(currentUser) && request.getAgentId() != null) {
             User agent = userRepository.findById(request.getAgentId())
@@ -160,20 +162,28 @@ public class ClientService {
         }
     }
 
+    /**
+     * What the buyer is looking for, or nothing at all.
+     *
+     * <p>A seller's requirements are cleared rather than kept: a client switched
+     * from buying to selling would otherwise keep matching listings against a
+     * wish list nobody can see on the screen any more.
+     */
+    private void applyRequirements(ClientRequest request, Client client) {
+        boolean buying = request.getType() == ClientType.BUYER;
+        client.setWantedType(buying ? request.getWantedType() : null);
+        client.setWantedCity(buying ? blankToNull(request.getWantedCity()) : null);
+        client.setBudgetMin(buying ? request.getBudgetMin() : null);
+        client.setBudgetMax(buying ? request.getBudgetMax() : null);
+        client.setMinRooms(buying ? request.getMinRooms() : null);
+        client.setMinAreaSqm(buying ? request.getMinAreaSqm() : null);
+    }
+
+    private static String blankToNull(String value) {
+        return value == null || value.isBlank() ? null : value.trim();
+    }
+
     private ClientResponse toResponse(Client client) {
-        ClientResponse res = new ClientResponse();
-        res.setId(client.getId());
-        res.setFullName(client.getFullName());
-        res.setEmail(client.getEmail());
-        res.setPhone(client.getPhone());
-        res.setType(client.getType());
-        res.setNotes(client.getNotes());
-        res.setCreatedAt(client.getCreatedAt());
-        res.setUpdatedAt(client.getUpdatedAt());
-        if (client.getAgent() != null) {
-            res.setAgentId(client.getAgent().getId());
-            res.setAgentName(client.getAgent().getFullName());
-        }
-        return res;
+        return clientMapper.toResponse(client);
     }
 }

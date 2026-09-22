@@ -48,24 +48,25 @@ void main() {
 
   test('a read that times out while the host wakes up is retried, patiently',
       () async {
-    final host = _SleepingHost(
-        failures: 1, failure: DioExceptionType.connectionTimeout);
+    final host =
+        _SleepingHost(failures: 1, failure: DioExceptionType.connectionTimeout);
     final client = await _client(host);
 
     final res = await client.dio.get('/dashboard/summary');
 
     expect(res.statusCode, 200);
     expect(host.attempts, hasLength(2));
-    expect(host.attempts.last.connectTimeout, greaterThan(const Duration(seconds: 60)),
+    expect(host.attempts.last.connectTimeout,
+        greaterThan(const Duration(seconds: 60)),
         reason: 'the second attempt has to outlast a cold start, or it buys '
             'nothing over the first');
   });
 
   test('a write is replayed only when nothing reached the server', () async {
-    final refused = _SleepingHost(
-        failures: 1, failure: DioExceptionType.connectionError);
-    final answered = _SleepingHost(
-        failures: 1, failure: DioExceptionType.receiveTimeout);
+    final refused =
+        _SleepingHost(failures: 1, failure: DioExceptionType.connectionError);
+    final answered =
+        _SleepingHost(failures: 1, failure: DioExceptionType.receiveTimeout);
 
     final onRefusedConnection = await _client(refused);
     await onRefusedConnection.dio.post('/clients', data: {'fullName': 'A'});
@@ -74,8 +75,7 @@ void main() {
             'created once already');
 
     final onSilence = await _client(answered);
-    await expectLater(
-        onSilence.dio.post('/clients', data: {'fullName': 'A'}),
+    await expectLater(onSilence.dio.post('/clients', data: {'fullName': 'A'}),
         throwsA(isA<DioException>()));
     expect(answered.attempts, hasLength(1),
         reason: 'the request did go out — a replay risks a second client under '

@@ -167,6 +167,15 @@ class AppLocalizationsKk extends AppLocalizations {
       'Сізге берілген шақыру кодын енгізіп, құпия сөз таңдаңыз.';
 
   @override
+  String get authAcceptRequest => 'Қабылдау';
+
+  @override
+  String get authAcceptTerms => 'Құпиялылық саясатымен келісемін';
+
+  @override
+  String get authAcceptTermsRequired => 'Құпиялылық саясатын қабылдаңыз';
+
+  @override
   String get authAcceptYourInvite => 'Шақыруыңызды қабылдаңыз';
 
   @override
@@ -176,7 +185,54 @@ class AppLocalizationsKk extends AppLocalizations {
   String get authBackToSignIn => 'Кіруге оралу';
 
   @override
+  String get authChangeEmail => 'Басқа адрес';
+
+  @override
+  String get authChooseRoleSubtitle =>
+      'Бұл көретін нәрсеңізді анықтайды. Кейін жетекші өзгерте алады.';
+
+  @override
+  String get authChooseRoleTitle => 'Қалай жұмыс істейсіз?';
+
+  @override
   String get authConfirmPassword => 'Құпия сөзді растаңыз';
+
+  @override
+  String get authContinue => 'Жалғастыру';
+
+  @override
+  String get authCreateAccountSubtitle =>
+      'Поштаға алты таңбалы растау кодын жібереміз.';
+
+  @override
+  String get authCreateAccountTitle => 'Аккаунт жасаңыз';
+
+  @override
+  String get authCreateTeamAction => 'Құру және жалғастыру';
+
+  @override
+  String get authCreateTeamName => 'Агенттік атауы';
+
+  @override
+  String get authCreateTeamNameRequired => 'Атауын енгізіңіз';
+
+  @override
+  String get authCreateTeamSubtitle =>
+      'Атауын агенттеріңіз көреді. Кейін өзгертуге болады.';
+
+  @override
+  String get authCreateTeamTitle => 'Агенттік құрыңыз';
+
+  @override
+  String get authDeclineRequest => 'Қабылдамау';
+
+  @override
+  String authDeclineRequestBody(Object team) {
+    return '$team сіздің клиенттеріңізді көрмейді. Кейін қайта шақыра алады.';
+  }
+
+  @override
+  String get authDeclineRequestTitle => 'Шақыруды қабылдамайсыз ба?';
 
   @override
   String get authEmail => 'Электрондық пошта';
@@ -186,6 +242,9 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get authEmailRequired => 'Электрондық поштаны енгізіңіз';
+
+  @override
+  String get authEmailTaken => 'Бұл адреске аккаунт бар. Кіріңіз.';
 
   @override
   String get authForgotPassword => 'Құпия сөзді ұмыттыңыз ба?';
@@ -198,6 +257,12 @@ class AppLocalizationsKk extends AppLocalizations {
   String get authForgotPasswordTitle => 'Құпия сөзді қалпына келтіру';
 
   @override
+  String get authFullName => 'Аты-жөні';
+
+  @override
+  String get authFullNameRequired => 'Атыңызды енгізіңіз';
+
+  @override
   String get authHaveAnInvite => 'Шақыруыңыз бар ма?';
 
   @override
@@ -205,6 +270,13 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get authInviteCodeRequired => 'Шақыру кодын енгізіңіз';
+
+  @override
+  String get authInvitePendingBody =>
+      'Бұл адреске шақыру жіберілген. Оны ашыңыз немесе кодты енгізіп құпия сөз қойыңыз.';
+
+  @override
+  String get authInvitePendingTitle => 'Сізді бұрын шақырған';
 
   @override
   String authInviteSignOutBody(Object email) {
@@ -218,7 +290,20 @@ class AppLocalizationsKk extends AppLocalizations {
   String get authInviteSignOutTitle => 'Шақыруды қабылдайсыз ба?';
 
   @override
+  String authInvitedBy(Object name) {
+    return '$name жіберген';
+  }
+
+  @override
+  String authInvitedByTeam(Object team) {
+    return '$team сізді шақырады';
+  }
+
+  @override
   String get authNewPassword => 'Жаңа құпия сөз';
+
+  @override
+  String get authNoAccount => 'Аккаунт жоқ па?';
 
   @override
   String get authPassword => 'Құпия сөз';
@@ -230,10 +315,27 @@ class AppLocalizationsKk extends AppLocalizations {
   String get authPasswordMinLength => 'Кемінде 6 таңба';
 
   @override
+  String get authPasswordMinLength8 => 'Кемінде 8 таңба';
+
+  @override
   String get authPasswordRequired => 'Құпия сөзді енгізіңіз';
 
   @override
   String get authPasswordsDoNotMatch => 'Құпия сөздер сәйкес келмейді';
+
+  @override
+  String get authPhoneOptional => 'Телефон (міндетті емес)';
+
+  @override
+  String get authPrivacyPolicy => 'Құпиялылық саясаты';
+
+  @override
+  String get authResendCode => 'Кодты қайта жіберу';
+
+  @override
+  String authResendCodeIn(Object seconds) {
+    return 'Жаңа код $seconds с ішінде';
+  }
 
   @override
   String get authResetCode => 'Қалпына келтіру коды';
@@ -257,6 +359,20 @@ class AppLocalizationsKk extends AppLocalizations {
   String get authResetPasswordTitle => 'Жаңа құпия сөз';
 
   @override
+  String get authRoleAgentBody =>
+      'Жетекшінің командасына қосылып, өз клиенттеріңізбен жұмыс істеңіз.';
+
+  @override
+  String get authRoleAgentTitle => 'Мен агентпін';
+
+  @override
+  String get authRoleManagerBody =>
+      'Команда құрып, агенттер қосыңыз және олардың жұмысын көріңіз.';
+
+  @override
+  String get authRoleManagerTitle => 'Мен агенттік басқарамын';
+
+  @override
   String get authSendResetLink => 'Сілтеме жіберу';
 
   @override
@@ -270,6 +386,42 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get authSignInSubtitle => 'Нысандарыңызды басқару үшін кіріңіз';
+
+  @override
+  String get authSignUp => 'Тіркелу';
+
+  @override
+  String get authVerify => 'Растау';
+
+  @override
+  String get authVerifyCodeRequired => 'Хаттағы алты цифрды енгізіңіз';
+
+  @override
+  String authVerifyEmailSubtitle(Object email) {
+    return '$email адресіне жіберілген алты таңбалы кодты енгізіңіз.';
+  }
+
+  @override
+  String get authVerifyEmailTitle => 'Поштаны растаңыз';
+
+  @override
+  String get authWaitingCopyEmail => 'Адресті көшіру';
+
+  @override
+  String get authWaitingEmailCopied => 'Адрес көшірілді';
+
+  @override
+  String get authWaitingNoRequests => 'Шақыру әзірге жоқ';
+
+  @override
+  String get authWaitingNoRequestsBody => 'Жаңарту үшін төмен тартыңыз.';
+
+  @override
+  String get authWaitingSubtitle =>
+      'Осы адресті жетекшіге беріңіз. Ол сізді қосып, сұранысты қабылдағаннан кейін клиенттер мен мәмілелер шығады.';
+
+  @override
+  String get authWaitingTitle => 'Команда күтілуде';
 
   @override
   String get authWelcomeBack => 'Қайта оралуыңызбен!';
@@ -290,6 +442,20 @@ class AppLocalizationsKk extends AppLocalizations {
   String clientsAgentMeta(Object name) {
     return 'агент $name';
   }
+
+  @override
+  String get clientsAnyType => 'Кез келген';
+
+  @override
+  String get clientsBudgetFrom => 'Бюджет бастап';
+
+  @override
+  String clientsBudgetRange(String from, String to) {
+    return '$from – $to';
+  }
+
+  @override
+  String get clientsBudgetTo => 'Бюджет дейін';
 
   @override
   String get clientsBuyer => 'Сатып алушы';
@@ -401,7 +567,16 @@ class AppLocalizationsKk extends AppLocalizations {
   String get clientsInvalidEmail => 'Қате email';
 
   @override
+  String get clientsMatches => 'Сәйкес нысандар';
+
+  @override
   String get clientsMessage => 'Жазу';
+
+  @override
+  String get clientsMinArea => 'Аумағы, кемінде м²';
+
+  @override
+  String get clientsMinRooms => 'Бөлме, кемінде';
 
   @override
   String get clientsNameRequired => 'Атын енгізіңіз';
@@ -416,7 +591,14 @@ class AppLocalizationsKk extends AppLocalizations {
   String get clientsNoEmail => 'Эл. пошта көрсетілмеген';
 
   @override
+  String get clientsNoMatches => 'Әзірге сәйкесі жоқ';
+
+  @override
   String get clientsNoPhone => 'Телефон көрсетілмеген';
+
+  @override
+  String get clientsNoRequirements =>
+      'Сатып алушы не іздейтінін көрсетіңіз, сәйкес нысандар осында шығады';
 
   @override
   String get clientsNotes => 'Ескертпелер';
@@ -425,7 +607,17 @@ class AppLocalizationsKk extends AppLocalizations {
   String get clientsNotesHint => 'Осы клиент туралы қосымша ескертпелер…';
 
   @override
+  String get clientsOverBudget => 'Бюджеттен қымбат';
+
+  @override
   String get clientsPhone => 'Телефон';
+
+  @override
+  String get clientsRequirements => 'Не іздейді';
+
+  @override
+  String get clientsRequirementsHint =>
+      'Толтырыңыз — қолданба сәйкес нысандарды өзі көрсетеді.';
 
   @override
   String get clientsSearchHint => 'Аты, телефоны бойынша іздеу…';
@@ -452,6 +644,12 @@ class AppLocalizationsKk extends AppLocalizations {
   String clientsUpdatedAt(Object date) {
     return 'Жаңартылды $date';
   }
+
+  @override
+  String get clientsWantedCity => 'Қала';
+
+  @override
+  String get clientsWantedType => 'Нысан түрі';
 
   @override
   String get coreCall => 'Қоңырау шалу';
@@ -1320,6 +1518,9 @@ class AppLocalizationsKk extends AppLocalizations {
   String get msgClientUpdated => 'Клиент жаңартылды';
 
   @override
+  String get msgCodeSent => 'Код жіберілді';
+
+  @override
   String get msgDealCreated => 'Мәміле құрылды';
 
   @override
@@ -1350,272 +1551,10 @@ class AppLocalizationsKk extends AppLocalizations {
   String get msgMeetingUpdated => 'Кездесу жаңартылды';
 
   @override
-  String get msgProfileUpdated => 'Профиль жаңартылды';
-
-  @override
-  String get msgCodeSent => 'Код жіберілді';
-
-  @override
-  String get msgRequestSent => 'Сұраныс жіберілді';
-
-  @override
-  String get msgRequestCancelled => 'Сұраныс қайтарылды';
-
-  @override
-  String get msgTeamJoined => 'Сіз командадасыз';
-
-  @override
-  String get msgRequestDeclined => 'Сұраныс қабылданбады';
-
-  @override
   String get msgMemberRemoved => 'Агент командадан шығарылды';
 
   @override
-  String get msgTeamLeft => 'Сіз командадан шықтыңыз';
-
-  @override
-  String get authNoAccount => 'Аккаунт жоқ па?';
-
-  @override
-  String get authSignUp => 'Тіркелу';
-
-  @override
-  String get authChooseRoleTitle => 'Қалай жұмыс істейсіз?';
-
-  @override
-  String get authChooseRoleSubtitle =>
-      'Бұл көретін нәрсеңізді анықтайды. Кейін жетекші өзгерте алады.';
-
-  @override
-  String get authRoleManagerTitle => 'Мен агенттік басқарамын';
-
-  @override
-  String get authRoleManagerBody =>
-      'Команда құрып, агенттер қосыңыз және олардың жұмысын көріңіз.';
-
-  @override
-  String get authRoleAgentTitle => 'Мен агентпін';
-
-  @override
-  String get authRoleAgentBody =>
-      'Жетекшінің командасына қосылып, өз клиенттеріңізбен жұмыс істеңіз.';
-
-  @override
-  String get authContinue => 'Жалғастыру';
-
-  @override
-  String get authCreateAccountTitle => 'Аккаунт жасаңыз';
-
-  @override
-  String get authCreateAccountSubtitle =>
-      'Поштаға алты таңбалы растау кодын жібереміз.';
-
-  @override
-  String get authFullName => 'Аты-жөні';
-
-  @override
-  String get authFullNameRequired => 'Атыңызды енгізіңіз';
-
-  @override
-  String get authPhoneOptional => 'Телефон (міндетті емес)';
-
-  @override
-  String get authPasswordMinLength8 => 'Кемінде 8 таңба';
-
-  @override
-  String get authAcceptTerms => 'Құпиялылық саясатымен келісемін';
-
-  @override
-  String get authAcceptTermsRequired => 'Құпиялылық саясатын қабылдаңыз';
-
-  @override
-  String get authPrivacyPolicy => 'Құпиялылық саясаты';
-
-  @override
-  String get authVerifyEmailTitle => 'Поштаны растаңыз';
-
-  @override
-  String authVerifyEmailSubtitle(Object email) {
-    return '$email адресіне жіберілген алты таңбалы кодты енгізіңіз.';
-  }
-
-  @override
-  String get authVerifyCodeRequired => 'Хаттағы алты цифрды енгізіңіз';
-
-  @override
-  String get authVerify => 'Растау';
-
-  @override
-  String get authResendCode => 'Кодты қайта жіберу';
-
-  @override
-  String authResendCodeIn(Object seconds) {
-    return 'Жаңа код $seconds с ішінде';
-  }
-
-  @override
-  String get authChangeEmail => 'Басқа адрес';
-
-  @override
-  String get authEmailTaken => 'Бұл адреске аккаунт бар. Кіріңіз.';
-
-  @override
-  String get authInvitePendingTitle => 'Сізді бұрын шақырған';
-
-  @override
-  String get authInvitePendingBody =>
-      'Бұл адреске шақыру жіберілген. Оны ашыңыз немесе кодты енгізіп құпия сөз қойыңыз.';
-
-  @override
-  String get authCreateTeamTitle => 'Агенттік құрыңыз';
-
-  @override
-  String get authCreateTeamSubtitle =>
-      'Атауын агенттеріңіз көреді. Кейін өзгертуге болады.';
-
-  @override
-  String get authCreateTeamName => 'Агенттік атауы';
-
-  @override
-  String get authCreateTeamNameRequired => 'Атауын енгізіңіз';
-
-  @override
-  String get authCreateTeamAction => 'Құру және жалғастыру';
-
-  @override
-  String get authWaitingTitle => 'Команда күтілуде';
-
-  @override
-  String get authWaitingSubtitle =>
-      'Осы адресті жетекшіге беріңіз. Ол сізді қосып, сұранысты қабылдағаннан кейін клиенттер мен мәмілелер шығады.';
-
-  @override
-  String get authWaitingCopyEmail => 'Адресті көшіру';
-
-  @override
-  String get authWaitingEmailCopied => 'Адрес көшірілді';
-
-  @override
-  String get authWaitingNoRequests => 'Шақыру әзірге жоқ';
-
-  @override
-  String get authWaitingNoRequestsBody => 'Жаңарту үшін төмен тартыңыз.';
-
-  @override
-  String authInvitedByTeam(Object team) {
-    return '$team сізді шақырады';
-  }
-
-  @override
-  String authInvitedBy(Object name) {
-    return '$name жіберген';
-  }
-
-  @override
-  String get authAcceptRequest => 'Қабылдау';
-
-  @override
-  String get authDeclineRequest => 'Қабылдамау';
-
-  @override
-  String get authDeclineRequestTitle => 'Шақыруды қабылдамайсыз ба?';
-
-  @override
-  String authDeclineRequestBody(Object team) {
-    return '$team сіздің клиенттеріңізді көрмейді. Кейін қайта шақыра алады.';
-  }
-
-  @override
-  String get teamsMembers => 'Қатысушылар';
-
-  @override
-  String get teamsPending => 'Күтілуде';
-
-  @override
-  String get teamsAddAgent => 'Агент қосу';
-
-  @override
-  String get teamsAddAgentHint =>
-      'Агенттің аккаунты болса, сұраныс алады. Болмаса, поштаға шақыру жібереміз.';
-
-  @override
-  String get teamsAddAgentAction => 'Жіберу';
-
-  @override
-  String teamsRequestSentBody(Object name) {
-    return 'Командаға кіру үшін $name сұранысты қабылдауы керек.';
-  }
-
-  @override
-  String teamsInviteSentBody(Object email) {
-    return '$email адресіне шақыру жіберілді.';
-  }
-
-  @override
-  String get teamsNoMembers => 'Әзірге ешкім жоқ';
-
-  @override
-  String get teamsNoMembersBody => 'Бірінші агентті пошта арқылы қосыңыз.';
-
-  @override
-  String get teamsNoPending => 'Күтушілер жоқ';
-
-  @override
-  String get teamsNoPendingBody => 'Жауап күткен сұраныстар осында шығады.';
-
-  @override
-  String get teamsCancelRequest => 'Қайтару';
-
-  @override
-  String get teamsStatusPendingInvite => 'Шақырылған';
-
-  @override
-  String get teamsStatusPendingVerification => 'Пошта расталмаған';
-
-  @override
-  String get teamsManagerChip => 'Жетекші';
-
-  @override
-  String get teamsRemoveMember => 'Командадан шығару';
-
-  @override
-  String teamsRemoveMemberTitle(Object name) {
-    return '$name шығарылсын ба?';
-  }
-
-  @override
-  String teamsRemoveMemberBody(Object successor) {
-    return 'Клиенттер, мәмілелер мен кездесулер командада қалып, $successor қарауына өтеді.';
-  }
-
-  @override
-  String teamsRemoveInviteBody(Object name) {
-    return '$name үшін шақыру қайтарылады.';
-  }
-
-  @override
-  String get teamsSuccessor => 'Жазбалар кімге өтеді';
-
-  @override
-  String get teamsSuccessorMe => 'Маған';
-
-  @override
-  String get teamsLeaveTeam => 'Командадан шығу';
-
-  @override
-  String teamsLeaveTeamTitle(Object team) {
-    return '$team командасынан шығасыз ба?';
-  }
-
-  @override
-  String get teamsLeaveTeamBody =>
-      'Клиенттер, мәмілелер мен кездесулер командада қалады. Қайту үшін жаңа шақыру керек.';
-
-  @override
-  String get teamsTeamLabel => 'Команда';
-
-  @override
-  String get teamsNoTeamLabel => 'Командасыз';
+  String get msgProfileUpdated => 'Профиль жаңартылды';
 
   @override
   String get msgPropertyCreated => 'Нысан құрылды';
@@ -1625,6 +1564,15 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get msgPropertyUpdated => 'Нысан жаңартылды';
+
+  @override
+  String get msgRequestCancelled => 'Сұраныс қайтарылды';
+
+  @override
+  String get msgRequestDeclined => 'Сұраныс қабылданбады';
+
+  @override
+  String get msgRequestSent => 'Сұраныс жіберілді';
 
   @override
   String get msgRoleUpdated => 'Рөл жаңартылды';
@@ -1637,6 +1585,12 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get msgTeamCreated => 'Команда құрылды';
+
+  @override
+  String get msgTeamJoined => 'Сіз командадасыз';
+
+  @override
+  String get msgTeamLeft => 'Сіз командадан шықтыңыз';
 
   @override
   String get msgTeamUpdated => 'Команда жаңартылды';
@@ -1875,6 +1829,9 @@ class AppLocalizationsKk extends AppLocalizations {
   }
 
   @override
+  String get propertiesInterested => 'Кімге сәйкес';
+
+  @override
   String get propertiesLocation => 'Орналасуы';
 
   @override
@@ -1882,6 +1839,9 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get propertiesNextDetails => 'Әрі қарай — егжей-тегжейі';
+
+  @override
+  String get propertiesNoInterested => 'Әзірге мұндайды іздеген жоқ';
 
   @override
   String get propertiesNoProperties => 'Нысандар жоқ';
@@ -2033,7 +1993,20 @@ class AppLocalizationsKk extends AppLocalizations {
   String get teamsActive => 'Белсенді';
 
   @override
+  String get teamsAddAgent => 'Агент қосу';
+
+  @override
+  String get teamsAddAgentAction => 'Жіберу';
+
+  @override
+  String get teamsAddAgentHint =>
+      'Агенттің аккаунты болса, сұраныс алады. Болмаса, поштаға шақыру жібереміз.';
+
+  @override
   String get teamsAgents => 'Агенттер';
+
+  @override
+  String get teamsCancelRequest => 'Қайтару';
 
   @override
   String get teamsClients => 'Клиенттер';
@@ -2066,6 +2039,26 @@ class AppLocalizationsKk extends AppLocalizations {
   String get teamsInviteAgent => 'Агент шақыру';
 
   @override
+  String teamsInviteSentBody(Object email) {
+    return '$email адресіне шақыру жіберілді.';
+  }
+
+  @override
+  String get teamsLeaveTeam => 'Командадан шығу';
+
+  @override
+  String get teamsLeaveTeamBody =>
+      'Клиенттер, мәмілелер мен кездесулер командада қалады. Қайту үшін жаңа шақыру керек.';
+
+  @override
+  String teamsLeaveTeamTitle(Object team) {
+    return '$team командасынан шығасыз ба?';
+  }
+
+  @override
+  String get teamsManagerChip => 'Жетекші';
+
+  @override
   String teamsManagerLabel(Object name) {
     return 'Менеджер: $name';
   }
@@ -2084,10 +2077,28 @@ class AppLocalizationsKk extends AppLocalizations {
   }
 
   @override
+  String get teamsMembers => 'Қатысушылар';
+
+  @override
   String get teamsMyTeam => 'Менің командам';
 
   @override
   String get teamsNoManager => 'Менеджерсіз';
+
+  @override
+  String get teamsNoMembers => 'Әзірге ешкім жоқ';
+
+  @override
+  String get teamsNoMembersBody => 'Бірінші агентті пошта арқылы қосыңыз.';
+
+  @override
+  String get teamsNoPending => 'Күтушілер жоқ';
+
+  @override
+  String get teamsNoPendingBody => 'Жауап күткен сұраныстар осында шығады.';
+
+  @override
+  String get teamsNoTeamLabel => 'Командасыз';
 
   @override
   String get teamsNoTeamSubtitle => 'Сіз команданы басқармайсыз';
@@ -2096,7 +2107,33 @@ class AppLocalizationsKk extends AppLocalizations {
   String get teamsNoTeamYet => 'Әзірге команда жоқ';
 
   @override
+  String get teamsPending => 'Күтілуде';
+
+  @override
   String get teamsPhoneOptional => 'Телефон (міндетті емес)';
+
+  @override
+  String teamsRemoveInviteBody(Object name) {
+    return '$name үшін шақыру қайтарылады.';
+  }
+
+  @override
+  String get teamsRemoveMember => 'Командадан шығару';
+
+  @override
+  String teamsRemoveMemberBody(Object successor) {
+    return 'Клиенттер, мәмілелер мен кездесулер командада қалып, $successor қарауына өтеді.';
+  }
+
+  @override
+  String teamsRemoveMemberTitle(Object name) {
+    return '$name шығарылсын ба?';
+  }
+
+  @override
+  String teamsRequestSentBody(Object name) {
+    return 'Командаға кіру үшін $name сұранысты қабылдауы керек.';
+  }
 
   @override
   String get teamsRequired => 'Міндетті';
@@ -2106,6 +2143,21 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get teamsSendInvite => 'Шақыру жіберу';
+
+  @override
+  String get teamsStatusPendingInvite => 'Шақырылған';
+
+  @override
+  String get teamsStatusPendingVerification => 'Пошта расталмаған';
+
+  @override
+  String get teamsSuccessor => 'Жазбалар кімге өтеді';
+
+  @override
+  String get teamsSuccessorMe => 'Маған';
+
+  @override
+  String get teamsTeamLabel => 'Команда';
 
   @override
   String get teamsTeamName => 'Команда атауы';
