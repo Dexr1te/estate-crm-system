@@ -137,10 +137,30 @@ app:
     # container platform rebuilds the disk on every deploy, and on a free plan
     # on every wake from sleep, taking the paperwork with it.
     #
-    # `filesystem` is the older store and still the right answer wherever a
+    # `s3` puts them in any S3-compatible bucket — R2, Backblaze, MinIO, AWS —
+    # and is what a deployment wants once attachments outgrow the database's
+    # own size limit, or once they are photographs rather than contracts. It
+    # needs the app.s3 block below.
+    #
+    # `filesystem` is the oldest store and still the right answer wherever a
     # real volume is mounted: set it together with DOCUMENTS_DIR below.
     storage: ${DOCUMENTS_STORAGE:database}
     # Where `filesystem` writes. Relative paths resolve against the working
     # directory; with Docker this should be a mounted volume, so a rebuild does
     # not take the paperwork with it. Ignored by the `database` store.
     dir: ${DOCUMENTS_DIR:uploads/documents}
+
+  # Read only when app.documents.storage=s3, and then all of it is required —
+  # the client refuses to start on empty credentials rather than failing at the
+  # first upload.
+  s3:
+    bucket: ${S3_BUCKET:}
+    # Empty for AWS itself, which is resolved from the region. Everything else
+    # needs its own endpoint: https://<account>.r2.cloudflarestorage.com, and so on.
+    endpoint: ${S3_ENDPOINT:}
+    region: ${S3_REGION:auto}
+    access-key: ${S3_ACCESS_KEY:}
+    secret-key: ${S3_SECRET_KEY:}
+    # Bucket in the path rather than in the hostname. AWS serves both; most of
+    # the alternatives serve only this one.
+    path-style: ${S3_PATH_STYLE:true}
