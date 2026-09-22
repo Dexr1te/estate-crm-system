@@ -47,8 +47,8 @@ public class S3DocumentStorage implements DocumentStorage {
     }
 
     @Override
-    public String store(MultipartFile file, Long ownerId, String extension) {
-        String key = DocumentStorage.newKey(ownerId, extension);
+    public String store(MultipartFile file, String folder, Long ownerId, String extension) {
+        String key = DocumentStorage.newKey(folder, ownerId, extension);
         try {
             s3.putObject(
                     PutObjectRequest.builder()

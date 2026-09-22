@@ -21,8 +21,12 @@ class PickedFile {
 
 enum FileOpenOutcome { opened, noApp, failed }
 
+const maxPhotoBytes = 12 * 1024 * 1024;
+
 abstract class FileGateway {
   Future<PickedFile?> pickFile();
+
+  Future<List<PickedFile>> pickImages();
 
   Future<FileOpenOutcome> openBytes(String fileName, List<int> bytes);
 }
@@ -37,6 +41,18 @@ class DeviceFileGateway implements FileGateway {
     final file = result.files.first;
     if (file.path == null) return null;
     return PickedFile(name: file.name, path: file.path!, size: file.size);
+  }
+
+  @override
+  Future<List<PickedFile>> pickImages() async {
+    final result =
+        await FilePicker.pickFiles(type: FileType.image, allowMultiple: true);
+    if (result == null) return const [];
+    return [
+      for (final file in result.files)
+        if (file.path != null)
+          PickedFile(name: file.name, path: file.path!, size: file.size),
+    ];
   }
 
   @override

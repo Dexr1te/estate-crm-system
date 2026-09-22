@@ -539,6 +539,7 @@
   "profileVersion": "Version",
   "propertiesAdd": "Add",
   "propertiesAddFirstListing": "Add your first listing",
+  "propertiesAddPhotos": "Add photos",
   "propertiesAddShort": "Property",
   "propertiesAddressLabel": "Address",
   "propertiesAgent": "Agent",
@@ -571,9 +572,30 @@
   "propertiesNewProperty": "New Property",
   "propertiesNextDetails": "Next — details",
   "propertiesNoInterested": "No buyer has asked for anything like this yet",
+  "propertiesNoPhotos": "No photos yet — the first one becomes the cover",
   "propertiesNoProperties": "No properties",
   "propertiesNoResultsSubtitle": "Try a different search or filter",
   "propertiesNoViewings": "This listing has not been shown yet",
+  "propertiesPhotoCount": "{count, plural, =1{1 photo} other{{count} photos}}",
+  "propertiesPhotoDelete": "Remove photo",
+  "propertiesPhotoDeleteConfirm": "Remove this photo from the listing?",
+  "propertiesPhotoFailed": "Could not upload {name}",
+  "@propertiesPhotoFailed": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "propertiesPhotoTooLarge": "{name} is larger than 12 MB",
+  "@propertiesPhotoTooLarge": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "propertiesPhotos": "Photos",
   "propertiesPriceLabel": "Price",
   "propertiesPricePerSqm": "{price} per m²",
   "propertiesProperty": "Property",

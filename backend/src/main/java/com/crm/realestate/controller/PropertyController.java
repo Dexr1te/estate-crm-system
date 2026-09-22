@@ -4,6 +4,12 @@ import com.crm.realestate.dto.request.PropertyRequest;
 import com.crm.realestate.dto.response.PropertyResponse;
 import com.crm.realestate.enums.PropertyStatus;
 import com.crm.realestate.enums.PropertyType;
+import com.crm.realestate.dto.response.DocumentDownload;
+import com.crm.realestate.dto.response.PropertyPhotoResponse;
+import com.crm.realestate.service.PropertyPhotoService;
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
+import org.springframework.web.multipart.MultipartFile;
 import com.crm.realestate.dto.response.ClientMatch;
 import com.crm.realestate.dto.response.MeetingResponse;
 import com.crm.realestate.service.MatchingService;
@@ -31,6 +37,7 @@ public class PropertyController {
     private final PropertyService propertyService;
     private final MatchingService matchingService;
     private final MeetingService  meetingService;
+    private final PropertyPhotoService photoService;
 
     @GetMapping
     @Operation(summary = "Get all properties (with optional filters). Supports pagination & sorting via Pageable (page, size, sort)")
@@ -63,6 +70,36 @@ public class PropertyController {
         org.springframework.data.domain.Page<PropertyResponse> page = propertyService.search(
                 status, type, city, minPrice, maxPrice, rooms, agentId, search, pageable);
         return ResponseEntity.ok(page);
+    }
+
+    @GetMapping("/{id}/photos")
+    @Operation(summary = "The photographs of this listing, in gallery order")
+    public ResponseEntity<List<PropertyPhotoResponse>> photos(@PathVariable Long id) {
+        return ResponseEntity.ok(photoService.getByProperty(id));
+    }
+
+    @PostMapping(value = "/{id}/photos", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(summary = "Add a photograph to this listing")
+    public ResponseEntity<PropertyPhotoResponse> addPhoto(
+            @PathVariable Long id, @RequestParam("file") MultipartFile file) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(photoService.upload(id, file));
+    }
+
+    @GetMapping("/{id}/photos/{photoId}/content")
+    @Operation(summary = "The bytes of one photograph")
+    public ResponseEntity<Resource> photoContent(
+            @PathVariable Long id, @PathVariable Long photoId) {
+        DocumentDownload photo = photoService.download(id, photoId);
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(photo.contentType()))
+                .body(photo.resource());
+    }
+
+    @DeleteMapping("/{id}/photos/{photoId}")
+    @Operation(summary = "Remove a photograph from this listing")
+    public ResponseEntity<Void> deletePhoto(@PathVariable Long id, @PathVariable Long photoId) {
+        photoService.delete(id, photoId);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}/viewings")

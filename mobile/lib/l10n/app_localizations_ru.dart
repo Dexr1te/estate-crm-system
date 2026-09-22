@@ -1789,6 +1789,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get propertiesAddFirstListing => 'Добавьте первый объект';
 
   @override
+  String get propertiesAddPhotos => 'Добавить фото';
+
+  @override
   String get propertiesAddShort => 'Объект';
 
   @override
@@ -1897,6 +1900,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get propertiesNoInterested => 'Пока никто такого не искал';
 
   @override
+  String get propertiesNoPhotos => 'Фото пока нет — первое станет обложкой';
+
+  @override
   String get propertiesNoProperties => 'Нет объектов';
 
   @override
@@ -1904,6 +1910,36 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get propertiesNoViewings => 'Этот объект ещё не показывали';
+
+  @override
+  String propertiesPhotoCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count фото',
+      one: '1 фото',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get propertiesPhotoDelete => 'Удалить фото';
+
+  @override
+  String get propertiesPhotoDeleteConfirm => 'Удалить это фото из объекта?';
+
+  @override
+  String propertiesPhotoFailed(String name) {
+    return 'Не удалось загрузить $name';
+  }
+
+  @override
+  String propertiesPhotoTooLarge(String name) {
+    return '$name больше 12 МБ';
+  }
+
+  @override
+  String get propertiesPhotos => 'Фото';
 
   @override
   String get propertiesPriceLabel => 'Цена';

@@ -207,6 +207,32 @@ Map<String, dynamic> _$$PropertyMatchImplToJson(_$PropertyMatchImpl instance) =>
       'lastShownAt': instance.lastShownAt?.toIso8601String(),
     };
 
+_$PropertyPhotoImpl _$$PropertyPhotoImplFromJson(Map<String, dynamic> json) =>
+    _$PropertyPhotoImpl(
+      id: (json['id'] as num).toInt(),
+      propertyId: (json['propertyId'] as num).toInt(),
+      fileName: json['fileName'] as String? ?? '',
+      contentType: json['contentType'] as String? ?? 'image/jpeg',
+      fileSize: (json['fileSize'] as num?)?.toInt() ?? 0,
+      sortOrder: (json['sortOrder'] as num?)?.toInt() ?? 0,
+      uploadedById: (json['uploadedById'] as num?)?.toInt(),
+      uploadedAt: json['uploadedAt'] == null
+          ? null
+          : DateTime.parse(json['uploadedAt'] as String),
+    );
+
+Map<String, dynamic> _$$PropertyPhotoImplToJson(_$PropertyPhotoImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'propertyId': instance.propertyId,
+      'fileName': instance.fileName,
+      'contentType': instance.contentType,
+      'fileSize': instance.fileSize,
+      'sortOrder': instance.sortOrder,
+      'uploadedById': instance.uploadedById,
+      'uploadedAt': instance.uploadedAt?.toIso8601String(),
+    };
+
 _$ClientMatchImpl _$$ClientMatchImplFromJson(Map<String, dynamic> json) =>
     _$ClientMatchImpl(
       client: ClientResponse.fromJson(json['client'] as Map<String, dynamic>),

@@ -225,14 +225,46 @@ class FakePropertiesRepository implements PropertiesRepository {
   /// What `/properties/{id}/viewings` answers.
   final List<MeetingResponse> viewings;
 
+  /// The gallery, which uploads and deletions here actually change.
+  List<PropertyPhoto> photos;
+
+  /// The bytes every photo reads back as — a real image is not needed to prove
+  /// a tile was drawn, and a decode error would say nothing about the code.
+  final List<int> photoBytes;
+
   FakePropertiesRepository(this.properties,
-      {this.interested = const [], this.viewings = const []});
+      {this.interested = const [],
+      this.viewings = const [],
+      this.photos = const [],
+      this.photoBytes = const []});
 
   @override
   Future<List<ClientMatch>> getInterested(int id) async => interested;
 
   @override
   Future<List<MeetingResponse>> getViewings(int id) async => viewings;
+
+  @override
+  Future<List<PropertyPhoto>> getPhotos(int id) async => photos;
+
+  @override
+  Future<PropertyPhoto> addPhoto(int id, String path, String name) async {
+    final added = PropertyPhoto(
+        id: photos.length + 1,
+        propertyId: id,
+        fileName: name,
+        sortOrder: photos.length);
+    photos = [...photos, added];
+    return added;
+  }
+
+  @override
+  Future<List<int>> getPhotoBytes(int id, int photoId) async => photoBytes;
+
+  @override
+  Future<void> deletePhoto(int id, int photoId) async {
+    photos = photos.where((p) => p.id != photoId).toList();
+  }
 
   @override
   Future<PagedResponse<PropertyResponse>> getProperties({
@@ -541,10 +573,17 @@ class FakeDocumentsRepository implements DocumentsRepository {
 
 /// A phone that always hands back [file] and never actually opens anything.
 class FakeFileGateway implements FileGateway {
-  FakeFileGateway({this.file, this.outcome = FileOpenOutcome.opened});
+  FakeFileGateway({
+    this.file,
+    this.images = const [],
+    this.outcome = FileOpenOutcome.opened,
+  });
 
   /// What the picker returns — null stands for backing out of it.
   PickedFile? file;
+
+  /// What the photo picker returns — empty stands for backing out of it.
+  List<PickedFile> images;
   FileOpenOutcome outcome;
 
   String? openedName;
@@ -552,6 +591,9 @@ class FakeFileGateway implements FileGateway {
 
   @override
   Future<PickedFile?> pickFile() async => file;
+
+  @override
+  Future<List<PickedFile>> pickImages() async => images;
 
   @override
   Future<FileOpenOutcome> openBytes(String fileName, List<int> bytes) async {

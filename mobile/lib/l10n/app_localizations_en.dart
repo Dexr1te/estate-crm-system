@@ -1775,6 +1775,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get propertiesAddFirstListing => 'Add your first listing';
 
   @override
+  String get propertiesAddPhotos => 'Add photos';
+
+  @override
   String get propertiesAddShort => 'Property';
 
   @override
@@ -1884,6 +1887,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'No buyer has asked for anything like this yet';
 
   @override
+  String get propertiesNoPhotos =>
+      'No photos yet — the first one becomes the cover';
+
+  @override
   String get propertiesNoProperties => 'No properties';
 
   @override
@@ -1891,6 +1898,37 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get propertiesNoViewings => 'This listing has not been shown yet';
+
+  @override
+  String propertiesPhotoCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count photos',
+      one: '1 photo',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get propertiesPhotoDelete => 'Remove photo';
+
+  @override
+  String get propertiesPhotoDeleteConfirm =>
+      'Remove this photo from the listing?';
+
+  @override
+  String propertiesPhotoFailed(String name) {
+    return 'Could not upload $name';
+  }
+
+  @override
+  String propertiesPhotoTooLarge(String name) {
+    return '$name is larger than 12 MB';
+  }
+
+  @override
+  String get propertiesPhotos => 'Photos';
 
   @override
   String get propertiesPriceLabel => 'Price';

@@ -62,6 +62,9 @@ public class DocumentService {
 
     private static final int MAX_NAME_LENGTH = 255;
 
+    /** Where a deal's paperwork lives in the store. */
+    static final String DEALS_FOLDER = "deals";
+
     private final DocumentRepository documentRepository;
     private final DealRepository dealRepository;
     private final DocumentStorage storage;
@@ -95,7 +98,7 @@ public class DocumentService {
         document.setFileName(fileName);
         document.setFileType(extension);
         document.setFileSize(file.getSize());
-        document.setFilePath(storage.store(file, dealId, extension));
+        document.setFilePath(storage.store(file, DEALS_FOLDER, dealId, extension));
 
         return toResponse(documentRepository.save(document));
     }

@@ -10,22 +10,26 @@ asks a person for.
 
 Verified against `build/ios/iphoneos/Runner.app`, not just read off the source:
 
-- **No undeclared permissions.** `file_picker` used to compile its media and
-  audio pickers in, which put `PHPhotoLibrary`, `PHAssetCreationRequest`,
-  `PHPickerViewController`, `UIImagePickerController` and
-  `MPMediaPickerController` in the binary. App Store Connect scans for exactly
-  those and refuses the upload with **ITMS-90683** unless `Info.plist` declares a
-  purpose string for each. The app only ever picks documents, so both pickers are
-  now compiled out in `mobile/ios/Podfile` — four embedded frameworks gone with
-  them, and no symbol left for the scanner to find.
+- **No undeclared permissions.** `file_picker` compiles three pickers, and each
+  one App Store Connect finds in the binary must be answered for: it refuses the
+  upload with **ITMS-90683** unless `Info.plist` declares a purpose string.
+  `mobile/ios/Podfile` keeps the document picker (a deal's paperwork) and the
+  media picker (a listing's photographs, which live in the photo library and
+  nowhere else), so `NSPhotoLibraryUsageDescription`,
+  `NSPhotoLibraryAddUsageDescription` and `NSCameraUsageDescription` are
+  declared and have to be answered for in the privacy questionnaire. The audio
+  picker stays compiled out — nothing in the app picks a song, and leaving it on
+  would add `MPMediaPickerController` and a fourth permission for code nothing
+  reaches.
 - **Account deletion, in the app.** Profile → Delete account, with a successor
   picker for the records that belong to the agency rather than to the person
   (Guideline 5.1.1(v)).
 - **Privacy policy and support pages**, served by the backend at `/privacy` and
   `/support`, public so a reviewer reaches them without signing in, and linked
   from the profile screen.
-- **`PrivacyInfo.xcprivacy`**, declaring the contact data collected, no tracking,
-  and `CA92.1` for `shared_preferences`' use of `NSUserDefaults`.
+- **`PrivacyInfo.xcprivacy`**, declaring the contact data and the listing
+  photographs collected, no tracking, and `CA92.1` for `shared_preferences`'
+  use of `NSUserDefaults`.
 - **iPhone-only, portrait-only**, matching the layouts that are actually tested.
 - **`ITSAppUsesNonExemptEncryption` = false** — the app only uses HTTPS and the
   Keychain, both exempt.
@@ -188,9 +192,9 @@ distribution, and this whole question disappears.
 ## The App Store Connect form
 
 - **Privacy questionnaire** — the answers have to match
-  `mobile/ios/Runner/PrivacyInfo.xcprivacy`: name, email address, phone number
-  and user content, all linked to the user, all for app functionality, none for
-  tracking. Nothing else is collected.
+  `mobile/ios/Runner/PrivacyInfo.xcprivacy`: name, email address, phone number,
+  photographs and user content, all linked to the user, all for app
+  functionality, none for tracking. Nothing else is collected.
 - **Privacy policy URL** — `https://<host>/api/privacy`. It must resolve before
   review starts, and the `/api` is not a typo: the backend is mounted under a
   servlet context path, so the root copy of that path does not exist. Check it
