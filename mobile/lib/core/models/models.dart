@@ -21,6 +21,9 @@ enum PropertyStatus { AVAILABLE, RESERVED, SOLD }
 // ignore: constant_identifier_names
 enum DealStatus { LEAD, NEGOTIATION, CLOSED_WON, CLOSED_LOST }
 
+// ignore: constant_identifier_names
+enum ViewingOutcome { INTERESTED, REJECTED, NO_SHOW }
+
 @freezed
 class AuthResponse with _$AuthResponse {
   const factory AuthResponse({
@@ -112,6 +115,7 @@ class PropertyMatch with _$PropertyMatch {
   const factory PropertyMatch({
     required PropertyResponse property,
     @Default(false) bool overBudget,
+    DateTime? lastShownAt,
   }) = _PropertyMatch;
 
   factory PropertyMatch.fromJson(Map<String, dynamic> json) =>
@@ -168,6 +172,8 @@ class MeetingResponse with _$MeetingResponse {
     int? propertyId,
     String? propertyTitle,
     String? propertyAddress,
+    ViewingOutcome? outcome,
+    String? outcomeNote,
     required int agentId,
     @Default('') String agentName,
     required int clientId,

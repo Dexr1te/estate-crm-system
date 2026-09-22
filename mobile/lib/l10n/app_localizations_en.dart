@@ -628,6 +628,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clientsSeller => 'Seller';
 
   @override
+  String clientsShownOn(String date) {
+    return 'Shown $date';
+  }
+
+  @override
   String get clientsTimestamps => 'Timestamps';
 
   @override
@@ -1434,6 +1439,31 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get meetingsNothingUpcomingSubtitle =>
       'Past meetings stay in your history.';
+
+  @override
+  String get meetingsOutcome => 'How it went';
+
+  @override
+  String get meetingsOutcomeInterested => 'Interested';
+
+  @override
+  String get meetingsOutcomeNoShow => 'No show';
+
+  @override
+  String get meetingsOutcomeNote => 'What they said';
+
+  @override
+  String get meetingsOutcomeNoteHint => 'Too dark, the road is loud…';
+
+  @override
+  String get meetingsOutcomeRejected => 'Turned it down';
+
+  @override
+  String get meetingsOutcomeRejectedHint =>
+      'A listing turned down stops being offered to this buyer';
+
+  @override
+  String get meetingsOutcomeSave => 'Save';
 
   @override
   String get meetingsPeopleAndDeal => 'People & Deal';

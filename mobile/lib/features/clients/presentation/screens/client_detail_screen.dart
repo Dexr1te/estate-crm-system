@@ -418,6 +418,26 @@ class _MatchRow extends StatelessWidget {
               ),
             ],
           ),
+          if (match.lastShownAt != null) ...[
+            const SizedBox(height: 7),
+            Row(
+              children: [
+                Icon(Icons.history_rounded, size: 13, color: t.textHint),
+                const SizedBox(width: 5),
+                Expanded(
+                  child: Text(
+                    l10n.clientsShownOn(formatDate(match.lastShownAt!)),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontFamily: AppFonts.sans,
+                        fontSize: 11,
+                        color: t.textHint),
+                  ),
+                ),
+              ],
+            ),
+          ],
           const SizedBox(height: 9),
           AppGhostButton(
             label: l10n.meetingsScheduleViewing,

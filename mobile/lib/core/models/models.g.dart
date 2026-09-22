@@ -195,12 +195,16 @@ _$PropertyMatchImpl _$$PropertyMatchImplFromJson(Map<String, dynamic> json) =>
       property:
           PropertyResponse.fromJson(json['property'] as Map<String, dynamic>),
       overBudget: json['overBudget'] as bool? ?? false,
+      lastShownAt: json['lastShownAt'] == null
+          ? null
+          : DateTime.parse(json['lastShownAt'] as String),
     );
 
 Map<String, dynamic> _$$PropertyMatchImplToJson(_$PropertyMatchImpl instance) =>
     <String, dynamic>{
       'property': instance.property,
       'overBudget': instance.overBudget,
+      'lastShownAt': instance.lastShownAt?.toIso8601String(),
     };
 
 _$ClientMatchImpl _$$ClientMatchImplFromJson(Map<String, dynamic> json) =>
@@ -276,6 +280,8 @@ _$MeetingResponseImpl _$$MeetingResponseImplFromJson(
       propertyId: (json['propertyId'] as num?)?.toInt(),
       propertyTitle: json['propertyTitle'] as String?,
       propertyAddress: json['propertyAddress'] as String?,
+      outcome: $enumDecodeNullable(_$ViewingOutcomeEnumMap, json['outcome']),
+      outcomeNote: json['outcomeNote'] as String?,
       agentId: (json['agentId'] as num).toInt(),
       agentName: json['agentName'] as String? ?? '',
       clientId: (json['clientId'] as num).toInt(),
@@ -302,6 +308,8 @@ Map<String, dynamic> _$$MeetingResponseImplToJson(
       'propertyId': instance.propertyId,
       'propertyTitle': instance.propertyTitle,
       'propertyAddress': instance.propertyAddress,
+      'outcome': _$ViewingOutcomeEnumMap[instance.outcome],
+      'outcomeNote': instance.outcomeNote,
       'agentId': instance.agentId,
       'agentName': instance.agentName,
       'clientId': instance.clientId,
@@ -309,6 +317,12 @@ Map<String, dynamic> _$$MeetingResponseImplToJson(
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
     };
+
+const _$ViewingOutcomeEnumMap = {
+  ViewingOutcome.INTERESTED: 'INTERESTED',
+  ViewingOutcome.REJECTED: 'REJECTED',
+  ViewingOutcome.NO_SHOW: 'NO_SHOW',
+};
 
 _$UpcomingMeetingResponseImpl _$$UpcomingMeetingResponseImplFromJson(
         Map<String, dynamic> json) =>

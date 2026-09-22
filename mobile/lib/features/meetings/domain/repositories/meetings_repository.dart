@@ -15,5 +15,8 @@ abstract class MeetingsRepository {
 
   Future<MeetingResponse> completeMeeting(int id);
 
+  Future<MeetingResponse> recordOutcome(
+      int id, ViewingOutcome outcome, String? note);
+
   Future<void> deleteMeeting(int id);
 }

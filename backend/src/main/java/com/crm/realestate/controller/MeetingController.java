@@ -1,6 +1,7 @@
 package com.crm.realestate.controller;
 
 import com.crm.realestate.dto.request.MeetingRequest;
+import com.crm.realestate.dto.request.ViewingOutcomeRequest;
 import com.crm.realestate.dto.response.MeetingResponse;
 import com.crm.realestate.dto.response.UpcomingMeetingResponse;
 import com.crm.realestate.service.MeetingService;
@@ -63,6 +64,13 @@ public class MeetingController {
     public ResponseEntity<MeetingResponse> update(@PathVariable Long id,
                                                    @Valid @RequestBody MeetingRequest request) {
         return ResponseEntity.ok(meetingService.update(id, request));
+    }
+
+    @PatchMapping("/{id}/outcome")
+    @Operation(summary = "Record how a showing went; a rejected listing stops being offered to that buyer")
+    public ResponseEntity<MeetingResponse> recordOutcome(
+            @PathVariable Long id, @Valid @RequestBody ViewingOutcomeRequest request) {
+        return ResponseEntity.ok(meetingService.recordOutcome(id, request));
     }
 
     @PatchMapping("/{id}/complete")

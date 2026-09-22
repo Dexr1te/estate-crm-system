@@ -1,12 +1,14 @@
 package com.crm.realestate.service;
 
 import com.crm.realestate.dto.request.MeetingRequest;
+import com.crm.realestate.dto.request.ViewingOutcomeRequest;
 import com.crm.realestate.dto.response.MeetingResponse;
 import com.crm.realestate.dto.response.UpcomingMeetingResponse;
 import com.crm.realestate.entity.Client;
 import com.crm.realestate.entity.Deal;
 import com.crm.realestate.entity.Meeting;
 import com.crm.realestate.entity.Property;
+import com.crm.realestate.enums.ViewingOutcome;
 import com.crm.realestate.entity.User;
 import com.crm.realestate.exception.ResourceNotFoundException;
 import com.crm.realestate.repository.ClientRepository;
@@ -103,6 +105,26 @@ public class MeetingService {
         User currentUser = securityUtils.getCurrentUser();
         Meeting meeting = findVisibleById(id, currentUser);
         mapRequestToEntity(request, meeting, currentUser);
+        return toResponse(meetingRepository.save(meeting));
+    }
+
+    /**
+     * Records how a showing went.
+     *
+     * <p>Marks the meeting completed at the same time: a meeting somebody has a verdict on has
+     * plainly happened, and asking them to say so twice is how half the outcomes would go
+     * unrecorded.
+     */
+    @Transactional
+    public MeetingResponse recordOutcome(Long id, ViewingOutcomeRequest request) {
+        User currentUser = securityUtils.getCurrentUser();
+        Meeting meeting = findVisibleById(id, currentUser);
+        meeting.setOutcome(request.getOutcome());
+        meeting.setOutcomeNote(
+                request.getNote() == null || request.getNote().isBlank()
+                        ? null
+                        : request.getNote().trim());
+        meeting.setCompleted(request.getOutcome() != ViewingOutcome.NO_SHOW);
         return toResponse(meetingRepository.save(meeting));
     }
 
@@ -215,6 +237,8 @@ public class MeetingService {
             res.setDealId(m.getDeal().getId());
             res.setDealTitle(m.getDeal().getTitle());
         }
+        res.setOutcome(m.getOutcome());
+        res.setOutcomeNote(m.getOutcomeNote());
         if (m.getProperty() != null) {
             res.setPropertyId(m.getProperty().getId());
             res.setPropertyTitle(m.getProperty().getTitle());

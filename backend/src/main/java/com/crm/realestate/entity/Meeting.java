@@ -1,6 +1,7 @@
 package com.crm.realestate.entity;
 
 import jakarta.persistence.*;
+import com.crm.realestate.enums.ViewingOutcome;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -31,6 +32,15 @@ public class Meeting {
     private String location;
 
     private boolean completed;
+
+    /** How the showing went, once somebody has said. Null until then. */
+    @Enumerated(EnumType.STRING)
+    @Column(name = "outcome", length = 20)
+    private ViewingOutcome outcome;
+
+    /** What the buyer said in their own words — "too dark", "the road is loud". */
+    @Column(name = "outcome_note", columnDefinition = "TEXT")
+    private String outcomeNote;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "deal_id")

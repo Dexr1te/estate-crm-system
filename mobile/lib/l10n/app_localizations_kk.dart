@@ -626,6 +626,11 @@ class AppLocalizationsKk extends AppLocalizations {
   String get clientsSeller => 'Сатушы';
 
   @override
+  String clientsShownOn(String date) {
+    return '$date көрсетілді';
+  }
+
+  @override
   String get clientsTimestamps => 'Уақыт белгілері';
 
   @override
@@ -1434,6 +1439,31 @@ class AppLocalizationsKk extends AppLocalizations {
   @override
   String get meetingsNothingUpcomingSubtitle =>
       'Өткен кездесулер тарихта қалады.';
+
+  @override
+  String get meetingsOutcome => 'Қалай өтті';
+
+  @override
+  String get meetingsOutcomeInterested => 'Қызықты';
+
+  @override
+  String get meetingsOutcomeNoShow => 'Келмеді';
+
+  @override
+  String get meetingsOutcomeNote => 'Не айтты';
+
+  @override
+  String get meetingsOutcomeNoteHint => 'Қараңғы, жол шулы…';
+
+  @override
+  String get meetingsOutcomeRejected => 'Бас тартты';
+
+  @override
+  String get meetingsOutcomeRejectedHint =>
+      'Бас тартылған нысан бұл сатып алушыға ұсынылмайды';
+
+  @override
+  String get meetingsOutcomeSave => 'Сақтау';
 
   @override
   String get meetingsPeopleAndDeal => 'Қатысушылар және мәміле';

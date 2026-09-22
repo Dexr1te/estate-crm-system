@@ -85,6 +85,16 @@ class _MeetingDetailScreenState extends State<MeetingDetailScreen> {
 
   bool? _confirmedCompleted;
 
+  void _recordOutcome(ViewingOutcome outcome, String? note) {
+    context
+        .read<MeetingsBloc>()
+        .add(MeetingsOutcomeEvent(widget.id, outcome, note));
+    setState(() => _m = _m?.copyWith(
+        outcome: outcome,
+        outcomeNote: note == null || note.trim().isEmpty ? null : note.trim(),
+        completed: outcome != ViewingOutcome.NO_SHOW));
+  }
+
   void _setCompleted(bool completed) {
     if (completed == _m?.completed) return;
     _confirmedCompleted = _m?.completed;
@@ -163,6 +173,8 @@ class _MeetingDetailScreenState extends State<MeetingDetailScreen> {
           ),
           _DetailsCard(meeting: meeting),
           _StatusCard(completed: meeting.completed, onChanged: _setCompleted),
+          if (meeting.propertyId != null)
+            _OutcomeCard(meeting: meeting, onRecord: _recordOutcome),
           if (meeting.description != null &&
               meeting.description!.trim().isNotEmpty)
             _NoteCard(text: meeting.description!),
@@ -199,6 +211,92 @@ class _DetailsCard extends StatelessWidget {
           const SizedBox(height: 11),
           InfoRow(
               label: l10n.meetingsLocation, value: meeting.location ?? dash),
+        ],
+      ),
+    );
+  }
+}
+
+class _OutcomeCard extends StatefulWidget {
+  final MeetingResponse meeting;
+  final void Function(ViewingOutcome, String?) onRecord;
+
+  const _OutcomeCard({required this.meeting, required this.onRecord});
+
+  @override
+  State<_OutcomeCard> createState() => _OutcomeCardState();
+}
+
+class _OutcomeCardState extends State<_OutcomeCard> {
+  late final TextEditingController _noteCtrl =
+      TextEditingController(text: widget.meeting.outcomeNote ?? '');
+  late ViewingOutcome? _outcome = widget.meeting.outcome;
+
+  @override
+  void dispose() {
+    _noteCtrl.dispose();
+    super.dispose();
+  }
+
+  bool get _changed =>
+      _outcome != widget.meeting.outcome ||
+      _noteCtrl.text.trim() != (widget.meeting.outcomeNote ?? '').trim();
+
+  @override
+  Widget build(BuildContext context) {
+    final t = context.tokens;
+    final l10n = AppLocalizations.of(context);
+
+    return AppCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          EyebrowLabel(l10n.meetingsOutcome),
+          const SizedBox(height: 12),
+          FilterPillWrap(pills: [
+            for (final outcome in ViewingOutcome.values)
+              FilterPill(
+                label: viewingOutcomeLabel(l10n, outcome),
+                selected: _outcome == outcome,
+                onCard: true,
+                onTap: () => setState(() => _outcome = outcome),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
+              ),
+          ]),
+          if (_outcome == ViewingOutcome.REJECTED) ...[
+            const SizedBox(height: 10),
+            Text(
+              l10n.meetingsOutcomeRejectedHint,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                  fontFamily: AppFonts.sans,
+                  fontSize: 11.5,
+                  height: 1.35,
+                  color: t.textSecondary),
+            ),
+          ],
+          if (_outcome != null) ...[
+            const SizedBox(height: 14),
+            LabelledField(
+              label: l10n.meetingsOutcomeNote,
+              child: AppTextField(
+                controller: _noteCtrl,
+                hint: l10n.meetingsOutcomeNoteHint,
+                maxLines: 3,
+                minLines: 2,
+                onChanged: (_) => setState(() {}),
+              ),
+            ),
+            if (_changed) ...[
+              const SizedBox(height: 12),
+              AppFilledButton(
+                label: l10n.meetingsOutcomeSave,
+                onPressed: () => widget.onRecord(_outcome!, _noteCtrl.text),
+              ),
+            ],
+          ],
         ],
       ),
     );

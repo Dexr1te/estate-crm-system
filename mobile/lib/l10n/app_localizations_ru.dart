@@ -631,6 +631,11 @@ class AppLocalizationsRu extends AppLocalizations {
   String get clientsSeller => 'Продавец';
 
   @override
+  String clientsShownOn(String date) {
+    return 'Показывали $date';
+  }
+
+  @override
   String get clientsTimestamps => 'Отметки времени';
 
   @override
@@ -1447,6 +1452,31 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get meetingsNothingUpcomingSubtitle =>
       'Прошедшие встречи остаются в истории.';
+
+  @override
+  String get meetingsOutcome => 'Как прошло';
+
+  @override
+  String get meetingsOutcomeInterested => 'Заинтересовался';
+
+  @override
+  String get meetingsOutcomeNoShow => 'Не пришёл';
+
+  @override
+  String get meetingsOutcomeNote => 'Что сказал';
+
+  @override
+  String get meetingsOutcomeNoteHint => 'Тёмная, шумная дорога…';
+
+  @override
+  String get meetingsOutcomeRejected => 'Отказался';
+
+  @override
+  String get meetingsOutcomeRejectedHint =>
+      'Забракованный объект больше не предлагается этому покупателю';
+
+  @override
+  String get meetingsOutcomeSave => 'Сохранить';
 
   @override
   String get meetingsPeopleAndDeal => 'Участники и сделка';

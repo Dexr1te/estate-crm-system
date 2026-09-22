@@ -1210,6 +1210,12 @@ abstract class AppLocalizations {
   /// **'Seller'**
   String get clientsSeller;
 
+  /// No description provided for @clientsShownOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Shown {date}'**
+  String clientsShownOn(String date);
+
   /// No description provided for @clientsTimestamps.
   ///
   /// In en, this message translates to:
@@ -2571,6 +2577,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Past meetings stay in your history.'**
   String get meetingsNothingUpcomingSubtitle;
+
+  /// No description provided for @meetingsOutcome.
+  ///
+  /// In en, this message translates to:
+  /// **'How it went'**
+  String get meetingsOutcome;
+
+  /// No description provided for @meetingsOutcomeInterested.
+  ///
+  /// In en, this message translates to:
+  /// **'Interested'**
+  String get meetingsOutcomeInterested;
+
+  /// No description provided for @meetingsOutcomeNoShow.
+  ///
+  /// In en, this message translates to:
+  /// **'No show'**
+  String get meetingsOutcomeNoShow;
+
+  /// No description provided for @meetingsOutcomeNote.
+  ///
+  /// In en, this message translates to:
+  /// **'What they said'**
+  String get meetingsOutcomeNote;
+
+  /// No description provided for @meetingsOutcomeNoteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Too dark, the road is loud…'**
+  String get meetingsOutcomeNoteHint;
+
+  /// No description provided for @meetingsOutcomeRejected.
+  ///
+  /// In en, this message translates to:
+  /// **'Turned it down'**
+  String get meetingsOutcomeRejected;
+
+  /// No description provided for @meetingsOutcomeRejectedHint.
+  ///
+  /// In en, this message translates to:
+  /// **'A listing turned down stops being offered to this buyer'**
+  String get meetingsOutcomeRejectedHint;
+
+  /// No description provided for @meetingsOutcomeSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get meetingsOutcomeSave;
 
   /// No description provided for @meetingsPeopleAndDeal.
   ///
