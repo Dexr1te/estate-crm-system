@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/features/properties/presentation/widgets/property_cover.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class SearchResultTile extends StatelessWidget {
@@ -124,15 +125,10 @@ class PropertyResultTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.tokens;
     final l10n = AppLocalizations.of(context);
-    final live = property.status != PropertyStatus.SOLD;
 
     return SearchResultTile(
-      leading: _MarkBox(
-        icon: propertyTypeIcon(property.type),
-        color: live ? t.accent : t.textHint,
-      ),
+      leading: PropertyCover.of(property, size: 40, radius: 12),
       title: property.title.isEmpty ? property.address : property.title,
       meta: [
         propertyStatusLabel(l10n, property.status),

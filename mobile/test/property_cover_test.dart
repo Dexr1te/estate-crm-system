@@ -6,9 +6,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:real_estate_crm/features/clients/presentation/bloc/clients_bloc.dart';
+import 'package:real_estate_crm/features/clients/presentation/screens/client_detail_screen.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_bloc.dart';
 import 'package:real_estate_crm/features/properties/presentation/screens/properties_screen.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_cover.dart';
+import 'package:real_estate_crm/features/search/presentation/widgets/search_result_tile.dart';
 
 import 'fakes.dart';
 import 'responsive_harness.dart';
@@ -129,6 +132,7 @@ Widget _wrap(Widget child) => MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => AuthBloc(FakeAuthRepository())),
         BlocProvider(create: (_) => PropertiesBloc(_repository)),
+        BlocProvider(create: (_) => ClientsBloc(FakeClientsRepository())),
       ],
       child: child,
     );
@@ -177,6 +181,45 @@ void main() {
 
     expect(PropertyCovers.isKnown(_withPhoto.id), isTrue,
         reason: 'the answer, even an empty one, is remembered for the run');
+  });
+
+  testWidgets('a matched listing on a buyer shows its cover', (tester) async {
+    _installFakes();
+    Injector.clientsRepository = FakeClientsRepository(
+      clients: const [
+        ClientResponse(
+            id: 1,
+            fullName: 'Irina Sokolova',
+            type: ClientType.BUYER,
+            budgetMax: 30000000),
+      ],
+      matches: const [PropertyMatch(property: _withPhoto)],
+    );
+    Injector.dealsRepository = FakeDealsRepository(const []);
+    Injector.meetingsRepository = FakeMeetingsRepository(const []);
+
+    await expectNoOverflow(tester, _wrap(const ClientDetailScreen(id: 1)),
+        size: const Size(390, 844),
+        brightness: Brightness.light,
+        textScale: 1.0);
+    await tester.pumpAndSettle();
+
+    expect(find.byType(PropertyCover), findsWidgets,
+        reason: 'a buyer deciding between flats wants to see them');
+  });
+
+  testWidgets('a search result shows the listing rather than an icon',
+      (tester) async {
+    _installFakes();
+
+    await expectNoOverflow(
+        tester, _wrap(PropertyResultTile(property: _withPhoto, onTap: () {})),
+        size: const Size(390, 844),
+        brightness: Brightness.light,
+        textScale: 1.0);
+    await tester.pumpAndSettle();
+
+    expect(find.byType(PropertyCover), findsOneWidget);
   });
 
   forEachAcceptanceCase('properties list with covers',
