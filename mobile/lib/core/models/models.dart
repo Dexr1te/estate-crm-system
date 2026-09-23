@@ -131,6 +131,7 @@ class PropertyPhoto with _$PropertyPhoto {
     @Default('image/jpeg') String contentType,
     @Default(0) int fileSize,
     @Default(0) int sortOrder,
+    @Default(false) bool hasThumbnail,
     int? uploadedById,
     DateTime? uploadedAt,
   }) = _PropertyPhoto;

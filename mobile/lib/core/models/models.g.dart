@@ -215,6 +215,7 @@ _$PropertyPhotoImpl _$$PropertyPhotoImplFromJson(Map<String, dynamic> json) =>
       contentType: json['contentType'] as String? ?? 'image/jpeg',
       fileSize: (json['fileSize'] as num?)?.toInt() ?? 0,
       sortOrder: (json['sortOrder'] as num?)?.toInt() ?? 0,
+      hasThumbnail: json['hasThumbnail'] as bool? ?? false,
       uploadedById: (json['uploadedById'] as num?)?.toInt(),
       uploadedAt: json['uploadedAt'] == null
           ? null
@@ -229,6 +230,7 @@ Map<String, dynamic> _$$PropertyPhotoImplToJson(_$PropertyPhotoImpl instance) =>
       'contentType': instance.contentType,
       'fileSize': instance.fileSize,
       'sortOrder': instance.sortOrder,
+      'hasThumbnail': instance.hasThumbnail,
       'uploadedById': instance.uploadedById,
       'uploadedAt': instance.uploadedAt?.toIso8601String(),
     };

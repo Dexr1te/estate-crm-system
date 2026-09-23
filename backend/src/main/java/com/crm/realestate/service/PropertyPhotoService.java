@@ -14,8 +14,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStream;
+
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -37,25 +39,29 @@ public class PropertyPhotoService {
     /** Where a listing's photographs live in the store. */
     static final String PHOTOS_FOLDER = "properties";
 
+    /** And their smaller copies, kept apart so a bucket stays readable by hand. */
+    static final String THUMBNAILS_FOLDER = "properties/thumbs";
+
     /**
-     * What a camera or a photo library produces, and nothing else.
+     * What the app can actually draw, keyed by what the bytes say they are.
      *
-     * <p>Narrower than the document whitelist on purpose: this is a gallery, and anything that is
-     * not an image would be shown as a broken tile rather than refused.
+     * <p>Not the wider list a browser would take: Flutter decodes JPEG, PNG, GIF, WebP and BMP,
+     * and an iPhone's HEIC is not among them. Storing one would mean a photograph that uploads
+     * cleanly and then shows as an empty tile, which is a worse answer than refusing it.
      */
-    private static final Map<String, String> IMAGE_TYPES = Map.of(
-            "jpg", "image/jpeg",
-            "jpeg", "image/jpeg",
-            "png", "image/png",
-            "heic", "image/heic",
-            "heif", "image/heif",
-            "webp", "image/webp");
+    private static final Map<String, String> EXTENSIONS = Map.of(
+            "image/jpeg", "jpg",
+            "image/png", "png",
+            "image/gif", "gif",
+            "image/bmp", "bmp",
+            "image/webp", "webp");
 
     private static final int MAX_NAME_LENGTH = 255;
 
     private final PropertyPhotoRepository photoRepository;
     private final PropertyRepository      propertyRepository;
     private final DocumentStorage         storage;
+    private final ImageNormalizer         normalizer;
     private final SecurityUtils           securityUtils;
     private final ScopeService            scopeService;
 
@@ -74,12 +80,11 @@ public class PropertyPhotoService {
         }
 
         String fileName = cleanName(file.getOriginalFilename());
-        String extension = extensionOf(fileName);
-        String contentType = IMAGE_TYPES.get(extension);
-        if (contentType == null) {
-            throw new IllegalArgumentException(
-                    "A listing takes photographs, not: " + (extension.isEmpty() ? fileName : extension));
-        }
+        String contentType = normalizer.contentTypeOf(head(file))
+                .filter(EXTENSIONS::containsKey)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "This is not an image the app can show: " + fileName));
+        String extension = EXTENSIONS.get(contentType);
 
         PropertyPhoto photo = PropertyPhoto.builder()
                 .property(property)
@@ -90,6 +95,10 @@ public class PropertyPhotoService {
                 .sortOrder(photoRepository.countByPropertyId(propertyId))
                 .uploadedBy(securityUtils.getCurrentUser())
                 .storageKey(storage.store(file, PHOTOS_FOLDER, propertyId, extension))
+                .thumbnailKey(normalizer.thumbnail(file)
+                        .map(bytes -> storage.storeBytes(
+                                bytes, "image/jpeg", THUMBNAILS_FOLDER, propertyId, "jpg"))
+                        .orElse(null))
                 .build();
 
         return toResponse(photoRepository.save(photo));
@@ -101,12 +110,38 @@ public class PropertyPhotoService {
                 storage.load(photo.getStorageKey()), photo.getFileName(), photo.getContentType());
     }
 
+    /**
+     * The small copy of the first photograph, for a row in a list.
+     *
+     * <p>Falls back to the full-size image when there is no thumbnail — a WebP cannot be decoded
+     * here, and a listing whose cover is slow to load is better than one that shows nothing.
+     */
+    public DocumentDownload cover(Long propertyId) {
+        requireVisibleProperty(propertyId);
+        PropertyPhoto first = photoRepository
+                .findByPropertyIdOrderBySortOrderAscIdAsc(propertyId).stream()
+                .findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        "No photos on property " + propertyId));
+
+        if (first.getThumbnailKey() == null) {
+            return new DocumentDownload(storage.load(first.getStorageKey()),
+                    first.getFileName(), first.getContentType());
+        }
+        return new DocumentDownload(
+                storage.load(first.getThumbnailKey()), first.getFileName(), "image/jpeg");
+    }
+
     @Transactional
     public void delete(Long propertyId, Long photoId) {
         PropertyPhoto photo = findOnProperty(propertyId, photoId);
         String key = photo.getStorageKey();
+        String thumbnail = photo.getThumbnailKey();
         photoRepository.delete(photo);
         storage.delete(key);
+        if (thumbnail != null) {
+            storage.delete(thumbnail);
+        }
     }
 
     /** Another agency's listing reads as missing, so its existence is not confirmed either. */
@@ -148,12 +183,13 @@ public class PropertyPhotoService {
         return name.length() > MAX_NAME_LENGTH ? name.substring(name.length() - MAX_NAME_LENGTH) : name;
     }
 
-    private String extensionOf(String fileName) {
-        int dot = fileName.lastIndexOf('.');
-        if (dot < 0 || dot == fileName.length() - 1) {
-            return "";
+    /** Enough of the file to tell what it is; every marker sits in the first bytes. */
+    private byte[] head(MultipartFile file) {
+        try (InputStream in = file.getInputStream()) {
+            return in.readNBytes(16);
+        } catch (IOException e) {
+            throw new IllegalArgumentException("The uploaded file could not be read");
         }
-        return fileName.substring(dot + 1).toLowerCase(Locale.ROOT);
     }
 
     private PropertyPhotoResponse toResponse(PropertyPhoto photo) {
@@ -164,6 +200,7 @@ public class PropertyPhotoService {
         res.setContentType(photo.getContentType());
         res.setFileSize(photo.getFileSize());
         res.setSortOrder(photo.getSortOrder());
+        res.setHasThumbnail(photo.getThumbnailKey() != null);
         res.setUploadedAt(photo.getUploadedAt());
         if (photo.getUploadedBy() != null) {
             res.setUploadedById(photo.getUploadedBy().getId());

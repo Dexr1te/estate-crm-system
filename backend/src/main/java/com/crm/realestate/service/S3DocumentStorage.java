@@ -65,6 +65,25 @@ public class S3DocumentStorage implements DocumentStorage {
     }
 
     @Override
+    public String storeBytes(byte[] bytes, String contentType, String folder, Long ownerId,
+            String extension) {
+        String key = DocumentStorage.newKey(folder, ownerId, extension);
+        try {
+            s3.putObject(
+                    PutObjectRequest.builder()
+                            .bucket(bucket)
+                            .key(key)
+                            .contentType(contentType)
+                            .contentLength((long) bytes.length)
+                            .build(),
+                    RequestBody.fromBytes(bytes));
+        } catch (S3Exception e) {
+            throw new IllegalStateException("Could not store the generated file", e);
+        }
+        return key;
+    }
+
+    @Override
     public Resource load(String key) {
         try {
             return new ByteArrayResource(

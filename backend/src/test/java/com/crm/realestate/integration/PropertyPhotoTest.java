@@ -27,6 +27,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -76,7 +79,7 @@ class PropertyPhotoTest {
     @Test
     @DisplayName("a photograph is stored, listed and read back")
     void aPhotographSurvivesTheRoundTrip() throws Exception {
-        byte[] bytes = "not really a jpeg".getBytes(StandardCharsets.UTF_8);
+        byte[] bytes = jpegBytes();
 
         PropertyPhotoResponse added = photoService.upload(listing.getId(),
                 new MockMultipartFile("file", "Гостиная.jpg", "image/jpeg", bytes));
@@ -106,10 +109,53 @@ class PropertyPhotoTest {
     @DisplayName("a gallery takes photographs and not paperwork")
     void aContractIsNotAPhotograph() {
         assertThatThrownBy(() -> photoService.upload(listing.getId(),
-                new MockMultipartFile("file", "contract.pdf", "application/pdf", "x".getBytes())))
+                new MockMultipartFile("file", "contract.pdf", "application/pdf",
+                        "%PDF-1.4".getBytes(StandardCharsets.UTF_8))))
                 .isInstanceOf(IllegalArgumentException.class);
 
         assertThat(photoRepository.findAll()).isEmpty();
+    }
+
+    @Test
+    @DisplayName("an iPhone photograph in HEIC is refused, whatever it is named")
+    void heicIsRefusedBecauseTheAppCannotDrawIt() {
+        // ftypheic in the first bytes — what an iPhone writes by default, and what
+        // Flutter has no decoder for. The name says jpg; the bytes are what count.
+        byte[] heic = new byte[] {
+                0, 0, 0, 0x18, 'f', 't', 'y', 'p', 'h', 'e', 'i', 'c',
+                0, 0, 0, 0};
+
+        assertThatThrownBy(() -> photoService.upload(listing.getId(),
+                new MockMultipartFile("file", "IMG_0412.jpg", "image/jpeg", heic)))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("not an image the app can show");
+
+        assertThat(photoRepository.findAll())
+                .as("storing it would mean a photograph that uploads and then shows nothing")
+                .isEmpty();
+    }
+
+    @Test
+    @DisplayName("a listing's cover is the smaller copy of its first photograph")
+    void theCoverIsASmallerCopy() throws Exception {
+        PropertyPhotoResponse first = photoService.upload(listing.getId(), image("facade.jpg"));
+        photoService.upload(listing.getId(), image("kitchen.jpg"));
+
+        assertThat(first.isHasThumbnail()).isTrue();
+        byte[] cover = photoService.cover(listing.getId()).resource().getContentAsByteArray();
+
+        assertThat(cover)
+                .as("a list of twenty listings must not pull twenty full-size photographs")
+                .hasSizeLessThan(jpegBytes().length);
+        assertThat(ImageIO.read(new java.io.ByteArrayInputStream(cover)).getWidth())
+                .isLessThanOrEqualTo(480);
+    }
+
+    @Test
+    @DisplayName("a listing with no photographs has no cover")
+    void nothingToShowIsNotAnEmptyImage() {
+        assertThatThrownBy(() -> photoService.cover(listing.getId()))
+                .isInstanceOf(ResourceNotFoundException.class);
     }
 
     @Test
@@ -149,9 +195,20 @@ class PropertyPhotoTest {
                 .isEmpty();
     }
 
-    private MockMultipartFile image(String name) {
-        return new MockMultipartFile("file", name, "image/jpeg",
-                name.getBytes(StandardCharsets.UTF_8));
+    /** A real one-pixel JPEG: the service reads the header, not the name. */
+    static MockMultipartFile image(String name) {
+        return new MockMultipartFile("file", name, "image/jpeg", jpegBytes());
+    }
+
+    static byte[] jpegBytes() {
+        try {
+            BufferedImage pixel = new BufferedImage(600, 400, BufferedImage.TYPE_INT_RGB);
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            ImageIO.write(pixel, "jpg", out);
+            return out.toByteArray();
+        } catch (Exception e) {
+            throw new IllegalStateException(e);
+        }
     }
 
     private Property listing(String title, Team where, User owner) {

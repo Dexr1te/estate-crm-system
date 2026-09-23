@@ -51,6 +51,20 @@ public class FilesystemDocumentStorage implements DocumentStorage {
     }
 
     @Override
+    public String storeBytes(byte[] bytes, String contentType, String folder, Long ownerId,
+            String extension) {
+        String key = DocumentStorage.newKey(folder, ownerId, extension);
+        Path target = resolve(key);
+        try {
+            Files.createDirectories(target.getParent());
+            Files.write(target, bytes);
+        } catch (IOException e) {
+            throw new IllegalStateException("Could not store the generated file", e);
+        }
+        return key;
+    }
+
+    @Override
     public Resource load(String key) {
         Path file = resolve(key);
         try {

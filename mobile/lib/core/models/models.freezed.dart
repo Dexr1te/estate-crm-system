@@ -1843,6 +1843,7 @@ mixin _$PropertyPhoto {
   String get contentType => throw _privateConstructorUsedError;
   int get fileSize => throw _privateConstructorUsedError;
   int get sortOrder => throw _privateConstructorUsedError;
+  bool get hasThumbnail => throw _privateConstructorUsedError;
   int? get uploadedById => throw _privateConstructorUsedError;
   DateTime? get uploadedAt => throw _privateConstructorUsedError;
 
@@ -1869,6 +1870,7 @@ abstract class $PropertyPhotoCopyWith<$Res> {
       String contentType,
       int fileSize,
       int sortOrder,
+      bool hasThumbnail,
       int? uploadedById,
       DateTime? uploadedAt});
 }
@@ -1894,6 +1896,7 @@ class _$PropertyPhotoCopyWithImpl<$Res, $Val extends PropertyPhoto>
     Object? contentType = null,
     Object? fileSize = null,
     Object? sortOrder = null,
+    Object? hasThumbnail = null,
     Object? uploadedById = freezed,
     Object? uploadedAt = freezed,
   }) {
@@ -1922,6 +1925,10 @@ class _$PropertyPhotoCopyWithImpl<$Res, $Val extends PropertyPhoto>
           ? _value.sortOrder
           : sortOrder // ignore: cast_nullable_to_non_nullable
               as int,
+      hasThumbnail: null == hasThumbnail
+          ? _value.hasThumbnail
+          : hasThumbnail // ignore: cast_nullable_to_non_nullable
+              as bool,
       uploadedById: freezed == uploadedById
           ? _value.uploadedById
           : uploadedById // ignore: cast_nullable_to_non_nullable
@@ -1949,6 +1956,7 @@ abstract class _$$PropertyPhotoImplCopyWith<$Res>
       String contentType,
       int fileSize,
       int sortOrder,
+      bool hasThumbnail,
       int? uploadedById,
       DateTime? uploadedAt});
 }
@@ -1972,6 +1980,7 @@ class __$$PropertyPhotoImplCopyWithImpl<$Res>
     Object? contentType = null,
     Object? fileSize = null,
     Object? sortOrder = null,
+    Object? hasThumbnail = null,
     Object? uploadedById = freezed,
     Object? uploadedAt = freezed,
   }) {
@@ -2000,6 +2009,10 @@ class __$$PropertyPhotoImplCopyWithImpl<$Res>
           ? _value.sortOrder
           : sortOrder // ignore: cast_nullable_to_non_nullable
               as int,
+      hasThumbnail: null == hasThumbnail
+          ? _value.hasThumbnail
+          : hasThumbnail // ignore: cast_nullable_to_non_nullable
+              as bool,
       uploadedById: freezed == uploadedById
           ? _value.uploadedById
           : uploadedById // ignore: cast_nullable_to_non_nullable
@@ -2022,6 +2035,7 @@ class _$PropertyPhotoImpl implements _PropertyPhoto {
       this.contentType = 'image/jpeg',
       this.fileSize = 0,
       this.sortOrder = 0,
+      this.hasThumbnail = false,
       this.uploadedById,
       this.uploadedAt});
 
@@ -2045,13 +2059,16 @@ class _$PropertyPhotoImpl implements _PropertyPhoto {
   @JsonKey()
   final int sortOrder;
   @override
+  @JsonKey()
+  final bool hasThumbnail;
+  @override
   final int? uploadedById;
   @override
   final DateTime? uploadedAt;
 
   @override
   String toString() {
-    return 'PropertyPhoto(id: $id, propertyId: $propertyId, fileName: $fileName, contentType: $contentType, fileSize: $fileSize, sortOrder: $sortOrder, uploadedById: $uploadedById, uploadedAt: $uploadedAt)';
+    return 'PropertyPhoto(id: $id, propertyId: $propertyId, fileName: $fileName, contentType: $contentType, fileSize: $fileSize, sortOrder: $sortOrder, hasThumbnail: $hasThumbnail, uploadedById: $uploadedById, uploadedAt: $uploadedAt)';
   }
 
   @override
@@ -2070,6 +2087,8 @@ class _$PropertyPhotoImpl implements _PropertyPhoto {
                 other.fileSize == fileSize) &&
             (identical(other.sortOrder, sortOrder) ||
                 other.sortOrder == sortOrder) &&
+            (identical(other.hasThumbnail, hasThumbnail) ||
+                other.hasThumbnail == hasThumbnail) &&
             (identical(other.uploadedById, uploadedById) ||
                 other.uploadedById == uploadedById) &&
             (identical(other.uploadedAt, uploadedAt) ||
@@ -2079,7 +2098,7 @@ class _$PropertyPhotoImpl implements _PropertyPhoto {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, propertyId, fileName,
-      contentType, fileSize, sortOrder, uploadedById, uploadedAt);
+      contentType, fileSize, sortOrder, hasThumbnail, uploadedById, uploadedAt);
 
   /// Create a copy of PropertyPhoto
   /// with the given fields replaced by the non-null parameter values.
@@ -2105,6 +2124,7 @@ abstract class _PropertyPhoto implements PropertyPhoto {
       final String contentType,
       final int fileSize,
       final int sortOrder,
+      final bool hasThumbnail,
       final int? uploadedById,
       final DateTime? uploadedAt}) = _$PropertyPhotoImpl;
 
@@ -2123,6 +2143,8 @@ abstract class _PropertyPhoto implements PropertyPhoto {
   int get fileSize;
   @override
   int get sortOrder;
+  @override
+  bool get hasThumbnail;
   @override
   int? get uploadedById;
   @override
