@@ -70,6 +70,10 @@ class PropertiesRepositoryImpl implements PropertiesRepository {
       _remote.getPhotoBytes(id, photoId);
 
   @override
+  Future<List<PropertyPhoto>> reorderPhotos(int id, List<int> photoIds) =>
+      _remote.reorderPhotos(id, photoIds);
+
+  @override
   Future<List<int>> getCoverBytes(int id) => _remote.getCoverBytes(id);
 
   @override

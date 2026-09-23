@@ -1942,6 +1942,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get propertiesPhotos => 'Фото';
 
   @override
+  String get propertiesPhotosHint =>
+      'Удерживайте фото, чтобы переставить — первое станет обложкой';
+
+  @override
   String get propertiesPriceLabel => 'Цена';
 
   @override

@@ -10,6 +10,7 @@ import com.crm.realestate.service.PropertyPhotoService;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartFile;
+import com.crm.realestate.dto.request.PhotoOrderRequest;
 import com.crm.realestate.dto.response.ClientMatch;
 import com.crm.realestate.dto.response.MeetingResponse;
 import com.crm.realestate.service.MatchingService;
@@ -102,6 +103,13 @@ public class PropertyController {
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType(photo.contentType()))
                 .body(photo.resource());
+    }
+
+    @PutMapping("/{id}/photos/order")
+    @Operation(summary = "Put the gallery in this order; the first one is the cover")
+    public ResponseEntity<List<PropertyPhotoResponse>> reorderPhotos(
+            @PathVariable Long id, @Valid @RequestBody PhotoOrderRequest request) {
+        return ResponseEntity.ok(photoService.reorder(id, request.getPhotoIds()));
     }
 
     @DeleteMapping("/{id}/photos/{photoId}")

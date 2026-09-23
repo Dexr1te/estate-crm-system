@@ -35,6 +35,8 @@ abstract class PropertiesRepository {
 
   Future<List<int>> getPhotoBytes(int id, int photoId);
 
+  Future<List<PropertyPhoto>> reorderPhotos(int id, List<int> photoIds);
+
   Future<List<int>> getCoverBytes(int id);
 
   Future<void> deletePhoto(int id, int photoId);

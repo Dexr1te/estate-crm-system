@@ -152,6 +152,52 @@ class PropertyPhotoTest {
     }
 
     @Test
+    @DisplayName("the gallery can be put in another order, and the cover follows")
+    void theCoverIsWhateverIsFirst() throws Exception {
+        PropertyPhotoResponse hallway = photoService.upload(listing.getId(), image("hallway.jpg"));
+        PropertyPhotoResponse facade = photoService.upload(listing.getId(), image("facade.jpg"));
+        PropertyPhotoResponse kitchen = photoService.upload(listing.getId(), image("kitchen.jpg"));
+
+        List<PropertyPhotoResponse> reordered = photoService.reorder(listing.getId(),
+                List.of(facade.getId(), kitchen.getId(), hallway.getId()));
+
+        assertThat(reordered).extracting(PropertyPhotoResponse::getFileName)
+                .as("the agent shot the hallway first; it should not be the face of the listing")
+                .containsExactly("facade.jpg", "kitchen.jpg", "hallway.jpg");
+        assertThat(photoService.getByProperty(listing.getId()))
+                .extracting(PropertyPhotoResponse::getFileName)
+                .containsExactly("facade.jpg", "kitchen.jpg", "hallway.jpg");
+    }
+
+    @Test
+    @DisplayName("an order that does not name every photograph is refused")
+    void halfAnOrderIsNoOrder() {
+        PropertyPhotoResponse first = photoService.upload(listing.getId(), image("facade.jpg"));
+        photoService.upload(listing.getId(), image("kitchen.jpg"));
+
+        assertThatThrownBy(() -> photoService.reorder(listing.getId(), List.of(first.getId())))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("exactly once");
+
+        assertThatThrownBy(() -> photoService.reorder(listing.getId(),
+                List.of(first.getId(), first.getId())))
+                .as("a duplicate would leave one photograph at a position that means nothing")
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
+    @DisplayName("an order naming a photograph from elsewhere is refused")
+    void aStrangersPhotographIsNotPartOfThisGallery() {
+        PropertyPhotoResponse mine = photoService.upload(listing.getId(), image("facade.jpg"));
+        Property another = listing("Tverskaya 12", team, agent);
+        PropertyPhotoResponse theirs = photoService.upload(another.getId(), image("other.jpg"));
+
+        assertThatThrownBy(() -> photoService.reorder(listing.getId(),
+                List.of(mine.getId(), theirs.getId())))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @Test
     @DisplayName("a listing with no photographs has no cover")
     void nothingToShowIsNotAnEmptyImage() {
         assertThatThrownBy(() -> photoService.cover(listing.getId()))

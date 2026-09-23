@@ -1929,6 +1929,10 @@ class AppLocalizationsKk extends AppLocalizations {
   String get propertiesPhotos => 'Фото';
 
   @override
+  String get propertiesPhotosHint =>
+      'Фотоны басып тұрып жылжытыңыз — біріншісі мұқаба';
+
+  @override
   String get propertiesPriceLabel => 'Бағасы';
 
   @override
