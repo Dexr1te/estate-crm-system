@@ -10,6 +10,7 @@ import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_bloc.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_event.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_card.dart';
+import 'package:real_estate_crm/features/properties/presentation/widgets/property_cover.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class ClientDetailScreen extends StatefulWidget {
@@ -367,6 +368,8 @@ class _MatchRow extends StatelessWidget {
         children: [
           Row(
             children: [
+              PropertyCover.of(p, size: 40, radius: 12),
+              const SizedBox(width: 11),
               Expanded(
                 child: Text(
                   p.title,

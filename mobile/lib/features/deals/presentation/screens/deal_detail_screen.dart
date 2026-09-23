@@ -13,6 +13,7 @@ import 'package:real_estate_crm/features/deals/presentation/bloc/deals_state.dar
 import 'package:real_estate_crm/features/documents/presentation/bloc/documents_bloc.dart';
 import 'package:real_estate_crm/features/documents/presentation/bloc/documents_event.dart';
 import 'package:real_estate_crm/features/documents/presentation/widgets/deal_documents_card.dart';
+import 'package:real_estate_crm/features/properties/presentation/widgets/property_cover.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class DealDetailScreen extends StatefulWidget {
@@ -332,10 +333,86 @@ class _ParticipantsCard extends StatelessWidget {
             value: deal.agentName.isEmpty ? dash : deal.agentName,
           ),
           const SizedBox(height: 11),
-          InfoRow(
-            label: l10n.dealsProperty,
-            value: deal.propertyTitle ?? dash,
+          if (deal.propertyId == null)
+            InfoRow(label: l10n.dealsProperty, value: dash)
+          else
+            _PropertyRow(
+              propertyId: deal.propertyId!,
+              title: deal.propertyTitle ?? dash,
+              address: deal.propertyAddress,
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class _PropertyRow extends StatelessWidget {
+  final int propertyId;
+  final String title;
+  final String? address;
+
+  const _PropertyRow({
+    required this.propertyId,
+    required this.title,
+    this.address,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final t = context.tokens;
+    final l10n = AppLocalizations.of(context);
+
+    return GestureDetector(
+      onTap: () => context.push('/properties/$propertyId'),
+      behavior: HitTestBehavior.opaque,
+      child: Row(
+        children: [
+          SizedBox(
+            width: 92,
+            child: Text(
+              l10n.dealsProperty,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                  fontFamily: AppFonts.sans,
+                  fontSize: 12,
+                  color: t.textSecondary),
+            ),
           ),
+          const SizedBox(width: 12),
+          PropertyCover(propertyId: propertyId, size: 34, radius: 10),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      fontFamily: AppFonts.sans,
+                      fontSize: 12.5,
+                      fontWeight: FontWeight.w500,
+                      color: t.textPrimary),
+                ),
+                if (address != null && address!.isNotEmpty) ...[
+                  const SizedBox(height: 2),
+                  Text(
+                    address!,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontFamily: AppFonts.sans,
+                        fontSize: 11,
+                        color: t.textHint),
+                  ),
+                ],
+              ],
+            ),
+          ),
+          Icon(Icons.chevron_right_rounded, size: 18, color: t.textHint),
         ],
       ),
     );

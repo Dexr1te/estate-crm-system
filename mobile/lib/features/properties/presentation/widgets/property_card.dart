@@ -14,7 +14,6 @@ class PropertyCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = context.tokens;
     final l10n = AppLocalizations.of(context);
-    final live = property.status != PropertyStatus.SOLD;
 
     return AppCard(
       onTap: onTap,
@@ -25,7 +24,7 @@ class PropertyCard extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              PropertyCover(property: property, size: 44, live: live),
+              PropertyCover.of(property, size: 44),
               const SizedBox(width: 12),
               Expanded(
                 child: Column(
