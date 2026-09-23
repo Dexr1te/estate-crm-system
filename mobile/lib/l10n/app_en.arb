@@ -596,6 +596,7 @@
     }
   },
   "propertiesPhotos": "Photos",
+  "propertiesPhotosHint": "Hold a photo to move it — the first one is the cover",
   "propertiesPriceLabel": "Price",
   "propertiesPricePerSqm": "{price} per m²",
   "propertiesProperty": "Property",

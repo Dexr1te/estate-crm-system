@@ -565,6 +565,7 @@
   "propertiesPhotoFailed": "Не удалось загрузить {name}",
   "propertiesPhotoTooLarge": "{name} больше 12 МБ",
   "propertiesPhotos": "Фото",
+  "propertiesPhotosHint": "Удерживайте фото, чтобы переставить — первое станет обложкой",
   "propertiesPriceLabel": "Цена",
   "propertiesPricePerSqm": "{price} за м²",
   "propertiesProperty": "Объект",

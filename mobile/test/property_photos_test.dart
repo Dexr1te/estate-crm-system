@@ -132,6 +132,53 @@ void main() {
         reason: 'one file being too large must not lose the others');
   });
 
+  testWidgets('dragging a photo to the front makes it the cover',
+      (tester) async {
+    _installFakes(photos: _photos);
+
+    await _open(tester);
+
+    final strip = find.byType(ReorderableListView);
+    expect(strip, findsOneWidget);
+
+    // The order the gallery sends back is what decides the cover, so the test
+    // asks the repository rather than the widget tree: a drag gesture in a
+    // horizontal reorderable list is the framework's business, not this app's.
+    await Injector.propertiesRepository
+        .reorderPhotos(7, [_photos[1].id, _photos[0].id]);
+
+    expect(_properties.photos.map((p) => p.fileName),
+        ['kitchen.jpg', 'facade.jpg']);
+    expect(_properties.photos.first.sortOrder, 0);
+  });
+
+  testWidgets('the hint says what holding a photo does', (tester) async {
+    _installFakes(photos: _photos);
+
+    await _open(tester);
+
+    expect(find.text('Hold a photo to move it — the first one is the cover'),
+        findsOneWidget,
+        reason: 'a gesture nobody mentions is a gesture nobody finds');
+  });
+
+  testWidgets('a photo is removed from the viewer, where it can be seen',
+      (tester) async {
+    _installFakes(photos: _photos);
+
+    await _open(tester);
+    await tester.tap(find
+        .descendant(
+            of: find.byType(ReorderableListView),
+            matching: find.byType(GestureDetector))
+        .first);
+    await tester.pumpAndSettle();
+
+    expect(find.byIcon(Icons.delete_outline_rounded), findsOneWidget,
+        reason: 'deleting used to hide behind a long press on a thumbnail, '
+            'which is a destructive action on an invisible gesture');
+  });
+
   forEachAcceptanceCase('property detail with photos',
       (tester, size, brightness, scale) async {
     _installFakes(photos: _photos);

@@ -3490,6 +3490,12 @@ abstract class AppLocalizations {
   /// **'Photos'**
   String get propertiesPhotos;
 
+  /// No description provided for @propertiesPhotosHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Hold a photo to move it — the first one is the cover'**
+  String get propertiesPhotosHint;
+
   /// No description provided for @propertiesPriceLabel.
   ///
   /// In en, this message translates to:

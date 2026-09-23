@@ -6,6 +6,7 @@ import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/utils/contact_actions.dart';
 import 'package:real_estate_crm/core/utils/file_gateway.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/features/properties/presentation/widgets/property_cover.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class PropertyPhotosCard extends StatefulWidget {
@@ -79,14 +80,39 @@ class _PropertyPhotosCardState extends State<PropertyPhotosCard> {
     widget.onChanged();
   }
 
-  void _open(int index) {
-    Navigator.of(context).push(MaterialPageRoute<void>(
+  Future<void> _move(int from, int to) async {
+    final ids = widget.photos.map((p) => p.id).toList();
+    final moved = ids.removeAt(from);
+    ids.insert(from < to ? to - 1 : to, moved);
+
+    setState(() => _busy = true);
+    try {
+      await Injector.propertiesRepository.reorderPhotos(widget.propertyId, ids);
+      PropertyCovers.forget(widget.propertyId);
+    } catch (err) {
+      if (mounted) {
+        showActionUnavailable(
+            context,
+            apiFailureLabel(
+                AppLocalizations.of(context), ApiFailure.from(err)));
+      }
+    }
+    if (!mounted) return;
+    setState(() => _busy = false);
+    widget.onChanged();
+  }
+
+  Future<void> _open(int index) async {
+    final removed =
+        await Navigator.of(context).push<bool>(MaterialPageRoute<bool>(
       builder: (_) => _PhotoViewer(
         propertyId: widget.propertyId,
         photos: widget.photos,
         initialIndex: index,
+        onRemove: _remove,
       ),
     ));
+    if (removed == true && mounted) widget.onChanged();
   }
 
   @override
@@ -129,21 +155,40 @@ class _PropertyPhotosCardState extends State<PropertyPhotosCard> {
                   height: 1.35,
                   color: t.textSecondary),
             )
-          else
+          else ...[
             SizedBox(
               height: 104,
-              child: ListView.separated(
+              child: ReorderableListView.builder(
                 scrollDirection: Axis.horizontal,
+                buildDefaultDragHandles: true,
+                padding: EdgeInsets.zero,
                 itemCount: widget.photos.length,
-                separatorBuilder: (_, __) => const SizedBox(width: 8),
-                itemBuilder: (_, i) => _Thumbnail(
-                  propertyId: widget.propertyId,
-                  photo: widget.photos[i],
-                  onTap: () => _open(i),
-                  onLongPress: () => _remove(widget.photos[i]),
+                onReorder: _move,
+                proxyDecorator: (child, _, __) => child,
+                itemBuilder: (_, i) => Padding(
+                  key: ValueKey(widget.photos[i].id),
+                  padding: EdgeInsets.only(
+                      right: i == widget.photos.length - 1 ? 0 : 8),
+                  child: _Thumbnail(
+                    propertyId: widget.propertyId,
+                    photo: widget.photos[i],
+                    onTap: () => _open(i),
+                  ),
                 ),
               ),
             ),
+            const SizedBox(height: 9),
+            Text(
+              l10n.propertiesPhotosHint,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                  fontFamily: AppFonts.sans,
+                  fontSize: 11,
+                  height: 1.35,
+                  color: t.textHint),
+            ),
+          ],
           const SizedBox(height: 12),
           AppGhostButton(
             label: l10n.propertiesAddPhotos,
@@ -175,13 +220,11 @@ class _Thumbnail extends StatelessWidget {
   final int propertyId;
   final PropertyPhoto photo;
   final VoidCallback onTap;
-  final VoidCallback onLongPress;
 
   const _Thumbnail({
     required this.propertyId,
     required this.photo,
     required this.onTap,
-    required this.onLongPress,
   });
 
   @override
@@ -190,7 +233,6 @@ class _Thumbnail extends StatelessWidget {
 
     return GestureDetector(
       onTap: onTap,
-      onLongPress: onLongPress,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(AppMetrics.radiusSm),
         child: SizedBox(
@@ -246,20 +288,31 @@ class _Blank extends StatelessWidget {
   Widget build(BuildContext context) => ColoredBox(color: color);
 }
 
-class _PhotoViewer extends StatelessWidget {
+class _PhotoViewer extends StatefulWidget {
   final int propertyId;
   final List<PropertyPhoto> photos;
   final int initialIndex;
+  final Future<void> Function(PropertyPhoto) onRemove;
 
   const _PhotoViewer({
     required this.propertyId,
     required this.photos,
     required this.initialIndex,
+    required this.onRemove,
   });
+
+  @override
+  State<_PhotoViewer> createState() => _PhotoViewerState();
+}
+
+class _PhotoViewerState extends State<_PhotoViewer> {
+  late int _index = widget.initialIndex;
 
   @override
   Widget build(BuildContext context) {
     final t = context.tokens;
+    final l10n = AppLocalizations.of(context);
+    final photos = widget.photos;
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -267,15 +320,26 @@ class _PhotoViewer extends StatelessWidget {
         backgroundColor: Colors.black,
         foregroundColor: Colors.white,
         elevation: 0,
+        actions: [
+          IconButton(
+            tooltip: l10n.propertiesPhotoDelete,
+            icon: const Icon(Icons.delete_outline_rounded),
+            onPressed: () async {
+              await widget.onRemove(photos[_index]);
+              if (context.mounted) Navigator.of(context).pop(true);
+            },
+          ),
+        ],
       ),
       body: PageView.builder(
-        controller: PageController(initialPage: initialIndex),
+        controller: PageController(initialPage: widget.initialIndex),
+        onPageChanged: (i) => setState(() => _index = i),
         itemCount: photos.length,
         itemBuilder: (_, i) => InteractiveViewer(
           maxScale: 4,
           child: Center(
             child: _PhotoImage(
-              propertyId: propertyId,
+              propertyId: widget.propertyId,
               photo: photos[i],
               fit: BoxFit.contain,
               placeholderColor: t.surfaceVariant,

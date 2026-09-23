@@ -565,6 +565,7 @@
   "propertiesPhotoFailed": "{name} жүктелмеді",
   "propertiesPhotoTooLarge": "{name} 12 МБ-тан үлкен",
   "propertiesPhotos": "Фото",
+  "propertiesPhotosHint": "Фотоны басып тұрып жылжытыңыз — біріншісі мұқаба",
   "propertiesPriceLabel": "Бағасы",
   "propertiesPricePerSqm": "{price} бір м² үшін",
   "propertiesProperty": "Нысан",

@@ -1931,6 +1931,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get propertiesPhotos => 'Photos';
 
   @override
+  String get propertiesPhotosHint =>
+      'Hold a photo to move it — the first one is the cover';
+
+  @override
   String get propertiesPriceLabel => 'Price';
 
   @override

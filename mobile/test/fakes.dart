@@ -262,6 +262,16 @@ class FakePropertiesRepository implements PropertiesRepository {
   Future<List<int>> getPhotoBytes(int id, int photoId) async => photoBytes;
 
   @override
+  Future<List<PropertyPhoto>> reorderPhotos(int id, List<int> photoIds) async {
+    final byId = {for (final photo in photos) photo.id: photo};
+    photos = [
+      for (var i = 0; i < photoIds.length; i++)
+        byId[photoIds[i]]!.copyWith(sortOrder: i),
+    ];
+    return photos;
+  }
+
+  @override
   Future<List<int>> getCoverBytes(int id) async {
     if (photos.isEmpty) throw StateError('no cover');
     return photoBytes;

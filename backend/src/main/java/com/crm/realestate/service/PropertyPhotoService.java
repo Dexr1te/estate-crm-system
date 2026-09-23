@@ -17,8 +17,11 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
 
+import java.util.Comparator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -102,6 +105,38 @@ public class PropertyPhotoService {
                 .build();
 
         return toResponse(photoRepository.save(photo));
+    }
+
+    /**
+     * Puts the gallery in the given order, first one first — which also decides the cover.
+     *
+     * <p>The request has to name every photograph the listing has, exactly once. A partial list
+     * would leave the rest at positions that mean nothing, and an unknown id means the client is
+     * working from a gallery somebody else has already changed; both are better refused than
+     * half-applied.
+     */
+    @Transactional
+    public List<PropertyPhotoResponse> reorder(Long propertyId, List<Long> photoIds) {
+        requireVisibleProperty(propertyId);
+        List<PropertyPhoto> photos =
+                photoRepository.findByPropertyIdOrderBySortOrderAscIdAsc(propertyId);
+
+        Set<Long> held = photos.stream().map(PropertyPhoto::getId).collect(Collectors.toSet());
+        Set<Long> asked = new LinkedHashSet<>(photoIds);
+        if (asked.size() != photoIds.size() || !asked.equals(held)) {
+            throw new IllegalArgumentException(
+                    "The order must name each photo of this listing exactly once");
+        }
+
+        Map<Long, PropertyPhoto> byId = photos.stream()
+                .collect(Collectors.toMap(PropertyPhoto::getId, photo -> photo));
+        for (int position = 0; position < photoIds.size(); position++) {
+            byId.get(photoIds.get(position)).setSortOrder(position);
+        }
+        return photoRepository.saveAll(photos).stream()
+                .sorted(Comparator.comparingInt(PropertyPhoto::getSortOrder))
+                .map(this::toResponse)
+                .collect(Collectors.toList());
     }
 
     public DocumentDownload download(Long propertyId, Long photoId) {

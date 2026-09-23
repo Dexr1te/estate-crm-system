@@ -86,6 +86,12 @@ class PropertiesRemoteDataSource {
     return res.data ?? const [];
   }
 
+  Future<List<PropertyPhoto>> reorderPhotos(int id, List<int> photoIds) async {
+    final res = await _client.dio
+        .put('/properties/$id/photos/order', data: {'photoIds': photoIds});
+    return jsonArray(res).map(PropertyPhoto.fromJson).toList();
+  }
+
   Future<List<int>> getCoverBytes(int id) async {
     final res = await _client.dio.get<List<int>>(
       '/properties/$id/cover',
