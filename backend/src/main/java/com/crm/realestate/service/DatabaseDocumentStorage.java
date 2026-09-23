@@ -45,6 +45,14 @@ public class DatabaseDocumentStorage implements DocumentStorage {
     }
 
     @Override
+    public String storeBytes(byte[] bytes, String contentType, String folder, Long ownerId,
+            String extension) {
+        String key = DocumentStorage.newKey(folder, ownerId, extension);
+        blobs.save(new DocumentBlob(key, bytes));
+        return key;
+    }
+
+    @Override
     public Resource load(String key) {
         return blobs.findById(key)
                 .map(blob -> (Resource) new ByteArrayResource(blob.getContent()))

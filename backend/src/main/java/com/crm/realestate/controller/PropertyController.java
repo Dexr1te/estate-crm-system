@@ -85,6 +85,15 @@ public class PropertyController {
         return ResponseEntity.status(HttpStatus.CREATED).body(photoService.upload(id, file));
     }
 
+    @GetMapping("/{id}/cover")
+    @Operation(summary = "A small copy of this listing's first photograph, for a row in a list")
+    public ResponseEntity<Resource> cover(@PathVariable Long id) {
+        DocumentDownload cover = photoService.cover(id);
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(cover.contentType()))
+                .body(cover.resource());
+    }
+
     @GetMapping("/{id}/photos/{photoId}/content")
     @Operation(summary = "The bytes of one photograph")
     public ResponseEntity<Resource> photoContent(

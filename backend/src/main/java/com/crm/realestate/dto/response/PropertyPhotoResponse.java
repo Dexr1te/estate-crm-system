@@ -13,6 +13,7 @@ public class PropertyPhotoResponse {
     private String contentType;
     private Long fileSize;
     private int sortOrder;
+    private boolean hasThumbnail;
     private Long uploadedById;
     private LocalDateTime uploadedAt;
 }

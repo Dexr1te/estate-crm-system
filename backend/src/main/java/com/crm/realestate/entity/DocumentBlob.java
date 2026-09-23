@@ -7,6 +7,8 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
 
@@ -28,7 +30,14 @@ public class DocumentBlob {
     @Column(name = "storage_key", length = 500, nullable = false, updatable = false)
     private String storageKey;
 
+    /**
+     * The length matters only to a generated schema: Flyway says {@code bytea}, which has no
+     * limit, but Hibernate defaults an undeclared {@code byte[]} to 255 bytes. A database built
+     * from the entities — the test one is — would take the first attachment and refuse the second,
+     * which is a disagreement with production that a test should never have to discover.
+     */
     @Column(name = "content", nullable = false)
+    @JdbcTypeCode(SqlTypes.LONGVARBINARY)
     private byte[] content;
 
     @Column(name = "created_at", nullable = false, updatable = false)

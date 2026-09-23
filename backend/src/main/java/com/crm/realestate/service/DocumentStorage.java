@@ -28,6 +28,16 @@ public interface DocumentStorage {
      */
     String store(MultipartFile file, String folder, Long ownerId, String extension);
 
+    /**
+     * Stores bytes the app made rather than a file somebody picked — a thumbnail, so far.
+     *
+     * <p>Separate from {@link #store} because there is nothing to stream from: the bytes are
+     * already in hand, and wrapping them in a fake upload to reuse one method would be a costume
+     * rather than a reason.
+     */
+    String storeBytes(byte[] bytes, String contentType, String folder, Long ownerId,
+            String extension);
+
     /** The stored bytes. Throws {@link IllegalStateException} if they are gone. */
     Resource load(String key);
 

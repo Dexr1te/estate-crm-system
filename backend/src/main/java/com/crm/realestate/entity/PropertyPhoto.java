@@ -35,6 +35,10 @@ public class PropertyPhoto {
     @Column(name = "storage_key", nullable = false, length = 500)
     private String storageKey;
 
+    /** A smaller copy for lists, or null when the format could not be decoded here. */
+    @Column(name = "thumbnail_key", length = 500)
+    private String thumbnailKey;
+
     @Column(name = "file_name", nullable = false)
     private String fileName;
 

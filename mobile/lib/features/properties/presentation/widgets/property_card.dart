@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/features/properties/presentation/widgets/property_cover.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class PropertyCard extends StatelessWidget {
@@ -24,19 +25,7 @@ class PropertyCard extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                width: 44,
-                height: 44,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: t.surfaceVariant,
-                  borderRadius: BorderRadius.circular(13),
-                  border: Border.all(
-                      color: t.border, width: AppMetrics.borderWidth),
-                ),
-                child: Icon(propertyTypeIcon(property.type),
-                    size: 18, color: live ? t.accent : t.textHint),
-              ),
+              PropertyCover(property: property, size: 44, live: live),
               const SizedBox(width: 12),
               Expanded(
                 child: Column(

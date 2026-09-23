@@ -262,6 +262,12 @@ class FakePropertiesRepository implements PropertiesRepository {
   Future<List<int>> getPhotoBytes(int id, int photoId) async => photoBytes;
 
   @override
+  Future<List<int>> getCoverBytes(int id) async {
+    if (photos.isEmpty) throw StateError('no cover');
+    return photoBytes;
+  }
+
+  @override
   Future<void> deletePhoto(int id, int photoId) async {
     photos = photos.where((p) => p.id != photoId).toList();
   }

@@ -86,6 +86,14 @@ class PropertiesRemoteDataSource {
     return res.data ?? const [];
   }
 
+  Future<List<int>> getCoverBytes(int id) async {
+    final res = await _client.dio.get<List<int>>(
+      '/properties/$id/cover',
+      options: Options(responseType: ResponseType.bytes),
+    );
+    return res.data ?? const [];
+  }
+
   Future<void> deletePhoto(int id, int photoId) async {
     await _client.dio.delete('/properties/$id/photos/$photoId');
   }
