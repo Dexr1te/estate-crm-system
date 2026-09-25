@@ -6,6 +6,9 @@ String formatPrice(double price) {
   return '\$${price.toStringAsFixed(0)}';
 }
 
+String formatRate(double rate) =>
+    rate.toStringAsFixed(2).replaceFirst(RegExp(r'\.?0+$'), '');
+
 String formatDate(DateTime dt) => DateFormat('MMM d, yyyy').format(dt);
 String formatDateTime(DateTime dt) =>
     DateFormat('MMM d, yyyy • h:mm a').format(dt);

@@ -874,6 +874,102 @@ abstract class AppLocalizations {
   /// **'Welcome back!'**
   String get authWelcomeBack;
 
+  /// No description provided for @clientsActivityCall.
+  ///
+  /// In en, this message translates to:
+  /// **'Call'**
+  String get clientsActivityCall;
+
+  /// No description provided for @clientsActivityDeleteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'It disappears from this client\'s history for the whole team. This cannot be undone.'**
+  String get clientsActivityDeleteBody;
+
+  /// No description provided for @clientsActivityDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove this entry?'**
+  String get clientsActivityDeleteTitle;
+
+  /// No description provided for @clientsActivityEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get clientsActivityEmail;
+
+  /// No description provided for @clientsActivityFormerMember.
+  ///
+  /// In en, this message translates to:
+  /// **'Former member'**
+  String get clientsActivityFormerMember;
+
+  /// No description provided for @clientsActivityKind.
+  ///
+  /// In en, this message translates to:
+  /// **'How you were in touch'**
+  String get clientsActivityKind;
+
+  /// No description provided for @clientsActivityLogged.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact logged'**
+  String get clientsActivityLogged;
+
+  /// No description provided for @clientsActivityMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Message'**
+  String get clientsActivityMessage;
+
+  /// No description provided for @clientsActivityNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get clientsActivityNote;
+
+  /// No description provided for @clientsActivityNoteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What was said, what happens next…'**
+  String get clientsActivityNoteHint;
+
+  /// No description provided for @clientsActivityNoteLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'What was said'**
+  String get clientsActivityNoteLabel;
+
+  /// No description provided for @clientsActivityNoteRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'A note needs some text'**
+  String get clientsActivityNoteRequired;
+
+  /// No description provided for @clientsActivityRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove entry'**
+  String get clientsActivityRemove;
+
+  /// No description provided for @clientsActivitySave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get clientsActivitySave;
+
+  /// No description provided for @clientsActivityToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today, {time}'**
+  String clientsActivityToday(String time);
+
+  /// No description provided for @clientsActivityYesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday, {time}'**
+  String clientsActivityYesterday(String time);
+
   /// No description provided for @clientsAddClient.
   ///
   /// In en, this message translates to:
@@ -982,6 +1078,30 @@ abstract class AppLocalizations {
   /// **'Contact Info'**
   String get clientsContactInfo;
 
+  /// No description provided for @clientsContactedDaysAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Contacted 1 day ago} other{Contacted {count} days ago}}'**
+  String clientsContactedDaysAgo(int count);
+
+  /// No description provided for @clientsContactedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Contacted {date}'**
+  String clientsContactedOn(String date);
+
+  /// No description provided for @clientsContactedToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Contacted today'**
+  String get clientsContactedToday;
+
+  /// No description provided for @clientsContactedYesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Contacted yesterday'**
+  String get clientsContactedYesterday;
+
   /// No description provided for @clientsCounter.
   ///
   /// In en, this message translates to:
@@ -1084,6 +1204,30 @@ abstract class AppLocalizations {
   /// **'Full Name'**
   String get clientsFullNameLabel;
 
+  /// No description provided for @clientsHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'History'**
+  String get clientsHistory;
+
+  /// No description provided for @clientsHistoryEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No contact logged yet'**
+  String get clientsHistoryEmpty;
+
+  /// No description provided for @clientsHistoryEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Log each call, message and email, and whoever picks up this client knows where things stand.'**
+  String get clientsHistoryEmptyHint;
+
+  /// No description provided for @clientsHistoryLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load the history'**
+  String get clientsHistoryLoadFailed;
+
   /// No description provided for @clientsIdBadge.
   ///
   /// In en, this message translates to:
@@ -1095,6 +1239,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Invalid email'**
   String get clientsInvalidEmail;
+
+  /// No description provided for @clientsLogContact.
+  ///
+  /// In en, this message translates to:
+  /// **'Log contact'**
+  String get clientsLogContact;
+
+  /// No description provided for @clientsLogFirstContact.
+  ///
+  /// In en, this message translates to:
+  /// **'Log the first contact'**
+  String get clientsLogFirstContact;
 
   /// No description provided for @clientsMatches.
   ///
@@ -1672,6 +1828,12 @@ abstract class AppLocalizations {
   /// **'Remove target'**
   String get dashboardGoalClear;
 
+  /// No description provided for @dashboardGoalCommission.
+  ///
+  /// In en, this message translates to:
+  /// **'Commission this month: {amount}'**
+  String dashboardGoalCommission(Object amount);
+
   /// No description provided for @dashboardGoalEyebrow.
   ///
   /// In en, this message translates to:
@@ -2037,6 +2199,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Closed'**
   String get dealsClosed;
+
+  /// No description provided for @dealsCommission.
+  ///
+  /// In en, this message translates to:
+  /// **'Commission'**
+  String get dealsCommission;
+
+  /// No description provided for @dealsCommissionAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get dealsCommissionAmount;
+
+  /// No description provided for @dealsCommissionInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a rate above 0 and no more than 100'**
+  String get dealsCommissionInvalid;
+
+  /// No description provided for @dealsCommissionNeedsPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Set a deal price to work it out'**
+  String get dealsCommissionNeedsPrice;
+
+  /// No description provided for @dealsCommissionPercent.
+  ///
+  /// In en, this message translates to:
+  /// **'Commission, %'**
+  String get dealsCommissionPercent;
+
+  /// No description provided for @dealsCommissionRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate'**
+  String get dealsCommissionRate;
 
   /// No description provided for @dealsCounter.
   ///
@@ -3556,6 +3754,12 @@ abstract class AppLocalizations {
   /// **'Hold a photo to move it — the first one is the cover'**
   String get propertiesPhotosHint;
 
+  /// No description provided for @propertiesPriceHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Price history'**
+  String get propertiesPriceHistory;
+
   /// No description provided for @propertiesPriceLabel.
   ///
   /// In en, this message translates to:
@@ -3567,6 +3771,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{price} per m²'**
   String propertiesPricePerSqm(Object price);
+
+  /// No description provided for @propertiesPriceReduced.
+  ///
+  /// In en, this message translates to:
+  /// **'Price reduced'**
+  String get propertiesPriceReduced;
+
+  /// No description provided for @propertiesPriceWas.
+  ///
+  /// In en, this message translates to:
+  /// **'Was {price}'**
+  String propertiesPriceWas(String price);
 
   /// No description provided for @propertiesProperty.
   ///

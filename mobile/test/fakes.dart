@@ -6,6 +6,7 @@ import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/models/paged_response.dart';
 import 'package:real_estate_crm/core/models/team_models.dart';
 import 'package:real_estate_crm/core/notifications/notification_gateway.dart';
+import 'package:real_estate_crm/core/utils/clock.dart';
 import 'package:real_estate_crm/core/utils/file_gateway.dart';
 import 'package:real_estate_crm/core/utils/share_gateway.dart';
 import 'package:real_estate_crm/features/admin/domain/repositories/admin_repository.dart';
@@ -175,11 +176,54 @@ class FakeClientsRepository implements ClientsRepository {
   /// the backend and are tested there; a screen test only needs the shapes.
   final List<PropertyMatch> matches;
 
+  /// The history of contact, which logging and deleting here actually change.
+  List<ClientActivity> activities;
+
+  /// When set, reading the history fails with it — the card's own error state.
+  Object? activitiesError;
+
+  /// When set, logging a contact fails with it and nothing is added.
+  Object? logError;
+
   FakeClientsRepository({
     this.clients = const [],
     this.listItems = const [],
     this.matches = const [],
+    this.activities = const [],
+    this.activitiesError,
+    this.logError,
   });
+
+  @override
+  Future<List<ClientActivity>> getActivities(int clientId) async {
+    if (activitiesError != null) throw activitiesError!;
+    return activities.where((a) => a.clientId == clientId).toList();
+  }
+
+  @override
+  Future<ClientActivity> logActivity(
+    int clientId, {
+    required ActivityType type,
+    String? note,
+  }) async {
+    if (logError != null) throw logError!;
+    final logged = ClientActivity(
+      id: activities.fold<int>(0, (m, a) => a.id > m ? a.id : m) + 1,
+      clientId: clientId,
+      type: type,
+      note: note,
+      occurredAt: AppClock.now(),
+      authorId: 5,
+      authorName: 'Maria Kim-Doroshenko',
+    );
+    activities = [logged, ...activities];
+    return logged;
+  }
+
+  @override
+  Future<void> deleteActivity(int clientId, int activityId) async {
+    activities = activities.where((a) => a.id != activityId).toList();
+  }
 
   @override
   Future<List<PropertyMatch>> getMatches(int id) async => matches;
@@ -233,17 +277,25 @@ class FakePropertiesRepository implements PropertiesRepository {
   /// a tile was drawn, and a decode error would say nothing about the code.
   final List<int> photoBytes;
 
+  /// What `/properties/{id}/price-history` answers, newest first.
+  final List<PropertyPriceChange> priceHistory;
+
   FakePropertiesRepository(this.properties,
       {this.interested = const [],
       this.viewings = const [],
       this.photos = const [],
-      this.photoBytes = const []});
+      this.photoBytes = const [],
+      this.priceHistory = const []});
 
   @override
   Future<List<ClientMatch>> getInterested(int id) async => interested;
 
   @override
   Future<List<MeetingResponse>> getViewings(int id) async => viewings;
+
+  @override
+  Future<List<PropertyPriceChange>> getPriceHistory(int id) async =>
+      priceHistory;
 
   @override
   Future<List<PropertyPhoto>> getPhotos(int id) async => photos;

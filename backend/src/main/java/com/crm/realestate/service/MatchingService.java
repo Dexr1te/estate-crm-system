@@ -7,6 +7,7 @@ import com.crm.realestate.dto.response.PropertyResponse;
 import com.crm.realestate.entity.Client;
 import com.crm.realestate.entity.Meeting;
 import com.crm.realestate.entity.Property;
+import com.crm.realestate.entity.PropertyPriceChange;
 import com.crm.realestate.entity.User;
 import com.crm.realestate.enums.ClientType;
 import com.crm.realestate.enums.ViewingOutcome;
@@ -69,12 +70,16 @@ public class MatchingService {
         Set<Long> turnedDown = rejectedIn(history);
         Map<Long, LocalDateTime> lastShown = lastShownIn(history);
 
-        return propertyRepository
+        List<Property> listings = propertyRepository
                 .findAll(MatchSpecification.listingsFor(buyer)
                         .and(scopeService.visibleToTeam(currentUser)))
                 .stream()
                 .filter(p -> !turnedDown.contains(p.getId()))
-                .map(p -> new PropertyMatch(propertyMapper.toResponse(p),
+                .toList();
+        Map<Long, PropertyPriceChange> latestChanges = propertyMapper.latestChanges(listings);
+
+        return listings.stream()
+                .map(p -> new PropertyMatch(propertyMapper.toResponse(p, latestChanges.get(p.getId())),
                         isOver(p.getPrice(), ceiling), lastShown.get(p.getId())))
                 .sorted(Comparator.comparing(PropertyMatch::isOverBudget)
                         .thenComparing(m -> m.getProperty().getPrice(),

@@ -24,6 +24,9 @@ enum DealStatus { LEAD, NEGOTIATION, CLOSED_WON, CLOSED_LOST }
 // ignore: constant_identifier_names
 enum ViewingOutcome { INTERESTED, REJECTED, NO_SHOW }
 
+// ignore: constant_identifier_names
+enum ActivityType { CALL, MESSAGE, EMAIL, NOTE }
+
 @freezed
 class AuthResponse with _$AuthResponse {
   const factory AuthResponse({
@@ -86,6 +89,23 @@ class ClientListItem with _$ClientListItem {
 }
 
 @freezed
+class ClientActivity with _$ClientActivity {
+  const factory ClientActivity({
+    required int id,
+    required int clientId,
+    @Default(ActivityType.NOTE) ActivityType type,
+    String? note,
+    required DateTime occurredAt,
+    int? authorId,
+    String? authorName,
+    DateTime? createdAt,
+  }) = _ClientActivity;
+
+  factory ClientActivity.fromJson(Map<String, dynamic> json) =>
+      _$ClientActivityFromJson(json);
+}
+
+@freezed
 class PropertyResponse with _$PropertyResponse {
   const factory PropertyResponse({
     required int id,
@@ -104,10 +124,28 @@ class PropertyResponse with _$PropertyResponse {
     String? agentName,
     DateTime? createdAt,
     DateTime? updatedAt,
+    double? previousPrice,
+    DateTime? priceChangedAt,
   }) = _PropertyResponse;
 
   factory PropertyResponse.fromJson(Map<String, dynamic> json) =>
       _$PropertyResponseFromJson(json);
+}
+
+@freezed
+class PropertyPriceChange with _$PropertyPriceChange {
+  const factory PropertyPriceChange({
+    required int id,
+    int? propertyId,
+    @Default(0.0) double oldPrice,
+    @Default(0.0) double newPrice,
+    int? changedById,
+    String? changedByName,
+    DateTime? changedAt,
+  }) = _PropertyPriceChange;
+
+  factory PropertyPriceChange.fromJson(Map<String, dynamic> json) =>
+      _$PropertyPriceChangeFromJson(json);
 }
 
 @freezed
@@ -159,6 +197,8 @@ class DealResponse with _$DealResponse {
     @Default(DealStatus.LEAD) DealStatus status,
     double? dealPrice,
     double? budget,
+    double? commissionPercent,
+    double? commission,
     String? notes,
     required int clientId,
     @Default('') String clientName,
@@ -225,6 +265,7 @@ class DashboardSummary with _$DashboardSummary {
     @Default(0) int closedDeals,
     @Default(0) int totalClients,
     @Default(0) int upcomingMeetings,
+    @Default(0) double commissionThisMonth,
   }) = _DashboardSummary;
 
   factory DashboardSummary.fromJson(Map<String, dynamic> json) =>

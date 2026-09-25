@@ -25,4 +25,7 @@ public class PropertyResponse {
     private String agentName;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    /** What it cost before the latest change of price, or null if it was never changed. */
+    private BigDecimal previousPrice;
+    private LocalDateTime priceChangedAt;
 }

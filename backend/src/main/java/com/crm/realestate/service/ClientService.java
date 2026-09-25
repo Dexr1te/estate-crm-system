@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -69,7 +70,8 @@ public class ClientService {
                 scopeService.isAdmin(currentUser),
                 teamId == null ? -1L : teamId,
                 currentUser.getId(),
-                scopeService.seesWholeTeam(currentUser));
+                scopeService.seesWholeTeam(currentUser),
+                LocalDateTime.now());
         return rows.stream()
                 .map(row -> ClientListItem.builder()
                         .id(((Number) row[0]).longValue())
@@ -79,10 +81,27 @@ public class ClientService {
                         .status(row[5] != null ? com.crm.realestate.enums.DealStatus.valueOf((String) row[5]) : null)
                         .budget(row[6] != null ? (BigDecimal) row[6] : null)
                         .propertyTitle((String) row[7])
-                        .nextMeetingAt(row[8] != null ? ((java.sql.Timestamp) row[8]).toLocalDateTime() : null)
-                        .lastContactAt(row[9] != null ? ((java.sql.Timestamp) row[9]).toLocalDateTime() : null)
+                        .nextMeetingAt(toLocalDateTime(row[8]))
+                        .lastContactAt(toLocalDateTime(row[9]))
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    /** Native queries hand timestamps back as whatever the driver prefers; GREATEST varies too. */
+    private static LocalDateTime toLocalDateTime(Object value) {
+        if (value == null) {
+            return null;
+        }
+        if (value instanceof java.sql.Timestamp timestamp) {
+            return timestamp.toLocalDateTime();
+        }
+        if (value instanceof LocalDateTime local) {
+            return local;
+        }
+        if (value instanceof java.time.OffsetDateTime offset) {
+            return offset.toLocalDateTime();
+        }
+        throw new IllegalStateException("Unexpected timestamp type " + value.getClass());
     }
 
     public ClientResponse getById(Long id) {
@@ -118,6 +137,14 @@ public class ClientService {
         User currentUser = securityUtils.getCurrentUser();
         return clientRepository.findAll(filter.and(scopeService.visibleTo(currentUser)))
                 .stream().map(this::toResponse).collect(Collectors.toList());
+    }
+
+    /**
+     * The client, if this person may read it. Anything hanging off a client — its history, its
+     * matches — goes through here, so it sits behind the same walls as the client itself.
+     */
+    public Client requireVisible(Long id, User currentUser) {
+        return findVisibleById(id, currentUser);
     }
 
     /** Someone else's client reads as missing, so its existence is not confirmed either. */

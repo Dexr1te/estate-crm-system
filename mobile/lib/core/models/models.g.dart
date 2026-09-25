@@ -136,6 +136,41 @@ const _$DealStatusEnumMap = {
   DealStatus.CLOSED_LOST: 'CLOSED_LOST',
 };
 
+_$ClientActivityImpl _$$ClientActivityImplFromJson(Map<String, dynamic> json) =>
+    _$ClientActivityImpl(
+      id: (json['id'] as num).toInt(),
+      clientId: (json['clientId'] as num).toInt(),
+      type: $enumDecodeNullable(_$ActivityTypeEnumMap, json['type']) ??
+          ActivityType.NOTE,
+      note: json['note'] as String?,
+      occurredAt: DateTime.parse(json['occurredAt'] as String),
+      authorId: (json['authorId'] as num?)?.toInt(),
+      authorName: json['authorName'] as String?,
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+    );
+
+Map<String, dynamic> _$$ClientActivityImplToJson(
+        _$ClientActivityImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'clientId': instance.clientId,
+      'type': _$ActivityTypeEnumMap[instance.type]!,
+      'note': instance.note,
+      'occurredAt': instance.occurredAt.toIso8601String(),
+      'authorId': instance.authorId,
+      'authorName': instance.authorName,
+      'createdAt': instance.createdAt?.toIso8601String(),
+    };
+
+const _$ActivityTypeEnumMap = {
+  ActivityType.CALL: 'CALL',
+  ActivityType.MESSAGE: 'MESSAGE',
+  ActivityType.EMAIL: 'EMAIL',
+  ActivityType.NOTE: 'NOTE',
+};
+
 _$PropertyResponseImpl _$$PropertyResponseImplFromJson(
         Map<String, dynamic> json) =>
     _$PropertyResponseImpl(
@@ -161,6 +196,10 @@ _$PropertyResponseImpl _$$PropertyResponseImplFromJson(
       updatedAt: json['updatedAt'] == null
           ? null
           : DateTime.parse(json['updatedAt'] as String),
+      previousPrice: (json['previousPrice'] as num?)?.toDouble(),
+      priceChangedAt: json['priceChangedAt'] == null
+          ? null
+          : DateTime.parse(json['priceChangedAt'] as String),
     );
 
 Map<String, dynamic> _$$PropertyResponseImplToJson(
@@ -182,6 +221,8 @@ Map<String, dynamic> _$$PropertyResponseImplToJson(
       'agentName': instance.agentName,
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
+      'previousPrice': instance.previousPrice,
+      'priceChangedAt': instance.priceChangedAt?.toIso8601String(),
     };
 
 const _$PropertyStatusEnumMap = {
@@ -189,6 +230,32 @@ const _$PropertyStatusEnumMap = {
   PropertyStatus.RESERVED: 'RESERVED',
   PropertyStatus.SOLD: 'SOLD',
 };
+
+_$PropertyPriceChangeImpl _$$PropertyPriceChangeImplFromJson(
+        Map<String, dynamic> json) =>
+    _$PropertyPriceChangeImpl(
+      id: (json['id'] as num).toInt(),
+      propertyId: (json['propertyId'] as num?)?.toInt(),
+      oldPrice: (json['oldPrice'] as num?)?.toDouble() ?? 0.0,
+      newPrice: (json['newPrice'] as num?)?.toDouble() ?? 0.0,
+      changedById: (json['changedById'] as num?)?.toInt(),
+      changedByName: json['changedByName'] as String?,
+      changedAt: json['changedAt'] == null
+          ? null
+          : DateTime.parse(json['changedAt'] as String),
+    );
+
+Map<String, dynamic> _$$PropertyPriceChangeImplToJson(
+        _$PropertyPriceChangeImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'propertyId': instance.propertyId,
+      'oldPrice': instance.oldPrice,
+      'newPrice': instance.newPrice,
+      'changedById': instance.changedById,
+      'changedByName': instance.changedByName,
+      'changedAt': instance.changedAt?.toIso8601String(),
+    };
 
 _$PropertyMatchImpl _$$PropertyMatchImplFromJson(Map<String, dynamic> json) =>
     _$PropertyMatchImpl(
@@ -255,6 +322,8 @@ _$DealResponseImpl _$$DealResponseImplFromJson(Map<String, dynamic> json) =>
           DealStatus.LEAD,
       dealPrice: (json['dealPrice'] as num?)?.toDouble(),
       budget: (json['budget'] as num?)?.toDouble(),
+      commissionPercent: (json['commissionPercent'] as num?)?.toDouble(),
+      commission: (json['commission'] as num?)?.toDouble(),
       notes: json['notes'] as String?,
       clientId: (json['clientId'] as num).toInt(),
       clientName: json['clientName'] as String? ?? '',
@@ -281,6 +350,8 @@ Map<String, dynamic> _$$DealResponseImplToJson(_$DealResponseImpl instance) =>
       'status': _$DealStatusEnumMap[instance.status]!,
       'dealPrice': instance.dealPrice,
       'budget': instance.budget,
+      'commissionPercent': instance.commissionPercent,
+      'commission': instance.commission,
       'notes': instance.notes,
       'clientId': instance.clientId,
       'clientName': instance.clientName,
@@ -378,6 +449,8 @@ _$DashboardSummaryImpl _$$DashboardSummaryImplFromJson(
       closedDeals: (json['closedDeals'] as num?)?.toInt() ?? 0,
       totalClients: (json['totalClients'] as num?)?.toInt() ?? 0,
       upcomingMeetings: (json['upcomingMeetings'] as num?)?.toInt() ?? 0,
+      commissionThisMonth:
+          (json['commissionThisMonth'] as num?)?.toDouble() ?? 0,
     );
 
 Map<String, dynamic> _$$DashboardSummaryImplToJson(
@@ -388,6 +461,7 @@ Map<String, dynamic> _$$DashboardSummaryImplToJson(
       'closedDeals': instance.closedDeals,
       'totalClients': instance.totalClients,
       'upcomingMeetings': instance.upcomingMeetings,
+      'commissionThisMonth': instance.commissionThisMonth,
     };
 
 _$AgentOptionImpl _$$AgentOptionImplFromJson(Map<String, dynamic> json) =>

@@ -9,9 +9,12 @@ import 'package:real_estate_crm/core/utils/contact_actions.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_bloc.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_event.dart';
+import 'package:real_estate_crm/features/clients/presentation/widgets/client_history_card.dart';
+import 'package:real_estate_crm/features/clients/presentation/widgets/log_contact_sheet.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/send_matches_sheet.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_card.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_cover.dart';
+import 'package:real_estate_crm/features/properties/presentation/widgets/property_price_history.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class ClientDetailScreen extends StatefulWidget {
@@ -25,6 +28,7 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
   ClientResponse? _client;
   List<DealResponse> _deals = const [];
   List<PropertyMatch> _matches = const [];
+  List<ClientActivity>? _activities = const [];
   bool _loading = true;
   String? _error;
 
@@ -44,6 +48,7 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
         Injector.clientsRepository.getClient(widget.id),
         Injector.dealsRepository.getDeals(),
         Injector.clientsRepository.getMatches(widget.id),
+        _fetchActivities(),
       ]);
       if (!mounted) return;
       setState(() {
@@ -52,6 +57,7 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
             .where((d) => d.clientId == widget.id)
             .toList();
         _matches = results[2] as List<PropertyMatch>;
+        _activities = results[3] as List<ClientActivity>?;
         _loading = false;
       });
     } catch (err) {
@@ -60,6 +66,66 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
         _loading = false;
         _error = AppLocalizations.of(context).clientsClientNotFound;
       });
+    }
+  }
+
+  Future<List<ClientActivity>?> _fetchActivities() async {
+    try {
+      return await Injector.clientsRepository.getActivities(widget.id);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Future<void> _retryActivities() async {
+    final activities = await _fetchActivities();
+    if (mounted) setState(() => _activities = activities);
+  }
+
+  Future<void> _logContact() async {
+    final l10n = AppLocalizations.of(context);
+    final saved = await showLogContactSheet(
+      context,
+      onSave: (type, note) async {
+        final logged = await Injector.clientsRepository
+            .logActivity(widget.id, type: type, note: note);
+        if (!mounted) return;
+        setState(() {
+          _activities = [...?_activities, logged]
+            ..sort((a, b) => b.occurredAt.compareTo(a.occurredAt));
+        });
+      },
+    );
+    if (!saved || !mounted) return;
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(SnackBar(
+          content: Text(l10n.clientsActivityLogged,
+              maxLines: 2, overflow: TextOverflow.ellipsis)));
+  }
+
+  bool _canDeleteActivity(ClientActivity activity) =>
+      context.isAdminOrManager ||
+      (activity.authorId != null && activity.authorId == context.currentUserId);
+
+  Future<void> _deleteActivity(ClientActivity activity) async {
+    final l10n = AppLocalizations.of(context);
+    final ok = await showConfirmDialog(
+      context,
+      title: l10n.clientsActivityDeleteTitle,
+      content: l10n.clientsActivityDeleteBody,
+    );
+    if (!ok || !mounted) return;
+    try {
+      await Injector.clientsRepository.deleteActivity(widget.id, activity.id);
+      if (!mounted) return;
+      setState(() => _activities =
+          _activities?.where((a) => a.id != activity.id).toList());
+    } catch (err) {
+      if (mounted) {
+        showActionUnavailable(
+            context, apiFailureLabel(l10n, ApiFailure.from(err)));
+      }
     }
   }
 
@@ -144,6 +210,13 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
       children: [
         _IdentityCard(client: client, onCopyId: _copyId),
         _ContactCard(client: client, onCall: _call, onMessage: _message),
+        ClientHistoryCard(
+          activities: _activities,
+          onLog: _logContact,
+          onRetry: _retryActivities,
+          onDelete: _deleteActivity,
+          canDelete: _canDeleteActivity,
+        ),
         _DealsCard(deals: _deals),
         if (client.type == ClientType.BUYER)
           _MatchesCard(client: client, matches: _matches),
@@ -419,6 +492,10 @@ class _MatchRow extends StatelessWidget {
                       color: t.textSecondary),
                 ),
               ),
+              if (showsPriceReduced(p)) ...[
+                const SizedBox(width: 8),
+                const Flexible(child: PriceReducedChip()),
+              ],
               const SizedBox(width: 8),
               Text(
                 formatPrice(p.price),

@@ -427,6 +427,59 @@ class AppLocalizationsKk extends AppLocalizations {
   String get authWelcomeBack => 'Қайта оралуыңызбен!';
 
   @override
+  String get clientsActivityCall => 'Қоңырау';
+
+  @override
+  String get clientsActivityDeleteBody =>
+      'Жазба клиент тарихынан бүкіл команда үшін жойылады. Мұны қайтару мүмкін емес.';
+
+  @override
+  String get clientsActivityDeleteTitle => 'Жазбаны жою керек пе?';
+
+  @override
+  String get clientsActivityEmail => 'Хат';
+
+  @override
+  String get clientsActivityFormerMember => 'Бұрынғы қызметкер';
+
+  @override
+  String get clientsActivityKind => 'Қалай хабарластыңыз';
+
+  @override
+  String get clientsActivityLogged => 'Байланыс жазылды';
+
+  @override
+  String get clientsActivityMessage => 'Хабарлама';
+
+  @override
+  String get clientsActivityNote => 'Жазба';
+
+  @override
+  String get clientsActivityNoteHint => 'Не айтылды, әрі қарай не болады…';
+
+  @override
+  String get clientsActivityNoteLabel => 'Не талқыланды';
+
+  @override
+  String get clientsActivityNoteRequired => 'Жазбаға мәтін керек';
+
+  @override
+  String get clientsActivityRemove => 'Жазбаны жою';
+
+  @override
+  String get clientsActivitySave => 'Сақтау';
+
+  @override
+  String clientsActivityToday(String time) {
+    return 'Бүгін, $time';
+  }
+
+  @override
+  String clientsActivityYesterday(String time) {
+    return 'Кеше, $time';
+  }
+
+  @override
   String get clientsAddClient => 'Клиент қосу';
 
   @override
@@ -485,6 +538,27 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get clientsContactInfo => 'Байланыс ақпараты';
+
+  @override
+  String clientsContactedDaysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count күн бұрын хабарласты',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String clientsContactedOn(String date) {
+    return 'Соңғы байланыс: $date';
+  }
+
+  @override
+  String get clientsContactedToday => 'Бүгін хабарласты';
+
+  @override
+  String get clientsContactedYesterday => 'Кеше хабарласты';
 
   @override
   String clientsCounter(Object active, Object total) {
@@ -559,12 +633,31 @@ class AppLocalizationsKk extends AppLocalizations {
   String get clientsFullNameLabel => 'Толық аты';
 
   @override
+  String get clientsHistory => 'Тарих';
+
+  @override
+  String get clientsHistoryEmpty => 'Әзірге байланыс жазылмаған';
+
+  @override
+  String get clientsHistoryEmptyHint =>
+      'Әр қоңырауды, хабарламаны және хатты жазып отырыңыз — клиентті кім алса да, қай жерде тоқтағанын бірден біледі.';
+
+  @override
+  String get clientsHistoryLoadFailed => 'Тарихты жүктеу мүмкін болмады';
+
+  @override
   String clientsIdBadge(Object id) {
     return 'ID $id';
   }
 
   @override
   String get clientsInvalidEmail => 'Қате email';
+
+  @override
+  String get clientsLogContact => 'Байланысты жазу';
+
+  @override
+  String get clientsLogFirstContact => 'Алғашқы байланысты жазу';
 
   @override
   String get clientsMatches => 'Сәйкес нысандар';
@@ -892,6 +985,11 @@ class AppLocalizationsKk extends AppLocalizations {
   String get dashboardGoalClear => 'Мақсатты алып тастау';
 
   @override
+  String dashboardGoalCommission(Object amount) {
+    return 'Осы айдағы комиссия: $amount';
+  }
+
+  @override
   String get dashboardGoalEyebrow => 'МАҚСАТ';
 
   @override
@@ -1115,6 +1213,26 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get dealsClosed => 'Жабылды';
+
+  @override
+  String get dealsCommission => 'Комиссия';
+
+  @override
+  String get dealsCommissionAmount => 'Сомасы';
+
+  @override
+  String get dealsCommissionInvalid =>
+      '0-ден жоғары, 100-ден аспайтын мөлшерлеме енгізіңіз';
+
+  @override
+  String get dealsCommissionNeedsPrice =>
+      'Соманы есептеу үшін мәміле бағасын көрсетіңіз';
+
+  @override
+  String get dealsCommissionPercent => 'Комиссия, %';
+
+  @override
+  String get dealsCommissionRate => 'Мөлшерлеме';
 
   @override
   String dealsCounter(Object active, Object total) {
@@ -1969,11 +2087,22 @@ class AppLocalizationsKk extends AppLocalizations {
       'Фотоны басып тұрып жылжытыңыз — біріншісі мұқаба';
 
   @override
+  String get propertiesPriceHistory => 'Баға тарихы';
+
+  @override
   String get propertiesPriceLabel => 'Бағасы';
 
   @override
   String propertiesPricePerSqm(Object price) {
     return '$price бір м² үшін';
+  }
+
+  @override
+  String get propertiesPriceReduced => 'Баға түсті';
+
+  @override
+  String propertiesPriceWas(String price) {
+    return 'Бұрын $price';
   }
 
   @override
