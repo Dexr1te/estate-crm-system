@@ -16,6 +16,17 @@ class ContactActions {
     return launchUrl(uri, mode: LaunchMode.externalApplication);
   }
 
+  static Future<bool> whatsApp(String? phone, String text) async {
+    final digits = phone?.replaceAll(RegExp(r'\D'), '') ?? '';
+    if (digits.isEmpty) return false;
+    final uri = Uri.https('wa.me', '/$digits', {'text': text});
+    try {
+      return await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } catch (_) {
+      return false;
+    }
+  }
+
   static Future<bool> _open(String scheme, String? raw, {RegExp? strip}) async {
     if (raw == null || raw.trim().isEmpty) return false;
     final value = strip == null ? raw.trim() : raw.replaceAll(strip, '');

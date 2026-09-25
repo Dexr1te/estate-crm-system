@@ -702,6 +702,10 @@ class AppLocalizationsRu extends AppLocalizations {
       'Укажите, что ищет покупатель, и здесь появятся подходящие объекты';
 
   @override
+  String get clientsNoWhatsApp =>
+      'В карточке нет телефона, поэтому WhatsApp недоступен';
+
+  @override
   String get clientsNotes => 'Заметки';
 
   @override
@@ -725,6 +729,38 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get clientsSeller => 'Продавец';
+
+  @override
+  String get clientsSendClosing =>
+      'Напишите, какие хотите посмотреть, и я договорюсь о показе.';
+
+  @override
+  String get clientsSendFailed => 'Не удалось открыть отправку';
+
+  @override
+  String get clientsSendGreeting =>
+      'Здравствуйте! Вот варианты, которые подходят под ваш запрос:';
+
+  @override
+  String get clientsSendMatches => 'Отправить подборку';
+
+  @override
+  String get clientsSendPhotos => 'Приложить фото';
+
+  @override
+  String get clientsSendPhotosHint =>
+      'Фото уходят через «Поделиться». WhatsApp откроет чат только с текстом.';
+
+  @override
+  String clientsSendSelected(int count) {
+    return 'Выбрано: $count';
+  }
+
+  @override
+  String get clientsSendShare => 'Поделиться';
+
+  @override
+  String get clientsSendWhatsApp => 'WhatsApp';
 
   @override
   String clientsShownOn(String date) {

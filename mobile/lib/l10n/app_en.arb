@@ -240,6 +240,7 @@
   "clientsNoMatches": "Nothing on the books fits yet",
   "clientsNoPhone": "No phone number on file",
   "clientsNoRequirements": "Say what this buyer is looking for and matching listings appear here",
+  "clientsNoWhatsApp": "No phone number on the card, so WhatsApp is unavailable",
   "clientsNotes": "Notes",
   "clientsNotesHint": "Additional notes about this client…",
   "clientsOverBudget": "Over budget",
@@ -248,6 +249,22 @@
   "clientsRequirementsHint": "Fill this in and the app will keep showing which listings fit.",
   "clientsSearchHint": "Search by name, phone…",
   "clientsSeller": "Seller",
+  "clientsSendClosing": "Tell me which ones you would like to see and I will arrange a viewing.",
+  "clientsSendFailed": "Could not open sending",
+  "clientsSendGreeting": "Hello! Here are listings that fit what you are looking for:",
+  "clientsSendMatches": "Send listings",
+  "clientsSendPhotos": "Attach cover photos",
+  "clientsSendPhotosHint": "Photos go through Share. WhatsApp opens the chat with the text only.",
+  "clientsSendSelected": "{count} selected",
+  "@clientsSendSelected": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "clientsSendShare": "Share",
+  "clientsSendWhatsApp": "WhatsApp",
   "clientsShownOn": "Shown {date}",
   "@clientsShownOn": {
     "placeholders": {

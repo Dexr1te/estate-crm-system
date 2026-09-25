@@ -11,6 +11,7 @@ import 'package:real_estate_crm/features/clients/presentation/bloc/clients_bloc.
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_event.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/client_history_card.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/log_contact_sheet.dart';
+import 'package:real_estate_crm/features/clients/presentation/widgets/send_matches_sheet.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_card.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_cover.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_price_history.dart';
@@ -409,11 +410,21 @@ class _MatchesCard extends StatelessWidget {
                   fontSize: 12.5,
                   color: t.textSecondary),
             )
-          else
+          else ...[
             for (var i = 0; i < matches.length; i++) ...[
               if (i > 0) const SizedBox(height: 8),
               _MatchRow(match: matches[i], clientId: client.id),
             ],
+            const SizedBox(height: 12),
+            AppFilledButton(
+              label: l10n.clientsSendMatches,
+              onPressed: () => showSendMatchesSheet(context,
+                  client: client, matches: matches),
+              height: AppMetrics.minHitTarget,
+              fontSize: 12.5,
+              radius: 11,
+            ),
+          ],
         ],
       ),
     );
