@@ -1946,11 +1946,22 @@ class AppLocalizationsRu extends AppLocalizations {
       'Удерживайте фото, чтобы переставить — первое станет обложкой';
 
   @override
+  String get propertiesPriceHistory => 'История цены';
+
+  @override
   String get propertiesPriceLabel => 'Цена';
 
   @override
   String propertiesPricePerSqm(Object price) {
     return '$price за м²';
+  }
+
+  @override
+  String get propertiesPriceReduced => 'Цена снижена';
+
+  @override
+  String propertiesPriceWas(String price) {
+    return 'Было $price';
   }
 
   @override

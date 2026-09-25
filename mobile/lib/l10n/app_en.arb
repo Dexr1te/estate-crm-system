@@ -597,8 +597,18 @@
   },
   "propertiesPhotos": "Photos",
   "propertiesPhotosHint": "Hold a photo to move it — the first one is the cover",
+  "propertiesPriceHistory": "Price history",
   "propertiesPriceLabel": "Price",
   "propertiesPricePerSqm": "{price} per m²",
+  "propertiesPriceReduced": "Price reduced",
+  "propertiesPriceWas": "Was {price}",
+  "@propertiesPriceWas": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
   "propertiesProperty": "Property",
   "propertiesPropertyCreated": "Property created (ID: {id})",
   "propertiesPropertyIdCopied": "Property ID copied",

@@ -232,17 +232,25 @@ class FakePropertiesRepository implements PropertiesRepository {
   /// a tile was drawn, and a decode error would say nothing about the code.
   final List<int> photoBytes;
 
+  /// What `/properties/{id}/price-history` answers, newest first.
+  final List<PropertyPriceChange> priceHistory;
+
   FakePropertiesRepository(this.properties,
       {this.interested = const [],
       this.viewings = const [],
       this.photos = const [],
-      this.photoBytes = const []});
+      this.photoBytes = const [],
+      this.priceHistory = const []});
 
   @override
   Future<List<ClientMatch>> getInterested(int id) async => interested;
 
   @override
   Future<List<MeetingResponse>> getViewings(int id) async => viewings;
+
+  @override
+  Future<List<PropertyPriceChange>> getPriceHistory(int id) async =>
+      priceHistory;
 
   @override
   Future<List<PropertyPhoto>> getPhotos(int id) async => photos;

@@ -29,6 +29,8 @@ abstract class PropertiesRepository {
 
   Future<List<MeetingResponse>> getViewings(int id);
 
+  Future<List<PropertyPriceChange>> getPriceHistory(int id);
+
   Future<List<PropertyPhoto>> getPhotos(int id);
 
   Future<PropertyPhoto> addPhoto(int id, String path, String name);

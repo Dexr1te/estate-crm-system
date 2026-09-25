@@ -3496,6 +3496,12 @@ abstract class AppLocalizations {
   /// **'Hold a photo to move it — the first one is the cover'**
   String get propertiesPhotosHint;
 
+  /// No description provided for @propertiesPriceHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Price history'**
+  String get propertiesPriceHistory;
+
   /// No description provided for @propertiesPriceLabel.
   ///
   /// In en, this message translates to:
@@ -3507,6 +3513,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{price} per m²'**
   String propertiesPricePerSqm(Object price);
+
+  /// No description provided for @propertiesPriceReduced.
+  ///
+  /// In en, this message translates to:
+  /// **'Price reduced'**
+  String get propertiesPriceReduced;
+
+  /// No description provided for @propertiesPriceWas.
+  ///
+  /// In en, this message translates to:
+  /// **'Was {price}'**
+  String propertiesPriceWas(String price);
 
   /// No description provided for @propertiesProperty.
   ///
