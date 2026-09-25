@@ -7,6 +7,7 @@ import 'package:real_estate_crm/core/models/paged_response.dart';
 import 'package:real_estate_crm/core/models/team_models.dart';
 import 'package:real_estate_crm/core/notifications/notification_gateway.dart';
 import 'package:real_estate_crm/core/utils/file_gateway.dart';
+import 'package:real_estate_crm/core/utils/share_gateway.dart';
 import 'package:real_estate_crm/features/admin/domain/repositories/admin_repository.dart';
 import 'package:real_estate_crm/features/agents/domain/repositories/agents_repository.dart';
 import 'package:real_estate_crm/features/auth/domain/repositories/auth_repository.dart';
@@ -615,6 +616,28 @@ class FakeFileGateway implements FileGateway {
   Future<FileOpenOutcome> openBytes(String fileName, List<int> bytes) async {
     openedName = fileName;
     openedBytes = bytes;
+    return outcome;
+  }
+}
+
+class FakeShareGateway implements ShareGateway {
+  FakeShareGateway({this.outcome = ShareOutcome.shared});
+
+  ShareOutcome outcome;
+
+  String? sharedText;
+  List<SharedImage> sharedImages = const [];
+  int calls = 0;
+
+  @override
+  Future<ShareOutcome> share({
+    required String text,
+    String? subject,
+    List<SharedImage> images = const [],
+  }) async {
+    calls++;
+    sharedText = text;
+    sharedImages = images;
     return outcome;
   }
 }

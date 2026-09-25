@@ -601,6 +601,10 @@ class AppLocalizationsKk extends AppLocalizations {
       'Сатып алушы не іздейтінін көрсетіңіз, сәйкес нысандар осында шығады';
 
   @override
+  String get clientsNoWhatsApp =>
+      'Карточкада телефон жоқ, сондықтан WhatsApp қолжетімсіз';
+
+  @override
   String get clientsNotes => 'Ескертпелер';
 
   @override
@@ -624,6 +628,38 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get clientsSeller => 'Сатушы';
+
+  @override
+  String get clientsSendClosing =>
+      'Қайсысын көргіңіз келетінін жазыңыз, көрсетілімді ұйымдастырамын.';
+
+  @override
+  String get clientsSendFailed => 'Жіберуді ашу мүмкін болмады';
+
+  @override
+  String get clientsSendGreeting =>
+      'Сәлеметсіз бе! Сұранысыңызға сай келетін нұсқалар:';
+
+  @override
+  String get clientsSendMatches => 'Іріктемені жіберу';
+
+  @override
+  String get clientsSendPhotos => 'Фото тіркеу';
+
+  @override
+  String get clientsSendPhotosHint =>
+      'Фото «Бөлісу» арқылы жіберіледі. WhatsApp чатты тек мәтінмен ашады.';
+
+  @override
+  String clientsSendSelected(int count) {
+    return 'Таңдалды: $count';
+  }
+
+  @override
+  String get clientsSendShare => 'Бөлісу';
+
+  @override
+  String get clientsSendWhatsApp => 'WhatsApp';
 
   @override
   String clientsShownOn(String date) {

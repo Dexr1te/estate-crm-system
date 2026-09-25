@@ -1162,6 +1162,12 @@ abstract class AppLocalizations {
   /// **'Say what this buyer is looking for and matching listings appear here'**
   String get clientsNoRequirements;
 
+  /// No description provided for @clientsNoWhatsApp.
+  ///
+  /// In en, this message translates to:
+  /// **'No phone number on the card, so WhatsApp is unavailable'**
+  String get clientsNoWhatsApp;
+
   /// No description provided for @clientsNotes.
   ///
   /// In en, this message translates to:
@@ -1209,6 +1215,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Seller'**
   String get clientsSeller;
+
+  /// No description provided for @clientsSendClosing.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell me which ones you would like to see and I will arrange a viewing.'**
+  String get clientsSendClosing;
+
+  /// No description provided for @clientsSendFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open sending'**
+  String get clientsSendFailed;
+
+  /// No description provided for @clientsSendGreeting.
+  ///
+  /// In en, this message translates to:
+  /// **'Hello! Here are listings that fit what you are looking for:'**
+  String get clientsSendGreeting;
+
+  /// No description provided for @clientsSendMatches.
+  ///
+  /// In en, this message translates to:
+  /// **'Send listings'**
+  String get clientsSendMatches;
+
+  /// No description provided for @clientsSendPhotos.
+  ///
+  /// In en, this message translates to:
+  /// **'Attach cover photos'**
+  String get clientsSendPhotos;
+
+  /// No description provided for @clientsSendPhotosHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Photos go through Share. WhatsApp opens the chat with the text only.'**
+  String get clientsSendPhotosHint;
+
+  /// No description provided for @clientsSendSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} selected'**
+  String clientsSendSelected(int count);
+
+  /// No description provided for @clientsSendShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get clientsSendShare;
+
+  /// No description provided for @clientsSendWhatsApp.
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp'**
+  String get clientsSendWhatsApp;
 
   /// No description provided for @clientsShownOn.
   ///

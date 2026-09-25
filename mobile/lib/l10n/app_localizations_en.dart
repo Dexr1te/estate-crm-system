@@ -603,6 +603,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Say what this buyer is looking for and matching listings appear here';
 
   @override
+  String get clientsNoWhatsApp =>
+      'No phone number on the card, so WhatsApp is unavailable';
+
+  @override
   String get clientsNotes => 'Notes';
 
   @override
@@ -626,6 +630,38 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get clientsSeller => 'Seller';
+
+  @override
+  String get clientsSendClosing =>
+      'Tell me which ones you would like to see and I will arrange a viewing.';
+
+  @override
+  String get clientsSendFailed => 'Could not open sending';
+
+  @override
+  String get clientsSendGreeting =>
+      'Hello! Here are listings that fit what you are looking for:';
+
+  @override
+  String get clientsSendMatches => 'Send listings';
+
+  @override
+  String get clientsSendPhotos => 'Attach cover photos';
+
+  @override
+  String get clientsSendPhotosHint =>
+      'Photos go through Share. WhatsApp opens the chat with the text only.';
+
+  @override
+  String clientsSendSelected(int count) {
+    return '$count selected';
+  }
+
+  @override
+  String get clientsSendShare => 'Share';
+
+  @override
+  String get clientsSendWhatsApp => 'WhatsApp';
 
   @override
   String clientsShownOn(String date) {

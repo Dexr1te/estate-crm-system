@@ -2,6 +2,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:real_estate_crm/core/network/api_client.dart';
 import 'package:real_estate_crm/core/session/session_store.dart';
 import 'package:real_estate_crm/core/utils/file_gateway.dart';
+import 'package:real_estate_crm/core/utils/share_gateway.dart';
 import 'package:real_estate_crm/features/admin/data/datasources/admin_remote_datasource.dart';
 import 'package:real_estate_crm/features/admin/data/repositories/admin_repository_impl.dart';
 import 'package:real_estate_crm/features/admin/domain/repositories/admin_repository.dart';
@@ -59,6 +60,8 @@ class Injector {
       DocumentsRepositoryImpl(DocumentsRemoteDataSource(_apiClient));
 
   static FileGateway fileGateway = const DeviceFileGateway();
+
+  static ShareGateway shareGateway = const DeviceShareGateway();
 
   static MeetingsRepository meetingsRepository =
       MeetingsRepositoryImpl(MeetingsRemoteDataSource(_apiClient));
