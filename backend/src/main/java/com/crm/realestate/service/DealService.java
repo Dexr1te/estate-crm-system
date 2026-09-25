@@ -20,6 +20,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,6 +37,8 @@ public class DealService {
     private final UserRepository     userRepository;
     private final SecurityUtils      securityUtils;
     private final ScopeService       scopeService;
+
+    static final BigDecimal ONE_HUNDRED = BigDecimal.valueOf(100);
 
     public List<DealResponse> getAll() {
         return findVisible(DealSpecification.build(null, null, null));
@@ -57,6 +61,7 @@ public class DealService {
         User currentUser = securityUtils.getCurrentUser();
         Deal deal = new Deal();
         mapRequestToEntity(request, deal, currentUser);
+        stampClosedAt(deal, null);
         syncPropertyStatusWithDeal(deal);
         return toResponse(dealRepository.save(deal));
     }
@@ -65,13 +70,9 @@ public class DealService {
     public DealResponse update(Long id, DealRequest request) {
         Deal deal = findVisibleById(id, securityUtils.getCurrentUser());
         Property previousProperty = deal.getProperty();
+        DealStatus previousStatus = deal.getStatus();
         mapRequestToEntity(request, deal, securityUtils.getCurrentUser());
-
-        if (request.getStatus() == DealStatus.CLOSED_WON || request.getStatus() == DealStatus.CLOSED_LOST) {
-            deal.setClosedAt(LocalDateTime.now());
-        } else if (request.getStatus() != null) {
-            deal.setClosedAt(null);
-        }
+        stampClosedAt(deal, previousStatus);
 
         if (previousProperty != null && deal.getProperty() == null
                 && previousProperty.getStatus() == PropertyStatus.RESERVED) {
@@ -93,13 +94,9 @@ public class DealService {
     @Transactional
     public DealResponse updateStatus(Long id, DealStatus newStatus) {
         Deal deal = findVisibleById(id, securityUtils.getCurrentUser());
+        DealStatus previousStatus = deal.getStatus();
         deal.setStatus(newStatus);
-
-        if (newStatus == DealStatus.CLOSED_WON || newStatus == DealStatus.CLOSED_LOST) {
-            deal.setClosedAt(LocalDateTime.now());
-        } else {
-            deal.setClosedAt(null);
-        }
+        stampClosedAt(deal, previousStatus);
 
         syncPropertyStatusWithDeal(deal);
 
@@ -140,6 +137,7 @@ public class DealService {
         deal.setStatus(request.getStatus() != null ? request.getStatus() : DealStatus.LEAD);
         deal.setDealPrice(request.getDealPrice());
         deal.setBudget(request.getBudget());
+        deal.setCommissionPercent(request.getCommissionPercent());
         deal.setNotes(request.getNotes());
 
         Client client = clientRepository.findById(request.getClientId())
@@ -181,6 +179,30 @@ public class DealService {
        }
     }
 
+    /**
+     * A deal closes once, when it first reaches a closed status. Saving it again — to correct the
+     * commission, say — must not move that date, because the month it falls in is the month the
+     * commission was earned.
+     */
+    private void stampClosedAt(Deal deal, DealStatus previousStatus) {
+        boolean closed = deal.getStatus() == DealStatus.CLOSED_WON
+                || deal.getStatus() == DealStatus.CLOSED_LOST;
+        if (!closed) {
+            deal.setClosedAt(null);
+        } else if (deal.getStatus() != previousStatus || deal.getClosedAt() == null) {
+            deal.setClosedAt(LocalDateTime.now());
+        }
+    }
+
+    /** What the agent earns on this deal, or null until both the price and the rate are known. */
+    static BigDecimal commissionOf(BigDecimal dealPrice, BigDecimal commissionPercent) {
+        if (dealPrice == null || commissionPercent == null) {
+            return null;
+        }
+        return dealPrice.multiply(commissionPercent)
+                .divide(ONE_HUNDRED, 2, RoundingMode.HALF_UP);
+    }
+
     private void syncPropertyStatusWithDeal(Deal deal) {
         if (deal.getProperty() == null) {
             return;
@@ -202,6 +224,8 @@ public class DealService {
         res.setStatus(deal.getStatus());
         res.setDealPrice(deal.getDealPrice());
         res.setBudget(deal.getBudget());
+        res.setCommissionPercent(deal.getCommissionPercent());
+        res.setCommission(commissionOf(deal.getDealPrice(), deal.getCommissionPercent()));
         res.setNotes(deal.getNotes());
         res.setCreatedAt(deal.getCreatedAt());
         res.setUpdatedAt(deal.getUpdatedAt());

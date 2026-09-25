@@ -13,6 +13,9 @@ public class DealResponse {
     private DealStatus status;
     private BigDecimal dealPrice;
     private BigDecimal budget;
+    private BigDecimal commissionPercent;
+    /** dealPrice × commissionPercent / 100, or null while either is unknown. */
+    private BigDecimal commission;
     private String notes;
 
     private Long clientId;

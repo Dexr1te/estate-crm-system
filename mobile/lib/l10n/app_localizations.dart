@@ -1612,6 +1612,12 @@ abstract class AppLocalizations {
   /// **'Remove target'**
   String get dashboardGoalClear;
 
+  /// No description provided for @dashboardGoalCommission.
+  ///
+  /// In en, this message translates to:
+  /// **'Commission this month: {amount}'**
+  String dashboardGoalCommission(Object amount);
+
   /// No description provided for @dashboardGoalEyebrow.
   ///
   /// In en, this message translates to:
@@ -1977,6 +1983,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Closed'**
   String get dealsClosed;
+
+  /// No description provided for @dealsCommission.
+  ///
+  /// In en, this message translates to:
+  /// **'Commission'**
+  String get dealsCommission;
+
+  /// No description provided for @dealsCommissionAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get dealsCommissionAmount;
+
+  /// No description provided for @dealsCommissionInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a rate above 0 and no more than 100'**
+  String get dealsCommissionInvalid;
+
+  /// No description provided for @dealsCommissionNeedsPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Set a deal price to work it out'**
+  String get dealsCommissionNeedsPrice;
+
+  /// No description provided for @dealsCommissionPercent.
+  ///
+  /// In en, this message translates to:
+  /// **'Commission, %'**
+  String get dealsCommissionPercent;
+
+  /// No description provided for @dealsCommissionRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate'**
+  String get dealsCommissionRate;
 
   /// No description provided for @dealsCounter.
   ///

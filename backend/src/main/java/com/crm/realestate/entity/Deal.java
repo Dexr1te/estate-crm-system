@@ -36,6 +36,10 @@ public class Deal {
     @Column(precision = 15, scale = 2)
     private BigDecimal budget;
 
+    // Доля агента от цены сделки, в процентах
+    @Column(name = "commission_percent", precision = 5, scale = 2)
+    private BigDecimal commissionPercent;
+
     private String notes;
 
     // Клиент по сделке

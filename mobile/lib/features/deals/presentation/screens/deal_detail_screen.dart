@@ -160,6 +160,7 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
             children: [
               _SummaryCard(deal: deal, onCopyId: _copyId),
               _StageCard(status: deal.status, onChanged: _updateStatus),
+              if (deal.commissionPercent != null) _CommissionCard(deal: deal),
               _ParticipantsCard(deal: deal),
               const DealDocumentsCard(),
               _TimelineCard(deal: deal),
@@ -302,6 +303,38 @@ class _StageCard extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 15, vertical: 9),
               ),
           ]),
+        ],
+      ),
+    );
+  }
+}
+
+class _CommissionCard extends StatelessWidget {
+  final DealResponse deal;
+  const _CommissionCard({required this.deal});
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final amount = deal.commission;
+
+    return AppCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          EyebrowLabel(l10n.dealsCommission),
+          const SizedBox(height: 13),
+          InfoRow(
+            label: l10n.dealsCommissionRate,
+            value: '${formatRate(deal.commissionPercent!)}%',
+          ),
+          const SizedBox(height: 11),
+          InfoRow(
+            label: l10n.dealsCommissionAmount,
+            value: amount == null
+                ? l10n.dealsCommissionNeedsPrice
+                : formatPrice(amount),
+          ),
         ],
       ),
     );

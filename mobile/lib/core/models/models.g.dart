@@ -255,6 +255,8 @@ _$DealResponseImpl _$$DealResponseImplFromJson(Map<String, dynamic> json) =>
           DealStatus.LEAD,
       dealPrice: (json['dealPrice'] as num?)?.toDouble(),
       budget: (json['budget'] as num?)?.toDouble(),
+      commissionPercent: (json['commissionPercent'] as num?)?.toDouble(),
+      commission: (json['commission'] as num?)?.toDouble(),
       notes: json['notes'] as String?,
       clientId: (json['clientId'] as num).toInt(),
       clientName: json['clientName'] as String? ?? '',
@@ -281,6 +283,8 @@ Map<String, dynamic> _$$DealResponseImplToJson(_$DealResponseImpl instance) =>
       'status': _$DealStatusEnumMap[instance.status]!,
       'dealPrice': instance.dealPrice,
       'budget': instance.budget,
+      'commissionPercent': instance.commissionPercent,
+      'commission': instance.commission,
       'notes': instance.notes,
       'clientId': instance.clientId,
       'clientName': instance.clientName,
@@ -378,6 +382,8 @@ _$DashboardSummaryImpl _$$DashboardSummaryImplFromJson(
       closedDeals: (json['closedDeals'] as num?)?.toInt() ?? 0,
       totalClients: (json['totalClients'] as num?)?.toInt() ?? 0,
       upcomingMeetings: (json['upcomingMeetings'] as num?)?.toInt() ?? 0,
+      commissionThisMonth:
+          (json['commissionThisMonth'] as num?)?.toDouble() ?? 0,
     );
 
 Map<String, dynamic> _$$DashboardSummaryImplToJson(
@@ -388,6 +394,7 @@ Map<String, dynamic> _$$DashboardSummaryImplToJson(
       'closedDeals': instance.closedDeals,
       'totalClients': instance.totalClients,
       'upcomingMeetings': instance.upcomingMeetings,
+      'commissionThisMonth': instance.commissionThisMonth,
     };
 
 _$AgentOptionImpl _$$AgentOptionImplFromJson(Map<String, dynamic> json) =>

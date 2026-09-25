@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:real_estate_crm/core/goal/goal_bloc.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/utils/clock.dart';
+import 'package:real_estate_crm/core/utils/formatters.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/bloc/dashboard_bloc.dart';
@@ -137,6 +138,7 @@ Widget _dashboard({
               closedDeals: 9,
               totalClients: 138,
               upcomingMeetings: 5,
+              commissionThisMonth: 1370000,
             )),
             FakeMeetingsRepository(meetings),
             FakeDealsRepository(deals),
@@ -219,6 +221,23 @@ void main() {
 
     expect(find.text('Nothing scheduled'), findsOneWidget);
     expect(find.text('No deals yet'), findsOneWidget);
+  });
+
+  /// The figure is the server's, summed over what the caller may see; the
+  /// screen only has to put it on the month's card.
+  testWidgets('the month card carries the commission the summary reports',
+      (tester) async {
+    await expectNoOverflow(
+      tester,
+      _dashboard(meetings: _meetings, deals: _deals),
+      size: const Size(390, 844),
+      brightness: Brightness.light,
+      textScale: 1.0,
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Commission this month: ${formatPrice(1370000)}'),
+        findsOneWidget);
   });
 
   testWidgets('the agent ranking stays hidden from a plain agent',

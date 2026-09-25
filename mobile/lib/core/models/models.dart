@@ -159,6 +159,8 @@ class DealResponse with _$DealResponse {
     @Default(DealStatus.LEAD) DealStatus status,
     double? dealPrice,
     double? budget,
+    double? commissionPercent,
+    double? commission,
     String? notes,
     required int clientId,
     @Default('') String clientName,
@@ -225,6 +227,7 @@ class DashboardSummary with _$DashboardSummary {
     @Default(0) int closedDeals,
     @Default(0) int totalClients,
     @Default(0) int upcomingMeetings,
+    @Default(0) double commissionThisMonth,
   }) = _DashboardSummary;
 
   factory DashboardSummary.fromJson(Map<String, dynamic> json) =>

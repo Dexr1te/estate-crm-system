@@ -2353,6 +2353,8 @@ mixin _$DealResponse {
   DealStatus get status => throw _privateConstructorUsedError;
   double? get dealPrice => throw _privateConstructorUsedError;
   double? get budget => throw _privateConstructorUsedError;
+  double? get commissionPercent => throw _privateConstructorUsedError;
+  double? get commission => throw _privateConstructorUsedError;
   String? get notes => throw _privateConstructorUsedError;
   int get clientId => throw _privateConstructorUsedError;
   String get clientName => throw _privateConstructorUsedError;
@@ -2387,6 +2389,8 @@ abstract class $DealResponseCopyWith<$Res> {
       DealStatus status,
       double? dealPrice,
       double? budget,
+      double? commissionPercent,
+      double? commission,
       String? notes,
       int clientId,
       String clientName,
@@ -2420,6 +2424,8 @@ class _$DealResponseCopyWithImpl<$Res, $Val extends DealResponse>
     Object? status = null,
     Object? dealPrice = freezed,
     Object? budget = freezed,
+    Object? commissionPercent = freezed,
+    Object? commission = freezed,
     Object? notes = freezed,
     Object? clientId = null,
     Object? clientName = null,
@@ -2452,6 +2458,14 @@ class _$DealResponseCopyWithImpl<$Res, $Val extends DealResponse>
       budget: freezed == budget
           ? _value.budget
           : budget // ignore: cast_nullable_to_non_nullable
+              as double?,
+      commissionPercent: freezed == commissionPercent
+          ? _value.commissionPercent
+          : commissionPercent // ignore: cast_nullable_to_non_nullable
+              as double?,
+      commission: freezed == commission
+          ? _value.commission
+          : commission // ignore: cast_nullable_to_non_nullable
               as double?,
       notes: freezed == notes
           ? _value.notes
@@ -2515,6 +2529,8 @@ abstract class _$$DealResponseImplCopyWith<$Res>
       DealStatus status,
       double? dealPrice,
       double? budget,
+      double? commissionPercent,
+      double? commission,
       String? notes,
       int clientId,
       String clientName,
@@ -2546,6 +2562,8 @@ class __$$DealResponseImplCopyWithImpl<$Res>
     Object? status = null,
     Object? dealPrice = freezed,
     Object? budget = freezed,
+    Object? commissionPercent = freezed,
+    Object? commission = freezed,
     Object? notes = freezed,
     Object? clientId = null,
     Object? clientName = null,
@@ -2578,6 +2596,14 @@ class __$$DealResponseImplCopyWithImpl<$Res>
       budget: freezed == budget
           ? _value.budget
           : budget // ignore: cast_nullable_to_non_nullable
+              as double?,
+      commissionPercent: freezed == commissionPercent
+          ? _value.commissionPercent
+          : commissionPercent // ignore: cast_nullable_to_non_nullable
+              as double?,
+      commission: freezed == commission
+          ? _value.commission
+          : commission // ignore: cast_nullable_to_non_nullable
               as double?,
       notes: freezed == notes
           ? _value.notes
@@ -2636,6 +2662,8 @@ class _$DealResponseImpl implements _DealResponse {
       this.status = DealStatus.LEAD,
       this.dealPrice,
       this.budget,
+      this.commissionPercent,
+      this.commission,
       this.notes,
       required this.clientId,
       this.clientName = '',
@@ -2664,6 +2692,10 @@ class _$DealResponseImpl implements _DealResponse {
   @override
   final double? budget;
   @override
+  final double? commissionPercent;
+  @override
+  final double? commission;
+  @override
   final String? notes;
   @override
   final int clientId;
@@ -2690,7 +2722,7 @@ class _$DealResponseImpl implements _DealResponse {
 
   @override
   String toString() {
-    return 'DealResponse(id: $id, title: $title, status: $status, dealPrice: $dealPrice, budget: $budget, notes: $notes, clientId: $clientId, clientName: $clientName, propertyId: $propertyId, propertyTitle: $propertyTitle, propertyAddress: $propertyAddress, agentId: $agentId, agentName: $agentName, createdAt: $createdAt, updatedAt: $updatedAt, closedAt: $closedAt)';
+    return 'DealResponse(id: $id, title: $title, status: $status, dealPrice: $dealPrice, budget: $budget, commissionPercent: $commissionPercent, commission: $commission, notes: $notes, clientId: $clientId, clientName: $clientName, propertyId: $propertyId, propertyTitle: $propertyTitle, propertyAddress: $propertyAddress, agentId: $agentId, agentName: $agentName, createdAt: $createdAt, updatedAt: $updatedAt, closedAt: $closedAt)';
   }
 
   @override
@@ -2704,6 +2736,10 @@ class _$DealResponseImpl implements _DealResponse {
             (identical(other.dealPrice, dealPrice) ||
                 other.dealPrice == dealPrice) &&
             (identical(other.budget, budget) || other.budget == budget) &&
+            (identical(other.commissionPercent, commissionPercent) ||
+                other.commissionPercent == commissionPercent) &&
+            (identical(other.commission, commission) ||
+                other.commission == commission) &&
             (identical(other.notes, notes) || other.notes == notes) &&
             (identical(other.clientId, clientId) ||
                 other.clientId == clientId) &&
@@ -2735,6 +2771,8 @@ class _$DealResponseImpl implements _DealResponse {
       status,
       dealPrice,
       budget,
+      commissionPercent,
+      commission,
       notes,
       clientId,
       clientName,
@@ -2770,6 +2808,8 @@ abstract class _DealResponse implements DealResponse {
       final DealStatus status,
       final double? dealPrice,
       final double? budget,
+      final double? commissionPercent,
+      final double? commission,
       final String? notes,
       required final int clientId,
       final String clientName,
@@ -2795,6 +2835,10 @@ abstract class _DealResponse implements DealResponse {
   double? get dealPrice;
   @override
   double? get budget;
+  @override
+  double? get commissionPercent;
+  @override
+  double? get commission;
   @override
   String? get notes;
   @override
@@ -3606,6 +3650,7 @@ mixin _$DashboardSummary {
   int get closedDeals => throw _privateConstructorUsedError;
   int get totalClients => throw _privateConstructorUsedError;
   int get upcomingMeetings => throw _privateConstructorUsedError;
+  double get commissionThisMonth => throw _privateConstructorUsedError;
 
   /// Serializes this DashboardSummary to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -3628,7 +3673,8 @@ abstract class $DashboardSummaryCopyWith<$Res> {
       int activeDeals,
       int closedDeals,
       int totalClients,
-      int upcomingMeetings});
+      int upcomingMeetings,
+      double commissionThisMonth});
 }
 
 /// @nodoc
@@ -3651,6 +3697,7 @@ class _$DashboardSummaryCopyWithImpl<$Res, $Val extends DashboardSummary>
     Object? closedDeals = null,
     Object? totalClients = null,
     Object? upcomingMeetings = null,
+    Object? commissionThisMonth = null,
   }) {
     return _then(_value.copyWith(
       totalDeals: null == totalDeals
@@ -3673,6 +3720,10 @@ class _$DashboardSummaryCopyWithImpl<$Res, $Val extends DashboardSummary>
           ? _value.upcomingMeetings
           : upcomingMeetings // ignore: cast_nullable_to_non_nullable
               as int,
+      commissionThisMonth: null == commissionThisMonth
+          ? _value.commissionThisMonth
+          : commissionThisMonth // ignore: cast_nullable_to_non_nullable
+              as double,
     ) as $Val);
   }
 }
@@ -3690,7 +3741,8 @@ abstract class _$$DashboardSummaryImplCopyWith<$Res>
       int activeDeals,
       int closedDeals,
       int totalClients,
-      int upcomingMeetings});
+      int upcomingMeetings,
+      double commissionThisMonth});
 }
 
 /// @nodoc
@@ -3711,6 +3763,7 @@ class __$$DashboardSummaryImplCopyWithImpl<$Res>
     Object? closedDeals = null,
     Object? totalClients = null,
     Object? upcomingMeetings = null,
+    Object? commissionThisMonth = null,
   }) {
     return _then(_$DashboardSummaryImpl(
       totalDeals: null == totalDeals
@@ -3733,6 +3786,10 @@ class __$$DashboardSummaryImplCopyWithImpl<$Res>
           ? _value.upcomingMeetings
           : upcomingMeetings // ignore: cast_nullable_to_non_nullable
               as int,
+      commissionThisMonth: null == commissionThisMonth
+          ? _value.commissionThisMonth
+          : commissionThisMonth // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -3745,7 +3802,8 @@ class _$DashboardSummaryImpl implements _DashboardSummary {
       this.activeDeals = 0,
       this.closedDeals = 0,
       this.totalClients = 0,
-      this.upcomingMeetings = 0});
+      this.upcomingMeetings = 0,
+      this.commissionThisMonth = 0});
 
   factory _$DashboardSummaryImpl.fromJson(Map<String, dynamic> json) =>
       _$$DashboardSummaryImplFromJson(json);
@@ -3765,10 +3823,13 @@ class _$DashboardSummaryImpl implements _DashboardSummary {
   @override
   @JsonKey()
   final int upcomingMeetings;
+  @override
+  @JsonKey()
+  final double commissionThisMonth;
 
   @override
   String toString() {
-    return 'DashboardSummary(totalDeals: $totalDeals, activeDeals: $activeDeals, closedDeals: $closedDeals, totalClients: $totalClients, upcomingMeetings: $upcomingMeetings)';
+    return 'DashboardSummary(totalDeals: $totalDeals, activeDeals: $activeDeals, closedDeals: $closedDeals, totalClients: $totalClients, upcomingMeetings: $upcomingMeetings, commissionThisMonth: $commissionThisMonth)';
   }
 
   @override
@@ -3785,13 +3846,15 @@ class _$DashboardSummaryImpl implements _DashboardSummary {
             (identical(other.totalClients, totalClients) ||
                 other.totalClients == totalClients) &&
             (identical(other.upcomingMeetings, upcomingMeetings) ||
-                other.upcomingMeetings == upcomingMeetings));
+                other.upcomingMeetings == upcomingMeetings) &&
+            (identical(other.commissionThisMonth, commissionThisMonth) ||
+                other.commissionThisMonth == commissionThisMonth));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, totalDeals, activeDeals,
-      closedDeals, totalClients, upcomingMeetings);
+      closedDeals, totalClients, upcomingMeetings, commissionThisMonth);
 
   /// Create a copy of DashboardSummary
   /// with the given fields replaced by the non-null parameter values.
@@ -3816,7 +3879,8 @@ abstract class _DashboardSummary implements DashboardSummary {
       final int activeDeals,
       final int closedDeals,
       final int totalClients,
-      final int upcomingMeetings}) = _$DashboardSummaryImpl;
+      final int upcomingMeetings,
+      final double commissionThisMonth}) = _$DashboardSummaryImpl;
 
   factory _DashboardSummary.fromJson(Map<String, dynamic> json) =
       _$DashboardSummaryImpl.fromJson;
@@ -3831,6 +3895,8 @@ abstract class _DashboardSummary implements DashboardSummary {
   int get totalClients;
   @override
   int get upcomingMeetings;
+  @override
+  double get commissionThisMonth;
 
   /// Create a copy of DashboardSummary
   /// with the given fields replaced by the non-null parameter values.

@@ -169,6 +169,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         builder: (goalCtx, goal) => GoalRingCard(
           achieved: state.closedValueThisMonth(now),
           target: goal.target,
+          commission: state.summary.commissionThisMonth,
           onEdit: () async {
             final picked = await showGoalSheet(goalCtx, goal.target);
             if (picked != null && goalCtx.mounted) {

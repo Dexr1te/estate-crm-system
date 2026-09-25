@@ -23,6 +23,7 @@ class _DealFormScreenState extends State<DealFormScreen> {
   final _titleCtrl = TextEditingController();
   final _priceCtrl = TextEditingController();
   final _budgetCtrl = TextEditingController();
+  final _commissionCtrl = TextEditingController();
   final _notesCtrl = TextEditingController();
 
   DealStatus _status = DealStatus.LEAD;
@@ -49,7 +50,13 @@ class _DealFormScreenState extends State<DealFormScreen> {
 
   @override
   void dispose() {
-    for (final c in [_titleCtrl, _priceCtrl, _budgetCtrl, _notesCtrl]) {
+    for (final c in [
+      _titleCtrl,
+      _priceCtrl,
+      _budgetCtrl,
+      _commissionCtrl,
+      _notesCtrl
+    ]) {
       c.dispose();
     }
     super.dispose();
@@ -113,13 +120,15 @@ class _DealFormScreenState extends State<DealFormScreen> {
   Future<void> _loadDeal() async {
     setState(() => _initLoading = true);
     try {
-      final l10n = AppLocalizations.of(context);
       final d = await Injector.dealsRepository.getDeal(widget.dealId!);
+      if (!mounted) return;
+      final l10n = AppLocalizations.of(context);
       _titleCtrl.text = d.title;
       _priceCtrl.text = d.dealPrice?.toStringAsFixed(0) ?? '';
       _budgetCtrl.text = d.budget?.toStringAsFixed(0) ?? '';
+      _commissionCtrl.text =
+          d.commissionPercent == null ? '' : formatRate(d.commissionPercent!);
       _notesCtrl.text = d.notes ?? '';
-      if (!mounted) return;
       setState(() {
         _client = _reconcile(
             _clients,
@@ -174,6 +183,16 @@ class _DealFormScreenState extends State<DealFormScreen> {
     return v.isEmpty ? null : double.tryParse(v);
   }
 
+  String? _validateCommission(String? _) {
+    if (_commissionCtrl.text.trim().isEmpty) return null;
+    final v = _double(_commissionCtrl);
+    final twoPlaces = v != null && ((v * 100).round() - v * 100).abs() < 1e-6;
+    if (v == null || v <= 0 || v > 100 || !twoPlaces) {
+      return AppLocalizations.of(context).dealsCommissionInvalid;
+    }
+    return null;
+  }
+
   void _submit() {
     final l10n = AppLocalizations.of(context);
     final formOk = _formKey.currentState?.validate() ?? false;
@@ -186,6 +205,7 @@ class _DealFormScreenState extends State<DealFormScreen> {
     setState(() => _loading = true);
     final price = _double(_priceCtrl);
     final budget = _double(_budgetCtrl);
+    final commission = _double(_commissionCtrl);
 
     final data = <String, dynamic>{
       'title': _titleCtrl.text.trim(),
@@ -195,6 +215,7 @@ class _DealFormScreenState extends State<DealFormScreen> {
       if (_property != null) 'propertyId': _property!.id,
       if (price != null) 'dealPrice': price,
       if (budget != null) 'budget': budget,
+      if (commission != null) 'commissionPercent': commission,
       if (_notesCtrl.text.trim().isNotEmpty) 'notes': _notesCtrl.text.trim(),
     };
 
@@ -340,6 +361,17 @@ class _DealFormScreenState extends State<DealFormScreen> {
                             ),
                           ),
                         ],
+                      ),
+                      LabelledField(
+                        label: l10n.dealsCommissionPercent,
+                        child: AppTextField(
+                          controller: _commissionCtrl,
+                          hint: '2.5',
+                          keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true),
+                          textInputAction: TextInputAction.next,
+                          validator: _validateCommission,
+                        ),
                       ),
                     ],
                   ),

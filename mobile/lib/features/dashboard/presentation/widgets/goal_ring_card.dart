@@ -7,6 +7,7 @@ import 'package:real_estate_crm/l10n/app_localizations.dart';
 class GoalRingCard extends StatelessWidget {
   final double achieved;
   final double? target;
+  final double commission;
   final VoidCallback onEdit;
 
   const GoalRingCard({
@@ -14,6 +15,7 @@ class GoalRingCard extends StatelessWidget {
     required this.achieved,
     required this.target,
     required this.onEdit,
+    this.commission = 0,
   });
 
   @override
@@ -146,6 +148,19 @@ class GoalRingCard extends StatelessWidget {
                         height: 1.35,
                         color: t.textSecondary),
                   ),
+                  if (commission > 0) ...[
+                    const SizedBox(height: 6),
+                    Text(
+                      l10n.dashboardGoalCommission(formatPrice(commission)),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          fontFamily: AppFonts.sans,
+                          fontSize: 11.5,
+                          fontWeight: FontWeight.w600,
+                          color: t.textPrimary),
+                    ),
+                  ],
                 ],
               ),
             ),
