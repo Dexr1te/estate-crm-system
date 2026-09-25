@@ -53,6 +53,8 @@ class ClientSummary {
 
   final DateTime? nextMeetingAt;
 
+  final DateTime? lastContactAt;
+
   const ClientSummary({
     required this.id,
     required this.fullName,
@@ -64,6 +66,7 @@ class ClientSummary {
     this.totalBudget = 0,
     this.status,
     this.nextMeetingAt,
+    this.lastContactAt,
   });
 
   bool matches(String query) {
@@ -104,6 +107,10 @@ class ClientSummary {
             .whereType<DateTime>()
             .fold<DateTime?>(
                 null, (a, b) => a == null || b.isBefore(a) ? b : a),
+        lastContactAt: rows
+            .map((r) => r.lastContactAt)
+            .whereType<DateTime>()
+            .fold<DateTime?>(null, (a, b) => a == null || b.isAfter(a) ? b : a),
       );
     }).toList();
   }

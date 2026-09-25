@@ -18,4 +18,14 @@ abstract class ClientsRepository {
   Future<void> deleteClient(int id);
 
   Future<List<PropertyMatch>> getMatches(int id);
+
+  Future<List<ClientActivity>> getActivities(int clientId);
+
+  Future<ClientActivity> logActivity(
+    int clientId, {
+    required ActivityType type,
+    String? note,
+  });
+
+  Future<void> deleteActivity(int clientId, int activityId);
 }

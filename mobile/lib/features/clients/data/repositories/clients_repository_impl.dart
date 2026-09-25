@@ -34,4 +34,20 @@ class ClientsRepositoryImpl implements ClientsRepository {
 
   @override
   Future<List<PropertyMatch>> getMatches(int id) => _remote.getMatches(id);
+
+  @override
+  Future<List<ClientActivity>> getActivities(int clientId) =>
+      _remote.getActivities(clientId);
+
+  @override
+  Future<ClientActivity> logActivity(
+    int clientId, {
+    required ActivityType type,
+    String? note,
+  }) =>
+      _remote.logActivity(clientId, type: type, note: note);
+
+  @override
+  Future<void> deleteActivity(int clientId, int activityId) =>
+      _remote.deleteActivity(clientId, activityId);
 }

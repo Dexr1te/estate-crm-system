@@ -429,6 +429,59 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authWelcomeBack => 'Welcome back!';
 
   @override
+  String get clientsActivityCall => 'Call';
+
+  @override
+  String get clientsActivityDeleteBody =>
+      'It disappears from this client\'s history for the whole team. This cannot be undone.';
+
+  @override
+  String get clientsActivityDeleteTitle => 'Remove this entry?';
+
+  @override
+  String get clientsActivityEmail => 'Email';
+
+  @override
+  String get clientsActivityFormerMember => 'Former member';
+
+  @override
+  String get clientsActivityKind => 'How you were in touch';
+
+  @override
+  String get clientsActivityLogged => 'Contact logged';
+
+  @override
+  String get clientsActivityMessage => 'Message';
+
+  @override
+  String get clientsActivityNote => 'Note';
+
+  @override
+  String get clientsActivityNoteHint => 'What was said, what happens next…';
+
+  @override
+  String get clientsActivityNoteLabel => 'What was said';
+
+  @override
+  String get clientsActivityNoteRequired => 'A note needs some text';
+
+  @override
+  String get clientsActivityRemove => 'Remove entry';
+
+  @override
+  String get clientsActivitySave => 'Save';
+
+  @override
+  String clientsActivityToday(String time) {
+    return 'Today, $time';
+  }
+
+  @override
+  String clientsActivityYesterday(String time) {
+    return 'Yesterday, $time';
+  }
+
+  @override
   String get clientsAddClient => 'Add Client';
 
   @override
@@ -487,6 +540,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get clientsContactInfo => 'Contact Info';
+
+  @override
+  String clientsContactedDaysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Contacted $count days ago',
+      one: 'Contacted 1 day ago',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String clientsContactedOn(String date) {
+    return 'Contacted $date';
+  }
+
+  @override
+  String get clientsContactedToday => 'Contacted today';
+
+  @override
+  String get clientsContactedYesterday => 'Contacted yesterday';
 
   @override
   String clientsCounter(Object active, Object total) {
@@ -561,12 +636,31 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clientsFullNameLabel => 'Full Name';
 
   @override
+  String get clientsHistory => 'History';
+
+  @override
+  String get clientsHistoryEmpty => 'No contact logged yet';
+
+  @override
+  String get clientsHistoryEmptyHint =>
+      'Log each call, message and email, and whoever picks up this client knows where things stand.';
+
+  @override
+  String get clientsHistoryLoadFailed => 'Couldn\'t load the history';
+
+  @override
   String clientsIdBadge(Object id) {
     return 'ID $id';
   }
 
   @override
   String get clientsInvalidEmail => 'Invalid email';
+
+  @override
+  String get clientsLogContact => 'Log contact';
+
+  @override
+  String get clientsLogFirstContact => 'Log the first contact';
 
   @override
   String get clientsMatches => 'Matching listings';

@@ -136,6 +136,41 @@ const _$DealStatusEnumMap = {
   DealStatus.CLOSED_LOST: 'CLOSED_LOST',
 };
 
+_$ClientActivityImpl _$$ClientActivityImplFromJson(Map<String, dynamic> json) =>
+    _$ClientActivityImpl(
+      id: (json['id'] as num).toInt(),
+      clientId: (json['clientId'] as num).toInt(),
+      type: $enumDecodeNullable(_$ActivityTypeEnumMap, json['type']) ??
+          ActivityType.NOTE,
+      note: json['note'] as String?,
+      occurredAt: DateTime.parse(json['occurredAt'] as String),
+      authorId: (json['authorId'] as num?)?.toInt(),
+      authorName: json['authorName'] as String?,
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+    );
+
+Map<String, dynamic> _$$ClientActivityImplToJson(
+        _$ClientActivityImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'clientId': instance.clientId,
+      'type': _$ActivityTypeEnumMap[instance.type]!,
+      'note': instance.note,
+      'occurredAt': instance.occurredAt.toIso8601String(),
+      'authorId': instance.authorId,
+      'authorName': instance.authorName,
+      'createdAt': instance.createdAt?.toIso8601String(),
+    };
+
+const _$ActivityTypeEnumMap = {
+  ActivityType.CALL: 'CALL',
+  ActivityType.MESSAGE: 'MESSAGE',
+  ActivityType.EMAIL: 'EMAIL',
+  ActivityType.NOTE: 'NOTE',
+};
+
 _$PropertyResponseImpl _$$PropertyResponseImplFromJson(
         Map<String, dynamic> json) =>
     _$PropertyResponseImpl(

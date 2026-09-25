@@ -47,4 +47,25 @@ class ClientsRemoteDataSource {
     final res = await _client.dio.get('/clients/$id/matches');
     return jsonArray(res).map(PropertyMatch.fromJson).toList();
   }
+
+  Future<List<ClientActivity>> getActivities(int clientId) async {
+    final res = await _client.dio.get('/clients/$clientId/activities');
+    return jsonArray(res).map(ClientActivity.fromJson).toList();
+  }
+
+  Future<ClientActivity> logActivity(
+    int clientId, {
+    required ActivityType type,
+    String? note,
+  }) async {
+    final res = await _client.dio.post('/clients/$clientId/activities', data: {
+      'type': type.name,
+      if (note != null && note.trim().isNotEmpty) 'note': note.trim(),
+    });
+    return ClientActivity.fromJson(jsonObject(res));
+  }
+
+  Future<void> deleteActivity(int clientId, int activityId) async {
+    await _client.dio.delete('/clients/$clientId/activities/$activityId');
+  }
 }

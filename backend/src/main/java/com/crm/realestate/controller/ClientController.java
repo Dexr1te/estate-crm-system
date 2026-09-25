@@ -1,10 +1,13 @@
 package com.crm.realestate.controller;
 
+import com.crm.realestate.dto.request.ClientActivityRequest;
 import com.crm.realestate.dto.request.ClientRequest;
+import com.crm.realestate.dto.response.ClientActivityResponse;
 import com.crm.realestate.dto.response.ClientListItem;
 import com.crm.realestate.dto.response.ClientResponse;
 import com.crm.realestate.dto.response.PropertyMatch;
 import com.crm.realestate.enums.ClientType;
+import com.crm.realestate.service.ClientActivityService;
 import com.crm.realestate.service.ClientService;
 import com.crm.realestate.service.MatchingService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,6 +31,7 @@ public class ClientController {
 
     private final ClientService   clientService;
     private final MatchingService matchingService;
+    private final ClientActivityService activityService;
 
     @GetMapping
     @Operation(summary = "Get all clients (supports pagination, sorting, and filters). Backward-compatible: returns legacy list when no paging/filters provided.")
@@ -113,6 +117,26 @@ public class ClientController {
     @Operation(summary = "Listings that fit what this buyer asked for, inside the budget first")
     public ResponseEntity<List<PropertyMatch>> matches(@PathVariable Long id) {
         return ResponseEntity.ok(matchingService.propertiesFor(id));
+    }
+
+    @GetMapping("/{id}/activities")
+    @Operation(summary = "Every logged call, message, email and note for this client, newest first")
+    public ResponseEntity<List<ClientActivityResponse>> activities(@PathVariable Long id) {
+        return ResponseEntity.ok(activityService.list(id));
+    }
+
+    @PostMapping("/{id}/activities")
+    @Operation(summary = "Log a contact with this client. occurredAt defaults to now and cannot be in the future")
+    public ResponseEntity<ClientActivityResponse> logActivity(@PathVariable Long id,
+                                                              @Valid @RequestBody ClientActivityRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(activityService.create(id, request));
+    }
+
+    @DeleteMapping("/{id}/activities/{activityId}")
+    @Operation(summary = "Remove a logged contact — its author, a manager or an admin")
+    public ResponseEntity<Void> deleteActivity(@PathVariable Long id, @PathVariable Long activityId) {
+        activityService.delete(id, activityId);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}")
