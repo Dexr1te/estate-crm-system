@@ -1143,6 +1143,307 @@ abstract class _ClientListItem implements ClientListItem {
       throw _privateConstructorUsedError;
 }
 
+ClientActivity _$ClientActivityFromJson(Map<String, dynamic> json) {
+  return _ClientActivity.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ClientActivity {
+  int get id => throw _privateConstructorUsedError;
+  int get clientId => throw _privateConstructorUsedError;
+  ActivityType get type => throw _privateConstructorUsedError;
+  String? get note => throw _privateConstructorUsedError;
+  DateTime get occurredAt => throw _privateConstructorUsedError;
+  int? get authorId => throw _privateConstructorUsedError;
+  String? get authorName => throw _privateConstructorUsedError;
+  DateTime? get createdAt => throw _privateConstructorUsedError;
+
+  /// Serializes this ClientActivity to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of ClientActivity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $ClientActivityCopyWith<ClientActivity> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ClientActivityCopyWith<$Res> {
+  factory $ClientActivityCopyWith(
+          ClientActivity value, $Res Function(ClientActivity) then) =
+      _$ClientActivityCopyWithImpl<$Res, ClientActivity>;
+  @useResult
+  $Res call(
+      {int id,
+      int clientId,
+      ActivityType type,
+      String? note,
+      DateTime occurredAt,
+      int? authorId,
+      String? authorName,
+      DateTime? createdAt});
+}
+
+/// @nodoc
+class _$ClientActivityCopyWithImpl<$Res, $Val extends ClientActivity>
+    implements $ClientActivityCopyWith<$Res> {
+  _$ClientActivityCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of ClientActivity
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? clientId = null,
+    Object? type = null,
+    Object? note = freezed,
+    Object? occurredAt = null,
+    Object? authorId = freezed,
+    Object? authorName = freezed,
+    Object? createdAt = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      clientId: null == clientId
+          ? _value.clientId
+          : clientId // ignore: cast_nullable_to_non_nullable
+              as int,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as ActivityType,
+      note: freezed == note
+          ? _value.note
+          : note // ignore: cast_nullable_to_non_nullable
+              as String?,
+      occurredAt: null == occurredAt
+          ? _value.occurredAt
+          : occurredAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      authorId: freezed == authorId
+          ? _value.authorId
+          : authorId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      authorName: freezed == authorName
+          ? _value.authorName
+          : authorName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ClientActivityImplCopyWith<$Res>
+    implements $ClientActivityCopyWith<$Res> {
+  factory _$$ClientActivityImplCopyWith(_$ClientActivityImpl value,
+          $Res Function(_$ClientActivityImpl) then) =
+      __$$ClientActivityImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int id,
+      int clientId,
+      ActivityType type,
+      String? note,
+      DateTime occurredAt,
+      int? authorId,
+      String? authorName,
+      DateTime? createdAt});
+}
+
+/// @nodoc
+class __$$ClientActivityImplCopyWithImpl<$Res>
+    extends _$ClientActivityCopyWithImpl<$Res, _$ClientActivityImpl>
+    implements _$$ClientActivityImplCopyWith<$Res> {
+  __$$ClientActivityImplCopyWithImpl(
+      _$ClientActivityImpl _value, $Res Function(_$ClientActivityImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ClientActivity
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? clientId = null,
+    Object? type = null,
+    Object? note = freezed,
+    Object? occurredAt = null,
+    Object? authorId = freezed,
+    Object? authorName = freezed,
+    Object? createdAt = freezed,
+  }) {
+    return _then(_$ClientActivityImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      clientId: null == clientId
+          ? _value.clientId
+          : clientId // ignore: cast_nullable_to_non_nullable
+              as int,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as ActivityType,
+      note: freezed == note
+          ? _value.note
+          : note // ignore: cast_nullable_to_non_nullable
+              as String?,
+      occurredAt: null == occurredAt
+          ? _value.occurredAt
+          : occurredAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      authorId: freezed == authorId
+          ? _value.authorId
+          : authorId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      authorName: freezed == authorName
+          ? _value.authorName
+          : authorName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ClientActivityImpl implements _ClientActivity {
+  const _$ClientActivityImpl(
+      {required this.id,
+      required this.clientId,
+      this.type = ActivityType.NOTE,
+      this.note,
+      required this.occurredAt,
+      this.authorId,
+      this.authorName,
+      this.createdAt});
+
+  factory _$ClientActivityImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ClientActivityImplFromJson(json);
+
+  @override
+  final int id;
+  @override
+  final int clientId;
+  @override
+  @JsonKey()
+  final ActivityType type;
+  @override
+  final String? note;
+  @override
+  final DateTime occurredAt;
+  @override
+  final int? authorId;
+  @override
+  final String? authorName;
+  @override
+  final DateTime? createdAt;
+
+  @override
+  String toString() {
+    return 'ClientActivity(id: $id, clientId: $clientId, type: $type, note: $note, occurredAt: $occurredAt, authorId: $authorId, authorName: $authorName, createdAt: $createdAt)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ClientActivityImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.clientId, clientId) ||
+                other.clientId == clientId) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.note, note) || other.note == note) &&
+            (identical(other.occurredAt, occurredAt) ||
+                other.occurredAt == occurredAt) &&
+            (identical(other.authorId, authorId) ||
+                other.authorId == authorId) &&
+            (identical(other.authorName, authorName) ||
+                other.authorName == authorName) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, clientId, type, note,
+      occurredAt, authorId, authorName, createdAt);
+
+  /// Create a copy of ClientActivity
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ClientActivityImplCopyWith<_$ClientActivityImpl> get copyWith =>
+      __$$ClientActivityImplCopyWithImpl<_$ClientActivityImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ClientActivityImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ClientActivity implements ClientActivity {
+  const factory _ClientActivity(
+      {required final int id,
+      required final int clientId,
+      final ActivityType type,
+      final String? note,
+      required final DateTime occurredAt,
+      final int? authorId,
+      final String? authorName,
+      final DateTime? createdAt}) = _$ClientActivityImpl;
+
+  factory _ClientActivity.fromJson(Map<String, dynamic> json) =
+      _$ClientActivityImpl.fromJson;
+
+  @override
+  int get id;
+  @override
+  int get clientId;
+  @override
+  ActivityType get type;
+  @override
+  String? get note;
+  @override
+  DateTime get occurredAt;
+  @override
+  int? get authorId;
+  @override
+  String? get authorName;
+  @override
+  DateTime? get createdAt;
+
+  /// Create a copy of ClientActivity
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ClientActivityImplCopyWith<_$ClientActivityImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 PropertyResponse _$PropertyResponseFromJson(Map<String, dynamic> json) {
   return _PropertyResponse.fromJson(json);
 }

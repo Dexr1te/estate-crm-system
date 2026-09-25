@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:real_estate_crm/core/utils/clock.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_state.dart';
+import 'package:real_estate_crm/features/clients/presentation/widgets/contact_time.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class ClientCard extends StatelessWidget {
@@ -14,7 +16,11 @@ class ClientCard extends StatelessWidget {
     final t = context.tokens;
     final l10n = AppLocalizations.of(context);
 
+    final lastContact = client.lastContactAt;
     final footerLeft = [
+      if (lastContact != null)
+        lastContactLabel(l10n, lastContact, AppClock.now(),
+            Localizations.localeOf(context).toLanguageTag()),
       l10n.clientsDealCount(client.dealCount),
       if (client.agentName != null && client.agentName!.isNotEmpty)
         l10n.clientsAgentMeta(client.agentName!),
@@ -71,7 +77,9 @@ class ClientCard extends StatelessWidget {
               ClientTypeChip(type: client.type),
             ],
           ),
-          if (client.dealCount > 0 || trailingLabel.isNotEmpty) ...[
+          if (client.dealCount > 0 ||
+              trailingLabel.isNotEmpty ||
+              lastContact != null) ...[
             Padding(
               padding: const EdgeInsets.only(top: 11, bottom: 10),
               child: Container(height: 1, color: t.border),

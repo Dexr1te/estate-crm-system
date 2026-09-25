@@ -66,6 +66,11 @@ public interface ClientRepository extends JpaRepository<Client, Long>, org.sprin
     /*
      * The scope rule from ScopeService.visibleTo, spelled out in SQL because this one is native.
      * A person with no team passes -1, which no row carries.
+     *
+     * The last contact is the latest logged touch or the latest meeting that has already happened,
+     * whichever is later — a viewing booked for next week is not contact yet. GREATEST skips a
+     * NULL in PostgreSQL (and H2), so a client with only one kind still gets a date. Both are
+     * correlated subqueries on indexed columns, so the list stays one statement however long it is.
      */
     @Query(value = """
             SELECT
@@ -85,12 +90,18 @@ public interface ClientRepository extends JpaRepository<Client, Long>, org.sprin
                     ORDER BY m.scheduled_at ASC
                     LIMIT 1
                 ) AS next_meeting_at,
-                (
-                    SELECT m2.scheduled_at
-                    FROM meetings m2
-                    WHERE m2.client_id = c.id
-                    ORDER BY m2.scheduled_at DESC
-                    LIMIT 1
+                GREATEST(
+                    (
+                        SELECT MAX(a.occurred_at)
+                        FROM client_activities a
+                        WHERE a.client_id = c.id
+                    ),
+                    (
+                        SELECT MAX(m2.scheduled_at)
+                        FROM meetings m2
+                        WHERE m2.client_id = c.id
+                          AND m2.scheduled_at <= :now
+                    )
                 ) AS last_contact_at
             FROM clients c
             LEFT JOIN deals d ON d.client_id = c.id
@@ -103,5 +114,6 @@ public interface ClientRepository extends JpaRepository<Client, Long>, org.sprin
             @Param("everyone") boolean everyone,
             @Param("teamId") long teamId,
             @Param("userId") long userId,
-            @Param("wholeTeam") boolean wholeTeam);
+            @Param("wholeTeam") boolean wholeTeam,
+            @Param("now") java.time.LocalDateTime now);
 }

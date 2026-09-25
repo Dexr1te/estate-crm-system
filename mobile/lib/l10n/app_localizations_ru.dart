@@ -428,6 +428,59 @@ class AppLocalizationsRu extends AppLocalizations {
   String get authWelcomeBack => 'С возвращением!';
 
   @override
+  String get clientsActivityCall => 'Звонок';
+
+  @override
+  String get clientsActivityDeleteBody =>
+      'Запись исчезнет из истории клиента для всей команды. Это нельзя отменить.';
+
+  @override
+  String get clientsActivityDeleteTitle => 'Удалить запись?';
+
+  @override
+  String get clientsActivityEmail => 'Письмо';
+
+  @override
+  String get clientsActivityFormerMember => 'Бывший сотрудник';
+
+  @override
+  String get clientsActivityKind => 'Как связывались';
+
+  @override
+  String get clientsActivityLogged => 'Контакт записан';
+
+  @override
+  String get clientsActivityMessage => 'Сообщение';
+
+  @override
+  String get clientsActivityNote => 'Заметка';
+
+  @override
+  String get clientsActivityNoteHint => 'О чём договорились, что дальше…';
+
+  @override
+  String get clientsActivityNoteLabel => 'Что обсудили';
+
+  @override
+  String get clientsActivityNoteRequired => 'Заметке нужен текст';
+
+  @override
+  String get clientsActivityRemove => 'Удалить запись';
+
+  @override
+  String get clientsActivitySave => 'Сохранить';
+
+  @override
+  String clientsActivityToday(String time) {
+    return 'Сегодня, $time';
+  }
+
+  @override
+  String clientsActivityYesterday(String time) {
+    return 'Вчера, $time';
+  }
+
+  @override
   String get clientsAddClient => 'Добавить клиента';
 
   @override
@@ -486,6 +539,30 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get clientsContactInfo => 'Контактная информация';
+
+  @override
+  String clientsContactedDaysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Связывались $count дня назад',
+      many: 'Связывались $count дней назад',
+      few: 'Связывались $count дня назад',
+      one: 'Связывались $count день назад',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String clientsContactedOn(String date) {
+    return 'Связывались $date';
+  }
+
+  @override
+  String get clientsContactedToday => 'Связывались сегодня';
+
+  @override
+  String get clientsContactedYesterday => 'Связывались вчера';
 
   @override
   String clientsCounter(Object active, Object total) {
@@ -564,12 +641,31 @@ class AppLocalizationsRu extends AppLocalizations {
   String get clientsFullNameLabel => 'Полное имя';
 
   @override
+  String get clientsHistory => 'История';
+
+  @override
+  String get clientsHistoryEmpty => 'Контактов пока нет';
+
+  @override
+  String get clientsHistoryEmptyHint =>
+      'Записывайте звонки, сообщения и письма — кто бы ни подхватил клиента, сразу поймёт, на чём остановились.';
+
+  @override
+  String get clientsHistoryLoadFailed => 'Не удалось загрузить историю';
+
+  @override
   String clientsIdBadge(Object id) {
     return 'ID $id';
   }
 
   @override
   String get clientsInvalidEmail => 'Неверный email';
+
+  @override
+  String get clientsLogContact => 'Записать контакт';
+
+  @override
+  String get clientsLogFirstContact => 'Записать первый контакт';
 
   @override
   String get clientsMatches => 'Подходящие объекты';

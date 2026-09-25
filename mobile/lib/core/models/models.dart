@@ -24,6 +24,9 @@ enum DealStatus { LEAD, NEGOTIATION, CLOSED_WON, CLOSED_LOST }
 // ignore: constant_identifier_names
 enum ViewingOutcome { INTERESTED, REJECTED, NO_SHOW }
 
+// ignore: constant_identifier_names
+enum ActivityType { CALL, MESSAGE, EMAIL, NOTE }
+
 @freezed
 class AuthResponse with _$AuthResponse {
   const factory AuthResponse({
@@ -83,6 +86,23 @@ class ClientListItem with _$ClientListItem {
 
   factory ClientListItem.fromJson(Map<String, dynamic> json) =>
       _$ClientListItemFromJson(json);
+}
+
+@freezed
+class ClientActivity with _$ClientActivity {
+  const factory ClientActivity({
+    required int id,
+    required int clientId,
+    @Default(ActivityType.NOTE) ActivityType type,
+    String? note,
+    required DateTime occurredAt,
+    int? authorId,
+    String? authorName,
+    DateTime? createdAt,
+  }) = _ClientActivity;
+
+  factory ClientActivity.fromJson(Map<String, dynamic> json) =>
+      _$ClientActivityFromJson(json);
 }
 
 @freezed

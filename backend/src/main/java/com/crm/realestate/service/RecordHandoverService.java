@@ -2,6 +2,7 @@ package com.crm.realestate.service;
 
 import com.crm.realestate.entity.Team;
 import com.crm.realestate.entity.User;
+import com.crm.realestate.repository.ClientActivityRepository;
 import com.crm.realestate.repository.ClientRepository;
 import com.crm.realestate.repository.DealRepository;
 import com.crm.realestate.repository.MeetingRepository;
@@ -23,6 +24,7 @@ public class RecordHandoverService {
     private final PropertyRepository propertyRepository;
     private final DealRepository     dealRepository;
     private final MeetingRepository  meetingRepository;
+    private final ClientActivityRepository activityRepository;
 
     /**
      * Brings what someone owned while in no team into the team they have just joined.
@@ -62,6 +64,8 @@ public class RecordHandoverService {
         int properties = propertyRepository.adoptTeamless(user, user.getTeam());
         int deals      = dealRepository.adoptTeamless(user, user.getTeam());
         int meetings   = meetingRepository.adoptTeamless(user, user.getTeam());
+        // A client's history travels with the client, so it follows the clients just moved.
+        activityRepository.adoptTeamless(user, user.getTeam());
         if (clients + properties + deals + meetings > 0) {
             log.info("Moved {} clients, {} listings, {} deals and {} meetings of user {} into team {}",
                     clients, properties, deals, meetings, user.getId(), user.getTeam().getId());

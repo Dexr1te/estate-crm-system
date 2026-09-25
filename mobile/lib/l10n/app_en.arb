@@ -128,6 +128,36 @@
   "authWaitingSubtitle": "Give this email to your manager. Once they add you and you accept, your clients and deals appear here.",
   "authWaitingTitle": "Waiting for a team",
   "authWelcomeBack": "Welcome back!",
+  "clientsActivityCall": "Call",
+  "clientsActivityDeleteBody": "It disappears from this client's history for the whole team. This cannot be undone.",
+  "clientsActivityDeleteTitle": "Remove this entry?",
+  "clientsActivityEmail": "Email",
+  "clientsActivityFormerMember": "Former member",
+  "clientsActivityKind": "How you were in touch",
+  "clientsActivityLogged": "Contact logged",
+  "clientsActivityMessage": "Message",
+  "clientsActivityNote": "Note",
+  "clientsActivityNoteHint": "What was said, what happens next…",
+  "clientsActivityNoteLabel": "What was said",
+  "clientsActivityNoteRequired": "A note needs some text",
+  "clientsActivityRemove": "Remove entry",
+  "clientsActivitySave": "Save",
+  "clientsActivityToday": "Today, {time}",
+  "@clientsActivityToday": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "clientsActivityYesterday": "Yesterday, {time}",
+  "@clientsActivityYesterday": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
   "clientsAddClient": "Add Client",
   "clientsAddFirstClient": "Add your first client",
   "clientsAddShort": "Client",
@@ -156,6 +186,24 @@
   "clientsClientType": "Client Type",
   "clientsContact": "Contact",
   "clientsContactInfo": "Contact Info",
+  "clientsContactedDaysAgo": "{count, plural, =1{Contacted 1 day ago} other{Contacted {count} days ago}}",
+  "@clientsContactedDaysAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "clientsContactedOn": "Contacted {date}",
+  "@clientsContactedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "clientsContactedToday": "Contacted today",
+  "clientsContactedYesterday": "Contacted yesterday",
   "clientsCounter": "{total} total · {active} in progress",
   "clientsCreateClient": "Create Client",
   "clientsCreated": "Created",
@@ -173,8 +221,14 @@
   "clientsFilterSellers": "Sellers",
   "clientsFullName": "Full name",
   "clientsFullNameLabel": "Full Name",
+  "clientsHistory": "History",
+  "clientsHistoryEmpty": "No contact logged yet",
+  "clientsHistoryEmptyHint": "Log each call, message and email, and whoever picks up this client knows where things stand.",
+  "clientsHistoryLoadFailed": "Couldn't load the history",
   "clientsIdBadge": "ID {id}",
   "clientsInvalidEmail": "Invalid email",
+  "clientsLogContact": "Log contact",
+  "clientsLogFirstContact": "Log the first contact",
   "clientsMatches": "Matching listings",
   "clientsMessage": "Message",
   "clientsMinArea": "Area, min m²",
