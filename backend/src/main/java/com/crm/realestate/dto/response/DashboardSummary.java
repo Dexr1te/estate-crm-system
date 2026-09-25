@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -15,4 +17,6 @@ public class DashboardSummary {
     private long closedDeals;
     private long totalClients;
     private long upcomingMeetings;
+    /** Commission on deals won since the first of this month; zero, never null. */
+    private BigDecimal commissionThisMonth;
 }

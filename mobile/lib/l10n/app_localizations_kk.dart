@@ -949,6 +949,11 @@ class AppLocalizationsKk extends AppLocalizations {
   String get dashboardGoalClear => 'Мақсатты алып тастау';
 
   @override
+  String dashboardGoalCommission(Object amount) {
+    return 'Осы айдағы комиссия: $amount';
+  }
+
+  @override
   String get dashboardGoalEyebrow => 'МАҚСАТ';
 
   @override
@@ -1172,6 +1177,26 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get dealsClosed => 'Жабылды';
+
+  @override
+  String get dealsCommission => 'Комиссия';
+
+  @override
+  String get dealsCommissionAmount => 'Сомасы';
+
+  @override
+  String get dealsCommissionInvalid =>
+      '0-ден жоғары, 100-ден аспайтын мөлшерлеме енгізіңіз';
+
+  @override
+  String get dealsCommissionNeedsPrice =>
+      'Соманы есептеу үшін мәміле бағасын көрсетіңіз';
+
+  @override
+  String get dealsCommissionPercent => 'Комиссия, %';
+
+  @override
+  String get dealsCommissionRate => 'Мөлшерлеме';
 
   @override
   String dealsCounter(Object active, Object total) {

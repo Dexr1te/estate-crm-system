@@ -951,6 +951,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dashboardGoalClear => 'Remove target';
 
   @override
+  String dashboardGoalCommission(Object amount) {
+    return 'Commission this month: $amount';
+  }
+
+  @override
   String get dashboardGoalEyebrow => 'TARGET';
 
   @override
@@ -1174,6 +1179,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dealsClosed => 'Closed';
+
+  @override
+  String get dealsCommission => 'Commission';
+
+  @override
+  String get dealsCommissionAmount => 'Amount';
+
+  @override
+  String get dealsCommissionInvalid =>
+      'Enter a rate above 0 and no more than 100';
+
+  @override
+  String get dealsCommissionNeedsPrice => 'Set a deal price to work it out';
+
+  @override
+  String get dealsCommissionPercent => 'Commission, %';
+
+  @override
+  String get dealsCommissionRate => 'Rate';
 
   @override
   String dealsCounter(Object active, Object total) {

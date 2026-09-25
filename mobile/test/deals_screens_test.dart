@@ -26,6 +26,8 @@ final _deals = [
     propertyTitle: 'Severny Residence, apt 84',
     dealPrice: 12300000,
     budget: 13000000,
+    commissionPercent: 2.5,
+    commission: 307500,
     createdAt: DateTime(2026, 7, 18, 9, 12),
     closedAt: DateTime(2026, 7, 30, 12, 30),
   ),

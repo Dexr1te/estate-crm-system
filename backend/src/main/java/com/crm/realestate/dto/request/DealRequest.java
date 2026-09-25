@@ -1,6 +1,9 @@
 package com.crm.realestate.dto.request;
 
 import com.crm.realestate.enums.DealStatus;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -17,7 +20,12 @@ public class DealRequest {
 
     private BigDecimal dealPrice;
 
-    private BigDecimal budget;      
+    private BigDecimal budget;
+
+    @DecimalMin(value = "0", inclusive = false, message = "Commission must be above 0%")
+    @DecimalMax(value = "100", message = "Commission cannot exceed 100%")
+    @Digits(integer = 3, fraction = 2, message = "Commission takes at most two decimal places")
+    private BigDecimal commissionPercent;
 
     private String notes;
 

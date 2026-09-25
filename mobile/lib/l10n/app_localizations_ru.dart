@@ -958,6 +958,11 @@ class AppLocalizationsRu extends AppLocalizations {
   String get dashboardGoalClear => 'Убрать цель';
 
   @override
+  String dashboardGoalCommission(Object amount) {
+    return 'Комиссия за месяц: $amount';
+  }
+
+  @override
   String get dashboardGoalEyebrow => 'ЦЕЛЬ';
 
   @override
@@ -1184,6 +1189,25 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get dealsClosed => 'Закрыта';
+
+  @override
+  String get dealsCommission => 'Комиссия';
+
+  @override
+  String get dealsCommissionAmount => 'Сумма';
+
+  @override
+  String get dealsCommissionInvalid => 'Укажите ставку больше 0 и не выше 100';
+
+  @override
+  String get dealsCommissionNeedsPrice =>
+      'Укажите цену сделки, и сумма посчитается';
+
+  @override
+  String get dealsCommissionPercent => 'Комиссия, %';
+
+  @override
+  String get dealsCommissionRate => 'Ставка';
 
   @override
   String dealsCounter(Object active, Object total) {
