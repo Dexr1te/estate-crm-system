@@ -6,6 +6,7 @@ import com.crm.realestate.enums.PropertyStatus;
 import com.crm.realestate.enums.PropertyType;
 import com.crm.realestate.dto.response.DocumentDownload;
 import com.crm.realestate.dto.response.PropertyPhotoResponse;
+import com.crm.realestate.dto.response.PropertyPriceChangeResponse;
 import com.crm.realestate.service.PropertyPhotoService;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
@@ -117,6 +118,12 @@ public class PropertyController {
     public ResponseEntity<Void> deletePhoto(@PathVariable Long id, @PathVariable Long photoId) {
         photoService.delete(id, photoId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}/price-history")
+    @Operation(summary = "Every change of this listing's price, newest first")
+    public ResponseEntity<List<PropertyPriceChangeResponse>> priceHistory(@PathVariable Long id) {
+        return ResponseEntity.ok(propertyService.priceHistory(id));
     }
 
     @GetMapping("/{id}/viewings")

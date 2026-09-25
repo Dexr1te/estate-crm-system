@@ -13,6 +13,7 @@ import 'package:real_estate_crm/features/clients/presentation/widgets/client_his
 import 'package:real_estate_crm/features/clients/presentation/widgets/log_contact_sheet.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_card.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_cover.dart';
+import 'package:real_estate_crm/features/properties/presentation/widgets/property_price_history.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class ClientDetailScreen extends StatefulWidget {
@@ -480,6 +481,10 @@ class _MatchRow extends StatelessWidget {
                       color: t.textSecondary),
                 ),
               ),
+              if (showsPriceReduced(p)) ...[
+                const SizedBox(width: 8),
+                const Flexible(child: PriceReducedChip()),
+              ],
               const SizedBox(width: 8),
               Text(
                 formatPrice(p.price),

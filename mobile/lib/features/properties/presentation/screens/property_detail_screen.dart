@@ -9,6 +9,7 @@ import 'package:real_estate_crm/features/properties/presentation/bloc/properties
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_event.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_state.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_photos_card.dart';
+import 'package:real_estate_crm/features/properties/presentation/widgets/property_price_history.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class PropertyDetailScreen extends StatefulWidget {
@@ -23,6 +24,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
   List<ClientMatch> _interested = const [];
   List<MeetingResponse> _viewings = const [];
   List<PropertyPhoto> _photos = const [];
+  List<PropertyPriceChange> _priceHistory = const [];
   bool _loading = true;
   String? _error;
 
@@ -43,6 +45,9 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
         Injector.propertiesRepository.getInterested(widget.id),
         Injector.propertiesRepository.getViewings(widget.id),
         Injector.propertiesRepository.getPhotos(widget.id),
+        Injector.propertiesRepository
+            .getPriceHistory(widget.id)
+            .catchError((_) => const <PropertyPriceChange>[]),
       ]);
       if (!mounted) return;
       setState(() {
@@ -50,6 +55,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
         _interested = results[1] as List<ClientMatch>;
         _viewings = results[2] as List<MeetingResponse>;
         _photos = results[3] as List<PropertyPhoto>;
+        _priceHistory = results[4] as List<PropertyPriceChange>;
         _loading = false;
       });
     } catch (_) {
@@ -157,6 +163,8 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
             onChanged: _load,
           ),
           _DetailsCard(property: p),
+          if (_priceHistory.isNotEmpty)
+            PropertyPriceHistoryCard(changes: _priceHistory),
           _StatusCard(status: p.status, onChanged: _updateStatus),
           _InterestedCard(buyers: _interested, propertyId: widget.id),
           _ViewingsCard(viewings: _viewings),
@@ -226,16 +234,40 @@ class _PropertyHero extends StatelessWidget {
           FittedBox(
             fit: BoxFit.scaleDown,
             alignment: Alignment.centerLeft,
-            child: Text(
-              formatPrice(property.price),
-              maxLines: 1,
-              style: TextStyle(
-                  fontFamily: AppFonts.sans,
-                  fontSize: 30,
-                  height: 1,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: -0.8,
-                  color: t.heroText),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              textBaseline: TextBaseline.alphabetic,
+              children: [
+                Text(
+                  formatPrice(property.price),
+                  maxLines: 1,
+                  style: TextStyle(
+                      fontFamily: AppFonts.sans,
+                      fontSize: 30,
+                      height: 1,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: -0.8,
+                      color: t.heroText),
+                ),
+                if (isPriceReduced(property)) ...[
+                  const SizedBox(width: 10),
+                  Text(
+                    formatPrice(property.previousPrice!),
+                    maxLines: 1,
+                    semanticsLabel: l10n.propertiesPriceWas(
+                        formatPrice(property.previousPrice!)),
+                    style: TextStyle(
+                        fontFamily: AppFonts.sans,
+                        fontSize: 15,
+                        height: 1,
+                        fontWeight: FontWeight.w500,
+                        decoration: TextDecoration.lineThrough,
+                        decorationColor: t.heroTextMuted,
+                        color: t.heroTextMuted),
+                  ),
+                ],
+              ],
             ),
           ),
           const SizedBox(height: 7),

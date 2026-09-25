@@ -2053,11 +2053,22 @@ class AppLocalizationsEn extends AppLocalizations {
       'Hold a photo to move it — the first one is the cover';
 
   @override
+  String get propertiesPriceHistory => 'Price history';
+
+  @override
   String get propertiesPriceLabel => 'Price';
 
   @override
   String propertiesPricePerSqm(Object price) {
     return '$price per m²';
+  }
+
+  @override
+  String get propertiesPriceReduced => 'Price reduced';
+
+  @override
+  String propertiesPriceWas(String price) {
+    return 'Was $price';
   }
 
   @override

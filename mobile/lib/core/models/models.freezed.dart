@@ -1466,6 +1466,8 @@ mixin _$PropertyResponse {
   String? get agentName => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
+  double? get previousPrice => throw _privateConstructorUsedError;
+  DateTime? get priceChangedAt => throw _privateConstructorUsedError;
 
   /// Serializes this PropertyResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1499,7 +1501,9 @@ abstract class $PropertyResponseCopyWith<$Res> {
       int? agentId,
       String? agentName,
       DateTime? createdAt,
-      DateTime? updatedAt});
+      DateTime? updatedAt,
+      double? previousPrice,
+      DateTime? priceChangedAt});
 }
 
 /// @nodoc
@@ -1533,6 +1537,8 @@ class _$PropertyResponseCopyWithImpl<$Res, $Val extends PropertyResponse>
     Object? agentName = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
+    Object? previousPrice = freezed,
+    Object? priceChangedAt = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -1599,6 +1605,14 @@ class _$PropertyResponseCopyWithImpl<$Res, $Val extends PropertyResponse>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      previousPrice: freezed == previousPrice
+          ? _value.previousPrice
+          : previousPrice // ignore: cast_nullable_to_non_nullable
+              as double?,
+      priceChangedAt: freezed == priceChangedAt
+          ? _value.priceChangedAt
+          : priceChangedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
   }
 }
@@ -1627,7 +1641,9 @@ abstract class _$$PropertyResponseImplCopyWith<$Res>
       int? agentId,
       String? agentName,
       DateTime? createdAt,
-      DateTime? updatedAt});
+      DateTime? updatedAt,
+      double? previousPrice,
+      DateTime? priceChangedAt});
 }
 
 /// @nodoc
@@ -1659,6 +1675,8 @@ class __$$PropertyResponseImplCopyWithImpl<$Res>
     Object? agentName = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
+    Object? previousPrice = freezed,
+    Object? priceChangedAt = freezed,
   }) {
     return _then(_$PropertyResponseImpl(
       id: null == id
@@ -1725,6 +1743,14 @@ class __$$PropertyResponseImplCopyWithImpl<$Res>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      previousPrice: freezed == previousPrice
+          ? _value.previousPrice
+          : previousPrice // ignore: cast_nullable_to_non_nullable
+              as double?,
+      priceChangedAt: freezed == priceChangedAt
+          ? _value.priceChangedAt
+          : priceChangedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -1748,7 +1774,9 @@ class _$PropertyResponseImpl implements _PropertyResponse {
       this.agentId,
       this.agentName,
       this.createdAt,
-      this.updatedAt});
+      this.updatedAt,
+      this.previousPrice,
+      this.priceChangedAt});
 
   factory _$PropertyResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$PropertyResponseImplFromJson(json);
@@ -1790,10 +1818,14 @@ class _$PropertyResponseImpl implements _PropertyResponse {
   final DateTime? createdAt;
   @override
   final DateTime? updatedAt;
+  @override
+  final double? previousPrice;
+  @override
+  final DateTime? priceChangedAt;
 
   @override
   String toString() {
-    return 'PropertyResponse(id: $id, title: $title, description: $description, address: $address, city: $city, type: $type, status: $status, price: $price, areaSqm: $areaSqm, rooms: $rooms, floor: $floor, totalFloors: $totalFloors, agentId: $agentId, agentName: $agentName, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'PropertyResponse(id: $id, title: $title, description: $description, address: $address, city: $city, type: $type, status: $status, price: $price, areaSqm: $areaSqm, rooms: $rooms, floor: $floor, totalFloors: $totalFloors, agentId: $agentId, agentName: $agentName, createdAt: $createdAt, updatedAt: $updatedAt, previousPrice: $previousPrice, priceChangedAt: $priceChangedAt)';
   }
 
   @override
@@ -1821,7 +1853,11 @@ class _$PropertyResponseImpl implements _PropertyResponse {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+                other.updatedAt == updatedAt) &&
+            (identical(other.previousPrice, previousPrice) ||
+                other.previousPrice == previousPrice) &&
+            (identical(other.priceChangedAt, priceChangedAt) ||
+                other.priceChangedAt == priceChangedAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1843,7 +1879,9 @@ class _$PropertyResponseImpl implements _PropertyResponse {
       agentId,
       agentName,
       createdAt,
-      updatedAt);
+      updatedAt,
+      previousPrice,
+      priceChangedAt);
 
   /// Create a copy of PropertyResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -1879,7 +1917,9 @@ abstract class _PropertyResponse implements PropertyResponse {
       final int? agentId,
       final String? agentName,
       final DateTime? createdAt,
-      final DateTime? updatedAt}) = _$PropertyResponseImpl;
+      final DateTime? updatedAt,
+      final double? previousPrice,
+      final DateTime? priceChangedAt}) = _$PropertyResponseImpl;
 
   factory _PropertyResponse.fromJson(Map<String, dynamic> json) =
       _$PropertyResponseImpl.fromJson;
@@ -1916,12 +1956,299 @@ abstract class _PropertyResponse implements PropertyResponse {
   DateTime? get createdAt;
   @override
   DateTime? get updatedAt;
+  @override
+  double? get previousPrice;
+  @override
+  DateTime? get priceChangedAt;
 
   /// Create a copy of PropertyResponse
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PropertyResponseImplCopyWith<_$PropertyResponseImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+PropertyPriceChange _$PropertyPriceChangeFromJson(Map<String, dynamic> json) {
+  return _PropertyPriceChange.fromJson(json);
+}
+
+/// @nodoc
+mixin _$PropertyPriceChange {
+  int get id => throw _privateConstructorUsedError;
+  int? get propertyId => throw _privateConstructorUsedError;
+  double get oldPrice => throw _privateConstructorUsedError;
+  double get newPrice => throw _privateConstructorUsedError;
+  int? get changedById => throw _privateConstructorUsedError;
+  String? get changedByName => throw _privateConstructorUsedError;
+  DateTime? get changedAt => throw _privateConstructorUsedError;
+
+  /// Serializes this PropertyPriceChange to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of PropertyPriceChange
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $PropertyPriceChangeCopyWith<PropertyPriceChange> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $PropertyPriceChangeCopyWith<$Res> {
+  factory $PropertyPriceChangeCopyWith(
+          PropertyPriceChange value, $Res Function(PropertyPriceChange) then) =
+      _$PropertyPriceChangeCopyWithImpl<$Res, PropertyPriceChange>;
+  @useResult
+  $Res call(
+      {int id,
+      int? propertyId,
+      double oldPrice,
+      double newPrice,
+      int? changedById,
+      String? changedByName,
+      DateTime? changedAt});
+}
+
+/// @nodoc
+class _$PropertyPriceChangeCopyWithImpl<$Res, $Val extends PropertyPriceChange>
+    implements $PropertyPriceChangeCopyWith<$Res> {
+  _$PropertyPriceChangeCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of PropertyPriceChange
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? propertyId = freezed,
+    Object? oldPrice = null,
+    Object? newPrice = null,
+    Object? changedById = freezed,
+    Object? changedByName = freezed,
+    Object? changedAt = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      propertyId: freezed == propertyId
+          ? _value.propertyId
+          : propertyId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      oldPrice: null == oldPrice
+          ? _value.oldPrice
+          : oldPrice // ignore: cast_nullable_to_non_nullable
+              as double,
+      newPrice: null == newPrice
+          ? _value.newPrice
+          : newPrice // ignore: cast_nullable_to_non_nullable
+              as double,
+      changedById: freezed == changedById
+          ? _value.changedById
+          : changedById // ignore: cast_nullable_to_non_nullable
+              as int?,
+      changedByName: freezed == changedByName
+          ? _value.changedByName
+          : changedByName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      changedAt: freezed == changedAt
+          ? _value.changedAt
+          : changedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$PropertyPriceChangeImplCopyWith<$Res>
+    implements $PropertyPriceChangeCopyWith<$Res> {
+  factory _$$PropertyPriceChangeImplCopyWith(_$PropertyPriceChangeImpl value,
+          $Res Function(_$PropertyPriceChangeImpl) then) =
+      __$$PropertyPriceChangeImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int id,
+      int? propertyId,
+      double oldPrice,
+      double newPrice,
+      int? changedById,
+      String? changedByName,
+      DateTime? changedAt});
+}
+
+/// @nodoc
+class __$$PropertyPriceChangeImplCopyWithImpl<$Res>
+    extends _$PropertyPriceChangeCopyWithImpl<$Res, _$PropertyPriceChangeImpl>
+    implements _$$PropertyPriceChangeImplCopyWith<$Res> {
+  __$$PropertyPriceChangeImplCopyWithImpl(_$PropertyPriceChangeImpl _value,
+      $Res Function(_$PropertyPriceChangeImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of PropertyPriceChange
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? propertyId = freezed,
+    Object? oldPrice = null,
+    Object? newPrice = null,
+    Object? changedById = freezed,
+    Object? changedByName = freezed,
+    Object? changedAt = freezed,
+  }) {
+    return _then(_$PropertyPriceChangeImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      propertyId: freezed == propertyId
+          ? _value.propertyId
+          : propertyId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      oldPrice: null == oldPrice
+          ? _value.oldPrice
+          : oldPrice // ignore: cast_nullable_to_non_nullable
+              as double,
+      newPrice: null == newPrice
+          ? _value.newPrice
+          : newPrice // ignore: cast_nullable_to_non_nullable
+              as double,
+      changedById: freezed == changedById
+          ? _value.changedById
+          : changedById // ignore: cast_nullable_to_non_nullable
+              as int?,
+      changedByName: freezed == changedByName
+          ? _value.changedByName
+          : changedByName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      changedAt: freezed == changedAt
+          ? _value.changedAt
+          : changedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$PropertyPriceChangeImpl implements _PropertyPriceChange {
+  const _$PropertyPriceChangeImpl(
+      {required this.id,
+      this.propertyId,
+      this.oldPrice = 0.0,
+      this.newPrice = 0.0,
+      this.changedById,
+      this.changedByName,
+      this.changedAt});
+
+  factory _$PropertyPriceChangeImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PropertyPriceChangeImplFromJson(json);
+
+  @override
+  final int id;
+  @override
+  final int? propertyId;
+  @override
+  @JsonKey()
+  final double oldPrice;
+  @override
+  @JsonKey()
+  final double newPrice;
+  @override
+  final int? changedById;
+  @override
+  final String? changedByName;
+  @override
+  final DateTime? changedAt;
+
+  @override
+  String toString() {
+    return 'PropertyPriceChange(id: $id, propertyId: $propertyId, oldPrice: $oldPrice, newPrice: $newPrice, changedById: $changedById, changedByName: $changedByName, changedAt: $changedAt)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$PropertyPriceChangeImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.propertyId, propertyId) ||
+                other.propertyId == propertyId) &&
+            (identical(other.oldPrice, oldPrice) ||
+                other.oldPrice == oldPrice) &&
+            (identical(other.newPrice, newPrice) ||
+                other.newPrice == newPrice) &&
+            (identical(other.changedById, changedById) ||
+                other.changedById == changedById) &&
+            (identical(other.changedByName, changedByName) ||
+                other.changedByName == changedByName) &&
+            (identical(other.changedAt, changedAt) ||
+                other.changedAt == changedAt));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, propertyId, oldPrice,
+      newPrice, changedById, changedByName, changedAt);
+
+  /// Create a copy of PropertyPriceChange
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$PropertyPriceChangeImplCopyWith<_$PropertyPriceChangeImpl> get copyWith =>
+      __$$PropertyPriceChangeImplCopyWithImpl<_$PropertyPriceChangeImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$PropertyPriceChangeImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _PropertyPriceChange implements PropertyPriceChange {
+  const factory _PropertyPriceChange(
+      {required final int id,
+      final int? propertyId,
+      final double oldPrice,
+      final double newPrice,
+      final int? changedById,
+      final String? changedByName,
+      final DateTime? changedAt}) = _$PropertyPriceChangeImpl;
+
+  factory _PropertyPriceChange.fromJson(Map<String, dynamic> json) =
+      _$PropertyPriceChangeImpl.fromJson;
+
+  @override
+  int get id;
+  @override
+  int? get propertyId;
+  @override
+  double get oldPrice;
+  @override
+  double get newPrice;
+  @override
+  int? get changedById;
+  @override
+  String? get changedByName;
+  @override
+  DateTime? get changedAt;
+
+  /// Create a copy of PropertyPriceChange
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$PropertyPriceChangeImplCopyWith<_$PropertyPriceChangeImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

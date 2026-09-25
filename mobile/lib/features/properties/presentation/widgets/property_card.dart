@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_cover.dart';
+import 'package:real_estate_crm/features/properties/presentation/widgets/property_price_history.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class PropertyCard extends StatelessWidget {
@@ -77,6 +78,10 @@ class PropertyCard extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                     color: t.textPrimary),
               ),
+              if (showsPriceReduced(property)) ...[
+                const SizedBox(width: 8),
+                const Flexible(child: PriceReducedChip()),
+              ],
               const SizedBox(width: 10),
               Expanded(
                 child: Text(

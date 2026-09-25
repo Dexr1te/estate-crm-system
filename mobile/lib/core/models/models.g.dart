@@ -196,6 +196,10 @@ _$PropertyResponseImpl _$$PropertyResponseImplFromJson(
       updatedAt: json['updatedAt'] == null
           ? null
           : DateTime.parse(json['updatedAt'] as String),
+      previousPrice: (json['previousPrice'] as num?)?.toDouble(),
+      priceChangedAt: json['priceChangedAt'] == null
+          ? null
+          : DateTime.parse(json['priceChangedAt'] as String),
     );
 
 Map<String, dynamic> _$$PropertyResponseImplToJson(
@@ -217,6 +221,8 @@ Map<String, dynamic> _$$PropertyResponseImplToJson(
       'agentName': instance.agentName,
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
+      'previousPrice': instance.previousPrice,
+      'priceChangedAt': instance.priceChangedAt?.toIso8601String(),
     };
 
 const _$PropertyStatusEnumMap = {
@@ -224,6 +230,32 @@ const _$PropertyStatusEnumMap = {
   PropertyStatus.RESERVED: 'RESERVED',
   PropertyStatus.SOLD: 'SOLD',
 };
+
+_$PropertyPriceChangeImpl _$$PropertyPriceChangeImplFromJson(
+        Map<String, dynamic> json) =>
+    _$PropertyPriceChangeImpl(
+      id: (json['id'] as num).toInt(),
+      propertyId: (json['propertyId'] as num?)?.toInt(),
+      oldPrice: (json['oldPrice'] as num?)?.toDouble() ?? 0.0,
+      newPrice: (json['newPrice'] as num?)?.toDouble() ?? 0.0,
+      changedById: (json['changedById'] as num?)?.toInt(),
+      changedByName: json['changedByName'] as String?,
+      changedAt: json['changedAt'] == null
+          ? null
+          : DateTime.parse(json['changedAt'] as String),
+    );
+
+Map<String, dynamic> _$$PropertyPriceChangeImplToJson(
+        _$PropertyPriceChangeImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'propertyId': instance.propertyId,
+      'oldPrice': instance.oldPrice,
+      'newPrice': instance.newPrice,
+      'changedById': instance.changedById,
+      'changedByName': instance.changedByName,
+      'changedAt': instance.changedAt?.toIso8601String(),
+    };
 
 _$PropertyMatchImpl _$$PropertyMatchImplFromJson(Map<String, dynamic> json) =>
     _$PropertyMatchImpl(

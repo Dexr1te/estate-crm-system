@@ -124,10 +124,28 @@ class PropertyResponse with _$PropertyResponse {
     String? agentName,
     DateTime? createdAt,
     DateTime? updatedAt,
+    double? previousPrice,
+    DateTime? priceChangedAt,
   }) = _PropertyResponse;
 
   factory PropertyResponse.fromJson(Map<String, dynamic> json) =>
       _$PropertyResponseFromJson(json);
+}
+
+@freezed
+class PropertyPriceChange with _$PropertyPriceChange {
+  const factory PropertyPriceChange({
+    required int id,
+    int? propertyId,
+    @Default(0.0) double oldPrice,
+    @Default(0.0) double newPrice,
+    int? changedById,
+    String? changedByName,
+    DateTime? changedAt,
+  }) = _PropertyPriceChange;
+
+  factory PropertyPriceChange.fromJson(Map<String, dynamic> json) =>
+      _$PropertyPriceChangeFromJson(json);
 }
 
 @freezed

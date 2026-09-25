@@ -1,12 +1,15 @@
 package com.crm.realestate.service;
 
 import com.crm.realestate.dto.request.PropertyRequest;
+import com.crm.realestate.dto.response.PropertyPriceChangeResponse;
 import com.crm.realestate.dto.response.PropertyResponse;
 import com.crm.realestate.entity.Property;
+import com.crm.realestate.entity.PropertyPriceChange;
 import com.crm.realestate.entity.User;
 import com.crm.realestate.enums.PropertyStatus;
 import com.crm.realestate.enums.PropertyType;
 import com.crm.realestate.exception.ResourceNotFoundException;
+import com.crm.realestate.repository.PropertyPriceChangeRepository;
 import com.crm.realestate.repository.PropertyRepository;
 import com.crm.realestate.repository.UserRepository;
 import com.crm.realestate.security.SecurityUtils;
@@ -18,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 /**
  * Listings are the agency's stock: everyone in a team sees and maintains all of the team's, whatever
@@ -34,6 +37,7 @@ public class PropertyService {
     private final SecurityUtils      securityUtils;
     private final ScopeService       scopeService;
     private final PropertyMapper     propertyMapper;
+    private final PropertyPriceChangeRepository priceChangeRepository;
 
     public List<PropertyResponse> getAll() {
         return findVisible(PropertySpecification.build(null, null, null, null, null, null, null, null));
@@ -65,7 +69,9 @@ public class PropertyService {
                 PropertySpecification.build(status, type, city, minPrice, maxPrice, rooms, agentId, search)
                         .and(scopeService.visibleToTeam(currentUser));
 
-        return propertyRepository.findAll(spec, pageable).map(this::toResponse);
+        org.springframework.data.domain.Page<Property> page = propertyRepository.findAll(spec, pageable);
+        Map<Long, PropertyPriceChange> latestChanges = propertyMapper.latestChanges(page.getContent());
+        return page.map(p -> propertyMapper.toResponse(p, latestChanges.get(p.getId())));
     }
 
     public PropertyResponse getById(Long id) {
@@ -79,12 +85,33 @@ public class PropertyService {
         return toResponse(propertyRepository.save(property));
     }
 
+    /** An edit that moves the price leaves a row behind, so a reduction can be seen afterwards. */
     @Transactional
     public PropertyResponse update(Long id, PropertyRequest request) {
         User currentUser = securityUtils.getCurrentUser();
         Property property = findVisibleById(id, currentUser);
+        BigDecimal oldPrice = property.getPrice();
         mapRequestToEntity(request, property, currentUser);
-        return toResponse(propertyRepository.save(property));
+        Property saved = propertyRepository.save(property);
+        BigDecimal newPrice = saved.getPrice();
+        if (oldPrice != null && newPrice != null && oldPrice.compareTo(newPrice) != 0) {
+            priceChangeRepository.save(PropertyPriceChange.builder()
+                    .property(saved)
+                    .team(saved.getTeam())
+                    .oldPrice(oldPrice)
+                    .newPrice(newPrice)
+                    .changedBy(currentUser)
+                    .build());
+        }
+        return toResponse(saved);
+    }
+
+    /** Every change of this listing's price, newest first. Seen by whoever can see the listing. */
+    public List<PropertyPriceChangeResponse> priceHistory(Long id) {
+        Property property = findVisibleById(id, securityUtils.getCurrentUser());
+        return priceChangeRepository.findHistory(property.getId()).stream()
+                .map(propertyMapper::toResponse)
+                .toList();
     }
 
     @Transactional
@@ -103,8 +130,8 @@ public class PropertyService {
 
     private List<PropertyResponse> findVisible(Specification<Property> filter) {
         User currentUser = securityUtils.getCurrentUser();
-        return propertyRepository.findAll(filter.and(scopeService.visibleToTeam(currentUser)))
-                .stream().map(this::toResponse).collect(Collectors.toList());
+        return propertyMapper.toResponses(
+                propertyRepository.findAll(filter.and(scopeService.visibleToTeam(currentUser))));
     }
 
     /** Another agency's listing reads as missing, so its existence is not confirmed either. */

@@ -109,6 +109,11 @@ class PropertiesRemoteDataSource {
     return jsonArray(res).map(MeetingResponse.fromJson).toList();
   }
 
+  Future<List<PropertyPriceChange>> getPriceHistory(int id) async {
+    final res = await _client.dio.get('/properties/$id/price-history');
+    return jsonArray(res).map(PropertyPriceChange.fromJson).toList();
+  }
+
   Future<List<ClientMatch>> getInterested(int id) async {
     final res = await _client.dio.get('/properties/$id/interested');
     return jsonArray(res).map(ClientMatch.fromJson).toList();

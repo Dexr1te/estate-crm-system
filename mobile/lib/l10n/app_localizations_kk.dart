@@ -2051,11 +2051,22 @@ class AppLocalizationsKk extends AppLocalizations {
       'Фотоны басып тұрып жылжытыңыз — біріншісі мұқаба';
 
   @override
+  String get propertiesPriceHistory => 'Баға тарихы';
+
+  @override
   String get propertiesPriceLabel => 'Бағасы';
 
   @override
   String propertiesPricePerSqm(Object price) {
     return '$price бір м² үшін';
+  }
+
+  @override
+  String get propertiesPriceReduced => 'Баға түсті';
+
+  @override
+  String propertiesPriceWas(String price) {
+    return 'Бұрын $price';
   }
 
   @override

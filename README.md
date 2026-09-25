@@ -36,7 +36,9 @@ and area — which is what makes the next two features possible.
 
 **Listings.** Flats, houses, commercial space and land, with price, area, rooms,
 floor and photographs. The first photograph is the cover the lists show, and the
-order can be changed by holding one and dragging it.
+order can be changed by holding one and dragging it. A listing remembers every
+change of its price and who made it; a cut made in the last thirty days is
+flagged wherever the listing is named.
 
 **Matching.** A buyer's card lists the flats that answer what they asked for,
 cheapest first, with the ones a little over the ceiling marked rather than
@@ -161,7 +163,7 @@ handful marked public. Full OpenAPI at `/api/swagger-ui.html`.
 | Auth (public) | `/auth/login`, `/auth/register`, `/auth/verify-email`, `/auth/resend-verification`, `/auth/refresh`, `/auth/accept-invite`, `/auth/forgot-password`, `/auth/reset-password` |
 | Me | `/auth/me` (get, update, **delete**), `/me/team`, `/me/team-requests` |
 | Clients | `/clients`, `/clients/{id}`, `/clients/with-details`, `/clients/{id}/matches` |
-| Properties | `/properties`, `/properties/{id}`, `/properties/{id}/status`, `/properties/{id}/photos` (+ `order`, `{photoId}/content`), `/properties/{id}/cover`, `/properties/{id}/interested`, `/properties/{id}/viewings` |
+| Properties | `/properties`, `/properties/{id}`, `/properties/{id}/status`, `/properties/{id}/photos` (+ `order`, `{photoId}/content`), `/properties/{id}/cover`, `/properties/{id}/interested`, `/properties/{id}/viewings`, `/properties/{id}/price-history` |
 | Deals | `/deals`, `/deals/{id}`, `/deals/{id}/status`, `/deals/{dealId}/documents` |
 | Meetings | `/meetings`, `/meetings/upcoming`, `/meetings/{id}`, `/meetings/{id}/complete`, `/meetings/{id}/outcome` |
 | Teams | `/teams`, `/team`, `/team/members`, `/team/requests` |
