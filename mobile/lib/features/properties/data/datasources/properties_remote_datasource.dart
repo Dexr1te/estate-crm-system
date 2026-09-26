@@ -3,6 +3,7 @@ import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/models/paged_response.dart';
 import 'package:real_estate_crm/core/network/api_client.dart';
 import 'package:real_estate_crm/core/network/json.dart';
+import 'package:real_estate_crm/features/properties/domain/map_area.dart';
 
 class PropertiesRemoteDataSource {
   final ApiClient _client;
@@ -24,6 +25,44 @@ class PropertiesRemoteDataSource {
       if (city != null && city.isNotEmpty) 'city': city,
       if (minPrice != null) 'minPrice': minPrice,
       if (maxPrice != null) 'maxPrice': maxPrice,
+      if (search != null && search.isNotEmpty) 'search': search,
+      'page': page,
+      'size': size,
+    });
+    return PagedResponse.parse(res.data, PropertyResponse.fromJson,
+        requestedPage: page);
+  }
+
+  Future<PagedResponse<PropertyResponse>> getPropertiesInArea(
+    MapArea area, {
+    PropertyStatus? status,
+    PropertyType? type,
+    String? search,
+    int size = 200,
+  }) async {
+    final res = await _client.dio.get('/properties', queryParameters: {
+      ...area.toQuery(),
+      if (status != null) 'status': status.name,
+      if (type != null) 'type': type.name,
+      if (search != null && search.isNotEmpty) 'search': search,
+      'page': 0,
+      'size': size,
+    });
+    return PagedResponse.parse(res.data, PropertyResponse.fromJson,
+        requestedPage: 0);
+  }
+
+  Future<PagedResponse<PropertyResponse>> getPropertiesWithoutLocation({
+    PropertyStatus? status,
+    PropertyType? type,
+    String? search,
+    int page = 0,
+    int size = 20,
+  }) async {
+    final res = await _client.dio.get('/properties', queryParameters: {
+      'hasLocation': false,
+      if (status != null) 'status': status.name,
+      if (type != null) 'type': type.name,
       if (search != null && search.isNotEmpty) 'search': search,
       'page': page,
       'size': size,

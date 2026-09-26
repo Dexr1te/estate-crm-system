@@ -60,4 +60,35 @@ public final class PropertySpecification {
             return cb.and(predicates.toArray(new Predicate[0]));
         };
     }
+
+    /**
+     * Listings whose pin falls inside the rectangle the map is showing, edges included. A listing
+     * with no pin is never inside. When the west edge is east of the east edge the rectangle
+     * crosses the antimeridian, and the longitudes wrap.
+     */
+    public static Specification<Property> within(MapBounds bounds) {
+        return (root, query, cb) -> {
+            if (bounds == null) {
+                return cb.conjunction();
+            }
+            Predicate lat = cb.between(root.get("latitude"), bounds.minLat(), bounds.maxLat());
+            Predicate lng = bounds.minLng() <= bounds.maxLng()
+                    ? cb.between(root.get("longitude"), bounds.minLng(), bounds.maxLng())
+                    : cb.or(cb.greaterThanOrEqualTo(root.get("longitude"), bounds.minLng()),
+                            cb.lessThanOrEqualTo(root.get("longitude"), bounds.maxLng()));
+            return cb.and(lat, lng);
+        };
+    }
+
+    /** Listings that have a pin (true), that have none (false), or all of them (null). */
+    public static Specification<Property> hasLocation(Boolean located) {
+        return (root, query, cb) -> {
+            if (located == null) {
+                return cb.conjunction();
+            }
+            return located
+                    ? cb.and(cb.isNotNull(root.get("latitude")), cb.isNotNull(root.get("longitude")))
+                    : cb.or(cb.isNull(root.get("latitude")), cb.isNull(root.get("longitude")));
+        };
+    }
 }

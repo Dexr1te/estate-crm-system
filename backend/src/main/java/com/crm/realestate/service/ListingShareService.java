@@ -142,7 +142,7 @@ public class ListingShareService {
                 p.getRooms(), p.getFloor(), p.getTotalFloors(), photoIds,
                 agent != null ? agent.getFullName() : null,
                 agent != null ? blankToNull(agent.getPhone()) : null,
-                agency);
+                agency, p.getLatitude(), p.getLongitude());
     }
 
     private ShareLinkResponse toResponse(PropertyShareLink link) {
@@ -181,6 +181,7 @@ public class ListingShareService {
             String url, String title, String description, String address, String city,
             PropertyType type, PropertyStatus status, BigDecimal price, Double areaSqm,
             Integer rooms, Integer floor, Integer totalFloors, List<Long> photoIds,
-            String agentName, String agentPhone, String agencyName) {
+            String agentName, String agentPhone, String agencyName,
+            Double latitude, Double longitude) {
     }
 }

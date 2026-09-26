@@ -81,6 +81,7 @@ public class ListingPageRenderer {
         if (!place.isEmpty()) {
             body.append("<p class=\"muted\">").append(escape(place)).append("</p>\n");
         }
+        body.append(mapLink(l, t));
         body.append(specs(l, t, locale));
         body.append("</section>\n");
         if (l.description() != null && !l.description().isBlank()) {
@@ -157,6 +158,28 @@ public class ListingPageRenderer {
                     .append(escape(row[1])).append("</dd></div>\n");
         }
         return out.append("</dl>\n").toString();
+    }
+
+    /**
+     * A plain link to the point on OpenStreetMap, only when the agent dropped a pin. No embedded
+     * map: that would need scripts and a third-party frame the page's policy does not allow.
+     */
+    static String mapLink(PublicListing l, ResourceBundle t) {
+        if (l.latitude() == null || l.longitude() == null) {
+            return "";
+        }
+        String lat = coordinate(l.latitude());
+        String lng = coordinate(l.longitude());
+        String href = "https://www.openstreetmap.org/?mlat=" + lat + "&mlon=" + lng
+                + "#map=17/" + lat + "/" + lng;
+        return "<p class=\"map\"><a href=\"" + escape(href)
+                + "\" rel=\"noopener noreferrer\" target=\"_blank\">"
+                + escape(t.getString("map.open")) + "</a></p>\n";
+    }
+
+    /** Six places, a dot whatever the locale: ten centimetres is all a pin means. */
+    private static String coordinate(double value) {
+        return String.format(Locale.ROOT, "%.6f", value);
     }
 
     /** Name and agency, and a way to call only when the agent has left a number. */
@@ -237,6 +260,8 @@ public class ListingPageRenderer {
             .button{flex:1;min-width:140px;text-align:center;background:#0F1E3C;color:#FFF;\
             text-decoration:none;font-weight:600;padding:13px 16px;border-radius:12px}
             .button-light{background:#EEF1F8;color:#0F1E3C}
+            .map{margin:10px 0 0;font-size:14px}
+            .map a{color:#0F1E3C;font-weight:600}
             .footer{text-align:center;color:#9AA5BE;font-size:12px;margin:18px 0 8px}
             """;
 

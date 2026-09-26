@@ -2595,6 +2595,45 @@ class AppLocalizationsEn extends AppLocalizations {
   String get propertiesLocation => 'Location';
 
   @override
+  String propertiesMapCapped(int count) {
+    return 'Showing $count — zoom in to see the rest';
+  }
+
+  @override
+  String get propertiesMapEmpty => 'No listings in this area';
+
+  @override
+  String get propertiesMapLoading => 'Loading listings';
+
+  @override
+  String get propertiesMapPin => 'Pin on the map';
+
+  @override
+  String get propertiesMapPinClear => 'Remove pin';
+
+  @override
+  String get propertiesMapPinHint =>
+      'Tap the map to drop a pin, drag it to adjust';
+
+  @override
+  String propertiesMapUnpinned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count listings have no location',
+      one: '1 listing has no location',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get propertiesMapUnpinnedHint =>
+      'Open a listing, choose Edit and drop a pin to show it on the map.';
+
+  @override
+  String get propertiesMapUnpinnedTitle => 'Not on the map';
+
+  @override
   String get propertiesNewProperty => 'New Property';
 
   @override
@@ -2616,6 +2655,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get propertiesNoViewings => 'This listing has not been shown yet';
+
+  @override
+  String get propertiesOpenInMaps => 'Open in Maps';
+
+  @override
+  String get propertiesOpenInMapsFailed => 'Could not open a maps app';
 
   @override
   String propertiesPhotoCount(num count) {
@@ -2732,6 +2777,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get propertiesUpdateStatus => 'Update Status';
+
+  @override
+  String get propertiesViewList => 'List';
+
+  @override
+  String get propertiesViewMap => 'Map';
 
   @override
   String get propertiesViewings => 'Viewings';

@@ -4516,6 +4516,60 @@ abstract class AppLocalizations {
   /// **'Location'**
   String get propertiesLocation;
 
+  /// No description provided for @propertiesMapCapped.
+  ///
+  /// In en, this message translates to:
+  /// **'Showing {count} — zoom in to see the rest'**
+  String propertiesMapCapped(int count);
+
+  /// No description provided for @propertiesMapEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No listings in this area'**
+  String get propertiesMapEmpty;
+
+  /// No description provided for @propertiesMapLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading listings'**
+  String get propertiesMapLoading;
+
+  /// No description provided for @propertiesMapPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Pin on the map'**
+  String get propertiesMapPin;
+
+  /// No description provided for @propertiesMapPinClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove pin'**
+  String get propertiesMapPinClear;
+
+  /// No description provided for @propertiesMapPinHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the map to drop a pin, drag it to adjust'**
+  String get propertiesMapPinHint;
+
+  /// No description provided for @propertiesMapUnpinned.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 listing has no location} other{{count} listings have no location}}'**
+  String propertiesMapUnpinned(int count);
+
+  /// No description provided for @propertiesMapUnpinnedHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Open a listing, choose Edit and drop a pin to show it on the map.'**
+  String get propertiesMapUnpinnedHint;
+
+  /// No description provided for @propertiesMapUnpinnedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Not on the map'**
+  String get propertiesMapUnpinnedTitle;
+
   /// No description provided for @propertiesNewProperty.
   ///
   /// In en, this message translates to:
@@ -4557,6 +4611,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This listing has not been shown yet'**
   String get propertiesNoViewings;
+
+  /// No description provided for @propertiesOpenInMaps.
+  ///
+  /// In en, this message translates to:
+  /// **'Open in Maps'**
+  String get propertiesOpenInMaps;
+
+  /// No description provided for @propertiesOpenInMapsFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open a maps app'**
+  String get propertiesOpenInMapsFailed;
 
   /// No description provided for @propertiesPhotoCount.
   ///
@@ -4737,6 +4803,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Update Status'**
   String get propertiesUpdateStatus;
+
+  /// No description provided for @propertiesViewList.
+  ///
+  /// In en, this message translates to:
+  /// **'List'**
+  String get propertiesViewList;
+
+  /// No description provided for @propertiesViewMap.
+  ///
+  /// In en, this message translates to:
+  /// **'Map'**
+  String get propertiesViewMap;
 
   /// No description provided for @propertiesViewings.
   ///

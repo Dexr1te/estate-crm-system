@@ -2556,6 +2556,39 @@ class AppLocalizationsKk extends AppLocalizations {
   String get propertiesLocation => 'Орналасуы';
 
   @override
+  String propertiesMapCapped(int count) {
+    return '$count көрсетілді — қалғанын көру үшін картаны жақындатыңыз';
+  }
+
+  @override
+  String get propertiesMapEmpty => 'Картаның бұл бөлігінде нысан жоқ';
+
+  @override
+  String get propertiesMapLoading => 'Нысандар жүктелуде';
+
+  @override
+  String get propertiesMapPin => 'Картадағы нүкте';
+
+  @override
+  String get propertiesMapPinClear => 'Нүктені алып тастау';
+
+  @override
+  String get propertiesMapPinHint =>
+      'Нүкте қою үшін картаны түртіңіз, дәлдеу үшін оны сүйреңіз';
+
+  @override
+  String propertiesMapUnpinned(int count) {
+    return '$count нысанның картада нүктесі жоқ';
+  }
+
+  @override
+  String get propertiesMapUnpinnedHint =>
+      'Нысанды ашып, «Өңдеу» басып, нүкте қойыңыз — ол картада пайда болады.';
+
+  @override
+  String get propertiesMapUnpinnedTitle => 'Картада жоқ';
+
+  @override
   String get propertiesNewProperty => 'Жаңа нысан';
 
   @override
@@ -2576,6 +2609,12 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get propertiesNoViewings => 'Бұл нысан әлі көрсетілмеген';
+
+  @override
+  String get propertiesOpenInMaps => 'Карталарда ашу';
+
+  @override
+  String get propertiesOpenInMapsFailed => 'Карталарды ашу мүмкін болмады';
 
   @override
   String propertiesPhotoCount(num count) {
@@ -2691,6 +2730,12 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get propertiesUpdateStatus => 'Мәртебені жаңарту';
+
+  @override
+  String get propertiesViewList => 'Тізім';
+
+  @override
+  String get propertiesViewMap => 'Карта';
 
   @override
   String get propertiesViewings => 'Көрсетілімдер';
