@@ -13,6 +13,7 @@ Future<void> showTaskSheet(
   TaskResponse? task,
   PickerItem? client,
   PickerItem? deal,
+  DateTime? dueAt,
 }) async {
   final l10n = AppLocalizations.of(context);
   final repo = Injector.tasksRepository;
@@ -29,6 +30,7 @@ Future<void> showTaskSheet(
     title: task == null ? l10n.tasksNew : l10n.tasksEdit,
     builder: (sheet) => TaskForm(
       task: task,
+      initialDueAt: task == null ? dueAt : null,
       client: task?.clientId != null
           ? PickerItem(id: task!.clientId!, title: task.clientName ?? '')
           : task == null

@@ -1012,6 +1012,150 @@ abstract class AppLocalizations {
   /// **'Welcome back!'**
   String get authWelcomeBack;
 
+  /// No description provided for @calendarAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get calendarAdd;
+
+  /// No description provided for @calendarAddMeeting.
+  ///
+  /// In en, this message translates to:
+  /// **'Meeting'**
+  String get calendarAddMeeting;
+
+  /// No description provided for @calendarAddMeetingHint.
+  ///
+  /// In en, this message translates to:
+  /// **'With a client, at a set time'**
+  String get calendarAddMeetingHint;
+
+  /// No description provided for @calendarAddTask.
+  ///
+  /// In en, this message translates to:
+  /// **'Task'**
+  String get calendarAddTask;
+
+  /// No description provided for @calendarAddTaskHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Something to get done by a time'**
+  String get calendarAddTaskHint;
+
+  /// No description provided for @calendarAddTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to {day}'**
+  String calendarAddTo(String day);
+
+  /// No description provided for @calendarDayEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing planned'**
+  String get calendarDayEmpty;
+
+  /// No description provided for @calendarDayEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap + or press and hold a day to add a meeting or a task'**
+  String get calendarDayEmptyHint;
+
+  /// No description provided for @calendarDayEntries.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{nothing planned} =1{1 entry} other{{count} entries}}'**
+  String calendarDayEntries(int count);
+
+  /// No description provided for @calendarLegendMeeting.
+  ///
+  /// In en, this message translates to:
+  /// **'Meeting'**
+  String get calendarLegendMeeting;
+
+  /// No description provided for @calendarLegendOverdue.
+  ///
+  /// In en, this message translates to:
+  /// **'Overdue'**
+  String get calendarLegendOverdue;
+
+  /// No description provided for @calendarLegendTask.
+  ///
+  /// In en, this message translates to:
+  /// **'Task'**
+  String get calendarLegendTask;
+
+  /// No description provided for @calendarLegendViewing.
+  ///
+  /// In en, this message translates to:
+  /// **'Viewing'**
+  String get calendarLegendViewing;
+
+  /// No description provided for @calendarLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load the calendar'**
+  String get calendarLoadFailed;
+
+  /// No description provided for @calendarNextMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Next month'**
+  String get calendarNextMonth;
+
+  /// No description provided for @calendarNextWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Next week'**
+  String get calendarNextWeek;
+
+  /// No description provided for @calendarPreviousMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous month'**
+  String get calendarPreviousMonth;
+
+  /// No description provided for @calendarPreviousWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous week'**
+  String get calendarPreviousWeek;
+
+  /// No description provided for @calendarShowMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Show the whole month'**
+  String get calendarShowMonth;
+
+  /// No description provided for @calendarShowWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Show one week'**
+  String get calendarShowWeek;
+
+  /// No description provided for @calendarTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Calendar'**
+  String get calendarTitle;
+
+  /// No description provided for @calendarToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get calendarToday;
+
+  /// No description provided for @calendarViewList.
+  ///
+  /// In en, this message translates to:
+  /// **'List'**
+  String get calendarViewList;
+
+  /// No description provided for @calendarViewMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Month'**
+  String get calendarViewMonth;
+
   /// No description provided for @clientsActivityCall.
   ///
   /// In en, this message translates to:
@@ -1822,6 +1966,12 @@ abstract class AppLocalizations {
   /// **'Admin'**
   String get coreNavAdmin;
 
+  /// No description provided for @coreNavCalendar.
+  ///
+  /// In en, this message translates to:
+  /// **'Calendar'**
+  String get coreNavCalendar;
+
   /// No description provided for @coreNavClients.
   ///
   /// In en, this message translates to:
@@ -1839,12 +1989,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Deals'**
   String get coreNavDeals;
-
-  /// No description provided for @coreNavMeetings.
-  ///
-  /// In en, this message translates to:
-  /// **'Meetings'**
-  String get coreNavMeetings;
 
   /// No description provided for @coreNavProperties.
   ///

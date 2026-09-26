@@ -506,6 +506,92 @@ class AppLocalizationsRu extends AppLocalizations {
   String get authWelcomeBack => 'С возвращением!';
 
   @override
+  String get calendarAdd => 'Добавить';
+
+  @override
+  String get calendarAddMeeting => 'Встреча';
+
+  @override
+  String get calendarAddMeetingHint => 'С клиентом, в назначенное время';
+
+  @override
+  String get calendarAddTask => 'Задача';
+
+  @override
+  String get calendarAddTaskHint => 'Дело, которое нужно сделать к сроку';
+
+  @override
+  String calendarAddTo(String day) {
+    return 'Добавить на $day';
+  }
+
+  @override
+  String get calendarDayEmpty => 'Ничего не запланировано';
+
+  @override
+  String get calendarDayEmptyHint =>
+      'Нажмите + или удерживайте день, чтобы добавить встречу или задачу';
+
+  @override
+  String calendarDayEntries(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count записи',
+      many: '$count записей',
+      few: '$count записи',
+      one: '$count запись',
+      zero: 'ничего не запланировано',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get calendarLegendMeeting => 'Встреча';
+
+  @override
+  String get calendarLegendOverdue => 'Просрочено';
+
+  @override
+  String get calendarLegendTask => 'Задача';
+
+  @override
+  String get calendarLegendViewing => 'Показ';
+
+  @override
+  String get calendarLoadFailed => 'Не удалось загрузить календарь';
+
+  @override
+  String get calendarNextMonth => 'Следующий месяц';
+
+  @override
+  String get calendarNextWeek => 'Следующая неделя';
+
+  @override
+  String get calendarPreviousMonth => 'Предыдущий месяц';
+
+  @override
+  String get calendarPreviousWeek => 'Предыдущая неделя';
+
+  @override
+  String get calendarShowMonth => 'Показать весь месяц';
+
+  @override
+  String get calendarShowWeek => 'Показать одну неделю';
+
+  @override
+  String get calendarTitle => 'Календарь';
+
+  @override
+  String get calendarToday => 'Сегодня';
+
+  @override
+  String get calendarViewList => 'Список';
+
+  @override
+  String get calendarViewMonth => 'Месяц';
+
+  @override
   String get clientsActivityCall => 'Звонок';
 
   @override
@@ -982,6 +1068,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get coreNavAdmin => 'Администрирование';
 
   @override
+  String get coreNavCalendar => 'Календарь';
+
+  @override
   String get coreNavClients => 'Клиенты';
 
   @override
@@ -989,9 +1078,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get coreNavDeals => 'Сделки';
-
-  @override
-  String get coreNavMeetings => 'Встречи';
 
   @override
   String get coreNavProperties => 'Объекты';

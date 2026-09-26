@@ -9,10 +9,16 @@ class TasksRemoteDataSource {
 
   Future<List<TaskResponse>> getTasks(TaskQuery query) async {
     final res = await _client.dio.get('/tasks', queryParameters: {
-      'status': query.done ? 'done' : 'open',
+      'status': query.includeDone
+          ? 'all'
+          : query.done
+              ? 'done'
+              : 'open',
       if (query.clientId != null) 'clientId': query.clientId,
       if (query.dealId != null) 'dealId': query.dealId,
       if (query.assigneeId != null) 'assigneeId': query.assigneeId,
+      if (query.from != null) 'from': query.from!.toIso8601String(),
+      if (query.to != null) 'to': query.to!.toIso8601String(),
     });
     return jsonArray(res).map(TaskResponse.fromJson).toList();
   }

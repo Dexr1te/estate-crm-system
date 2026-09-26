@@ -56,10 +56,28 @@ public class TaskService {
      * Open tasks soonest first, so the overdue ones lead; finished ones most recently done first.
      */
     public List<TaskResponse> list(String status, Long clientId, Long dealId, Long assigneeId) {
-        boolean done = parseDone(status);
+        return list(status, clientId, dealId, assigneeId, null, null);
+    }
+
+    /**
+     * As above, optionally narrowed to tasks due in {@code [from, to)} for a calendar page. The
+     * status {@code all} returns open and done together, soonest due first.
+     */
+    public List<TaskResponse> list(String status, Long clientId, Long dealId, Long assigneeId,
+                                   LocalDateTime from, LocalDateTime to) {
+        Boolean doneFilter = parseDone(status);
+        boolean done = Boolean.TRUE.equals(doneFilter);
         Specification<Task> filter = (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
-            predicates.add(done ? cb.isNotNull(root.get("completedAt")) : cb.isNull(root.get("completedAt")));
+            if (doneFilter != null) {
+                predicates.add(done ? cb.isNotNull(root.get("completedAt")) : cb.isNull(root.get("completedAt")));
+            }
+            if (from != null) {
+                predicates.add(cb.greaterThanOrEqualTo(root.get("dueAt"), from));
+            }
+            if (to != null) {
+                predicates.add(cb.lessThan(root.get("dueAt"), to));
+            }
             if (clientId != null) {
                 predicates.add(cb.equal(root.get("client").get("id"), clientId));
             }
@@ -122,13 +140,15 @@ public class TaskService {
         taskRepository.delete(findVisibleById(id, securityUtils.getCurrentUser()));
     }
 
-    private static boolean parseDone(String status) {
+    /** {@code null} means both: the calendar shows done tasks alongside open ones. */
+    private static Boolean parseDone(String status) {
         String value = status == null ? "open" : status.trim().toLowerCase(Locale.ROOT);
         return switch (value) {
             case "open" -> false;
             case "done" -> true;
+            case "all" -> null;
             default -> throw new BusinessException(HttpStatus.BAD_REQUEST, "INVALID_TASK_STATUS",
-                    "Status must be open or done");
+                    "Status must be open, done or all");
         };
     }
 

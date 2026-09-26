@@ -507,6 +507,90 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authWelcomeBack => 'Welcome back!';
 
   @override
+  String get calendarAdd => 'Add';
+
+  @override
+  String get calendarAddMeeting => 'Meeting';
+
+  @override
+  String get calendarAddMeetingHint => 'With a client, at a set time';
+
+  @override
+  String get calendarAddTask => 'Task';
+
+  @override
+  String get calendarAddTaskHint => 'Something to get done by a time';
+
+  @override
+  String calendarAddTo(String day) {
+    return 'Add to $day';
+  }
+
+  @override
+  String get calendarDayEmpty => 'Nothing planned';
+
+  @override
+  String get calendarDayEmptyHint =>
+      'Tap + or press and hold a day to add a meeting or a task';
+
+  @override
+  String calendarDayEntries(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count entries',
+      one: '1 entry',
+      zero: 'nothing planned',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get calendarLegendMeeting => 'Meeting';
+
+  @override
+  String get calendarLegendOverdue => 'Overdue';
+
+  @override
+  String get calendarLegendTask => 'Task';
+
+  @override
+  String get calendarLegendViewing => 'Viewing';
+
+  @override
+  String get calendarLoadFailed => 'Couldn\'t load the calendar';
+
+  @override
+  String get calendarNextMonth => 'Next month';
+
+  @override
+  String get calendarNextWeek => 'Next week';
+
+  @override
+  String get calendarPreviousMonth => 'Previous month';
+
+  @override
+  String get calendarPreviousWeek => 'Previous week';
+
+  @override
+  String get calendarShowMonth => 'Show the whole month';
+
+  @override
+  String get calendarShowWeek => 'Show one week';
+
+  @override
+  String get calendarTitle => 'Calendar';
+
+  @override
+  String get calendarToday => 'Today';
+
+  @override
+  String get calendarViewList => 'List';
+
+  @override
+  String get calendarViewMonth => 'Month';
+
+  @override
   String get clientsActivityCall => 'Call';
 
   @override
@@ -977,6 +1061,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get coreNavAdmin => 'Admin';
 
   @override
+  String get coreNavCalendar => 'Calendar';
+
+  @override
   String get coreNavClients => 'Clients';
 
   @override
@@ -984,9 +1071,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get coreNavDeals => 'Deals';
-
-  @override
-  String get coreNavMeetings => 'Meetings';
 
   @override
   String get coreNavProperties => 'Properties';

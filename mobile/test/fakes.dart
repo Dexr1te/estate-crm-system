@@ -112,8 +112,22 @@ class FakeMeetingsRepository implements MeetingsRepository {
   final List<MeetingResponse> meetings;
   FakeMeetingsRepository(this.meetings);
 
+  /// Every `[from, to)` window asked for, in order.
+  final List<(DateTime, DateTime)> ranges = [];
+
   @override
   Future<List<MeetingResponse>> getMeetings({int? agentId}) async => meetings;
+  @override
+  Future<List<MeetingResponse>> getMeetingsBetween(DateTime from, DateTime to,
+      {int? agentId}) async {
+    ranges.add((from, to));
+    return meetings
+        .where(
+            (m) => !m.scheduledAt.isBefore(from) && m.scheduledAt.isBefore(to))
+        .toList()
+      ..sort((a, b) => a.scheduledAt.compareTo(b.scheduledAt));
+  }
+
   @override
   Future<List<UpcomingMeetingResponse>> getUpcomingMeetings() async => meetings
       .map((m) => UpcomingMeetingResponse(
@@ -780,6 +794,9 @@ class FakeTasksRepository implements TasksRepository {
   /// What each write sent, in order, for asserting on the request body.
   final List<Map<String, dynamic>> sent = [];
 
+  /// Every query read with, in order.
+  final List<TaskQuery> queries = [];
+
   final _changes = StreamController<void>.broadcast();
 
   FakeTasksRepository([this.tasks = const []]);
@@ -790,9 +807,12 @@ class FakeTasksRepository implements TasksRepository {
   @override
   Future<List<TaskResponse>> getTasks(
       [TaskQuery query = const TaskQuery()]) async {
+    queries.add(query);
     if (readError != null) throw readError!;
     final found = tasks
-        .where((t) => t.isDone == query.done)
+        .where((t) => query.includeDone || t.isDone == query.done)
+        .where((t) => query.from == null || !t.dueAt.isBefore(query.from!))
+        .where((t) => query.to == null || t.dueAt.isBefore(query.to!))
         .where((t) => query.clientId == null || t.clientId == query.clientId)
         .where((t) => query.dealId == null || t.dealId == query.dealId)
         .where(

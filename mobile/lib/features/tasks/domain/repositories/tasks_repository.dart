@@ -6,11 +6,22 @@ class TaskQuery {
   final int? dealId;
   final int? assigneeId;
 
+  /// Open and done together, soonest due first; [done] is then ignored. The
+  /// calendar shows finished tasks too, muted.
+  final bool includeDone;
+
+  /// Only tasks due in `[from, to)`; either bound may be left open.
+  final DateTime? from;
+  final DateTime? to;
+
   const TaskQuery({
     this.done = false,
     this.clientId,
     this.dealId,
     this.assigneeId,
+    this.includeDone = false,
+    this.from,
+    this.to,
   });
 }
 

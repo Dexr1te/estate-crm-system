@@ -11,6 +11,11 @@ class MeetingsRepositoryImpl implements MeetingsRepository {
       _remote.getMeetings(agentId: agentId);
 
   @override
+  Future<List<MeetingResponse>> getMeetingsBetween(DateTime from, DateTime to,
+          {int? agentId}) =>
+      _remote.getMeetingsBetween(from, to, agentId: agentId);
+
+  @override
   Future<List<UpcomingMeetingResponse>> getUpcomingMeetings() =>
       _remote.getUpcomingMeetings();
 
