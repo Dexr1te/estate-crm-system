@@ -26,6 +26,7 @@ import 'package:real_estate_crm/features/imports/presentation/screens/import_scr
 import 'package:real_estate_crm/features/meetings/presentation/screens/meeting_detail_screen.dart';
 import 'package:real_estate_crm/features/meetings/presentation/screens/meeting_form_screen.dart';
 import 'package:real_estate_crm/features/meetings/presentation/screens/meetings_screen.dart';
+import 'package:real_estate_crm/features/mortgage/presentation/screens/mortgage_screen.dart';
 import 'package:real_estate_crm/features/notifications/presentation/screens/notifications_screen.dart';
 import 'package:real_estate_crm/features/profile/presentation/screens/profile_screen.dart';
 import 'package:real_estate_crm/features/properties/presentation/screens/properties_screen.dart';
@@ -285,6 +286,18 @@ GoRouter createRouter(AuthBloc authBloc) {
                     pageBuilder: (_, s) => NoTransitionPage(
                       child: PropertyFormScreen(
                           propertyId: int.parse(s.pathParameters['id']!)),
+                    ),
+                  ),
+                  GoRoute(
+                    path: 'mortgage',
+                    parentNavigatorKey: _rootKey,
+                    pageBuilder: (_, s) => NoTransitionPage(
+                      child: MortgageScreen(
+                        price: double.tryParse(
+                                s.uri.queryParameters['price'] ?? '') ??
+                            0,
+                        title: s.uri.queryParameters['title'],
+                      ),
                     ),
                   ),
                 ],

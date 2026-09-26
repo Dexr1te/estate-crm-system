@@ -1,4 +1,5 @@
 {
+  "@@locale": "en",
   "adminActivate": "Activate",
   "adminAssignTeam": "Assign team",
   "adminAssignToTeam": "Assign to team",
@@ -628,7 +629,6 @@
   "documentsTooLarge": "Files larger than {limit} MB cannot be attached",
   "documentsUploadedBy": "Added by {name}",
   "documentsUploading": "Sending…",
-  "@@locale": "en",
   "importAction": "{count, plural, =1{Import 1 row} other{Import {count} rows}}",
   "@importAction": {
     "placeholders": {
@@ -815,6 +815,170 @@
   "meetingsViewingOf": "Viewing",
   "meetingsWhen": "When",
   "meetingsWhoAndWhere": "Who & where",
+  "mortgageAmortisation": "Payment schedule",
+  "mortgageAnnuity": "Annuity",
+  "mortgageDifferentiated": "Differentiated",
+  "mortgageDownPayment": "Down payment",
+  "mortgageDownSummary": "{percent}% down · {rate}% · {term}",
+  "@mortgageDownSummary": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      },
+      "rate": {
+        "type": "String"
+      },
+      "term": {
+        "type": "String"
+      }
+    }
+  },
+  "mortgageFees": "One-off fees",
+  "mortgageFeesHint": "Appraisal, insurance, bank fee",
+  "mortgageFromPerMonth": "from {amount} / month",
+  "@mortgageFromPerMonth": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "mortgageIncomeHint": "Keeps the payment within {percent}% of income",
+  "@mortgageIncomeHint": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "mortgageIncomeNeeded": "Income needed",
+  "mortgageInterest": "Interest",
+  "mortgageLoan": "Loan",
+  "mortgageMonthLabel": "Month {number}",
+  "@mortgageMonthLabel": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "mortgageMonthly": "Monthly payment",
+  "mortgageMonthlyRange": "First month → last month",
+  "mortgageNoLoan": "The down payment covers the price, so there is nothing to borrow.",
+  "mortgageOpenCalculator": "Open calculator",
+  "mortgageOverpayment": "Overpayment",
+  "mortgagePerMonth": "{amount} / month",
+  "@mortgagePerMonth": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "mortgagePresetHousingSavings": "Housing savings",
+  "mortgagePresetMarket": "Market rate",
+  "mortgagePresetStateProgram": "7-20-25 programme",
+  "mortgagePresetsNote": "Typical rates, not bank offers. Rates change, so check with the bank.",
+  "mortgagePrice": "Price",
+  "mortgagePrincipal": "Principal",
+  "mortgageRangePerMonth": "{first} → {last} / month",
+  "@mortgageRangePerMonth": {
+    "placeholders": {
+      "first": {
+        "type": "String"
+      },
+      "last": {
+        "type": "String"
+      }
+    }
+  },
+  "mortgageRate": "Annual rate, %",
+  "mortgageSend": "Send to client",
+  "mortgageShareDisclaimer": "Indicative estimate, not an offer.",
+  "mortgageShareDown": "Down payment: {amount} ({percent}%)",
+  "@mortgageShareDown": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "mortgageShareFailed": "Couldn't share the estimate",
+  "mortgageShareHeading": "Mortgage estimate",
+  "mortgageShareMonthly": "Monthly payment: {amount}",
+  "@mortgageShareMonthly": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "mortgageShareMonthlyRange": "Monthly payment: {first} in the first month, {last} in the last",
+  "@mortgageShareMonthlyRange": {
+    "placeholders": {
+      "first": {
+        "type": "String"
+      },
+      "last": {
+        "type": "String"
+      }
+    }
+  },
+  "mortgageShareOverpayment": "Total overpayment: {amount}",
+  "@mortgageShareOverpayment": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "mortgageSharePrice": "Price: {amount}",
+  "@mortgageSharePrice": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "mortgageShareRate": "Rate: {rate}% a year",
+  "@mortgageShareRate": {
+    "placeholders": {
+      "rate": {
+        "type": "String"
+      }
+    }
+  },
+  "mortgageShareTerm": "Term: {term}",
+  "@mortgageShareTerm": {
+    "placeholders": {
+      "term": {
+        "type": "String"
+      }
+    }
+  },
+  "mortgageTerm": "Term",
+  "mortgageTermYears": "{count, plural, one{{count} year} other{{count} years}}",
+  "@mortgageTermYears": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "mortgageTitle": "Mortgage",
+  "mortgageTotalRepaid": "Total repaid",
+  "mortgageType": "Payment type",
+  "mortgageYearLabel": "Year {number}",
+  "@mortgageYearLabel": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
   "msgAgentInvited": "Agent invited",
   "msgClientCreated": "Client created",
   "msgClientDeleted": "Client deleted",

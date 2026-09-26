@@ -2283,6 +2283,174 @@ class AppLocalizationsKk extends AppLocalizations {
   String get meetingsWhoAndWhere => 'Кіммен және қайда';
 
   @override
+  String get mortgageAmortisation => 'Төлем кестесі';
+
+  @override
+  String get mortgageAnnuity => 'Аннуитетті';
+
+  @override
+  String get mortgageDifferentiated => 'Сараланған';
+
+  @override
+  String get mortgageDownPayment => 'Бастапқы жарна';
+
+  @override
+  String mortgageDownSummary(String percent, String rate, String term) {
+    return 'жарна $percent% · $rate% · $term';
+  }
+
+  @override
+  String get mortgageFees => 'Бір реттік шығындар';
+
+  @override
+  String get mortgageFeesHint => 'Бағалау, сақтандыру, банк комиссиясы';
+
+  @override
+  String mortgageFromPerMonth(String amount) {
+    return 'айына $amount бастап';
+  }
+
+  @override
+  String mortgageIncomeHint(String percent) {
+    return 'Төлем табыстың $percent%-ынан аспауы үшін';
+  }
+
+  @override
+  String get mortgageIncomeNeeded => 'Қажетті табыс';
+
+  @override
+  String get mortgageInterest => 'Пайыздар';
+
+  @override
+  String get mortgageLoan => 'Несие сомасы';
+
+  @override
+  String mortgageMonthLabel(int number) {
+    return '$number-ай';
+  }
+
+  @override
+  String get mortgageMonthly => 'Ай сайынғы төлем';
+
+  @override
+  String get mortgageMonthlyRange => 'Алғашқы ай → соңғы ай';
+
+  @override
+  String get mortgageNoLoan => 'Жарна бағаны толық жабады, несие қажет емес.';
+
+  @override
+  String get mortgageOpenCalculator => 'Калькуляторды ашу';
+
+  @override
+  String get mortgageOverpayment => 'Артық төлем';
+
+  @override
+  String mortgagePerMonth(String amount) {
+    return 'айына $amount';
+  }
+
+  @override
+  String get mortgagePresetHousingSavings => 'Тұрғын үй жинақтары';
+
+  @override
+  String get mortgagePresetMarket => 'Нарықтық мөлшерлеме';
+
+  @override
+  String get mortgagePresetStateProgram => '7-20-25 бағдарламасы';
+
+  @override
+  String get mortgagePresetsNote =>
+      'Әдеттегі мөлшерлемелер, банк ұсынысы емес. Мөлшерлемелер өзгереді, банктен нақтылаңыз.';
+
+  @override
+  String get mortgagePrice => 'Баға';
+
+  @override
+  String get mortgagePrincipal => 'Негізгі қарыз';
+
+  @override
+  String mortgageRangePerMonth(String first, String last) {
+    return 'айына $first → $last';
+  }
+
+  @override
+  String get mortgageRate => 'Жылдық мөлшерлеме, %';
+
+  @override
+  String get mortgageSend => 'Клиентке жіберу';
+
+  @override
+  String get mortgageShareDisclaimer => 'Болжамды есеп, оферта емес.';
+
+  @override
+  String mortgageShareDown(String amount, String percent) {
+    return 'Бастапқы жарна: $amount ($percent%)';
+  }
+
+  @override
+  String get mortgageShareFailed => 'Есепті бөлісу мүмкін болмады';
+
+  @override
+  String get mortgageShareHeading => 'Ипотека есебі';
+
+  @override
+  String mortgageShareMonthly(String amount) {
+    return 'Ай сайынғы төлем: $amount';
+  }
+
+  @override
+  String mortgageShareMonthlyRange(String first, String last) {
+    return 'Ай сайынғы төлем: алғашқы айда $first, соңғы айда $last';
+  }
+
+  @override
+  String mortgageShareOverpayment(String amount) {
+    return 'Артық төлем: $amount';
+  }
+
+  @override
+  String mortgageSharePrice(String amount) {
+    return 'Бағасы: $amount';
+  }
+
+  @override
+  String mortgageShareRate(String rate) {
+    return 'Мөлшерлеме: жылдық $rate%';
+  }
+
+  @override
+  String mortgageShareTerm(String term) {
+    return 'Мерзімі: $term';
+  }
+
+  @override
+  String get mortgageTerm => 'Мерзім';
+
+  @override
+  String mortgageTermYears(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count жыл',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get mortgageTitle => 'Ипотека';
+
+  @override
+  String get mortgageTotalRepaid => 'Барлық төлем';
+
+  @override
+  String get mortgageType => 'Төлем түрі';
+
+  @override
+  String mortgageYearLabel(int number) {
+    return '$number-жыл';
+  }
+
+  @override
   String get msgAgentInvited => 'Агент шақырылды';
 
   @override

@@ -2307,6 +2307,178 @@ class AppLocalizationsRu extends AppLocalizations {
   String get meetingsWhoAndWhere => 'С кем и где';
 
   @override
+  String get mortgageAmortisation => 'График платежей';
+
+  @override
+  String get mortgageAnnuity => 'Аннуитетный';
+
+  @override
+  String get mortgageDifferentiated => 'Дифференцированный';
+
+  @override
+  String get mortgageDownPayment => 'Первоначальный взнос';
+
+  @override
+  String mortgageDownSummary(String percent, String rate, String term) {
+    return 'взнос $percent% · $rate% · $term';
+  }
+
+  @override
+  String get mortgageFees => 'Разовые расходы';
+
+  @override
+  String get mortgageFeesHint => 'Оценка, страховка, комиссия банка';
+
+  @override
+  String mortgageFromPerMonth(String amount) {
+    return 'от $amount в месяц';
+  }
+
+  @override
+  String mortgageIncomeHint(String percent) {
+    return 'Чтобы платёж был не больше $percent% дохода';
+  }
+
+  @override
+  String get mortgageIncomeNeeded => 'Нужный доход';
+
+  @override
+  String get mortgageInterest => 'Проценты';
+
+  @override
+  String get mortgageLoan => 'Сумма кредита';
+
+  @override
+  String mortgageMonthLabel(int number) {
+    return 'Месяц $number';
+  }
+
+  @override
+  String get mortgageMonthly => 'Ежемесячный платёж';
+
+  @override
+  String get mortgageMonthlyRange => 'Первый месяц → последний';
+
+  @override
+  String get mortgageNoLoan => 'Взнос покрывает всю цену, кредит не нужен.';
+
+  @override
+  String get mortgageOpenCalculator => 'Открыть калькулятор';
+
+  @override
+  String get mortgageOverpayment => 'Переплата';
+
+  @override
+  String mortgagePerMonth(String amount) {
+    return '$amount в месяц';
+  }
+
+  @override
+  String get mortgagePresetHousingSavings => 'Жилстройсбережения';
+
+  @override
+  String get mortgagePresetMarket => 'Рыночная ставка';
+
+  @override
+  String get mortgagePresetStateProgram => 'Программа 7-20-25';
+
+  @override
+  String get mortgagePresetsNote =>
+      'Типичные ставки, а не предложения банков. Ставки меняются, уточняйте в банке.';
+
+  @override
+  String get mortgagePrice => 'Цена';
+
+  @override
+  String get mortgagePrincipal => 'Основной долг';
+
+  @override
+  String mortgageRangePerMonth(String first, String last) {
+    return '$first → $last в месяц';
+  }
+
+  @override
+  String get mortgageRate => 'Ставка годовых, %';
+
+  @override
+  String get mortgageSend => 'Отправить клиенту';
+
+  @override
+  String get mortgageShareDisclaimer =>
+      'Ориентировочный расчёт, не является офертой.';
+
+  @override
+  String mortgageShareDown(String amount, String percent) {
+    return 'Первоначальный взнос: $amount ($percent%)';
+  }
+
+  @override
+  String get mortgageShareFailed => 'Не удалось поделиться расчётом';
+
+  @override
+  String get mortgageShareHeading => 'Расчёт ипотеки';
+
+  @override
+  String mortgageShareMonthly(String amount) {
+    return 'Ежемесячный платёж: $amount';
+  }
+
+  @override
+  String mortgageShareMonthlyRange(String first, String last) {
+    return 'Ежемесячный платёж: $first в первый месяц, $last в последний';
+  }
+
+  @override
+  String mortgageShareOverpayment(String amount) {
+    return 'Переплата: $amount';
+  }
+
+  @override
+  String mortgageSharePrice(String amount) {
+    return 'Цена: $amount';
+  }
+
+  @override
+  String mortgageShareRate(String rate) {
+    return 'Ставка: $rate% годовых';
+  }
+
+  @override
+  String mortgageShareTerm(String term) {
+    return 'Срок: $term';
+  }
+
+  @override
+  String get mortgageTerm => 'Срок';
+
+  @override
+  String mortgageTermYears(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count года',
+      many: '$count лет',
+      few: '$count года',
+      one: '$count год',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get mortgageTitle => 'Ипотека';
+
+  @override
+  String get mortgageTotalRepaid => 'Всего выплат';
+
+  @override
+  String get mortgageType => 'Тип платежа';
+
+  @override
+  String mortgageYearLabel(int number) {
+    return 'Год $number';
+  }
+
+  @override
   String get msgAgentInvited => 'Агент приглашён';
 
   @override

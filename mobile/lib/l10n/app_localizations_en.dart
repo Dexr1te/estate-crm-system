@@ -2287,6 +2287,176 @@ class AppLocalizationsEn extends AppLocalizations {
   String get meetingsWhoAndWhere => 'Who & where';
 
   @override
+  String get mortgageAmortisation => 'Payment schedule';
+
+  @override
+  String get mortgageAnnuity => 'Annuity';
+
+  @override
+  String get mortgageDifferentiated => 'Differentiated';
+
+  @override
+  String get mortgageDownPayment => 'Down payment';
+
+  @override
+  String mortgageDownSummary(String percent, String rate, String term) {
+    return '$percent% down · $rate% · $term';
+  }
+
+  @override
+  String get mortgageFees => 'One-off fees';
+
+  @override
+  String get mortgageFeesHint => 'Appraisal, insurance, bank fee';
+
+  @override
+  String mortgageFromPerMonth(String amount) {
+    return 'from $amount / month';
+  }
+
+  @override
+  String mortgageIncomeHint(String percent) {
+    return 'Keeps the payment within $percent% of income';
+  }
+
+  @override
+  String get mortgageIncomeNeeded => 'Income needed';
+
+  @override
+  String get mortgageInterest => 'Interest';
+
+  @override
+  String get mortgageLoan => 'Loan';
+
+  @override
+  String mortgageMonthLabel(int number) {
+    return 'Month $number';
+  }
+
+  @override
+  String get mortgageMonthly => 'Monthly payment';
+
+  @override
+  String get mortgageMonthlyRange => 'First month → last month';
+
+  @override
+  String get mortgageNoLoan =>
+      'The down payment covers the price, so there is nothing to borrow.';
+
+  @override
+  String get mortgageOpenCalculator => 'Open calculator';
+
+  @override
+  String get mortgageOverpayment => 'Overpayment';
+
+  @override
+  String mortgagePerMonth(String amount) {
+    return '$amount / month';
+  }
+
+  @override
+  String get mortgagePresetHousingSavings => 'Housing savings';
+
+  @override
+  String get mortgagePresetMarket => 'Market rate';
+
+  @override
+  String get mortgagePresetStateProgram => '7-20-25 programme';
+
+  @override
+  String get mortgagePresetsNote =>
+      'Typical rates, not bank offers. Rates change, so check with the bank.';
+
+  @override
+  String get mortgagePrice => 'Price';
+
+  @override
+  String get mortgagePrincipal => 'Principal';
+
+  @override
+  String mortgageRangePerMonth(String first, String last) {
+    return '$first → $last / month';
+  }
+
+  @override
+  String get mortgageRate => 'Annual rate, %';
+
+  @override
+  String get mortgageSend => 'Send to client';
+
+  @override
+  String get mortgageShareDisclaimer => 'Indicative estimate, not an offer.';
+
+  @override
+  String mortgageShareDown(String amount, String percent) {
+    return 'Down payment: $amount ($percent%)';
+  }
+
+  @override
+  String get mortgageShareFailed => 'Couldn\'t share the estimate';
+
+  @override
+  String get mortgageShareHeading => 'Mortgage estimate';
+
+  @override
+  String mortgageShareMonthly(String amount) {
+    return 'Monthly payment: $amount';
+  }
+
+  @override
+  String mortgageShareMonthlyRange(String first, String last) {
+    return 'Monthly payment: $first in the first month, $last in the last';
+  }
+
+  @override
+  String mortgageShareOverpayment(String amount) {
+    return 'Total overpayment: $amount';
+  }
+
+  @override
+  String mortgageSharePrice(String amount) {
+    return 'Price: $amount';
+  }
+
+  @override
+  String mortgageShareRate(String rate) {
+    return 'Rate: $rate% a year';
+  }
+
+  @override
+  String mortgageShareTerm(String term) {
+    return 'Term: $term';
+  }
+
+  @override
+  String get mortgageTerm => 'Term';
+
+  @override
+  String mortgageTermYears(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count years',
+      one: '$count year',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get mortgageTitle => 'Mortgage';
+
+  @override
+  String get mortgageTotalRepaid => 'Total repaid';
+
+  @override
+  String get mortgageType => 'Payment type';
+
+  @override
+  String mortgageYearLabel(int number) {
+    return 'Year $number';
+  }
+
+  @override
   String get msgAgentInvited => 'Agent invited';
 
   @override

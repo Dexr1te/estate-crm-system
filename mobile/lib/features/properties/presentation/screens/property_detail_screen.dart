@@ -10,6 +10,7 @@ import 'package:real_estate_crm/core/utils/share_gateway.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_state.dart';
+import 'package:real_estate_crm/features/mortgage/presentation/widgets/mortgage_card.dart';
 import 'package:real_estate_crm/features/properties/brochure/brochure_photos.dart';
 import 'package:real_estate_crm/features/properties/brochure/listing_brochure.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_bloc.dart';
@@ -232,6 +233,12 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
             loading: _brochureBusy,
             onPressed: _shareBrochure,
           ),
+          if (p.price > 0)
+            PropertyMortgageCard(
+              propertyId: p.id,
+              price: p.price,
+              title: p.title,
+            ),
           PropertyPhotosCard(
             propertyId: widget.id,
             photos: _photos,

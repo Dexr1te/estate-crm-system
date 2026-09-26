@@ -4054,6 +4054,270 @@ abstract class AppLocalizations {
   /// **'Who & where'**
   String get meetingsWhoAndWhere;
 
+  /// No description provided for @mortgageAmortisation.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment schedule'**
+  String get mortgageAmortisation;
+
+  /// No description provided for @mortgageAnnuity.
+  ///
+  /// In en, this message translates to:
+  /// **'Annuity'**
+  String get mortgageAnnuity;
+
+  /// No description provided for @mortgageDifferentiated.
+  ///
+  /// In en, this message translates to:
+  /// **'Differentiated'**
+  String get mortgageDifferentiated;
+
+  /// No description provided for @mortgageDownPayment.
+  ///
+  /// In en, this message translates to:
+  /// **'Down payment'**
+  String get mortgageDownPayment;
+
+  /// No description provided for @mortgageDownSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'{percent}% down · {rate}% · {term}'**
+  String mortgageDownSummary(String percent, String rate, String term);
+
+  /// No description provided for @mortgageFees.
+  ///
+  /// In en, this message translates to:
+  /// **'One-off fees'**
+  String get mortgageFees;
+
+  /// No description provided for @mortgageFeesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Appraisal, insurance, bank fee'**
+  String get mortgageFeesHint;
+
+  /// No description provided for @mortgageFromPerMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'from {amount} / month'**
+  String mortgageFromPerMonth(String amount);
+
+  /// No description provided for @mortgageIncomeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Keeps the payment within {percent}% of income'**
+  String mortgageIncomeHint(String percent);
+
+  /// No description provided for @mortgageIncomeNeeded.
+  ///
+  /// In en, this message translates to:
+  /// **'Income needed'**
+  String get mortgageIncomeNeeded;
+
+  /// No description provided for @mortgageInterest.
+  ///
+  /// In en, this message translates to:
+  /// **'Interest'**
+  String get mortgageInterest;
+
+  /// No description provided for @mortgageLoan.
+  ///
+  /// In en, this message translates to:
+  /// **'Loan'**
+  String get mortgageLoan;
+
+  /// No description provided for @mortgageMonthLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Month {number}'**
+  String mortgageMonthLabel(int number);
+
+  /// No description provided for @mortgageMonthly.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly payment'**
+  String get mortgageMonthly;
+
+  /// No description provided for @mortgageMonthlyRange.
+  ///
+  /// In en, this message translates to:
+  /// **'First month → last month'**
+  String get mortgageMonthlyRange;
+
+  /// No description provided for @mortgageNoLoan.
+  ///
+  /// In en, this message translates to:
+  /// **'The down payment covers the price, so there is nothing to borrow.'**
+  String get mortgageNoLoan;
+
+  /// No description provided for @mortgageOpenCalculator.
+  ///
+  /// In en, this message translates to:
+  /// **'Open calculator'**
+  String get mortgageOpenCalculator;
+
+  /// No description provided for @mortgageOverpayment.
+  ///
+  /// In en, this message translates to:
+  /// **'Overpayment'**
+  String get mortgageOverpayment;
+
+  /// No description provided for @mortgagePerMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} / month'**
+  String mortgagePerMonth(String amount);
+
+  /// No description provided for @mortgagePresetHousingSavings.
+  ///
+  /// In en, this message translates to:
+  /// **'Housing savings'**
+  String get mortgagePresetHousingSavings;
+
+  /// No description provided for @mortgagePresetMarket.
+  ///
+  /// In en, this message translates to:
+  /// **'Market rate'**
+  String get mortgagePresetMarket;
+
+  /// No description provided for @mortgagePresetStateProgram.
+  ///
+  /// In en, this message translates to:
+  /// **'7-20-25 programme'**
+  String get mortgagePresetStateProgram;
+
+  /// No description provided for @mortgagePresetsNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Typical rates, not bank offers. Rates change, so check with the bank.'**
+  String get mortgagePresetsNote;
+
+  /// No description provided for @mortgagePrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Price'**
+  String get mortgagePrice;
+
+  /// No description provided for @mortgagePrincipal.
+  ///
+  /// In en, this message translates to:
+  /// **'Principal'**
+  String get mortgagePrincipal;
+
+  /// No description provided for @mortgageRangePerMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'{first} → {last} / month'**
+  String mortgageRangePerMonth(String first, String last);
+
+  /// No description provided for @mortgageRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Annual rate, %'**
+  String get mortgageRate;
+
+  /// No description provided for @mortgageSend.
+  ///
+  /// In en, this message translates to:
+  /// **'Send to client'**
+  String get mortgageSend;
+
+  /// No description provided for @mortgageShareDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'Indicative estimate, not an offer.'**
+  String get mortgageShareDisclaimer;
+
+  /// No description provided for @mortgageShareDown.
+  ///
+  /// In en, this message translates to:
+  /// **'Down payment: {amount} ({percent}%)'**
+  String mortgageShareDown(String amount, String percent);
+
+  /// No description provided for @mortgageShareFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t share the estimate'**
+  String get mortgageShareFailed;
+
+  /// No description provided for @mortgageShareHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Mortgage estimate'**
+  String get mortgageShareHeading;
+
+  /// No description provided for @mortgageShareMonthly.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly payment: {amount}'**
+  String mortgageShareMonthly(String amount);
+
+  /// No description provided for @mortgageShareMonthlyRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly payment: {first} in the first month, {last} in the last'**
+  String mortgageShareMonthlyRange(String first, String last);
+
+  /// No description provided for @mortgageShareOverpayment.
+  ///
+  /// In en, this message translates to:
+  /// **'Total overpayment: {amount}'**
+  String mortgageShareOverpayment(String amount);
+
+  /// No description provided for @mortgageSharePrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Price: {amount}'**
+  String mortgageSharePrice(String amount);
+
+  /// No description provided for @mortgageShareRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate: {rate}% a year'**
+  String mortgageShareRate(String rate);
+
+  /// No description provided for @mortgageShareTerm.
+  ///
+  /// In en, this message translates to:
+  /// **'Term: {term}'**
+  String mortgageShareTerm(String term);
+
+  /// No description provided for @mortgageTerm.
+  ///
+  /// In en, this message translates to:
+  /// **'Term'**
+  String get mortgageTerm;
+
+  /// No description provided for @mortgageTermYears.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} year} other{{count} years}}'**
+  String mortgageTermYears(int count);
+
+  /// No description provided for @mortgageTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Mortgage'**
+  String get mortgageTitle;
+
+  /// No description provided for @mortgageTotalRepaid.
+  ///
+  /// In en, this message translates to:
+  /// **'Total repaid'**
+  String get mortgageTotalRepaid;
+
+  /// No description provided for @mortgageType.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment type'**
+  String get mortgageType;
+
+  /// No description provided for @mortgageYearLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Year {number}'**
+  String mortgageYearLabel(int number);
+
   /// No description provided for @msgAgentInvited.
   ///
   /// In en, this message translates to:
