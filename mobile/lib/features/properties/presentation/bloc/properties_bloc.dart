@@ -29,7 +29,7 @@ class PropertiesBloc extends Bloc<PropertiesEvent, PropertiesState>
     on<PropertiesUpdateStatusEvent>(_onUpdateStatus);
   }
 
-  void _reload() =>
+  void reload() =>
       add(PropertiesLoadEvent(status: _status, type: _type, search: _search));
 
   PropertiesState _failure(ApiFailure failure) => _items.isEmpty
@@ -113,7 +113,7 @@ class PropertiesBloc extends Bloc<PropertiesEvent, PropertiesState>
         onSuccess: (_) =>
             PropertiesActionSuccess(success, _items, hasMore: _hasMore),
         onFailure: _failure,
-        reload: _reload,
+        reload: reload,
       );
 
   Future<void> _onDelete(
@@ -130,7 +130,7 @@ class PropertiesBloc extends Bloc<PropertiesEvent, PropertiesState>
         onSuccess: (created) =>
             PropertyCreated(created, _items, hasMore: _hasMore),
         onFailure: _failure,
-        reload: _reload,
+        reload: reload,
       );
 
   Future<void> _onUpdate(

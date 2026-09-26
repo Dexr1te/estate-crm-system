@@ -1,5 +1,7 @@
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:quick_actions/quick_actions.dart';
 import 'package:real_estate_crm/core/network/api_client.dart';
+import 'package:real_estate_crm/core/network/offline_cache.dart';
 import 'package:real_estate_crm/core/session/session_store.dart';
 import 'package:real_estate_crm/core/utils/file_gateway.dart';
 import 'package:real_estate_crm/core/utils/share_gateway.dart';
@@ -27,6 +29,9 @@ import 'package:real_estate_crm/features/deals/domain/repositories/deals_reposit
 import 'package:real_estate_crm/features/documents/data/datasources/documents_remote_datasource.dart';
 import 'package:real_estate_crm/features/documents/data/repositories/documents_repository_impl.dart';
 import 'package:real_estate_crm/features/documents/domain/repositories/documents_repository.dart';
+import 'package:real_estate_crm/features/imports/data/datasources/imports_remote_datasource.dart';
+import 'package:real_estate_crm/features/imports/data/repositories/imports_repository_impl.dart';
+import 'package:real_estate_crm/features/imports/domain/repositories/imports_repository.dart';
 import 'package:real_estate_crm/features/meetings/data/datasources/meetings_remote_datasource.dart';
 import 'package:real_estate_crm/features/meetings/data/repositories/meetings_repository_impl.dart';
 import 'package:real_estate_crm/features/meetings/domain/repositories/meetings_repository.dart';
@@ -49,7 +54,8 @@ class Injector {
   Injector._();
 
   static final SessionStore session = SessionStore();
-  static final ApiClient _apiClient = ApiClient(session);
+  static final ApiClient _apiClient =
+      ApiClient(session, offlineCache: OfflineCache.device());
 
   static ApiClient get apiClient => _apiClient;
 
@@ -71,6 +77,8 @@ class Injector {
   static FileGateway fileGateway = const DeviceFileGateway();
 
   static ShareGateway shareGateway = const DeviceShareGateway();
+
+  static QuickActions quickActions = const QuickActions();
 
   static MeetingsRepository meetingsRepository =
       MeetingsRepositoryImpl(MeetingsRemoteDataSource(_apiClient));
@@ -97,6 +105,9 @@ class Injector {
 
   static TeamsRepository teamsRepository =
       TeamsRepositoryImpl(TeamsRemoteDataSource(_apiClient));
+
+  static ImportsRepository importsRepository =
+      ImportsRepositoryImpl(ImportsRemoteDataSource(_apiClient));
 
   static SearchRepository get searchRepository => SearchRepositoryImpl(
       clientsRepository, propertiesRepository, dealsRepository);

@@ -22,9 +22,11 @@ import 'package:real_estate_crm/features/dashboard/presentation/screens/dashboar
 import 'package:real_estate_crm/features/deals/presentation/screens/deal_detail_screen.dart';
 import 'package:real_estate_crm/features/deals/presentation/screens/deal_form_screen.dart';
 import 'package:real_estate_crm/features/deals/presentation/screens/deals_screen.dart';
+import 'package:real_estate_crm/features/imports/presentation/screens/import_screen.dart';
 import 'package:real_estate_crm/features/meetings/presentation/screens/meeting_detail_screen.dart';
 import 'package:real_estate_crm/features/meetings/presentation/screens/meeting_form_screen.dart';
 import 'package:real_estate_crm/features/meetings/presentation/screens/meetings_screen.dart';
+import 'package:real_estate_crm/features/mortgage/presentation/screens/mortgage_screen.dart';
 import 'package:real_estate_crm/features/notifications/presentation/screens/notifications_screen.dart';
 import 'package:real_estate_crm/features/profile/presentation/screens/profile_screen.dart';
 import 'package:real_estate_crm/features/properties/presentation/screens/properties_screen.dart';
@@ -38,6 +40,14 @@ final _rootKey = GlobalKey<NavigatorState>();
 final _shellKey = GlobalKey<NavigatorState>();
 
 GlobalKey<NavigatorState> get rootNavigatorKey => _rootKey;
+
+/// The page on top right now. The router's own uri stops at the last `go`,
+/// so a record opened with `push` is only found on the match that pushed it.
+Uri currentLocationOf(GoRouter router) {
+  final config = router.routerDelegate.currentConfiguration;
+  final last = config.lastOrNull;
+  return last is ImperativeRouteMatch ? last.matches.uri : config.uri;
+}
 
 class NoTransitionPage<T> extends CustomTransitionPage<T> {
   const NoTransitionPage({required super.child})
@@ -84,6 +94,11 @@ String? resolveRedirect({
 
   if (location.startsWith('/admin') && role != Role.ADMIN) return '/dashboard';
   if (location.startsWith('/team-console') && role != Role.MANAGER) {
+    return '/dashboard';
+  }
+  if (location.startsWith('/import') &&
+      role != Role.MANAGER &&
+      role != Role.ADMIN) {
     return '/dashboard';
   }
   return null;
@@ -187,6 +202,11 @@ GoRouter createRouter(AuthBloc authBloc) {
             const NoTransitionPage(child: NotificationsScreen()),
       ),
       GoRoute(
+        path: '/import',
+        parentNavigatorKey: _rootKey,
+        pageBuilder: (_, __) => const NoTransitionPage(child: ImportScreen()),
+      ),
+      GoRoute(
         path: '/tasks',
         parentNavigatorKey: _rootKey,
         pageBuilder: (_, __) => const NoTransitionPage(child: TasksScreen()),
@@ -268,6 +288,18 @@ GoRouter createRouter(AuthBloc authBloc) {
                           propertyId: int.parse(s.pathParameters['id']!)),
                     ),
                   ),
+                  GoRoute(
+                    path: 'mortgage',
+                    parentNavigatorKey: _rootKey,
+                    pageBuilder: (_, s) => NoTransitionPage(
+                      child: MortgageScreen(
+                        price: double.tryParse(
+                                s.uri.queryParameters['price'] ?? '') ??
+                            0,
+                        title: s.uri.queryParameters['title'],
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ],
@@ -284,8 +316,14 @@ GoRouter createRouter(AuthBloc authBloc) {
               GoRoute(
                 path: 'new',
                 parentNavigatorKey: _rootKey,
-                pageBuilder: (_, __) =>
-                    const NoTransitionPage(child: DealFormScreen()),
+                pageBuilder: (_, s) => NoTransitionPage(
+                  child: DealFormScreen(
+                    initialClientId:
+                        int.tryParse(s.uri.queryParameters['clientId'] ?? ''),
+                    initialPropertyId:
+                        int.tryParse(s.uri.queryParameters['propertyId'] ?? ''),
+                  ),
+                ),
               ),
               GoRoute(
                 path: ':id',

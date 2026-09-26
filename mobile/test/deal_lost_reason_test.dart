@@ -15,6 +15,7 @@ import 'package:real_estate_crm/features/deals/presentation/screens/deals_screen
 import 'package:real_estate_crm/features/deals/presentation/widgets/lost_reason_sheet.dart';
 
 import 'fakes.dart';
+import 'quick_add_expect.dart';
 import 'responsive_harness.dart';
 
 /// Every way a deal can be lost — the stage pills on the deal, a drop on the
@@ -142,6 +143,7 @@ void main() {
     testWidgets('losing it asks why, then sends the reason and the note',
         (tester) async {
       await _pump(tester, const DealDetailScreen(id: 1));
+      expectOneQuickAdd();
 
       await tester.ensureVisible(find.text('Lost'));
       await tester.tap(find.text('Lost'));
@@ -198,6 +200,7 @@ void main() {
   testWidgets('a drop on Lost on the board asks why before moving',
       (tester) async {
     await _pump(tester, const DealsScreen());
+    expectOneQuickAdd();
     await tester.tap(find.byIcon(Icons.view_kanban_outlined));
     await tester.pumpAndSettle();
 

@@ -1,7 +1,13 @@
 import 'dart:async';
+import 'dart:typed_data';
 
+import 'package:flutter/widgets.dart';
+import 'package:flutter_map/flutter_map.dart';
+
+import 'package:quick_actions/quick_actions.dart';
 import 'package:real_estate_crm/core/models/admin_models.dart';
 import 'package:real_estate_crm/core/models/document_models.dart';
+import 'package:real_estate_crm/core/models/import_models.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/models/paged_response.dart';
 import 'package:real_estate_crm/core/models/team_models.dart';
@@ -17,8 +23,10 @@ import 'package:real_estate_crm/features/clients/domain/repositories/clients_rep
 import 'package:real_estate_crm/features/dashboard/domain/repositories/dashboard_repository.dart';
 import 'package:real_estate_crm/features/deals/domain/repositories/deals_repository.dart';
 import 'package:real_estate_crm/features/documents/domain/repositories/documents_repository.dart';
+import 'package:real_estate_crm/features/imports/domain/repositories/imports_repository.dart';
 import 'package:real_estate_crm/features/meetings/domain/repositories/meetings_repository.dart';
 import 'package:real_estate_crm/features/notifications/domain/repositories/notifications_repository.dart';
+import 'package:real_estate_crm/features/properties/domain/map_area.dart';
 import 'package:real_estate_crm/features/properties/domain/repositories/properties_repository.dart';
 import 'package:real_estate_crm/features/tasks/domain/repositories/tasks_repository.dart';
 import 'package:real_estate_crm/features/teams/domain/repositories/teams_repository.dart';
@@ -487,6 +495,67 @@ class FakePropertiesRepository implements PropertiesRepository {
     );
   }
 
+  /// Every rectangle the map asked for, in order, with the status filter it
+  /// was asked under.
+  final List<MapArea> areaRequests = [];
+  final List<PropertyStatus?> areaStatuses = [];
+
+  @override
+  Future<PagedResponse<PropertyResponse>> getPropertiesInArea(
+    MapArea area, {
+    PropertyStatus? status,
+    PropertyType? type,
+    String? search,
+    int size = 200,
+  }) async {
+    areaRequests.add(area);
+    areaStatuses.add(status);
+    final inside = properties
+        .where((p) => p.latitude != null && p.longitude != null)
+        .where((p) => p.latitude! >= area.south && p.latitude! <= area.north)
+        .where((p) => area.west <= area.east
+            ? p.longitude! >= area.west && p.longitude! <= area.east
+            : p.longitude! >= area.west || p.longitude! <= area.east)
+        .where((p) => status == null || p.status == status)
+        .where((p) => type == null || p.type == type)
+        .where((p) => _matches(p, search))
+        .take(size)
+        .toList();
+    return PagedResponse(
+      content: inside,
+      page: 0,
+      totalPages: 1,
+      totalElements: inside.length,
+      isLast: true,
+    );
+  }
+
+  @override
+  Future<PagedResponse<PropertyResponse>> getPropertiesWithoutLocation({
+    PropertyStatus? status,
+    PropertyType? type,
+    String? search,
+    int page = 0,
+    int size = 20,
+  }) async {
+    final unpinned = properties
+        .where((p) => p.latitude == null || p.longitude == null)
+        .where((p) => status == null || p.status == status)
+        .where((p) => type == null || p.type == type)
+        .where((p) => _matches(p, search))
+        .toList();
+    return PagedResponse(
+      content: unpinned,
+      page: 0,
+      totalPages: 1,
+      totalElements: unpinned.length,
+      isLast: true,
+    );
+  }
+
+  /// What the form last sent, create or update, keyed `create`/`update-<id>`.
+  final Map<String, Map<String, dynamic>> sent = {};
+
   static bool _matches(PropertyResponse p, String? search) {
     if (search == null || search.trim().isEmpty) return true;
     final q = search.trim().toLowerCase();
@@ -501,11 +570,18 @@ class FakePropertiesRepository implements PropertiesRepository {
   Future<PropertyResponse> getProperty(int id) async =>
       properties.firstWhere((p) => p.id == id);
   @override
-  Future<PropertyResponse> createProperty(Map<String, dynamic> data) =>
-      throw UnimplementedError();
+  Future<PropertyResponse> createProperty(Map<String, dynamic> data) async {
+    sent['create'] = data;
+    return PropertyResponse.fromJson({...data, 'id': 900 + sent.length});
+  }
+
   @override
-  Future<PropertyResponse> updateProperty(int id, Map<String, dynamic> data) =>
-      throw UnimplementedError();
+  Future<PropertyResponse> updateProperty(
+      int id, Map<String, dynamic> data) async {
+    sent['update-$id'] = data;
+    return PropertyResponse.fromJson({...data, 'id': id});
+  }
+
   @override
   Future<PropertyResponse> updatePropertyStatus(
           int id, PropertyStatus status) =>
@@ -1023,5 +1099,112 @@ class FakeNotificationsRepository implements NotificationsRepository {
   void clear() {
     _last = 0;
     _counts.add(0);
+  }
+}
+
+/// The app icon's shortcuts. [launchedWith] is the one the app was cold
+/// started from, handed over as soon as the handler is registered, the way
+/// the platform does; [tap] is one pressed while the app is already running.
+class FakeQuickActions implements QuickActions {
+  FakeQuickActions({this.launchedWith});
+
+  final String? launchedWith;
+  QuickActionHandler? _handler;
+
+  /// Every set of items put on the icon, in order.
+  final List<List<ShortcutItem>> sets = [];
+
+  @override
+  Future<void> initialize(QuickActionHandler handler) async {
+    _handler = handler;
+    if (launchedWith != null) handler(launchedWith!);
+  }
+
+  @override
+  Future<void> setShortcutItems(List<ShortcutItem> items) async =>
+      sets.add(items);
+
+  @override
+  Future<void> clearShortcutItems() async => sets.add(const []);
+
+  void tap(String type) => _handler!(type);
+}
+
+/// Reads a sheet the way [onPreview] says and records every request, so a
+/// test can see which mapping and options reached the server.
+class FakeImportsRepository implements ImportsRepository {
+  FakeImportsRepository({
+    required this.onPreview,
+    this.result = const ImportResult(kind: ImportKind.clients, created: 1),
+    this.templateBytes = const [0xEF, 0xBB, 0xBF],
+    this.failure,
+  });
+
+  ImportPreview Function(ImportKind kind, List<String?>? mapping) onPreview;
+  ImportResult result;
+  List<int> templateBytes;
+
+  /// Thrown by every call when set.
+  Object? failure;
+
+  final previews = <List<String?>?>[];
+  final commits = <({
+    ImportKind kind,
+    List<String?> mapping,
+    bool skipDuplicates,
+    int? assignToAgentId
+  })>[];
+  final templates = <String>[];
+
+  @override
+  Future<ImportPreview> preview(ImportKind kind, PickedFile file,
+      {List<String?>? mapping}) async {
+    if (failure != null) throw failure!;
+    previews.add(mapping);
+    return onPreview(kind, mapping);
+  }
+
+  @override
+  Future<ImportResult> commit(ImportKind kind, PickedFile file,
+      {required List<String?> mapping,
+      required bool skipDuplicates,
+      int? assignToAgentId}) async {
+    if (failure != null) throw failure!;
+    commits.add((
+      kind: kind,
+      mapping: mapping,
+      skipDuplicates: skipDuplicates,
+      assignToAgentId: assignToAgentId
+    ));
+    return result;
+  }
+
+  @override
+  Future<List<int>> template(ImportKind kind, String lang) async {
+    if (failure != null) throw failure!;
+    templates.add('${kind.path}/$lang');
+    return templateBytes;
+  }
+}
+
+/// Tiles that draw nothing, so no test fetches a map picture from the
+/// network. Counts what it was asked for, which proves a map was drawn.
+class BlankTileProvider extends TileProvider {
+  static int requests = 0;
+
+  /// A 1x1 transparent PNG.
+  static final _png = Uint8List.fromList(const [
+    0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A, 0x00, 0x00, 0x00, 0x0D, //
+    0x49, 0x48, 0x44, 0x52, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01,
+    0x08, 0x06, 0x00, 0x00, 0x00, 0x1F, 0x15, 0xC4, 0x89, 0x00, 0x00, 0x00,
+    0x0A, 0x49, 0x44, 0x41, 0x54, 0x78, 0x9C, 0x63, 0x00, 0x01, 0x00, 0x00,
+    0x05, 0x00, 0x01, 0x0D, 0x0A, 0x2D, 0xB4, 0x00, 0x00, 0x00, 0x00, 0x49,
+    0x45, 0x4E, 0x44, 0xAE, 0x42, 0x60, 0x82,
+  ]);
+
+  @override
+  ImageProvider getImage(TileCoordinates coordinates, TileLayer options) {
+    requests++;
+    return MemoryImage(_png);
   }
 }

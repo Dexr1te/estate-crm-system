@@ -691,9 +691,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get clientsAddFirstClient => 'Добавьте первого клиента';
 
   @override
-  String get clientsAddShort => 'Клиент';
-
-  @override
   String get clientsAgent => 'Агент';
 
   @override
@@ -1118,6 +1115,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get coreErrorOffline => 'Нет связи с сервером. Проверьте интернет.';
 
   @override
+  String get coreErrorOfflineWrite => 'Нет сети — для этого нужно подключение.';
+
+  @override
   String get coreErrorServer => 'Ошибка сервера. Попробуйте позже.';
 
   @override
@@ -1155,6 +1155,11 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get coreNotSelected => 'Не выбран';
+
+  @override
+  String coreOfflineSince(String time) {
+    return 'Нет сети — данные на $time';
+  }
 
   @override
   String get coreOpen => 'Открыть';
@@ -1467,9 +1472,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get dealsAddDeal => 'Добавить сделку';
-
-  @override
-  String get dealsAddShort => 'Сделка';
 
   @override
   String get dealsAgent => 'Агент';
@@ -1813,6 +1815,264 @@ class AppLocalizationsRu extends AppLocalizations {
   String get documentsUploading => 'Отправляем…';
 
   @override
+  String importAction(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Импортировать $count строки',
+      many: 'Импортировать $count строк',
+      few: 'Импортировать $count строки',
+      one: 'Импортировать $count строку',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get importAnother => 'Импортировать другой файл';
+
+  @override
+  String get importAssignTo => 'Ответственный';
+
+  @override
+  String get importAssignToMe => 'Я';
+
+  @override
+  String get importChooseFile => 'Выбрать CSV-файл';
+
+  @override
+  String get importColumns => 'Столбцы';
+
+  @override
+  String get importColumnsHint =>
+      'Проверьте, какое поле заполняет каждый столбец. Столбцы с пометкой «Пропустить» не импортируются.';
+
+  @override
+  String get importCreated => 'Создано';
+
+  @override
+  String get importDoneTitle => 'Импорт завершён';
+
+  @override
+  String get importDownloadTemplate => 'Скачать шаблон';
+
+  @override
+  String importDuplicateOfClient(String name) {
+    return 'Уже есть в агентстве: $name';
+  }
+
+  @override
+  String importDuplicateOfRow(int row) {
+    return 'Совпадает со строкой $row';
+  }
+
+  @override
+  String get importEmptyFile => 'Файл пустой';
+
+  @override
+  String get importEntrySubtitle => 'Клиенты и объекты из Excel или другой CRM';
+
+  @override
+  String get importErrorInvalidEmail => 'Неверный email';
+
+  @override
+  String get importErrorInvalidNumber => 'Не число';
+
+  @override
+  String get importErrorInvalidPhone => 'Неверный телефон';
+
+  @override
+  String get importErrorNegative => 'Должно быть больше нуля';
+
+  @override
+  String get importErrorOutOfRange => 'Вне допустимого диапазона';
+
+  @override
+  String get importErrorRequired => 'Обязательное поле';
+
+  @override
+  String get importErrorTooLong => 'Слишком длинно';
+
+  @override
+  String get importErrorUnknownValue => 'Неизвестное значение';
+
+  @override
+  String get importFieldAddress => 'Адрес';
+
+  @override
+  String get importFieldArea => 'Площадь';
+
+  @override
+  String get importFieldBudgetMax => 'Бюджет до';
+
+  @override
+  String get importFieldBudgetMin => 'Бюджет от';
+
+  @override
+  String get importFieldCity => 'Город';
+
+  @override
+  String get importFieldClientType => 'Тип клиента';
+
+  @override
+  String get importFieldDescription => 'Описание';
+
+  @override
+  String get importFieldEmail => 'Email';
+
+  @override
+  String get importFieldFloor => 'Этаж';
+
+  @override
+  String get importFieldFullName => 'ФИО';
+
+  @override
+  String get importFieldMinArea => 'Площадь от';
+
+  @override
+  String get importFieldMinRooms => 'Комнат от';
+
+  @override
+  String get importFieldNotes => 'Примечание';
+
+  @override
+  String get importFieldPhone => 'Телефон';
+
+  @override
+  String get importFieldPrice => 'Цена';
+
+  @override
+  String get importFieldPropertyType => 'Тип объекта';
+
+  @override
+  String get importFieldRooms => 'Комнаты';
+
+  @override
+  String get importFieldStatus => 'Статус';
+
+  @override
+  String get importFieldTitle => 'Название';
+
+  @override
+  String get importFieldTotalFloors => 'Этажность';
+
+  @override
+  String get importFieldWantedCity => 'Желаемый город';
+
+  @override
+  String get importFieldWantedType => 'Желаемый тип объекта';
+
+  @override
+  String get importFileTooLarge => 'Файл больше 5 МБ. Разделите его на части.';
+
+  @override
+  String get importHowTo =>
+      'Сохраните таблицу в CSV в Excel или Google Таблицах. Подойдут запятые, точки с запятой и табуляция, а также файлы на кириллице из русского Excel.';
+
+  @override
+  String get importInvalid => 'Не импортировано из-за ошибок';
+
+  @override
+  String get importKindClients => 'Клиенты';
+
+  @override
+  String get importKindClientsHint => 'Имена, телефоны, что ищут';
+
+  @override
+  String get importKindProperties => 'Объекты';
+
+  @override
+  String get importKindPropertiesHint => 'Адреса, цены, площади, комнаты';
+
+  @override
+  String importMissingRequired(String field) {
+    return 'Выберите столбец для поля «$field»';
+  }
+
+  @override
+  String get importNoAgents => 'Коллеги не найдены';
+
+  @override
+  String get importNoProblems => 'Все строки готовы к импорту';
+
+  @override
+  String get importNotCsv =>
+      'Выберите файл .csv. В Excel: Файл, Сохранить как, CSV.';
+
+  @override
+  String get importNothingToImport => 'Нечего импортировать';
+
+  @override
+  String get importOpenClients => 'Открыть клиентов';
+
+  @override
+  String get importOpenProperties => 'Открыть объекты';
+
+  @override
+  String get importOptions => 'Параметры';
+
+  @override
+  String get importPickAgentSearch => 'Поиск по имени';
+
+  @override
+  String get importProblems => 'Строки, требующие внимания';
+
+  @override
+  String get importProblemsTruncated => 'Показаны только первые 1000';
+
+  @override
+  String importRowLabel(int row) {
+    return 'Строка $row';
+  }
+
+  @override
+  String importRowsTotal(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count строки в файле',
+      many: '$count строк в файле',
+      few: '$count строки в файле',
+      one: '$count строка в файле',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get importShowMore => 'Показать ещё';
+
+  @override
+  String get importSkipColumn => 'Пропустить';
+
+  @override
+  String get importSkipDuplicates => 'Пропускать дубликаты';
+
+  @override
+  String get importSkipDuplicatesHint =>
+      'Клиент с email, который уже есть в агентстве, пропускается всегда';
+
+  @override
+  String get importSkipped => 'Пропущено дубликатов';
+
+  @override
+  String get importSummaryDuplicates => 'Дубликаты';
+
+  @override
+  String get importSummaryInvalid => 'С ошибками';
+
+  @override
+  String get importSummaryValid => 'Готово';
+
+  @override
+  String get importTemplateFailed => 'Не удалось подготовить шаблон';
+
+  @override
+  String get importTitle => 'Импорт из таблицы';
+
+  @override
+  String get importTooManyRows =>
+      'В файле больше 5000 строк. Разделите его на части.';
+
+  @override
   String get meetingsAddShort => 'Встреча';
 
   @override
@@ -2045,6 +2305,178 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get meetingsWhoAndWhere => 'С кем и где';
+
+  @override
+  String get mortgageAmortisation => 'График платежей';
+
+  @override
+  String get mortgageAnnuity => 'Аннуитетный';
+
+  @override
+  String get mortgageDifferentiated => 'Дифференцированный';
+
+  @override
+  String get mortgageDownPayment => 'Первоначальный взнос';
+
+  @override
+  String mortgageDownSummary(String percent, String rate, String term) {
+    return 'взнос $percent% · $rate% · $term';
+  }
+
+  @override
+  String get mortgageFees => 'Разовые расходы';
+
+  @override
+  String get mortgageFeesHint => 'Оценка, страховка, комиссия банка';
+
+  @override
+  String mortgageFromPerMonth(String amount) {
+    return 'от $amount в месяц';
+  }
+
+  @override
+  String mortgageIncomeHint(String percent) {
+    return 'Чтобы платёж был не больше $percent% дохода';
+  }
+
+  @override
+  String get mortgageIncomeNeeded => 'Нужный доход';
+
+  @override
+  String get mortgageInterest => 'Проценты';
+
+  @override
+  String get mortgageLoan => 'Сумма кредита';
+
+  @override
+  String mortgageMonthLabel(int number) {
+    return 'Месяц $number';
+  }
+
+  @override
+  String get mortgageMonthly => 'Ежемесячный платёж';
+
+  @override
+  String get mortgageMonthlyRange => 'Первый месяц → последний';
+
+  @override
+  String get mortgageNoLoan => 'Взнос покрывает всю цену, кредит не нужен.';
+
+  @override
+  String get mortgageOpenCalculator => 'Открыть калькулятор';
+
+  @override
+  String get mortgageOverpayment => 'Переплата';
+
+  @override
+  String mortgagePerMonth(String amount) {
+    return '$amount в месяц';
+  }
+
+  @override
+  String get mortgagePresetHousingSavings => 'Жилстройсбережения';
+
+  @override
+  String get mortgagePresetMarket => 'Рыночная ставка';
+
+  @override
+  String get mortgagePresetStateProgram => 'Программа 7-20-25';
+
+  @override
+  String get mortgagePresetsNote =>
+      'Типичные ставки, а не предложения банков. Ставки меняются, уточняйте в банке.';
+
+  @override
+  String get mortgagePrice => 'Цена';
+
+  @override
+  String get mortgagePrincipal => 'Основной долг';
+
+  @override
+  String mortgageRangePerMonth(String first, String last) {
+    return '$first → $last в месяц';
+  }
+
+  @override
+  String get mortgageRate => 'Ставка годовых, %';
+
+  @override
+  String get mortgageSend => 'Отправить клиенту';
+
+  @override
+  String get mortgageShareDisclaimer =>
+      'Ориентировочный расчёт, не является офертой.';
+
+  @override
+  String mortgageShareDown(String amount, String percent) {
+    return 'Первоначальный взнос: $amount ($percent%)';
+  }
+
+  @override
+  String get mortgageShareFailed => 'Не удалось поделиться расчётом';
+
+  @override
+  String get mortgageShareHeading => 'Расчёт ипотеки';
+
+  @override
+  String mortgageShareMonthly(String amount) {
+    return 'Ежемесячный платёж: $amount';
+  }
+
+  @override
+  String mortgageShareMonthlyRange(String first, String last) {
+    return 'Ежемесячный платёж: $first в первый месяц, $last в последний';
+  }
+
+  @override
+  String mortgageShareOverpayment(String amount) {
+    return 'Переплата: $amount';
+  }
+
+  @override
+  String mortgageSharePrice(String amount) {
+    return 'Цена: $amount';
+  }
+
+  @override
+  String mortgageShareRate(String rate) {
+    return 'Ставка: $rate% годовых';
+  }
+
+  @override
+  String mortgageShareTerm(String term) {
+    return 'Срок: $term';
+  }
+
+  @override
+  String get mortgageTerm => 'Срок';
+
+  @override
+  String mortgageTermYears(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count года',
+      many: '$count лет',
+      few: '$count года',
+      one: '$count год',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get mortgageTitle => 'Ипотека';
+
+  @override
+  String get mortgageTotalRepaid => 'Всего выплат';
+
+  @override
+  String get mortgageType => 'Тип платежа';
+
+  @override
+  String mortgageYearLabel(int number) {
+    return 'Год $number';
+  }
 
   @override
   String get msgAgentInvited => 'Агент приглашён';
@@ -2466,9 +2898,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get propertiesAddPhotos => 'Добавить фото';
 
   @override
-  String get propertiesAddShort => 'Объект';
-
-  @override
   String get propertiesAddressLabel => 'Адрес';
 
   @override
@@ -2633,6 +3062,45 @@ class AppLocalizationsRu extends AppLocalizations {
   String get propertiesLocation => 'Расположение';
 
   @override
+  String propertiesMapCapped(int count) {
+    return 'Показано $count — приблизьте карту, чтобы увидеть остальные';
+  }
+
+  @override
+  String get propertiesMapEmpty => 'В этой части карты нет объектов';
+
+  @override
+  String get propertiesMapLoading => 'Загружаем объекты';
+
+  @override
+  String get propertiesMapPin => 'Точка на карте';
+
+  @override
+  String get propertiesMapPinClear => 'Убрать точку';
+
+  @override
+  String get propertiesMapPinHint =>
+      'Нажмите на карту, чтобы поставить точку, и перетащите её для точности';
+
+  @override
+  String propertiesMapUnpinned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'У $count объектов нет точки на карте',
+      one: 'У $count объекта нет точки на карте',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get propertiesMapUnpinnedHint =>
+      'Откройте объект, нажмите «Изменить» и поставьте точку — он появится на карте.';
+
+  @override
+  String get propertiesMapUnpinnedTitle => 'Нет на карте';
+
+  @override
   String get propertiesNewProperty => 'Новый объект';
 
   @override
@@ -2652,6 +3120,12 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get propertiesNoViewings => 'Этот объект ещё не показывали';
+
+  @override
+  String get propertiesOpenInMaps => 'Открыть в картах';
+
+  @override
+  String get propertiesOpenInMapsFailed => 'Не удалось открыть карты';
 
   @override
   String propertiesPhotoCount(num count) {
@@ -2769,7 +3243,55 @@ class AppLocalizationsRu extends AppLocalizations {
   String get propertiesUpdateStatus => 'Обновить статус';
 
   @override
+  String get propertiesViewList => 'Список';
+
+  @override
+  String get propertiesViewMap => 'Карта';
+
+  @override
   String get propertiesViewings => 'Показы';
+
+  @override
+  String get quickAddClient => 'Новый клиент';
+
+  @override
+  String get quickAddDeal => 'Новая сделка';
+
+  @override
+  String quickAddFor(String name) {
+    return 'Для: $name';
+  }
+
+  @override
+  String get quickAddLastUsed => 'В прошлый раз';
+
+  @override
+  String get quickAddListing => 'Новый объект';
+
+  @override
+  String get quickAddLogContact => 'Записать контакт';
+
+  @override
+  String get quickAddMeeting => 'Новая встреча';
+
+  @override
+  String get quickAddNoClients =>
+      'Клиентов пока нет — сначала добавьте клиента';
+
+  @override
+  String get quickAddOpen => 'Создать';
+
+  @override
+  String get quickAddPickClient => 'Какой клиент?';
+
+  @override
+  String get quickAddSearchClients => 'Поиск клиентов';
+
+  @override
+  String get quickAddTask => 'Новая задача';
+
+  @override
+  String get quickAddTitle => 'Добавить';
 
   @override
   String remindersBody(Object time) {

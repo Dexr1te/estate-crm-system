@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/auth/role_context.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_bloc.dart';
@@ -167,11 +168,14 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
               context.read<DocumentsBloc>().add(DocumentsLoadEvent());
               await _load();
             },
-            actions: detailActions(
-              onEdit: () => context.push('/deals/${widget.id}/edit'),
-              onDelete: context.isAdminOrManager ? _delete : null,
-              deleteTooltip: l10n.dealsDeleteTitle,
-            ),
+            actions: [
+              QuickAddButton.tile(onDone: _load),
+              ...detailActions(
+                onEdit: () => context.push('/deals/${widget.id}/edit'),
+                onDelete: context.isAdminOrManager ? _delete : null,
+                deleteTooltip: l10n.dealsDeleteTitle,
+              ),
+            ],
             children: [
               _SummaryCard(deal: deal, onCopyId: _copyId),
               _StageCard(status: deal.status, onChanged: _updateStatus),

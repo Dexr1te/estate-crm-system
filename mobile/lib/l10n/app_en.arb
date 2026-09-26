@@ -1,4 +1,5 @@
 {
+  "@@locale": "en",
   "adminActivate": "Activate",
   "adminAssignTeam": "Assign team",
   "adminAssignToTeam": "Assign to team",
@@ -238,7 +239,6 @@
   },
   "clientsAddClient": "Add Client",
   "clientsAddFirstClient": "Add your first client",
-  "clientsAddShort": "Client",
   "clientsAgent": "Agent",
   "clientsAgentMeta": "agent {name}",
   "clientsAnyType": "Any",
@@ -429,6 +429,7 @@
   "coreErrorForbidden": "You don’t have permission to do that.",
   "coreErrorNotFound": "Not found.",
   "coreErrorOffline": "Cannot connect to server. Check your internet.",
+  "coreErrorOfflineWrite": "You’re offline — this needs a connection.",
   "coreErrorServer": "Server error. Please try again later.",
   "coreErrorTimeout": "Connection timed out. Check your internet.",
   "coreErrorUnknown": "Something went wrong. Please try again.",
@@ -442,6 +443,14 @@
   "coreNavTeam": "Team",
   "coreNoResults": "Nothing found",
   "coreNotSelected": "Not selected",
+  "coreOfflineSince": "Offline — showing data from {time}",
+  "@coreOfflineSince": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
   "coreOpen": "Open",
   "corePropertyTypeApartment": "Apartment",
   "corePropertyTypeCommercial": "Commercial",
@@ -525,7 +534,6 @@
   "dashboardUpcomingMeetings": "Upcoming Meetings",
   "dashboardValueByStage": "Value by stage",
   "dealsAddDeal": "Add Deal",
-  "dealsAddShort": "Deal",
   "dealsAgent": "Agent",
   "dealsAgentRef": "Agent #{id}",
   "dealsAgentValue": "Agent: {name}",
@@ -621,7 +629,123 @@
   "documentsTooLarge": "Files larger than {limit} MB cannot be attached",
   "documentsUploadedBy": "Added by {name}",
   "documentsUploading": "Sending…",
-  "@@locale": "en",
+  "importAction": "{count, plural, =1{Import 1 row} other{Import {count} rows}}",
+  "@importAction": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "importAnother": "Import another file",
+  "importAssignTo": "Assign to",
+  "importAssignToMe": "Me",
+  "importChooseFile": "Choose a CSV file",
+  "importColumns": "Columns",
+  "importColumnsHint": "Check which field each column fills. Columns set to Skip are left out.",
+  "importCreated": "Created",
+  "importDoneTitle": "Import finished",
+  "importDownloadTemplate": "Download template",
+  "importDuplicateOfClient": "Already in the agency: {name}",
+  "@importDuplicateOfClient": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "importDuplicateOfRow": "Same as row {row}",
+  "@importDuplicateOfRow": {
+    "placeholders": {
+      "row": {
+        "type": "int"
+      }
+    }
+  },
+  "importEmptyFile": "The file is empty",
+  "importEntrySubtitle": "Clients and listings from Excel or another CRM",
+  "importErrorInvalidEmail": "Not an email address",
+  "importErrorInvalidNumber": "Not a number",
+  "importErrorInvalidPhone": "Not a phone number",
+  "importErrorNegative": "Must be above zero",
+  "importErrorOutOfRange": "Out of range",
+  "importErrorRequired": "Required",
+  "importErrorTooLong": "Too long",
+  "importErrorUnknownValue": "Unknown value",
+  "importFieldAddress": "Address",
+  "importFieldArea": "Area",
+  "importFieldBudgetMax": "Budget to",
+  "importFieldBudgetMin": "Budget from",
+  "importFieldCity": "City",
+  "importFieldClientType": "Client type",
+  "importFieldDescription": "Description",
+  "importFieldEmail": "Email",
+  "importFieldFloor": "Floor",
+  "importFieldFullName": "Full name",
+  "importFieldMinArea": "Area from",
+  "importFieldMinRooms": "Rooms from",
+  "importFieldNotes": "Notes",
+  "importFieldPhone": "Phone",
+  "importFieldPrice": "Price",
+  "importFieldPropertyType": "Property type",
+  "importFieldRooms": "Rooms",
+  "importFieldStatus": "Status",
+  "importFieldTitle": "Title",
+  "importFieldTotalFloors": "Total floors",
+  "importFieldWantedCity": "Wanted city",
+  "importFieldWantedType": "Wanted property type",
+  "importFileTooLarge": "The file is larger than 5 MB. Split it into parts.",
+  "importHowTo": "Save the sheet as CSV in Excel or Google Sheets. Commas, semicolons and tabs all work, and so do Cyrillic files from a Russian Excel.",
+  "importInvalid": "Not imported, errors",
+  "importKindClients": "Clients",
+  "importKindClientsHint": "Names, phones, what they are looking for",
+  "importKindProperties": "Listings",
+  "importKindPropertiesHint": "Addresses, prices, areas, rooms",
+  "importMissingRequired": "Choose a column for {field}",
+  "@importMissingRequired": {
+    "placeholders": {
+      "field": {
+        "type": "String"
+      }
+    }
+  },
+  "importNoAgents": "No colleagues found",
+  "importNoProblems": "Every row is ready to import",
+  "importNotCsv": "Choose a .csv file. In Excel: File, Save as, CSV.",
+  "importNothingToImport": "Nothing to import",
+  "importOpenClients": "Open clients",
+  "importOpenProperties": "Open listings",
+  "importOptions": "Options",
+  "importPickAgentSearch": "Search by name",
+  "importProblems": "Rows that need attention",
+  "importProblemsTruncated": "Only the first 1000 are listed",
+  "importRowLabel": "Row {row}",
+  "@importRowLabel": {
+    "placeholders": {
+      "row": {
+        "type": "int"
+      }
+    }
+  },
+  "importRowsTotal": "{count, plural, =1{1 row in the file} other{{count} rows in the file}}",
+  "@importRowsTotal": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "importShowMore": "Show more",
+  "importSkipColumn": "Skip",
+  "importSkipDuplicates": "Skip duplicates",
+  "importSkipDuplicatesHint": "A client whose email is already in the agency is always skipped",
+  "importSkipped": "Skipped duplicates",
+  "importSummaryDuplicates": "Duplicates",
+  "importSummaryInvalid": "With errors",
+  "importSummaryValid": "Ready",
+  "importTemplateFailed": "Could not prepare the template",
+  "importTitle": "Import from a spreadsheet",
+  "importTooManyRows": "The file has more than 5000 rows. Split it into parts.",
   "meetingsAddShort": "Meeting",
   "meetingsAgendaHint": "Meeting agenda, talking points…",
   "meetingsAgent": "Agent",
@@ -691,6 +815,170 @@
   "meetingsViewingOf": "Viewing",
   "meetingsWhen": "When",
   "meetingsWhoAndWhere": "Who & where",
+  "mortgageAmortisation": "Payment schedule",
+  "mortgageAnnuity": "Annuity",
+  "mortgageDifferentiated": "Differentiated",
+  "mortgageDownPayment": "Down payment",
+  "mortgageDownSummary": "{percent}% down · {rate}% · {term}",
+  "@mortgageDownSummary": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      },
+      "rate": {
+        "type": "String"
+      },
+      "term": {
+        "type": "String"
+      }
+    }
+  },
+  "mortgageFees": "One-off fees",
+  "mortgageFeesHint": "Appraisal, insurance, bank fee",
+  "mortgageFromPerMonth": "from {amount} / month",
+  "@mortgageFromPerMonth": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "mortgageIncomeHint": "Keeps the payment within {percent}% of income",
+  "@mortgageIncomeHint": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "mortgageIncomeNeeded": "Income needed",
+  "mortgageInterest": "Interest",
+  "mortgageLoan": "Loan",
+  "mortgageMonthLabel": "Month {number}",
+  "@mortgageMonthLabel": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "mortgageMonthly": "Monthly payment",
+  "mortgageMonthlyRange": "First month → last month",
+  "mortgageNoLoan": "The down payment covers the price, so there is nothing to borrow.",
+  "mortgageOpenCalculator": "Open calculator",
+  "mortgageOverpayment": "Overpayment",
+  "mortgagePerMonth": "{amount} / month",
+  "@mortgagePerMonth": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "mortgagePresetHousingSavings": "Housing savings",
+  "mortgagePresetMarket": "Market rate",
+  "mortgagePresetStateProgram": "7-20-25 programme",
+  "mortgagePresetsNote": "Typical rates, not bank offers. Rates change, so check with the bank.",
+  "mortgagePrice": "Price",
+  "mortgagePrincipal": "Principal",
+  "mortgageRangePerMonth": "{first} → {last} / month",
+  "@mortgageRangePerMonth": {
+    "placeholders": {
+      "first": {
+        "type": "String"
+      },
+      "last": {
+        "type": "String"
+      }
+    }
+  },
+  "mortgageRate": "Annual rate, %",
+  "mortgageSend": "Send to client",
+  "mortgageShareDisclaimer": "Indicative estimate, not an offer.",
+  "mortgageShareDown": "Down payment: {amount} ({percent}%)",
+  "@mortgageShareDown": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "mortgageShareFailed": "Couldn't share the estimate",
+  "mortgageShareHeading": "Mortgage estimate",
+  "mortgageShareMonthly": "Monthly payment: {amount}",
+  "@mortgageShareMonthly": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "mortgageShareMonthlyRange": "Monthly payment: {first} in the first month, {last} in the last",
+  "@mortgageShareMonthlyRange": {
+    "placeholders": {
+      "first": {
+        "type": "String"
+      },
+      "last": {
+        "type": "String"
+      }
+    }
+  },
+  "mortgageShareOverpayment": "Total overpayment: {amount}",
+  "@mortgageShareOverpayment": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "mortgageSharePrice": "Price: {amount}",
+  "@mortgageSharePrice": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "mortgageShareRate": "Rate: {rate}% a year",
+  "@mortgageShareRate": {
+    "placeholders": {
+      "rate": {
+        "type": "String"
+      }
+    }
+  },
+  "mortgageShareTerm": "Term: {term}",
+  "@mortgageShareTerm": {
+    "placeholders": {
+      "term": {
+        "type": "String"
+      }
+    }
+  },
+  "mortgageTerm": "Term",
+  "mortgageTermYears": "{count, plural, one{{count} year} other{{count} years}}",
+  "@mortgageTermYears": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "mortgageTitle": "Mortgage",
+  "mortgageTotalRepaid": "Total repaid",
+  "mortgageType": "Payment type",
+  "mortgageYearLabel": "Year {number}",
+  "@mortgageYearLabel": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
   "msgAgentInvited": "Agent invited",
   "msgClientCreated": "Client created",
   "msgClientDeleted": "Client deleted",
@@ -933,7 +1221,6 @@
   "propertiesAdd": "Add",
   "propertiesAddFirstListing": "Add your first listing",
   "propertiesAddPhotos": "Add photos",
-  "propertiesAddShort": "Property",
   "propertiesAddressLabel": "Address",
   "propertiesAgent": "Agent",
   "propertiesAll": "All",
@@ -1009,6 +1296,29 @@
     }
   },
   "propertiesLocation": "Location",
+  "propertiesMapCapped": "Showing {count} — zoom in to see the rest",
+  "@propertiesMapCapped": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "propertiesMapEmpty": "No listings in this area",
+  "propertiesMapLoading": "Loading listings",
+  "propertiesMapPin": "Pin on the map",
+  "propertiesMapPinClear": "Remove pin",
+  "propertiesMapPinHint": "Tap the map to drop a pin, drag it to adjust",
+  "propertiesMapUnpinned": "{count, plural, =1{1 listing has no location} other{{count} listings have no location}}",
+  "@propertiesMapUnpinned": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "propertiesMapUnpinnedHint": "Open a listing, choose Edit and drop a pin to show it on the map.",
+  "propertiesMapUnpinnedTitle": "Not on the map",
   "propertiesNewProperty": "New Property",
   "propertiesNextDetails": "Next — details",
   "propertiesNoInterested": "No buyer has asked for anything like this yet",
@@ -1016,6 +1326,8 @@
   "propertiesNoProperties": "No properties",
   "propertiesNoResultsSubtitle": "Try a different search or filter",
   "propertiesNoViewings": "This listing has not been shown yet",
+  "propertiesOpenInMaps": "Open in Maps",
+  "propertiesOpenInMapsFailed": "Could not open a maps app",
   "propertiesPhotoCount": "{count, plural, =1{1 photo} other{{count} photos}}",
   "propertiesPhotoDelete": "Remove photo",
   "propertiesPhotoDeleteConfirm": "Remove this photo from the listing?",
@@ -1067,7 +1379,29 @@
   "propertiesTypeAndStatus": "Type & Status",
   "propertiesUpdateProperty": "Update Property",
   "propertiesUpdateStatus": "Update Status",
+  "propertiesViewList": "List",
+  "propertiesViewMap": "Map",
   "propertiesViewings": "Viewings",
+  "quickAddClient": "New client",
+  "quickAddDeal": "New deal",
+  "quickAddFor": "For {name}",
+  "@quickAddFor": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "quickAddLastUsed": "Last used",
+  "quickAddListing": "New property",
+  "quickAddLogContact": "Log a contact",
+  "quickAddMeeting": "New meeting",
+  "quickAddNoClients": "No clients yet — add one first",
+  "quickAddOpen": "New",
+  "quickAddPickClient": "Which client?",
+  "quickAddSearchClients": "Search clients",
+  "quickAddTask": "New task",
+  "quickAddTitle": "Add",
   "remindersBody": "Starts at {time}",
   "remindersBodyWithClient": "Starts at {time} with {client}",
   "remindersFallbackTitle": "Meeting",

@@ -11,6 +11,7 @@ import 'package:real_estate_crm/features/properties/presentation/bloc/properties
 import 'package:real_estate_crm/features/properties/presentation/screens/properties_screen.dart';
 
 import 'fakes.dart';
+import 'quick_add_expect.dart';
 import 'responsive_harness.dart';
 
 const _size = Size(390, 844);
@@ -36,6 +37,7 @@ void main() {
       final expectedRight = _size.width -
           AppMetrics.pagePadding(tester.element(find.byType(AppHeaderAction)));
       expect(button.right, moreOrLessEquals(expectedRight, epsilon: 0.5));
+      expectOneQuickAdd();
     }
 
     testWidgets('clients', (tester) async {

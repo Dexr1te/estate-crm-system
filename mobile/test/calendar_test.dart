@@ -17,6 +17,7 @@ import 'package:real_estate_crm/features/meetings/presentation/screens/meetings_
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 import 'fakes.dart';
+import 'quick_add_expect.dart';
 import 'responsive_harness.dart';
 
 /// Thursday 12 March 2026, mid-morning. March 2026 opens on a Sunday, so a
@@ -189,10 +190,12 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Calendar'), findsOneWidget);
     expect(_day(3, 12), findsNothing);
+    expectOneQuickAdd();
 
     await tester.tap(find.text('Month'));
     await tester.pumpAndSettle();
     expect(_day(3, 12), findsOneWidget);
+    expectOneQuickAdd();
     expect(find.text('March 2026'), findsOneWidget);
 
     await tester.tap(find.text('List'));

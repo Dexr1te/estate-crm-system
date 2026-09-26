@@ -256,6 +256,8 @@ _$PropertyResponseImpl _$$PropertyResponseImplFromJson(
       priceChangedAt: json['priceChangedAt'] == null
           ? null
           : DateTime.parse(json['priceChangedAt'] as String),
+      latitude: (json['latitude'] as num?)?.toDouble(),
+      longitude: (json['longitude'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$$PropertyResponseImplToJson(
@@ -279,6 +281,8 @@ Map<String, dynamic> _$$PropertyResponseImplToJson(
       'updatedAt': instance.updatedAt?.toIso8601String(),
       'previousPrice': instance.previousPrice,
       'priceChangedAt': instance.priceChangedAt?.toIso8601String(),
+      'latitude': instance.latitude,
+      'longitude': instance.longitude,
     };
 
 const _$PropertyStatusEnumMap = {

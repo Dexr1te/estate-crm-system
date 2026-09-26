@@ -47,6 +47,10 @@ public class Property {
     private Integer floor;
     private Integer totalFloors;
 
+    /** Where it stands, in degrees (WGS 84). Both or neither; null until an agent drops a pin. */
+    private Double latitude;
+    private Double longitude;
+
     // Агент который ведёт объект
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "agent_id")

@@ -5,6 +5,7 @@ import 'package:real_estate_crm/core/auth/role_context.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/goal/goal_bloc.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
 import 'package:real_estate_crm/core/utils/clock.dart';
 import 'package:real_estate_crm/core/utils/contact_actions.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
@@ -350,6 +351,7 @@ class _GreetingRow extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 8),
+        const QuickAddButton.tile(),
         AppIconTile(
           icon: Icons.search_rounded,
           tooltip: AppLocalizations.of(context).searchTitle,

@@ -4,16 +4,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
 import 'package:real_estate_crm/core/utils/contact_actions.dart';
 import 'package:real_estate_crm/core/utils/share_gateway.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_state.dart';
+import 'package:real_estate_crm/features/mortgage/presentation/widgets/mortgage_card.dart';
 import 'package:real_estate_crm/features/properties/brochure/brochure_photos.dart';
 import 'package:real_estate_crm/features/properties/brochure/listing_brochure.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_bloc.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_event.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_state.dart';
+import 'package:real_estate_crm/features/properties/presentation/widgets/map_markers.dart';
+import 'package:real_estate_crm/features/properties/presentation/widgets/property_location_preview.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_photos_card.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_price_history.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_share_link_card.dart';
@@ -211,12 +215,15 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
       child: DetailScaffold(
         title: l10n.propertiesPropertyIdLabel(p.id),
         onRefresh: _load,
-        actions: detailActions(
-          onEdit: () => context.push('/properties/${widget.id}/edit'),
-          onDelete: _delete,
-          editTooltip: l10n.propertiesEdit,
-          deleteTooltip: l10n.propertiesDelete,
-        ),
+        actions: [
+          QuickAddButton.tile(onDone: _load),
+          ...detailActions(
+            onEdit: () => context.push('/properties/${widget.id}/edit'),
+            onDelete: _delete,
+            editTooltip: l10n.propertiesEdit,
+            deleteTooltip: l10n.propertiesDelete,
+          ),
+        ],
         children: [
           _PropertyHero(property: p, onCopyId: _copyId),
           AppGhostButton(
@@ -226,6 +233,12 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
             loading: _brochureBusy,
             onPressed: _shareBrochure,
           ),
+          if (p.price > 0)
+            PropertyMortgageCard(
+              propertyId: p.id,
+              price: p.price,
+              title: p.title,
+            ),
           PropertyPhotosCard(
             propertyId: widget.id,
             photos: _photos,
@@ -237,6 +250,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
             canRevoke: _canRevokeLink(p),
           ),
           _DetailsCard(property: p),
+          if (listingPoint(p) != null) PropertyLocationPreview(property: p),
           if (_priceHistory.isNotEmpty)
             PropertyPriceHistoryCard(changes: _priceHistory),
           _StatusCard(status: p.status, onChanged: _updateStatus),

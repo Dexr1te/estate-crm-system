@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/network/json.dart';
+import 'package:real_estate_crm/core/network/offline_cache.dart';
+import 'package:real_estate_crm/core/network/offline_interceptor.dart';
 import 'package:real_estate_crm/core/session/session_store.dart';
 
 const apiBaseUrl = String.fromEnvironment(
@@ -26,7 +28,13 @@ class ApiClient {
 
   VoidCallback? onSessionExpired;
 
-  ApiClient(this._session, {HttpClientAdapter? adapter}) {
+  /// Reads kept for when the signal drops; null means nothing is kept.
+  final OfflineCache? offlineCache;
+
+  /// Whether what is on screen came from [offlineCache], and since when.
+  final OfflineStatus offline = OfflineStatus();
+
+  ApiClient(this._session, {HttpClientAdapter? adapter, this.offlineCache}) {
     dio = Dio(_options());
     _refreshDio = Dio(_options());
 
@@ -81,6 +89,21 @@ class ApiClient {
         }
       },
     ));
+
+    // Last, so it only sees a failure once the cold-start retry and the token
+    // refresh have both had their go.
+    final cache = offlineCache;
+    if (cache != null) {
+      dio.interceptors.add(OfflineCacheInterceptor(
+        cache: cache,
+        scope: () => _session.cacheScope,
+        status: offline,
+      ));
+      _session.addClearListener(() async {
+        offline.markOnline();
+        await cache.wipe();
+      });
+    }
   }
 
   Interceptor _wakeUpInterceptor(Dio client) => InterceptorsWrapper(

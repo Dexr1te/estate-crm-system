@@ -10,6 +10,10 @@ enum ApiFailureKind {
   server,
   timeout,
   offline,
+
+  /// A create, edit or delete tried while there is no connection. Reads can
+  /// fall back to the offline cache; writes cannot, and are never queued.
+  offlineWrite,
   unknown,
 }
 
@@ -49,6 +53,18 @@ class ApiFailure {
         return ApiFailureKind.badRequest;
     }
     if (status != null && status >= 500) return ApiFailureKind.server;
+
+    final isWrite = error.requestOptions.method.toUpperCase() != 'GET';
+    if (isWrite && status == null) {
+      switch (error.type) {
+        case DioExceptionType.connectionTimeout:
+        case DioExceptionType.sendTimeout:
+        case DioExceptionType.connectionError:
+          return ApiFailureKind.offlineWrite;
+        default:
+          break;
+      }
+    }
 
     switch (error.type) {
       case DioExceptionType.connectionTimeout:

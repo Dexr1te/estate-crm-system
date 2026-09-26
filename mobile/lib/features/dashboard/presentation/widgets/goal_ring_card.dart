@@ -71,7 +71,7 @@ class GoalRingCard extends StatelessWidget {
                           ],
                         )
                       else
-                        Icon(Icons.add_rounded, size: 22, color: t.textHint),
+                        Icon(Icons.flag_outlined, size: 22, color: t.textHint),
                       const SizedBox(height: 3),
                       Text(
                         l10n.dashboardGoalEyebrow,

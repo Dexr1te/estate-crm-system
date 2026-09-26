@@ -1324,12 +1324,6 @@ abstract class AppLocalizations {
   /// **'Add your first client'**
   String get clientsAddFirstClient;
 
-  /// No description provided for @clientsAddShort.
-  ///
-  /// In en, this message translates to:
-  /// **'Client'**
-  String get clientsAddShort;
-
   /// No description provided for @clientsAgent.
   ///
   /// In en, this message translates to:
@@ -2038,6 +2032,12 @@ abstract class AppLocalizations {
   /// **'Cannot connect to server. Check your internet.'**
   String get coreErrorOffline;
 
+  /// No description provided for @coreErrorOfflineWrite.
+  ///
+  /// In en, this message translates to:
+  /// **'You’re offline — this needs a connection.'**
+  String get coreErrorOfflineWrite;
+
   /// No description provided for @coreErrorServer.
   ///
   /// In en, this message translates to:
@@ -2115,6 +2115,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Not selected'**
   String get coreNotSelected;
+
+  /// No description provided for @coreOfflineSince.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline — showing data from {time}'**
+  String coreOfflineSince(String time);
 
   /// No description provided for @coreOpen.
   ///
@@ -2613,12 +2619,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add Deal'**
   String get dealsAddDeal;
-
-  /// No description provided for @dealsAddShort.
-  ///
-  /// In en, this message translates to:
-  /// **'Deal'**
-  String get dealsAddShort;
 
   /// No description provided for @dealsAgent.
   ///
@@ -3190,6 +3190,456 @@ abstract class AppLocalizations {
   /// **'Sending…'**
   String get documentsUploading;
 
+  /// No description provided for @importAction.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Import 1 row} other{Import {count} rows}}'**
+  String importAction(int count);
+
+  /// No description provided for @importAnother.
+  ///
+  /// In en, this message translates to:
+  /// **'Import another file'**
+  String get importAnother;
+
+  /// No description provided for @importAssignTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Assign to'**
+  String get importAssignTo;
+
+  /// No description provided for @importAssignToMe.
+  ///
+  /// In en, this message translates to:
+  /// **'Me'**
+  String get importAssignToMe;
+
+  /// No description provided for @importChooseFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a CSV file'**
+  String get importChooseFile;
+
+  /// No description provided for @importColumns.
+  ///
+  /// In en, this message translates to:
+  /// **'Columns'**
+  String get importColumns;
+
+  /// No description provided for @importColumnsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Check which field each column fills. Columns set to Skip are left out.'**
+  String get importColumnsHint;
+
+  /// No description provided for @importCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Created'**
+  String get importCreated;
+
+  /// No description provided for @importDoneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import finished'**
+  String get importDoneTitle;
+
+  /// No description provided for @importDownloadTemplate.
+  ///
+  /// In en, this message translates to:
+  /// **'Download template'**
+  String get importDownloadTemplate;
+
+  /// No description provided for @importDuplicateOfClient.
+  ///
+  /// In en, this message translates to:
+  /// **'Already in the agency: {name}'**
+  String importDuplicateOfClient(String name);
+
+  /// No description provided for @importDuplicateOfRow.
+  ///
+  /// In en, this message translates to:
+  /// **'Same as row {row}'**
+  String importDuplicateOfRow(int row);
+
+  /// No description provided for @importEmptyFile.
+  ///
+  /// In en, this message translates to:
+  /// **'The file is empty'**
+  String get importEmptyFile;
+
+  /// No description provided for @importEntrySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Clients and listings from Excel or another CRM'**
+  String get importEntrySubtitle;
+
+  /// No description provided for @importErrorInvalidEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Not an email address'**
+  String get importErrorInvalidEmail;
+
+  /// No description provided for @importErrorInvalidNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Not a number'**
+  String get importErrorInvalidNumber;
+
+  /// No description provided for @importErrorInvalidPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Not a phone number'**
+  String get importErrorInvalidPhone;
+
+  /// No description provided for @importErrorNegative.
+  ///
+  /// In en, this message translates to:
+  /// **'Must be above zero'**
+  String get importErrorNegative;
+
+  /// No description provided for @importErrorOutOfRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Out of range'**
+  String get importErrorOutOfRange;
+
+  /// No description provided for @importErrorRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Required'**
+  String get importErrorRequired;
+
+  /// No description provided for @importErrorTooLong.
+  ///
+  /// In en, this message translates to:
+  /// **'Too long'**
+  String get importErrorTooLong;
+
+  /// No description provided for @importErrorUnknownValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown value'**
+  String get importErrorUnknownValue;
+
+  /// No description provided for @importFieldAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get importFieldAddress;
+
+  /// No description provided for @importFieldArea.
+  ///
+  /// In en, this message translates to:
+  /// **'Area'**
+  String get importFieldArea;
+
+  /// No description provided for @importFieldBudgetMax.
+  ///
+  /// In en, this message translates to:
+  /// **'Budget to'**
+  String get importFieldBudgetMax;
+
+  /// No description provided for @importFieldBudgetMin.
+  ///
+  /// In en, this message translates to:
+  /// **'Budget from'**
+  String get importFieldBudgetMin;
+
+  /// No description provided for @importFieldCity.
+  ///
+  /// In en, this message translates to:
+  /// **'City'**
+  String get importFieldCity;
+
+  /// No description provided for @importFieldClientType.
+  ///
+  /// In en, this message translates to:
+  /// **'Client type'**
+  String get importFieldClientType;
+
+  /// No description provided for @importFieldDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get importFieldDescription;
+
+  /// No description provided for @importFieldEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get importFieldEmail;
+
+  /// No description provided for @importFieldFloor.
+  ///
+  /// In en, this message translates to:
+  /// **'Floor'**
+  String get importFieldFloor;
+
+  /// No description provided for @importFieldFullName.
+  ///
+  /// In en, this message translates to:
+  /// **'Full name'**
+  String get importFieldFullName;
+
+  /// No description provided for @importFieldMinArea.
+  ///
+  /// In en, this message translates to:
+  /// **'Area from'**
+  String get importFieldMinArea;
+
+  /// No description provided for @importFieldMinRooms.
+  ///
+  /// In en, this message translates to:
+  /// **'Rooms from'**
+  String get importFieldMinRooms;
+
+  /// No description provided for @importFieldNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get importFieldNotes;
+
+  /// No description provided for @importFieldPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone'**
+  String get importFieldPhone;
+
+  /// No description provided for @importFieldPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Price'**
+  String get importFieldPrice;
+
+  /// No description provided for @importFieldPropertyType.
+  ///
+  /// In en, this message translates to:
+  /// **'Property type'**
+  String get importFieldPropertyType;
+
+  /// No description provided for @importFieldRooms.
+  ///
+  /// In en, this message translates to:
+  /// **'Rooms'**
+  String get importFieldRooms;
+
+  /// No description provided for @importFieldStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get importFieldStatus;
+
+  /// No description provided for @importFieldTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get importFieldTitle;
+
+  /// No description provided for @importFieldTotalFloors.
+  ///
+  /// In en, this message translates to:
+  /// **'Total floors'**
+  String get importFieldTotalFloors;
+
+  /// No description provided for @importFieldWantedCity.
+  ///
+  /// In en, this message translates to:
+  /// **'Wanted city'**
+  String get importFieldWantedCity;
+
+  /// No description provided for @importFieldWantedType.
+  ///
+  /// In en, this message translates to:
+  /// **'Wanted property type'**
+  String get importFieldWantedType;
+
+  /// No description provided for @importFileTooLarge.
+  ///
+  /// In en, this message translates to:
+  /// **'The file is larger than 5 MB. Split it into parts.'**
+  String get importFileTooLarge;
+
+  /// No description provided for @importHowTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Save the sheet as CSV in Excel or Google Sheets. Commas, semicolons and tabs all work, and so do Cyrillic files from a Russian Excel.'**
+  String get importHowTo;
+
+  /// No description provided for @importInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Not imported, errors'**
+  String get importInvalid;
+
+  /// No description provided for @importKindClients.
+  ///
+  /// In en, this message translates to:
+  /// **'Clients'**
+  String get importKindClients;
+
+  /// No description provided for @importKindClientsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Names, phones, what they are looking for'**
+  String get importKindClientsHint;
+
+  /// No description provided for @importKindProperties.
+  ///
+  /// In en, this message translates to:
+  /// **'Listings'**
+  String get importKindProperties;
+
+  /// No description provided for @importKindPropertiesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Addresses, prices, areas, rooms'**
+  String get importKindPropertiesHint;
+
+  /// No description provided for @importMissingRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a column for {field}'**
+  String importMissingRequired(String field);
+
+  /// No description provided for @importNoAgents.
+  ///
+  /// In en, this message translates to:
+  /// **'No colleagues found'**
+  String get importNoAgents;
+
+  /// No description provided for @importNoProblems.
+  ///
+  /// In en, this message translates to:
+  /// **'Every row is ready to import'**
+  String get importNoProblems;
+
+  /// No description provided for @importNotCsv.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a .csv file. In Excel: File, Save as, CSV.'**
+  String get importNotCsv;
+
+  /// No description provided for @importNothingToImport.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing to import'**
+  String get importNothingToImport;
+
+  /// No description provided for @importOpenClients.
+  ///
+  /// In en, this message translates to:
+  /// **'Open clients'**
+  String get importOpenClients;
+
+  /// No description provided for @importOpenProperties.
+  ///
+  /// In en, this message translates to:
+  /// **'Open listings'**
+  String get importOpenProperties;
+
+  /// No description provided for @importOptions.
+  ///
+  /// In en, this message translates to:
+  /// **'Options'**
+  String get importOptions;
+
+  /// No description provided for @importPickAgentSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by name'**
+  String get importPickAgentSearch;
+
+  /// No description provided for @importProblems.
+  ///
+  /// In en, this message translates to:
+  /// **'Rows that need attention'**
+  String get importProblems;
+
+  /// No description provided for @importProblemsTruncated.
+  ///
+  /// In en, this message translates to:
+  /// **'Only the first 1000 are listed'**
+  String get importProblemsTruncated;
+
+  /// No description provided for @importRowLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Row {row}'**
+  String importRowLabel(int row);
+
+  /// No description provided for @importRowsTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 row in the file} other{{count} rows in the file}}'**
+  String importRowsTotal(int count);
+
+  /// No description provided for @importShowMore.
+  ///
+  /// In en, this message translates to:
+  /// **'Show more'**
+  String get importShowMore;
+
+  /// No description provided for @importSkipColumn.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get importSkipColumn;
+
+  /// No description provided for @importSkipDuplicates.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip duplicates'**
+  String get importSkipDuplicates;
+
+  /// No description provided for @importSkipDuplicatesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'A client whose email is already in the agency is always skipped'**
+  String get importSkipDuplicatesHint;
+
+  /// No description provided for @importSkipped.
+  ///
+  /// In en, this message translates to:
+  /// **'Skipped duplicates'**
+  String get importSkipped;
+
+  /// No description provided for @importSummaryDuplicates.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicates'**
+  String get importSummaryDuplicates;
+
+  /// No description provided for @importSummaryInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'With errors'**
+  String get importSummaryInvalid;
+
+  /// No description provided for @importSummaryValid.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready'**
+  String get importSummaryValid;
+
+  /// No description provided for @importTemplateFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not prepare the template'**
+  String get importTemplateFailed;
+
+  /// No description provided for @importTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import from a spreadsheet'**
+  String get importTitle;
+
+  /// No description provided for @importTooManyRows.
+  ///
+  /// In en, this message translates to:
+  /// **'The file has more than 5000 rows. Split it into parts.'**
+  String get importTooManyRows;
+
   /// No description provided for @meetingsAddShort.
   ///
   /// In en, this message translates to:
@@ -3603,6 +4053,270 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Who & where'**
   String get meetingsWhoAndWhere;
+
+  /// No description provided for @mortgageAmortisation.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment schedule'**
+  String get mortgageAmortisation;
+
+  /// No description provided for @mortgageAnnuity.
+  ///
+  /// In en, this message translates to:
+  /// **'Annuity'**
+  String get mortgageAnnuity;
+
+  /// No description provided for @mortgageDifferentiated.
+  ///
+  /// In en, this message translates to:
+  /// **'Differentiated'**
+  String get mortgageDifferentiated;
+
+  /// No description provided for @mortgageDownPayment.
+  ///
+  /// In en, this message translates to:
+  /// **'Down payment'**
+  String get mortgageDownPayment;
+
+  /// No description provided for @mortgageDownSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'{percent}% down · {rate}% · {term}'**
+  String mortgageDownSummary(String percent, String rate, String term);
+
+  /// No description provided for @mortgageFees.
+  ///
+  /// In en, this message translates to:
+  /// **'One-off fees'**
+  String get mortgageFees;
+
+  /// No description provided for @mortgageFeesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Appraisal, insurance, bank fee'**
+  String get mortgageFeesHint;
+
+  /// No description provided for @mortgageFromPerMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'from {amount} / month'**
+  String mortgageFromPerMonth(String amount);
+
+  /// No description provided for @mortgageIncomeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Keeps the payment within {percent}% of income'**
+  String mortgageIncomeHint(String percent);
+
+  /// No description provided for @mortgageIncomeNeeded.
+  ///
+  /// In en, this message translates to:
+  /// **'Income needed'**
+  String get mortgageIncomeNeeded;
+
+  /// No description provided for @mortgageInterest.
+  ///
+  /// In en, this message translates to:
+  /// **'Interest'**
+  String get mortgageInterest;
+
+  /// No description provided for @mortgageLoan.
+  ///
+  /// In en, this message translates to:
+  /// **'Loan'**
+  String get mortgageLoan;
+
+  /// No description provided for @mortgageMonthLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Month {number}'**
+  String mortgageMonthLabel(int number);
+
+  /// No description provided for @mortgageMonthly.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly payment'**
+  String get mortgageMonthly;
+
+  /// No description provided for @mortgageMonthlyRange.
+  ///
+  /// In en, this message translates to:
+  /// **'First month → last month'**
+  String get mortgageMonthlyRange;
+
+  /// No description provided for @mortgageNoLoan.
+  ///
+  /// In en, this message translates to:
+  /// **'The down payment covers the price, so there is nothing to borrow.'**
+  String get mortgageNoLoan;
+
+  /// No description provided for @mortgageOpenCalculator.
+  ///
+  /// In en, this message translates to:
+  /// **'Open calculator'**
+  String get mortgageOpenCalculator;
+
+  /// No description provided for @mortgageOverpayment.
+  ///
+  /// In en, this message translates to:
+  /// **'Overpayment'**
+  String get mortgageOverpayment;
+
+  /// No description provided for @mortgagePerMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} / month'**
+  String mortgagePerMonth(String amount);
+
+  /// No description provided for @mortgagePresetHousingSavings.
+  ///
+  /// In en, this message translates to:
+  /// **'Housing savings'**
+  String get mortgagePresetHousingSavings;
+
+  /// No description provided for @mortgagePresetMarket.
+  ///
+  /// In en, this message translates to:
+  /// **'Market rate'**
+  String get mortgagePresetMarket;
+
+  /// No description provided for @mortgagePresetStateProgram.
+  ///
+  /// In en, this message translates to:
+  /// **'7-20-25 programme'**
+  String get mortgagePresetStateProgram;
+
+  /// No description provided for @mortgagePresetsNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Typical rates, not bank offers. Rates change, so check with the bank.'**
+  String get mortgagePresetsNote;
+
+  /// No description provided for @mortgagePrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Price'**
+  String get mortgagePrice;
+
+  /// No description provided for @mortgagePrincipal.
+  ///
+  /// In en, this message translates to:
+  /// **'Principal'**
+  String get mortgagePrincipal;
+
+  /// No description provided for @mortgageRangePerMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'{first} → {last} / month'**
+  String mortgageRangePerMonth(String first, String last);
+
+  /// No description provided for @mortgageRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Annual rate, %'**
+  String get mortgageRate;
+
+  /// No description provided for @mortgageSend.
+  ///
+  /// In en, this message translates to:
+  /// **'Send to client'**
+  String get mortgageSend;
+
+  /// No description provided for @mortgageShareDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'Indicative estimate, not an offer.'**
+  String get mortgageShareDisclaimer;
+
+  /// No description provided for @mortgageShareDown.
+  ///
+  /// In en, this message translates to:
+  /// **'Down payment: {amount} ({percent}%)'**
+  String mortgageShareDown(String amount, String percent);
+
+  /// No description provided for @mortgageShareFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t share the estimate'**
+  String get mortgageShareFailed;
+
+  /// No description provided for @mortgageShareHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Mortgage estimate'**
+  String get mortgageShareHeading;
+
+  /// No description provided for @mortgageShareMonthly.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly payment: {amount}'**
+  String mortgageShareMonthly(String amount);
+
+  /// No description provided for @mortgageShareMonthlyRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly payment: {first} in the first month, {last} in the last'**
+  String mortgageShareMonthlyRange(String first, String last);
+
+  /// No description provided for @mortgageShareOverpayment.
+  ///
+  /// In en, this message translates to:
+  /// **'Total overpayment: {amount}'**
+  String mortgageShareOverpayment(String amount);
+
+  /// No description provided for @mortgageSharePrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Price: {amount}'**
+  String mortgageSharePrice(String amount);
+
+  /// No description provided for @mortgageShareRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Rate: {rate}% a year'**
+  String mortgageShareRate(String rate);
+
+  /// No description provided for @mortgageShareTerm.
+  ///
+  /// In en, this message translates to:
+  /// **'Term: {term}'**
+  String mortgageShareTerm(String term);
+
+  /// No description provided for @mortgageTerm.
+  ///
+  /// In en, this message translates to:
+  /// **'Term'**
+  String get mortgageTerm;
+
+  /// No description provided for @mortgageTermYears.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} year} other{{count} years}}'**
+  String mortgageTermYears(int count);
+
+  /// No description provided for @mortgageTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Mortgage'**
+  String get mortgageTitle;
+
+  /// No description provided for @mortgageTotalRepaid.
+  ///
+  /// In en, this message translates to:
+  /// **'Total repaid'**
+  String get mortgageTotalRepaid;
+
+  /// No description provided for @mortgageType.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment type'**
+  String get mortgageType;
+
+  /// No description provided for @mortgageYearLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Year {number}'**
+  String mortgageYearLabel(int number);
 
   /// No description provided for @msgAgentInvited.
   ///
@@ -4246,12 +4960,6 @@ abstract class AppLocalizations {
   /// **'Add photos'**
   String get propertiesAddPhotos;
 
-  /// No description provided for @propertiesAddShort.
-  ///
-  /// In en, this message translates to:
-  /// **'Property'**
-  String get propertiesAddShort;
-
   /// No description provided for @propertiesAddressLabel.
   ///
   /// In en, this message translates to:
@@ -4516,6 +5224,60 @@ abstract class AppLocalizations {
   /// **'Location'**
   String get propertiesLocation;
 
+  /// No description provided for @propertiesMapCapped.
+  ///
+  /// In en, this message translates to:
+  /// **'Showing {count} — zoom in to see the rest'**
+  String propertiesMapCapped(int count);
+
+  /// No description provided for @propertiesMapEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No listings in this area'**
+  String get propertiesMapEmpty;
+
+  /// No description provided for @propertiesMapLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading listings'**
+  String get propertiesMapLoading;
+
+  /// No description provided for @propertiesMapPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Pin on the map'**
+  String get propertiesMapPin;
+
+  /// No description provided for @propertiesMapPinClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove pin'**
+  String get propertiesMapPinClear;
+
+  /// No description provided for @propertiesMapPinHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the map to drop a pin, drag it to adjust'**
+  String get propertiesMapPinHint;
+
+  /// No description provided for @propertiesMapUnpinned.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 listing has no location} other{{count} listings have no location}}'**
+  String propertiesMapUnpinned(int count);
+
+  /// No description provided for @propertiesMapUnpinnedHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Open a listing, choose Edit and drop a pin to show it on the map.'**
+  String get propertiesMapUnpinnedHint;
+
+  /// No description provided for @propertiesMapUnpinnedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Not on the map'**
+  String get propertiesMapUnpinnedTitle;
+
   /// No description provided for @propertiesNewProperty.
   ///
   /// In en, this message translates to:
@@ -4557,6 +5319,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This listing has not been shown yet'**
   String get propertiesNoViewings;
+
+  /// No description provided for @propertiesOpenInMaps.
+  ///
+  /// In en, this message translates to:
+  /// **'Open in Maps'**
+  String get propertiesOpenInMaps;
+
+  /// No description provided for @propertiesOpenInMapsFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open a maps app'**
+  String get propertiesOpenInMapsFailed;
 
   /// No description provided for @propertiesPhotoCount.
   ///
@@ -4738,11 +5512,101 @@ abstract class AppLocalizations {
   /// **'Update Status'**
   String get propertiesUpdateStatus;
 
+  /// No description provided for @propertiesViewList.
+  ///
+  /// In en, this message translates to:
+  /// **'List'**
+  String get propertiesViewList;
+
+  /// No description provided for @propertiesViewMap.
+  ///
+  /// In en, this message translates to:
+  /// **'Map'**
+  String get propertiesViewMap;
+
   /// No description provided for @propertiesViewings.
   ///
   /// In en, this message translates to:
   /// **'Viewings'**
   String get propertiesViewings;
+
+  /// No description provided for @quickAddClient.
+  ///
+  /// In en, this message translates to:
+  /// **'New client'**
+  String get quickAddClient;
+
+  /// No description provided for @quickAddDeal.
+  ///
+  /// In en, this message translates to:
+  /// **'New deal'**
+  String get quickAddDeal;
+
+  /// No description provided for @quickAddFor.
+  ///
+  /// In en, this message translates to:
+  /// **'For {name}'**
+  String quickAddFor(String name);
+
+  /// No description provided for @quickAddLastUsed.
+  ///
+  /// In en, this message translates to:
+  /// **'Last used'**
+  String get quickAddLastUsed;
+
+  /// No description provided for @quickAddListing.
+  ///
+  /// In en, this message translates to:
+  /// **'New property'**
+  String get quickAddListing;
+
+  /// No description provided for @quickAddLogContact.
+  ///
+  /// In en, this message translates to:
+  /// **'Log a contact'**
+  String get quickAddLogContact;
+
+  /// No description provided for @quickAddMeeting.
+  ///
+  /// In en, this message translates to:
+  /// **'New meeting'**
+  String get quickAddMeeting;
+
+  /// No description provided for @quickAddNoClients.
+  ///
+  /// In en, this message translates to:
+  /// **'No clients yet — add one first'**
+  String get quickAddNoClients;
+
+  /// No description provided for @quickAddOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'New'**
+  String get quickAddOpen;
+
+  /// No description provided for @quickAddPickClient.
+  ///
+  /// In en, this message translates to:
+  /// **'Which client?'**
+  String get quickAddPickClient;
+
+  /// No description provided for @quickAddSearchClients.
+  ///
+  /// In en, this message translates to:
+  /// **'Search clients'**
+  String get quickAddSearchClients;
+
+  /// No description provided for @quickAddTask.
+  ///
+  /// In en, this message translates to:
+  /// **'New task'**
+  String get quickAddTask;
+
+  /// No description provided for @quickAddTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get quickAddTitle;
 
   /// No description provided for @remindersBody.
   ///

@@ -20,6 +20,31 @@ class SessionStore {
   String? _refreshToken;
   String? _user;
 
+  final List<Future<void> Function()> _clearListeners = [];
+
+  /// Called whenever the session ends or passes to a different account, so
+  /// whatever was kept for the old one can be forgotten.
+  void addClearListener(Future<void> Function() listener) =>
+      _clearListeners.add(listener);
+
+  Future<void> _notifyCleared() async {
+    for (final listener in List.of(_clearListeners)) {
+      try {
+        await listener();
+      } catch (_) {}
+    }
+  }
+
+  /// Who the data on this device belongs to — user and team — or null when
+  /// nobody is signed in. Anything cached is keyed by it.
+  String? get cacheScope {
+    final user = _user;
+    if (_accessToken == null || user == null) return null;
+    final parts = user.split('|');
+    final team = parts.length > 4 && parts.last.isNotEmpty ? parts.last : '-';
+    return 'u${parts[0]}:t$team';
+  }
+
   String? get accessToken => _accessToken;
   String? get refreshToken => _refreshToken;
   bool get isLoggedIn => _accessToken != null;
@@ -33,6 +58,10 @@ class SessionStore {
   }
 
   Future<void> save(AuthResponse auth) async {
+    final previous = _user?.split('|').first;
+    if (previous != null && previous != '${auth.userId}') {
+      await _notifyCleared();
+    }
     _accessToken = auth.accessToken;
     _refreshToken = auth.refreshToken;
     _user = _encodeAuthUser(auth);
@@ -50,6 +79,7 @@ class SessionStore {
     for (final key in _legacyKeys) {
       await _storage.delete(key: key);
     }
+    await _notifyCleared();
   }
 
   Future<AuthResponse?> getSavedUser() async {
@@ -85,7 +115,8 @@ class SessionStore {
   }
 
   String _encodeAuthUser(AuthResponse auth) {
-    return '${auth.userId}|${auth.fullName}|${auth.email}|${auth.role.name}';
+    return '${auth.userId}|${auth.fullName}|${auth.email}|${auth.role.name}'
+        '|${auth.teamId ?? ''}';
   }
 
   Map<String, dynamic> _decodeAuthUser(String data) {
@@ -98,6 +129,7 @@ class SessionStore {
       'fullName': parts.length > 1 ? parts[1] : '',
       'email': parts.length > 2 ? parts[2] : '',
       'role': parts.length > 3 ? parts[3] : 'AGENT',
+      'teamId': parts.length > 4 ? int.tryParse(parts.last) : null,
     };
   }
 }

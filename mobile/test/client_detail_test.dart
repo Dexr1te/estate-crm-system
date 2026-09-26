@@ -9,6 +9,7 @@ import 'package:real_estate_crm/features/clients/presentation/screens/client_det
 import 'package:real_estate_crm/features/clients/presentation/screens/client_form_screen.dart';
 
 import 'fakes.dart';
+import 'quick_add_expect.dart';
 import 'responsive_harness.dart';
 
 const _client = ClientResponse(
@@ -71,6 +72,7 @@ void main() {
     );
     await tester.pumpAndSettle();
     expect(tester.takeException(), isNull);
+    expectOneQuickAdd();
   });
 
   forEachAcceptanceCase('client form — new',

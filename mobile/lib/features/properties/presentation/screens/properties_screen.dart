@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_bloc.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_event.dart';
+import 'package:real_estate_crm/features/properties/presentation/bloc/properties_map_bloc.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_state.dart';
+import 'package:real_estate_crm/features/properties/presentation/widgets/map_markers.dart';
+import 'package:real_estate_crm/features/properties/presentation/widgets/properties_map_view.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_card.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
@@ -18,6 +22,8 @@ class PropertiesScreen extends StatefulWidget {
 class _PropertiesScreenState extends State<PropertiesScreen> {
   PropertyStatus? _filterStatus;
   PropertyType? _filterType;
+  bool _map = false;
+  String? _query;
   final _searchCtrl = TextEditingController();
   final _scrollCtrl = ScrollController();
 
@@ -44,12 +50,16 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
 
   void _reload() {
     final q = _searchCtrl.text.trim();
+    _query = q.isEmpty ? null : q;
     context.read<PropertiesBloc>().add(PropertiesLoadEvent(
           status: _filterStatus,
           type: _filterType,
           search: q.isEmpty ? null : q,
         ));
   }
+
+  MapFilters get _mapFilters =>
+      MapFilters(status: _filterStatus, type: _filterType, search: _query);
 
   void _setStatus(PropertyStatus? s) {
     setState(() => _filterStatus = s);
@@ -136,13 +146,20 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
                               ),
                             ),
                             const SizedBox(width: 12),
-                            AppHeaderAction(
-                              label: l10n.propertiesAddShort,
-                              onPressed: () => context.go('/properties/new'),
-                            )
+                            const QuickAddButton()
                           ],
                         ),
-                        const SizedBox(height: 14),
+                        const SizedBox(height: 12),
+                        SegmentedTabs(
+                          key: const ValueKey('properties-view-tabs'),
+                          labels: [
+                            l10n.propertiesViewList,
+                            l10n.propertiesViewMap
+                          ],
+                          selectedIndex: _map ? 1 : 0,
+                          onSelected: (i) => setState(() => _map = i == 1),
+                        ),
+                        const SizedBox(height: 10),
                         AppTextField(
                           controller: _searchCtrl,
                           skin: FieldSkin.page,
@@ -179,7 +196,16 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
                       ],
                     ),
                   ),
-                  Expanded(child: _body(ctx, state, items, l10n, pad)),
+                  Expanded(
+                    child: _map
+                        ? PropertiesMapView(
+                            filters: _mapFilters,
+                            initialCenter: items.map(listingPoint).firstWhere(
+                                (p) => p != null,
+                                orElse: () => null),
+                          )
+                        : _body(ctx, state, items, l10n, pad),
+                  ),
                 ],
               );
             },

@@ -186,6 +186,10 @@ class PropertyResponse with _$PropertyResponse {
     DateTime? updatedAt,
     double? previousPrice,
     DateTime? priceChangedAt,
+
+    /// Where it stands, in degrees; both null until an agent drops a pin.
+    double? latitude,
+    double? longitude,
   }) = _PropertyResponse;
 
   factory PropertyResponse.fromJson(Map<String, dynamic> json) =>

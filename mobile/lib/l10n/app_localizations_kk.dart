@@ -685,9 +685,6 @@ class AppLocalizationsKk extends AppLocalizations {
   String get clientsAddFirstClient => 'Алғашқы клиентіңізді қосыңыз';
 
   @override
-  String get clientsAddShort => 'Клиент';
-
-  @override
   String get clientsAgent => 'Агент';
 
   @override
@@ -1106,6 +1103,9 @@ class AppLocalizationsKk extends AppLocalizations {
       'Сервермен байланыс жоқ. Интернетті тексеріңіз.';
 
   @override
+  String get coreErrorOfflineWrite => 'Желі жоқ — бұл үшін байланыс керек.';
+
+  @override
   String get coreErrorServer => 'Сервер қатесі. Кейінірек қайталаңыз.';
 
   @override
@@ -1143,6 +1143,11 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get coreNotSelected => 'Таңдалмаған';
+
+  @override
+  String coreOfflineSince(String time) {
+    return 'Желі жоқ — $time кезіндегі деректер';
+  }
 
   @override
   String get coreOpen => 'Ашу';
@@ -1450,9 +1455,6 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get dealsAddDeal => 'Мәміле қосу';
-
-  @override
-  String get dealsAddShort => 'Мәміле';
 
   @override
   String get dealsAgent => 'Агент';
@@ -1796,6 +1798,261 @@ class AppLocalizationsKk extends AppLocalizations {
   String get documentsUploading => 'Жіберілуде…';
 
   @override
+  String importAction(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count жолды импорттау',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get importAnother => 'Басқа файлды импорттау';
+
+  @override
+  String get importAssignTo => 'Жауапты';
+
+  @override
+  String get importAssignToMe => 'Мен';
+
+  @override
+  String get importChooseFile => 'CSV файлын таңдау';
+
+  @override
+  String get importColumns => 'Бағандар';
+
+  @override
+  String get importColumnsHint =>
+      'Әр баған қай өрісті толтыратынын тексеріңіз. «Өткізіп жіберу» белгіленген бағандар импортталмайды.';
+
+  @override
+  String get importCreated => 'Құрылды';
+
+  @override
+  String get importDoneTitle => 'Импорт аяқталды';
+
+  @override
+  String get importDownloadTemplate => 'Үлгіні жүктеу';
+
+  @override
+  String importDuplicateOfClient(String name) {
+    return 'Агенттікте бар: $name';
+  }
+
+  @override
+  String importDuplicateOfRow(int row) {
+    return '$row-жолмен бірдей';
+  }
+
+  @override
+  String get importEmptyFile => 'Файл бос';
+
+  @override
+  String get importEntrySubtitle =>
+      'Excel немесе басқа CRM-нен клиенттер мен нысандар';
+
+  @override
+  String get importErrorInvalidEmail => 'Email қате';
+
+  @override
+  String get importErrorInvalidNumber => 'Сан емес';
+
+  @override
+  String get importErrorInvalidPhone => 'Телефон қате';
+
+  @override
+  String get importErrorNegative => 'Нөлден үлкен болуы керек';
+
+  @override
+  String get importErrorOutOfRange => 'Рұқсат етілген ауқымнан тыс';
+
+  @override
+  String get importErrorRequired => 'Міндетті өріс';
+
+  @override
+  String get importErrorTooLong => 'Тым ұзын';
+
+  @override
+  String get importErrorUnknownValue => 'Белгісіз мән';
+
+  @override
+  String get importFieldAddress => 'Мекенжай';
+
+  @override
+  String get importFieldArea => 'Аудан';
+
+  @override
+  String get importFieldBudgetMax => 'Бюджет (дейін)';
+
+  @override
+  String get importFieldBudgetMin => 'Бюджет (бастап)';
+
+  @override
+  String get importFieldCity => 'Қала';
+
+  @override
+  String get importFieldClientType => 'Клиент түрі';
+
+  @override
+  String get importFieldDescription => 'Сипаттама';
+
+  @override
+  String get importFieldEmail => 'Email';
+
+  @override
+  String get importFieldFloor => 'Қабат';
+
+  @override
+  String get importFieldFullName => 'Аты-жөні';
+
+  @override
+  String get importFieldMinArea => 'Аудан (кемінде)';
+
+  @override
+  String get importFieldMinRooms => 'Бөлме саны (кемінде)';
+
+  @override
+  String get importFieldNotes => 'Ескертпе';
+
+  @override
+  String get importFieldPhone => 'Телефон';
+
+  @override
+  String get importFieldPrice => 'Баға';
+
+  @override
+  String get importFieldPropertyType => 'Нысан түрі';
+
+  @override
+  String get importFieldRooms => 'Бөлме саны';
+
+  @override
+  String get importFieldStatus => 'Мәртебе';
+
+  @override
+  String get importFieldTitle => 'Атауы';
+
+  @override
+  String get importFieldTotalFloors => 'Қабат саны';
+
+  @override
+  String get importFieldWantedCity => 'Қалаған қала';
+
+  @override
+  String get importFieldWantedType => 'Қалаған нысан түрі';
+
+  @override
+  String get importFileTooLarge =>
+      'Файл 5 МБ-тан үлкен. Оны бөліктерге бөліңіз.';
+
+  @override
+  String get importHowTo =>
+      'Кестені Excel немесе Google Sheets арқылы CSV форматында сақтаңыз. Үтір, нүктелі үтір және табуляция жарайды, орысша Excel-дің кириллица файлдары да оқылады.';
+
+  @override
+  String get importInvalid => 'Қателерге байланысты импортталмады';
+
+  @override
+  String get importKindClients => 'Клиенттер';
+
+  @override
+  String get importKindClientsHint => 'Аттары, телефондары, не іздейді';
+
+  @override
+  String get importKindProperties => 'Нысандар';
+
+  @override
+  String get importKindPropertiesHint =>
+      'Мекенжайлар, бағалар, аудандар, бөлмелер';
+
+  @override
+  String importMissingRequired(String field) {
+    return '«$field» өрісі үшін баған таңдаңыз';
+  }
+
+  @override
+  String get importNoAgents => 'Әріптестер табылмады';
+
+  @override
+  String get importNoProblems => 'Барлық жол импортқа дайын';
+
+  @override
+  String get importNotCsv =>
+      '.csv файлын таңдаңыз. Excel-де: Файл, Басқаша сақтау, CSV.';
+
+  @override
+  String get importNothingToImport => 'Импорттайтын ештеңе жоқ';
+
+  @override
+  String get importOpenClients => 'Клиенттерді ашу';
+
+  @override
+  String get importOpenProperties => 'Нысандарды ашу';
+
+  @override
+  String get importOptions => 'Параметрлер';
+
+  @override
+  String get importPickAgentSearch => 'Аты бойынша іздеу';
+
+  @override
+  String get importProblems => 'Назар аударатын жолдар';
+
+  @override
+  String get importProblemsTruncated => 'Тек алғашқы 1000 көрсетілген';
+
+  @override
+  String importRowLabel(int row) {
+    return '$row-жол';
+  }
+
+  @override
+  String importRowsTotal(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Файлда $count жол',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get importShowMore => 'Тағы көрсету';
+
+  @override
+  String get importSkipColumn => 'Өткізіп жіберу';
+
+  @override
+  String get importSkipDuplicates => 'Қайталанатындарды өткізіп жіберу';
+
+  @override
+  String get importSkipDuplicatesHint =>
+      'Email-і агенттікте бар клиент әрқашан өткізіп жіберіледі';
+
+  @override
+  String get importSkipped => 'Өткізілген қайталанатындар';
+
+  @override
+  String get importSummaryDuplicates => 'Қайталанатындар';
+
+  @override
+  String get importSummaryInvalid => 'Қателері бар';
+
+  @override
+  String get importSummaryValid => 'Дайын';
+
+  @override
+  String get importTemplateFailed => 'Үлгіні дайындау мүмкін болмады';
+
+  @override
+  String get importTitle => 'Кестеден импорттау';
+
+  @override
+  String get importTooManyRows =>
+      'Файлда 5000-нан көп жол бар. Оны бөліктерге бөліңіз.';
+
+  @override
   String get meetingsAddShort => 'Кездесу';
 
   @override
@@ -2024,6 +2281,174 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get meetingsWhoAndWhere => 'Кіммен және қайда';
+
+  @override
+  String get mortgageAmortisation => 'Төлем кестесі';
+
+  @override
+  String get mortgageAnnuity => 'Аннуитетті';
+
+  @override
+  String get mortgageDifferentiated => 'Сараланған';
+
+  @override
+  String get mortgageDownPayment => 'Бастапқы жарна';
+
+  @override
+  String mortgageDownSummary(String percent, String rate, String term) {
+    return 'жарна $percent% · $rate% · $term';
+  }
+
+  @override
+  String get mortgageFees => 'Бір реттік шығындар';
+
+  @override
+  String get mortgageFeesHint => 'Бағалау, сақтандыру, банк комиссиясы';
+
+  @override
+  String mortgageFromPerMonth(String amount) {
+    return 'айына $amount бастап';
+  }
+
+  @override
+  String mortgageIncomeHint(String percent) {
+    return 'Төлем табыстың $percent%-ынан аспауы үшін';
+  }
+
+  @override
+  String get mortgageIncomeNeeded => 'Қажетті табыс';
+
+  @override
+  String get mortgageInterest => 'Пайыздар';
+
+  @override
+  String get mortgageLoan => 'Несие сомасы';
+
+  @override
+  String mortgageMonthLabel(int number) {
+    return '$number-ай';
+  }
+
+  @override
+  String get mortgageMonthly => 'Ай сайынғы төлем';
+
+  @override
+  String get mortgageMonthlyRange => 'Алғашқы ай → соңғы ай';
+
+  @override
+  String get mortgageNoLoan => 'Жарна бағаны толық жабады, несие қажет емес.';
+
+  @override
+  String get mortgageOpenCalculator => 'Калькуляторды ашу';
+
+  @override
+  String get mortgageOverpayment => 'Артық төлем';
+
+  @override
+  String mortgagePerMonth(String amount) {
+    return 'айына $amount';
+  }
+
+  @override
+  String get mortgagePresetHousingSavings => 'Тұрғын үй жинақтары';
+
+  @override
+  String get mortgagePresetMarket => 'Нарықтық мөлшерлеме';
+
+  @override
+  String get mortgagePresetStateProgram => '7-20-25 бағдарламасы';
+
+  @override
+  String get mortgagePresetsNote =>
+      'Әдеттегі мөлшерлемелер, банк ұсынысы емес. Мөлшерлемелер өзгереді, банктен нақтылаңыз.';
+
+  @override
+  String get mortgagePrice => 'Баға';
+
+  @override
+  String get mortgagePrincipal => 'Негізгі қарыз';
+
+  @override
+  String mortgageRangePerMonth(String first, String last) {
+    return 'айына $first → $last';
+  }
+
+  @override
+  String get mortgageRate => 'Жылдық мөлшерлеме, %';
+
+  @override
+  String get mortgageSend => 'Клиентке жіберу';
+
+  @override
+  String get mortgageShareDisclaimer => 'Болжамды есеп, оферта емес.';
+
+  @override
+  String mortgageShareDown(String amount, String percent) {
+    return 'Бастапқы жарна: $amount ($percent%)';
+  }
+
+  @override
+  String get mortgageShareFailed => 'Есепті бөлісу мүмкін болмады';
+
+  @override
+  String get mortgageShareHeading => 'Ипотека есебі';
+
+  @override
+  String mortgageShareMonthly(String amount) {
+    return 'Ай сайынғы төлем: $amount';
+  }
+
+  @override
+  String mortgageShareMonthlyRange(String first, String last) {
+    return 'Ай сайынғы төлем: алғашқы айда $first, соңғы айда $last';
+  }
+
+  @override
+  String mortgageShareOverpayment(String amount) {
+    return 'Артық төлем: $amount';
+  }
+
+  @override
+  String mortgageSharePrice(String amount) {
+    return 'Бағасы: $amount';
+  }
+
+  @override
+  String mortgageShareRate(String rate) {
+    return 'Мөлшерлеме: жылдық $rate%';
+  }
+
+  @override
+  String mortgageShareTerm(String term) {
+    return 'Мерзімі: $term';
+  }
+
+  @override
+  String get mortgageTerm => 'Мерзім';
+
+  @override
+  String mortgageTermYears(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count жыл',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get mortgageTitle => 'Ипотека';
+
+  @override
+  String get mortgageTotalRepaid => 'Барлық төлем';
+
+  @override
+  String get mortgageType => 'Төлем түрі';
+
+  @override
+  String mortgageYearLabel(int number) {
+    return '$number-жыл';
+  }
 
   @override
   String get msgAgentInvited => 'Агент шақырылды';
@@ -2392,9 +2817,6 @@ class AppLocalizationsKk extends AppLocalizations {
   String get propertiesAddPhotos => 'Фото қосу';
 
   @override
-  String get propertiesAddShort => 'Нысан';
-
-  @override
   String get propertiesAddressLabel => 'Мекенжайы';
 
   @override
@@ -2556,6 +2978,39 @@ class AppLocalizationsKk extends AppLocalizations {
   String get propertiesLocation => 'Орналасуы';
 
   @override
+  String propertiesMapCapped(int count) {
+    return '$count көрсетілді — қалғанын көру үшін картаны жақындатыңыз';
+  }
+
+  @override
+  String get propertiesMapEmpty => 'Картаның бұл бөлігінде нысан жоқ';
+
+  @override
+  String get propertiesMapLoading => 'Нысандар жүктелуде';
+
+  @override
+  String get propertiesMapPin => 'Картадағы нүкте';
+
+  @override
+  String get propertiesMapPinClear => 'Нүктені алып тастау';
+
+  @override
+  String get propertiesMapPinHint =>
+      'Нүкте қою үшін картаны түртіңіз, дәлдеу үшін оны сүйреңіз';
+
+  @override
+  String propertiesMapUnpinned(int count) {
+    return '$count нысанның картада нүктесі жоқ';
+  }
+
+  @override
+  String get propertiesMapUnpinnedHint =>
+      'Нысанды ашып, «Өңдеу» басып, нүкте қойыңыз — ол картада пайда болады.';
+
+  @override
+  String get propertiesMapUnpinnedTitle => 'Картада жоқ';
+
+  @override
   String get propertiesNewProperty => 'Жаңа нысан';
 
   @override
@@ -2576,6 +3031,12 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get propertiesNoViewings => 'Бұл нысан әлі көрсетілмеген';
+
+  @override
+  String get propertiesOpenInMaps => 'Карталарда ашу';
+
+  @override
+  String get propertiesOpenInMapsFailed => 'Карталарды ашу мүмкін болмады';
 
   @override
   String propertiesPhotoCount(num count) {
@@ -2693,7 +3154,54 @@ class AppLocalizationsKk extends AppLocalizations {
   String get propertiesUpdateStatus => 'Мәртебені жаңарту';
 
   @override
+  String get propertiesViewList => 'Тізім';
+
+  @override
+  String get propertiesViewMap => 'Карта';
+
+  @override
   String get propertiesViewings => 'Көрсетілімдер';
+
+  @override
+  String get quickAddClient => 'Жаңа клиент';
+
+  @override
+  String get quickAddDeal => 'Жаңа мәміле';
+
+  @override
+  String quickAddFor(String name) {
+    return '$name үшін';
+  }
+
+  @override
+  String get quickAddLastUsed => 'Соңғы рет';
+
+  @override
+  String get quickAddListing => 'Жаңа нысан';
+
+  @override
+  String get quickAddLogContact => 'Байланысты жазу';
+
+  @override
+  String get quickAddMeeting => 'Жаңа кездесу';
+
+  @override
+  String get quickAddNoClients => 'Әзірге клиент жоқ — алдымен клиент қосыңыз';
+
+  @override
+  String get quickAddOpen => 'Қосу';
+
+  @override
+  String get quickAddPickClient => 'Қай клиент?';
+
+  @override
+  String get quickAddSearchClients => 'Клиенттерді іздеу';
+
+  @override
+  String get quickAddTask => 'Жаңа тапсырма';
+
+  @override
+  String get quickAddTitle => 'Қосу';
 
   @override
   String remindersBody(Object time) {

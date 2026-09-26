@@ -164,6 +164,8 @@ String apiFailureLabel(AppLocalizations l10n, ApiFailure failure) {
       return l10n.coreErrorTimeout;
     case ApiFailureKind.offline:
       return l10n.coreErrorOffline;
+    case ApiFailureKind.offlineWrite:
+      return l10n.coreErrorOfflineWrite;
     case ApiFailureKind.unknown:
       return l10n.coreErrorUnknown;
   }
