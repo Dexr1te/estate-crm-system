@@ -388,6 +388,144 @@ abstract class AppLocalizations {
   /// **'View stats'**
   String get adminViewStats;
 
+  /// No description provided for @analyticsAgent.
+  ///
+  /// In en, this message translates to:
+  /// **'Agent: {name}'**
+  String analyticsAgent(Object name);
+
+  /// No description provided for @analyticsAllAgents.
+  ///
+  /// In en, this message translates to:
+  /// **'All agents'**
+  String get analyticsAllAgents;
+
+  /// No description provided for @analyticsAvgDaysToWin.
+  ///
+  /// In en, this message translates to:
+  /// **'Days to close'**
+  String get analyticsAvgDaysToWin;
+
+  /// No description provided for @analyticsCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Created'**
+  String get analyticsCreated;
+
+  /// No description provided for @analyticsDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} d'**
+  String analyticsDays(Object days);
+
+  /// No description provided for @analyticsEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Deals created in this period will show up here.'**
+  String get analyticsEmptyBody;
+
+  /// No description provided for @analyticsEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No deals in this period'**
+  String get analyticsEmptyTitle;
+
+  /// No description provided for @analyticsFunnel.
+  ///
+  /// In en, this message translates to:
+  /// **'Funnel'**
+  String get analyticsFunnel;
+
+  /// No description provided for @analyticsLeadToWon.
+  ///
+  /// In en, this message translates to:
+  /// **'Lead to won'**
+  String get analyticsLeadToWon;
+
+  /// No description provided for @analyticsLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load analytics'**
+  String get analyticsLoadFailed;
+
+  /// No description provided for @analyticsLostReasons.
+  ///
+  /// In en, this message translates to:
+  /// **'Why deals are lost'**
+  String get analyticsLostReasons;
+
+  /// No description provided for @analyticsMonthly.
+  ///
+  /// In en, this message translates to:
+  /// **'Last six months'**
+  String get analyticsMonthly;
+
+  /// No description provided for @analyticsNoLost.
+  ///
+  /// In en, this message translates to:
+  /// **'No deals lost in this period.'**
+  String get analyticsNoLost;
+
+  /// No description provided for @analyticsNoValue.
+  ///
+  /// In en, this message translates to:
+  /// **'—'**
+  String get analyticsNoValue;
+
+  /// No description provided for @analyticsOfPrevious.
+  ///
+  /// In en, this message translates to:
+  /// **'{percent} of the previous stage'**
+  String analyticsOfPrevious(Object percent);
+
+  /// No description provided for @analyticsOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Funnel and analytics'**
+  String get analyticsOpen;
+
+  /// No description provided for @analyticsPeriodMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'This month'**
+  String get analyticsPeriodMonth;
+
+  /// No description provided for @analyticsPeriodQuarter.
+  ///
+  /// In en, this message translates to:
+  /// **'Quarter'**
+  String get analyticsPeriodQuarter;
+
+  /// No description provided for @analyticsPeriodYear.
+  ///
+  /// In en, this message translates to:
+  /// **'Year'**
+  String get analyticsPeriodYear;
+
+  /// No description provided for @analyticsSelectAgent.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose an agent'**
+  String get analyticsSelectAgent;
+
+  /// No description provided for @analyticsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Analytics'**
+  String get analyticsTitle;
+
+  /// No description provided for @analyticsWonLost.
+  ///
+  /// In en, this message translates to:
+  /// **'{won} won · {lost} lost'**
+  String analyticsWonLost(Object lost, Object won);
+
+  /// No description provided for @analyticsWonValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Won value'**
+  String get analyticsWonValue;
+
   /// No description provided for @appTitle.
   ///
   /// In en, this message translates to:
@@ -2361,6 +2499,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Loading…'**
   String get dealsLoading;
+
+  /// No description provided for @dealsLostConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as lost'**
+  String get dealsLostConfirm;
+
+  /// No description provided for @dealsLostNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get dealsLostNote;
+
+  /// No description provided for @dealsLostNoteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What happened, if it helps next time'**
+  String get dealsLostNoteHint;
+
+  /// No description provided for @dealsLostReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Why it was lost'**
+  String get dealsLostReason;
+
+  /// No description provided for @dealsLostReasonChangedMind.
+  ///
+  /// In en, this message translates to:
+  /// **'Changed their mind'**
+  String get dealsLostReasonChangedMind;
+
+  /// No description provided for @dealsLostReasonChoseAnother.
+  ///
+  /// In en, this message translates to:
+  /// **'Chose another option'**
+  String get dealsLostReasonChoseAnother;
+
+  /// No description provided for @dealsLostReasonFinancing.
+  ///
+  /// In en, this message translates to:
+  /// **'Financing fell through'**
+  String get dealsLostReasonFinancing;
+
+  /// No description provided for @dealsLostReasonNoResponse.
+  ///
+  /// In en, this message translates to:
+  /// **'Stopped responding'**
+  String get dealsLostReasonNoResponse;
+
+  /// No description provided for @dealsLostReasonOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get dealsLostReasonOther;
+
+  /// No description provided for @dealsLostReasonPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Price'**
+  String get dealsLostReasonPrice;
+
+  /// No description provided for @dealsLostReasonUnspecified.
+  ///
+  /// In en, this message translates to:
+  /// **'Not specified'**
+  String get dealsLostReasonUnspecified;
+
+  /// No description provided for @dealsLostSheetSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a reason. It feeds the funnel in Analytics.'**
+  String get dealsLostSheetSubtitle;
+
+  /// No description provided for @dealsLostSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Why was the deal lost?'**
+  String get dealsLostSheetTitle;
 
   /// No description provided for @dealsNewTitle.
   ///

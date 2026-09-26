@@ -160,6 +160,84 @@ class AppLocalizationsKk extends AppLocalizations {
   String get adminViewStats => 'Статистиканы қарау';
 
   @override
+  String analyticsAgent(Object name) {
+    return 'Агент: $name';
+  }
+
+  @override
+  String get analyticsAllAgents => 'Барлық агенттер';
+
+  @override
+  String get analyticsAvgDaysToWin => 'Жабылғанға дейінгі күн';
+
+  @override
+  String get analyticsCreated => 'Құрылды';
+
+  @override
+  String analyticsDays(Object days) {
+    return '$days күн';
+  }
+
+  @override
+  String get analyticsEmptyBody =>
+      'Осы кезеңде құрылған мәмілелер осында шығады.';
+
+  @override
+  String get analyticsEmptyTitle => 'Бұл кезеңде мәміле жоқ';
+
+  @override
+  String get analyticsFunnel => 'Воронка';
+
+  @override
+  String get analyticsLeadToWon => 'Лидтен сәтті мәмілеге дейін';
+
+  @override
+  String get analyticsLoadFailed => 'Аналитиканы жүктеу мүмкін болмады';
+
+  @override
+  String get analyticsLostReasons => 'Мәмілелер неге сәтсіз аяқталады';
+
+  @override
+  String get analyticsMonthly => 'Соңғы алты ай';
+
+  @override
+  String get analyticsNoLost => 'Бұл кезеңде жоғалған мәміле жоқ.';
+
+  @override
+  String get analyticsNoValue => '—';
+
+  @override
+  String analyticsOfPrevious(Object percent) {
+    return 'Алдыңғы кезеңнің $percent';
+  }
+
+  @override
+  String get analyticsOpen => 'Воронка және аналитика';
+
+  @override
+  String get analyticsPeriodMonth => 'Осы ай';
+
+  @override
+  String get analyticsPeriodQuarter => 'Тоқсан';
+
+  @override
+  String get analyticsPeriodYear => 'Жыл';
+
+  @override
+  String get analyticsSelectAgent => 'Агентті таңдаңыз';
+
+  @override
+  String get analyticsTitle => 'Аналитика';
+
+  @override
+  String analyticsWonLost(Object lost, Object won) {
+    return 'Сәтті: $won · сәтсіз: $lost';
+  }
+
+  @override
+  String get analyticsWonValue => 'Сәтті мәмілелер сомасы';
+
+  @override
   String get appTitle => 'Estate CRM';
 
   @override
@@ -1308,6 +1386,46 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get dealsLoading => 'Жүктелуде…';
+
+  @override
+  String get dealsLostConfirm => 'Жоғалды деп белгілеу';
+
+  @override
+  String get dealsLostNote => 'Түсініктеме';
+
+  @override
+  String get dealsLostNoteHint => 'Не болды — келесі жолы пайдасы тиеді';
+
+  @override
+  String get dealsLostReason => 'Жоғалту себебі';
+
+  @override
+  String get dealsLostReasonChangedMind => 'Ойынан айнып қалды';
+
+  @override
+  String get dealsLostReasonChoseAnother => 'Басқа нұсқаны таңдады';
+
+  @override
+  String get dealsLostReasonFinancing => 'Қаржыландыру болмады';
+
+  @override
+  String get dealsLostReasonNoResponse => 'Байланысқа шықпай кетті';
+
+  @override
+  String get dealsLostReasonOther => 'Басқа';
+
+  @override
+  String get dealsLostReasonPrice => 'Баға';
+
+  @override
+  String get dealsLostReasonUnspecified => 'Көрсетілмеген';
+
+  @override
+  String get dealsLostSheetSubtitle =>
+      'Себебін таңдаңыз — ол аналитикадағы воронкаға түседі.';
+
+  @override
+  String get dealsLostSheetTitle => 'Мәміле неге сәтсіз аяқталды?';
 
   @override
   String get dealsNewTitle => 'Жаңа мәміле';

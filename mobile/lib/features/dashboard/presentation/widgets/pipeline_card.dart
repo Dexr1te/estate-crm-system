@@ -7,9 +7,13 @@ import 'package:real_estate_crm/l10n/app_localizations.dart';
 class PipelineCard extends StatelessWidget {
   final PipelineBreakdown pipeline;
   final void Function(DealStatus status) onStageTap;
+  final VoidCallback? onOpenAnalytics;
 
   const PipelineCard(
-      {super.key, required this.pipeline, required this.onStageTap});
+      {super.key,
+      required this.pipeline,
+      required this.onStageTap,
+      this.onOpenAnalytics});
 
   @override
   Widget build(BuildContext context) {
@@ -142,6 +146,35 @@ class PipelineCard extends StatelessWidget {
                       color: t.textPrimary),
                 ),
               ],
+            ),
+          ],
+          if (onOpenAnalytics != null) ...[
+            const SizedBox(height: 13),
+            Container(height: 1, color: t.border),
+            InkWell(
+              key: const ValueKey('pipeline-analytics'),
+              onTap: onOpenAnalytics,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 12),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        l10n.analyticsOpen,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontFamily: AppFonts.sans,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            color: t.textPrimary),
+                      ),
+                    ),
+                    Icon(Icons.chevron_right_rounded,
+                        size: 18, color: t.textSecondary),
+                  ],
+                ),
+              ),
             ),
           ],
         ],

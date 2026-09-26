@@ -325,6 +325,10 @@ _$DealResponseImpl _$$DealResponseImplFromJson(Map<String, dynamic> json) =>
       commissionPercent: (json['commissionPercent'] as num?)?.toDouble(),
       commission: (json['commission'] as num?)?.toDouble(),
       notes: json['notes'] as String?,
+      lostReason: $enumDecodeNullable(
+          _$DealLostReasonEnumMap, json['lostReason'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
+      lostNote: json['lostNote'] as String?,
       clientId: (json['clientId'] as num).toInt(),
       clientName: json['clientName'] as String? ?? '',
       propertyId: (json['propertyId'] as num?)?.toInt(),
@@ -353,6 +357,8 @@ Map<String, dynamic> _$$DealResponseImplToJson(_$DealResponseImpl instance) =>
       'commissionPercent': instance.commissionPercent,
       'commission': instance.commission,
       'notes': instance.notes,
+      'lostReason': _$DealLostReasonEnumMap[instance.lostReason],
+      'lostNote': instance.lostNote,
       'clientId': instance.clientId,
       'clientName': instance.clientName,
       'propertyId': instance.propertyId,
@@ -364,6 +370,15 @@ Map<String, dynamic> _$$DealResponseImplToJson(_$DealResponseImpl instance) =>
       'updatedAt': instance.updatedAt?.toIso8601String(),
       'closedAt': instance.closedAt?.toIso8601String(),
     };
+
+const _$DealLostReasonEnumMap = {
+  DealLostReason.PRICE: 'PRICE',
+  DealLostReason.CHOSE_ANOTHER: 'CHOSE_ANOTHER',
+  DealLostReason.FINANCING: 'FINANCING',
+  DealLostReason.CHANGED_MIND: 'CHANGED_MIND',
+  DealLostReason.NO_RESPONSE: 'NO_RESPONSE',
+  DealLostReason.OTHER: 'OTHER',
+};
 
 _$MeetingResponseImpl _$$MeetingResponseImplFromJson(
         Map<String, dynamic> json) =>
@@ -524,4 +539,78 @@ Map<String, dynamic> _$$AgentOptionImplToJson(_$AgentOptionImpl instance) =>
       'id': instance.id,
       'fullName': instance.fullName,
       'email': instance.email,
+    };
+
+_$DealFunnelImpl _$$DealFunnelImplFromJson(Map<String, dynamic> json) =>
+    _$DealFunnelImpl(
+      from:
+          json['from'] == null ? null : DateTime.parse(json['from'] as String),
+      to: json['to'] == null ? null : DateTime.parse(json['to'] as String),
+      created: (json['created'] as num?)?.toInt() ?? 0,
+      reachedNegotiation: (json['reachedNegotiation'] as num?)?.toInt() ?? 0,
+      won: (json['won'] as num?)?.toInt() ?? 0,
+      lost: (json['lost'] as num?)?.toInt() ?? 0,
+      leadToNegotiationRate:
+          (json['leadToNegotiationRate'] as num?)?.toDouble(),
+      negotiationToWonRate: (json['negotiationToWonRate'] as num?)?.toDouble(),
+      leadToWonRate: (json['leadToWonRate'] as num?)?.toDouble(),
+      wonValue: (json['wonValue'] as num?)?.toDouble() ?? 0,
+      avgDaysToWin: (json['avgDaysToWin'] as num?)?.toDouble(),
+      lostReasons: (json['lostReasons'] as List<dynamic>?)
+              ?.map((e) => FunnelLostReason.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const <FunnelLostReason>[],
+      monthly: (json['monthly'] as List<dynamic>?)
+              ?.map((e) => FunnelMonth.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const <FunnelMonth>[],
+    );
+
+Map<String, dynamic> _$$DealFunnelImplToJson(_$DealFunnelImpl instance) =>
+    <String, dynamic>{
+      'from': instance.from?.toIso8601String(),
+      'to': instance.to?.toIso8601String(),
+      'created': instance.created,
+      'reachedNegotiation': instance.reachedNegotiation,
+      'won': instance.won,
+      'lost': instance.lost,
+      'leadToNegotiationRate': instance.leadToNegotiationRate,
+      'negotiationToWonRate': instance.negotiationToWonRate,
+      'leadToWonRate': instance.leadToWonRate,
+      'wonValue': instance.wonValue,
+      'avgDaysToWin': instance.avgDaysToWin,
+      'lostReasons': instance.lostReasons,
+      'monthly': instance.monthly,
+    };
+
+_$FunnelLostReasonImpl _$$FunnelLostReasonImplFromJson(
+        Map<String, dynamic> json) =>
+    _$FunnelLostReasonImpl(
+      reason: json['reason'] as String? ?? 'UNSPECIFIED',
+      count: (json['count'] as num?)?.toInt() ?? 0,
+      share: (json['share'] as num?)?.toDouble() ?? 0,
+    );
+
+Map<String, dynamic> _$$FunnelLostReasonImplToJson(
+        _$FunnelLostReasonImpl instance) =>
+    <String, dynamic>{
+      'reason': instance.reason,
+      'count': instance.count,
+      'share': instance.share,
+    };
+
+_$FunnelMonthImpl _$$FunnelMonthImplFromJson(Map<String, dynamic> json) =>
+    _$FunnelMonthImpl(
+      month: DateTime.parse(json['month'] as String),
+      created: (json['created'] as num?)?.toInt() ?? 0,
+      won: (json['won'] as num?)?.toInt() ?? 0,
+      lost: (json['lost'] as num?)?.toInt() ?? 0,
+    );
+
+Map<String, dynamic> _$$FunnelMonthImplToJson(_$FunnelMonthImpl instance) =>
+    <String, dynamic>{
+      'month': instance.month.toIso8601String(),
+      'created': instance.created,
+      'won': instance.won,
+      'lost': instance.lost,
     };

@@ -161,6 +161,84 @@ class AppLocalizationsRu extends AppLocalizations {
   String get adminViewStats => 'Просмотр статистики';
 
   @override
+  String analyticsAgent(Object name) {
+    return 'Агент: $name';
+  }
+
+  @override
+  String get analyticsAllAgents => 'Все агенты';
+
+  @override
+  String get analyticsAvgDaysToWin => 'Дней до закрытия';
+
+  @override
+  String get analyticsCreated => 'Создано';
+
+  @override
+  String analyticsDays(Object days) {
+    return '$days дн.';
+  }
+
+  @override
+  String get analyticsEmptyBody =>
+      'Здесь появятся сделки, созданные за этот период.';
+
+  @override
+  String get analyticsEmptyTitle => 'За этот период сделок нет';
+
+  @override
+  String get analyticsFunnel => 'Воронка';
+
+  @override
+  String get analyticsLeadToWon => 'От лида до победы';
+
+  @override
+  String get analyticsLoadFailed => 'Не удалось загрузить аналитику';
+
+  @override
+  String get analyticsLostReasons => 'Почему сделки срываются';
+
+  @override
+  String get analyticsMonthly => 'Последние полгода';
+
+  @override
+  String get analyticsNoLost => 'За этот период проигранных сделок нет.';
+
+  @override
+  String get analyticsNoValue => '—';
+
+  @override
+  String analyticsOfPrevious(Object percent) {
+    return '$percent от предыдущего этапа';
+  }
+
+  @override
+  String get analyticsOpen => 'Воронка и аналитика';
+
+  @override
+  String get analyticsPeriodMonth => 'Этот месяц';
+
+  @override
+  String get analyticsPeriodQuarter => 'Квартал';
+
+  @override
+  String get analyticsPeriodYear => 'Год';
+
+  @override
+  String get analyticsSelectAgent => 'Выберите агента';
+
+  @override
+  String get analyticsTitle => 'Аналитика';
+
+  @override
+  String analyticsWonLost(Object lost, Object won) {
+    return 'Выиграно: $won · проиграно: $lost';
+  }
+
+  @override
+  String get analyticsWonValue => 'Сумма выигранных';
+
+  @override
   String get appTitle => 'Estate CRM';
 
   @override
@@ -1319,6 +1397,46 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get dealsLoading => 'Загрузка…';
+
+  @override
+  String get dealsLostConfirm => 'Отметить как проигранную';
+
+  @override
+  String get dealsLostNote => 'Комментарий';
+
+  @override
+  String get dealsLostNoteHint => 'Что произошло — пригодится в следующий раз';
+
+  @override
+  String get dealsLostReason => 'Причина проигрыша';
+
+  @override
+  String get dealsLostReasonChangedMind => 'Передумал';
+
+  @override
+  String get dealsLostReasonChoseAnother => 'Выбрал другой вариант';
+
+  @override
+  String get dealsLostReasonFinancing => 'Не получилось с финансированием';
+
+  @override
+  String get dealsLostReasonNoResponse => 'Перестал выходить на связь';
+
+  @override
+  String get dealsLostReasonOther => 'Другое';
+
+  @override
+  String get dealsLostReasonPrice => 'Цена';
+
+  @override
+  String get dealsLostReasonUnspecified => 'Не указана';
+
+  @override
+  String get dealsLostSheetSubtitle =>
+      'Выберите причину — она попадёт в воронку в аналитике.';
+
+  @override
+  String get dealsLostSheetTitle => 'Почему сделка сорвалась?';
 
   @override
   String get dealsNewTitle => 'Новая сделка';

@@ -4,19 +4,24 @@ import com.crm.realestate.dto.request.DealRequest;
 import com.crm.realestate.dto.response.DealResponse;
 import com.crm.realestate.entity.Client;
 import com.crm.realestate.entity.Deal;
+import com.crm.realestate.entity.DealStatusChange;
 import com.crm.realestate.entity.Property;
 import com.crm.realestate.entity.User;
+import com.crm.realestate.enums.DealLostReason;
 import com.crm.realestate.enums.DealStatus;
 import com.crm.realestate.enums.PropertyStatus;
+import com.crm.realestate.exception.BusinessException;
 import com.crm.realestate.exception.ResourceNotFoundException;
 import com.crm.realestate.repository.ClientRepository;
 import com.crm.realestate.repository.DealRepository;
+import com.crm.realestate.repository.DealStatusChangeRepository;
 import com.crm.realestate.repository.PropertyRepository;
 import com.crm.realestate.repository.UserRepository;
 import com.crm.realestate.security.SecurityUtils;
 import com.crm.realestate.specification.DealSpecification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,8 +42,10 @@ public class DealService {
     private final UserRepository     userRepository;
     private final SecurityUtils      securityUtils;
     private final ScopeService       scopeService;
+    private final DealStatusChangeRepository statusChangeRepository;
 
     static final BigDecimal ONE_HUNDRED = BigDecimal.valueOf(100);
+    static final int LOST_NOTE_MAX = 500;
 
     public List<DealResponse> getAll() {
         return findVisible(DealSpecification.build(null, null, null));
@@ -59,20 +66,28 @@ public class DealService {
     @Transactional
     public DealResponse create(DealRequest request) {
         User currentUser = securityUtils.getCurrentUser();
+        requireLostReason(statusOf(request), null, request.getLostReason(), request.getLostNote());
         Deal deal = new Deal();
         mapRequestToEntity(request, deal, currentUser);
+        applyLostReason(deal, null, request.getLostReason(), request.getLostNote());
         stampClosedAt(deal, null);
         syncPropertyStatusWithDeal(deal);
-        return toResponse(dealRepository.save(deal));
+        Deal saved = dealRepository.save(deal);
+        recordStatusChange(saved, null, currentUser);
+        return toResponse(saved);
     }
 
     @Transactional
     public DealResponse update(Long id, DealRequest request) {
-        Deal deal = findVisibleById(id, securityUtils.getCurrentUser());
+        User currentUser = securityUtils.getCurrentUser();
+        Deal deal = findVisibleById(id, currentUser);
         Property previousProperty = deal.getProperty();
         DealStatus previousStatus = deal.getStatus();
-        mapRequestToEntity(request, deal, securityUtils.getCurrentUser());
+        requireLostReason(statusOf(request), previousStatus, request.getLostReason(), request.getLostNote());
+        mapRequestToEntity(request, deal, currentUser);
+        applyLostReason(deal, previousStatus, request.getLostReason(), request.getLostNote());
         stampClosedAt(deal, previousStatus);
+        recordStatusChange(deal, previousStatus, currentUser);
 
         if (previousProperty != null && deal.getProperty() == null
                 && previousProperty.getStatus() == PropertyStatus.RESERVED) {
@@ -92,11 +107,16 @@ public class DealService {
     }
 
     @Transactional
-    public DealResponse updateStatus(Long id, DealStatus newStatus) {
-        Deal deal = findVisibleById(id, securityUtils.getCurrentUser());
+    public DealResponse updateStatus(Long id, DealStatus newStatus,
+                                     DealLostReason lostReason, String lostNote) {
+        User currentUser = securityUtils.getCurrentUser();
+        Deal deal = findVisibleById(id, currentUser);
         DealStatus previousStatus = deal.getStatus();
+        requireLostReason(newStatus, previousStatus, lostReason, lostNote);
         deal.setStatus(newStatus);
+        applyLostReason(deal, previousStatus, lostReason, lostNote);
         stampClosedAt(deal, previousStatus);
+        recordStatusChange(deal, previousStatus, currentUser);
 
         syncPropertyStatusWithDeal(deal);
 
@@ -134,7 +154,7 @@ public class DealService {
     private void mapRequestToEntity(DealRequest request, Deal deal, User currentUser) {
         boolean isNew = deal.getId() == null;
         deal.setTitle(request.getTitle());
-        deal.setStatus(request.getStatus() != null ? request.getStatus() : DealStatus.LEAD);
+        deal.setStatus(statusOf(request));
         deal.setDealPrice(request.getDealPrice());
         deal.setBudget(request.getBudget());
         deal.setCommissionPercent(request.getCommissionPercent());
@@ -177,6 +197,55 @@ public class DealService {
        } else if (isNew) {
            deal.setAgent(currentUser);
        }
+    }
+
+    /**
+     * A lost deal says why. Moving a deal into CLOSED_LOST takes a reason; re-saving one that was
+     * already lost may leave it out and keeps what is there — including nothing, on deals lost
+     * before reasons were asked for. Leaving CLOSED_LOST clears both, so a reopened deal does not
+     * carry a verdict that no longer applies.
+     */
+    private void applyLostReason(Deal deal, DealStatus previousStatus,
+                                 DealLostReason reason, String note) {
+        if (deal.getStatus() != DealStatus.CLOSED_LOST) {
+            deal.setLostReason(null);
+            deal.setLostNote(null);
+        } else if (reason != null) {
+            deal.setLostReason(reason);
+            deal.setLostNote(note == null || note.isBlank() ? null : note.trim());
+        }
+    }
+
+    /**
+     * Refuses a move to CLOSED_LOST without a reason, before anything on the deal is touched, so
+     * a refused request leaves the loaded deal exactly as it was.
+     */
+    private void requireLostReason(DealStatus newStatus, DealStatus previousStatus,
+                                   DealLostReason reason, String note) {
+        if (newStatus != DealStatus.CLOSED_LOST) {
+            return;
+        }
+        if (note != null && note.trim().length() > LOST_NOTE_MAX) {
+            throw new BusinessException(HttpStatus.BAD_REQUEST, "LOST_NOTE_TOO_LONG",
+                    "The note on why the deal was lost takes at most " + LOST_NOTE_MAX + " characters");
+        }
+        if (reason == null && previousStatus != DealStatus.CLOSED_LOST) {
+            throw new BusinessException(HttpStatus.BAD_REQUEST, "LOST_REASON_REQUIRED",
+                    "Say why the deal was lost");
+        }
+    }
+
+    private static DealStatus statusOf(DealRequest request) {
+        return request.getStatus() != null ? request.getStatus() : DealStatus.LEAD;
+    }
+
+    /** Writes one history row when the status actually moved; {@code from} is null on creation. */
+    private void recordStatusChange(Deal deal, DealStatus from, User by) {
+        if (from == deal.getStatus()) {
+            return;
+        }
+        statusChangeRepository.save(DealStatusChange.builder()
+                .deal(deal).fromStatus(from).toStatus(deal.getStatus()).changedBy(by).build());
     }
 
     /**
@@ -227,6 +296,8 @@ public class DealService {
         res.setCommissionPercent(deal.getCommissionPercent());
         res.setCommission(commissionOf(deal.getDealPrice(), deal.getCommissionPercent()));
         res.setNotes(deal.getNotes());
+        res.setLostReason(deal.getLostReason());
+        res.setLostNote(deal.getLostNote());
         res.setCreatedAt(deal.getCreatedAt());
         res.setUpdatedAt(deal.getUpdatedAt());
         res.setClosedAt(deal.getClosedAt());

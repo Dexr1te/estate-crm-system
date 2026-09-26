@@ -1,5 +1,6 @@
 package com.crm.realestate.entity;
 
+import com.crm.realestate.enums.DealLostReason;
 import com.crm.realestate.enums.DealStatus;
 import jakarta.persistence.*;
 import lombok.*;
@@ -41,6 +42,14 @@ public class Deal {
     private BigDecimal commissionPercent;
 
     private String notes;
+
+    // Why the deal was lost. Set only while status is CLOSED_LOST; null on deals lost before V28.
+    @Enumerated(EnumType.STRING)
+    @Column(name = "lost_reason", length = 32)
+    private DealLostReason lostReason;
+
+    @Column(name = "lost_note", length = 500)
+    private String lostNote;
 
     // Клиент по сделке
     @ManyToOne(fetch = FetchType.LAZY)

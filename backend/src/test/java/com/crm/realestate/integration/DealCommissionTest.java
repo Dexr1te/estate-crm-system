@@ -220,7 +220,7 @@ class DealCommissionTest {
         DealRequest edit = request(agentClient, "50000000", "2.5");
         edit.setStatus(DealStatus.CLOSED_WON);
         dealService.update(won.getId(), edit);
-        dealService.updateStatus(won.getId(), DealStatus.CLOSED_WON);
+        dealService.updateStatus(won.getId(), DealStatus.CLOSED_WON, null, null);
         entityManager.flush();
         entityManager.clear();
 

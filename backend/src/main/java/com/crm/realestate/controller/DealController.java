@@ -2,6 +2,7 @@ package com.crm.realestate.controller;
 
 import com.crm.realestate.dto.request.DealRequest;
 import com.crm.realestate.dto.response.DealResponse;
+import com.crm.realestate.enums.DealLostReason;
 import com.crm.realestate.enums.DealStatus;
 import com.crm.realestate.service.DealService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -60,10 +61,13 @@ public class DealController {
     }
 
     @PatchMapping("/{id}/status")
-    @Operation(summary = "Move deal to next stage")
+    @Operation(summary = "Move deal to next stage",
+            description = "Moving a deal to CLOSED_LOST requires lostReason; lostNote is optional (≤500).")
     public ResponseEntity<DealResponse> updateStatus(@PathVariable Long id,
-                                                      @RequestParam DealStatus status) {
-        return ResponseEntity.ok(dealService.updateStatus(id, status));
+                                                      @RequestParam DealStatus status,
+                                                      @RequestParam(required = false) DealLostReason lostReason,
+                                                      @RequestParam(required = false) String lostNote) {
+        return ResponseEntity.ok(dealService.updateStatus(id, status, lostReason, lostNote));
     }
 
     @DeleteMapping("/{id}")

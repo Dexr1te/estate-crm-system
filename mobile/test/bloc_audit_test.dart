@@ -46,7 +46,8 @@ class _FailingClients extends FakeClientsRepository {
 class _FailingDeals extends FakeDealsRepository {
   _FailingDeals() : super(const [DealResponse(id: 1, clientId: 1, agentId: 1)]);
   @override
-  Future<DealResponse> updateDealStatus(int id, DealStatus s) =>
+  Future<DealResponse> updateDealStatus(int id, DealStatus s,
+          {DealLostReason? lostReason, String? lostNote}) =>
       Future.error(Exception('network down'));
 }
 

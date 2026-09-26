@@ -238,7 +238,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
           onAction: () => context.go('/deals/new'),
         )
       else
-        PipelineCard(pipeline: pipeline, onStageTap: openStage),
+        PipelineCard(
+          pipeline: pipeline,
+          onStageTap: openStage,
+          onOpenAnalytics: () => context.push('/analytics'),
+        ),
       if (attention.isNotEmpty) ...[
         SizedBox(height: gap + 4),
         SectionHeader(

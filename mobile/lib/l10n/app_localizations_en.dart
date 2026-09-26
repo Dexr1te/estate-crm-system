@@ -161,6 +161,84 @@ class AppLocalizationsEn extends AppLocalizations {
   String get adminViewStats => 'View stats';
 
   @override
+  String analyticsAgent(Object name) {
+    return 'Agent: $name';
+  }
+
+  @override
+  String get analyticsAllAgents => 'All agents';
+
+  @override
+  String get analyticsAvgDaysToWin => 'Days to close';
+
+  @override
+  String get analyticsCreated => 'Created';
+
+  @override
+  String analyticsDays(Object days) {
+    return '$days d';
+  }
+
+  @override
+  String get analyticsEmptyBody =>
+      'Deals created in this period will show up here.';
+
+  @override
+  String get analyticsEmptyTitle => 'No deals in this period';
+
+  @override
+  String get analyticsFunnel => 'Funnel';
+
+  @override
+  String get analyticsLeadToWon => 'Lead to won';
+
+  @override
+  String get analyticsLoadFailed => 'Could not load analytics';
+
+  @override
+  String get analyticsLostReasons => 'Why deals are lost';
+
+  @override
+  String get analyticsMonthly => 'Last six months';
+
+  @override
+  String get analyticsNoLost => 'No deals lost in this period.';
+
+  @override
+  String get analyticsNoValue => '—';
+
+  @override
+  String analyticsOfPrevious(Object percent) {
+    return '$percent of the previous stage';
+  }
+
+  @override
+  String get analyticsOpen => 'Funnel and analytics';
+
+  @override
+  String get analyticsPeriodMonth => 'This month';
+
+  @override
+  String get analyticsPeriodQuarter => 'Quarter';
+
+  @override
+  String get analyticsPeriodYear => 'Year';
+
+  @override
+  String get analyticsSelectAgent => 'Choose an agent';
+
+  @override
+  String get analyticsTitle => 'Analytics';
+
+  @override
+  String analyticsWonLost(Object lost, Object won) {
+    return '$won won · $lost lost';
+  }
+
+  @override
+  String get analyticsWonValue => 'Won value';
+
+  @override
   String get appTitle => 'Estate CRM';
 
   @override
@@ -1309,6 +1387,46 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dealsLoading => 'Loading…';
+
+  @override
+  String get dealsLostConfirm => 'Mark as lost';
+
+  @override
+  String get dealsLostNote => 'Note';
+
+  @override
+  String get dealsLostNoteHint => 'What happened, if it helps next time';
+
+  @override
+  String get dealsLostReason => 'Why it was lost';
+
+  @override
+  String get dealsLostReasonChangedMind => 'Changed their mind';
+
+  @override
+  String get dealsLostReasonChoseAnother => 'Chose another option';
+
+  @override
+  String get dealsLostReasonFinancing => 'Financing fell through';
+
+  @override
+  String get dealsLostReasonNoResponse => 'Stopped responding';
+
+  @override
+  String get dealsLostReasonOther => 'Other';
+
+  @override
+  String get dealsLostReasonPrice => 'Price';
+
+  @override
+  String get dealsLostReasonUnspecified => 'Not specified';
+
+  @override
+  String get dealsLostSheetSubtitle =>
+      'Pick a reason. It feeds the funnel in Analytics.';
+
+  @override
+  String get dealsLostSheetTitle => 'Why was the deal lost?';
 
   @override
   String get dealsNewTitle => 'New Deal';

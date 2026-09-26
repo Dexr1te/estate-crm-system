@@ -10,6 +10,7 @@ import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_bloc.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_event.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_state.dart';
+import 'package:real_estate_crm/features/deals/presentation/widgets/lost_reason_sheet.dart';
 import 'package:real_estate_crm/features/documents/presentation/bloc/documents_bloc.dart';
 import 'package:real_estate_crm/features/documents/presentation/bloc/documents_event.dart';
 import 'package:real_estate_crm/features/documents/presentation/widgets/deal_documents_card.dart';
@@ -70,19 +71,32 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
 
   DealStatus? _confirmedStatus;
 
-  void _updateStatus(DealStatus s) {
+  DealResponse? _confirmed;
+
+  Future<void> _updateStatus(DealStatus s) async {
     if (s == _d?.status) return;
+    LostReasonChoice? lost;
+    if (s == DealStatus.CLOSED_LOST) {
+      lost = await showLostReasonSheet(context);
+      if (lost == null || !mounted) return;
+    }
     _confirmedStatus = _d?.status;
-    context.read<DealsBloc>().add(DealsUpdateStatusEvent(widget.id, s));
-    setState(() => _d = _d?.copyWith(status: s));
+    _confirmed = _d;
+    context.read<DealsBloc>().add(DealsUpdateStatusEvent(widget.id, s,
+        lostReason: lost?.reason, lostNote: lost?.note));
+    setState(() => _d = _d?.copyWith(
+        status: s, lostReason: lost?.reason, lostNote: lost?.note));
   }
 
   void _onWriteResult(BuildContext _, DealsState state) {
     if (state is DealsActionSuccess) {
       _confirmedStatus = null;
+      _confirmed = null;
     } else if (state is DealsActionFailure && _confirmedStatus != null) {
-      setState(() => _d = _d?.copyWith(status: _confirmedStatus!));
+      setState(
+          () => _d = _confirmed ?? _d?.copyWith(status: _confirmedStatus!));
       _confirmedStatus = null;
+      _confirmed = null;
     }
   }
 
@@ -161,6 +175,8 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
             children: [
               _SummaryCard(deal: deal, onCopyId: _copyId),
               _StageCard(status: deal.status, onChanged: _updateStatus),
+              if (deal.status == DealStatus.CLOSED_LOST)
+                _LostReasonCard(deal: deal),
               if (deal.commissionPercent != null) _CommissionCard(deal: deal),
               _ParticipantsCard(deal: deal),
               RecordTasksCard(deal: PickerItem(id: deal.id, title: deal.title)),
@@ -571,6 +587,52 @@ class _NotesCard extends StatelessWidget {
                 height: 1.55,
                 color: t.textSecondary),
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class _LostReasonCard extends StatelessWidget {
+  final DealResponse deal;
+  const _LostReasonCard({required this.deal});
+
+  @override
+  Widget build(BuildContext context) {
+    final t = context.tokens;
+    final l10n = AppLocalizations.of(context);
+    final note = deal.lostNote?.trim() ?? '';
+
+    return AppCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          EyebrowLabel(l10n.dealsLostReason),
+          const SizedBox(height: 9),
+          Text(
+            dealLostReasonLabel(l10n, deal.lostReason),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+                fontFamily: AppFonts.sans,
+                fontSize: 14,
+                height: 1.3,
+                fontWeight: FontWeight.w600,
+                color: deal.lostReason == null ? t.textHint : t.textPrimary),
+          ),
+          if (note.isNotEmpty) ...[
+            const SizedBox(height: 6),
+            Text(
+              note,
+              maxLines: 8,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                  fontFamily: AppFonts.sans,
+                  fontSize: 12.5,
+                  height: 1.55,
+                  color: t.textSecondary),
+            ),
+          ],
         ],
       ),
     );

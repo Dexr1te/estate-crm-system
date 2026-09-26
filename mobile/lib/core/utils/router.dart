@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/widgets/main_scaffold.dart';
 import 'package:real_estate_crm/features/admin/presentation/screens/admin_console_screen.dart';
+import 'package:real_estate_crm/features/analytics/presentation/screens/analytics_screen.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/screens/accept_invite_screen.dart';
 import 'package:real_estate_crm/features/auth/presentation/screens/create_team_screen.dart';
@@ -171,6 +172,12 @@ GoRouter createRouter(AuthBloc authBloc) {
         path: '/search',
         parentNavigatorKey: _rootKey,
         pageBuilder: (_, __) => const NoTransitionPage(child: SearchScreen()),
+      ),
+      GoRoute(
+        path: '/analytics',
+        parentNavigatorKey: _rootKey,
+        pageBuilder: (_, __) =>
+            const NoTransitionPage(child: AnalyticsScreen()),
       ),
       GoRoute(
         path: '/tasks',

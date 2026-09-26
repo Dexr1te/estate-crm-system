@@ -2984,6 +2984,9 @@ mixin _$DealResponse {
   double? get commissionPercent => throw _privateConstructorUsedError;
   double? get commission => throw _privateConstructorUsedError;
   String? get notes => throw _privateConstructorUsedError;
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  DealLostReason? get lostReason => throw _privateConstructorUsedError;
+  String? get lostNote => throw _privateConstructorUsedError;
   int get clientId => throw _privateConstructorUsedError;
   String get clientName => throw _privateConstructorUsedError;
   int? get propertyId => throw _privateConstructorUsedError;
@@ -3020,6 +3023,9 @@ abstract class $DealResponseCopyWith<$Res> {
       double? commissionPercent,
       double? commission,
       String? notes,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      DealLostReason? lostReason,
+      String? lostNote,
       int clientId,
       String clientName,
       int? propertyId,
@@ -3055,6 +3061,8 @@ class _$DealResponseCopyWithImpl<$Res, $Val extends DealResponse>
     Object? commissionPercent = freezed,
     Object? commission = freezed,
     Object? notes = freezed,
+    Object? lostReason = freezed,
+    Object? lostNote = freezed,
     Object? clientId = null,
     Object? clientName = null,
     Object? propertyId = freezed,
@@ -3098,6 +3106,14 @@ class _$DealResponseCopyWithImpl<$Res, $Val extends DealResponse>
       notes: freezed == notes
           ? _value.notes
           : notes // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lostReason: freezed == lostReason
+          ? _value.lostReason
+          : lostReason // ignore: cast_nullable_to_non_nullable
+              as DealLostReason?,
+      lostNote: freezed == lostNote
+          ? _value.lostNote
+          : lostNote // ignore: cast_nullable_to_non_nullable
               as String?,
       clientId: null == clientId
           ? _value.clientId
@@ -3160,6 +3176,9 @@ abstract class _$$DealResponseImplCopyWith<$Res>
       double? commissionPercent,
       double? commission,
       String? notes,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      DealLostReason? lostReason,
+      String? lostNote,
       int clientId,
       String clientName,
       int? propertyId,
@@ -3193,6 +3212,8 @@ class __$$DealResponseImplCopyWithImpl<$Res>
     Object? commissionPercent = freezed,
     Object? commission = freezed,
     Object? notes = freezed,
+    Object? lostReason = freezed,
+    Object? lostNote = freezed,
     Object? clientId = null,
     Object? clientName = null,
     Object? propertyId = freezed,
@@ -3236,6 +3257,14 @@ class __$$DealResponseImplCopyWithImpl<$Res>
       notes: freezed == notes
           ? _value.notes
           : notes // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lostReason: freezed == lostReason
+          ? _value.lostReason
+          : lostReason // ignore: cast_nullable_to_non_nullable
+              as DealLostReason?,
+      lostNote: freezed == lostNote
+          ? _value.lostNote
+          : lostNote // ignore: cast_nullable_to_non_nullable
               as String?,
       clientId: null == clientId
           ? _value.clientId
@@ -3293,6 +3322,9 @@ class _$DealResponseImpl implements _DealResponse {
       this.commissionPercent,
       this.commission,
       this.notes,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      this.lostReason,
+      this.lostNote,
       required this.clientId,
       this.clientName = '',
       this.propertyId,
@@ -3326,6 +3358,11 @@ class _$DealResponseImpl implements _DealResponse {
   @override
   final String? notes;
   @override
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  final DealLostReason? lostReason;
+  @override
+  final String? lostNote;
+  @override
   final int clientId;
   @override
   @JsonKey()
@@ -3350,7 +3387,7 @@ class _$DealResponseImpl implements _DealResponse {
 
   @override
   String toString() {
-    return 'DealResponse(id: $id, title: $title, status: $status, dealPrice: $dealPrice, budget: $budget, commissionPercent: $commissionPercent, commission: $commission, notes: $notes, clientId: $clientId, clientName: $clientName, propertyId: $propertyId, propertyTitle: $propertyTitle, propertyAddress: $propertyAddress, agentId: $agentId, agentName: $agentName, createdAt: $createdAt, updatedAt: $updatedAt, closedAt: $closedAt)';
+    return 'DealResponse(id: $id, title: $title, status: $status, dealPrice: $dealPrice, budget: $budget, commissionPercent: $commissionPercent, commission: $commission, notes: $notes, lostReason: $lostReason, lostNote: $lostNote, clientId: $clientId, clientName: $clientName, propertyId: $propertyId, propertyTitle: $propertyTitle, propertyAddress: $propertyAddress, agentId: $agentId, agentName: $agentName, createdAt: $createdAt, updatedAt: $updatedAt, closedAt: $closedAt)';
   }
 
   @override
@@ -3369,6 +3406,10 @@ class _$DealResponseImpl implements _DealResponse {
             (identical(other.commission, commission) ||
                 other.commission == commission) &&
             (identical(other.notes, notes) || other.notes == notes) &&
+            (identical(other.lostReason, lostReason) ||
+                other.lostReason == lostReason) &&
+            (identical(other.lostNote, lostNote) ||
+                other.lostNote == lostNote) &&
             (identical(other.clientId, clientId) ||
                 other.clientId == clientId) &&
             (identical(other.clientName, clientName) ||
@@ -3392,26 +3433,29 @@ class _$DealResponseImpl implements _DealResponse {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      title,
-      status,
-      dealPrice,
-      budget,
-      commissionPercent,
-      commission,
-      notes,
-      clientId,
-      clientName,
-      propertyId,
-      propertyTitle,
-      propertyAddress,
-      agentId,
-      agentName,
-      createdAt,
-      updatedAt,
-      closedAt);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        id,
+        title,
+        status,
+        dealPrice,
+        budget,
+        commissionPercent,
+        commission,
+        notes,
+        lostReason,
+        lostNote,
+        clientId,
+        clientName,
+        propertyId,
+        propertyTitle,
+        propertyAddress,
+        agentId,
+        agentName,
+        createdAt,
+        updatedAt,
+        closedAt
+      ]);
 
   /// Create a copy of DealResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -3439,6 +3483,9 @@ abstract class _DealResponse implements DealResponse {
       final double? commissionPercent,
       final double? commission,
       final String? notes,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      final DealLostReason? lostReason,
+      final String? lostNote,
       required final int clientId,
       final String clientName,
       final int? propertyId,
@@ -3469,6 +3516,11 @@ abstract class _DealResponse implements DealResponse {
   double? get commission;
   @override
   String? get notes;
+  @override
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  DealLostReason? get lostReason;
+  @override
+  String? get lostNote;
   @override
   int get clientId;
   @override
@@ -5231,5 +5283,833 @@ abstract class _AgentOption implements AgentOption {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AgentOptionImplCopyWith<_$AgentOptionImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+DealFunnel _$DealFunnelFromJson(Map<String, dynamic> json) {
+  return _DealFunnel.fromJson(json);
+}
+
+/// @nodoc
+mixin _$DealFunnel {
+  DateTime? get from => throw _privateConstructorUsedError;
+  DateTime? get to => throw _privateConstructorUsedError;
+  int get created => throw _privateConstructorUsedError;
+  int get reachedNegotiation => throw _privateConstructorUsedError;
+  int get won => throw _privateConstructorUsedError;
+  int get lost => throw _privateConstructorUsedError;
+  double? get leadToNegotiationRate => throw _privateConstructorUsedError;
+  double? get negotiationToWonRate => throw _privateConstructorUsedError;
+  double? get leadToWonRate => throw _privateConstructorUsedError;
+  double get wonValue => throw _privateConstructorUsedError;
+  double? get avgDaysToWin => throw _privateConstructorUsedError;
+  List<FunnelLostReason> get lostReasons => throw _privateConstructorUsedError;
+  List<FunnelMonth> get monthly => throw _privateConstructorUsedError;
+
+  /// Serializes this DealFunnel to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of DealFunnel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $DealFunnelCopyWith<DealFunnel> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $DealFunnelCopyWith<$Res> {
+  factory $DealFunnelCopyWith(
+          DealFunnel value, $Res Function(DealFunnel) then) =
+      _$DealFunnelCopyWithImpl<$Res, DealFunnel>;
+  @useResult
+  $Res call(
+      {DateTime? from,
+      DateTime? to,
+      int created,
+      int reachedNegotiation,
+      int won,
+      int lost,
+      double? leadToNegotiationRate,
+      double? negotiationToWonRate,
+      double? leadToWonRate,
+      double wonValue,
+      double? avgDaysToWin,
+      List<FunnelLostReason> lostReasons,
+      List<FunnelMonth> monthly});
+}
+
+/// @nodoc
+class _$DealFunnelCopyWithImpl<$Res, $Val extends DealFunnel>
+    implements $DealFunnelCopyWith<$Res> {
+  _$DealFunnelCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of DealFunnel
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? from = freezed,
+    Object? to = freezed,
+    Object? created = null,
+    Object? reachedNegotiation = null,
+    Object? won = null,
+    Object? lost = null,
+    Object? leadToNegotiationRate = freezed,
+    Object? negotiationToWonRate = freezed,
+    Object? leadToWonRate = freezed,
+    Object? wonValue = null,
+    Object? avgDaysToWin = freezed,
+    Object? lostReasons = null,
+    Object? monthly = null,
+  }) {
+    return _then(_value.copyWith(
+      from: freezed == from
+          ? _value.from
+          : from // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      to: freezed == to
+          ? _value.to
+          : to // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      created: null == created
+          ? _value.created
+          : created // ignore: cast_nullable_to_non_nullable
+              as int,
+      reachedNegotiation: null == reachedNegotiation
+          ? _value.reachedNegotiation
+          : reachedNegotiation // ignore: cast_nullable_to_non_nullable
+              as int,
+      won: null == won
+          ? _value.won
+          : won // ignore: cast_nullable_to_non_nullable
+              as int,
+      lost: null == lost
+          ? _value.lost
+          : lost // ignore: cast_nullable_to_non_nullable
+              as int,
+      leadToNegotiationRate: freezed == leadToNegotiationRate
+          ? _value.leadToNegotiationRate
+          : leadToNegotiationRate // ignore: cast_nullable_to_non_nullable
+              as double?,
+      negotiationToWonRate: freezed == negotiationToWonRate
+          ? _value.negotiationToWonRate
+          : negotiationToWonRate // ignore: cast_nullable_to_non_nullable
+              as double?,
+      leadToWonRate: freezed == leadToWonRate
+          ? _value.leadToWonRate
+          : leadToWonRate // ignore: cast_nullable_to_non_nullable
+              as double?,
+      wonValue: null == wonValue
+          ? _value.wonValue
+          : wonValue // ignore: cast_nullable_to_non_nullable
+              as double,
+      avgDaysToWin: freezed == avgDaysToWin
+          ? _value.avgDaysToWin
+          : avgDaysToWin // ignore: cast_nullable_to_non_nullable
+              as double?,
+      lostReasons: null == lostReasons
+          ? _value.lostReasons
+          : lostReasons // ignore: cast_nullable_to_non_nullable
+              as List<FunnelLostReason>,
+      monthly: null == monthly
+          ? _value.monthly
+          : monthly // ignore: cast_nullable_to_non_nullable
+              as List<FunnelMonth>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$DealFunnelImplCopyWith<$Res>
+    implements $DealFunnelCopyWith<$Res> {
+  factory _$$DealFunnelImplCopyWith(
+          _$DealFunnelImpl value, $Res Function(_$DealFunnelImpl) then) =
+      __$$DealFunnelImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {DateTime? from,
+      DateTime? to,
+      int created,
+      int reachedNegotiation,
+      int won,
+      int lost,
+      double? leadToNegotiationRate,
+      double? negotiationToWonRate,
+      double? leadToWonRate,
+      double wonValue,
+      double? avgDaysToWin,
+      List<FunnelLostReason> lostReasons,
+      List<FunnelMonth> monthly});
+}
+
+/// @nodoc
+class __$$DealFunnelImplCopyWithImpl<$Res>
+    extends _$DealFunnelCopyWithImpl<$Res, _$DealFunnelImpl>
+    implements _$$DealFunnelImplCopyWith<$Res> {
+  __$$DealFunnelImplCopyWithImpl(
+      _$DealFunnelImpl _value, $Res Function(_$DealFunnelImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of DealFunnel
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? from = freezed,
+    Object? to = freezed,
+    Object? created = null,
+    Object? reachedNegotiation = null,
+    Object? won = null,
+    Object? lost = null,
+    Object? leadToNegotiationRate = freezed,
+    Object? negotiationToWonRate = freezed,
+    Object? leadToWonRate = freezed,
+    Object? wonValue = null,
+    Object? avgDaysToWin = freezed,
+    Object? lostReasons = null,
+    Object? monthly = null,
+  }) {
+    return _then(_$DealFunnelImpl(
+      from: freezed == from
+          ? _value.from
+          : from // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      to: freezed == to
+          ? _value.to
+          : to // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      created: null == created
+          ? _value.created
+          : created // ignore: cast_nullable_to_non_nullable
+              as int,
+      reachedNegotiation: null == reachedNegotiation
+          ? _value.reachedNegotiation
+          : reachedNegotiation // ignore: cast_nullable_to_non_nullable
+              as int,
+      won: null == won
+          ? _value.won
+          : won // ignore: cast_nullable_to_non_nullable
+              as int,
+      lost: null == lost
+          ? _value.lost
+          : lost // ignore: cast_nullable_to_non_nullable
+              as int,
+      leadToNegotiationRate: freezed == leadToNegotiationRate
+          ? _value.leadToNegotiationRate
+          : leadToNegotiationRate // ignore: cast_nullable_to_non_nullable
+              as double?,
+      negotiationToWonRate: freezed == negotiationToWonRate
+          ? _value.negotiationToWonRate
+          : negotiationToWonRate // ignore: cast_nullable_to_non_nullable
+              as double?,
+      leadToWonRate: freezed == leadToWonRate
+          ? _value.leadToWonRate
+          : leadToWonRate // ignore: cast_nullable_to_non_nullable
+              as double?,
+      wonValue: null == wonValue
+          ? _value.wonValue
+          : wonValue // ignore: cast_nullable_to_non_nullable
+              as double,
+      avgDaysToWin: freezed == avgDaysToWin
+          ? _value.avgDaysToWin
+          : avgDaysToWin // ignore: cast_nullable_to_non_nullable
+              as double?,
+      lostReasons: null == lostReasons
+          ? _value._lostReasons
+          : lostReasons // ignore: cast_nullable_to_non_nullable
+              as List<FunnelLostReason>,
+      monthly: null == monthly
+          ? _value._monthly
+          : monthly // ignore: cast_nullable_to_non_nullable
+              as List<FunnelMonth>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$DealFunnelImpl implements _DealFunnel {
+  const _$DealFunnelImpl(
+      {this.from,
+      this.to,
+      this.created = 0,
+      this.reachedNegotiation = 0,
+      this.won = 0,
+      this.lost = 0,
+      this.leadToNegotiationRate,
+      this.negotiationToWonRate,
+      this.leadToWonRate,
+      this.wonValue = 0,
+      this.avgDaysToWin,
+      final List<FunnelLostReason> lostReasons = const <FunnelLostReason>[],
+      final List<FunnelMonth> monthly = const <FunnelMonth>[]})
+      : _lostReasons = lostReasons,
+        _monthly = monthly;
+
+  factory _$DealFunnelImpl.fromJson(Map<String, dynamic> json) =>
+      _$$DealFunnelImplFromJson(json);
+
+  @override
+  final DateTime? from;
+  @override
+  final DateTime? to;
+  @override
+  @JsonKey()
+  final int created;
+  @override
+  @JsonKey()
+  final int reachedNegotiation;
+  @override
+  @JsonKey()
+  final int won;
+  @override
+  @JsonKey()
+  final int lost;
+  @override
+  final double? leadToNegotiationRate;
+  @override
+  final double? negotiationToWonRate;
+  @override
+  final double? leadToWonRate;
+  @override
+  @JsonKey()
+  final double wonValue;
+  @override
+  final double? avgDaysToWin;
+  final List<FunnelLostReason> _lostReasons;
+  @override
+  @JsonKey()
+  List<FunnelLostReason> get lostReasons {
+    if (_lostReasons is EqualUnmodifiableListView) return _lostReasons;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_lostReasons);
+  }
+
+  final List<FunnelMonth> _monthly;
+  @override
+  @JsonKey()
+  List<FunnelMonth> get monthly {
+    if (_monthly is EqualUnmodifiableListView) return _monthly;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_monthly);
+  }
+
+  @override
+  String toString() {
+    return 'DealFunnel(from: $from, to: $to, created: $created, reachedNegotiation: $reachedNegotiation, won: $won, lost: $lost, leadToNegotiationRate: $leadToNegotiationRate, negotiationToWonRate: $negotiationToWonRate, leadToWonRate: $leadToWonRate, wonValue: $wonValue, avgDaysToWin: $avgDaysToWin, lostReasons: $lostReasons, monthly: $monthly)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DealFunnelImpl &&
+            (identical(other.from, from) || other.from == from) &&
+            (identical(other.to, to) || other.to == to) &&
+            (identical(other.created, created) || other.created == created) &&
+            (identical(other.reachedNegotiation, reachedNegotiation) ||
+                other.reachedNegotiation == reachedNegotiation) &&
+            (identical(other.won, won) || other.won == won) &&
+            (identical(other.lost, lost) || other.lost == lost) &&
+            (identical(other.leadToNegotiationRate, leadToNegotiationRate) ||
+                other.leadToNegotiationRate == leadToNegotiationRate) &&
+            (identical(other.negotiationToWonRate, negotiationToWonRate) ||
+                other.negotiationToWonRate == negotiationToWonRate) &&
+            (identical(other.leadToWonRate, leadToWonRate) ||
+                other.leadToWonRate == leadToWonRate) &&
+            (identical(other.wonValue, wonValue) ||
+                other.wonValue == wonValue) &&
+            (identical(other.avgDaysToWin, avgDaysToWin) ||
+                other.avgDaysToWin == avgDaysToWin) &&
+            const DeepCollectionEquality()
+                .equals(other._lostReasons, _lostReasons) &&
+            const DeepCollectionEquality().equals(other._monthly, _monthly));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      from,
+      to,
+      created,
+      reachedNegotiation,
+      won,
+      lost,
+      leadToNegotiationRate,
+      negotiationToWonRate,
+      leadToWonRate,
+      wonValue,
+      avgDaysToWin,
+      const DeepCollectionEquality().hash(_lostReasons),
+      const DeepCollectionEquality().hash(_monthly));
+
+  /// Create a copy of DealFunnel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DealFunnelImplCopyWith<_$DealFunnelImpl> get copyWith =>
+      __$$DealFunnelImplCopyWithImpl<_$DealFunnelImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$DealFunnelImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _DealFunnel implements DealFunnel {
+  const factory _DealFunnel(
+      {final DateTime? from,
+      final DateTime? to,
+      final int created,
+      final int reachedNegotiation,
+      final int won,
+      final int lost,
+      final double? leadToNegotiationRate,
+      final double? negotiationToWonRate,
+      final double? leadToWonRate,
+      final double wonValue,
+      final double? avgDaysToWin,
+      final List<FunnelLostReason> lostReasons,
+      final List<FunnelMonth> monthly}) = _$DealFunnelImpl;
+
+  factory _DealFunnel.fromJson(Map<String, dynamic> json) =
+      _$DealFunnelImpl.fromJson;
+
+  @override
+  DateTime? get from;
+  @override
+  DateTime? get to;
+  @override
+  int get created;
+  @override
+  int get reachedNegotiation;
+  @override
+  int get won;
+  @override
+  int get lost;
+  @override
+  double? get leadToNegotiationRate;
+  @override
+  double? get negotiationToWonRate;
+  @override
+  double? get leadToWonRate;
+  @override
+  double get wonValue;
+  @override
+  double? get avgDaysToWin;
+  @override
+  List<FunnelLostReason> get lostReasons;
+  @override
+  List<FunnelMonth> get monthly;
+
+  /// Create a copy of DealFunnel
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$DealFunnelImplCopyWith<_$DealFunnelImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+FunnelLostReason _$FunnelLostReasonFromJson(Map<String, dynamic> json) {
+  return _FunnelLostReason.fromJson(json);
+}
+
+/// @nodoc
+mixin _$FunnelLostReason {
+  String get reason => throw _privateConstructorUsedError;
+  int get count => throw _privateConstructorUsedError;
+  double get share => throw _privateConstructorUsedError;
+
+  /// Serializes this FunnelLostReason to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of FunnelLostReason
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $FunnelLostReasonCopyWith<FunnelLostReason> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $FunnelLostReasonCopyWith<$Res> {
+  factory $FunnelLostReasonCopyWith(
+          FunnelLostReason value, $Res Function(FunnelLostReason) then) =
+      _$FunnelLostReasonCopyWithImpl<$Res, FunnelLostReason>;
+  @useResult
+  $Res call({String reason, int count, double share});
+}
+
+/// @nodoc
+class _$FunnelLostReasonCopyWithImpl<$Res, $Val extends FunnelLostReason>
+    implements $FunnelLostReasonCopyWith<$Res> {
+  _$FunnelLostReasonCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of FunnelLostReason
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? reason = null,
+    Object? count = null,
+    Object? share = null,
+  }) {
+    return _then(_value.copyWith(
+      reason: null == reason
+          ? _value.reason
+          : reason // ignore: cast_nullable_to_non_nullable
+              as String,
+      count: null == count
+          ? _value.count
+          : count // ignore: cast_nullable_to_non_nullable
+              as int,
+      share: null == share
+          ? _value.share
+          : share // ignore: cast_nullable_to_non_nullable
+              as double,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$FunnelLostReasonImplCopyWith<$Res>
+    implements $FunnelLostReasonCopyWith<$Res> {
+  factory _$$FunnelLostReasonImplCopyWith(_$FunnelLostReasonImpl value,
+          $Res Function(_$FunnelLostReasonImpl) then) =
+      __$$FunnelLostReasonImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String reason, int count, double share});
+}
+
+/// @nodoc
+class __$$FunnelLostReasonImplCopyWithImpl<$Res>
+    extends _$FunnelLostReasonCopyWithImpl<$Res, _$FunnelLostReasonImpl>
+    implements _$$FunnelLostReasonImplCopyWith<$Res> {
+  __$$FunnelLostReasonImplCopyWithImpl(_$FunnelLostReasonImpl _value,
+      $Res Function(_$FunnelLostReasonImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of FunnelLostReason
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? reason = null,
+    Object? count = null,
+    Object? share = null,
+  }) {
+    return _then(_$FunnelLostReasonImpl(
+      reason: null == reason
+          ? _value.reason
+          : reason // ignore: cast_nullable_to_non_nullable
+              as String,
+      count: null == count
+          ? _value.count
+          : count // ignore: cast_nullable_to_non_nullable
+              as int,
+      share: null == share
+          ? _value.share
+          : share // ignore: cast_nullable_to_non_nullable
+              as double,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$FunnelLostReasonImpl implements _FunnelLostReason {
+  const _$FunnelLostReasonImpl(
+      {this.reason = 'UNSPECIFIED', this.count = 0, this.share = 0});
+
+  factory _$FunnelLostReasonImpl.fromJson(Map<String, dynamic> json) =>
+      _$$FunnelLostReasonImplFromJson(json);
+
+  @override
+  @JsonKey()
+  final String reason;
+  @override
+  @JsonKey()
+  final int count;
+  @override
+  @JsonKey()
+  final double share;
+
+  @override
+  String toString() {
+    return 'FunnelLostReason(reason: $reason, count: $count, share: $share)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FunnelLostReasonImpl &&
+            (identical(other.reason, reason) || other.reason == reason) &&
+            (identical(other.count, count) || other.count == count) &&
+            (identical(other.share, share) || other.share == share));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, reason, count, share);
+
+  /// Create a copy of FunnelLostReason
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$FunnelLostReasonImplCopyWith<_$FunnelLostReasonImpl> get copyWith =>
+      __$$FunnelLostReasonImplCopyWithImpl<_$FunnelLostReasonImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$FunnelLostReasonImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _FunnelLostReason implements FunnelLostReason {
+  const factory _FunnelLostReason(
+      {final String reason,
+      final int count,
+      final double share}) = _$FunnelLostReasonImpl;
+
+  factory _FunnelLostReason.fromJson(Map<String, dynamic> json) =
+      _$FunnelLostReasonImpl.fromJson;
+
+  @override
+  String get reason;
+  @override
+  int get count;
+  @override
+  double get share;
+
+  /// Create a copy of FunnelLostReason
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$FunnelLostReasonImplCopyWith<_$FunnelLostReasonImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+FunnelMonth _$FunnelMonthFromJson(Map<String, dynamic> json) {
+  return _FunnelMonth.fromJson(json);
+}
+
+/// @nodoc
+mixin _$FunnelMonth {
+  DateTime get month => throw _privateConstructorUsedError;
+  int get created => throw _privateConstructorUsedError;
+  int get won => throw _privateConstructorUsedError;
+  int get lost => throw _privateConstructorUsedError;
+
+  /// Serializes this FunnelMonth to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of FunnelMonth
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $FunnelMonthCopyWith<FunnelMonth> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $FunnelMonthCopyWith<$Res> {
+  factory $FunnelMonthCopyWith(
+          FunnelMonth value, $Res Function(FunnelMonth) then) =
+      _$FunnelMonthCopyWithImpl<$Res, FunnelMonth>;
+  @useResult
+  $Res call({DateTime month, int created, int won, int lost});
+}
+
+/// @nodoc
+class _$FunnelMonthCopyWithImpl<$Res, $Val extends FunnelMonth>
+    implements $FunnelMonthCopyWith<$Res> {
+  _$FunnelMonthCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of FunnelMonth
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? month = null,
+    Object? created = null,
+    Object? won = null,
+    Object? lost = null,
+  }) {
+    return _then(_value.copyWith(
+      month: null == month
+          ? _value.month
+          : month // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      created: null == created
+          ? _value.created
+          : created // ignore: cast_nullable_to_non_nullable
+              as int,
+      won: null == won
+          ? _value.won
+          : won // ignore: cast_nullable_to_non_nullable
+              as int,
+      lost: null == lost
+          ? _value.lost
+          : lost // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$FunnelMonthImplCopyWith<$Res>
+    implements $FunnelMonthCopyWith<$Res> {
+  factory _$$FunnelMonthImplCopyWith(
+          _$FunnelMonthImpl value, $Res Function(_$FunnelMonthImpl) then) =
+      __$$FunnelMonthImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({DateTime month, int created, int won, int lost});
+}
+
+/// @nodoc
+class __$$FunnelMonthImplCopyWithImpl<$Res>
+    extends _$FunnelMonthCopyWithImpl<$Res, _$FunnelMonthImpl>
+    implements _$$FunnelMonthImplCopyWith<$Res> {
+  __$$FunnelMonthImplCopyWithImpl(
+      _$FunnelMonthImpl _value, $Res Function(_$FunnelMonthImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of FunnelMonth
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? month = null,
+    Object? created = null,
+    Object? won = null,
+    Object? lost = null,
+  }) {
+    return _then(_$FunnelMonthImpl(
+      month: null == month
+          ? _value.month
+          : month // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      created: null == created
+          ? _value.created
+          : created // ignore: cast_nullable_to_non_nullable
+              as int,
+      won: null == won
+          ? _value.won
+          : won // ignore: cast_nullable_to_non_nullable
+              as int,
+      lost: null == lost
+          ? _value.lost
+          : lost // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$FunnelMonthImpl implements _FunnelMonth {
+  const _$FunnelMonthImpl(
+      {required this.month, this.created = 0, this.won = 0, this.lost = 0});
+
+  factory _$FunnelMonthImpl.fromJson(Map<String, dynamic> json) =>
+      _$$FunnelMonthImplFromJson(json);
+
+  @override
+  final DateTime month;
+  @override
+  @JsonKey()
+  final int created;
+  @override
+  @JsonKey()
+  final int won;
+  @override
+  @JsonKey()
+  final int lost;
+
+  @override
+  String toString() {
+    return 'FunnelMonth(month: $month, created: $created, won: $won, lost: $lost)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FunnelMonthImpl &&
+            (identical(other.month, month) || other.month == month) &&
+            (identical(other.created, created) || other.created == created) &&
+            (identical(other.won, won) || other.won == won) &&
+            (identical(other.lost, lost) || other.lost == lost));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, month, created, won, lost);
+
+  /// Create a copy of FunnelMonth
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$FunnelMonthImplCopyWith<_$FunnelMonthImpl> get copyWith =>
+      __$$FunnelMonthImplCopyWithImpl<_$FunnelMonthImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$FunnelMonthImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _FunnelMonth implements FunnelMonth {
+  const factory _FunnelMonth(
+      {required final DateTime month,
+      final int created,
+      final int won,
+      final int lost}) = _$FunnelMonthImpl;
+
+  factory _FunnelMonth.fromJson(Map<String, dynamic> json) =
+      _$FunnelMonthImpl.fromJson;
+
+  @override
+  DateTime get month;
+  @override
+  int get created;
+  @override
+  int get won;
+  @override
+  int get lost;
+
+  /// Create a copy of FunnelMonth
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$FunnelMonthImplCopyWith<_$FunnelMonthImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

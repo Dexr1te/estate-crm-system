@@ -202,7 +202,7 @@ class TenantIsolationTest {
 
         assertThatThrownBy(() -> dealService.getById(astanaDeal.getId()))
                 .isInstanceOf(ResourceNotFoundException.class);
-        assertThatThrownBy(() -> dealService.updateStatus(astanaDeal.getId(), DealStatus.CLOSED_WON))
+        assertThatThrownBy(() -> dealService.updateStatus(astanaDeal.getId(), DealStatus.CLOSED_WON, null, null))
                 .isInstanceOf(ResourceNotFoundException.class);
         assertThatThrownBy(() -> dealService.delete(astanaDeal.getId()))
                 .isInstanceOf(ResourceNotFoundException.class);

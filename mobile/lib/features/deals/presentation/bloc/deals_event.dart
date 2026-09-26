@@ -28,5 +28,8 @@ class DealsUpdateEvent extends DealsEvent {
 class DealsUpdateStatusEvent extends DealsEvent {
   final int id;
   final DealStatus status;
-  DealsUpdateStatusEvent(this.id, this.status);
+  final DealLostReason? lostReason;
+  final String? lostNote;
+  DealsUpdateStatusEvent(this.id, this.status,
+      {this.lostReason, this.lostNote});
 }

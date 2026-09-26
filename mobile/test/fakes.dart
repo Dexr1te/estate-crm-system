@@ -11,6 +11,7 @@ import 'package:real_estate_crm/core/utils/file_gateway.dart';
 import 'package:real_estate_crm/core/utils/share_gateway.dart';
 import 'package:real_estate_crm/features/admin/domain/repositories/admin_repository.dart';
 import 'package:real_estate_crm/features/agents/domain/repositories/agents_repository.dart';
+import 'package:real_estate_crm/features/analytics/domain/repositories/analytics_repository.dart';
 import 'package:real_estate_crm/features/auth/domain/repositories/auth_repository.dart';
 import 'package:real_estate_crm/features/clients/domain/repositories/clients_repository.dart';
 import 'package:real_estate_crm/features/dashboard/domain/repositories/dashboard_repository.dart';
@@ -163,7 +164,8 @@ class FakeDealsRepository implements DealsRepository {
   Future<DealResponse> updateDeal(int id, Map<String, dynamic> data) =>
       throw UnimplementedError();
   @override
-  Future<DealResponse> updateDealStatus(int id, DealStatus status) =>
+  Future<DealResponse> updateDealStatus(int id, DealStatus status,
+          {DealLostReason? lostReason, String? lostNote}) =>
       throw UnimplementedError();
   @override
   Future<void> deleteDeal(int id) => throw UnimplementedError();
@@ -422,6 +424,23 @@ class FakeAgentsRepository implements AgentsRepository {
 
   @override
   Future<List<AgentOption>> getAgentOptions() async => agents;
+}
+
+/// Answers every funnel request with [funnel] and records what was asked.
+class FakeAnalyticsRepository implements AnalyticsRepository {
+  DealFunnel funnel;
+  final requests = <({DateTime from, DateTime to, int? agentId})>[];
+  Object? error;
+
+  FakeAnalyticsRepository(this.funnel);
+
+  @override
+  Future<DealFunnel> getFunnel(
+      {required DateTime from, required DateTime to, int? agentId}) async {
+    requests.add((from: from, to: to, agentId: agentId));
+    if (error != null) throw error!;
+    return funnel;
+  }
 }
 
 class FakeAdminRepository implements AdminRepository {
