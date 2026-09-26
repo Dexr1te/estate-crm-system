@@ -3,6 +3,10 @@ import 'package:real_estate_crm/core/models/models.dart';
 abstract class MeetingsRepository {
   Future<List<MeetingResponse>> getMeetings({int? agentId});
 
+  /// Meetings scheduled in `[from, to)`, soonest first — one calendar page.
+  Future<List<MeetingResponse>> getMeetingsBetween(DateTime from, DateTime to,
+      {int? agentId});
+
   Future<List<UpcomingMeetingResponse>> getUpcomingMeetings();
 
   Future<List<MeetingResponse>> getUpcomingMeetingsByAgent(int agentId);

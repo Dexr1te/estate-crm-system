@@ -15,12 +15,14 @@ class MeetingFormScreen extends StatefulWidget {
 
   final int? initialClientId;
   final int? initialPropertyId;
+  final DateTime? initialDate;
 
   const MeetingFormScreen({
     super.key,
     this.meetingId,
     this.initialClientId,
     this.initialPropertyId,
+    this.initialDate,
   });
 
   bool get isEditing => meetingId != null;
@@ -63,6 +65,13 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
     }
     if (widget.initialPropertyId != null) {
       _property = PickerItem(id: widget.initialPropertyId!, title: '');
+    }
+    final date = widget.initialDate;
+    if (date != null && !widget.isEditing) {
+      final slot = _defaultSlot;
+      _scheduledAt = isSameDay(date, slot)
+          ? slot
+          : DateTime(date.year, date.month, date.day, 10);
     }
     _loadLists();
     if (widget.isEditing) _loadMeeting();

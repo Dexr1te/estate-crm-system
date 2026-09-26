@@ -314,6 +314,8 @@ GoRouter createRouter(AuthBloc authBloc) {
                         int.tryParse(s.uri.queryParameters['clientId'] ?? ''),
                     initialPropertyId:
                         int.tryParse(s.uri.queryParameters['propertyId'] ?? ''),
+                    initialDate:
+                        DateTime.tryParse(s.uri.queryParameters['date'] ?? ''),
                   ),
                 ),
               ),

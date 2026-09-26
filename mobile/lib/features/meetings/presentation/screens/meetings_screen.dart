@@ -6,6 +6,7 @@ import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/utils/clock.dart';
 import 'package:real_estate_crm/core/utils/contact_actions.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/features/calendar/presentation/widgets/calendar_month_view.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/dashboard_hero.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/meeting_row.dart';
 import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_bloc.dart';
@@ -14,12 +15,15 @@ import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_sta
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class MeetingsScreen extends StatefulWidget {
-  const MeetingsScreen({super.key});
+  final bool initialMonth;
+  const MeetingsScreen({super.key, this.initialMonth = false});
   @override
   State<MeetingsScreen> createState() => _MeetingsScreenState();
 }
 
 class _MeetingsScreenState extends State<MeetingsScreen> {
+  late bool _month = widget.initialMonth;
+
   @override
   void initState() {
     super.initState();
@@ -52,110 +56,117 @@ class _MeetingsScreenState extends State<MeetingsScreen> {
       body: SafeArea(
         bottom: false,
         child: AppMetrics.constrain(
-          BlocConsumer<MeetingsBloc, MeetingsState>(
-            listener: (ctx, state) {
-              if (state is MeetingsError) {
-                ScaffoldMessenger.of(ctx)
-                  ..hideCurrentSnackBar()
-                  ..showSnackBar(SnackBar(
-                      content: Text(apiFailureLabel(l10n, state.failure)),
-                      backgroundColor: t.dangerSolid));
-              }
-              showActionOutcome(ctx, state);
-            },
-            builder: (ctx, state) {
-              if (state is MeetingsLoading || state is MeetingsInitial) {
-                return _loadingLayout(l10n, pad, gap);
-              }
-              if (state is MeetingsError) {
-                return Column(children: [
+          _month
+              ? Column(children: [
                   _header(l10n, pad, null),
-                  Expanded(
-                    child: ErrorWidget2(
-                      message: apiFailureLabel(l10n, state.failure),
-                      onRetry: () =>
+                  const Expanded(child: CalendarMonthView()),
+                ])
+              : BlocConsumer<MeetingsBloc, MeetingsState>(
+                  listener: (ctx, state) {
+                    if (state is MeetingsError) {
+                      ScaffoldMessenger.of(ctx)
+                        ..hideCurrentSnackBar()
+                        ..showSnackBar(SnackBar(
+                            content: Text(apiFailureLabel(l10n, state.failure)),
+                            backgroundColor: t.dangerSolid));
+                    }
+                    showActionOutcome(ctx, state);
+                  },
+                  builder: (ctx, state) {
+                    if (state is MeetingsLoading || state is MeetingsInitial) {
+                      return _loadingLayout(l10n, pad, gap);
+                    }
+                    if (state is MeetingsError) {
+                      return Column(children: [
+                        _header(l10n, pad, null),
+                        Expanded(
+                          child: ErrorWidget2(
+                            message: apiFailureLabel(l10n, state.failure),
+                            onRetry: () => ctx
+                                .read<MeetingsBloc>()
+                                .add(MeetingsLoadEvent()),
+                          ),
+                        ),
+                      ]);
+                    }
+
+                    final all = state is MeetingsLoaded
+                        ? state.meetings
+                        : <MeetingResponse>[];
+                    final now = AppClock.now();
+                    final upcoming = all
+                        .where(
+                            (m) => !m.completed && m.scheduledAt.isAfter(now))
+                        .toList()
+                      ..sort((a, b) => a.scheduledAt.compareTo(b.scheduledAt));
+                    final next = upcoming.isEmpty ? null : upcoming.first;
+                    final rest = upcoming.length < 2
+                        ? const <MeetingResponse>[]
+                        : upcoming.sublist(1);
+                    final thisWeek = upcoming
+                        .where((m) => m.scheduledAt.difference(now).inDays < 7)
+                        .length;
+
+                    if (all.isEmpty) {
+                      return Column(children: [
+                        _header(l10n, pad, l10n.meetingsCounter(0)),
+                        Expanded(
+                          child: EmptyState(
+                            icon: Icons.event_available_outlined,
+                            title: l10n.meetingsNoMeetings,
+                            subtitle: l10n.meetingsScheduleFirst,
+                          ),
+                        ),
+                      ]);
+                    }
+
+                    return RefreshIndicator(
+                      onRefresh: () async =>
                           ctx.read<MeetingsBloc>().add(MeetingsLoadEvent()),
-                    ),
-                  ),
-                ]);
-              }
-
-              final all = state is MeetingsLoaded
-                  ? state.meetings
-                  : <MeetingResponse>[];
-              final now = AppClock.now();
-              final upcoming = all
-                  .where((m) => !m.completed && m.scheduledAt.isAfter(now))
-                  .toList()
-                ..sort((a, b) => a.scheduledAt.compareTo(b.scheduledAt));
-              final next = upcoming.isEmpty ? null : upcoming.first;
-              final rest = upcoming.length < 2
-                  ? const <MeetingResponse>[]
-                  : upcoming.sublist(1);
-              final thisWeek = upcoming
-                  .where((m) => m.scheduledAt.difference(now).inDays < 7)
-                  .length;
-
-              if (all.isEmpty) {
-                return Column(children: [
-                  _header(l10n, pad, l10n.meetingsCounter(0)),
-                  Expanded(
-                    child: EmptyState(
-                      icon: Icons.event_available_outlined,
-                      title: l10n.meetingsNoMeetings,
-                      subtitle: l10n.meetingsScheduleFirst,
-                    ),
-                  ),
-                ]);
-              }
-
-              return RefreshIndicator(
-                onRefresh: () async =>
-                    ctx.read<MeetingsBloc>().add(MeetingsLoadEvent()),
-                color: t.primary,
-                child: SingleChildScrollView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      _header(l10n, pad, l10n.meetingsCounter(thisWeek)),
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(pad, 0, pad, 24),
+                      color: t.primary,
+                      child: SingleChildScrollView(
+                        physics: const AlwaysScrollableScrollPhysics(),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            if (next == null)
-                              Padding(
-                                padding: const EdgeInsets.only(top: 8),
-                                child: EmptyState(
-                                  icon: Icons.event_available_outlined,
-                                  title: l10n.meetingsNothingUpcoming,
-                                  subtitle:
-                                      l10n.meetingsNothingUpcomingSubtitle,
-                                ),
+                            _header(l10n, pad, l10n.meetingsCounter(thisWeek)),
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(pad, 0, pad, 24),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  if (next == null)
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 8),
+                                      child: EmptyState(
+                                        icon: Icons.event_available_outlined,
+                                        title: l10n.meetingsNothingUpcoming,
+                                        subtitle: l10n
+                                            .meetingsNothingUpcomingSubtitle,
+                                      ),
+                                    ),
+                                  if (next != null) ...[
+                                    NextMeetingHero(
+                                      meeting: next,
+                                      eyebrow: l10n.meetingsUpcomingEyebrow,
+                                      primaryLabel: l10n.coreOpen,
+                                      onPrimary: () =>
+                                          context.push('/meetings/${next.id}'),
+                                      secondaryLabel: l10n.coreCall,
+                                      onSecondary: () => _call(next),
+                                    ),
+                                    SizedBox(height: gap + 2),
+                                  ],
+                                  ..._groups(rest, now, l10n),
+                                ],
                               ),
-                            if (next != null) ...[
-                              NextMeetingHero(
-                                meeting: next,
-                                eyebrow: l10n.meetingsUpcomingEyebrow,
-                                primaryLabel: l10n.coreOpen,
-                                onPrimary: () =>
-                                    context.push('/meetings/${next.id}'),
-                                secondaryLabel: l10n.coreCall,
-                                onSecondary: () => _call(next),
-                              ),
-                              SizedBox(height: gap + 2),
-                            ],
-                            ..._groups(rest, now, l10n),
+                            ),
                           ],
                         ),
                       ),
-                    ],
-                  ),
+                    );
+                  },
                 ),
-              );
-            },
-          ),
         ),
       ),
     );
@@ -164,16 +175,28 @@ class _MeetingsScreenState extends State<MeetingsScreen> {
   Widget _header(AppLocalizations l10n, double pad, String? subtitle) =>
       Padding(
         padding: EdgeInsets.fromLTRB(pad, 10, pad, 14),
-        child: Row(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Expanded(
-                child: ScreenTitle(l10n.meetingsTitle,
-                    subtitle: subtitle, reserveSubtitle: true)),
-            const SizedBox(width: 12),
-            AppHeaderAction(
-              label: l10n.meetingsAddShort,
-              onPressed: () => context.go('/meetings/new'),
-            )
+            Row(
+              children: [
+                Expanded(
+                    child: ScreenTitle(l10n.calendarTitle,
+                        subtitle: subtitle, reserveSubtitle: true)),
+                const SizedBox(width: 12),
+                AppHeaderAction(
+                  label: l10n.meetingsAddShort,
+                  onPressed: () => context.go('/meetings/new'),
+                )
+              ],
+            ),
+            const SizedBox(height: 12),
+            SegmentedTabs(
+              key: const ValueKey('calendar-view-tabs'),
+              labels: [l10n.calendarViewList, l10n.calendarViewMonth],
+              selectedIndex: _month ? 1 : 0,
+              onSelected: (i) => setState(() => _month = i == 1),
+            ),
           ],
         ),
       );

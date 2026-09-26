@@ -505,6 +505,89 @@ class AppLocalizationsKk extends AppLocalizations {
   String get authWelcomeBack => 'Қайта оралуыңызбен!';
 
   @override
+  String get calendarAdd => 'Қосу';
+
+  @override
+  String get calendarAddMeeting => 'Кездесу';
+
+  @override
+  String get calendarAddMeetingHint => 'Клиентпен, белгіленген уақытта';
+
+  @override
+  String get calendarAddTask => 'Тапсырма';
+
+  @override
+  String get calendarAddTaskHint => 'Белгілі уақытқа дейін орындалатын іс';
+
+  @override
+  String calendarAddTo(String day) {
+    return '$day күніне қосу';
+  }
+
+  @override
+  String get calendarDayEmpty => 'Ештеңе жоспарланбаған';
+
+  @override
+  String get calendarDayEmptyHint =>
+      'Кездесу не тапсырма қосу үшін + басыңыз немесе күнді басып тұрыңыз';
+
+  @override
+  String calendarDayEntries(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count жазба',
+      zero: 'ештеңе жоспарланбаған',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get calendarLegendMeeting => 'Кездесу';
+
+  @override
+  String get calendarLegendOverdue => 'Мерзімі өткен';
+
+  @override
+  String get calendarLegendTask => 'Тапсырма';
+
+  @override
+  String get calendarLegendViewing => 'Көрсетілім';
+
+  @override
+  String get calendarLoadFailed => 'Күнтізбе жүктелмеді';
+
+  @override
+  String get calendarNextMonth => 'Келесі ай';
+
+  @override
+  String get calendarNextWeek => 'Келесі апта';
+
+  @override
+  String get calendarPreviousMonth => 'Алдыңғы ай';
+
+  @override
+  String get calendarPreviousWeek => 'Алдыңғы апта';
+
+  @override
+  String get calendarShowMonth => 'Бүкіл айды көрсету';
+
+  @override
+  String get calendarShowWeek => 'Бір аптаны көрсету';
+
+  @override
+  String get calendarTitle => 'Күнтізбе';
+
+  @override
+  String get calendarToday => 'Бүгін';
+
+  @override
+  String get calendarViewList => 'Тізім';
+
+  @override
+  String get calendarViewMonth => 'Ай';
+
+  @override
   String get clientsActivityCall => 'Қоңырау';
 
   @override
@@ -975,6 +1058,9 @@ class AppLocalizationsKk extends AppLocalizations {
   String get coreNavAdmin => 'Әкімшілік';
 
   @override
+  String get coreNavCalendar => 'Күнтізбе';
+
+  @override
   String get coreNavClients => 'Клиенттер';
 
   @override
@@ -982,9 +1068,6 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get coreNavDeals => 'Мәмілелер';
-
-  @override
-  String get coreNavMeetings => 'Кездесулер';
 
   @override
   String get coreNavProperties => 'Нысандар';

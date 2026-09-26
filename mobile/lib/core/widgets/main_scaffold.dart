@@ -25,8 +25,8 @@ List<_Dest> _destsFor(Role? role, AppLocalizations l10n) {
         l10n.coreNavProperties),
     _Dest(
         '/deals', Icons.handshake_outlined, Icons.handshake, l10n.coreNavDeals),
-    _Dest('/meetings', Icons.calendar_today_outlined, Icons.calendar_today,
-        l10n.coreNavMeetings),
+    _Dest('/meetings', Icons.calendar_month_outlined, Icons.calendar_month,
+        l10n.coreNavCalendar),
   ];
   if (role == Role.ADMIN) {
     dests.add(_Dest(

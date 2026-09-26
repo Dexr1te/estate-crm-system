@@ -10,10 +10,12 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -26,9 +28,16 @@ public class MeetingController {
     private final MeetingService meetingService;
 
     @GetMapping
-    @Operation(summary = "Get all meetings (optional filter by agent)")
+    @Operation(summary = "Get all meetings (optional filter by agent, optional [from, to) window)")
     public ResponseEntity<List<MeetingResponse>> getAll(
-            @RequestParam(required = false) Long agentId) {
+            @RequestParam(required = false) Long agentId,
+            @RequestParam(required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime from,
+            @RequestParam(required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime to) {
+        if (from != null || to != null) {
+            return ResponseEntity.ok(meetingService.getInRange(agentId, from, to));
+        }
         if (agentId != null) {
             return ResponseEntity.ok(meetingService.getByAgent(agentId));
         }

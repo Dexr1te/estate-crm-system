@@ -80,6 +80,22 @@ public class MeetingService {
                 .stream().map(this::toResponse).collect(Collectors.toList());
     }
 
+    /**
+     * Meetings scheduled in {@code [from, to)}, soonest first, for a calendar page. Either bound
+     * may be left open; the caller's scope applies exactly as for the full list.
+     */
+    public List<MeetingResponse> getInRange(Long agentId, LocalDateTime from, LocalDateTime to) {
+        Specification<Meeting> inRange = MeetingSpecification.build(agentId, null, null)
+                .and((root, query, cb) -> from == null
+                        ? cb.conjunction()
+                        : cb.greaterThanOrEqualTo(root.get("scheduledAt"), from))
+                .and((root, query, cb) -> to == null
+                        ? cb.conjunction()
+                        : cb.lessThan(root.get("scheduledAt"), to));
+        return findVisible(inRange, Sort.by("scheduledAt"))
+                .stream().map(this::toResponse).collect(Collectors.toList());
+    }
+
     public List<MeetingResponse> getUpcoming(Long agentId) {
         LocalDateTime now  = LocalDateTime.now();
         LocalDateTime week = now.plusDays(7);

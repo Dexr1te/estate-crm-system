@@ -8,10 +8,12 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -24,13 +26,18 @@ public class TaskController {
     private final TaskService taskService;
 
     @GetMapping
-    @Operation(summary = "Tasks the caller may see: open soonest first by default, or done")
+    @Operation(summary = "Tasks the caller may see: open soonest first by default, done, or all;"
+            + " optionally only those due in [from, to)")
     public ResponseEntity<List<TaskResponse>> list(
             @RequestParam(required = false, defaultValue = "open") String status,
             @RequestParam(required = false) Long clientId,
             @RequestParam(required = false) Long dealId,
-            @RequestParam(required = false) Long assigneeId) {
-        return ResponseEntity.ok(taskService.list(status, clientId, dealId, assigneeId));
+            @RequestParam(required = false) Long assigneeId,
+            @RequestParam(required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime from,
+            @RequestParam(required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime to) {
+        return ResponseEntity.ok(taskService.list(status, clientId, dealId, assigneeId, from, to));
     }
 
     @GetMapping("/{id}")

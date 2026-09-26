@@ -13,6 +13,16 @@ class MeetingsRemoteDataSource {
     return jsonArray(res).map(MeetingResponse.fromJson).toList();
   }
 
+  Future<List<MeetingResponse>> getMeetingsBetween(DateTime from, DateTime to,
+      {int? agentId}) async {
+    final res = await _client.dio.get('/meetings', queryParameters: {
+      if (agentId != null) 'agentId': agentId,
+      'from': from.toIso8601String(),
+      'to': to.toIso8601String(),
+    });
+    return jsonArray(res).map(MeetingResponse.fromJson).toList();
+  }
+
   Future<List<UpcomingMeetingResponse>> getUpcomingMeetings() async {
     final res = await _client.dio.get('/meetings/upcoming');
     return jsonArray(res).map(UpcomingMeetingResponse.fromJson).toList();

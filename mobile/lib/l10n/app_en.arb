@@ -151,6 +151,44 @@
   "authWaitingSubtitle": "Give this email to your manager. Once they add you and you accept, your clients and deals appear here.",
   "authWaitingTitle": "Waiting for a team",
   "authWelcomeBack": "Welcome back!",
+  "calendarAdd": "Add",
+  "calendarAddMeeting": "Meeting",
+  "calendarAddMeetingHint": "With a client, at a set time",
+  "calendarAddTask": "Task",
+  "calendarAddTaskHint": "Something to get done by a time",
+  "calendarAddTo": "Add to {day}",
+  "@calendarAddTo": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "calendarDayEmpty": "Nothing planned",
+  "calendarDayEmptyHint": "Tap + or press and hold a day to add a meeting or a task",
+  "calendarDayEntries": "{count, plural, =0{nothing planned} =1{1 entry} other{{count} entries}}",
+  "@calendarDayEntries": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "calendarLegendMeeting": "Meeting",
+  "calendarLegendOverdue": "Overdue",
+  "calendarLegendTask": "Task",
+  "calendarLegendViewing": "Viewing",
+  "calendarLoadFailed": "Couldn't load the calendar",
+  "calendarNextMonth": "Next month",
+  "calendarNextWeek": "Next week",
+  "calendarPreviousMonth": "Previous month",
+  "calendarPreviousWeek": "Previous week",
+  "calendarShowMonth": "Show the whole month",
+  "calendarShowWeek": "Show one week",
+  "calendarTitle": "Calendar",
+  "calendarToday": "Today",
+  "calendarViewList": "List",
+  "calendarViewMonth": "Month",
   "clientsActivityCall": "Call",
   "clientsActivityDeleteBody": "It disappears from this client's history for the whole team. This cannot be undone.",
   "clientsActivityDeleteTitle": "Remove this entry?",
@@ -365,10 +403,10 @@
   "coreErrorUnknown": "Something went wrong. Please try again.",
   "coreLogout": "Logout",
   "coreNavAdmin": "Admin",
+  "coreNavCalendar": "Calendar",
   "coreNavClients": "Clients",
   "coreNavDashboard": "Dashboard",
   "coreNavDeals": "Deals",
-  "coreNavMeetings": "Meetings",
   "coreNavProperties": "Properties",
   "coreNavTeam": "Team",
   "coreNoResults": "Nothing found",

@@ -16,10 +16,12 @@ class TaskForm extends StatefulWidget {
   final bool canAssign;
   final TaskSave onSave;
   final Future<void> Function()? onDelete;
+  final DateTime? initialDueAt;
 
   const TaskForm({
     super.key,
     this.task,
+    this.initialDueAt,
     this.client,
     this.deal,
     this.assignee,
@@ -36,7 +38,7 @@ class _TaskFormState extends State<TaskForm> {
   final _formKey = GlobalKey<FormState>();
   late final _titleCtrl = TextEditingController(text: widget.task?.title);
   late final _noteCtrl = TextEditingController(text: widget.task?.note);
-  late DateTime? _dueAt = widget.task?.dueAt;
+  late DateTime? _dueAt = widget.task?.dueAt ?? widget.initialDueAt;
   late PickerItem? _client = widget.client;
   late PickerItem? _deal = widget.deal;
   late PickerItem? _assignee = widget.assignee;
