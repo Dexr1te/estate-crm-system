@@ -39,6 +39,14 @@ final _shellKey = GlobalKey<NavigatorState>();
 
 GlobalKey<NavigatorState> get rootNavigatorKey => _rootKey;
 
+/// The page on top right now. The router's own uri stops at the last `go`,
+/// so a record opened with `push` is only found on the match that pushed it.
+Uri currentLocationOf(GoRouter router) {
+  final config = router.routerDelegate.currentConfiguration;
+  final last = config.lastOrNull;
+  return last is ImperativeRouteMatch ? last.matches.uri : config.uri;
+}
+
 class NoTransitionPage<T> extends CustomTransitionPage<T> {
   const NoTransitionPage({required super.child})
       : super(
@@ -284,8 +292,14 @@ GoRouter createRouter(AuthBloc authBloc) {
               GoRoute(
                 path: 'new',
                 parentNavigatorKey: _rootKey,
-                pageBuilder: (_, __) =>
-                    const NoTransitionPage(child: DealFormScreen()),
+                pageBuilder: (_, s) => NoTransitionPage(
+                  child: DealFormScreen(
+                    initialClientId:
+                        int.tryParse(s.uri.queryParameters['clientId'] ?? ''),
+                    initialPropertyId:
+                        int.tryParse(s.uri.queryParameters['propertyId'] ?? ''),
+                  ),
+                ),
               ),
               GoRoute(
                 path: ':id',

@@ -70,7 +70,7 @@ class DayAgenda extends StatelessWidget {
               const SizedBox(width: 4),
               AppIconTile(
                 key: const ValueKey('calendar-add'),
-                icon: Icons.add_rounded,
+                icon: Icons.edit_calendar_outlined,
                 tooltip: l10n.calendarAdd,
                 onPressed: onAdd!,
               ),

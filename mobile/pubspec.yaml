@@ -36,6 +36,7 @@ dependencies:
   share_plus: ^12.0.2
   pdf: ^3.12.0
   image: ^4.10.1
+  quick_actions: ^1.1.1
 
 dev_dependencies:
   flutter_test:

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
 import 'package:real_estate_crm/core/utils/contact_actions.dart';
 import 'package:real_estate_crm/core/utils/share_gateway.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
@@ -211,12 +212,15 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
       child: DetailScaffold(
         title: l10n.propertiesPropertyIdLabel(p.id),
         onRefresh: _load,
-        actions: detailActions(
-          onEdit: () => context.push('/properties/${widget.id}/edit'),
-          onDelete: _delete,
-          editTooltip: l10n.propertiesEdit,
-          deleteTooltip: l10n.propertiesDelete,
-        ),
+        actions: [
+          QuickAddButton.tile(onDone: _load),
+          ...detailActions(
+            onEdit: () => context.push('/properties/${widget.id}/edit'),
+            onDelete: _delete,
+            editTooltip: l10n.propertiesEdit,
+            deleteTooltip: l10n.propertiesDelete,
+          ),
+        ],
         children: [
           _PropertyHero(property: p, onCopyId: _copyId),
           AppGhostButton(

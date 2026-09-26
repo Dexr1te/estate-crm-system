@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_bloc.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_event.dart';
@@ -136,10 +137,7 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
                               ),
                             ),
                             const SizedBox(width: 12),
-                            AppHeaderAction(
-                              label: l10n.propertiesAddShort,
-                              onPressed: () => context.go('/properties/new'),
-                            )
+                            const QuickAddButton()
                           ],
                         ),
                         const SizedBox(height: 14),

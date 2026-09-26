@@ -1324,12 +1324,6 @@ abstract class AppLocalizations {
   /// **'Add your first client'**
   String get clientsAddFirstClient;
 
-  /// No description provided for @clientsAddShort.
-  ///
-  /// In en, this message translates to:
-  /// **'Client'**
-  String get clientsAddShort;
-
   /// No description provided for @clientsAgent.
   ///
   /// In en, this message translates to:
@@ -2614,12 +2608,6 @@ abstract class AppLocalizations {
   /// **'Add Deal'**
   String get dealsAddDeal;
 
-  /// No description provided for @dealsAddShort.
-  ///
-  /// In en, this message translates to:
-  /// **'Deal'**
-  String get dealsAddShort;
-
   /// No description provided for @dealsAgent.
   ///
   /// In en, this message translates to:
@@ -3189,12 +3177,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sending…'**
   String get documentsUploading;
-
-  /// No description provided for @meetingsAddShort.
-  ///
-  /// In en, this message translates to:
-  /// **'Meeting'**
-  String get meetingsAddShort;
 
   /// No description provided for @meetingsAgendaHint.
   ///
@@ -4246,12 +4228,6 @@ abstract class AppLocalizations {
   /// **'Add photos'**
   String get propertiesAddPhotos;
 
-  /// No description provided for @propertiesAddShort.
-  ///
-  /// In en, this message translates to:
-  /// **'Property'**
-  String get propertiesAddShort;
-
   /// No description provided for @propertiesAddressLabel.
   ///
   /// In en, this message translates to:
@@ -4743,6 +4719,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Viewings'**
   String get propertiesViewings;
+
+  /// No description provided for @quickAddClient.
+  ///
+  /// In en, this message translates to:
+  /// **'New client'**
+  String get quickAddClient;
+
+  /// No description provided for @quickAddDeal.
+  ///
+  /// In en, this message translates to:
+  /// **'New deal'**
+  String get quickAddDeal;
+
+  /// No description provided for @quickAddFor.
+  ///
+  /// In en, this message translates to:
+  /// **'For {name}'**
+  String quickAddFor(String name);
+
+  /// No description provided for @quickAddLastUsed.
+  ///
+  /// In en, this message translates to:
+  /// **'Last used'**
+  String get quickAddLastUsed;
+
+  /// No description provided for @quickAddListing.
+  ///
+  /// In en, this message translates to:
+  /// **'New property'**
+  String get quickAddListing;
+
+  /// No description provided for @quickAddLogContact.
+  ///
+  /// In en, this message translates to:
+  /// **'Log a contact'**
+  String get quickAddLogContact;
+
+  /// No description provided for @quickAddMeeting.
+  ///
+  /// In en, this message translates to:
+  /// **'New meeting'**
+  String get quickAddMeeting;
+
+  /// No description provided for @quickAddNoClients.
+  ///
+  /// In en, this message translates to:
+  /// **'No clients yet — add one first'**
+  String get quickAddNoClients;
+
+  /// No description provided for @quickAddOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'New'**
+  String get quickAddOpen;
+
+  /// No description provided for @quickAddPickClient.
+  ///
+  /// In en, this message translates to:
+  /// **'Which client?'**
+  String get quickAddPickClient;
+
+  /// No description provided for @quickAddSearchClients.
+  ///
+  /// In en, this message translates to:
+  /// **'Search clients'**
+  String get quickAddSearchClients;
+
+  /// No description provided for @quickAddTask.
+  ///
+  /// In en, this message translates to:
+  /// **'New task'**
+  String get quickAddTask;
+
+  /// No description provided for @quickAddTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get quickAddTitle;
 
   /// No description provided for @remindersBody.
   ///

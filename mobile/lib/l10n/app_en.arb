@@ -238,7 +238,6 @@
   },
   "clientsAddClient": "Add Client",
   "clientsAddFirstClient": "Add your first client",
-  "clientsAddShort": "Client",
   "clientsAgent": "Agent",
   "clientsAgentMeta": "agent {name}",
   "clientsAnyType": "Any",
@@ -525,7 +524,6 @@
   "dashboardUpcomingMeetings": "Upcoming Meetings",
   "dashboardValueByStage": "Value by stage",
   "dealsAddDeal": "Add Deal",
-  "dealsAddShort": "Deal",
   "dealsAgent": "Agent",
   "dealsAgentRef": "Agent #{id}",
   "dealsAgentValue": "Agent: {name}",
@@ -622,7 +620,6 @@
   "documentsUploadedBy": "Added by {name}",
   "documentsUploading": "Sending…",
   "@@locale": "en",
-  "meetingsAddShort": "Meeting",
   "meetingsAgendaHint": "Meeting agenda, talking points…",
   "meetingsAgent": "Agent",
   "meetingsAgentNumber": "Agent #{id}",
@@ -933,7 +930,6 @@
   "propertiesAdd": "Add",
   "propertiesAddFirstListing": "Add your first listing",
   "propertiesAddPhotos": "Add photos",
-  "propertiesAddShort": "Property",
   "propertiesAddressLabel": "Address",
   "propertiesAgent": "Agent",
   "propertiesAll": "All",
@@ -1068,6 +1064,26 @@
   "propertiesUpdateProperty": "Update Property",
   "propertiesUpdateStatus": "Update Status",
   "propertiesViewings": "Viewings",
+  "quickAddClient": "New client",
+  "quickAddDeal": "New deal",
+  "quickAddFor": "For {name}",
+  "@quickAddFor": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "quickAddLastUsed": "Last used",
+  "quickAddListing": "New property",
+  "quickAddLogContact": "Log a contact",
+  "quickAddMeeting": "New meeting",
+  "quickAddNoClients": "No clients yet — add one first",
+  "quickAddOpen": "New",
+  "quickAddPickClient": "Which client?",
+  "quickAddSearchClients": "Search clients",
+  "quickAddTask": "New task",
+  "quickAddTitle": "Add",
   "remindersBody": "Starts at {time}",
   "remindersBodyWithClient": "Starts at {time} with {client}",
   "remindersFallbackTitle": "Meeting",

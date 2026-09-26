@@ -15,6 +15,7 @@ import 'package:real_estate_crm/features/dashboard/presentation/widgets/top_agen
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'fakes.dart';
+import 'quick_add_expect.dart';
 import 'responsive_harness.dart';
 
 /// Mid-morning, so that a fixture placed a few hours out is still the same
@@ -221,6 +222,7 @@ void main() {
 
     expect(find.text('Nothing scheduled'), findsOneWidget);
     expect(find.text('No deals yet'), findsOneWidget);
+    expectOneQuickAdd();
   });
 
   /// The figure is the server's, summed over what the caller may see; the

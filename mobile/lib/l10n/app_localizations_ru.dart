@@ -691,9 +691,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get clientsAddFirstClient => 'Добавьте первого клиента';
 
   @override
-  String get clientsAddShort => 'Клиент';
-
-  @override
   String get clientsAgent => 'Агент';
 
   @override
@@ -1469,9 +1466,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get dealsAddDeal => 'Добавить сделку';
 
   @override
-  String get dealsAddShort => 'Сделка';
-
-  @override
   String get dealsAgent => 'Агент';
 
   @override
@@ -1811,9 +1805,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get documentsUploading => 'Отправляем…';
-
-  @override
-  String get meetingsAddShort => 'Встреча';
 
   @override
   String get meetingsAgendaHint => 'Повестка встречи, темы для обсуждения…';
@@ -2466,9 +2457,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get propertiesAddPhotos => 'Добавить фото';
 
   @override
-  String get propertiesAddShort => 'Объект';
-
-  @override
   String get propertiesAddressLabel => 'Адрес';
 
   @override
@@ -2770,6 +2758,48 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get propertiesViewings => 'Показы';
+
+  @override
+  String get quickAddClient => 'Новый клиент';
+
+  @override
+  String get quickAddDeal => 'Новая сделка';
+
+  @override
+  String quickAddFor(String name) {
+    return 'Для: $name';
+  }
+
+  @override
+  String get quickAddLastUsed => 'В прошлый раз';
+
+  @override
+  String get quickAddListing => 'Новый объект';
+
+  @override
+  String get quickAddLogContact => 'Записать контакт';
+
+  @override
+  String get quickAddMeeting => 'Новая встреча';
+
+  @override
+  String get quickAddNoClients =>
+      'Клиентов пока нет — сначала добавьте клиента';
+
+  @override
+  String get quickAddOpen => 'Создать';
+
+  @override
+  String get quickAddPickClient => 'Какой клиент?';
+
+  @override
+  String get quickAddSearchClients => 'Поиск клиентов';
+
+  @override
+  String get quickAddTask => 'Новая задача';
+
+  @override
+  String get quickAddTitle => 'Добавить';
 
   @override
   String remindersBody(Object time) {

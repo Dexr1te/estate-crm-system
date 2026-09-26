@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:quick_actions/quick_actions.dart';
 import 'package:real_estate_crm/core/models/admin_models.dart';
 import 'package:real_estate_crm/core/models/document_models.dart';
 import 'package:real_estate_crm/core/models/models.dart';
@@ -1024,4 +1025,32 @@ class FakeNotificationsRepository implements NotificationsRepository {
     _last = 0;
     _counts.add(0);
   }
+}
+
+/// The app icon's shortcuts. [launchedWith] is the one the app was cold
+/// started from, handed over as soon as the handler is registered, the way
+/// the platform does; [tap] is one pressed while the app is already running.
+class FakeQuickActions implements QuickActions {
+  FakeQuickActions({this.launchedWith});
+
+  final String? launchedWith;
+  QuickActionHandler? _handler;
+
+  /// Every set of items put on the icon, in order.
+  final List<List<ShortcutItem>> sets = [];
+
+  @override
+  Future<void> initialize(QuickActionHandler handler) async {
+    _handler = handler;
+    if (launchedWith != null) handler(launchedWith!);
+  }
+
+  @override
+  Future<void> setShortcutItems(List<ShortcutItem> items) async =>
+      sets.add(items);
+
+  @override
+  Future<void> clearShortcutItems() async => sets.add(const []);
+
+  void tap(String type) => _handler!(type);
 }

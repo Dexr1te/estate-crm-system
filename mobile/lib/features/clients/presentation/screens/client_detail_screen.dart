@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/auth/role_context.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
 import 'package:real_estate_crm/core/utils/contact_actions.dart';
 import 'package:real_estate_crm/core/utils/contact_follow_up.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
@@ -371,6 +372,7 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
         title: client.fullName,
         onRefresh: _load,
         actions: [
+          QuickAddButton.tile(onDone: _load),
           if (context.isAdminOrManager)
             AppIconTile(
               key: const ValueKey('client-merge'),

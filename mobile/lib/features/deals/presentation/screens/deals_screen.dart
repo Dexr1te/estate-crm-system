@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_bloc.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_event.dart';
@@ -174,10 +175,7 @@ class _DealsScreenState extends State<DealsScreen> {
                               onPressed: _toggleView,
                             ),
                             const SizedBox(width: 4),
-                            AppHeaderAction(
-                              label: l10n.dealsAddShort,
-                              onPressed: () => context.go('/deals/new'),
-                            )
+                            const QuickAddButton()
                           ],
                         ),
                         const SizedBox(height: 14),

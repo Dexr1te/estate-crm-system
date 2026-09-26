@@ -1,4 +1,5 @@
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:quick_actions/quick_actions.dart';
 import 'package:real_estate_crm/core/network/api_client.dart';
 import 'package:real_estate_crm/core/session/session_store.dart';
 import 'package:real_estate_crm/core/utils/file_gateway.dart';
@@ -71,6 +72,8 @@ class Injector {
   static FileGateway fileGateway = const DeviceFileGateway();
 
   static ShareGateway shareGateway = const DeviceShareGateway();
+
+  static QuickActions quickActions = const QuickActions();
 
   static MeetingsRepository meetingsRepository =
       MeetingsRepositoryImpl(MeetingsRemoteDataSource(_apiClient));

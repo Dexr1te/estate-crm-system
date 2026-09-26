@@ -688,9 +688,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clientsAddFirstClient => 'Add your first client';
 
   @override
-  String get clientsAddShort => 'Client';
-
-  @override
   String get clientsAgent => 'Agent';
 
   @override
@@ -1456,9 +1453,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dealsAddDeal => 'Add Deal';
 
   @override
-  String get dealsAddShort => 'Deal';
-
-  @override
   String get dealsAgent => 'Agent';
 
   @override
@@ -1795,9 +1789,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get documentsUploading => 'Sending…';
-
-  @override
-  String get meetingsAddShort => 'Meeting';
 
   @override
   String get meetingsAgendaHint => 'Meeting agenda, talking points…';
@@ -2430,9 +2421,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get propertiesAddPhotos => 'Add photos';
 
   @override
-  String get propertiesAddShort => 'Property';
-
-  @override
   String get propertiesAddressLabel => 'Address';
 
   @override
@@ -2735,6 +2723,47 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get propertiesViewings => 'Viewings';
+
+  @override
+  String get quickAddClient => 'New client';
+
+  @override
+  String get quickAddDeal => 'New deal';
+
+  @override
+  String quickAddFor(String name) {
+    return 'For $name';
+  }
+
+  @override
+  String get quickAddLastUsed => 'Last used';
+
+  @override
+  String get quickAddListing => 'New property';
+
+  @override
+  String get quickAddLogContact => 'Log a contact';
+
+  @override
+  String get quickAddMeeting => 'New meeting';
+
+  @override
+  String get quickAddNoClients => 'No clients yet — add one first';
+
+  @override
+  String get quickAddOpen => 'New';
+
+  @override
+  String get quickAddPickClient => 'Which client?';
+
+  @override
+  String get quickAddSearchClients => 'Search clients';
+
+  @override
+  String get quickAddTask => 'New task';
+
+  @override
+  String get quickAddTitle => 'Add';
 
   @override
   String remindersBody(Object time) {

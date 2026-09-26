@@ -4,6 +4,7 @@ import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/admin_models.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/models/team_models.dart';
+import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/admin/presentation/bloc/admin_users_bloc.dart';
 import 'package:real_estate_crm/features/admin/presentation/bloc/admin_users_event.dart';
@@ -62,7 +63,13 @@ class _AdminConsoleScreenState extends State<AdminConsoleScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      ScreenTitle(l10n.adminConsoleTitle),
+                      Row(
+                        children: [
+                          Expanded(child: ScreenTitle(l10n.adminConsoleTitle)),
+                          const SizedBox(width: 12),
+                          const QuickAddButton(),
+                        ],
+                      ),
                       const SizedBox(height: 14),
                       SegmentedTabs(
                         labels: [

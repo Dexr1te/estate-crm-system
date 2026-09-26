@@ -12,7 +12,10 @@ import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class DealFormScreen extends StatefulWidget {
   final int? dealId;
-  const DealFormScreen({super.key, this.dealId});
+  final int? initialClientId;
+  final int? initialPropertyId;
+  const DealFormScreen(
+      {super.key, this.dealId, this.initialClientId, this.initialPropertyId});
   bool get isEditing => dealId != null;
 
   @override
@@ -47,6 +50,14 @@ class _DealFormScreenState extends State<DealFormScreen> {
   @override
   void initState() {
     super.initState();
+    if (!widget.isEditing) {
+      final clientId = widget.initialClientId;
+      final propertyId = widget.initialPropertyId;
+      if (clientId != null) _client = PickerItem(id: clientId, title: '');
+      if (propertyId != null) {
+        _property = PickerItem(id: propertyId, title: '');
+      }
+    }
     _loadLists();
     if (widget.isEditing) _loadDeal();
   }

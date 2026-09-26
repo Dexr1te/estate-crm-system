@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -8,6 +10,8 @@ import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/notifications/notification_gateway.dart';
 import 'package:real_estate_crm/core/notifications/reminder_sync.dart';
 import 'package:real_estate_crm/core/notifications/reminders_bloc.dart';
+import 'package:real_estate_crm/core/shortcuts/app_shortcuts.dart';
+import 'package:real_estate_crm/core/shortcuts/open_shortcut.dart';
 import 'package:real_estate_crm/core/theme/app_text_scaling.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
 import 'package:real_estate_crm/core/theme/bloc/theme_bloc.dart';
@@ -58,6 +62,7 @@ class _MyAppState extends State<MyApp> {
   // ignore: prefer_typing_uninitialized_variables
   late final GoRouter router;
   late final DeepLinkHandler _deepLinks;
+  late final ShortcutHandler _shortcuts;
   late final UnreadCountPoller _unreadPoller;
   late final AppLifecycleListener _lifecycle;
 
@@ -85,6 +90,12 @@ class _MyAppState extends State<MyApp> {
       auth: _authBloc,
       confirmSignOut: _confirmInviteSignOut,
     )..start();
+    _shortcuts = ShortcutHandler(
+      actions: Injector.quickActions,
+      auth: _authBloc,
+      open: (s) => unawaited(openAppShortcut(router, s)),
+    );
+    unawaited(_shortcuts.start());
     _unreadPoller = UnreadCountPoller(
       refresh: Injector.notificationsRepository.refreshUnreadCount,
       interval: Injector.notificationsPollInterval,
@@ -124,6 +135,7 @@ class _MyAppState extends State<MyApp> {
     _lifecycle.dispose();
     _unreadPoller.stop();
     _deepLinks.dispose();
+    _shortcuts.dispose();
     _authBloc.close();
     _themeBloc.close();
     _localeBloc.close();
@@ -245,8 +257,10 @@ class _MyAppState extends State<MyApp> {
               supportedLocales: AppLocalizations.supportedLocales,
               routerConfig: router,
               debugShowCheckedModeBanner: false,
-              builder: (context, child) =>
-                  AppTextScaling(child: child ?? const SizedBox.shrink()),
+              builder: (context, child) => ShortcutTitles(
+                handler: _shortcuts,
+                child: AppTextScaling(child: child ?? const SizedBox.shrink()),
+              ),
             ),
           ),
         ),

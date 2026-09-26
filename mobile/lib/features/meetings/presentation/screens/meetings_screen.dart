@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
 import 'package:real_estate_crm/core/utils/clock.dart';
 import 'package:real_estate_crm/core/utils/contact_actions.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
@@ -184,10 +185,7 @@ class _MeetingsScreenState extends State<MeetingsScreen> {
                     child: ScreenTitle(l10n.calendarTitle,
                         subtitle: subtitle, reserveSubtitle: true)),
                 const SizedBox(width: 12),
-                AppHeaderAction(
-                  label: l10n.meetingsAddShort,
-                  onPressed: () => context.go('/meetings/new'),
-                )
+                const QuickAddButton()
               ],
             ),
             const SizedBox(height: 12),
