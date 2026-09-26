@@ -96,7 +96,7 @@ void main() {
         _wrap(const ClientDetailScreen(id: 1)),
         size: const Size(320, 568),
         brightness: Brightness.dark,
-        textScale: 1.3,
+        textScale: 1.5,
         locale: locale,
       );
       await tester.pumpAndSettle();
@@ -110,7 +110,7 @@ void main() {
         _wrap(const ClientFormScreen()),
         size: const Size(320, 568),
         brightness: Brightness.light,
-        textScale: 1.3,
+        textScale: 1.5,
         locale: locale,
       );
       await tester.pumpAndSettle();

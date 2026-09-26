@@ -24,3 +24,4 @@ export 'package:real_estate_crm/core/widgets/offline_banner.dart';
 export 'package:real_estate_crm/core/widgets/settings_group.dart';
 export 'package:real_estate_crm/core/widgets/shimmer.dart';
 export 'package:real_estate_crm/core/widgets/status_chips.dart';
+export 'package:real_estate_crm/core/widgets/text_measure.dart';

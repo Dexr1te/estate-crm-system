@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/theme/app_metrics.dart';
 import 'package:real_estate_crm/core/theme/app_tokens.dart';
 import 'package:real_estate_crm/core/widgets/app_buttons.dart';
+import 'package:real_estate_crm/core/widgets/text_measure.dart';
 
 class DetailScaffold extends StatelessWidget {
   final String title;
@@ -115,28 +116,45 @@ class DetailAppBar extends StatelessWidget {
                 tooltip: MaterialLocalizations.of(context).backButtonTooltip,
               ),
               Expanded(
-                child: Text(
-                  title,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      fontFamily: AppFonts.sans,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: t.textPrimary),
-                ),
+                child: LayoutBuilder(builder: (context, constraints) {
+                  final titleText = Text(
+                    title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontFamily: AppFonts.sans,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: t.textPrimary),
+                  );
+                  final label = trailingLabel;
+                  if (label == null) return titleText;
+                  final labelText = Text(
+                    label,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: _trailingStyle.copyWith(color: t.textSecondary),
+                  );
+                  // A counter like kk "2 қадамнан 1-і" at large text can be
+                  // wider than the room the title leaves it. Past 40% of the
+                  // row it goes under the title rather than off the edge.
+                  final below =
+                      singleLineTextWidth(context, label, _trailingStyle) >
+                          constraints.maxWidth * 0.4;
+                  if (below) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [titleText, labelText],
+                    );
+                  }
+                  return Row(children: [
+                    Expanded(child: titleText),
+                    const SizedBox(width: 8),
+                    labelText,
+                  ]);
+                }),
               ),
-              if (trailingLabel != null) ...[
-                const SizedBox(width: 8),
-                Text(
-                  trailingLabel!,
-                  style: TextStyle(
-                      fontFamily: AppFonts.sans,
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      color: t.textSecondary),
-                ),
-              ],
               for (final a in actions) ...[const SizedBox(width: 2), a],
             ],
           ),
@@ -145,6 +163,12 @@ class DetailAppBar extends StatelessWidget {
     );
   }
 }
+
+const _trailingStyle = TextStyle(
+  fontFamily: AppFonts.sans,
+  fontSize: 12,
+  fontWeight: FontWeight.w600,
+);
 
 List<Widget> detailActions({
   VoidCallback? onEdit,
