@@ -76,6 +76,8 @@ class AppGhostButton extends StatelessWidget {
   final double fontSize;
   final Color? borderColor;
   final Color? labelColor;
+  final IconData? icon;
+  final bool loading;
 
   const AppGhostButton({
     super.key,
@@ -85,11 +87,14 @@ class AppGhostButton extends StatelessWidget {
     this.fontSize = 13.5,
     this.borderColor,
     this.labelColor,
+    this.icon,
+    this.loading = false,
   });
 
   @override
   Widget build(BuildContext context) {
     final t = context.tokens;
+    final fg = labelColor ?? t.textPrimary;
     return SizedBox(
       height: height,
       child: Material(
@@ -97,7 +102,7 @@ class AppGhostButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppMetrics.radiusSm),
         child: InkWell(
           borderRadius: BorderRadius.circular(AppMetrics.radiusSm),
-          onTap: onPressed,
+          onTap: loading ? null : onPressed,
           child: DecoratedBox(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(AppMetrics.radiusSm),
@@ -106,21 +111,39 @@ class AppGhostButton extends StatelessWidget {
                   width: AppMetrics.borderWidth),
             ),
             child: Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: Text(
-                  label,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: AppFonts.sans,
-                    fontSize: fontSize,
-                    fontWeight: FontWeight.w600,
-                    color: labelColor ?? t.textPrimary,
-                  ),
-                ),
-              ),
+              child: loading
+                  ? SizedBox(
+                      width: 18,
+                      height: 18,
+                      child:
+                          CircularProgressIndicator(strokeWidth: 2, color: fg),
+                    )
+                  : Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (icon != null) ...[
+                            Icon(icon, size: 17, color: fg),
+                            const SizedBox(width: 8),
+                          ],
+                          Flexible(
+                            child: Text(
+                              label,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontFamily: AppFonts.sans,
+                                fontSize: fontSize,
+                                fontWeight: FontWeight.w600,
+                                color: fg,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
             ),
           ),
         ),

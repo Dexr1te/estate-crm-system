@@ -1990,6 +1990,26 @@ class AppLocalizationsEn extends AppLocalizations {
   String get propertiesBasicInfo => 'Basic Info';
 
   @override
+  String get propertiesBrochure => 'Brochure (PDF)';
+
+  @override
+  String get propertiesBrochureContact => 'Contact';
+
+  @override
+  String get propertiesBrochureFailed =>
+      'Couldn\'t put the brochure together. Try again.';
+
+  @override
+  String propertiesBrochureGenerated(String date) {
+    return 'Prepared $date';
+  }
+
+  @override
+  String propertiesBrochurePage(int page, int total) {
+    return 'Page $page of $total';
+  }
+
+  @override
   String get propertiesCancel => 'Cancel';
 
   @override

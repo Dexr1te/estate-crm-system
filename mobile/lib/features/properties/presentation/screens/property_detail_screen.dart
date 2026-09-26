@@ -4,7 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/utils/contact_actions.dart';
+import 'package:real_estate_crm/core/utils/share_gateway.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:real_estate_crm/features/auth/presentation/bloc/auth_state.dart';
+import 'package:real_estate_crm/features/properties/brochure/brochure_photos.dart';
+import 'package:real_estate_crm/features/properties/brochure/listing_brochure.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_bloc.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_event.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_state.dart';
@@ -99,6 +105,53 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
     }
   }
 
+  bool _brochureBusy = false;
+
+  BrochureContact _brochureContact(PropertyResponse p) {
+    final auth = context.read<AuthBloc>().state;
+    final me = auth is AuthAuthenticated ? auth.user : null;
+    final mine = me != null && p.agentId != null && me.userId == p.agentId;
+    return BrochureContact(
+      name: mine && me.fullName.trim().isNotEmpty ? me.fullName : p.agentName,
+      email: mine ? me.email : null,
+      agency: me?.teamName,
+    );
+  }
+
+  Future<void> _shareBrochure() async {
+    final p = _p;
+    if (p == null || _brochureBusy) return;
+    final l10n = AppLocalizations.of(context);
+    final contact = _brochureContact(p);
+    setState(() => _brochureBusy = true);
+    var outcome = ShareOutcome.failed;
+    try {
+      final fonts = await BrochureFonts.load();
+      final raw =
+          await BrochurePhotos.fetch(Injector.propertiesRepository, p.id);
+      final photos = await BrochurePhotos.prepareInBackground(raw);
+      final bytes = await ListingBrochure.build(
+        property: p,
+        l10n: l10n,
+        fonts: fonts,
+        photos: photos,
+        contact: contact,
+      );
+      outcome = await Injector.shareGateway.shareFile(
+        SharedFile.pdf(fileName: ListingBrochure.fileName(p), bytes: bytes),
+        text: p.title,
+        subject: p.title,
+      );
+    } catch (_) {
+      outcome = ShareOutcome.failed;
+    }
+    if (!mounted) return;
+    setState(() => _brochureBusy = false);
+    if (outcome == ShareOutcome.failed) {
+      showActionUnavailable(context, l10n.propertiesBrochureFailed);
+    }
+  }
+
   void _copyId() {
     Clipboard.setData(ClipboardData(text: '${widget.id}'));
     ScaffoldMessenger.of(context)
@@ -157,6 +210,13 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
         ),
         children: [
           _PropertyHero(property: p, onCopyId: _copyId),
+          AppGhostButton(
+            key: const ValueKey('property-brochure'),
+            label: l10n.propertiesBrochure,
+            icon: Icons.picture_as_pdf_outlined,
+            loading: _brochureBusy,
+            onPressed: _shareBrochure,
+          ),
           PropertyPhotosCard(
             propertyId: widget.id,
             photos: _photos,
