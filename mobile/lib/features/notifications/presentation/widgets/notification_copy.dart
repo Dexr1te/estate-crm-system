@@ -86,6 +86,13 @@ NotificationCopy notificationCopy(AppLocalizations l10n, AppNotification n) {
               to == null ? '' : dealStatusLabel(l10n, to), plain('dealTitle')),
           null,
           Icons.handshake_outlined);
+    case NotificationType.listingLead:
+      final phone = n.text('phone');
+      return NotificationCopy(
+          l10n.notificationsListingLead(
+              name('clientName'), plain('propertyTitle')),
+          phone == null || phone.trim().isEmpty ? null : phone,
+          Icons.mark_email_unread_outlined);
     case NotificationType.unknown:
       return NotificationCopy(
           l10n.notificationsUnknown, null, Icons.notifications_none_rounded);
@@ -133,6 +140,8 @@ NotificationTarget? notificationTarget(AppNotification n) {
       return id == null ? null : NotificationTarget('/properties/$id');
     case NotificationType.dealStatusChanged:
       return id == null ? null : NotificationTarget('/deals/$id');
+    case NotificationType.listingLead:
+      return id == null ? null : NotificationTarget('/clients/$id');
     case NotificationType.unknown:
       return null;
   }

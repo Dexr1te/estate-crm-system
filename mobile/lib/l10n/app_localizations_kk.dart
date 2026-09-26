@@ -849,6 +849,9 @@ class AppLocalizationsKk extends AppLocalizations {
   String get clientsFilterBuyers => 'Сатып алушылар';
 
   @override
+  String get clientsFilterNewLeads => 'Жаңа өтінімдер';
+
+  @override
   String get clientsFilterSellers => 'Сатушылар';
 
   @override
@@ -934,6 +937,10 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get clientsNewClient => 'Жаңа клиент';
+
+  @override
+  String get clientsNewLeadsEmpty =>
+      'Нысанның жария сілтемесі арқылы байланыс қалдырған сатып алушылар мұнда бір апта көрінеді.';
 
   @override
   String get clientsNoClientsFound => 'Клиенттер табылмады';
@@ -1031,6 +1038,12 @@ class AppLocalizationsKk extends AppLocalizations {
   String clientsShownOn(String date) {
     return '$date көрсетілді';
   }
+
+  @override
+  String get clientsSourceImport => 'Импорттан';
+
+  @override
+  String get clientsSourcePublicLink => 'Жария сілтемеден';
 
   @override
   String get clientsTimestamps => 'Уақыт белгілері';
@@ -2469,6 +2482,11 @@ class AppLocalizationsKk extends AppLocalizations {
   }
 
   @override
+  String notificationsListingLead(String name, String title) {
+    return '$name $title нысанына қызығушылық танытты';
+  }
+
+  @override
   String get notificationsMarkAllRead => 'Барлығын оқу';
 
   @override
@@ -2772,6 +2790,16 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get propertiesLinkCreate => 'Сілтеме жасау';
+
+  @override
+  String propertiesLinkEnquiries(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Сілтеме арқылы $count өтінім',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get propertiesLinkHint =>

@@ -862,6 +862,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get clientsFilterBuyers => 'Покупатели';
 
   @override
+  String get clientsFilterNewLeads => 'Новые заявки';
+
+  @override
   String get clientsFilterSellers => 'Продавцы';
 
   @override
@@ -947,6 +950,10 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get clientsNewClient => 'Новый клиент';
+
+  @override
+  String get clientsNewLeadsEmpty =>
+      'Здесь неделю видны покупатели, оставившие контакты по публичной ссылке на объект.';
 
   @override
   String get clientsNoClientsFound => 'Клиенты не найдены';
@@ -1044,6 +1051,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String clientsShownOn(String date) {
     return 'Показывали $date';
   }
+
+  @override
+  String get clientsSourceImport => 'Из импорта';
+
+  @override
+  String get clientsSourcePublicLink => 'С публичной ссылки';
 
   @override
   String get clientsTimestamps => 'Отметки времени';
@@ -2543,6 +2556,11 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String notificationsListingLead(String name, String title) {
+    return '$name интересуется объектом $title';
+  }
+
+  @override
   String get notificationsMarkAllRead => 'Прочитать все';
 
   @override
@@ -2849,6 +2867,19 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get propertiesLinkCreate => 'Создать ссылку';
+
+  @override
+  String propertiesLinkEnquiries(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count заявки по ссылке',
+      many: '$count заявок по ссылке',
+      few: '$count заявки по ссылке',
+      one: '$count заявка по ссылке',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get propertiesLinkHint =>

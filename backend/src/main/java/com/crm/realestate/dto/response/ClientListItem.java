@@ -27,4 +27,9 @@ public class ClientListItem {
     private LocalDateTime nextMeetingAt;
 
     private LocalDateTime lastContactAt;
+
+    /** Where the record came from, so the list can mark and filter people from the public page. */
+    private com.crm.realestate.enums.ClientSource source;
+
+    private LocalDateTime createdAt;
 }

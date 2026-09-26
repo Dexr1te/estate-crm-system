@@ -1,5 +1,7 @@
 package com.crm.realestate.controller;
 
+import com.crm.realestate.service.ListingLeadService;
+import com.crm.realestate.service.ListingLeadService.LeadForm;
 import com.crm.realestate.service.ListingShareService.PublicListing;
 import org.springframework.stereotype.Component;
 
@@ -92,6 +94,9 @@ public class ListingPageRenderer {
                     .append("</p></section>\n");
         }
         body.append(agent(l, t));
+        // Relative to the page, like the photos: /l/{token} posts to /l/{token}/interest.
+        String token = l.url().substring(l.url().lastIndexOf('/') + 1);
+        body.append(leadForm(token + "/interest", t, EMPTY_FORM, List.of(), false));
         body.append("<p class=\"footer\">").append(escape(t.getString("footer"))).append("</p>\n");
         body.append("</main>\n");
         return document(locale, l.title(), head.toString(), body.toString());
@@ -208,6 +213,100 @@ public class ListingPageRenderer {
         return out.append("</section>\n").toString();
     }
 
+    private static final LeadForm EMPTY_FORM = new LeadForm(null, null, null, false);
+
+    /**
+     * The form again after a failed send: the listing's title, what was typed (escaped), and what
+     * was wrong. It is served at {@code /l/{token}/interest}, so it posts to {@code interest} and
+     * links back with {@code ../{token}}.
+     */
+    public String leadPage(String title, String token, LeadForm typed, List<String> errors,
+            boolean tooMany, Locale locale) {
+        ResourceBundle t = bundle(locale);
+        String body = "<main>\n<section class=\"card\"><h1>" + escape(title) + "</h1>\n"
+                + backLink(token, t) + "</section>\n"
+                + leadForm("interest", t, typed, errors, tooMany)
+                + "<p class=\"footer\">" + escape(t.getString("footer")) + "</p>\n</main>\n";
+        return document(locale, title, "", body);
+    }
+
+    /** What a buyer sees once the agent has their details — and, for a bot, the same. */
+    public String thanks(String title, String token, Locale locale) {
+        ResourceBundle t = bundle(locale);
+        String sentence = new MessageFormat(t.getString("lead.thanks.body"), locale)
+                .format(new Object[] {title == null ? "" : title});
+        String body = "<main class=\"card empty\">\n<h1>" + escape(t.getString("lead.thanks.title"))
+                + "</h1>\n<p class=\"muted\">" + escape(sentence) + "</p>\n"
+                + backLink(token, t) + "</main>\n";
+        return document(locale, t.getString("lead.thanks.title"), "", body);
+    }
+
+    private static String backLink(String token, ResourceBundle t) {
+        return "<p class=\"map\"><a href=\"../" + escape(token) + "\">"
+                + escape(t.getString("lead.back")) + "</a></p>\n";
+    }
+
+    /**
+     * "I'm interested": name, phone, an optional message, the consent box and a honeypot. Plain
+     * HTML, posted by the browser; the policy's {@code form-action 'self'} is what lets it go.
+     */
+    private String leadForm(String action, ResourceBundle t, LeadForm typed, List<String> errors,
+            boolean tooMany) {
+        StringBuilder out = new StringBuilder("<section class=\"card\" id=\"interest\"><h2>")
+                .append(escape(t.getString("lead.title"))).append("</h2>\n<p class=\"muted\">")
+                .append(escape(t.getString("lead.intro"))).append("</p>\n");
+        if (tooMany) {
+            out.append("<p class=\"error\" role=\"alert\">")
+                    .append(escape(t.getString("lead.error.tooMany"))).append("</p>\n");
+        } else if (!errors.isEmpty()) {
+            out.append("<p class=\"error\" role=\"alert\">")
+                    .append(escape(t.getString("lead.error.summary"))).append("</p>\n");
+        }
+        out.append("<form class=\"lead\" method=\"post\" action=\"").append(escape(action))
+                .append("\" accept-charset=\"utf-8\">\n");
+        field(out, t, errors, "name", "text", "name", ListingLeadService.MAX_NAME, typed.name());
+        field(out, t, errors, "phone", "tel", "tel", ListingLeadService.MAX_PHONE, typed.phone());
+        out.append("<label for=\"lead-message\">").append(escape(t.getString("lead.message")))
+                .append("</label>\n<textarea id=\"lead-message\" name=\"message\" rows=\"3\" maxlength=\"")
+                .append(ListingLeadService.MAX_MESSAGE).append("\"")
+                .append(invalid(errors, "message")).append(">")
+                .append(escape(typed.message())).append("</textarea>\n")
+                .append(fieldError(t, errors, "message"));
+        // Hidden from people and from screen readers; a bot filling every field fills this too.
+        out.append("<div class=\"hp\" aria-hidden=\"true\"><label for=\"lead-website\">")
+                .append(escape(t.getString("lead.honeypot")))
+                .append("</label><input id=\"lead-website\" name=\"website\" type=\"text\"")
+                .append(" tabindex=\"-1\" autocomplete=\"off\"></div>\n");
+        out.append("<label class=\"consent\"><input type=\"checkbox\" name=\"consent\" value=\"yes\"")
+                .append(" required").append(typed.consent() ? " checked" : "")
+                .append(invalid(errors, "consent")).append("> <span>")
+                .append(escape(t.getString("lead.consent"))).append("</span></label>\n")
+                .append(fieldError(t, errors, "consent"));
+        out.append("<button type=\"submit\" class=\"button\">")
+                .append(escape(t.getString("lead.submit"))).append("</button>\n</form>\n</section>\n");
+        return out.toString();
+    }
+
+    private static void field(StringBuilder out, ResourceBundle t, List<String> errors, String name,
+            String type, String autocomplete, int max, String value) {
+        out.append("<label for=\"lead-").append(name).append("\">")
+                .append(escape(t.getString("lead." + name))).append("</label>\n")
+                .append("<input id=\"lead-").append(name).append("\" name=\"").append(name)
+                .append("\" type=\"").append(type).append("\" required maxlength=\"").append(max)
+                .append("\" autocomplete=\"").append(autocomplete).append("\" value=\"")
+                .append(escape(value)).append("\"").append(invalid(errors, name)).append(">\n")
+                .append(fieldError(t, errors, name));
+    }
+
+    private static String invalid(List<String> errors, String field) {
+        return errors.contains(field) ? " aria-invalid=\"true\"" : "";
+    }
+
+    private static String fieldError(ResourceBundle t, List<String> errors, String field) {
+        return errors.contains(field) ? "<p class=\"field-error\">"
+                + escape(t.getString("lead.error." + field)) + "</p>\n" : "";
+    }
+
     private String document(Locale locale, String title, String head, String body) {
         return """
                 <!doctype html>
@@ -263,6 +362,21 @@ public class ListingPageRenderer {
             .map{margin:10px 0 0;font-size:14px}
             .map a{color:#0F1E3C;font-weight:600}
             .footer{text-align:center;color:#9AA5BE;font-size:12px;margin:18px 0 8px}
+            .lead label{display:block;font-size:13px;color:#6B7A99;margin:12px 0 4px}
+            .lead input[type=text],.lead input[type=tel],.lead textarea{width:100%;font:inherit;\
+            color:inherit;background:#F4F6FB;border:1px solid #E8ECF4;border-radius:12px;\
+            padding:12px 14px}
+            .lead textarea{resize:vertical;min-height:84px}
+            .lead [aria-invalid=true]{border-color:#B42318}
+            .lead .consent{display:flex;gap:10px;align-items:flex-start;color:#0F1E3C;\
+            font-size:14px;margin:14px 0}
+            .lead .consent input{margin:3px 0 0;width:18px;height:18px;flex:none}
+            .lead .button{display:block;width:100%;border:0;font:inherit;font-weight:600;\
+            cursor:pointer;margin-top:6px}
+            .error{background:#FDECEC;color:#B42318;border-radius:10px;padding:10px 12px;\
+            font-size:14px;margin:12px 0 0}
+            .field-error{color:#B42318;font-size:13px;margin:4px 0 0}
+            .hp{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
             """;
 
     private static void meta(StringBuilder head, String property, String content) {

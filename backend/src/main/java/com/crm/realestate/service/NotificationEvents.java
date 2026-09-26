@@ -117,6 +117,23 @@ public class NotificationEvents {
     }
 
     /**
+     * A buyer left their details on a listing's public page. Target: the client, new or reused.
+     * The phone goes in as typed: the agent will see it on the card anyway, and it is what they
+     * call back.
+     */
+    public void listingLead(User agent, Team team, Long clientId, Long propertyId,
+                            String propertyTitle, String clientName, String phone) {
+        guard("listing lead", () -> {
+            Map<String, Object> params = new LinkedHashMap<>();
+            params.put("clientName", clientName);
+            params.put("propertyTitle", propertyTitle);
+            params.put("propertyId", propertyId);
+            params.put("phone", phone);
+            notifications.notify(agent, null, team, NotificationType.LISTING_LEAD, clientId, params);
+        });
+    }
+
+    /**
      * A listing has just come on the market — added, or back to available. Each agent with buyers
      * it fits hears once per listing, whatever happens to it afterwards.
      */

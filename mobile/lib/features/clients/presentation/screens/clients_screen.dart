@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
+import 'package:real_estate_crm/core/utils/clock.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_bloc.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_event.dart';
@@ -22,6 +23,10 @@ class _ClientsScreenState extends State<ClientsScreen> {
 
   ClientType? _typeFilter;
 
+  /// Only buyers from a listing's public page, from the last week — see
+  /// [ClientSummary.isNewLead].
+  bool _leadsOnly = false;
+
   @override
   void initState() {
     super.initState();
@@ -35,10 +40,19 @@ class _ClientsScreenState extends State<ClientsScreen> {
     super.dispose();
   }
 
-  List<ClientSummary> _visible(List<ClientSummary> all) => all
-      .where((c) => _typeFilter == null || c.type == _typeFilter)
-      .where((c) => _search.isEmpty || c.matches(_search))
-      .toList();
+  List<ClientSummary> _visible(List<ClientSummary> all) {
+    final now = AppClock.now();
+    return all
+        .where((c) => _typeFilter == null || c.type == _typeFilter)
+        .where((c) => !_leadsOnly || c.isNewLead(now))
+        .where((c) => _search.isEmpty || c.matches(_search))
+        .toList();
+  }
+
+  void _pick({ClientType? type, bool leads = false}) => setState(() {
+        _typeFilter = type;
+        _leadsOnly = leads;
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -102,20 +116,24 @@ class _ClientsScreenState extends State<ClientsScreen> {
                         FilterPillRow(pills: [
                           FilterPill(
                             label: l10n.clientsFilterAll,
-                            selected: _typeFilter == null,
-                            onTap: () => setState(() => _typeFilter = null),
+                            selected: _typeFilter == null && !_leadsOnly,
+                            onTap: () => _pick(),
                           ),
                           FilterPill(
                             label: l10n.clientsFilterBuyers,
                             selected: _typeFilter == ClientType.BUYER,
-                            onTap: () =>
-                                setState(() => _typeFilter = ClientType.BUYER),
+                            onTap: () => _pick(type: ClientType.BUYER),
                           ),
                           FilterPill(
                             label: l10n.clientsFilterSellers,
                             selected: _typeFilter == ClientType.SELLER,
-                            onTap: () =>
-                                setState(() => _typeFilter = ClientType.SELLER),
+                            onTap: () => _pick(type: ClientType.SELLER),
+                          ),
+                          FilterPill(
+                            key: const ValueKey('clients-filter-leads'),
+                            label: l10n.clientsFilterNewLeads,
+                            selected: _leadsOnly,
+                            onTap: () => _pick(leads: true),
                           ),
                         ]),
                         const SizedBox(height: 14),
@@ -151,9 +169,11 @@ class _ClientsScreenState extends State<ClientsScreen> {
       return EmptyState(
         icon: Icons.people_outline_rounded,
         title: l10n.clientsNoClientsFound,
-        subtitle: _search.isNotEmpty || _typeFilter != null
-            ? l10n.clientsTryDifferentSearch
-            : l10n.clientsAddFirstClient,
+        subtitle: _leadsOnly && _search.isEmpty
+            ? l10n.clientsNewLeadsEmpty
+            : _search.isNotEmpty || _typeFilter != null || _leadsOnly
+                ? l10n.clientsTryDifferentSearch
+                : l10n.clientsAddFirstClient,
       );
     }
 

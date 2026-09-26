@@ -59,6 +59,10 @@ public class PropertyShareLink {
     @Column(name = "view_count", nullable = false)
     private long viewCount;
 
+    /** Enquiries left through the page's form. See {@code V35__client_source.sql}. */
+    @Column(name = "lead_count", nullable = false)
+    private long leadCount;
+
     @Column(name = "last_viewed_at")
     private LocalDateTime lastViewedAt;
 

@@ -46,6 +46,9 @@ _$ClientResponseImpl _$$ClientResponseImplFromJson(Map<String, dynamic> json) =>
       phone: json['phone'] as String?,
       type: $enumDecodeNullable(_$ClientTypeEnumMap, json['type']) ??
           ClientType.BUYER,
+      source: $enumDecodeNullable(_$ClientSourceEnumMap, json['source'],
+              unknownValue: ClientSource.manual) ??
+          ClientSource.manual,
       notes: json['notes'] as String?,
       agentId: (json['agentId'] as num?)?.toInt(),
       agentName: json['agentName'] as String?,
@@ -72,6 +75,7 @@ Map<String, dynamic> _$$ClientResponseImplToJson(
       'email': instance.email,
       'phone': instance.phone,
       'type': _$ClientTypeEnumMap[instance.type]!,
+      'source': _$ClientSourceEnumMap[instance.source]!,
       'notes': instance.notes,
       'agentId': instance.agentId,
       'agentName': instance.agentName,
@@ -88,6 +92,12 @@ Map<String, dynamic> _$$ClientResponseImplToJson(
 const _$ClientTypeEnumMap = {
   ClientType.BUYER: 'BUYER',
   ClientType.SELLER: 'SELLER',
+};
+
+const _$ClientSourceEnumMap = {
+  ClientSource.manual: 'MANUAL',
+  ClientSource.imported: 'IMPORT',
+  ClientSource.publicLink: 'PUBLIC_LINK',
 };
 
 const _$PropertyTypeEnumMap = {
@@ -113,6 +123,12 @@ _$ClientListItemImpl _$$ClientListItemImplFromJson(Map<String, dynamic> json) =>
       lastContactAt: json['lastContactAt'] == null
           ? null
           : DateTime.parse(json['lastContactAt'] as String),
+      source: $enumDecodeNullable(_$ClientSourceEnumMap, json['source'],
+              unknownValue: ClientSource.manual) ??
+          ClientSource.manual,
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
     );
 
 Map<String, dynamic> _$$ClientListItemImplToJson(
@@ -127,6 +143,8 @@ Map<String, dynamic> _$$ClientListItemImplToJson(
       'propertyTitle': instance.propertyTitle,
       'nextMeetingAt': instance.nextMeetingAt?.toIso8601String(),
       'lastContactAt': instance.lastContactAt?.toIso8601String(),
+      'source': _$ClientSourceEnumMap[instance.source]!,
+      'createdAt': instance.createdAt?.toIso8601String(),
     };
 
 const _$DealStatusEnumMap = {
@@ -328,6 +346,7 @@ _$PropertyShareLinkImpl _$$PropertyShareLinkImplFromJson(
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
+      leadCount: (json['leadCount'] as num?)?.toInt() ?? 0,
     );
 
 Map<String, dynamic> _$$PropertyShareLinkImplToJson(
@@ -337,6 +356,7 @@ Map<String, dynamic> _$$PropertyShareLinkImplToJson(
       'viewCount': instance.viewCount,
       'lastViewedAt': instance.lastViewedAt?.toIso8601String(),
       'createdAt': instance.createdAt?.toIso8601String(),
+      'leadCount': instance.leadCount,
     };
 
 _$PropertyMatchImpl _$$PropertyMatchImplFromJson(Map<String, dynamic> json) =>
@@ -736,5 +756,6 @@ const _$NotificationTypeEnumMap = {
   NotificationType.newMatch: 'NEW_MATCH',
   NotificationType.priceDropMatch: 'PRICE_DROP_MATCH',
   NotificationType.dealStatusChanged: 'DEAL_STATUS_CHANGED',
+  NotificationType.listingLead: 'LISTING_LEAD',
   NotificationType.unknown: 'unknown',
 };

@@ -83,6 +83,10 @@ public class ClientService {
                         .propertyTitle((String) row[7])
                         .nextMeetingAt(toLocalDateTime(row[8]))
                         .lastContactAt(toLocalDateTime(row[9]))
+                        .source(row[10] != null
+                                ? com.crm.realestate.enums.ClientSource.valueOf((String) row[10])
+                                : com.crm.realestate.enums.ClientSource.MANUAL)
+                        .createdAt(toLocalDateTime(row[11]))
                         .build())
                 .collect(Collectors.toList());
     }

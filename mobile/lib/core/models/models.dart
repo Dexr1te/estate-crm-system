@@ -44,6 +44,16 @@ enum ViewingOutcome { INTERESTED, REJECTED, NO_SHOW }
 // ignore: constant_identifier_names
 enum ActivityType { CALL, MESSAGE, EMAIL, NOTE }
 
+/// Where a client record came from. Unknown values read as [manual].
+enum ClientSource {
+  @JsonValue('MANUAL')
+  manual,
+  @JsonValue('IMPORT')
+  imported,
+  @JsonValue('PUBLIC_LINK')
+  publicLink,
+}
+
 // ignore: constant_identifier_names
 enum DuplicateMatch { PHONE, EMAIL, PHONE_AND_EMAIL }
 
@@ -73,6 +83,9 @@ class ClientResponse with _$ClientResponse {
     String? email,
     String? phone,
     @Default(ClientType.BUYER) ClientType type,
+    @JsonKey(unknownEnumValue: ClientSource.manual)
+    @Default(ClientSource.manual)
+    ClientSource source,
     String? notes,
     int? agentId,
     String? agentName,
@@ -102,6 +115,10 @@ class ClientListItem with _$ClientListItem {
     String? propertyTitle,
     DateTime? nextMeetingAt,
     DateTime? lastContactAt,
+    @JsonKey(unknownEnumValue: ClientSource.manual)
+    @Default(ClientSource.manual)
+    ClientSource source,
+    DateTime? createdAt,
   }) = _ClientListItem;
 
   factory ClientListItem.fromJson(Map<String, dynamic> json) =>
@@ -220,6 +237,9 @@ class PropertyShareLink with _$PropertyShareLink {
     @Default(0) int viewCount,
     DateTime? lastViewedAt,
     DateTime? createdAt,
+
+    /// How many buyers left their details on the page through this link.
+    @Default(0) int leadCount,
   }) = _PropertyShareLink;
 
   factory PropertyShareLink.fromJson(Map<String, dynamic> json) =>
@@ -460,6 +480,8 @@ enum NotificationType {
   priceDropMatch,
   @JsonValue('DEAL_STATUS_CHANGED')
   dealStatusChanged,
+  @JsonValue('LISTING_LEAD')
+  listingLead,
   unknown,
 }
 

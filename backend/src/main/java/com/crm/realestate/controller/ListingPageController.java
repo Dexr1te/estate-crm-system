@@ -1,7 +1,14 @@
 package com.crm.realestate.controller;
 
 import com.crm.realestate.dto.response.DocumentDownload;
+import com.crm.realestate.service.ListingLeadService;
+import com.crm.realestate.service.ListingLeadService.Accepted;
+import com.crm.realestate.service.ListingLeadService.Invalid;
+import com.crm.realestate.service.ListingLeadService.LeadForm;
+import com.crm.realestate.service.ListingLeadService.Outcome;
+import com.crm.realestate.service.ListingLeadService.TooMany;
 import com.crm.realestate.service.ListingShareService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.http.CacheControl;
@@ -11,12 +18,14 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
+import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -32,12 +41,19 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ListingPageController {
 
-    /** Scripts, frames, forms and foreign images are all refused; the page has none of them. */
+    /**
+     * Scripts, frames and foreign images are all refused; the page has none of them. Its one form
+     * may post back to this host and nowhere else.
+     */
     private static final String CSP = "default-src 'none'; img-src 'self'; "
-            + "style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'; "
+            + "style-src 'unsafe-inline'; base-uri 'none'; form-action 'self'; "
             + "frame-ancestors 'none'";
 
+    /** Name, phone and a 1000-character message fit many times over, even percent-encoded. */
+    static final long MAX_LEAD_BODY = 16 * 1024;
+
     private final ListingShareService shareService;
+    private final ListingLeadService leadService;
     private final ListingPageRenderer renderer;
 
     @GetMapping(value = "/{token}", produces = MediaType.TEXT_HTML_VALUE)
@@ -46,6 +62,58 @@ public class ListingPageController {
         Locale locale = renderer.pickLocale(language);
         return shareService.open(token)
                 .map(listing -> html(HttpStatus.OK).body(renderer.listing(listing, locale)))
+                .orElseGet(() -> html(HttpStatus.NOT_FOUND).body(renderer.notFound(locale)));
+    }
+
+    /**
+     * "I'm interested", posted by the page's form. Always answers with a page, never JSON: the
+     * thank-you page, the form again with what was wrong, or the same 404 as the page itself.
+     *
+     * <p>A body over {@value #MAX_LEAD_BODY} bytes is refused before its fields are read. A filled
+     * honeypot gets the thank-you page and nothing is written, so a bot has no signal to adapt to.
+     */
+    @PostMapping(value = "/{token}/interest",
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+            produces = MediaType.TEXT_HTML_VALUE)
+    public ResponseEntity<String> interest(@PathVariable String token, HttpServletRequest request,
+            @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE, required = false) String language) {
+        Locale locale = renderer.pickLocale(language);
+        if (request.getContentLengthLong() > MAX_LEAD_BODY) {
+            return html(HttpStatus.PAYLOAD_TOO_LARGE).body(renderer.notFound(locale));
+        }
+        Optional<String> title = leadService.titleOf(token);
+        if (title.isEmpty()) {
+            return html(HttpStatus.NOT_FOUND).body(renderer.notFound(locale));
+        }
+        String[] honeypot = request.getParameterValues("website");
+        if (honeypot != null && java.util.Arrays.stream(honeypot).anyMatch(v -> !v.isBlank())) {
+            return html(HttpStatus.OK).body(renderer.thanks(title.get(), token, locale));
+        }
+        LeadForm form = new LeadForm(request.getParameter("name"), request.getParameter("phone"),
+                request.getParameter("message"), request.getParameter("consent") != null);
+        Outcome outcome = leadService.submit(token, form, request.getRemoteAddr());
+        if (outcome instanceof Accepted) {
+            return html(HttpStatus.OK).body(renderer.thanks(title.get(), token, locale));
+        }
+        if (outcome instanceof Invalid invalid) {
+            return html(HttpStatus.BAD_REQUEST).body(renderer.leadPage(invalid.title(), token,
+                    form, invalid.errors(), false, locale));
+        }
+        if (outcome instanceof TooMany tooMany) {
+            return html(HttpStatus.TOO_MANY_REQUESTS).body(renderer.leadPage(tooMany.title(),
+                    token, form, List.of(), true, locale));
+        }
+        return html(HttpStatus.NOT_FOUND).body(renderer.notFound(locale));
+    }
+
+    /** The form's address opened directly — a reload, a bookmark: the empty form, not an error. */
+    @GetMapping(value = "/{token}/interest", produces = MediaType.TEXT_HTML_VALUE)
+    public ResponseEntity<String> interestForm(@PathVariable String token,
+            @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE, required = false) String language) {
+        Locale locale = renderer.pickLocale(language);
+        return leadService.titleOf(token)
+                .map(title -> html(HttpStatus.OK).body(renderer.leadPage(title, token,
+                        new LeadForm(null, null, null, false), List.of(), false, locale)))
                 .orElseGet(() -> html(HttpStatus.NOT_FOUND).body(renderer.notFound(locale)));
     }
 

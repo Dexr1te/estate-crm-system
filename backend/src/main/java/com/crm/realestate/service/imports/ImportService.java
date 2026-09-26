@@ -10,6 +10,7 @@ import com.crm.realestate.entity.Client;
 import com.crm.realestate.entity.Property;
 import com.crm.realestate.entity.Team;
 import com.crm.realestate.entity.User;
+import com.crm.realestate.enums.ClientSource;
 import com.crm.realestate.enums.ClientType;
 import com.crm.realestate.enums.PropertyStatus;
 import com.crm.realestate.exception.BusinessException;
@@ -380,6 +381,7 @@ public class ImportService {
                 .budgetMax(row.get(ImportField.CLIENT_BUDGET_MAX))
                 .minRooms(row.get(ImportField.CLIENT_MIN_ROOMS))
                 .minAreaSqm(row.get(ImportField.CLIENT_MIN_AREA))
+                .source(ClientSource.IMPORT)
                 .agent(agent)
                 .team(team)
                 .build();

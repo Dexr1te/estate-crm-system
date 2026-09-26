@@ -147,7 +147,7 @@ public class ListingShareService {
 
     private ShareLinkResponse toResponse(PropertyShareLink link) {
         return new ShareLinkResponse(urlOf(link.getToken()), link.getViewCount(),
-                link.getLastViewedAt(), link.getCreatedAt());
+                link.getLastViewedAt(), link.getCreatedAt(), link.getLeadCount());
     }
 
     /** Another agency's listing reads as missing, as everywhere else. */

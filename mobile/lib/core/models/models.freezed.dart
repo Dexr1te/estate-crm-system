@@ -351,6 +351,8 @@ mixin _$ClientResponse {
   String? get email => throw _privateConstructorUsedError;
   String? get phone => throw _privateConstructorUsedError;
   ClientType get type => throw _privateConstructorUsedError;
+  @JsonKey(unknownEnumValue: ClientSource.manual)
+  ClientSource get source => throw _privateConstructorUsedError;
   String? get notes => throw _privateConstructorUsedError;
   int? get agentId => throw _privateConstructorUsedError;
   String? get agentName => throw _privateConstructorUsedError;
@@ -385,6 +387,7 @@ abstract class $ClientResponseCopyWith<$Res> {
       String? email,
       String? phone,
       ClientType type,
+      @JsonKey(unknownEnumValue: ClientSource.manual) ClientSource source,
       String? notes,
       int? agentId,
       String? agentName,
@@ -418,6 +421,7 @@ class _$ClientResponseCopyWithImpl<$Res, $Val extends ClientResponse>
     Object? email = freezed,
     Object? phone = freezed,
     Object? type = null,
+    Object? source = null,
     Object? notes = freezed,
     Object? agentId = freezed,
     Object? agentName = freezed,
@@ -451,6 +455,10 @@ class _$ClientResponseCopyWithImpl<$Res, $Val extends ClientResponse>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as ClientType,
+      source: null == source
+          ? _value.source
+          : source // ignore: cast_nullable_to_non_nullable
+              as ClientSource,
       notes: freezed == notes
           ? _value.notes
           : notes // ignore: cast_nullable_to_non_nullable
@@ -513,6 +521,7 @@ abstract class _$$ClientResponseImplCopyWith<$Res>
       String? email,
       String? phone,
       ClientType type,
+      @JsonKey(unknownEnumValue: ClientSource.manual) ClientSource source,
       String? notes,
       int? agentId,
       String? agentName,
@@ -544,6 +553,7 @@ class __$$ClientResponseImplCopyWithImpl<$Res>
     Object? email = freezed,
     Object? phone = freezed,
     Object? type = null,
+    Object? source = null,
     Object? notes = freezed,
     Object? agentId = freezed,
     Object? agentName = freezed,
@@ -577,6 +587,10 @@ class __$$ClientResponseImplCopyWithImpl<$Res>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as ClientType,
+      source: null == source
+          ? _value.source
+          : source // ignore: cast_nullable_to_non_nullable
+              as ClientSource,
       notes: freezed == notes
           ? _value.notes
           : notes // ignore: cast_nullable_to_non_nullable
@@ -634,6 +648,8 @@ class _$ClientResponseImpl implements _ClientResponse {
       this.email,
       this.phone,
       this.type = ClientType.BUYER,
+      @JsonKey(unknownEnumValue: ClientSource.manual)
+      this.source = ClientSource.manual,
       this.notes,
       this.agentId,
       this.agentName,
@@ -662,6 +678,9 @@ class _$ClientResponseImpl implements _ClientResponse {
   @JsonKey()
   final ClientType type;
   @override
+  @JsonKey(unknownEnumValue: ClientSource.manual)
+  final ClientSource source;
+  @override
   final String? notes;
   @override
   final int? agentId;
@@ -686,7 +705,7 @@ class _$ClientResponseImpl implements _ClientResponse {
 
   @override
   String toString() {
-    return 'ClientResponse(id: $id, fullName: $fullName, email: $email, phone: $phone, type: $type, notes: $notes, agentId: $agentId, agentName: $agentName, createdAt: $createdAt, updatedAt: $updatedAt, wantedType: $wantedType, wantedCity: $wantedCity, budgetMin: $budgetMin, budgetMax: $budgetMax, minRooms: $minRooms, minAreaSqm: $minAreaSqm)';
+    return 'ClientResponse(id: $id, fullName: $fullName, email: $email, phone: $phone, type: $type, source: $source, notes: $notes, agentId: $agentId, agentName: $agentName, createdAt: $createdAt, updatedAt: $updatedAt, wantedType: $wantedType, wantedCity: $wantedCity, budgetMin: $budgetMin, budgetMax: $budgetMax, minRooms: $minRooms, minAreaSqm: $minAreaSqm)';
   }
 
   @override
@@ -700,6 +719,7 @@ class _$ClientResponseImpl implements _ClientResponse {
             (identical(other.email, email) || other.email == email) &&
             (identical(other.phone, phone) || other.phone == phone) &&
             (identical(other.type, type) || other.type == type) &&
+            (identical(other.source, source) || other.source == source) &&
             (identical(other.notes, notes) || other.notes == notes) &&
             (identical(other.agentId, agentId) || other.agentId == agentId) &&
             (identical(other.agentName, agentName) ||
@@ -731,6 +751,7 @@ class _$ClientResponseImpl implements _ClientResponse {
       email,
       phone,
       type,
+      source,
       notes,
       agentId,
       agentName,
@@ -767,6 +788,7 @@ abstract class _ClientResponse implements ClientResponse {
       final String? email,
       final String? phone,
       final ClientType type,
+      @JsonKey(unknownEnumValue: ClientSource.manual) final ClientSource source,
       final String? notes,
       final int? agentId,
       final String? agentName,
@@ -792,6 +814,9 @@ abstract class _ClientResponse implements ClientResponse {
   String? get phone;
   @override
   ClientType get type;
+  @override
+  @JsonKey(unknownEnumValue: ClientSource.manual)
+  ClientSource get source;
   @override
   String? get notes;
   @override
@@ -838,6 +863,9 @@ mixin _$ClientListItem {
   String? get propertyTitle => throw _privateConstructorUsedError;
   DateTime? get nextMeetingAt => throw _privateConstructorUsedError;
   DateTime? get lastContactAt => throw _privateConstructorUsedError;
+  @JsonKey(unknownEnumValue: ClientSource.manual)
+  ClientSource get source => throw _privateConstructorUsedError;
+  DateTime? get createdAt => throw _privateConstructorUsedError;
 
   /// Serializes this ClientListItem to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -864,7 +892,9 @@ abstract class $ClientListItemCopyWith<$Res> {
       double? budget,
       String? propertyTitle,
       DateTime? nextMeetingAt,
-      DateTime? lastContactAt});
+      DateTime? lastContactAt,
+      @JsonKey(unknownEnumValue: ClientSource.manual) ClientSource source,
+      DateTime? createdAt});
 }
 
 /// @nodoc
@@ -891,6 +921,8 @@ class _$ClientListItemCopyWithImpl<$Res, $Val extends ClientListItem>
     Object? propertyTitle = freezed,
     Object? nextMeetingAt = freezed,
     Object? lastContactAt = freezed,
+    Object? source = null,
+    Object? createdAt = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -929,6 +961,14 @@ class _$ClientListItemCopyWithImpl<$Res, $Val extends ClientListItem>
           ? _value.lastContactAt
           : lastContactAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      source: null == source
+          ? _value.source
+          : source // ignore: cast_nullable_to_non_nullable
+              as ClientSource,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
   }
 }
@@ -950,7 +990,9 @@ abstract class _$$ClientListItemImplCopyWith<$Res>
       double? budget,
       String? propertyTitle,
       DateTime? nextMeetingAt,
-      DateTime? lastContactAt});
+      DateTime? lastContactAt,
+      @JsonKey(unknownEnumValue: ClientSource.manual) ClientSource source,
+      DateTime? createdAt});
 }
 
 /// @nodoc
@@ -975,6 +1017,8 @@ class __$$ClientListItemImplCopyWithImpl<$Res>
     Object? propertyTitle = freezed,
     Object? nextMeetingAt = freezed,
     Object? lastContactAt = freezed,
+    Object? source = null,
+    Object? createdAt = freezed,
   }) {
     return _then(_$ClientListItemImpl(
       id: null == id
@@ -1013,6 +1057,14 @@ class __$$ClientListItemImplCopyWithImpl<$Res>
           ? _value.lastContactAt
           : lastContactAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      source: null == source
+          ? _value.source
+          : source // ignore: cast_nullable_to_non_nullable
+              as ClientSource,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -1029,7 +1081,10 @@ class _$ClientListItemImpl implements _ClientListItem {
       this.budget,
       this.propertyTitle,
       this.nextMeetingAt,
-      this.lastContactAt});
+      this.lastContactAt,
+      @JsonKey(unknownEnumValue: ClientSource.manual)
+      this.source = ClientSource.manual,
+      this.createdAt});
 
   factory _$ClientListItemImpl.fromJson(Map<String, dynamic> json) =>
       _$$ClientListItemImplFromJson(json);
@@ -1053,10 +1108,15 @@ class _$ClientListItemImpl implements _ClientListItem {
   final DateTime? nextMeetingAt;
   @override
   final DateTime? lastContactAt;
+  @override
+  @JsonKey(unknownEnumValue: ClientSource.manual)
+  final ClientSource source;
+  @override
+  final DateTime? createdAt;
 
   @override
   String toString() {
-    return 'ClientListItem(id: $id, fullName: $fullName, phone: $phone, email: $email, status: $status, budget: $budget, propertyTitle: $propertyTitle, nextMeetingAt: $nextMeetingAt, lastContactAt: $lastContactAt)';
+    return 'ClientListItem(id: $id, fullName: $fullName, phone: $phone, email: $email, status: $status, budget: $budget, propertyTitle: $propertyTitle, nextMeetingAt: $nextMeetingAt, lastContactAt: $lastContactAt, source: $source, createdAt: $createdAt)';
   }
 
   @override
@@ -1076,13 +1136,27 @@ class _$ClientListItemImpl implements _ClientListItem {
             (identical(other.nextMeetingAt, nextMeetingAt) ||
                 other.nextMeetingAt == nextMeetingAt) &&
             (identical(other.lastContactAt, lastContactAt) ||
-                other.lastContactAt == lastContactAt));
+                other.lastContactAt == lastContactAt) &&
+            (identical(other.source, source) || other.source == source) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, fullName, phone, email,
-      status, budget, propertyTitle, nextMeetingAt, lastContactAt);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      fullName,
+      phone,
+      email,
+      status,
+      budget,
+      propertyTitle,
+      nextMeetingAt,
+      lastContactAt,
+      source,
+      createdAt);
 
   /// Create a copy of ClientListItem
   /// with the given fields replaced by the non-null parameter values.
@@ -1111,7 +1185,9 @@ abstract class _ClientListItem implements ClientListItem {
       final double? budget,
       final String? propertyTitle,
       final DateTime? nextMeetingAt,
-      final DateTime? lastContactAt}) = _$ClientListItemImpl;
+      final DateTime? lastContactAt,
+      @JsonKey(unknownEnumValue: ClientSource.manual) final ClientSource source,
+      final DateTime? createdAt}) = _$ClientListItemImpl;
 
   factory _ClientListItem.fromJson(Map<String, dynamic> json) =
       _$ClientListItemImpl.fromJson;
@@ -1134,6 +1210,11 @@ abstract class _ClientListItem implements ClientListItem {
   DateTime? get nextMeetingAt;
   @override
   DateTime? get lastContactAt;
+  @override
+  @JsonKey(unknownEnumValue: ClientSource.manual)
+  ClientSource get source;
+  @override
+  DateTime? get createdAt;
 
   /// Create a copy of ClientListItem
   /// with the given fields replaced by the non-null parameter values.
@@ -2862,6 +2943,9 @@ mixin _$PropertyShareLink {
   DateTime? get lastViewedAt => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
 
+  /// How many buyers left their details on the page through this link.
+  int get leadCount => throw _privateConstructorUsedError;
+
   /// Serializes this PropertyShareLink to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
@@ -2882,7 +2966,8 @@ abstract class $PropertyShareLinkCopyWith<$Res> {
       {String? url,
       int viewCount,
       DateTime? lastViewedAt,
-      DateTime? createdAt});
+      DateTime? createdAt,
+      int leadCount});
 }
 
 /// @nodoc
@@ -2904,6 +2989,7 @@ class _$PropertyShareLinkCopyWithImpl<$Res, $Val extends PropertyShareLink>
     Object? viewCount = null,
     Object? lastViewedAt = freezed,
     Object? createdAt = freezed,
+    Object? leadCount = null,
   }) {
     return _then(_value.copyWith(
       url: freezed == url
@@ -2922,6 +3008,10 @@ class _$PropertyShareLinkCopyWithImpl<$Res, $Val extends PropertyShareLink>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      leadCount: null == leadCount
+          ? _value.leadCount
+          : leadCount // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -2938,7 +3028,8 @@ abstract class _$$PropertyShareLinkImplCopyWith<$Res>
       {String? url,
       int viewCount,
       DateTime? lastViewedAt,
-      DateTime? createdAt});
+      DateTime? createdAt,
+      int leadCount});
 }
 
 /// @nodoc
@@ -2958,6 +3049,7 @@ class __$$PropertyShareLinkImplCopyWithImpl<$Res>
     Object? viewCount = null,
     Object? lastViewedAt = freezed,
     Object? createdAt = freezed,
+    Object? leadCount = null,
   }) {
     return _then(_$PropertyShareLinkImpl(
       url: freezed == url
@@ -2976,6 +3068,10 @@ class __$$PropertyShareLinkImplCopyWithImpl<$Res>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      leadCount: null == leadCount
+          ? _value.leadCount
+          : leadCount // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -2984,7 +3080,11 @@ class __$$PropertyShareLinkImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$PropertyShareLinkImpl implements _PropertyShareLink {
   const _$PropertyShareLinkImpl(
-      {this.url, this.viewCount = 0, this.lastViewedAt, this.createdAt});
+      {this.url,
+      this.viewCount = 0,
+      this.lastViewedAt,
+      this.createdAt,
+      this.leadCount = 0});
 
   factory _$PropertyShareLinkImpl.fromJson(Map<String, dynamic> json) =>
       _$$PropertyShareLinkImplFromJson(json);
@@ -2999,9 +3099,14 @@ class _$PropertyShareLinkImpl implements _PropertyShareLink {
   @override
   final DateTime? createdAt;
 
+  /// How many buyers left their details on the page through this link.
+  @override
+  @JsonKey()
+  final int leadCount;
+
   @override
   String toString() {
-    return 'PropertyShareLink(url: $url, viewCount: $viewCount, lastViewedAt: $lastViewedAt, createdAt: $createdAt)';
+    return 'PropertyShareLink(url: $url, viewCount: $viewCount, lastViewedAt: $lastViewedAt, createdAt: $createdAt, leadCount: $leadCount)';
   }
 
   @override
@@ -3015,13 +3120,15 @@ class _$PropertyShareLinkImpl implements _PropertyShareLink {
             (identical(other.lastViewedAt, lastViewedAt) ||
                 other.lastViewedAt == lastViewedAt) &&
             (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt));
+                other.createdAt == createdAt) &&
+            (identical(other.leadCount, leadCount) ||
+                other.leadCount == leadCount));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, url, viewCount, lastViewedAt, createdAt);
+  int get hashCode => Object.hash(
+      runtimeType, url, viewCount, lastViewedAt, createdAt, leadCount);
 
   /// Create a copy of PropertyShareLink
   /// with the given fields replaced by the non-null parameter values.
@@ -3045,7 +3152,8 @@ abstract class _PropertyShareLink implements PropertyShareLink {
       {final String? url,
       final int viewCount,
       final DateTime? lastViewedAt,
-      final DateTime? createdAt}) = _$PropertyShareLinkImpl;
+      final DateTime? createdAt,
+      final int leadCount}) = _$PropertyShareLinkImpl;
 
   factory _PropertyShareLink.fromJson(Map<String, dynamic> json) =
       _$PropertyShareLinkImpl.fromJson;
@@ -3058,6 +3166,10 @@ abstract class _PropertyShareLink implements PropertyShareLink {
   DateTime? get lastViewedAt;
   @override
   DateTime? get createdAt;
+
+  /// How many buyers left their details on the page through this link.
+  @override
+  int get leadCount;
 
   /// Create a copy of PropertyShareLink
   /// with the given fields replaced by the non-null parameter values.
