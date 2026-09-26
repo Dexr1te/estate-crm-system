@@ -1118,6 +1118,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get coreErrorOffline => 'Нет связи с сервером. Проверьте интернет.';
 
   @override
+  String get coreErrorOfflineWrite => 'Нет сети — для этого нужно подключение.';
+
+  @override
   String get coreErrorServer => 'Ошибка сервера. Попробуйте позже.';
 
   @override
@@ -1155,6 +1158,11 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get coreNotSelected => 'Не выбран';
+
+  @override
+  String coreOfflineSince(String time) {
+    return 'Нет сети — данные на $time';
+  }
 
   @override
   String get coreOpen => 'Открыть';

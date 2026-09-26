@@ -1,5 +1,6 @@
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:real_estate_crm/core/network/api_client.dart';
+import 'package:real_estate_crm/core/network/offline_cache.dart';
 import 'package:real_estate_crm/core/session/session_store.dart';
 import 'package:real_estate_crm/core/utils/file_gateway.dart';
 import 'package:real_estate_crm/core/utils/share_gateway.dart';
@@ -49,7 +50,8 @@ class Injector {
   Injector._();
 
   static final SessionStore session = SessionStore();
-  static final ApiClient _apiClient = ApiClient(session);
+  static final ApiClient _apiClient =
+      ApiClient(session, offlineCache: OfflineCache.device());
 
   static ApiClient get apiClient => _apiClient;
 
