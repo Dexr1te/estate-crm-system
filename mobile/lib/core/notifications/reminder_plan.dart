@@ -43,6 +43,51 @@ class PlannedReminder {
 
 const kMaxPendingReminders = 60;
 
+const kTaskReminderIdBase = 1 << 30;
+
+int taskReminderId(int taskId) => kTaskReminderIdBase + taskId;
+
+class PlannedTaskReminder {
+  final int id;
+  final int taskId;
+  final DateTime fireAt;
+  final String title;
+  final String? clientName;
+
+  const PlannedTaskReminder({
+    required this.id,
+    required this.taskId,
+    required this.fireAt,
+    required this.title,
+    this.clientName,
+  });
+}
+
+List<PlannedTaskReminder> planTaskReminders(
+  List<TaskResponse> tasks, {
+  required ReminderSettings settings,
+  required DateTime now,
+  int? assigneeId,
+  int limit = kMaxPendingReminders,
+}) {
+  if (!settings.enabled) return const [];
+
+  final planned = [
+    for (final task in tasks)
+      if (!task.isDone &&
+          task.dueAt.isAfter(now) &&
+          (assigneeId == null || task.assigneeId == assigneeId))
+        PlannedTaskReminder(
+          id: taskReminderId(task.id),
+          taskId: task.id,
+          fireAt: task.dueAt,
+          title: task.title,
+          clientName: task.clientName,
+        ),
+  ]..sort((a, b) => a.fireAt.compareTo(b.fireAt));
+  return planned.length <= limit ? planned : planned.sublist(0, limit);
+}
+
 List<PlannedReminder> planReminders(
   List<MeetingResponse> meetings, {
   required ReminderSettings settings,

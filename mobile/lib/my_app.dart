@@ -29,6 +29,9 @@ import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_eve
 import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_state.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_bloc.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_event.dart';
+import 'package:real_estate_crm/features/tasks/presentation/bloc/tasks_bloc.dart';
+import 'package:real_estate_crm/features/tasks/presentation/bloc/tasks_event.dart';
+import 'package:real_estate_crm/features/tasks/presentation/bloc/tasks_state.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class MyApp extends StatefulWidget {
@@ -48,6 +51,8 @@ class _MyAppState extends State<MyApp> {
   late final DealsBloc _dealsBloc;
   late final MeetingsBloc _meetingsBloc;
   late final RemindersBloc _remindersBloc;
+  late final TasksBloc _tasksBloc;
+  List<MeetingResponse> _meetingsForReminders = const [];
   final NotificationGateway _notifications = LocalNotificationGateway();
   // ignore: prefer_typing_uninitialized_variables
   late final GoRouter router;
@@ -70,6 +75,7 @@ class _MyAppState extends State<MyApp> {
     _dealsBloc = DealsBloc(Injector.dealsRepository);
     _meetingsBloc = MeetingsBloc(Injector.meetingsRepository);
     _remindersBloc = RemindersBloc(_notifications)..add(RemindersLoadEvent());
+    _tasksBloc = TasksBloc(Injector.tasksRepository);
     router = createRouter(_authBloc);
     _deepLinks = DeepLinkHandler(
       router: router,
@@ -107,13 +113,18 @@ class _MyAppState extends State<MyApp> {
     _dealsBloc.close();
     _meetingsBloc.close();
     _remindersBloc.close();
+    _tasksBloc.close();
     super.dispose();
   }
 
-  void _syncReminders(BuildContext context, List<MeetingResponse> meetings) {
-    syncMeetingReminders(
+  void _syncReminders(BuildContext context, List<MeetingResponse>? meetings) {
+    if (meetings != null) _meetingsForReminders = meetings;
+    final tasks = _tasksBloc.state;
+    syncReminders(
       gateway: _notifications,
-      meetings: meetings,
+      meetings: _meetingsForReminders,
+      tasks: tasks is TasksLoaded ? tasks.tasks : const [],
+      assigneeId: _authBloc.currentUser?.userId,
       settings: _remindersBloc.state.settings,
       l10n: AppLocalizations.of(context),
     );
@@ -145,9 +156,21 @@ class _MyAppState extends State<MyApp> {
               _propertiesBloc.add(PropertiesResetEvent());
               _dealsBloc.add(DealsResetEvent());
               _meetingsBloc.add(MeetingsResetEvent());
+              _tasksBloc.add(TasksResetEvent());
+              _meetingsForReminders = const [];
 
               _notifications.cancelAll();
             },
+          ),
+          BlocListener<AuthBloc, AuthState>(
+            listenWhen: (prev, curr) =>
+                prev is! AuthAuthenticated && curr is AuthAuthenticated,
+            listener: (_, __) => _tasksBloc.add(TasksLoadEvent()),
+          ),
+          BlocListener<TasksBloc, TasksState>(
+            bloc: _tasksBloc,
+            listenWhen: (_, curr) => curr is TasksLoaded,
+            listener: (context, _) => _syncReminders(context, null),
           ),
           BlocListener<MeetingsBloc, MeetingsState>(
             listener: (context, state) {
@@ -174,6 +197,8 @@ class _MyAppState extends State<MyApp> {
                 _syncReminders(context, meetings.meetings);
               } else if (dashboard is DashboardLoaded) {
                 _syncReminders(context, dashboard.upcoming);
+              } else {
+                _syncReminders(context, null);
               }
             },
           ),

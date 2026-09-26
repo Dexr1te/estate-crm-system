@@ -4,11 +4,13 @@ import com.crm.realestate.dto.response.DashboardSummary;
 import com.crm.realestate.entity.Client;
 import com.crm.realestate.entity.Deal;
 import com.crm.realestate.entity.Meeting;
+import com.crm.realestate.entity.Task;
 import com.crm.realestate.entity.User;
 import com.crm.realestate.enums.DealStatus;
 import com.crm.realestate.repository.ClientRepository;
 import com.crm.realestate.repository.DealRepository;
 import com.crm.realestate.repository.MeetingRepository;
+import com.crm.realestate.repository.TaskRepository;
 import com.crm.realestate.security.SecurityUtils;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -35,20 +37,22 @@ public class DashboardService {
     private final DealRepository    dealRepository;
     private final ClientRepository  clientRepository;
     private final MeetingRepository meetingRepository;
+    private final TaskRepository    taskRepository;
     private final SecurityUtils     securityUtils;
     private final ScopeService      scopeService;
     private final EntityManager     entityManager;
 
     /**
-     * Five counts and a sum, computed in the database over exactly the records the caller may see.
+     * Seven counts and a sum, computed in the database over exactly the records the caller may see.
      *
      * <p>{@code agentId} and {@code teamId} only ever narrow that set — a manager asking about
-     * another agency's team gets zeros, not that agency's figures.
+     * another agency's team gets zeros, not that agency's figures. For tasks, the agent is the
+     * assignee.
      */
     public DashboardSummary getSummary(Long agentId, Long teamId) {
         User currentUser = securityUtils.getCurrentUser();
 
-        // Five counts in four queries, and one sum. This used to load every closed deal and every
+        // Counts in the database, and one sum. This used to load every closed deal and every
         // upcoming meeting into memory to call .size() on them, and the meeting filter read
         // m.getAgent().getId() per row — an N+1 on top of a full table scan, to produce integers.
         final List<DealStatus> closedStatuses =
@@ -65,12 +69,26 @@ public class DashboardService {
 
         long activeDeals = totalDeals - closedDeals;
 
+        // Overdue is anything open whose time has passed; due today is the rest of today, so
+        // the two never count the same task.
+        Specification<Task> openTasks = this.<Task>narrowed(currentUser, agentId, teamId, TaskService.HOLDER)
+                .and((root, query, cb) -> cb.isNull(root.get("completedAt")));
+        long tasksOverdue = taskRepository.count(
+                openTasks.and((root, query, cb) -> cb.lessThan(root.get("dueAt"), now)));
+        LocalDateTime tomorrow = now.toLocalDate().plusDays(1).atStartOfDay();
+        long tasksDueToday = taskRepository.count(
+                openTasks.and((root, query, cb) -> cb.and(
+                        cb.greaterThanOrEqualTo(root.get("dueAt"), now),
+                        cb.lessThan(root.get("dueAt"), tomorrow))));
+
         return DashboardSummary.builder()
                 .totalDeals(totalDeals)
                 .activeDeals(activeDeals)
                 .closedDeals(closedDeals)
                 .totalClients(totalClients)
                 .upcomingMeetings(upcomingMeetings)
+                .tasksDueToday(tasksDueToday)
+                .tasksOverdue(tasksOverdue)
                 .commissionThisMonth(commissionWonInMonth(deals, now.toLocalDate().withDayOfMonth(1)))
                 .build();
     }
@@ -102,16 +120,20 @@ public class DashboardService {
     }
 
     private <T> Specification<T> narrowed(User currentUser, Long agentId, Long teamId) {
+        return narrowed(currentUser, agentId, teamId, "agent");
+    }
+
+    private <T> Specification<T> narrowed(User currentUser, Long agentId, Long teamId, String holder) {
         Specification<T> filter = (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
             if (agentId != null) {
-                predicates.add(cb.equal(root.get("agent").get("id"), agentId));
+                predicates.add(cb.equal(root.get(holder).get("id"), agentId));
             }
             if (teamId != null) {
                 predicates.add(cb.equal(root.get("team").get("id"), teamId));
             }
             return cb.and(predicates.toArray(new Predicate[0]));
         };
-        return filter.and(scopeService.visibleTo(currentUser));
+        return filter.and(scopeService.visibleTo(currentUser, holder));
     }
 }

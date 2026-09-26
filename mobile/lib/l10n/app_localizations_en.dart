@@ -1139,6 +1139,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dashboardSeeAll => 'See all';
 
   @override
+  String get dashboardTasksClear => 'Nothing due today';
+
+  @override
+  String dashboardTasksOverdueCount(Object count) {
+    return '$count overdue';
+  }
+
+  @override
+  String get dashboardTasksToday => 'To do today';
+
+  @override
   String get dashboardTeamPipeline => 'Team pipeline';
 
   @override
@@ -1774,6 +1785,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get msgStatusUpdated => 'Status updated';
 
   @override
+  String get msgTaskCompleted => 'Task done';
+
+  @override
+  String get msgTaskCreated => 'Task added';
+
+  @override
+  String get msgTaskDeleted => 'Task deleted';
+
+  @override
+  String get msgTaskReopened => 'Task reopened';
+
+  @override
+  String get msgTaskUpdated => 'Task updated';
+
+  @override
   String get msgTeamAssigned => 'Team assigned';
 
   @override
@@ -2199,6 +2225,14 @@ class AppLocalizationsEn extends AppLocalizations {
       'Notifications are off for EstateCRM. Turn them on in your phone’s settings.';
 
   @override
+  String get remindersTaskDue => 'Due now';
+
+  @override
+  String remindersTaskDueWithClient(Object client) {
+    return 'Due now · $client';
+  }
+
+  @override
   String get searchClear => 'Clear';
 
   @override
@@ -2240,6 +2274,153 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get searchTitle => 'Search';
+
+  @override
+  String get tasksAbout => 'What it is about';
+
+  @override
+  String get tasksAdd => 'Add task';
+
+  @override
+  String get tasksAddShort => 'Task';
+
+  @override
+  String get tasksAllTasks => 'All tasks';
+
+  @override
+  String tasksAssignedTo(Object name) {
+    return 'for $name';
+  }
+
+  @override
+  String get tasksAssignee => 'Who does it';
+
+  @override
+  String get tasksClearLink => 'Remove link';
+
+  @override
+  String get tasksClient => 'Client';
+
+  @override
+  String get tasksComplete => 'Mark done';
+
+  @override
+  String tasksCounter(Object count) {
+    return '$count open';
+  }
+
+  @override
+  String get tasksDate => 'Date';
+
+  @override
+  String get tasksDeal => 'Deal';
+
+  @override
+  String get tasksDelete => 'Delete task';
+
+  @override
+  String get tasksDeleteBody =>
+      'It disappears for everyone, together with its reminder.';
+
+  @override
+  String get tasksDeleteTitle => 'Delete this task?';
+
+  @override
+  String tasksDoneOn(Object date) {
+    return 'Done $date';
+  }
+
+  @override
+  String get tasksDoneTab => 'Done';
+
+  @override
+  String get tasksDue => 'Due';
+
+  @override
+  String tasksDueToday(Object time) {
+    return 'Today, $time';
+  }
+
+  @override
+  String tasksDueTomorrow(Object time) {
+    return 'Tomorrow, $time';
+  }
+
+  @override
+  String get tasksEdit => 'Edit task';
+
+  @override
+  String get tasksEmptyDone => 'Nothing done yet';
+
+  @override
+  String get tasksEmptyOpen => 'Nothing to do';
+
+  @override
+  String get tasksEmptyOpenHint =>
+      'Follow-ups you add to clients and deals show up here.';
+
+  @override
+  String get tasksEmptyRecord => 'No open tasks';
+
+  @override
+  String get tasksEmptyRecordHint => 'Add a follow-up so it is not forgotten.';
+
+  @override
+  String get tasksFieldTitle => 'What to do';
+
+  @override
+  String get tasksLoadFailed => 'Could not load tasks';
+
+  @override
+  String get tasksNew => 'New task';
+
+  @override
+  String get tasksNoAgents => 'No one to hand it to';
+
+  @override
+  String get tasksNote => 'Note';
+
+  @override
+  String get tasksNoteHint => 'Details, numbers, what to prepare…';
+
+  @override
+  String get tasksOpenTab => 'Open';
+
+  @override
+  String get tasksOverdue => 'Overdue';
+
+  @override
+  String get tasksQuickInThreeDays => 'In 3 days';
+
+  @override
+  String get tasksQuickTodayEvening => 'Today evening';
+
+  @override
+  String get tasksQuickTomorrowMorning => 'Tomorrow morning';
+
+  @override
+  String get tasksReopen => 'Reopen';
+
+  @override
+  String get tasksSave => 'Save task';
+
+  @override
+  String get tasksSearchHint => 'Search by name or ID';
+
+  @override
+  String get tasksTime => 'Time';
+
+  @override
+  String get tasksTitle => 'Tasks';
+
+  @override
+  String get tasksTitleHint => 'Call Irina back';
+
+  @override
+  String get tasksTitleRequired => 'Say what needs doing';
+
+  @override
+  String get tasksTitleTooLong => 'Keep it under 200 characters';
 
   @override
   String get teamsActive => 'Active';

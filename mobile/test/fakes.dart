@@ -18,6 +18,7 @@ import 'package:real_estate_crm/features/deals/domain/repositories/deals_reposit
 import 'package:real_estate_crm/features/documents/domain/repositories/documents_repository.dart';
 import 'package:real_estate_crm/features/meetings/domain/repositories/meetings_repository.dart';
 import 'package:real_estate_crm/features/properties/domain/repositories/properties_repository.dart';
+import 'package:real_estate_crm/features/tasks/domain/repositories/tasks_repository.dart';
 import 'package:real_estate_crm/features/teams/domain/repositories/teams_repository.dart';
 
 class FakeAuthRepository implements AuthRepository {
@@ -691,5 +692,92 @@ class FakeShareGateway implements ShareGateway {
     sharedText = text;
     sharedImages = images;
     return outcome;
+  }
+}
+
+/// Tasks held in memory. Writes change [tasks] and announce themselves on
+/// [changes], the way the real repository does, so every list on screen
+/// catches up.
+class FakeTasksRepository implements TasksRepository {
+  List<TaskResponse> tasks;
+
+  /// When set, reading fails with it — a card's own error state.
+  Object? readError;
+
+  /// What each write sent, in order, for asserting on the request body.
+  final List<Map<String, dynamic>> sent = [];
+
+  final _changes = StreamController<void>.broadcast();
+
+  FakeTasksRepository([this.tasks = const []]);
+
+  @override
+  Stream<void> get changes => _changes.stream;
+
+  @override
+  Future<List<TaskResponse>> getTasks(
+      [TaskQuery query = const TaskQuery()]) async {
+    if (readError != null) throw readError!;
+    final found = tasks
+        .where((t) => t.isDone == query.done)
+        .where((t) => query.clientId == null || t.clientId == query.clientId)
+        .where((t) => query.dealId == null || t.dealId == query.dealId)
+        .where(
+            (t) => query.assigneeId == null || t.assigneeId == query.assigneeId)
+        .toList()
+      ..sort((a, b) => a.dueAt.compareTo(b.dueAt));
+    return found;
+  }
+
+  TaskResponse _replace(int id, TaskResponse Function(TaskResponse) change) {
+    final updated = change(tasks.firstWhere((t) => t.id == id));
+    tasks = [for (final t in tasks) t.id == id ? updated : t];
+    _changes.add(null);
+    return updated;
+  }
+
+  @override
+  Future<TaskResponse> createTask(Map<String, dynamic> data) async {
+    sent.add(data);
+    final created = TaskResponse(
+      id: tasks.fold<int>(0, (m, t) => t.id > m ? t.id : m) + 1,
+      title: data['title'] as String,
+      note: data['note'] as String?,
+      dueAt: DateTime.parse(data['dueAt'] as String),
+      clientId: data['clientId'] as int?,
+      dealId: data['dealId'] as int?,
+      assigneeId: data['assigneeId'] as int? ?? 5,
+    );
+    tasks = [...tasks, created];
+    _changes.add(null);
+    return created;
+  }
+
+  @override
+  Future<TaskResponse> updateTask(int id, Map<String, dynamic> data) async {
+    sent.add(data);
+    return _replace(
+        id,
+        (t) => t.copyWith(
+              title: data['title'] as String,
+              note: data['note'] as String?,
+              dueAt: DateTime.parse(data['dueAt'] as String),
+              clientId: data['clientId'] as int?,
+              dealId: data['dealId'] as int?,
+            ));
+  }
+
+  @override
+  Future<TaskResponse> completeTask(int id) async =>
+      _replace(id, (t) => t.copyWith(completedAt: AppClock.now()));
+
+  @override
+  Future<TaskResponse> reopenTask(int id) async =>
+      _replace(id, (t) => t.copyWith(completedAt: null));
+
+  @override
+  Future<void> deleteTask(int id) async {
+    tasks = tasks.where((t) => t.id != id).toList();
+    _changes.add(null);
   }
 }

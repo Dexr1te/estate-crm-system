@@ -32,6 +32,9 @@ import 'package:real_estate_crm/features/properties/data/repositories/properties
 import 'package:real_estate_crm/features/properties/domain/repositories/properties_repository.dart';
 import 'package:real_estate_crm/features/search/data/repositories/search_repository_impl.dart';
 import 'package:real_estate_crm/features/search/domain/repositories/search_repository.dart';
+import 'package:real_estate_crm/features/tasks/data/datasources/tasks_remote_datasource.dart';
+import 'package:real_estate_crm/features/tasks/data/repositories/tasks_repository_impl.dart';
+import 'package:real_estate_crm/features/tasks/domain/repositories/tasks_repository.dart';
 import 'package:real_estate_crm/features/teams/data/datasources/teams_remote_datasource.dart';
 import 'package:real_estate_crm/features/teams/data/repositories/teams_repository_impl.dart';
 import 'package:real_estate_crm/features/teams/domain/repositories/teams_repository.dart';
@@ -65,6 +68,9 @@ class Injector {
 
   static MeetingsRepository meetingsRepository =
       MeetingsRepositoryImpl(MeetingsRemoteDataSource(_apiClient));
+
+  static TasksRepository tasksRepository =
+      TasksRepositoryImpl(TasksRemoteDataSource(_apiClient));
 
   static DashboardRepository dashboardRepository =
       DashboardRepositoryImpl(DashboardRemoteDataSource(_apiClient));

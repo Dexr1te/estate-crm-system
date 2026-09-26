@@ -7,6 +7,7 @@ import com.crm.realestate.repository.ClientRepository;
 import com.crm.realestate.repository.DealRepository;
 import com.crm.realestate.repository.MeetingRepository;
 import com.crm.realestate.repository.PropertyRepository;
+import com.crm.realestate.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ public class RecordHandoverService {
     private final DealRepository     dealRepository;
     private final MeetingRepository  meetingRepository;
     private final ClientActivityRepository activityRepository;
+    private final TaskRepository     taskRepository;
 
     /**
      * Brings what someone owned while in no team into the team they have just joined.
@@ -49,9 +51,10 @@ public class RecordHandoverService {
         int properties = propertyRepository.reassignInTeam(from, to, team);
         int deals      = dealRepository.reassignInTeam(from, to, team);
         int meetings   = meetingRepository.reassignInTeam(from, to, team);
-        if (clients + properties + deals + meetings > 0) {
-            log.info("Handed {} clients, {} listings, {} deals and {} meetings in team {} from user {} to user {}",
-                    clients, properties, deals, meetings, team.getId(), from.getId(), to.getId());
+        int tasks      = taskRepository.reassignInTeam(from, to, team);
+        if (clients + properties + deals + meetings + tasks > 0) {
+            log.info("Handed {} clients, {} listings, {} deals, {} meetings and {} tasks in team {} from user {} to user {}",
+                    clients, properties, deals, meetings, tasks, team.getId(), from.getId(), to.getId());
         }
     }
 
@@ -64,6 +67,7 @@ public class RecordHandoverService {
         int properties = propertyRepository.adoptTeamless(user, user.getTeam());
         int deals      = dealRepository.adoptTeamless(user, user.getTeam());
         int meetings   = meetingRepository.adoptTeamless(user, user.getTeam());
+        taskRepository.adoptTeamless(user, user.getTeam());
         // A client's history travels with the client, so it follows the clients just moved.
         activityRepository.adoptTeamless(user, user.getTeam());
         if (clients + properties + deals + meetings > 0) {

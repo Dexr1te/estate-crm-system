@@ -29,6 +29,7 @@ import 'package:real_estate_crm/features/properties/presentation/screens/propert
 import 'package:real_estate_crm/features/properties/presentation/screens/property_detail_screen.dart';
 import 'package:real_estate_crm/features/properties/presentation/screens/property_form_screen.dart';
 import 'package:real_estate_crm/features/search/presentation/screens/search_screen.dart';
+import 'package:real_estate_crm/features/tasks/presentation/screens/tasks_screen.dart';
 import 'package:real_estate_crm/features/teams/presentation/screens/manager_console_screen.dart';
 
 final _rootKey = GlobalKey<NavigatorState>();
@@ -170,6 +171,11 @@ GoRouter createRouter(AuthBloc authBloc) {
         path: '/search',
         parentNavigatorKey: _rootKey,
         pageBuilder: (_, __) => const NoTransitionPage(child: SearchScreen()),
+      ),
+      GoRoute(
+        path: '/tasks',
+        parentNavigatorKey: _rootKey,
+        pageBuilder: (_, __) => const NoTransitionPage(child: TasksScreen()),
       ),
       ShellRoute(
         navigatorKey: _shellKey,

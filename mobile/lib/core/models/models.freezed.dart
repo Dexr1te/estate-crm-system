@@ -4267,6 +4267,468 @@ abstract class _UpcomingMeetingResponse implements UpcomingMeetingResponse {
       get copyWith => throw _privateConstructorUsedError;
 }
 
+TaskResponse _$TaskResponseFromJson(Map<String, dynamic> json) {
+  return _TaskResponse.fromJson(json);
+}
+
+/// @nodoc
+mixin _$TaskResponse {
+  int get id => throw _privateConstructorUsedError;
+  String get title => throw _privateConstructorUsedError;
+  String? get note => throw _privateConstructorUsedError;
+  DateTime get dueAt => throw _privateConstructorUsedError;
+  DateTime? get completedAt => throw _privateConstructorUsedError;
+  int? get assigneeId => throw _privateConstructorUsedError;
+  String? get assigneeName => throw _privateConstructorUsedError;
+  int? get createdById => throw _privateConstructorUsedError;
+  String? get createdByName => throw _privateConstructorUsedError;
+  int? get clientId => throw _privateConstructorUsedError;
+  String? get clientName => throw _privateConstructorUsedError;
+  int? get dealId => throw _privateConstructorUsedError;
+  String? get dealTitle => throw _privateConstructorUsedError;
+  DateTime? get createdAt => throw _privateConstructorUsedError;
+  DateTime? get updatedAt => throw _privateConstructorUsedError;
+
+  /// Serializes this TaskResponse to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of TaskResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $TaskResponseCopyWith<TaskResponse> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $TaskResponseCopyWith<$Res> {
+  factory $TaskResponseCopyWith(
+          TaskResponse value, $Res Function(TaskResponse) then) =
+      _$TaskResponseCopyWithImpl<$Res, TaskResponse>;
+  @useResult
+  $Res call(
+      {int id,
+      String title,
+      String? note,
+      DateTime dueAt,
+      DateTime? completedAt,
+      int? assigneeId,
+      String? assigneeName,
+      int? createdById,
+      String? createdByName,
+      int? clientId,
+      String? clientName,
+      int? dealId,
+      String? dealTitle,
+      DateTime? createdAt,
+      DateTime? updatedAt});
+}
+
+/// @nodoc
+class _$TaskResponseCopyWithImpl<$Res, $Val extends TaskResponse>
+    implements $TaskResponseCopyWith<$Res> {
+  _$TaskResponseCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of TaskResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? title = null,
+    Object? note = freezed,
+    Object? dueAt = null,
+    Object? completedAt = freezed,
+    Object? assigneeId = freezed,
+    Object? assigneeName = freezed,
+    Object? createdById = freezed,
+    Object? createdByName = freezed,
+    Object? clientId = freezed,
+    Object? clientName = freezed,
+    Object? dealId = freezed,
+    Object? dealTitle = freezed,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      note: freezed == note
+          ? _value.note
+          : note // ignore: cast_nullable_to_non_nullable
+              as String?,
+      dueAt: null == dueAt
+          ? _value.dueAt
+          : dueAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      completedAt: freezed == completedAt
+          ? _value.completedAt
+          : completedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      assigneeId: freezed == assigneeId
+          ? _value.assigneeId
+          : assigneeId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      assigneeName: freezed == assigneeName
+          ? _value.assigneeName
+          : assigneeName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdById: freezed == createdById
+          ? _value.createdById
+          : createdById // ignore: cast_nullable_to_non_nullable
+              as int?,
+      createdByName: freezed == createdByName
+          ? _value.createdByName
+          : createdByName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      clientId: freezed == clientId
+          ? _value.clientId
+          : clientId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      clientName: freezed == clientName
+          ? _value.clientName
+          : clientName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      dealId: freezed == dealId
+          ? _value.dealId
+          : dealId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      dealTitle: freezed == dealTitle
+          ? _value.dealTitle
+          : dealTitle // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      updatedAt: freezed == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$TaskResponseImplCopyWith<$Res>
+    implements $TaskResponseCopyWith<$Res> {
+  factory _$$TaskResponseImplCopyWith(
+          _$TaskResponseImpl value, $Res Function(_$TaskResponseImpl) then) =
+      __$$TaskResponseImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int id,
+      String title,
+      String? note,
+      DateTime dueAt,
+      DateTime? completedAt,
+      int? assigneeId,
+      String? assigneeName,
+      int? createdById,
+      String? createdByName,
+      int? clientId,
+      String? clientName,
+      int? dealId,
+      String? dealTitle,
+      DateTime? createdAt,
+      DateTime? updatedAt});
+}
+
+/// @nodoc
+class __$$TaskResponseImplCopyWithImpl<$Res>
+    extends _$TaskResponseCopyWithImpl<$Res, _$TaskResponseImpl>
+    implements _$$TaskResponseImplCopyWith<$Res> {
+  __$$TaskResponseImplCopyWithImpl(
+      _$TaskResponseImpl _value, $Res Function(_$TaskResponseImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of TaskResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? title = null,
+    Object? note = freezed,
+    Object? dueAt = null,
+    Object? completedAt = freezed,
+    Object? assigneeId = freezed,
+    Object? assigneeName = freezed,
+    Object? createdById = freezed,
+    Object? createdByName = freezed,
+    Object? clientId = freezed,
+    Object? clientName = freezed,
+    Object? dealId = freezed,
+    Object? dealTitle = freezed,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
+  }) {
+    return _then(_$TaskResponseImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      note: freezed == note
+          ? _value.note
+          : note // ignore: cast_nullable_to_non_nullable
+              as String?,
+      dueAt: null == dueAt
+          ? _value.dueAt
+          : dueAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      completedAt: freezed == completedAt
+          ? _value.completedAt
+          : completedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      assigneeId: freezed == assigneeId
+          ? _value.assigneeId
+          : assigneeId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      assigneeName: freezed == assigneeName
+          ? _value.assigneeName
+          : assigneeName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdById: freezed == createdById
+          ? _value.createdById
+          : createdById // ignore: cast_nullable_to_non_nullable
+              as int?,
+      createdByName: freezed == createdByName
+          ? _value.createdByName
+          : createdByName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      clientId: freezed == clientId
+          ? _value.clientId
+          : clientId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      clientName: freezed == clientName
+          ? _value.clientName
+          : clientName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      dealId: freezed == dealId
+          ? _value.dealId
+          : dealId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      dealTitle: freezed == dealTitle
+          ? _value.dealTitle
+          : dealTitle // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      updatedAt: freezed == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$TaskResponseImpl extends _TaskResponse {
+  const _$TaskResponseImpl(
+      {required this.id,
+      this.title = '',
+      this.note,
+      required this.dueAt,
+      this.completedAt,
+      this.assigneeId,
+      this.assigneeName,
+      this.createdById,
+      this.createdByName,
+      this.clientId,
+      this.clientName,
+      this.dealId,
+      this.dealTitle,
+      this.createdAt,
+      this.updatedAt})
+      : super._();
+
+  factory _$TaskResponseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TaskResponseImplFromJson(json);
+
+  @override
+  final int id;
+  @override
+  @JsonKey()
+  final String title;
+  @override
+  final String? note;
+  @override
+  final DateTime dueAt;
+  @override
+  final DateTime? completedAt;
+  @override
+  final int? assigneeId;
+  @override
+  final String? assigneeName;
+  @override
+  final int? createdById;
+  @override
+  final String? createdByName;
+  @override
+  final int? clientId;
+  @override
+  final String? clientName;
+  @override
+  final int? dealId;
+  @override
+  final String? dealTitle;
+  @override
+  final DateTime? createdAt;
+  @override
+  final DateTime? updatedAt;
+
+  @override
+  String toString() {
+    return 'TaskResponse(id: $id, title: $title, note: $note, dueAt: $dueAt, completedAt: $completedAt, assigneeId: $assigneeId, assigneeName: $assigneeName, createdById: $createdById, createdByName: $createdByName, clientId: $clientId, clientName: $clientName, dealId: $dealId, dealTitle: $dealTitle, createdAt: $createdAt, updatedAt: $updatedAt)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TaskResponseImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.note, note) || other.note == note) &&
+            (identical(other.dueAt, dueAt) || other.dueAt == dueAt) &&
+            (identical(other.completedAt, completedAt) ||
+                other.completedAt == completedAt) &&
+            (identical(other.assigneeId, assigneeId) ||
+                other.assigneeId == assigneeId) &&
+            (identical(other.assigneeName, assigneeName) ||
+                other.assigneeName == assigneeName) &&
+            (identical(other.createdById, createdById) ||
+                other.createdById == createdById) &&
+            (identical(other.createdByName, createdByName) ||
+                other.createdByName == createdByName) &&
+            (identical(other.clientId, clientId) ||
+                other.clientId == clientId) &&
+            (identical(other.clientName, clientName) ||
+                other.clientName == clientName) &&
+            (identical(other.dealId, dealId) || other.dealId == dealId) &&
+            (identical(other.dealTitle, dealTitle) ||
+                other.dealTitle == dealTitle) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      title,
+      note,
+      dueAt,
+      completedAt,
+      assigneeId,
+      assigneeName,
+      createdById,
+      createdByName,
+      clientId,
+      clientName,
+      dealId,
+      dealTitle,
+      createdAt,
+      updatedAt);
+
+  /// Create a copy of TaskResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$TaskResponseImplCopyWith<_$TaskResponseImpl> get copyWith =>
+      __$$TaskResponseImplCopyWithImpl<_$TaskResponseImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$TaskResponseImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _TaskResponse extends TaskResponse {
+  const factory _TaskResponse(
+      {required final int id,
+      final String title,
+      final String? note,
+      required final DateTime dueAt,
+      final DateTime? completedAt,
+      final int? assigneeId,
+      final String? assigneeName,
+      final int? createdById,
+      final String? createdByName,
+      final int? clientId,
+      final String? clientName,
+      final int? dealId,
+      final String? dealTitle,
+      final DateTime? createdAt,
+      final DateTime? updatedAt}) = _$TaskResponseImpl;
+  const _TaskResponse._() : super._();
+
+  factory _TaskResponse.fromJson(Map<String, dynamic> json) =
+      _$TaskResponseImpl.fromJson;
+
+  @override
+  int get id;
+  @override
+  String get title;
+  @override
+  String? get note;
+  @override
+  DateTime get dueAt;
+  @override
+  DateTime? get completedAt;
+  @override
+  int? get assigneeId;
+  @override
+  String? get assigneeName;
+  @override
+  int? get createdById;
+  @override
+  String? get createdByName;
+  @override
+  int? get clientId;
+  @override
+  String? get clientName;
+  @override
+  int? get dealId;
+  @override
+  String? get dealTitle;
+  @override
+  DateTime? get createdAt;
+  @override
+  DateTime? get updatedAt;
+
+  /// Create a copy of TaskResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$TaskResponseImplCopyWith<_$TaskResponseImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 DashboardSummary _$DashboardSummaryFromJson(Map<String, dynamic> json) {
   return _DashboardSummary.fromJson(json);
 }
@@ -4279,6 +4741,8 @@ mixin _$DashboardSummary {
   int get totalClients => throw _privateConstructorUsedError;
   int get upcomingMeetings => throw _privateConstructorUsedError;
   double get commissionThisMonth => throw _privateConstructorUsedError;
+  int get tasksDueToday => throw _privateConstructorUsedError;
+  int get tasksOverdue => throw _privateConstructorUsedError;
 
   /// Serializes this DashboardSummary to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -4302,7 +4766,9 @@ abstract class $DashboardSummaryCopyWith<$Res> {
       int closedDeals,
       int totalClients,
       int upcomingMeetings,
-      double commissionThisMonth});
+      double commissionThisMonth,
+      int tasksDueToday,
+      int tasksOverdue});
 }
 
 /// @nodoc
@@ -4326,6 +4792,8 @@ class _$DashboardSummaryCopyWithImpl<$Res, $Val extends DashboardSummary>
     Object? totalClients = null,
     Object? upcomingMeetings = null,
     Object? commissionThisMonth = null,
+    Object? tasksDueToday = null,
+    Object? tasksOverdue = null,
   }) {
     return _then(_value.copyWith(
       totalDeals: null == totalDeals
@@ -4352,6 +4820,14 @@ class _$DashboardSummaryCopyWithImpl<$Res, $Val extends DashboardSummary>
           ? _value.commissionThisMonth
           : commissionThisMonth // ignore: cast_nullable_to_non_nullable
               as double,
+      tasksDueToday: null == tasksDueToday
+          ? _value.tasksDueToday
+          : tasksDueToday // ignore: cast_nullable_to_non_nullable
+              as int,
+      tasksOverdue: null == tasksOverdue
+          ? _value.tasksOverdue
+          : tasksOverdue // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -4370,7 +4846,9 @@ abstract class _$$DashboardSummaryImplCopyWith<$Res>
       int closedDeals,
       int totalClients,
       int upcomingMeetings,
-      double commissionThisMonth});
+      double commissionThisMonth,
+      int tasksDueToday,
+      int tasksOverdue});
 }
 
 /// @nodoc
@@ -4392,6 +4870,8 @@ class __$$DashboardSummaryImplCopyWithImpl<$Res>
     Object? totalClients = null,
     Object? upcomingMeetings = null,
     Object? commissionThisMonth = null,
+    Object? tasksDueToday = null,
+    Object? tasksOverdue = null,
   }) {
     return _then(_$DashboardSummaryImpl(
       totalDeals: null == totalDeals
@@ -4418,6 +4898,14 @@ class __$$DashboardSummaryImplCopyWithImpl<$Res>
           ? _value.commissionThisMonth
           : commissionThisMonth // ignore: cast_nullable_to_non_nullable
               as double,
+      tasksDueToday: null == tasksDueToday
+          ? _value.tasksDueToday
+          : tasksDueToday // ignore: cast_nullable_to_non_nullable
+              as int,
+      tasksOverdue: null == tasksOverdue
+          ? _value.tasksOverdue
+          : tasksOverdue // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -4431,7 +4919,9 @@ class _$DashboardSummaryImpl implements _DashboardSummary {
       this.closedDeals = 0,
       this.totalClients = 0,
       this.upcomingMeetings = 0,
-      this.commissionThisMonth = 0});
+      this.commissionThisMonth = 0,
+      this.tasksDueToday = 0,
+      this.tasksOverdue = 0});
 
   factory _$DashboardSummaryImpl.fromJson(Map<String, dynamic> json) =>
       _$$DashboardSummaryImplFromJson(json);
@@ -4454,10 +4944,16 @@ class _$DashboardSummaryImpl implements _DashboardSummary {
   @override
   @JsonKey()
   final double commissionThisMonth;
+  @override
+  @JsonKey()
+  final int tasksDueToday;
+  @override
+  @JsonKey()
+  final int tasksOverdue;
 
   @override
   String toString() {
-    return 'DashboardSummary(totalDeals: $totalDeals, activeDeals: $activeDeals, closedDeals: $closedDeals, totalClients: $totalClients, upcomingMeetings: $upcomingMeetings, commissionThisMonth: $commissionThisMonth)';
+    return 'DashboardSummary(totalDeals: $totalDeals, activeDeals: $activeDeals, closedDeals: $closedDeals, totalClients: $totalClients, upcomingMeetings: $upcomingMeetings, commissionThisMonth: $commissionThisMonth, tasksDueToday: $tasksDueToday, tasksOverdue: $tasksOverdue)';
   }
 
   @override
@@ -4476,13 +4972,25 @@ class _$DashboardSummaryImpl implements _DashboardSummary {
             (identical(other.upcomingMeetings, upcomingMeetings) ||
                 other.upcomingMeetings == upcomingMeetings) &&
             (identical(other.commissionThisMonth, commissionThisMonth) ||
-                other.commissionThisMonth == commissionThisMonth));
+                other.commissionThisMonth == commissionThisMonth) &&
+            (identical(other.tasksDueToday, tasksDueToday) ||
+                other.tasksDueToday == tasksDueToday) &&
+            (identical(other.tasksOverdue, tasksOverdue) ||
+                other.tasksOverdue == tasksOverdue));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, totalDeals, activeDeals,
-      closedDeals, totalClients, upcomingMeetings, commissionThisMonth);
+  int get hashCode => Object.hash(
+      runtimeType,
+      totalDeals,
+      activeDeals,
+      closedDeals,
+      totalClients,
+      upcomingMeetings,
+      commissionThisMonth,
+      tasksDueToday,
+      tasksOverdue);
 
   /// Create a copy of DashboardSummary
   /// with the given fields replaced by the non-null parameter values.
@@ -4508,7 +5016,9 @@ abstract class _DashboardSummary implements DashboardSummary {
       final int closedDeals,
       final int totalClients,
       final int upcomingMeetings,
-      final double commissionThisMonth}) = _$DashboardSummaryImpl;
+      final double commissionThisMonth,
+      final int tasksDueToday,
+      final int tasksOverdue}) = _$DashboardSummaryImpl;
 
   factory _DashboardSummary.fromJson(Map<String, dynamic> json) =
       _$DashboardSummaryImpl.fromJson;
@@ -4525,6 +5035,10 @@ abstract class _DashboardSummary implements DashboardSummary {
   int get upcomingMeetings;
   @override
   double get commissionThisMonth;
+  @override
+  int get tasksDueToday;
+  @override
+  int get tasksOverdue;
 
   /// Create a copy of DashboardSummary
   /// with the given fields replaced by the non-null parameter values.

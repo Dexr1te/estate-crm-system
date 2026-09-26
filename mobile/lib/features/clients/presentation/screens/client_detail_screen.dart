@@ -15,6 +15,7 @@ import 'package:real_estate_crm/features/clients/presentation/widgets/send_match
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_card.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_cover.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_price_history.dart';
+import 'package:real_estate_crm/features/tasks/presentation/widgets/record_tasks_card.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class ClientDetailScreen extends StatefulWidget {
@@ -217,6 +218,8 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
           onDelete: _deleteActivity,
           canDelete: _canDeleteActivity,
         ),
+        RecordTasksCard(
+            client: PickerItem(id: client.id, title: client.fullName)),
         _DealsCard(deals: _deals),
         if (client.type == ClientType.BUYER)
           _MatchesCard(client: client, matches: _matches),

@@ -53,7 +53,12 @@ with the paperwork attached and a stale-deal warning after five untouched days.
 a listing a history of who has seen it. After a showing the verdict is recorded —
 interested, turned it down, nobody came — and matching reads it.
 
-**Dashboard.** The next meeting, the month's goal against what has closed, four
+**Tasks.** Follow-ups with a due time — "call Irina back on Friday" — on their
+own or tied to a client or a deal. A manager can hand one to an agent. The phone
+reminds whoever has to do it when it falls due, and the dashboard lists what is
+overdue or due today.
+
+**Dashboard.** The next meeting, today's tasks, the month's goal against what has closed, four
 counters with sparklines, the pipeline, deals needing attention, meeting load and
 the agency's leaderboard.
 
@@ -94,7 +99,7 @@ The **data scope** decides which records they see at all:
 
 | Scope | Sees |
 | --- | --- |
-| `OWN` | their own clients, deals and meetings |
+| `OWN` | their own clients, deals and meetings, and the tasks assigned to them |
 | `TEAM` | everything in their agency |
 | `ALL` | every agency |
 
@@ -166,6 +171,7 @@ handful marked public. Full OpenAPI at `/api/swagger-ui.html`.
 | Properties | `/properties`, `/properties/{id}`, `/properties/{id}/status`, `/properties/{id}/photos` (+ `order`, `{photoId}/content`), `/properties/{id}/cover`, `/properties/{id}/interested`, `/properties/{id}/viewings`, `/properties/{id}/price-history` |
 | Deals | `/deals`, `/deals/{id}`, `/deals/{id}/status`, `/deals/{dealId}/documents` |
 | Meetings | `/meetings`, `/meetings/upcoming`, `/meetings/{id}`, `/meetings/{id}/complete`, `/meetings/{id}/outcome` |
+| Tasks | `/tasks` (`?status=open\|done`, `clientId`, `dealId`, `assigneeId`), `/tasks/{id}`, `/tasks/{id}/complete`, `/tasks/{id}/reopen` |
 | Teams | `/teams`, `/team`, `/team/members`, `/team/requests` |
 | Admin | `/admin/users`, `/admin/audit-log`, `/admin/users/{id}/…` |
 | Dashboard | `/dashboard/summary` |

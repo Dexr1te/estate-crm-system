@@ -5,6 +5,7 @@ import com.crm.realestate.entity.Deal;
 import com.crm.realestate.entity.Document;
 import com.crm.realestate.entity.Meeting;
 import com.crm.realestate.entity.Property;
+import com.crm.realestate.entity.Task;
 import com.crm.realestate.entity.User;
 import com.crm.realestate.enums.Role;
 import com.crm.realestate.enums.UserStatus;
@@ -14,6 +15,7 @@ import com.crm.realestate.repository.DealRepository;
 import com.crm.realestate.repository.DocumentRepository;
 import com.crm.realestate.repository.MeetingRepository;
 import com.crm.realestate.repository.PropertyRepository;
+import com.crm.realestate.repository.TaskRepository;
 import com.crm.realestate.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,6 +42,7 @@ public class AccountRemovalService {
     private final MeetingRepository  meetingRepository;
     private final DocumentRepository documentRepository;
     private final PropertyRepository propertyRepository;
+    private final TaskRepository     taskRepository;
     private final AuditLogService    auditLogService;
     private final ScopeService       scopeService;
 
@@ -79,15 +82,19 @@ public class AccountRemovalService {
         List<Document> documents = documentRepository.findByUploadedById(targetId);
         List<Client> clients = clientRepository.findByAgentId(targetId);
         List<Property> properties = propertyRepository.findByAgentId(targetId);
+        List<Task> tasks = taskRepository.findByAssigneeId(targetId);
+        long openTasks = tasks.stream().filter(t -> t.getCompletedAt() == null).count();
 
         // These three cannot be orphaned by the schema, so without somewhere to put
         // them the delete would fail at the database with an opaque constraint error.
+        // An open task could be (the schema would take it along with the account), but
+        // it is work the agency still has to do, so it is held to the same rule.
         if (replacement == null
-                && !(deals.isEmpty() && meetings.isEmpty() && documents.isEmpty())) {
+                && !(deals.isEmpty() && meetings.isEmpty() && documents.isEmpty() && openTasks == 0)) {
             throw new RuntimeException(String.format(
-                    "%s still holds %d deal(s), %d meeting(s) and %d document(s). "
+                    "%s still holds %d deal(s), %d meeting(s), %d document(s) and %d open task(s). "
                             + "Choose someone to take them over.",
-                    target.getFullName(), deals.size(), meetings.size(), documents.size()));
+                    target.getFullName(), deals.size(), meetings.size(), documents.size(), openTasks));
         }
 
         if (replacement != null) {
@@ -96,11 +103,13 @@ public class AccountRemovalService {
             documents.forEach(d -> d.setUploadedBy(replacement));
             clients.forEach(c -> c.setAgent(replacement));
             properties.forEach(p -> p.setAgent(replacement));
+            tasks.forEach(t -> t.setAssignee(replacement));
             dealRepository.saveAll(deals);
             meetingRepository.saveAll(meetings);
             documentRepository.saveAll(documents);
             clientRepository.saveAll(clients);
             propertyRepository.saveAll(properties);
+            taskRepository.saveAll(tasks);
         }
 
         // When someone closes their own account the actor is the row about to go.

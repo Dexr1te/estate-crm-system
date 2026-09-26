@@ -9,6 +9,7 @@ import com.crm.realestate.dto.response.DashboardSummary;
 import com.crm.realestate.entity.Client;
 import com.crm.realestate.entity.Deal;
 import com.crm.realestate.entity.Meeting;
+import com.crm.realestate.entity.Task;
 import com.crm.realestate.entity.User;
 import com.crm.realestate.enums.ClientType;
 import com.crm.realestate.enums.DataScope;
@@ -18,6 +19,7 @@ import com.crm.realestate.enums.UserStatus;
 import com.crm.realestate.repository.ClientRepository;
 import com.crm.realestate.repository.DealRepository;
 import com.crm.realestate.repository.MeetingRepository;
+import com.crm.realestate.repository.TaskRepository;
 import com.crm.realestate.repository.UserRepository;
 import com.crm.realestate.service.DashboardService;
 import jakarta.persistence.EntityManager;
@@ -47,6 +49,7 @@ class DashboardSummaryTest {
     @Autowired private ClientRepository clientRepository;
     @Autowired private MeetingRepository meetingRepository;
     @Autowired private UserRepository userRepository;
+    @Autowired private TaskRepository taskRepository;
     @Autowired private EntityManagerFactory entityManagerFactory;
     @Autowired private EntityManager entityManager;
 
@@ -85,8 +88,21 @@ class DashboardSummaryTest {
                 .title("m").scheduledAt(at).client(c).agent(owner).build());
     }
 
+    private void task(User owner, LocalDateTime due, boolean done) {
+        taskRepository.save(Task.builder()
+                .title("t").dueAt(due).assignee(owner).createdBy(owner)
+                .completedAt(done ? due : null).build());
+    }
+
+    /** Halfway between now and midnight: still today, and not yet past when the summary runs. */
+    private static LocalDateTime laterToday(LocalDateTime now) {
+        LocalDateTime midnight = now.toLocalDate().plusDays(1).atStartOfDay();
+        return now.plus(java.time.Duration.between(now, midnight).dividedBy(2));
+    }
+
     @BeforeEach
     void setUp() {
+        taskRepository.deleteAll();
         meetingRepository.deleteAll();
         dealRepository.deleteAll();
         clientRepository.deleteAll();
@@ -111,6 +127,13 @@ class DashboardSummaryTest {
         meeting(agent, mine, now.plusDays(2));
         meeting(agent, mine, now.minusDays(1)); // past, must not count
         meeting(admin, theirs, now.plusDays(3));
+
+        // agent: 1 overdue, 1 later today, 1 tomorrow, 1 overdue but done; admin: 1 overdue
+        task(agent, now.minusHours(2), false);
+        task(agent, laterToday(now), false);
+        task(agent, now.toLocalDate().plusDays(1).atTime(10, 0), false);
+        task(agent, now.minusDays(1), true);
+        task(admin, now.minusDays(3), false);
 
         entityManager.flush();
         entityManager.clear();
@@ -144,6 +167,25 @@ class DashboardSummaryTest {
         assertThat(s.getUpcomingMeetings()).isEqualTo(2);
     }
 
+    @Test
+    @DisplayName("overdue and due-today tasks are counted apart, open ones only, within scope")
+    void taskCounts() {
+        signIn(admin);
+        DashboardSummary all = dashboardService.getSummary(null, null);
+        assertThat(all.getTasksOverdue()).isEqualTo(2);
+        assertThat(all.getTasksDueToday())
+                .as("tomorrow's task is not today's, and an overdue one is not counted twice")
+                .isEqualTo(1);
+
+        DashboardSummary narrowed = dashboardService.getSummary(agent.getId(), null);
+        assertThat(narrowed.getTasksOverdue()).as("the agent filter reads the assignee").isEqualTo(1);
+
+        signIn(agent);
+        DashboardSummary own = dashboardService.getSummary(null, null);
+        assertThat(own.getTasksOverdue()).as("a finished task is not overdue").isEqualTo(1);
+        assertThat(own.getTasksDueToday()).isEqualTo(1);
+    }
+
     /**
      * Rows hydrated, not statements issued. Statement count is the wrong yardstick here: loading
      * every closed deal to call .size() on it is a single query too. What costs money over a link
@@ -163,6 +205,7 @@ class DashboardSummaryTest {
         for (int i = 0; i < deals; i++) {
             deal(admin, c, i % 2 == 0 ? DealStatus.CLOSED_WON : DealStatus.LEAD);
             meeting(admin, c, now.plusDays(i + 1));
+            task(admin, now.minusDays(i + 1), false);
         }
         entityManager.flush();
         entityManager.clear();
