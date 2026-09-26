@@ -45,6 +45,7 @@ public class AccountRemovalService {
     private final TaskRepository     taskRepository;
     private final AuditLogService    auditLogService;
     private final ScopeService       scopeService;
+    private final NotificationEvents notificationEvents;
 
     @Value("${app.primary-admin-email:admin@gmail.com}")
     private String primaryAdminEmail;
@@ -110,6 +111,8 @@ public class AccountRemovalService {
             clientRepository.saveAll(clients);
             propertyRepository.saveAll(properties);
             taskRepository.saveAll(tasks);
+            notificationEvents.recordsHandedOver(target, replacement, actor, replacement.getTeam(),
+                    clients.size(), properties.size(), deals.size(), meetings.size(), tasks.size());
         }
 
         // When someone closes their own account the actor is the row about to go.

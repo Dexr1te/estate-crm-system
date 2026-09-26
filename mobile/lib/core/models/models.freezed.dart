@@ -6448,3 +6448,277 @@ abstract class _FunnelMonth implements FunnelMonth {
   _$$FunnelMonthImplCopyWith<_$FunnelMonthImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+AppNotification _$AppNotificationFromJson(Map<String, dynamic> json) {
+  return _AppNotification.fromJson(json);
+}
+
+/// @nodoc
+mixin _$AppNotification {
+  int get id => throw _privateConstructorUsedError;
+  @JsonKey(unknownEnumValue: NotificationType.unknown)
+  NotificationType get type => throw _privateConstructorUsedError;
+  int? get targetId => throw _privateConstructorUsedError;
+  Map<String, dynamic> get params => throw _privateConstructorUsedError;
+  DateTime? get readAt => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
+
+  /// Serializes this AppNotification to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of AppNotification
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $AppNotificationCopyWith<AppNotification> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $AppNotificationCopyWith<$Res> {
+  factory $AppNotificationCopyWith(
+          AppNotification value, $Res Function(AppNotification) then) =
+      _$AppNotificationCopyWithImpl<$Res, AppNotification>;
+  @useResult
+  $Res call(
+      {int id,
+      @JsonKey(unknownEnumValue: NotificationType.unknown)
+      NotificationType type,
+      int? targetId,
+      Map<String, dynamic> params,
+      DateTime? readAt,
+      DateTime createdAt});
+}
+
+/// @nodoc
+class _$AppNotificationCopyWithImpl<$Res, $Val extends AppNotification>
+    implements $AppNotificationCopyWith<$Res> {
+  _$AppNotificationCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of AppNotification
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? type = null,
+    Object? targetId = freezed,
+    Object? params = null,
+    Object? readAt = freezed,
+    Object? createdAt = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as NotificationType,
+      targetId: freezed == targetId
+          ? _value.targetId
+          : targetId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      params: null == params
+          ? _value.params
+          : params // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>,
+      readAt: freezed == readAt
+          ? _value.readAt
+          : readAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$AppNotificationImplCopyWith<$Res>
+    implements $AppNotificationCopyWith<$Res> {
+  factory _$$AppNotificationImplCopyWith(_$AppNotificationImpl value,
+          $Res Function(_$AppNotificationImpl) then) =
+      __$$AppNotificationImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int id,
+      @JsonKey(unknownEnumValue: NotificationType.unknown)
+      NotificationType type,
+      int? targetId,
+      Map<String, dynamic> params,
+      DateTime? readAt,
+      DateTime createdAt});
+}
+
+/// @nodoc
+class __$$AppNotificationImplCopyWithImpl<$Res>
+    extends _$AppNotificationCopyWithImpl<$Res, _$AppNotificationImpl>
+    implements _$$AppNotificationImplCopyWith<$Res> {
+  __$$AppNotificationImplCopyWithImpl(
+      _$AppNotificationImpl _value, $Res Function(_$AppNotificationImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of AppNotification
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? type = null,
+    Object? targetId = freezed,
+    Object? params = null,
+    Object? readAt = freezed,
+    Object? createdAt = null,
+  }) {
+    return _then(_$AppNotificationImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as NotificationType,
+      targetId: freezed == targetId
+          ? _value.targetId
+          : targetId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      params: null == params
+          ? _value._params
+          : params // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>,
+      readAt: freezed == readAt
+          ? _value.readAt
+          : readAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$AppNotificationImpl extends _AppNotification {
+  const _$AppNotificationImpl(
+      {required this.id,
+      @JsonKey(unknownEnumValue: NotificationType.unknown)
+      this.type = NotificationType.unknown,
+      this.targetId,
+      final Map<String, dynamic> params = const <String, dynamic>{},
+      this.readAt,
+      required this.createdAt})
+      : _params = params,
+        super._();
+
+  factory _$AppNotificationImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AppNotificationImplFromJson(json);
+
+  @override
+  final int id;
+  @override
+  @JsonKey(unknownEnumValue: NotificationType.unknown)
+  final NotificationType type;
+  @override
+  final int? targetId;
+  final Map<String, dynamic> _params;
+  @override
+  @JsonKey()
+  Map<String, dynamic> get params {
+    if (_params is EqualUnmodifiableMapView) return _params;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_params);
+  }
+
+  @override
+  final DateTime? readAt;
+  @override
+  final DateTime createdAt;
+
+  @override
+  String toString() {
+    return 'AppNotification(id: $id, type: $type, targetId: $targetId, params: $params, readAt: $readAt, createdAt: $createdAt)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$AppNotificationImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.targetId, targetId) ||
+                other.targetId == targetId) &&
+            const DeepCollectionEquality().equals(other._params, _params) &&
+            (identical(other.readAt, readAt) || other.readAt == readAt) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, type, targetId,
+      const DeepCollectionEquality().hash(_params), readAt, createdAt);
+
+  /// Create a copy of AppNotification
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$AppNotificationImplCopyWith<_$AppNotificationImpl> get copyWith =>
+      __$$AppNotificationImplCopyWithImpl<_$AppNotificationImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$AppNotificationImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _AppNotification extends AppNotification {
+  const factory _AppNotification(
+      {required final int id,
+      @JsonKey(unknownEnumValue: NotificationType.unknown)
+      final NotificationType type,
+      final int? targetId,
+      final Map<String, dynamic> params,
+      final DateTime? readAt,
+      required final DateTime createdAt}) = _$AppNotificationImpl;
+  const _AppNotification._() : super._();
+
+  factory _AppNotification.fromJson(Map<String, dynamic> json) =
+      _$AppNotificationImpl.fromJson;
+
+  @override
+  int get id;
+  @override
+  @JsonKey(unknownEnumValue: NotificationType.unknown)
+  NotificationType get type;
+  @override
+  int? get targetId;
+  @override
+  Map<String, dynamic> get params;
+  @override
+  DateTime? get readAt;
+  @override
+  DateTime get createdAt;
+
+  /// Create a copy of AppNotification
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$AppNotificationImplCopyWith<_$AppNotificationImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}

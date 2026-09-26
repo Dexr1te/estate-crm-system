@@ -18,6 +18,7 @@ import 'package:real_estate_crm/features/dashboard/domain/repositories/dashboard
 import 'package:real_estate_crm/features/deals/domain/repositories/deals_repository.dart';
 import 'package:real_estate_crm/features/documents/domain/repositories/documents_repository.dart';
 import 'package:real_estate_crm/features/meetings/domain/repositories/meetings_repository.dart';
+import 'package:real_estate_crm/features/notifications/domain/repositories/notifications_repository.dart';
 import 'package:real_estate_crm/features/properties/domain/repositories/properties_repository.dart';
 import 'package:real_estate_crm/features/tasks/domain/repositories/tasks_repository.dart';
 import 'package:real_estate_crm/features/teams/domain/repositories/teams_repository.dart';
@@ -852,5 +853,86 @@ class FakeTasksRepository implements TasksRepository {
   Future<void> deleteTask(int id) async {
     tasks = tasks.where((t) => t.id != id).toList();
     _changes.add(null);
+  }
+}
+
+class FakeNotificationsRepository implements NotificationsRepository {
+  List<AppNotification> items;
+
+  Object? readError;
+
+  int pageSize;
+
+  final List<int> markedRead = [];
+  int markAllCalls = 0;
+  int unreadCountCalls = 0;
+
+  final _counts = StreamController<int>.broadcast();
+  int _last = 0;
+
+  FakeNotificationsRepository([this.items = const [], this.pageSize = 20]);
+
+  int get _unread => items.where((n) => !n.isRead).length;
+
+  void _publish() {
+    _last = _unread;
+    _counts.add(_last);
+  }
+
+  @override
+  Stream<int> get unreadCounts => _counts.stream;
+
+  @override
+  int get lastUnreadCount => _last;
+
+  @override
+  Future<PagedResponse<AppNotification>> getNotifications({
+    int page = 0,
+    int size = 20,
+    bool unreadOnly = false,
+  }) async {
+    if (readError != null) throw readError!;
+    final all = unreadOnly ? items.where((n) => !n.isRead).toList() : items;
+    final from = page * pageSize;
+    final slice = all.skip(from).take(pageSize).toList();
+    return PagedResponse(
+      content: slice,
+      page: page,
+      totalPages: (all.length / pageSize).ceil(),
+      totalElements: all.length,
+      isLast: from + pageSize >= all.length,
+    );
+  }
+
+  @override
+  Future<int> refreshUnreadCount() async {
+    unreadCountCalls++;
+    _publish();
+    return _last;
+  }
+
+  @override
+  Future<AppNotification> markRead(int id) async {
+    markedRead.add(id);
+    final now = AppClock.now();
+    items = [
+      for (final n in items) n.id == id ? n.copyWith(readAt: now) : n,
+    ];
+    _publish();
+    return items.firstWhere((n) => n.id == id);
+  }
+
+  @override
+  Future<void> markAllRead() async {
+    markAllCalls++;
+    final now = AppClock.now();
+    items = [for (final n in items) n.isRead ? n : n.copyWith(readAt: now)];
+    _publish();
+  }
+
+  @override
+  void clear() {
+    _last = 0;
+    _counts.add(0);
   }
 }

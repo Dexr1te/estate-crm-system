@@ -1931,6 +1931,9 @@ class AppLocalizationsKk extends AppLocalizations {
   String get msgMemberRemoved => 'Агент командадан шығарылды';
 
   @override
+  String get msgNotificationsAllRead => 'Барлық хабарлама оқылды';
+
+  @override
   String get msgProfileUpdated => 'Профиль жаңартылды';
 
   @override
@@ -1995,6 +1998,118 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get msgUserDeleted => 'Пайдаланушы жойылды';
+
+  @override
+  String notificationsCountClients(int count) {
+    return '$count клиент';
+  }
+
+  @override
+  String notificationsCountDeals(int count) {
+    return '$count мәміле';
+  }
+
+  @override
+  String notificationsCountListings(int count) {
+    return '$count нысан';
+  }
+
+  @override
+  String notificationsCountMeetings(int count) {
+    return '$count кездесу';
+  }
+
+  @override
+  String notificationsCountTasks(int count) {
+    return '$count тапсырма';
+  }
+
+  @override
+  String notificationsDealStatus(String actor, String status, String title) {
+    return '$actor $title мәмілесін «$status» күйіне ауыстырды';
+  }
+
+  @override
+  String get notificationsEarlier => 'Бұрын';
+
+  @override
+  String get notificationsEmptyBody =>
+      'Сізге берілген тапсырмалар, сізге өткізілген клиенттер және сатып алушыларыңызға сай нысандар осында шығады.';
+
+  @override
+  String get notificationsEmptyTitle => 'Жаңа ештеңе жоқ';
+
+  @override
+  String notificationsFitsBuyers(int count, String names) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count сатып алушыға сай: $names',
+      one: 'Сай келеді: $names',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String notificationsHandedOver(int count, String from) {
+    return '$from сізге $count жазба өткізді';
+  }
+
+  @override
+  String notificationsJoinAccepted(String agent, String team) {
+    return '$agent $team агенттігіне қосылды';
+  }
+
+  @override
+  String notificationsJoinRequest(String actor, String team) {
+    return '$actor сізді $team агенттігіне шақырады';
+  }
+
+  @override
+  String get notificationsMarkAllRead => 'Барлығын оқу';
+
+  @override
+  String notificationsMoreNames(int count, String names) {
+    return '$names және тағы $count';
+  }
+
+  @override
+  String notificationsNewMatch(String title) {
+    return 'Сатып алушыларыңызға жаңа нысан: $title';
+  }
+
+  @override
+  String notificationsPriceDrop(String oldPrice, String price, String title) {
+    return '$title арзандады: $price, бұрын $oldPrice';
+  }
+
+  @override
+  String get notificationsSomeone => 'Біреу';
+
+  @override
+  String notificationsTaskAssigned(String actor, String title) {
+    return '$actor сізге тапсырма берді: $title';
+  }
+
+  @override
+  String get notificationsTitle => 'Хабарламалар';
+
+  @override
+  String get notificationsToday => 'Бүгін';
+
+  @override
+  String get notificationsUnknown => 'Жұмысыңызда өзгеріс болды';
+
+  @override
+  String notificationsUnreadLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count оқылмаған хабарлама',
+      zero: 'Оқылмаған хабарлама жоқ',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get profileAbout => 'Қолданба туралы';

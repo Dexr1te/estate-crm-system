@@ -1931,6 +1931,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get msgMemberRemoved => 'Agent removed from the team';
 
   @override
+  String get msgNotificationsAllRead => 'All caught up';
+
+  @override
   String get msgProfileUpdated => 'Profile updated';
 
   @override
@@ -1995,6 +1998,155 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get msgUserDeleted => 'User deleted';
+
+  @override
+  String notificationsCountClients(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count clients',
+      one: '1 client',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String notificationsCountDeals(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count deals',
+      one: '1 deal',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String notificationsCountListings(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count listings',
+      one: '1 listing',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String notificationsCountMeetings(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count meetings',
+      one: '1 meeting',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String notificationsCountTasks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count tasks',
+      one: '1 task',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String notificationsDealStatus(String actor, String status, String title) {
+    return '$actor moved $title to $status';
+  }
+
+  @override
+  String get notificationsEarlier => 'Earlier';
+
+  @override
+  String get notificationsEmptyBody =>
+      'A task someone gives you, clients handed to you or a listing that fits your buyers will show up here.';
+
+  @override
+  String get notificationsEmptyTitle => 'Nothing new';
+
+  @override
+  String notificationsFitsBuyers(int count, String names) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Fits $count buyers: $names',
+      one: 'Fits $names',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String notificationsHandedOver(int count, String from) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count records',
+      one: '1 record',
+    );
+    return '$from handed you $_temp0';
+  }
+
+  @override
+  String notificationsJoinAccepted(String agent, String team) {
+    return '$agent joined $team';
+  }
+
+  @override
+  String notificationsJoinRequest(String actor, String team) {
+    return '$actor invites you to join $team';
+  }
+
+  @override
+  String get notificationsMarkAllRead => 'Mark all read';
+
+  @override
+  String notificationsMoreNames(int count, String names) {
+    return '$names and $count more';
+  }
+
+  @override
+  String notificationsNewMatch(String title) {
+    return 'New listing for your buyers: $title';
+  }
+
+  @override
+  String notificationsPriceDrop(String oldPrice, String price, String title) {
+    return '$title is now $price, down from $oldPrice';
+  }
+
+  @override
+  String get notificationsSomeone => 'Someone';
+
+  @override
+  String notificationsTaskAssigned(String actor, String title) {
+    return '$actor gave you a task: $title';
+  }
+
+  @override
+  String get notificationsTitle => 'Notifications';
+
+  @override
+  String get notificationsToday => 'Today';
+
+  @override
+  String get notificationsUnknown => 'Something changed in your work';
+
+  @override
+  String notificationsUnreadLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count unread notifications',
+      one: '1 unread notification',
+      zero: 'No unread notifications',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get profileAbout => 'About';

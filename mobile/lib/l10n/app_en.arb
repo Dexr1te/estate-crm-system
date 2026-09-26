@@ -639,6 +639,7 @@
   "msgMeetingDeleted": "Meeting deleted",
   "msgMeetingUpdated": "Meeting updated",
   "msgMemberRemoved": "Agent removed from the team",
+  "msgNotificationsAllRead": "All caught up",
   "msgProfileUpdated": "Profile updated",
   "msgPropertyCreated": "Property created",
   "msgPropertyDeleted": "Property deleted",
@@ -661,6 +662,164 @@
   "msgUserActivated": "User activated",
   "msgUserDeactivated": "User deactivated",
   "msgUserDeleted": "User deleted",
+  "notificationsCountClients": "{count, plural, =1{1 client} other{{count} clients}}",
+  "@notificationsCountClients": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notificationsCountDeals": "{count, plural, =1{1 deal} other{{count} deals}}",
+  "@notificationsCountDeals": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notificationsCountListings": "{count, plural, =1{1 listing} other{{count} listings}}",
+  "@notificationsCountListings": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notificationsCountMeetings": "{count, plural, =1{1 meeting} other{{count} meetings}}",
+  "@notificationsCountMeetings": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notificationsCountTasks": "{count, plural, =1{1 task} other{{count} tasks}}",
+  "@notificationsCountTasks": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "notificationsDealStatus": "{actor} moved {title} to {status}",
+  "@notificationsDealStatus": {
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "status": {
+        "type": "String"
+      },
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsEarlier": "Earlier",
+  "notificationsEmptyBody": "A task someone gives you, clients handed to you or a listing that fits your buyers will show up here.",
+  "notificationsEmptyTitle": "Nothing new",
+  "notificationsFitsBuyers": "{count, plural, =1{Fits {names}} other{Fits {count} buyers: {names}}}",
+  "@notificationsFitsBuyers": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsHandedOver": "{from} handed you {count, plural, =1{1 record} other{{count} records}}",
+  "@notificationsHandedOver": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "from": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsJoinAccepted": "{agent} joined {team}",
+  "@notificationsJoinAccepted": {
+    "placeholders": {
+      "agent": {
+        "type": "String"
+      },
+      "team": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsJoinRequest": "{actor} invites you to join {team}",
+  "@notificationsJoinRequest": {
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "team": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsMarkAllRead": "Mark all read",
+  "notificationsMoreNames": "{names} and {count} more",
+  "@notificationsMoreNames": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsNewMatch": "New listing for your buyers: {title}",
+  "@notificationsNewMatch": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsPriceDrop": "{title} is now {price}, down from {oldPrice}",
+  "@notificationsPriceDrop": {
+    "placeholders": {
+      "oldPrice": {
+        "type": "String"
+      },
+      "price": {
+        "type": "String"
+      },
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsSomeone": "Someone",
+  "notificationsTaskAssigned": "{actor} gave you a task: {title}",
+  "@notificationsTaskAssigned": {
+    "placeholders": {
+      "actor": {
+        "type": "String"
+      },
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsTitle": "Notifications",
+  "notificationsToday": "Today",
+  "notificationsUnknown": "Something changed in your work",
+  "notificationsUnreadLabel": "{count, plural, =0{No unread notifications} =1{1 unread notification} other{{count} unread notifications}}",
+  "@notificationsUnreadLabel": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "profileAbout": "About",
   "profileAccount": "Account",
   "profileAgentId": "Agent ID",

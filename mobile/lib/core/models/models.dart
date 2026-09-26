@@ -408,3 +408,70 @@ class FunnelMonth with _$FunnelMonth {
   factory FunnelMonth.fromJson(Map<String, dynamic> json) =>
       _$FunnelMonthFromJson(json);
 }
+
+enum NotificationType {
+  @JsonValue('TASK_ASSIGNED')
+  taskAssigned,
+  @JsonValue('RECORDS_HANDED_OVER')
+  recordsHandedOver,
+  @JsonValue('JOIN_REQUEST')
+  joinRequest,
+  @JsonValue('JOIN_ACCEPTED')
+  joinAccepted,
+  @JsonValue('NEW_MATCH')
+  newMatch,
+  @JsonValue('PRICE_DROP_MATCH')
+  priceDropMatch,
+  @JsonValue('DEAL_STATUS_CHANGED')
+  dealStatusChanged,
+  unknown,
+}
+
+@freezed
+class AppNotification with _$AppNotification {
+  const AppNotification._();
+
+  const factory AppNotification({
+    required int id,
+    @JsonKey(unknownEnumValue: NotificationType.unknown)
+    @Default(NotificationType.unknown)
+    NotificationType type,
+    int? targetId,
+    @Default(<String, dynamic>{}) Map<String, dynamic> params,
+    DateTime? readAt,
+    required DateTime createdAt,
+  }) = _AppNotification;
+
+  bool get isRead => readAt != null;
+
+  String? text(String key) {
+    final value = params[key];
+    return value == null ? null : '$value';
+  }
+
+  int count(String key) {
+    final value = params[key];
+    if (value is num) return value.toInt();
+    return int.tryParse('${value ?? ''}') ?? 0;
+  }
+
+  double? amount(String key) {
+    final value = params[key];
+    if (value is num) return value.toDouble();
+    return double.tryParse('${value ?? ''}');
+  }
+
+  int? refId(String key) {
+    final value = params[key];
+    if (value is num) return value.toInt();
+    return int.tryParse('${value ?? ''}');
+  }
+
+  List<String> names(String key) {
+    final value = params[key];
+    return value is List ? value.map((e) => '$e').toList() : const [];
+  }
+
+  factory AppNotification.fromJson(Map<String, dynamic> json) =>
+      _$AppNotificationFromJson(json);
+}

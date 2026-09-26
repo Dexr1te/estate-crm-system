@@ -51,6 +51,7 @@ public class TaskService {
     private final UserRepository   userRepository;
     private final SecurityUtils    securityUtils;
     private final ScopeService     scopeService;
+    private final NotificationEvents notificationEvents;
 
     /**
      * Open tasks soonest first, so the overdue ones lead; finished ones most recently done first.
@@ -89,15 +90,23 @@ public class TaskService {
         Task task = new Task();
         task.setCreatedBy(currentUser);
         apply(request, task, currentUser);
-        return toResponse(taskRepository.save(task));
+        Task saved = taskRepository.save(task);
+        notificationEvents.taskAssigned(saved, currentUser);
+        return toResponse(saved);
     }
 
+    /** Handing the task to somebody else tells them; editing it where it stands does not. */
     @Transactional
     public TaskResponse update(Long id, TaskRequest request) {
         User currentUser = securityUtils.getCurrentUser();
         Task task = findVisibleById(id, currentUser);
+        Long previousAssigneeId = task.getAssignee().getId();
         apply(request, task, currentUser);
-        return toResponse(taskRepository.save(task));
+        Task saved = taskRepository.save(task);
+        if (!previousAssigneeId.equals(saved.getAssignee().getId())) {
+            notificationEvents.taskAssigned(saved, currentUser);
+        }
+        return toResponse(saved);
     }
 
     /** Completing a finished task again keeps the time it was first done. */

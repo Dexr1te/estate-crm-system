@@ -1947,6 +1947,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get msgMemberRemoved => 'Агент удалён из команды';
 
   @override
+  String get msgNotificationsAllRead => 'Все уведомления прочитаны';
+
+  @override
   String get msgProfileUpdated => 'Профиль обновлён';
 
   @override
@@ -2011,6 +2014,171 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get msgUserDeleted => 'Пользователь удалён';
+
+  @override
+  String notificationsCountClients(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count клиента',
+      many: '$count клиентов',
+      few: '$count клиента',
+      one: '$count клиент',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String notificationsCountDeals(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count сделки',
+      many: '$count сделок',
+      few: '$count сделки',
+      one: '$count сделка',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String notificationsCountListings(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count объекта',
+      many: '$count объектов',
+      few: '$count объекта',
+      one: '$count объект',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String notificationsCountMeetings(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count встречи',
+      many: '$count встреч',
+      few: '$count встречи',
+      one: '$count встреча',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String notificationsCountTasks(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count задачи',
+      many: '$count задач',
+      few: '$count задачи',
+      one: '$count задача',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String notificationsDealStatus(String actor, String status, String title) {
+    return '$actor перевёл сделку $title в статус «$status»';
+  }
+
+  @override
+  String get notificationsEarlier => 'Ранее';
+
+  @override
+  String get notificationsEmptyBody =>
+      'Здесь появятся задачи, которые вам поручили, переданные вам клиенты и объекты, подходящие вашим покупателям.';
+
+  @override
+  String get notificationsEmptyTitle => 'Ничего нового';
+
+  @override
+  String notificationsFitsBuyers(int count, String names) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Подходит $count покупателям: $names',
+      many: 'Подходит $count покупателям: $names',
+      few: 'Подходит $count покупателям: $names',
+      one: 'Подходит $count покупателю: $names',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String notificationsHandedOver(int count, String from) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count записи',
+      many: '$count записей',
+      few: '$count записи',
+      one: '$count запись',
+    );
+    return '$from передаёт вам $_temp0';
+  }
+
+  @override
+  String notificationsJoinAccepted(String agent, String team) {
+    return '$agent теперь в агентстве $team';
+  }
+
+  @override
+  String notificationsJoinRequest(String actor, String team) {
+    return '$actor приглашает вас в агентство $team';
+  }
+
+  @override
+  String get notificationsMarkAllRead => 'Прочитать все';
+
+  @override
+  String notificationsMoreNames(int count, String names) {
+    return '$names и ещё $count';
+  }
+
+  @override
+  String notificationsNewMatch(String title) {
+    return 'Новый объект для ваших покупателей: $title';
+  }
+
+  @override
+  String notificationsPriceDrop(String oldPrice, String price, String title) {
+    return '$title подешевел до $price, было $oldPrice';
+  }
+
+  @override
+  String get notificationsSomeone => 'Кто-то';
+
+  @override
+  String notificationsTaskAssigned(String actor, String title) {
+    return '$actor поручает вам задачу: $title';
+  }
+
+  @override
+  String get notificationsTitle => 'Уведомления';
+
+  @override
+  String get notificationsToday => 'Сегодня';
+
+  @override
+  String get notificationsUnknown => 'В вашей работе что-то изменилось';
+
+  @override
+  String notificationsUnreadLabel(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count непрочитанного уведомления',
+      many: '$count непрочитанных уведомлений',
+      few: '$count непрочитанных уведомления',
+      one: '$count непрочитанное уведомление',
+      zero: 'Нет непрочитанных уведомлений',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get profileAbout => 'О приложении';

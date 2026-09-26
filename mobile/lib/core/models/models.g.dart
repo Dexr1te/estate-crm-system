@@ -651,3 +651,41 @@ Map<String, dynamic> _$$FunnelMonthImplToJson(_$FunnelMonthImpl instance) =>
       'won': instance.won,
       'lost': instance.lost,
     };
+
+_$AppNotificationImpl _$$AppNotificationImplFromJson(
+        Map<String, dynamic> json) =>
+    _$AppNotificationImpl(
+      id: (json['id'] as num).toInt(),
+      type: $enumDecodeNullable(_$NotificationTypeEnumMap, json['type'],
+              unknownValue: NotificationType.unknown) ??
+          NotificationType.unknown,
+      targetId: (json['targetId'] as num?)?.toInt(),
+      params:
+          json['params'] as Map<String, dynamic>? ?? const <String, dynamic>{},
+      readAt: json['readAt'] == null
+          ? null
+          : DateTime.parse(json['readAt'] as String),
+      createdAt: DateTime.parse(json['createdAt'] as String),
+    );
+
+Map<String, dynamic> _$$AppNotificationImplToJson(
+        _$AppNotificationImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'type': _$NotificationTypeEnumMap[instance.type]!,
+      'targetId': instance.targetId,
+      'params': instance.params,
+      'readAt': instance.readAt?.toIso8601String(),
+      'createdAt': instance.createdAt.toIso8601String(),
+    };
+
+const _$NotificationTypeEnumMap = {
+  NotificationType.taskAssigned: 'TASK_ASSIGNED',
+  NotificationType.recordsHandedOver: 'RECORDS_HANDED_OVER',
+  NotificationType.joinRequest: 'JOIN_REQUEST',
+  NotificationType.joinAccepted: 'JOIN_ACCEPTED',
+  NotificationType.newMatch: 'NEW_MATCH',
+  NotificationType.priceDropMatch: 'PRICE_DROP_MATCH',
+  NotificationType.dealStatusChanged: 'DEAL_STATUS_CHANGED',
+  NotificationType.unknown: 'unknown',
+};

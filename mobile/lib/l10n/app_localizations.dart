@@ -3460,6 +3460,12 @@ abstract class AppLocalizations {
   /// **'Agent removed from the team'**
   String get msgMemberRemoved;
 
+  /// No description provided for @msgNotificationsAllRead.
+  ///
+  /// In en, this message translates to:
+  /// **'All caught up'**
+  String get msgNotificationsAllRead;
+
   /// No description provided for @msgProfileUpdated.
   ///
   /// In en, this message translates to:
@@ -3591,6 +3597,144 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'User deleted'**
   String get msgUserDeleted;
+
+  /// No description provided for @notificationsCountClients.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 client} other{{count} clients}}'**
+  String notificationsCountClients(int count);
+
+  /// No description provided for @notificationsCountDeals.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 deal} other{{count} deals}}'**
+  String notificationsCountDeals(int count);
+
+  /// No description provided for @notificationsCountListings.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 listing} other{{count} listings}}'**
+  String notificationsCountListings(int count);
+
+  /// No description provided for @notificationsCountMeetings.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 meeting} other{{count} meetings}}'**
+  String notificationsCountMeetings(int count);
+
+  /// No description provided for @notificationsCountTasks.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 task} other{{count} tasks}}'**
+  String notificationsCountTasks(int count);
+
+  /// No description provided for @notificationsDealStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} moved {title} to {status}'**
+  String notificationsDealStatus(String actor, String status, String title);
+
+  /// No description provided for @notificationsEarlier.
+  ///
+  /// In en, this message translates to:
+  /// **'Earlier'**
+  String get notificationsEarlier;
+
+  /// No description provided for @notificationsEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'A task someone gives you, clients handed to you or a listing that fits your buyers will show up here.'**
+  String get notificationsEmptyBody;
+
+  /// No description provided for @notificationsEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing new'**
+  String get notificationsEmptyTitle;
+
+  /// No description provided for @notificationsFitsBuyers.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Fits {names}} other{Fits {count} buyers: {names}}}'**
+  String notificationsFitsBuyers(int count, String names);
+
+  /// No description provided for @notificationsHandedOver.
+  ///
+  /// In en, this message translates to:
+  /// **'{from} handed you {count, plural, =1{1 record} other{{count} records}}'**
+  String notificationsHandedOver(int count, String from);
+
+  /// No description provided for @notificationsJoinAccepted.
+  ///
+  /// In en, this message translates to:
+  /// **'{agent} joined {team}'**
+  String notificationsJoinAccepted(String agent, String team);
+
+  /// No description provided for @notificationsJoinRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} invites you to join {team}'**
+  String notificationsJoinRequest(String actor, String team);
+
+  /// No description provided for @notificationsMarkAllRead.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark all read'**
+  String get notificationsMarkAllRead;
+
+  /// No description provided for @notificationsMoreNames.
+  ///
+  /// In en, this message translates to:
+  /// **'{names} and {count} more'**
+  String notificationsMoreNames(int count, String names);
+
+  /// No description provided for @notificationsNewMatch.
+  ///
+  /// In en, this message translates to:
+  /// **'New listing for your buyers: {title}'**
+  String notificationsNewMatch(String title);
+
+  /// No description provided for @notificationsPriceDrop.
+  ///
+  /// In en, this message translates to:
+  /// **'{title} is now {price}, down from {oldPrice}'**
+  String notificationsPriceDrop(String oldPrice, String price, String title);
+
+  /// No description provided for @notificationsSomeone.
+  ///
+  /// In en, this message translates to:
+  /// **'Someone'**
+  String get notificationsSomeone;
+
+  /// No description provided for @notificationsTaskAssigned.
+  ///
+  /// In en, this message translates to:
+  /// **'{actor} gave you a task: {title}'**
+  String notificationsTaskAssigned(String actor, String title);
+
+  /// No description provided for @notificationsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get notificationsTitle;
+
+  /// No description provided for @notificationsToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get notificationsToday;
+
+  /// No description provided for @notificationsUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Something changed in your work'**
+  String get notificationsUnknown;
+
+  /// No description provided for @notificationsUnreadLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No unread notifications} =1{1 unread notification} other{{count} unread notifications}}'**
+  String notificationsUnreadLabel(int count);
 
   /// No description provided for @profileAbout.
   ///
