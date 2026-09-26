@@ -1,4 +1,8 @@
 import 'dart:async';
+import 'dart:typed_data';
+
+import 'package:flutter/widgets.dart';
+import 'package:flutter_map/flutter_map.dart';
 
 import 'package:real_estate_crm/core/models/admin_models.dart';
 import 'package:real_estate_crm/core/models/document_models.dart';
@@ -21,6 +25,7 @@ import 'package:real_estate_crm/features/documents/domain/repositories/documents
 import 'package:real_estate_crm/features/imports/domain/repositories/imports_repository.dart';
 import 'package:real_estate_crm/features/meetings/domain/repositories/meetings_repository.dart';
 import 'package:real_estate_crm/features/notifications/domain/repositories/notifications_repository.dart';
+import 'package:real_estate_crm/features/properties/domain/map_area.dart';
 import 'package:real_estate_crm/features/properties/domain/repositories/properties_repository.dart';
 import 'package:real_estate_crm/features/tasks/domain/repositories/tasks_repository.dart';
 import 'package:real_estate_crm/features/teams/domain/repositories/teams_repository.dart';
@@ -489,6 +494,67 @@ class FakePropertiesRepository implements PropertiesRepository {
     );
   }
 
+  /// Every rectangle the map asked for, in order, with the status filter it
+  /// was asked under.
+  final List<MapArea> areaRequests = [];
+  final List<PropertyStatus?> areaStatuses = [];
+
+  @override
+  Future<PagedResponse<PropertyResponse>> getPropertiesInArea(
+    MapArea area, {
+    PropertyStatus? status,
+    PropertyType? type,
+    String? search,
+    int size = 200,
+  }) async {
+    areaRequests.add(area);
+    areaStatuses.add(status);
+    final inside = properties
+        .where((p) => p.latitude != null && p.longitude != null)
+        .where((p) => p.latitude! >= area.south && p.latitude! <= area.north)
+        .where((p) => area.west <= area.east
+            ? p.longitude! >= area.west && p.longitude! <= area.east
+            : p.longitude! >= area.west || p.longitude! <= area.east)
+        .where((p) => status == null || p.status == status)
+        .where((p) => type == null || p.type == type)
+        .where((p) => _matches(p, search))
+        .take(size)
+        .toList();
+    return PagedResponse(
+      content: inside,
+      page: 0,
+      totalPages: 1,
+      totalElements: inside.length,
+      isLast: true,
+    );
+  }
+
+  @override
+  Future<PagedResponse<PropertyResponse>> getPropertiesWithoutLocation({
+    PropertyStatus? status,
+    PropertyType? type,
+    String? search,
+    int page = 0,
+    int size = 20,
+  }) async {
+    final unpinned = properties
+        .where((p) => p.latitude == null || p.longitude == null)
+        .where((p) => status == null || p.status == status)
+        .where((p) => type == null || p.type == type)
+        .where((p) => _matches(p, search))
+        .toList();
+    return PagedResponse(
+      content: unpinned,
+      page: 0,
+      totalPages: 1,
+      totalElements: unpinned.length,
+      isLast: true,
+    );
+  }
+
+  /// What the form last sent, create or update, keyed `create`/`update-<id>`.
+  final Map<String, Map<String, dynamic>> sent = {};
+
   static bool _matches(PropertyResponse p, String? search) {
     if (search == null || search.trim().isEmpty) return true;
     final q = search.trim().toLowerCase();
@@ -503,11 +569,18 @@ class FakePropertiesRepository implements PropertiesRepository {
   Future<PropertyResponse> getProperty(int id) async =>
       properties.firstWhere((p) => p.id == id);
   @override
-  Future<PropertyResponse> createProperty(Map<String, dynamic> data) =>
-      throw UnimplementedError();
+  Future<PropertyResponse> createProperty(Map<String, dynamic> data) async {
+    sent['create'] = data;
+    return PropertyResponse.fromJson({...data, 'id': 900 + sent.length});
+  }
+
   @override
-  Future<PropertyResponse> updateProperty(int id, Map<String, dynamic> data) =>
-      throw UnimplementedError();
+  Future<PropertyResponse> updateProperty(
+      int id, Map<String, dynamic> data) async {
+    sent['update-$id'] = data;
+    return PropertyResponse.fromJson({...data, 'id': id});
+  }
+
   @override
   Future<PropertyResponse> updatePropertyStatus(
           int id, PropertyStatus status) =>
@@ -1082,5 +1155,27 @@ class FakeImportsRepository implements ImportsRepository {
     if (failure != null) throw failure!;
     templates.add('${kind.path}/$lang');
     return templateBytes;
+  }
+}
+
+/// Tiles that draw nothing, so no test fetches a map picture from the
+/// network. Counts what it was asked for, which proves a map was drawn.
+class BlankTileProvider extends TileProvider {
+  static int requests = 0;
+
+  /// A 1x1 transparent PNG.
+  static final _png = Uint8List.fromList(const [
+    0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A, 0x00, 0x00, 0x00, 0x0D, //
+    0x49, 0x48, 0x44, 0x52, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00, 0x01,
+    0x08, 0x06, 0x00, 0x00, 0x00, 0x1F, 0x15, 0xC4, 0x89, 0x00, 0x00, 0x00,
+    0x0A, 0x49, 0x44, 0x41, 0x54, 0x78, 0x9C, 0x63, 0x00, 0x01, 0x00, 0x00,
+    0x05, 0x00, 0x01, 0x0D, 0x0A, 0x2D, 0xB4, 0x00, 0x00, 0x00, 0x00, 0x49,
+    0x45, 0x4E, 0x44, 0xAE, 0x42, 0x60, 0x82,
+  ]);
+
+  @override
+  ImageProvider getImage(TileCoordinates coordinates, TileLayer options) {
+    requests++;
+    return MemoryImage(_png);
   }
 }

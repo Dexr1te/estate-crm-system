@@ -1126,6 +1126,29 @@
     }
   },
   "propertiesLocation": "Location",
+  "propertiesMapCapped": "Showing {count} — zoom in to see the rest",
+  "@propertiesMapCapped": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "propertiesMapEmpty": "No listings in this area",
+  "propertiesMapLoading": "Loading listings",
+  "propertiesMapPin": "Pin on the map",
+  "propertiesMapPinClear": "Remove pin",
+  "propertiesMapPinHint": "Tap the map to drop a pin, drag it to adjust",
+  "propertiesMapUnpinned": "{count, plural, =1{1 listing has no location} other{{count} listings have no location}}",
+  "@propertiesMapUnpinned": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "propertiesMapUnpinnedHint": "Open a listing, choose Edit and drop a pin to show it on the map.",
+  "propertiesMapUnpinnedTitle": "Not on the map",
   "propertiesNewProperty": "New Property",
   "propertiesNextDetails": "Next — details",
   "propertiesNoInterested": "No buyer has asked for anything like this yet",
@@ -1133,6 +1156,8 @@
   "propertiesNoProperties": "No properties",
   "propertiesNoResultsSubtitle": "Try a different search or filter",
   "propertiesNoViewings": "This listing has not been shown yet",
+  "propertiesOpenInMaps": "Open in Maps",
+  "propertiesOpenInMapsFailed": "Could not open a maps app",
   "propertiesPhotoCount": "{count, plural, =1{1 photo} other{{count} photos}}",
   "propertiesPhotoDelete": "Remove photo",
   "propertiesPhotoDeleteConfirm": "Remove this photo from the listing?",
@@ -1184,6 +1209,8 @@
   "propertiesTypeAndStatus": "Type & Status",
   "propertiesUpdateProperty": "Update Property",
   "propertiesUpdateStatus": "Update Status",
+  "propertiesViewList": "List",
+  "propertiesViewMap": "Map",
   "propertiesViewings": "Viewings",
   "remindersBody": "Starts at {time}",
   "remindersBodyWithClient": "Starts at {time} with {client}",

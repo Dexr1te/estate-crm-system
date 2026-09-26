@@ -1,6 +1,7 @@
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/models/paged_response.dart';
 import 'package:real_estate_crm/features/properties/data/datasources/properties_remote_datasource.dart';
+import 'package:real_estate_crm/features/properties/domain/map_area.dart';
 import 'package:real_estate_crm/features/properties/domain/repositories/properties_repository.dart';
 
 class PropertiesRepositoryImpl implements PropertiesRepository {
@@ -28,6 +29,28 @@ class PropertiesRepositoryImpl implements PropertiesRepository {
         page: page,
         size: size,
       );
+
+  @override
+  Future<PagedResponse<PropertyResponse>> getPropertiesInArea(
+    MapArea area, {
+    PropertyStatus? status,
+    PropertyType? type,
+    String? search,
+    int size = 200,
+  }) =>
+      _remote.getPropertiesInArea(area,
+          status: status, type: type, search: search, size: size);
+
+  @override
+  Future<PagedResponse<PropertyResponse>> getPropertiesWithoutLocation({
+    PropertyStatus? status,
+    PropertyType? type,
+    String? search,
+    int page = 0,
+    int size = 20,
+  }) =>
+      _remote.getPropertiesWithoutLocation(
+          status: status, type: type, search: search, page: page, size: size);
 
   @override
   Future<List<PropertyResponse>> getAllProperties() =>

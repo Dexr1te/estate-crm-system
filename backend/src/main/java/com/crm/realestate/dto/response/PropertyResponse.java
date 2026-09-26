@@ -21,6 +21,9 @@ public class PropertyResponse {
     private Integer rooms;
     private Integer floor;
     private Integer totalFloors;
+    /** Degrees (WGS 84); both null when the listing has not been put on the map. */
+    private Double latitude;
+    private Double longitude;
     private Long agentId;
     private String agentName;
     private LocalDateTime createdAt;

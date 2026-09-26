@@ -2891,6 +2891,45 @@ class AppLocalizationsRu extends AppLocalizations {
   String get propertiesLocation => 'Расположение';
 
   @override
+  String propertiesMapCapped(int count) {
+    return 'Показано $count — приблизьте карту, чтобы увидеть остальные';
+  }
+
+  @override
+  String get propertiesMapEmpty => 'В этой части карты нет объектов';
+
+  @override
+  String get propertiesMapLoading => 'Загружаем объекты';
+
+  @override
+  String get propertiesMapPin => 'Точка на карте';
+
+  @override
+  String get propertiesMapPinClear => 'Убрать точку';
+
+  @override
+  String get propertiesMapPinHint =>
+      'Нажмите на карту, чтобы поставить точку, и перетащите её для точности';
+
+  @override
+  String propertiesMapUnpinned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'У $count объектов нет точки на карте',
+      one: 'У $count объекта нет точки на карте',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get propertiesMapUnpinnedHint =>
+      'Откройте объект, нажмите «Изменить» и поставьте точку — он появится на карте.';
+
+  @override
+  String get propertiesMapUnpinnedTitle => 'Нет на карте';
+
+  @override
   String get propertiesNewProperty => 'Новый объект';
 
   @override
@@ -2910,6 +2949,12 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get propertiesNoViewings => 'Этот объект ещё не показывали';
+
+  @override
+  String get propertiesOpenInMaps => 'Открыть в картах';
+
+  @override
+  String get propertiesOpenInMapsFailed => 'Не удалось открыть карты';
 
   @override
   String propertiesPhotoCount(num count) {
@@ -3025,6 +3070,12 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get propertiesUpdateStatus => 'Обновить статус';
+
+  @override
+  String get propertiesViewList => 'Список';
+
+  @override
+  String get propertiesViewMap => 'Карта';
 
   @override
   String get propertiesViewings => 'Показы';
