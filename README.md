@@ -260,6 +260,27 @@ The API runs on Render at `https://estate-crm-system.onrender.com/api`, from the
   be built, measured at well over a minute. The app retries that first request
   once on a 90-second budget rather than reporting the network as down.
 
+### Migrations that land out of order
+
+Branches claim the next free migration number when they are written and merge
+when they are reviewed, so a lower version can reach production after a higher
+one — `V31` was applied before `V30`. By default Flyway treats that as an
+error and the API does not start. `spring.flyway.out-of-order` is on, so a
+version below the current highest is applied on the next start instead;
+checksums are still validated on migrate. Migrations therefore must not depend
+on a higher-numbered migration having run first.
+
+If a database is stuck from before this setting, where Flyway refused a
+lower version, no `flyway repair` is needed: deploy, and the missing
+migration is applied on start. To confirm, run
+
+```sql
+select version, success from flyway_schema_history order by installed_rank;
+```
+
+and check every version is present with `success = true`; the out-of-order
+one sits later in `installed_rank` than its number suggests.
+
 The web client deploys to Vercel and reads `VITE_API_URL` from its environment.
 
 ---

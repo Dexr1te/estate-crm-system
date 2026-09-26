@@ -5,6 +5,8 @@ import 'package:real_estate_crm/features/properties/presentation/widgets/propert
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_price_history.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
+const double _coverSize = 44;
+
 class PropertyCard extends StatelessWidget {
   final PropertyResponse property;
   final VoidCallback onTap;
@@ -22,44 +24,61 @@ class PropertyCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              PropertyCover.of(property, size: 44),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      property.title,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          fontFamily: AppFonts.sans,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: t.textPrimary),
-                    ),
-                    if (property.address.isNotEmpty) ...[
-                      const SizedBox(height: 3),
+          LayoutBuilder(builder: (context, constraints) {
+            // Beside the title the chip is fixed-width, so a long status
+            // (ru "Забронирован") at large text can leave the title nothing
+            // or push past the edge. Past 40% of the room it drops under
+            // the address instead, and the title keeps the full line.
+            final room = constraints.maxWidth - _coverSize - 12;
+            final chip = PropertyStatusChip(status: property.status);
+            final chipBelow = StatusChip.widthOf(
+                    context, propertyStatusLabel(l10n, property.status)) >
+                room * 0.4;
+            return Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                PropertyCover.of(property, size: _coverSize),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                       Text(
-                        property.address,
+                        property.title,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontFamily: AppFonts.sans,
-                            fontSize: 11.5,
-                            color: t.textSecondary),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: t.textPrimary),
                       ),
+                      if (property.address.isNotEmpty) ...[
+                        const SizedBox(height: 3),
+                        Text(
+                          property.address,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontFamily: AppFonts.sans,
+                              fontSize: 11.5,
+                              color: t.textSecondary),
+                        ),
+                      ],
+                      if (chipBelow) ...[
+                        const SizedBox(height: 6),
+                        chip,
+                      ],
                     ],
-                  ],
+                  ),
                 ),
-              ),
-              const SizedBox(width: 8),
-              PropertyStatusChip(status: property.status),
-            ],
-          ),
+                if (!chipBelow) ...[
+                  const SizedBox(width: 8),
+                  chip,
+                ],
+              ],
+            );
+          }),
           Padding(
             padding: const EdgeInsets.only(top: 11, bottom: 10),
             child: Container(height: 1, color: t.border),

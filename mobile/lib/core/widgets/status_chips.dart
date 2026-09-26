@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/theme/app_metrics.dart';
 import 'package:real_estate_crm/core/theme/app_tokens.dart';
+import 'package:real_estate_crm/core/widgets/text_measure.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class StatusChip extends StatelessWidget {
@@ -9,11 +10,22 @@ class StatusChip extends StatelessWidget {
   final StatusHue hue;
   const StatusChip({super.key, required this.label, required this.hue});
 
+  static const _padding = EdgeInsets.symmetric(horizontal: 9, vertical: 4);
+  static const _style = TextStyle(
+    fontFamily: AppFonts.sans,
+    fontSize: 10,
+    fontWeight: FontWeight.w600,
+  );
+
+  /// The width a chip reading [label] takes at [context]'s text scale.
+  static double widthOf(BuildContext context, String label) =>
+      singleLineTextWidth(context, label, _style) + _padding.horizontal;
+
   @override
   Widget build(BuildContext context) {
     final p = StatusPalette.resolve(context.tokens, hue);
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
+      padding: _padding,
       decoration: BoxDecoration(
         color: p.fill,
         borderRadius: BorderRadius.circular(AppMetrics.radiusPill),
@@ -22,12 +34,7 @@ class StatusChip extends StatelessWidget {
         label,
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
-        style: TextStyle(
-          fontFamily: AppFonts.sans,
-          fontSize: 10,
-          fontWeight: FontWeight.w600,
-          color: p.label,
-        ),
+        style: _style.copyWith(color: p.label),
       ),
     );
   }

@@ -102,7 +102,7 @@ void main() {
         _clientsScreen(clients: _clients, details: _details),
         size: const Size(320, 568),
         brightness: Brightness.dark,
-        textScale: 1.3,
+        textScale: 1.5,
         locale: locale,
       );
       await tester.pumpAndSettle();

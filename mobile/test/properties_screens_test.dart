@@ -146,7 +146,7 @@ void main() {
           _wrap(screen),
           size: const Size(320, 568),
           brightness: Brightness.dark,
-          textScale: 1.3,
+          textScale: 1.5,
           locale: locale,
         );
         await tester.pumpAndSettle();

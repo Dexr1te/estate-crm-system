@@ -157,7 +157,7 @@ void main() {
       testWidgets('${entry.key} renders in ${locale.languageCode}',
           (tester) async {
         await entry.value(
-            tester, const Size(320, 568), Brightness.dark, 1.3, locale);
+            tester, const Size(320, 568), Brightness.dark, 1.5, locale);
       });
     }
   }
