@@ -21,5 +21,9 @@ public enum NotificationType {
     /** A listing that fits one of your buyers got cheaper. Target: the listing. */
     PRICE_DROP_MATCH,
     /** Somebody else moved one of your deals. Target: the deal. */
-    DEAL_STATUS_CHANGED
+    DEAL_STATUS_CHANGED,
+    /** Somebody @mentioned you in a deal's discussion. Target: the deal. */
+    DEAL_MENTION,
+    /** Somebody else commented on one of your deals without mentioning you. Target: the deal. */
+    DEAL_COMMENT
 }

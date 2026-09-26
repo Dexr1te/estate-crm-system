@@ -14,6 +14,8 @@ import 'fakes.dart';
 Future<void> testExecutable(FutureOr<void> Function() testMain) async {
   Injector.tasksRepository = FakeTasksRepository();
   Injector.notificationsRepository = FakeNotificationsRepository();
+  // Every deal detail carries its discussion card, which reads on its own.
+  Injector.dealCommentsRepository = FakeDealCommentsRepository();
   Injector.notificationsPollInterval = null;
   // Maps draw blank tiles: no test reaches OpenStreetMap.
   MapTiles.provider = BlankTileProvider.new;

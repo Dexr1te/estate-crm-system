@@ -545,6 +545,29 @@
   "dealsClient": "Client",
   "dealsClientRef": "Client #{id}",
   "dealsClosed": "Closed",
+  "dealsCommentCount": "{count, plural, =1{1 comment} other{{count} comments}}",
+  "@dealsCommentCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dealsCommentDelete": "Delete comment",
+  "dealsCommentDeleteBody": "It disappears for everyone on this deal.",
+  "dealsCommentDeleteTitle": "Delete this comment?",
+  "dealsCommentEdit": "Edit comment",
+  "dealsCommentEdited": "edited",
+  "dealsCommentHint": "Write a comment…",
+  "dealsCommentJustNow": "just now",
+  "dealsCommentLess": "Show less",
+  "dealsCommentMentionLoadFailed": "Couldn't load colleagues",
+  "dealsCommentMentionNone": "Nobody else can see this deal",
+  "dealsCommentMentionNotAllowed": "Only colleagues who can see this deal can be mentioned",
+  "dealsCommentMentionTitle": "Mention a colleague",
+  "dealsCommentMore": "Show more",
+  "dealsCommentSend": "Send",
+  "dealsCommentSending": "Sending…",
   "dealsCommission": "Commission",
   "dealsCommissionAmount": "Amount",
   "dealsCommissionInvalid": "Enter a rate above 0 and no more than 100",
@@ -559,6 +582,11 @@
   "dealsDeleteConfirm": "Delete \"{title}\"?",
   "dealsDeleteTitle": "Delete Deal",
   "dealsDetails": "Details",
+  "dealsDiscussion": "Discussion",
+  "dealsDiscussionEmpty": "No comments yet",
+  "dealsDiscussionEmptyHint": "Keep the conversation about this deal here. Type @ to bring in a colleague.",
+  "dealsDiscussionLoadFailed": "Couldn't load the discussion",
+  "dealsDiscussionShowEarlier": "Show earlier",
   "dealsEditTitle": "Edit Deal",
   "dealsEmptySubtitle": "Start your pipeline",
   "dealsEmptyTitle": "No deals",
@@ -821,6 +849,8 @@
   "msgClientUpdated": "Client updated",
   "msgClientsMerged": "Cards merged",
   "msgCodeSent": "Code sent",
+  "msgCommentDeleted": "Comment deleted",
+  "msgCommentUpdated": "Comment updated",
   "msgDealCreated": "Deal created",
   "msgDealDeleted": "Deal deleted",
   "msgDealUpdated": "Deal updated",
@@ -892,6 +922,28 @@
     "placeholders": {
       "count": {
         "type": "int"
+      }
+    }
+  },
+  "notificationsDealComment": "{author} commented on {title}",
+  "@notificationsDealComment": {
+    "placeholders": {
+      "author": {
+        "type": "String"
+      },
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsDealMention": "{author} mentioned you in {title}",
+  "@notificationsDealMention": {
+    "placeholders": {
+      "author": {
+        "type": "String"
+      },
+      "title": {
+        "type": "String"
       }
     }
   },

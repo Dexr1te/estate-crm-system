@@ -81,6 +81,10 @@ class DealCard extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                     color: t.textPrimary),
               ),
+              if (deal.commentCount > 0) ...[
+                const SizedBox(width: 10),
+                CommentCountBadge(count: deal.commentCount),
+              ],
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
@@ -117,6 +121,40 @@ class DealCard extends StatelessWidget {
     if (last == null) return null;
     final days = AppClock.now().difference(last).inDays;
     return days >= staleAfter.inDays ? days : null;
+  }
+}
+
+/// How much has been said on a deal, shown on its card once anything has.
+class CommentCountBadge extends StatelessWidget {
+  final int count;
+  const CommentCountBadge({super.key, required this.count});
+
+  @override
+  Widget build(BuildContext context) {
+    final t = context.tokens;
+    return Semantics(
+      label: AppLocalizations.of(context).dealsCommentCount(count),
+      excludeSemantics: true,
+      child: Row(
+        key: const ValueKey('deal-comment-count'),
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.chat_bubble_outline_rounded,
+              size: 12.5, color: t.textSecondary),
+          const SizedBox(width: 3),
+          Text(
+            count > 99 ? '99+' : '$count',
+            maxLines: 1,
+            overflow: TextOverflow.clip,
+            style: TextStyle(
+                fontFamily: AppFonts.sans,
+                fontSize: 11,
+                fontWeight: FontWeight.w600,
+                color: t.textSecondary),
+          ),
+        ],
+      ),
+    );
   }
 }
 

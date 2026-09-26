@@ -294,10 +294,53 @@ class DealResponse with _$DealResponse {
     DateTime? createdAt,
     DateTime? updatedAt,
     DateTime? closedAt,
+    @Default(0) int commentCount,
   }) = _DealResponse;
 
   factory DealResponse.fromJson(Map<String, dynamic> json) =>
       _$DealResponseFromJson(json);
+}
+
+/// One line in the discussion on a deal.
+@freezed
+class DealComment with _$DealComment {
+  const factory DealComment({
+    required int id,
+    required int dealId,
+    @Default('') String body,
+    int? authorId,
+    String? authorName,
+    required DateTime createdAt,
+    DateTime? editedAt,
+    @Default(<CommentMention>[]) List<CommentMention> mentions,
+  }) = _DealComment;
+
+  factory DealComment.fromJson(Map<String, dynamic> json) =>
+      _$DealCommentFromJson(json);
+}
+
+/// Somebody a comment @mentions: enough to highlight the name in the text.
+@freezed
+class CommentMention with _$CommentMention {
+  const factory CommentMention({
+    required int id,
+    @Default('') String fullName,
+  }) = _CommentMention;
+
+  factory CommentMention.fromJson(Map<String, dynamic> json) =>
+      _$CommentMentionFromJson(json);
+}
+
+/// A stretch of a deal's discussion, oldest first, and whether more is above.
+@freezed
+class DealCommentPage with _$DealCommentPage {
+  const factory DealCommentPage({
+    @Default(<DealComment>[]) List<DealComment> comments,
+    @Default(false) bool hasEarlier,
+  }) = _DealCommentPage;
+
+  factory DealCommentPage.fromJson(Map<String, dynamic> json) =>
+      _$DealCommentPageFromJson(json);
 }
 
 @freezed
@@ -460,6 +503,10 @@ enum NotificationType {
   priceDropMatch,
   @JsonValue('DEAL_STATUS_CHANGED')
   dealStatusChanged,
+  @JsonValue('DEAL_MENTION')
+  dealMention,
+  @JsonValue('DEAL_COMMENT')
+  dealComment,
   unknown,
 }
 

@@ -1521,6 +1521,66 @@ class AppLocalizationsRu extends AppLocalizations {
   String get dealsClosed => 'Закрыта';
 
   @override
+  String dealsCommentCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count комментария',
+      many: '$count комментариев',
+      few: '$count комментария',
+      one: '$count комментарий',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get dealsCommentDelete => 'Удалить комментарий';
+
+  @override
+  String get dealsCommentDeleteBody =>
+      'Он исчезнет у всех, кто работает со сделкой.';
+
+  @override
+  String get dealsCommentDeleteTitle => 'Удалить этот комментарий?';
+
+  @override
+  String get dealsCommentEdit => 'Изменить комментарий';
+
+  @override
+  String get dealsCommentEdited => 'изменено';
+
+  @override
+  String get dealsCommentHint => 'Напишите комментарий…';
+
+  @override
+  String get dealsCommentJustNow => 'только что';
+
+  @override
+  String get dealsCommentLess => 'Свернуть';
+
+  @override
+  String get dealsCommentMentionLoadFailed => 'Не удалось загрузить коллег';
+
+  @override
+  String get dealsCommentMentionNone => 'Кроме вас, эту сделку никто не видит';
+
+  @override
+  String get dealsCommentMentionNotAllowed =>
+      'Упомянуть можно только коллег, которые видят эту сделку';
+
+  @override
+  String get dealsCommentMentionTitle => 'Упомянуть коллегу';
+
+  @override
+  String get dealsCommentMore => 'Показать полностью';
+
+  @override
+  String get dealsCommentSend => 'Отправить';
+
+  @override
+  String get dealsCommentSending => 'Отправляется…';
+
+  @override
   String get dealsCommission => 'Комиссия';
 
   @override
@@ -1568,6 +1628,22 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get dealsDetails => 'Детали';
+
+  @override
+  String get dealsDiscussion => 'Обсуждение';
+
+  @override
+  String get dealsDiscussionEmpty => 'Комментариев пока нет';
+
+  @override
+  String get dealsDiscussionEmptyHint =>
+      'Обсуждайте сделку здесь, а не в мессенджере. Наберите @, чтобы позвать коллегу.';
+
+  @override
+  String get dealsDiscussionLoadFailed => 'Не удалось загрузить обсуждение';
+
+  @override
+  String get dealsDiscussionShowEarlier => 'Показать предыдущие';
 
   @override
   String get dealsEditTitle => 'Редактировать сделку';
@@ -2325,6 +2401,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get msgCodeSent => 'Код отправлен';
 
   @override
+  String get msgCommentDeleted => 'Комментарий удалён';
+
+  @override
+  String get msgCommentUpdated => 'Комментарий изменён';
+
+  @override
   String get msgDealCreated => 'Сделка создана';
 
   @override
@@ -2489,6 +2571,16 @@ class AppLocalizationsRu extends AppLocalizations {
       one: '$count задача',
     );
     return '$_temp0';
+  }
+
+  @override
+  String notificationsDealComment(String author, String title) {
+    return '$author оставляет комментарий к сделке $title';
+  }
+
+  @override
+  String notificationsDealMention(String author, String title) {
+    return '$author упоминает вас в сделке $title';
   }
 
   @override

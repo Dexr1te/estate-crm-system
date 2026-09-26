@@ -1504,6 +1504,60 @@ class AppLocalizationsKk extends AppLocalizations {
   String get dealsClosed => 'Жабылды';
 
   @override
+  String dealsCommentCount(int count) {
+    return '$count пікір';
+  }
+
+  @override
+  String get dealsCommentDelete => 'Пікірді жою';
+
+  @override
+  String get dealsCommentDeleteBody =>
+      'Ол осы мәмілемен жұмыс істейтін барлық адамнан жойылады.';
+
+  @override
+  String get dealsCommentDeleteTitle => 'Бұл пікірді жою керек пе?';
+
+  @override
+  String get dealsCommentEdit => 'Пікірді өзгерту';
+
+  @override
+  String get dealsCommentEdited => 'өзгертілді';
+
+  @override
+  String get dealsCommentHint => 'Пікір жазыңыз…';
+
+  @override
+  String get dealsCommentJustNow => 'жаңа ғана';
+
+  @override
+  String get dealsCommentLess => 'Жасыру';
+
+  @override
+  String get dealsCommentMentionLoadFailed =>
+      'Әріптестерді жүктеу мүмкін болмады';
+
+  @override
+  String get dealsCommentMentionNone =>
+      'Бұл мәмілені сізден басқа ешкім көрмейді';
+
+  @override
+  String get dealsCommentMentionNotAllowed =>
+      'Тек осы мәмілені көре алатын әріптестерді атауға болады';
+
+  @override
+  String get dealsCommentMentionTitle => 'Әріптесті атау';
+
+  @override
+  String get dealsCommentMore => 'Толығырақ';
+
+  @override
+  String get dealsCommentSend => 'Жіберу';
+
+  @override
+  String get dealsCommentSending => 'Жіберілуде…';
+
+  @override
   String get dealsCommission => 'Комиссия';
 
   @override
@@ -1552,6 +1606,22 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get dealsDetails => 'Мәліметтер';
+
+  @override
+  String get dealsDiscussion => 'Талқылау';
+
+  @override
+  String get dealsDiscussionEmpty => 'Әзірге пікір жоқ';
+
+  @override
+  String get dealsDiscussionEmptyHint =>
+      'Мәміле туралы әңгімені осында жүргізіңіз. Әріптесті шақыру үшін @ белгісін теріңіз.';
+
+  @override
+  String get dealsDiscussionLoadFailed => 'Талқылауды жүктеу мүмкін болмады';
+
+  @override
+  String get dealsDiscussionShowEarlier => 'Бұрынғыларын көрсету';
 
   @override
   String get dealsEditTitle => 'Мәмілені өңдеу';
@@ -2301,6 +2371,12 @@ class AppLocalizationsKk extends AppLocalizations {
   String get msgCodeSent => 'Код жіберілді';
 
   @override
+  String get msgCommentDeleted => 'Пікір жойылды';
+
+  @override
+  String get msgCommentUpdated => 'Пікір өзгертілді';
+
+  @override
   String get msgDealCreated => 'Мәміле құрылды';
 
   @override
@@ -2425,6 +2501,16 @@ class AppLocalizationsKk extends AppLocalizations {
   @override
   String notificationsCountTasks(int count) {
     return '$count тапсырма';
+  }
+
+  @override
+  String notificationsDealComment(String author, String title) {
+    return '$author $title мәмілесіне пікір қалдырды';
+  }
+
+  @override
+  String notificationsDealMention(String author, String title) {
+    return '$author сізді $title мәмілесінде атап өтті';
   }
 
   @override

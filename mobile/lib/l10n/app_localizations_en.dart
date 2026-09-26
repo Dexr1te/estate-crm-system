@@ -1508,6 +1508,64 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dealsClosed => 'Closed';
 
   @override
+  String dealsCommentCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count comments',
+      one: '1 comment',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get dealsCommentDelete => 'Delete comment';
+
+  @override
+  String get dealsCommentDeleteBody =>
+      'It disappears for everyone on this deal.';
+
+  @override
+  String get dealsCommentDeleteTitle => 'Delete this comment?';
+
+  @override
+  String get dealsCommentEdit => 'Edit comment';
+
+  @override
+  String get dealsCommentEdited => 'edited';
+
+  @override
+  String get dealsCommentHint => 'Write a comment…';
+
+  @override
+  String get dealsCommentJustNow => 'just now';
+
+  @override
+  String get dealsCommentLess => 'Show less';
+
+  @override
+  String get dealsCommentMentionLoadFailed => 'Couldn\'t load colleagues';
+
+  @override
+  String get dealsCommentMentionNone => 'Nobody else can see this deal';
+
+  @override
+  String get dealsCommentMentionNotAllowed =>
+      'Only colleagues who can see this deal can be mentioned';
+
+  @override
+  String get dealsCommentMentionTitle => 'Mention a colleague';
+
+  @override
+  String get dealsCommentMore => 'Show more';
+
+  @override
+  String get dealsCommentSend => 'Send';
+
+  @override
+  String get dealsCommentSending => 'Sending…';
+
+  @override
   String get dealsCommission => 'Commission';
 
   @override
@@ -1555,6 +1613,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dealsDetails => 'Details';
+
+  @override
+  String get dealsDiscussion => 'Discussion';
+
+  @override
+  String get dealsDiscussionEmpty => 'No comments yet';
+
+  @override
+  String get dealsDiscussionEmptyHint =>
+      'Keep the conversation about this deal here. Type @ to bring in a colleague.';
+
+  @override
+  String get dealsDiscussionLoadFailed => 'Couldn\'t load the discussion';
+
+  @override
+  String get dealsDiscussionShowEarlier => 'Show earlier';
 
   @override
   String get dealsEditTitle => 'Edit Deal';
@@ -2305,6 +2379,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get msgCodeSent => 'Code sent';
 
   @override
+  String get msgCommentDeleted => 'Comment deleted';
+
+  @override
+  String get msgCommentUpdated => 'Comment updated';
+
+  @override
   String get msgDealCreated => 'Deal created';
 
   @override
@@ -2459,6 +2539,16 @@ class AppLocalizationsEn extends AppLocalizations {
       one: '1 task',
     );
     return '$_temp0';
+  }
+
+  @override
+  String notificationsDealComment(String author, String title) {
+    return '$author commented on $title';
+  }
+
+  @override
+  String notificationsDealMention(String author, String title) {
+    return '$author mentioned you in $title';
   }
 
   @override

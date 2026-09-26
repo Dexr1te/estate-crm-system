@@ -35,4 +35,7 @@ public class DealResponse {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private LocalDateTime closedAt;
+
+    /** How many comments the deal's discussion has; zero for a new deal. */
+    private long commentCount;
 }
