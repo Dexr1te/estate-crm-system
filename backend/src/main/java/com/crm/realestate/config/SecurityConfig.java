@@ -51,6 +51,9 @@ public class SecurityConfig {
             "/support",
             // Fetched by Apple's CDN to verify Universal Links, never by a signed-in device.
             "/.well-known/**",
+            // A listing's public page and its photographs, answerable by an unguessable token
+            // only (ListingPageController). Nothing else under /l exists.
+            "/l/**",
             "/v3/api-docs/**",
             "/swagger-ui/**",
             "/swagger-ui.html"

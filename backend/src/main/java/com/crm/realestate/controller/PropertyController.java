@@ -2,11 +2,13 @@ package com.crm.realestate.controller;
 
 import com.crm.realestate.dto.request.PropertyRequest;
 import com.crm.realestate.dto.response.PropertyResponse;
+import com.crm.realestate.dto.response.ShareLinkResponse;
 import com.crm.realestate.enums.PropertyStatus;
 import com.crm.realestate.enums.PropertyType;
 import com.crm.realestate.dto.response.DocumentDownload;
 import com.crm.realestate.dto.response.PropertyPhotoResponse;
 import com.crm.realestate.dto.response.PropertyPriceChangeResponse;
+import com.crm.realestate.service.ListingShareService;
 import com.crm.realestate.service.PropertyPhotoService;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
@@ -40,6 +42,7 @@ public class PropertyController {
     private final MatchingService matchingService;
     private final MeetingService  meetingService;
     private final PropertyPhotoService photoService;
+    private final ListingShareService shareService;
 
     @GetMapping
     @Operation(summary = "Get all properties (with optional filters). Supports pagination & sorting via Pageable (page, size, sort)")
@@ -117,6 +120,25 @@ public class PropertyController {
     @Operation(summary = "Remove a photograph from this listing")
     public ResponseEntity<Void> deletePhoto(@PathVariable Long id, @PathVariable Long photoId) {
         photoService.delete(id, photoId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}/share-link")
+    @Operation(summary = "This listing's public link; url is null when it has none")
+    public ResponseEntity<ShareLinkResponse> shareLink(@PathVariable Long id) {
+        return ResponseEntity.ok(shareService.get(id));
+    }
+
+    @PostMapping("/{id}/share-link")
+    @Operation(summary = "Make a public link to this listing, or return the one it has")
+    public ResponseEntity<ShareLinkResponse> createShareLink(@PathVariable Long id) {
+        return ResponseEntity.ok(shareService.create(id));
+    }
+
+    @DeleteMapping("/{id}/share-link")
+    @Operation(summary = "Switch this listing's public link off (its agent, a manager or an admin)")
+    public ResponseEntity<Void> revokeShareLink(@PathVariable Long id) {
+        shareService.revoke(id);
         return ResponseEntity.noContent().build();
     }
 

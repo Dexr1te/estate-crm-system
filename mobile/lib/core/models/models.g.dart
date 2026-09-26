@@ -294,6 +294,28 @@ Map<String, dynamic> _$$PropertyPriceChangeImplToJson(
       'changedAt': instance.changedAt?.toIso8601String(),
     };
 
+_$PropertyShareLinkImpl _$$PropertyShareLinkImplFromJson(
+        Map<String, dynamic> json) =>
+    _$PropertyShareLinkImpl(
+      url: json['url'] as String?,
+      viewCount: (json['viewCount'] as num?)?.toInt() ?? 0,
+      lastViewedAt: json['lastViewedAt'] == null
+          ? null
+          : DateTime.parse(json['lastViewedAt'] as String),
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+    );
+
+Map<String, dynamic> _$$PropertyShareLinkImplToJson(
+        _$PropertyShareLinkImpl instance) =>
+    <String, dynamic>{
+      'url': instance.url,
+      'viewCount': instance.viewCount,
+      'lastViewedAt': instance.lastViewedAt?.toIso8601String(),
+      'createdAt': instance.createdAt?.toIso8601String(),
+    };
+
 _$PropertyMatchImpl _$$PropertyMatchImplFromJson(Map<String, dynamic> json) =>
     _$PropertyMatchImpl(
       property:

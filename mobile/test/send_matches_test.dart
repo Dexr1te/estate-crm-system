@@ -159,7 +159,7 @@ void main() {
     _installFakes(withPhotos: true);
     await _openSheet(tester);
 
-    await tester.tap(find.byType(Switch));
+    await tester.tap(find.byType(Switch).first);
     await tester.pump();
     await tester.tap(find.text('Share'));
     await tester.pumpAndSettle();
@@ -207,6 +207,66 @@ void main() {
     final whatsApp = tester.widget<AppGhostButton>(find.ancestor(
         of: find.text('WhatsApp'), matching: find.byType(AppGhostButton)));
     expect(whatsApp.onPressed, isNull);
+  });
+
+  test('a link sits under the flat it opens', () {
+    final text = composeMatchesMessage(
+        AppLocalizationsEn(), const [_severny, _tverskaya],
+        links: const {7: 'https://crm.test/api/l/abc'});
+
+    expect(
+        text, contains('\$28.0M\nhttps://crm.test/api/l/abc\n\n2. Tverskaya'));
+    expect('https://'.allMatches(text), hasLength(1),
+        reason: 'a flat with no link gets none');
+  });
+
+  testWidgets('links are on by default, made on the fly, one under each flat',
+      (tester) async {
+    _installFakes();
+    final repo = Injector.propertiesRepository as FakePropertiesRepository;
+    await _openSheet(tester);
+
+    await tester.tap(find.text('Share'));
+    await tester.pumpAndSettle();
+
+    expect(repo.shareLinkRequests, [7, 8]);
+    final text = _share.sharedText!;
+    expect(text, contains(FakePropertiesRepository.shareUrlFor(7)));
+    expect(text, contains(FakePropertiesRepository.shareUrlFor(8)));
+    expect(text.indexOf(FakePropertiesRepository.shareUrlFor(7)),
+        lessThan(text.indexOf('Tverskaya')));
+  });
+
+  testWidgets('with links switched off no link is made or sent',
+      (tester) async {
+    _installFakes();
+    final repo = Injector.propertiesRepository as FakePropertiesRepository;
+    await _openSheet(tester);
+
+    await tester.tap(find.descendant(
+        of: find.byKey(const ValueKey('send-links')),
+        matching: find.byType(Switch)));
+    await tester.pump();
+    await tester.tap(find.text('Share'));
+    await tester.pumpAndSettle();
+
+    expect(repo.shareLinkRequests, isEmpty);
+    expect(_share.sharedText, isNot(contains('https://')));
+  });
+
+  testWidgets('a link that cannot be made does not stop the message',
+      (tester) async {
+    _installFakes();
+    (Injector.propertiesRepository as FakePropertiesRepository).failShareLinks =
+        true;
+    await _openSheet(tester);
+
+    await tester.tap(find.text('Share'));
+    await tester.pumpAndSettle();
+
+    expect(_share.calls, 1);
+    expect(_share.sharedText, contains('Severny Residence, apartment 84'));
+    expect(_share.sharedText, isNot(contains('https://')));
   });
 
   forEachAcceptanceCase('send matches sheet',

@@ -35,6 +35,24 @@ to be the public https origin, no trailing slash:
 APP_BASE_URL=https://your-public-host
 ```
 
+A listing's public link (`/api/l/<token>`) is built from the same origin, and
+so is the page's `og:image` tag that WhatsApp and Telegram fetch for the
+preview. `LISTING_URL` overrides the whole prefix, and only matters if that
+page is ever served from another origin:
+
+```ini
+# default: ${APP_BASE_URL}/api/l
+LISTING_URL=https://your-public-host/api/l
+```
+
+Check it the same way as the invite page — an unknown token must answer the
+friendly 404 page, never a 401 or 403:
+
+```sh
+curl -si "$APP_BASE_URL/api/l/nope" | head -1
+# expect: HTTP/1.1 404
+```
+
 ### `INVITE_DEEP_LINK` — leave it unset
 
 The default is `estatecrm://accept-invite` and the app registers exactly that

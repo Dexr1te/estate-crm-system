@@ -63,6 +63,16 @@ class PropertiesRepositoryImpl implements PropertiesRepository {
       _remote.getPriceHistory(id);
 
   @override
+  Future<PropertyShareLink> getShareLink(int id) => _remote.getShareLink(id);
+
+  @override
+  Future<PropertyShareLink> createShareLink(int id) =>
+      _remote.createShareLink(id);
+
+  @override
+  Future<void> revokeShareLink(int id) => _remote.revokeShareLink(id);
+
+  @override
   Future<List<PropertyPhoto>> getPhotos(int id) => _remote.getPhotos(id);
 
   @override

@@ -193,6 +193,20 @@ class PropertyPriceChange with _$PropertyPriceChange {
       _$PropertyPriceChangeFromJson(json);
 }
 
+/// A listing's public link. [url] is null while the listing has none.
+@freezed
+class PropertyShareLink with _$PropertyShareLink {
+  const factory PropertyShareLink({
+    String? url,
+    @Default(0) int viewCount,
+    DateTime? lastViewedAt,
+    DateTime? createdAt,
+  }) = _PropertyShareLink;
+
+  factory PropertyShareLink.fromJson(Map<String, dynamic> json) =>
+      _$PropertyShareLinkFromJson(json);
+}
+
 @freezed
 class PropertyMatch with _$PropertyMatch {
   const factory PropertyMatch({

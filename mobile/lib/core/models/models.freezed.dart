@@ -2587,6 +2587,222 @@ abstract class _PropertyPriceChange implements PropertyPriceChange {
       throw _privateConstructorUsedError;
 }
 
+PropertyShareLink _$PropertyShareLinkFromJson(Map<String, dynamic> json) {
+  return _PropertyShareLink.fromJson(json);
+}
+
+/// @nodoc
+mixin _$PropertyShareLink {
+  String? get url => throw _privateConstructorUsedError;
+  int get viewCount => throw _privateConstructorUsedError;
+  DateTime? get lastViewedAt => throw _privateConstructorUsedError;
+  DateTime? get createdAt => throw _privateConstructorUsedError;
+
+  /// Serializes this PropertyShareLink to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of PropertyShareLink
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $PropertyShareLinkCopyWith<PropertyShareLink> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $PropertyShareLinkCopyWith<$Res> {
+  factory $PropertyShareLinkCopyWith(
+          PropertyShareLink value, $Res Function(PropertyShareLink) then) =
+      _$PropertyShareLinkCopyWithImpl<$Res, PropertyShareLink>;
+  @useResult
+  $Res call(
+      {String? url,
+      int viewCount,
+      DateTime? lastViewedAt,
+      DateTime? createdAt});
+}
+
+/// @nodoc
+class _$PropertyShareLinkCopyWithImpl<$Res, $Val extends PropertyShareLink>
+    implements $PropertyShareLinkCopyWith<$Res> {
+  _$PropertyShareLinkCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of PropertyShareLink
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? url = freezed,
+    Object? viewCount = null,
+    Object? lastViewedAt = freezed,
+    Object? createdAt = freezed,
+  }) {
+    return _then(_value.copyWith(
+      url: freezed == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String?,
+      viewCount: null == viewCount
+          ? _value.viewCount
+          : viewCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      lastViewedAt: freezed == lastViewedAt
+          ? _value.lastViewedAt
+          : lastViewedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$PropertyShareLinkImplCopyWith<$Res>
+    implements $PropertyShareLinkCopyWith<$Res> {
+  factory _$$PropertyShareLinkImplCopyWith(_$PropertyShareLinkImpl value,
+          $Res Function(_$PropertyShareLinkImpl) then) =
+      __$$PropertyShareLinkImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String? url,
+      int viewCount,
+      DateTime? lastViewedAt,
+      DateTime? createdAt});
+}
+
+/// @nodoc
+class __$$PropertyShareLinkImplCopyWithImpl<$Res>
+    extends _$PropertyShareLinkCopyWithImpl<$Res, _$PropertyShareLinkImpl>
+    implements _$$PropertyShareLinkImplCopyWith<$Res> {
+  __$$PropertyShareLinkImplCopyWithImpl(_$PropertyShareLinkImpl _value,
+      $Res Function(_$PropertyShareLinkImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of PropertyShareLink
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? url = freezed,
+    Object? viewCount = null,
+    Object? lastViewedAt = freezed,
+    Object? createdAt = freezed,
+  }) {
+    return _then(_$PropertyShareLinkImpl(
+      url: freezed == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String?,
+      viewCount: null == viewCount
+          ? _value.viewCount
+          : viewCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      lastViewedAt: freezed == lastViewedAt
+          ? _value.lastViewedAt
+          : lastViewedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$PropertyShareLinkImpl implements _PropertyShareLink {
+  const _$PropertyShareLinkImpl(
+      {this.url, this.viewCount = 0, this.lastViewedAt, this.createdAt});
+
+  factory _$PropertyShareLinkImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PropertyShareLinkImplFromJson(json);
+
+  @override
+  final String? url;
+  @override
+  @JsonKey()
+  final int viewCount;
+  @override
+  final DateTime? lastViewedAt;
+  @override
+  final DateTime? createdAt;
+
+  @override
+  String toString() {
+    return 'PropertyShareLink(url: $url, viewCount: $viewCount, lastViewedAt: $lastViewedAt, createdAt: $createdAt)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$PropertyShareLinkImpl &&
+            (identical(other.url, url) || other.url == url) &&
+            (identical(other.viewCount, viewCount) ||
+                other.viewCount == viewCount) &&
+            (identical(other.lastViewedAt, lastViewedAt) ||
+                other.lastViewedAt == lastViewedAt) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, url, viewCount, lastViewedAt, createdAt);
+
+  /// Create a copy of PropertyShareLink
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$PropertyShareLinkImplCopyWith<_$PropertyShareLinkImpl> get copyWith =>
+      __$$PropertyShareLinkImplCopyWithImpl<_$PropertyShareLinkImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$PropertyShareLinkImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _PropertyShareLink implements PropertyShareLink {
+  const factory _PropertyShareLink(
+      {final String? url,
+      final int viewCount,
+      final DateTime? lastViewedAt,
+      final DateTime? createdAt}) = _$PropertyShareLinkImpl;
+
+  factory _PropertyShareLink.fromJson(Map<String, dynamic> json) =
+      _$PropertyShareLinkImpl.fromJson;
+
+  @override
+  String? get url;
+  @override
+  int get viewCount;
+  @override
+  DateTime? get lastViewedAt;
+  @override
+  DateTime? get createdAt;
+
+  /// Create a copy of PropertyShareLink
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$PropertyShareLinkImplCopyWith<_$PropertyShareLinkImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 PropertyMatch _$PropertyMatchFromJson(Map<String, dynamic> json) {
   return _PropertyMatch.fromJson(json);
 }
