@@ -61,6 +61,14 @@ public class ScopeService {
 
     /** Records this person may see, filtered by both walls. */
     public <T> Specification<T> visibleTo(User user) {
+        return visibleTo(user, AGENT);
+    }
+
+    /**
+     * {@link #visibleTo(User)} for a record whose holder is not called {@code agent} — a task's
+     * assignee.
+     */
+    public <T> Specification<T> visibleTo(User user, String holder) {
         return (root, query, cb) -> {
             if (user == null) {
                 return cb.disjunction();
@@ -68,7 +76,7 @@ public class ScopeService {
             if (isAdmin(user)) {
                 return cb.conjunction();
             }
-            Predicate mine = cb.equal(root.get(AGENT).get("id"), user.getId());
+            Predicate mine = cb.equal(root.get(holder).get("id"), user.getId());
             Long teamId = teamIdOf(user);
             if (teamId == null) {
                 return cb.and(cb.isNull(root.get(TEAM)), mine);

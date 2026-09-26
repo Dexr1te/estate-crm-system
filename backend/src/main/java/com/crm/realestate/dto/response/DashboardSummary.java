@@ -19,4 +19,8 @@ public class DashboardSummary {
     private long upcomingMeetings;
     /** Commission on deals won since the first of this month; zero, never null. */
     private BigDecimal commissionThisMonth;
+    /** Open tasks due between now and midnight. */
+    private long tasksDueToday;
+    /** Open tasks whose due time has passed. */
+    private long tasksOverdue;
 }

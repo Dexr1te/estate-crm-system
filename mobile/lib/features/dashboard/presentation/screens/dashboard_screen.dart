@@ -20,6 +20,9 @@ import 'package:real_estate_crm/features/dashboard/presentation/widgets/meeting_
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/meeting_row.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/pipeline_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/top_agents_card.dart';
+import 'package:real_estate_crm/features/tasks/presentation/bloc/tasks_bloc.dart';
+import 'package:real_estate_crm/features/tasks/presentation/bloc/tasks_event.dart';
+import 'package:real_estate_crm/features/tasks/presentation/widgets/today_tasks_card.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 const _kUpcomingPreviewCount = 4;
@@ -31,10 +34,19 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+  final _tasks = TasksBloc(Injector.tasksRepository);
+
   @override
   void initState() {
     super.initState();
     context.read<DashboardBloc>().add(DashboardLoadEvent());
+    _tasks.add(TasksLoadEvent());
+  }
+
+  @override
+  void dispose() {
+    _tasks.close();
+    super.dispose();
   }
 
   String _greeting(AppLocalizations l10n) {
@@ -78,50 +90,55 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final authState = context.watch<AuthBloc>().state;
     final user = authState is AuthAuthenticated ? authState.user : null;
 
-    return Scaffold(
-      body: SafeArea(
-        bottom: false,
-        child: BlocBuilder<DashboardBloc, DashboardState>(
-          builder: (ctx, state) => RefreshIndicator(
-            onRefresh: () async =>
-                ctx.read<DashboardBloc>().add(DashboardLoadEvent()),
-            color: t.primary,
-            child: AppMetrics.constrain(
-              SingleChildScrollView(
-                physics: const AlwaysScrollableScrollPhysics(),
-                padding: EdgeInsets.fromLTRB(pad, 6, pad, 24),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _GreetingRow(
-                      title: l10n.dashboardGreeting(
-                        _greeting(l10n),
-                        user?.fullName.split(' ').first ??
-                            l10n.dashboardGreetingFallbackName,
-                      ),
-                      subtitle: l10n.dashboardDateSummary(formatWeekdayDate(
-                          AppClock.now(),
-                          Localizations.localeOf(context).toLanguageTag())),
-                      initial: user?.fullName ?? '',
-                      onTap: () => context.push('/profile'),
-                      onSearch: () => context.push('/search'),
-                    ),
-                    const SizedBox(height: 18),
-                    if (state is DashboardLoading)
-                      const _DashboardSkeleton()
-                    else if (state is DashboardError)
-                      Padding(
-                        padding: const EdgeInsets.only(top: 40),
-                        child: ErrorWidget2(
-                          message: apiFailureLabel(l10n, state.failure),
-                          onRetry: () => ctx
-                              .read<DashboardBloc>()
-                              .add(DashboardLoadEvent()),
+    return BlocProvider.value(
+      value: _tasks,
+      child: Scaffold(
+        body: SafeArea(
+          bottom: false,
+          child: BlocBuilder<DashboardBloc, DashboardState>(
+            builder: (ctx, state) => RefreshIndicator(
+              onRefresh: () async {
+                ctx.read<DashboardBloc>().add(DashboardLoadEvent());
+                _tasks.add(TasksLoadEvent());
+              },
+              color: t.primary,
+              child: AppMetrics.constrain(
+                SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  padding: EdgeInsets.fromLTRB(pad, 6, pad, 24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _GreetingRow(
+                        title: l10n.dashboardGreeting(
+                          _greeting(l10n),
+                          user?.fullName.split(' ').first ??
+                              l10n.dashboardGreetingFallbackName,
                         ),
-                      )
-                    else if (state is DashboardLoaded)
-                      ..._loaded(context, state, l10n, gap),
-                  ],
+                        subtitle: l10n.dashboardDateSummary(formatWeekdayDate(
+                            AppClock.now(),
+                            Localizations.localeOf(context).toLanguageTag())),
+                        initial: user?.fullName ?? '',
+                        onTap: () => context.push('/profile'),
+                        onSearch: () => context.push('/search'),
+                      ),
+                      const SizedBox(height: 18),
+                      if (state is DashboardLoading)
+                        const _DashboardSkeleton()
+                      else if (state is DashboardError)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 40),
+                          child: ErrorWidget2(
+                            message: apiFailureLabel(l10n, state.failure),
+                            onRetry: () => ctx
+                                .read<DashboardBloc>()
+                                .add(DashboardLoadEvent()),
+                          ),
+                        )
+                      else if (state is DashboardLoaded)
+                        ..._loaded(context, state, l10n, gap),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -164,6 +181,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
           actionLabel: l10n.dashboardScheduleMeeting,
           onAction: () => context.go('/meetings/new'),
         ),
+      SizedBox(height: gap),
+      TodayTasksCard(onSeeAll: () => context.push('/tasks')),
       SizedBox(height: gap),
       BlocBuilder<GoalBloc, GoalState>(
         builder: (goalCtx, goal) => GoalRingCard(

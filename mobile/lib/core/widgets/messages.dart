@@ -16,6 +16,11 @@ enum ActionMessage {
   meetingUpdated,
   meetingDeleted,
   meetingCompleted,
+  taskCreated,
+  taskUpdated,
+  taskCompleted,
+  taskReopened,
+  taskDeleted,
   documentUploaded,
   documentDeleted,
   statusUpdated,
@@ -66,6 +71,16 @@ String actionMessageLabel(AppLocalizations l10n, ActionMessage message) {
       return l10n.msgMeetingDeleted;
     case ActionMessage.meetingCompleted:
       return l10n.msgMeetingCompleted;
+    case ActionMessage.taskCreated:
+      return l10n.msgTaskCreated;
+    case ActionMessage.taskUpdated:
+      return l10n.msgTaskUpdated;
+    case ActionMessage.taskCompleted:
+      return l10n.msgTaskCompleted;
+    case ActionMessage.taskReopened:
+      return l10n.msgTaskReopened;
+    case ActionMessage.taskDeleted:
+      return l10n.msgTaskDeleted;
     case ActionMessage.documentUploaded:
       return l10n.msgDocumentUploaded;
     case ActionMessage.documentDeleted:

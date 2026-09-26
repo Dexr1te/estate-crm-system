@@ -30,7 +30,7 @@ Future<void> _sync(
   Locale locale = const Locale('en'),
 }) async {
   final l10n = await AppLocalizations.delegate.load(locale);
-  await syncMeetingReminders(
+  await syncReminders(
     gateway: gateway,
     meetings: meetings,
     settings: settings,

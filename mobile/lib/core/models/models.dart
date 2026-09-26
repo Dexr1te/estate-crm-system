@@ -258,6 +258,34 @@ class UpcomingMeetingResponse with _$UpcomingMeetingResponse {
 }
 
 @freezed
+class TaskResponse with _$TaskResponse {
+  const TaskResponse._();
+
+  const factory TaskResponse({
+    required int id,
+    @Default('') String title,
+    String? note,
+    required DateTime dueAt,
+    DateTime? completedAt,
+    int? assigneeId,
+    String? assigneeName,
+    int? createdById,
+    String? createdByName,
+    int? clientId,
+    String? clientName,
+    int? dealId,
+    String? dealTitle,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) = _TaskResponse;
+
+  bool get isDone => completedAt != null;
+
+  factory TaskResponse.fromJson(Map<String, dynamic> json) =>
+      _$TaskResponseFromJson(json);
+}
+
+@freezed
 class DashboardSummary with _$DashboardSummary {
   const factory DashboardSummary({
     @Default(0) int totalDeals,
@@ -266,6 +294,8 @@ class DashboardSummary with _$DashboardSummary {
     @Default(0) int totalClients,
     @Default(0) int upcomingMeetings,
     @Default(0) double commissionThisMonth,
+    @Default(0) int tasksDueToday,
+    @Default(0) int tasksOverdue,
   }) = _DashboardSummary;
 
   factory DashboardSummary.fromJson(Map<String, dynamic> json) =>

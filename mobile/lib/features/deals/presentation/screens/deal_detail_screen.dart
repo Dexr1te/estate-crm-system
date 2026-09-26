@@ -14,6 +14,7 @@ import 'package:real_estate_crm/features/documents/presentation/bloc/documents_b
 import 'package:real_estate_crm/features/documents/presentation/bloc/documents_event.dart';
 import 'package:real_estate_crm/features/documents/presentation/widgets/deal_documents_card.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_cover.dart';
+import 'package:real_estate_crm/features/tasks/presentation/widgets/record_tasks_card.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class DealDetailScreen extends StatefulWidget {
@@ -162,6 +163,7 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
               _StageCard(status: deal.status, onChanged: _updateStatus),
               if (deal.commissionPercent != null) _CommissionCard(deal: deal),
               _ParticipantsCard(deal: deal),
+              RecordTasksCard(deal: PickerItem(id: deal.id, title: deal.title)),
               const DealDocumentsCard(),
               _TimelineCard(deal: deal),
               if (deal.notes != null && deal.notes!.trim().isNotEmpty)

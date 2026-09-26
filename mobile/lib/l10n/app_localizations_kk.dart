@@ -1136,6 +1136,17 @@ class AppLocalizationsKk extends AppLocalizations {
   String get dashboardSeeAll => 'Барлығы';
 
   @override
+  String get dashboardTasksClear => 'Бүгінге тапсырма жоқ';
+
+  @override
+  String dashboardTasksOverdueCount(Object count) {
+    return 'Мерзімі өткен: $count';
+  }
+
+  @override
+  String get dashboardTasksToday => 'Бүгін істеу керек';
+
+  @override
   String get dashboardTeamPipeline => 'Команда воронкасы';
 
   @override
@@ -1774,6 +1785,21 @@ class AppLocalizationsKk extends AppLocalizations {
   String get msgStatusUpdated => 'Мәртебе жаңартылды';
 
   @override
+  String get msgTaskCompleted => 'Тапсырма орындалды';
+
+  @override
+  String get msgTaskCreated => 'Тапсырма қосылды';
+
+  @override
+  String get msgTaskDeleted => 'Тапсырма жойылды';
+
+  @override
+  String get msgTaskReopened => 'Тапсырма қайта ашылды';
+
+  @override
+  String get msgTaskUpdated => 'Тапсырма жаңартылды';
+
+  @override
   String get msgTeamAssigned => 'Команда тағайындалды';
 
   @override
@@ -2197,6 +2223,14 @@ class AppLocalizationsKk extends AppLocalizations {
       'EstateCRM хабарландырулары өшірулі. Оларды телефон параметрлерінен қосыңыз.';
 
   @override
+  String get remindersTaskDue => 'Орындау уақыты келді';
+
+  @override
+  String remindersTaskDueWithClient(Object client) {
+    return 'Орындау уақыты келді · $client';
+  }
+
+  @override
   String get searchClear => 'Тазалау';
 
   @override
@@ -2238,6 +2272,153 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get searchTitle => 'Іздеу';
+
+  @override
+  String get tasksAbout => 'Неге қатысты';
+
+  @override
+  String get tasksAdd => 'Тапсырма қосу';
+
+  @override
+  String get tasksAddShort => 'Тапсырма';
+
+  @override
+  String get tasksAllTasks => 'Барлық тапсырмалар';
+
+  @override
+  String tasksAssignedTo(Object name) {
+    return '$name үшін';
+  }
+
+  @override
+  String get tasksAssignee => 'Орындаушы';
+
+  @override
+  String get tasksClearLink => 'Байланысты алып тастау';
+
+  @override
+  String get tasksClient => 'Клиент';
+
+  @override
+  String get tasksComplete => 'Орындалды деп белгілеу';
+
+  @override
+  String tasksCounter(Object count) {
+    return 'Ашық: $count';
+  }
+
+  @override
+  String get tasksDate => 'Күні';
+
+  @override
+  String get tasksDeal => 'Мәміле';
+
+  @override
+  String get tasksDelete => 'Тапсырманы жою';
+
+  @override
+  String get tasksDeleteBody =>
+      'Тапсырма еске салғышымен бірге барлығынан жойылады.';
+
+  @override
+  String get tasksDeleteTitle => 'Тапсырманы жоясыз ба?';
+
+  @override
+  String tasksDoneOn(Object date) {
+    return 'Орындалды: $date';
+  }
+
+  @override
+  String get tasksDoneTab => 'Орындалған';
+
+  @override
+  String get tasksDue => 'Мерзімі';
+
+  @override
+  String tasksDueToday(Object time) {
+    return 'Бүгін, $time';
+  }
+
+  @override
+  String tasksDueTomorrow(Object time) {
+    return 'Ертең, $time';
+  }
+
+  @override
+  String get tasksEdit => 'Тапсырманы өзгерту';
+
+  @override
+  String get tasksEmptyDone => 'Әзірге орындалғаны жоқ';
+
+  @override
+  String get tasksEmptyOpen => 'Барлығы орындалды';
+
+  @override
+  String get tasksEmptyOpenHint =>
+      'Клиенттер мен мәмілелерге қосылған тапсырмалар осында көрінеді.';
+
+  @override
+  String get tasksEmptyRecord => 'Ашық тапсырма жоқ';
+
+  @override
+  String get tasksEmptyRecordHint => 'Ұмытпау үшін келесі қадамды қосыңыз.';
+
+  @override
+  String get tasksFieldTitle => 'Не істеу керек';
+
+  @override
+  String get tasksLoadFailed => 'Тапсырмаларды жүктеу мүмкін болмады';
+
+  @override
+  String get tasksNew => 'Жаңа тапсырма';
+
+  @override
+  String get tasksNoAgents => 'Тапсыратын адам жоқ';
+
+  @override
+  String get tasksNote => 'Ескертпе';
+
+  @override
+  String get tasksNoteHint => 'Мәліметтер, нөмірлер, не дайындау керек…';
+
+  @override
+  String get tasksOpenTab => 'Ашық';
+
+  @override
+  String get tasksOverdue => 'Мерзімі өтті';
+
+  @override
+  String get tasksQuickInThreeDays => '3 күннен кейін';
+
+  @override
+  String get tasksQuickTodayEvening => 'Бүгін кешке';
+
+  @override
+  String get tasksQuickTomorrowMorning => 'Ертең таңертең';
+
+  @override
+  String get tasksReopen => 'Қайта ашу';
+
+  @override
+  String get tasksSave => 'Тапсырманы сақтау';
+
+  @override
+  String get tasksSearchHint => 'Аты немесе ID бойынша іздеу';
+
+  @override
+  String get tasksTime => 'Уақыты';
+
+  @override
+  String get tasksTitle => 'Тапсырмалар';
+
+  @override
+  String get tasksTitleHint => 'Иринаға қайта қоңырау шалу';
+
+  @override
+  String get tasksTitleRequired => 'Не істеу керегін жазыңыз';
+
+  @override
+  String get tasksTitleTooLong => '200 таңбадан аспасын';
 
   @override
   String get teamsActive => 'Белсенді';

@@ -1148,6 +1148,17 @@ class AppLocalizationsRu extends AppLocalizations {
   String get dashboardSeeAll => 'Все';
 
   @override
+  String get dashboardTasksClear => 'На сегодня задач нет';
+
+  @override
+  String dashboardTasksOverdueCount(Object count) {
+    return 'Просрочено: $count';
+  }
+
+  @override
+  String get dashboardTasksToday => 'Сделать сегодня';
+
+  @override
   String get dashboardTeamPipeline => 'Воронка команды';
 
   @override
@@ -1790,6 +1801,21 @@ class AppLocalizationsRu extends AppLocalizations {
   String get msgStatusUpdated => 'Статус обновлён';
 
   @override
+  String get msgTaskCompleted => 'Задача выполнена';
+
+  @override
+  String get msgTaskCreated => 'Задача добавлена';
+
+  @override
+  String get msgTaskDeleted => 'Задача удалена';
+
+  @override
+  String get msgTaskReopened => 'Задача снова в работе';
+
+  @override
+  String get msgTaskUpdated => 'Задача обновлена';
+
+  @override
   String get msgTeamAssigned => 'Команда назначена';
 
   @override
@@ -2212,6 +2238,14 @@ class AppLocalizationsRu extends AppLocalizations {
       'Уведомления для EstateCRM отключены. Включите их в настройках телефона.';
 
   @override
+  String get remindersTaskDue => 'Пора сделать';
+
+  @override
+  String remindersTaskDueWithClient(Object client) {
+    return 'Пора сделать · $client';
+  }
+
+  @override
   String get searchClear => 'Очистить';
 
   @override
@@ -2253,6 +2287,153 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get searchTitle => 'Поиск';
+
+  @override
+  String get tasksAbout => 'К чему относится';
+
+  @override
+  String get tasksAdd => 'Добавить задачу';
+
+  @override
+  String get tasksAddShort => 'Задача';
+
+  @override
+  String get tasksAllTasks => 'Все задачи';
+
+  @override
+  String tasksAssignedTo(Object name) {
+    return 'для: $name';
+  }
+
+  @override
+  String get tasksAssignee => 'Исполнитель';
+
+  @override
+  String get tasksClearLink => 'Убрать связь';
+
+  @override
+  String get tasksClient => 'Клиент';
+
+  @override
+  String get tasksComplete => 'Отметить выполненной';
+
+  @override
+  String tasksCounter(Object count) {
+    return 'Открытых: $count';
+  }
+
+  @override
+  String get tasksDate => 'Дата';
+
+  @override
+  String get tasksDeal => 'Сделка';
+
+  @override
+  String get tasksDelete => 'Удалить задачу';
+
+  @override
+  String get tasksDeleteBody => 'Задача исчезнет у всех вместе с напоминанием.';
+
+  @override
+  String get tasksDeleteTitle => 'Удалить задачу?';
+
+  @override
+  String tasksDoneOn(Object date) {
+    return 'Выполнено $date';
+  }
+
+  @override
+  String get tasksDoneTab => 'Выполненные';
+
+  @override
+  String get tasksDue => 'Срок';
+
+  @override
+  String tasksDueToday(Object time) {
+    return 'Сегодня, $time';
+  }
+
+  @override
+  String tasksDueTomorrow(Object time) {
+    return 'Завтра, $time';
+  }
+
+  @override
+  String get tasksEdit => 'Изменить задачу';
+
+  @override
+  String get tasksEmptyDone => 'Выполненных пока нет';
+
+  @override
+  String get tasksEmptyOpen => 'Всё сделано';
+
+  @override
+  String get tasksEmptyOpenHint =>
+      'Здесь появятся задачи, добавленные к клиентам и сделкам.';
+
+  @override
+  String get tasksEmptyRecord => 'Открытых задач нет';
+
+  @override
+  String get tasksEmptyRecordHint =>
+      'Добавьте следующий шаг, чтобы о нём не забыть.';
+
+  @override
+  String get tasksFieldTitle => 'Что сделать';
+
+  @override
+  String get tasksLoadFailed => 'Не удалось загрузить задачи';
+
+  @override
+  String get tasksNew => 'Новая задача';
+
+  @override
+  String get tasksNoAgents => 'Некому поручить';
+
+  @override
+  String get tasksNote => 'Заметка';
+
+  @override
+  String get tasksNoteHint => 'Детали, номера, что подготовить…';
+
+  @override
+  String get tasksOpenTab => 'Открытые';
+
+  @override
+  String get tasksOverdue => 'Просрочено';
+
+  @override
+  String get tasksQuickInThreeDays => 'Через 3 дня';
+
+  @override
+  String get tasksQuickTodayEvening => 'Сегодня вечером';
+
+  @override
+  String get tasksQuickTomorrowMorning => 'Завтра утром';
+
+  @override
+  String get tasksReopen => 'Вернуть в работу';
+
+  @override
+  String get tasksSave => 'Сохранить задачу';
+
+  @override
+  String get tasksSearchHint => 'Поиск по имени или ID';
+
+  @override
+  String get tasksTime => 'Время';
+
+  @override
+  String get tasksTitle => 'Задачи';
+
+  @override
+  String get tasksTitleHint => 'Перезвонить Ирине';
+
+  @override
+  String get tasksTitleRequired => 'Напишите, что нужно сделать';
+
+  @override
+  String get tasksTitleTooLong => 'Не длиннее 200 символов';
 
   @override
   String get teamsActive => 'Активные';

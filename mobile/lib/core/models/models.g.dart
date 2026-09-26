@@ -441,6 +441,50 @@ Map<String, dynamic> _$$UpcomingMeetingResponseImplToJson(
       'clientName': instance.clientName,
     };
 
+_$TaskResponseImpl _$$TaskResponseImplFromJson(Map<String, dynamic> json) =>
+    _$TaskResponseImpl(
+      id: (json['id'] as num).toInt(),
+      title: json['title'] as String? ?? '',
+      note: json['note'] as String?,
+      dueAt: DateTime.parse(json['dueAt'] as String),
+      completedAt: json['completedAt'] == null
+          ? null
+          : DateTime.parse(json['completedAt'] as String),
+      assigneeId: (json['assigneeId'] as num?)?.toInt(),
+      assigneeName: json['assigneeName'] as String?,
+      createdById: (json['createdById'] as num?)?.toInt(),
+      createdByName: json['createdByName'] as String?,
+      clientId: (json['clientId'] as num?)?.toInt(),
+      clientName: json['clientName'] as String?,
+      dealId: (json['dealId'] as num?)?.toInt(),
+      dealTitle: json['dealTitle'] as String?,
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
+    );
+
+Map<String, dynamic> _$$TaskResponseImplToJson(_$TaskResponseImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'title': instance.title,
+      'note': instance.note,
+      'dueAt': instance.dueAt.toIso8601String(),
+      'completedAt': instance.completedAt?.toIso8601String(),
+      'assigneeId': instance.assigneeId,
+      'assigneeName': instance.assigneeName,
+      'createdById': instance.createdById,
+      'createdByName': instance.createdByName,
+      'clientId': instance.clientId,
+      'clientName': instance.clientName,
+      'dealId': instance.dealId,
+      'dealTitle': instance.dealTitle,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
+    };
+
 _$DashboardSummaryImpl _$$DashboardSummaryImplFromJson(
         Map<String, dynamic> json) =>
     _$DashboardSummaryImpl(
@@ -451,6 +495,8 @@ _$DashboardSummaryImpl _$$DashboardSummaryImplFromJson(
       upcomingMeetings: (json['upcomingMeetings'] as num?)?.toInt() ?? 0,
       commissionThisMonth:
           (json['commissionThisMonth'] as num?)?.toDouble() ?? 0,
+      tasksDueToday: (json['tasksDueToday'] as num?)?.toInt() ?? 0,
+      tasksOverdue: (json['tasksOverdue'] as num?)?.toInt() ?? 0,
     );
 
 Map<String, dynamic> _$$DashboardSummaryImplToJson(
@@ -462,6 +508,8 @@ Map<String, dynamic> _$$DashboardSummaryImplToJson(
       'totalClients': instance.totalClients,
       'upcomingMeetings': instance.upcomingMeetings,
       'commissionThisMonth': instance.commissionThisMonth,
+      'tasksDueToday': instance.tasksDueToday,
+      'tasksOverdue': instance.tasksOverdue,
     };
 
 _$AgentOptionImpl _$$AgentOptionImplFromJson(Map<String, dynamic> json) =>

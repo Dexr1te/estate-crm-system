@@ -2068,6 +2068,24 @@ abstract class AppLocalizations {
   /// **'See all'**
   String get dashboardSeeAll;
 
+  /// No description provided for @dashboardTasksClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing due today'**
+  String get dashboardTasksClear;
+
+  /// No description provided for @dashboardTasksOverdueCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} overdue'**
+  String dashboardTasksOverdueCount(Object count);
+
+  /// No description provided for @dashboardTasksToday.
+  ///
+  /// In en, this message translates to:
+  /// **'To do today'**
+  String get dashboardTasksToday;
+
   /// No description provided for @dashboardTeamPipeline.
   ///
   /// In en, this message translates to:
@@ -3184,6 +3202,36 @@ abstract class AppLocalizations {
   /// **'Status updated'**
   String get msgStatusUpdated;
 
+  /// No description provided for @msgTaskCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Task done'**
+  String get msgTaskCompleted;
+
+  /// No description provided for @msgTaskCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Task added'**
+  String get msgTaskCreated;
+
+  /// No description provided for @msgTaskDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Task deleted'**
+  String get msgTaskDeleted;
+
+  /// No description provided for @msgTaskReopened.
+  ///
+  /// In en, this message translates to:
+  /// **'Task reopened'**
+  String get msgTaskReopened;
+
+  /// No description provided for @msgTaskUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Task updated'**
+  String get msgTaskUpdated;
+
   /// No description provided for @msgTeamAssigned.
   ///
   /// In en, this message translates to:
@@ -3940,6 +3988,18 @@ abstract class AppLocalizations {
   /// **'Notifications are off for EstateCRM. Turn them on in your phone’s settings.'**
   String get remindersPermissionDenied;
 
+  /// No description provided for @remindersTaskDue.
+  ///
+  /// In en, this message translates to:
+  /// **'Due now'**
+  String get remindersTaskDue;
+
+  /// No description provided for @remindersTaskDueWithClient.
+  ///
+  /// In en, this message translates to:
+  /// **'Due now · {client}'**
+  String remindersTaskDueWithClient(Object client);
+
   /// No description provided for @searchClear.
   ///
   /// In en, this message translates to:
@@ -4017,6 +4077,276 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Search'**
   String get searchTitle;
+
+  /// No description provided for @tasksAbout.
+  ///
+  /// In en, this message translates to:
+  /// **'What it is about'**
+  String get tasksAbout;
+
+  /// No description provided for @tasksAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add task'**
+  String get tasksAdd;
+
+  /// No description provided for @tasksAddShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Task'**
+  String get tasksAddShort;
+
+  /// No description provided for @tasksAllTasks.
+  ///
+  /// In en, this message translates to:
+  /// **'All tasks'**
+  String get tasksAllTasks;
+
+  /// No description provided for @tasksAssignedTo.
+  ///
+  /// In en, this message translates to:
+  /// **'for {name}'**
+  String tasksAssignedTo(Object name);
+
+  /// No description provided for @tasksAssignee.
+  ///
+  /// In en, this message translates to:
+  /// **'Who does it'**
+  String get tasksAssignee;
+
+  /// No description provided for @tasksClearLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove link'**
+  String get tasksClearLink;
+
+  /// No description provided for @tasksClient.
+  ///
+  /// In en, this message translates to:
+  /// **'Client'**
+  String get tasksClient;
+
+  /// No description provided for @tasksComplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark done'**
+  String get tasksComplete;
+
+  /// No description provided for @tasksCounter.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} open'**
+  String tasksCounter(Object count);
+
+  /// No description provided for @tasksDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get tasksDate;
+
+  /// No description provided for @tasksDeal.
+  ///
+  /// In en, this message translates to:
+  /// **'Deal'**
+  String get tasksDeal;
+
+  /// No description provided for @tasksDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete task'**
+  String get tasksDelete;
+
+  /// No description provided for @tasksDeleteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'It disappears for everyone, together with its reminder.'**
+  String get tasksDeleteBody;
+
+  /// No description provided for @tasksDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this task?'**
+  String get tasksDeleteTitle;
+
+  /// No description provided for @tasksDoneOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Done {date}'**
+  String tasksDoneOn(Object date);
+
+  /// No description provided for @tasksDoneTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get tasksDoneTab;
+
+  /// No description provided for @tasksDue.
+  ///
+  /// In en, this message translates to:
+  /// **'Due'**
+  String get tasksDue;
+
+  /// No description provided for @tasksDueToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today, {time}'**
+  String tasksDueToday(Object time);
+
+  /// No description provided for @tasksDueTomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Tomorrow, {time}'**
+  String tasksDueTomorrow(Object time);
+
+  /// No description provided for @tasksEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit task'**
+  String get tasksEdit;
+
+  /// No description provided for @tasksEmptyDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing done yet'**
+  String get tasksEmptyDone;
+
+  /// No description provided for @tasksEmptyOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing to do'**
+  String get tasksEmptyOpen;
+
+  /// No description provided for @tasksEmptyOpenHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Follow-ups you add to clients and deals show up here.'**
+  String get tasksEmptyOpenHint;
+
+  /// No description provided for @tasksEmptyRecord.
+  ///
+  /// In en, this message translates to:
+  /// **'No open tasks'**
+  String get tasksEmptyRecord;
+
+  /// No description provided for @tasksEmptyRecordHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a follow-up so it is not forgotten.'**
+  String get tasksEmptyRecordHint;
+
+  /// No description provided for @tasksFieldTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What to do'**
+  String get tasksFieldTitle;
+
+  /// No description provided for @tasksLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load tasks'**
+  String get tasksLoadFailed;
+
+  /// No description provided for @tasksNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New task'**
+  String get tasksNew;
+
+  /// No description provided for @tasksNoAgents.
+  ///
+  /// In en, this message translates to:
+  /// **'No one to hand it to'**
+  String get tasksNoAgents;
+
+  /// No description provided for @tasksNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get tasksNote;
+
+  /// No description provided for @tasksNoteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Details, numbers, what to prepare…'**
+  String get tasksNoteHint;
+
+  /// No description provided for @tasksOpenTab.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get tasksOpenTab;
+
+  /// No description provided for @tasksOverdue.
+  ///
+  /// In en, this message translates to:
+  /// **'Overdue'**
+  String get tasksOverdue;
+
+  /// No description provided for @tasksQuickInThreeDays.
+  ///
+  /// In en, this message translates to:
+  /// **'In 3 days'**
+  String get tasksQuickInThreeDays;
+
+  /// No description provided for @tasksQuickTodayEvening.
+  ///
+  /// In en, this message translates to:
+  /// **'Today evening'**
+  String get tasksQuickTodayEvening;
+
+  /// No description provided for @tasksQuickTomorrowMorning.
+  ///
+  /// In en, this message translates to:
+  /// **'Tomorrow morning'**
+  String get tasksQuickTomorrowMorning;
+
+  /// No description provided for @tasksReopen.
+  ///
+  /// In en, this message translates to:
+  /// **'Reopen'**
+  String get tasksReopen;
+
+  /// No description provided for @tasksSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save task'**
+  String get tasksSave;
+
+  /// No description provided for @tasksSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by name or ID'**
+  String get tasksSearchHint;
+
+  /// No description provided for @tasksTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get tasksTime;
+
+  /// No description provided for @tasksTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tasks'**
+  String get tasksTitle;
+
+  /// No description provided for @tasksTitleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Call Irina back'**
+  String get tasksTitleHint;
+
+  /// No description provided for @tasksTitleRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Say what needs doing'**
+  String get tasksTitleRequired;
+
+  /// No description provided for @tasksTitleTooLong.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep it under 200 characters'**
+  String get tasksTitleTooLong;
 
   /// No description provided for @teamsActive.
   ///
