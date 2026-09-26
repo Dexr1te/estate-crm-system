@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'models.freezed.dart';
@@ -20,6 +22,21 @@ enum PropertyStatus { AVAILABLE, RESERVED, SOLD }
 
 // ignore: constant_identifier_names
 enum DealStatus { LEAD, NEGOTIATION, CLOSED_WON, CLOSED_LOST }
+
+enum DealLostReason {
+  // ignore: constant_identifier_names
+  PRICE,
+  // ignore: constant_identifier_names
+  CHOSE_ANOTHER,
+  // ignore: constant_identifier_names
+  FINANCING,
+  // ignore: constant_identifier_names
+  CHANGED_MIND,
+  // ignore: constant_identifier_names
+  NO_RESPONSE,
+  // ignore: constant_identifier_names
+  OTHER,
+}
 
 // ignore: constant_identifier_names
 enum ViewingOutcome { INTERESTED, REJECTED, NO_SHOW }
@@ -200,6 +217,9 @@ class DealResponse with _$DealResponse {
     double? commissionPercent,
     double? commission,
     String? notes,
+    @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+    DealLostReason? lostReason,
+    String? lostNote,
     required int clientId,
     @Default('') String clientName,
     int? propertyId,
@@ -312,4 +332,51 @@ class AgentOption with _$AgentOption {
 
   factory AgentOption.fromJson(Map<String, dynamic> json) =>
       _$AgentOptionFromJson(json);
+}
+
+@freezed
+class DealFunnel with _$DealFunnel {
+  const factory DealFunnel({
+    DateTime? from,
+    DateTime? to,
+    @Default(0) int created,
+    @Default(0) int reachedNegotiation,
+    @Default(0) int won,
+    @Default(0) int lost,
+    double? leadToNegotiationRate,
+    double? negotiationToWonRate,
+    double? leadToWonRate,
+    @Default(0) double wonValue,
+    double? avgDaysToWin,
+    @Default(<FunnelLostReason>[]) List<FunnelLostReason> lostReasons,
+    @Default(<FunnelMonth>[]) List<FunnelMonth> monthly,
+  }) = _DealFunnel;
+
+  factory DealFunnel.fromJson(Map<String, dynamic> json) =>
+      _$DealFunnelFromJson(json);
+}
+
+@freezed
+class FunnelLostReason with _$FunnelLostReason {
+  const factory FunnelLostReason({
+    @Default('UNSPECIFIED') String reason,
+    @Default(0) int count,
+    @Default(0) double share,
+  }) = _FunnelLostReason;
+
+  factory FunnelLostReason.fromJson(Map<String, dynamic> json) =>
+      _$FunnelLostReasonFromJson(json);
+}
+
+@freezed
+class FunnelMonth with _$FunnelMonth {
+  const factory FunnelMonth({
+    required DateTime month,
+    @Default(0) int created,
+    @Default(0) int won,
+    @Default(0) int lost,
+  }) = _FunnelMonth;
+
+  factory FunnelMonth.fromJson(Map<String, dynamic> json) =>
+      _$FunnelMonthFromJson(json);
 }

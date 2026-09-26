@@ -7,6 +7,7 @@ import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_bloc.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_event.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_state.dart';
+import 'package:real_estate_crm/features/deals/presentation/widgets/lost_reason_sheet.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class DealFormScreen extends StatefulWidget {
@@ -27,6 +28,8 @@ class _DealFormScreenState extends State<DealFormScreen> {
   final _notesCtrl = TextEditingController();
 
   DealStatus _status = DealStatus.LEAD;
+  DealLostReason? _lostReason;
+  String? _lostNote;
   bool _loading = false;
   bool _initLoading = false;
 
@@ -153,6 +156,8 @@ class _DealFormScreenState extends State<DealFormScreen> {
                     title: d.propertyTitle ??
                         l10n.dealsPropertyRef(d.propertyId!)));
         _status = d.status;
+        _lostReason = d.lostReason;
+        _lostNote = d.lostNote;
         _initLoading = false;
       });
     } catch (_) {
@@ -176,6 +181,21 @@ class _DealFormScreenState extends State<DealFormScreen> {
       emptyLabel: l10n.coreNoResults,
     );
     if (picked != null && mounted) setState(() => onPicked(picked));
+  }
+
+  Future<void> _pickStatus(DealStatus s) async {
+    if (s != DealStatus.CLOSED_LOST) {
+      setState(() => _status = s);
+      return;
+    }
+    final choice = await showLostReasonSheet(context,
+        initialReason: _lostReason, initialNote: _lostNote);
+    if (choice == null || !mounted) return;
+    setState(() {
+      _status = s;
+      _lostReason = choice.reason;
+      _lostNote = choice.note;
+    });
   }
 
   double? _double(TextEditingController c) {
@@ -217,6 +237,10 @@ class _DealFormScreenState extends State<DealFormScreen> {
       if (budget != null) 'budget': budget,
       if (commission != null) 'commissionPercent': commission,
       if (_notesCtrl.text.trim().isNotEmpty) 'notes': _notesCtrl.text.trim(),
+      if (_status == DealStatus.CLOSED_LOST && _lostReason != null)
+        'lostReason': _lostReason!.name,
+      if (_status == DealStatus.CLOSED_LOST && _lostNote != null)
+        'lostNote': _lostNote,
     };
 
     if (widget.isEditing) {
@@ -384,11 +408,27 @@ class _DealFormScreenState extends State<DealFormScreen> {
                             label: dealStatusLabel(l10n, s),
                             selected: _status == s,
                             onCard: true,
-                            onTap: () => setState(() => _status = s),
+                            onTap: () => _pickStatus(s),
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 15, vertical: 9),
                           ),
                       ]),
+                      if (_status == DealStatus.CLOSED_LOST &&
+                          _lostReason != null) ...[
+                        const SizedBox(height: 12),
+                        Text(
+                          '${l10n.dealsLostReason}: '
+                          '${dealLostReasonLabel(l10n, _lostReason)}',
+                          key: const ValueKey('deal-form-lost-reason'),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontFamily: AppFonts.sans,
+                              fontSize: 12.5,
+                              height: 1.4,
+                              color: t.textSecondary),
+                        ),
+                      ],
                     ],
                   ),
                   FormSectionCard(

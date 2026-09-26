@@ -2,6 +2,7 @@ package com.crm.realestate.integration;
 
 import com.crm.realestate.entity.Client;
 import com.crm.realestate.entity.Deal;
+import com.crm.realestate.entity.DealStatusChange;
 import com.crm.realestate.entity.Team;
 import com.crm.realestate.entity.User;
 import com.crm.realestate.enums.ClientType;
@@ -12,9 +13,11 @@ import com.crm.realestate.enums.UserStatus;
 import com.crm.realestate.exception.ResourceNotFoundException;
 import com.crm.realestate.repository.ClientRepository;
 import com.crm.realestate.repository.DealRepository;
+import com.crm.realestate.repository.DealStatusChangeRepository;
 import com.crm.realestate.repository.TeamRepository;
 import com.crm.realestate.repository.UserRepository;
 import com.crm.realestate.service.AccountRemovalService;
+import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -53,6 +56,12 @@ public class AccountDeletionTest {
 
     @Autowired
     private TeamRepository teamRepository;
+
+    @Autowired
+    private DealStatusChangeRepository dealStatusChangeRepository;
+
+    @Autowired
+    private EntityManager entityManager;
 
     private User leaver;
     private User successor;
@@ -116,6 +125,25 @@ public class AccountDeletionTest {
                 .get()
                 .extracting(d -> d.getAgent().getId())
                 .isEqualTo(successor.getId());
+    }
+
+    @Test
+    @DisplayName("a deal's status history outlives the person who moved it, without their name")
+    public void statusHistoryOutlivesItsAuthor() {
+        Deal deal = dealFor(leaver);
+        dealStatusChangeRepository.save(DealStatusChange.builder()
+                .deal(deal).toStatus(DealStatus.LEAD).changedBy(leaver).build());
+        entityManager.flush();
+        entityManager.clear();
+
+        accountRemovalService.removeOwnAccount(
+                userRepository.findByEmail(leaver.getEmail()).orElseThrow(), successor.getId());
+        entityManager.flush();
+        entityManager.clear();
+
+        assertThat(dealStatusChangeRepository.findHistory(deal.getId()))
+                .singleElement()
+                .satisfies(c -> assertThat(c.getChangedBy()).isNull());
     }
 
     @Test

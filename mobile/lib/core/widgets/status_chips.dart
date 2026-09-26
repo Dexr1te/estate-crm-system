@@ -111,6 +111,32 @@ StatusHue propertyStatusHue(PropertyStatus status) {
   }
 }
 
+String dealLostReasonLabel(AppLocalizations l10n, DealLostReason? reason) {
+  switch (reason) {
+    case DealLostReason.PRICE:
+      return l10n.dealsLostReasonPrice;
+    case DealLostReason.CHOSE_ANOTHER:
+      return l10n.dealsLostReasonChoseAnother;
+    case DealLostReason.FINANCING:
+      return l10n.dealsLostReasonFinancing;
+    case DealLostReason.CHANGED_MIND:
+      return l10n.dealsLostReasonChangedMind;
+    case DealLostReason.NO_RESPONSE:
+      return l10n.dealsLostReasonNoResponse;
+    case DealLostReason.OTHER:
+      return l10n.dealsLostReasonOther;
+    case null:
+      return l10n.dealsLostReasonUnspecified;
+  }
+}
+
+DealLostReason? dealLostReasonFromName(String name) {
+  for (final r in DealLostReason.values) {
+    if (r.name == name) return r;
+  }
+  return null;
+}
+
 String viewingOutcomeLabel(AppLocalizations l10n, ViewingOutcome outcome) {
   switch (outcome) {
     case ViewingOutcome.INTERESTED:

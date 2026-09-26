@@ -119,7 +119,7 @@ public class DashboardService {
                 : total.divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
     }
 
-    private <T> Specification<T> narrowed(User currentUser, Long agentId, Long teamId) {
+    <T> Specification<T> narrowed(User currentUser, Long agentId, Long teamId) {
         return narrowed(currentUser, agentId, teamId, "agent");
     }
 

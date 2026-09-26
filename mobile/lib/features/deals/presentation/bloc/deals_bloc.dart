@@ -84,6 +84,10 @@ class DealsBloc extends Bloc<DealsEvent, DealsState>
 
   Future<void> _onUpdateStatus(
           DealsUpdateStatusEvent e, Emitter<DealsState> emit) =>
-      _act(emit, 'status-${e.id}-${e.status.name}', ActionMessage.statusUpdated,
-          () => _repo.updateDealStatus(e.id, e.status));
+      _act(
+          emit,
+          'status-${e.id}-${e.status.name}',
+          ActionMessage.statusUpdated,
+          () => _repo.updateDealStatus(e.id, e.status,
+              lostReason: e.lostReason, lostNote: e.lostNote));
 }

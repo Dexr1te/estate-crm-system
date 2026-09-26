@@ -295,6 +295,9 @@ public class DemoDataSeeder implements ApplicationRunner {
                 .dealPrice(dealPrice == null ? null : new BigDecimal(dealPrice))
                 .budget(budget == null ? null : new BigDecimal(budget))
                 .closedAt(closedAt)
+                // A seeded lost deal says why, as a real one must now.
+                .lostReason(status == DealStatus.CLOSED_LOST
+                        ? com.crm.realestate.enums.DealLostReason.PRICE : null)
                 .build());
     }
 

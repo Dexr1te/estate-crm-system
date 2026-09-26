@@ -24,6 +24,9 @@ String formatDayMonth(DateTime dt, String locale) =>
 String formatFullDate(DateTime dt, String locale) =>
     DateFormat.yMMMd(_resolveLocale(locale)).format(dt);
 
+String formatMonthShort(DateTime dt, String locale) =>
+    DateFormat.MMM(_resolveLocale(locale)).format(dt);
+
 String _resolveLocale(String locale) =>
     DateFormat.localeExists(locale) ? locale : 'en';
 

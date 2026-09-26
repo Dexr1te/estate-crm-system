@@ -30,9 +30,13 @@ class DealsRemoteDataSource {
     return DealResponse.fromJson(jsonObject(res));
   }
 
-  Future<DealResponse> updateDealStatus(int id, DealStatus status) async {
-    final res = await _client.dio
-        .patch('/deals/$id/status', queryParameters: {'status': status.name});
+  Future<DealResponse> updateDealStatus(int id, DealStatus status,
+      {DealLostReason? lostReason, String? lostNote}) async {
+    final res = await _client.dio.patch('/deals/$id/status', queryParameters: {
+      'status': status.name,
+      if (lostReason != null) 'lostReason': lostReason.name,
+      if (lostNote != null && lostNote.isNotEmpty) 'lostNote': lostNote,
+    });
     return DealResponse.fromJson(jsonObject(res));
   }
 

@@ -9,7 +9,8 @@ abstract class DealsRepository {
 
   Future<DealResponse> updateDeal(int id, Map<String, dynamic> data);
 
-  Future<DealResponse> updateDealStatus(int id, DealStatus status);
+  Future<DealResponse> updateDealStatus(int id, DealStatus status,
+      {DealLostReason? lostReason, String? lostNote});
 
   Future<void> deleteDeal(int id);
 }

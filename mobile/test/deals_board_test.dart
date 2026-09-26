@@ -53,7 +53,8 @@ class _MovableDeals extends FakeDealsRepository {
   _MovableDeals(super.deals);
 
   @override
-  Future<DealResponse> updateDealStatus(int id, DealStatus status) async {
+  Future<DealResponse> updateDealStatus(int id, DealStatus status,
+      {DealLostReason? lostReason, String? lostNote}) async {
     moves.add((id, status));
     final i = deals.indexWhere((d) => d.id == id);
     return deals[i] = deals[i].copyWith(status: status);

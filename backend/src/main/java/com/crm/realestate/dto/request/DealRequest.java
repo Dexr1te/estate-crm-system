@@ -1,6 +1,8 @@
 package com.crm.realestate.dto.request;
 
+import com.crm.realestate.enums.DealLostReason;
 import com.crm.realestate.enums.DealStatus;
+import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
@@ -28,6 +30,12 @@ public class DealRequest {
     private BigDecimal commissionPercent;
 
     private String notes;
+
+    /** Required when status is CLOSED_LOST, ignored otherwise. */
+    private DealLostReason lostReason;
+
+    @Size(max = 500, message = "The note on why the deal was lost takes at most 500 characters")
+    private String lostNote;
 
     @NotNull(message = "Client ID is required")
     private Long clientId;

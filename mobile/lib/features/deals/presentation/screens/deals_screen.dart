@@ -8,6 +8,7 @@ import 'package:real_estate_crm/features/deals/presentation/bloc/deals_event.dar
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_state.dart';
 import 'package:real_estate_crm/features/deals/presentation/widgets/deal_board.dart';
 import 'package:real_estate_crm/features/deals/presentation/widgets/deal_card.dart';
+import 'package:real_estate_crm/features/deals/presentation/widgets/lost_reason_sheet.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class DealsScreen extends StatefulWidget {
@@ -81,10 +82,16 @@ class _DealsScreenState extends State<DealsScreen> {
     });
   }
 
-  void _move(DealResponse deal, DealStatus to) {
+  Future<void> _move(DealResponse deal, DealStatus to) async {
     if (deal.status == to) return;
+    LostReasonChoice? lost;
+    if (to == DealStatus.CLOSED_LOST) {
+      lost = await showLostReasonSheet(context);
+      if (lost == null || !mounted) return;
+    }
     setState(() => _pending[deal.id] = to);
-    context.read<DealsBloc>().add(DealsUpdateStatusEvent(deal.id, to));
+    context.read<DealsBloc>().add(DealsUpdateStatusEvent(deal.id, to,
+        lostReason: lost?.reason, lostNote: lost?.note));
   }
 
   List<DealResponse> _withPending(List<DealResponse> deals) {

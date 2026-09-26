@@ -22,8 +22,10 @@ class DealsRepositoryImpl implements DealsRepository {
       _remote.updateDeal(id, data);
 
   @override
-  Future<DealResponse> updateDealStatus(int id, DealStatus status) =>
-      _remote.updateDealStatus(id, status);
+  Future<DealResponse> updateDealStatus(int id, DealStatus status,
+          {DealLostReason? lostReason, String? lostNote}) =>
+      _remote.updateDealStatus(id, status,
+          lostReason: lostReason, lostNote: lostNote);
 
   @override
   Future<void> deleteDeal(int id) => _remote.deleteDeal(id);
