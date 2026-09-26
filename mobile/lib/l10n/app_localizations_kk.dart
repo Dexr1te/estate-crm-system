@@ -687,6 +687,35 @@ class AppLocalizationsKk extends AppLocalizations {
   }
 
   @override
+  String get clientsDuplicateEyebrow => 'Ықтимал қайталану';
+
+  @override
+  String clientsDuplicateHeldBy(String agent, String name) {
+    return 'Агенттікте бар: $name (агент $agent)';
+  }
+
+  @override
+  String get clientsDuplicateHint =>
+      'Бәрібір сақтауға болады. Алдымен әріптеспен нақтылаңыз.';
+
+  @override
+  String get clientsDuplicateOpen => 'Ашу';
+
+  @override
+  String get clientsDuplicateSameBoth => 'Телефоны мен email сәйкес';
+
+  @override
+  String get clientsDuplicateSameEmail => 'Email сәйкес';
+
+  @override
+  String get clientsDuplicateSamePhone => 'Телефоны сәйкес';
+
+  @override
+  String clientsDuplicateUnassigned(String name) {
+    return 'Агенттікте бар: $name';
+  }
+
+  @override
   String get clientsEdit => 'Өңдеу';
 
   @override
@@ -739,6 +768,29 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get clientsMatches => 'Сәйкес нысандар';
+
+  @override
+  String get clientsMerge => 'Басқа карточкамен біріктіру';
+
+  @override
+  String get clientsMergeConfirm => 'Біріктіру';
+
+  @override
+  String clientsMergeConfirmBody(String source, String target) {
+    return '$source клиентінің мәмілелері, көрсетілімдері, байланыс тарихы мен тапсырмалары $target клиентіне ауысады. Бос телефон, email және талаптар толтырылады, жазбалар қосылады. Содан кейін $source карточкасы жойылады. Бұны қайтару мүмкін емес.';
+  }
+
+  @override
+  String get clientsMergeConfirmTitle => 'Осы карточкаға біріктіру керек пе?';
+
+  @override
+  String get clientsMergeNoCandidates => 'Біріктіретін басқа клиент жоқ';
+
+  @override
+  String get clientsMergePickTitle => 'Қай карточка — сол адам?';
+
+  @override
+  String get clientsMergeSearchHint => 'Клиенттерді іздеу';
 
   @override
   String get clientsMessage => 'Жазу';
@@ -1838,6 +1890,9 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get msgClientUpdated => 'Клиент жаңартылды';
+
+  @override
+  String get msgClientsMerged => 'Карточкалар біріктірілді';
 
   @override
   String get msgCodeSent => 'Код жіберілді';

@@ -76,4 +76,10 @@ public interface DealRepository extends JpaRepository<Deal, Long>, JpaSpecificat
     // общая сводка по всем сделкам
     @Query("SELECT d.status, COUNT(d) FROM Deal d GROUP BY d.status")
     List<Object[]> countByStatus();
+
+    /** Moves everything this client had onto another card — see ClientService.merge. */
+    @org.springframework.data.jpa.repository.Modifying(flushAutomatically = true)
+    @Query("UPDATE Deal d SET d.client = :target WHERE d.client = :source")
+    int moveToClient(@Param("source") com.crm.realestate.entity.Client source,
+                     @Param("target") com.crm.realestate.entity.Client target);
 }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -7,6 +9,7 @@ import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_bloc.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_event.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_state.dart';
+import 'package:real_estate_crm/features/clients/presentation/widgets/duplicate_warning.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class ClientFormScreen extends StatefulWidget {
@@ -33,6 +36,14 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
   bool _loading = false;
   bool _initLoading = false;
 
+  /// Other cards in the agency with this phone or email. Shown as a warning;
+  /// saving is never held back by it.
+  List<ClientDuplicate> _duplicates = const [];
+  Timer? _duplicateTimer;
+  String? _lastDuplicateQuery;
+  String _loadedPhone = '';
+  String _loadedEmail = '';
+
   @override
   void initState() {
     super.initState();
@@ -41,6 +52,7 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
 
   @override
   void dispose() {
+    _duplicateTimer?.cancel();
     for (final c in [
       _nameCtrl,
       _emailCtrl,
@@ -64,6 +76,8 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
       _nameCtrl.text = c.fullName;
       _emailCtrl.text = c.email ?? '';
       _phoneCtrl.text = c.phone ?? '';
+      _loadedPhone = _phoneCtrl.text.trim();
+      _loadedEmail = _emailCtrl.text.trim();
       _notesCtrl.text = c.notes ?? '';
       _cityCtrl.text = c.wantedCity ?? '';
       _budgetMinCtrl.text = _amount(c.budgetMin);
@@ -78,6 +92,36 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
       });
     } catch (_) {
       if (mounted) setState(() => _initLoading = false);
+    }
+  }
+
+  /// A contact field was left: look again shortly, once, for the same person.
+  void _contactFieldBlurred(bool hasFocus) {
+    if (hasFocus) return;
+    _duplicateTimer?.cancel();
+    _duplicateTimer =
+        Timer(const Duration(milliseconds: 300), _checkDuplicates);
+  }
+
+  Future<void> _checkDuplicates() async {
+    final phone = _phoneCtrl.text.trim();
+    final email = _emailCtrl.text.trim();
+    final unchanged =
+        widget.isEditing && phone == _loadedPhone && email == _loadedEmail;
+    final query = '$phone|$email';
+    if (query == _lastDuplicateQuery) return;
+    _lastDuplicateQuery = query;
+    if (unchanged || (phone.isEmpty && email.isEmpty)) {
+      if (_duplicates.isNotEmpty) setState(() => _duplicates = const []);
+      return;
+    }
+    try {
+      final found = await Injector.clientsRepository.findDuplicates(
+          phone: phone, email: email, excludeId: widget.clientId);
+      if (!mounted || query != _lastDuplicateQuery) return;
+      setState(() => _duplicates = found);
+    } catch (_) {
+      // A warning that could not be fetched is no reason to get in the way.
     }
   }
 
@@ -230,26 +274,39 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
                       LabelledField(
                         label: l10n.clientsPhone,
                         required: true,
-                        child: AppTextField(
-                          controller: _phoneCtrl,
-                          hint: '+7 ___ ___-__-__',
-                          keyboardType: TextInputType.phone,
-                          textInputAction: TextInputAction.next,
+                        child: Focus(
+                          onFocusChange: _contactFieldBlurred,
+                          skipTraversal: true,
+                          child: AppTextField(
+                            controller: _phoneCtrl,
+                            hint: '+7 ___ ___-__-__',
+                            keyboardType: TextInputType.phone,
+                            textInputAction: TextInputAction.next,
+                          ),
                         ),
                       ),
                       LabelledField(
                         label: l10n.clientsEmail,
-                        child: AppTextField(
-                          controller: _emailCtrl,
-                          hint: 'name@mail.com',
-                          keyboardType: TextInputType.emailAddress,
-                          textInputAction: TextInputAction.next,
-                          validator: (v) =>
-                              v != null && v.isNotEmpty && !v.contains('@')
-                                  ? l10n.clientsInvalidEmail
-                                  : null,
+                        child: Focus(
+                          onFocusChange: _contactFieldBlurred,
+                          skipTraversal: true,
+                          child: AppTextField(
+                            controller: _emailCtrl,
+                            hint: 'name@mail.com',
+                            keyboardType: TextInputType.emailAddress,
+                            textInputAction: TextInputAction.next,
+                            validator: (v) =>
+                                v != null && v.isNotEmpty && !v.contains('@')
+                                    ? l10n.clientsInvalidEmail
+                                    : null,
+                          ),
                         ),
                       ),
+                      if (_duplicates.isNotEmpty)
+                        DuplicateWarning(
+                          duplicates: _duplicates,
+                          onOpen: (d) => context.push('/clients/${d.id}'),
+                        ),
                     ],
                   ),
                   if (_type == ClientType.BUYER)

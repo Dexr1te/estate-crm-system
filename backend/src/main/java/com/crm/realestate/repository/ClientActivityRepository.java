@@ -27,4 +27,10 @@ public interface ClientActivityRepository extends JpaRepository<ClientActivity, 
     @Query("UPDATE ClientActivity a SET a.team = :team WHERE a.team IS NULL AND a.client.id IN "
             + "(SELECT c.id FROM Client c WHERE c.team = :team AND c.agent = :agent)")
     int adoptTeamless(@Param("agent") User agent, @Param("team") Team team);
+
+    /** Moves everything this client had onto another card — see ClientService.merge. */
+    @org.springframework.data.jpa.repository.Modifying(flushAutomatically = true)
+    @Query("UPDATE ClientActivity a SET a.client = :target WHERE a.client = :source")
+    int moveToClient(@Param("source") com.crm.realestate.entity.Client source,
+                     @Param("target") com.crm.realestate.entity.Client target);
 }

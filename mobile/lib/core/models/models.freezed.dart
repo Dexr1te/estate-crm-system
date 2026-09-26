@@ -1444,6 +1444,341 @@ abstract class _ClientActivity implements ClientActivity {
       throw _privateConstructorUsedError;
 }
 
+ClientDuplicate _$ClientDuplicateFromJson(Map<String, dynamic> json) {
+  return _ClientDuplicate.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ClientDuplicate {
+  int get id => throw _privateConstructorUsedError;
+  String get fullName => throw _privateConstructorUsedError;
+  ClientType get type => throw _privateConstructorUsedError;
+  int? get agentId => throw _privateConstructorUsedError;
+  String? get agentName => throw _privateConstructorUsedError;
+  String? get phone => throw _privateConstructorUsedError;
+  String? get email => throw _privateConstructorUsedError;
+  @JsonKey(unknownEnumValue: DuplicateMatch.PHONE)
+  DuplicateMatch get matchedOn => throw _privateConstructorUsedError;
+
+  /// Whether this person may open the card: an agent on their own clients
+  /// learns who holds a colleague's buyer, not the file itself.
+  bool get visible => throw _privateConstructorUsedError;
+
+  /// Serializes this ClientDuplicate to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of ClientDuplicate
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $ClientDuplicateCopyWith<ClientDuplicate> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ClientDuplicateCopyWith<$Res> {
+  factory $ClientDuplicateCopyWith(
+          ClientDuplicate value, $Res Function(ClientDuplicate) then) =
+      _$ClientDuplicateCopyWithImpl<$Res, ClientDuplicate>;
+  @useResult
+  $Res call(
+      {int id,
+      String fullName,
+      ClientType type,
+      int? agentId,
+      String? agentName,
+      String? phone,
+      String? email,
+      @JsonKey(unknownEnumValue: DuplicateMatch.PHONE) DuplicateMatch matchedOn,
+      bool visible});
+}
+
+/// @nodoc
+class _$ClientDuplicateCopyWithImpl<$Res, $Val extends ClientDuplicate>
+    implements $ClientDuplicateCopyWith<$Res> {
+  _$ClientDuplicateCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of ClientDuplicate
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? fullName = null,
+    Object? type = null,
+    Object? agentId = freezed,
+    Object? agentName = freezed,
+    Object? phone = freezed,
+    Object? email = freezed,
+    Object? matchedOn = null,
+    Object? visible = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      fullName: null == fullName
+          ? _value.fullName
+          : fullName // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as ClientType,
+      agentId: freezed == agentId
+          ? _value.agentId
+          : agentId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      agentName: freezed == agentName
+          ? _value.agentName
+          : agentName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      phone: freezed == phone
+          ? _value.phone
+          : phone // ignore: cast_nullable_to_non_nullable
+              as String?,
+      email: freezed == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String?,
+      matchedOn: null == matchedOn
+          ? _value.matchedOn
+          : matchedOn // ignore: cast_nullable_to_non_nullable
+              as DuplicateMatch,
+      visible: null == visible
+          ? _value.visible
+          : visible // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ClientDuplicateImplCopyWith<$Res>
+    implements $ClientDuplicateCopyWith<$Res> {
+  factory _$$ClientDuplicateImplCopyWith(_$ClientDuplicateImpl value,
+          $Res Function(_$ClientDuplicateImpl) then) =
+      __$$ClientDuplicateImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int id,
+      String fullName,
+      ClientType type,
+      int? agentId,
+      String? agentName,
+      String? phone,
+      String? email,
+      @JsonKey(unknownEnumValue: DuplicateMatch.PHONE) DuplicateMatch matchedOn,
+      bool visible});
+}
+
+/// @nodoc
+class __$$ClientDuplicateImplCopyWithImpl<$Res>
+    extends _$ClientDuplicateCopyWithImpl<$Res, _$ClientDuplicateImpl>
+    implements _$$ClientDuplicateImplCopyWith<$Res> {
+  __$$ClientDuplicateImplCopyWithImpl(
+      _$ClientDuplicateImpl _value, $Res Function(_$ClientDuplicateImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ClientDuplicate
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? fullName = null,
+    Object? type = null,
+    Object? agentId = freezed,
+    Object? agentName = freezed,
+    Object? phone = freezed,
+    Object? email = freezed,
+    Object? matchedOn = null,
+    Object? visible = null,
+  }) {
+    return _then(_$ClientDuplicateImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      fullName: null == fullName
+          ? _value.fullName
+          : fullName // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as ClientType,
+      agentId: freezed == agentId
+          ? _value.agentId
+          : agentId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      agentName: freezed == agentName
+          ? _value.agentName
+          : agentName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      phone: freezed == phone
+          ? _value.phone
+          : phone // ignore: cast_nullable_to_non_nullable
+              as String?,
+      email: freezed == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String?,
+      matchedOn: null == matchedOn
+          ? _value.matchedOn
+          : matchedOn // ignore: cast_nullable_to_non_nullable
+              as DuplicateMatch,
+      visible: null == visible
+          ? _value.visible
+          : visible // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ClientDuplicateImpl implements _ClientDuplicate {
+  const _$ClientDuplicateImpl(
+      {required this.id,
+      this.fullName = '',
+      this.type = ClientType.BUYER,
+      this.agentId,
+      this.agentName,
+      this.phone,
+      this.email,
+      @JsonKey(unknownEnumValue: DuplicateMatch.PHONE)
+      this.matchedOn = DuplicateMatch.PHONE,
+      this.visible = true});
+
+  factory _$ClientDuplicateImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ClientDuplicateImplFromJson(json);
+
+  @override
+  final int id;
+  @override
+  @JsonKey()
+  final String fullName;
+  @override
+  @JsonKey()
+  final ClientType type;
+  @override
+  final int? agentId;
+  @override
+  final String? agentName;
+  @override
+  final String? phone;
+  @override
+  final String? email;
+  @override
+  @JsonKey(unknownEnumValue: DuplicateMatch.PHONE)
+  final DuplicateMatch matchedOn;
+
+  /// Whether this person may open the card: an agent on their own clients
+  /// learns who holds a colleague's buyer, not the file itself.
+  @override
+  @JsonKey()
+  final bool visible;
+
+  @override
+  String toString() {
+    return 'ClientDuplicate(id: $id, fullName: $fullName, type: $type, agentId: $agentId, agentName: $agentName, phone: $phone, email: $email, matchedOn: $matchedOn, visible: $visible)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ClientDuplicateImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.fullName, fullName) ||
+                other.fullName == fullName) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.agentId, agentId) || other.agentId == agentId) &&
+            (identical(other.agentName, agentName) ||
+                other.agentName == agentName) &&
+            (identical(other.phone, phone) || other.phone == phone) &&
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.matchedOn, matchedOn) ||
+                other.matchedOn == matchedOn) &&
+            (identical(other.visible, visible) || other.visible == visible));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, fullName, type, agentId,
+      agentName, phone, email, matchedOn, visible);
+
+  /// Create a copy of ClientDuplicate
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ClientDuplicateImplCopyWith<_$ClientDuplicateImpl> get copyWith =>
+      __$$ClientDuplicateImplCopyWithImpl<_$ClientDuplicateImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ClientDuplicateImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ClientDuplicate implements ClientDuplicate {
+  const factory _ClientDuplicate(
+      {required final int id,
+      final String fullName,
+      final ClientType type,
+      final int? agentId,
+      final String? agentName,
+      final String? phone,
+      final String? email,
+      @JsonKey(unknownEnumValue: DuplicateMatch.PHONE)
+      final DuplicateMatch matchedOn,
+      final bool visible}) = _$ClientDuplicateImpl;
+
+  factory _ClientDuplicate.fromJson(Map<String, dynamic> json) =
+      _$ClientDuplicateImpl.fromJson;
+
+  @override
+  int get id;
+  @override
+  String get fullName;
+  @override
+  ClientType get type;
+  @override
+  int? get agentId;
+  @override
+  String? get agentName;
+  @override
+  String? get phone;
+  @override
+  String? get email;
+  @override
+  @JsonKey(unknownEnumValue: DuplicateMatch.PHONE)
+  DuplicateMatch get matchedOn;
+
+  /// Whether this person may open the card: an agent on their own clients
+  /// learns who holds a colleague's buyer, not the file itself.
+  @override
+  bool get visible;
+
+  /// Create a copy of ClientDuplicate
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ClientDuplicateImplCopyWith<_$ClientDuplicateImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 PropertyResponse _$PropertyResponseFromJson(Map<String, dynamic> json) {
   return _PropertyResponse.fromJson(json);
 }

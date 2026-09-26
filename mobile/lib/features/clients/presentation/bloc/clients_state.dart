@@ -38,6 +38,13 @@ class ClientCreated extends ClientsLoaded {
   ClientCreated(this.client, super.clients);
 }
 
+/// Two cards became one; [client] is the card that stayed.
+class ClientsMerged extends ClientsActionSuccess {
+  final ClientResponse client;
+  ClientsMerged(this.client, List<ClientSummary> clients)
+      : super(ActionMessage.clientsMerged, clients);
+}
+
 class ClientSummary {
   final int id;
   final String fullName;

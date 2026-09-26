@@ -50,4 +50,16 @@ class ClientsRepositoryImpl implements ClientsRepository {
   @override
   Future<void> deleteActivity(int clientId, int activityId) =>
       _remote.deleteActivity(clientId, activityId);
+
+  @override
+  Future<List<ClientDuplicate>> findDuplicates({
+    String? phone,
+    String? email,
+    int? excludeId,
+  }) =>
+      _remote.findDuplicates(phone: phone, email: email, excludeId: excludeId);
+
+  @override
+  Future<ClientResponse> mergeClients(int targetId, int sourceId) =>
+      _remote.mergeClients(targetId, sourceId);
 }

@@ -1294,6 +1294,54 @@ abstract class AppLocalizations {
   /// **'Delete \"{name}\"?'**
   String clientsDeleteConfirm(Object name);
 
+  /// No description provided for @clientsDuplicateEyebrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Possible duplicate'**
+  String get clientsDuplicateEyebrow;
+
+  /// No description provided for @clientsDuplicateHeldBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Already in the agency: {name} (agent {agent})'**
+  String clientsDuplicateHeldBy(String agent, String name);
+
+  /// No description provided for @clientsDuplicateHint.
+  ///
+  /// In en, this message translates to:
+  /// **'You can still save. Check with the colleague first.'**
+  String get clientsDuplicateHint;
+
+  /// No description provided for @clientsDuplicateOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get clientsDuplicateOpen;
+
+  /// No description provided for @clientsDuplicateSameBoth.
+  ///
+  /// In en, this message translates to:
+  /// **'Same phone and email'**
+  String get clientsDuplicateSameBoth;
+
+  /// No description provided for @clientsDuplicateSameEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Same email'**
+  String get clientsDuplicateSameEmail;
+
+  /// No description provided for @clientsDuplicateSamePhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Same phone'**
+  String get clientsDuplicateSamePhone;
+
+  /// No description provided for @clientsDuplicateUnassigned.
+  ///
+  /// In en, this message translates to:
+  /// **'Already in the agency: {name}'**
+  String clientsDuplicateUnassigned(String name);
+
   /// No description provided for @clientsEdit.
   ///
   /// In en, this message translates to:
@@ -1395,6 +1443,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Matching listings'**
   String get clientsMatches;
+
+  /// No description provided for @clientsMerge.
+  ///
+  /// In en, this message translates to:
+  /// **'Merge with another card'**
+  String get clientsMerge;
+
+  /// No description provided for @clientsMergeConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Merge'**
+  String get clientsMergeConfirm;
+
+  /// No description provided for @clientsMergeConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Deals, viewings, contact history and tasks of {source} move to {target}. An empty phone, email and requirements are filled in, and the notes are added. The card {source} is then deleted. This cannot be undone.'**
+  String clientsMergeConfirmBody(String source, String target);
+
+  /// No description provided for @clientsMergeConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Merge into this card?'**
+  String get clientsMergeConfirmTitle;
+
+  /// No description provided for @clientsMergeNoCandidates.
+  ///
+  /// In en, this message translates to:
+  /// **'No other clients to merge with'**
+  String get clientsMergeNoCandidates;
+
+  /// No description provided for @clientsMergePickTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Which card is the same person?'**
+  String get clientsMergePickTitle;
+
+  /// No description provided for @clientsMergeSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search clients'**
+  String get clientsMergeSearchHint;
 
   /// No description provided for @clientsMessage.
   ///
@@ -3291,6 +3381,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Client updated'**
   String get msgClientUpdated;
+
+  /// No description provided for @msgClientsMerged.
+  ///
+  /// In en, this message translates to:
+  /// **'Cards merged'**
+  String get msgClientsMerged;
 
   /// No description provided for @msgCodeSent.
   ///

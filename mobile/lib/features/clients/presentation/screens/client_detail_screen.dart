@@ -9,7 +9,9 @@ import 'package:real_estate_crm/core/utils/contact_actions.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_bloc.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_event.dart';
+import 'package:real_estate_crm/features/clients/presentation/bloc/clients_state.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/client_history_card.dart';
+import 'package:real_estate_crm/features/clients/presentation/widgets/duplicate_warning.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/log_contact_sheet.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/send_matches_sheet.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_card.dart';
@@ -32,6 +34,7 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
   List<ClientActivity>? _activities = const [];
   bool _loading = true;
   String? _error;
+  bool _merging = false;
 
   @override
   void initState() {
@@ -143,6 +146,81 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
     context.go('/clients');
   }
 
+  /// The cards this one could absorb: the detected duplicates when there are
+  /// any, otherwise every other client this person can see.
+  Future<List<PickerItem>> _mergeCandidates(ClientResponse client) async {
+    final l10n = AppLocalizations.of(context);
+    final repo = Injector.clientsRepository;
+    final duplicates = await repo.findDuplicates(
+        phone: client.phone, email: client.email, excludeId: client.id);
+    final mergeable = duplicates.where((d) => d.visible).toList();
+    if (mergeable.isNotEmpty) {
+      return [
+        for (final d in mergeable)
+          PickerItem(
+            id: d.id,
+            title: d.fullName,
+            subtitle: [
+              if (d.agentName != null) d.agentName!,
+              duplicateMatchLabel(l10n, d.matchedOn),
+            ].join(' · '),
+          ),
+      ];
+    }
+    final all = await repo.getClients();
+    return [
+      for (final c in all.where((c) => c.id != client.id))
+        PickerItem(id: c.id, title: c.fullName, subtitle: c.phone ?? c.email),
+    ];
+  }
+
+  Future<void> _merge() async {
+    final l10n = AppLocalizations.of(context);
+    final client = _client!;
+    final List<PickerItem> candidates;
+    try {
+      candidates = await _mergeCandidates(client);
+    } catch (err) {
+      if (mounted) {
+        showActionUnavailable(
+            context, apiFailureLabel(l10n, ApiFailure.from(err)));
+      }
+      return;
+    }
+    if (!mounted) return;
+    final picked = await showEntityPicker(
+      context,
+      title: l10n.clientsMergePickTitle,
+      items: candidates,
+      searchHint: l10n.clientsMergeSearchHint,
+      emptyLabel: l10n.clientsMergeNoCandidates,
+    );
+    if (picked == null || !mounted) return;
+    final ok = await showConfirmDialog(
+      context,
+      title: l10n.clientsMergeConfirmTitle,
+      content: l10n.clientsMergeConfirmBody(picked.title, client.fullName),
+      confirmLabel: l10n.clientsMergeConfirm,
+      icon: Icons.merge_type_rounded,
+    );
+    if (!ok || !mounted) return;
+    setState(() => _merging = true);
+    context
+        .read<ClientsBloc>()
+        .add(ClientsMergeEvent(targetId: widget.id, sourceId: picked.id));
+  }
+
+  void _onClientsState(BuildContext context, ClientsState state) {
+    if (state is ClientsMerged && state.client.id == widget.id) {
+      setState(() => _merging = false);
+      showActionOutcome(context, state);
+      _load();
+    } else if (state is ClientsActionFailure) {
+      setState(() => _merging = false);
+      showActionOutcome(context, state);
+    }
+  }
+
   void _copyId() {
     Clipboard.setData(ClipboardData(text: '${widget.id}'));
     ScaffoldMessenger.of(context)
@@ -199,33 +277,46 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
       );
     }
 
-    return DetailScaffold(
-      title: client.fullName,
-      onRefresh: _load,
-      actions: detailActions(
-        onEdit: () => context.push('/clients/${widget.id}/edit'),
-        onDelete: context.isAdmin ? _delete : null,
-        editTooltip: l10n.clientsEdit,
-        deleteTooltip: l10n.clientsDelete,
+    return BlocListener<ClientsBloc, ClientsState>(
+      listenWhen: (_, __) => _merging,
+      listener: _onClientsState,
+      child: DetailScaffold(
+        title: client.fullName,
+        onRefresh: _load,
+        actions: [
+          if (context.isAdminOrManager)
+            AppIconTile(
+              key: const ValueKey('client-merge'),
+              icon: Icons.merge_type_rounded,
+              onPressed: _merging ? () {} : _merge,
+              tooltip: l10n.clientsMerge,
+            ),
+          ...detailActions(
+            onEdit: () => context.push('/clients/${widget.id}/edit'),
+            onDelete: context.isAdmin ? _delete : null,
+            editTooltip: l10n.clientsEdit,
+            deleteTooltip: l10n.clientsDelete,
+          ),
+        ],
+        children: [
+          _IdentityCard(client: client, onCopyId: _copyId),
+          _ContactCard(client: client, onCall: _call, onMessage: _message),
+          ClientHistoryCard(
+            activities: _activities,
+            onLog: _logContact,
+            onRetry: _retryActivities,
+            onDelete: _deleteActivity,
+            canDelete: _canDeleteActivity,
+          ),
+          RecordTasksCard(
+              client: PickerItem(id: client.id, title: client.fullName)),
+          _DealsCard(deals: _deals),
+          if (client.type == ClientType.BUYER)
+            _MatchesCard(client: client, matches: _matches),
+          if (client.notes != null && client.notes!.trim().isNotEmpty)
+            _NotesCard(client: client),
+        ],
       ),
-      children: [
-        _IdentityCard(client: client, onCopyId: _copyId),
-        _ContactCard(client: client, onCall: _call, onMessage: _message),
-        ClientHistoryCard(
-          activities: _activities,
-          onLog: _logContact,
-          onRetry: _retryActivities,
-          onDelete: _deleteActivity,
-          canDelete: _canDeleteActivity,
-        ),
-        RecordTasksCard(
-            client: PickerItem(id: client.id, title: client.fullName)),
-        _DealsCard(deals: _deals),
-        if (client.type == ClientType.BUYER)
-          _MatchesCard(client: client, matches: _matches),
-        if (client.notes != null && client.notes!.trim().isNotEmpty)
-          _NotesCard(client: client),
-      ],
     );
   }
 }

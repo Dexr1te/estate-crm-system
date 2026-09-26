@@ -695,6 +695,35 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String get clientsDuplicateEyebrow => 'Возможный дубль';
+
+  @override
+  String clientsDuplicateHeldBy(String agent, String name) {
+    return 'Уже есть в агентстве: $name (агент $agent)';
+  }
+
+  @override
+  String get clientsDuplicateHint =>
+      'Сохранить всё равно можно. Сначала уточните у коллеги.';
+
+  @override
+  String get clientsDuplicateOpen => 'Открыть';
+
+  @override
+  String get clientsDuplicateSameBoth => 'Тот же телефон и email';
+
+  @override
+  String get clientsDuplicateSameEmail => 'Тот же email';
+
+  @override
+  String get clientsDuplicateSamePhone => 'Тот же телефон';
+
+  @override
+  String clientsDuplicateUnassigned(String name) {
+    return 'Уже есть в агентстве: $name';
+  }
+
+  @override
   String get clientsEdit => 'Редактировать';
 
   @override
@@ -747,6 +776,29 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get clientsMatches => 'Подходящие объекты';
+
+  @override
+  String get clientsMerge => 'Объединить с другой карточкой';
+
+  @override
+  String get clientsMergeConfirm => 'Объединить';
+
+  @override
+  String clientsMergeConfirmBody(String source, String target) {
+    return 'Сделки, показы, история контактов и задачи клиента $source перейдут к $target. Пустые телефон, email и требования заполнятся, заметки добавятся. Затем карточка $source будет удалена. Отменить действие нельзя.';
+  }
+
+  @override
+  String get clientsMergeConfirmTitle => 'Объединить в эту карточку?';
+
+  @override
+  String get clientsMergeNoCandidates => 'Нет других клиентов для объединения';
+
+  @override
+  String get clientsMergePickTitle => 'Какая карточка — тот же человек?';
+
+  @override
+  String get clientsMergeSearchHint => 'Поиск клиентов';
 
   @override
   String get clientsMessage => 'Написать';
@@ -1854,6 +1906,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get msgClientUpdated => 'Клиент обновлён';
+
+  @override
+  String get msgClientsMerged => 'Карточки объединены';
 
   @override
   String get msgCodeSent => 'Код отправлен';

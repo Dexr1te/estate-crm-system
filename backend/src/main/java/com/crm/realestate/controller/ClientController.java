@@ -1,13 +1,16 @@
 package com.crm.realestate.controller;
 
 import com.crm.realestate.dto.request.ClientActivityRequest;
+import com.crm.realestate.dto.request.ClientMergeRequest;
 import com.crm.realestate.dto.request.ClientRequest;
 import com.crm.realestate.dto.response.ClientActivityResponse;
+import com.crm.realestate.dto.response.ClientDuplicate;
 import com.crm.realestate.dto.response.ClientListItem;
 import com.crm.realestate.dto.response.ClientResponse;
 import com.crm.realestate.dto.response.PropertyMatch;
 import com.crm.realestate.enums.ClientType;
 import com.crm.realestate.service.ClientActivityService;
+import com.crm.realestate.service.ClientDuplicateService;
 import com.crm.realestate.service.ClientService;
 import com.crm.realestate.service.MatchingService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -32,6 +35,7 @@ public class ClientController {
     private final ClientService   clientService;
     private final MatchingService matchingService;
     private final ClientActivityService activityService;
+    private final ClientDuplicateService duplicateService;
 
     @GetMapping
     @Operation(summary = "Get all clients (supports pagination, sorting, and filters). Backward-compatible: returns legacy list when no paging/filters provided.")
@@ -111,6 +115,23 @@ public class ClientController {
     @Operation(summary = "Get clients with deal status, property and next meeting - for frontend table")
     public ResponseEntity<List<ClientListItem>> getWithDetails() {
         return ResponseEntity.ok(clientService.getClientsWithDetails());
+    }
+
+    @GetMapping("/duplicates")
+    @Operation(summary = "Clients in the caller's agency with the same phone (any formatting) or email. "
+            + "Agency-wide whatever the caller's data scope, with only the fields needed to find the colleague")
+    public ResponseEntity<List<ClientDuplicate>> duplicates(
+            @RequestParam(required = false) String phone,
+            @RequestParam(required = false) String email,
+            @RequestParam(required = false) Long excludeId) {
+        return ResponseEntity.ok(duplicateService.find(phone, email, excludeId));
+    }
+
+    @PostMapping("/{id}/merge")
+    @Operation(summary = "Fold another card of the same person into this one, then delete it. Manager or admin")
+    public ResponseEntity<ClientResponse> merge(@PathVariable Long id,
+                                                @Valid @RequestBody ClientMergeRequest request) {
+        return ResponseEntity.ok(duplicateService.merge(id, request.getSourceId()));
     }
 
     @GetMapping("/{id}/matches")

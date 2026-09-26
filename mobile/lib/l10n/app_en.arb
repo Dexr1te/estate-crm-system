@@ -236,6 +236,31 @@
   "clientsDeleteCascade": "{name} {count, plural, =0{will be deleted permanently} =1{and 1 linked deal will be deleted permanently} other{and {count} linked deals will be deleted permanently}}. This cannot be undone.",
   "clientsDeleteClient": "Delete Client",
   "clientsDeleteConfirm": "Delete \"{name}\"?",
+  "clientsDuplicateEyebrow": "Possible duplicate",
+  "clientsDuplicateHeldBy": "Already in the agency: {name} (agent {agent})",
+  "@clientsDuplicateHeldBy": {
+    "placeholders": {
+      "agent": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "clientsDuplicateHint": "You can still save. Check with the colleague first.",
+  "clientsDuplicateOpen": "Open",
+  "clientsDuplicateSameBoth": "Same phone and email",
+  "clientsDuplicateSameEmail": "Same email",
+  "clientsDuplicateSamePhone": "Same phone",
+  "clientsDuplicateUnassigned": "Already in the agency: {name}",
+  "@clientsDuplicateUnassigned": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "clientsEdit": "Edit",
   "clientsEditClient": "Edit Client",
   "clientsEmail": "Email",
@@ -253,6 +278,23 @@
   "clientsLogContact": "Log contact",
   "clientsLogFirstContact": "Log the first contact",
   "clientsMatches": "Matching listings",
+  "clientsMerge": "Merge with another card",
+  "clientsMergeConfirm": "Merge",
+  "clientsMergeConfirmBody": "Deals, viewings, contact history and tasks of {source} move to {target}. An empty phone, email and requirements are filled in, and the notes are added. The card {source} is then deleted. This cannot be undone.",
+  "@clientsMergeConfirmBody": {
+    "placeholders": {
+      "source": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "clientsMergeConfirmTitle": "Merge into this card?",
+  "clientsMergeNoCandidates": "No other clients to merge with",
+  "clientsMergePickTitle": "Which card is the same person?",
+  "clientsMergeSearchHint": "Search clients",
   "clientsMessage": "Message",
   "clientsMinArea": "Area, min m²",
   "clientsMinRooms": "Rooms, min",
@@ -584,6 +626,7 @@
   "msgClientCreated": "Client created",
   "msgClientDeleted": "Client deleted",
   "msgClientUpdated": "Client updated",
+  "msgClientsMerged": "Cards merged",
   "msgCodeSent": "Code sent",
   "msgDealCreated": "Deal created",
   "msgDealDeleted": "Deal deleted",
