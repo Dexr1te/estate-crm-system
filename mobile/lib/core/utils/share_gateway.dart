@@ -40,6 +40,21 @@ class SharedImage {
   }
 }
 
+class SharedFile {
+  final String fileName;
+  final Uint8List bytes;
+  final String mimeType;
+
+  const SharedFile({
+    required this.fileName,
+    required this.bytes,
+    required this.mimeType,
+  });
+
+  const SharedFile.pdf({required this.fileName, required this.bytes})
+      : mimeType = 'application/pdf';
+}
+
 enum ShareOutcome { shared, dismissed, failed }
 
 abstract class ShareGateway {
@@ -47,6 +62,12 @@ abstract class ShareGateway {
     required String text,
     String? subject,
     List<SharedImage> images = const [],
+  });
+
+  Future<ShareOutcome> shareFile(
+    SharedFile file, {
+    String? text,
+    String? subject,
   });
 }
 
@@ -72,6 +93,27 @@ class DeviceShareGateway implements ShareGateway {
         fileNameOverrides: images.isEmpty
             ? null
             : [for (final image in images) image.fileName],
+      ));
+      return result.status == ShareResultStatus.dismissed
+          ? ShareOutcome.dismissed
+          : ShareOutcome.shared;
+    } catch (_) {
+      return ShareOutcome.failed;
+    }
+  }
+
+  @override
+  Future<ShareOutcome> shareFile(
+    SharedFile file, {
+    String? text,
+    String? subject,
+  }) async {
+    try {
+      final result = await SharePlus.instance.share(ShareParams(
+        text: text,
+        subject: subject,
+        files: [XFile.fromData(file.bytes, mimeType: file.mimeType)],
+        fileNameOverrides: [file.fileName],
       ));
       return result.status == ShareResultStatus.dismissed
           ? ShareOutcome.dismissed

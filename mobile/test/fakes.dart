@@ -693,6 +693,20 @@ class FakeShareGateway implements ShareGateway {
     sharedImages = images;
     return outcome;
   }
+
+  SharedFile? sharedFile;
+
+  @override
+  Future<ShareOutcome> shareFile(
+    SharedFile file, {
+    String? text,
+    String? subject,
+  }) async {
+    calls++;
+    sharedText = text;
+    sharedFile = file;
+    return outcome;
+  }
 }
 
 /// Tasks held in memory. Writes change [tasks] and announce themselves on

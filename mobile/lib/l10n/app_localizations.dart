@@ -3604,6 +3604,36 @@ abstract class AppLocalizations {
   /// **'Basic Info'**
   String get propertiesBasicInfo;
 
+  /// No description provided for @propertiesBrochure.
+  ///
+  /// In en, this message translates to:
+  /// **'Brochure (PDF)'**
+  String get propertiesBrochure;
+
+  /// No description provided for @propertiesBrochureContact.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact'**
+  String get propertiesBrochureContact;
+
+  /// No description provided for @propertiesBrochureFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t put the brochure together. Try again.'**
+  String get propertiesBrochureFailed;
+
+  /// No description provided for @propertiesBrochureGenerated.
+  ///
+  /// In en, this message translates to:
+  /// **'Prepared {date}'**
+  String propertiesBrochureGenerated(String date);
+
+  /// No description provided for @propertiesBrochurePage.
+  ///
+  /// In en, this message translates to:
+  /// **'Page {page} of {total}'**
+  String propertiesBrochurePage(int page, int total);
+
   /// No description provided for @propertiesCancel.
   ///
   /// In en, this message translates to:

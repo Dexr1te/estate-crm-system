@@ -2006,6 +2006,26 @@ class AppLocalizationsRu extends AppLocalizations {
   String get propertiesBasicInfo => 'Основная информация';
 
   @override
+  String get propertiesBrochure => 'Буклет (PDF)';
+
+  @override
+  String get propertiesBrochureContact => 'Контакты';
+
+  @override
+  String get propertiesBrochureFailed =>
+      'Не удалось собрать буклет. Попробуйте ещё раз.';
+
+  @override
+  String propertiesBrochureGenerated(String date) {
+    return 'Подготовлено $date';
+  }
+
+  @override
+  String propertiesBrochurePage(int page, int total) {
+    return 'Страница $page из $total';
+  }
+
+  @override
   String get propertiesCancel => 'Отмена';
 
   @override

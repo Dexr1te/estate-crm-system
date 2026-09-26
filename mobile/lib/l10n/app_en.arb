@@ -636,6 +636,28 @@
   "propertiesAreaValue": "{area} m²",
   "propertiesBack": "Back",
   "propertiesBasicInfo": "Basic Info",
+  "propertiesBrochure": "Brochure (PDF)",
+  "propertiesBrochureContact": "Contact",
+  "propertiesBrochureFailed": "Couldn't put the brochure together. Try again.",
+  "propertiesBrochureGenerated": "Prepared {date}",
+  "@propertiesBrochureGenerated": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "propertiesBrochurePage": "Page {page} of {total}",
+  "@propertiesBrochurePage": {
+    "placeholders": {
+      "page": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "propertiesCancel": "Cancel",
   "propertiesCityLabel": "City",
   "propertiesCounter": "{total} listed · {reserved} reserved",

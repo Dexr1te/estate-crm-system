@@ -1990,6 +1990,26 @@ class AppLocalizationsKk extends AppLocalizations {
   String get propertiesBasicInfo => 'Негізгі ақпарат';
 
   @override
+  String get propertiesBrochure => 'Буклет (PDF)';
+
+  @override
+  String get propertiesBrochureContact => 'Байланыс';
+
+  @override
+  String get propertiesBrochureFailed =>
+      'Буклетті жинау мүмкін болмады. Қайталап көріңіз.';
+
+  @override
+  String propertiesBrochureGenerated(String date) {
+    return 'Дайындалған күні: $date';
+  }
+
+  @override
+  String propertiesBrochurePage(int page, int total) {
+    return '$total беттің $page-беті';
+  }
+
+  @override
   String get propertiesCancel => 'Болдырмау';
 
   @override
