@@ -3957,6 +3957,7 @@ mixin _$DealResponse {
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   DateTime? get closedAt => throw _privateConstructorUsedError;
+  int get commentCount => throw _privateConstructorUsedError;
 
   /// Serializes this DealResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -3995,7 +3996,8 @@ abstract class $DealResponseCopyWith<$Res> {
       String agentName,
       DateTime? createdAt,
       DateTime? updatedAt,
-      DateTime? closedAt});
+      DateTime? closedAt,
+      int commentCount});
 }
 
 /// @nodoc
@@ -4033,6 +4035,7 @@ class _$DealResponseCopyWithImpl<$Res, $Val extends DealResponse>
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? closedAt = freezed,
+    Object? commentCount = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -4115,6 +4118,10 @@ class _$DealResponseCopyWithImpl<$Res, $Val extends DealResponse>
           ? _value.closedAt
           : closedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      commentCount: null == commentCount
+          ? _value.commentCount
+          : commentCount // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -4148,7 +4155,8 @@ abstract class _$$DealResponseImplCopyWith<$Res>
       String agentName,
       DateTime? createdAt,
       DateTime? updatedAt,
-      DateTime? closedAt});
+      DateTime? closedAt,
+      int commentCount});
 }
 
 /// @nodoc
@@ -4184,6 +4192,7 @@ class __$$DealResponseImplCopyWithImpl<$Res>
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
     Object? closedAt = freezed,
+    Object? commentCount = null,
   }) {
     return _then(_$DealResponseImpl(
       id: null == id
@@ -4266,6 +4275,10 @@ class __$$DealResponseImplCopyWithImpl<$Res>
           ? _value.closedAt
           : closedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      commentCount: null == commentCount
+          ? _value.commentCount
+          : commentCount // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -4294,7 +4307,8 @@ class _$DealResponseImpl implements _DealResponse {
       this.agentName = '',
       this.createdAt,
       this.updatedAt,
-      this.closedAt});
+      this.closedAt,
+      this.commentCount = 0});
 
   factory _$DealResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$DealResponseImplFromJson(json);
@@ -4344,10 +4358,13 @@ class _$DealResponseImpl implements _DealResponse {
   final DateTime? updatedAt;
   @override
   final DateTime? closedAt;
+  @override
+  @JsonKey()
+  final int commentCount;
 
   @override
   String toString() {
-    return 'DealResponse(id: $id, title: $title, status: $status, dealPrice: $dealPrice, budget: $budget, commissionPercent: $commissionPercent, commission: $commission, notes: $notes, lostReason: $lostReason, lostNote: $lostNote, clientId: $clientId, clientName: $clientName, propertyId: $propertyId, propertyTitle: $propertyTitle, propertyAddress: $propertyAddress, agentId: $agentId, agentName: $agentName, createdAt: $createdAt, updatedAt: $updatedAt, closedAt: $closedAt)';
+    return 'DealResponse(id: $id, title: $title, status: $status, dealPrice: $dealPrice, budget: $budget, commissionPercent: $commissionPercent, commission: $commission, notes: $notes, lostReason: $lostReason, lostNote: $lostNote, clientId: $clientId, clientName: $clientName, propertyId: $propertyId, propertyTitle: $propertyTitle, propertyAddress: $propertyAddress, agentId: $agentId, agentName: $agentName, createdAt: $createdAt, updatedAt: $updatedAt, closedAt: $closedAt, commentCount: $commentCount)';
   }
 
   @override
@@ -4388,7 +4405,9 @@ class _$DealResponseImpl implements _DealResponse {
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
             (identical(other.closedAt, closedAt) ||
-                other.closedAt == closedAt));
+                other.closedAt == closedAt) &&
+            (identical(other.commentCount, commentCount) ||
+                other.commentCount == commentCount));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -4414,7 +4433,8 @@ class _$DealResponseImpl implements _DealResponse {
         agentName,
         createdAt,
         updatedAt,
-        closedAt
+        closedAt,
+        commentCount
       ]);
 
   /// Create a copy of DealResponse
@@ -4455,7 +4475,8 @@ abstract class _DealResponse implements DealResponse {
       final String agentName,
       final DateTime? createdAt,
       final DateTime? updatedAt,
-      final DateTime? closedAt}) = _$DealResponseImpl;
+      final DateTime? closedAt,
+      final int commentCount}) = _$DealResponseImpl;
 
   factory _DealResponse.fromJson(Map<String, dynamic> json) =
       _$DealResponseImpl.fromJson;
@@ -4501,12 +4522,678 @@ abstract class _DealResponse implements DealResponse {
   DateTime? get updatedAt;
   @override
   DateTime? get closedAt;
+  @override
+  int get commentCount;
 
   /// Create a copy of DealResponse
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DealResponseImplCopyWith<_$DealResponseImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+DealComment _$DealCommentFromJson(Map<String, dynamic> json) {
+  return _DealComment.fromJson(json);
+}
+
+/// @nodoc
+mixin _$DealComment {
+  int get id => throw _privateConstructorUsedError;
+  int get dealId => throw _privateConstructorUsedError;
+  String get body => throw _privateConstructorUsedError;
+  int? get authorId => throw _privateConstructorUsedError;
+  String? get authorName => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
+  DateTime? get editedAt => throw _privateConstructorUsedError;
+  List<CommentMention> get mentions => throw _privateConstructorUsedError;
+
+  /// Serializes this DealComment to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of DealComment
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $DealCommentCopyWith<DealComment> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $DealCommentCopyWith<$Res> {
+  factory $DealCommentCopyWith(
+          DealComment value, $Res Function(DealComment) then) =
+      _$DealCommentCopyWithImpl<$Res, DealComment>;
+  @useResult
+  $Res call(
+      {int id,
+      int dealId,
+      String body,
+      int? authorId,
+      String? authorName,
+      DateTime createdAt,
+      DateTime? editedAt,
+      List<CommentMention> mentions});
+}
+
+/// @nodoc
+class _$DealCommentCopyWithImpl<$Res, $Val extends DealComment>
+    implements $DealCommentCopyWith<$Res> {
+  _$DealCommentCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of DealComment
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? dealId = null,
+    Object? body = null,
+    Object? authorId = freezed,
+    Object? authorName = freezed,
+    Object? createdAt = null,
+    Object? editedAt = freezed,
+    Object? mentions = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      dealId: null == dealId
+          ? _value.dealId
+          : dealId // ignore: cast_nullable_to_non_nullable
+              as int,
+      body: null == body
+          ? _value.body
+          : body // ignore: cast_nullable_to_non_nullable
+              as String,
+      authorId: freezed == authorId
+          ? _value.authorId
+          : authorId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      authorName: freezed == authorName
+          ? _value.authorName
+          : authorName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      editedAt: freezed == editedAt
+          ? _value.editedAt
+          : editedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      mentions: null == mentions
+          ? _value.mentions
+          : mentions // ignore: cast_nullable_to_non_nullable
+              as List<CommentMention>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$DealCommentImplCopyWith<$Res>
+    implements $DealCommentCopyWith<$Res> {
+  factory _$$DealCommentImplCopyWith(
+          _$DealCommentImpl value, $Res Function(_$DealCommentImpl) then) =
+      __$$DealCommentImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int id,
+      int dealId,
+      String body,
+      int? authorId,
+      String? authorName,
+      DateTime createdAt,
+      DateTime? editedAt,
+      List<CommentMention> mentions});
+}
+
+/// @nodoc
+class __$$DealCommentImplCopyWithImpl<$Res>
+    extends _$DealCommentCopyWithImpl<$Res, _$DealCommentImpl>
+    implements _$$DealCommentImplCopyWith<$Res> {
+  __$$DealCommentImplCopyWithImpl(
+      _$DealCommentImpl _value, $Res Function(_$DealCommentImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of DealComment
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? dealId = null,
+    Object? body = null,
+    Object? authorId = freezed,
+    Object? authorName = freezed,
+    Object? createdAt = null,
+    Object? editedAt = freezed,
+    Object? mentions = null,
+  }) {
+    return _then(_$DealCommentImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      dealId: null == dealId
+          ? _value.dealId
+          : dealId // ignore: cast_nullable_to_non_nullable
+              as int,
+      body: null == body
+          ? _value.body
+          : body // ignore: cast_nullable_to_non_nullable
+              as String,
+      authorId: freezed == authorId
+          ? _value.authorId
+          : authorId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      authorName: freezed == authorName
+          ? _value.authorName
+          : authorName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      editedAt: freezed == editedAt
+          ? _value.editedAt
+          : editedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      mentions: null == mentions
+          ? _value._mentions
+          : mentions // ignore: cast_nullable_to_non_nullable
+              as List<CommentMention>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$DealCommentImpl implements _DealComment {
+  const _$DealCommentImpl(
+      {required this.id,
+      required this.dealId,
+      this.body = '',
+      this.authorId,
+      this.authorName,
+      required this.createdAt,
+      this.editedAt,
+      final List<CommentMention> mentions = const <CommentMention>[]})
+      : _mentions = mentions;
+
+  factory _$DealCommentImpl.fromJson(Map<String, dynamic> json) =>
+      _$$DealCommentImplFromJson(json);
+
+  @override
+  final int id;
+  @override
+  final int dealId;
+  @override
+  @JsonKey()
+  final String body;
+  @override
+  final int? authorId;
+  @override
+  final String? authorName;
+  @override
+  final DateTime createdAt;
+  @override
+  final DateTime? editedAt;
+  final List<CommentMention> _mentions;
+  @override
+  @JsonKey()
+  List<CommentMention> get mentions {
+    if (_mentions is EqualUnmodifiableListView) return _mentions;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_mentions);
+  }
+
+  @override
+  String toString() {
+    return 'DealComment(id: $id, dealId: $dealId, body: $body, authorId: $authorId, authorName: $authorName, createdAt: $createdAt, editedAt: $editedAt, mentions: $mentions)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DealCommentImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.dealId, dealId) || other.dealId == dealId) &&
+            (identical(other.body, body) || other.body == body) &&
+            (identical(other.authorId, authorId) ||
+                other.authorId == authorId) &&
+            (identical(other.authorName, authorName) ||
+                other.authorName == authorName) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.editedAt, editedAt) ||
+                other.editedAt == editedAt) &&
+            const DeepCollectionEquality().equals(other._mentions, _mentions));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      dealId,
+      body,
+      authorId,
+      authorName,
+      createdAt,
+      editedAt,
+      const DeepCollectionEquality().hash(_mentions));
+
+  /// Create a copy of DealComment
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DealCommentImplCopyWith<_$DealCommentImpl> get copyWith =>
+      __$$DealCommentImplCopyWithImpl<_$DealCommentImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$DealCommentImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _DealComment implements DealComment {
+  const factory _DealComment(
+      {required final int id,
+      required final int dealId,
+      final String body,
+      final int? authorId,
+      final String? authorName,
+      required final DateTime createdAt,
+      final DateTime? editedAt,
+      final List<CommentMention> mentions}) = _$DealCommentImpl;
+
+  factory _DealComment.fromJson(Map<String, dynamic> json) =
+      _$DealCommentImpl.fromJson;
+
+  @override
+  int get id;
+  @override
+  int get dealId;
+  @override
+  String get body;
+  @override
+  int? get authorId;
+  @override
+  String? get authorName;
+  @override
+  DateTime get createdAt;
+  @override
+  DateTime? get editedAt;
+  @override
+  List<CommentMention> get mentions;
+
+  /// Create a copy of DealComment
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$DealCommentImplCopyWith<_$DealCommentImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+CommentMention _$CommentMentionFromJson(Map<String, dynamic> json) {
+  return _CommentMention.fromJson(json);
+}
+
+/// @nodoc
+mixin _$CommentMention {
+  int get id => throw _privateConstructorUsedError;
+  String get fullName => throw _privateConstructorUsedError;
+
+  /// Serializes this CommentMention to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of CommentMention
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $CommentMentionCopyWith<CommentMention> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CommentMentionCopyWith<$Res> {
+  factory $CommentMentionCopyWith(
+          CommentMention value, $Res Function(CommentMention) then) =
+      _$CommentMentionCopyWithImpl<$Res, CommentMention>;
+  @useResult
+  $Res call({int id, String fullName});
+}
+
+/// @nodoc
+class _$CommentMentionCopyWithImpl<$Res, $Val extends CommentMention>
+    implements $CommentMentionCopyWith<$Res> {
+  _$CommentMentionCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of CommentMention
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? fullName = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      fullName: null == fullName
+          ? _value.fullName
+          : fullName // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$CommentMentionImplCopyWith<$Res>
+    implements $CommentMentionCopyWith<$Res> {
+  factory _$$CommentMentionImplCopyWith(_$CommentMentionImpl value,
+          $Res Function(_$CommentMentionImpl) then) =
+      __$$CommentMentionImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({int id, String fullName});
+}
+
+/// @nodoc
+class __$$CommentMentionImplCopyWithImpl<$Res>
+    extends _$CommentMentionCopyWithImpl<$Res, _$CommentMentionImpl>
+    implements _$$CommentMentionImplCopyWith<$Res> {
+  __$$CommentMentionImplCopyWithImpl(
+      _$CommentMentionImpl _value, $Res Function(_$CommentMentionImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of CommentMention
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? fullName = null,
+  }) {
+    return _then(_$CommentMentionImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      fullName: null == fullName
+          ? _value.fullName
+          : fullName // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$CommentMentionImpl implements _CommentMention {
+  const _$CommentMentionImpl({required this.id, this.fullName = ''});
+
+  factory _$CommentMentionImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CommentMentionImplFromJson(json);
+
+  @override
+  final int id;
+  @override
+  @JsonKey()
+  final String fullName;
+
+  @override
+  String toString() {
+    return 'CommentMention(id: $id, fullName: $fullName)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CommentMentionImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.fullName, fullName) ||
+                other.fullName == fullName));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, fullName);
+
+  /// Create a copy of CommentMention
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CommentMentionImplCopyWith<_$CommentMentionImpl> get copyWith =>
+      __$$CommentMentionImplCopyWithImpl<_$CommentMentionImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CommentMentionImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _CommentMention implements CommentMention {
+  const factory _CommentMention(
+      {required final int id, final String fullName}) = _$CommentMentionImpl;
+
+  factory _CommentMention.fromJson(Map<String, dynamic> json) =
+      _$CommentMentionImpl.fromJson;
+
+  @override
+  int get id;
+  @override
+  String get fullName;
+
+  /// Create a copy of CommentMention
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$CommentMentionImplCopyWith<_$CommentMentionImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+DealCommentPage _$DealCommentPageFromJson(Map<String, dynamic> json) {
+  return _DealCommentPage.fromJson(json);
+}
+
+/// @nodoc
+mixin _$DealCommentPage {
+  List<DealComment> get comments => throw _privateConstructorUsedError;
+  bool get hasEarlier => throw _privateConstructorUsedError;
+
+  /// Serializes this DealCommentPage to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of DealCommentPage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $DealCommentPageCopyWith<DealCommentPage> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $DealCommentPageCopyWith<$Res> {
+  factory $DealCommentPageCopyWith(
+          DealCommentPage value, $Res Function(DealCommentPage) then) =
+      _$DealCommentPageCopyWithImpl<$Res, DealCommentPage>;
+  @useResult
+  $Res call({List<DealComment> comments, bool hasEarlier});
+}
+
+/// @nodoc
+class _$DealCommentPageCopyWithImpl<$Res, $Val extends DealCommentPage>
+    implements $DealCommentPageCopyWith<$Res> {
+  _$DealCommentPageCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of DealCommentPage
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? comments = null,
+    Object? hasEarlier = null,
+  }) {
+    return _then(_value.copyWith(
+      comments: null == comments
+          ? _value.comments
+          : comments // ignore: cast_nullable_to_non_nullable
+              as List<DealComment>,
+      hasEarlier: null == hasEarlier
+          ? _value.hasEarlier
+          : hasEarlier // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$DealCommentPageImplCopyWith<$Res>
+    implements $DealCommentPageCopyWith<$Res> {
+  factory _$$DealCommentPageImplCopyWith(_$DealCommentPageImpl value,
+          $Res Function(_$DealCommentPageImpl) then) =
+      __$$DealCommentPageImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({List<DealComment> comments, bool hasEarlier});
+}
+
+/// @nodoc
+class __$$DealCommentPageImplCopyWithImpl<$Res>
+    extends _$DealCommentPageCopyWithImpl<$Res, _$DealCommentPageImpl>
+    implements _$$DealCommentPageImplCopyWith<$Res> {
+  __$$DealCommentPageImplCopyWithImpl(
+      _$DealCommentPageImpl _value, $Res Function(_$DealCommentPageImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of DealCommentPage
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? comments = null,
+    Object? hasEarlier = null,
+  }) {
+    return _then(_$DealCommentPageImpl(
+      comments: null == comments
+          ? _value._comments
+          : comments // ignore: cast_nullable_to_non_nullable
+              as List<DealComment>,
+      hasEarlier: null == hasEarlier
+          ? _value.hasEarlier
+          : hasEarlier // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$DealCommentPageImpl implements _DealCommentPage {
+  const _$DealCommentPageImpl(
+      {final List<DealComment> comments = const <DealComment>[],
+      this.hasEarlier = false})
+      : _comments = comments;
+
+  factory _$DealCommentPageImpl.fromJson(Map<String, dynamic> json) =>
+      _$$DealCommentPageImplFromJson(json);
+
+  final List<DealComment> _comments;
+  @override
+  @JsonKey()
+  List<DealComment> get comments {
+    if (_comments is EqualUnmodifiableListView) return _comments;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_comments);
+  }
+
+  @override
+  @JsonKey()
+  final bool hasEarlier;
+
+  @override
+  String toString() {
+    return 'DealCommentPage(comments: $comments, hasEarlier: $hasEarlier)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DealCommentPageImpl &&
+            const DeepCollectionEquality().equals(other._comments, _comments) &&
+            (identical(other.hasEarlier, hasEarlier) ||
+                other.hasEarlier == hasEarlier));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_comments), hasEarlier);
+
+  /// Create a copy of DealCommentPage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DealCommentPageImplCopyWith<_$DealCommentPageImpl> get copyWith =>
+      __$$DealCommentPageImplCopyWithImpl<_$DealCommentPageImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$DealCommentPageImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _DealCommentPage implements DealCommentPage {
+  const factory _DealCommentPage(
+      {final List<DealComment> comments,
+      final bool hasEarlier}) = _$DealCommentPageImpl;
+
+  factory _DealCommentPage.fromJson(Map<String, dynamic> json) =
+      _$DealCommentPageImpl.fromJson;
+
+  @override
+  List<DealComment> get comments;
+  @override
+  bool get hasEarlier;
+
+  /// Create a copy of DealCommentPage
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$DealCommentPageImplCopyWith<_$DealCommentPageImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

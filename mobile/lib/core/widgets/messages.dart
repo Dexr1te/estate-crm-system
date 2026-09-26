@@ -22,6 +22,8 @@ enum ActionMessage {
   taskCompleted,
   taskReopened,
   taskDeleted,
+  commentUpdated,
+  commentDeleted,
   notificationsAllRead,
   documentUploaded,
   documentDeleted,
@@ -85,6 +87,10 @@ String actionMessageLabel(AppLocalizations l10n, ActionMessage message) {
       return l10n.msgTaskReopened;
     case ActionMessage.taskDeleted:
       return l10n.msgTaskDeleted;
+    case ActionMessage.commentUpdated:
+      return l10n.msgCommentUpdated;
+    case ActionMessage.commentDeleted:
+      return l10n.msgCommentDeleted;
     case ActionMessage.notificationsAllRead:
       return l10n.msgNotificationsAllRead;
     case ActionMessage.documentUploaded:

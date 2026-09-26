@@ -46,6 +46,8 @@ void main() {
         '/properties/3/cover',
         '/deals',
         '/deals/9',
+        '/deals/9/comments',
+        '/deals/9/comments/mentionable',
         '/meetings',
         '/meetings/upcoming',
         '/tasks',

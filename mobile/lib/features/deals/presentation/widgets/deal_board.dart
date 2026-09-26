@@ -300,6 +300,10 @@ class _BoardCard extends StatelessWidget {
                   ),
                 ),
               ),
+              if (deal.commentCount > 0) ...[
+                const SizedBox(width: 8),
+                CommentCountBadge(count: deal.commentCount),
+              ],
               if (stale != null) ...[
                 const SizedBox(width: 8),
                 Flexible(

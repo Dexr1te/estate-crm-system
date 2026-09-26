@@ -2,6 +2,7 @@ package com.crm.realestate.service;
 
 import com.crm.realestate.entity.Client;
 import com.crm.realestate.entity.Deal;
+import com.crm.realestate.entity.DealComment;
 import com.crm.realestate.entity.Property;
 import com.crm.realestate.entity.Task;
 import com.crm.realestate.entity.Team;
@@ -20,7 +21,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +44,9 @@ public class NotificationEvents {
 
     /** How many buyer names one match notification carries; the rest are only counted. */
     static final int MAX_BUYER_NAMES = 3;
+
+    /** How much of a comment a notification quotes. */
+    static final int MAX_SNIPPET = 120;
 
     private final NotificationService notifications;
     private final ClientRepository    clientRepository;
@@ -131,6 +137,56 @@ public class NotificationEvents {
             params.put("phone", phone);
             notifications.notify(agent, null, team, NotificationType.LISTING_LEAD, clientId, params);
         });
+    }
+
+    /**
+     * {@code author} said something in a deal's discussion. Everybody it @mentions hears so; the
+     * deal's agent hears about it too, unless they were among those mentioned — nobody is told the
+     * same thing twice, and the author is never told about their own words.
+     */
+    public void dealCommented(Deal deal, DealComment comment, Collection<User> mentioned, User author) {
+        guard("deal comment", () -> {
+            Set<Long> told = new HashSet<>();
+            for (User person : mentioned) {
+                if (told.add(person.getId())) {
+                    notifications.notify(person, author, deal.getTeam(), NotificationType.DEAL_MENTION,
+                            deal.getId(), commentParams(deal, comment));
+                }
+            }
+            User agent = deal.getAgent();
+            if (agent != null && !told.contains(agent.getId())) {
+                notifications.notify(agent, author, deal.getTeam(), NotificationType.DEAL_COMMENT,
+                        deal.getId(), commentParams(deal, comment));
+            }
+        });
+    }
+
+    /** A corrected comment now mentions {@code added}, who were not in it before. */
+    public void mentionsAdded(Deal deal, DealComment comment, Collection<User> added, User author) {
+        guard("deal mention", () -> added.forEach(person ->
+                notifications.notify(person, author, deal.getTeam(), NotificationType.DEAL_MENTION,
+                        deal.getId(), commentParams(deal, comment))));
+    }
+
+    private static Map<String, Object> commentParams(Deal deal, DealComment comment) {
+        Map<String, Object> params = new LinkedHashMap<>();
+        params.put("dealTitle", deal.getTitle());
+        params.put("authorName", comment.getAuthorName());
+        params.put("snippet", snippetOf(comment.getBody()));
+        return params;
+    }
+
+    /** The start of a comment on one line, at most {@link #MAX_SNIPPET} characters. */
+    static String snippetOf(String body) {
+        String flat = body == null ? "" : body.strip().replaceAll("\\s+", " ");
+        if (flat.length() <= MAX_SNIPPET) {
+            return flat;
+        }
+        int end = MAX_SNIPPET - 1;
+        if (Character.isHighSurrogate(flat.charAt(end - 1))) {
+            end--;
+        }
+        return flat.substring(0, end).stripTrailing() + "\u2026";
     }
 
     /**

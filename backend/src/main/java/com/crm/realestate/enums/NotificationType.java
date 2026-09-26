@@ -23,5 +23,9 @@ public enum NotificationType {
     /** Somebody else moved one of your deals. Target: the deal. */
     DEAL_STATUS_CHANGED,
     /** A buyer left their details on a listing's public page. Target: the client. */
-    LISTING_LEAD
+    LISTING_LEAD,
+    /** Somebody @mentioned you in a deal's discussion. Target: the deal. */
+    DEAL_MENTION,
+    /** Somebody else commented on one of your deals without mentioning you. Target: the deal. */
+    DEAL_COMMENT
 }

@@ -23,8 +23,11 @@ import 'package:real_estate_crm/features/clients/domain/repositories/clients_rep
 import 'package:real_estate_crm/features/dashboard/data/datasources/dashboard_remote_datasource.dart';
 import 'package:real_estate_crm/features/dashboard/data/repositories/dashboard_repository_impl.dart';
 import 'package:real_estate_crm/features/dashboard/domain/repositories/dashboard_repository.dart';
+import 'package:real_estate_crm/features/deals/data/datasources/deal_comments_remote_datasource.dart';
 import 'package:real_estate_crm/features/deals/data/datasources/deals_remote_datasource.dart';
+import 'package:real_estate_crm/features/deals/data/repositories/deal_comments_repository_impl.dart';
 import 'package:real_estate_crm/features/deals/data/repositories/deals_repository_impl.dart';
+import 'package:real_estate_crm/features/deals/domain/repositories/deal_comments_repository.dart';
 import 'package:real_estate_crm/features/deals/domain/repositories/deals_repository.dart';
 import 'package:real_estate_crm/features/documents/data/datasources/documents_remote_datasource.dart';
 import 'package:real_estate_crm/features/documents/data/repositories/documents_repository_impl.dart';
@@ -70,6 +73,9 @@ class Injector {
 
   static DealsRepository dealsRepository =
       DealsRepositoryImpl(DealsRemoteDataSource(_apiClient));
+
+  static DealCommentsRepository dealCommentsRepository =
+      DealCommentsRepositoryImpl(DealCommentsRemoteDataSource(_apiClient));
 
   static DocumentsRepository documentsRepository =
       DocumentsRepositoryImpl(DocumentsRemoteDataSource(_apiClient));
