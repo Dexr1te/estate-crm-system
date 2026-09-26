@@ -1,3 +1,5 @@
+// ignore_for_file: invalid_annotation_target
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'models.freezed.dart';
@@ -120,7 +122,6 @@ class ClientDuplicate with _$ClientDuplicate {
     String? agentName,
     String? phone,
     String? email,
-    // ignore: invalid_annotation_target
     @JsonKey(unknownEnumValue: DuplicateMatch.PHONE)
     @Default(DuplicateMatch.PHONE)
     DuplicateMatch matchedOn,
