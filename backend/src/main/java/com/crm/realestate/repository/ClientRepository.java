@@ -102,7 +102,9 @@ public interface ClientRepository extends JpaRepository<Client, Long>, org.sprin
                         WHERE m2.client_id = c.id
                           AND m2.scheduled_at <= :now
                     )
-                ) AS last_contact_at
+                ) AS last_contact_at,
+                c.source,
+                c.created_at
             FROM clients c
             LEFT JOIN deals d ON d.client_id = c.id
             LEFT JOIN properties p ON p.id = d.property_id

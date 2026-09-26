@@ -21,6 +21,7 @@ public class ClientMapper {
         res.setEmail(client.getEmail());
         res.setPhone(client.getPhone());
         res.setType(client.getType());
+        res.setSource(client.getSource());
         res.setNotes(client.getNotes());
         res.setCreatedAt(client.getCreatedAt());
         res.setUpdatedAt(client.getUpdatedAt());

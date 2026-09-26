@@ -853,6 +853,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clientsFilterBuyers => 'Buyers';
 
   @override
+  String get clientsFilterNewLeads => 'New leads';
+
+  @override
   String get clientsFilterSellers => 'Sellers';
 
   @override
@@ -938,6 +941,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get clientsNewClient => 'New Client';
+
+  @override
+  String get clientsNewLeadsEmpty =>
+      'Buyers who leave their details on a listing\'s public link show up here for a week.';
 
   @override
   String get clientsNoClientsFound => 'No clients found';
@@ -1035,6 +1042,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String clientsShownOn(String date) {
     return 'Shown $date';
   }
+
+  @override
+  String get clientsSourceImport => 'Imported';
+
+  @override
+  String get clientsSourcePublicLink => 'From the public link';
 
   @override
   String get clientsTimestamps => 'Timestamps';
@@ -2769,6 +2782,11 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String notificationsListingLead(String name, String title) {
+    return '$name is interested in $title';
+  }
+
+  @override
   String get notificationsMarkAllRead => 'Mark all read';
 
   @override
@@ -3073,6 +3091,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get propertiesLinkCreate => 'Create link';
+
+  @override
+  String propertiesLinkEnquiries(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count enquiries from this link',
+      one: '1 enquiry from this link',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get propertiesLinkHint =>

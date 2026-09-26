@@ -1570,6 +1570,12 @@ abstract class AppLocalizations {
   /// **'Buyers'**
   String get clientsFilterBuyers;
 
+  /// No description provided for @clientsFilterNewLeads.
+  ///
+  /// In en, this message translates to:
+  /// **'New leads'**
+  String get clientsFilterNewLeads;
+
   /// No description provided for @clientsFilterSellers.
   ///
   /// In en, this message translates to:
@@ -1731,6 +1737,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'New Client'**
   String get clientsNewClient;
+
+  /// No description provided for @clientsNewLeadsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Buyers who leave their details on a listing\'s public link show up here for a week.'**
+  String get clientsNewLeadsEmpty;
 
   /// No description provided for @clientsNoClientsFound.
   ///
@@ -1899,6 +1911,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Shown {date}'**
   String clientsShownOn(String date);
+
+  /// No description provided for @clientsSourceImport.
+  ///
+  /// In en, this message translates to:
+  /// **'Imported'**
+  String get clientsSourceImport;
+
+  /// No description provided for @clientsSourcePublicLink.
+  ///
+  /// In en, this message translates to:
+  /// **'From the public link'**
+  String get clientsSourcePublicLink;
 
   /// No description provided for @clientsTimestamps.
   ///
@@ -4786,6 +4810,12 @@ abstract class AppLocalizations {
   /// **'{actor} invites you to join {team}'**
   String notificationsJoinRequest(String actor, String team);
 
+  /// No description provided for @notificationsListingLead.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} is interested in {title}'**
+  String notificationsListingLead(String name, String title);
+
   /// No description provided for @notificationsMarkAllRead.
   ///
   /// In en, this message translates to:
@@ -5325,6 +5355,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Create link'**
   String get propertiesLinkCreate;
+
+  /// No description provided for @propertiesLinkEnquiries.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 enquiry from this link} other{{count} enquiries from this link}}'**
+  String propertiesLinkEnquiries(int count);
 
   /// No description provided for @propertiesLinkHint.
   ///

@@ -13,6 +13,7 @@ import 'package:real_estate_crm/features/clients/presentation/bloc/clients_bloc.
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_event.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_state.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/client_history_card.dart';
+import 'package:real_estate_crm/features/clients/presentation/widgets/client_source_badge.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/duplicate_warning.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/log_contact_sheet.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/send_matches_sheet.dart';
@@ -468,6 +469,8 @@ class _IdentityCard extends StatelessWidget {
                   runSpacing: 7,
                   children: [
                     ClientTypeChip(type: client.type),
+                    if (ClientSourceBadge.shows(client.source))
+                      ClientSourceBadge(source: client.source),
                     GestureDetector(
                       onTap: onCopyId,
                       child: StatusChip(

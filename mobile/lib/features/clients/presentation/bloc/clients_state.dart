@@ -62,6 +62,11 @@ class ClientSummary {
 
   final DateTime? lastContactAt;
 
+  /// Where the card came from; the list marks public-page and imported ones.
+  final ClientSource source;
+
+  final DateTime? createdAt;
+
   const ClientSummary({
     required this.id,
     required this.fullName,
@@ -74,7 +79,22 @@ class ClientSummary {
     this.status,
     this.nextMeetingAt,
     this.lastContactAt,
+    this.source = ClientSource.manual,
+    this.createdAt,
   });
+
+  /// How long a buyer from the public page counts as a new lead.
+  static const newLeadWindow = Duration(days: 7);
+
+  /// A "new lead": left their details on a listing's public page within the
+  /// last [newLeadWindow]. Age, not contact, decides it: the enquiry itself is
+  /// logged in the client's history, so "not contacted yet" would never hold.
+  bool isNewLead(DateTime now) {
+    final created = createdAt;
+    return source == ClientSource.publicLink &&
+        created != null &&
+        now.difference(created.toLocal()) <= newLeadWindow;
+  }
 
   bool matches(String query) {
     final q = query.toLowerCase();
@@ -118,6 +138,8 @@ class ClientSummary {
             .map((r) => r.lastContactAt)
             .whereType<DateTime>()
             .fold<DateTime?>(null, (a, b) => a == null || b.isAfter(a) ? b : a),
+        source: c.source,
+        createdAt: c.createdAt,
       );
     }).toList();
   }

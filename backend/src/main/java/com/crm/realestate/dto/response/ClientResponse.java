@@ -14,6 +14,7 @@ public class ClientResponse {
     private String email;
     private String phone;
     private ClientType type;
+    private com.crm.realestate.enums.ClientSource source;
     private String notes;
     private Long agentId;
     private String agentName;

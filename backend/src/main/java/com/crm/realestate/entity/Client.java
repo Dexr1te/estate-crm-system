@@ -1,5 +1,6 @@
 package com.crm.realestate.entity;
 
+import com.crm.realestate.enums.ClientSource;
 import com.crm.realestate.enums.ClientType;
 import com.crm.realestate.enums.PropertyType;
 import com.crm.realestate.service.ContactNormalizer;
@@ -47,6 +48,12 @@ public class Client {
 
     private String notes;
 
+    /** Where the record came from; set once on creation. See {@code V35__client_source.sql}. */
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20, updatable = false)
+    @Builder.Default
+    private ClientSource source = ClientSource.MANUAL;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "wanted_type", length = 30)
     private PropertyType wantedType;
@@ -90,6 +97,9 @@ public class Client {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
         phoneNormalized = ContactNormalizer.phone(phone);
+        if (source == null) {
+            source = ClientSource.MANUAL;
+        }
     }
 
     @PreUpdate

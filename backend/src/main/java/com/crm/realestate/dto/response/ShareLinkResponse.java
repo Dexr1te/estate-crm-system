@@ -18,8 +18,10 @@ public class ShareLinkResponse {
     private long viewCount;
     private LocalDateTime lastViewedAt;
     private LocalDateTime createdAt;
+    /** How many buyers left their details on the page through this link. */
+    private long leadCount;
 
     public static ShareLinkResponse none() {
-        return new ShareLinkResponse(null, 0, null, null);
+        return new ShareLinkResponse(null, 0, null, null, 0);
     }
 }

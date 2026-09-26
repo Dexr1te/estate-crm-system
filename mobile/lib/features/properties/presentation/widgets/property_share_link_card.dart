@@ -136,6 +136,13 @@ class _PropertyShareLinkCardState extends State<PropertyShareLinkCard> {
             ),
             const SizedBox(height: 8),
             _Line(_viewsLine(l10n, link), color: t.textSecondary, lines: 2),
+            if (link.leadCount > 0) ...[
+              const SizedBox(height: 4),
+              _Line(l10n.propertiesLinkEnquiries(link.leadCount),
+                  key: const ValueKey('share-link-enquiries'),
+                  color: t.textPrimary,
+                  weight: FontWeight.w600),
+            ],
             const SizedBox(height: 12),
             Row(
               children: [
@@ -189,7 +196,10 @@ class _Line extends StatelessWidget {
   final FontWeight weight;
   final int lines;
   const _Line(this.text,
-      {required this.color, this.weight = FontWeight.w400, this.lines = 1});
+      {super.key,
+      required this.color,
+      this.weight = FontWeight.w400,
+      this.lines = 1});
 
   @override
   Widget build(BuildContext context) => Text(

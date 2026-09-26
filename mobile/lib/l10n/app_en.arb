@@ -321,6 +321,7 @@
   "clientsEmail": "Email",
   "clientsFilterAll": "All",
   "clientsFilterBuyers": "Buyers",
+  "clientsFilterNewLeads": "New leads",
   "clientsFilterSellers": "Sellers",
   "clientsFollowUpCall": "Log this call?",
   "clientsFollowUpEmail": "Log this email?",
@@ -358,6 +359,7 @@
   "clientsMinRooms": "Rooms, min",
   "clientsNameRequired": "Name is required",
   "clientsNewClient": "New Client",
+  "clientsNewLeadsEmpty": "Buyers who leave their details on a listing's public link show up here for a week.",
   "clientsNoClientsFound": "No clients found",
   "clientsNoEmail": "No email address on file",
   "clientsNoMatches": "Nothing on the books fits yet",
@@ -407,6 +409,8 @@
       }
     }
   },
+  "clientsSourceImport": "Imported",
+  "clientsSourcePublicLink": "From the public link",
   "clientsTimestamps": "Timestamps",
   "clientsTitle": "Clients",
   "clientsTryDifferentSearch": "Try a different search",
@@ -1172,6 +1176,17 @@
       }
     }
   },
+  "notificationsListingLead": "{name} is interested in {title}",
+  "@notificationsListingLead": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "title": {
+        "type": "String"
+      }
+    }
+  },
   "notificationsMarkAllRead": "Mark all read",
   "notificationsMoreNames": "{names} and {count} more",
   "@notificationsMoreNames": {
@@ -1326,6 +1341,14 @@
   "propertiesLinkCopied": "Link copied",
   "propertiesLinkCopy": "Copy",
   "propertiesLinkCreate": "Create link",
+  "propertiesLinkEnquiries": "{count, plural, =1{1 enquiry from this link} other{{count} enquiries from this link}}",
+  "@propertiesLinkEnquiries": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "propertiesLinkHint": "A page with the photos, price and your contacts. Opens in any browser, no app or account needed.",
   "propertiesLinkLastViewed": "Last opened {date}",
   "@propertiesLinkLastViewed": {

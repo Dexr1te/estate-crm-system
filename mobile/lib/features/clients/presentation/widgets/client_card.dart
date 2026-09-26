@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/utils/clock.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_state.dart';
+import 'package:real_estate_crm/features/clients/presentation/widgets/client_source_badge.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/contact_time.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
@@ -69,6 +70,10 @@ class ClientCard extends StatelessWidget {
                             fontSize: 11.5,
                             color: t.textSecondary),
                       ),
+                    ],
+                    if (ClientSourceBadge.shows(client.source)) ...[
+                      const SizedBox(height: 5),
+                      ClientSourceBadge(source: client.source),
                     ],
                   ],
                 ),

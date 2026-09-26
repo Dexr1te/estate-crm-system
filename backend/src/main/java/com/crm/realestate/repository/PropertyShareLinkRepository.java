@@ -22,4 +22,9 @@ public interface PropertyShareLinkRepository extends JpaRepository<PropertyShare
     @Query("update PropertyShareLink l set l.viewCount = l.viewCount + 1, l.lastViewedAt = :at "
             + "where l.id = :id")
     int recordView(@Param("id") Long id, @Param("at") LocalDateTime at);
+
+    /** One more enquiry through this link; see {@code V35__client_source.sql}. */
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
+    @Query("update PropertyShareLink l set l.leadCount = l.leadCount + 1 where l.id = :id")
+    int recordLead(@Param("id") Long id);
 }

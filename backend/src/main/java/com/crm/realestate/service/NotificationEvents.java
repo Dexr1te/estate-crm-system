@@ -123,6 +123,23 @@ public class NotificationEvents {
     }
 
     /**
+     * A buyer left their details on a listing's public page. Target: the client, new or reused.
+     * The phone goes in as typed: the agent will see it on the card anyway, and it is what they
+     * call back.
+     */
+    public void listingLead(User agent, Team team, Long clientId, Long propertyId,
+                            String propertyTitle, String clientName, String phone) {
+        guard("listing lead", () -> {
+            Map<String, Object> params = new LinkedHashMap<>();
+            params.put("clientName", clientName);
+            params.put("propertyTitle", propertyTitle);
+            params.put("propertyId", propertyId);
+            params.put("phone", phone);
+            notifications.notify(agent, null, team, NotificationType.LISTING_LEAD, clientId, params);
+        });
+    }
+
+    /**
      * {@code author} said something in a deal's discussion. Everybody it @mentions hears so; the
      * deal's agent hears about it too, unless they were among those mentioned — nobody is told the
      * same thing twice, and the author is never told about their own words.
