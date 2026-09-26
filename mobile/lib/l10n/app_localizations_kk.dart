@@ -912,6 +912,13 @@ class AppLocalizationsKk extends AppLocalizations {
       'Сәлеметсіз бе! Сұранысыңызға сай келетін нұсқалар:';
 
   @override
+  String get clientsSendLinks => 'Сілтемелерді қосу';
+
+  @override
+  String get clientsSendLinksHint =>
+      'Әр нысанның барлық фотосы бар беті. Кез келген браузерде ашылады.';
+
+  @override
   String get clientsSendLogged => 'Клиент тарихына сақталды';
 
   @override
@@ -2301,6 +2308,51 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get propertiesInterested => 'Кімге сәйкес';
+
+  @override
+  String get propertiesLink => 'Жария сілтеме';
+
+  @override
+  String get propertiesLinkCopied => 'Сілтеме көшірілді';
+
+  @override
+  String get propertiesLinkCopy => 'Көшіру';
+
+  @override
+  String get propertiesLinkCreate => 'Сілтеме жасау';
+
+  @override
+  String get propertiesLinkHint =>
+      'Фотосы, бағасы және сіздің байланыс деректеріңіз бар бет. Кез келген браузерде ашылады, қосымша да, тіркелу де қажет емес.';
+
+  @override
+  String propertiesLinkLastViewed(String date) {
+    return 'Соңғы рет ашылды: $date';
+  }
+
+  @override
+  String get propertiesLinkRevoke => 'Өшіру';
+
+  @override
+  String get propertiesLinkRevokeConfirm =>
+      'Сілтемені алғандар нысанды енді аша алмайды. Жаңа сілтеменің мекенжайы басқа болады.';
+
+  @override
+  String get propertiesLinkRevokeTitle => 'Сілтемені өшіру керек пе?';
+
+  @override
+  String get propertiesLinkShare => 'Бөлісу';
+
+  @override
+  String propertiesLinkViews(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count рет ашылды',
+      zero: 'Әлі ашылмаған',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get propertiesLocation => 'Орналасуы';

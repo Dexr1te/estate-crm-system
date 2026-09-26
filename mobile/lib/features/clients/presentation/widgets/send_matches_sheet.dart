@@ -9,7 +9,8 @@ import 'package:real_estate_crm/features/properties/presentation/widgets/propert
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 String composeMatchesMessage(
-    AppLocalizations l10n, List<PropertyResponse> properties) {
+    AppLocalizations l10n, List<PropertyResponse> properties,
+    {Map<int, String> links = const {}}) {
   final buffer = StringBuffer(l10n.clientsSendGreeting);
   for (var i = 0; i < properties.length; i++) {
     final p = properties[i];
@@ -24,6 +25,8 @@ String composeMatchesMessage(
       ..write(specs == type ? '\n$type' : '\n$type · $specs');
     if (place.isNotEmpty) buffer.write('\n$place');
     if (p.price > 0) buffer.write('\n${formatPrice(p.price)}');
+    final link = links[p.id];
+    if (link != null && link.isNotEmpty) buffer.write('\n$link');
   }
   buffer.write('\n\n${l10n.clientsSendClosing}');
   return buffer.toString();
@@ -63,6 +66,7 @@ class _SendMatchesSheetState extends State<SendMatchesSheet> {
     for (final m in widget.matches) m.property.id,
   };
   bool _withPhotos = true;
+  bool _withLinks = true;
   bool _sending = false;
 
   List<PropertyResponse> get _chosen => [
@@ -77,10 +81,29 @@ class _SendMatchesSheetState extends State<SendMatchesSheet> {
         if (!_selected.remove(id)) _selected.add(id);
       });
 
+  Future<String> _message(
+      AppLocalizations l10n, List<PropertyResponse> chosen) async {
+    if (!_withLinks || chosen.isEmpty) {
+      return composeMatchesMessage(l10n, chosen);
+    }
+    setState(() => _sending = true);
+    final urls = await Future.wait(chosen.map((p) => Injector
+        .propertiesRepository
+        .createShareLink(p.id)
+        .then<String?>((link) => link.url)
+        .catchError((Object _) => null)));
+    if (mounted) setState(() => _sending = false);
+    return composeMatchesMessage(l10n, chosen, links: {
+      for (var i = 0; i < chosen.length; i++)
+        if (urls[i] != null) chosen[i].id: urls[i]!,
+    });
+  }
+
   Future<void> _whatsApp() async {
     final l10n = AppLocalizations.of(context);
     final chosen = _chosen;
-    final text = composeMatchesMessage(l10n, chosen);
+    final text = await _message(l10n, chosen);
+    if (!mounted) return;
     final ok = await ContactActions.whatsApp(widget.client.phone, text);
     if (ok) widget.onSent?.call([for (final p in chosen) p.id]);
     if (!mounted) return;
@@ -94,7 +117,8 @@ class _SendMatchesSheetState extends State<SendMatchesSheet> {
   Future<void> _share() async {
     final l10n = AppLocalizations.of(context);
     final chosen = _chosen;
-    final text = composeMatchesMessage(l10n, chosen);
+    final text = await _message(l10n, chosen);
+    if (!mounted) return;
     setState(() => _sending = true);
     final images = <SharedImage>[];
     if (_withPhotos) {
@@ -185,6 +209,14 @@ class _SendMatchesSheetState extends State<SendMatchesSheet> {
               onChanged: (v) => setState(() => _withPhotos = v),
             ),
           ],
+        ),
+        const SizedBox(height: 12),
+        _OptionRow(
+          key: const ValueKey('send-links'),
+          title: l10n.clientsSendLinks,
+          hint: l10n.clientsSendLinksHint,
+          value: _withLinks,
+          onChanged: (v) => setState(() => _withLinks = v),
         ),
         const SizedBox(height: 18),
         Row(
@@ -278,6 +310,59 @@ class _PickRow extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _OptionRow extends StatelessWidget {
+  final String title;
+  final String hint;
+  final bool value;
+  final ValueChanged<bool> onChanged;
+  const _OptionRow({
+    super.key,
+    required this.title,
+    required this.hint,
+    required this.value,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final t = context.tokens;
+    return Row(
+      children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    fontFamily: AppFonts.sans,
+                    fontSize: 13.5,
+                    fontWeight: FontWeight.w500,
+                    color: t.textPrimary),
+              ),
+              const SizedBox(height: 3),
+              Text(
+                hint,
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    fontFamily: AppFonts.sans,
+                    fontSize: 11.5,
+                    height: 1.35,
+                    color: t.textSecondary),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(width: 10),
+        AppSwitch(value: value, onChanged: onChanged),
+      ],
     );
   }
 }

@@ -16,6 +16,7 @@ import 'package:real_estate_crm/features/properties/presentation/bloc/properties
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_state.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_photos_card.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_price_history.dart';
+import 'package:real_estate_crm/features/properties/presentation/widgets/property_share_link_card.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class PropertyDetailScreen extends StatefulWidget {
@@ -116,6 +117,14 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
       email: mine ? me.email : null,
       agency: me?.teamName,
     );
+  }
+
+  bool _canRevokeLink(PropertyResponse p) {
+    final auth = context.read<AuthBloc>().state;
+    if (auth is! AuthAuthenticated) return false;
+    final me = auth.user;
+    return me.role != Role.AGENT ||
+        (p.agentId != null && p.agentId == me.userId);
   }
 
   Future<void> _shareBrochure() async {
@@ -221,6 +230,11 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
             propertyId: widget.id,
             photos: _photos,
             onChanged: _load,
+          ),
+          PropertyShareLinkCard(
+            propertyId: widget.id,
+            title: p.title,
+            canRevoke: _canRevokeLink(p),
           ),
           _DetailsCard(property: p),
           if (_priceHistory.isNotEmpty)

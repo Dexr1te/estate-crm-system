@@ -1696,6 +1696,18 @@ abstract class AppLocalizations {
   /// **'Hello! Here are listings that fit what you are looking for:'**
   String get clientsSendGreeting;
 
+  /// No description provided for @clientsSendLinks.
+  ///
+  /// In en, this message translates to:
+  /// **'Include links'**
+  String get clientsSendLinks;
+
+  /// No description provided for @clientsSendLinksHint.
+  ///
+  /// In en, this message translates to:
+  /// **'A page per listing with all its photos. Opens in any browser.'**
+  String get clientsSendLinksHint;
+
   /// No description provided for @clientsSendLogged.
   ///
   /// In en, this message translates to:
@@ -4143,6 +4155,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Buyers looking for this'**
   String get propertiesInterested;
+
+  /// No description provided for @propertiesLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Public link'**
+  String get propertiesLink;
+
+  /// No description provided for @propertiesLinkCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'Link copied'**
+  String get propertiesLinkCopied;
+
+  /// No description provided for @propertiesLinkCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get propertiesLinkCopy;
+
+  /// No description provided for @propertiesLinkCreate.
+  ///
+  /// In en, this message translates to:
+  /// **'Create link'**
+  String get propertiesLinkCreate;
+
+  /// No description provided for @propertiesLinkHint.
+  ///
+  /// In en, this message translates to:
+  /// **'A page with the photos, price and your contacts. Opens in any browser, no app or account needed.'**
+  String get propertiesLinkHint;
+
+  /// No description provided for @propertiesLinkLastViewed.
+  ///
+  /// In en, this message translates to:
+  /// **'Last opened {date}'**
+  String propertiesLinkLastViewed(String date);
+
+  /// No description provided for @propertiesLinkRevoke.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch off'**
+  String get propertiesLinkRevoke;
+
+  /// No description provided for @propertiesLinkRevokeConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Anyone you sent it to will no longer be able to open the listing. A new link will have a different address.'**
+  String get propertiesLinkRevokeConfirm;
+
+  /// No description provided for @propertiesLinkRevokeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch off the link?'**
+  String get propertiesLinkRevokeTitle;
+
+  /// No description provided for @propertiesLinkShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get propertiesLinkShare;
+
+  /// No description provided for @propertiesLinkViews.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Not opened yet} =1{Opened once} other{Opened {count} times}}'**
+  String propertiesLinkViews(int count);
 
   /// No description provided for @propertiesLocation.
   ///

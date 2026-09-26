@@ -915,6 +915,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'Hello! Here are listings that fit what you are looking for:';
 
   @override
+  String get clientsSendLinks => 'Include links';
+
+  @override
+  String get clientsSendLinksHint =>
+      'A page per listing with all its photos. Opens in any browser.';
+
+  @override
   String get clientsSendLogged => 'Saved to the client\'s history';
 
   @override
@@ -2301,6 +2308,52 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get propertiesInterested => 'Buyers looking for this';
+
+  @override
+  String get propertiesLink => 'Public link';
+
+  @override
+  String get propertiesLinkCopied => 'Link copied';
+
+  @override
+  String get propertiesLinkCopy => 'Copy';
+
+  @override
+  String get propertiesLinkCreate => 'Create link';
+
+  @override
+  String get propertiesLinkHint =>
+      'A page with the photos, price and your contacts. Opens in any browser, no app or account needed.';
+
+  @override
+  String propertiesLinkLastViewed(String date) {
+    return 'Last opened $date';
+  }
+
+  @override
+  String get propertiesLinkRevoke => 'Switch off';
+
+  @override
+  String get propertiesLinkRevokeConfirm =>
+      'Anyone you sent it to will no longer be able to open the listing. A new link will have a different address.';
+
+  @override
+  String get propertiesLinkRevokeTitle => 'Switch off the link?';
+
+  @override
+  String get propertiesLinkShare => 'Share';
+
+  @override
+  String propertiesLinkViews(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Opened $count times',
+      one: 'Opened once',
+      zero: 'Not opened yet',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get propertiesLocation => 'Location';

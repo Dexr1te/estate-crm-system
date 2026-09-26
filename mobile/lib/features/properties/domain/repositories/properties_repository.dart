@@ -31,6 +31,13 @@ abstract class PropertiesRepository {
 
   Future<List<PropertyPriceChange>> getPriceHistory(int id);
 
+  Future<PropertyShareLink> getShareLink(int id);
+
+  /// The listing's working link, made on the server if it has none yet.
+  Future<PropertyShareLink> createShareLink(int id);
+
+  Future<void> revokeShareLink(int id);
+
   Future<List<PropertyPhoto>> getPhotos(int id);
 
   Future<PropertyPhoto> addPhoto(int id, String path, String name);

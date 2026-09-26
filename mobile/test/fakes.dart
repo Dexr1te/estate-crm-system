@@ -380,6 +380,38 @@ class FakePropertiesRepository implements PropertiesRepository {
   @override
   Future<List<PropertyPhoto>> getPhotos(int id) async => photos;
 
+  /// Each listing's working public link, which creating and revoking change.
+  final Map<int, PropertyShareLink> shareLinks = {};
+
+  /// Every listing a link was asked for, in order — repeats included.
+  final List<int> shareLinkRequests = [];
+
+  /// Listings whose link was switched off.
+  final List<int> revokedShareLinks = [];
+
+  /// When set, making a link fails the way a dropped connection would.
+  bool failShareLinks = false;
+
+  static String shareUrlFor(int id) => 'https://crm.test/api/l/token-$id';
+
+  @override
+  Future<PropertyShareLink> getShareLink(int id) async =>
+      shareLinks[id] ?? const PropertyShareLink();
+
+  @override
+  Future<PropertyShareLink> createShareLink(int id) async {
+    shareLinkRequests.add(id);
+    if (failShareLinks) throw StateError('offline');
+    return shareLinks[id] ??= PropertyShareLink(
+        url: shareUrlFor(id), createdAt: DateTime(2026, 9, 20));
+  }
+
+  @override
+  Future<void> revokeShareLink(int id) async {
+    revokedShareLinks.add(id);
+    shareLinks.remove(id);
+  }
+
   @override
   Future<PropertyPhoto> addPhoto(int id, String path, String name) async {
     final added = PropertyPhoto(
