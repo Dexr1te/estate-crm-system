@@ -1018,6 +1018,12 @@ abstract class AppLocalizations {
   /// **'Call'**
   String get clientsActivityCall;
 
+  /// No description provided for @clientsActivityDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get clientsActivityDate;
+
   /// No description provided for @clientsActivityDeleteBody.
   ///
   /// In en, this message translates to:
@@ -1030,6 +1036,12 @@ abstract class AppLocalizations {
   /// **'Remove this entry?'**
   String get clientsActivityDeleteTitle;
 
+  /// No description provided for @clientsActivityEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit entry'**
+  String get clientsActivityEdit;
+
   /// No description provided for @clientsActivityEmail.
   ///
   /// In en, this message translates to:
@@ -1041,6 +1053,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Former member'**
   String get clientsActivityFormerMember;
+
+  /// No description provided for @clientsActivityInFuture.
+  ///
+  /// In en, this message translates to:
+  /// **'That time has not come yet'**
+  String get clientsActivityInFuture;
 
   /// No description provided for @clientsActivityKind.
   ///
@@ -1096,11 +1114,53 @@ abstract class AppLocalizations {
   /// **'Save'**
   String get clientsActivitySave;
 
+  /// No description provided for @clientsActivitySentListings.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Sent 1 listing} other{Sent {count} listings}}'**
+  String clientsActivitySentListings(int count);
+
+  /// No description provided for @clientsActivityTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Time'**
+  String get clientsActivityTime;
+
   /// No description provided for @clientsActivityToday.
   ///
   /// In en, this message translates to:
   /// **'Today, {time}'**
   String clientsActivityToday(String time);
+
+  /// No description provided for @clientsActivityUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Entry updated'**
+  String get clientsActivityUpdated;
+
+  /// No description provided for @clientsActivityWhen.
+  ///
+  /// In en, this message translates to:
+  /// **'When'**
+  String get clientsActivityWhen;
+
+  /// No description provided for @clientsActivityWhenHourAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'1 hour ago'**
+  String get clientsActivityWhenHourAgo;
+
+  /// No description provided for @clientsActivityWhenJustNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Just now'**
+  String get clientsActivityWhenJustNow;
+
+  /// No description provided for @clientsActivityWhenYesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday'**
+  String get clientsActivityWhenYesterday;
 
   /// No description provided for @clientsActivityYesterday.
   ///
@@ -1378,6 +1438,24 @@ abstract class AppLocalizations {
   /// **'Sellers'**
   String get clientsFilterSellers;
 
+  /// No description provided for @clientsFollowUpCall.
+  ///
+  /// In en, this message translates to:
+  /// **'Log this call?'**
+  String get clientsFollowUpCall;
+
+  /// No description provided for @clientsFollowUpEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Log this email?'**
+  String get clientsFollowUpEmail;
+
+  /// No description provided for @clientsFollowUpHint.
+  ///
+  /// In en, this message translates to:
+  /// **'One tap puts it in the history. A note is optional.'**
+  String get clientsFollowUpHint;
+
   /// No description provided for @clientsFullName.
   ///
   /// In en, this message translates to:
@@ -1618,6 +1696,12 @@ abstract class AppLocalizations {
   /// **'Hello! Here are listings that fit what you are looking for:'**
   String get clientsSendGreeting;
 
+  /// No description provided for @clientsSendLogged.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved to the client\'s history'**
+  String get clientsSendLogged;
+
   /// No description provided for @clientsSendMatches.
   ///
   /// In en, this message translates to:
@@ -1653,6 +1737,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'WhatsApp'**
   String get clientsSendWhatsApp;
+
+  /// No description provided for @clientsSentOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Sent {date}'**
+  String clientsSentOn(String date);
 
   /// No description provided for @clientsShownOn.
   ///

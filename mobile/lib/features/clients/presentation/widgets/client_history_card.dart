@@ -12,6 +12,12 @@ class ClientHistoryCard extends StatelessWidget {
   final ValueChanged<ClientActivity> onDelete;
   final bool Function(ClientActivity) canDelete;
 
+  /// Opens an entry for correcting; offered on the same entries as removal.
+  final ValueChanged<ClientActivity>? onEdit;
+
+  /// Opens a listing named in an entry — one that was sent.
+  final ValueChanged<int>? onOpenProperty;
+
   const ClientHistoryCard({
     super.key,
     required this.activities,
@@ -19,6 +25,8 @@ class ClientHistoryCard extends StatelessWidget {
     required this.onRetry,
     required this.onDelete,
     required this.canDelete,
+    this.onEdit,
+    this.onOpenProperty,
   });
 
   @override
@@ -57,6 +65,10 @@ class ClientHistoryCard extends StatelessWidget {
                 activity: items[i],
                 last: i == items.length - 1,
                 onDelete: canDelete(items[i]) ? () => onDelete(items[i]) : null,
+                onEdit: onEdit != null && canDelete(items[i])
+                    ? () => onEdit!(items[i])
+                    : null,
+                onOpenProperty: onOpenProperty,
               ),
             const SizedBox(height: 4),
             AppGhostButton(
@@ -76,11 +88,15 @@ class _ActivityRow extends StatelessWidget {
   final ClientActivity activity;
   final bool last;
   final VoidCallback? onDelete;
+  final VoidCallback? onEdit;
+  final ValueChanged<int>? onOpenProperty;
 
   const _ActivityRow({
     required this.activity,
     required this.last,
     required this.onDelete,
+    required this.onEdit,
+    required this.onOpenProperty,
   });
 
   @override
@@ -93,6 +109,7 @@ class _ActivityRow extends StatelessWidget {
 
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
+      onTap: onEdit,
       onLongPress: onDelete,
       child: IntrinsicHeight(
         child: Row(
@@ -169,6 +186,13 @@ class _ActivityRow extends StatelessWidget {
                             color: t.textSecondary),
                       ),
                     ],
+                    if (activity.properties.isNotEmpty) ...[
+                      const SizedBox(height: 6),
+                      _SentListings(
+                        properties: activity.properties,
+                        onOpen: onOpenProperty,
+                      ),
+                    ],
                   ],
                 ),
               ),
@@ -191,6 +215,66 @@ class _ActivityRow extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+/// What went out in a message: how many, and each one by name, a tap away.
+class _SentListings extends StatelessWidget {
+  final List<ActivityProperty> properties;
+  final ValueChanged<int>? onOpen;
+
+  const _SentListings({required this.properties, required this.onOpen});
+
+  @override
+  Widget build(BuildContext context) {
+    final t = context.tokens;
+    final l10n = AppLocalizations.of(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(
+          l10n.clientsActivitySentListings(properties.length),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+              fontFamily: AppFonts.sans,
+              fontSize: 11.5,
+              fontWeight: FontWeight.w600,
+              color: t.textSecondary),
+        ),
+        for (final p in properties)
+          InkWell(
+            key: ValueKey('sent-listing-${p.id}'),
+            borderRadius: BorderRadius.circular(AppMetrics.radiusSm),
+            onTap: onOpen == null ? null : () => onOpen!(p.id),
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(minHeight: 32),
+              child: Row(
+                children: [
+                  Icon(Icons.home_work_outlined, size: 14, color: t.textHint),
+                  const SizedBox(width: 6),
+                  Expanded(
+                    child: Text(
+                      p.title.trim().isEmpty ? '#${p.id}' : p.title.trim(),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          fontFamily: AppFonts.sans,
+                          fontSize: 12.5,
+                          fontWeight: FontWeight.w500,
+                          color: t.textPrimary),
+                    ),
+                  ),
+                  if (onOpen != null)
+                    Icon(Icons.chevron_right_rounded,
+                        size: 16, color: t.textHint),
+                ],
+              ),
+            ),
+          ),
+      ],
     );
   }
 }

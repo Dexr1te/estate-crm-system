@@ -152,10 +152,13 @@
   "authWaitingTitle": "Waiting for a team",
   "authWelcomeBack": "Welcome back!",
   "clientsActivityCall": "Call",
+  "clientsActivityDate": "Date",
   "clientsActivityDeleteBody": "It disappears from this client's history for the whole team. This cannot be undone.",
   "clientsActivityDeleteTitle": "Remove this entry?",
+  "clientsActivityEdit": "Edit entry",
   "clientsActivityEmail": "Email",
   "clientsActivityFormerMember": "Former member",
+  "clientsActivityInFuture": "That time has not come yet",
   "clientsActivityKind": "How you were in touch",
   "clientsActivityLogged": "Contact logged",
   "clientsActivityMessage": "Message",
@@ -165,6 +168,15 @@
   "clientsActivityNoteRequired": "A note needs some text",
   "clientsActivityRemove": "Remove entry",
   "clientsActivitySave": "Save",
+  "clientsActivitySentListings": "{count, plural, =1{Sent 1 listing} other{Sent {count} listings}}",
+  "@clientsActivitySentListings": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "clientsActivityTime": "Time",
   "clientsActivityToday": "Today, {time}",
   "@clientsActivityToday": {
     "placeholders": {
@@ -173,6 +185,11 @@
       }
     }
   },
+  "clientsActivityUpdated": "Entry updated",
+  "clientsActivityWhen": "When",
+  "clientsActivityWhenHourAgo": "1 hour ago",
+  "clientsActivityWhenJustNow": "Just now",
+  "clientsActivityWhenYesterday": "Yesterday",
   "clientsActivityYesterday": "Yesterday, {time}",
   "@clientsActivityYesterday": {
     "placeholders": {
@@ -267,6 +284,9 @@
   "clientsFilterAll": "All",
   "clientsFilterBuyers": "Buyers",
   "clientsFilterSellers": "Sellers",
+  "clientsFollowUpCall": "Log this call?",
+  "clientsFollowUpEmail": "Log this email?",
+  "clientsFollowUpHint": "One tap puts it in the history. A note is optional.",
   "clientsFullName": "Full name",
   "clientsFullNameLabel": "Full Name",
   "clientsHistory": "History",
@@ -317,6 +337,7 @@
   "clientsSendClosing": "Tell me which ones you would like to see and I will arrange a viewing.",
   "clientsSendFailed": "Could not open sending",
   "clientsSendGreeting": "Hello! Here are listings that fit what you are looking for:",
+  "clientsSendLogged": "Saved to the client's history",
   "clientsSendMatches": "Send listings",
   "clientsSendPhotos": "Attach cover photos",
   "clientsSendPhotosHint": "Photos go through Share. WhatsApp opens the chat with the text only.",
@@ -330,6 +351,14 @@
   },
   "clientsSendShare": "Share",
   "clientsSendWhatsApp": "WhatsApp",
+  "clientsSentOn": "Sent {date}",
+  "@clientsSentOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "clientsShownOn": "Shown {date}",
   "@clientsShownOn": {
     "placeholders": {

@@ -188,6 +188,10 @@ class FakeClientsRepository implements ClientsRepository {
   /// When set, logging a contact fails with it and nothing is added.
   Object? logError;
 
+  /// Every log attempt, successful or not, in order.
+  final List<({ActivityType type, DateTime? occurredAt, List<int> propertyIds})>
+      logCalls = [];
+
   /// What `/clients/duplicates` answers, whatever was asked — the matching
   /// rules live on the backend and are tested there.
   final List<ClientDuplicate> duplicates;
@@ -240,19 +244,52 @@ class FakeClientsRepository implements ClientsRepository {
     int clientId, {
     required ActivityType type,
     String? note,
+    DateTime? occurredAt,
+    List<int> propertyIds = const [],
   }) async {
+    logCalls
+        .add((type: type, occurredAt: occurredAt, propertyIds: propertyIds));
     if (logError != null) throw logError!;
     final logged = ClientActivity(
       id: activities.fold<int>(0, (m, a) => a.id > m ? a.id : m) + 1,
       clientId: clientId,
       type: type,
       note: note,
-      occurredAt: AppClock.now(),
+      occurredAt: occurredAt ?? AppClock.now(),
       authorId: 5,
       authorName: 'Maria Kim-Doroshenko',
+      properties: [
+        for (final id in propertyIds)
+          ActivityProperty(
+            id: id,
+            title: matches
+                    .where((m) => m.property.id == id)
+                    .map((m) => m.property.title)
+                    .firstOrNull ??
+                'Listing $id',
+          ),
+      ],
     );
     activities = [logged, ...activities];
     return logged;
+  }
+
+  @override
+  Future<ClientActivity> updateActivity(
+    int clientId,
+    int activityId, {
+    required ActivityType type,
+    String? note,
+    DateTime? occurredAt,
+  }) async {
+    if (logError != null) throw logError!;
+    final current = activities.firstWhere((a) => a.id == activityId);
+    final updated = current.copyWith(
+        type: type, note: note, occurredAt: occurredAt ?? current.occurredAt);
+    activities = [
+      for (final a in activities) a.id == activityId ? updated : a,
+    ];
+    return updated;
   }
 
   @override

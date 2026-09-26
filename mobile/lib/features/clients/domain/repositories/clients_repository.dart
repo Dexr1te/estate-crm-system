@@ -25,6 +25,17 @@ abstract class ClientsRepository {
     int clientId, {
     required ActivityType type,
     String? note,
+    DateTime? occurredAt,
+    List<int> propertyIds = const [],
+  });
+
+  /// Corrects an entry; the listings it names stay as they were.
+  Future<ClientActivity> updateActivity(
+    int clientId,
+    int activityId, {
+    required ActivityType type,
+    String? note,
+    DateTime? occurredAt,
   });
 
   Future<void> deleteActivity(int clientId, int activityId);

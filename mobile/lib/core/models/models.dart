@@ -119,10 +119,25 @@ class ClientActivity with _$ClientActivity {
     int? authorId,
     String? authorName,
     DateTime? createdAt,
+
+    /// The listings this entry was about — what went out in a message.
+    @Default(<ActivityProperty>[]) List<ActivityProperty> properties,
   }) = _ClientActivity;
 
   factory ClientActivity.fromJson(Map<String, dynamic> json) =>
       _$ClientActivityFromJson(json);
+}
+
+/// Just enough of a listing to name it in the history and open it.
+@freezed
+class ActivityProperty with _$ActivityProperty {
+  const factory ActivityProperty({
+    required int id,
+    @Default('') String title,
+  }) = _ActivityProperty;
+
+  factory ActivityProperty.fromJson(Map<String, dynamic> json) =>
+      _$ActivityPropertyFromJson(json);
 }
 
 /// Another card in the agency that looks like the same person — only what it
@@ -199,6 +214,9 @@ class PropertyMatch with _$PropertyMatch {
     required PropertyResponse property,
     @Default(false) bool overBudget,
     DateTime? lastShownAt,
+
+    /// When it last went out to this buyer in a logged message.
+    DateTime? lastSentAt,
   }) = _PropertyMatch;
 
   factory PropertyMatch.fromJson(Map<String, dynamic> json) =>

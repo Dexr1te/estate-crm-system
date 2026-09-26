@@ -149,6 +149,10 @@ _$ClientActivityImpl _$$ClientActivityImplFromJson(Map<String, dynamic> json) =>
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
+      properties: (json['properties'] as List<dynamic>?)
+              ?.map((e) => ActivityProperty.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const <ActivityProperty>[],
     );
 
 Map<String, dynamic> _$$ClientActivityImplToJson(
@@ -162,6 +166,7 @@ Map<String, dynamic> _$$ClientActivityImplToJson(
       'authorId': instance.authorId,
       'authorName': instance.authorName,
       'createdAt': instance.createdAt?.toIso8601String(),
+      'properties': instance.properties,
     };
 
 const _$ActivityTypeEnumMap = {
@@ -170,6 +175,20 @@ const _$ActivityTypeEnumMap = {
   ActivityType.EMAIL: 'EMAIL',
   ActivityType.NOTE: 'NOTE',
 };
+
+_$ActivityPropertyImpl _$$ActivityPropertyImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ActivityPropertyImpl(
+      id: (json['id'] as num).toInt(),
+      title: json['title'] as String? ?? '',
+    );
+
+Map<String, dynamic> _$$ActivityPropertyImplToJson(
+        _$ActivityPropertyImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'title': instance.title,
+    };
 
 _$ClientDuplicateImpl _$$ClientDuplicateImplFromJson(
         Map<String, dynamic> json) =>
@@ -302,6 +321,9 @@ _$PropertyMatchImpl _$$PropertyMatchImplFromJson(Map<String, dynamic> json) =>
       lastShownAt: json['lastShownAt'] == null
           ? null
           : DateTime.parse(json['lastShownAt'] as String),
+      lastSentAt: json['lastSentAt'] == null
+          ? null
+          : DateTime.parse(json['lastSentAt'] as String),
     );
 
 Map<String, dynamic> _$$PropertyMatchImplToJson(_$PropertyMatchImpl instance) =>
@@ -309,6 +331,7 @@ Map<String, dynamic> _$$PropertyMatchImplToJson(_$PropertyMatchImpl instance) =>
       'property': instance.property,
       'overBudget': instance.overBudget,
       'lastShownAt': instance.lastShownAt?.toIso8601String(),
+      'lastSentAt': instance.lastSentAt?.toIso8601String(),
     };
 
 _$PropertyPhotoImpl _$$PropertyPhotoImplFromJson(Map<String, dynamic> json) =>

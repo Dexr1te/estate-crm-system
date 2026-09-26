@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -22,4 +23,16 @@ public class ClientActivityResponse {
     private Long authorId;
     private String authorName;
     private LocalDateTime createdAt;
+    /** The listings this entry was about — what went out in a message. Empty, never null. */
+    @Builder.Default
+    private List<PropertyRef> properties = List.of();
+
+    /** Just enough of a listing to name it and open it. */
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class PropertyRef {
+        private Long id;
+        private String title;
+    }
 }

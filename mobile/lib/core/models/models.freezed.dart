@@ -1158,6 +1158,9 @@ mixin _$ClientActivity {
   String? get authorName => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
 
+  /// The listings this entry was about — what went out in a message.
+  List<ActivityProperty> get properties => throw _privateConstructorUsedError;
+
   /// Serializes this ClientActivity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
@@ -1182,7 +1185,8 @@ abstract class $ClientActivityCopyWith<$Res> {
       DateTime occurredAt,
       int? authorId,
       String? authorName,
-      DateTime? createdAt});
+      DateTime? createdAt,
+      List<ActivityProperty> properties});
 }
 
 /// @nodoc
@@ -1208,6 +1212,7 @@ class _$ClientActivityCopyWithImpl<$Res, $Val extends ClientActivity>
     Object? authorId = freezed,
     Object? authorName = freezed,
     Object? createdAt = freezed,
+    Object? properties = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -1242,6 +1247,10 @@ class _$ClientActivityCopyWithImpl<$Res, $Val extends ClientActivity>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      properties: null == properties
+          ? _value.properties
+          : properties // ignore: cast_nullable_to_non_nullable
+              as List<ActivityProperty>,
     ) as $Val);
   }
 }
@@ -1262,7 +1271,8 @@ abstract class _$$ClientActivityImplCopyWith<$Res>
       DateTime occurredAt,
       int? authorId,
       String? authorName,
-      DateTime? createdAt});
+      DateTime? createdAt,
+      List<ActivityProperty> properties});
 }
 
 /// @nodoc
@@ -1286,6 +1296,7 @@ class __$$ClientActivityImplCopyWithImpl<$Res>
     Object? authorId = freezed,
     Object? authorName = freezed,
     Object? createdAt = freezed,
+    Object? properties = null,
   }) {
     return _then(_$ClientActivityImpl(
       id: null == id
@@ -1320,6 +1331,10 @@ class __$$ClientActivityImplCopyWithImpl<$Res>
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      properties: null == properties
+          ? _value._properties
+          : properties // ignore: cast_nullable_to_non_nullable
+              as List<ActivityProperty>,
     ));
   }
 }
@@ -1335,7 +1350,9 @@ class _$ClientActivityImpl implements _ClientActivity {
       required this.occurredAt,
       this.authorId,
       this.authorName,
-      this.createdAt});
+      this.createdAt,
+      final List<ActivityProperty> properties = const <ActivityProperty>[]})
+      : _properties = properties;
 
   factory _$ClientActivityImpl.fromJson(Map<String, dynamic> json) =>
       _$$ClientActivityImplFromJson(json);
@@ -1358,9 +1375,21 @@ class _$ClientActivityImpl implements _ClientActivity {
   @override
   final DateTime? createdAt;
 
+  /// The listings this entry was about — what went out in a message.
+  final List<ActivityProperty> _properties;
+
+  /// The listings this entry was about — what went out in a message.
+  @override
+  @JsonKey()
+  List<ActivityProperty> get properties {
+    if (_properties is EqualUnmodifiableListView) return _properties;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_properties);
+  }
+
   @override
   String toString() {
-    return 'ClientActivity(id: $id, clientId: $clientId, type: $type, note: $note, occurredAt: $occurredAt, authorId: $authorId, authorName: $authorName, createdAt: $createdAt)';
+    return 'ClientActivity(id: $id, clientId: $clientId, type: $type, note: $note, occurredAt: $occurredAt, authorId: $authorId, authorName: $authorName, createdAt: $createdAt, properties: $properties)';
   }
 
   @override
@@ -1380,13 +1409,24 @@ class _$ClientActivityImpl implements _ClientActivity {
             (identical(other.authorName, authorName) ||
                 other.authorName == authorName) &&
             (identical(other.createdAt, createdAt) ||
-                other.createdAt == createdAt));
+                other.createdAt == createdAt) &&
+            const DeepCollectionEquality()
+                .equals(other._properties, _properties));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, clientId, type, note,
-      occurredAt, authorId, authorName, createdAt);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      clientId,
+      type,
+      note,
+      occurredAt,
+      authorId,
+      authorName,
+      createdAt,
+      const DeepCollectionEquality().hash(_properties));
 
   /// Create a copy of ClientActivity
   /// with the given fields replaced by the non-null parameter values.
@@ -1414,7 +1454,8 @@ abstract class _ClientActivity implements ClientActivity {
       required final DateTime occurredAt,
       final int? authorId,
       final String? authorName,
-      final DateTime? createdAt}) = _$ClientActivityImpl;
+      final DateTime? createdAt,
+      final List<ActivityProperty> properties}) = _$ClientActivityImpl;
 
   factory _ClientActivity.fromJson(Map<String, dynamic> json) =
       _$ClientActivityImpl.fromJson;
@@ -1436,11 +1477,183 @@ abstract class _ClientActivity implements ClientActivity {
   @override
   DateTime? get createdAt;
 
+  /// The listings this entry was about — what went out in a message.
+  @override
+  List<ActivityProperty> get properties;
+
   /// Create a copy of ClientActivity
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ClientActivityImplCopyWith<_$ClientActivityImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+ActivityProperty _$ActivityPropertyFromJson(Map<String, dynamic> json) {
+  return _ActivityProperty.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ActivityProperty {
+  int get id => throw _privateConstructorUsedError;
+  String get title => throw _privateConstructorUsedError;
+
+  /// Serializes this ActivityProperty to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of ActivityProperty
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $ActivityPropertyCopyWith<ActivityProperty> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ActivityPropertyCopyWith<$Res> {
+  factory $ActivityPropertyCopyWith(
+          ActivityProperty value, $Res Function(ActivityProperty) then) =
+      _$ActivityPropertyCopyWithImpl<$Res, ActivityProperty>;
+  @useResult
+  $Res call({int id, String title});
+}
+
+/// @nodoc
+class _$ActivityPropertyCopyWithImpl<$Res, $Val extends ActivityProperty>
+    implements $ActivityPropertyCopyWith<$Res> {
+  _$ActivityPropertyCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of ActivityProperty
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? title = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ActivityPropertyImplCopyWith<$Res>
+    implements $ActivityPropertyCopyWith<$Res> {
+  factory _$$ActivityPropertyImplCopyWith(_$ActivityPropertyImpl value,
+          $Res Function(_$ActivityPropertyImpl) then) =
+      __$$ActivityPropertyImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({int id, String title});
+}
+
+/// @nodoc
+class __$$ActivityPropertyImplCopyWithImpl<$Res>
+    extends _$ActivityPropertyCopyWithImpl<$Res, _$ActivityPropertyImpl>
+    implements _$$ActivityPropertyImplCopyWith<$Res> {
+  __$$ActivityPropertyImplCopyWithImpl(_$ActivityPropertyImpl _value,
+      $Res Function(_$ActivityPropertyImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ActivityProperty
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? title = null,
+  }) {
+    return _then(_$ActivityPropertyImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ActivityPropertyImpl implements _ActivityProperty {
+  const _$ActivityPropertyImpl({required this.id, this.title = ''});
+
+  factory _$ActivityPropertyImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ActivityPropertyImplFromJson(json);
+
+  @override
+  final int id;
+  @override
+  @JsonKey()
+  final String title;
+
+  @override
+  String toString() {
+    return 'ActivityProperty(id: $id, title: $title)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ActivityPropertyImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.title, title) || other.title == title));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, title);
+
+  /// Create a copy of ActivityProperty
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ActivityPropertyImplCopyWith<_$ActivityPropertyImpl> get copyWith =>
+      __$$ActivityPropertyImplCopyWithImpl<_$ActivityPropertyImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ActivityPropertyImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ActivityProperty implements ActivityProperty {
+  const factory _ActivityProperty({required final int id, final String title}) =
+      _$ActivityPropertyImpl;
+
+  factory _ActivityProperty.fromJson(Map<String, dynamic> json) =
+      _$ActivityPropertyImpl.fromJson;
+
+  @override
+  int get id;
+  @override
+  String get title;
+
+  /// Create a copy of ActivityProperty
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ActivityPropertyImplCopyWith<_$ActivityPropertyImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -2597,6 +2810,9 @@ mixin _$PropertyMatch {
   bool get overBudget => throw _privateConstructorUsedError;
   DateTime? get lastShownAt => throw _privateConstructorUsedError;
 
+  /// When it last went out to this buyer in a logged message.
+  DateTime? get lastSentAt => throw _privateConstructorUsedError;
+
   /// Serializes this PropertyMatch to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
@@ -2614,7 +2830,10 @@ abstract class $PropertyMatchCopyWith<$Res> {
       _$PropertyMatchCopyWithImpl<$Res, PropertyMatch>;
   @useResult
   $Res call(
-      {PropertyResponse property, bool overBudget, DateTime? lastShownAt});
+      {PropertyResponse property,
+      bool overBudget,
+      DateTime? lastShownAt,
+      DateTime? lastSentAt});
 
   $PropertyResponseCopyWith<$Res> get property;
 }
@@ -2637,6 +2856,7 @@ class _$PropertyMatchCopyWithImpl<$Res, $Val extends PropertyMatch>
     Object? property = null,
     Object? overBudget = null,
     Object? lastShownAt = freezed,
+    Object? lastSentAt = freezed,
   }) {
     return _then(_value.copyWith(
       property: null == property
@@ -2650,6 +2870,10 @@ class _$PropertyMatchCopyWithImpl<$Res, $Val extends PropertyMatch>
       lastShownAt: freezed == lastShownAt
           ? _value.lastShownAt
           : lastShownAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      lastSentAt: freezed == lastSentAt
+          ? _value.lastSentAt
+          : lastSentAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
     ) as $Val);
   }
@@ -2674,7 +2898,10 @@ abstract class _$$PropertyMatchImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {PropertyResponse property, bool overBudget, DateTime? lastShownAt});
+      {PropertyResponse property,
+      bool overBudget,
+      DateTime? lastShownAt,
+      DateTime? lastSentAt});
 
   @override
   $PropertyResponseCopyWith<$Res> get property;
@@ -2696,6 +2923,7 @@ class __$$PropertyMatchImplCopyWithImpl<$Res>
     Object? property = null,
     Object? overBudget = null,
     Object? lastShownAt = freezed,
+    Object? lastSentAt = freezed,
   }) {
     return _then(_$PropertyMatchImpl(
       property: null == property
@@ -2710,6 +2938,10 @@ class __$$PropertyMatchImplCopyWithImpl<$Res>
           ? _value.lastShownAt
           : lastShownAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      lastSentAt: freezed == lastSentAt
+          ? _value.lastSentAt
+          : lastSentAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -2718,7 +2950,10 @@ class __$$PropertyMatchImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$PropertyMatchImpl implements _PropertyMatch {
   const _$PropertyMatchImpl(
-      {required this.property, this.overBudget = false, this.lastShownAt});
+      {required this.property,
+      this.overBudget = false,
+      this.lastShownAt,
+      this.lastSentAt});
 
   factory _$PropertyMatchImpl.fromJson(Map<String, dynamic> json) =>
       _$$PropertyMatchImplFromJson(json);
@@ -2731,9 +2966,13 @@ class _$PropertyMatchImpl implements _PropertyMatch {
   @override
   final DateTime? lastShownAt;
 
+  /// When it last went out to this buyer in a logged message.
+  @override
+  final DateTime? lastSentAt;
+
   @override
   String toString() {
-    return 'PropertyMatch(property: $property, overBudget: $overBudget, lastShownAt: $lastShownAt)';
+    return 'PropertyMatch(property: $property, overBudget: $overBudget, lastShownAt: $lastShownAt, lastSentAt: $lastSentAt)';
   }
 
   @override
@@ -2746,13 +2985,15 @@ class _$PropertyMatchImpl implements _PropertyMatch {
             (identical(other.overBudget, overBudget) ||
                 other.overBudget == overBudget) &&
             (identical(other.lastShownAt, lastShownAt) ||
-                other.lastShownAt == lastShownAt));
+                other.lastShownAt == lastShownAt) &&
+            (identical(other.lastSentAt, lastSentAt) ||
+                other.lastSentAt == lastSentAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, property, overBudget, lastShownAt);
+      Object.hash(runtimeType, property, overBudget, lastShownAt, lastSentAt);
 
   /// Create a copy of PropertyMatch
   /// with the given fields replaced by the non-null parameter values.
@@ -2774,7 +3015,8 @@ abstract class _PropertyMatch implements PropertyMatch {
   const factory _PropertyMatch(
       {required final PropertyResponse property,
       final bool overBudget,
-      final DateTime? lastShownAt}) = _$PropertyMatchImpl;
+      final DateTime? lastShownAt,
+      final DateTime? lastSentAt}) = _$PropertyMatchImpl;
 
   factory _PropertyMatch.fromJson(Map<String, dynamic> json) =
       _$PropertyMatchImpl.fromJson;
@@ -2785,6 +3027,10 @@ abstract class _PropertyMatch implements PropertyMatch {
   bool get overBudget;
   @override
   DateTime? get lastShownAt;
+
+  /// When it last went out to this buyer in a logged message.
+  @override
+  DateTime? get lastSentAt;
 
   /// Create a copy of PropertyMatch
   /// with the given fields replaced by the non-null parameter values.

@@ -44,8 +44,25 @@ class ClientsRepositoryImpl implements ClientsRepository {
     int clientId, {
     required ActivityType type,
     String? note,
+    DateTime? occurredAt,
+    List<int> propertyIds = const [],
   }) =>
-      _remote.logActivity(clientId, type: type, note: note);
+      _remote.logActivity(clientId,
+          type: type,
+          note: note,
+          occurredAt: occurredAt,
+          propertyIds: propertyIds);
+
+  @override
+  Future<ClientActivity> updateActivity(
+    int clientId,
+    int activityId, {
+    required ActivityType type,
+    String? note,
+    DateTime? occurredAt,
+  }) =>
+      _remote.updateActivity(clientId, activityId,
+          type: type, note: note, occurredAt: occurredAt);
 
   @override
   Future<void> deleteActivity(int clientId, int activityId) =>

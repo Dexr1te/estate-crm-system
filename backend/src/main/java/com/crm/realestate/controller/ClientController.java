@@ -153,6 +153,15 @@ public class ClientController {
         return ResponseEntity.status(HttpStatus.CREATED).body(activityService.create(id, request));
     }
 
+    @PutMapping("/{id}/activities/{activityId}")
+    @Operation(summary = "Correct a logged contact — its author, a manager or an admin. "
+            + "propertyIds omitted keeps the linked listings; a list replaces them")
+    public ResponseEntity<ClientActivityResponse> updateActivity(@PathVariable Long id,
+                                                                 @PathVariable Long activityId,
+                                                                 @Valid @RequestBody ClientActivityRequest request) {
+        return ResponseEntity.ok(activityService.update(id, activityId, request));
+    }
+
     @DeleteMapping("/{id}/activities/{activityId}")
     @Operation(summary = "Remove a logged contact — its author, a manager or an admin")
     public ResponseEntity<Void> deleteActivity(@PathVariable Long id, @PathVariable Long activityId) {

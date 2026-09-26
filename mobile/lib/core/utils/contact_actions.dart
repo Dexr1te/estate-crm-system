@@ -1,8 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+typedef UrlOpener = Future<bool> Function(Uri uri, LaunchMode mode);
+
+Future<bool> _launch(Uri uri, LaunchMode mode) => launchUrl(uri, mode: mode);
+
 class ContactActions {
   const ContactActions._();
+
+  /// What actually hands a link to the phone. Tests swap it for a recorder so
+  /// a tap on Call can be followed without a dialer.
+  static UrlOpener opener = _launch;
+
+  @visibleForTesting
+  static void resetOpener() => opener = _launch;
 
   static Future<bool> call(String? phone) =>
       _open('tel', phone, strip: RegExp(r'[^\d+]'));
@@ -13,7 +24,7 @@ class ContactActions {
     if (address == null || address.trim().isEmpty) return false;
     final uri = Uri.parse(
         'https://maps.google.com/?q=${Uri.encodeComponent(address.trim())}');
-    return launchUrl(uri, mode: LaunchMode.externalApplication);
+    return opener(uri, LaunchMode.externalApplication);
   }
 
   static Future<bool> whatsApp(String? phone, String text) async {
@@ -21,7 +32,7 @@ class ContactActions {
     if (digits.isEmpty) return false;
     final uri = Uri.https('wa.me', '/$digits', {'text': text});
     try {
-      return await launchUrl(uri, mode: LaunchMode.externalApplication);
+      return await opener(uri, LaunchMode.externalApplication);
     } catch (_) {
       return false;
     }
@@ -32,7 +43,8 @@ class ContactActions {
     final value = strip == null ? raw.trim() : raw.replaceAll(strip, '');
     if (value.isEmpty) return false;
     try {
-      return await launchUrl(Uri(scheme: scheme, path: value));
+      return await opener(
+          Uri(scheme: scheme, path: value), LaunchMode.platformDefault);
     } catch (_) {
       return false;
     }
