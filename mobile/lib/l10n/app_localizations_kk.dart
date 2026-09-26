@@ -591,6 +591,9 @@ class AppLocalizationsKk extends AppLocalizations {
   String get clientsActivityCall => 'Қоңырау';
 
   @override
+  String get clientsActivityDate => 'Күні';
+
+  @override
   String get clientsActivityDeleteBody =>
       'Жазба клиент тарихынан бүкіл команда үшін жойылады. Мұны қайтару мүмкін емес.';
 
@@ -598,10 +601,16 @@ class AppLocalizationsKk extends AppLocalizations {
   String get clientsActivityDeleteTitle => 'Жазбаны жою керек пе?';
 
   @override
+  String get clientsActivityEdit => 'Жазбаны өзгерту';
+
+  @override
   String get clientsActivityEmail => 'Хат';
 
   @override
   String get clientsActivityFormerMember => 'Бұрынғы қызметкер';
+
+  @override
+  String get clientsActivityInFuture => 'Бұл уақыт әлі келген жоқ';
 
   @override
   String get clientsActivityKind => 'Қалай хабарластыңыз';
@@ -631,9 +640,38 @@ class AppLocalizationsKk extends AppLocalizations {
   String get clientsActivitySave => 'Сақтау';
 
   @override
+  String clientsActivitySentListings(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count нысан жіберілді',
+      one: '1 нысан жіберілді',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clientsActivityTime => 'Уақыты';
+
+  @override
   String clientsActivityToday(String time) {
     return 'Бүгін, $time';
   }
+
+  @override
+  String get clientsActivityUpdated => 'Жазба жаңартылды';
+
+  @override
+  String get clientsActivityWhen => 'Қашан';
+
+  @override
+  String get clientsActivityWhenHourAgo => 'Бір сағат бұрын';
+
+  @override
+  String get clientsActivityWhenJustNow => 'Жаңа ғана';
+
+  @override
+  String get clientsActivityWhenYesterday => 'Кеше';
 
   @override
   String clientsActivityYesterday(String time) {
@@ -817,6 +855,16 @@ class AppLocalizationsKk extends AppLocalizations {
   String get clientsFilterSellers => 'Сатушылар';
 
   @override
+  String get clientsFollowUpCall => 'Бұл қоңырауды жазып қоясыз ба?';
+
+  @override
+  String get clientsFollowUpEmail => 'Бұл хатты жазып қоясыз ба?';
+
+  @override
+  String get clientsFollowUpHint =>
+      'Бір басқанда тарихқа жазылады. Ескертпе міндетті емес.';
+
+  @override
   String get clientsFullName => 'Толық аты-жөні';
 
   @override
@@ -954,6 +1002,9 @@ class AppLocalizationsKk extends AppLocalizations {
       'Әр нысанның барлық фотосы бар беті. Кез келген браузерде ашылады.';
 
   @override
+  String get clientsSendLogged => 'Клиент тарихына сақталды';
+
+  @override
   String get clientsSendMatches => 'Іріктемені жіберу';
 
   @override
@@ -973,6 +1024,11 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get clientsSendWhatsApp => 'WhatsApp';
+
+  @override
+  String clientsSentOn(String date) {
+    return '$date жіберілді';
+  }
 
   @override
   String clientsShownOn(String date) {

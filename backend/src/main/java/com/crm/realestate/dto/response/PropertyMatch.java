@@ -27,4 +27,11 @@ public class PropertyMatch {
      * listing they turned down is a different matter — that one does not appear at all.
      */
     private LocalDateTime lastShownAt;
+
+    /**
+     * When this listing last went out to this buyer in a logged message, if it has. Like
+     * {@link #lastShownAt} it marks the row rather than hiding it: a flat sent a month ago is often
+     * worth sending again, but the agent should know they are repeating themselves.
+     */
+    private LocalDateTime lastSentAt;
 }

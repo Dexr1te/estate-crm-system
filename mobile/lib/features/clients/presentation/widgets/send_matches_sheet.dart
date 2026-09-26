@@ -36,21 +36,26 @@ Future<void> showSendMatchesSheet(
   BuildContext context, {
   required ClientResponse client,
   required List<PropertyMatch> matches,
+  ValueChanged<List<int>>? onSent,
 }) {
   final l10n = AppLocalizations.of(context);
   return showAppBottomSheet<void>(
     context,
     title: l10n.clientsSendMatches,
     subtitle: client.fullName,
-    builder: (_) => SendMatchesSheet(client: client, matches: matches),
+    builder: (_) =>
+        SendMatchesSheet(client: client, matches: matches, onSent: onSent),
   );
 }
 
 class SendMatchesSheet extends StatefulWidget {
   final ClientResponse client;
   final List<PropertyMatch> matches;
+
+  /// Told which listings went out, once a send has gone through.
+  final ValueChanged<List<int>>? onSent;
   const SendMatchesSheet(
-      {super.key, required this.client, required this.matches});
+      {super.key, required this.client, required this.matches, this.onSent});
 
   @override
   State<SendMatchesSheet> createState() => _SendMatchesSheetState();
@@ -96,9 +101,11 @@ class _SendMatchesSheetState extends State<SendMatchesSheet> {
 
   Future<void> _whatsApp() async {
     final l10n = AppLocalizations.of(context);
-    final text = await _message(l10n, _chosen);
+    final chosen = _chosen;
+    final text = await _message(l10n, chosen);
     if (!mounted) return;
     final ok = await ContactActions.whatsApp(widget.client.phone, text);
+    if (ok) widget.onSent?.call([for (final p in chosen) p.id]);
     if (!mounted) return;
     if (ok) {
       Navigator.of(context).pop();
@@ -130,6 +137,9 @@ class _SendMatchesSheetState extends State<SendMatchesSheet> {
       subject: l10n.clientsSendMatches,
       images: images,
     );
+    if (outcome == ShareOutcome.shared) {
+      widget.onSent?.call([for (final p in chosen) p.id]);
+    }
     if (!mounted) return;
     setState(() => _sending = false);
     switch (outcome) {

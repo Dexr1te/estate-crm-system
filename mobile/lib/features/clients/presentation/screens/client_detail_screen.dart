@@ -6,6 +6,7 @@ import 'package:real_estate_crm/core/auth/role_context.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/utils/contact_actions.dart';
+import 'package:real_estate_crm/core/utils/contact_follow_up.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_bloc.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_event.dart';
@@ -35,11 +36,19 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
   bool _loading = true;
   String? _error;
   bool _merging = false;
+  late final ContactFollowUp _followUp = ContactFollowUp(onReturn: _offerToLog);
 
   @override
   void initState() {
     super.initState();
+    _followUp.attach();
     _load();
+  }
+
+  @override
+  void dispose() {
+    _followUp.detach();
+    super.dispose();
   }
 
   Future<void> _load() async {
@@ -86,26 +95,100 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
     if (mounted) setState(() => _activities = activities);
   }
 
-  Future<void> _logContact() async {
-    final l10n = AppLocalizations.of(context);
-    final saved = await showLogContactSheet(
-      context,
-      onSave: (type, note) async {
-        final logged = await Injector.clientsRepository
-            .logActivity(widget.id, type: type, note: note);
-        if (!mounted) return;
-        setState(() {
-          _activities = [...?_activities, logged]
-            ..sort((a, b) => b.occurredAt.compareTo(a.occurredAt));
-        });
-      },
-    );
-    if (!saved || !mounted) return;
+  void _addActivity(ClientActivity logged) {
+    setState(() {
+      _activities = [...?_activities, logged]
+        ..sort((a, b) => b.occurredAt.compareTo(a.occurredAt));
+    });
+  }
+
+  Future<void> _saveActivity(
+      ActivityType type, String? note, DateTime occurredAt) async {
+    final logged = await Injector.clientsRepository
+        .logActivity(widget.id, type: type, note: note, occurredAt: occurredAt);
+    if (mounted) _addActivity(logged);
+  }
+
+  void _confirm(String message) {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(SnackBar(
-          content: Text(l10n.clientsActivityLogged,
-              maxLines: 2, overflow: TextOverflow.ellipsis)));
+          content:
+              Text(message, maxLines: 2, overflow: TextOverflow.ellipsis)));
+  }
+
+  Future<void> _logContact() async {
+    final l10n = AppLocalizations.of(context);
+    final saved = await showLogContactSheet(context, onSave: _saveActivity);
+    if (saved && mounted) _confirm(l10n.clientsActivityLogged);
+  }
+
+  /// Back from a call or an email started here: offer to write it down while
+  /// it is fresh, already set to what it was and when it began.
+  Future<void> _offerToLog(PendingContact pending) async {
+    if (!mounted || pending.clientId != widget.id) return;
+    if (ModalRoute.of(context)?.isCurrent == false) return;
+    final l10n = AppLocalizations.of(context);
+    final saved = await showLogContactSheet(
+      context,
+      onSave: _saveActivity,
+      initialType: pending.type,
+      initialOccurredAt: pending.startedAt,
+      title: pending.type == ActivityType.EMAIL
+          ? l10n.clientsFollowUpEmail
+          : l10n.clientsFollowUpCall,
+      subtitle: l10n.clientsFollowUpHint,
+    );
+    if (saved && mounted) _confirm(l10n.clientsActivityLogged);
+  }
+
+  Future<void> _editActivity(ClientActivity activity) async {
+    final l10n = AppLocalizations.of(context);
+    final saved = await showLogContactSheet(
+      context,
+      title: l10n.clientsActivityEdit,
+      initialType: activity.type,
+      initialOccurredAt: activity.occurredAt,
+      initialNote: activity.note,
+      onSave: (type, note, occurredAt) async {
+        final updated = await Injector.clientsRepository.updateActivity(
+            widget.id, activity.id,
+            type: type, note: note, occurredAt: occurredAt);
+        if (!mounted) return;
+        setState(() {
+          _activities = [
+            for (final a in _activities ?? const <ClientActivity>[])
+              a.id == updated.id ? updated : a,
+          ]..sort((a, b) => b.occurredAt.compareTo(a.occurredAt));
+        });
+      },
+    );
+    if (saved && mounted) _confirm(l10n.clientsActivityUpdated);
+  }
+
+  /// Listings have just gone out from the send sheet. Written down without
+  /// asking — the agent already said what they sent by sending it — and
+  /// quietly: the send worked, so a failure to note it is not worth an error.
+  Future<void> _recordSent(List<int> propertyIds) async {
+    if (propertyIds.isEmpty) return;
+    final l10n = AppLocalizations.of(context);
+    try {
+      final logged = await Injector.clientsRepository.logActivity(widget.id,
+          type: ActivityType.MESSAGE, propertyIds: propertyIds);
+      if (!mounted) return;
+      _addActivity(logged);
+      setState(() {
+        _matches = [
+          for (final m in _matches)
+            propertyIds.contains(m.property.id)
+                ? m.copyWith(lastSentAt: logged.occurredAt)
+                : m,
+        ];
+      });
+      _confirm(l10n.clientsSendLogged);
+    } catch (_) {
+      // The message is out; the history simply misses this one.
+    }
   }
 
   bool _canDeleteActivity(ClientActivity activity) =>
@@ -232,14 +315,18 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
 
   Future<void> _call() async {
     final l10n = AppLocalizations.of(context);
-    if (!await ContactActions.call(_client?.phone) && mounted) {
+    if (await ContactActions.call(_client?.phone)) {
+      _followUp.begin(widget.id, ActivityType.CALL);
+    } else if (mounted) {
       showActionUnavailable(context, l10n.clientsNoPhone);
     }
   }
 
   Future<void> _message() async {
     final l10n = AppLocalizations.of(context);
-    if (!await ContactActions.email(_client?.email) && mounted) {
+    if (await ContactActions.email(_client?.email)) {
+      _followUp.begin(widget.id, ActivityType.EMAIL);
+    } else if (mounted) {
       showActionUnavailable(context, l10n.clientsNoEmail);
     }
   }
@@ -307,12 +394,15 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
             onRetry: _retryActivities,
             onDelete: _deleteActivity,
             canDelete: _canDeleteActivity,
+            onEdit: _editActivity,
+            onOpenProperty: (id) => context.push('/properties/$id'),
           ),
           RecordTasksCard(
               client: PickerItem(id: client.id, title: client.fullName)),
           _DealsCard(deals: _deals),
           if (client.type == ClientType.BUYER)
-            _MatchesCard(client: client, matches: _matches),
+            _MatchesCard(
+                client: client, matches: _matches, onSent: _recordSent),
           if (client.notes != null && client.notes!.trim().isNotEmpty)
             _NotesCard(client: client),
         ],
@@ -448,7 +538,9 @@ class _ContactCard extends StatelessWidget {
 class _MatchesCard extends StatelessWidget {
   final ClientResponse client;
   final List<PropertyMatch> matches;
-  const _MatchesCard({required this.client, required this.matches});
+  final ValueChanged<List<int>> onSent;
+  const _MatchesCard(
+      {required this.client, required this.matches, required this.onSent});
 
   bool get _hasRequirements =>
       client.wantedType != null ||
@@ -513,7 +605,7 @@ class _MatchesCard extends StatelessWidget {
             AppFilledButton(
               label: l10n.clientsSendMatches,
               onPressed: () => showSendMatchesSheet(context,
-                  client: client, matches: matches),
+                  client: client, matches: matches, onSent: onSent),
               height: AppMetrics.minHitTarget,
               fontSize: 12.5,
               radius: 11,
@@ -603,15 +695,25 @@ class _MatchRow extends StatelessWidget {
               ),
             ],
           ),
-          if (match.lastShownAt != null) ...[
+          if (match.lastShownAt != null || match.lastSentAt != null) ...[
             const SizedBox(height: 7),
             Row(
               children: [
-                Icon(Icons.history_rounded, size: 13, color: t.textHint),
+                Icon(
+                    match.lastShownAt != null
+                        ? Icons.history_rounded
+                        : Icons.send_outlined,
+                    size: 13,
+                    color: t.textHint),
                 const SizedBox(width: 5),
                 Expanded(
                   child: Text(
-                    l10n.clientsShownOn(formatDate(match.lastShownAt!)),
+                    [
+                      if (match.lastShownAt != null)
+                        l10n.clientsShownOn(formatDate(match.lastShownAt!)),
+                      if (match.lastSentAt != null)
+                        l10n.clientsSentOn(formatDate(match.lastSentAt!)),
+                    ].join(' · '),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(

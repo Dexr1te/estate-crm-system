@@ -594,6 +594,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clientsActivityCall => 'Call';
 
   @override
+  String get clientsActivityDate => 'Date';
+
+  @override
   String get clientsActivityDeleteBody =>
       'It disappears from this client\'s history for the whole team. This cannot be undone.';
 
@@ -601,10 +604,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clientsActivityDeleteTitle => 'Remove this entry?';
 
   @override
+  String get clientsActivityEdit => 'Edit entry';
+
+  @override
   String get clientsActivityEmail => 'Email';
 
   @override
   String get clientsActivityFormerMember => 'Former member';
+
+  @override
+  String get clientsActivityInFuture => 'That time has not come yet';
 
   @override
   String get clientsActivityKind => 'How you were in touch';
@@ -634,9 +643,38 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clientsActivitySave => 'Save';
 
   @override
+  String clientsActivitySentListings(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Sent $count listings',
+      one: 'Sent 1 listing',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clientsActivityTime => 'Time';
+
+  @override
   String clientsActivityToday(String time) {
     return 'Today, $time';
   }
+
+  @override
+  String get clientsActivityUpdated => 'Entry updated';
+
+  @override
+  String get clientsActivityWhen => 'When';
+
+  @override
+  String get clientsActivityWhenHourAgo => '1 hour ago';
+
+  @override
+  String get clientsActivityWhenJustNow => 'Just now';
+
+  @override
+  String get clientsActivityWhenYesterday => 'Yesterday';
 
   @override
   String clientsActivityYesterday(String time) {
@@ -821,6 +859,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clientsFilterSellers => 'Sellers';
 
   @override
+  String get clientsFollowUpCall => 'Log this call?';
+
+  @override
+  String get clientsFollowUpEmail => 'Log this email?';
+
+  @override
+  String get clientsFollowUpHint =>
+      'One tap puts it in the history. A note is optional.';
+
+  @override
   String get clientsFullName => 'Full name';
 
   @override
@@ -958,6 +1006,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'A page per listing with all its photos. Opens in any browser.';
 
   @override
+  String get clientsSendLogged => 'Saved to the client\'s history';
+
+  @override
   String get clientsSendMatches => 'Send listings';
 
   @override
@@ -977,6 +1028,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get clientsSendWhatsApp => 'WhatsApp';
+
+  @override
+  String clientsSentOn(String date) {
+    return 'Sent $date';
+  }
 
   @override
   String clientsShownOn(String date) {

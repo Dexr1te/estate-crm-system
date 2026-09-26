@@ -57,10 +57,30 @@ class ClientsRemoteDataSource {
     int clientId, {
     required ActivityType type,
     String? note,
+    DateTime? occurredAt,
+    List<int> propertyIds = const [],
   }) async {
     final res = await _client.dio.post('/clients/$clientId/activities', data: {
       'type': type.name,
       if (note != null && note.trim().isNotEmpty) 'note': note.trim(),
+      if (occurredAt != null) 'occurredAt': occurredAt.toIso8601String(),
+      if (propertyIds.isNotEmpty) 'propertyIds': propertyIds,
+    });
+    return ClientActivity.fromJson(jsonObject(res));
+  }
+
+  Future<ClientActivity> updateActivity(
+    int clientId,
+    int activityId, {
+    required ActivityType type,
+    String? note,
+    DateTime? occurredAt,
+  }) async {
+    final res = await _client.dio
+        .put('/clients/$clientId/activities/$activityId', data: {
+      'type': type.name,
+      if (note != null && note.trim().isNotEmpty) 'note': note.trim(),
+      if (occurredAt != null) 'occurredAt': occurredAt.toIso8601String(),
     });
     return ClientActivity.fromJson(jsonObject(res));
   }

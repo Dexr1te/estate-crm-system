@@ -12,6 +12,7 @@ import com.crm.realestate.entity.User;
 import com.crm.realestate.enums.ClientType;
 import com.crm.realestate.enums.ViewingOutcome;
 import com.crm.realestate.exception.ResourceNotFoundException;
+import com.crm.realestate.repository.ClientActivityPropertyRepository;
 import com.crm.realestate.repository.ClientRepository;
 import com.crm.realestate.repository.MeetingRepository;
 import com.crm.realestate.repository.PropertyRepository;
@@ -45,6 +46,7 @@ public class MatchingService {
     private final ClientRepository   clientRepository;
     private final PropertyRepository propertyRepository;
     private final MeetingRepository  meetingRepository;
+    private final ClientActivityPropertyRepository activityPropertyRepository;
     private final SecurityUtils      securityUtils;
     private final ScopeService       scopeService;
     private final ClientMapper       clientMapper;
@@ -77,10 +79,11 @@ public class MatchingService {
                 .filter(p -> !turnedDown.contains(p.getId()))
                 .toList();
         Map<Long, PropertyPriceChange> latestChanges = propertyMapper.latestChanges(listings);
+        Map<Long, LocalDateTime> lastSent = listings.isEmpty() ? Map.of() : lastSentTo(buyer.getId());
 
         return listings.stream()
                 .map(p -> new PropertyMatch(propertyMapper.toResponse(p, latestChanges.get(p.getId())),
-                        isOver(p.getPrice(), ceiling), lastShown.get(p.getId())))
+                        isOver(p.getPrice(), ceiling), lastShown.get(p.getId()), lastSent.get(p.getId())))
                 .sorted(Comparator.comparing(PropertyMatch::isOverBudget)
                         .thenComparing(m -> m.getProperty().getPrice(),
                                 Comparator.nullsLast(Comparator.naturalOrder())))
@@ -126,6 +129,13 @@ public class MatchingService {
                 m -> m.getProperty().getId(),
                 Meeting::getScheduledAt,
                 (a, b) -> a.isAfter(b) ? a : b));
+    }
+
+    /** When each listing last went out to this buyer in a logged message — one grouped query. */
+    private Map<Long, LocalDateTime> lastSentTo(Long clientId) {
+        return activityPropertyRepository.lastSentTo(clientId).stream().collect(Collectors.toMap(
+                row -> (Long) row[0],
+                row -> (LocalDateTime) row[1]));
     }
 
     private Set<Long> rejectedBuyersOf(Long propertyId) {

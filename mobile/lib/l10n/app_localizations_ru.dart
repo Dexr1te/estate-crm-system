@@ -595,6 +595,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get clientsActivityCall => 'Звонок';
 
   @override
+  String get clientsActivityDate => 'Дата';
+
+  @override
   String get clientsActivityDeleteBody =>
       'Запись исчезнет из истории клиента для всей команды. Это нельзя отменить.';
 
@@ -602,10 +605,16 @@ class AppLocalizationsRu extends AppLocalizations {
   String get clientsActivityDeleteTitle => 'Удалить запись?';
 
   @override
+  String get clientsActivityEdit => 'Изменить запись';
+
+  @override
   String get clientsActivityEmail => 'Письмо';
 
   @override
   String get clientsActivityFormerMember => 'Бывший сотрудник';
+
+  @override
+  String get clientsActivityInFuture => 'Это время ещё не наступило';
 
   @override
   String get clientsActivityKind => 'Как связывались';
@@ -635,9 +644,40 @@ class AppLocalizationsRu extends AppLocalizations {
   String get clientsActivitySave => 'Сохранить';
 
   @override
+  String clientsActivitySentListings(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Отправлено $count объекта',
+      many: 'Отправлено $count объектов',
+      few: 'Отправлено $count объекта',
+      one: 'Отправлен 1 объект',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clientsActivityTime => 'Время';
+
+  @override
   String clientsActivityToday(String time) {
     return 'Сегодня, $time';
   }
+
+  @override
+  String get clientsActivityUpdated => 'Запись обновлена';
+
+  @override
+  String get clientsActivityWhen => 'Когда';
+
+  @override
+  String get clientsActivityWhenHourAgo => 'Час назад';
+
+  @override
+  String get clientsActivityWhenJustNow => 'Только что';
+
+  @override
+  String get clientsActivityWhenYesterday => 'Вчера';
 
   @override
   String clientsActivityYesterday(String time) {
@@ -828,6 +868,16 @@ class AppLocalizationsRu extends AppLocalizations {
   String get clientsFilterSellers => 'Продавцы';
 
   @override
+  String get clientsFollowUpCall => 'Записать этот звонок?';
+
+  @override
+  String get clientsFollowUpEmail => 'Записать это письмо?';
+
+  @override
+  String get clientsFollowUpHint =>
+      'Одно нажатие — и запись в истории. Заметку можно не писать.';
+
+  @override
   String get clientsFullName => 'Полное имя';
 
   @override
@@ -965,6 +1015,9 @@ class AppLocalizationsRu extends AppLocalizations {
       'Страница каждого объекта со всеми фото. Откроется в любом браузере.';
 
   @override
+  String get clientsSendLogged => 'Сохранено в истории клиента';
+
+  @override
   String get clientsSendMatches => 'Отправить подборку';
 
   @override
@@ -984,6 +1037,11 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get clientsSendWhatsApp => 'WhatsApp';
+
+  @override
+  String clientsSentOn(String date) {
+    return 'Отправляли $date';
+  }
 
   @override
   String clientsShownOn(String date) {
