@@ -19,6 +19,7 @@ import com.crm.realestate.dto.response.MeetingResponse;
 import com.crm.realestate.service.MatchingService;
 import com.crm.realestate.service.MeetingService;
 import com.crm.realestate.service.PropertyService;
+import com.crm.realestate.specification.MapBounds;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -45,7 +46,7 @@ public class PropertyController {
     private final ListingShareService shareService;
 
     @GetMapping
-    @Operation(summary = "Get all properties (with optional filters). Supports pagination & sorting via Pageable (page, size, sort)")
+    @Operation(summary = "Get all properties (with optional filters, incl. a map rectangle minLat/maxLat/minLng/maxLng and hasLocation). Supports pagination & sorting via Pageable (page, size, sort)")
     public ResponseEntity<?> getAll(
             @RequestParam(required = false) PropertyStatus status,
             @RequestParam(required = false) PropertyType type,
@@ -55,8 +56,16 @@ public class PropertyController {
             @RequestParam(required = false) Integer rooms,
             @RequestParam(required = false) Long agentId,
             @RequestParam(required = false) String search,
+            @RequestParam(required = false) Double minLat,
+            @RequestParam(required = false) Double maxLat,
+            @RequestParam(required = false) Double minLng,
+            @RequestParam(required = false) Double maxLng,
+            @RequestParam(required = false) Boolean hasLocation,
             org.springframework.data.domain.Pageable pageable,
             jakarta.servlet.http.HttpServletRequest request) {
+
+        // The map's rectangle: all four edges or none (400 otherwise).
+        MapBounds bounds = MapBounds.of(minLat, maxLat, minLng, maxLng);
 
         // Preserve backward compatibility: if no pagination params were provided and no filters/search used,
         // return previous behavior (full list) as JSON array to avoid breaking existing clients.
@@ -65,7 +74,8 @@ public class PropertyController {
                 || request.getParameterMap().containsKey("sort");
 
         boolean hasAnyFilter = status != null || type != null || city != null || minPrice != null
-                || maxPrice != null || rooms != null || agentId != null || (search != null && !search.isBlank());
+                || maxPrice != null || rooms != null || agentId != null || (search != null && !search.isBlank())
+                || bounds != null || hasLocation != null;
 
         if (!hasPageParams && !hasAnyFilter) {
             // legacy behavior
@@ -73,7 +83,8 @@ public class PropertyController {
         }
 
         org.springframework.data.domain.Page<PropertyResponse> page = propertyService.search(
-                status, type, city, minPrice, maxPrice, rooms, agentId, search, pageable);
+                status, type, city, minPrice, maxPrice, rooms, agentId, search, bounds, hasLocation,
+                pageable);
         return ResponseEntity.ok(page);
     }
 

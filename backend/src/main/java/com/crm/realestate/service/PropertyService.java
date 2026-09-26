@@ -13,6 +13,7 @@ import com.crm.realestate.repository.PropertyPriceChangeRepository;
 import com.crm.realestate.repository.PropertyRepository;
 import com.crm.realestate.repository.UserRepository;
 import com.crm.realestate.security.SecurityUtils;
+import com.crm.realestate.specification.MapBounds;
 import com.crm.realestate.specification.PropertySpecification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
@@ -65,9 +66,32 @@ public class PropertyService {
             String search,
             org.springframework.data.domain.Pageable pageable
     ) {
+        return search(status, type, city, minPrice, maxPrice, rooms, agentId, search, null, null,
+                pageable);
+    }
+
+    /**
+     * The same, narrowed to the rectangle a map is showing and to listings with or without a pin.
+     * Either may be null, and neither widens what the caller's team can see.
+     */
+    public org.springframework.data.domain.Page<PropertyResponse> search(
+            PropertyStatus status,
+            PropertyType type,
+            String city,
+            BigDecimal minPrice,
+            BigDecimal maxPrice,
+            Integer rooms,
+            Long agentId,
+            String search,
+            MapBounds bounds,
+            Boolean hasLocation,
+            org.springframework.data.domain.Pageable pageable
+    ) {
         User currentUser = securityUtils.getCurrentUser();
         Specification<Property> spec =
                 PropertySpecification.build(status, type, city, minPrice, maxPrice, rooms, agentId, search)
+                        .and(PropertySpecification.within(bounds))
+                        .and(PropertySpecification.hasLocation(hasLocation))
                         .and(scopeService.visibleToTeam(currentUser));
 
         org.springframework.data.domain.Page<Property> page = propertyRepository.findAll(spec, pageable);
@@ -178,6 +202,8 @@ public class PropertyService {
         property.setRooms(request.getRooms());
         property.setFloor(request.getFloor());
         property.setTotalFloors(request.getTotalFloors());
+        property.setLatitude(request.getLatitude());
+        property.setLongitude(request.getLongitude());
 
         if (scopeService.isAdmin(currentUser) && request.getAgentId() != null) {
             User agent = userRepository.findById(request.getAgentId())

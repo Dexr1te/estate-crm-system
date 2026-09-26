@@ -22,6 +22,7 @@ import 'package:real_estate_crm/features/dashboard/presentation/screens/dashboar
 import 'package:real_estate_crm/features/deals/presentation/screens/deal_detail_screen.dart';
 import 'package:real_estate_crm/features/deals/presentation/screens/deal_form_screen.dart';
 import 'package:real_estate_crm/features/deals/presentation/screens/deals_screen.dart';
+import 'package:real_estate_crm/features/imports/presentation/screens/import_screen.dart';
 import 'package:real_estate_crm/features/meetings/presentation/screens/meeting_detail_screen.dart';
 import 'package:real_estate_crm/features/meetings/presentation/screens/meeting_form_screen.dart';
 import 'package:real_estate_crm/features/meetings/presentation/screens/meetings_screen.dart';
@@ -92,6 +93,11 @@ String? resolveRedirect({
 
   if (location.startsWith('/admin') && role != Role.ADMIN) return '/dashboard';
   if (location.startsWith('/team-console') && role != Role.MANAGER) {
+    return '/dashboard';
+  }
+  if (location.startsWith('/import') &&
+      role != Role.MANAGER &&
+      role != Role.ADMIN) {
     return '/dashboard';
   }
   return null;
@@ -193,6 +199,11 @@ GoRouter createRouter(AuthBloc authBloc) {
         parentNavigatorKey: _rootKey,
         pageBuilder: (_, __) =>
             const NoTransitionPage(child: NotificationsScreen()),
+      ),
+      GoRoute(
+        path: '/import',
+        parentNavigatorKey: _rootKey,
+        pageBuilder: (_, __) => const NoTransitionPage(child: ImportScreen()),
       ),
       GoRoute(
         path: '/tasks',

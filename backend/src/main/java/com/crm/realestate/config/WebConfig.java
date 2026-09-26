@@ -28,6 +28,7 @@ public class WebConfig implements WebMvcConfigurer {
                         "/deals/**",
                         "/meetings/**",
                         "/tasks/**",
+                        "/import/**",
                         "/dashboard/**",
                         "/users/agents");
     }

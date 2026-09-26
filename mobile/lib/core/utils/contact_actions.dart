@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -25,6 +26,44 @@ class ContactActions {
     final uri = Uri.parse(
         'https://maps.google.com/?q=${Uri.encodeComponent(address.trim())}');
     return opener(uri, LaunchMode.externalApplication);
+  }
+
+  /// The pin in the phone's own maps app: Apple Maps on iOS, whatever answers
+  /// `geo:` on Android, and OpenStreetMap in a browser if neither will open.
+  static Future<bool> directionsTo(double? latitude, double? longitude,
+      {String? label}) async {
+    if (latitude == null || longitude == null) return false;
+    final lat = latitude.toStringAsFixed(6);
+    final lng = longitude.toStringAsFixed(6);
+    final name = label?.trim() ?? '';
+    final Uri? native = switch (defaultTargetPlatform) {
+      TargetPlatform.iOS || TargetPlatform.macOS => Uri.https('maps.apple.com',
+          '/', {'ll': '$lat,$lng', 'q': name.isEmpty ? '$lat,$lng' : name}),
+      TargetPlatform.android => Uri.parse('geo:$lat,$lng?q=$lat,$lng'
+          '${name.isEmpty ? '' : '(${Uri.encodeComponent(name)})'}'),
+      _ => null,
+    };
+    if (native != null) {
+      try {
+        if (await opener(native, LaunchMode.externalApplication)) return true;
+      } catch (_) {
+        // No app took it; the browser below always can.
+      }
+    }
+    try {
+      return await opener(openStreetMapUri(latitude, longitude),
+          LaunchMode.externalApplication);
+    } catch (_) {
+      return false;
+    }
+  }
+
+  /// The point on openstreetmap.org, marked, close enough to see the street.
+  static Uri openStreetMapUri(double latitude, double longitude) {
+    final lat = latitude.toStringAsFixed(6);
+    final lng = longitude.toStringAsFixed(6);
+    return Uri.parse('https://www.openstreetmap.org/'
+        '?mlat=$lat&mlon=$lng#map=17/$lat/$lng');
   }
 
   static Future<bool> whatsApp(String? phone, String text) async {

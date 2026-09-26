@@ -2017,6 +2017,10 @@ mixin _$PropertyResponse {
   double? get previousPrice => throw _privateConstructorUsedError;
   DateTime? get priceChangedAt => throw _privateConstructorUsedError;
 
+  /// Where it stands, in degrees; both null until an agent drops a pin.
+  double? get latitude => throw _privateConstructorUsedError;
+  double? get longitude => throw _privateConstructorUsedError;
+
   /// Serializes this PropertyResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
@@ -2051,7 +2055,9 @@ abstract class $PropertyResponseCopyWith<$Res> {
       DateTime? createdAt,
       DateTime? updatedAt,
       double? previousPrice,
-      DateTime? priceChangedAt});
+      DateTime? priceChangedAt,
+      double? latitude,
+      double? longitude});
 }
 
 /// @nodoc
@@ -2087,6 +2093,8 @@ class _$PropertyResponseCopyWithImpl<$Res, $Val extends PropertyResponse>
     Object? updatedAt = freezed,
     Object? previousPrice = freezed,
     Object? priceChangedAt = freezed,
+    Object? latitude = freezed,
+    Object? longitude = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -2161,6 +2169,14 @@ class _$PropertyResponseCopyWithImpl<$Res, $Val extends PropertyResponse>
           ? _value.priceChangedAt
           : priceChangedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      latitude: freezed == latitude
+          ? _value.latitude
+          : latitude // ignore: cast_nullable_to_non_nullable
+              as double?,
+      longitude: freezed == longitude
+          ? _value.longitude
+          : longitude // ignore: cast_nullable_to_non_nullable
+              as double?,
     ) as $Val);
   }
 }
@@ -2191,7 +2207,9 @@ abstract class _$$PropertyResponseImplCopyWith<$Res>
       DateTime? createdAt,
       DateTime? updatedAt,
       double? previousPrice,
-      DateTime? priceChangedAt});
+      DateTime? priceChangedAt,
+      double? latitude,
+      double? longitude});
 }
 
 /// @nodoc
@@ -2225,6 +2243,8 @@ class __$$PropertyResponseImplCopyWithImpl<$Res>
     Object? updatedAt = freezed,
     Object? previousPrice = freezed,
     Object? priceChangedAt = freezed,
+    Object? latitude = freezed,
+    Object? longitude = freezed,
   }) {
     return _then(_$PropertyResponseImpl(
       id: null == id
@@ -2299,6 +2319,14 @@ class __$$PropertyResponseImplCopyWithImpl<$Res>
           ? _value.priceChangedAt
           : priceChangedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      latitude: freezed == latitude
+          ? _value.latitude
+          : latitude // ignore: cast_nullable_to_non_nullable
+              as double?,
+      longitude: freezed == longitude
+          ? _value.longitude
+          : longitude // ignore: cast_nullable_to_non_nullable
+              as double?,
     ));
   }
 }
@@ -2324,7 +2352,9 @@ class _$PropertyResponseImpl implements _PropertyResponse {
       this.createdAt,
       this.updatedAt,
       this.previousPrice,
-      this.priceChangedAt});
+      this.priceChangedAt,
+      this.latitude,
+      this.longitude});
 
   factory _$PropertyResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$PropertyResponseImplFromJson(json);
@@ -2371,9 +2401,15 @@ class _$PropertyResponseImpl implements _PropertyResponse {
   @override
   final DateTime? priceChangedAt;
 
+  /// Where it stands, in degrees; both null until an agent drops a pin.
+  @override
+  final double? latitude;
+  @override
+  final double? longitude;
+
   @override
   String toString() {
-    return 'PropertyResponse(id: $id, title: $title, description: $description, address: $address, city: $city, type: $type, status: $status, price: $price, areaSqm: $areaSqm, rooms: $rooms, floor: $floor, totalFloors: $totalFloors, agentId: $agentId, agentName: $agentName, createdAt: $createdAt, updatedAt: $updatedAt, previousPrice: $previousPrice, priceChangedAt: $priceChangedAt)';
+    return 'PropertyResponse(id: $id, title: $title, description: $description, address: $address, city: $city, type: $type, status: $status, price: $price, areaSqm: $areaSqm, rooms: $rooms, floor: $floor, totalFloors: $totalFloors, agentId: $agentId, agentName: $agentName, createdAt: $createdAt, updatedAt: $updatedAt, previousPrice: $previousPrice, priceChangedAt: $priceChangedAt, latitude: $latitude, longitude: $longitude)';
   }
 
   @override
@@ -2405,31 +2441,38 @@ class _$PropertyResponseImpl implements _PropertyResponse {
             (identical(other.previousPrice, previousPrice) ||
                 other.previousPrice == previousPrice) &&
             (identical(other.priceChangedAt, priceChangedAt) ||
-                other.priceChangedAt == priceChangedAt));
+                other.priceChangedAt == priceChangedAt) &&
+            (identical(other.latitude, latitude) ||
+                other.latitude == latitude) &&
+            (identical(other.longitude, longitude) ||
+                other.longitude == longitude));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      title,
-      description,
-      address,
-      city,
-      type,
-      status,
-      price,
-      areaSqm,
-      rooms,
-      floor,
-      totalFloors,
-      agentId,
-      agentName,
-      createdAt,
-      updatedAt,
-      previousPrice,
-      priceChangedAt);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        id,
+        title,
+        description,
+        address,
+        city,
+        type,
+        status,
+        price,
+        areaSqm,
+        rooms,
+        floor,
+        totalFloors,
+        agentId,
+        agentName,
+        createdAt,
+        updatedAt,
+        previousPrice,
+        priceChangedAt,
+        latitude,
+        longitude
+      ]);
 
   /// Create a copy of PropertyResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -2467,7 +2510,9 @@ abstract class _PropertyResponse implements PropertyResponse {
       final DateTime? createdAt,
       final DateTime? updatedAt,
       final double? previousPrice,
-      final DateTime? priceChangedAt}) = _$PropertyResponseImpl;
+      final DateTime? priceChangedAt,
+      final double? latitude,
+      final double? longitude}) = _$PropertyResponseImpl;
 
   factory _PropertyResponse.fromJson(Map<String, dynamic> json) =
       _$PropertyResponseImpl.fromJson;
@@ -2508,6 +2553,12 @@ abstract class _PropertyResponse implements PropertyResponse {
   double? get previousPrice;
   @override
   DateTime? get priceChangedAt;
+
+  /// Where it stands, in degrees; both null until an agent drops a pin.
+  @override
+  double? get latitude;
+  @override
+  double? get longitude;
 
   /// Create a copy of PropertyResponse
   /// with the given fields replaced by the non-null parameter values.

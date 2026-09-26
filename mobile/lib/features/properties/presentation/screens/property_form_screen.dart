@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:latlong2/latlong.dart' show LatLng;
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_bloc.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_event.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_state.dart';
+import 'package:real_estate_crm/features/properties/presentation/widgets/map_markers.dart';
+import 'package:real_estate_crm/features/properties/presentation/widgets/property_location_picker.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class PropertyFormScreen extends StatefulWidget {
@@ -33,6 +36,7 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
 
   PropertyType _type = PropertyType.APARTMENT;
   PropertyStatus _status = PropertyStatus.AVAILABLE;
+  LatLng? _pin;
   int _step = 0;
   bool _loading = false;
   bool _initLoading = false;
@@ -79,6 +83,7 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
       setState(() {
         _type = p.type;
         _status = p.status;
+        _pin = listingPoint(p);
         _initLoading = false;
       });
     } catch (_) {
@@ -129,6 +134,9 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
       if (rooms != null) 'rooms': rooms,
       if (floor != null) 'floor': floor,
       if (totalFloors != null) 'totalFloors': totalFloors,
+      // Always sent: an edit that took the pin off must clear it.
+      'latitude': _pin?.latitude,
+      'longitude': _pin?.longitude,
     };
 
     if (widget.isEditing) {
@@ -306,6 +314,17 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
                 controller: _cityCtrl,
                 hint: l10n.propertiesCityLabel,
                 textInputAction: TextInputAction.done,
+              ),
+            ),
+            LabelledField(
+              label: l10n.propertiesMapPin,
+              child: ValueListenableBuilder<TextEditingValue>(
+                valueListenable: _cityCtrl,
+                builder: (_, city, __) => PropertyLocationPicker(
+                  value: _pin,
+                  city: city.text,
+                  onChanged: (point) => setState(() => _pin = point),
+                ),
               ),
             ),
           ],

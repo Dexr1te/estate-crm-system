@@ -1800,6 +1800,266 @@ class AppLocalizationsEn extends AppLocalizations {
   String get documentsUploading => 'Sending…';
 
   @override
+  String importAction(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Import $count rows',
+      one: 'Import 1 row',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get importAnother => 'Import another file';
+
+  @override
+  String get importAssignTo => 'Assign to';
+
+  @override
+  String get importAssignToMe => 'Me';
+
+  @override
+  String get importChooseFile => 'Choose a CSV file';
+
+  @override
+  String get importColumns => 'Columns';
+
+  @override
+  String get importColumnsHint =>
+      'Check which field each column fills. Columns set to Skip are left out.';
+
+  @override
+  String get importCreated => 'Created';
+
+  @override
+  String get importDoneTitle => 'Import finished';
+
+  @override
+  String get importDownloadTemplate => 'Download template';
+
+  @override
+  String importDuplicateOfClient(String name) {
+    return 'Already in the agency: $name';
+  }
+
+  @override
+  String importDuplicateOfRow(int row) {
+    return 'Same as row $row';
+  }
+
+  @override
+  String get importEmptyFile => 'The file is empty';
+
+  @override
+  String get importEntrySubtitle =>
+      'Clients and listings from Excel or another CRM';
+
+  @override
+  String get importErrorInvalidEmail => 'Not an email address';
+
+  @override
+  String get importErrorInvalidNumber => 'Not a number';
+
+  @override
+  String get importErrorInvalidPhone => 'Not a phone number';
+
+  @override
+  String get importErrorNegative => 'Must be above zero';
+
+  @override
+  String get importErrorOutOfRange => 'Out of range';
+
+  @override
+  String get importErrorRequired => 'Required';
+
+  @override
+  String get importErrorTooLong => 'Too long';
+
+  @override
+  String get importErrorUnknownValue => 'Unknown value';
+
+  @override
+  String get importFieldAddress => 'Address';
+
+  @override
+  String get importFieldArea => 'Area';
+
+  @override
+  String get importFieldBudgetMax => 'Budget to';
+
+  @override
+  String get importFieldBudgetMin => 'Budget from';
+
+  @override
+  String get importFieldCity => 'City';
+
+  @override
+  String get importFieldClientType => 'Client type';
+
+  @override
+  String get importFieldDescription => 'Description';
+
+  @override
+  String get importFieldEmail => 'Email';
+
+  @override
+  String get importFieldFloor => 'Floor';
+
+  @override
+  String get importFieldFullName => 'Full name';
+
+  @override
+  String get importFieldMinArea => 'Area from';
+
+  @override
+  String get importFieldMinRooms => 'Rooms from';
+
+  @override
+  String get importFieldNotes => 'Notes';
+
+  @override
+  String get importFieldPhone => 'Phone';
+
+  @override
+  String get importFieldPrice => 'Price';
+
+  @override
+  String get importFieldPropertyType => 'Property type';
+
+  @override
+  String get importFieldRooms => 'Rooms';
+
+  @override
+  String get importFieldStatus => 'Status';
+
+  @override
+  String get importFieldTitle => 'Title';
+
+  @override
+  String get importFieldTotalFloors => 'Total floors';
+
+  @override
+  String get importFieldWantedCity => 'Wanted city';
+
+  @override
+  String get importFieldWantedType => 'Wanted property type';
+
+  @override
+  String get importFileTooLarge =>
+      'The file is larger than 5 MB. Split it into parts.';
+
+  @override
+  String get importHowTo =>
+      'Save the sheet as CSV in Excel or Google Sheets. Commas, semicolons and tabs all work, and so do Cyrillic files from a Russian Excel.';
+
+  @override
+  String get importInvalid => 'Not imported, errors';
+
+  @override
+  String get importKindClients => 'Clients';
+
+  @override
+  String get importKindClientsHint =>
+      'Names, phones, what they are looking for';
+
+  @override
+  String get importKindProperties => 'Listings';
+
+  @override
+  String get importKindPropertiesHint => 'Addresses, prices, areas, rooms';
+
+  @override
+  String importMissingRequired(String field) {
+    return 'Choose a column for $field';
+  }
+
+  @override
+  String get importNoAgents => 'No colleagues found';
+
+  @override
+  String get importNoProblems => 'Every row is ready to import';
+
+  @override
+  String get importNotCsv =>
+      'Choose a .csv file. In Excel: File, Save as, CSV.';
+
+  @override
+  String get importNothingToImport => 'Nothing to import';
+
+  @override
+  String get importOpenClients => 'Open clients';
+
+  @override
+  String get importOpenProperties => 'Open listings';
+
+  @override
+  String get importOptions => 'Options';
+
+  @override
+  String get importPickAgentSearch => 'Search by name';
+
+  @override
+  String get importProblems => 'Rows that need attention';
+
+  @override
+  String get importProblemsTruncated => 'Only the first 1000 are listed';
+
+  @override
+  String importRowLabel(int row) {
+    return 'Row $row';
+  }
+
+  @override
+  String importRowsTotal(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count rows in the file',
+      one: '1 row in the file',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get importShowMore => 'Show more';
+
+  @override
+  String get importSkipColumn => 'Skip';
+
+  @override
+  String get importSkipDuplicates => 'Skip duplicates';
+
+  @override
+  String get importSkipDuplicatesHint =>
+      'A client whose email is already in the agency is always skipped';
+
+  @override
+  String get importSkipped => 'Skipped duplicates';
+
+  @override
+  String get importSummaryDuplicates => 'Duplicates';
+
+  @override
+  String get importSummaryInvalid => 'With errors';
+
+  @override
+  String get importSummaryValid => 'Ready';
+
+  @override
+  String get importTemplateFailed => 'Could not prepare the template';
+
+  @override
+  String get importTitle => 'Import from a spreadsheet';
+
+  @override
+  String get importTooManyRows =>
+      'The file has more than 5000 rows. Split it into parts.';
+
+  @override
+  String get meetingsAddShort => 'Meeting';
+
+  @override
   String get meetingsAgendaHint => 'Meeting agenda, talking points…';
 
   @override
@@ -2592,6 +2852,45 @@ class AppLocalizationsEn extends AppLocalizations {
   String get propertiesLocation => 'Location';
 
   @override
+  String propertiesMapCapped(int count) {
+    return 'Showing $count — zoom in to see the rest';
+  }
+
+  @override
+  String get propertiesMapEmpty => 'No listings in this area';
+
+  @override
+  String get propertiesMapLoading => 'Loading listings';
+
+  @override
+  String get propertiesMapPin => 'Pin on the map';
+
+  @override
+  String get propertiesMapPinClear => 'Remove pin';
+
+  @override
+  String get propertiesMapPinHint =>
+      'Tap the map to drop a pin, drag it to adjust';
+
+  @override
+  String propertiesMapUnpinned(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count listings have no location',
+      one: '1 listing has no location',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get propertiesMapUnpinnedHint =>
+      'Open a listing, choose Edit and drop a pin to show it on the map.';
+
+  @override
+  String get propertiesMapUnpinnedTitle => 'Not on the map';
+
+  @override
   String get propertiesNewProperty => 'New Property';
 
   @override
@@ -2613,6 +2912,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get propertiesNoViewings => 'This listing has not been shown yet';
+
+  @override
+  String get propertiesOpenInMaps => 'Open in Maps';
+
+  @override
+  String get propertiesOpenInMapsFailed => 'Could not open a maps app';
 
   @override
   String propertiesPhotoCount(num count) {
@@ -2729,6 +3034,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get propertiesUpdateStatus => 'Update Status';
+
+  @override
+  String get propertiesViewList => 'List';
+
+  @override
+  String get propertiesViewMap => 'Map';
 
   @override
   String get propertiesViewings => 'Viewings';

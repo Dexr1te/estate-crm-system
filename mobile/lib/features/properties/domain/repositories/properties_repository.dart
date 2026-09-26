@@ -1,5 +1,6 @@
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/models/paged_response.dart';
+import 'package:real_estate_crm/features/properties/domain/map_area.dart';
 
 abstract class PropertiesRepository {
   Future<PagedResponse<PropertyResponse>> getProperties({
@@ -8,6 +9,26 @@ abstract class PropertiesRepository {
     String? city,
     double? minPrice,
     double? maxPrice,
+    String? search,
+    int page,
+    int size,
+  });
+
+  /// The listings with a pin inside [area] that the other filters let
+  /// through: what the map draws. At most [size]; the rest wait for a zoom.
+  Future<PagedResponse<PropertyResponse>> getPropertiesInArea(
+    MapArea area, {
+    PropertyStatus? status,
+    PropertyType? type,
+    String? search,
+    int size,
+  });
+
+  /// The listings the map cannot show because nobody dropped a pin yet, under
+  /// the same filters. Its `totalElements` is the map's "no location" count.
+  Future<PagedResponse<PropertyResponse>> getPropertiesWithoutLocation({
+    PropertyStatus? status,
+    PropertyType? type,
     String? search,
     int page,
     int size,

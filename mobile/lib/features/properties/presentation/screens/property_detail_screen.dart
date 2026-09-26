@@ -15,6 +15,8 @@ import 'package:real_estate_crm/features/properties/brochure/listing_brochure.da
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_bloc.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_event.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_state.dart';
+import 'package:real_estate_crm/features/properties/presentation/widgets/map_markers.dart';
+import 'package:real_estate_crm/features/properties/presentation/widgets/property_location_preview.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_photos_card.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_price_history.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_share_link_card.dart';
@@ -241,6 +243,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
             canRevoke: _canRevokeLink(p),
           ),
           _DetailsCard(property: p),
+          if (listingPoint(p) != null) PropertyLocationPreview(property: p),
           if (_priceHistory.isNotEmpty)
             PropertyPriceHistoryCard(changes: _priceHistory),
           _StatusCard(status: p.status, onChanged: _updateStatus),

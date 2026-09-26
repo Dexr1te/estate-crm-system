@@ -37,6 +37,9 @@ dependencies:
   pdf: ^3.12.0
   image: ^4.10.1
   quick_actions: ^1.1.1
+  # Listings on a map: OpenStreetMap tiles drawn in pure Dart, no API key.
+  flutter_map: ^8.2.2
+  latlong2: ^0.9.1
 
 dev_dependencies:
   flutter_test:

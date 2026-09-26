@@ -4,6 +4,7 @@ import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/team_models.dart';
 import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/features/imports/presentation/widgets/import_entry_card.dart';
 import 'package:real_estate_crm/features/teams/presentation/bloc/my_team_bloc.dart';
 import 'package:real_estate_crm/features/teams/presentation/bloc/my_team_event.dart';
 import 'package:real_estate_crm/features/teams/presentation/bloc/my_team_state.dart';
@@ -277,6 +278,8 @@ class _MembersList extends StatelessWidget {
       return ListView(
         padding: padding,
         children: [
+          const ImportEntryCard(),
+          const SizedBox(height: 9),
           EmptyState(
             title: l10n.teamsNoMembers,
             subtitle: l10n.teamsNoMembersBody,
@@ -287,17 +290,18 @@ class _MembersList extends StatelessWidget {
     }
     return ListView.separated(
       padding: padding,
-      itemCount: state.members.length + 1,
+      itemCount: state.members.length + 2,
       separatorBuilder: (_, __) => const SizedBox(height: 9),
       itemBuilder: (_, i) {
-        if (i == 0) {
+        if (i == 0) return const ImportEntryCard();
+        if (i == 1) {
           return SectionHeader(
             title: l10n.teamsMembers,
             actionLabel: l10n.teamsAgents,
             onAction: onStats,
           );
         }
-        final member = state.members[i - 1];
+        final member = state.members[i - 2];
         return MemberCard(
           member: member,
           onTap: member.isTeamManager ? null : () => onMember(member),
