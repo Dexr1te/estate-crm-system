@@ -17,6 +17,7 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState>
     on<ClientsDeleteEvent>(_onDelete);
     on<ClientsCreateEvent>(_onCreate);
     on<ClientsUpdateEvent>(_onUpdate);
+    on<ClientsMergeEvent>(_onMerge);
   }
 
   List<ClientSummary> get _current {
@@ -76,6 +77,16 @@ class ClientsBloc extends Bloc<ClientsEvent, ClientsState>
         perform: () => _repo.updateClient(e.id, e.data),
         onSuccess: (_) =>
             ClientsActionSuccess(ActionMessage.clientUpdated, _current),
+        onFailure: _failure,
+        reload: () => add(ClientsLoadEvent()),
+      );
+
+  Future<void> _onMerge(ClientsMergeEvent e, Emitter<ClientsState> emit) =>
+      write(
+        emit,
+        key: 'merge-${e.targetId}-${e.sourceId}',
+        perform: () => _repo.mergeClients(e.targetId, e.sourceId),
+        onSuccess: (merged) => ClientsMerged(merged, _current),
         onFailure: _failure,
         reload: () => add(ClientsLoadEvent()),
       );

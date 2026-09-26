@@ -612,6 +612,35 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get clientsDuplicateEyebrow => 'Possible duplicate';
+
+  @override
+  String clientsDuplicateHeldBy(String agent, String name) {
+    return 'Already in the agency: $name (agent $agent)';
+  }
+
+  @override
+  String get clientsDuplicateHint =>
+      'You can still save. Check with the colleague first.';
+
+  @override
+  String get clientsDuplicateOpen => 'Open';
+
+  @override
+  String get clientsDuplicateSameBoth => 'Same phone and email';
+
+  @override
+  String get clientsDuplicateSameEmail => 'Same email';
+
+  @override
+  String get clientsDuplicateSamePhone => 'Same phone';
+
+  @override
+  String clientsDuplicateUnassigned(String name) {
+    return 'Already in the agency: $name';
+  }
+
+  @override
   String get clientsEdit => 'Edit';
 
   @override
@@ -664,6 +693,29 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get clientsMatches => 'Matching listings';
+
+  @override
+  String get clientsMerge => 'Merge with another card';
+
+  @override
+  String get clientsMergeConfirm => 'Merge';
+
+  @override
+  String clientsMergeConfirmBody(String source, String target) {
+    return 'Deals, viewings, contact history and tasks of $source move to $target. An empty phone, email and requirements are filled in, and the notes are added. The card $source is then deleted. This cannot be undone.';
+  }
+
+  @override
+  String get clientsMergeConfirmTitle => 'Merge into this card?';
+
+  @override
+  String get clientsMergeNoCandidates => 'No other clients to merge with';
+
+  @override
+  String get clientsMergePickTitle => 'Which card is the same person?';
+
+  @override
+  String get clientsMergeSearchHint => 'Search clients';
 
   @override
   String get clientsMessage => 'Message';
@@ -1720,6 +1772,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get msgClientUpdated => 'Client updated';
+
+  @override
+  String get msgClientsMerged => 'Cards merged';
 
   @override
   String get msgCodeSent => 'Code sent';

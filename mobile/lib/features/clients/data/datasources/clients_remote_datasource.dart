@@ -68,4 +68,23 @@ class ClientsRemoteDataSource {
   Future<void> deleteActivity(int clientId, int activityId) async {
     await _client.dio.delete('/clients/$clientId/activities/$activityId');
   }
+
+  Future<List<ClientDuplicate>> findDuplicates({
+    String? phone,
+    String? email,
+    int? excludeId,
+  }) async {
+    final res = await _client.dio.get('/clients/duplicates', queryParameters: {
+      if (phone != null && phone.trim().isNotEmpty) 'phone': phone.trim(),
+      if (email != null && email.trim().isNotEmpty) 'email': email.trim(),
+      if (excludeId != null) 'excludeId': excludeId,
+    });
+    return jsonArray(res).map(ClientDuplicate.fromJson).toList();
+  }
+
+  Future<ClientResponse> mergeClients(int targetId, int sourceId) async {
+    final res = await _client.dio
+        .post('/clients/$targetId/merge', data: {'sourceId': sourceId});
+    return ClientResponse.fromJson(jsonObject(res));
+  }
 }

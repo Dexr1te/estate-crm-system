@@ -83,4 +83,10 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long>, JpaSpec
            "AND m.scheduledAt > :now ORDER BY m.scheduledAt ASC")
     @EntityGraph(attributePaths = {"agent", "client", "deal"})
     List<Meeting> findAllUpcoming(@Param("now") LocalDateTime now);
+
+    /** Moves everything this client had onto another card — see ClientService.merge. */
+    @org.springframework.data.jpa.repository.Modifying(flushAutomatically = true)
+    @Query("UPDATE Meeting m SET m.client = :target WHERE m.client = :source")
+    int moveToClient(@Param("source") com.crm.realestate.entity.Client source,
+                     @Param("target") com.crm.realestate.entity.Client target);
 }

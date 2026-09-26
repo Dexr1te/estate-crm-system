@@ -28,4 +28,14 @@ abstract class ClientsRepository {
   });
 
   Future<void> deleteActivity(int clientId, int activityId);
+
+  /// Cards in the agency sharing this phone (however typed) or email.
+  Future<List<ClientDuplicate>> findDuplicates({
+    String? phone,
+    String? email,
+    int? excludeId,
+  });
+
+  /// Folds [sourceId] into [targetId] and deletes it; returns the target.
+  Future<ClientResponse> mergeClients(int targetId, int sourceId);
 }

@@ -116,4 +116,24 @@ public interface ClientRepository extends JpaRepository<Client, Long>, org.sprin
             @Param("userId") long userId,
             @Param("wholeTeam") boolean wholeTeam,
             @Param("now") java.time.LocalDateTime now);
+
+    /*
+     * Cards in one agency that share a phone (compared in its normalised form) or an email
+     * (trimmed, without case). A person with no team passes a null teamId and is matched only
+     * against their own team-less cards — never anyone else's. A null phone or email matches
+     * nothing, since "= NULL" is never true.
+     */
+    @Query("""
+            SELECT c FROM Client c LEFT JOIN FETCH c.agent
+            WHERE ((:teamId IS NULL AND c.team IS NULL AND c.agent.id = :userId) OR c.team.id = :teamId)
+              AND (c.phoneNormalized = :phone OR LOWER(TRIM(c.email)) = :email)
+              AND (:excludeId IS NULL OR c.id <> :excludeId)
+            ORDER BY c.fullName
+            """)
+    List<Client> findDuplicates(@Param("teamId") Long teamId,
+                                @Param("userId") Long userId,
+                                @Param("phone") String phone,
+                                @Param("email") String email,
+                                @Param("excludeId") Long excludeId,
+                                org.springframework.data.domain.Pageable limit);
 }

@@ -6,6 +6,7 @@ enum ActionMessage {
   clientCreated,
   clientUpdated,
   clientDeleted,
+  clientsMerged,
   propertyCreated,
   propertyUpdated,
   propertyDeleted,
@@ -51,6 +52,8 @@ String actionMessageLabel(AppLocalizations l10n, ActionMessage message) {
       return l10n.msgClientUpdated;
     case ActionMessage.clientDeleted:
       return l10n.msgClientDeleted;
+    case ActionMessage.clientsMerged:
+      return l10n.msgClientsMerged;
     case ActionMessage.propertyCreated:
       return l10n.msgPropertyCreated;
     case ActionMessage.propertyUpdated:

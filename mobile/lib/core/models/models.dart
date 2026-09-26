@@ -27,6 +27,9 @@ enum ViewingOutcome { INTERESTED, REJECTED, NO_SHOW }
 // ignore: constant_identifier_names
 enum ActivityType { CALL, MESSAGE, EMAIL, NOTE }
 
+// ignore: constant_identifier_names
+enum DuplicateMatch { PHONE, EMAIL, PHONE_AND_EMAIL }
+
 @freezed
 class AuthResponse with _$AuthResponse {
   const factory AuthResponse({
@@ -103,6 +106,32 @@ class ClientActivity with _$ClientActivity {
 
   factory ClientActivity.fromJson(Map<String, dynamic> json) =>
       _$ClientActivityFromJson(json);
+}
+
+/// Another card in the agency that looks like the same person — only what it
+/// takes to find the colleague who holds it.
+@freezed
+class ClientDuplicate with _$ClientDuplicate {
+  const factory ClientDuplicate({
+    required int id,
+    @Default('') String fullName,
+    @Default(ClientType.BUYER) ClientType type,
+    int? agentId,
+    String? agentName,
+    String? phone,
+    String? email,
+    // ignore: invalid_annotation_target
+    @JsonKey(unknownEnumValue: DuplicateMatch.PHONE)
+    @Default(DuplicateMatch.PHONE)
+    DuplicateMatch matchedOn,
+
+    /// Whether this person may open the card: an agent on their own clients
+    /// learns who holds a colleague's buyer, not the file itself.
+    @Default(true) bool visible,
+  }) = _ClientDuplicate;
+
+  factory ClientDuplicate.fromJson(Map<String, dynamic> json) =>
+      _$ClientDuplicateFromJson(json);
 }
 
 @freezed

@@ -41,4 +41,10 @@ public interface TaskRepository extends JpaRepository<Task, Long>, JpaSpecificat
     @Modifying(flushAutomatically = true)
     @Query("UPDATE Task t SET t.assignee = :to WHERE t.assignee = :from AND t.team = :team")
     int reassignInTeam(@Param("from") User from, @Param("to") User to, @Param("team") Team team);
+
+    /** Moves everything this client had onto another card — see ClientService.merge. */
+    @org.springframework.data.jpa.repository.Modifying(flushAutomatically = true)
+    @Query("UPDATE Task t SET t.client = :target WHERE t.client = :source")
+    int moveToClient(@Param("source") com.crm.realestate.entity.Client source,
+                     @Param("target") com.crm.realestate.entity.Client target);
 }

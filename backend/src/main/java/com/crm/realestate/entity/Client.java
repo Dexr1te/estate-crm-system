@@ -2,6 +2,7 @@ package com.crm.realestate.entity;
 
 import com.crm.realestate.enums.ClientType;
 import com.crm.realestate.enums.PropertyType;
+import com.crm.realestate.service.ContactNormalizer;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -31,6 +32,14 @@ public class Client {
     private String email;
 
     private String phone;
+
+    /**
+     * The phone as it is compared when looking for the same person entered twice. Derived from
+     * {@link #phone} on every save, never set by hand.
+     */
+    @Setter(AccessLevel.NONE)
+    @Column(name = "phone_normalized", length = 50)
+    private String phoneNormalized;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -80,10 +89,12 @@ public class Client {
     protected void onCreate() {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
+        phoneNormalized = ContactNormalizer.phone(phone);
     }
 
     @PreUpdate
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
+        phoneNormalized = ContactNormalizer.phone(phone);
     }
 }

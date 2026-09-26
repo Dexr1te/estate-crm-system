@@ -171,6 +171,43 @@ const _$ActivityTypeEnumMap = {
   ActivityType.NOTE: 'NOTE',
 };
 
+_$ClientDuplicateImpl _$$ClientDuplicateImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ClientDuplicateImpl(
+      id: (json['id'] as num).toInt(),
+      fullName: json['fullName'] as String? ?? '',
+      type: $enumDecodeNullable(_$ClientTypeEnumMap, json['type']) ??
+          ClientType.BUYER,
+      agentId: (json['agentId'] as num?)?.toInt(),
+      agentName: json['agentName'] as String?,
+      phone: json['phone'] as String?,
+      email: json['email'] as String?,
+      matchedOn: $enumDecodeNullable(_$DuplicateMatchEnumMap, json['matchedOn'],
+              unknownValue: DuplicateMatch.PHONE) ??
+          DuplicateMatch.PHONE,
+      visible: json['visible'] as bool? ?? true,
+    );
+
+Map<String, dynamic> _$$ClientDuplicateImplToJson(
+        _$ClientDuplicateImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'fullName': instance.fullName,
+      'type': _$ClientTypeEnumMap[instance.type]!,
+      'agentId': instance.agentId,
+      'agentName': instance.agentName,
+      'phone': instance.phone,
+      'email': instance.email,
+      'matchedOn': _$DuplicateMatchEnumMap[instance.matchedOn]!,
+      'visible': instance.visible,
+    };
+
+const _$DuplicateMatchEnumMap = {
+  DuplicateMatch.PHONE: 'PHONE',
+  DuplicateMatch.EMAIL: 'EMAIL',
+  DuplicateMatch.PHONE_AND_EMAIL: 'PHONE_AND_EMAIL',
+};
+
 _$PropertyResponseImpl _$$PropertyResponseImplFromJson(
         Map<String, dynamic> json) =>
     _$PropertyResponseImpl(

@@ -186,6 +186,19 @@ class FakeClientsRepository implements ClientsRepository {
   /// When set, logging a contact fails with it and nothing is added.
   Object? logError;
 
+  /// What `/clients/duplicates` answers, whatever was asked — the matching
+  /// rules live on the backend and are tested there.
+  final List<ClientDuplicate> duplicates;
+
+  /// Every duplicate lookup made, as `(phone, email, excludeId)`.
+  final List<(String?, String?, int?)> duplicateQueries = [];
+
+  /// Every merge made, as `(targetId, sourceId)`.
+  final List<(int, int)> merges = [];
+
+  /// When set, a merge fails with it.
+  Object? mergeError;
+
   FakeClientsRepository({
     this.clients = const [],
     this.listItems = const [],
@@ -193,7 +206,26 @@ class FakeClientsRepository implements ClientsRepository {
     this.activities = const [],
     this.activitiesError,
     this.logError,
+    this.duplicates = const [],
+    this.mergeError,
   });
+
+  @override
+  Future<List<ClientDuplicate>> findDuplicates({
+    String? phone,
+    String? email,
+    int? excludeId,
+  }) async {
+    duplicateQueries.add((phone, email, excludeId));
+    return duplicates.where((d) => d.id != excludeId).toList();
+  }
+
+  @override
+  Future<ClientResponse> mergeClients(int targetId, int sourceId) async {
+    if (mergeError != null) throw mergeError!;
+    merges.add((targetId, sourceId));
+    return clients.firstWhere((c) => c.id == targetId);
+  }
 
   @override
   Future<List<ClientActivity>> getActivities(int clientId) async {
@@ -252,9 +284,17 @@ class FakeClientsRepository implements ClientsRepository {
   @override
   Future<ClientResponse> getClient(int id) async =>
       clients.firstWhere((c) => c.id == id);
+
+  /// Every client created through the fake, as sent.
+  final List<Map<String, dynamic>> created = [];
+
   @override
-  Future<ClientResponse> createClient(Map<String, dynamic> data) =>
-      throw UnimplementedError();
+  Future<ClientResponse> createClient(Map<String, dynamic> data) async {
+    created.add(data);
+    return ClientResponse(
+        id: 1000 + created.length, fullName: data['fullName'] as String);
+  }
+
   @override
   Future<ClientResponse> updateClient(int id, Map<String, dynamic> data) =>
       throw UnimplementedError();

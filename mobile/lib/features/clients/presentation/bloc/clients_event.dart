@@ -19,3 +19,10 @@ class ClientsUpdateEvent extends ClientsEvent {
   final Map<String, dynamic> data;
   ClientsUpdateEvent(this.id, this.data);
 }
+
+/// Folds [sourceId] into [targetId]; the source card is deleted.
+class ClientsMergeEvent extends ClientsEvent {
+  final int targetId;
+  final int sourceId;
+  ClientsMergeEvent({required this.targetId, required this.sourceId});
+}
