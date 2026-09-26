@@ -31,7 +31,7 @@ class DealsBloc extends Bloc<DealsEvent, DealsState>
       ? DealsError(failure)
       : DealsActionFailure(failure, _current);
 
-  void _reload() => add(DealsLoadEvent(status: _status));
+  void reload() => add(DealsLoadEvent(status: _status));
 
   void _onReset(DealsResetEvent e, Emitter<DealsState> emit) {
     invalidate();
@@ -61,7 +61,7 @@ class DealsBloc extends Bloc<DealsEvent, DealsState>
         perform: action,
         onSuccess: (_) => DealsActionSuccess(success, _current),
         onFailure: _failure,
-        reload: _reload,
+        reload: reload,
       );
 
   Future<void> _onDelete(DealsDeleteEvent e, Emitter<DealsState> emit) => _act(

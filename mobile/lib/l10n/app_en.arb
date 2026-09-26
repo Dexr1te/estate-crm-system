@@ -428,6 +428,7 @@
   "coreErrorForbidden": "You don’t have permission to do that.",
   "coreErrorNotFound": "Not found.",
   "coreErrorOffline": "Cannot connect to server. Check your internet.",
+  "coreErrorOfflineWrite": "You’re offline — this needs a connection.",
   "coreErrorServer": "Server error. Please try again later.",
   "coreErrorTimeout": "Connection timed out. Check your internet.",
   "coreErrorUnknown": "Something went wrong. Please try again.",
@@ -441,6 +442,14 @@
   "coreNavTeam": "Team",
   "coreNoResults": "Nothing found",
   "coreNotSelected": "Not selected",
+  "coreOfflineSince": "Offline — showing data from {time}",
+  "@coreOfflineSince": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
   "coreOpen": "Open",
   "corePropertyTypeApartment": "Apartment",
   "corePropertyTypeCommercial": "Commercial",

@@ -2032,6 +2032,12 @@ abstract class AppLocalizations {
   /// **'Cannot connect to server. Check your internet.'**
   String get coreErrorOffline;
 
+  /// No description provided for @coreErrorOfflineWrite.
+  ///
+  /// In en, this message translates to:
+  /// **'You’re offline — this needs a connection.'**
+  String get coreErrorOfflineWrite;
+
   /// No description provided for @coreErrorServer.
   ///
   /// In en, this message translates to:
@@ -2109,6 +2115,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Not selected'**
   String get coreNotSelected;
+
+  /// No description provided for @coreOfflineSince.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline — showing data from {time}'**
+  String coreOfflineSince(String time);
 
   /// No description provided for @coreOpen.
   ///

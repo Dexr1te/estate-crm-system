@@ -1103,6 +1103,9 @@ class AppLocalizationsKk extends AppLocalizations {
       'Сервермен байланыс жоқ. Интернетті тексеріңіз.';
 
   @override
+  String get coreErrorOfflineWrite => 'Желі жоқ — бұл үшін байланыс керек.';
+
+  @override
   String get coreErrorServer => 'Сервер қатесі. Кейінірек қайталаңыз.';
 
   @override
@@ -1140,6 +1143,11 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get coreNotSelected => 'Таңдалмаған';
+
+  @override
+  String coreOfflineSince(String time) {
+    return 'Желі жоқ — $time кезіндегі деректер';
+  }
 
   @override
   String get coreOpen => 'Ашу';

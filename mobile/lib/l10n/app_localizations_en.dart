@@ -1106,6 +1106,10 @@ class AppLocalizationsEn extends AppLocalizations {
       'Cannot connect to server. Check your internet.';
 
   @override
+  String get coreErrorOfflineWrite =>
+      'You’re offline — this needs a connection.';
+
+  @override
   String get coreErrorServer => 'Server error. Please try again later.';
 
   @override
@@ -1143,6 +1147,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get coreNotSelected => 'Not selected';
+
+  @override
+  String coreOfflineSince(String time) {
+    return 'Offline — showing data from $time';
+  }
 
   @override
   String get coreOpen => 'Open';

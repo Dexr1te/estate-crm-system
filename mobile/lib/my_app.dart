@@ -23,17 +23,21 @@ import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart'
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_state.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_bloc.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_event.dart';
+import 'package:real_estate_crm/features/clients/presentation/bloc/clients_state.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/bloc/dashboard_bloc.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/bloc/dashboard_event.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/bloc/dashboard_state.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_bloc.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_event.dart';
+import 'package:real_estate_crm/features/deals/presentation/bloc/deals_state.dart';
 import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_bloc.dart';
 import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_event.dart';
 import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_state.dart';
 import 'package:real_estate_crm/features/notifications/presentation/bloc/unread_count_bloc.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_bloc.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_event.dart';
+import 'package:real_estate_crm/features/properties/presentation/bloc/properties_state.dart';
+import 'package:real_estate_crm/features/properties/presentation/widgets/property_cover.dart';
 import 'package:real_estate_crm/features/tasks/presentation/bloc/tasks_bloc.dart';
 import 'package:real_estate_crm/features/tasks/presentation/bloc/tasks_event.dart';
 import 'package:real_estate_crm/features/tasks/presentation/bloc/tasks_state.dart';
@@ -129,6 +133,27 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
+  /// The offline banner's Retry: ask again for every list the app already
+  /// holds. If the network answers, the banner goes; if not, the cache does.
+  void _retryOffline() {
+    if (!_authBloc.isAuthenticated) {
+      Injector.apiClient.offline.markOnline();
+      return;
+    }
+    if (_dashboardBloc.state is! DashboardInitial) {
+      _dashboardBloc.add(DashboardLoadEvent());
+    }
+    if (_clientsBloc.state is! ClientsInitial) {
+      _clientsBloc.add(ClientsLoadEvent());
+    }
+    if (_propertiesBloc.state is! PropertiesInitial) _propertiesBloc.reload();
+    if (_dealsBloc.state is! DealsInitial) _dealsBloc.reload();
+    if (_meetingsBloc.state is! MeetingsInitial) {
+      _meetingsBloc.add(MeetingsLoadEvent());
+    }
+    _tasksBloc.add(TasksLoadEvent());
+  }
+
   @override
   void dispose() {
     Injector.apiClient.onSessionExpired = null;
@@ -193,6 +218,7 @@ class _MyAppState extends State<MyApp> {
               _meetingsForReminders = const [];
               _unreadPoller.stop();
               Injector.notificationsRepository.clear();
+              PropertyCovers.clear();
 
               _notifications.cancelAll();
             },
@@ -259,7 +285,13 @@ class _MyAppState extends State<MyApp> {
               debugShowCheckedModeBanner: false,
               builder: (context, child) => ShortcutTitles(
                 handler: _shortcuts,
-                child: AppTextScaling(child: child ?? const SizedBox.shrink()),
+                child: AppTextScaling(
+                  child: OfflineBanner(
+                    status: Injector.apiClient.offline,
+                    onRetry: _retryOffline,
+                    child: child ?? const SizedBox.shrink(),
+                  ),
+                ),
               ),
             ),
           ),
