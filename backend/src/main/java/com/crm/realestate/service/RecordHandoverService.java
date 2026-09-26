@@ -3,6 +3,7 @@ package com.crm.realestate.service;
 import com.crm.realestate.entity.Team;
 import com.crm.realestate.entity.User;
 import com.crm.realestate.repository.ClientActivityRepository;
+import com.crm.realestate.repository.DealCommentRepository;
 import com.crm.realestate.repository.ClientRepository;
 import com.crm.realestate.repository.DealRepository;
 import com.crm.realestate.repository.MeetingRepository;
@@ -26,6 +27,7 @@ public class RecordHandoverService {
     private final DealRepository     dealRepository;
     private final MeetingRepository  meetingRepository;
     private final ClientActivityRepository activityRepository;
+    private final DealCommentRepository dealCommentRepository;
     private final TaskRepository     taskRepository;
     private final NotificationEvents notificationEvents;
 
@@ -81,6 +83,8 @@ public class RecordHandoverService {
         taskRepository.adoptTeamless(user, user.getTeam());
         // A client's history travels with the client, so it follows the clients just moved.
         activityRepository.adoptTeamless(user, user.getTeam());
+        // So does a deal's discussion, with the deals just moved.
+        dealCommentRepository.adoptTeamless(user, user.getTeam());
         if (clients + properties + deals + meetings > 0) {
             log.info("Moved {} clients, {} listings, {} deals and {} meetings of user {} into team {}",
                     clients, properties, deals, meetings, user.getId(), user.getTeam().getId());

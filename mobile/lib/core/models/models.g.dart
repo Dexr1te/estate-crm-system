@@ -431,6 +431,7 @@ _$DealResponseImpl _$$DealResponseImplFromJson(Map<String, dynamic> json) =>
       closedAt: json['closedAt'] == null
           ? null
           : DateTime.parse(json['closedAt'] as String),
+      commentCount: (json['commentCount'] as num?)?.toInt() ?? 0,
     );
 
 Map<String, dynamic> _$$DealResponseImplToJson(_$DealResponseImpl instance) =>
@@ -455,6 +456,7 @@ Map<String, dynamic> _$$DealResponseImplToJson(_$DealResponseImpl instance) =>
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
       'closedAt': instance.closedAt?.toIso8601String(),
+      'commentCount': instance.commentCount,
     };
 
 const _$DealLostReasonEnumMap = {
@@ -465,6 +467,65 @@ const _$DealLostReasonEnumMap = {
   DealLostReason.NO_RESPONSE: 'NO_RESPONSE',
   DealLostReason.OTHER: 'OTHER',
 };
+
+_$DealCommentImpl _$$DealCommentImplFromJson(Map<String, dynamic> json) =>
+    _$DealCommentImpl(
+      id: (json['id'] as num).toInt(),
+      dealId: (json['dealId'] as num).toInt(),
+      body: json['body'] as String? ?? '',
+      authorId: (json['authorId'] as num?)?.toInt(),
+      authorName: json['authorName'] as String?,
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      editedAt: json['editedAt'] == null
+          ? null
+          : DateTime.parse(json['editedAt'] as String),
+      mentions: (json['mentions'] as List<dynamic>?)
+              ?.map((e) => CommentMention.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const <CommentMention>[],
+    );
+
+Map<String, dynamic> _$$DealCommentImplToJson(_$DealCommentImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'dealId': instance.dealId,
+      'body': instance.body,
+      'authorId': instance.authorId,
+      'authorName': instance.authorName,
+      'createdAt': instance.createdAt.toIso8601String(),
+      'editedAt': instance.editedAt?.toIso8601String(),
+      'mentions': instance.mentions,
+    };
+
+_$CommentMentionImpl _$$CommentMentionImplFromJson(Map<String, dynamic> json) =>
+    _$CommentMentionImpl(
+      id: (json['id'] as num).toInt(),
+      fullName: json['fullName'] as String? ?? '',
+    );
+
+Map<String, dynamic> _$$CommentMentionImplToJson(
+        _$CommentMentionImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'fullName': instance.fullName,
+    };
+
+_$DealCommentPageImpl _$$DealCommentPageImplFromJson(
+        Map<String, dynamic> json) =>
+    _$DealCommentPageImpl(
+      comments: (json['comments'] as List<dynamic>?)
+              ?.map((e) => DealComment.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const <DealComment>[],
+      hasEarlier: json['hasEarlier'] as bool? ?? false,
+    );
+
+Map<String, dynamic> _$$DealCommentPageImplToJson(
+        _$DealCommentPageImpl instance) =>
+    <String, dynamic>{
+      'comments': instance.comments,
+      'hasEarlier': instance.hasEarlier,
+    };
 
 _$MeetingResponseImpl _$$MeetingResponseImplFromJson(
         Map<String, dynamic> json) =>
@@ -736,5 +797,7 @@ const _$NotificationTypeEnumMap = {
   NotificationType.newMatch: 'NEW_MATCH',
   NotificationType.priceDropMatch: 'PRICE_DROP_MATCH',
   NotificationType.dealStatusChanged: 'DEAL_STATUS_CHANGED',
+  NotificationType.dealMention: 'DEAL_MENTION',
+  NotificationType.dealComment: 'DEAL_COMMENT',
   NotificationType.unknown: 'unknown',
 };

@@ -2692,6 +2692,102 @@ abstract class AppLocalizations {
   /// **'Closed'**
   String get dealsClosed;
 
+  /// No description provided for @dealsCommentCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 comment} other{{count} comments}}'**
+  String dealsCommentCount(int count);
+
+  /// No description provided for @dealsCommentDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete comment'**
+  String get dealsCommentDelete;
+
+  /// No description provided for @dealsCommentDeleteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'It disappears for everyone on this deal.'**
+  String get dealsCommentDeleteBody;
+
+  /// No description provided for @dealsCommentDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this comment?'**
+  String get dealsCommentDeleteTitle;
+
+  /// No description provided for @dealsCommentEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit comment'**
+  String get dealsCommentEdit;
+
+  /// No description provided for @dealsCommentEdited.
+  ///
+  /// In en, this message translates to:
+  /// **'edited'**
+  String get dealsCommentEdited;
+
+  /// No description provided for @dealsCommentHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Write a comment…'**
+  String get dealsCommentHint;
+
+  /// No description provided for @dealsCommentJustNow.
+  ///
+  /// In en, this message translates to:
+  /// **'just now'**
+  String get dealsCommentJustNow;
+
+  /// No description provided for @dealsCommentLess.
+  ///
+  /// In en, this message translates to:
+  /// **'Show less'**
+  String get dealsCommentLess;
+
+  /// No description provided for @dealsCommentMentionLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load colleagues'**
+  String get dealsCommentMentionLoadFailed;
+
+  /// No description provided for @dealsCommentMentionNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody else can see this deal'**
+  String get dealsCommentMentionNone;
+
+  /// No description provided for @dealsCommentMentionNotAllowed.
+  ///
+  /// In en, this message translates to:
+  /// **'Only colleagues who can see this deal can be mentioned'**
+  String get dealsCommentMentionNotAllowed;
+
+  /// No description provided for @dealsCommentMentionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Mention a colleague'**
+  String get dealsCommentMentionTitle;
+
+  /// No description provided for @dealsCommentMore.
+  ///
+  /// In en, this message translates to:
+  /// **'Show more'**
+  String get dealsCommentMore;
+
+  /// No description provided for @dealsCommentSend.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get dealsCommentSend;
+
+  /// No description provided for @dealsCommentSending.
+  ///
+  /// In en, this message translates to:
+  /// **'Sending…'**
+  String get dealsCommentSending;
+
   /// No description provided for @dealsCommission.
   ///
   /// In en, this message translates to:
@@ -2775,6 +2871,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Details'**
   String get dealsDetails;
+
+  /// No description provided for @dealsDiscussion.
+  ///
+  /// In en, this message translates to:
+  /// **'Discussion'**
+  String get dealsDiscussion;
+
+  /// No description provided for @dealsDiscussionEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No comments yet'**
+  String get dealsDiscussionEmpty;
+
+  /// No description provided for @dealsDiscussionEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep the conversation about this deal here. Type @ to bring in a colleague.'**
+  String get dealsDiscussionEmptyHint;
+
+  /// No description provided for @dealsDiscussionLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load the discussion'**
+  String get dealsDiscussionLoadFailed;
+
+  /// No description provided for @dealsDiscussionShowEarlier.
+  ///
+  /// In en, this message translates to:
+  /// **'Show earlier'**
+  String get dealsDiscussionShowEarlier;
 
   /// No description provided for @dealsEditTitle.
   ///
@@ -4354,6 +4480,18 @@ abstract class AppLocalizations {
   /// **'Code sent'**
   String get msgCodeSent;
 
+  /// No description provided for @msgCommentDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment deleted'**
+  String get msgCommentDeleted;
+
+  /// No description provided for @msgCommentUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment updated'**
+  String get msgCommentUpdated;
+
   /// No description provided for @msgDealCreated.
   ///
   /// In en, this message translates to:
@@ -4587,6 +4725,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count, plural, =1{1 task} other{{count} tasks}}'**
   String notificationsCountTasks(int count);
+
+  /// No description provided for @notificationsDealComment.
+  ///
+  /// In en, this message translates to:
+  /// **'{author} commented on {title}'**
+  String notificationsDealComment(String author, String title);
+
+  /// No description provided for @notificationsDealMention.
+  ///
+  /// In en, this message translates to:
+  /// **'{author} mentioned you in {title}'**
+  String notificationsDealMention(String author, String title);
 
   /// No description provided for @notificationsDealStatus.
   ///

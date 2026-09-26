@@ -21,6 +21,7 @@ import 'package:real_estate_crm/features/analytics/domain/repositories/analytics
 import 'package:real_estate_crm/features/auth/domain/repositories/auth_repository.dart';
 import 'package:real_estate_crm/features/clients/domain/repositories/clients_repository.dart';
 import 'package:real_estate_crm/features/dashboard/domain/repositories/dashboard_repository.dart';
+import 'package:real_estate_crm/features/deals/domain/repositories/deal_comments_repository.dart';
 import 'package:real_estate_crm/features/deals/domain/repositories/deals_repository.dart';
 import 'package:real_estate_crm/features/documents/domain/repositories/documents_repository.dart';
 import 'package:real_estate_crm/features/imports/domain/repositories/imports_repository.dart';
@@ -1206,5 +1207,90 @@ class BlankTileProvider extends TileProvider {
   ImageProvider getImage(TileCoordinates coordinates, TileLayer options) {
     requests++;
     return MemoryImage(_png);
+  }
+}
+
+/// A deal's discussion in memory. Writes can be made to fail, or held open
+/// with [gate] so a test can look at the screen while one is in flight.
+class FakeDealCommentsRepository implements DealCommentsRepository {
+  List<DealComment> comments;
+  List<AgentOption> mentionable;
+  bool hasEarlier;
+  Object? readError;
+  Object? writeError;
+  Completer<void>? gate;
+  int _nextId = 1000;
+
+  final List<({String body, List<int> mentionedUserIds})> sent = [];
+  final List<({int id, String body, List<int> mentionedUserIds})> updated = [];
+  final List<int> deleted = [];
+  final List<int?> requestedBefore = [];
+
+  FakeDealCommentsRepository({
+    this.comments = const [],
+    this.mentionable = const [],
+    this.hasEarlier = false,
+  });
+
+  Future<void> _write() async {
+    if (gate != null) await gate!.future;
+    if (writeError != null) throw writeError!;
+  }
+
+  @override
+  Future<DealCommentPage> getComments(int dealId,
+      {int? before, int? limit}) async {
+    requestedBefore.add(before);
+    if (readError != null) throw readError!;
+    if (before != null) {
+      return DealCommentPage(
+          comments: comments.where((c) => c.id < before).toList());
+    }
+    return DealCommentPage(comments: comments, hasEarlier: hasEarlier);
+  }
+
+  @override
+  Future<List<AgentOption>> getMentionable(int dealId) async => mentionable;
+
+  @override
+  Future<DealComment> addComment(int dealId,
+      {required String body, List<int> mentionedUserIds = const []}) async {
+    sent.add((body: body, mentionedUserIds: mentionedUserIds));
+    await _write();
+    final saved = DealComment(
+      id: _nextId++,
+      dealId: dealId,
+      body: body,
+      authorId: 1,
+      authorName: 'Aigul Bekova',
+      createdAt: AppClock.now(),
+      mentions: [
+        for (final p in mentionable)
+          if (mentionedUserIds.contains(p.id))
+            CommentMention(id: p.id, fullName: p.fullName)
+      ],
+    );
+    comments = [...comments, saved];
+    return saved;
+  }
+
+  @override
+  Future<DealComment> updateComment(int dealId, int commentId,
+      {required String body, required List<int> mentionedUserIds}) async {
+    updated
+        .add((id: commentId, body: body, mentionedUserIds: mentionedUserIds));
+    await _write();
+    final saved = comments
+        .firstWhere((c) => c.id == commentId)
+        .copyWith(body: body, editedAt: AppClock.now());
+    comments = [for (final c in comments) c.id == commentId ? saved : c];
+    return saved;
+  }
+
+  @override
+  Future<void> deleteComment(int dealId, int commentId) async {
+    deleted.add(commentId);
+    await _write();
+    comments = comments.where((c) => c.id != commentId).toList();
   }
 }

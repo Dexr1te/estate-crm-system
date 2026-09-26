@@ -329,8 +329,11 @@ GoRouter createRouter(AuthBloc authBloc) {
                 path: ':id',
                 parentNavigatorKey: _rootKey,
                 pageBuilder: (_, s) => NoTransitionPage(
-                  child:
-                      DealDetailScreen(id: int.parse(s.pathParameters['id']!)),
+                  child: DealDetailScreen(
+                    id: int.parse(s.pathParameters['id']!),
+                    focusDiscussion:
+                        s.uri.queryParameters['focus'] == 'discussion',
+                  ),
                 ),
                 routes: [
                   GoRoute(

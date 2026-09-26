@@ -13,6 +13,7 @@ import com.crm.realestate.enums.PropertyStatus;
 import com.crm.realestate.exception.BusinessException;
 import com.crm.realestate.exception.ResourceNotFoundException;
 import com.crm.realestate.repository.ClientRepository;
+import com.crm.realestate.repository.DealCommentRepository;
 import com.crm.realestate.repository.DealRepository;
 import com.crm.realestate.repository.DealStatusChangeRepository;
 import com.crm.realestate.repository.PropertyRepository;
@@ -28,7 +29,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,6 +47,7 @@ public class DealService {
     private final ScopeService       scopeService;
     private final DealStatusChangeRepository statusChangeRepository;
     private final NotificationEvents notificationEvents;
+    private final DealCommentRepository commentRepository;
 
     static final BigDecimal ONE_HUNDRED = BigDecimal.valueOf(100);
     static final int LOST_NOTE_MAX = 500;
@@ -61,7 +65,8 @@ public class DealService {
     }
 
     public DealResponse getById(Long id) {
-        return toResponse(findVisibleById(id, securityUtils.getCurrentUser()));
+        Deal deal = findVisibleById(id, securityUtils.getCurrentUser());
+        return withCommentCount(toResponse(deal), commentRepository.countByDealId(deal.getId()));
     }
 
     @Transactional
@@ -104,7 +109,7 @@ public class DealService {
         }
 
         syncPropertyStatusWithDeal(deal);
-        return toResponse(dealRepository.save(deal));
+        return withCommentCount(toResponse(dealRepository.save(deal)), commentRepository.countByDealId(id));
     }
 
     @Transactional
@@ -121,7 +126,7 @@ public class DealService {
 
         syncPropertyStatusWithDeal(deal);
 
-        return toResponse(dealRepository.save(deal));
+        return withCommentCount(toResponse(dealRepository.save(deal)), commentRepository.countByDealId(id));
     }
 
     @Transactional
@@ -131,8 +136,36 @@ public class DealService {
 
     private List<DealResponse> findVisible(Specification<Deal> filter) {
         User currentUser = securityUtils.getCurrentUser();
-        return dealRepository.findAll(filter.and(scopeService.visibleTo(currentUser)))
-                .stream().map(this::toResponse).collect(Collectors.toList());
+        List<Deal> deals = dealRepository.findAll(filter.and(scopeService.visibleTo(currentUser)));
+        Map<Long, Long> counts = commentCounts(deals);
+        return deals.stream()
+                .map(d -> withCommentCount(toResponse(d), counts.getOrDefault(d.getId(), 0L)))
+                .collect(Collectors.toList());
+    }
+
+    /** How many comments each deal has, in one grouped query however long the list is. */
+    private Map<Long, Long> commentCounts(List<Deal> deals) {
+        if (deals.isEmpty()) {
+            return Map.of();
+        }
+        Map<Long, Long> counts = new HashMap<>();
+        for (Object[] row : commentRepository.countByDeals(deals.stream().map(Deal::getId).toList())) {
+            counts.put((Long) row[0], ((Number) row[1]).longValue());
+        }
+        return counts;
+    }
+
+    private static DealResponse withCommentCount(DealResponse response, long count) {
+        response.setCommentCount(count);
+        return response;
+    }
+
+    /**
+     * The deal, if the caller may see it. Someone else's deal reads as missing, so its existence is
+     * not confirmed either. Everything hanging off a deal — its discussion — is reached through here.
+     */
+    public Deal requireVisible(Long id, User currentUser) {
+        return findVisibleById(id, currentUser);
     }
 
     /** Someone else's deal reads as missing, so its existence is not confirmed either. */

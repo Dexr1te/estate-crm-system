@@ -62,6 +62,16 @@ final _everyType = <AppNotification>[
     'fromStatus': 'LEAD',
     'toStatus': 'NEGOTIATION',
   }),
+  _n(NotificationType.dealMention, {
+    'dealTitle': 'Dostyk flat',
+    'authorName': 'Asel',
+    'snippet': '@Timur can you cover Saturday?',
+  }),
+  _n(NotificationType.dealComment, {
+    'dealTitle': 'Dostyk flat',
+    'authorName': 'Asel',
+    'snippet': 'Owner agreed to 5% off',
+  }),
   _n(NotificationType.unknown, const {}),
 ];
 
@@ -154,7 +164,9 @@ void main() {
       expect(go(_everyType[4]), '/properties/9');
       expect(go(_everyType[5]), '/properties/9');
       expect(go(_everyType[6]), '/deals/9');
-      expect(go(_everyType[7]), isNull);
+      expect(go(_everyType[7]), '/deals/9?focus=discussion');
+      expect(go(_everyType[8]), '/deals/9?focus=discussion');
+      expect(go(_everyType.last), isNull);
       expect(
           go(_n(NotificationType.recordsHandedOver, {'deals': 2})), '/deals');
     });

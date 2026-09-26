@@ -86,10 +86,25 @@ NotificationCopy notificationCopy(AppLocalizations l10n, AppNotification n) {
               to == null ? '' : dealStatusLabel(l10n, to), plain('dealTitle')),
           null,
           Icons.handshake_outlined);
+    case NotificationType.dealMention:
+      return NotificationCopy(
+          l10n.notificationsDealMention(name('authorName'), plain('dealTitle')),
+          _snippet(n),
+          Icons.alternate_email_rounded);
+    case NotificationType.dealComment:
+      return NotificationCopy(
+          l10n.notificationsDealComment(name('authorName'), plain('dealTitle')),
+          _snippet(n),
+          Icons.chat_bubble_outline_rounded);
     case NotificationType.unknown:
       return NotificationCopy(
           l10n.notificationsUnknown, null, Icons.notifications_none_rounded);
   }
+}
+
+String? _snippet(AppNotification n) {
+  final text = n.text('snippet')?.trim();
+  return text == null || text.isEmpty ? null : text;
 }
 
 String _price(AppNotification n, String key) {
@@ -133,6 +148,11 @@ NotificationTarget? notificationTarget(AppNotification n) {
       return id == null ? null : NotificationTarget('/properties/$id');
     case NotificationType.dealStatusChanged:
       return id == null ? null : NotificationTarget('/deals/$id');
+    case NotificationType.dealMention:
+    case NotificationType.dealComment:
+      return id == null
+          ? null
+          : NotificationTarget('/deals/$id?focus=discussion');
     case NotificationType.unknown:
       return null;
   }

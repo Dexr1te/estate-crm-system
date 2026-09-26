@@ -11,6 +11,7 @@ import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_bloc.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_event.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_state.dart';
+import 'package:real_estate_crm/features/deals/presentation/widgets/deal_discussion_card.dart';
 import 'package:real_estate_crm/features/deals/presentation/widgets/lost_reason_sheet.dart';
 import 'package:real_estate_crm/features/documents/presentation/bloc/documents_bloc.dart';
 import 'package:real_estate_crm/features/documents/presentation/bloc/documents_event.dart';
@@ -21,7 +22,11 @@ import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class DealDetailScreen extends StatefulWidget {
   final int id;
-  const DealDetailScreen({super.key, required this.id});
+
+  /// Opened from a comment notification: bring the discussion into view.
+  final bool focusDiscussion;
+  const DealDetailScreen(
+      {super.key, required this.id, this.focusDiscussion = false});
   @override
   State<DealDetailScreen> createState() => _DealDetailScreenState();
 }
@@ -30,6 +35,21 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
   DealResponse? _d;
   bool _loading = true;
   String? _error;
+  final _discussionKey = GlobalKey();
+  bool _focused = false;
+
+  void _focusDiscussion() {
+    if (!widget.focusDiscussion || _focused) return;
+    _focused = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final target = _discussionKey.currentContext;
+      if (target == null || !target.mounted) return;
+      Scrollable.ensureVisible(target,
+          duration: const Duration(milliseconds: 300),
+          alignment: 0.1,
+          curve: Curves.easeOut);
+    });
+  }
 
   @override
   void initState() {
@@ -49,6 +69,7 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
         _d = d;
         _loading = false;
       });
+      _focusDiscussion();
     } catch (_) {
       if (!mounted) return;
       setState(() {
@@ -188,6 +209,7 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
               _TimelineCard(deal: deal),
               if (deal.notes != null && deal.notes!.trim().isNotEmpty)
                 _NotesCard(text: deal.notes!),
+              DealDiscussionCard(key: _discussionKey, dealId: deal.id),
             ],
           ),
         ),
