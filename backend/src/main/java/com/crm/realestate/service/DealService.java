@@ -43,6 +43,7 @@ public class DealService {
     private final SecurityUtils      securityUtils;
     private final ScopeService       scopeService;
     private final DealStatusChangeRepository statusChangeRepository;
+    private final NotificationEvents notificationEvents;
 
     static final BigDecimal ONE_HUNDRED = BigDecimal.valueOf(100);
     static final int LOST_NOTE_MAX = 500;
@@ -246,6 +247,7 @@ public class DealService {
         }
         statusChangeRepository.save(DealStatusChange.builder()
                 .deal(deal).fromStatus(from).toStatus(deal.getStatus()).changedBy(by).build());
+        notificationEvents.dealStatusChanged(deal, from, by);
     }
 
     /**

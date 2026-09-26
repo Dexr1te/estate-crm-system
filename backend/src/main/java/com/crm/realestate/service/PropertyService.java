@@ -38,6 +38,7 @@ public class PropertyService {
     private final ScopeService       scopeService;
     private final PropertyMapper     propertyMapper;
     private final PropertyPriceChangeRepository priceChangeRepository;
+    private final NotificationEvents notificationEvents;
 
     public List<PropertyResponse> getAll() {
         return findVisible(PropertySpecification.build(null, null, null, null, null, null, null, null));
@@ -80,9 +81,12 @@ public class PropertyService {
 
     @Transactional
     public PropertyResponse create(PropertyRequest request) {
+        User currentUser = securityUtils.getCurrentUser();
         Property property = new Property();
-        mapRequestToEntity(request, property, securityUtils.getCurrentUser());
-        return toResponse(propertyRepository.save(property));
+        mapRequestToEntity(request, property, currentUser);
+        Property saved = propertyRepository.save(property);
+        notificationEvents.listingAvailable(saved, currentUser);
+        return toResponse(saved);
     }
 
     /** An edit that moves the price leaves a row behind, so a reduction can be seen afterwards. */
@@ -91,6 +95,7 @@ public class PropertyService {
         User currentUser = securityUtils.getCurrentUser();
         Property property = findVisibleById(id, currentUser);
         BigDecimal oldPrice = property.getPrice();
+        PropertyStatus oldStatus = property.getStatus();
         mapRequestToEntity(request, property, currentUser);
         Property saved = propertyRepository.save(property);
         BigDecimal newPrice = saved.getPrice();
@@ -102,6 +107,11 @@ public class PropertyService {
                     .newPrice(newPrice)
                     .changedBy(currentUser)
                     .build());
+        }
+        if (oldStatus != PropertyStatus.AVAILABLE) {
+            notificationEvents.listingAvailable(saved, currentUser);
+        } else {
+            notificationEvents.priceDropped(saved, oldPrice, newPrice, currentUser);
         }
         return toResponse(saved);
     }
@@ -116,9 +126,15 @@ public class PropertyService {
 
     @Transactional
     public PropertyResponse updateStatus(Long id, PropertyStatus status) {
-        Property property = findVisibleById(id, securityUtils.getCurrentUser());
+        User currentUser = securityUtils.getCurrentUser();
+        Property property = findVisibleById(id, currentUser);
+        PropertyStatus oldStatus = property.getStatus();
         property.setStatus(status);
-        return toResponse(propertyRepository.save(property));
+        Property saved = propertyRepository.save(property);
+        if (oldStatus != PropertyStatus.AVAILABLE) {
+            notificationEvents.listingAvailable(saved, currentUser);
+        }
+        return toResponse(saved);
     }
 
     @Transactional

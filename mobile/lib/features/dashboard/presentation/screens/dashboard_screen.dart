@@ -20,6 +20,7 @@ import 'package:real_estate_crm/features/dashboard/presentation/widgets/meeting_
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/meeting_row.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/pipeline_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/top_agents_card.dart';
+import 'package:real_estate_crm/features/notifications/presentation/widgets/notification_bell.dart';
 import 'package:real_estate_crm/features/tasks/presentation/bloc/tasks_bloc.dart';
 import 'package:real_estate_crm/features/tasks/presentation/bloc/tasks_event.dart';
 import 'package:real_estate_crm/features/tasks/presentation/widgets/today_tasks_card.dart';
@@ -354,6 +355,7 @@ class _GreetingRow extends StatelessWidget {
           tooltip: AppLocalizations.of(context).searchTitle,
           onPressed: onSearch,
         ),
+        const NotificationBell(),
         const SizedBox(width: 4),
         UserAvatar(name: initial, size: 44, onTap: onTap),
       ],

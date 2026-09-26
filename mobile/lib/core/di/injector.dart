@@ -30,6 +30,9 @@ import 'package:real_estate_crm/features/documents/domain/repositories/documents
 import 'package:real_estate_crm/features/meetings/data/datasources/meetings_remote_datasource.dart';
 import 'package:real_estate_crm/features/meetings/data/repositories/meetings_repository_impl.dart';
 import 'package:real_estate_crm/features/meetings/domain/repositories/meetings_repository.dart';
+import 'package:real_estate_crm/features/notifications/data/datasources/notifications_remote_datasource.dart';
+import 'package:real_estate_crm/features/notifications/data/repositories/notifications_repository_impl.dart';
+import 'package:real_estate_crm/features/notifications/domain/repositories/notifications_repository.dart';
 import 'package:real_estate_crm/features/properties/data/datasources/properties_remote_datasource.dart';
 import 'package:real_estate_crm/features/properties/data/repositories/properties_repository_impl.dart';
 import 'package:real_estate_crm/features/properties/domain/repositories/properties_repository.dart';
@@ -71,6 +74,11 @@ class Injector {
 
   static MeetingsRepository meetingsRepository =
       MeetingsRepositoryImpl(MeetingsRemoteDataSource(_apiClient));
+
+  static NotificationsRepository notificationsRepository =
+      NotificationsRepositoryImpl(NotificationsRemoteDataSource(_apiClient));
+
+  static Duration? notificationsPollInterval = const Duration(seconds: 60);
 
   static TasksRepository tasksRepository =
       TasksRepositoryImpl(TasksRemoteDataSource(_apiClient));

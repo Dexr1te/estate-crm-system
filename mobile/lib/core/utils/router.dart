@@ -25,6 +25,7 @@ import 'package:real_estate_crm/features/deals/presentation/screens/deals_screen
 import 'package:real_estate_crm/features/meetings/presentation/screens/meeting_detail_screen.dart';
 import 'package:real_estate_crm/features/meetings/presentation/screens/meeting_form_screen.dart';
 import 'package:real_estate_crm/features/meetings/presentation/screens/meetings_screen.dart';
+import 'package:real_estate_crm/features/notifications/presentation/screens/notifications_screen.dart';
 import 'package:real_estate_crm/features/profile/presentation/screens/profile_screen.dart';
 import 'package:real_estate_crm/features/properties/presentation/screens/properties_screen.dart';
 import 'package:real_estate_crm/features/properties/presentation/screens/property_detail_screen.dart';
@@ -178,6 +179,12 @@ GoRouter createRouter(AuthBloc authBloc) {
         parentNavigatorKey: _rootKey,
         pageBuilder: (_, __) =>
             const NoTransitionPage(child: AnalyticsScreen()),
+      ),
+      GoRoute(
+        path: '/notifications',
+        parentNavigatorKey: _rootKey,
+        pageBuilder: (_, __) =>
+            const NoTransitionPage(child: NotificationsScreen()),
       ),
       GoRoute(
         path: '/tasks',

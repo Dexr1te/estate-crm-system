@@ -27,6 +27,7 @@ import 'package:real_estate_crm/features/deals/presentation/bloc/deals_event.dar
 import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_bloc.dart';
 import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_event.dart';
 import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_state.dart';
+import 'package:real_estate_crm/features/notifications/presentation/bloc/unread_count_bloc.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_bloc.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_event.dart';
 import 'package:real_estate_crm/features/tasks/presentation/bloc/tasks_bloc.dart';
@@ -57,6 +58,8 @@ class _MyAppState extends State<MyApp> {
   // ignore: prefer_typing_uninitialized_variables
   late final GoRouter router;
   late final DeepLinkHandler _deepLinks;
+  late final UnreadCountPoller _unreadPoller;
+  late final AppLifecycleListener _lifecycle;
 
   @override
   void initState() {
@@ -82,6 +85,22 @@ class _MyAppState extends State<MyApp> {
       auth: _authBloc,
       confirmSignOut: _confirmInviteSignOut,
     )..start();
+    _unreadPoller = UnreadCountPoller(
+      refresh: Injector.notificationsRepository.refreshUnreadCount,
+      interval: Injector.notificationsPollInterval,
+    );
+    _lifecycle = AppLifecycleListener(
+      onResume: _startUnreadPolling,
+      onHide: _unreadPoller.stop,
+      onPause: _unreadPoller.stop,
+    );
+  }
+
+  void _startUnreadPolling() {
+    if (!_authBloc.isAuthenticated) return;
+    _unreadPoller
+      ..refreshNow()
+      ..start();
   }
 
   Future<bool> _confirmInviteSignOut() async {
@@ -102,6 +121,8 @@ class _MyAppState extends State<MyApp> {
   @override
   void dispose() {
     Injector.apiClient.onSessionExpired = null;
+    _lifecycle.dispose();
+    _unreadPoller.stop();
     _deepLinks.dispose();
     _authBloc.close();
     _themeBloc.close();
@@ -158,6 +179,8 @@ class _MyAppState extends State<MyApp> {
               _meetingsBloc.add(MeetingsResetEvent());
               _tasksBloc.add(TasksResetEvent());
               _meetingsForReminders = const [];
+              _unreadPoller.stop();
+              Injector.notificationsRepository.clear();
 
               _notifications.cancelAll();
             },
@@ -165,7 +188,10 @@ class _MyAppState extends State<MyApp> {
           BlocListener<AuthBloc, AuthState>(
             listenWhen: (prev, curr) =>
                 prev is! AuthAuthenticated && curr is AuthAuthenticated,
-            listener: (_, __) => _tasksBloc.add(TasksLoadEvent()),
+            listener: (_, __) {
+              _tasksBloc.add(TasksLoadEvent());
+              _startUnreadPolling();
+            },
           ),
           BlocListener<TasksBloc, TasksState>(
             bloc: _tasksBloc,

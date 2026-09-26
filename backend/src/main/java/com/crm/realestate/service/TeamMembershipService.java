@@ -55,6 +55,7 @@ public class TeamMembershipService {
     private final AuthResponseFactory       authResponseFactory;
     private final AuditLogService           auditLogService;
     private final EmailService              emailService;
+    private final NotificationEvents        notificationEvents;
 
     // The manager's side ---------------------------------------------------------------
 
@@ -172,6 +173,7 @@ public class TeamMembershipService {
                 .invitedBy(manager)
                 .status(JoinRequestStatus.PENDING)
                 .build());
+        notificationEvents.joinRequested(joinRequest, manager);
         emailService.sendTeamRequest(existing.getEmail(), existing.getFullName(),
                 team.getName(), manager.getFullName());
         auditLogService.record(manager, "REQUEST_TEAM_JOIN", "User", existing.getId(),
@@ -231,7 +233,7 @@ public class TeamMembershipService {
         }
 
         User successor = resolveSuccessor(manager, team, replacementId, member);
-        recordHandoverService.reassignTeamRecords(member, successor, team);
+        recordHandoverService.reassignTeamRecords(member, successor, team, manager);
         member.setTeam(null);
         member.setDataScope(DataScope.OWN);
         userRepository.save(member);
@@ -264,6 +266,7 @@ public class TeamMembershipService {
         user.setTeam(request.getTeam());
         User joined = userRepository.save(user);
         recordHandoverService.adoptTeamlessRecords(joined);
+        notificationEvents.joinAccepted(request, joined);
         auditLogService.record(joined, "ACCEPT_TEAM_JOIN", "Team", request.getTeam().getId(),
                 "team=" + request.getTeam().getName());
         return authResponseFactory.build(joined, null, null);
@@ -289,7 +292,7 @@ public class TeamMembershipService {
                     "A manager cannot leave their own team");
         }
         User successor = resolveSuccessor(user, team, null, user);
-        recordHandoverService.reassignTeamRecords(user, successor, team);
+        recordHandoverService.reassignTeamRecords(user, successor, team, user);
         user.setTeam(null);
         user.setDataScope(DataScope.OWN);
         User left = userRepository.save(user);

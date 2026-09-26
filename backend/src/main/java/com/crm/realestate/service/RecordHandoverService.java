@@ -27,6 +27,7 @@ public class RecordHandoverService {
     private final MeetingRepository  meetingRepository;
     private final ClientActivityRepository activityRepository;
     private final TaskRepository     taskRepository;
+    private final NotificationEvents notificationEvents;
 
     /**
      * Brings what someone owned while in no team into the team they have just joined.
@@ -47,6 +48,15 @@ public class RecordHandoverService {
      */
     @Transactional
     public void reassignTeamRecords(User from, User to, Team team) {
+        reassignTeamRecords(from, to, team, null);
+    }
+
+    /**
+     * The same, with who made it happen: {@code to} hears what they were given, unless they did
+     * the handing themselves.
+     */
+    @Transactional
+    public void reassignTeamRecords(User from, User to, Team team, User actor) {
         int clients    = clientRepository.reassignInTeam(from, to, team);
         int properties = propertyRepository.reassignInTeam(from, to, team);
         int deals      = dealRepository.reassignInTeam(from, to, team);
@@ -56,6 +66,7 @@ public class RecordHandoverService {
             log.info("Handed {} clients, {} listings, {} deals, {} meetings and {} tasks in team {} from user {} to user {}",
                     clients, properties, deals, meetings, tasks, team.getId(), from.getId(), to.getId());
         }
+        notificationEvents.recordsHandedOver(from, to, actor, team, clients, properties, deals, meetings, tasks);
     }
 
     @Transactional
