@@ -1796,6 +1796,261 @@ class AppLocalizationsKk extends AppLocalizations {
   String get documentsUploading => 'Жіберілуде…';
 
   @override
+  String importAction(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count жолды импорттау',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get importAnother => 'Басқа файлды импорттау';
+
+  @override
+  String get importAssignTo => 'Жауапты';
+
+  @override
+  String get importAssignToMe => 'Мен';
+
+  @override
+  String get importChooseFile => 'CSV файлын таңдау';
+
+  @override
+  String get importColumns => 'Бағандар';
+
+  @override
+  String get importColumnsHint =>
+      'Әр баған қай өрісті толтыратынын тексеріңіз. «Өткізіп жіберу» белгіленген бағандар импортталмайды.';
+
+  @override
+  String get importCreated => 'Құрылды';
+
+  @override
+  String get importDoneTitle => 'Импорт аяқталды';
+
+  @override
+  String get importDownloadTemplate => 'Үлгіні жүктеу';
+
+  @override
+  String importDuplicateOfClient(String name) {
+    return 'Агенттікте бар: $name';
+  }
+
+  @override
+  String importDuplicateOfRow(int row) {
+    return '$row-жолмен бірдей';
+  }
+
+  @override
+  String get importEmptyFile => 'Файл бос';
+
+  @override
+  String get importEntrySubtitle =>
+      'Excel немесе басқа CRM-нен клиенттер мен нысандар';
+
+  @override
+  String get importErrorInvalidEmail => 'Email қате';
+
+  @override
+  String get importErrorInvalidNumber => 'Сан емес';
+
+  @override
+  String get importErrorInvalidPhone => 'Телефон қате';
+
+  @override
+  String get importErrorNegative => 'Нөлден үлкен болуы керек';
+
+  @override
+  String get importErrorOutOfRange => 'Рұқсат етілген ауқымнан тыс';
+
+  @override
+  String get importErrorRequired => 'Міндетті өріс';
+
+  @override
+  String get importErrorTooLong => 'Тым ұзын';
+
+  @override
+  String get importErrorUnknownValue => 'Белгісіз мән';
+
+  @override
+  String get importFieldAddress => 'Мекенжай';
+
+  @override
+  String get importFieldArea => 'Аудан';
+
+  @override
+  String get importFieldBudgetMax => 'Бюджет (дейін)';
+
+  @override
+  String get importFieldBudgetMin => 'Бюджет (бастап)';
+
+  @override
+  String get importFieldCity => 'Қала';
+
+  @override
+  String get importFieldClientType => 'Клиент түрі';
+
+  @override
+  String get importFieldDescription => 'Сипаттама';
+
+  @override
+  String get importFieldEmail => 'Email';
+
+  @override
+  String get importFieldFloor => 'Қабат';
+
+  @override
+  String get importFieldFullName => 'Аты-жөні';
+
+  @override
+  String get importFieldMinArea => 'Аудан (кемінде)';
+
+  @override
+  String get importFieldMinRooms => 'Бөлме саны (кемінде)';
+
+  @override
+  String get importFieldNotes => 'Ескертпе';
+
+  @override
+  String get importFieldPhone => 'Телефон';
+
+  @override
+  String get importFieldPrice => 'Баға';
+
+  @override
+  String get importFieldPropertyType => 'Нысан түрі';
+
+  @override
+  String get importFieldRooms => 'Бөлме саны';
+
+  @override
+  String get importFieldStatus => 'Мәртебе';
+
+  @override
+  String get importFieldTitle => 'Атауы';
+
+  @override
+  String get importFieldTotalFloors => 'Қабат саны';
+
+  @override
+  String get importFieldWantedCity => 'Қалаған қала';
+
+  @override
+  String get importFieldWantedType => 'Қалаған нысан түрі';
+
+  @override
+  String get importFileTooLarge =>
+      'Файл 5 МБ-тан үлкен. Оны бөліктерге бөліңіз.';
+
+  @override
+  String get importHowTo =>
+      'Кестені Excel немесе Google Sheets арқылы CSV форматында сақтаңыз. Үтір, нүктелі үтір және табуляция жарайды, орысша Excel-дің кириллица файлдары да оқылады.';
+
+  @override
+  String get importInvalid => 'Қателерге байланысты импортталмады';
+
+  @override
+  String get importKindClients => 'Клиенттер';
+
+  @override
+  String get importKindClientsHint => 'Аттары, телефондары, не іздейді';
+
+  @override
+  String get importKindProperties => 'Нысандар';
+
+  @override
+  String get importKindPropertiesHint =>
+      'Мекенжайлар, бағалар, аудандар, бөлмелер';
+
+  @override
+  String importMissingRequired(String field) {
+    return '«$field» өрісі үшін баған таңдаңыз';
+  }
+
+  @override
+  String get importNoAgents => 'Әріптестер табылмады';
+
+  @override
+  String get importNoProblems => 'Барлық жол импортқа дайын';
+
+  @override
+  String get importNotCsv =>
+      '.csv файлын таңдаңыз. Excel-де: Файл, Басқаша сақтау, CSV.';
+
+  @override
+  String get importNothingToImport => 'Импорттайтын ештеңе жоқ';
+
+  @override
+  String get importOpenClients => 'Клиенттерді ашу';
+
+  @override
+  String get importOpenProperties => 'Нысандарды ашу';
+
+  @override
+  String get importOptions => 'Параметрлер';
+
+  @override
+  String get importPickAgentSearch => 'Аты бойынша іздеу';
+
+  @override
+  String get importProblems => 'Назар аударатын жолдар';
+
+  @override
+  String get importProblemsTruncated => 'Тек алғашқы 1000 көрсетілген';
+
+  @override
+  String importRowLabel(int row) {
+    return '$row-жол';
+  }
+
+  @override
+  String importRowsTotal(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Файлда $count жол',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get importShowMore => 'Тағы көрсету';
+
+  @override
+  String get importSkipColumn => 'Өткізіп жіберу';
+
+  @override
+  String get importSkipDuplicates => 'Қайталанатындарды өткізіп жіберу';
+
+  @override
+  String get importSkipDuplicatesHint =>
+      'Email-і агенттікте бар клиент әрқашан өткізіп жіберіледі';
+
+  @override
+  String get importSkipped => 'Өткізілген қайталанатындар';
+
+  @override
+  String get importSummaryDuplicates => 'Қайталанатындар';
+
+  @override
+  String get importSummaryInvalid => 'Қателері бар';
+
+  @override
+  String get importSummaryValid => 'Дайын';
+
+  @override
+  String get importTemplateFailed => 'Үлгіні дайындау мүмкін болмады';
+
+  @override
+  String get importTitle => 'Кестеден импорттау';
+
+  @override
+  String get importTooManyRows =>
+      'Файлда 5000-нан көп жол бар. Оны бөліктерге бөліңіз.';
+
+  @override
   String get meetingsAddShort => 'Кездесу';
 
   @override

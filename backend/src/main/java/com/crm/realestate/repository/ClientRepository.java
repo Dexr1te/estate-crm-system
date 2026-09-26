@@ -136,4 +136,11 @@ public interface ClientRepository extends JpaRepository<Client, Long>, org.sprin
                                 @Param("email") String email,
                                 @Param("excludeId") Long excludeId,
                                 org.springframework.data.domain.Pageable limit);
+
+    /**
+     * Every agency client's comparable phone and email, for checking a whole spreadsheet against
+     * the agency in one query rather than one per row. Row: id, full name, phone_normalized, email.
+     */
+    @Query("SELECT c.id, c.fullName, c.phoneNormalized, LOWER(TRIM(c.email)) FROM Client c WHERE c.team.id = :teamId")
+    List<Object[]> findContactKeysByTeamId(@Param("teamId") Long teamId);
 }

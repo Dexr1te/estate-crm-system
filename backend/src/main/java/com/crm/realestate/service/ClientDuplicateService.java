@@ -69,6 +69,31 @@ public class ClientDuplicateService {
                 .toList();
     }
 
+    /** A card already in the agency that a new one would duplicate. */
+    public record KnownClient(Long id, String fullName) {
+    }
+
+    /** The agency's clients by comparable phone and by comparable email, first card wins. */
+    public record ContactIndex(java.util.Map<String, KnownClient> byPhone,
+                               java.util.Map<String, KnownClient> byEmail) {
+    }
+
+    /**
+     * The same rule as {@link #find}, prepared for checking many rows at once: one query for the
+     * whole agency instead of one per row. Keys are {@link ContactNormalizer} forms.
+     */
+    public ContactIndex index(Long teamId) {
+        java.util.Map<String, KnownClient> byPhone = new java.util.HashMap<>();
+        java.util.Map<String, KnownClient> byEmail = new java.util.HashMap<>();
+        for (Object[] row : clientRepository.findContactKeysByTeamId(teamId)) {
+            KnownClient known = new KnownClient((Long) row[0], (String) row[1]);
+            if (row[2] != null) byPhone.putIfAbsent((String) row[2], known);
+            String email = ContactNormalizer.email((String) row[3]);
+            if (email != null) byEmail.putIfAbsent(email, known);
+        }
+        return new ContactIndex(byPhone, byEmail);
+    }
+
     /**
      * Folds {@code sourceId} into {@code targetId}: its deals, meetings (viewing outcomes ride on
      * them), logged contacts and tasks move over; the target's empty contact details and buyer

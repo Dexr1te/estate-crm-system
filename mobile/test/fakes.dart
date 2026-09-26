@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:real_estate_crm/core/models/admin_models.dart';
 import 'package:real_estate_crm/core/models/document_models.dart';
+import 'package:real_estate_crm/core/models/import_models.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/models/paged_response.dart';
 import 'package:real_estate_crm/core/models/team_models.dart';
@@ -17,6 +18,7 @@ import 'package:real_estate_crm/features/clients/domain/repositories/clients_rep
 import 'package:real_estate_crm/features/dashboard/domain/repositories/dashboard_repository.dart';
 import 'package:real_estate_crm/features/deals/domain/repositories/deals_repository.dart';
 import 'package:real_estate_crm/features/documents/domain/repositories/documents_repository.dart';
+import 'package:real_estate_crm/features/imports/domain/repositories/imports_repository.dart';
 import 'package:real_estate_crm/features/meetings/domain/repositories/meetings_repository.dart';
 import 'package:real_estate_crm/features/notifications/domain/repositories/notifications_repository.dart';
 import 'package:real_estate_crm/features/properties/domain/repositories/properties_repository.dart';
@@ -1023,5 +1025,62 @@ class FakeNotificationsRepository implements NotificationsRepository {
   void clear() {
     _last = 0;
     _counts.add(0);
+  }
+}
+
+/// Reads a sheet the way [onPreview] says and records every request, so a
+/// test can see which mapping and options reached the server.
+class FakeImportsRepository implements ImportsRepository {
+  FakeImportsRepository({
+    required this.onPreview,
+    this.result = const ImportResult(kind: ImportKind.clients, created: 1),
+    this.templateBytes = const [0xEF, 0xBB, 0xBF],
+    this.failure,
+  });
+
+  ImportPreview Function(ImportKind kind, List<String?>? mapping) onPreview;
+  ImportResult result;
+  List<int> templateBytes;
+
+  /// Thrown by every call when set.
+  Object? failure;
+
+  final previews = <List<String?>?>[];
+  final commits = <({
+    ImportKind kind,
+    List<String?> mapping,
+    bool skipDuplicates,
+    int? assignToAgentId
+  })>[];
+  final templates = <String>[];
+
+  @override
+  Future<ImportPreview> preview(ImportKind kind, PickedFile file,
+      {List<String?>? mapping}) async {
+    if (failure != null) throw failure!;
+    previews.add(mapping);
+    return onPreview(kind, mapping);
+  }
+
+  @override
+  Future<ImportResult> commit(ImportKind kind, PickedFile file,
+      {required List<String?> mapping,
+      required bool skipDuplicates,
+      int? assignToAgentId}) async {
+    if (failure != null) throw failure!;
+    commits.add((
+      kind: kind,
+      mapping: mapping,
+      skipDuplicates: skipDuplicates,
+      assignToAgentId: assignToAgentId
+    ));
+    return result;
+  }
+
+  @override
+  Future<List<int>> template(ImportKind kind, String lang) async {
+    if (failure != null) throw failure!;
+    templates.add('${kind.path}/$lang');
+    return templateBytes;
   }
 }

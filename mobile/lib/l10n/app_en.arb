@@ -622,6 +622,123 @@
   "documentsUploadedBy": "Added by {name}",
   "documentsUploading": "Sending…",
   "@@locale": "en",
+  "importAction": "{count, plural, =1{Import 1 row} other{Import {count} rows}}",
+  "@importAction": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "importAnother": "Import another file",
+  "importAssignTo": "Assign to",
+  "importAssignToMe": "Me",
+  "importChooseFile": "Choose a CSV file",
+  "importColumns": "Columns",
+  "importColumnsHint": "Check which field each column fills. Columns set to Skip are left out.",
+  "importCreated": "Created",
+  "importDoneTitle": "Import finished",
+  "importDownloadTemplate": "Download template",
+  "importDuplicateOfClient": "Already in the agency: {name}",
+  "@importDuplicateOfClient": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "importDuplicateOfRow": "Same as row {row}",
+  "@importDuplicateOfRow": {
+    "placeholders": {
+      "row": {
+        "type": "int"
+      }
+    }
+  },
+  "importEmptyFile": "The file is empty",
+  "importEntrySubtitle": "Clients and listings from Excel or another CRM",
+  "importErrorInvalidEmail": "Not an email address",
+  "importErrorInvalidNumber": "Not a number",
+  "importErrorInvalidPhone": "Not a phone number",
+  "importErrorNegative": "Must be above zero",
+  "importErrorOutOfRange": "Out of range",
+  "importErrorRequired": "Required",
+  "importErrorTooLong": "Too long",
+  "importErrorUnknownValue": "Unknown value",
+  "importFieldAddress": "Address",
+  "importFieldArea": "Area",
+  "importFieldBudgetMax": "Budget to",
+  "importFieldBudgetMin": "Budget from",
+  "importFieldCity": "City",
+  "importFieldClientType": "Client type",
+  "importFieldDescription": "Description",
+  "importFieldEmail": "Email",
+  "importFieldFloor": "Floor",
+  "importFieldFullName": "Full name",
+  "importFieldMinArea": "Area from",
+  "importFieldMinRooms": "Rooms from",
+  "importFieldNotes": "Notes",
+  "importFieldPhone": "Phone",
+  "importFieldPrice": "Price",
+  "importFieldPropertyType": "Property type",
+  "importFieldRooms": "Rooms",
+  "importFieldStatus": "Status",
+  "importFieldTitle": "Title",
+  "importFieldTotalFloors": "Total floors",
+  "importFieldWantedCity": "Wanted city",
+  "importFieldWantedType": "Wanted property type",
+  "importFileTooLarge": "The file is larger than 5 MB. Split it into parts.",
+  "importHowTo": "Save the sheet as CSV in Excel or Google Sheets. Commas, semicolons and tabs all work, and so do Cyrillic files from a Russian Excel.",
+  "importInvalid": "Not imported, errors",
+  "importKindClients": "Clients",
+  "importKindClientsHint": "Names, phones, what they are looking for",
+  "importKindProperties": "Listings",
+  "importKindPropertiesHint": "Addresses, prices, areas, rooms",
+  "importMissingRequired": "Choose a column for {field}",
+  "@importMissingRequired": {
+    "placeholders": {
+      "field": {
+        "type": "String"
+      }
+    }
+  },
+  "importNoAgents": "No colleagues found",
+  "importNoProblems": "Every row is ready to import",
+  "importNotCsv": "Choose a .csv file. In Excel: File, Save as, CSV.",
+  "importNothingToImport": "Nothing to import",
+  "importOpenClients": "Open clients",
+  "importOpenProperties": "Open listings",
+  "importOptions": "Options",
+  "importPickAgentSearch": "Search by name",
+  "importProblems": "Rows that need attention",
+  "importProblemsTruncated": "Only the first 1000 are listed",
+  "importRowLabel": "Row {row}",
+  "@importRowLabel": {
+    "placeholders": {
+      "row": {
+        "type": "int"
+      }
+    }
+  },
+  "importRowsTotal": "{count, plural, =1{1 row in the file} other{{count} rows in the file}}",
+  "@importRowsTotal": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "importShowMore": "Show more",
+  "importSkipColumn": "Skip",
+  "importSkipDuplicates": "Skip duplicates",
+  "importSkipDuplicatesHint": "A client whose email is already in the agency is always skipped",
+  "importSkipped": "Skipped duplicates",
+  "importSummaryDuplicates": "Duplicates",
+  "importSummaryInvalid": "With errors",
+  "importSummaryValid": "Ready",
+  "importTemplateFailed": "Could not prepare the template",
+  "importTitle": "Import from a spreadsheet",
+  "importTooManyRows": "The file has more than 5000 rows. Split it into parts.",
   "meetingsAddShort": "Meeting",
   "meetingsAgendaHint": "Meeting agenda, talking points…",
   "meetingsAgent": "Agent",

@@ -95,6 +95,19 @@ void main() {
         reason: 'the manager is marked so a removal cannot be aimed at them');
   });
 
+  testWidgets('bringing the book in from a spreadsheet starts here',
+      (tester) async {
+    _teams();
+    await _pumpConsole(tester);
+    expect(find.byKey(const ValueKey('import-entry')), findsOneWidget);
+    expect(find.text('Import from a spreadsheet'), findsOneWidget);
+
+    _teams(members: const []);
+    await _pumpConsole(tester);
+    expect(find.byKey(const ValueKey('import-entry')), findsOneWidget,
+        reason: 'a new agency with nobody in it yet is who needs it most');
+  });
+
   testWidgets('an invite nobody has used says so', (tester) async {
     _teams(members: const [_manager, _invited]);
     await _pumpConsole(tester);

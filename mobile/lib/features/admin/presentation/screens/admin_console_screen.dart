@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/admin_models.dart';
 import 'package:real_estate_crm/core/models/models.dart';
@@ -62,7 +63,22 @@ class _AdminConsoleScreenState extends State<AdminConsoleScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      ScreenTitle(l10n.adminConsoleTitle),
+                      Row(
+                        children: [
+                          Expanded(child: ScreenTitle(l10n.adminConsoleTitle)),
+                          // Records are imported into the admin's own agency.
+                          if (context.read<AuthBloc?>()?.currentUser?.teamId !=
+                              null) ...[
+                            const SizedBox(width: 10),
+                            AppIconTile(
+                              key: const ValueKey('import-entry'),
+                              icon: Icons.upload_file_rounded,
+                              tooltip: l10n.importTitle,
+                              onPressed: () => context.push('/import'),
+                            ),
+                          ],
+                        ],
+                      ),
                       const SizedBox(height: 14),
                       SegmentedTabs(
                         labels: [
