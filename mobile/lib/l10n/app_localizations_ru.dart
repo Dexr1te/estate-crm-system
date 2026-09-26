@@ -872,6 +872,13 @@ class AppLocalizationsRu extends AppLocalizations {
       'Здравствуйте! Вот варианты, которые подходят под ваш запрос:';
 
   @override
+  String get clientsSendLinks => 'Добавить ссылки';
+
+  @override
+  String get clientsSendLinksHint =>
+      'Страница каждого объекта со всеми фото. Откроется в любом браузере.';
+
+  @override
   String get clientsSendMatches => 'Отправить подборку';
 
   @override
@@ -2261,6 +2268,54 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get propertiesInterested => 'Кому подходит';
+
+  @override
+  String get propertiesLink => 'Публичная ссылка';
+
+  @override
+  String get propertiesLinkCopied => 'Ссылка скопирована';
+
+  @override
+  String get propertiesLinkCopy => 'Копировать';
+
+  @override
+  String get propertiesLinkCreate => 'Создать ссылку';
+
+  @override
+  String get propertiesLinkHint =>
+      'Страница с фото, ценой и вашими контактами. Открывается в любом браузере, без приложения и регистрации.';
+
+  @override
+  String propertiesLinkLastViewed(String date) {
+    return 'Последний раз открывали $date';
+  }
+
+  @override
+  String get propertiesLinkRevoke => 'Отключить';
+
+  @override
+  String get propertiesLinkRevokeConfirm =>
+      'Те, кому вы её отправили, больше не смогут открыть объект. Новая ссылка будет с другим адресом.';
+
+  @override
+  String get propertiesLinkRevokeTitle => 'Отключить ссылку?';
+
+  @override
+  String get propertiesLinkShare => 'Поделиться';
+
+  @override
+  String propertiesLinkViews(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Открыли $count раза',
+      many: 'Открыли $count раз',
+      few: 'Открыли $count раза',
+      one: 'Открыли $count раз',
+      zero: 'Ещё не открывали',
+    );
+    return '$_temp0';
+  }
 
   @override
   String get propertiesLocation => 'Расположение';

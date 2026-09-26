@@ -65,6 +65,20 @@ class PropertiesRemoteDataSource {
     await _client.dio.delete('/properties/$id');
   }
 
+  Future<PropertyShareLink> getShareLink(int id) async {
+    final res = await _client.dio.get('/properties/$id/share-link');
+    return PropertyShareLink.fromJson(jsonObject(res));
+  }
+
+  Future<PropertyShareLink> createShareLink(int id) async {
+    final res = await _client.dio.post('/properties/$id/share-link');
+    return PropertyShareLink.fromJson(jsonObject(res));
+  }
+
+  Future<void> revokeShareLink(int id) async {
+    await _client.dio.delete('/properties/$id/share-link');
+  }
+
   Future<List<PropertyPhoto>> getPhotos(int id) async {
     final res = await _client.dio.get('/properties/$id/photos');
     return jsonArray(res).map(PropertyPhoto.fromJson).toList();

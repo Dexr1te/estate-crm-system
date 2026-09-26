@@ -88,6 +88,12 @@ app:
   # backend serves; repoint it at the web app or a verified deep link later
   # without touching EmailService.
   invite-url: ${INVITE_URL:${APP_BASE_URL:http://localhost:8080}/api/invite}
+  # Where a listing's public link points; a token is appended. Defaults to the
+  # page this backend serves at /api/l/<token>, so it only needs setting when
+  # the page sits behind another origin. Must be the public origin, never
+  # localhost: it is what clients receive in a chat, and what the page's
+  # preview tags (og:image) name.
+  listing-url: ${LISTING_URL:${APP_BASE_URL:http://localhost:8080}/api/l}
   # Custom scheme the landing page offers as "Open in the app".
   invite-deep-link: ${INVITE_DEEP_LINK:estatecrm://accept-invite}
   mail:

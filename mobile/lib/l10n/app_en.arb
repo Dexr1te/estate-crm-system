@@ -317,6 +317,8 @@
   "clientsSendClosing": "Tell me which ones you would like to see and I will arrange a viewing.",
   "clientsSendFailed": "Could not open sending",
   "clientsSendGreeting": "Hello! Here are listings that fit what you are looking for:",
+  "clientsSendLinks": "Include links",
+  "clientsSendLinksHint": "A page per listing with all its photos. Opens in any browser.",
   "clientsSendMatches": "Send listings",
   "clientsSendPhotos": "Attach cover photos",
   "clientsSendPhotosHint": "Photos go through Share. WhatsApp opens the chat with the text only.",
@@ -755,6 +757,31 @@
   "propertiesFloor": "Floor",
   "propertiesFloorOf": "{floor} of {total}",
   "propertiesInterested": "Buyers looking for this",
+  "propertiesLink": "Public link",
+  "propertiesLinkCopied": "Link copied",
+  "propertiesLinkCopy": "Copy",
+  "propertiesLinkCreate": "Create link",
+  "propertiesLinkHint": "A page with the photos, price and your contacts. Opens in any browser, no app or account needed.",
+  "propertiesLinkLastViewed": "Last opened {date}",
+  "@propertiesLinkLastViewed": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "propertiesLinkRevoke": "Switch off",
+  "propertiesLinkRevokeConfirm": "Anyone you sent it to will no longer be able to open the listing. A new link will have a different address.",
+  "propertiesLinkRevokeTitle": "Switch off the link?",
+  "propertiesLinkShare": "Share",
+  "propertiesLinkViews": "{count, plural, =0{Not opened yet} =1{Opened once} other{Opened {count} times}}",
+  "@propertiesLinkViews": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "propertiesLocation": "Location",
   "propertiesNewProperty": "New Property",
   "propertiesNextDetails": "Next — details",
