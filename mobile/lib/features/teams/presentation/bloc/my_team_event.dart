@@ -1,3 +1,5 @@
+import 'package:real_estate_crm/core/utils/money.dart';
+
 abstract class MyTeamEvent {}
 
 class MyTeamLoadEvent extends MyTeamEvent {}
@@ -5,6 +7,11 @@ class MyTeamLoadEvent extends MyTeamEvent {}
 class MyTeamRenameEvent extends MyTeamEvent {
   final String name;
   MyTeamRenameEvent(this.name);
+}
+
+class MyTeamChangeCurrencyEvent extends MyTeamEvent {
+  final Currency currency;
+  MyTeamChangeCurrencyEvent(this.currency);
 }
 
 class MyTeamAddMemberEvent extends MyTeamEvent {

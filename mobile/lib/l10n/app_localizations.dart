@@ -4516,6 +4516,12 @@ abstract class AppLocalizations {
   /// **'Comment updated'**
   String get msgCommentUpdated;
 
+  /// No description provided for @msgCurrencyChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'Currency changed'**
+  String get msgCurrencyChanged;
+
   /// No description provided for @msgDealCreated.
   ///
   /// In en, this message translates to:
@@ -6255,6 +6261,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Create team'**
   String get teamsCreateTeam;
+
+  /// No description provided for @teamsCurrency.
+  ///
+  /// In en, this message translates to:
+  /// **'Agency currency'**
+  String get teamsCurrency;
+
+  /// No description provided for @teamsCurrencyConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Change currency'**
+  String get teamsCurrencyConfirm;
+
+  /// No description provided for @teamsCurrencyConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Everyone in the agency will see prices in {currency}. Amounts are not converted: a listing priced {before} will read {after}.'**
+  String teamsCurrencyConfirmBody(String currency, String before, String after);
+
+  /// No description provided for @teamsCurrencyConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Change the agency currency?'**
+  String get teamsCurrencyConfirmTitle;
+
+  /// No description provided for @teamsCurrencyEur.
+  ///
+  /// In en, this message translates to:
+  /// **'Euro (€)'**
+  String get teamsCurrencyEur;
+
+  /// No description provided for @teamsCurrencyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'How prices read across the app'**
+  String get teamsCurrencyHint;
+
+  /// No description provided for @teamsCurrencyKgs.
+  ///
+  /// In en, this message translates to:
+  /// **'Kyrgyz som (KGS)'**
+  String get teamsCurrencyKgs;
+
+  /// No description provided for @teamsCurrencyKzt.
+  ///
+  /// In en, this message translates to:
+  /// **'Tenge (₸)'**
+  String get teamsCurrencyKzt;
+
+  /// No description provided for @teamsCurrencyRub.
+  ///
+  /// In en, this message translates to:
+  /// **'Rouble (₽)'**
+  String get teamsCurrencyRub;
+
+  /// No description provided for @teamsCurrencyUsd.
+  ///
+  /// In en, this message translates to:
+  /// **'US dollar (\$)'**
+  String get teamsCurrencyUsd;
+
+  /// No description provided for @teamsCurrencyUzs.
+  ///
+  /// In en, this message translates to:
+  /// **'Uzbek som (UZS)'**
+  String get teamsCurrencyUzs;
 
   /// No description provided for @teamsDeals.
   ///

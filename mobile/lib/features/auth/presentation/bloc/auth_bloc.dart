@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:real_estate_crm/core/bloc/collection_bloc.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/network/api_error.dart';
+import 'package:real_estate_crm/core/utils/money.dart';
 import 'package:real_estate_crm/core/widgets/messages.dart';
 import 'package:real_estate_crm/features/auth/domain/repositories/auth_repository.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart';
@@ -42,6 +43,19 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
   Future<void> close() {
     _listeners.clear();
     return super.close();
+  }
+
+  /// Keeps the app-wide currency on the signed-in agency's: set on sign-in and
+  /// every refresh of the profile, back to dollars on sign-out.
+  @override
+  void onChange(Change<AuthState> change) {
+    super.onChange(change);
+    final next = change.nextState;
+    if (next is AuthAuthenticated) {
+      AppCurrency.setCode(next.user.teamCurrency);
+    } else if (next is AuthUnauthenticated) {
+      AppCurrency.reset();
+    }
   }
 
   bool get isAuthenticated => state is AuthAuthenticated;

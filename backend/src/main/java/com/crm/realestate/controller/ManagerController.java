@@ -2,6 +2,7 @@ package com.crm.realestate.controller;
 
 import com.crm.realestate.dto.request.AddMemberRequest;
 import com.crm.realestate.dto.request.CreateAgentRequest;
+import com.crm.realestate.dto.request.TeamCurrencyRequest;
 import com.crm.realestate.dto.request.TeamNameRequest;
 import com.crm.realestate.dto.response.AddMemberResponse;
 import com.crm.realestate.dto.response.AgentResponse;
@@ -53,6 +54,12 @@ public class ManagerController {
     @Operation(summary = "Rename the manager's own team")
     public ResponseEntity<TeamResponse> renameTeam(@Valid @RequestBody TeamNameRequest request) {
         return ResponseEntity.ok(teamMembershipService.renameMyTeam(securityUtils.getCurrentUser(), request));
+    }
+
+    @PutMapping("/currency")
+    @Operation(summary = "Choose the currency the team's prices are shown in (no conversion)")
+    public ResponseEntity<TeamResponse> changeCurrency(@Valid @RequestBody TeamCurrencyRequest request) {
+        return ResponseEntity.ok(teamMembershipService.changeMyCurrency(securityUtils.getCurrentUser(), request));
     }
 
     @GetMapping("/members")

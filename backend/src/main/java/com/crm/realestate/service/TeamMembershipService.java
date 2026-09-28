@@ -9,6 +9,8 @@ import com.crm.realestate.dto.response.AuthResponse;
 import com.crm.realestate.dto.response.JoinRequestResponse;
 import com.crm.realestate.dto.response.TeamMemberResponse;
 import com.crm.realestate.dto.response.TeamResponse;
+import com.crm.realestate.dto.request.TeamCurrencyRequest;
+import com.crm.realestate.enums.AgencyCurrency;
 import com.crm.realestate.entity.Team;
 import com.crm.realestate.entity.TeamJoinRequest;
 import com.crm.realestate.entity.User;
@@ -88,6 +90,24 @@ public class TeamMembershipService {
         Team team = requireTeam(manager);
         team.setName(request.getName().trim());
         return toTeamResponse(teamRepository.save(team));
+    }
+
+    /**
+     * Sets the currency the agency's prices are shown in. The amounts stay exactly as they are:
+     * "12 500 000" priced in dollars reads "12 500 000 ₸" afterwards, nothing is converted.
+     */
+    @Transactional
+    public TeamResponse changeMyCurrency(User manager, TeamCurrencyRequest request) {
+        Team team = requireTeam(manager);
+        AgencyCurrency next = AgencyCurrency.valueOf(request.getCurrency());
+        AgencyCurrency previous = team.getCurrency();
+        if (previous != next) {
+            team.setCurrency(next);
+            team = teamRepository.save(team);
+            auditLogService.record(manager, "CHANGE_TEAM_CURRENCY", "Team", team.getId(),
+                    "from=" + previous + ", to=" + next);
+        }
+        return toTeamResponse(team);
     }
 
     public TeamResponse getMyTeam(User manager) {
@@ -347,6 +367,7 @@ public class TeamMembershipService {
                 .name(team.getName())
                 .managerId(team.getManager() == null ? null : team.getManager().getId())
                 .managerName(team.getManager() == null ? null : team.getManager().getFullName())
+                .currency(team.getCurrency().name())
                 .memberCount((long) userRepository.findByTeamId(team.getId()).size())
                 .createdAt(team.getCreatedAt())
                 .build();

@@ -267,6 +267,20 @@ void main() {
       expect(teams.leftTeam, isTrue);
     });
 
+    testWidgets('an agent is not offered the agency currency', (tester) async {
+      Injector.teamsRepository = FakeTeamsRepository();
+      await expectNoOverflow(tester, _profile(user: _agentInTeam),
+          size: const Size(390, 844),
+          brightness: Brightness.light,
+          textScale: 1.0);
+      await tester.pumpAndSettle();
+
+      // Only the manager's team screen carries it; the server refuses the
+      // change from anyone else as well.
+      expect(find.text('Agency currency'), findsNothing);
+      expect(find.byKey(const Key('currency-row')), findsNothing);
+    });
+
     testWidgets('an admin belongs to none, and has nothing to leave',
         (tester) async {
       Injector.teamsRepository = FakeTeamsRepository();

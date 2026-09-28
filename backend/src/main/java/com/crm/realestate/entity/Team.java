@@ -1,5 +1,6 @@
 package com.crm.realestate.entity;
 
+import com.crm.realestate.enums.AgencyCurrency;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -31,6 +32,12 @@ public class Team {
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = false)
     @Builder.Default
     private List<User> members = new ArrayList<>();
+
+    /** What its prices are shown in; the amounts themselves carry no currency (V36). */
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 3)
+    @Builder.Default
+    private AgencyCurrency currency = AgencyCurrency.USD;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;

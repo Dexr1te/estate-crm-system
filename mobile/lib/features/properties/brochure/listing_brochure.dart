@@ -213,11 +213,26 @@ class ListingBrochure {
     );
   }
 
+  /// The price as printed: in full, in the agency's currency and the
+  /// brochure's language — "125 000 000 ₸", "$125,000,000".
+  static String priceText(PropertyResponse p, AppLocalizations l10n,
+          {Currency? currency}) =>
+      formatMoney(p.price, currency ?? AppCurrency.current, l10n.localeName);
+
+  /// "1 488 095 ₸ за м²", or null without an area.
+  static String? perSqmText(PropertyResponse p, AppLocalizations l10n,
+      {Currency? currency}) {
+    final area = p.areaSqm;
+    if (area == null || area <= 0) return null;
+    return l10n.propertiesPricePerSqm(formatMoney(
+        (p.price / area).roundToDouble(),
+        currency ?? AppCurrency.current,
+        l10n.localeName));
+  }
+
   static pw.Widget _priceRow(
       PropertyResponse p, AppLocalizations l10n, BrochureFonts fonts) {
-    final perSqm = p.areaSqm != null && p.areaSqm! > 0
-        ? l10n.propertiesPricePerSqm(formatPrice(p.price / p.areaSqm!))
-        : null;
+    final perSqm = perSqmText(p, l10n);
     final flagged =
         p.status == PropertyStatus.SOLD || p.status == PropertyStatus.RESERVED;
     return pw.Row(
@@ -229,7 +244,7 @@ class ListingBrochure {
           child: pw.Column(
             crossAxisAlignment: pw.CrossAxisAlignment.start,
             children: [
-              pw.Text(formatPrice(p.price),
+              pw.Text(priceText(p, l10n),
                   maxLines: 1,
                   style: pw.TextStyle(
                       font: fonts.bold, fontSize: 24, color: _navy)),

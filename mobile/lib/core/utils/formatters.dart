@@ -1,10 +1,18 @@
 import 'package:intl/intl.dart';
+import 'package:real_estate_crm/core/utils/money.dart';
 
-String formatPrice(double price) {
-  if (price >= 1000000) return '\$${(price / 1000000).toStringAsFixed(1)}M';
-  if (price >= 1000) return '\$${NumberFormat('#,##0', 'en_US').format(price)}';
-  return '\$${price.toStringAsFixed(0)}';
-}
+export 'package:real_estate_crm/core/utils/money.dart';
+
+/// A price in the signed-in agency's currency and the app's language:
+/// `$12.5M`, `$1,234` in English with dollars, `12,5 млн ₸`, `1 234 ₸` in
+/// Russian with tenge. See [formatMoney] for the rules and [AppCurrency] for
+/// where the currency comes from.
+String formatPrice(double price) => formatMoney(
+      price,
+      AppCurrency.current,
+      AppCurrency.locale,
+      compact: true,
+    );
 
 String formatRate(double rate) =>
     rate.toStringAsFixed(2).replaceFirst(RegExp(r'\.?0+$'), '');
