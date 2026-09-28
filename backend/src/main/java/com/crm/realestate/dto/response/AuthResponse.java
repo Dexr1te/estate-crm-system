@@ -24,5 +24,7 @@ public class AuthResponse {
     private UserStatus status;
     private Long teamId;
     private String teamName;
+    /** The team's currency (ISO 4217), or null with no team. */
+    private String teamCurrency;
     private boolean mustChangePassword;
 }

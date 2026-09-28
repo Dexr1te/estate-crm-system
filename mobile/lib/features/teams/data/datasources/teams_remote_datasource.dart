@@ -37,6 +37,12 @@ class TeamsRemoteDataSource {
     return TeamResponse.fromJson(jsonObject(res));
   }
 
+  Future<TeamResponse> changeMyCurrency(String code) async {
+    final res =
+        await _client.dio.put('/team/currency', data: {'currency': code});
+    return TeamResponse.fromJson(jsonObject(res));
+  }
+
   Future<TeamResponse> getMyTeam() async {
     final res = await _client.dio.get('/team');
     return TeamResponse.fromJson(jsonObject(res));

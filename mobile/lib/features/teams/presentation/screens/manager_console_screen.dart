@@ -4,10 +4,13 @@ import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/team_models.dart';
 import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart';
 import 'package:real_estate_crm/features/imports/presentation/widgets/import_entry_card.dart';
 import 'package:real_estate_crm/features/teams/presentation/bloc/my_team_bloc.dart';
 import 'package:real_estate_crm/features/teams/presentation/bloc/my_team_event.dart';
 import 'package:real_estate_crm/features/teams/presentation/bloc/my_team_state.dart';
+import 'package:real_estate_crm/features/teams/presentation/widgets/currency_picker.dart';
 import 'package:real_estate_crm/features/teams/presentation/widgets/member_card.dart';
 import 'package:real_estate_crm/features/teams/presentation/widgets/team_stats_sheet.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
@@ -124,6 +127,14 @@ class _ManagerConsoleScreenState extends State<ManagerConsoleScreen> {
     }
   }
 
+  /// The session keeps the team's currency for the next start; ask it to
+  /// catch up. A screen shown on its own, as in tests, has no session.
+  void _refreshSession(BuildContext context) {
+    try {
+      context.read<AuthBloc>().add(AuthRefreshMeEvent());
+    } on ProviderNotFoundException catch (_) {}
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -185,6 +196,9 @@ class _ManagerConsoleScreenState extends State<ManagerConsoleScreen> {
                       child: BlocConsumer<MyTeamBloc, MyTeamState>(
                         listener: (ctx, state) {
                           showActionOutcome(ctx, state);
+                          if (state is MyTeamCurrencyChanged) {
+                            _refreshSession(ctx);
+                          }
                           if (state is MyTeamError) {
                             ScaffoldMessenger.of(ctx)
                               ..hideCurrentSnackBar()
@@ -227,6 +241,10 @@ class _ManagerConsoleScreenState extends State<ManagerConsoleScreen> {
                                         ctx, bloc, state, member),
                                     onStats: () => showTeamStatsSheet(
                                         context, state.team.id),
+                                    onCurrency: () => changeAgencyCurrency(
+                                        ctx,
+                                        bloc,
+                                        Currency.fromCode(state.team.currency)),
                                   )
                                 : _PendingList(
                                     state: state,
@@ -263,22 +281,30 @@ class _MembersList extends StatelessWidget {
   final EdgeInsetsGeometry padding;
   final ValueChanged<TeamMemberResponse> onMember;
   final VoidCallback onStats;
+  final VoidCallback onCurrency;
 
   const _MembersList({
     required this.state,
     required this.padding,
     required this.onMember,
     required this.onStats,
+    required this.onCurrency,
   });
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final currency = CurrencySettingsRow(
+      current: Currency.fromCode(state.team.currency),
+      onTap: onCurrency,
+    );
     if (state.members.isEmpty) {
       return ListView(
         padding: padding,
         children: [
           const ImportEntryCard(),
+          const SizedBox(height: 9),
+          currency,
           const SizedBox(height: 9),
           EmptyState(
             title: l10n.teamsNoMembers,
@@ -290,18 +316,19 @@ class _MembersList extends StatelessWidget {
     }
     return ListView.separated(
       padding: padding,
-      itemCount: state.members.length + 2,
+      itemCount: state.members.length + 3,
       separatorBuilder: (_, __) => const SizedBox(height: 9),
       itemBuilder: (_, i) {
         if (i == 0) return const ImportEntryCard();
-        if (i == 1) {
+        if (i == 1) return currency;
+        if (i == 2) {
           return SectionHeader(
             title: l10n.teamsMembers,
             actionLabel: l10n.teamsAgents,
             onAction: onStats,
           );
         }
-        final member = state.members[i - 2];
+        final member = state.members[i - 3];
         return MemberCard(
           member: member,
           onTap: member.isTeamManager ? null : () => onMember(member),

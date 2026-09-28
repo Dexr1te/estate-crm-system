@@ -16,6 +16,8 @@ public class TeamResponse {
     private String name;
     private Long managerId;
     private String managerName;
+    /** ISO 4217: KZT, RUB, USD, EUR, UZS or KGS. */
+    private String currency;
     private Long memberCount;
     private LocalDateTime createdAt;
 }

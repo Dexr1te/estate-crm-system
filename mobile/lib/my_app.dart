@@ -229,6 +229,9 @@ class _MyAppState extends State<MyApp> {
             listener: (_, __) {
               _tasksBloc.add(TasksLoadEvent());
               _startUnreadPolling();
+              // The session on disk may predate a currency change the
+              // manager made elsewhere; the profile read brings it in.
+              _authBloc.add(AuthRefreshMeEvent());
             },
           ),
           BlocListener<TasksBloc, TasksState>(
@@ -286,10 +289,12 @@ class _MyAppState extends State<MyApp> {
               builder: (context, child) => ShortcutTitles(
                 handler: _shortcuts,
                 child: AppTextScaling(
-                  child: OfflineBanner(
-                    status: Injector.apiClient.offline,
-                    onRetry: _retryOffline,
-                    child: child ?? const SizedBox.shrink(),
+                  child: MoneyScope(
+                    child: OfflineBanner(
+                      status: Injector.apiClient.offline,
+                      onRetry: _retryOffline,
+                      child: child ?? const SizedBox.shrink(),
+                    ),
                   ),
                 ),
               ),

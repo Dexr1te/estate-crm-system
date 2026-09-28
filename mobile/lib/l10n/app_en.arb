@@ -1019,6 +1019,7 @@
   "msgCodeSent": "Code sent",
   "msgCommentDeleted": "Comment deleted",
   "msgCommentUpdated": "Comment updated",
+  "msgCurrencyChanged": "Currency changed",
   "msgDealCreated": "Deal created",
   "msgDealDeleted": "Deal deleted",
   "msgDealUpdated": "Deal updated",
@@ -1554,6 +1555,33 @@
   "teamsCouldNotLoadStats": "Could not load stats",
   "teamsCreate": "Create",
   "teamsCreateTeam": "Create team",
+  "teamsCurrency": "Agency currency",
+  "teamsCurrencyConfirm": "Change currency",
+  "teamsCurrencyConfirmBody": "Everyone in the agency will see prices in {currency}. Amounts are not converted: a listing priced {before} will read {after}.",
+  "@teamsCurrencyConfirmBody": {
+    "placeholders": {
+      "currency": {
+        "type": "String",
+        "example": "Tenge (₸)"
+      },
+      "before": {
+        "type": "String",
+        "example": "$12,500,000"
+      },
+      "after": {
+        "type": "String",
+        "example": "12,500,000 ₸"
+      }
+    }
+  },
+  "teamsCurrencyConfirmTitle": "Change the agency currency?",
+  "teamsCurrencyEur": "Euro (€)",
+  "teamsCurrencyHint": "How prices read across the app",
+  "teamsCurrencyKgs": "Kyrgyz som (KGS)",
+  "teamsCurrencyKzt": "Tenge (₸)",
+  "teamsCurrencyRub": "Rouble (₽)",
+  "teamsCurrencyUsd": "US dollar ($)",
+  "teamsCurrencyUzs": "Uzbek som (UZS)",
   "teamsDeals": "Deals",
   "teamsEditTeam": "Edit team",
   "teamsEmail": "Email",

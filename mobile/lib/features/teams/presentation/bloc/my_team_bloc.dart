@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:real_estate_crm/core/bloc/collection_bloc.dart';
 import 'package:real_estate_crm/core/models/team_models.dart';
+import 'package:real_estate_crm/core/utils/money.dart';
 import 'package:real_estate_crm/core/widgets/messages.dart';
 import 'package:real_estate_crm/features/teams/domain/repositories/teams_repository.dart';
 import 'package:real_estate_crm/features/teams/presentation/bloc/my_team_event.dart';
@@ -13,6 +14,7 @@ class MyTeamBloc extends Bloc<MyTeamEvent, MyTeamState>
   MyTeamBloc(this._repo) : super(MyTeamInitial()) {
     on<MyTeamLoadEvent>(_onLoad);
     on<MyTeamRenameEvent>(_onRename);
+    on<MyTeamChangeCurrencyEvent>(_onChangeCurrency);
     on<MyTeamAddMemberEvent>(_onAddMember);
     on<MyTeamRemoveMemberEvent>(_onRemoveMember);
     on<MyTeamCancelRequestEvent>(_onCancelRequest);
@@ -59,6 +61,22 @@ class MyTeamBloc extends Bloc<MyTeamEvent, MyTeamState>
   Future<void> _onRename(MyTeamRenameEvent e, Emitter<MyTeamState> emit) =>
       _act(emit, 'rename', () => _repo.renameMyTeam(e.name),
           (prev) => MyTeamActionSuccess(ActionMessage.teamUpdated, prev));
+
+  Future<void> _onChangeCurrency(
+      MyTeamChangeCurrencyEvent e, Emitter<MyTeamState> emit) {
+    final previous = _loaded;
+    if (previous == null) return Future.value();
+    return write(
+      emit,
+      key: 'currency',
+      perform: () => _repo.changeMyCurrency(e.currency.code),
+      onSuccess: (TeamResponse team) {
+        AppCurrency.setCode(team.currency);
+        return MyTeamCurrencyChanged(team, previous);
+      },
+      onFailure: (failure) => MyTeamActionFailure(failure, previous),
+    );
+  }
 
   Future<void> _onAddMember(MyTeamAddMemberEvent e, Emitter<MyTeamState> emit) {
     final previous = _loaded;
