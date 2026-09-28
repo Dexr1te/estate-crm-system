@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:real_estate_crm/core/models/export_models.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/features/exports/presentation/widgets/export_button.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_bloc.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_event.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_map_bloc.dart';
@@ -57,6 +59,12 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
           search: q.isEmpty ? null : q,
         ));
   }
+
+  ExportFilters get _exportFilters => ExportFilters(
+        status: _filterStatus?.name,
+        type: _filterType?.name,
+        search: _query,
+      );
 
   MapFilters get _mapFilters =>
       MapFilters(status: _filterStatus, type: _filterType, search: _query);
@@ -145,7 +153,11 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
                                     : null,
                               ),
                             ),
-                            const SizedBox(width: 12),
+                            const SizedBox(width: 8),
+                            ExportButton(
+                                kind: ExportKind.properties,
+                                filters: _exportFilters),
+                            const SizedBox(width: 4),
                             const QuickAddButton()
                           ],
                         ),

@@ -1904,6 +1904,72 @@ class AppLocalizationsRu extends AppLocalizations {
   String get documentsUploading => 'Отправляем…';
 
   @override
+  String get exportAction => 'Экспорт';
+
+  @override
+  String get exportAllNote => 'Всё, что вам доступно, без фильтров.';
+
+  @override
+  String get exportConfirm => 'Выгрузить CSV';
+
+  @override
+  String get exportConsoleSubtitle =>
+      'Данные агентства в таблицах: для владельца, бухгалтерии или просто себе на всякий случай.';
+
+  @override
+  String get exportConsoleTitle => 'Экспорт';
+
+  @override
+  String get exportDelimiter => 'Разделитель';
+
+  @override
+  String get exportDelimiterComma => 'Запятая';
+
+  @override
+  String get exportDelimiterHint =>
+      'Excel на русском и казахском делит столбцы по точке с запятой, на английском — по запятой.';
+
+  @override
+  String get exportDelimiterSemicolon => 'Точка с запятой';
+
+  @override
+  String get exportFailed => 'Не удалось выгрузить. Попробуйте ещё раз.';
+
+  @override
+  String get exportFiltersNote =>
+      'Только то, что сейчас в списке, с учётом фильтров.';
+
+  @override
+  String get exportFormatNote =>
+      'Файл CSV: открывается в Excel, Google Таблицах и Numbers, а в CRM импортируется обратно без правок.';
+
+  @override
+  String get exportKindClients => 'Клиенты';
+
+  @override
+  String get exportKindDeals => 'Сделки';
+
+  @override
+  String get exportKindProperties => 'Объекты';
+
+  @override
+  String get exportPersonalData =>
+      'Содержит персональные данные: имена, телефоны и почту. Обращайтесь бережно и не передавайте дальше, чем нужно.';
+
+  @override
+  String get exportTitleClients => 'Экспорт клиентов';
+
+  @override
+  String get exportTitleDeals => 'Экспорт сделок';
+
+  @override
+  String get exportTitleProperties => 'Экспорт объектов';
+
+  @override
+  String get exportTooMany =>
+      'Слишком много строк для одного файла. Сузьте фильтры и выгрузите частями.';
+
+  @override
   String importAction(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

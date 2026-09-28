@@ -1881,6 +1881,72 @@ class AppLocalizationsKk extends AppLocalizations {
   String get documentsUploading => 'Жіберілуде…';
 
   @override
+  String get exportAction => 'Экспорт';
+
+  @override
+  String get exportAllNote => 'Сізге қолжетімдінің бәрі, сүзгісіз.';
+
+  @override
+  String get exportConfirm => 'CSV жүктеп алу';
+
+  @override
+  String get exportConsoleSubtitle =>
+      'Агенттік деректері кестелерде: иесіне, бухгалтерияға немесе өзіңізге көшірме ретінде.';
+
+  @override
+  String get exportConsoleTitle => 'Экспорт';
+
+  @override
+  String get exportDelimiter => 'Бөлгіш';
+
+  @override
+  String get exportDelimiterComma => 'Үтір';
+
+  @override
+  String get exportDelimiterHint =>
+      'Орыс және қазақ тіліндегі Excel бағандарды нүктелі үтірмен, ағылшын тіліндегісі үтірмен бөледі.';
+
+  @override
+  String get exportDelimiterSemicolon => 'Нүктелі үтір';
+
+  @override
+  String get exportFailed => 'Экспорттау сәтсіз аяқталды. Қайталап көріңіз.';
+
+  @override
+  String get exportFiltersNote =>
+      'Тізімде қазір көрсетілгені ғана, сүзгілерімен бірге.';
+
+  @override
+  String get exportFormatNote =>
+      'CSV файлы: Excel, Google Sheets және Numbers-та ашылады, CRM-ге өзгеріссіз қайта импортталады.';
+
+  @override
+  String get exportKindClients => 'Клиенттер';
+
+  @override
+  String get exportKindDeals => 'Мәмілелер';
+
+  @override
+  String get exportKindProperties => 'Нысандар';
+
+  @override
+  String get exportPersonalData =>
+      'Жеке деректер бар: аты-жөні, телефон және пошта. Абайлап қолданыңыз, қажетінен артық ешкімге бермеңіз.';
+
+  @override
+  String get exportTitleClients => 'Клиенттерді экспорттау';
+
+  @override
+  String get exportTitleDeals => 'Мәмілелерді экспорттау';
+
+  @override
+  String get exportTitleProperties => 'Нысандарды экспорттау';
+
+  @override
+  String get exportTooMany =>
+      'Бір файлға жол тым көп. Сүзгілерді тарылтып, бөліктеп жүктеңіз.';
+
+  @override
   String importAction(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

@@ -32,6 +32,7 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) async {
   Injector.dealsRepository = FakeDealsRepository(const []);
   Injector.meetingsRepository = FakeMeetingsRepository(const []);
   Injector.documentsRepository = FakeDocumentsRepository();
+  Injector.exportsRepository = FakeExportsRepository();
   Injector.notificationsPollInterval = null;
   // Maps draw blank tiles: no test reaches OpenStreetMap.
   MapTiles.provider = BlankTileProvider.new;

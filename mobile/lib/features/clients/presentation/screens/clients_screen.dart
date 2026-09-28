@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:real_estate_crm/core/models/export_models.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
 import 'package:real_estate_crm/core/utils/clock.dart';
@@ -9,6 +10,7 @@ import 'package:real_estate_crm/features/clients/presentation/bloc/clients_bloc.
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_event.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_state.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/client_card.dart';
+import 'package:real_estate_crm/features/exports/presentation/widgets/export_button.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class ClientsScreen extends StatefulWidget {
@@ -48,6 +50,15 @@ class _ClientsScreenState extends State<ClientsScreen> {
         .where((c) => _search.isEmpty || c.matches(_search))
         .toList();
   }
+
+  ExportFilters get _exportFilters => ExportFilters(
+        type: _typeFilter?.name,
+        source: _leadsOnly ? 'PUBLIC_LINK' : null,
+        createdFrom: _leadsOnly
+            ? AppClock.now().subtract(ClientSummary.newLeadWindow)
+            : null,
+        search: _search.trim().isEmpty ? null : _search.trim(),
+      );
 
   void _pick({ClientType? type, bool leads = false}) => setState(() {
         _typeFilter = type;
@@ -101,7 +112,11 @@ class _ClientsScreenState extends State<ClientsScreen> {
                                     : null,
                               ),
                             ),
-                            const SizedBox(width: 12),
+                            const SizedBox(width: 8),
+                            ExportButton(
+                                kind: ExportKind.clients,
+                                filters: _exportFilters),
+                            const SizedBox(width: 4),
                             const QuickAddButton()
                           ],
                         ),
