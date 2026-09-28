@@ -22,6 +22,7 @@ import 'package:real_estate_crm/features/dashboard/presentation/widgets/meeting_
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/pipeline_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/top_agents_card.dart';
 import 'package:real_estate_crm/features/notifications/presentation/widgets/notification_bell.dart';
+import 'package:real_estate_crm/features/route/domain/day_route.dart';
 import 'package:real_estate_crm/features/tasks/presentation/bloc/tasks_bloc.dart';
 import 'package:real_estate_crm/features/tasks/presentation/bloc/tasks_event.dart';
 import 'package:real_estate_crm/features/tasks/presentation/widgets/today_tasks_card.dart';
@@ -183,6 +184,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
           actionLabel: l10n.dashboardScheduleMeeting,
           onAction: () => context.go('/meetings/new'),
         ),
+      if (next != null && hasRoute(state.meetingsOn(now))) ...[
+        const SizedBox(height: 10),
+        AppGhostButton(
+          key: const ValueKey('dashboard-today-route'),
+          label: l10n.routeEntryToday,
+          icon: Icons.route_outlined,
+          onPressed: () => context.push('/route?date=${routeDateParam(now)}'),
+        ),
+      ],
       SizedBox(height: gap),
       TodayTasksCard(onSeeAll: () => context.push('/tasks')),
       SizedBox(height: gap),

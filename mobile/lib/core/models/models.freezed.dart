@@ -5241,6 +5241,10 @@ mixin _$MeetingResponse {
   int? get propertyId => throw _privateConstructorUsedError;
   String? get propertyTitle => throw _privateConstructorUsedError;
   String? get propertyAddress => throw _privateConstructorUsedError;
+
+  /// The listing's pin, when it has one; what a day's route is drawn from.
+  double? get propertyLatitude => throw _privateConstructorUsedError;
+  double? get propertyLongitude => throw _privateConstructorUsedError;
   ViewingOutcome? get outcome => throw _privateConstructorUsedError;
   String? get outcomeNote => throw _privateConstructorUsedError;
   int get agentId => throw _privateConstructorUsedError;
@@ -5278,6 +5282,8 @@ abstract class $MeetingResponseCopyWith<$Res> {
       int? propertyId,
       String? propertyTitle,
       String? propertyAddress,
+      double? propertyLatitude,
+      double? propertyLongitude,
       ViewingOutcome? outcome,
       String? outcomeNote,
       int agentId,
@@ -5314,6 +5320,8 @@ class _$MeetingResponseCopyWithImpl<$Res, $Val extends MeetingResponse>
     Object? propertyId = freezed,
     Object? propertyTitle = freezed,
     Object? propertyAddress = freezed,
+    Object? propertyLatitude = freezed,
+    Object? propertyLongitude = freezed,
     Object? outcome = freezed,
     Object? outcomeNote = freezed,
     Object? agentId = null,
@@ -5368,6 +5376,14 @@ class _$MeetingResponseCopyWithImpl<$Res, $Val extends MeetingResponse>
           ? _value.propertyAddress
           : propertyAddress // ignore: cast_nullable_to_non_nullable
               as String?,
+      propertyLatitude: freezed == propertyLatitude
+          ? _value.propertyLatitude
+          : propertyLatitude // ignore: cast_nullable_to_non_nullable
+              as double?,
+      propertyLongitude: freezed == propertyLongitude
+          ? _value.propertyLongitude
+          : propertyLongitude // ignore: cast_nullable_to_non_nullable
+              as double?,
       outcome: freezed == outcome
           ? _value.outcome
           : outcome // ignore: cast_nullable_to_non_nullable
@@ -5424,6 +5440,8 @@ abstract class _$$MeetingResponseImplCopyWith<$Res>
       int? propertyId,
       String? propertyTitle,
       String? propertyAddress,
+      double? propertyLatitude,
+      double? propertyLongitude,
       ViewingOutcome? outcome,
       String? outcomeNote,
       int agentId,
@@ -5458,6 +5476,8 @@ class __$$MeetingResponseImplCopyWithImpl<$Res>
     Object? propertyId = freezed,
     Object? propertyTitle = freezed,
     Object? propertyAddress = freezed,
+    Object? propertyLatitude = freezed,
+    Object? propertyLongitude = freezed,
     Object? outcome = freezed,
     Object? outcomeNote = freezed,
     Object? agentId = null,
@@ -5512,6 +5532,14 @@ class __$$MeetingResponseImplCopyWithImpl<$Res>
           ? _value.propertyAddress
           : propertyAddress // ignore: cast_nullable_to_non_nullable
               as String?,
+      propertyLatitude: freezed == propertyLatitude
+          ? _value.propertyLatitude
+          : propertyLatitude // ignore: cast_nullable_to_non_nullable
+              as double?,
+      propertyLongitude: freezed == propertyLongitude
+          ? _value.propertyLongitude
+          : propertyLongitude // ignore: cast_nullable_to_non_nullable
+              as double?,
       outcome: freezed == outcome
           ? _value.outcome
           : outcome // ignore: cast_nullable_to_non_nullable
@@ -5563,6 +5591,8 @@ class _$MeetingResponseImpl implements _MeetingResponse {
       this.propertyId,
       this.propertyTitle,
       this.propertyAddress,
+      this.propertyLatitude,
+      this.propertyLongitude,
       this.outcome,
       this.outcomeNote,
       required this.agentId,
@@ -5599,6 +5629,12 @@ class _$MeetingResponseImpl implements _MeetingResponse {
   final String? propertyTitle;
   @override
   final String? propertyAddress;
+
+  /// The listing's pin, when it has one; what a day's route is drawn from.
+  @override
+  final double? propertyLatitude;
+  @override
+  final double? propertyLongitude;
   @override
   final ViewingOutcome? outcome;
   @override
@@ -5620,7 +5656,7 @@ class _$MeetingResponseImpl implements _MeetingResponse {
 
   @override
   String toString() {
-    return 'MeetingResponse(id: $id, title: $title, description: $description, scheduledAt: $scheduledAt, location: $location, completed: $completed, dealId: $dealId, dealTitle: $dealTitle, propertyId: $propertyId, propertyTitle: $propertyTitle, propertyAddress: $propertyAddress, outcome: $outcome, outcomeNote: $outcomeNote, agentId: $agentId, agentName: $agentName, clientId: $clientId, clientName: $clientName, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'MeetingResponse(id: $id, title: $title, description: $description, scheduledAt: $scheduledAt, location: $location, completed: $completed, dealId: $dealId, dealTitle: $dealTitle, propertyId: $propertyId, propertyTitle: $propertyTitle, propertyAddress: $propertyAddress, propertyLatitude: $propertyLatitude, propertyLongitude: $propertyLongitude, outcome: $outcome, outcomeNote: $outcomeNote, agentId: $agentId, agentName: $agentName, clientId: $clientId, clientName: $clientName, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -5647,6 +5683,10 @@ class _$MeetingResponseImpl implements _MeetingResponse {
                 other.propertyTitle == propertyTitle) &&
             (identical(other.propertyAddress, propertyAddress) ||
                 other.propertyAddress == propertyAddress) &&
+            (identical(other.propertyLatitude, propertyLatitude) ||
+                other.propertyLatitude == propertyLatitude) &&
+            (identical(other.propertyLongitude, propertyLongitude) ||
+                other.propertyLongitude == propertyLongitude) &&
             (identical(other.outcome, outcome) || other.outcome == outcome) &&
             (identical(other.outcomeNote, outcomeNote) ||
                 other.outcomeNote == outcomeNote) &&
@@ -5678,6 +5718,8 @@ class _$MeetingResponseImpl implements _MeetingResponse {
         propertyId,
         propertyTitle,
         propertyAddress,
+        propertyLatitude,
+        propertyLongitude,
         outcome,
         outcomeNote,
         agentId,
@@ -5718,6 +5760,8 @@ abstract class _MeetingResponse implements MeetingResponse {
       final int? propertyId,
       final String? propertyTitle,
       final String? propertyAddress,
+      final double? propertyLatitude,
+      final double? propertyLongitude,
       final ViewingOutcome? outcome,
       final String? outcomeNote,
       required final int agentId,
@@ -5752,6 +5796,12 @@ abstract class _MeetingResponse implements MeetingResponse {
   String? get propertyTitle;
   @override
   String? get propertyAddress;
+
+  /// The listing's pin, when it has one; what a day's route is drawn from.
+  @override
+  double? get propertyLatitude;
+  @override
+  double? get propertyLongitude;
   @override
   ViewingOutcome? get outcome;
   @override

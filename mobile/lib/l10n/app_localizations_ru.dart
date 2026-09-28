@@ -3652,6 +3652,137 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String get routeAddPin => 'Поставить метку';
+
+  @override
+  String get routeAppApple => 'Apple Карты';
+
+  @override
+  String get routeAppDgis => '2ГИС';
+
+  @override
+  String get routeAppGoogle => 'Google Карты';
+
+  @override
+  String get routeAppNextOnly => 'Только следующая точка';
+
+  @override
+  String routeAppStops(int from, int to, int total) {
+    return 'Точки $from–$to из $total';
+  }
+
+  @override
+  String get routeAppWhole => 'Весь маршрут по порядку';
+
+  @override
+  String get routeAppYandex => 'Яндекс Карты';
+
+  @override
+  String routeChooserNext(String title) {
+    return 'Следующая точка: $title';
+  }
+
+  @override
+  String get routeChooserTitle => 'Открыть в картах';
+
+  @override
+  String get routeChooserWhole => 'Все оставшиеся точки в порядке расписания';
+
+  @override
+  String get routeDayOver => 'На этот день точек не осталось';
+
+  @override
+  String get routeDone => 'Проведён';
+
+  @override
+  String routeDurationHourMin(int hours, int minutes) {
+    return '$hours ч $minutes мин';
+  }
+
+  @override
+  String routeDurationHours(int hours) {
+    return '$hours ч';
+  }
+
+  @override
+  String routeDurationMin(int minutes) {
+    return '$minutes мин';
+  }
+
+  @override
+  String get routeEmpty => 'В этот день показов нет';
+
+  @override
+  String get routeEmptyHint =>
+      'Встреча, привязанная к объекту, появится здесь точкой маршрута.';
+
+  @override
+  String get routeEntryDay => 'Маршрут на этот день';
+
+  @override
+  String get routeEntryToday => 'Маршрут на сегодня';
+
+  @override
+  String routeFromPrevious(String km) {
+    return '$km км от предыдущей точки';
+  }
+
+  @override
+  String get routeLoadFailed => 'Не удалось загрузить маршрут';
+
+  @override
+  String get routeNavigateNext => 'Проложить к следующей точке';
+
+  @override
+  String get routeNext => 'Следующий';
+
+  @override
+  String get routeNotOnMap => 'Нет на карте';
+
+  @override
+  String get routeNotOnMapHint =>
+      'У этих объектов ещё нет метки, поэтому их нет в маршруте.';
+
+  @override
+  String get routeOpenFailed => 'Не удалось открыть карты';
+
+  @override
+  String get routeOpenWhole => 'Открыть весь маршрут';
+
+  @override
+  String get routeOverlap => 'Пересекается со следующим показом';
+
+  @override
+  String routeStopsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count точки',
+      many: '$count точек',
+      few: '$count точки',
+      one: '$count точка',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get routeStraightLine =>
+      'Прямые линии между точками, а не маршрут по дорогам';
+
+  @override
+  String routeSummary(String stops, String km) {
+    return '$stops · $km км по прямой';
+  }
+
+  @override
+  String get routeTitle => 'Маршрут показов';
+
+  @override
+  String routeUntilNext(String duration) {
+    return '$duration до следующего';
+  }
+
+  @override
   String get searchClear => 'Очистить';
 
   @override

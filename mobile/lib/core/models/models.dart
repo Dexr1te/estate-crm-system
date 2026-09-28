@@ -380,6 +380,10 @@ class MeetingResponse with _$MeetingResponse {
     int? propertyId,
     String? propertyTitle,
     String? propertyAddress,
+
+    /// The listing's pin, when it has one; what a day's route is drawn from.
+    double? propertyLatitude,
+    double? propertyLongitude,
     ViewingOutcome? outcome,
     String? outcomeNote,
     required int agentId,

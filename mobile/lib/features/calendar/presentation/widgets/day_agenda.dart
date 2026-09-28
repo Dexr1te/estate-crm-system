@@ -4,6 +4,7 @@ import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/calendar/domain/calendar_grid.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/meeting_row.dart';
+import 'package:real_estate_crm/features/route/domain/day_route.dart';
 import 'package:real_estate_crm/features/tasks/presentation/widgets/task_row.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
@@ -14,6 +15,9 @@ class DayAgenda extends StatelessWidget {
   final ApiFailure? failure;
   final VoidCallback? onAdd;
   final VoidCallback? onToday;
+
+  /// Opens the day as a route; offered only when a viewing that day has a pin.
+  final VoidCallback? onRoute;
   final VoidCallback onRetry;
   final ValueChanged<MeetingResponse> onOpenMeeting;
   final ValueChanged<TaskResponse> onOpenTask;
@@ -31,6 +35,7 @@ class DayAgenda extends StatelessWidget {
     required this.onToggleTask,
     this.onAdd,
     this.onToday,
+    this.onRoute,
   });
 
   @override
@@ -136,6 +141,16 @@ class DayAgenda extends StatelessWidget {
       ];
     }
     return [
+      if (onRoute != null && hasRoute(loaded.meetingsOn(day))) ...[
+        AppGhostButton(
+          key: const ValueKey('calendar-day-route'),
+          label: l10n.routeEntryDay,
+          icon: Icons.route_outlined,
+          height: AppMetrics.minHitTarget,
+          onPressed: onRoute!,
+        ),
+        const SizedBox(height: 9),
+      ],
       for (var i = 0; i < entries.length; i++) ...[
         if (i > 0) const SizedBox(height: 9),
         entries[i].$2,

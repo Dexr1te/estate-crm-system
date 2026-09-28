@@ -34,6 +34,8 @@ import 'package:real_estate_crm/features/profile/presentation/screens/profile_sc
 import 'package:real_estate_crm/features/properties/presentation/screens/properties_screen.dart';
 import 'package:real_estate_crm/features/properties/presentation/screens/property_detail_screen.dart';
 import 'package:real_estate_crm/features/properties/presentation/screens/property_form_screen.dart';
+import 'package:real_estate_crm/features/route/domain/day_route.dart';
+import 'package:real_estate_crm/features/route/presentation/screens/route_screen.dart';
 import 'package:real_estate_crm/features/search/presentation/screens/search_screen.dart';
 import 'package:real_estate_crm/features/tasks/presentation/screens/tasks_screen.dart';
 import 'package:real_estate_crm/features/teams/presentation/screens/manager_console_screen.dart';
@@ -207,6 +209,14 @@ GoRouter createRouter(AuthBloc authBloc) {
         path: '/import',
         parentNavigatorKey: _rootKey,
         pageBuilder: (_, __) => const NoTransitionPage(child: ImportScreen()),
+      ),
+      GoRoute(
+        path: '/route',
+        parentNavigatorKey: _rootKey,
+        pageBuilder: (_, s) => NoTransitionPage(
+          child:
+              RouteScreen(day: parseRouteDate(s.uri.queryParameters['date'])),
+        ),
       ),
       GoRoute(
         path: '/compare',

@@ -3550,6 +3550,135 @@ class AppLocalizationsKk extends AppLocalizations {
   }
 
   @override
+  String get routeAddPin => 'Белгі қою';
+
+  @override
+  String get routeAppApple => 'Apple Карталар';
+
+  @override
+  String get routeAppDgis => '2GIS';
+
+  @override
+  String get routeAppGoogle => 'Google Карталар';
+
+  @override
+  String get routeAppNextOnly => 'Тек келесі нүкте';
+
+  @override
+  String routeAppStops(int from, int to, int total) {
+    return '$total нүктенің $from–$to';
+  }
+
+  @override
+  String get routeAppWhole => 'Бүкіл маршрут ретімен';
+
+  @override
+  String get routeAppYandex => 'Яндекс Карталар';
+
+  @override
+  String routeChooserNext(String title) {
+    return 'Келесі нүкте: $title';
+  }
+
+  @override
+  String get routeChooserTitle => 'Карталарда ашу';
+
+  @override
+  String get routeChooserWhole => 'Алда қалған барлық нүкте кесте ретімен';
+
+  @override
+  String get routeDayOver => 'Бұл күнге нүкте қалмады';
+
+  @override
+  String get routeDone => 'Өтті';
+
+  @override
+  String routeDurationHourMin(int hours, int minutes) {
+    return '$hours сағ $minutes мин';
+  }
+
+  @override
+  String routeDurationHours(int hours) {
+    return '$hours сағ';
+  }
+
+  @override
+  String routeDurationMin(int minutes) {
+    return '$minutes мин';
+  }
+
+  @override
+  String get routeEmpty => 'Бұл күні көрсетілім жоқ';
+
+  @override
+  String get routeEmptyHint =>
+      'Нысанға байланған кездесу мұнда маршрут нүктесі болып шығады.';
+
+  @override
+  String get routeEntryDay => 'Осы күннің маршруты';
+
+  @override
+  String get routeEntryToday => 'Бүгінгі маршрут';
+
+  @override
+  String routeFromPrevious(String km) {
+    return 'Алдыңғы нүктеден $km км';
+  }
+
+  @override
+  String get routeLoadFailed => 'Маршрутты жүктеу мүмкін болмады';
+
+  @override
+  String get routeNavigateNext => 'Келесі нүктеге жол салу';
+
+  @override
+  String get routeNext => 'Келесі';
+
+  @override
+  String get routeNotOnMap => 'Картада жоқ';
+
+  @override
+  String get routeNotOnMapHint =>
+      'Бұл нысандарда әлі белгі жоқ, сондықтан олар маршрутқа кірмеді.';
+
+  @override
+  String get routeOpenFailed => 'Карталарды ашу мүмкін болмады';
+
+  @override
+  String get routeOpenWhole => 'Бүкіл маршрутты ашу';
+
+  @override
+  String get routeOverlap => 'Келесі көрсетіліммен қабаттасады';
+
+  @override
+  String routeStopsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count нүкте',
+      one: '$count нүкте',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get routeStraightLine =>
+      'Нүктелер арасы түзу сызықпен, жол бойынша бағыт емес';
+
+  @override
+  String routeSummary(String stops, String km) {
+    return '$stops · түзу сызықпен $km км';
+  }
+
+  @override
+  String get routeTitle => 'Көрсетілімдер маршруты';
+
+  @override
+  String routeUntilNext(String duration) {
+    return 'Келесісіне дейін $duration';
+  }
+
+  @override
   String get searchClear => 'Тазалау';
 
   @override

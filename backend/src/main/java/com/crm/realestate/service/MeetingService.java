@@ -259,6 +259,8 @@ public class MeetingService {
             res.setPropertyId(m.getProperty().getId());
             res.setPropertyTitle(m.getProperty().getTitle());
             res.setPropertyAddress(m.getProperty().getAddress());
+            res.setPropertyLatitude(m.getProperty().getLatitude());
+            res.setPropertyLongitude(m.getProperty().getLongitude());
         }
         return res;
     }

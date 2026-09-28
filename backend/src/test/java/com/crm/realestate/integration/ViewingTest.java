@@ -92,6 +92,20 @@ class ViewingTest {
         assertThat(booked.getPropertyId()).isEqualTo(listing.getId());
         assertThat(booked.getPropertyTitle()).isEqualTo("Severny Residence, apt 84");
         assertThat(booked.getPropertyAddress()).isEqualTo("Severny Residence 12");
+        assertThat(booked.getPropertyLatitude()).isNull();
+    }
+
+    @Test
+    @DisplayName("a viewing carries its listing's pin, for the day's route")
+    void aViewingCarriesThePin() {
+        listing.setLatitude(43.2567);
+        listing.setLongitude(76.9286);
+        propertyRepository.save(listing);
+
+        MeetingResponse booked = meetingService.create(viewing(listing.getId()));
+
+        assertThat(booked.getPropertyLatitude()).isEqualTo(43.2567);
+        assertThat(booked.getPropertyLongitude()).isEqualTo(76.9286);
     }
 
     @Test
