@@ -1076,6 +1076,136 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clientsWantedType => 'Property type';
 
   @override
+  String get compareAction => 'Compare';
+
+  @override
+  String get compareAdd => 'Add to comparison';
+
+  @override
+  String get compareAdded => 'Added to comparison';
+
+  @override
+  String compareBarButton(int count) {
+    return 'Compare ($count)';
+  }
+
+  @override
+  String get compareBestLegend => 'Green marks the best value in a row';
+
+  @override
+  String compareDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days',
+      one: '1 day',
+      zero: 'Listed today',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get compareExit => 'Done';
+
+  @override
+  String get compareFirstFloor => 'first floor';
+
+  @override
+  String get compareFitMatches => 'Fits requirements';
+
+  @override
+  String get compareFitOutside => 'Outside requirements';
+
+  @override
+  String get compareFitOverBudget => 'Over budget';
+
+  @override
+  String get compareLastFloor => 'last floor';
+
+  @override
+  String get compareLimit =>
+      'Up to 4 listings side by side. Remove one to add another.';
+
+  @override
+  String get compareLinks => 'Include links';
+
+  @override
+  String get compareLinksHint =>
+      'A page per listing with all its photos, added under each one.';
+
+  @override
+  String get compareNeedTwo => 'Pick two listings to compare';
+
+  @override
+  String get compareNeedTwoHint =>
+      'Choose Compare on the Properties tab, or add listings from their pages.';
+
+  @override
+  String get comparePickHint => 'Pick two to four listings';
+
+  @override
+  String get compareRemove => 'Remove from comparison';
+
+  @override
+  String get compareRemoved => 'Removed from comparison';
+
+  @override
+  String get compareRowAgent => 'Agent';
+
+  @override
+  String get compareRowArea => 'Area';
+
+  @override
+  String get compareRowDays => 'On the market';
+
+  @override
+  String get compareRowFit => 'For this buyer';
+
+  @override
+  String get compareRowFloor => 'Floor';
+
+  @override
+  String get compareRowLinkViews => 'Link views';
+
+  @override
+  String get compareRowPlace => 'Address';
+
+  @override
+  String get compareRowPrice => 'Price';
+
+  @override
+  String get compareRowPriceChange => 'Last price change';
+
+  @override
+  String get compareRowPricePerSqm => 'Price per m²';
+
+  @override
+  String get compareRowRooms => 'Rooms';
+
+  @override
+  String get compareRowType => 'Type';
+
+  @override
+  String get compareSelected => 'Compare selected';
+
+  @override
+  String get compareSend => 'Send comparison';
+
+  @override
+  String get compareSendFailed => 'Could not open sending';
+
+  @override
+  String compareShareBest(String title) {
+    return 'Best price per m²: $title';
+  }
+
+  @override
+  String get compareShareIntro => 'Here is how the listings compare:';
+
+  @override
+  String get compareTitle => 'Comparison';
+
+  @override
   String get coreCall => 'Call';
 
   @override

@@ -3,7 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
+import 'package:real_estate_crm/core/utils/contact_actions.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/features/compare/domain/comparison.dart';
+import 'package:real_estate_crm/features/compare/presentation/widgets/compare_tray_bar.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_bloc.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_event.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_map_bloc.dart';
@@ -23,6 +26,9 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
   PropertyStatus? _filterStatus;
   PropertyType? _filterType;
   bool _map = false;
+
+  /// Null outside compare mode; the picked ids, in the order picked, inside.
+  List<int>? _picked;
   String? _query;
   final _searchCtrl = TextEditingController();
   final _scrollCtrl = ScrollController();
@@ -56,6 +62,20 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
           type: _filterType,
           search: q.isEmpty ? null : q,
         ));
+  }
+
+  void _toggleCompareMode() =>
+      setState(() => _picked = _picked == null ? <int>[] : null);
+
+  void _togglePick(int id) {
+    final picked = _picked!;
+    if (picked.contains(id)) {
+      setState(() => picked.remove(id));
+    } else if (picked.length >= kMaxCompared) {
+      showActionUnavailable(context, AppLocalizations.of(context).compareLimit);
+    } else {
+      setState(() => picked.add(id));
+    }
   }
 
   MapFilters get _mapFilters =>
@@ -145,7 +165,19 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
                                     : null,
                               ),
                             ),
-                            const SizedBox(width: 12),
+                            const SizedBox(width: 8),
+                            if (!_map)
+                              AppIconTile(
+                                key: const ValueKey('properties-compare'),
+                                icon: _picked == null
+                                    ? Icons.compare_arrows_rounded
+                                    : Icons.close_rounded,
+                                tooltip: _picked == null
+                                    ? l10n.compareAction
+                                    : l10n.compareExit,
+                                onPressed: _toggleCompareMode,
+                              ),
+                            const SizedBox(width: 4),
                             const QuickAddButton()
                           ],
                         ),
@@ -157,7 +189,10 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
                             l10n.propertiesViewMap
                           ],
                           selectedIndex: _map ? 1 : 0,
-                          onSelected: (i) => setState(() => _map = i == 1),
+                          onSelected: (i) => setState(() {
+                            _map = i == 1;
+                            if (_map) _picked = null;
+                          }),
                         ),
                         const SizedBox(height: 10),
                         AppTextField(
@@ -206,12 +241,45 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
                           )
                         : _body(ctx, state, items, l10n, pad),
                   ),
+                  if (!_map && _picked != null) _compareBar(l10n, pad),
+                  if (!_map && _picked == null) CompareTrayBar(pad: pad),
                 ],
               );
             },
           ),
         ),
       ),
+    );
+  }
+
+  /// Under the list in compare mode: what to do until two are picked, then
+  /// the way to the comparison.
+  Widget _compareBar(AppLocalizations l10n, double pad) {
+    final t = context.tokens;
+    final picked = _picked!;
+    return Container(
+      key: const ValueKey('compare-bar'),
+      decoration: BoxDecoration(
+        color: t.surface,
+        border: Border(top: BorderSide(color: t.border, width: 1)),
+      ),
+      padding: EdgeInsets.fromLTRB(pad, 10, pad, 10),
+      child: picked.length < 2
+          ? Text(
+              l10n.comparePickHint,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontFamily: AppFonts.sans,
+                  fontSize: 12.5,
+                  color: t.textSecondary),
+            )
+          : AppFilledButton(
+              key: const ValueKey('compare-open'),
+              label: l10n.compareBarButton(picked.length),
+              onPressed: () => context.push(compareLocation(picked)),
+            ),
     );
   }
 
@@ -254,9 +322,13 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
           if (i >= items.length) {
             return const ShimmerGroup(child: PropertyCardBone());
           }
+          final picked = _picked;
           return PropertyCard(
             property: items[i],
-            onTap: () => context.go('/properties/${items[i].id}'),
+            picked: picked?.contains(items[i].id),
+            onTap: picked != null
+                ? () => _togglePick(items[i].id)
+                : () => context.go('/properties/${items[i].id}'),
           );
         },
       ),

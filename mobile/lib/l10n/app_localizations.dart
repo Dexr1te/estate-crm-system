@@ -1972,6 +1972,234 @@ abstract class AppLocalizations {
   /// **'Property type'**
   String get clientsWantedType;
 
+  /// No description provided for @compareAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Compare'**
+  String get compareAction;
+
+  /// No description provided for @compareAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to comparison'**
+  String get compareAdd;
+
+  /// No description provided for @compareAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Added to comparison'**
+  String get compareAdded;
+
+  /// No description provided for @compareBarButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Compare ({count})'**
+  String compareBarButton(int count);
+
+  /// No description provided for @compareBestLegend.
+  ///
+  /// In en, this message translates to:
+  /// **'Green marks the best value in a row'**
+  String get compareBestLegend;
+
+  /// No description provided for @compareDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Listed today} =1{1 day} other{{count} days}}'**
+  String compareDays(int count);
+
+  /// No description provided for @compareExit.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get compareExit;
+
+  /// No description provided for @compareFirstFloor.
+  ///
+  /// In en, this message translates to:
+  /// **'first floor'**
+  String get compareFirstFloor;
+
+  /// No description provided for @compareFitMatches.
+  ///
+  /// In en, this message translates to:
+  /// **'Fits requirements'**
+  String get compareFitMatches;
+
+  /// No description provided for @compareFitOutside.
+  ///
+  /// In en, this message translates to:
+  /// **'Outside requirements'**
+  String get compareFitOutside;
+
+  /// No description provided for @compareFitOverBudget.
+  ///
+  /// In en, this message translates to:
+  /// **'Over budget'**
+  String get compareFitOverBudget;
+
+  /// No description provided for @compareLastFloor.
+  ///
+  /// In en, this message translates to:
+  /// **'last floor'**
+  String get compareLastFloor;
+
+  /// No description provided for @compareLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'Up to 4 listings side by side. Remove one to add another.'**
+  String get compareLimit;
+
+  /// No description provided for @compareLinks.
+  ///
+  /// In en, this message translates to:
+  /// **'Include links'**
+  String get compareLinks;
+
+  /// No description provided for @compareLinksHint.
+  ///
+  /// In en, this message translates to:
+  /// **'A page per listing with all its photos, added under each one.'**
+  String get compareLinksHint;
+
+  /// No description provided for @compareNeedTwo.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick two listings to compare'**
+  String get compareNeedTwo;
+
+  /// No description provided for @compareNeedTwoHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Compare on the Properties tab, or add listings from their pages.'**
+  String get compareNeedTwoHint;
+
+  /// No description provided for @comparePickHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick two to four listings'**
+  String get comparePickHint;
+
+  /// No description provided for @compareRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from comparison'**
+  String get compareRemove;
+
+  /// No description provided for @compareRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Removed from comparison'**
+  String get compareRemoved;
+
+  /// No description provided for @compareRowAgent.
+  ///
+  /// In en, this message translates to:
+  /// **'Agent'**
+  String get compareRowAgent;
+
+  /// No description provided for @compareRowArea.
+  ///
+  /// In en, this message translates to:
+  /// **'Area'**
+  String get compareRowArea;
+
+  /// No description provided for @compareRowDays.
+  ///
+  /// In en, this message translates to:
+  /// **'On the market'**
+  String get compareRowDays;
+
+  /// No description provided for @compareRowFit.
+  ///
+  /// In en, this message translates to:
+  /// **'For this buyer'**
+  String get compareRowFit;
+
+  /// No description provided for @compareRowFloor.
+  ///
+  /// In en, this message translates to:
+  /// **'Floor'**
+  String get compareRowFloor;
+
+  /// No description provided for @compareRowLinkViews.
+  ///
+  /// In en, this message translates to:
+  /// **'Link views'**
+  String get compareRowLinkViews;
+
+  /// No description provided for @compareRowPlace.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get compareRowPlace;
+
+  /// No description provided for @compareRowPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Price'**
+  String get compareRowPrice;
+
+  /// No description provided for @compareRowPriceChange.
+  ///
+  /// In en, this message translates to:
+  /// **'Last price change'**
+  String get compareRowPriceChange;
+
+  /// No description provided for @compareRowPricePerSqm.
+  ///
+  /// In en, this message translates to:
+  /// **'Price per m²'**
+  String get compareRowPricePerSqm;
+
+  /// No description provided for @compareRowRooms.
+  ///
+  /// In en, this message translates to:
+  /// **'Rooms'**
+  String get compareRowRooms;
+
+  /// No description provided for @compareRowType.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get compareRowType;
+
+  /// No description provided for @compareSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'Compare selected'**
+  String get compareSelected;
+
+  /// No description provided for @compareSend.
+  ///
+  /// In en, this message translates to:
+  /// **'Send comparison'**
+  String get compareSend;
+
+  /// No description provided for @compareSendFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open sending'**
+  String get compareSendFailed;
+
+  /// No description provided for @compareShareBest.
+  ///
+  /// In en, this message translates to:
+  /// **'Best price per m²: {title}'**
+  String compareShareBest(String title);
+
+  /// No description provided for @compareShareIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Here is how the listings compare:'**
+  String get compareShareIntro;
+
+  /// No description provided for @compareTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Comparison'**
+  String get compareTitle;
+
   /// No description provided for @coreCall.
   ///
   /// In en, this message translates to:

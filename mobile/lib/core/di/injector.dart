@@ -20,6 +20,7 @@ import 'package:real_estate_crm/features/auth/domain/repositories/auth_repositor
 import 'package:real_estate_crm/features/clients/data/datasources/clients_remote_datasource.dart';
 import 'package:real_estate_crm/features/clients/data/repositories/clients_repository_impl.dart';
 import 'package:real_estate_crm/features/clients/domain/repositories/clients_repository.dart';
+import 'package:real_estate_crm/features/compare/data/comparison_tray.dart';
 import 'package:real_estate_crm/features/dashboard/data/datasources/dashboard_remote_datasource.dart';
 import 'package:real_estate_crm/features/dashboard/data/repositories/dashboard_repository_impl.dart';
 import 'package:real_estate_crm/features/dashboard/domain/repositories/dashboard_repository.dart';
@@ -83,6 +84,10 @@ class Injector {
   static FileGateway fileGateway = const DeviceFileGateway();
 
   static ShareGateway shareGateway = const DeviceShareGateway();
+
+  /// Listings set aside for comparison, kept per signed-in user.
+  static ComparisonTray comparisonTray =
+      ComparisonTray(scope: () => session.cacheScope);
 
   static QuickActions quickActions = const QuickActions();
 

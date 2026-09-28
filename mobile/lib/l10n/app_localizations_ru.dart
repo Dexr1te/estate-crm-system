@@ -1085,6 +1085,138 @@ class AppLocalizationsRu extends AppLocalizations {
   String get clientsWantedType => 'Тип объекта';
 
   @override
+  String get compareAction => 'Сравнить';
+
+  @override
+  String get compareAdd => 'Добавить к сравнению';
+
+  @override
+  String get compareAdded => 'Добавлено к сравнению';
+
+  @override
+  String compareBarButton(int count) {
+    return 'Сравнить ($count)';
+  }
+
+  @override
+  String get compareBestLegend => 'Зелёным отмечено лучшее значение в строке';
+
+  @override
+  String compareDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count дня',
+      many: '$count дней',
+      few: '$count дня',
+      one: '$count день',
+      zero: 'Выставлен сегодня',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get compareExit => 'Готово';
+
+  @override
+  String get compareFirstFloor => 'первый этаж';
+
+  @override
+  String get compareFitMatches => 'Подходит под запрос';
+
+  @override
+  String get compareFitOutside => 'Вне запроса';
+
+  @override
+  String get compareFitOverBudget => 'Дороже бюджета';
+
+  @override
+  String get compareLastFloor => 'последний этаж';
+
+  @override
+  String get compareLimit =>
+      'Сравнить можно до 4 объектов. Уберите один, чтобы добавить другой.';
+
+  @override
+  String get compareLinks => 'Добавить ссылки';
+
+  @override
+  String get compareLinksHint =>
+      'Под каждым объектом — страница со всеми его фото.';
+
+  @override
+  String get compareNeedTwo => 'Выберите два объекта для сравнения';
+
+  @override
+  String get compareNeedTwoHint =>
+      'Нажмите «Сравнить» на вкладке «Объекты» или добавьте объекты с их страниц.';
+
+  @override
+  String get comparePickHint => 'Выберите от двух до четырёх объектов';
+
+  @override
+  String get compareRemove => 'Убрать из сравнения';
+
+  @override
+  String get compareRemoved => 'Убрано из сравнения';
+
+  @override
+  String get compareRowAgent => 'Агент';
+
+  @override
+  String get compareRowArea => 'Площадь';
+
+  @override
+  String get compareRowDays => 'В продаже';
+
+  @override
+  String get compareRowFit => 'Для покупателя';
+
+  @override
+  String get compareRowFloor => 'Этаж';
+
+  @override
+  String get compareRowLinkViews => 'Просмотры ссылки';
+
+  @override
+  String get compareRowPlace => 'Адрес';
+
+  @override
+  String get compareRowPrice => 'Цена';
+
+  @override
+  String get compareRowPriceChange => 'Последнее изменение цены';
+
+  @override
+  String get compareRowPricePerSqm => 'Цена за м²';
+
+  @override
+  String get compareRowRooms => 'Комнаты';
+
+  @override
+  String get compareRowType => 'Тип';
+
+  @override
+  String get compareSelected => 'Сравнить выбранные';
+
+  @override
+  String get compareSend => 'Отправить сравнение';
+
+  @override
+  String get compareSendFailed => 'Не удалось открыть отправку';
+
+  @override
+  String compareShareBest(String title) {
+    return 'Лучшая цена за м²: $title';
+  }
+
+  @override
+  String get compareShareIntro => 'Сравнение объектов:';
+
+  @override
+  String get compareTitle => 'Сравнение';
+
+  @override
   String get coreCall => 'Позвонить';
 
   @override
