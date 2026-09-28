@@ -40,6 +40,15 @@ class ImportValuesTest {
         price("1,2 млрд", "1200000000");
         price("45 000 000 тенге", "45000000");
         price("99000 руб.", "99000");
+        // What the app itself writes, in every currency an agency can choose.
+        price("12,5\u00A0млн\u00A0₸", "12500000");
+        price("12\u00A0500\u00A0000\u00A0₽", "12500000");
+        price("€1,200", "1200");
+        price("$1.2B", "1200000000");
+        price("12,500,000 UZS", "12500000");
+        price("12 500 000 сум", "12500000");
+        price("850 000 сом", "850000");
+        price("1 200 000 KGS", "1200000");
     }
 
     @Test

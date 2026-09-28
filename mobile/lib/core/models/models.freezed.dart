@@ -30,6 +30,9 @@ mixin _$AuthResponse {
   int? get teamId => throw _privateConstructorUsedError;
   String? get teamName => throw _privateConstructorUsedError;
 
+  /// The team's currency (ISO 4217), or null with no team; see AppCurrency.
+  String? get teamCurrency => throw _privateConstructorUsedError;
+
   /// Serializes this AuthResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
@@ -55,7 +58,8 @@ abstract class $AuthResponseCopyWith<$Res> {
       String email,
       Role role,
       int? teamId,
-      String? teamName});
+      String? teamName,
+      String? teamCurrency});
 }
 
 /// @nodoc
@@ -82,6 +86,7 @@ class _$AuthResponseCopyWithImpl<$Res, $Val extends AuthResponse>
     Object? role = null,
     Object? teamId = freezed,
     Object? teamName = freezed,
+    Object? teamCurrency = freezed,
   }) {
     return _then(_value.copyWith(
       accessToken: null == accessToken
@@ -120,6 +125,10 @@ class _$AuthResponseCopyWithImpl<$Res, $Val extends AuthResponse>
           ? _value.teamName
           : teamName // ignore: cast_nullable_to_non_nullable
               as String?,
+      teamCurrency: freezed == teamCurrency
+          ? _value.teamCurrency
+          : teamCurrency // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -141,7 +150,8 @@ abstract class _$$AuthResponseImplCopyWith<$Res>
       String email,
       Role role,
       int? teamId,
-      String? teamName});
+      String? teamName,
+      String? teamCurrency});
 }
 
 /// @nodoc
@@ -166,6 +176,7 @@ class __$$AuthResponseImplCopyWithImpl<$Res>
     Object? role = null,
     Object? teamId = freezed,
     Object? teamName = freezed,
+    Object? teamCurrency = freezed,
   }) {
     return _then(_$AuthResponseImpl(
       accessToken: null == accessToken
@@ -204,6 +215,10 @@ class __$$AuthResponseImplCopyWithImpl<$Res>
           ? _value.teamName
           : teamName // ignore: cast_nullable_to_non_nullable
               as String?,
+      teamCurrency: freezed == teamCurrency
+          ? _value.teamCurrency
+          : teamCurrency // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -220,7 +235,8 @@ class _$AuthResponseImpl implements _AuthResponse {
       this.email = '',
       this.role = Role.AGENT,
       this.teamId,
-      this.teamName});
+      this.teamName,
+      this.teamCurrency});
 
   factory _$AuthResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$AuthResponseImplFromJson(json);
@@ -251,9 +267,13 @@ class _$AuthResponseImpl implements _AuthResponse {
   @override
   final String? teamName;
 
+  /// The team's currency (ISO 4217), or null with no team; see AppCurrency.
+  @override
+  final String? teamCurrency;
+
   @override
   String toString() {
-    return 'AuthResponse(accessToken: $accessToken, refreshToken: $refreshToken, tokenType: $tokenType, userId: $userId, fullName: $fullName, email: $email, role: $role, teamId: $teamId, teamName: $teamName)';
+    return 'AuthResponse(accessToken: $accessToken, refreshToken: $refreshToken, tokenType: $tokenType, userId: $userId, fullName: $fullName, email: $email, role: $role, teamId: $teamId, teamName: $teamName, teamCurrency: $teamCurrency)';
   }
 
   @override
@@ -274,13 +294,15 @@ class _$AuthResponseImpl implements _AuthResponse {
             (identical(other.role, role) || other.role == role) &&
             (identical(other.teamId, teamId) || other.teamId == teamId) &&
             (identical(other.teamName, teamName) ||
-                other.teamName == teamName));
+                other.teamName == teamName) &&
+            (identical(other.teamCurrency, teamCurrency) ||
+                other.teamCurrency == teamCurrency));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, accessToken, refreshToken,
-      tokenType, userId, fullName, email, role, teamId, teamName);
+      tokenType, userId, fullName, email, role, teamId, teamName, teamCurrency);
 
   /// Create a copy of AuthResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -308,7 +330,8 @@ abstract class _AuthResponse implements AuthResponse {
       final String email,
       final Role role,
       final int? teamId,
-      final String? teamName}) = _$AuthResponseImpl;
+      final String? teamName,
+      final String? teamCurrency}) = _$AuthResponseImpl;
 
   factory _AuthResponse.fromJson(Map<String, dynamic> json) =
       _$AuthResponseImpl.fromJson;
@@ -331,6 +354,10 @@ abstract class _AuthResponse implements AuthResponse {
   int? get teamId;
   @override
   String? get teamName;
+
+  /// The team's currency (ISO 4217), or null with no team; see AppCurrency.
+  @override
+  String? get teamCurrency;
 
   /// Create a copy of AuthResponse
   /// with the given fields replaced by the non-null parameter values.

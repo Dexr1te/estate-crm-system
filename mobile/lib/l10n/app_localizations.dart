@@ -1972,6 +1972,234 @@ abstract class AppLocalizations {
   /// **'Property type'**
   String get clientsWantedType;
 
+  /// No description provided for @compareAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Compare'**
+  String get compareAction;
+
+  /// No description provided for @compareAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to comparison'**
+  String get compareAdd;
+
+  /// No description provided for @compareAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Added to comparison'**
+  String get compareAdded;
+
+  /// No description provided for @compareBarButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Compare ({count})'**
+  String compareBarButton(int count);
+
+  /// No description provided for @compareBestLegend.
+  ///
+  /// In en, this message translates to:
+  /// **'Green marks the best value in a row'**
+  String get compareBestLegend;
+
+  /// No description provided for @compareDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Listed today} =1{1 day} other{{count} days}}'**
+  String compareDays(int count);
+
+  /// No description provided for @compareExit.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get compareExit;
+
+  /// No description provided for @compareFirstFloor.
+  ///
+  /// In en, this message translates to:
+  /// **'first floor'**
+  String get compareFirstFloor;
+
+  /// No description provided for @compareFitMatches.
+  ///
+  /// In en, this message translates to:
+  /// **'Fits requirements'**
+  String get compareFitMatches;
+
+  /// No description provided for @compareFitOutside.
+  ///
+  /// In en, this message translates to:
+  /// **'Outside requirements'**
+  String get compareFitOutside;
+
+  /// No description provided for @compareFitOverBudget.
+  ///
+  /// In en, this message translates to:
+  /// **'Over budget'**
+  String get compareFitOverBudget;
+
+  /// No description provided for @compareLastFloor.
+  ///
+  /// In en, this message translates to:
+  /// **'last floor'**
+  String get compareLastFloor;
+
+  /// No description provided for @compareLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'Up to 4 listings side by side. Remove one to add another.'**
+  String get compareLimit;
+
+  /// No description provided for @compareLinks.
+  ///
+  /// In en, this message translates to:
+  /// **'Include links'**
+  String get compareLinks;
+
+  /// No description provided for @compareLinksHint.
+  ///
+  /// In en, this message translates to:
+  /// **'A page per listing with all its photos, added under each one.'**
+  String get compareLinksHint;
+
+  /// No description provided for @compareNeedTwo.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick two listings to compare'**
+  String get compareNeedTwo;
+
+  /// No description provided for @compareNeedTwoHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose Compare on the Properties tab, or add listings from their pages.'**
+  String get compareNeedTwoHint;
+
+  /// No description provided for @comparePickHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick two to four listings'**
+  String get comparePickHint;
+
+  /// No description provided for @compareRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from comparison'**
+  String get compareRemove;
+
+  /// No description provided for @compareRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Removed from comparison'**
+  String get compareRemoved;
+
+  /// No description provided for @compareRowAgent.
+  ///
+  /// In en, this message translates to:
+  /// **'Agent'**
+  String get compareRowAgent;
+
+  /// No description provided for @compareRowArea.
+  ///
+  /// In en, this message translates to:
+  /// **'Area'**
+  String get compareRowArea;
+
+  /// No description provided for @compareRowDays.
+  ///
+  /// In en, this message translates to:
+  /// **'On the market'**
+  String get compareRowDays;
+
+  /// No description provided for @compareRowFit.
+  ///
+  /// In en, this message translates to:
+  /// **'For this buyer'**
+  String get compareRowFit;
+
+  /// No description provided for @compareRowFloor.
+  ///
+  /// In en, this message translates to:
+  /// **'Floor'**
+  String get compareRowFloor;
+
+  /// No description provided for @compareRowLinkViews.
+  ///
+  /// In en, this message translates to:
+  /// **'Link views'**
+  String get compareRowLinkViews;
+
+  /// No description provided for @compareRowPlace.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get compareRowPlace;
+
+  /// No description provided for @compareRowPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Price'**
+  String get compareRowPrice;
+
+  /// No description provided for @compareRowPriceChange.
+  ///
+  /// In en, this message translates to:
+  /// **'Last price change'**
+  String get compareRowPriceChange;
+
+  /// No description provided for @compareRowPricePerSqm.
+  ///
+  /// In en, this message translates to:
+  /// **'Price per m²'**
+  String get compareRowPricePerSqm;
+
+  /// No description provided for @compareRowRooms.
+  ///
+  /// In en, this message translates to:
+  /// **'Rooms'**
+  String get compareRowRooms;
+
+  /// No description provided for @compareRowType.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get compareRowType;
+
+  /// No description provided for @compareSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'Compare selected'**
+  String get compareSelected;
+
+  /// No description provided for @compareSend.
+  ///
+  /// In en, this message translates to:
+  /// **'Send comparison'**
+  String get compareSend;
+
+  /// No description provided for @compareSendFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not open sending'**
+  String get compareSendFailed;
+
+  /// No description provided for @compareShareBest.
+  ///
+  /// In en, this message translates to:
+  /// **'Best price per m²: {title}'**
+  String compareShareBest(String title);
+
+  /// No description provided for @compareShareIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Here is how the listings compare:'**
+  String get compareShareIntro;
+
+  /// No description provided for @compareTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Comparison'**
+  String get compareTitle;
+
   /// No description provided for @coreCall.
   ///
   /// In en, this message translates to:
@@ -3340,6 +3568,126 @@ abstract class AppLocalizations {
   /// **'Sending…'**
   String get documentsUploading;
 
+  /// No description provided for @exportAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Export'**
+  String get exportAction;
+
+  /// No description provided for @exportAllNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything you can see, without filters.'**
+  String get exportAllNote;
+
+  /// No description provided for @exportConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Export CSV'**
+  String get exportConfirm;
+
+  /// No description provided for @exportConsoleSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your agency\'s book as spreadsheets: for the owner, the accountant, or a copy of your own.'**
+  String get exportConsoleSubtitle;
+
+  /// No description provided for @exportConsoleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Export'**
+  String get exportConsoleTitle;
+
+  /// No description provided for @exportDelimiter.
+  ///
+  /// In en, this message translates to:
+  /// **'Separator'**
+  String get exportDelimiter;
+
+  /// No description provided for @exportDelimiterComma.
+  ///
+  /// In en, this message translates to:
+  /// **'Comma'**
+  String get exportDelimiterComma;
+
+  /// No description provided for @exportDelimiterHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Excel in Russian or Kazakh splits columns on semicolons; in English, on commas.'**
+  String get exportDelimiterHint;
+
+  /// No description provided for @exportDelimiterSemicolon.
+  ///
+  /// In en, this message translates to:
+  /// **'Semicolon'**
+  String get exportDelimiterSemicolon;
+
+  /// No description provided for @exportFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t export. Try again.'**
+  String get exportFailed;
+
+  /// No description provided for @exportFiltersNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Only what the list shows now, with its filters.'**
+  String get exportFiltersNote;
+
+  /// No description provided for @exportFormatNote.
+  ///
+  /// In en, this message translates to:
+  /// **'A CSV file that opens in Excel, Google Sheets and Numbers, and imports back into the CRM as it is.'**
+  String get exportFormatNote;
+
+  /// No description provided for @exportKindClients.
+  ///
+  /// In en, this message translates to:
+  /// **'Clients'**
+  String get exportKindClients;
+
+  /// No description provided for @exportKindDeals.
+  ///
+  /// In en, this message translates to:
+  /// **'Deals'**
+  String get exportKindDeals;
+
+  /// No description provided for @exportKindProperties.
+  ///
+  /// In en, this message translates to:
+  /// **'Listings'**
+  String get exportKindProperties;
+
+  /// No description provided for @exportPersonalData.
+  ///
+  /// In en, this message translates to:
+  /// **'Includes personal data: names, phones and emails. Handle with care and share it no further than needed.'**
+  String get exportPersonalData;
+
+  /// No description provided for @exportTitleClients.
+  ///
+  /// In en, this message translates to:
+  /// **'Export clients'**
+  String get exportTitleClients;
+
+  /// No description provided for @exportTitleDeals.
+  ///
+  /// In en, this message translates to:
+  /// **'Export deals'**
+  String get exportTitleDeals;
+
+  /// No description provided for @exportTitleProperties.
+  ///
+  /// In en, this message translates to:
+  /// **'Export listings'**
+  String get exportTitleProperties;
+
+  /// No description provided for @exportTooMany.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many rows for one file. Narrow the filters and export in parts.'**
+  String get exportTooMany;
+
   /// No description provided for @importAction.
   ///
   /// In en, this message translates to:
@@ -4515,6 +4863,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Comment updated'**
   String get msgCommentUpdated;
+
+  /// No description provided for @msgCurrencyChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'Currency changed'**
+  String get msgCurrencyChanged;
 
   /// No description provided for @msgDealCreated.
   ///
@@ -6459,6 +6813,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Create team'**
   String get teamsCreateTeam;
+
+  /// No description provided for @teamsCurrency.
+  ///
+  /// In en, this message translates to:
+  /// **'Agency currency'**
+  String get teamsCurrency;
+
+  /// No description provided for @teamsCurrencyConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Change currency'**
+  String get teamsCurrencyConfirm;
+
+  /// No description provided for @teamsCurrencyConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Everyone in the agency will see prices in {currency}. Amounts are not converted: a listing priced {before} will read {after}.'**
+  String teamsCurrencyConfirmBody(String currency, String before, String after);
+
+  /// No description provided for @teamsCurrencyConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Change the agency currency?'**
+  String get teamsCurrencyConfirmTitle;
+
+  /// No description provided for @teamsCurrencyEur.
+  ///
+  /// In en, this message translates to:
+  /// **'Euro (€)'**
+  String get teamsCurrencyEur;
+
+  /// No description provided for @teamsCurrencyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'How prices read across the app'**
+  String get teamsCurrencyHint;
+
+  /// No description provided for @teamsCurrencyKgs.
+  ///
+  /// In en, this message translates to:
+  /// **'Kyrgyz som (KGS)'**
+  String get teamsCurrencyKgs;
+
+  /// No description provided for @teamsCurrencyKzt.
+  ///
+  /// In en, this message translates to:
+  /// **'Tenge (₸)'**
+  String get teamsCurrencyKzt;
+
+  /// No description provided for @teamsCurrencyRub.
+  ///
+  /// In en, this message translates to:
+  /// **'Rouble (₽)'**
+  String get teamsCurrencyRub;
+
+  /// No description provided for @teamsCurrencyUsd.
+  ///
+  /// In en, this message translates to:
+  /// **'US dollar (\$)'**
+  String get teamsCurrencyUsd;
+
+  /// No description provided for @teamsCurrencyUzs.
+  ///
+  /// In en, this message translates to:
+  /// **'Uzbek som (UZS)'**
+  String get teamsCurrencyUzs;
 
   /// No description provided for @teamsDeals.
   ///

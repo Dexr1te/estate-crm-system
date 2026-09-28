@@ -20,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.crm.realestate.enums.AgencyCurrency;
 import java.math.BigDecimal;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
@@ -142,7 +143,8 @@ public class ListingShareService {
                 p.getRooms(), p.getFloor(), p.getTotalFloors(), photoIds,
                 agent != null ? agent.getFullName() : null,
                 agent != null ? blankToNull(agent.getPhone()) : null,
-                agency, p.getLatitude(), p.getLongitude());
+                agency, p.getLatitude(), p.getLongitude(),
+                p.getTeam() != null ? p.getTeam().getCurrency() : AgencyCurrency.USD);
     }
 
     private ShareLinkResponse toResponse(PropertyShareLink link) {
@@ -182,6 +184,6 @@ public class ListingShareService {
             PropertyType type, PropertyStatus status, BigDecimal price, Double areaSqm,
             Integer rooms, Integer floor, Integer totalFloors, List<Long> photoIds,
             String agentName, String agentPhone, String agencyName,
-            Double latitude, Double longitude) {
+            Double latitude, Double longitude, AgencyCurrency currency) {
     }
 }

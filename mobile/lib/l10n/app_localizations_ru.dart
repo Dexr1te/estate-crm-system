@@ -1085,6 +1085,138 @@ class AppLocalizationsRu extends AppLocalizations {
   String get clientsWantedType => 'Тип объекта';
 
   @override
+  String get compareAction => 'Сравнить';
+
+  @override
+  String get compareAdd => 'Добавить к сравнению';
+
+  @override
+  String get compareAdded => 'Добавлено к сравнению';
+
+  @override
+  String compareBarButton(int count) {
+    return 'Сравнить ($count)';
+  }
+
+  @override
+  String get compareBestLegend => 'Зелёным отмечено лучшее значение в строке';
+
+  @override
+  String compareDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count дня',
+      many: '$count дней',
+      few: '$count дня',
+      one: '$count день',
+      zero: 'Выставлен сегодня',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get compareExit => 'Готово';
+
+  @override
+  String get compareFirstFloor => 'первый этаж';
+
+  @override
+  String get compareFitMatches => 'Подходит под запрос';
+
+  @override
+  String get compareFitOutside => 'Вне запроса';
+
+  @override
+  String get compareFitOverBudget => 'Дороже бюджета';
+
+  @override
+  String get compareLastFloor => 'последний этаж';
+
+  @override
+  String get compareLimit =>
+      'Сравнить можно до 4 объектов. Уберите один, чтобы добавить другой.';
+
+  @override
+  String get compareLinks => 'Добавить ссылки';
+
+  @override
+  String get compareLinksHint =>
+      'Под каждым объектом — страница со всеми его фото.';
+
+  @override
+  String get compareNeedTwo => 'Выберите два объекта для сравнения';
+
+  @override
+  String get compareNeedTwoHint =>
+      'Нажмите «Сравнить» на вкладке «Объекты» или добавьте объекты с их страниц.';
+
+  @override
+  String get comparePickHint => 'Выберите от двух до четырёх объектов';
+
+  @override
+  String get compareRemove => 'Убрать из сравнения';
+
+  @override
+  String get compareRemoved => 'Убрано из сравнения';
+
+  @override
+  String get compareRowAgent => 'Агент';
+
+  @override
+  String get compareRowArea => 'Площадь';
+
+  @override
+  String get compareRowDays => 'В продаже';
+
+  @override
+  String get compareRowFit => 'Для покупателя';
+
+  @override
+  String get compareRowFloor => 'Этаж';
+
+  @override
+  String get compareRowLinkViews => 'Просмотры ссылки';
+
+  @override
+  String get compareRowPlace => 'Адрес';
+
+  @override
+  String get compareRowPrice => 'Цена';
+
+  @override
+  String get compareRowPriceChange => 'Последнее изменение цены';
+
+  @override
+  String get compareRowPricePerSqm => 'Цена за м²';
+
+  @override
+  String get compareRowRooms => 'Комнаты';
+
+  @override
+  String get compareRowType => 'Тип';
+
+  @override
+  String get compareSelected => 'Сравнить выбранные';
+
+  @override
+  String get compareSend => 'Отправить сравнение';
+
+  @override
+  String get compareSendFailed => 'Не удалось открыть отправку';
+
+  @override
+  String compareShareBest(String title) {
+    return 'Лучшая цена за м²: $title';
+  }
+
+  @override
+  String get compareShareIntro => 'Сравнение объектов:';
+
+  @override
+  String get compareTitle => 'Сравнение';
+
+  @override
   String get coreCall => 'Позвонить';
 
   @override
@@ -1904,6 +2036,72 @@ class AppLocalizationsRu extends AppLocalizations {
   String get documentsUploading => 'Отправляем…';
 
   @override
+  String get exportAction => 'Экспорт';
+
+  @override
+  String get exportAllNote => 'Всё, что вам доступно, без фильтров.';
+
+  @override
+  String get exportConfirm => 'Выгрузить CSV';
+
+  @override
+  String get exportConsoleSubtitle =>
+      'Данные агентства в таблицах: для владельца, бухгалтерии или просто себе на всякий случай.';
+
+  @override
+  String get exportConsoleTitle => 'Экспорт';
+
+  @override
+  String get exportDelimiter => 'Разделитель';
+
+  @override
+  String get exportDelimiterComma => 'Запятая';
+
+  @override
+  String get exportDelimiterHint =>
+      'Excel на русском и казахском делит столбцы по точке с запятой, на английском — по запятой.';
+
+  @override
+  String get exportDelimiterSemicolon => 'Точка с запятой';
+
+  @override
+  String get exportFailed => 'Не удалось выгрузить. Попробуйте ещё раз.';
+
+  @override
+  String get exportFiltersNote =>
+      'Только то, что сейчас в списке, с учётом фильтров.';
+
+  @override
+  String get exportFormatNote =>
+      'Файл CSV: открывается в Excel, Google Таблицах и Numbers, а в CRM импортируется обратно без правок.';
+
+  @override
+  String get exportKindClients => 'Клиенты';
+
+  @override
+  String get exportKindDeals => 'Сделки';
+
+  @override
+  String get exportKindProperties => 'Объекты';
+
+  @override
+  String get exportPersonalData =>
+      'Содержит персональные данные: имена, телефоны и почту. Обращайтесь бережно и не передавайте дальше, чем нужно.';
+
+  @override
+  String get exportTitleClients => 'Экспорт клиентов';
+
+  @override
+  String get exportTitleDeals => 'Экспорт сделок';
+
+  @override
+  String get exportTitleProperties => 'Экспорт объектов';
+
+  @override
+  String get exportTooMany =>
+      'Слишком много строк для одного файла. Сузьте фильтры и выгрузите частями.';
+
+  @override
   String importAction(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -2590,6 +2788,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get msgCommentUpdated => 'Комментарий изменён';
+
+  @override
+  String get msgCurrencyChanged => 'Валюта изменена';
 
   @override
   String get msgDealCreated => 'Сделка создана';
@@ -3801,6 +4002,42 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get teamsCreateTeam => 'Создать команду';
+
+  @override
+  String get teamsCurrency => 'Валюта агентства';
+
+  @override
+  String get teamsCurrencyConfirm => 'Сменить валюту';
+
+  @override
+  String teamsCurrencyConfirmBody(
+      String currency, String before, String after) {
+    return 'Все в агентстве увидят цены в валюте «$currency». Суммы не пересчитываются: объект за $before будет стоить $after.';
+  }
+
+  @override
+  String get teamsCurrencyConfirmTitle => 'Сменить валюту агентства?';
+
+  @override
+  String get teamsCurrencyEur => 'Евро (€)';
+
+  @override
+  String get teamsCurrencyHint => 'В чём показываются цены в приложении';
+
+  @override
+  String get teamsCurrencyKgs => 'Кыргызский сом (KGS)';
+
+  @override
+  String get teamsCurrencyKzt => 'Тенге (₸)';
+
+  @override
+  String get teamsCurrencyRub => 'Рубль (₽)';
+
+  @override
+  String get teamsCurrencyUsd => 'Доллар США (\$)';
+
+  @override
+  String get teamsCurrencyUzs => 'Узбекский сум (UZS)';
 
   @override
   String get teamsDeals => 'Сделки';

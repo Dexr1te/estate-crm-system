@@ -224,7 +224,8 @@ class ListingShareLinkTest {
                 .contains("<meta property=\"og:url\" content=\"" + url + "\">")
                 .contains("<meta property=\"og:image\" content=\"" + url + "/photos/"
                         + cover.getId() + "\">")
-                .contains("property=\"og:description\" content=\"$28")
+                // No Accept-Language reads in Russian, where the sign follows the number.
+                .contains("property=\"og:description\" content=\"28\u00A0000\u00A0000\u00A0$")
                 .contains("src=\"" + token + "/photos/" + cover.getId() + "\"");
         sample(html);
     }

@@ -1072,6 +1072,135 @@ class AppLocalizationsKk extends AppLocalizations {
   String get clientsWantedType => 'Нысан түрі';
 
   @override
+  String get compareAction => 'Салыстыру';
+
+  @override
+  String get compareAdd => 'Салыстыруға қосу';
+
+  @override
+  String get compareAdded => 'Салыстыруға қосылды';
+
+  @override
+  String compareBarButton(int count) {
+    return 'Салыстыру ($count)';
+  }
+
+  @override
+  String get compareBestLegend => 'Жолдағы ең тиімді мән жасылмен белгіленген';
+
+  @override
+  String compareDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count күн',
+      zero: 'Бүгін шықты',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get compareExit => 'Дайын';
+
+  @override
+  String get compareFirstFloor => 'бірінші қабат';
+
+  @override
+  String get compareFitMatches => 'Сұранысқа сай';
+
+  @override
+  String get compareFitOutside => 'Сұраныстан тыс';
+
+  @override
+  String get compareFitOverBudget => 'Бюджеттен қымбат';
+
+  @override
+  String get compareLastFloor => 'соңғы қабат';
+
+  @override
+  String get compareLimit =>
+      'Қатар 4 нысанға дейін салыстыруға болады. Басқасын қосу үшін біреуін алып тастаңыз.';
+
+  @override
+  String get compareLinks => 'Сілтемелерді қосу';
+
+  @override
+  String get compareLinksHint =>
+      'Әр нысанның астында оның барлық фотосы бар бет.';
+
+  @override
+  String get compareNeedTwo => 'Салыстыру үшін екі нысан таңдаңыз';
+
+  @override
+  String get compareNeedTwoHint =>
+      '«Нысандар» қойындысында «Салыстыру» түймесін басыңыз немесе нысанды оның бетінен қосыңыз.';
+
+  @override
+  String get comparePickHint => 'Екіден төртке дейін нысан таңдаңыз';
+
+  @override
+  String get compareRemove => 'Салыстырудан алып тастау';
+
+  @override
+  String get compareRemoved => 'Салыстырудан алынды';
+
+  @override
+  String get compareRowAgent => 'Агент';
+
+  @override
+  String get compareRowArea => 'Ауданы';
+
+  @override
+  String get compareRowDays => 'Сатылымда';
+
+  @override
+  String get compareRowFit => 'Сатып алушыға';
+
+  @override
+  String get compareRowFloor => 'Қабат';
+
+  @override
+  String get compareRowLinkViews => 'Сілтеме қаралымы';
+
+  @override
+  String get compareRowPlace => 'Мекенжай';
+
+  @override
+  String get compareRowPrice => 'Бағасы';
+
+  @override
+  String get compareRowPriceChange => 'Бағаның соңғы өзгерісі';
+
+  @override
+  String get compareRowPricePerSqm => '1 м² бағасы';
+
+  @override
+  String get compareRowRooms => 'Бөлмелер';
+
+  @override
+  String get compareRowType => 'Түрі';
+
+  @override
+  String get compareSelected => 'Таңдалғандарды салыстыру';
+
+  @override
+  String get compareSend => 'Салыстыруды жіберу';
+
+  @override
+  String get compareSendFailed => 'Жіберуді ашу мүмкін болмады';
+
+  @override
+  String compareShareBest(String title) {
+    return '1 м² ең тиімді бағасы: $title';
+  }
+
+  @override
+  String get compareShareIntro => 'Нысандарды салыстыру:';
+
+  @override
+  String get compareTitle => 'Салыстыру';
+
+  @override
   String get coreCall => 'Қоңырау шалу';
 
   @override
@@ -1881,6 +2010,72 @@ class AppLocalizationsKk extends AppLocalizations {
   String get documentsUploading => 'Жіберілуде…';
 
   @override
+  String get exportAction => 'Экспорт';
+
+  @override
+  String get exportAllNote => 'Сізге қолжетімдінің бәрі, сүзгісіз.';
+
+  @override
+  String get exportConfirm => 'CSV жүктеп алу';
+
+  @override
+  String get exportConsoleSubtitle =>
+      'Агенттік деректері кестелерде: иесіне, бухгалтерияға немесе өзіңізге көшірме ретінде.';
+
+  @override
+  String get exportConsoleTitle => 'Экспорт';
+
+  @override
+  String get exportDelimiter => 'Бөлгіш';
+
+  @override
+  String get exportDelimiterComma => 'Үтір';
+
+  @override
+  String get exportDelimiterHint =>
+      'Орыс және қазақ тіліндегі Excel бағандарды нүктелі үтірмен, ағылшын тіліндегісі үтірмен бөледі.';
+
+  @override
+  String get exportDelimiterSemicolon => 'Нүктелі үтір';
+
+  @override
+  String get exportFailed => 'Экспорттау сәтсіз аяқталды. Қайталап көріңіз.';
+
+  @override
+  String get exportFiltersNote =>
+      'Тізімде қазір көрсетілгені ғана, сүзгілерімен бірге.';
+
+  @override
+  String get exportFormatNote =>
+      'CSV файлы: Excel, Google Sheets және Numbers-та ашылады, CRM-ге өзгеріссіз қайта импортталады.';
+
+  @override
+  String get exportKindClients => 'Клиенттер';
+
+  @override
+  String get exportKindDeals => 'Мәмілелер';
+
+  @override
+  String get exportKindProperties => 'Нысандар';
+
+  @override
+  String get exportPersonalData =>
+      'Жеке деректер бар: аты-жөні, телефон және пошта. Абайлап қолданыңыз, қажетінен артық ешкімге бермеңіз.';
+
+  @override
+  String get exportTitleClients => 'Клиенттерді экспорттау';
+
+  @override
+  String get exportTitleDeals => 'Мәмілелерді экспорттау';
+
+  @override
+  String get exportTitleProperties => 'Нысандарды экспорттау';
+
+  @override
+  String get exportTooMany =>
+      'Бір файлға жол тым көп. Сүзгілерді тарылтып, бөліктеп жүктеңіз.';
+
+  @override
   String importAction(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -2556,6 +2751,9 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get msgCommentUpdated => 'Пікір өзгертілді';
+
+  @override
+  String get msgCurrencyChanged => 'Валюта өзгертілді';
 
   @override
   String get msgDealCreated => 'Мәміле құрылды';
@@ -3700,6 +3898,44 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get teamsCreateTeam => 'Команда құру';
+
+  @override
+  String get teamsCurrency => 'Агенттік валютасы';
+
+  @override
+  String get teamsCurrencyConfirm => 'Валютаны ауыстыру';
+
+  @override
+  String teamsCurrencyConfirmBody(
+      String currency, String before, String after) {
+    return 'Агенттіктегі барлығы бағаларды «$currency» валютасында көреді. Сомалар қайта есептелмейді: $before тұратын нысан $after болып көрсетіледі.';
+  }
+
+  @override
+  String get teamsCurrencyConfirmTitle =>
+      'Агенттік валютасын ауыстыру керек пе?';
+
+  @override
+  String get teamsCurrencyEur => 'Еуро (€)';
+
+  @override
+  String get teamsCurrencyHint =>
+      'Қосымшадағы бағалар қай валютада көрсетіледі';
+
+  @override
+  String get teamsCurrencyKgs => 'Қырғыз сомы (KGS)';
+
+  @override
+  String get teamsCurrencyKzt => 'Теңге (₸)';
+
+  @override
+  String get teamsCurrencyRub => 'Рубль (₽)';
+
+  @override
+  String get teamsCurrencyUsd => 'АҚШ доллары (\$)';
+
+  @override
+  String get teamsCurrencyUzs => 'Өзбек сумы (UZS)';
 
   @override
   String get teamsDeals => 'Мәмілелер';

@@ -69,6 +69,9 @@ class AuthResponse with _$AuthResponse {
     @Default(Role.AGENT) Role role,
     int? teamId,
     String? teamName,
+
+    /// The team's currency (ISO 4217), or null with no team; see AppCurrency.
+    String? teamCurrency,
   }) = _AuthResponse;
 
   factory AuthResponse.fromJson(Map<String, dynamic> json) =>

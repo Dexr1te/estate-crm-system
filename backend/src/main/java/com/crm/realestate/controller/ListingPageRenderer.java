@@ -5,7 +5,9 @@ import com.crm.realestate.service.ListingLeadService.LeadForm;
 import com.crm.realestate.service.ListingShareService.PublicListing;
 import org.springframework.stereotype.Component;
 
+import com.crm.realestate.enums.AgencyCurrency;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -60,7 +62,7 @@ public class ListingPageRenderer {
 
     public String listing(PublicListing l, Locale locale) {
         ResourceBundle t = bundle(locale);
-        String price = formatPrice(l.price(), locale);
+        String price = formatPrice(l.price(), l.currency(), locale);
         String place = joinNonBlank(", ", l.address(), l.city());
 
         StringBuilder head = new StringBuilder();
@@ -148,6 +150,10 @@ public class ListingPageRenderer {
             area.setMaximumFractionDigits(1);
             rows.add(new String[] {t.getString("spec.area"),
                     area.format(l.areaSqm()) + " " + t.getString("unit.sqm")});
+            String perSqm = formatPricePerSqm(l.price(), l.areaSqm(), l.currency(), locale);
+            if (!perSqm.isEmpty()) {
+                rows.add(new String[] {t.getString("spec.pricePerSqm"), perSqm});
+            }
         }
         if (l.floor() != null) {
             String floor = l.totalFloors() != null ? l.floor() + " / " + l.totalFloors()
@@ -400,13 +406,22 @@ public class ListingPageRenderer {
         }
     }
 
-    /** Dollars, as the app shows them, grouped the way the reader's language groups digits. */
-    static String formatPrice(BigDecimal price, Locale locale) {
+    /** In the agency's currency, grouped the way the reader's language groups digits. */
+    static String formatPrice(BigDecimal price, AgencyCurrency currency, Locale locale) {
         if (price == null) {
             return "";
         }
-        NumberFormat format = NumberFormat.getIntegerInstance(locale);
-        return "$" + format.format(price);
+        return (currency == null ? AgencyCurrency.USD : currency).format(price, locale);
+    }
+
+    /** Price over area, whole units; empty when either is missing or zero. */
+    static String formatPricePerSqm(BigDecimal price, Double areaSqm, AgencyCurrency currency,
+                                    Locale locale) {
+        if (price == null || price.signum() <= 0 || areaSqm == null || areaSqm <= 0) {
+            return "";
+        }
+        BigDecimal perSqm = price.divide(BigDecimal.valueOf(areaSqm), 0, RoundingMode.HALF_UP);
+        return formatPrice(perSqm, currency, locale);
     }
 
     private static String joinNonBlank(String separator, String... parts) {

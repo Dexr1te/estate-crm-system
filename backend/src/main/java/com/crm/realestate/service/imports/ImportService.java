@@ -344,6 +344,14 @@ public class ImportService {
             Map.entry("description", new String[]{"Description", "Описание", "Сипаттама"}));
 
     /**
+     * The heading the template gives this field in a language — 0 English, 1 Russian, 2 Kazakh.
+     * An export writes the same words, so what it writes an import reads back.
+     */
+    public static String heading(String key, int language) {
+        return HEADINGS.get(key)[language];
+    }
+
+    /**
      * An empty sheet with one heading per field, in UTF-8 with a byte-order mark so Excel shows
      * Cyrillic headings as letters. Russian and Kazakh use semicolons, which is what Excel in
      * those locales splits on when the file is opened with a double-click.

@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/map/map_tiles.dart';
+import 'package:real_estate_crm/core/utils/money.dart';
 
 import 'fakes.dart';
 
@@ -32,6 +33,7 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) async {
   Injector.dealsRepository = FakeDealsRepository(const []);
   Injector.meetingsRepository = FakeMeetingsRepository(const []);
   Injector.documentsRepository = FakeDocumentsRepository();
+  Injector.exportsRepository = FakeExportsRepository();
   Injector.notificationsPollInterval = null;
   // Maps draw blank tiles: no test reaches OpenStreetMap.
   MapTiles.provider = BlankTileProvider.new;
@@ -49,6 +51,11 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) async {
       ));
     }),
   );
+  // Money prints in dollars and English unless a test says otherwise.
+  tearDown(() {
+    AppCurrency.reset();
+    AppCurrency.locale = 'en';
+  });
   tearDown(() {
     final paths = [...reached];
     reached.clear();

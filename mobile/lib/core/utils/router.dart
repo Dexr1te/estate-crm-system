@@ -18,6 +18,8 @@ import 'package:real_estate_crm/features/auth/presentation/screens/waiting_for_t
 import 'package:real_estate_crm/features/clients/presentation/screens/client_detail_screen.dart';
 import 'package:real_estate_crm/features/clients/presentation/screens/client_form_screen.dart';
 import 'package:real_estate_crm/features/clients/presentation/screens/clients_screen.dart';
+import 'package:real_estate_crm/features/compare/domain/comparison.dart';
+import 'package:real_estate_crm/features/compare/presentation/screens/compare_screen.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/screens/dashboard_screen.dart';
 import 'package:real_estate_crm/features/deals/presentation/screens/deal_detail_screen.dart';
 import 'package:real_estate_crm/features/deals/presentation/screens/deal_form_screen.dart';
@@ -214,6 +216,15 @@ GoRouter createRouter(AuthBloc authBloc) {
         pageBuilder: (_, s) => NoTransitionPage(
           child:
               RouteScreen(day: parseRouteDate(s.uri.queryParameters['date'])),
+        ),
+      ),
+      GoRoute(
+        path: '/compare',
+        parentNavigatorKey: _rootKey,
+        builder: (_, s) => CompareScreen(
+          key: ValueKey(s.uri.query),
+          ids: parseCompareIds(s.uri.queryParameters['ids']),
+          clientId: int.tryParse(s.uri.queryParameters['client'] ?? ''),
         ),
       ),
       GoRoute(

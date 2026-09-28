@@ -11,7 +11,11 @@ class PropertyCard extends StatelessWidget {
   final PropertyResponse property;
   final VoidCallback onTap;
 
-  const PropertyCard({super.key, required this.property, required this.onTap});
+  /// In compare mode, whether it is picked; null outside compare mode.
+  final bool? picked;
+
+  const PropertyCard(
+      {super.key, required this.property, required this.onTap, this.picked});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +33,10 @@ class PropertyCard extends StatelessWidget {
             // (ru "Забронирован") at large text can leave the title nothing
             // or push past the edge. Past 40% of the room it drops under
             // the address instead, and the title keeps the full line.
-            final room = constraints.maxWidth - _coverSize - 12;
+            final room = constraints.maxWidth -
+                _coverSize -
+                12 -
+                (picked == null ? 0 : 32);
             final chip = PropertyStatusChip(status: property.status);
             final chipBelow = StatusChip.widthOf(
                     context, propertyStatusLabel(l10n, property.status)) >
@@ -37,6 +44,20 @@ class PropertyCard extends StatelessWidget {
             return Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                if (picked != null) ...[
+                  SizedBox(
+                    height: _coverSize,
+                    child: Icon(
+                      picked!
+                          ? Icons.check_circle_rounded
+                          : Icons.radio_button_unchecked_rounded,
+                      key: ValueKey('compare-pick-${property.id}'),
+                      size: 22,
+                      color: picked! ? t.accent : t.textHint,
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                ],
                 PropertyCover.of(property, size: _coverSize),
                 const SizedBox(width: 12),
                 Expanded(
@@ -83,38 +104,47 @@ class PropertyCard extends StatelessWidget {
             padding: const EdgeInsets.only(top: 11, bottom: 10),
             child: Container(height: 1, color: t.border),
           ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.baseline,
-            textBaseline: TextBaseline.alphabetic,
-            children: [
-              Text(
-                formatPrice(property.price),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                    fontFamily: AppFonts.sans,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                    color: t.textPrimary),
-              ),
-              if (showsPriceReduced(property)) ...[
-                const SizedBox(width: 8),
-                const Flexible(child: PriceReducedChip()),
-              ],
-              const SizedBox(width: 10),
-              Expanded(
-                child: Text(
-                  propertySpecs(l10n, property),
-                  textAlign: TextAlign.right,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      fontFamily: AppFonts.sans,
-                      fontSize: 11.5,
-                      color: t.textSecondary),
+          // A price in tenge or sum runs long ("987,7 млрд сум"): it keeps
+          // up to 60% of the line and ends in an ellipsis past that, rather
+          // than pushing the specs off the card.
+          LayoutBuilder(
+            builder: (context, constraints) => Row(
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              textBaseline: TextBaseline.alphabetic,
+              children: [
+                ConstrainedBox(
+                  constraints:
+                      BoxConstraints(maxWidth: constraints.maxWidth * 0.6),
+                  child: Text(
+                    formatPrice(property.price),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontFamily: AppFonts.sans,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: t.textPrimary),
+                  ),
                 ),
-              ),
-            ],
+                if (showsPriceReduced(property)) ...[
+                  const SizedBox(width: 8),
+                  const Flexible(child: PriceReducedChip()),
+                ],
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    propertySpecs(l10n, property),
+                    textAlign: TextAlign.right,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontFamily: AppFonts.sans,
+                        fontSize: 11.5,
+                        color: t.textSecondary),
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),

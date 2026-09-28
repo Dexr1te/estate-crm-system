@@ -20,6 +20,7 @@ export 'package:real_estate_crm/core/widgets/filter_pill.dart';
 export 'package:real_estate_crm/core/widgets/loading_error.dart';
 export 'package:real_estate_crm/core/widgets/messages.dart';
 export 'package:real_estate_crm/core/widgets/metrics_card.dart';
+export 'package:real_estate_crm/core/widgets/money_scope.dart';
 export 'package:real_estate_crm/core/widgets/offline_banner.dart';
 export 'package:real_estate_crm/core/widgets/settings_group.dart';
 export 'package:real_estate_crm/core/widgets/shimmer.dart';

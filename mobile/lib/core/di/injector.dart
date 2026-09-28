@@ -20,6 +20,7 @@ import 'package:real_estate_crm/features/auth/domain/repositories/auth_repositor
 import 'package:real_estate_crm/features/clients/data/datasources/clients_remote_datasource.dart';
 import 'package:real_estate_crm/features/clients/data/repositories/clients_repository_impl.dart';
 import 'package:real_estate_crm/features/clients/domain/repositories/clients_repository.dart';
+import 'package:real_estate_crm/features/compare/data/comparison_tray.dart';
 import 'package:real_estate_crm/features/dashboard/data/datasources/dashboard_remote_datasource.dart';
 import 'package:real_estate_crm/features/dashboard/data/repositories/dashboard_repository_impl.dart';
 import 'package:real_estate_crm/features/dashboard/domain/repositories/dashboard_repository.dart';
@@ -32,6 +33,9 @@ import 'package:real_estate_crm/features/deals/domain/repositories/deals_reposit
 import 'package:real_estate_crm/features/documents/data/datasources/documents_remote_datasource.dart';
 import 'package:real_estate_crm/features/documents/data/repositories/documents_repository_impl.dart';
 import 'package:real_estate_crm/features/documents/domain/repositories/documents_repository.dart';
+import 'package:real_estate_crm/features/exports/data/datasources/exports_remote_datasource.dart';
+import 'package:real_estate_crm/features/exports/data/repositories/exports_repository_impl.dart';
+import 'package:real_estate_crm/features/exports/domain/repositories/exports_repository.dart';
 import 'package:real_estate_crm/features/imports/data/datasources/imports_remote_datasource.dart';
 import 'package:real_estate_crm/features/imports/data/repositories/imports_repository_impl.dart';
 import 'package:real_estate_crm/features/imports/domain/repositories/imports_repository.dart';
@@ -86,6 +90,10 @@ class Injector {
 
   static ShareGateway shareGateway = const DeviceShareGateway();
 
+  /// Listings set aside for comparison, kept per signed-in user.
+  static ComparisonTray comparisonTray =
+      ComparisonTray(scope: () => session.cacheScope);
+
   static QuickActions quickActions = const QuickActions();
 
   static MeetingsRepository meetingsRepository =
@@ -119,6 +127,9 @@ class Injector {
 
   static DayRouteRepository get dayRouteRepository =>
       DayRouteRepositoryImpl(meetingsRepository, propertiesRepository);
+
+  static ExportsRepository exportsRepository =
+      ExportsRepositoryImpl(ExportsRemoteDataSource(_apiClient));
 
   static SearchRepository get searchRepository => SearchRepositoryImpl(
       clientsRepository, propertiesRepository, dealsRepository);

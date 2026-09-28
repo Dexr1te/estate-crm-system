@@ -1076,6 +1076,136 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clientsWantedType => 'Property type';
 
   @override
+  String get compareAction => 'Compare';
+
+  @override
+  String get compareAdd => 'Add to comparison';
+
+  @override
+  String get compareAdded => 'Added to comparison';
+
+  @override
+  String compareBarButton(int count) {
+    return 'Compare ($count)';
+  }
+
+  @override
+  String get compareBestLegend => 'Green marks the best value in a row';
+
+  @override
+  String compareDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days',
+      one: '1 day',
+      zero: 'Listed today',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get compareExit => 'Done';
+
+  @override
+  String get compareFirstFloor => 'first floor';
+
+  @override
+  String get compareFitMatches => 'Fits requirements';
+
+  @override
+  String get compareFitOutside => 'Outside requirements';
+
+  @override
+  String get compareFitOverBudget => 'Over budget';
+
+  @override
+  String get compareLastFloor => 'last floor';
+
+  @override
+  String get compareLimit =>
+      'Up to 4 listings side by side. Remove one to add another.';
+
+  @override
+  String get compareLinks => 'Include links';
+
+  @override
+  String get compareLinksHint =>
+      'A page per listing with all its photos, added under each one.';
+
+  @override
+  String get compareNeedTwo => 'Pick two listings to compare';
+
+  @override
+  String get compareNeedTwoHint =>
+      'Choose Compare on the Properties tab, or add listings from their pages.';
+
+  @override
+  String get comparePickHint => 'Pick two to four listings';
+
+  @override
+  String get compareRemove => 'Remove from comparison';
+
+  @override
+  String get compareRemoved => 'Removed from comparison';
+
+  @override
+  String get compareRowAgent => 'Agent';
+
+  @override
+  String get compareRowArea => 'Area';
+
+  @override
+  String get compareRowDays => 'On the market';
+
+  @override
+  String get compareRowFit => 'For this buyer';
+
+  @override
+  String get compareRowFloor => 'Floor';
+
+  @override
+  String get compareRowLinkViews => 'Link views';
+
+  @override
+  String get compareRowPlace => 'Address';
+
+  @override
+  String get compareRowPrice => 'Price';
+
+  @override
+  String get compareRowPriceChange => 'Last price change';
+
+  @override
+  String get compareRowPricePerSqm => 'Price per m²';
+
+  @override
+  String get compareRowRooms => 'Rooms';
+
+  @override
+  String get compareRowType => 'Type';
+
+  @override
+  String get compareSelected => 'Compare selected';
+
+  @override
+  String get compareSend => 'Send comparison';
+
+  @override
+  String get compareSendFailed => 'Could not open sending';
+
+  @override
+  String compareShareBest(String title) {
+    return 'Best price per m²: $title';
+  }
+
+  @override
+  String get compareShareIntro => 'Here is how the listings compare:';
+
+  @override
+  String get compareTitle => 'Comparison';
+
+  @override
   String get coreCall => 'Call';
 
   @override
@@ -1887,6 +2017,72 @@ class AppLocalizationsEn extends AppLocalizations {
   String get documentsUploading => 'Sending…';
 
   @override
+  String get exportAction => 'Export';
+
+  @override
+  String get exportAllNote => 'Everything you can see, without filters.';
+
+  @override
+  String get exportConfirm => 'Export CSV';
+
+  @override
+  String get exportConsoleSubtitle =>
+      'Your agency\'s book as spreadsheets: for the owner, the accountant, or a copy of your own.';
+
+  @override
+  String get exportConsoleTitle => 'Export';
+
+  @override
+  String get exportDelimiter => 'Separator';
+
+  @override
+  String get exportDelimiterComma => 'Comma';
+
+  @override
+  String get exportDelimiterHint =>
+      'Excel in Russian or Kazakh splits columns on semicolons; in English, on commas.';
+
+  @override
+  String get exportDelimiterSemicolon => 'Semicolon';
+
+  @override
+  String get exportFailed => 'Couldn\'t export. Try again.';
+
+  @override
+  String get exportFiltersNote =>
+      'Only what the list shows now, with its filters.';
+
+  @override
+  String get exportFormatNote =>
+      'A CSV file that opens in Excel, Google Sheets and Numbers, and imports back into the CRM as it is.';
+
+  @override
+  String get exportKindClients => 'Clients';
+
+  @override
+  String get exportKindDeals => 'Deals';
+
+  @override
+  String get exportKindProperties => 'Listings';
+
+  @override
+  String get exportPersonalData =>
+      'Includes personal data: names, phones and emails. Handle with care and share it no further than needed.';
+
+  @override
+  String get exportTitleClients => 'Export clients';
+
+  @override
+  String get exportTitleDeals => 'Export deals';
+
+  @override
+  String get exportTitleProperties => 'Export listings';
+
+  @override
+  String get exportTooMany =>
+      'Too many rows for one file. Narrow the filters and export in parts.';
+
+  @override
   String importAction(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -2566,6 +2762,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get msgCommentUpdated => 'Comment updated';
+
+  @override
+  String get msgCurrencyChanged => 'Currency changed';
 
   @override
   String get msgDealCreated => 'Deal created';
@@ -3758,6 +3957,42 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get teamsCreateTeam => 'Create team';
+
+  @override
+  String get teamsCurrency => 'Agency currency';
+
+  @override
+  String get teamsCurrencyConfirm => 'Change currency';
+
+  @override
+  String teamsCurrencyConfirmBody(
+      String currency, String before, String after) {
+    return 'Everyone in the agency will see prices in $currency. Amounts are not converted: a listing priced $before will read $after.';
+  }
+
+  @override
+  String get teamsCurrencyConfirmTitle => 'Change the agency currency?';
+
+  @override
+  String get teamsCurrencyEur => 'Euro (€)';
+
+  @override
+  String get teamsCurrencyHint => 'How prices read across the app';
+
+  @override
+  String get teamsCurrencyKgs => 'Kyrgyz som (KGS)';
+
+  @override
+  String get teamsCurrencyKzt => 'Tenge (₸)';
+
+  @override
+  String get teamsCurrencyRub => 'Rouble (₽)';
+
+  @override
+  String get teamsCurrencyUsd => 'US dollar (\$)';
+
+  @override
+  String get teamsCurrencyUzs => 'Uzbek som (UZS)';
 
   @override
   String get teamsDeals => 'Deals';
