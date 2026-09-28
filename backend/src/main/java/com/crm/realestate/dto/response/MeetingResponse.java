@@ -20,6 +20,9 @@ public class MeetingResponse {
     private Long propertyId;
     private String propertyTitle;
     private String propertyAddress;
+    /** The listing's pin, so a day of viewings can be drawn as a route without a fetch per listing. */
+    private Double propertyLatitude;
+    private Double propertyLongitude;
     private Long agentId;
     private String agentName;
     private Long clientId;

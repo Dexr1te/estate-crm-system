@@ -1486,6 +1486,115 @@
   "remindersPermissionDenied": "Notifications are off for EstateCRM. Turn them on in your phone’s settings.",
   "remindersTaskDue": "Due now",
   "remindersTaskDueWithClient": "Due now · {client}",
+  "routeAddPin": "Add a pin",
+  "routeAppApple": "Apple Maps",
+  "routeAppDgis": "2GIS",
+  "routeAppGoogle": "Google Maps",
+  "routeAppNextOnly": "Next stop only",
+  "routeAppStops": "Stops {from}–{to} of {total}",
+  "@routeAppStops": {
+    "placeholders": {
+      "from": {
+        "type": "int"
+      },
+      "to": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "routeAppWhole": "Whole route, in order",
+  "routeAppYandex": "Yandex Maps",
+  "routeChooserNext": "Next stop: {title}",
+  "@routeChooserNext": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "routeChooserTitle": "Open in a maps app",
+  "routeChooserWhole": "Every stop still ahead, in the order they are booked",
+  "routeDayOver": "No stops left for this day",
+  "routeDone": "Done",
+  "routeDurationHourMin": "{hours} h {minutes} min",
+  "@routeDurationHourMin": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "routeDurationHours": "{hours} h",
+  "@routeDurationHours": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "routeDurationMin": "{minutes} min",
+  "@routeDurationMin": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "routeEmpty": "No viewings this day",
+  "routeEmptyHint": "A meeting booked on a listing shows up here as a stop.",
+  "routeEntryDay": "Route for this day",
+  "routeEntryToday": "Today's route",
+  "routeFromPrevious": "{km} km from the previous stop",
+  "@routeFromPrevious": {
+    "placeholders": {
+      "km": {
+        "type": "String"
+      }
+    }
+  },
+  "routeLoadFailed": "Couldn't load the route",
+  "routeNavigateNext": "Navigate to next stop",
+  "routeNext": "Next",
+  "routeNotOnMap": "Not on the map",
+  "routeNotOnMapHint": "These listings have no pin yet, so they are not in the route.",
+  "routeOpenFailed": "Couldn't open a maps app",
+  "routeOpenWhole": "Open the whole route",
+  "routeOverlap": "Overlaps the next viewing",
+  "routeStopsCount": "{count, plural, =1{1 stop} other{{count} stops}}",
+  "@routeStopsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "routeStraightLine": "Straight lines between stops, not driving directions",
+  "routeSummary": "{stops} · {km} km straight-line",
+  "@routeSummary": {
+    "placeholders": {
+      "stops": {
+        "type": "String"
+      },
+      "km": {
+        "type": "String"
+      }
+    }
+  },
+  "routeTitle": "Viewings route",
+  "routeUntilNext": "{duration} until the next one",
+  "@routeUntilNext": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
   "searchClear": "Clear",
   "searchClearRecent": "Clear",
   "searchHint": "Clients, listings, deals…",

@@ -14,6 +14,7 @@ import 'package:real_estate_crm/features/calendar/presentation/widgets/day_agend
 import 'package:real_estate_crm/features/calendar/presentation/widgets/month_grid.dart';
 import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_bloc.dart';
 import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_state.dart';
+import 'package:real_estate_crm/features/route/domain/day_route.dart';
 import 'package:real_estate_crm/features/tasks/presentation/widgets/task_sheet.dart';
 
 /// The week starts on Monday in Russian and Kazakh; English follows what the
@@ -168,6 +169,10 @@ class _CalendarMonthViewState extends State<CalendarMonthView> {
                       : () => bloc.add(CalendarSelectDayEvent(today)),
                   onOpenMeeting: (m) async {
                     await context.push('/meetings/${m.id}');
+                    if (mounted) bloc.add(CalendarRefreshEvent());
+                  },
+                  onRoute: () async {
+                    await context.push('/route?date=${routeDateParam(day)}');
                     if (mounted) bloc.add(CalendarRefreshEvent());
                   },
                   onOpenTask: (task) => showTaskSheet(context, task: task),

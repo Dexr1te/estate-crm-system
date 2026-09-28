@@ -5848,6 +5848,210 @@ abstract class AppLocalizations {
   /// **'Due now · {client}'**
   String remindersTaskDueWithClient(Object client);
 
+  /// No description provided for @routeAddPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a pin'**
+  String get routeAddPin;
+
+  /// No description provided for @routeAppApple.
+  ///
+  /// In en, this message translates to:
+  /// **'Apple Maps'**
+  String get routeAppApple;
+
+  /// No description provided for @routeAppDgis.
+  ///
+  /// In en, this message translates to:
+  /// **'2GIS'**
+  String get routeAppDgis;
+
+  /// No description provided for @routeAppGoogle.
+  ///
+  /// In en, this message translates to:
+  /// **'Google Maps'**
+  String get routeAppGoogle;
+
+  /// No description provided for @routeAppNextOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Next stop only'**
+  String get routeAppNextOnly;
+
+  /// No description provided for @routeAppStops.
+  ///
+  /// In en, this message translates to:
+  /// **'Stops {from}–{to} of {total}'**
+  String routeAppStops(int from, int to, int total);
+
+  /// No description provided for @routeAppWhole.
+  ///
+  /// In en, this message translates to:
+  /// **'Whole route, in order'**
+  String get routeAppWhole;
+
+  /// No description provided for @routeAppYandex.
+  ///
+  /// In en, this message translates to:
+  /// **'Yandex Maps'**
+  String get routeAppYandex;
+
+  /// No description provided for @routeChooserNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next stop: {title}'**
+  String routeChooserNext(String title);
+
+  /// No description provided for @routeChooserTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Open in a maps app'**
+  String get routeChooserTitle;
+
+  /// No description provided for @routeChooserWhole.
+  ///
+  /// In en, this message translates to:
+  /// **'Every stop still ahead, in the order they are booked'**
+  String get routeChooserWhole;
+
+  /// No description provided for @routeDayOver.
+  ///
+  /// In en, this message translates to:
+  /// **'No stops left for this day'**
+  String get routeDayOver;
+
+  /// No description provided for @routeDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get routeDone;
+
+  /// No description provided for @routeDurationHourMin.
+  ///
+  /// In en, this message translates to:
+  /// **'{hours} h {minutes} min'**
+  String routeDurationHourMin(int hours, int minutes);
+
+  /// No description provided for @routeDurationHours.
+  ///
+  /// In en, this message translates to:
+  /// **'{hours} h'**
+  String routeDurationHours(int hours);
+
+  /// No description provided for @routeDurationMin.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes} min'**
+  String routeDurationMin(int minutes);
+
+  /// No description provided for @routeEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No viewings this day'**
+  String get routeEmpty;
+
+  /// No description provided for @routeEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'A meeting booked on a listing shows up here as a stop.'**
+  String get routeEmptyHint;
+
+  /// No description provided for @routeEntryDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Route for this day'**
+  String get routeEntryDay;
+
+  /// No description provided for @routeEntryToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s route'**
+  String get routeEntryToday;
+
+  /// No description provided for @routeFromPrevious.
+  ///
+  /// In en, this message translates to:
+  /// **'{km} km from the previous stop'**
+  String routeFromPrevious(String km);
+
+  /// No description provided for @routeLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load the route'**
+  String get routeLoadFailed;
+
+  /// No description provided for @routeNavigateNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Navigate to next stop'**
+  String get routeNavigateNext;
+
+  /// No description provided for @routeNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get routeNext;
+
+  /// No description provided for @routeNotOnMap.
+  ///
+  /// In en, this message translates to:
+  /// **'Not on the map'**
+  String get routeNotOnMap;
+
+  /// No description provided for @routeNotOnMapHint.
+  ///
+  /// In en, this message translates to:
+  /// **'These listings have no pin yet, so they are not in the route.'**
+  String get routeNotOnMapHint;
+
+  /// No description provided for @routeOpenFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t open a maps app'**
+  String get routeOpenFailed;
+
+  /// No description provided for @routeOpenWhole.
+  ///
+  /// In en, this message translates to:
+  /// **'Open the whole route'**
+  String get routeOpenWhole;
+
+  /// No description provided for @routeOverlap.
+  ///
+  /// In en, this message translates to:
+  /// **'Overlaps the next viewing'**
+  String get routeOverlap;
+
+  /// No description provided for @routeStopsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 stop} other{{count} stops}}'**
+  String routeStopsCount(int count);
+
+  /// No description provided for @routeStraightLine.
+  ///
+  /// In en, this message translates to:
+  /// **'Straight lines between stops, not driving directions'**
+  String get routeStraightLine;
+
+  /// No description provided for @routeSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'{stops} · {km} km straight-line'**
+  String routeSummary(String stops, String km);
+
+  /// No description provided for @routeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Viewings route'**
+  String get routeTitle;
+
+  /// No description provided for @routeUntilNext.
+  ///
+  /// In en, this message translates to:
+  /// **'{duration} until the next one'**
+  String routeUntilNext(String duration);
+
   /// No description provided for @searchClear.
   ///
   /// In en, this message translates to:

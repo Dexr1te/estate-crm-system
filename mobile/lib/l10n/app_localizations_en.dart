@@ -3409,6 +3409,136 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get routeAddPin => 'Add a pin';
+
+  @override
+  String get routeAppApple => 'Apple Maps';
+
+  @override
+  String get routeAppDgis => '2GIS';
+
+  @override
+  String get routeAppGoogle => 'Google Maps';
+
+  @override
+  String get routeAppNextOnly => 'Next stop only';
+
+  @override
+  String routeAppStops(int from, int to, int total) {
+    return 'Stops $from–$to of $total';
+  }
+
+  @override
+  String get routeAppWhole => 'Whole route, in order';
+
+  @override
+  String get routeAppYandex => 'Yandex Maps';
+
+  @override
+  String routeChooserNext(String title) {
+    return 'Next stop: $title';
+  }
+
+  @override
+  String get routeChooserTitle => 'Open in a maps app';
+
+  @override
+  String get routeChooserWhole =>
+      'Every stop still ahead, in the order they are booked';
+
+  @override
+  String get routeDayOver => 'No stops left for this day';
+
+  @override
+  String get routeDone => 'Done';
+
+  @override
+  String routeDurationHourMin(int hours, int minutes) {
+    return '$hours h $minutes min';
+  }
+
+  @override
+  String routeDurationHours(int hours) {
+    return '$hours h';
+  }
+
+  @override
+  String routeDurationMin(int minutes) {
+    return '$minutes min';
+  }
+
+  @override
+  String get routeEmpty => 'No viewings this day';
+
+  @override
+  String get routeEmptyHint =>
+      'A meeting booked on a listing shows up here as a stop.';
+
+  @override
+  String get routeEntryDay => 'Route for this day';
+
+  @override
+  String get routeEntryToday => 'Today\'s route';
+
+  @override
+  String routeFromPrevious(String km) {
+    return '$km km from the previous stop';
+  }
+
+  @override
+  String get routeLoadFailed => 'Couldn\'t load the route';
+
+  @override
+  String get routeNavigateNext => 'Navigate to next stop';
+
+  @override
+  String get routeNext => 'Next';
+
+  @override
+  String get routeNotOnMap => 'Not on the map';
+
+  @override
+  String get routeNotOnMapHint =>
+      'These listings have no pin yet, so they are not in the route.';
+
+  @override
+  String get routeOpenFailed => 'Couldn\'t open a maps app';
+
+  @override
+  String get routeOpenWhole => 'Open the whole route';
+
+  @override
+  String get routeOverlap => 'Overlaps the next viewing';
+
+  @override
+  String routeStopsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count stops',
+      one: '1 stop',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get routeStraightLine =>
+      'Straight lines between stops, not driving directions';
+
+  @override
+  String routeSummary(String stops, String km) {
+    return '$stops · $km km straight-line';
+  }
+
+  @override
+  String get routeTitle => 'Viewings route';
+
+  @override
+  String routeUntilNext(String duration) {
+    return '$duration until the next one';
+  }
+
+  @override
   String get searchClear => 'Clear';
 
   @override
