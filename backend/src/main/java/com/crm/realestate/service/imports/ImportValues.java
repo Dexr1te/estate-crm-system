@@ -25,13 +25,13 @@ public final class ImportValues {
     // Numbers -----------------------------------------------------------------------------------
 
     private static final Pattern MULTIPLIER = Pattern.compile(
-            "(млрд|миллиард\\w*|bn|billion|mlrd"
+            "(млрд|миллиард\\w*|bn|billion|mlrd|b"
                     + "|млн|миллион\\w*|mln|million|mio|m"
                     + "|тыс|тысяч\\w*|мың|k|thousand)\\.?$");
 
     /** Currency marks and words that may sit around an amount and mean nothing to its value. */
     private static final Pattern CURRENCY = Pattern.compile(
-            "[$€₸₽£]|kzt|usd|eur|rub|тенге|теңге|тг|руб\\w*|р\\.|₸");
+            "[$€₸₽£]|kzt|usd|eur|rub|uzs|kgs|тенге|теңге|тг|руб\\w*|р\\.|сум\\w*|сом\\w*|so['ʻ’]?m\\b");
 
     /**
      * A price: "12 500 000", "12,5 млн", "12.5M", "$12,500,000", "12.500.000 тг".
@@ -159,7 +159,7 @@ public final class ImportValues {
     }
 
     private static BigDecimal multiplierOf(String word) {
-        if (word.startsWith("млрд") || word.startsWith("миллиард") || word.equals("bn")
+        if (word.startsWith("млрд") || word.startsWith("миллиард") || word.equals("bn") || word.equals("b")
                 || word.equals("billion") || word.equals("mlrd")) {
             return BigDecimal.valueOf(1_000_000_000L);
         }

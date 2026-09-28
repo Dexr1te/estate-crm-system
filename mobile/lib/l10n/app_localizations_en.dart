@@ -2017,6 +2017,72 @@ class AppLocalizationsEn extends AppLocalizations {
   String get documentsUploading => 'Sending…';
 
   @override
+  String get exportAction => 'Export';
+
+  @override
+  String get exportAllNote => 'Everything you can see, without filters.';
+
+  @override
+  String get exportConfirm => 'Export CSV';
+
+  @override
+  String get exportConsoleSubtitle =>
+      'Your agency\'s book as spreadsheets: for the owner, the accountant, or a copy of your own.';
+
+  @override
+  String get exportConsoleTitle => 'Export';
+
+  @override
+  String get exportDelimiter => 'Separator';
+
+  @override
+  String get exportDelimiterComma => 'Comma';
+
+  @override
+  String get exportDelimiterHint =>
+      'Excel in Russian or Kazakh splits columns on semicolons; in English, on commas.';
+
+  @override
+  String get exportDelimiterSemicolon => 'Semicolon';
+
+  @override
+  String get exportFailed => 'Couldn\'t export. Try again.';
+
+  @override
+  String get exportFiltersNote =>
+      'Only what the list shows now, with its filters.';
+
+  @override
+  String get exportFormatNote =>
+      'A CSV file that opens in Excel, Google Sheets and Numbers, and imports back into the CRM as it is.';
+
+  @override
+  String get exportKindClients => 'Clients';
+
+  @override
+  String get exportKindDeals => 'Deals';
+
+  @override
+  String get exportKindProperties => 'Listings';
+
+  @override
+  String get exportPersonalData =>
+      'Includes personal data: names, phones and emails. Handle with care and share it no further than needed.';
+
+  @override
+  String get exportTitleClients => 'Export clients';
+
+  @override
+  String get exportTitleDeals => 'Export deals';
+
+  @override
+  String get exportTitleProperties => 'Export listings';
+
+  @override
+  String get exportTooMany =>
+      'Too many rows for one file. Narrow the filters and export in parts.';
+
+  @override
   String importAction(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -2696,6 +2762,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get msgCommentUpdated => 'Comment updated';
+
+  @override
+  String get msgCurrencyChanged => 'Currency changed';
 
   @override
   String get msgDealCreated => 'Deal created';
@@ -3758,6 +3827,42 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get teamsCreateTeam => 'Create team';
+
+  @override
+  String get teamsCurrency => 'Agency currency';
+
+  @override
+  String get teamsCurrencyConfirm => 'Change currency';
+
+  @override
+  String teamsCurrencyConfirmBody(
+      String currency, String before, String after) {
+    return 'Everyone in the agency will see prices in $currency. Amounts are not converted: a listing priced $before will read $after.';
+  }
+
+  @override
+  String get teamsCurrencyConfirmTitle => 'Change the agency currency?';
+
+  @override
+  String get teamsCurrencyEur => 'Euro (€)';
+
+  @override
+  String get teamsCurrencyHint => 'How prices read across the app';
+
+  @override
+  String get teamsCurrencyKgs => 'Kyrgyz som (KGS)';
+
+  @override
+  String get teamsCurrencyKzt => 'Tenge (₸)';
+
+  @override
+  String get teamsCurrencyRub => 'Rouble (₽)';
+
+  @override
+  String get teamsCurrencyUsd => 'US dollar (\$)';
+
+  @override
+  String get teamsCurrencyUzs => 'Uzbek som (UZS)';
 
   @override
   String get teamsDeals => 'Deals';

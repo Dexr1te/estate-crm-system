@@ -8,6 +8,10 @@ class SessionStore {
   static const _userKey = 'auth_user';
   static const _legacyKeys = [_accessKey, _refreshKey, _userKey];
 
+  /// The team's currency, kept apart from the user line so that line (and the
+  /// cache scope read from it) stays as earlier builds wrote it.
+  static const _currencyKey = 'auth_currency';
+
   final FlutterSecureStorage _storage;
 
   SessionStore({FlutterSecureStorage? storage})
@@ -19,6 +23,7 @@ class SessionStore {
   String? _accessToken;
   String? _refreshToken;
   String? _user;
+  String? _currency;
 
   final List<Future<void> Function()> _clearListeners = [];
 
@@ -53,6 +58,7 @@ class SessionStore {
     _accessToken = await _storage.read(key: _accessKey);
     _refreshToken = await _storage.read(key: _refreshKey);
     _user = await _storage.read(key: _userKey);
+    _currency = await _storage.read(key: _currencyKey);
 
     if (_accessToken == null) await _migrateFromPreferences();
   }
@@ -65,18 +71,21 @@ class SessionStore {
     _accessToken = auth.accessToken;
     _refreshToken = auth.refreshToken;
     _user = _encodeAuthUser(auth);
+    _currency = auth.teamCurrency;
 
     await _storage.write(key: _accessKey, value: _accessToken);
     await _storage.write(key: _refreshKey, value: _refreshToken);
     await _storage.write(key: _userKey, value: _user);
+    await _storage.write(key: _currencyKey, value: _currency);
   }
 
   Future<void> clear() async {
     _accessToken = null;
     _refreshToken = null;
     _user = null;
+    _currency = null;
 
-    for (final key in _legacyKeys) {
+    for (final key in [..._legacyKeys, _currencyKey]) {
       await _storage.delete(key: key);
     }
     await _notifyCleared();
@@ -130,6 +139,7 @@ class SessionStore {
       'email': parts.length > 2 ? parts[2] : '',
       'role': parts.length > 3 ? parts[3] : 'AGENT',
       'teamId': parts.length > 4 ? int.tryParse(parts.last) : null,
+      'teamCurrency': _currency,
     };
   }
 }

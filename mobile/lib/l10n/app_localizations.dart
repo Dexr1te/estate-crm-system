@@ -3568,6 +3568,126 @@ abstract class AppLocalizations {
   /// **'Sending…'**
   String get documentsUploading;
 
+  /// No description provided for @exportAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Export'**
+  String get exportAction;
+
+  /// No description provided for @exportAllNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything you can see, without filters.'**
+  String get exportAllNote;
+
+  /// No description provided for @exportConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Export CSV'**
+  String get exportConfirm;
+
+  /// No description provided for @exportConsoleSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your agency\'s book as spreadsheets: for the owner, the accountant, or a copy of your own.'**
+  String get exportConsoleSubtitle;
+
+  /// No description provided for @exportConsoleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Export'**
+  String get exportConsoleTitle;
+
+  /// No description provided for @exportDelimiter.
+  ///
+  /// In en, this message translates to:
+  /// **'Separator'**
+  String get exportDelimiter;
+
+  /// No description provided for @exportDelimiterComma.
+  ///
+  /// In en, this message translates to:
+  /// **'Comma'**
+  String get exportDelimiterComma;
+
+  /// No description provided for @exportDelimiterHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Excel in Russian or Kazakh splits columns on semicolons; in English, on commas.'**
+  String get exportDelimiterHint;
+
+  /// No description provided for @exportDelimiterSemicolon.
+  ///
+  /// In en, this message translates to:
+  /// **'Semicolon'**
+  String get exportDelimiterSemicolon;
+
+  /// No description provided for @exportFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t export. Try again.'**
+  String get exportFailed;
+
+  /// No description provided for @exportFiltersNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Only what the list shows now, with its filters.'**
+  String get exportFiltersNote;
+
+  /// No description provided for @exportFormatNote.
+  ///
+  /// In en, this message translates to:
+  /// **'A CSV file that opens in Excel, Google Sheets and Numbers, and imports back into the CRM as it is.'**
+  String get exportFormatNote;
+
+  /// No description provided for @exportKindClients.
+  ///
+  /// In en, this message translates to:
+  /// **'Clients'**
+  String get exportKindClients;
+
+  /// No description provided for @exportKindDeals.
+  ///
+  /// In en, this message translates to:
+  /// **'Deals'**
+  String get exportKindDeals;
+
+  /// No description provided for @exportKindProperties.
+  ///
+  /// In en, this message translates to:
+  /// **'Listings'**
+  String get exportKindProperties;
+
+  /// No description provided for @exportPersonalData.
+  ///
+  /// In en, this message translates to:
+  /// **'Includes personal data: names, phones and emails. Handle with care and share it no further than needed.'**
+  String get exportPersonalData;
+
+  /// No description provided for @exportTitleClients.
+  ///
+  /// In en, this message translates to:
+  /// **'Export clients'**
+  String get exportTitleClients;
+
+  /// No description provided for @exportTitleDeals.
+  ///
+  /// In en, this message translates to:
+  /// **'Export deals'**
+  String get exportTitleDeals;
+
+  /// No description provided for @exportTitleProperties.
+  ///
+  /// In en, this message translates to:
+  /// **'Export listings'**
+  String get exportTitleProperties;
+
+  /// No description provided for @exportTooMany.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many rows for one file. Narrow the filters and export in parts.'**
+  String get exportTooMany;
+
   /// No description provided for @importAction.
   ///
   /// In en, this message translates to:
@@ -4743,6 +4863,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Comment updated'**
   String get msgCommentUpdated;
+
+  /// No description provided for @msgCurrencyChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'Currency changed'**
+  String get msgCurrencyChanged;
 
   /// No description provided for @msgDealCreated.
   ///
@@ -6483,6 +6609,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Create team'**
   String get teamsCreateTeam;
+
+  /// No description provided for @teamsCurrency.
+  ///
+  /// In en, this message translates to:
+  /// **'Agency currency'**
+  String get teamsCurrency;
+
+  /// No description provided for @teamsCurrencyConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Change currency'**
+  String get teamsCurrencyConfirm;
+
+  /// No description provided for @teamsCurrencyConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Everyone in the agency will see prices in {currency}. Amounts are not converted: a listing priced {before} will read {after}.'**
+  String teamsCurrencyConfirmBody(String currency, String before, String after);
+
+  /// No description provided for @teamsCurrencyConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Change the agency currency?'**
+  String get teamsCurrencyConfirmTitle;
+
+  /// No description provided for @teamsCurrencyEur.
+  ///
+  /// In en, this message translates to:
+  /// **'Euro (€)'**
+  String get teamsCurrencyEur;
+
+  /// No description provided for @teamsCurrencyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'How prices read across the app'**
+  String get teamsCurrencyHint;
+
+  /// No description provided for @teamsCurrencyKgs.
+  ///
+  /// In en, this message translates to:
+  /// **'Kyrgyz som (KGS)'**
+  String get teamsCurrencyKgs;
+
+  /// No description provided for @teamsCurrencyKzt.
+  ///
+  /// In en, this message translates to:
+  /// **'Tenge (₸)'**
+  String get teamsCurrencyKzt;
+
+  /// No description provided for @teamsCurrencyRub.
+  ///
+  /// In en, this message translates to:
+  /// **'Rouble (₽)'**
+  String get teamsCurrencyRub;
+
+  /// No description provided for @teamsCurrencyUsd.
+  ///
+  /// In en, this message translates to:
+  /// **'US dollar (\$)'**
+  String get teamsCurrencyUsd;
+
+  /// No description provided for @teamsCurrencyUzs.
+  ///
+  /// In en, this message translates to:
+  /// **'Uzbek som (UZS)'**
+  String get teamsCurrencyUzs;
 
   /// No description provided for @teamsDeals.
   ///

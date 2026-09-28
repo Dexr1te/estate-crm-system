@@ -104,38 +104,47 @@ class PropertyCard extends StatelessWidget {
             padding: const EdgeInsets.only(top: 11, bottom: 10),
             child: Container(height: 1, color: t.border),
           ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.baseline,
-            textBaseline: TextBaseline.alphabetic,
-            children: [
-              Text(
-                formatPrice(property.price),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                    fontFamily: AppFonts.sans,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                    color: t.textPrimary),
-              ),
-              if (showsPriceReduced(property)) ...[
-                const SizedBox(width: 8),
-                const Flexible(child: PriceReducedChip()),
-              ],
-              const SizedBox(width: 10),
-              Expanded(
-                child: Text(
-                  propertySpecs(l10n, property),
-                  textAlign: TextAlign.right,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      fontFamily: AppFonts.sans,
-                      fontSize: 11.5,
-                      color: t.textSecondary),
+          // A price in tenge or sum runs long ("987,7 млрд сум"): it keeps
+          // up to 60% of the line and ends in an ellipsis past that, rather
+          // than pushing the specs off the card.
+          LayoutBuilder(
+            builder: (context, constraints) => Row(
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              textBaseline: TextBaseline.alphabetic,
+              children: [
+                ConstrainedBox(
+                  constraints:
+                      BoxConstraints(maxWidth: constraints.maxWidth * 0.6),
+                  child: Text(
+                    formatPrice(property.price),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontFamily: AppFonts.sans,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: t.textPrimary),
+                  ),
                 ),
-              ),
-            ],
+                if (showsPriceReduced(property)) ...[
+                  const SizedBox(width: 8),
+                  const Flexible(child: PriceReducedChip()),
+                ],
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    propertySpecs(l10n, property),
+                    textAlign: TextAlign.right,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontFamily: AppFonts.sans,
+                        fontSize: 11.5,
+                        color: t.textSecondary),
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),

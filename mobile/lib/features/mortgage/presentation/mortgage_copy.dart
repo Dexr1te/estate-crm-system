@@ -26,10 +26,15 @@ String formatPercent(double value) => formatRate((value * 10).round() / 10);
 
 String formatCents(int cents) => formatPrice(fromCents(cents));
 
+final _noise = RegExp(r'[\s$%₸₽€]|kzt|rub|usd|eur|uzs|kgs|сум|сом|тг',
+    caseSensitive: false);
+
 /// Reads what someone typed as money or a percentage: spaces and thousands
-/// separators are ignored, a comma counts as the decimal point.
+/// separators are ignored, a comma counts as the decimal point, and any of
+/// the currency signs the app prints ("₸", "₽", "€", "сум", "KGS"…) is
+/// dropped, so a price pasted from a listing reads back.
 double? parseAmount(String raw) {
-  var s = raw.replaceAll(RegExp(r'[\s$%]'), '');
+  var s = raw.replaceAll(_noise, '');
   if (s.isEmpty) return null;
   if (s.contains(',') && !s.contains('.')) {
     final parts = s.split(',');

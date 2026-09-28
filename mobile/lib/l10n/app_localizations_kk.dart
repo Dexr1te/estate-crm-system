@@ -2010,6 +2010,72 @@ class AppLocalizationsKk extends AppLocalizations {
   String get documentsUploading => 'Жіберілуде…';
 
   @override
+  String get exportAction => 'Экспорт';
+
+  @override
+  String get exportAllNote => 'Сізге қолжетімдінің бәрі, сүзгісіз.';
+
+  @override
+  String get exportConfirm => 'CSV жүктеп алу';
+
+  @override
+  String get exportConsoleSubtitle =>
+      'Агенттік деректері кестелерде: иесіне, бухгалтерияға немесе өзіңізге көшірме ретінде.';
+
+  @override
+  String get exportConsoleTitle => 'Экспорт';
+
+  @override
+  String get exportDelimiter => 'Бөлгіш';
+
+  @override
+  String get exportDelimiterComma => 'Үтір';
+
+  @override
+  String get exportDelimiterHint =>
+      'Орыс және қазақ тіліндегі Excel бағандарды нүктелі үтірмен, ағылшын тіліндегісі үтірмен бөледі.';
+
+  @override
+  String get exportDelimiterSemicolon => 'Нүктелі үтір';
+
+  @override
+  String get exportFailed => 'Экспорттау сәтсіз аяқталды. Қайталап көріңіз.';
+
+  @override
+  String get exportFiltersNote =>
+      'Тізімде қазір көрсетілгені ғана, сүзгілерімен бірге.';
+
+  @override
+  String get exportFormatNote =>
+      'CSV файлы: Excel, Google Sheets және Numbers-та ашылады, CRM-ге өзгеріссіз қайта импортталады.';
+
+  @override
+  String get exportKindClients => 'Клиенттер';
+
+  @override
+  String get exportKindDeals => 'Мәмілелер';
+
+  @override
+  String get exportKindProperties => 'Нысандар';
+
+  @override
+  String get exportPersonalData =>
+      'Жеке деректер бар: аты-жөні, телефон және пошта. Абайлап қолданыңыз, қажетінен артық ешкімге бермеңіз.';
+
+  @override
+  String get exportTitleClients => 'Клиенттерді экспорттау';
+
+  @override
+  String get exportTitleDeals => 'Мәмілелерді экспорттау';
+
+  @override
+  String get exportTitleProperties => 'Нысандарды экспорттау';
+
+  @override
+  String get exportTooMany =>
+      'Бір файлға жол тым көп. Сүзгілерді тарылтып, бөліктеп жүктеңіз.';
+
+  @override
   String importAction(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -2685,6 +2751,9 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get msgCommentUpdated => 'Пікір өзгертілді';
+
+  @override
+  String get msgCurrencyChanged => 'Валюта өзгертілді';
 
   @override
   String get msgDealCreated => 'Мәміле құрылды';
@@ -3700,6 +3769,44 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get teamsCreateTeam => 'Команда құру';
+
+  @override
+  String get teamsCurrency => 'Агенттік валютасы';
+
+  @override
+  String get teamsCurrencyConfirm => 'Валютаны ауыстыру';
+
+  @override
+  String teamsCurrencyConfirmBody(
+      String currency, String before, String after) {
+    return 'Агенттіктегі барлығы бағаларды «$currency» валютасында көреді. Сомалар қайта есептелмейді: $before тұратын нысан $after болып көрсетіледі.';
+  }
+
+  @override
+  String get teamsCurrencyConfirmTitle =>
+      'Агенттік валютасын ауыстыру керек пе?';
+
+  @override
+  String get teamsCurrencyEur => 'Еуро (€)';
+
+  @override
+  String get teamsCurrencyHint =>
+      'Қосымшадағы бағалар қай валютада көрсетіледі';
+
+  @override
+  String get teamsCurrencyKgs => 'Қырғыз сомы (KGS)';
+
+  @override
+  String get teamsCurrencyKzt => 'Теңге (₸)';
+
+  @override
+  String get teamsCurrencyRub => 'Рубль (₽)';
+
+  @override
+  String get teamsCurrencyUsd => 'АҚШ доллары (\$)';
+
+  @override
+  String get teamsCurrencyUzs => 'Өзбек сумы (UZS)';
 
   @override
   String get teamsDeals => 'Мәмілелер';

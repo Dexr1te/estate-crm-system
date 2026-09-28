@@ -30,6 +30,7 @@ enum ActionMessage {
   statusUpdated,
   teamCreated,
   teamUpdated,
+  currencyChanged,
   agentInvited,
   userActivated,
   userDeactivated,
@@ -103,6 +104,8 @@ String actionMessageLabel(AppLocalizations l10n, ActionMessage message) {
       return l10n.msgTeamCreated;
     case ActionMessage.teamUpdated:
       return l10n.msgTeamUpdated;
+    case ActionMessage.currencyChanged:
+      return l10n.msgCurrencyChanged;
     case ActionMessage.agentInvited:
       return l10n.msgAgentInvited;
     case ActionMessage.userActivated:

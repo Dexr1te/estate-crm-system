@@ -28,6 +28,10 @@ class TeamsRepositoryImpl implements TeamsRepository {
   Future<TeamResponse> renameMyTeam(String name) => _remote.renameMyTeam(name);
 
   @override
+  Future<TeamResponse> changeMyCurrency(String code) =>
+      _remote.changeMyCurrency(code);
+
+  @override
   Future<TeamResponse> getMyTeam() => _remote.getMyTeam();
 
   @override

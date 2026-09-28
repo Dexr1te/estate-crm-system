@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:real_estate_crm/core/models/export_models.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
 import 'package:real_estate_crm/core/utils/contact_actions.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/compare/domain/comparison.dart';
 import 'package:real_estate_crm/features/compare/presentation/widgets/compare_tray_bar.dart';
+import 'package:real_estate_crm/features/exports/presentation/widgets/export_button.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_bloc.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_event.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_map_bloc.dart';
@@ -77,6 +79,12 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
       setState(() => picked.add(id));
     }
   }
+
+  ExportFilters get _exportFilters => ExportFilters(
+        status: _filterStatus?.name,
+        type: _filterType?.name,
+        search: _query,
+      );
 
   MapFilters get _mapFilters =>
       MapFilters(status: _filterStatus, type: _filterType, search: _query);
@@ -166,7 +174,7 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
                               ),
                             ),
                             const SizedBox(width: 8),
-                            if (!_map)
+                            if (!_map) ...[
                               AppIconTile(
                                 key: const ValueKey('properties-compare'),
                                 icon: _picked == null
@@ -177,6 +185,11 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
                                     : l10n.compareExit,
                                 onPressed: _toggleCompareMode,
                               ),
+                              const SizedBox(width: 4),
+                            ],
+                            ExportButton(
+                                kind: ExportKind.properties,
+                                filters: _exportFilters),
                             const SizedBox(width: 4),
                             const QuickAddButton()
                           ],

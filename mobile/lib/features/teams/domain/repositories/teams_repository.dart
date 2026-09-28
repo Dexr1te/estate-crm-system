@@ -14,6 +14,10 @@ abstract class TeamsRepository {
 
   Future<TeamResponse> renameMyTeam(String name);
 
+  /// Sets the currency the agency's prices are shown in (ISO 4217 code).
+  /// Only the sign changes; no amount is converted.
+  Future<TeamResponse> changeMyCurrency(String code);
+
   Future<TeamResponse> getMyTeam();
 
   Future<List<TeamMemberResponse>> getMembers();

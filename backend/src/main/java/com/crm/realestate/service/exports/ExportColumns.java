@@ -1,0 +1,95 @@
+package com.crm.realestate.service.exports;
+
+import com.crm.realestate.entity.Client;
+import com.crm.realestate.entity.Deal;
+import com.crm.realestate.entity.Property;
+import com.crm.realestate.entity.User;
+import jakarta.persistence.EntityManager;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Stream;
+
+import static com.crm.realestate.service.exports.CsvWriter.date;
+import static com.crm.realestate.service.exports.CsvWriter.whole;
+import static com.crm.realestate.service.exports.ExportLabels.heading;
+import static com.crm.realestate.service.exports.ExportLabels.imported;
+import static com.crm.realestate.service.exports.ExportLabels.value;
+
+/** The columns of each export, and one record written as its cells. */
+@Component
+@RequiredArgsConstructor
+class ExportColumns {
+
+    private static final BigDecimal ONE_HUNDRED = BigDecimal.valueOf(100);
+
+    private final EntityManager entityManager;
+
+    List<String> headings(ExportKind kind, int lang) {
+        return switch (kind) {
+            case CLIENTS -> Stream.concat(
+                    Stream.of("fullName", "phone", "email", "type").map(k -> imported(k, lang)),
+                    Stream.concat(Stream.of(heading("agent", lang)), Stream.concat(
+                            Stream.of("wantedCity", "wantedType", "budgetMin", "budgetMax",
+                                    "minRooms", "minAreaSqm", "notes").map(k -> imported(k, lang)),
+                            Stream.of("source", "created").map(k -> heading(k, lang))))).toList();
+            case PROPERTIES -> Stream.concat(
+                    Stream.of("title", "address", "city", "type", "status", "price", "areaSqm",
+                            "rooms", "floor", "totalFloors", "description").map(k -> imported(k, lang)),
+                    Stream.of("agent", "created", "linkViews").map(k -> heading(k, lang))).toList();
+            case DEALS -> Stream.of("dealTitle", "dealStatus", "client", "listing", "dealPrice",
+                    "budget", "commissionPercent", "commission", "agent", "dealCreated", "closed",
+                    "lostReason", "lostNote").map(k -> heading(k, lang)).toList();
+        };
+    }
+
+    List<String> client(Client c, CsvWriter csv, int lang) {
+        return Arrays.asList(c.getFullName(), c.getPhone(), c.getEmail(), value(c.getType(), lang),
+                name(c.getAgent()), c.getWantedCity(), value(c.getWantedType(), lang),
+                csv.decimal(c.getBudgetMin()), csv.decimal(c.getBudgetMax()), whole(c.getMinRooms()),
+                csv.decimal(c.getMinAreaSqm()), c.getNotes(), value(c.getSource(), lang),
+                date(c.getCreatedAt()));
+    }
+
+    List<String> property(Property p, Map<Long, Long> views, CsvWriter csv, int lang) {
+        return Arrays.asList(p.getTitle(), p.getAddress(), p.getCity(), value(p.getType(), lang),
+                value(p.getStatus(), lang), csv.decimal(p.getPrice()), csv.decimal(p.getAreaSqm()),
+                whole(p.getRooms()), whole(p.getFloor()), whole(p.getTotalFloors()),
+                p.getDescription(), name(p.getAgent()), date(p.getCreatedAt()),
+                whole(views.getOrDefault(p.getId(), 0L)));
+    }
+
+    List<String> deal(Deal d, CsvWriter csv, int lang) {
+        BigDecimal commission = d.getDealPrice() == null || d.getCommissionPercent() == null ? null
+                : d.getDealPrice().multiply(d.getCommissionPercent()).divide(ONE_HUNDRED, 2, RoundingMode.HALF_UP);
+        return Arrays.asList(d.getTitle(), value(d.getStatus(), lang),
+                d.getClient() == null ? null : d.getClient().getFullName(),
+                d.getProperty() == null ? null : d.getProperty().getTitle(),
+                csv.decimal(d.getDealPrice()), csv.decimal(d.getBudget()),
+                csv.decimal(d.getCommissionPercent()), csv.decimal(commission), name(d.getAgent()),
+                date(d.getCreatedAt()), date(d.getClosedAt()), value(d.getLostReason(), lang),
+                d.getLostNote());
+    }
+
+    /** How often each listing's public pages were opened, summed over all its links: one query. */
+    Map<Long, Long> linkViews(List<Property> page) {
+        List<Long> ids = page.stream().map(Property::getId).toList();
+        Map<Long, Long> views = new HashMap<>();
+        entityManager.createQuery("select l.property.id, sum(l.viewCount) from PropertyShareLink l "
+                        + "where l.property.id in :ids group by l.property.id", Object[].class)
+                .setParameter("ids", ids)
+                .getResultList()
+                .forEach(row -> views.put((Long) row[0], ((Number) row[1]).longValue()));
+        return views;
+    }
+
+    private static String name(User user) {
+        return user == null ? null : user.getFullName();
+    }
+}

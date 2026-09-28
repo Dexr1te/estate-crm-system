@@ -33,6 +33,9 @@ import 'package:real_estate_crm/features/deals/domain/repositories/deals_reposit
 import 'package:real_estate_crm/features/documents/data/datasources/documents_remote_datasource.dart';
 import 'package:real_estate_crm/features/documents/data/repositories/documents_repository_impl.dart';
 import 'package:real_estate_crm/features/documents/domain/repositories/documents_repository.dart';
+import 'package:real_estate_crm/features/exports/data/datasources/exports_remote_datasource.dart';
+import 'package:real_estate_crm/features/exports/data/repositories/exports_repository_impl.dart';
+import 'package:real_estate_crm/features/exports/domain/repositories/exports_repository.dart';
 import 'package:real_estate_crm/features/imports/data/datasources/imports_remote_datasource.dart';
 import 'package:real_estate_crm/features/imports/data/repositories/imports_repository_impl.dart';
 import 'package:real_estate_crm/features/imports/domain/repositories/imports_repository.dart';
@@ -119,6 +122,9 @@ class Injector {
 
   static ImportsRepository importsRepository =
       ImportsRepositoryImpl(ImportsRemoteDataSource(_apiClient));
+
+  static ExportsRepository exportsRepository =
+      ExportsRepositoryImpl(ExportsRemoteDataSource(_apiClient));
 
   static SearchRepository get searchRepository => SearchRepositoryImpl(
       clientsRepository, propertiesRepository, dealsRepository);

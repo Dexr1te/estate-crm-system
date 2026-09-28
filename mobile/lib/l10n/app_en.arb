@@ -720,6 +720,26 @@
   "documentsTooLarge": "Files larger than {limit} MB cannot be attached",
   "documentsUploadedBy": "Added by {name}",
   "documentsUploading": "Sending…",
+  "exportAction": "Export",
+  "exportAllNote": "Everything you can see, without filters.",
+  "exportConfirm": "Export CSV",
+  "exportConsoleSubtitle": "Your agency's book as spreadsheets: for the owner, the accountant, or a copy of your own.",
+  "exportConsoleTitle": "Export",
+  "exportDelimiter": "Separator",
+  "exportDelimiterComma": "Comma",
+  "exportDelimiterHint": "Excel in Russian or Kazakh splits columns on semicolons; in English, on commas.",
+  "exportDelimiterSemicolon": "Semicolon",
+  "exportFailed": "Couldn't export. Try again.",
+  "exportFiltersNote": "Only what the list shows now, with its filters.",
+  "exportFormatNote": "A CSV file that opens in Excel, Google Sheets and Numbers, and imports back into the CRM as it is.",
+  "exportKindClients": "Clients",
+  "exportKindDeals": "Deals",
+  "exportKindProperties": "Listings",
+  "exportPersonalData": "Includes personal data: names, phones and emails. Handle with care and share it no further than needed.",
+  "exportTitleClients": "Export clients",
+  "exportTitleDeals": "Export deals",
+  "exportTitleProperties": "Export listings",
+  "exportTooMany": "Too many rows for one file. Narrow the filters and export in parts.",
   "importAction": "{count, plural, =1{Import 1 row} other{Import {count} rows}}",
   "@importAction": {
     "placeholders": {
@@ -1078,6 +1098,7 @@
   "msgCodeSent": "Code sent",
   "msgCommentDeleted": "Comment deleted",
   "msgCommentUpdated": "Comment updated",
+  "msgCurrencyChanged": "Currency changed",
   "msgDealCreated": "Deal created",
   "msgDealDeleted": "Deal deleted",
   "msgDealUpdated": "Deal updated",
@@ -1613,6 +1634,33 @@
   "teamsCouldNotLoadStats": "Could not load stats",
   "teamsCreate": "Create",
   "teamsCreateTeam": "Create team",
+  "teamsCurrency": "Agency currency",
+  "teamsCurrencyConfirm": "Change currency",
+  "teamsCurrencyConfirmBody": "Everyone in the agency will see prices in {currency}. Amounts are not converted: a listing priced {before} will read {after}.",
+  "@teamsCurrencyConfirmBody": {
+    "placeholders": {
+      "currency": {
+        "type": "String",
+        "example": "Tenge (₸)"
+      },
+      "before": {
+        "type": "String",
+        "example": "$12,500,000"
+      },
+      "after": {
+        "type": "String",
+        "example": "12,500,000 ₸"
+      }
+    }
+  },
+  "teamsCurrencyConfirmTitle": "Change the agency currency?",
+  "teamsCurrencyEur": "Euro (€)",
+  "teamsCurrencyHint": "How prices read across the app",
+  "teamsCurrencyKgs": "Kyrgyz som (KGS)",
+  "teamsCurrencyKzt": "Tenge (₸)",
+  "teamsCurrencyRub": "Rouble (₽)",
+  "teamsCurrencyUsd": "US dollar ($)",
+  "teamsCurrencyUzs": "Uzbek som (UZS)",
   "teamsDeals": "Deals",
   "teamsEditTeam": "Edit team",
   "teamsEmail": "Email",

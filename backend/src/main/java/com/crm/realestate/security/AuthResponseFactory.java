@@ -35,6 +35,7 @@ public class AuthResponseFactory {
                 .status(user.getStatus())
                 .teamId(user.getTeam() == null ? null : user.getTeam().getId())
                 .teamName(user.getTeam() == null ? null : user.getTeam().getName())
+                .teamCurrency(user.getTeam() == null ? null : user.getTeam().getCurrency().name())
                 .mustChangePassword(user.isMustChangePassword())
                 .build();
     }

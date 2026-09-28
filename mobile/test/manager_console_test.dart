@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/models/team_models.dart';
+import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart';
 import 'package:real_estate_crm/features/teams/presentation/screens/manager_console_screen.dart';
 
 import 'fakes.dart';
@@ -66,12 +69,27 @@ FakeTeamsRepository _teams({
   return repo;
 }
 
+// Tall enough that the members show under the import, export and currency
+// cards; the acceptance cases still pass their own sizes.
 Future<void> _pumpConsole(WidgetTester tester,
-    {Size size = const Size(390, 844),
+    {Size size = const Size(390, 1200),
     Brightness brightness = Brightness.light,
     double scale = 1.0}) async {
-  await expectNoOverflow(tester, const ManagerConsoleScreen(),
-      size: size, brightness: brightness, textScale: scale);
+  // Signed in as the manager: the console's export card follows the session.
+  await expectNoOverflow(
+      tester,
+      BlocProvider(
+          create: (_) => AuthBloc(FakeAuthRepository(
+              user: const AuthResponse(
+                  userId: 1,
+                  fullName: 'Nurlan Bekov',
+                  role: Role.MANAGER,
+                  teamId: 1)))
+            ..add(AuthCheckEvent()),
+          child: const ManagerConsoleScreen()),
+      size: size,
+      brightness: brightness,
+      textScale: scale);
   await tester.pumpAndSettle();
 }
 
