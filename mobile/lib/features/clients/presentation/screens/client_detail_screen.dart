@@ -17,6 +17,7 @@ import 'package:real_estate_crm/features/clients/presentation/widgets/client_sou
 import 'package:real_estate_crm/features/clients/presentation/widgets/duplicate_warning.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/log_contact_sheet.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/send_matches_sheet.dart';
+import 'package:real_estate_crm/features/compare/domain/comparison.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_card.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_cover.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_price_history.dart';
@@ -615,6 +616,19 @@ class _MatchesCard extends StatelessWidget {
               fontSize: 12.5,
               radius: 11,
             ),
+            if (matches.length >= 2) ...[
+              const SizedBox(height: 8),
+              AppGhostButton(
+                key: const ValueKey('matches-compare'),
+                label: l10n.compareAction,
+                icon: Icons.compare_arrows_rounded,
+                height: AppMetrics.minHitTarget,
+                fontSize: 12.5,
+                onPressed: () => context.push(compareLocation(
+                    [for (final m in matches) m.property.id],
+                    clientId: client.id)),
+              ),
+            ],
           ],
         ],
       ),

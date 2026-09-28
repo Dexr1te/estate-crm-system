@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/utils/contact_actions.dart';
 import 'package:real_estate_crm/core/utils/share_gateway.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/features/compare/domain/comparison.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_card.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_cover.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
@@ -97,6 +99,18 @@ class _SendMatchesSheetState extends State<SendMatchesSheet> {
       for (var i = 0; i < chosen.length; i++)
         if (urls[i] != null) chosen[i].id: urls[i]!,
     });
+  }
+
+  void _compare() {
+    final chosen = _chosen;
+    if (chosen.length > kMaxCompared) {
+      showActionUnavailable(context, AppLocalizations.of(context).compareLimit);
+      return;
+    }
+    final router = GoRouter.of(context);
+    Navigator.of(context).pop();
+    router.push(compareLocation([for (final p in chosen) p.id],
+        clientId: widget.client.id));
   }
 
   Future<void> _whatsApp() async {
@@ -219,6 +233,13 @@ class _SendMatchesSheetState extends State<SendMatchesSheet> {
           onChanged: (v) => setState(() => _withLinks = v),
         ),
         const SizedBox(height: 18),
+        AppGhostButton(
+          key: const ValueKey('send-compare'),
+          label: l10n.compareSelected,
+          icon: Icons.compare_arrows_rounded,
+          onPressed: _selected.length < 2 || _sending ? null : _compare,
+        ),
+        const SizedBox(height: 8),
         Row(
           children: [
             Expanded(

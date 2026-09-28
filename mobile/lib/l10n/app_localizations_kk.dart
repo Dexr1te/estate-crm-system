@@ -1072,6 +1072,135 @@ class AppLocalizationsKk extends AppLocalizations {
   String get clientsWantedType => 'Нысан түрі';
 
   @override
+  String get compareAction => 'Салыстыру';
+
+  @override
+  String get compareAdd => 'Салыстыруға қосу';
+
+  @override
+  String get compareAdded => 'Салыстыруға қосылды';
+
+  @override
+  String compareBarButton(int count) {
+    return 'Салыстыру ($count)';
+  }
+
+  @override
+  String get compareBestLegend => 'Жолдағы ең тиімді мән жасылмен белгіленген';
+
+  @override
+  String compareDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count күн',
+      zero: 'Бүгін шықты',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get compareExit => 'Дайын';
+
+  @override
+  String get compareFirstFloor => 'бірінші қабат';
+
+  @override
+  String get compareFitMatches => 'Сұранысқа сай';
+
+  @override
+  String get compareFitOutside => 'Сұраныстан тыс';
+
+  @override
+  String get compareFitOverBudget => 'Бюджеттен қымбат';
+
+  @override
+  String get compareLastFloor => 'соңғы қабат';
+
+  @override
+  String get compareLimit =>
+      'Қатар 4 нысанға дейін салыстыруға болады. Басқасын қосу үшін біреуін алып тастаңыз.';
+
+  @override
+  String get compareLinks => 'Сілтемелерді қосу';
+
+  @override
+  String get compareLinksHint =>
+      'Әр нысанның астында оның барлық фотосы бар бет.';
+
+  @override
+  String get compareNeedTwo => 'Салыстыру үшін екі нысан таңдаңыз';
+
+  @override
+  String get compareNeedTwoHint =>
+      '«Нысандар» қойындысында «Салыстыру» түймесін басыңыз немесе нысанды оның бетінен қосыңыз.';
+
+  @override
+  String get comparePickHint => 'Екіден төртке дейін нысан таңдаңыз';
+
+  @override
+  String get compareRemove => 'Салыстырудан алып тастау';
+
+  @override
+  String get compareRemoved => 'Салыстырудан алынды';
+
+  @override
+  String get compareRowAgent => 'Агент';
+
+  @override
+  String get compareRowArea => 'Ауданы';
+
+  @override
+  String get compareRowDays => 'Сатылымда';
+
+  @override
+  String get compareRowFit => 'Сатып алушыға';
+
+  @override
+  String get compareRowFloor => 'Қабат';
+
+  @override
+  String get compareRowLinkViews => 'Сілтеме қаралымы';
+
+  @override
+  String get compareRowPlace => 'Мекенжай';
+
+  @override
+  String get compareRowPrice => 'Бағасы';
+
+  @override
+  String get compareRowPriceChange => 'Бағаның соңғы өзгерісі';
+
+  @override
+  String get compareRowPricePerSqm => '1 м² бағасы';
+
+  @override
+  String get compareRowRooms => 'Бөлмелер';
+
+  @override
+  String get compareRowType => 'Түрі';
+
+  @override
+  String get compareSelected => 'Таңдалғандарды салыстыру';
+
+  @override
+  String get compareSend => 'Салыстыруды жіберу';
+
+  @override
+  String get compareSendFailed => 'Жіберуді ашу мүмкін болмады';
+
+  @override
+  String compareShareBest(String title) {
+    return '1 м² ең тиімді бағасы: $title';
+  }
+
+  @override
+  String get compareShareIntro => 'Нысандарды салыстыру:';
+
+  @override
+  String get compareTitle => 'Салыстыру';
+
+  @override
   String get coreCall => 'Қоңырау шалу';
 
   @override

@@ -419,6 +419,65 @@
   "clientsUpdatedAt": "Updated {date}",
   "clientsWantedCity": "City",
   "clientsWantedType": "Property type",
+  "compareAction": "Compare",
+  "compareAdd": "Add to comparison",
+  "compareAdded": "Added to comparison",
+  "compareBarButton": "Compare ({count})",
+  "@compareBarButton": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "compareBestLegend": "Green marks the best value in a row",
+  "compareDays": "{count, plural, =0{Listed today} =1{1 day} other{{count} days}}",
+  "@compareDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "compareExit": "Done",
+  "compareFirstFloor": "first floor",
+  "compareFitMatches": "Fits requirements",
+  "compareFitOutside": "Outside requirements",
+  "compareFitOverBudget": "Over budget",
+  "compareLastFloor": "last floor",
+  "compareLimit": "Up to 4 listings side by side. Remove one to add another.",
+  "compareLinks": "Include links",
+  "compareLinksHint": "A page per listing with all its photos, added under each one.",
+  "compareNeedTwo": "Pick two listings to compare",
+  "compareNeedTwoHint": "Choose Compare on the Properties tab, or add listings from their pages.",
+  "comparePickHint": "Pick two to four listings",
+  "compareRemove": "Remove from comparison",
+  "compareRemoved": "Removed from comparison",
+  "compareRowAgent": "Agent",
+  "compareRowArea": "Area",
+  "compareRowDays": "On the market",
+  "compareRowFit": "For this buyer",
+  "compareRowFloor": "Floor",
+  "compareRowLinkViews": "Link views",
+  "compareRowPlace": "Address",
+  "compareRowPrice": "Price",
+  "compareRowPriceChange": "Last price change",
+  "compareRowPricePerSqm": "Price per m²",
+  "compareRowRooms": "Rooms",
+  "compareRowType": "Type",
+  "compareSelected": "Compare selected",
+  "compareSend": "Send comparison",
+  "compareSendFailed": "Could not open sending",
+  "compareShareBest": "Best price per m²: {title}",
+  "@compareShareBest": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "compareShareIntro": "Here is how the listings compare:",
+  "compareTitle": "Comparison",
   "coreCall": "Call",
   "coreCancel": "Cancel",
   "coreClientTypeBuyer": "Buyer",
