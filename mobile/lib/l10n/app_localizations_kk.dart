@@ -2624,6 +2624,9 @@ class AppLocalizationsKk extends AppLocalizations {
   String get msgCommentUpdated => 'Пікір өзгертілді';
 
   @override
+  String get msgCurrencyChanged => 'Валюта өзгертілді';
+
+  @override
   String get msgDealCreated => 'Мәміле құрылды';
 
   @override
@@ -3637,6 +3640,44 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get teamsCreateTeam => 'Команда құру';
+
+  @override
+  String get teamsCurrency => 'Агенттік валютасы';
+
+  @override
+  String get teamsCurrencyConfirm => 'Валютаны ауыстыру';
+
+  @override
+  String teamsCurrencyConfirmBody(
+      String currency, String before, String after) {
+    return 'Агенттіктегі барлығы бағаларды «$currency» валютасында көреді. Сомалар қайта есептелмейді: $before тұратын нысан $after болып көрсетіледі.';
+  }
+
+  @override
+  String get teamsCurrencyConfirmTitle =>
+      'Агенттік валютасын ауыстыру керек пе?';
+
+  @override
+  String get teamsCurrencyEur => 'Еуро (€)';
+
+  @override
+  String get teamsCurrencyHint =>
+      'Қосымшадағы бағалар қай валютада көрсетіледі';
+
+  @override
+  String get teamsCurrencyKgs => 'Қырғыз сомы (KGS)';
+
+  @override
+  String get teamsCurrencyKzt => 'Теңге (₸)';
+
+  @override
+  String get teamsCurrencyRub => 'Рубль (₽)';
+
+  @override
+  String get teamsCurrencyUsd => 'АҚШ доллары (\$)';
+
+  @override
+  String get teamsCurrencyUzs => 'Өзбек сумы (UZS)';
 
   @override
   String get teamsDeals => 'Мәмілелер';

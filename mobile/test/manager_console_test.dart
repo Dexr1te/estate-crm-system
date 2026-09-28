@@ -69,8 +69,10 @@ FakeTeamsRepository _teams({
   return repo;
 }
 
+// Tall enough that the members show under the import, export and currency
+// cards; the acceptance cases still pass their own sizes.
 Future<void> _pumpConsole(WidgetTester tester,
-    {Size size = const Size(390, 844),
+    {Size size = const Size(390, 1200),
     Brightness brightness = Brightness.light,
     double scale = 1.0}) async {
   // Signed in as the manager: the console's export card follows the session.

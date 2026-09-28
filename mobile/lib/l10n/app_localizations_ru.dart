@@ -2658,6 +2658,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get msgCommentUpdated => 'Комментарий изменён';
 
   @override
+  String get msgCurrencyChanged => 'Валюта изменена';
+
+  @override
   String get msgDealCreated => 'Сделка создана';
 
   @override
@@ -3736,6 +3739,42 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get teamsCreateTeam => 'Создать команду';
+
+  @override
+  String get teamsCurrency => 'Валюта агентства';
+
+  @override
+  String get teamsCurrencyConfirm => 'Сменить валюту';
+
+  @override
+  String teamsCurrencyConfirmBody(
+      String currency, String before, String after) {
+    return 'Все в агентстве увидят цены в валюте «$currency». Суммы не пересчитываются: объект за $before будет стоить $after.';
+  }
+
+  @override
+  String get teamsCurrencyConfirmTitle => 'Сменить валюту агентства?';
+
+  @override
+  String get teamsCurrencyEur => 'Евро (€)';
+
+  @override
+  String get teamsCurrencyHint => 'В чём показываются цены в приложении';
+
+  @override
+  String get teamsCurrencyKgs => 'Кыргызский сом (KGS)';
+
+  @override
+  String get teamsCurrencyKzt => 'Тенге (₸)';
+
+  @override
+  String get teamsCurrencyRub => 'Рубль (₽)';
+
+  @override
+  String get teamsCurrencyUsd => 'Доллар США (\$)';
+
+  @override
+  String get teamsCurrencyUzs => 'Узбекский сум (UZS)';
 
   @override
   String get teamsDeals => 'Сделки';

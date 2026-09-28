@@ -2634,6 +2634,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get msgCommentUpdated => 'Comment updated';
 
   @override
+  String get msgCurrencyChanged => 'Currency changed';
+
+  @override
   String get msgDealCreated => 'Deal created';
 
   @override
@@ -3694,6 +3697,42 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get teamsCreateTeam => 'Create team';
+
+  @override
+  String get teamsCurrency => 'Agency currency';
+
+  @override
+  String get teamsCurrencyConfirm => 'Change currency';
+
+  @override
+  String teamsCurrencyConfirmBody(
+      String currency, String before, String after) {
+    return 'Everyone in the agency will see prices in $currency. Amounts are not converted: a listing priced $before will read $after.';
+  }
+
+  @override
+  String get teamsCurrencyConfirmTitle => 'Change the agency currency?';
+
+  @override
+  String get teamsCurrencyEur => 'Euro (€)';
+
+  @override
+  String get teamsCurrencyHint => 'How prices read across the app';
+
+  @override
+  String get teamsCurrencyKgs => 'Kyrgyz som (KGS)';
+
+  @override
+  String get teamsCurrencyKzt => 'Tenge (₸)';
+
+  @override
+  String get teamsCurrencyRub => 'Rouble (₽)';
+
+  @override
+  String get teamsCurrencyUsd => 'US dollar (\$)';
+
+  @override
+  String get teamsCurrencyUzs => 'Uzbek som (UZS)';
 
   @override
   String get teamsDeals => 'Deals';

@@ -30,6 +30,16 @@ class MyTeamActionSuccess extends MyTeamLoaded with ActionSucceeded {
       : super(previous.team, previous.members, previous.pending);
 }
 
+/// The agency's currency changed: the app now prints prices in it, and the
+/// screen asks the session to catch up so the next start knows it too.
+class MyTeamCurrencyChanged extends MyTeamLoaded with ActionSucceeded {
+  @override
+  ActionMessage get message => ActionMessage.currencyChanged;
+
+  MyTeamCurrencyChanged(TeamResponse team, MyTeamLoaded previous)
+      : super(team, previous.members, previous.pending);
+}
+
 class MyTeamMemberAdded extends MyTeamLoaded implements ActionOutcome {
   final AddMemberResult result;
 

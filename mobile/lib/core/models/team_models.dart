@@ -8,6 +8,9 @@ class TeamResponse {
   final int memberCount;
   final DateTime? createdAt;
 
+  /// ISO 4217 code the team's prices are shown in; USD until a manager chooses.
+  final String currency;
+
   const TeamResponse({
     required this.id,
     required this.name,
@@ -15,6 +18,7 @@ class TeamResponse {
     this.managerName,
     required this.memberCount,
     this.createdAt,
+    this.currency = 'USD',
   });
 
   factory TeamResponse.fromJson(Map<String, dynamic> json) => TeamResponse(
@@ -26,6 +30,7 @@ class TeamResponse {
         createdAt: json['createdAt'] is String
             ? DateTime.tryParse(json['createdAt'] as String)
             : null,
+        currency: json['currency'] as String? ?? 'USD',
       );
 }
 

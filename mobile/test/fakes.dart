@@ -792,6 +792,20 @@ class FakeTeamsRepository implements TeamsRepository {
   int? declined;
 
   @override
+  Future<TeamResponse> changeMyCurrency(String code) async {
+    changedCurrency = code;
+    final t = myTeam;
+    return TeamResponse(
+        id: t?.id ?? 1,
+        name: t?.name ?? 'Downtown desk',
+        memberCount: t?.memberCount ?? 1,
+        currency: code);
+  }
+
+  /// The currency code the last change asked for.
+  String? changedCurrency;
+
+  @override
   Future<TeamResponse> createMyTeam(String name) async {
     createdTeamName = name;
     return TeamResponse(id: 1, name: name, memberCount: 1);

@@ -5,6 +5,7 @@ import com.crm.realestate.dto.response.TeamResponse;
 import com.crm.realestate.dto.response.TeamStatsResponse;
 import com.crm.realestate.entity.Team;
 import com.crm.realestate.entity.User;
+import com.crm.realestate.enums.AgencyCurrency;
 import com.crm.realestate.enums.Role;
 import com.crm.realestate.exception.ResourceNotFoundException;
 import com.crm.realestate.repository.ClientRepository;
@@ -34,6 +35,7 @@ public class TeamService {
     private final SecurityUtils securityUtils;
     private final ScopeService scopeService;
     private final RecordHandoverService recordHandoverService;
+    private final AuditLogService auditLogService;
 
     public List<TeamResponse> getTeams() {
         User currentUser = securityUtils.getCurrentUser();
@@ -57,6 +59,9 @@ public class TeamService {
                 .name(request.getName())
                 .manager(manager)
                 .build();
+        if (request.getCurrency() != null) {
+            team.setCurrency(AgencyCurrency.valueOf(request.getCurrency()));
+        }
         team = teamRepository.save(team);
         manager.setTeam(team);
         userRepository.save(manager);
@@ -69,6 +74,14 @@ public class TeamService {
         Team team = findById(id);
         if (request.getName() != null && !request.getName().isBlank()) {
             team.setName(request.getName());
+        }
+        if (request.getCurrency() != null) {
+            AgencyCurrency next = AgencyCurrency.valueOf(request.getCurrency());
+            if (next != team.getCurrency()) {
+                auditLogService.record(securityUtils.getCurrentUser(), "CHANGE_TEAM_CURRENCY",
+                        "Team", team.getId(), "from=" + team.getCurrency() + ", to=" + next);
+                team.setCurrency(next);
+            }
         }
         if (request.getManagerId() != null && !request.getManagerId().equals(team.getManager() == null ? null : team.getManager().getId())) {
             User manager = userRepository.findById(request.getManagerId())
@@ -128,6 +141,7 @@ public class TeamService {
                 .name(team.getName())
                 .managerId(team.getManager() != null ? team.getManager().getId() : null)
                 .managerName(team.getManager() != null ? team.getManager().getFullName() : null)
+                .currency(team.getCurrency().name())
                 .memberCount(Long.valueOf(userRepository.findByTeamId(team.getId()).size()))
                 .createdAt(team.getCreatedAt())
                 .build();
