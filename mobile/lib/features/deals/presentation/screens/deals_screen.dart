@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:real_estate_crm/core/models/export_models.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
@@ -10,6 +11,7 @@ import 'package:real_estate_crm/features/deals/presentation/bloc/deals_state.dar
 import 'package:real_estate_crm/features/deals/presentation/widgets/deal_board.dart';
 import 'package:real_estate_crm/features/deals/presentation/widgets/deal_card.dart';
 import 'package:real_estate_crm/features/deals/presentation/widgets/lost_reason_sheet.dart';
+import 'package:real_estate_crm/features/exports/presentation/widgets/export_button.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class DealsScreen extends StatefulWidget {
@@ -174,6 +176,10 @@ class _DealsScreenState extends State<DealsScreen> {
                                   : l10n.dealsViewBoard,
                               onPressed: _toggleView,
                             ),
+                            ExportButton(
+                                kind: ExportKind.deals,
+                                filters: ExportFilters(
+                                    status: _board ? null : _filter?.name)),
                             const SizedBox(width: 4),
                             const QuickAddButton()
                           ],

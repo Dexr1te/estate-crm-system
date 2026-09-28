@@ -3340,6 +3340,126 @@ abstract class AppLocalizations {
   /// **'Sending…'**
   String get documentsUploading;
 
+  /// No description provided for @exportAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Export'**
+  String get exportAction;
+
+  /// No description provided for @exportAllNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Everything you can see, without filters.'**
+  String get exportAllNote;
+
+  /// No description provided for @exportConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Export CSV'**
+  String get exportConfirm;
+
+  /// No description provided for @exportConsoleSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your agency\'s book as spreadsheets: for the owner, the accountant, or a copy of your own.'**
+  String get exportConsoleSubtitle;
+
+  /// No description provided for @exportConsoleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Export'**
+  String get exportConsoleTitle;
+
+  /// No description provided for @exportDelimiter.
+  ///
+  /// In en, this message translates to:
+  /// **'Separator'**
+  String get exportDelimiter;
+
+  /// No description provided for @exportDelimiterComma.
+  ///
+  /// In en, this message translates to:
+  /// **'Comma'**
+  String get exportDelimiterComma;
+
+  /// No description provided for @exportDelimiterHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Excel in Russian or Kazakh splits columns on semicolons; in English, on commas.'**
+  String get exportDelimiterHint;
+
+  /// No description provided for @exportDelimiterSemicolon.
+  ///
+  /// In en, this message translates to:
+  /// **'Semicolon'**
+  String get exportDelimiterSemicolon;
+
+  /// No description provided for @exportFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t export. Try again.'**
+  String get exportFailed;
+
+  /// No description provided for @exportFiltersNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Only what the list shows now, with its filters.'**
+  String get exportFiltersNote;
+
+  /// No description provided for @exportFormatNote.
+  ///
+  /// In en, this message translates to:
+  /// **'A CSV file that opens in Excel, Google Sheets and Numbers, and imports back into the CRM as it is.'**
+  String get exportFormatNote;
+
+  /// No description provided for @exportKindClients.
+  ///
+  /// In en, this message translates to:
+  /// **'Clients'**
+  String get exportKindClients;
+
+  /// No description provided for @exportKindDeals.
+  ///
+  /// In en, this message translates to:
+  /// **'Deals'**
+  String get exportKindDeals;
+
+  /// No description provided for @exportKindProperties.
+  ///
+  /// In en, this message translates to:
+  /// **'Listings'**
+  String get exportKindProperties;
+
+  /// No description provided for @exportPersonalData.
+  ///
+  /// In en, this message translates to:
+  /// **'Includes personal data: names, phones and emails. Handle with care and share it no further than needed.'**
+  String get exportPersonalData;
+
+  /// No description provided for @exportTitleClients.
+  ///
+  /// In en, this message translates to:
+  /// **'Export clients'**
+  String get exportTitleClients;
+
+  /// No description provided for @exportTitleDeals.
+  ///
+  /// In en, this message translates to:
+  /// **'Export deals'**
+  String get exportTitleDeals;
+
+  /// No description provided for @exportTitleProperties.
+  ///
+  /// In en, this message translates to:
+  /// **'Export listings'**
+  String get exportTitleProperties;
+
+  /// No description provided for @exportTooMany.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many rows for one file. Narrow the filters and export in parts.'**
+  String get exportTooMany;
+
   /// No description provided for @importAction.
   ///
   /// In en, this message translates to:

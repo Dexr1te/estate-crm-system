@@ -7,6 +7,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:quick_actions/quick_actions.dart';
 import 'package:real_estate_crm/core/models/admin_models.dart';
 import 'package:real_estate_crm/core/models/document_models.dart';
+import 'package:real_estate_crm/core/models/export_models.dart';
 import 'package:real_estate_crm/core/models/import_models.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/models/paged_response.dart';
@@ -24,6 +25,7 @@ import 'package:real_estate_crm/features/dashboard/domain/repositories/dashboard
 import 'package:real_estate_crm/features/deals/domain/repositories/deal_comments_repository.dart';
 import 'package:real_estate_crm/features/deals/domain/repositories/deals_repository.dart';
 import 'package:real_estate_crm/features/documents/domain/repositories/documents_repository.dart';
+import 'package:real_estate_crm/features/exports/domain/repositories/exports_repository.dart';
 import 'package:real_estate_crm/features/imports/domain/repositories/imports_repository.dart';
 import 'package:real_estate_crm/features/meetings/domain/repositories/meetings_repository.dart';
 import 'package:real_estate_crm/features/notifications/domain/repositories/notifications_repository.dart';
@@ -1306,5 +1308,41 @@ class FakeDealCommentsRepository implements DealCommentsRepository {
     deleted.add(commentId);
     await _write();
     comments = comments.where((c) => c.id != commentId).toList();
+  }
+}
+
+/// Exports answered from memory. Records every request so a test can check
+/// the filters, language and separator a screen sent.
+class FakeExportsRepository implements ExportsRepository {
+  FakeExportsRepository({
+    this.fileName = 'clients-2026-09-28.csv',
+    this.bytes = const [0xEF, 0xBB, 0xBF, 0x41],
+    this.failure,
+  });
+
+  String fileName;
+  List<int> bytes;
+
+  /// Thrown by every call when set.
+  Object? failure;
+
+  final requests = <({
+    ExportKind kind,
+    ExportFilters filters,
+    String lang,
+    ExportDelimiter delimiter
+  })>[];
+
+  @override
+  Future<ExportFile> export(
+    ExportKind kind, {
+    required ExportFilters filters,
+    required String lang,
+    required ExportDelimiter delimiter,
+  }) async {
+    requests
+        .add((kind: kind, filters: filters, lang: lang, delimiter: delimiter));
+    if (failure != null) throw failure!;
+    return ExportFile(fileName: fileName, bytes: Uint8List.fromList(bytes));
   }
 }

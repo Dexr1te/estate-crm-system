@@ -1887,6 +1887,72 @@ class AppLocalizationsEn extends AppLocalizations {
   String get documentsUploading => 'Sending…';
 
   @override
+  String get exportAction => 'Export';
+
+  @override
+  String get exportAllNote => 'Everything you can see, without filters.';
+
+  @override
+  String get exportConfirm => 'Export CSV';
+
+  @override
+  String get exportConsoleSubtitle =>
+      'Your agency\'s book as spreadsheets: for the owner, the accountant, or a copy of your own.';
+
+  @override
+  String get exportConsoleTitle => 'Export';
+
+  @override
+  String get exportDelimiter => 'Separator';
+
+  @override
+  String get exportDelimiterComma => 'Comma';
+
+  @override
+  String get exportDelimiterHint =>
+      'Excel in Russian or Kazakh splits columns on semicolons; in English, on commas.';
+
+  @override
+  String get exportDelimiterSemicolon => 'Semicolon';
+
+  @override
+  String get exportFailed => 'Couldn\'t export. Try again.';
+
+  @override
+  String get exportFiltersNote =>
+      'Only what the list shows now, with its filters.';
+
+  @override
+  String get exportFormatNote =>
+      'A CSV file that opens in Excel, Google Sheets and Numbers, and imports back into the CRM as it is.';
+
+  @override
+  String get exportKindClients => 'Clients';
+
+  @override
+  String get exportKindDeals => 'Deals';
+
+  @override
+  String get exportKindProperties => 'Listings';
+
+  @override
+  String get exportPersonalData =>
+      'Includes personal data: names, phones and emails. Handle with care and share it no further than needed.';
+
+  @override
+  String get exportTitleClients => 'Export clients';
+
+  @override
+  String get exportTitleDeals => 'Export deals';
+
+  @override
+  String get exportTitleProperties => 'Export listings';
+
+  @override
+  String get exportTooMany =>
+      'Too many rows for one file. Narrow the filters and export in parts.';
+
+  @override
   String importAction(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,

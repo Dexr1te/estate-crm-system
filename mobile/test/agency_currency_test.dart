@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/models.dart';
@@ -32,9 +33,22 @@ const _flat = PropertyResponse(
 Future<void> _show(WidgetTester tester, Widget child,
     {Locale locale = const Locale('en'),
     Size size = const Size(390, 844),
-    double textScale = 1.0}) async {
+    double textScale = 1.0,
+    AuthResponse? refreshed}) async {
   AppCurrency.locale = locale.languageCode;
-  await expectNoOverflow(tester, Scaffold(body: child),
+  // Signed in as the manager: the console's export card follows the session.
+  await expectNoOverflow(
+      tester,
+      BlocProvider(
+          create: (_) => AuthBloc(FakeAuthRepository(
+              user: const AuthResponse(
+                  userId: 1,
+                  fullName: 'Nurlan Bekov',
+                  role: Role.MANAGER,
+                  teamId: 1),
+              refreshed: refreshed))
+            ..add(AuthCheckEvent()),
+          child: Scaffold(body: child)),
       size: size,
       brightness: Brightness.light,
       textScale: textScale,
@@ -85,7 +99,14 @@ void main() {
     testWidgets('row, picker, the no-conversion warning, then the change',
         (tester) async {
       final repo = _teams();
-      await _show(tester, const ManagerConsoleScreen());
+      // What /auth/me answers once the server has the new currency.
+      await _show(tester, const ManagerConsoleScreen(),
+          refreshed: const AuthResponse(
+              userId: 1,
+              fullName: 'Nurlan Bekov',
+              role: Role.MANAGER,
+              teamId: 1,
+              teamCurrency: 'KZT'));
 
       final row = find.byKey(const Key('currency-row'));
       expect(row, findsOneWidget);
