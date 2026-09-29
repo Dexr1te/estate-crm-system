@@ -15,6 +15,7 @@ import 'package:real_estate_crm/features/auth/presentation/screens/reset_passwor
 import 'package:real_estate_crm/features/auth/presentation/screens/splash_screen.dart';
 import 'package:real_estate_crm/features/auth/presentation/screens/verify_email_screen.dart';
 import 'package:real_estate_crm/features/auth/presentation/screens/waiting_for_team_screen.dart';
+import 'package:real_estate_crm/features/checklist/presentation/screens/checklist_template_screen.dart';
 import 'package:real_estate_crm/features/clients/presentation/screens/client_detail_screen.dart';
 import 'package:real_estate_crm/features/clients/presentation/screens/client_form_screen.dart';
 import 'package:real_estate_crm/features/clients/presentation/screens/clients_screen.dart';
@@ -99,6 +100,9 @@ String? resolveRedirect({
 
   if (location.startsWith('/admin') && role != Role.ADMIN) return '/dashboard';
   if (location.startsWith('/team-console') && role != Role.MANAGER) {
+    return '/dashboard';
+  }
+  if (location.startsWith('/checklist-template') && role != Role.MANAGER) {
     return '/dashboard';
   }
   if (location.startsWith('/import') &&
@@ -205,6 +209,12 @@ GoRouter createRouter(AuthBloc authBloc) {
         parentNavigatorKey: _rootKey,
         pageBuilder: (_, __) =>
             const NoTransitionPage(child: NotificationsScreen()),
+      ),
+      GoRoute(
+        path: '/checklist-template',
+        parentNavigatorKey: _rootKey,
+        pageBuilder: (_, __) =>
+            const NoTransitionPage(child: ChecklistTemplateScreen()),
       ),
       GoRoute(
         path: '/import',

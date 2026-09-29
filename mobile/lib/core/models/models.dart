@@ -23,6 +23,11 @@ enum PropertyStatus { AVAILABLE, RESERVED, SOLD }
 // ignore: constant_identifier_names
 enum DealStatus { LEAD, NEGOTIATION, CLOSED_WON, CLOSED_LOST }
 
+/// The stages a deal checklist is organised by; a lost deal has nothing left
+/// to collect, so it is not one of them.
+// ignore: constant_identifier_names
+enum ChecklistStage { LEAD, NEGOTIATION, CLOSED_WON }
+
 enum DealLostReason {
   // ignore: constant_identifier_names
   PRICE,
@@ -318,10 +323,39 @@ class DealResponse with _$DealResponse {
     DateTime? updatedAt,
     DateTime? closedAt,
     @Default(0) int commentCount,
+    @Default(0) int checklistDone,
+    @Default(0) int checklistTotal,
+    @Default(0) int openRequired,
+    @Default(<String, int>{}) Map<String, int> openRequiredByStage,
   }) = _DealResponse;
 
   factory DealResponse.fromJson(Map<String, dynamic> json) =>
       _$DealResponseFromJson(json);
+}
+
+/// One line of a deal's checklist, or of the agency's template — which leaves
+/// the deal-only fields empty.
+@freezed
+class ChecklistItem with _$ChecklistItem {
+  const factory ChecklistItem({
+    required int id,
+    @JsonKey(unknownEnumValue: ChecklistStage.LEAD)
+    @Default(ChecklistStage.LEAD)
+    ChecklistStage stage,
+    @Default('') String title,
+    @Default(0) int position,
+    @Default(false) bool required,
+    @Default(false) bool custom,
+    @Default(false) bool done,
+    DateTime? doneAt,
+    int? doneById,
+    String? doneByName,
+    int? documentId,
+    String? documentName,
+  }) = _ChecklistItem;
+
+  factory ChecklistItem.fromJson(Map<String, dynamic> json) =>
+      _$ChecklistItemFromJson(json);
 }
 
 /// One line in the discussion on a deal.

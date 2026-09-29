@@ -113,6 +113,17 @@ void main() {
         reason: 'the manager is marked so a removal cannot be aimed at them');
   });
 
+  testWidgets('the agency deal checklist is edited from here', (tester) async {
+    _teams();
+    await _pumpConsole(tester);
+    expect(find.byKey(const Key('checklist-template-row')), findsOneWidget);
+    expect(find.text('Deal checklist'), findsOneWidget);
+
+    _teams(members: const []);
+    await _pumpConsole(tester);
+    expect(find.byKey(const Key('checklist-template-row')), findsOneWidget);
+  });
+
   testWidgets('bringing the book in from a spreadsheet starts here',
       (tester) async {
     _teams();

@@ -17,6 +17,9 @@ import 'package:real_estate_crm/features/analytics/domain/repositories/analytics
 import 'package:real_estate_crm/features/auth/data/datasources/auth_remote_datasource.dart';
 import 'package:real_estate_crm/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:real_estate_crm/features/auth/domain/repositories/auth_repository.dart';
+import 'package:real_estate_crm/features/checklist/data/datasources/checklist_remote_datasource.dart';
+import 'package:real_estate_crm/features/checklist/data/repositories/checklist_repository_impl.dart';
+import 'package:real_estate_crm/features/checklist/domain/repositories/checklist_repository.dart';
 import 'package:real_estate_crm/features/clients/data/datasources/clients_remote_datasource.dart';
 import 'package:real_estate_crm/features/clients/data/datasources/cold_clients_remote_datasource.dart';
 import 'package:real_estate_crm/features/clients/data/repositories/clients_repository_impl.dart';
@@ -88,6 +91,9 @@ class Injector {
 
   static DealCommentsRepository dealCommentsRepository =
       DealCommentsRepositoryImpl(DealCommentsRemoteDataSource(_apiClient));
+
+  static ChecklistRepository checklistRepository =
+      ChecklistRepositoryImpl(ChecklistRemoteDataSource(_apiClient));
 
   static DocumentsRepository documentsRepository =
       DocumentsRepositoryImpl(DocumentsRemoteDataSource(_apiClient));

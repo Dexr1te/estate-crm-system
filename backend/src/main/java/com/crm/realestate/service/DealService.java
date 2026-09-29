@@ -48,6 +48,7 @@ public class DealService {
     private final DealStatusChangeRepository statusChangeRepository;
     private final NotificationEvents notificationEvents;
     private final DealCommentRepository commentRepository;
+    private final DealChecklistStore checklistStore;
 
     static final BigDecimal ONE_HUNDRED = BigDecimal.valueOf(100);
     static final int LOST_NOTE_MAX = 500;
@@ -66,7 +67,7 @@ public class DealService {
 
     public DealResponse getById(Long id) {
         Deal deal = findVisibleById(id, securityUtils.getCurrentUser());
-        return withCommentCount(toResponse(deal), commentRepository.countByDealId(deal.getId()));
+        return respond(deal, commentRepository.countByDealId(deal.getId()));
     }
 
     @Transactional
@@ -80,7 +81,8 @@ public class DealService {
         syncPropertyStatusWithDeal(deal);
         Deal saved = dealRepository.save(deal);
         recordStatusChange(saved, null, currentUser);
-        return toResponse(saved);
+        checklistStore.copyTemplate(saved, currentUser);
+        return respond(saved, 0);
     }
 
     @Transactional
@@ -109,7 +111,7 @@ public class DealService {
         }
 
         syncPropertyStatusWithDeal(deal);
-        return withCommentCount(toResponse(dealRepository.save(deal)), commentRepository.countByDealId(id));
+        return respond(dealRepository.save(deal), commentRepository.countByDealId(id));
     }
 
     @Transactional
@@ -126,7 +128,7 @@ public class DealService {
 
         syncPropertyStatusWithDeal(deal);
 
-        return withCommentCount(toResponse(dealRepository.save(deal)), commentRepository.countByDealId(id));
+        return respond(dealRepository.save(deal), commentRepository.countByDealId(id));
     }
 
     @Transactional
@@ -138,8 +140,10 @@ public class DealService {
         User currentUser = securityUtils.getCurrentUser();
         List<Deal> deals = dealRepository.findAll(filter.and(scopeService.visibleTo(currentUser)));
         Map<Long, Long> counts = commentCounts(deals);
+        Map<Long, DealChecklistStore.Summary> checklists = checklistStore.summarize(deals);
         return deals.stream()
-                .map(d -> withCommentCount(toResponse(d), counts.getOrDefault(d.getId(), 0L)))
+                .map(d -> withChecklist(withCommentCount(toResponse(d), counts.getOrDefault(d.getId(), 0L)),
+                        checklists.getOrDefault(d.getId(), DealChecklistStore.Summary.EMPTY)))
                 .collect(Collectors.toList());
     }
 
@@ -153,6 +157,20 @@ public class DealService {
             counts.put((Long) row[0], ((Number) row[1]).longValue());
         }
         return counts;
+    }
+
+    /** One deal's response with its comment count and checklist progress. */
+    private DealResponse respond(Deal deal, long commentCount) {
+        return withChecklist(withCommentCount(toResponse(deal), commentCount),
+                checklistStore.summarize(List.of(deal)).getOrDefault(deal.getId(), DealChecklistStore.Summary.EMPTY));
+    }
+
+    private static DealResponse withChecklist(DealResponse response, DealChecklistStore.Summary summary) {
+        response.setChecklistDone(summary.done());
+        response.setChecklistTotal(summary.total());
+        response.setOpenRequired(summary.openRequired());
+        response.setOpenRequiredByStage(summary.openRequiredByStage());
+        return response;
     }
 
     private static DealResponse withCommentCount(DealResponse response, long count) {

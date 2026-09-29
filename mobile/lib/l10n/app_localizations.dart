@@ -3052,6 +3052,156 @@ abstract class AppLocalizations {
   /// **'Cancel'**
   String get dealsCancel;
 
+  /// No description provided for @dealsChecklistAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add item'**
+  String get dealsChecklistAdd;
+
+  /// No description provided for @dealsChecklistAddTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New checklist item'**
+  String get dealsChecklistAddTitle;
+
+  /// No description provided for @dealsChecklistAttach.
+  ///
+  /// In en, this message translates to:
+  /// **'Attach document'**
+  String get dealsChecklistAttach;
+
+  /// No description provided for @dealsChecklistBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Checklist: {done} of {total} done'**
+  String dealsChecklistBadge(int done, int total);
+
+  /// No description provided for @dealsChecklistDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete item'**
+  String get dealsChecklistDelete;
+
+  /// No description provided for @dealsChecklistDeleteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'It disappears from this deal\'s checklist.'**
+  String get dealsChecklistDeleteBody;
+
+  /// No description provided for @dealsChecklistDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this item?'**
+  String get dealsChecklistDeleteTitle;
+
+  /// No description provided for @dealsChecklistDetach.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove document'**
+  String get dealsChecklistDetach;
+
+  /// No description provided for @dealsChecklistDoneAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Done {date}'**
+  String dealsChecklistDoneAt(String date);
+
+  /// No description provided for @dealsChecklistDoneBy.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} · {date}'**
+  String dealsChecklistDoneBy(String date, String name);
+
+  /// No description provided for @dealsChecklistEmptyStage.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing to collect at this stage'**
+  String get dealsChecklistEmptyStage;
+
+  /// No description provided for @dealsChecklistGateBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 required item is not done yet. Move the deal anyway?} other{{count} required items are not done yet. Move the deal anyway?}}'**
+  String dealsChecklistGateBody(int count);
+
+  /// No description provided for @dealsChecklistGateConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Move anyway'**
+  String get dealsChecklistGateConfirm;
+
+  /// No description provided for @dealsChecklistGateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Required items are open'**
+  String get dealsChecklistGateTitle;
+
+  /// No description provided for @dealsChecklistItemHint.
+  ///
+  /// In en, this message translates to:
+  /// **'For example, a copy of the passport'**
+  String get dealsChecklistItemHint;
+
+  /// No description provided for @dealsChecklistItemLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'What is needed'**
+  String get dealsChecklistItemLabel;
+
+  /// No description provided for @dealsChecklistLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load the checklist'**
+  String get dealsChecklistLoadFailed;
+
+  /// No description provided for @dealsChecklistMore.
+  ///
+  /// In en, this message translates to:
+  /// **'Item actions'**
+  String get dealsChecklistMore;
+
+  /// No description provided for @dealsChecklistNoDocuments.
+  ///
+  /// In en, this message translates to:
+  /// **'This deal has no documents yet. Upload the file under Documents first.'**
+  String get dealsChecklistNoDocuments;
+
+  /// No description provided for @dealsChecklistPickDocument.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a document'**
+  String get dealsChecklistPickDocument;
+
+  /// No description provided for @dealsChecklistProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{done} of {total} done'**
+  String dealsChecklistProgress(int done, int total);
+
+  /// No description provided for @dealsChecklistRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Required'**
+  String get dealsChecklistRequired;
+
+  /// No description provided for @dealsChecklistRequiredHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The app warns before a deal moves on without it'**
+  String get dealsChecklistRequiredHint;
+
+  /// No description provided for @dealsChecklistStage.
+  ///
+  /// In en, this message translates to:
+  /// **'Stage'**
+  String get dealsChecklistStage;
+
+  /// No description provided for @dealsChecklistTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Checklist'**
+  String get dealsChecklistTitle;
+
   /// No description provided for @dealsClient.
   ///
   /// In en, this message translates to:
@@ -4947,6 +5097,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Agent invited'**
   String get msgAgentInvited;
+
+  /// No description provided for @msgChecklistSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Checklist saved'**
+  String get msgChecklistSaved;
 
   /// No description provided for @msgClientCreated.
   ///
@@ -6915,6 +7071,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Withdraw'**
   String get teamsCancelRequest;
+
+  /// No description provided for @teamsChecklist.
+  ///
+  /// In en, this message translates to:
+  /// **'Deal checklist'**
+  String get teamsChecklist;
+
+  /// No description provided for @teamsChecklistAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add item'**
+  String get teamsChecklistAdd;
+
+  /// No description provided for @teamsChecklistDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete item'**
+  String get teamsChecklistDelete;
+
+  /// No description provided for @teamsChecklistEmptyStage.
+  ///
+  /// In en, this message translates to:
+  /// **'No items at this stage yet'**
+  String get teamsChecklistEmptyStage;
+
+  /// No description provided for @teamsChecklistHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What a deal collects at each stage'**
+  String get teamsChecklistHint;
+
+  /// No description provided for @teamsChecklistNewDealsOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Changes apply to new deals. Deals already under way keep their own list.'**
+  String get teamsChecklistNewDealsOnly;
+
+  /// No description provided for @teamsChecklistRename.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename'**
+  String get teamsChecklistRename;
+
+  /// No description provided for @teamsChecklistReorder.
+  ///
+  /// In en, this message translates to:
+  /// **'Drag to reorder'**
+  String get teamsChecklistReorder;
 
   /// No description provided for @teamsClients.
   ///

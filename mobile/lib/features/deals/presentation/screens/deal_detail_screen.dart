@@ -8,6 +8,13 @@ import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:real_estate_crm/features/checklist/domain/checklist_gate.dart';
+import 'package:real_estate_crm/features/checklist/presentation/bloc/deal_checklist_bloc.dart';
+import 'package:real_estate_crm/features/checklist/presentation/bloc/deal_checklist_event.dart';
+import 'package:real_estate_crm/features/checklist/presentation/bloc/deal_checklist_state.dart';
+import 'package:real_estate_crm/features/checklist/presentation/widgets/checklist_sheets.dart';
+import 'package:real_estate_crm/features/checklist/presentation/widgets/deal_checklist_card.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_bloc.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_event.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_state.dart';
@@ -36,6 +43,33 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
   bool _loading = true;
   String? _error;
   final _discussionKey = GlobalKey();
+  DealChecklistBloc? _checklistBlocOrNull;
+  DealChecklistBloc get _checklist => _checklistBlocOrNull ??= _checklistBloc();
+
+  DealChecklistBloc _checklistBloc() {
+    final me = context.read<AuthBloc>().currentUser;
+    return DealChecklistBloc(Injector.checklistRepository,
+        dealId: widget.id, userId: me?.userId, userName: me?.fullName ?? '')
+      ..add(DealChecklistLoadEvent());
+  }
+
+  @override
+  void dispose() {
+    _checklistBlocOrNull?.close();
+    super.dispose();
+  }
+
+  /// Required lines a move to [to] would leave open: from the checklist on
+  /// screen once it has loaded — it knows about ticks made here — and from
+  /// the deal's own counts until then.
+  int _openRequiredFor(DealStatus to) {
+    final deal = _d!;
+    final list = _checklist.state;
+    return list.status == DealChecklistStatus.loaded
+        ? openRequiredInItems(list.items, deal.status, to)
+        : openRequiredForMove(deal, to);
+  }
+
   bool _focused = false;
 
   void _focusDiscussion() {
@@ -101,6 +135,9 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
     if (s == DealStatus.CLOSED_LOST) {
       lost = await showLostReasonSheet(context);
       if (lost == null || !mounted) return;
+    }
+    if (!await confirmChecklistGate(context, _openRequiredFor(s)) || !mounted) {
+      return;
     }
     _confirmedStatus = _d?.status;
     _confirmed = _d;
@@ -174,12 +211,17 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
       );
     }
 
-    return BlocProvider(
-      create: (_) => DocumentsBloc(
-        Injector.documentsRepository,
-        Injector.fileGateway,
-        dealId: widget.id,
-      )..add(DocumentsLoadEvent()),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => DocumentsBloc(
+            Injector.documentsRepository,
+            Injector.fileGateway,
+            dealId: widget.id,
+          )..add(DocumentsLoadEvent()),
+        ),
+        BlocProvider.value(value: _checklist),
+      ],
       child: BlocListener<DealsBloc, DealsState>(
         listener: _onWriteResult,
         child: Builder(
@@ -187,6 +229,7 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
             title: l10n.dealsIdLabel(deal.id),
             onRefresh: () async {
               context.read<DocumentsBloc>().add(DocumentsLoadEvent());
+              _checklist.add(DealChecklistLoadEvent());
               await _load();
             },
             actions: [
@@ -205,6 +248,7 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
               if (deal.commissionPercent != null) _CommissionCard(deal: deal),
               _ParticipantsCard(deal: deal),
               RecordTasksCard(deal: PickerItem(id: deal.id, title: deal.title)),
+              DealChecklistCard(deal: deal),
               const DealDocumentsCard(),
               _TimelineCard(deal: deal),
               if (deal.notes != null && deal.notes!.trim().isNotEmpty)
