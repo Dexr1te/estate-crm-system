@@ -605,6 +605,14 @@ _$DealResponseImpl _$$DealResponseImplFromJson(Map<String, dynamic> json) =>
           ? null
           : DateTime.parse(json['closedAt'] as String),
       commentCount: (json['commentCount'] as num?)?.toInt() ?? 0,
+      checklistDone: (json['checklistDone'] as num?)?.toInt() ?? 0,
+      checklistTotal: (json['checklistTotal'] as num?)?.toInt() ?? 0,
+      openRequired: (json['openRequired'] as num?)?.toInt() ?? 0,
+      openRequiredByStage:
+          (json['openRequiredByStage'] as Map<String, dynamic>?)?.map(
+                (k, e) => MapEntry(k, (e as num).toInt()),
+              ) ??
+              const <String, int>{},
     );
 
 Map<String, dynamic> _$$DealResponseImplToJson(_$DealResponseImpl instance) =>
@@ -630,6 +638,10 @@ Map<String, dynamic> _$$DealResponseImplToJson(_$DealResponseImpl instance) =>
       'updatedAt': instance.updatedAt?.toIso8601String(),
       'closedAt': instance.closedAt?.toIso8601String(),
       'commentCount': instance.commentCount,
+      'checklistDone': instance.checklistDone,
+      'checklistTotal': instance.checklistTotal,
+      'openRequired': instance.openRequired,
+      'openRequiredByStage': instance.openRequiredByStage,
     };
 
 const _$DealLostReasonEnumMap = {
@@ -639,6 +651,48 @@ const _$DealLostReasonEnumMap = {
   DealLostReason.CHANGED_MIND: 'CHANGED_MIND',
   DealLostReason.NO_RESPONSE: 'NO_RESPONSE',
   DealLostReason.OTHER: 'OTHER',
+};
+
+_$ChecklistItemImpl _$$ChecklistItemImplFromJson(Map<String, dynamic> json) =>
+    _$ChecklistItemImpl(
+      id: (json['id'] as num).toInt(),
+      stage: $enumDecodeNullable(_$ChecklistStageEnumMap, json['stage'],
+              unknownValue: ChecklistStage.LEAD) ??
+          ChecklistStage.LEAD,
+      title: json['title'] as String? ?? '',
+      position: (json['position'] as num?)?.toInt() ?? 0,
+      required: json['required'] as bool? ?? false,
+      custom: json['custom'] as bool? ?? false,
+      done: json['done'] as bool? ?? false,
+      doneAt: json['doneAt'] == null
+          ? null
+          : DateTime.parse(json['doneAt'] as String),
+      doneById: (json['doneById'] as num?)?.toInt(),
+      doneByName: json['doneByName'] as String?,
+      documentId: (json['documentId'] as num?)?.toInt(),
+      documentName: json['documentName'] as String?,
+    );
+
+Map<String, dynamic> _$$ChecklistItemImplToJson(_$ChecklistItemImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'stage': _$ChecklistStageEnumMap[instance.stage]!,
+      'title': instance.title,
+      'position': instance.position,
+      'required': instance.required,
+      'custom': instance.custom,
+      'done': instance.done,
+      'doneAt': instance.doneAt?.toIso8601String(),
+      'doneById': instance.doneById,
+      'doneByName': instance.doneByName,
+      'documentId': instance.documentId,
+      'documentName': instance.documentName,
+    };
+
+const _$ChecklistStageEnumMap = {
+  ChecklistStage.LEAD: 'LEAD',
+  ChecklistStage.NEGOTIATION: 'NEGOTIATION',
+  ChecklistStage.CLOSED_WON: 'CLOSED_WON',
 };
 
 _$DealCommentImpl _$$DealCommentImplFromJson(Map<String, dynamic> json) =>

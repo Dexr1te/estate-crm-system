@@ -1655,6 +1655,107 @@ class AppLocalizationsRu extends AppLocalizations {
   String get dealsCancel => 'Отмена';
 
   @override
+  String get dealsChecklistAdd => 'Добавить пункт';
+
+  @override
+  String get dealsChecklistAddTitle => 'Новый пункт чек-листа';
+
+  @override
+  String get dealsChecklistAttach => 'Прикрепить документ';
+
+  @override
+  String dealsChecklistBadge(int done, int total) {
+    return 'Чек-лист: выполнено $done из $total';
+  }
+
+  @override
+  String get dealsChecklistDelete => 'Удалить пункт';
+
+  @override
+  String get dealsChecklistDeleteBody =>
+      'Пункт исчезнет из чек-листа этой сделки.';
+
+  @override
+  String get dealsChecklistDeleteTitle => 'Удалить этот пункт?';
+
+  @override
+  String get dealsChecklistDetach => 'Открепить документ';
+
+  @override
+  String dealsChecklistDoneAt(String date) {
+    return 'Выполнено $date';
+  }
+
+  @override
+  String dealsChecklistDoneBy(String date, String name) {
+    return '$name · $date';
+  }
+
+  @override
+  String get dealsChecklistEmptyStage =>
+      'На этом этапе ничего собирать не нужно';
+
+  @override
+  String dealsChecklistGateBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count обязательного пункта ещё не выполнены. Всё равно перевести сделку?',
+      many:
+          '$count обязательных пунктов ещё не выполнены. Всё равно перевести сделку?',
+      few:
+          '$count обязательных пункта ещё не выполнены. Всё равно перевести сделку?',
+      one:
+          '$count обязательный пункт ещё не выполнен. Всё равно перевести сделку?',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get dealsChecklistGateConfirm => 'Всё равно перевести';
+
+  @override
+  String get dealsChecklistGateTitle => 'Не всё обязательное собрано';
+
+  @override
+  String get dealsChecklistItemHint => 'Например, копия паспорта';
+
+  @override
+  String get dealsChecklistItemLabel => 'Что нужно';
+
+  @override
+  String get dealsChecklistLoadFailed => 'Не удалось загрузить чек-лист';
+
+  @override
+  String get dealsChecklistMore => 'Действия с пунктом';
+
+  @override
+  String get dealsChecklistNoDocuments =>
+      'У сделки пока нет документов. Сначала загрузите файл в разделе «Документы».';
+
+  @override
+  String get dealsChecklistPickDocument => 'Выберите документ';
+
+  @override
+  String dealsChecklistProgress(int done, int total) {
+    return 'Выполнено $done из $total';
+  }
+
+  @override
+  String get dealsChecklistRequired => 'Обязательно';
+
+  @override
+  String get dealsChecklistRequiredHint =>
+      'Приложение предупредит, если сделку переводят дальше без него';
+
+  @override
+  String get dealsChecklistStage => 'Этап';
+
+  @override
+  String get dealsChecklistTitle => 'Чек-лист';
+
+  @override
   String get dealsClient => 'Клиент';
 
   @override
@@ -2767,6 +2868,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get msgAgentInvited => 'Агент приглашён';
+
+  @override
+  String get msgChecklistSaved => 'Чек-лист сохранён';
 
   @override
   String get msgClientCreated => 'Клиент создан';
@@ -4061,6 +4165,31 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get teamsCancelRequest => 'Отозвать';
+
+  @override
+  String get teamsChecklist => 'Чек-лист сделки';
+
+  @override
+  String get teamsChecklistAdd => 'Добавить пункт';
+
+  @override
+  String get teamsChecklistDelete => 'Удалить пункт';
+
+  @override
+  String get teamsChecklistEmptyStage => 'На этом этапе пока нет пунктов';
+
+  @override
+  String get teamsChecklistHint => 'Что собрать по сделке на каждом этапе';
+
+  @override
+  String get teamsChecklistNewDealsOnly =>
+      'Изменения касаются новых сделок. У текущих сделок остаётся свой список.';
+
+  @override
+  String get teamsChecklistRename => 'Переименовать';
+
+  @override
+  String get teamsChecklistReorder => 'Перетащите, чтобы изменить порядок';
 
   @override
   String get teamsClients => 'Клиенты';

@@ -4,6 +4,8 @@ import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/features/checklist/domain/checklist_gate.dart';
+import 'package:real_estate_crm/features/checklist/presentation/widgets/checklist_sheets.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_bloc.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_event.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_state.dart';
@@ -35,6 +37,9 @@ class _DealFormScreenState extends State<DealFormScreen> {
   String? _lostNote;
   bool _loading = false;
   bool _initLoading = false;
+
+  /// The deal as it was loaded, for the checklist warning on a stage move.
+  DealResponse? _loaded;
 
   List<PickerItem> _clients = const [];
   List<PickerItem> _agents = const [];
@@ -166,6 +171,7 @@ class _DealFormScreenState extends State<DealFormScreen> {
                     id: d.propertyId!,
                     title: d.propertyTitle ??
                         l10n.dealsPropertyRef(d.propertyId!)));
+        _loaded = d;
         _status = d.status;
         _lostReason = d.lostReason;
         _lostNote = d.lostNote;
@@ -195,6 +201,12 @@ class _DealFormScreenState extends State<DealFormScreen> {
   }
 
   Future<void> _pickStatus(DealStatus s) async {
+    final loaded = _loaded;
+    if (loaded != null && s != _status) {
+      final go =
+          await confirmChecklistGate(context, openRequiredForMove(loaded, s));
+      if (!go || !mounted) return;
+    }
     if (s != DealStatus.CLOSED_LOST) {
       setState(() => _status = s);
       return;

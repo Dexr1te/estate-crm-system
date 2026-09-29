@@ -1635,6 +1635,101 @@ class AppLocalizationsKk extends AppLocalizations {
   String get dealsCancel => 'Бас тарту';
 
   @override
+  String get dealsChecklistAdd => 'Тармақ қосу';
+
+  @override
+  String get dealsChecklistAddTitle => 'Тізімге жаңа тармақ';
+
+  @override
+  String get dealsChecklistAttach => 'Құжат тіркеу';
+
+  @override
+  String dealsChecklistBadge(int done, int total) {
+    return 'Тексеру тізімі: $total ішінен $done орындалды';
+  }
+
+  @override
+  String get dealsChecklistDelete => 'Тармақты жою';
+
+  @override
+  String get dealsChecklistDeleteBody =>
+      'Тармақ осы мәміленің тізімінен жойылады.';
+
+  @override
+  String get dealsChecklistDeleteTitle => 'Бұл тармақты жою керек пе?';
+
+  @override
+  String get dealsChecklistDetach => 'Құжатты ажырату';
+
+  @override
+  String dealsChecklistDoneAt(String date) {
+    return 'Орындалды: $date';
+  }
+
+  @override
+  String dealsChecklistDoneBy(String date, String name) {
+    return '$name · $date';
+  }
+
+  @override
+  String get dealsChecklistEmptyStage =>
+      'Бұл кезеңде ештеңе жинаудың қажеті жоқ';
+
+  @override
+  String dealsChecklistGateBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count міндетті тармақ әлі орындалмаған. Мәмілені бәрібір ауыстыру керек пе?',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get dealsChecklistGateConfirm => 'Бәрібір ауыстыру';
+
+  @override
+  String get dealsChecklistGateTitle => 'Міндетті тармақтар орындалмаған';
+
+  @override
+  String get dealsChecklistItemHint => 'Мысалы, төлқұжаттың көшірмесі';
+
+  @override
+  String get dealsChecklistItemLabel => 'Не қажет';
+
+  @override
+  String get dealsChecklistLoadFailed => 'Тізімді жүктеу мүмкін болмады';
+
+  @override
+  String get dealsChecklistMore => 'Тармақ әрекеттері';
+
+  @override
+  String get dealsChecklistNoDocuments =>
+      'Мәміледе әлі құжат жоқ. Алдымен файлды «Құжаттар» бөліміне жүктеңіз.';
+
+  @override
+  String get dealsChecklistPickDocument => 'Құжатты таңдаңыз';
+
+  @override
+  String dealsChecklistProgress(int done, int total) {
+    return '$total ішінен $done орындалды';
+  }
+
+  @override
+  String get dealsChecklistRequired => 'Міндетті';
+
+  @override
+  String get dealsChecklistRequiredHint =>
+      'Онсыз мәміле әрі қарай ауысса, қолданба ескертеді';
+
+  @override
+  String get dealsChecklistStage => 'Кезең';
+
+  @override
+  String get dealsChecklistTitle => 'Тексеру тізімі';
+
+  @override
   String get dealsClient => 'Клиент';
 
   @override
@@ -2730,6 +2825,9 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get msgAgentInvited => 'Агент шақырылды';
+
+  @override
+  String get msgChecklistSaved => 'Тізім сақталды';
 
   @override
   String get msgClientCreated => 'Клиент құрылды';
@@ -3953,6 +4051,31 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get teamsCancelRequest => 'Қайтару';
+
+  @override
+  String get teamsChecklist => 'Мәміле тізімі';
+
+  @override
+  String get teamsChecklistAdd => 'Тармақ қосу';
+
+  @override
+  String get teamsChecklistDelete => 'Тармақты жою';
+
+  @override
+  String get teamsChecklistEmptyStage => 'Бұл кезеңде әзірге тармақ жоқ';
+
+  @override
+  String get teamsChecklistHint => 'Әр кезеңде мәміле бойынша не жинау керек';
+
+  @override
+  String get teamsChecklistNewDealsOnly =>
+      'Өзгерістер жаңа мәмілелерге қолданылады. Ағымдағы мәмілелерде өз тізімі сақталады.';
+
+  @override
+  String get teamsChecklistRename => 'Атауын өзгерту';
+
+  @override
+  String get teamsChecklistReorder => 'Ретін өзгерту үшін сүйреңіз';
 
   @override
   String get teamsClients => 'Клиенттер';

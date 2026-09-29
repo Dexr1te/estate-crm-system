@@ -5,6 +5,8 @@ import 'package:real_estate_crm/core/models/export_models.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/features/checklist/domain/checklist_gate.dart';
+import 'package:real_estate_crm/features/checklist/presentation/widgets/checklist_sheets.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_bloc.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_event.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_state.dart';
@@ -92,6 +94,9 @@ class _DealsScreenState extends State<DealsScreen> {
       lost = await showLostReasonSheet(context);
       if (lost == null || !mounted) return;
     }
+    final go =
+        await confirmChecklistGate(context, openRequiredForMove(deal, to));
+    if (!go || !mounted) return;
     setState(() => _pending[deal.id] = to);
     context.read<DealsBloc>().add(DealsUpdateStatusEvent(deal.id, to,
         lostReason: lost?.reason, lostNote: lost?.note));
