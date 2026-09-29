@@ -7,11 +7,13 @@ import com.crm.realestate.dto.response.ClientActivityResponse;
 import com.crm.realestate.dto.response.ClientDuplicate;
 import com.crm.realestate.dto.response.ClientListItem;
 import com.crm.realestate.dto.response.ClientResponse;
+import com.crm.realestate.dto.response.ColdClient;
 import com.crm.realestate.dto.response.PropertyMatch;
 import com.crm.realestate.enums.ClientType;
 import com.crm.realestate.service.ClientActivityService;
 import com.crm.realestate.service.ClientDuplicateService;
 import com.crm.realestate.service.ClientService;
+import com.crm.realestate.service.ColdClientService;
 import com.crm.realestate.service.MatchingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -36,6 +38,7 @@ public class ClientController {
     private final MatchingService matchingService;
     private final ClientActivityService activityService;
     private final ClientDuplicateService duplicateService;
+    private final ColdClientService coldClientService;
 
     @GetMapping
     @Operation(summary = "Get all clients (supports pagination, sorting, and filters). Backward-compatible: returns legacy list when no paging/filters provided.")
@@ -115,6 +118,15 @@ public class ClientController {
     @Operation(summary = "Get clients with deal status, property and next meeting - for frontend table")
     public ResponseEntity<List<ClientListItem>> getWithDetails() {
         return ResponseEntity.ok(clientService.getClientsWithDetails());
+    }
+
+    @GetMapping("/cold")
+    @Operation(summary = "Clients worth a call that nobody has contacted in `days` (7-90, default 14): "
+            + "an open deal, current matches or a public-page lead, and no open task due later. "
+            + "Most valuable first, then the longest silence")
+    public ResponseEntity<List<ColdClient>> cold(@RequestParam(required = false) Integer days,
+                                                 @RequestParam(required = false) Integer limit) {
+        return ResponseEntity.ok(coldClientService.list(days, limit));
     }
 
     @GetMapping("/duplicates")

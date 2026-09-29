@@ -18,6 +18,7 @@ import 'package:real_estate_crm/features/auth/presentation/screens/waiting_for_t
 import 'package:real_estate_crm/features/clients/presentation/screens/client_detail_screen.dart';
 import 'package:real_estate_crm/features/clients/presentation/screens/client_form_screen.dart';
 import 'package:real_estate_crm/features/clients/presentation/screens/clients_screen.dart';
+import 'package:real_estate_crm/features/clients/presentation/screens/cold_clients_screen.dart';
 import 'package:real_estate_crm/features/compare/domain/comparison.dart';
 import 'package:real_estate_crm/features/compare/presentation/screens/compare_screen.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/screens/dashboard_screen.dart';
@@ -261,6 +262,12 @@ GoRouter createRouter(AuthBloc authBloc) {
                 parentNavigatorKey: _rootKey,
                 pageBuilder: (_, __) =>
                     const NoTransitionPage(child: ClientFormScreen()),
+              ),
+              GoRoute(
+                path: 'cold',
+                parentNavigatorKey: _rootKey,
+                pageBuilder: (_, __) =>
+                    const NoTransitionPage(child: ColdClientsScreen()),
               ),
               GoRoute(
                 path: ':id',

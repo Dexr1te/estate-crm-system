@@ -11,12 +11,15 @@ import 'package:real_estate_crm/core/utils/contact_actions.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_state.dart';
+import 'package:real_estate_crm/features/clients/presentation/bloc/cold_clients_bloc.dart';
+import 'package:real_estate_crm/features/clients/presentation/bloc/cold_clients_event.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/bloc/dashboard_bloc.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/bloc/dashboard_event.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/bloc/dashboard_state.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/attention_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/dashboard_hero.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/goal_ring_card.dart';
+import 'package:real_estate_crm/features/dashboard/presentation/widgets/going_cold_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/meeting_load_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/meeting_row.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/pipeline_card.dart';
@@ -38,17 +41,21 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   final _tasks = TasksBloc(Injector.tasksRepository);
+  final _cold =
+      ColdClientsBloc(Injector.coldClientsRepository, Injector.tasksRepository);
 
   @override
   void initState() {
     super.initState();
     context.read<DashboardBloc>().add(DashboardLoadEvent());
     _tasks.add(TasksLoadEvent());
+    _cold.add(ColdClientsLoadEvent());
   }
 
   @override
   void dispose() {
     _tasks.close();
+    _cold.close();
     super.dispose();
   }
 
@@ -93,8 +100,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final authState = context.watch<AuthBloc>().state;
     final user = authState is AuthAuthenticated ? authState.user : null;
 
-    return BlocProvider.value(
-      value: _tasks,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider.value(value: _tasks),
+        BlocProvider.value(value: _cold),
+      ],
       child: Scaffold(
         body: SafeArea(
           bottom: false,
@@ -103,6 +113,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               onRefresh: () async {
                 ctx.read<DashboardBloc>().add(DashboardLoadEvent());
                 _tasks.add(TasksLoadEvent());
+                _cold.add(ColdClientsLoadEvent());
               },
               color: t.primary,
               child: AppMetrics.constrain(
@@ -195,6 +206,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ],
       SizedBox(height: gap),
       TodayTasksCard(onSeeAll: () => context.push('/tasks')),
+      GoingColdCard(
+        topGap: gap,
+        total: state.summary.coldCount,
+        onSeeAll: () => context.push('/clients/cold'),
+      ),
       SizedBox(height: gap),
       BlocBuilder<GoalBloc, GoalState>(
         builder: (goalCtx, goal) => GoalRingCard(

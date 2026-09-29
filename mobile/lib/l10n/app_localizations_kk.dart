@@ -730,6 +730,106 @@ class AppLocalizationsKk extends AppLocalizations {
   String get clientsClientType => 'Клиент түрі';
 
   @override
+  String clientsColdDaysOption(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count күн',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clientsColdEmpty => 'Ешкім суымай жатыр';
+
+  @override
+  String clientsColdEmptyHint(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Хабарласуға тұрарлық әр клиентпен соңғы $count күнде сөйлестіңіз.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clientsColdLoadFailed => 'Суып бара жатқан клиенттер жүктелмеді';
+
+  @override
+  String get clientsColdNeverContacted => 'Әлі хабарласпаған';
+
+  @override
+  String get clientsColdNextCheckIn => 'Жағдайын сұрау';
+
+  @override
+  String get clientsColdNextFirstCall => 'Алғашқы қоңырау шалу';
+
+  @override
+  String get clientsColdNextPushDeal => 'Мәмілені алға жылжыту';
+
+  @override
+  String get clientsColdNextSendMatches => 'Сәйкес нысандарды жіберу';
+
+  @override
+  String get clientsColdReasonLead => 'Нысан бетінен өтінім';
+
+  @override
+  String clientsColdReasonMatches(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count сәйкес нысан',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clientsColdReasonNegotiation => 'Мәміле келіссөзде';
+
+  @override
+  String get clientsColdReasonOpenDeal => 'Ашық мәміле';
+
+  @override
+  String get clientsColdRemind => 'Еске салу';
+
+  @override
+  String clientsColdRemindTask(String name) {
+    return 'Қоңырау шалу: $name';
+  }
+
+  @override
+  String clientsColdReminderSet(String time) {
+    return 'Еске салу ертеңге қойылды, $time';
+  }
+
+  @override
+  String clientsColdSilentDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count күн хабарсыз',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String clientsColdSubtitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count күн және одан да көп хабарсыз',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clientsColdTitle => 'Суып барады';
+
+  @override
+  String get clientsColdUndo => 'Болдырмау';
+
+  @override
   String get clientsContact => 'Байланыс';
 
   @override
@@ -1383,6 +1483,11 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get dashboardClosedWon => 'Сәтті жабылды';
+
+  @override
+  String dashboardColdTotal(int count) {
+    return 'барлығы $count';
+  }
 
   @override
   String get dashboardConversion => 'Конверсия';
