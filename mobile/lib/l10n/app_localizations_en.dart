@@ -733,6 +733,111 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clientsClientType => 'Client Type';
 
   @override
+  String clientsColdDaysOption(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days',
+      one: '1 day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clientsColdEmpty => 'Nobody is going cold';
+
+  @override
+  String clientsColdEmptyHint(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Everyone worth a call has heard from you in the last $count days.',
+      one: 'Everyone worth a call has heard from you in the last day.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clientsColdLoadFailed => 'Could not load who is going cold';
+
+  @override
+  String get clientsColdNeverContacted => 'Never contacted';
+
+  @override
+  String get clientsColdNextCheckIn => 'Check in';
+
+  @override
+  String get clientsColdNextFirstCall => 'Make the first call';
+
+  @override
+  String get clientsColdNextPushDeal => 'Move the deal forward';
+
+  @override
+  String get clientsColdNextSendMatches => 'Send the listings that fit';
+
+  @override
+  String get clientsColdReasonLead => 'Lead from a listing page';
+
+  @override
+  String clientsColdReasonMatches(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count matches',
+      one: '1 match',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clientsColdReasonNegotiation => 'Deal in negotiation';
+
+  @override
+  String get clientsColdReasonOpenDeal => 'Open deal';
+
+  @override
+  String get clientsColdRemind => 'Remind me';
+
+  @override
+  String clientsColdRemindTask(String name) {
+    return 'Call $name';
+  }
+
+  @override
+  String clientsColdReminderSet(String time) {
+    return 'Reminder set for tomorrow, $time';
+  }
+
+  @override
+  String clientsColdSilentDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Silent $count days',
+      one: 'Silent 1 day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String clientsColdSubtitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'No contact for $count days or more',
+      one: 'No contact for a day or more',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clientsColdTitle => 'Going cold';
+
+  @override
+  String get clientsColdUndo => 'Undo';
+
+  @override
   String get clientsContact => 'Contact';
 
   @override
@@ -1390,6 +1495,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dashboardClosedWon => 'Closed Won';
 
   @override
+  String dashboardColdTotal(int count) {
+    return '$count in all';
+  }
+
+  @override
   String get dashboardConversion => 'Conversion';
 
   @override
@@ -1638,6 +1748,100 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dealsCancel => 'Cancel';
+
+  @override
+  String get dealsChecklistAdd => 'Add item';
+
+  @override
+  String get dealsChecklistAddTitle => 'New checklist item';
+
+  @override
+  String get dealsChecklistAttach => 'Attach document';
+
+  @override
+  String dealsChecklistBadge(int done, int total) {
+    return 'Checklist: $done of $total done';
+  }
+
+  @override
+  String get dealsChecklistDelete => 'Delete item';
+
+  @override
+  String get dealsChecklistDeleteBody =>
+      'It disappears from this deal\'s checklist.';
+
+  @override
+  String get dealsChecklistDeleteTitle => 'Delete this item?';
+
+  @override
+  String get dealsChecklistDetach => 'Remove document';
+
+  @override
+  String dealsChecklistDoneAt(String date) {
+    return 'Done $date';
+  }
+
+  @override
+  String dealsChecklistDoneBy(String date, String name) {
+    return '$name · $date';
+  }
+
+  @override
+  String get dealsChecklistEmptyStage => 'Nothing to collect at this stage';
+
+  @override
+  String dealsChecklistGateBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count required items are not done yet. Move the deal anyway?',
+      one: '1 required item is not done yet. Move the deal anyway?',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get dealsChecklistGateConfirm => 'Move anyway';
+
+  @override
+  String get dealsChecklistGateTitle => 'Required items are open';
+
+  @override
+  String get dealsChecklistItemHint => 'For example, a copy of the passport';
+
+  @override
+  String get dealsChecklistItemLabel => 'What is needed';
+
+  @override
+  String get dealsChecklistLoadFailed => 'Could not load the checklist';
+
+  @override
+  String get dealsChecklistMore => 'Item actions';
+
+  @override
+  String get dealsChecklistNoDocuments =>
+      'This deal has no documents yet. Upload the file under Documents first.';
+
+  @override
+  String get dealsChecklistPickDocument => 'Choose a document';
+
+  @override
+  String dealsChecklistProgress(int done, int total) {
+    return '$done of $total done';
+  }
+
+  @override
+  String get dealsChecklistRequired => 'Required';
+
+  @override
+  String get dealsChecklistRequiredHint =>
+      'The app warns before a deal moves on without it';
+
+  @override
+  String get dealsChecklistStage => 'Stage';
+
+  @override
+  String get dealsChecklistTitle => 'Checklist';
 
   @override
   String get dealsClient => 'Client';
@@ -2837,6 +3041,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get msgAgentInvited => 'Agent invited';
 
   @override
+  String get msgChecklistSaved => 'Checklist saved';
+
+  @override
   String get msgClientCreated => 'Client created';
 
   @override
@@ -3537,6 +3744,73 @@ class AppLocalizationsEn extends AppLocalizations {
       'Hold a photo to move it — the first one is the cover';
 
   @override
+  String get propertiesPriceCheck => 'Price check';
+
+  @override
+  String propertiesPriceCheckAbove(String percent) {
+    return '$percent% above';
+  }
+
+  @override
+  String get propertiesPriceCheckAtMedian => 'at the median';
+
+  @override
+  String propertiesPriceCheckBasedOn(int count, String city) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Based on $count listings in $city',
+      one: 'Based on $count listing in $city',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String propertiesPriceCheckBelow(String percent) {
+    return '$percent% below';
+  }
+
+  @override
+  String get propertiesPriceCheckComparables => 'Comparable listings';
+
+  @override
+  String propertiesPriceCheckDaysOnMarket(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days on the market',
+      one: '$count day on the market',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get propertiesPriceCheckLowConfidence =>
+      'Few similar listings yet, so treat this as a rough guide';
+
+  @override
+  String get propertiesPriceCheckSeeComparables => 'See comparables';
+
+  @override
+  String propertiesPriceCheckSold(String price) {
+    return 'Sold at a median of $price';
+  }
+
+  @override
+  String propertiesPriceCheckVsMedian(
+      String price, String median, String difference) {
+    return '$price / m² vs median $median ($difference)';
+  }
+
+  @override
+  String propertiesPriceHintRange(String low, String high) {
+    return 'Similar listings: $low–$high for this area';
+  }
+
+  @override
+  String get propertiesPriceHintUseMedian => 'Use median';
+
+  @override
   String get propertiesPriceHistory => 'Price history';
 
   @override
@@ -4039,6 +4313,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get teamsCancelRequest => 'Withdraw';
+
+  @override
+  String get teamsChecklist => 'Deal checklist';
+
+  @override
+  String get teamsChecklistAdd => 'Add item';
+
+  @override
+  String get teamsChecklistDelete => 'Delete item';
+
+  @override
+  String get teamsChecklistEmptyStage => 'No items at this stage yet';
+
+  @override
+  String get teamsChecklistHint => 'What a deal collects at each stage';
+
+  @override
+  String get teamsChecklistNewDealsOnly =>
+      'Changes apply to new deals. Deals already under way keep their own list.';
+
+  @override
+  String get teamsChecklistRename => 'Rename';
+
+  @override
+  String get teamsChecklistReorder => 'Drag to reorder';
 
   @override
   String get teamsClients => 'Clients';

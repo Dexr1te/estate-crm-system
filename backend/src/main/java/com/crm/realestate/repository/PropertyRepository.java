@@ -64,4 +64,25 @@ public interface PropertyRepository extends JpaRepository<Property, Long>, JpaSp
     /** The seeder's own listings — see DemoDataSeeder for why the prefix is visible. */
     List<Property> findByTitleStartingWith(String prefix);
 
+    /**
+     * The agency's listings a price insight compares against: same city (case and surrounding
+     * spaces ignored) and type, with a positive price and area, any number of rooms — the rooms are
+     * narrowed in memory so widening costs no extra statement. Newest first, and the caller caps the
+     * page. The team wall is written out rather than taken from ScopeService so that an admin, too,
+     * only ever sees their own agency's figures here.
+     */
+    @Query("SELECT new com.crm.realestate.repository.projection.PriceComparableRow("
+            + "p.id, p.title, p.price, p.areaSqm, p.rooms, p.status, p.createdAt) FROM Property p "
+            + "WHERE ((:teamId IS NOT NULL AND p.team.id = :teamId) "
+            + "    OR (:teamId IS NULL AND p.team IS NULL AND p.agent.id = :userId)) "
+            + "AND LOWER(TRIM(p.city)) = :city AND p.type = :type "
+            + "AND p.areaSqm > 0 AND p.price > 0 "
+            + "AND (:excludeId IS NULL OR p.id <> :excludeId) "
+            + "ORDER BY p.createdAt DESC, p.id DESC")
+    List<com.crm.realestate.repository.projection.PriceComparableRow> priceComparables(
+            @Param("teamId") Long teamId, @Param("userId") Long userId,
+            @Param("city") String city, @Param("type") PropertyType type,
+            @Param("excludeId") Long excludeId,
+            org.springframework.data.domain.Pageable page);
+
 }

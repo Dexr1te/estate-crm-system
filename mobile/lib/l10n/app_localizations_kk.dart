@@ -730,6 +730,106 @@ class AppLocalizationsKk extends AppLocalizations {
   String get clientsClientType => 'Клиент түрі';
 
   @override
+  String clientsColdDaysOption(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count күн',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clientsColdEmpty => 'Ешкім суымай жатыр';
+
+  @override
+  String clientsColdEmptyHint(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Хабарласуға тұрарлық әр клиентпен соңғы $count күнде сөйлестіңіз.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clientsColdLoadFailed => 'Суып бара жатқан клиенттер жүктелмеді';
+
+  @override
+  String get clientsColdNeverContacted => 'Әлі хабарласпаған';
+
+  @override
+  String get clientsColdNextCheckIn => 'Жағдайын сұрау';
+
+  @override
+  String get clientsColdNextFirstCall => 'Алғашқы қоңырау шалу';
+
+  @override
+  String get clientsColdNextPushDeal => 'Мәмілені алға жылжыту';
+
+  @override
+  String get clientsColdNextSendMatches => 'Сәйкес нысандарды жіберу';
+
+  @override
+  String get clientsColdReasonLead => 'Нысан бетінен өтінім';
+
+  @override
+  String clientsColdReasonMatches(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count сәйкес нысан',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clientsColdReasonNegotiation => 'Мәміле келіссөзде';
+
+  @override
+  String get clientsColdReasonOpenDeal => 'Ашық мәміле';
+
+  @override
+  String get clientsColdRemind => 'Еске салу';
+
+  @override
+  String clientsColdRemindTask(String name) {
+    return 'Қоңырау шалу: $name';
+  }
+
+  @override
+  String clientsColdReminderSet(String time) {
+    return 'Еске салу ертеңге қойылды, $time';
+  }
+
+  @override
+  String clientsColdSilentDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count күн хабарсыз',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String clientsColdSubtitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count күн және одан да көп хабарсыз',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clientsColdTitle => 'Суып барады';
+
+  @override
+  String get clientsColdUndo => 'Болдырмау';
+
+  @override
   String get clientsContact => 'Байланыс';
 
   @override
@@ -1385,6 +1485,11 @@ class AppLocalizationsKk extends AppLocalizations {
   String get dashboardClosedWon => 'Сәтті жабылды';
 
   @override
+  String dashboardColdTotal(int count) {
+    return 'барлығы $count';
+  }
+
+  @override
   String get dashboardConversion => 'Конверсия';
 
   @override
@@ -1633,6 +1738,101 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get dealsCancel => 'Бас тарту';
+
+  @override
+  String get dealsChecklistAdd => 'Тармақ қосу';
+
+  @override
+  String get dealsChecklistAddTitle => 'Тізімге жаңа тармақ';
+
+  @override
+  String get dealsChecklistAttach => 'Құжат тіркеу';
+
+  @override
+  String dealsChecklistBadge(int done, int total) {
+    return 'Тексеру тізімі: $total ішінен $done орындалды';
+  }
+
+  @override
+  String get dealsChecklistDelete => 'Тармақты жою';
+
+  @override
+  String get dealsChecklistDeleteBody =>
+      'Тармақ осы мәміленің тізімінен жойылады.';
+
+  @override
+  String get dealsChecklistDeleteTitle => 'Бұл тармақты жою керек пе?';
+
+  @override
+  String get dealsChecklistDetach => 'Құжатты ажырату';
+
+  @override
+  String dealsChecklistDoneAt(String date) {
+    return 'Орындалды: $date';
+  }
+
+  @override
+  String dealsChecklistDoneBy(String date, String name) {
+    return '$name · $date';
+  }
+
+  @override
+  String get dealsChecklistEmptyStage =>
+      'Бұл кезеңде ештеңе жинаудың қажеті жоқ';
+
+  @override
+  String dealsChecklistGateBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count міндетті тармақ әлі орындалмаған. Мәмілені бәрібір ауыстыру керек пе?',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get dealsChecklistGateConfirm => 'Бәрібір ауыстыру';
+
+  @override
+  String get dealsChecklistGateTitle => 'Міндетті тармақтар орындалмаған';
+
+  @override
+  String get dealsChecklistItemHint => 'Мысалы, төлқұжаттың көшірмесі';
+
+  @override
+  String get dealsChecklistItemLabel => 'Не қажет';
+
+  @override
+  String get dealsChecklistLoadFailed => 'Тізімді жүктеу мүмкін болмады';
+
+  @override
+  String get dealsChecklistMore => 'Тармақ әрекеттері';
+
+  @override
+  String get dealsChecklistNoDocuments =>
+      'Мәміледе әлі құжат жоқ. Алдымен файлды «Құжаттар» бөліміне жүктеңіз.';
+
+  @override
+  String get dealsChecklistPickDocument => 'Құжатты таңдаңыз';
+
+  @override
+  String dealsChecklistProgress(int done, int total) {
+    return '$total ішінен $done орындалды';
+  }
+
+  @override
+  String get dealsChecklistRequired => 'Міндетті';
+
+  @override
+  String get dealsChecklistRequiredHint =>
+      'Онсыз мәміле әрі қарай ауысса, қолданба ескертеді';
+
+  @override
+  String get dealsChecklistStage => 'Кезең';
+
+  @override
+  String get dealsChecklistTitle => 'Тексеру тізімі';
 
   @override
   String get dealsClient => 'Клиент';
@@ -2826,6 +3026,9 @@ class AppLocalizationsKk extends AppLocalizations {
   String get msgAgentInvited => 'Агент шақырылды';
 
   @override
+  String get msgChecklistSaved => 'Тізім сақталды';
+
+  @override
   String get msgClientCreated => 'Клиент құрылды';
 
   @override
@@ -3479,6 +3682,73 @@ class AppLocalizationsKk extends AppLocalizations {
       'Фотоны басып тұрып жылжытыңыз — біріншісі мұқаба';
 
   @override
+  String get propertiesPriceCheck => 'Бағаны тексеру';
+
+  @override
+  String propertiesPriceCheckAbove(String percent) {
+    return '$percent% жоғары';
+  }
+
+  @override
+  String get propertiesPriceCheckAtMedian => 'медианамен тең';
+
+  @override
+  String propertiesPriceCheckBasedOn(int count, String city) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$city қаласындағы $count нысан негізінде',
+      one: '$city қаласындағы $count нысан негізінде',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String propertiesPriceCheckBelow(String percent) {
+    return '$percent% төмен';
+  }
+
+  @override
+  String get propertiesPriceCheckComparables => 'Ұқсас нысандар';
+
+  @override
+  String propertiesPriceCheckDaysOnMarket(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'сатылымда $count күн',
+      one: 'сатылымда $count күн',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get propertiesPriceCheckLowConfidence =>
+      'Ұқсас нысандар әзірге аз, сондықтан бұл тек бағдар';
+
+  @override
+  String get propertiesPriceCheckSeeComparables => 'Ұқсастарын көру';
+
+  @override
+  String propertiesPriceCheckSold(String price) {
+    return 'Сатылғандар: медиана $price';
+  }
+
+  @override
+  String propertiesPriceCheckVsMedian(
+      String price, String median, String difference) {
+    return '$price / м², медиана $median ($difference)';
+  }
+
+  @override
+  String propertiesPriceHintRange(String low, String high) {
+    return 'Ұқсас нысандар: осы ауданға $low–$high';
+  }
+
+  @override
+  String get propertiesPriceHintUseMedian => 'Медиананы қою';
+
+  @override
   String get propertiesPriceHistory => 'Баға тарихы';
 
   @override
@@ -3980,6 +4250,31 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get teamsCancelRequest => 'Қайтару';
+
+  @override
+  String get teamsChecklist => 'Мәміле тізімі';
+
+  @override
+  String get teamsChecklistAdd => 'Тармақ қосу';
+
+  @override
+  String get teamsChecklistDelete => 'Тармақты жою';
+
+  @override
+  String get teamsChecklistEmptyStage => 'Бұл кезеңде әзірге тармақ жоқ';
+
+  @override
+  String get teamsChecklistHint => 'Әр кезеңде мәміле бойынша не жинау керек';
+
+  @override
+  String get teamsChecklistNewDealsOnly =>
+      'Өзгерістер жаңа мәмілелерге қолданылады. Ағымдағы мәмілелерде өз тізімі сақталады.';
+
+  @override
+  String get teamsChecklistRename => 'Атауын өзгерту';
+
+  @override
+  String get teamsChecklistReorder => 'Ретін өзгерту үшін сүйреңіз';
 
   @override
   String get teamsClients => 'Клиенттер';

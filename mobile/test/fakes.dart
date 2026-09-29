@@ -21,7 +21,10 @@ import 'package:real_estate_crm/features/agents/domain/repositories/agents_repos
 import 'package:real_estate_crm/features/analytics/domain/repositories/analytics_repository.dart';
 import 'package:real_estate_crm/features/app_lock/data/app_lock_repository_impl.dart';
 import 'package:real_estate_crm/features/auth/domain/repositories/auth_repository.dart';
+import 'package:real_estate_crm/features/checklist/domain/checklist_gate.dart';
+import 'package:real_estate_crm/features/checklist/domain/repositories/checklist_repository.dart';
 import 'package:real_estate_crm/features/clients/domain/repositories/clients_repository.dart';
+import 'package:real_estate_crm/features/clients/domain/repositories/cold_clients_repository.dart';
 import 'package:real_estate_crm/features/dashboard/domain/repositories/dashboard_repository.dart';
 import 'package:real_estate_crm/features/deals/domain/repositories/deal_comments_repository.dart';
 import 'package:real_estate_crm/features/deals/domain/repositories/deals_repository.dart';
@@ -403,6 +406,37 @@ class FakePropertiesRepository implements PropertiesRepository {
   @override
   Future<List<PropertyPriceChange>> getPriceHistory(int id) async =>
       priceHistory;
+
+  /// What `/properties/{id}/price-insight` answers. Insufficient by default —
+  /// no comparables — so a screen that is not about pricing draws no card.
+  PriceInsight priceInsight = const PriceInsight();
+
+  /// What `/properties/price-insight` answers while the form is being typed.
+  PriceInsight formInsight = const PriceInsight();
+
+  /// Every insight the form asked for, as the query it would have sent.
+  final List<Map<String, Object?>> insightRequests = [];
+
+  @override
+  Future<PriceInsight> getPriceInsightFor(int id) async => priceInsight;
+
+  @override
+  Future<PriceInsight> getPriceInsight({
+    required String city,
+    required PropertyType type,
+    int? rooms,
+    double? areaSqm,
+    int? excludeId,
+  }) async {
+    insightRequests.add({
+      'city': city,
+      'type': type,
+      'rooms': rooms,
+      'areaSqm': areaSqm,
+      'excludeId': excludeId,
+    });
+    return formInsight;
+  }
 
   @override
   Future<List<PropertyPhoto>> getPhotos(int id) async => photos;
@@ -1039,6 +1073,38 @@ class FakeTasksRepository implements TasksRepository {
   }
 }
 
+/// Clients going cold. The rule lives on the backend and is tested there; this
+/// only honours the threshold, so a screen test can see it change the list —
+/// a client never contacted is cold at any threshold.
+class FakeColdClientsRepository implements ColdClientsRepository {
+  List<ColdClient> clients;
+
+  /// When set, reading fails with it — the card's own error state.
+  Object? readError;
+
+  /// Every read, as `(days, limit)`.
+  final List<(int, int)> queries = [];
+
+  /// When set, a read waits for it — the skeleton stays up until then.
+  Future<void>? hold;
+
+  FakeColdClientsRepository([this.clients = const []]);
+
+  @override
+  Future<List<ColdClient>> getColdClients({
+    int days = ColdClientsRepository.defaultDays,
+    int limit = 20,
+  }) async {
+    queries.add((days, limit));
+    if (hold != null) await hold;
+    if (readError != null) throw readError!;
+    return clients
+        .where((c) => c.lastContactAt == null || c.silentDays >= days)
+        .take(limit)
+        .toList();
+  }
+}
+
 class FakeNotificationsRepository implements NotificationsRepository {
   List<AppNotification> items;
 
@@ -1370,3 +1436,110 @@ AppLockRepositoryImpl fakeAppLockRepository([FakeSecretStore? store]) =>
       iterations: 64,
       inBackground: false,
     );
+
+/// Deal checklists and the agency template in memory. Every write is
+/// recorded; [writeError] makes writes fail.
+class FakeChecklistRepository implements ChecklistRepository {
+  Map<int, List<ChecklistItem>> byDeal;
+  List<ChecklistItem> template;
+  Object? readError;
+  Object? writeError;
+  int _nextId = 5000;
+
+  final List<({int itemId, bool? done, int? documentId, bool detach})> updates =
+      [];
+  final List<({ChecklistStage stage, String title, bool required})> added = [];
+  final List<int> deleted = [];
+  final List<List<TemplateLine>> savedTemplates = [];
+
+  FakeChecklistRepository({
+    Map<int, List<ChecklistItem>>? byDeal,
+    this.template = const [],
+  }) : byDeal = byDeal ?? {};
+
+  @override
+  Future<List<ChecklistItem>> getDealChecklist(int dealId) async {
+    if (readError != null) throw readError!;
+    return byDeal[dealId] ?? const [];
+  }
+
+  @override
+  Future<ChecklistItem> addItem(int dealId,
+      {required ChecklistStage stage,
+      required String title,
+      bool required = false}) async {
+    added.add((stage: stage, title: title, required: required));
+    if (writeError != null) throw writeError!;
+    final item = ChecklistItem(
+        id: _nextId++,
+        stage: stage,
+        title: title,
+        required: required,
+        custom: true,
+        position: 99);
+    byDeal[dealId] = [...?byDeal[dealId], item];
+    return item;
+  }
+
+  @override
+  Future<ChecklistItem> updateItem(int dealId, int itemId,
+      {bool? done, int? documentId, bool detachDocument = false}) async {
+    updates.add((
+      itemId: itemId,
+      done: done,
+      documentId: documentId,
+      detach: detachDocument
+    ));
+    if (writeError != null) throw writeError!;
+    final items = byDeal[dealId] ?? const <ChecklistItem>[];
+    var item = items.firstWhere((i) => i.id == itemId);
+    if (done != null) {
+      item = item.copyWith(
+        done: done,
+        doneAt: done ? DateTime(2026, 9, 12, 10) : null,
+        doneByName: done ? 'Aigul Bekova' : null,
+        doneById: done ? 1 : null,
+      );
+    }
+    if (documentId != null) {
+      item = item.copyWith(
+          documentId: documentId, documentName: 'document-$documentId.pdf');
+    }
+    if (detachDocument) {
+      item = item.copyWith(documentId: null, documentName: null);
+    }
+    byDeal[dealId] = [for (final i in items) i.id == itemId ? item : i];
+    return item;
+  }
+
+  @override
+  Future<void> deleteItem(int dealId, int itemId) async {
+    deleted.add(itemId);
+    if (writeError != null) throw writeError!;
+    byDeal[dealId] = [...?byDeal[dealId]]..removeWhere((i) => i.id == itemId);
+  }
+
+  @override
+  Future<List<ChecklistItem>> getTemplate() async {
+    if (readError != null) throw readError!;
+    return template;
+  }
+
+  @override
+  Future<List<ChecklistItem>> saveTemplate(List<TemplateLine> lines) async {
+    savedTemplates.add(lines);
+    if (writeError != null) throw writeError!;
+    final positions = <ChecklistStage, int>{};
+    template = [
+      for (final l in lines)
+        ChecklistItem(
+          id: _nextId++,
+          stage: l.stage,
+          title: l.title,
+          required: l.required,
+          position: positions.update(l.stage, (p) => p + 1, ifAbsent: () => 0),
+        ),
+    ];
+    return template;
+  }
+}

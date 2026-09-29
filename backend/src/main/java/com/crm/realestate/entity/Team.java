@@ -39,6 +39,15 @@ public class Team {
     @Builder.Default
     private AgencyCurrency currency = AgencyCurrency.USD;
 
+    /**
+     * Whether the default deal checklist has been written for this agency (V37). Never written by
+     * saving the team — only by the guarded update in ChecklistTemplateItemRepository — so a
+     * rename that loaded the team before the template was seeded cannot put the flag back.
+     */
+    @Column(name = "checklist_template_seeded", nullable = false, updatable = false)
+    @Builder.Default
+    private boolean checklistTemplateSeeded = false;
+
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 

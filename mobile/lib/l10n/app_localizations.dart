@@ -1402,6 +1402,126 @@ abstract class AppLocalizations {
   /// **'Client Type'**
   String get clientsClientType;
 
+  /// No description provided for @clientsColdDaysOption.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 day} other{{count} days}}'**
+  String clientsColdDaysOption(int count);
+
+  /// No description provided for @clientsColdEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody is going cold'**
+  String get clientsColdEmpty;
+
+  /// No description provided for @clientsColdEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Everyone worth a call has heard from you in the last day.} other{Everyone worth a call has heard from you in the last {count} days.}}'**
+  String clientsColdEmptyHint(int count);
+
+  /// No description provided for @clientsColdLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load who is going cold'**
+  String get clientsColdLoadFailed;
+
+  /// No description provided for @clientsColdNeverContacted.
+  ///
+  /// In en, this message translates to:
+  /// **'Never contacted'**
+  String get clientsColdNeverContacted;
+
+  /// No description provided for @clientsColdNextCheckIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Check in'**
+  String get clientsColdNextCheckIn;
+
+  /// No description provided for @clientsColdNextFirstCall.
+  ///
+  /// In en, this message translates to:
+  /// **'Make the first call'**
+  String get clientsColdNextFirstCall;
+
+  /// No description provided for @clientsColdNextPushDeal.
+  ///
+  /// In en, this message translates to:
+  /// **'Move the deal forward'**
+  String get clientsColdNextPushDeal;
+
+  /// No description provided for @clientsColdNextSendMatches.
+  ///
+  /// In en, this message translates to:
+  /// **'Send the listings that fit'**
+  String get clientsColdNextSendMatches;
+
+  /// No description provided for @clientsColdReasonLead.
+  ///
+  /// In en, this message translates to:
+  /// **'Lead from a listing page'**
+  String get clientsColdReasonLead;
+
+  /// No description provided for @clientsColdReasonMatches.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 match} other{{count} matches}}'**
+  String clientsColdReasonMatches(int count);
+
+  /// No description provided for @clientsColdReasonNegotiation.
+  ///
+  /// In en, this message translates to:
+  /// **'Deal in negotiation'**
+  String get clientsColdReasonNegotiation;
+
+  /// No description provided for @clientsColdReasonOpenDeal.
+  ///
+  /// In en, this message translates to:
+  /// **'Open deal'**
+  String get clientsColdReasonOpenDeal;
+
+  /// No description provided for @clientsColdRemind.
+  ///
+  /// In en, this message translates to:
+  /// **'Remind me'**
+  String get clientsColdRemind;
+
+  /// No description provided for @clientsColdRemindTask.
+  ///
+  /// In en, this message translates to:
+  /// **'Call {name}'**
+  String clientsColdRemindTask(String name);
+
+  /// No description provided for @clientsColdReminderSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder set for tomorrow, {time}'**
+  String clientsColdReminderSet(String time);
+
+  /// No description provided for @clientsColdSilentDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Silent 1 day} other{Silent {count} days}}'**
+  String clientsColdSilentDays(int count);
+
+  /// No description provided for @clientsColdSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{No contact for a day or more} other{No contact for {count} days or more}}'**
+  String clientsColdSubtitle(int count);
+
+  /// No description provided for @clientsColdTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Going cold'**
+  String get clientsColdTitle;
+
+  /// No description provided for @clientsColdUndo.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo'**
+  String get clientsColdUndo;
+
   /// No description provided for @clientsContact.
   ///
   /// In en, this message translates to:
@@ -2536,6 +2656,12 @@ abstract class AppLocalizations {
   /// **'Closed Won'**
   String get dashboardClosedWon;
 
+  /// No description provided for @dashboardColdTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} in all'**
+  String dashboardColdTotal(int count);
+
   /// No description provided for @dashboardConversion.
   ///
   /// In en, this message translates to:
@@ -2925,6 +3051,156 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cancel'**
   String get dealsCancel;
+
+  /// No description provided for @dealsChecklistAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add item'**
+  String get dealsChecklistAdd;
+
+  /// No description provided for @dealsChecklistAddTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New checklist item'**
+  String get dealsChecklistAddTitle;
+
+  /// No description provided for @dealsChecklistAttach.
+  ///
+  /// In en, this message translates to:
+  /// **'Attach document'**
+  String get dealsChecklistAttach;
+
+  /// No description provided for @dealsChecklistBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Checklist: {done} of {total} done'**
+  String dealsChecklistBadge(int done, int total);
+
+  /// No description provided for @dealsChecklistDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete item'**
+  String get dealsChecklistDelete;
+
+  /// No description provided for @dealsChecklistDeleteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'It disappears from this deal\'s checklist.'**
+  String get dealsChecklistDeleteBody;
+
+  /// No description provided for @dealsChecklistDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this item?'**
+  String get dealsChecklistDeleteTitle;
+
+  /// No description provided for @dealsChecklistDetach.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove document'**
+  String get dealsChecklistDetach;
+
+  /// No description provided for @dealsChecklistDoneAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Done {date}'**
+  String dealsChecklistDoneAt(String date);
+
+  /// No description provided for @dealsChecklistDoneBy.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} · {date}'**
+  String dealsChecklistDoneBy(String date, String name);
+
+  /// No description provided for @dealsChecklistEmptyStage.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing to collect at this stage'**
+  String get dealsChecklistEmptyStage;
+
+  /// No description provided for @dealsChecklistGateBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 required item is not done yet. Move the deal anyway?} other{{count} required items are not done yet. Move the deal anyway?}}'**
+  String dealsChecklistGateBody(int count);
+
+  /// No description provided for @dealsChecklistGateConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Move anyway'**
+  String get dealsChecklistGateConfirm;
+
+  /// No description provided for @dealsChecklistGateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Required items are open'**
+  String get dealsChecklistGateTitle;
+
+  /// No description provided for @dealsChecklistItemHint.
+  ///
+  /// In en, this message translates to:
+  /// **'For example, a copy of the passport'**
+  String get dealsChecklistItemHint;
+
+  /// No description provided for @dealsChecklistItemLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'What is needed'**
+  String get dealsChecklistItemLabel;
+
+  /// No description provided for @dealsChecklistLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load the checklist'**
+  String get dealsChecklistLoadFailed;
+
+  /// No description provided for @dealsChecklistMore.
+  ///
+  /// In en, this message translates to:
+  /// **'Item actions'**
+  String get dealsChecklistMore;
+
+  /// No description provided for @dealsChecklistNoDocuments.
+  ///
+  /// In en, this message translates to:
+  /// **'This deal has no documents yet. Upload the file under Documents first.'**
+  String get dealsChecklistNoDocuments;
+
+  /// No description provided for @dealsChecklistPickDocument.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a document'**
+  String get dealsChecklistPickDocument;
+
+  /// No description provided for @dealsChecklistProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{done} of {total} done'**
+  String dealsChecklistProgress(int done, int total);
+
+  /// No description provided for @dealsChecklistRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Required'**
+  String get dealsChecklistRequired;
+
+  /// No description provided for @dealsChecklistRequiredHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The app warns before a deal moves on without it'**
+  String get dealsChecklistRequiredHint;
+
+  /// No description provided for @dealsChecklistStage.
+  ///
+  /// In en, this message translates to:
+  /// **'Stage'**
+  String get dealsChecklistStage;
+
+  /// No description provided for @dealsChecklistTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Checklist'**
+  String get dealsChecklistTitle;
 
   /// No description provided for @dealsClient.
   ///
@@ -5002,6 +5278,12 @@ abstract class AppLocalizations {
   /// **'Agent invited'**
   String get msgAgentInvited;
 
+  /// No description provided for @msgChecklistSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Checklist saved'**
+  String get msgChecklistSaved;
+
   /// No description provided for @msgClientCreated.
   ///
   /// In en, this message translates to:
@@ -6094,6 +6376,85 @@ abstract class AppLocalizations {
   /// **'Hold a photo to move it — the first one is the cover'**
   String get propertiesPhotosHint;
 
+  /// No description provided for @propertiesPriceCheck.
+  ///
+  /// In en, this message translates to:
+  /// **'Price check'**
+  String get propertiesPriceCheck;
+
+  /// No description provided for @propertiesPriceCheckAbove.
+  ///
+  /// In en, this message translates to:
+  /// **'{percent}% above'**
+  String propertiesPriceCheckAbove(String percent);
+
+  /// No description provided for @propertiesPriceCheckAtMedian.
+  ///
+  /// In en, this message translates to:
+  /// **'at the median'**
+  String get propertiesPriceCheckAtMedian;
+
+  /// No description provided for @propertiesPriceCheckBasedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{Based on {count} listing in {city}} other{Based on {count} listings in {city}}}'**
+  String propertiesPriceCheckBasedOn(int count, String city);
+
+  /// No description provided for @propertiesPriceCheckBelow.
+  ///
+  /// In en, this message translates to:
+  /// **'{percent}% below'**
+  String propertiesPriceCheckBelow(String percent);
+
+  /// No description provided for @propertiesPriceCheckComparables.
+  ///
+  /// In en, this message translates to:
+  /// **'Comparable listings'**
+  String get propertiesPriceCheckComparables;
+
+  /// No description provided for @propertiesPriceCheckDaysOnMarket.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} day on the market} other{{count} days on the market}}'**
+  String propertiesPriceCheckDaysOnMarket(int count);
+
+  /// No description provided for @propertiesPriceCheckLowConfidence.
+  ///
+  /// In en, this message translates to:
+  /// **'Few similar listings yet, so treat this as a rough guide'**
+  String get propertiesPriceCheckLowConfidence;
+
+  /// No description provided for @propertiesPriceCheckSeeComparables.
+  ///
+  /// In en, this message translates to:
+  /// **'See comparables'**
+  String get propertiesPriceCheckSeeComparables;
+
+  /// No description provided for @propertiesPriceCheckSold.
+  ///
+  /// In en, this message translates to:
+  /// **'Sold at a median of {price}'**
+  String propertiesPriceCheckSold(String price);
+
+  /// No description provided for @propertiesPriceCheckVsMedian.
+  ///
+  /// In en, this message translates to:
+  /// **'{price} / m² vs median {median} ({difference})'**
+  String propertiesPriceCheckVsMedian(
+      String price, String median, String difference);
+
+  /// No description provided for @propertiesPriceHintRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Similar listings: {low}–{high} for this area'**
+  String propertiesPriceHintRange(String low, String high);
+
+  /// No description provided for @propertiesPriceHintUseMedian.
+  ///
+  /// In en, this message translates to:
+  /// **'Use median'**
+  String get propertiesPriceHintUseMedian;
+
   /// No description provided for @propertiesPriceHistory.
   ///
   /// In en, this message translates to:
@@ -6969,6 +7330,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Withdraw'**
   String get teamsCancelRequest;
+
+  /// No description provided for @teamsChecklist.
+  ///
+  /// In en, this message translates to:
+  /// **'Deal checklist'**
+  String get teamsChecklist;
+
+  /// No description provided for @teamsChecklistAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add item'**
+  String get teamsChecklistAdd;
+
+  /// No description provided for @teamsChecklistDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete item'**
+  String get teamsChecklistDelete;
+
+  /// No description provided for @teamsChecklistEmptyStage.
+  ///
+  /// In en, this message translates to:
+  /// **'No items at this stage yet'**
+  String get teamsChecklistEmptyStage;
+
+  /// No description provided for @teamsChecklistHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What a deal collects at each stage'**
+  String get teamsChecklistHint;
+
+  /// No description provided for @teamsChecklistNewDealsOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Changes apply to new deals. Deals already under way keep their own list.'**
+  String get teamsChecklistNewDealsOnly;
+
+  /// No description provided for @teamsChecklistRename.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename'**
+  String get teamsChecklistRename;
+
+  /// No description provided for @teamsChecklistReorder.
+  ///
+  /// In en, this message translates to:
+  /// **'Drag to reorder'**
+  String get teamsChecklistReorder;
 
   /// No description provided for @teamsClients.
   ///

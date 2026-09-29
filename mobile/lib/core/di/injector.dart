@@ -20,9 +20,15 @@ import 'package:real_estate_crm/features/app_lock/presentation/controller/app_lo
 import 'package:real_estate_crm/features/auth/data/datasources/auth_remote_datasource.dart';
 import 'package:real_estate_crm/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:real_estate_crm/features/auth/domain/repositories/auth_repository.dart';
+import 'package:real_estate_crm/features/checklist/data/datasources/checklist_remote_datasource.dart';
+import 'package:real_estate_crm/features/checklist/data/repositories/checklist_repository_impl.dart';
+import 'package:real_estate_crm/features/checklist/domain/repositories/checklist_repository.dart';
 import 'package:real_estate_crm/features/clients/data/datasources/clients_remote_datasource.dart';
+import 'package:real_estate_crm/features/clients/data/datasources/cold_clients_remote_datasource.dart';
 import 'package:real_estate_crm/features/clients/data/repositories/clients_repository_impl.dart';
+import 'package:real_estate_crm/features/clients/data/repositories/cold_clients_repository_impl.dart';
 import 'package:real_estate_crm/features/clients/domain/repositories/clients_repository.dart';
+import 'package:real_estate_crm/features/clients/domain/repositories/cold_clients_repository.dart';
 import 'package:real_estate_crm/features/compare/data/comparison_tray.dart';
 import 'package:real_estate_crm/features/dashboard/data/datasources/dashboard_remote_datasource.dart';
 import 'package:real_estate_crm/features/dashboard/data/repositories/dashboard_repository_impl.dart';
@@ -77,6 +83,9 @@ class Injector {
   static ClientsRepository clientsRepository =
       ClientsRepositoryImpl(ClientsRemoteDataSource(_apiClient));
 
+  static ColdClientsRepository coldClientsRepository =
+      ColdClientsRepositoryImpl(ColdClientsRemoteDataSource(_apiClient));
+
   static PropertiesRepository propertiesRepository =
       PropertiesRepositoryImpl(PropertiesRemoteDataSource(_apiClient));
 
@@ -85,6 +94,9 @@ class Injector {
 
   static DealCommentsRepository dealCommentsRepository =
       DealCommentsRepositoryImpl(DealCommentsRemoteDataSource(_apiClient));
+
+  static ChecklistRepository checklistRepository =
+      ChecklistRepositoryImpl(ChecklistRemoteDataSource(_apiClient));
 
   static DocumentsRepository documentsRepository =
       DocumentsRepositoryImpl(DocumentsRemoteDataSource(_apiClient));

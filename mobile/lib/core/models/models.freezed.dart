@@ -2959,6 +2959,1608 @@ abstract class _PropertyPriceChange implements PropertyPriceChange {
       throw _privateConstructorUsedError;
 }
 
+PriceInsightStats _$PriceInsightStatsFromJson(Map<String, dynamic> json) {
+  return _PriceInsightStats.fromJson(json);
+}
+
+/// @nodoc
+mixin _$PriceInsightStats {
+  int get count => throw _privateConstructorUsedError;
+  double? get medianPerSqm => throw _privateConstructorUsedError;
+  double? get p25PerSqm => throw _privateConstructorUsedError;
+  double? get p75PerSqm => throw _privateConstructorUsedError;
+  int? get medianDaysOnMarket => throw _privateConstructorUsedError;
+
+  /// Serializes this PriceInsightStats to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of PriceInsightStats
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $PriceInsightStatsCopyWith<PriceInsightStats> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $PriceInsightStatsCopyWith<$Res> {
+  factory $PriceInsightStatsCopyWith(
+          PriceInsightStats value, $Res Function(PriceInsightStats) then) =
+      _$PriceInsightStatsCopyWithImpl<$Res, PriceInsightStats>;
+  @useResult
+  $Res call(
+      {int count,
+      double? medianPerSqm,
+      double? p25PerSqm,
+      double? p75PerSqm,
+      int? medianDaysOnMarket});
+}
+
+/// @nodoc
+class _$PriceInsightStatsCopyWithImpl<$Res, $Val extends PriceInsightStats>
+    implements $PriceInsightStatsCopyWith<$Res> {
+  _$PriceInsightStatsCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of PriceInsightStats
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? count = null,
+    Object? medianPerSqm = freezed,
+    Object? p25PerSqm = freezed,
+    Object? p75PerSqm = freezed,
+    Object? medianDaysOnMarket = freezed,
+  }) {
+    return _then(_value.copyWith(
+      count: null == count
+          ? _value.count
+          : count // ignore: cast_nullable_to_non_nullable
+              as int,
+      medianPerSqm: freezed == medianPerSqm
+          ? _value.medianPerSqm
+          : medianPerSqm // ignore: cast_nullable_to_non_nullable
+              as double?,
+      p25PerSqm: freezed == p25PerSqm
+          ? _value.p25PerSqm
+          : p25PerSqm // ignore: cast_nullable_to_non_nullable
+              as double?,
+      p75PerSqm: freezed == p75PerSqm
+          ? _value.p75PerSqm
+          : p75PerSqm // ignore: cast_nullable_to_non_nullable
+              as double?,
+      medianDaysOnMarket: freezed == medianDaysOnMarket
+          ? _value.medianDaysOnMarket
+          : medianDaysOnMarket // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$PriceInsightStatsImplCopyWith<$Res>
+    implements $PriceInsightStatsCopyWith<$Res> {
+  factory _$$PriceInsightStatsImplCopyWith(_$PriceInsightStatsImpl value,
+          $Res Function(_$PriceInsightStatsImpl) then) =
+      __$$PriceInsightStatsImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int count,
+      double? medianPerSqm,
+      double? p25PerSqm,
+      double? p75PerSqm,
+      int? medianDaysOnMarket});
+}
+
+/// @nodoc
+class __$$PriceInsightStatsImplCopyWithImpl<$Res>
+    extends _$PriceInsightStatsCopyWithImpl<$Res, _$PriceInsightStatsImpl>
+    implements _$$PriceInsightStatsImplCopyWith<$Res> {
+  __$$PriceInsightStatsImplCopyWithImpl(_$PriceInsightStatsImpl _value,
+      $Res Function(_$PriceInsightStatsImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of PriceInsightStats
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? count = null,
+    Object? medianPerSqm = freezed,
+    Object? p25PerSqm = freezed,
+    Object? p75PerSqm = freezed,
+    Object? medianDaysOnMarket = freezed,
+  }) {
+    return _then(_$PriceInsightStatsImpl(
+      count: null == count
+          ? _value.count
+          : count // ignore: cast_nullable_to_non_nullable
+              as int,
+      medianPerSqm: freezed == medianPerSqm
+          ? _value.medianPerSqm
+          : medianPerSqm // ignore: cast_nullable_to_non_nullable
+              as double?,
+      p25PerSqm: freezed == p25PerSqm
+          ? _value.p25PerSqm
+          : p25PerSqm // ignore: cast_nullable_to_non_nullable
+              as double?,
+      p75PerSqm: freezed == p75PerSqm
+          ? _value.p75PerSqm
+          : p75PerSqm // ignore: cast_nullable_to_non_nullable
+              as double?,
+      medianDaysOnMarket: freezed == medianDaysOnMarket
+          ? _value.medianDaysOnMarket
+          : medianDaysOnMarket // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$PriceInsightStatsImpl implements _PriceInsightStats {
+  const _$PriceInsightStatsImpl(
+      {this.count = 0,
+      this.medianPerSqm,
+      this.p25PerSqm,
+      this.p75PerSqm,
+      this.medianDaysOnMarket});
+
+  factory _$PriceInsightStatsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PriceInsightStatsImplFromJson(json);
+
+  @override
+  @JsonKey()
+  final int count;
+  @override
+  final double? medianPerSqm;
+  @override
+  final double? p25PerSqm;
+  @override
+  final double? p75PerSqm;
+  @override
+  final int? medianDaysOnMarket;
+
+  @override
+  String toString() {
+    return 'PriceInsightStats(count: $count, medianPerSqm: $medianPerSqm, p25PerSqm: $p25PerSqm, p75PerSqm: $p75PerSqm, medianDaysOnMarket: $medianDaysOnMarket)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$PriceInsightStatsImpl &&
+            (identical(other.count, count) || other.count == count) &&
+            (identical(other.medianPerSqm, medianPerSqm) ||
+                other.medianPerSqm == medianPerSqm) &&
+            (identical(other.p25PerSqm, p25PerSqm) ||
+                other.p25PerSqm == p25PerSqm) &&
+            (identical(other.p75PerSqm, p75PerSqm) ||
+                other.p75PerSqm == p75PerSqm) &&
+            (identical(other.medianDaysOnMarket, medianDaysOnMarket) ||
+                other.medianDaysOnMarket == medianDaysOnMarket));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, count, medianPerSqm, p25PerSqm,
+      p75PerSqm, medianDaysOnMarket);
+
+  /// Create a copy of PriceInsightStats
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$PriceInsightStatsImplCopyWith<_$PriceInsightStatsImpl> get copyWith =>
+      __$$PriceInsightStatsImplCopyWithImpl<_$PriceInsightStatsImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$PriceInsightStatsImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _PriceInsightStats implements PriceInsightStats {
+  const factory _PriceInsightStats(
+      {final int count,
+      final double? medianPerSqm,
+      final double? p25PerSqm,
+      final double? p75PerSqm,
+      final int? medianDaysOnMarket}) = _$PriceInsightStatsImpl;
+
+  factory _PriceInsightStats.fromJson(Map<String, dynamic> json) =
+      _$PriceInsightStatsImpl.fromJson;
+
+  @override
+  int get count;
+  @override
+  double? get medianPerSqm;
+  @override
+  double? get p25PerSqm;
+  @override
+  double? get p75PerSqm;
+  @override
+  int? get medianDaysOnMarket;
+
+  /// Create a copy of PriceInsightStats
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$PriceInsightStatsImplCopyWith<_$PriceInsightStatsImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+PriceInsightRange _$PriceInsightRangeFromJson(Map<String, dynamic> json) {
+  return _PriceInsightRange.fromJson(json);
+}
+
+/// @nodoc
+mixin _$PriceInsightRange {
+  double get low => throw _privateConstructorUsedError;
+  double get median => throw _privateConstructorUsedError;
+  double get high => throw _privateConstructorUsedError;
+
+  /// Serializes this PriceInsightRange to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of PriceInsightRange
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $PriceInsightRangeCopyWith<PriceInsightRange> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $PriceInsightRangeCopyWith<$Res> {
+  factory $PriceInsightRangeCopyWith(
+          PriceInsightRange value, $Res Function(PriceInsightRange) then) =
+      _$PriceInsightRangeCopyWithImpl<$Res, PriceInsightRange>;
+  @useResult
+  $Res call({double low, double median, double high});
+}
+
+/// @nodoc
+class _$PriceInsightRangeCopyWithImpl<$Res, $Val extends PriceInsightRange>
+    implements $PriceInsightRangeCopyWith<$Res> {
+  _$PriceInsightRangeCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of PriceInsightRange
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? low = null,
+    Object? median = null,
+    Object? high = null,
+  }) {
+    return _then(_value.copyWith(
+      low: null == low
+          ? _value.low
+          : low // ignore: cast_nullable_to_non_nullable
+              as double,
+      median: null == median
+          ? _value.median
+          : median // ignore: cast_nullable_to_non_nullable
+              as double,
+      high: null == high
+          ? _value.high
+          : high // ignore: cast_nullable_to_non_nullable
+              as double,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$PriceInsightRangeImplCopyWith<$Res>
+    implements $PriceInsightRangeCopyWith<$Res> {
+  factory _$$PriceInsightRangeImplCopyWith(_$PriceInsightRangeImpl value,
+          $Res Function(_$PriceInsightRangeImpl) then) =
+      __$$PriceInsightRangeImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({double low, double median, double high});
+}
+
+/// @nodoc
+class __$$PriceInsightRangeImplCopyWithImpl<$Res>
+    extends _$PriceInsightRangeCopyWithImpl<$Res, _$PriceInsightRangeImpl>
+    implements _$$PriceInsightRangeImplCopyWith<$Res> {
+  __$$PriceInsightRangeImplCopyWithImpl(_$PriceInsightRangeImpl _value,
+      $Res Function(_$PriceInsightRangeImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of PriceInsightRange
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? low = null,
+    Object? median = null,
+    Object? high = null,
+  }) {
+    return _then(_$PriceInsightRangeImpl(
+      low: null == low
+          ? _value.low
+          : low // ignore: cast_nullable_to_non_nullable
+              as double,
+      median: null == median
+          ? _value.median
+          : median // ignore: cast_nullable_to_non_nullable
+              as double,
+      high: null == high
+          ? _value.high
+          : high // ignore: cast_nullable_to_non_nullable
+              as double,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$PriceInsightRangeImpl implements _PriceInsightRange {
+  const _$PriceInsightRangeImpl(
+      {this.low = 0.0, this.median = 0.0, this.high = 0.0});
+
+  factory _$PriceInsightRangeImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PriceInsightRangeImplFromJson(json);
+
+  @override
+  @JsonKey()
+  final double low;
+  @override
+  @JsonKey()
+  final double median;
+  @override
+  @JsonKey()
+  final double high;
+
+  @override
+  String toString() {
+    return 'PriceInsightRange(low: $low, median: $median, high: $high)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$PriceInsightRangeImpl &&
+            (identical(other.low, low) || other.low == low) &&
+            (identical(other.median, median) || other.median == median) &&
+            (identical(other.high, high) || other.high == high));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, low, median, high);
+
+  /// Create a copy of PriceInsightRange
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$PriceInsightRangeImplCopyWith<_$PriceInsightRangeImpl> get copyWith =>
+      __$$PriceInsightRangeImplCopyWithImpl<_$PriceInsightRangeImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$PriceInsightRangeImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _PriceInsightRange implements PriceInsightRange {
+  const factory _PriceInsightRange(
+      {final double low,
+      final double median,
+      final double high}) = _$PriceInsightRangeImpl;
+
+  factory _PriceInsightRange.fromJson(Map<String, dynamic> json) =
+      _$PriceInsightRangeImpl.fromJson;
+
+  @override
+  double get low;
+  @override
+  double get median;
+  @override
+  double get high;
+
+  /// Create a copy of PriceInsightRange
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$PriceInsightRangeImplCopyWith<_$PriceInsightRangeImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+PriceInsightPosition _$PriceInsightPositionFromJson(Map<String, dynamic> json) {
+  return _PriceInsightPosition.fromJson(json);
+}
+
+/// @nodoc
+mixin _$PriceInsightPosition {
+  double get pricePerSqm => throw _privateConstructorUsedError;
+  int? get percentile => throw _privateConstructorUsedError;
+  double? get vsMedianPercent => throw _privateConstructorUsedError;
+
+  /// Serializes this PriceInsightPosition to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of PriceInsightPosition
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $PriceInsightPositionCopyWith<PriceInsightPosition> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $PriceInsightPositionCopyWith<$Res> {
+  factory $PriceInsightPositionCopyWith(PriceInsightPosition value,
+          $Res Function(PriceInsightPosition) then) =
+      _$PriceInsightPositionCopyWithImpl<$Res, PriceInsightPosition>;
+  @useResult
+  $Res call({double pricePerSqm, int? percentile, double? vsMedianPercent});
+}
+
+/// @nodoc
+class _$PriceInsightPositionCopyWithImpl<$Res,
+        $Val extends PriceInsightPosition>
+    implements $PriceInsightPositionCopyWith<$Res> {
+  _$PriceInsightPositionCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of PriceInsightPosition
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? pricePerSqm = null,
+    Object? percentile = freezed,
+    Object? vsMedianPercent = freezed,
+  }) {
+    return _then(_value.copyWith(
+      pricePerSqm: null == pricePerSqm
+          ? _value.pricePerSqm
+          : pricePerSqm // ignore: cast_nullable_to_non_nullable
+              as double,
+      percentile: freezed == percentile
+          ? _value.percentile
+          : percentile // ignore: cast_nullable_to_non_nullable
+              as int?,
+      vsMedianPercent: freezed == vsMedianPercent
+          ? _value.vsMedianPercent
+          : vsMedianPercent // ignore: cast_nullable_to_non_nullable
+              as double?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$PriceInsightPositionImplCopyWith<$Res>
+    implements $PriceInsightPositionCopyWith<$Res> {
+  factory _$$PriceInsightPositionImplCopyWith(_$PriceInsightPositionImpl value,
+          $Res Function(_$PriceInsightPositionImpl) then) =
+      __$$PriceInsightPositionImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({double pricePerSqm, int? percentile, double? vsMedianPercent});
+}
+
+/// @nodoc
+class __$$PriceInsightPositionImplCopyWithImpl<$Res>
+    extends _$PriceInsightPositionCopyWithImpl<$Res, _$PriceInsightPositionImpl>
+    implements _$$PriceInsightPositionImplCopyWith<$Res> {
+  __$$PriceInsightPositionImplCopyWithImpl(_$PriceInsightPositionImpl _value,
+      $Res Function(_$PriceInsightPositionImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of PriceInsightPosition
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? pricePerSqm = null,
+    Object? percentile = freezed,
+    Object? vsMedianPercent = freezed,
+  }) {
+    return _then(_$PriceInsightPositionImpl(
+      pricePerSqm: null == pricePerSqm
+          ? _value.pricePerSqm
+          : pricePerSqm // ignore: cast_nullable_to_non_nullable
+              as double,
+      percentile: freezed == percentile
+          ? _value.percentile
+          : percentile // ignore: cast_nullable_to_non_nullable
+              as int?,
+      vsMedianPercent: freezed == vsMedianPercent
+          ? _value.vsMedianPercent
+          : vsMedianPercent // ignore: cast_nullable_to_non_nullable
+              as double?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$PriceInsightPositionImpl implements _PriceInsightPosition {
+  const _$PriceInsightPositionImpl(
+      {this.pricePerSqm = 0.0, this.percentile, this.vsMedianPercent});
+
+  factory _$PriceInsightPositionImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PriceInsightPositionImplFromJson(json);
+
+  @override
+  @JsonKey()
+  final double pricePerSqm;
+  @override
+  final int? percentile;
+  @override
+  final double? vsMedianPercent;
+
+  @override
+  String toString() {
+    return 'PriceInsightPosition(pricePerSqm: $pricePerSqm, percentile: $percentile, vsMedianPercent: $vsMedianPercent)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$PriceInsightPositionImpl &&
+            (identical(other.pricePerSqm, pricePerSqm) ||
+                other.pricePerSqm == pricePerSqm) &&
+            (identical(other.percentile, percentile) ||
+                other.percentile == percentile) &&
+            (identical(other.vsMedianPercent, vsMedianPercent) ||
+                other.vsMedianPercent == vsMedianPercent));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, pricePerSqm, percentile, vsMedianPercent);
+
+  /// Create a copy of PriceInsightPosition
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$PriceInsightPositionImplCopyWith<_$PriceInsightPositionImpl>
+      get copyWith =>
+          __$$PriceInsightPositionImplCopyWithImpl<_$PriceInsightPositionImpl>(
+              this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$PriceInsightPositionImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _PriceInsightPosition implements PriceInsightPosition {
+  const factory _PriceInsightPosition(
+      {final double pricePerSqm,
+      final int? percentile,
+      final double? vsMedianPercent}) = _$PriceInsightPositionImpl;
+
+  factory _PriceInsightPosition.fromJson(Map<String, dynamic> json) =
+      _$PriceInsightPositionImpl.fromJson;
+
+  @override
+  double get pricePerSqm;
+  @override
+  int? get percentile;
+  @override
+  double? get vsMedianPercent;
+
+  /// Create a copy of PriceInsightPosition
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$PriceInsightPositionImplCopyWith<_$PriceInsightPositionImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+PriceInsightCriteria _$PriceInsightCriteriaFromJson(Map<String, dynamic> json) {
+  return _PriceInsightCriteria.fromJson(json);
+}
+
+/// @nodoc
+mixin _$PriceInsightCriteria {
+  String? get city => throw _privateConstructorUsedError;
+  PropertyType? get type => throw _privateConstructorUsedError;
+  int? get rooms => throw _privateConstructorUsedError;
+  double? get areaSqm => throw _privateConstructorUsedError;
+  @JsonKey(unknownEnumValue: PriceRoomsRule.ANY)
+  PriceRoomsRule get roomsRule => throw _privateConstructorUsedError;
+  int? get minRooms => throw _privateConstructorUsedError;
+  int? get maxRooms => throw _privateConstructorUsedError;
+
+  /// Serializes this PriceInsightCriteria to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of PriceInsightCriteria
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $PriceInsightCriteriaCopyWith<PriceInsightCriteria> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $PriceInsightCriteriaCopyWith<$Res> {
+  factory $PriceInsightCriteriaCopyWith(PriceInsightCriteria value,
+          $Res Function(PriceInsightCriteria) then) =
+      _$PriceInsightCriteriaCopyWithImpl<$Res, PriceInsightCriteria>;
+  @useResult
+  $Res call(
+      {String? city,
+      PropertyType? type,
+      int? rooms,
+      double? areaSqm,
+      @JsonKey(unknownEnumValue: PriceRoomsRule.ANY) PriceRoomsRule roomsRule,
+      int? minRooms,
+      int? maxRooms});
+}
+
+/// @nodoc
+class _$PriceInsightCriteriaCopyWithImpl<$Res,
+        $Val extends PriceInsightCriteria>
+    implements $PriceInsightCriteriaCopyWith<$Res> {
+  _$PriceInsightCriteriaCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of PriceInsightCriteria
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? city = freezed,
+    Object? type = freezed,
+    Object? rooms = freezed,
+    Object? areaSqm = freezed,
+    Object? roomsRule = null,
+    Object? minRooms = freezed,
+    Object? maxRooms = freezed,
+  }) {
+    return _then(_value.copyWith(
+      city: freezed == city
+          ? _value.city
+          : city // ignore: cast_nullable_to_non_nullable
+              as String?,
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as PropertyType?,
+      rooms: freezed == rooms
+          ? _value.rooms
+          : rooms // ignore: cast_nullable_to_non_nullable
+              as int?,
+      areaSqm: freezed == areaSqm
+          ? _value.areaSqm
+          : areaSqm // ignore: cast_nullable_to_non_nullable
+              as double?,
+      roomsRule: null == roomsRule
+          ? _value.roomsRule
+          : roomsRule // ignore: cast_nullable_to_non_nullable
+              as PriceRoomsRule,
+      minRooms: freezed == minRooms
+          ? _value.minRooms
+          : minRooms // ignore: cast_nullable_to_non_nullable
+              as int?,
+      maxRooms: freezed == maxRooms
+          ? _value.maxRooms
+          : maxRooms // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$PriceInsightCriteriaImplCopyWith<$Res>
+    implements $PriceInsightCriteriaCopyWith<$Res> {
+  factory _$$PriceInsightCriteriaImplCopyWith(_$PriceInsightCriteriaImpl value,
+          $Res Function(_$PriceInsightCriteriaImpl) then) =
+      __$$PriceInsightCriteriaImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String? city,
+      PropertyType? type,
+      int? rooms,
+      double? areaSqm,
+      @JsonKey(unknownEnumValue: PriceRoomsRule.ANY) PriceRoomsRule roomsRule,
+      int? minRooms,
+      int? maxRooms});
+}
+
+/// @nodoc
+class __$$PriceInsightCriteriaImplCopyWithImpl<$Res>
+    extends _$PriceInsightCriteriaCopyWithImpl<$Res, _$PriceInsightCriteriaImpl>
+    implements _$$PriceInsightCriteriaImplCopyWith<$Res> {
+  __$$PriceInsightCriteriaImplCopyWithImpl(_$PriceInsightCriteriaImpl _value,
+      $Res Function(_$PriceInsightCriteriaImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of PriceInsightCriteria
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? city = freezed,
+    Object? type = freezed,
+    Object? rooms = freezed,
+    Object? areaSqm = freezed,
+    Object? roomsRule = null,
+    Object? minRooms = freezed,
+    Object? maxRooms = freezed,
+  }) {
+    return _then(_$PriceInsightCriteriaImpl(
+      city: freezed == city
+          ? _value.city
+          : city // ignore: cast_nullable_to_non_nullable
+              as String?,
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as PropertyType?,
+      rooms: freezed == rooms
+          ? _value.rooms
+          : rooms // ignore: cast_nullable_to_non_nullable
+              as int?,
+      areaSqm: freezed == areaSqm
+          ? _value.areaSqm
+          : areaSqm // ignore: cast_nullable_to_non_nullable
+              as double?,
+      roomsRule: null == roomsRule
+          ? _value.roomsRule
+          : roomsRule // ignore: cast_nullable_to_non_nullable
+              as PriceRoomsRule,
+      minRooms: freezed == minRooms
+          ? _value.minRooms
+          : minRooms // ignore: cast_nullable_to_non_nullable
+              as int?,
+      maxRooms: freezed == maxRooms
+          ? _value.maxRooms
+          : maxRooms // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$PriceInsightCriteriaImpl implements _PriceInsightCriteria {
+  const _$PriceInsightCriteriaImpl(
+      {this.city,
+      this.type,
+      this.rooms,
+      this.areaSqm,
+      @JsonKey(unknownEnumValue: PriceRoomsRule.ANY)
+      this.roomsRule = PriceRoomsRule.ANY,
+      this.minRooms,
+      this.maxRooms});
+
+  factory _$PriceInsightCriteriaImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PriceInsightCriteriaImplFromJson(json);
+
+  @override
+  final String? city;
+  @override
+  final PropertyType? type;
+  @override
+  final int? rooms;
+  @override
+  final double? areaSqm;
+  @override
+  @JsonKey(unknownEnumValue: PriceRoomsRule.ANY)
+  final PriceRoomsRule roomsRule;
+  @override
+  final int? minRooms;
+  @override
+  final int? maxRooms;
+
+  @override
+  String toString() {
+    return 'PriceInsightCriteria(city: $city, type: $type, rooms: $rooms, areaSqm: $areaSqm, roomsRule: $roomsRule, minRooms: $minRooms, maxRooms: $maxRooms)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$PriceInsightCriteriaImpl &&
+            (identical(other.city, city) || other.city == city) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.rooms, rooms) || other.rooms == rooms) &&
+            (identical(other.areaSqm, areaSqm) || other.areaSqm == areaSqm) &&
+            (identical(other.roomsRule, roomsRule) ||
+                other.roomsRule == roomsRule) &&
+            (identical(other.minRooms, minRooms) ||
+                other.minRooms == minRooms) &&
+            (identical(other.maxRooms, maxRooms) ||
+                other.maxRooms == maxRooms));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, city, type, rooms, areaSqm, roomsRule, minRooms, maxRooms);
+
+  /// Create a copy of PriceInsightCriteria
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$PriceInsightCriteriaImplCopyWith<_$PriceInsightCriteriaImpl>
+      get copyWith =>
+          __$$PriceInsightCriteriaImplCopyWithImpl<_$PriceInsightCriteriaImpl>(
+              this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$PriceInsightCriteriaImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _PriceInsightCriteria implements PriceInsightCriteria {
+  const factory _PriceInsightCriteria(
+      {final String? city,
+      final PropertyType? type,
+      final int? rooms,
+      final double? areaSqm,
+      @JsonKey(unknownEnumValue: PriceRoomsRule.ANY)
+      final PriceRoomsRule roomsRule,
+      final int? minRooms,
+      final int? maxRooms}) = _$PriceInsightCriteriaImpl;
+
+  factory _PriceInsightCriteria.fromJson(Map<String, dynamic> json) =
+      _$PriceInsightCriteriaImpl.fromJson;
+
+  @override
+  String? get city;
+  @override
+  PropertyType? get type;
+  @override
+  int? get rooms;
+  @override
+  double? get areaSqm;
+  @override
+  @JsonKey(unknownEnumValue: PriceRoomsRule.ANY)
+  PriceRoomsRule get roomsRule;
+  @override
+  int? get minRooms;
+  @override
+  int? get maxRooms;
+
+  /// Create a copy of PriceInsightCriteria
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$PriceInsightCriteriaImplCopyWith<_$PriceInsightCriteriaImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+PriceComparable _$PriceComparableFromJson(Map<String, dynamic> json) {
+  return _PriceComparable.fromJson(json);
+}
+
+/// @nodoc
+mixin _$PriceComparable {
+  int get id => throw _privateConstructorUsedError;
+  String get title => throw _privateConstructorUsedError;
+  double get price => throw _privateConstructorUsedError;
+  double? get areaSqm => throw _privateConstructorUsedError;
+  double get pricePerSqm => throw _privateConstructorUsedError;
+  int? get rooms => throw _privateConstructorUsedError;
+  PropertyStatus get status => throw _privateConstructorUsedError;
+  bool get sold => throw _privateConstructorUsedError;
+
+  /// Serializes this PriceComparable to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of PriceComparable
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $PriceComparableCopyWith<PriceComparable> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $PriceComparableCopyWith<$Res> {
+  factory $PriceComparableCopyWith(
+          PriceComparable value, $Res Function(PriceComparable) then) =
+      _$PriceComparableCopyWithImpl<$Res, PriceComparable>;
+  @useResult
+  $Res call(
+      {int id,
+      String title,
+      double price,
+      double? areaSqm,
+      double pricePerSqm,
+      int? rooms,
+      PropertyStatus status,
+      bool sold});
+}
+
+/// @nodoc
+class _$PriceComparableCopyWithImpl<$Res, $Val extends PriceComparable>
+    implements $PriceComparableCopyWith<$Res> {
+  _$PriceComparableCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of PriceComparable
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? title = null,
+    Object? price = null,
+    Object? areaSqm = freezed,
+    Object? pricePerSqm = null,
+    Object? rooms = freezed,
+    Object? status = null,
+    Object? sold = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      price: null == price
+          ? _value.price
+          : price // ignore: cast_nullable_to_non_nullable
+              as double,
+      areaSqm: freezed == areaSqm
+          ? _value.areaSqm
+          : areaSqm // ignore: cast_nullable_to_non_nullable
+              as double?,
+      pricePerSqm: null == pricePerSqm
+          ? _value.pricePerSqm
+          : pricePerSqm // ignore: cast_nullable_to_non_nullable
+              as double,
+      rooms: freezed == rooms
+          ? _value.rooms
+          : rooms // ignore: cast_nullable_to_non_nullable
+              as int?,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as PropertyStatus,
+      sold: null == sold
+          ? _value.sold
+          : sold // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$PriceComparableImplCopyWith<$Res>
+    implements $PriceComparableCopyWith<$Res> {
+  factory _$$PriceComparableImplCopyWith(_$PriceComparableImpl value,
+          $Res Function(_$PriceComparableImpl) then) =
+      __$$PriceComparableImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int id,
+      String title,
+      double price,
+      double? areaSqm,
+      double pricePerSqm,
+      int? rooms,
+      PropertyStatus status,
+      bool sold});
+}
+
+/// @nodoc
+class __$$PriceComparableImplCopyWithImpl<$Res>
+    extends _$PriceComparableCopyWithImpl<$Res, _$PriceComparableImpl>
+    implements _$$PriceComparableImplCopyWith<$Res> {
+  __$$PriceComparableImplCopyWithImpl(
+      _$PriceComparableImpl _value, $Res Function(_$PriceComparableImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of PriceComparable
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? title = null,
+    Object? price = null,
+    Object? areaSqm = freezed,
+    Object? pricePerSqm = null,
+    Object? rooms = freezed,
+    Object? status = null,
+    Object? sold = null,
+  }) {
+    return _then(_$PriceComparableImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      price: null == price
+          ? _value.price
+          : price // ignore: cast_nullable_to_non_nullable
+              as double,
+      areaSqm: freezed == areaSqm
+          ? _value.areaSqm
+          : areaSqm // ignore: cast_nullable_to_non_nullable
+              as double?,
+      pricePerSqm: null == pricePerSqm
+          ? _value.pricePerSqm
+          : pricePerSqm // ignore: cast_nullable_to_non_nullable
+              as double,
+      rooms: freezed == rooms
+          ? _value.rooms
+          : rooms // ignore: cast_nullable_to_non_nullable
+              as int?,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as PropertyStatus,
+      sold: null == sold
+          ? _value.sold
+          : sold // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$PriceComparableImpl implements _PriceComparable {
+  const _$PriceComparableImpl(
+      {required this.id,
+      this.title = '',
+      this.price = 0.0,
+      this.areaSqm,
+      this.pricePerSqm = 0.0,
+      this.rooms,
+      this.status = PropertyStatus.AVAILABLE,
+      this.sold = false});
+
+  factory _$PriceComparableImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PriceComparableImplFromJson(json);
+
+  @override
+  final int id;
+  @override
+  @JsonKey()
+  final String title;
+  @override
+  @JsonKey()
+  final double price;
+  @override
+  final double? areaSqm;
+  @override
+  @JsonKey()
+  final double pricePerSqm;
+  @override
+  final int? rooms;
+  @override
+  @JsonKey()
+  final PropertyStatus status;
+  @override
+  @JsonKey()
+  final bool sold;
+
+  @override
+  String toString() {
+    return 'PriceComparable(id: $id, title: $title, price: $price, areaSqm: $areaSqm, pricePerSqm: $pricePerSqm, rooms: $rooms, status: $status, sold: $sold)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$PriceComparableImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.price, price) || other.price == price) &&
+            (identical(other.areaSqm, areaSqm) || other.areaSqm == areaSqm) &&
+            (identical(other.pricePerSqm, pricePerSqm) ||
+                other.pricePerSqm == pricePerSqm) &&
+            (identical(other.rooms, rooms) || other.rooms == rooms) &&
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.sold, sold) || other.sold == sold));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, id, title, price, areaSqm, pricePerSqm, rooms, status, sold);
+
+  /// Create a copy of PriceComparable
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$PriceComparableImplCopyWith<_$PriceComparableImpl> get copyWith =>
+      __$$PriceComparableImplCopyWithImpl<_$PriceComparableImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$PriceComparableImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _PriceComparable implements PriceComparable {
+  const factory _PriceComparable(
+      {required final int id,
+      final String title,
+      final double price,
+      final double? areaSqm,
+      final double pricePerSqm,
+      final int? rooms,
+      final PropertyStatus status,
+      final bool sold}) = _$PriceComparableImpl;
+
+  factory _PriceComparable.fromJson(Map<String, dynamic> json) =
+      _$PriceComparableImpl.fromJson;
+
+  @override
+  int get id;
+  @override
+  String get title;
+  @override
+  double get price;
+  @override
+  double? get areaSqm;
+  @override
+  double get pricePerSqm;
+  @override
+  int? get rooms;
+  @override
+  PropertyStatus get status;
+  @override
+  bool get sold;
+
+  /// Create a copy of PriceComparable
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$PriceComparableImplCopyWith<_$PriceComparableImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+PriceInsight _$PriceInsightFromJson(Map<String, dynamic> json) {
+  return _PriceInsight.fromJson(json);
+}
+
+/// @nodoc
+mixin _$PriceInsight {
+  int get count => throw _privateConstructorUsedError;
+  bool get lowConfidence => throw _privateConstructorUsedError;
+  PriceInsightCriteria get criteria => throw _privateConstructorUsedError;
+  PriceInsightStats get active => throw _privateConstructorUsedError;
+  PriceInsightStats get sold => throw _privateConstructorUsedError;
+  PriceInsightRange? get suggested => throw _privateConstructorUsedError;
+  PriceInsightPosition? get position => throw _privateConstructorUsedError;
+  List<PriceComparable> get comparables => throw _privateConstructorUsedError;
+
+  /// Serializes this PriceInsight to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of PriceInsight
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $PriceInsightCopyWith<PriceInsight> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $PriceInsightCopyWith<$Res> {
+  factory $PriceInsightCopyWith(
+          PriceInsight value, $Res Function(PriceInsight) then) =
+      _$PriceInsightCopyWithImpl<$Res, PriceInsight>;
+  @useResult
+  $Res call(
+      {int count,
+      bool lowConfidence,
+      PriceInsightCriteria criteria,
+      PriceInsightStats active,
+      PriceInsightStats sold,
+      PriceInsightRange? suggested,
+      PriceInsightPosition? position,
+      List<PriceComparable> comparables});
+
+  $PriceInsightCriteriaCopyWith<$Res> get criteria;
+  $PriceInsightStatsCopyWith<$Res> get active;
+  $PriceInsightStatsCopyWith<$Res> get sold;
+  $PriceInsightRangeCopyWith<$Res>? get suggested;
+  $PriceInsightPositionCopyWith<$Res>? get position;
+}
+
+/// @nodoc
+class _$PriceInsightCopyWithImpl<$Res, $Val extends PriceInsight>
+    implements $PriceInsightCopyWith<$Res> {
+  _$PriceInsightCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of PriceInsight
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? count = null,
+    Object? lowConfidence = null,
+    Object? criteria = null,
+    Object? active = null,
+    Object? sold = null,
+    Object? suggested = freezed,
+    Object? position = freezed,
+    Object? comparables = null,
+  }) {
+    return _then(_value.copyWith(
+      count: null == count
+          ? _value.count
+          : count // ignore: cast_nullable_to_non_nullable
+              as int,
+      lowConfidence: null == lowConfidence
+          ? _value.lowConfidence
+          : lowConfidence // ignore: cast_nullable_to_non_nullable
+              as bool,
+      criteria: null == criteria
+          ? _value.criteria
+          : criteria // ignore: cast_nullable_to_non_nullable
+              as PriceInsightCriteria,
+      active: null == active
+          ? _value.active
+          : active // ignore: cast_nullable_to_non_nullable
+              as PriceInsightStats,
+      sold: null == sold
+          ? _value.sold
+          : sold // ignore: cast_nullable_to_non_nullable
+              as PriceInsightStats,
+      suggested: freezed == suggested
+          ? _value.suggested
+          : suggested // ignore: cast_nullable_to_non_nullable
+              as PriceInsightRange?,
+      position: freezed == position
+          ? _value.position
+          : position // ignore: cast_nullable_to_non_nullable
+              as PriceInsightPosition?,
+      comparables: null == comparables
+          ? _value.comparables
+          : comparables // ignore: cast_nullable_to_non_nullable
+              as List<PriceComparable>,
+    ) as $Val);
+  }
+
+  /// Create a copy of PriceInsight
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $PriceInsightCriteriaCopyWith<$Res> get criteria {
+    return $PriceInsightCriteriaCopyWith<$Res>(_value.criteria, (value) {
+      return _then(_value.copyWith(criteria: value) as $Val);
+    });
+  }
+
+  /// Create a copy of PriceInsight
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $PriceInsightStatsCopyWith<$Res> get active {
+    return $PriceInsightStatsCopyWith<$Res>(_value.active, (value) {
+      return _then(_value.copyWith(active: value) as $Val);
+    });
+  }
+
+  /// Create a copy of PriceInsight
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $PriceInsightStatsCopyWith<$Res> get sold {
+    return $PriceInsightStatsCopyWith<$Res>(_value.sold, (value) {
+      return _then(_value.copyWith(sold: value) as $Val);
+    });
+  }
+
+  /// Create a copy of PriceInsight
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $PriceInsightRangeCopyWith<$Res>? get suggested {
+    if (_value.suggested == null) {
+      return null;
+    }
+
+    return $PriceInsightRangeCopyWith<$Res>(_value.suggested!, (value) {
+      return _then(_value.copyWith(suggested: value) as $Val);
+    });
+  }
+
+  /// Create a copy of PriceInsight
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $PriceInsightPositionCopyWith<$Res>? get position {
+    if (_value.position == null) {
+      return null;
+    }
+
+    return $PriceInsightPositionCopyWith<$Res>(_value.position!, (value) {
+      return _then(_value.copyWith(position: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$PriceInsightImplCopyWith<$Res>
+    implements $PriceInsightCopyWith<$Res> {
+  factory _$$PriceInsightImplCopyWith(
+          _$PriceInsightImpl value, $Res Function(_$PriceInsightImpl) then) =
+      __$$PriceInsightImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int count,
+      bool lowConfidence,
+      PriceInsightCriteria criteria,
+      PriceInsightStats active,
+      PriceInsightStats sold,
+      PriceInsightRange? suggested,
+      PriceInsightPosition? position,
+      List<PriceComparable> comparables});
+
+  @override
+  $PriceInsightCriteriaCopyWith<$Res> get criteria;
+  @override
+  $PriceInsightStatsCopyWith<$Res> get active;
+  @override
+  $PriceInsightStatsCopyWith<$Res> get sold;
+  @override
+  $PriceInsightRangeCopyWith<$Res>? get suggested;
+  @override
+  $PriceInsightPositionCopyWith<$Res>? get position;
+}
+
+/// @nodoc
+class __$$PriceInsightImplCopyWithImpl<$Res>
+    extends _$PriceInsightCopyWithImpl<$Res, _$PriceInsightImpl>
+    implements _$$PriceInsightImplCopyWith<$Res> {
+  __$$PriceInsightImplCopyWithImpl(
+      _$PriceInsightImpl _value, $Res Function(_$PriceInsightImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of PriceInsight
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? count = null,
+    Object? lowConfidence = null,
+    Object? criteria = null,
+    Object? active = null,
+    Object? sold = null,
+    Object? suggested = freezed,
+    Object? position = freezed,
+    Object? comparables = null,
+  }) {
+    return _then(_$PriceInsightImpl(
+      count: null == count
+          ? _value.count
+          : count // ignore: cast_nullable_to_non_nullable
+              as int,
+      lowConfidence: null == lowConfidence
+          ? _value.lowConfidence
+          : lowConfidence // ignore: cast_nullable_to_non_nullable
+              as bool,
+      criteria: null == criteria
+          ? _value.criteria
+          : criteria // ignore: cast_nullable_to_non_nullable
+              as PriceInsightCriteria,
+      active: null == active
+          ? _value.active
+          : active // ignore: cast_nullable_to_non_nullable
+              as PriceInsightStats,
+      sold: null == sold
+          ? _value.sold
+          : sold // ignore: cast_nullable_to_non_nullable
+              as PriceInsightStats,
+      suggested: freezed == suggested
+          ? _value.suggested
+          : suggested // ignore: cast_nullable_to_non_nullable
+              as PriceInsightRange?,
+      position: freezed == position
+          ? _value.position
+          : position // ignore: cast_nullable_to_non_nullable
+              as PriceInsightPosition?,
+      comparables: null == comparables
+          ? _value._comparables
+          : comparables // ignore: cast_nullable_to_non_nullable
+              as List<PriceComparable>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$PriceInsightImpl implements _PriceInsight {
+  const _$PriceInsightImpl(
+      {this.count = 0,
+      this.lowConfidence = true,
+      this.criteria = const PriceInsightCriteria(),
+      this.active = const PriceInsightStats(),
+      this.sold = const PriceInsightStats(),
+      this.suggested,
+      this.position,
+      final List<PriceComparable> comparables = const <PriceComparable>[]})
+      : _comparables = comparables;
+
+  factory _$PriceInsightImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PriceInsightImplFromJson(json);
+
+  @override
+  @JsonKey()
+  final int count;
+  @override
+  @JsonKey()
+  final bool lowConfidence;
+  @override
+  @JsonKey()
+  final PriceInsightCriteria criteria;
+  @override
+  @JsonKey()
+  final PriceInsightStats active;
+  @override
+  @JsonKey()
+  final PriceInsightStats sold;
+  @override
+  final PriceInsightRange? suggested;
+  @override
+  final PriceInsightPosition? position;
+  final List<PriceComparable> _comparables;
+  @override
+  @JsonKey()
+  List<PriceComparable> get comparables {
+    if (_comparables is EqualUnmodifiableListView) return _comparables;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_comparables);
+  }
+
+  @override
+  String toString() {
+    return 'PriceInsight(count: $count, lowConfidence: $lowConfidence, criteria: $criteria, active: $active, sold: $sold, suggested: $suggested, position: $position, comparables: $comparables)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$PriceInsightImpl &&
+            (identical(other.count, count) || other.count == count) &&
+            (identical(other.lowConfidence, lowConfidence) ||
+                other.lowConfidence == lowConfidence) &&
+            (identical(other.criteria, criteria) ||
+                other.criteria == criteria) &&
+            (identical(other.active, active) || other.active == active) &&
+            (identical(other.sold, sold) || other.sold == sold) &&
+            (identical(other.suggested, suggested) ||
+                other.suggested == suggested) &&
+            (identical(other.position, position) ||
+                other.position == position) &&
+            const DeepCollectionEquality()
+                .equals(other._comparables, _comparables));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      count,
+      lowConfidence,
+      criteria,
+      active,
+      sold,
+      suggested,
+      position,
+      const DeepCollectionEquality().hash(_comparables));
+
+  /// Create a copy of PriceInsight
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$PriceInsightImplCopyWith<_$PriceInsightImpl> get copyWith =>
+      __$$PriceInsightImplCopyWithImpl<_$PriceInsightImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$PriceInsightImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _PriceInsight implements PriceInsight {
+  const factory _PriceInsight(
+      {final int count,
+      final bool lowConfidence,
+      final PriceInsightCriteria criteria,
+      final PriceInsightStats active,
+      final PriceInsightStats sold,
+      final PriceInsightRange? suggested,
+      final PriceInsightPosition? position,
+      final List<PriceComparable> comparables}) = _$PriceInsightImpl;
+
+  factory _PriceInsight.fromJson(Map<String, dynamic> json) =
+      _$PriceInsightImpl.fromJson;
+
+  @override
+  int get count;
+  @override
+  bool get lowConfidence;
+  @override
+  PriceInsightCriteria get criteria;
+  @override
+  PriceInsightStats get active;
+  @override
+  PriceInsightStats get sold;
+  @override
+  PriceInsightRange? get suggested;
+  @override
+  PriceInsightPosition? get position;
+  @override
+  List<PriceComparable> get comparables;
+
+  /// Create a copy of PriceInsight
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$PriceInsightImplCopyWith<_$PriceInsightImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 PropertyShareLink _$PropertyShareLinkFromJson(Map<String, dynamic> json) {
   return _PropertyShareLink.fromJson(json);
 }
@@ -3985,6 +5587,11 @@ mixin _$DealResponse {
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   DateTime? get closedAt => throw _privateConstructorUsedError;
   int get commentCount => throw _privateConstructorUsedError;
+  int get checklistDone => throw _privateConstructorUsedError;
+  int get checklistTotal => throw _privateConstructorUsedError;
+  int get openRequired => throw _privateConstructorUsedError;
+  Map<String, int> get openRequiredByStage =>
+      throw _privateConstructorUsedError;
 
   /// Serializes this DealResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -4024,7 +5631,11 @@ abstract class $DealResponseCopyWith<$Res> {
       DateTime? createdAt,
       DateTime? updatedAt,
       DateTime? closedAt,
-      int commentCount});
+      int commentCount,
+      int checklistDone,
+      int checklistTotal,
+      int openRequired,
+      Map<String, int> openRequiredByStage});
 }
 
 /// @nodoc
@@ -4063,6 +5674,10 @@ class _$DealResponseCopyWithImpl<$Res, $Val extends DealResponse>
     Object? updatedAt = freezed,
     Object? closedAt = freezed,
     Object? commentCount = null,
+    Object? checklistDone = null,
+    Object? checklistTotal = null,
+    Object? openRequired = null,
+    Object? openRequiredByStage = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -4149,6 +5764,22 @@ class _$DealResponseCopyWithImpl<$Res, $Val extends DealResponse>
           ? _value.commentCount
           : commentCount // ignore: cast_nullable_to_non_nullable
               as int,
+      checklistDone: null == checklistDone
+          ? _value.checklistDone
+          : checklistDone // ignore: cast_nullable_to_non_nullable
+              as int,
+      checklistTotal: null == checklistTotal
+          ? _value.checklistTotal
+          : checklistTotal // ignore: cast_nullable_to_non_nullable
+              as int,
+      openRequired: null == openRequired
+          ? _value.openRequired
+          : openRequired // ignore: cast_nullable_to_non_nullable
+              as int,
+      openRequiredByStage: null == openRequiredByStage
+          ? _value.openRequiredByStage
+          : openRequiredByStage // ignore: cast_nullable_to_non_nullable
+              as Map<String, int>,
     ) as $Val);
   }
 }
@@ -4183,7 +5814,11 @@ abstract class _$$DealResponseImplCopyWith<$Res>
       DateTime? createdAt,
       DateTime? updatedAt,
       DateTime? closedAt,
-      int commentCount});
+      int commentCount,
+      int checklistDone,
+      int checklistTotal,
+      int openRequired,
+      Map<String, int> openRequiredByStage});
 }
 
 /// @nodoc
@@ -4220,6 +5855,10 @@ class __$$DealResponseImplCopyWithImpl<$Res>
     Object? updatedAt = freezed,
     Object? closedAt = freezed,
     Object? commentCount = null,
+    Object? checklistDone = null,
+    Object? checklistTotal = null,
+    Object? openRequired = null,
+    Object? openRequiredByStage = null,
   }) {
     return _then(_$DealResponseImpl(
       id: null == id
@@ -4306,6 +5945,22 @@ class __$$DealResponseImplCopyWithImpl<$Res>
           ? _value.commentCount
           : commentCount // ignore: cast_nullable_to_non_nullable
               as int,
+      checklistDone: null == checklistDone
+          ? _value.checklistDone
+          : checklistDone // ignore: cast_nullable_to_non_nullable
+              as int,
+      checklistTotal: null == checklistTotal
+          ? _value.checklistTotal
+          : checklistTotal // ignore: cast_nullable_to_non_nullable
+              as int,
+      openRequired: null == openRequired
+          ? _value.openRequired
+          : openRequired // ignore: cast_nullable_to_non_nullable
+              as int,
+      openRequiredByStage: null == openRequiredByStage
+          ? _value._openRequiredByStage
+          : openRequiredByStage // ignore: cast_nullable_to_non_nullable
+              as Map<String, int>,
     ));
   }
 }
@@ -4335,7 +5990,12 @@ class _$DealResponseImpl implements _DealResponse {
       this.createdAt,
       this.updatedAt,
       this.closedAt,
-      this.commentCount = 0});
+      this.commentCount = 0,
+      this.checklistDone = 0,
+      this.checklistTotal = 0,
+      this.openRequired = 0,
+      final Map<String, int> openRequiredByStage = const <String, int>{}})
+      : _openRequiredByStage = openRequiredByStage;
 
   factory _$DealResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$DealResponseImplFromJson(json);
@@ -4388,10 +6048,28 @@ class _$DealResponseImpl implements _DealResponse {
   @override
   @JsonKey()
   final int commentCount;
+  @override
+  @JsonKey()
+  final int checklistDone;
+  @override
+  @JsonKey()
+  final int checklistTotal;
+  @override
+  @JsonKey()
+  final int openRequired;
+  final Map<String, int> _openRequiredByStage;
+  @override
+  @JsonKey()
+  Map<String, int> get openRequiredByStage {
+    if (_openRequiredByStage is EqualUnmodifiableMapView)
+      return _openRequiredByStage;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_openRequiredByStage);
+  }
 
   @override
   String toString() {
-    return 'DealResponse(id: $id, title: $title, status: $status, dealPrice: $dealPrice, budget: $budget, commissionPercent: $commissionPercent, commission: $commission, notes: $notes, lostReason: $lostReason, lostNote: $lostNote, clientId: $clientId, clientName: $clientName, propertyId: $propertyId, propertyTitle: $propertyTitle, propertyAddress: $propertyAddress, agentId: $agentId, agentName: $agentName, createdAt: $createdAt, updatedAt: $updatedAt, closedAt: $closedAt, commentCount: $commentCount)';
+    return 'DealResponse(id: $id, title: $title, status: $status, dealPrice: $dealPrice, budget: $budget, commissionPercent: $commissionPercent, commission: $commission, notes: $notes, lostReason: $lostReason, lostNote: $lostNote, clientId: $clientId, clientName: $clientName, propertyId: $propertyId, propertyTitle: $propertyTitle, propertyAddress: $propertyAddress, agentId: $agentId, agentName: $agentName, createdAt: $createdAt, updatedAt: $updatedAt, closedAt: $closedAt, commentCount: $commentCount, checklistDone: $checklistDone, checklistTotal: $checklistTotal, openRequired: $openRequired, openRequiredByStage: $openRequiredByStage)';
   }
 
   @override
@@ -4434,7 +6112,15 @@ class _$DealResponseImpl implements _DealResponse {
             (identical(other.closedAt, closedAt) ||
                 other.closedAt == closedAt) &&
             (identical(other.commentCount, commentCount) ||
-                other.commentCount == commentCount));
+                other.commentCount == commentCount) &&
+            (identical(other.checklistDone, checklistDone) ||
+                other.checklistDone == checklistDone) &&
+            (identical(other.checklistTotal, checklistTotal) ||
+                other.checklistTotal == checklistTotal) &&
+            (identical(other.openRequired, openRequired) ||
+                other.openRequired == openRequired) &&
+            const DeepCollectionEquality()
+                .equals(other._openRequiredByStage, _openRequiredByStage));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -4461,7 +6147,11 @@ class _$DealResponseImpl implements _DealResponse {
         createdAt,
         updatedAt,
         closedAt,
-        commentCount
+        commentCount,
+        checklistDone,
+        checklistTotal,
+        openRequired,
+        const DeepCollectionEquality().hash(_openRequiredByStage)
       ]);
 
   /// Create a copy of DealResponse
@@ -4503,7 +6193,11 @@ abstract class _DealResponse implements DealResponse {
       final DateTime? createdAt,
       final DateTime? updatedAt,
       final DateTime? closedAt,
-      final int commentCount}) = _$DealResponseImpl;
+      final int commentCount,
+      final int checklistDone,
+      final int checklistTotal,
+      final int openRequired,
+      final Map<String, int> openRequiredByStage}) = _$DealResponseImpl;
 
   factory _DealResponse.fromJson(Map<String, dynamic> json) =
       _$DealResponseImpl.fromJson;
@@ -4551,12 +6245,422 @@ abstract class _DealResponse implements DealResponse {
   DateTime? get closedAt;
   @override
   int get commentCount;
+  @override
+  int get checklistDone;
+  @override
+  int get checklistTotal;
+  @override
+  int get openRequired;
+  @override
+  Map<String, int> get openRequiredByStage;
 
   /// Create a copy of DealResponse
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DealResponseImplCopyWith<_$DealResponseImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+ChecklistItem _$ChecklistItemFromJson(Map<String, dynamic> json) {
+  return _ChecklistItem.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ChecklistItem {
+  int get id => throw _privateConstructorUsedError;
+  @JsonKey(unknownEnumValue: ChecklistStage.LEAD)
+  ChecklistStage get stage => throw _privateConstructorUsedError;
+  String get title => throw _privateConstructorUsedError;
+  int get position => throw _privateConstructorUsedError;
+  bool get required => throw _privateConstructorUsedError;
+  bool get custom => throw _privateConstructorUsedError;
+  bool get done => throw _privateConstructorUsedError;
+  DateTime? get doneAt => throw _privateConstructorUsedError;
+  int? get doneById => throw _privateConstructorUsedError;
+  String? get doneByName => throw _privateConstructorUsedError;
+  int? get documentId => throw _privateConstructorUsedError;
+  String? get documentName => throw _privateConstructorUsedError;
+
+  /// Serializes this ChecklistItem to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of ChecklistItem
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $ChecklistItemCopyWith<ChecklistItem> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ChecklistItemCopyWith<$Res> {
+  factory $ChecklistItemCopyWith(
+          ChecklistItem value, $Res Function(ChecklistItem) then) =
+      _$ChecklistItemCopyWithImpl<$Res, ChecklistItem>;
+  @useResult
+  $Res call(
+      {int id,
+      @JsonKey(unknownEnumValue: ChecklistStage.LEAD) ChecklistStage stage,
+      String title,
+      int position,
+      bool required,
+      bool custom,
+      bool done,
+      DateTime? doneAt,
+      int? doneById,
+      String? doneByName,
+      int? documentId,
+      String? documentName});
+}
+
+/// @nodoc
+class _$ChecklistItemCopyWithImpl<$Res, $Val extends ChecklistItem>
+    implements $ChecklistItemCopyWith<$Res> {
+  _$ChecklistItemCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of ChecklistItem
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? stage = null,
+    Object? title = null,
+    Object? position = null,
+    Object? required = null,
+    Object? custom = null,
+    Object? done = null,
+    Object? doneAt = freezed,
+    Object? doneById = freezed,
+    Object? doneByName = freezed,
+    Object? documentId = freezed,
+    Object? documentName = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      stage: null == stage
+          ? _value.stage
+          : stage // ignore: cast_nullable_to_non_nullable
+              as ChecklistStage,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      position: null == position
+          ? _value.position
+          : position // ignore: cast_nullable_to_non_nullable
+              as int,
+      required: null == required
+          ? _value.required
+          : required // ignore: cast_nullable_to_non_nullable
+              as bool,
+      custom: null == custom
+          ? _value.custom
+          : custom // ignore: cast_nullable_to_non_nullable
+              as bool,
+      done: null == done
+          ? _value.done
+          : done // ignore: cast_nullable_to_non_nullable
+              as bool,
+      doneAt: freezed == doneAt
+          ? _value.doneAt
+          : doneAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      doneById: freezed == doneById
+          ? _value.doneById
+          : doneById // ignore: cast_nullable_to_non_nullable
+              as int?,
+      doneByName: freezed == doneByName
+          ? _value.doneByName
+          : doneByName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      documentId: freezed == documentId
+          ? _value.documentId
+          : documentId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      documentName: freezed == documentName
+          ? _value.documentName
+          : documentName // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ChecklistItemImplCopyWith<$Res>
+    implements $ChecklistItemCopyWith<$Res> {
+  factory _$$ChecklistItemImplCopyWith(
+          _$ChecklistItemImpl value, $Res Function(_$ChecklistItemImpl) then) =
+      __$$ChecklistItemImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int id,
+      @JsonKey(unknownEnumValue: ChecklistStage.LEAD) ChecklistStage stage,
+      String title,
+      int position,
+      bool required,
+      bool custom,
+      bool done,
+      DateTime? doneAt,
+      int? doneById,
+      String? doneByName,
+      int? documentId,
+      String? documentName});
+}
+
+/// @nodoc
+class __$$ChecklistItemImplCopyWithImpl<$Res>
+    extends _$ChecklistItemCopyWithImpl<$Res, _$ChecklistItemImpl>
+    implements _$$ChecklistItemImplCopyWith<$Res> {
+  __$$ChecklistItemImplCopyWithImpl(
+      _$ChecklistItemImpl _value, $Res Function(_$ChecklistItemImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ChecklistItem
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? stage = null,
+    Object? title = null,
+    Object? position = null,
+    Object? required = null,
+    Object? custom = null,
+    Object? done = null,
+    Object? doneAt = freezed,
+    Object? doneById = freezed,
+    Object? doneByName = freezed,
+    Object? documentId = freezed,
+    Object? documentName = freezed,
+  }) {
+    return _then(_$ChecklistItemImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      stage: null == stage
+          ? _value.stage
+          : stage // ignore: cast_nullable_to_non_nullable
+              as ChecklistStage,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      position: null == position
+          ? _value.position
+          : position // ignore: cast_nullable_to_non_nullable
+              as int,
+      required: null == required
+          ? _value.required
+          : required // ignore: cast_nullable_to_non_nullable
+              as bool,
+      custom: null == custom
+          ? _value.custom
+          : custom // ignore: cast_nullable_to_non_nullable
+              as bool,
+      done: null == done
+          ? _value.done
+          : done // ignore: cast_nullable_to_non_nullable
+              as bool,
+      doneAt: freezed == doneAt
+          ? _value.doneAt
+          : doneAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      doneById: freezed == doneById
+          ? _value.doneById
+          : doneById // ignore: cast_nullable_to_non_nullable
+              as int?,
+      doneByName: freezed == doneByName
+          ? _value.doneByName
+          : doneByName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      documentId: freezed == documentId
+          ? _value.documentId
+          : documentId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      documentName: freezed == documentName
+          ? _value.documentName
+          : documentName // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ChecklistItemImpl implements _ChecklistItem {
+  const _$ChecklistItemImpl(
+      {required this.id,
+      @JsonKey(unknownEnumValue: ChecklistStage.LEAD)
+      this.stage = ChecklistStage.LEAD,
+      this.title = '',
+      this.position = 0,
+      this.required = false,
+      this.custom = false,
+      this.done = false,
+      this.doneAt,
+      this.doneById,
+      this.doneByName,
+      this.documentId,
+      this.documentName});
+
+  factory _$ChecklistItemImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ChecklistItemImplFromJson(json);
+
+  @override
+  final int id;
+  @override
+  @JsonKey(unknownEnumValue: ChecklistStage.LEAD)
+  final ChecklistStage stage;
+  @override
+  @JsonKey()
+  final String title;
+  @override
+  @JsonKey()
+  final int position;
+  @override
+  @JsonKey()
+  final bool required;
+  @override
+  @JsonKey()
+  final bool custom;
+  @override
+  @JsonKey()
+  final bool done;
+  @override
+  final DateTime? doneAt;
+  @override
+  final int? doneById;
+  @override
+  final String? doneByName;
+  @override
+  final int? documentId;
+  @override
+  final String? documentName;
+
+  @override
+  String toString() {
+    return 'ChecklistItem(id: $id, stage: $stage, title: $title, position: $position, required: $required, custom: $custom, done: $done, doneAt: $doneAt, doneById: $doneById, doneByName: $doneByName, documentId: $documentId, documentName: $documentName)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ChecklistItemImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.stage, stage) || other.stage == stage) &&
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.position, position) ||
+                other.position == position) &&
+            (identical(other.required, required) ||
+                other.required == required) &&
+            (identical(other.custom, custom) || other.custom == custom) &&
+            (identical(other.done, done) || other.done == done) &&
+            (identical(other.doneAt, doneAt) || other.doneAt == doneAt) &&
+            (identical(other.doneById, doneById) ||
+                other.doneById == doneById) &&
+            (identical(other.doneByName, doneByName) ||
+                other.doneByName == doneByName) &&
+            (identical(other.documentId, documentId) ||
+                other.documentId == documentId) &&
+            (identical(other.documentName, documentName) ||
+                other.documentName == documentName));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      stage,
+      title,
+      position,
+      required,
+      custom,
+      done,
+      doneAt,
+      doneById,
+      doneByName,
+      documentId,
+      documentName);
+
+  /// Create a copy of ChecklistItem
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ChecklistItemImplCopyWith<_$ChecklistItemImpl> get copyWith =>
+      __$$ChecklistItemImplCopyWithImpl<_$ChecklistItemImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ChecklistItemImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ChecklistItem implements ChecklistItem {
+  const factory _ChecklistItem(
+      {required final int id,
+      @JsonKey(unknownEnumValue: ChecklistStage.LEAD)
+      final ChecklistStage stage,
+      final String title,
+      final int position,
+      final bool required,
+      final bool custom,
+      final bool done,
+      final DateTime? doneAt,
+      final int? doneById,
+      final String? doneByName,
+      final int? documentId,
+      final String? documentName}) = _$ChecklistItemImpl;
+
+  factory _ChecklistItem.fromJson(Map<String, dynamic> json) =
+      _$ChecklistItemImpl.fromJson;
+
+  @override
+  int get id;
+  @override
+  @JsonKey(unknownEnumValue: ChecklistStage.LEAD)
+  ChecklistStage get stage;
+  @override
+  String get title;
+  @override
+  int get position;
+  @override
+  bool get required;
+  @override
+  bool get custom;
+  @override
+  bool get done;
+  @override
+  DateTime? get doneAt;
+  @override
+  int? get doneById;
+  @override
+  String? get doneByName;
+  @override
+  int? get documentId;
+  @override
+  String? get documentName;
+
+  /// Create a copy of ChecklistItem
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ChecklistItemImplCopyWith<_$ChecklistItemImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -6519,6 +8623,7 @@ mixin _$DashboardSummary {
   double get commissionThisMonth => throw _privateConstructorUsedError;
   int get tasksDueToday => throw _privateConstructorUsedError;
   int get tasksOverdue => throw _privateConstructorUsedError;
+  int get coldCount => throw _privateConstructorUsedError;
 
   /// Serializes this DashboardSummary to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -6544,7 +8649,8 @@ abstract class $DashboardSummaryCopyWith<$Res> {
       int upcomingMeetings,
       double commissionThisMonth,
       int tasksDueToday,
-      int tasksOverdue});
+      int tasksOverdue,
+      int coldCount});
 }
 
 /// @nodoc
@@ -6570,6 +8676,7 @@ class _$DashboardSummaryCopyWithImpl<$Res, $Val extends DashboardSummary>
     Object? commissionThisMonth = null,
     Object? tasksDueToday = null,
     Object? tasksOverdue = null,
+    Object? coldCount = null,
   }) {
     return _then(_value.copyWith(
       totalDeals: null == totalDeals
@@ -6604,6 +8711,10 @@ class _$DashboardSummaryCopyWithImpl<$Res, $Val extends DashboardSummary>
           ? _value.tasksOverdue
           : tasksOverdue // ignore: cast_nullable_to_non_nullable
               as int,
+      coldCount: null == coldCount
+          ? _value.coldCount
+          : coldCount // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -6624,7 +8735,8 @@ abstract class _$$DashboardSummaryImplCopyWith<$Res>
       int upcomingMeetings,
       double commissionThisMonth,
       int tasksDueToday,
-      int tasksOverdue});
+      int tasksOverdue,
+      int coldCount});
 }
 
 /// @nodoc
@@ -6648,6 +8760,7 @@ class __$$DashboardSummaryImplCopyWithImpl<$Res>
     Object? commissionThisMonth = null,
     Object? tasksDueToday = null,
     Object? tasksOverdue = null,
+    Object? coldCount = null,
   }) {
     return _then(_$DashboardSummaryImpl(
       totalDeals: null == totalDeals
@@ -6682,6 +8795,10 @@ class __$$DashboardSummaryImplCopyWithImpl<$Res>
           ? _value.tasksOverdue
           : tasksOverdue // ignore: cast_nullable_to_non_nullable
               as int,
+      coldCount: null == coldCount
+          ? _value.coldCount
+          : coldCount // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -6697,7 +8814,8 @@ class _$DashboardSummaryImpl implements _DashboardSummary {
       this.upcomingMeetings = 0,
       this.commissionThisMonth = 0,
       this.tasksDueToday = 0,
-      this.tasksOverdue = 0});
+      this.tasksOverdue = 0,
+      this.coldCount = 0});
 
   factory _$DashboardSummaryImpl.fromJson(Map<String, dynamic> json) =>
       _$$DashboardSummaryImplFromJson(json);
@@ -6726,10 +8844,13 @@ class _$DashboardSummaryImpl implements _DashboardSummary {
   @override
   @JsonKey()
   final int tasksOverdue;
+  @override
+  @JsonKey()
+  final int coldCount;
 
   @override
   String toString() {
-    return 'DashboardSummary(totalDeals: $totalDeals, activeDeals: $activeDeals, closedDeals: $closedDeals, totalClients: $totalClients, upcomingMeetings: $upcomingMeetings, commissionThisMonth: $commissionThisMonth, tasksDueToday: $tasksDueToday, tasksOverdue: $tasksOverdue)';
+    return 'DashboardSummary(totalDeals: $totalDeals, activeDeals: $activeDeals, closedDeals: $closedDeals, totalClients: $totalClients, upcomingMeetings: $upcomingMeetings, commissionThisMonth: $commissionThisMonth, tasksDueToday: $tasksDueToday, tasksOverdue: $tasksOverdue, coldCount: $coldCount)';
   }
 
   @override
@@ -6752,7 +8873,9 @@ class _$DashboardSummaryImpl implements _DashboardSummary {
             (identical(other.tasksDueToday, tasksDueToday) ||
                 other.tasksDueToday == tasksDueToday) &&
             (identical(other.tasksOverdue, tasksOverdue) ||
-                other.tasksOverdue == tasksOverdue));
+                other.tasksOverdue == tasksOverdue) &&
+            (identical(other.coldCount, coldCount) ||
+                other.coldCount == coldCount));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -6766,7 +8889,8 @@ class _$DashboardSummaryImpl implements _DashboardSummary {
       upcomingMeetings,
       commissionThisMonth,
       tasksDueToday,
-      tasksOverdue);
+      tasksOverdue,
+      coldCount);
 
   /// Create a copy of DashboardSummary
   /// with the given fields replaced by the non-null parameter values.
@@ -6794,7 +8918,8 @@ abstract class _DashboardSummary implements DashboardSummary {
       final int upcomingMeetings,
       final double commissionThisMonth,
       final int tasksDueToday,
-      final int tasksOverdue}) = _$DashboardSummaryImpl;
+      final int tasksOverdue,
+      final int coldCount}) = _$DashboardSummaryImpl;
 
   factory _DashboardSummary.fromJson(Map<String, dynamic> json) =
       _$DashboardSummaryImpl.fromJson;
@@ -6815,12 +8940,617 @@ abstract class _DashboardSummary implements DashboardSummary {
   int get tasksDueToday;
   @override
   int get tasksOverdue;
+  @override
+  int get coldCount;
 
   /// Create a copy of DashboardSummary
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DashboardSummaryImplCopyWith<_$DashboardSummaryImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+ColdReason _$ColdReasonFromJson(Map<String, dynamic> json) {
+  return _ColdReason.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ColdReason {
+  @JsonKey(unknownEnumValue: ColdReasonCode.unknown)
+  ColdReasonCode get code => throw _privateConstructorUsedError;
+  String? get dealTitle => throw _privateConstructorUsedError;
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  DealStatus? get dealStatus => throw _privateConstructorUsedError;
+  int? get matchCount => throw _privateConstructorUsedError;
+
+  /// Serializes this ColdReason to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of ColdReason
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $ColdReasonCopyWith<ColdReason> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ColdReasonCopyWith<$Res> {
+  factory $ColdReasonCopyWith(
+          ColdReason value, $Res Function(ColdReason) then) =
+      _$ColdReasonCopyWithImpl<$Res, ColdReason>;
+  @useResult
+  $Res call(
+      {@JsonKey(unknownEnumValue: ColdReasonCode.unknown) ColdReasonCode code,
+      String? dealTitle,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      DealStatus? dealStatus,
+      int? matchCount});
+}
+
+/// @nodoc
+class _$ColdReasonCopyWithImpl<$Res, $Val extends ColdReason>
+    implements $ColdReasonCopyWith<$Res> {
+  _$ColdReasonCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of ColdReason
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? code = null,
+    Object? dealTitle = freezed,
+    Object? dealStatus = freezed,
+    Object? matchCount = freezed,
+  }) {
+    return _then(_value.copyWith(
+      code: null == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as ColdReasonCode,
+      dealTitle: freezed == dealTitle
+          ? _value.dealTitle
+          : dealTitle // ignore: cast_nullable_to_non_nullable
+              as String?,
+      dealStatus: freezed == dealStatus
+          ? _value.dealStatus
+          : dealStatus // ignore: cast_nullable_to_non_nullable
+              as DealStatus?,
+      matchCount: freezed == matchCount
+          ? _value.matchCount
+          : matchCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ColdReasonImplCopyWith<$Res>
+    implements $ColdReasonCopyWith<$Res> {
+  factory _$$ColdReasonImplCopyWith(
+          _$ColdReasonImpl value, $Res Function(_$ColdReasonImpl) then) =
+      __$$ColdReasonImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(unknownEnumValue: ColdReasonCode.unknown) ColdReasonCode code,
+      String? dealTitle,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      DealStatus? dealStatus,
+      int? matchCount});
+}
+
+/// @nodoc
+class __$$ColdReasonImplCopyWithImpl<$Res>
+    extends _$ColdReasonCopyWithImpl<$Res, _$ColdReasonImpl>
+    implements _$$ColdReasonImplCopyWith<$Res> {
+  __$$ColdReasonImplCopyWithImpl(
+      _$ColdReasonImpl _value, $Res Function(_$ColdReasonImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ColdReason
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? code = null,
+    Object? dealTitle = freezed,
+    Object? dealStatus = freezed,
+    Object? matchCount = freezed,
+  }) {
+    return _then(_$ColdReasonImpl(
+      code: null == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as ColdReasonCode,
+      dealTitle: freezed == dealTitle
+          ? _value.dealTitle
+          : dealTitle // ignore: cast_nullable_to_non_nullable
+              as String?,
+      dealStatus: freezed == dealStatus
+          ? _value.dealStatus
+          : dealStatus // ignore: cast_nullable_to_non_nullable
+              as DealStatus?,
+      matchCount: freezed == matchCount
+          ? _value.matchCount
+          : matchCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ColdReasonImpl implements _ColdReason {
+  const _$ColdReasonImpl(
+      {@JsonKey(unknownEnumValue: ColdReasonCode.unknown)
+      this.code = ColdReasonCode.unknown,
+      this.dealTitle,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      this.dealStatus,
+      this.matchCount});
+
+  factory _$ColdReasonImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ColdReasonImplFromJson(json);
+
+  @override
+  @JsonKey(unknownEnumValue: ColdReasonCode.unknown)
+  final ColdReasonCode code;
+  @override
+  final String? dealTitle;
+  @override
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  final DealStatus? dealStatus;
+  @override
+  final int? matchCount;
+
+  @override
+  String toString() {
+    return 'ColdReason(code: $code, dealTitle: $dealTitle, dealStatus: $dealStatus, matchCount: $matchCount)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ColdReasonImpl &&
+            (identical(other.code, code) || other.code == code) &&
+            (identical(other.dealTitle, dealTitle) ||
+                other.dealTitle == dealTitle) &&
+            (identical(other.dealStatus, dealStatus) ||
+                other.dealStatus == dealStatus) &&
+            (identical(other.matchCount, matchCount) ||
+                other.matchCount == matchCount));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, code, dealTitle, dealStatus, matchCount);
+
+  /// Create a copy of ColdReason
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ColdReasonImplCopyWith<_$ColdReasonImpl> get copyWith =>
+      __$$ColdReasonImplCopyWithImpl<_$ColdReasonImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ColdReasonImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ColdReason implements ColdReason {
+  const factory _ColdReason(
+      {@JsonKey(unknownEnumValue: ColdReasonCode.unknown)
+      final ColdReasonCode code,
+      final String? dealTitle,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      final DealStatus? dealStatus,
+      final int? matchCount}) = _$ColdReasonImpl;
+
+  factory _ColdReason.fromJson(Map<String, dynamic> json) =
+      _$ColdReasonImpl.fromJson;
+
+  @override
+  @JsonKey(unknownEnumValue: ColdReasonCode.unknown)
+  ColdReasonCode get code;
+  @override
+  String? get dealTitle;
+  @override
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  DealStatus? get dealStatus;
+  @override
+  int? get matchCount;
+
+  /// Create a copy of ColdReason
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ColdReasonImplCopyWith<_$ColdReasonImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+ColdClient _$ColdClientFromJson(Map<String, dynamic> json) {
+  return _ColdClient.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ColdClient {
+  int get id => throw _privateConstructorUsedError;
+  String get fullName => throw _privateConstructorUsedError;
+  String? get phone => throw _privateConstructorUsedError;
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  ClientType? get type => throw _privateConstructorUsedError;
+  int? get agentId => throw _privateConstructorUsedError;
+  String? get agentName => throw _privateConstructorUsedError;
+  DateTime? get lastContactAt => throw _privateConstructorUsedError;
+  int get silentDays => throw _privateConstructorUsedError;
+  List<ColdReason> get reasons => throw _privateConstructorUsedError;
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  ColdNextStep? get nextStep => throw _privateConstructorUsedError;
+
+  /// Serializes this ColdClient to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of ColdClient
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $ColdClientCopyWith<ColdClient> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ColdClientCopyWith<$Res> {
+  factory $ColdClientCopyWith(
+          ColdClient value, $Res Function(ColdClient) then) =
+      _$ColdClientCopyWithImpl<$Res, ColdClient>;
+  @useResult
+  $Res call(
+      {int id,
+      String fullName,
+      String? phone,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      ClientType? type,
+      int? agentId,
+      String? agentName,
+      DateTime? lastContactAt,
+      int silentDays,
+      List<ColdReason> reasons,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      ColdNextStep? nextStep});
+}
+
+/// @nodoc
+class _$ColdClientCopyWithImpl<$Res, $Val extends ColdClient>
+    implements $ColdClientCopyWith<$Res> {
+  _$ColdClientCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of ColdClient
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? fullName = null,
+    Object? phone = freezed,
+    Object? type = freezed,
+    Object? agentId = freezed,
+    Object? agentName = freezed,
+    Object? lastContactAt = freezed,
+    Object? silentDays = null,
+    Object? reasons = null,
+    Object? nextStep = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      fullName: null == fullName
+          ? _value.fullName
+          : fullName // ignore: cast_nullable_to_non_nullable
+              as String,
+      phone: freezed == phone
+          ? _value.phone
+          : phone // ignore: cast_nullable_to_non_nullable
+              as String?,
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as ClientType?,
+      agentId: freezed == agentId
+          ? _value.agentId
+          : agentId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      agentName: freezed == agentName
+          ? _value.agentName
+          : agentName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lastContactAt: freezed == lastContactAt
+          ? _value.lastContactAt
+          : lastContactAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      silentDays: null == silentDays
+          ? _value.silentDays
+          : silentDays // ignore: cast_nullable_to_non_nullable
+              as int,
+      reasons: null == reasons
+          ? _value.reasons
+          : reasons // ignore: cast_nullable_to_non_nullable
+              as List<ColdReason>,
+      nextStep: freezed == nextStep
+          ? _value.nextStep
+          : nextStep // ignore: cast_nullable_to_non_nullable
+              as ColdNextStep?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ColdClientImplCopyWith<$Res>
+    implements $ColdClientCopyWith<$Res> {
+  factory _$$ColdClientImplCopyWith(
+          _$ColdClientImpl value, $Res Function(_$ColdClientImpl) then) =
+      __$$ColdClientImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int id,
+      String fullName,
+      String? phone,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      ClientType? type,
+      int? agentId,
+      String? agentName,
+      DateTime? lastContactAt,
+      int silentDays,
+      List<ColdReason> reasons,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      ColdNextStep? nextStep});
+}
+
+/// @nodoc
+class __$$ColdClientImplCopyWithImpl<$Res>
+    extends _$ColdClientCopyWithImpl<$Res, _$ColdClientImpl>
+    implements _$$ColdClientImplCopyWith<$Res> {
+  __$$ColdClientImplCopyWithImpl(
+      _$ColdClientImpl _value, $Res Function(_$ColdClientImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ColdClient
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? fullName = null,
+    Object? phone = freezed,
+    Object? type = freezed,
+    Object? agentId = freezed,
+    Object? agentName = freezed,
+    Object? lastContactAt = freezed,
+    Object? silentDays = null,
+    Object? reasons = null,
+    Object? nextStep = freezed,
+  }) {
+    return _then(_$ColdClientImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      fullName: null == fullName
+          ? _value.fullName
+          : fullName // ignore: cast_nullable_to_non_nullable
+              as String,
+      phone: freezed == phone
+          ? _value.phone
+          : phone // ignore: cast_nullable_to_non_nullable
+              as String?,
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as ClientType?,
+      agentId: freezed == agentId
+          ? _value.agentId
+          : agentId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      agentName: freezed == agentName
+          ? _value.agentName
+          : agentName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lastContactAt: freezed == lastContactAt
+          ? _value.lastContactAt
+          : lastContactAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      silentDays: null == silentDays
+          ? _value.silentDays
+          : silentDays // ignore: cast_nullable_to_non_nullable
+              as int,
+      reasons: null == reasons
+          ? _value._reasons
+          : reasons // ignore: cast_nullable_to_non_nullable
+              as List<ColdReason>,
+      nextStep: freezed == nextStep
+          ? _value.nextStep
+          : nextStep // ignore: cast_nullable_to_non_nullable
+              as ColdNextStep?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ColdClientImpl extends _ColdClient {
+  const _$ColdClientImpl(
+      {required this.id,
+      this.fullName = '',
+      this.phone,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.type,
+      this.agentId,
+      this.agentName,
+      this.lastContactAt,
+      this.silentDays = 0,
+      final List<ColdReason> reasons = const <ColdReason>[],
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      this.nextStep})
+      : _reasons = reasons,
+        super._();
+
+  factory _$ColdClientImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ColdClientImplFromJson(json);
+
+  @override
+  final int id;
+  @override
+  @JsonKey()
+  final String fullName;
+  @override
+  final String? phone;
+  @override
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  final ClientType? type;
+  @override
+  final int? agentId;
+  @override
+  final String? agentName;
+  @override
+  final DateTime? lastContactAt;
+  @override
+  @JsonKey()
+  final int silentDays;
+  final List<ColdReason> _reasons;
+  @override
+  @JsonKey()
+  List<ColdReason> get reasons {
+    if (_reasons is EqualUnmodifiableListView) return _reasons;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_reasons);
+  }
+
+  @override
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  final ColdNextStep? nextStep;
+
+  @override
+  String toString() {
+    return 'ColdClient(id: $id, fullName: $fullName, phone: $phone, type: $type, agentId: $agentId, agentName: $agentName, lastContactAt: $lastContactAt, silentDays: $silentDays, reasons: $reasons, nextStep: $nextStep)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ColdClientImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.fullName, fullName) ||
+                other.fullName == fullName) &&
+            (identical(other.phone, phone) || other.phone == phone) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.agentId, agentId) || other.agentId == agentId) &&
+            (identical(other.agentName, agentName) ||
+                other.agentName == agentName) &&
+            (identical(other.lastContactAt, lastContactAt) ||
+                other.lastContactAt == lastContactAt) &&
+            (identical(other.silentDays, silentDays) ||
+                other.silentDays == silentDays) &&
+            const DeepCollectionEquality().equals(other._reasons, _reasons) &&
+            (identical(other.nextStep, nextStep) ||
+                other.nextStep == nextStep));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      fullName,
+      phone,
+      type,
+      agentId,
+      agentName,
+      lastContactAt,
+      silentDays,
+      const DeepCollectionEquality().hash(_reasons),
+      nextStep);
+
+  /// Create a copy of ColdClient
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ColdClientImplCopyWith<_$ColdClientImpl> get copyWith =>
+      __$$ColdClientImplCopyWithImpl<_$ColdClientImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ColdClientImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ColdClient extends ColdClient {
+  const factory _ColdClient(
+      {required final int id,
+      final String fullName,
+      final String? phone,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      final ClientType? type,
+      final int? agentId,
+      final String? agentName,
+      final DateTime? lastContactAt,
+      final int silentDays,
+      final List<ColdReason> reasons,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      final ColdNextStep? nextStep}) = _$ColdClientImpl;
+  const _ColdClient._() : super._();
+
+  factory _ColdClient.fromJson(Map<String, dynamic> json) =
+      _$ColdClientImpl.fromJson;
+
+  @override
+  int get id;
+  @override
+  String get fullName;
+  @override
+  String? get phone;
+  @override
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  ClientType? get type;
+  @override
+  int? get agentId;
+  @override
+  String? get agentName;
+  @override
+  DateTime? get lastContactAt;
+  @override
+  int get silentDays;
+  @override
+  List<ColdReason> get reasons;
+  @override
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  ColdNextStep? get nextStep;
+
+  /// Create a copy of ColdClient
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ColdClientImplCopyWith<_$ColdClientImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

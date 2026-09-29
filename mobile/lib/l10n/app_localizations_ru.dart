@@ -736,6 +736,121 @@ class AppLocalizationsRu extends AppLocalizations {
   String get clientsClientType => 'Тип клиента';
 
   @override
+  String clientsColdDaysOption(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count дня',
+      many: '$count дней',
+      few: '$count дня',
+      one: '$count день',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clientsColdEmpty => 'Никто не остывает';
+
+  @override
+  String clientsColdEmptyHint(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Все, кому стоит позвонить, слышали вас за последние $count дня.',
+      many: 'Все, кому стоит позвонить, слышали вас за последние $count дней.',
+      few: 'Все, кому стоит позвонить, слышали вас за последние $count дня.',
+      one: 'Все, кому стоит позвонить, слышали вас за последний $count день.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clientsColdLoadFailed =>
+      'Не удалось загрузить остывающих клиентов';
+
+  @override
+  String get clientsColdNeverContacted => 'Ещё не связывались';
+
+  @override
+  String get clientsColdNextCheckIn => 'Узнать, как дела';
+
+  @override
+  String get clientsColdNextFirstCall => 'Сделать первый звонок';
+
+  @override
+  String get clientsColdNextPushDeal => 'Продвинуть сделку';
+
+  @override
+  String get clientsColdNextSendMatches => 'Отправить подходящие объекты';
+
+  @override
+  String get clientsColdReasonLead => 'Заявка со страницы объекта';
+
+  @override
+  String clientsColdReasonMatches(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count подходящего объекта',
+      many: '$count подходящих объектов',
+      few: '$count подходящих объекта',
+      one: '$count подходящий объект',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clientsColdReasonNegotiation => 'Сделка на переговорах';
+
+  @override
+  String get clientsColdReasonOpenDeal => 'Открытая сделка';
+
+  @override
+  String get clientsColdRemind => 'Напомнить';
+
+  @override
+  String clientsColdRemindTask(String name) {
+    return 'Позвонить: $name';
+  }
+
+  @override
+  String clientsColdReminderSet(String time) {
+    return 'Напоминание на завтра, $time';
+  }
+
+  @override
+  String clientsColdSilentDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Без связи $count дня',
+      many: 'Без связи $count дней',
+      few: 'Без связи $count дня',
+      one: 'Без связи $count день',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String clientsColdSubtitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Без связи $count дня и дольше',
+      many: 'Без связи $count дней и дольше',
+      few: 'Без связи $count дня и дольше',
+      one: 'Без связи $count день и дольше',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clientsColdTitle => 'Остывают';
+
+  @override
+  String get clientsColdUndo => 'Отменить';
+
+  @override
   String get clientsContact => 'Контакт';
 
   @override
@@ -1401,6 +1516,11 @@ class AppLocalizationsRu extends AppLocalizations {
   String get dashboardClosedWon => 'Успешно закрыто';
 
   @override
+  String dashboardColdTotal(int count) {
+    return 'всего $count';
+  }
+
+  @override
   String get dashboardConversion => 'Конверсия';
 
   @override
@@ -1653,6 +1773,107 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get dealsCancel => 'Отмена';
+
+  @override
+  String get dealsChecklistAdd => 'Добавить пункт';
+
+  @override
+  String get dealsChecklistAddTitle => 'Новый пункт чек-листа';
+
+  @override
+  String get dealsChecklistAttach => 'Прикрепить документ';
+
+  @override
+  String dealsChecklistBadge(int done, int total) {
+    return 'Чек-лист: выполнено $done из $total';
+  }
+
+  @override
+  String get dealsChecklistDelete => 'Удалить пункт';
+
+  @override
+  String get dealsChecklistDeleteBody =>
+      'Пункт исчезнет из чек-листа этой сделки.';
+
+  @override
+  String get dealsChecklistDeleteTitle => 'Удалить этот пункт?';
+
+  @override
+  String get dealsChecklistDetach => 'Открепить документ';
+
+  @override
+  String dealsChecklistDoneAt(String date) {
+    return 'Выполнено $date';
+  }
+
+  @override
+  String dealsChecklistDoneBy(String date, String name) {
+    return '$name · $date';
+  }
+
+  @override
+  String get dealsChecklistEmptyStage =>
+      'На этом этапе ничего собирать не нужно';
+
+  @override
+  String dealsChecklistGateBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count обязательного пункта ещё не выполнены. Всё равно перевести сделку?',
+      many:
+          '$count обязательных пунктов ещё не выполнены. Всё равно перевести сделку?',
+      few:
+          '$count обязательных пункта ещё не выполнены. Всё равно перевести сделку?',
+      one:
+          '$count обязательный пункт ещё не выполнен. Всё равно перевести сделку?',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get dealsChecklistGateConfirm => 'Всё равно перевести';
+
+  @override
+  String get dealsChecklistGateTitle => 'Не всё обязательное собрано';
+
+  @override
+  String get dealsChecklistItemHint => 'Например, копия паспорта';
+
+  @override
+  String get dealsChecklistItemLabel => 'Что нужно';
+
+  @override
+  String get dealsChecklistLoadFailed => 'Не удалось загрузить чек-лист';
+
+  @override
+  String get dealsChecklistMore => 'Действия с пунктом';
+
+  @override
+  String get dealsChecklistNoDocuments =>
+      'У сделки пока нет документов. Сначала загрузите файл в разделе «Документы».';
+
+  @override
+  String get dealsChecklistPickDocument => 'Выберите документ';
+
+  @override
+  String dealsChecklistProgress(int done, int total) {
+    return 'Выполнено $done из $total';
+  }
+
+  @override
+  String get dealsChecklistRequired => 'Обязательно';
+
+  @override
+  String get dealsChecklistRequiredHint =>
+      'Приложение предупредит, если сделку переводят дальше без него';
+
+  @override
+  String get dealsChecklistStage => 'Этап';
+
+  @override
+  String get dealsChecklistTitle => 'Чек-лист';
 
   @override
   String get dealsClient => 'Клиент';
@@ -2863,6 +3084,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get msgAgentInvited => 'Агент приглашён';
 
   @override
+  String get msgChecklistSaved => 'Чек-лист сохранён';
+
+  @override
   String get msgClientCreated => 'Клиент создан';
 
   @override
@@ -3580,6 +3804,77 @@ class AppLocalizationsRu extends AppLocalizations {
       'Удерживайте фото, чтобы переставить — первое станет обложкой';
 
   @override
+  String get propertiesPriceCheck => 'Проверка цены';
+
+  @override
+  String propertiesPriceCheckAbove(String percent) {
+    return 'на $percent% выше';
+  }
+
+  @override
+  String get propertiesPriceCheckAtMedian => 'ровно по медиане';
+
+  @override
+  String propertiesPriceCheckBasedOn(int count, String city) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'На основе $count объявления, г. $city',
+      many: 'На основе $count объявлений, г. $city',
+      few: 'На основе $count объявлений, г. $city',
+      one: 'На основе $count объявления, г. $city',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String propertiesPriceCheckBelow(String percent) {
+    return 'на $percent% ниже';
+  }
+
+  @override
+  String get propertiesPriceCheckComparables => 'Похожие объекты';
+
+  @override
+  String propertiesPriceCheckDaysOnMarket(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count дня в продаже',
+      many: '$count дней в продаже',
+      few: '$count дня в продаже',
+      one: '$count день в продаже',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get propertiesPriceCheckLowConfidence =>
+      'Похожих объектов пока мало — это лишь ориентир';
+
+  @override
+  String get propertiesPriceCheckSeeComparables => 'Показать похожие';
+
+  @override
+  String propertiesPriceCheckSold(String price) {
+    return 'Продано: медиана $price';
+  }
+
+  @override
+  String propertiesPriceCheckVsMedian(
+      String price, String median, String difference) {
+    return '$price / м² против медианы $median ($difference)';
+  }
+
+  @override
+  String propertiesPriceHintRange(String low, String high) {
+    return 'Похожие объекты: $low–$high за такую площадь';
+  }
+
+  @override
+  String get propertiesPriceHintUseMedian => 'Взять медиану';
+
+  @override
   String get propertiesPriceHistory => 'История цены';
 
   @override
@@ -4084,6 +4379,31 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get teamsCancelRequest => 'Отозвать';
+
+  @override
+  String get teamsChecklist => 'Чек-лист сделки';
+
+  @override
+  String get teamsChecklistAdd => 'Добавить пункт';
+
+  @override
+  String get teamsChecklistDelete => 'Удалить пункт';
+
+  @override
+  String get teamsChecklistEmptyStage => 'На этом этапе пока нет пунктов';
+
+  @override
+  String get teamsChecklistHint => 'Что собрать по сделке на каждом этапе';
+
+  @override
+  String get teamsChecklistNewDealsOnly =>
+      'Изменения касаются новых сделок. У текущих сделок остаётся свой список.';
+
+  @override
+  String get teamsChecklistRename => 'Переименовать';
+
+  @override
+  String get teamsChecklistReorder => 'Перетащите, чтобы изменить порядок';
 
   @override
   String get teamsClients => 'Клиенты';

@@ -337,6 +337,157 @@ Map<String, dynamic> _$$PropertyPriceChangeImplToJson(
       'changedAt': instance.changedAt?.toIso8601String(),
     };
 
+_$PriceInsightStatsImpl _$$PriceInsightStatsImplFromJson(
+        Map<String, dynamic> json) =>
+    _$PriceInsightStatsImpl(
+      count: (json['count'] as num?)?.toInt() ?? 0,
+      medianPerSqm: (json['medianPerSqm'] as num?)?.toDouble(),
+      p25PerSqm: (json['p25PerSqm'] as num?)?.toDouble(),
+      p75PerSqm: (json['p75PerSqm'] as num?)?.toDouble(),
+      medianDaysOnMarket: (json['medianDaysOnMarket'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$$PriceInsightStatsImplToJson(
+        _$PriceInsightStatsImpl instance) =>
+    <String, dynamic>{
+      'count': instance.count,
+      'medianPerSqm': instance.medianPerSqm,
+      'p25PerSqm': instance.p25PerSqm,
+      'p75PerSqm': instance.p75PerSqm,
+      'medianDaysOnMarket': instance.medianDaysOnMarket,
+    };
+
+_$PriceInsightRangeImpl _$$PriceInsightRangeImplFromJson(
+        Map<String, dynamic> json) =>
+    _$PriceInsightRangeImpl(
+      low: (json['low'] as num?)?.toDouble() ?? 0.0,
+      median: (json['median'] as num?)?.toDouble() ?? 0.0,
+      high: (json['high'] as num?)?.toDouble() ?? 0.0,
+    );
+
+Map<String, dynamic> _$$PriceInsightRangeImplToJson(
+        _$PriceInsightRangeImpl instance) =>
+    <String, dynamic>{
+      'low': instance.low,
+      'median': instance.median,
+      'high': instance.high,
+    };
+
+_$PriceInsightPositionImpl _$$PriceInsightPositionImplFromJson(
+        Map<String, dynamic> json) =>
+    _$PriceInsightPositionImpl(
+      pricePerSqm: (json['pricePerSqm'] as num?)?.toDouble() ?? 0.0,
+      percentile: (json['percentile'] as num?)?.toInt(),
+      vsMedianPercent: (json['vsMedianPercent'] as num?)?.toDouble(),
+    );
+
+Map<String, dynamic> _$$PriceInsightPositionImplToJson(
+        _$PriceInsightPositionImpl instance) =>
+    <String, dynamic>{
+      'pricePerSqm': instance.pricePerSqm,
+      'percentile': instance.percentile,
+      'vsMedianPercent': instance.vsMedianPercent,
+    };
+
+_$PriceInsightCriteriaImpl _$$PriceInsightCriteriaImplFromJson(
+        Map<String, dynamic> json) =>
+    _$PriceInsightCriteriaImpl(
+      city: json['city'] as String?,
+      type: $enumDecodeNullable(_$PropertyTypeEnumMap, json['type']),
+      rooms: (json['rooms'] as num?)?.toInt(),
+      areaSqm: (json['areaSqm'] as num?)?.toDouble(),
+      roomsRule: $enumDecodeNullable(_$PriceRoomsRuleEnumMap, json['roomsRule'],
+              unknownValue: PriceRoomsRule.ANY) ??
+          PriceRoomsRule.ANY,
+      minRooms: (json['minRooms'] as num?)?.toInt(),
+      maxRooms: (json['maxRooms'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$$PriceInsightCriteriaImplToJson(
+        _$PriceInsightCriteriaImpl instance) =>
+    <String, dynamic>{
+      'city': instance.city,
+      'type': _$PropertyTypeEnumMap[instance.type],
+      'rooms': instance.rooms,
+      'areaSqm': instance.areaSqm,
+      'roomsRule': _$PriceRoomsRuleEnumMap[instance.roomsRule]!,
+      'minRooms': instance.minRooms,
+      'maxRooms': instance.maxRooms,
+    };
+
+const _$PriceRoomsRuleEnumMap = {
+  PriceRoomsRule.EXACT: 'EXACT',
+  PriceRoomsRule.NEAR: 'NEAR',
+  PriceRoomsRule.ANY: 'ANY',
+};
+
+_$PriceComparableImpl _$$PriceComparableImplFromJson(
+        Map<String, dynamic> json) =>
+    _$PriceComparableImpl(
+      id: (json['id'] as num).toInt(),
+      title: json['title'] as String? ?? '',
+      price: (json['price'] as num?)?.toDouble() ?? 0.0,
+      areaSqm: (json['areaSqm'] as num?)?.toDouble(),
+      pricePerSqm: (json['pricePerSqm'] as num?)?.toDouble() ?? 0.0,
+      rooms: (json['rooms'] as num?)?.toInt(),
+      status: $enumDecodeNullable(_$PropertyStatusEnumMap, json['status']) ??
+          PropertyStatus.AVAILABLE,
+      sold: json['sold'] as bool? ?? false,
+    );
+
+Map<String, dynamic> _$$PriceComparableImplToJson(
+        _$PriceComparableImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'title': instance.title,
+      'price': instance.price,
+      'areaSqm': instance.areaSqm,
+      'pricePerSqm': instance.pricePerSqm,
+      'rooms': instance.rooms,
+      'status': _$PropertyStatusEnumMap[instance.status]!,
+      'sold': instance.sold,
+    };
+
+_$PriceInsightImpl _$$PriceInsightImplFromJson(Map<String, dynamic> json) =>
+    _$PriceInsightImpl(
+      count: (json['count'] as num?)?.toInt() ?? 0,
+      lowConfidence: json['lowConfidence'] as bool? ?? true,
+      criteria: json['criteria'] == null
+          ? const PriceInsightCriteria()
+          : PriceInsightCriteria.fromJson(
+              json['criteria'] as Map<String, dynamic>),
+      active: json['active'] == null
+          ? const PriceInsightStats()
+          : PriceInsightStats.fromJson(json['active'] as Map<String, dynamic>),
+      sold: json['sold'] == null
+          ? const PriceInsightStats()
+          : PriceInsightStats.fromJson(json['sold'] as Map<String, dynamic>),
+      suggested: json['suggested'] == null
+          ? null
+          : PriceInsightRange.fromJson(
+              json['suggested'] as Map<String, dynamic>),
+      position: json['position'] == null
+          ? null
+          : PriceInsightPosition.fromJson(
+              json['position'] as Map<String, dynamic>),
+      comparables: (json['comparables'] as List<dynamic>?)
+              ?.map((e) => PriceComparable.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const <PriceComparable>[],
+    );
+
+Map<String, dynamic> _$$PriceInsightImplToJson(_$PriceInsightImpl instance) =>
+    <String, dynamic>{
+      'count': instance.count,
+      'lowConfidence': instance.lowConfidence,
+      'criteria': instance.criteria,
+      'active': instance.active,
+      'sold': instance.sold,
+      'suggested': instance.suggested,
+      'position': instance.position,
+      'comparables': instance.comparables,
+    };
+
 _$PropertyShareLinkImpl _$$PropertyShareLinkImplFromJson(
         Map<String, dynamic> json) =>
     _$PropertyShareLinkImpl(
@@ -454,6 +605,14 @@ _$DealResponseImpl _$$DealResponseImplFromJson(Map<String, dynamic> json) =>
           ? null
           : DateTime.parse(json['closedAt'] as String),
       commentCount: (json['commentCount'] as num?)?.toInt() ?? 0,
+      checklistDone: (json['checklistDone'] as num?)?.toInt() ?? 0,
+      checklistTotal: (json['checklistTotal'] as num?)?.toInt() ?? 0,
+      openRequired: (json['openRequired'] as num?)?.toInt() ?? 0,
+      openRequiredByStage:
+          (json['openRequiredByStage'] as Map<String, dynamic>?)?.map(
+                (k, e) => MapEntry(k, (e as num).toInt()),
+              ) ??
+              const <String, int>{},
     );
 
 Map<String, dynamic> _$$DealResponseImplToJson(_$DealResponseImpl instance) =>
@@ -479,6 +638,10 @@ Map<String, dynamic> _$$DealResponseImplToJson(_$DealResponseImpl instance) =>
       'updatedAt': instance.updatedAt?.toIso8601String(),
       'closedAt': instance.closedAt?.toIso8601String(),
       'commentCount': instance.commentCount,
+      'checklistDone': instance.checklistDone,
+      'checklistTotal': instance.checklistTotal,
+      'openRequired': instance.openRequired,
+      'openRequiredByStage': instance.openRequiredByStage,
     };
 
 const _$DealLostReasonEnumMap = {
@@ -488,6 +651,48 @@ const _$DealLostReasonEnumMap = {
   DealLostReason.CHANGED_MIND: 'CHANGED_MIND',
   DealLostReason.NO_RESPONSE: 'NO_RESPONSE',
   DealLostReason.OTHER: 'OTHER',
+};
+
+_$ChecklistItemImpl _$$ChecklistItemImplFromJson(Map<String, dynamic> json) =>
+    _$ChecklistItemImpl(
+      id: (json['id'] as num).toInt(),
+      stage: $enumDecodeNullable(_$ChecklistStageEnumMap, json['stage'],
+              unknownValue: ChecklistStage.LEAD) ??
+          ChecklistStage.LEAD,
+      title: json['title'] as String? ?? '',
+      position: (json['position'] as num?)?.toInt() ?? 0,
+      required: json['required'] as bool? ?? false,
+      custom: json['custom'] as bool? ?? false,
+      done: json['done'] as bool? ?? false,
+      doneAt: json['doneAt'] == null
+          ? null
+          : DateTime.parse(json['doneAt'] as String),
+      doneById: (json['doneById'] as num?)?.toInt(),
+      doneByName: json['doneByName'] as String?,
+      documentId: (json['documentId'] as num?)?.toInt(),
+      documentName: json['documentName'] as String?,
+    );
+
+Map<String, dynamic> _$$ChecklistItemImplToJson(_$ChecklistItemImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'stage': _$ChecklistStageEnumMap[instance.stage]!,
+      'title': instance.title,
+      'position': instance.position,
+      'required': instance.required,
+      'custom': instance.custom,
+      'done': instance.done,
+      'doneAt': instance.doneAt?.toIso8601String(),
+      'doneById': instance.doneById,
+      'doneByName': instance.doneByName,
+      'documentId': instance.documentId,
+      'documentName': instance.documentName,
+    };
+
+const _$ChecklistStageEnumMap = {
+  ChecklistStage.LEAD: 'LEAD',
+  ChecklistStage.NEGOTIATION: 'NEGOTIATION',
+  ChecklistStage.CLOSED_WON: 'CLOSED_WON',
 };
 
 _$DealCommentImpl _$$DealCommentImplFromJson(Map<String, dynamic> json) =>
@@ -685,6 +890,7 @@ _$DashboardSummaryImpl _$$DashboardSummaryImplFromJson(
           (json['commissionThisMonth'] as num?)?.toDouble() ?? 0,
       tasksDueToday: (json['tasksDueToday'] as num?)?.toInt() ?? 0,
       tasksOverdue: (json['tasksOverdue'] as num?)?.toInt() ?? 0,
+      coldCount: (json['coldCount'] as num?)?.toInt() ?? 0,
     );
 
 Map<String, dynamic> _$$DashboardSummaryImplToJson(
@@ -698,7 +904,76 @@ Map<String, dynamic> _$$DashboardSummaryImplToJson(
       'commissionThisMonth': instance.commissionThisMonth,
       'tasksDueToday': instance.tasksDueToday,
       'tasksOverdue': instance.tasksOverdue,
+      'coldCount': instance.coldCount,
     };
+
+_$ColdReasonImpl _$$ColdReasonImplFromJson(Map<String, dynamic> json) =>
+    _$ColdReasonImpl(
+      code: $enumDecodeNullable(_$ColdReasonCodeEnumMap, json['code'],
+              unknownValue: ColdReasonCode.unknown) ??
+          ColdReasonCode.unknown,
+      dealTitle: json['dealTitle'] as String?,
+      dealStatus: $enumDecodeNullable(_$DealStatusEnumMap, json['dealStatus'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
+      matchCount: (json['matchCount'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$$ColdReasonImplToJson(_$ColdReasonImpl instance) =>
+    <String, dynamic>{
+      'code': _$ColdReasonCodeEnumMap[instance.code]!,
+      'dealTitle': instance.dealTitle,
+      'dealStatus': _$DealStatusEnumMap[instance.dealStatus],
+      'matchCount': instance.matchCount,
+    };
+
+const _$ColdReasonCodeEnumMap = {
+  ColdReasonCode.openDeal: 'OPEN_DEAL',
+  ColdReasonCode.matches: 'MATCHES',
+  ColdReasonCode.newLead: 'NEW_LEAD',
+  ColdReasonCode.unknown: 'unknown',
+};
+
+_$ColdClientImpl _$$ColdClientImplFromJson(Map<String, dynamic> json) =>
+    _$ColdClientImpl(
+      id: (json['id'] as num).toInt(),
+      fullName: json['fullName'] as String? ?? '',
+      phone: json['phone'] as String?,
+      type: $enumDecodeNullable(_$ClientTypeEnumMap, json['type'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
+      agentId: (json['agentId'] as num?)?.toInt(),
+      agentName: json['agentName'] as String?,
+      lastContactAt: json['lastContactAt'] == null
+          ? null
+          : DateTime.parse(json['lastContactAt'] as String),
+      silentDays: (json['silentDays'] as num?)?.toInt() ?? 0,
+      reasons: (json['reasons'] as List<dynamic>?)
+              ?.map((e) => ColdReason.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const <ColdReason>[],
+      nextStep: $enumDecodeNullable(_$ColdNextStepEnumMap, json['nextStep'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
+    );
+
+Map<String, dynamic> _$$ColdClientImplToJson(_$ColdClientImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'fullName': instance.fullName,
+      'phone': instance.phone,
+      'type': _$ClientTypeEnumMap[instance.type],
+      'agentId': instance.agentId,
+      'agentName': instance.agentName,
+      'lastContactAt': instance.lastContactAt?.toIso8601String(),
+      'silentDays': instance.silentDays,
+      'reasons': instance.reasons,
+      'nextStep': _$ColdNextStepEnumMap[instance.nextStep],
+    };
+
+const _$ColdNextStepEnumMap = {
+  ColdNextStep.pushDeal: 'PUSH_DEAL',
+  ColdNextStep.sendMatches: 'SEND_MATCHES',
+  ColdNextStep.firstCall: 'FIRST_CALL',
+  ColdNextStep.checkIn: 'CHECK_IN',
+};
 
 _$AgentOptionImpl _$$AgentOptionImplFromJson(Map<String, dynamic> json) =>
     _$AgentOptionImpl(

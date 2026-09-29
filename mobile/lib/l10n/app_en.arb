@@ -262,6 +262,75 @@
   "clientsClientIdCopied": "Client ID copied",
   "clientsClientNotFound": "Client not found",
   "clientsClientType": "Client Type",
+  "clientsColdDaysOption": "{count, plural, =1{1 day} other{{count} days}}",
+  "@clientsColdDaysOption": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "clientsColdEmpty": "Nobody is going cold",
+  "clientsColdEmptyHint": "{count, plural, =1{Everyone worth a call has heard from you in the last day.} other{Everyone worth a call has heard from you in the last {count} days.}}",
+  "@clientsColdEmptyHint": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "clientsColdLoadFailed": "Could not load who is going cold",
+  "clientsColdNeverContacted": "Never contacted",
+  "clientsColdNextCheckIn": "Check in",
+  "clientsColdNextFirstCall": "Make the first call",
+  "clientsColdNextPushDeal": "Move the deal forward",
+  "clientsColdNextSendMatches": "Send the listings that fit",
+  "clientsColdReasonLead": "Lead from a listing page",
+  "clientsColdReasonMatches": "{count, plural, =1{1 match} other{{count} matches}}",
+  "@clientsColdReasonMatches": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "clientsColdReasonNegotiation": "Deal in negotiation",
+  "clientsColdReasonOpenDeal": "Open deal",
+  "clientsColdRemind": "Remind me",
+  "clientsColdRemindTask": "Call {name}",
+  "@clientsColdRemindTask": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "clientsColdReminderSet": "Reminder set for tomorrow, {time}",
+  "@clientsColdReminderSet": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "clientsColdSilentDays": "{count, plural, =1{Silent 1 day} other{Silent {count} days}}",
+  "@clientsColdSilentDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "clientsColdSubtitle": "{count, plural, =1{No contact for a day or more} other{No contact for {count} days or more}}",
+  "@clientsColdSubtitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "clientsColdTitle": "Going cold",
+  "clientsColdUndo": "Undo",
   "clientsContact": "Contact",
   "clientsContactInfo": "Contact Info",
   "clientsContactedDaysAgo": "{count, plural, =1{Contacted 1 day ago} other{Contacted {count} days ago}}",
@@ -541,6 +610,14 @@
   "dashboardAttention": "Needs attention",
   "dashboardClients": "Clients",
   "dashboardClosedWon": "Closed Won",
+  "dashboardColdTotal": "{count} in all",
+  "@dashboardColdTotal": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "dashboardConversion": "Conversion",
   "dashboardDateSummary": "{date} · team overview",
   "dashboardDecidedDeals": "{count, plural, =0{Nothing closed yet} =1{1 deal decided} other{{count} deals decided}}",
@@ -606,6 +683,75 @@
   "dealsBudget": "Budget",
   "dealsBudgetValue": "Budget: {price}",
   "dealsCancel": "Cancel",
+  "dealsChecklistAdd": "Add item",
+  "dealsChecklistAddTitle": "New checklist item",
+  "dealsChecklistAttach": "Attach document",
+  "dealsChecklistBadge": "Checklist: {done} of {total} done",
+  "@dealsChecklistBadge": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "dealsChecklistDelete": "Delete item",
+  "dealsChecklistDeleteBody": "It disappears from this deal's checklist.",
+  "dealsChecklistDeleteTitle": "Delete this item?",
+  "dealsChecklistDetach": "Remove document",
+  "dealsChecklistDoneAt": "Done {date}",
+  "@dealsChecklistDoneAt": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "dealsChecklistDoneBy": "{name} · {date}",
+  "@dealsChecklistDoneBy": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "dealsChecklistEmptyStage": "Nothing to collect at this stage",
+  "dealsChecklistGateBody": "{count, plural, =1{1 required item is not done yet. Move the deal anyway?} other{{count} required items are not done yet. Move the deal anyway?}}",
+  "@dealsChecklistGateBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dealsChecklistGateConfirm": "Move anyway",
+  "dealsChecklistGateTitle": "Required items are open",
+  "dealsChecklistItemHint": "For example, a copy of the passport",
+  "dealsChecklistItemLabel": "What is needed",
+  "dealsChecklistLoadFailed": "Could not load the checklist",
+  "dealsChecklistMore": "Item actions",
+  "dealsChecklistNoDocuments": "This deal has no documents yet. Upload the file under Documents first.",
+  "dealsChecklistPickDocument": "Choose a document",
+  "dealsChecklistProgress": "{done} of {total} done",
+  "@dealsChecklistProgress": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "dealsChecklistRequired": "Required",
+  "dealsChecklistRequiredHint": "The app warns before a deal moves on without it",
+  "dealsChecklistStage": "Stage",
+  "dealsChecklistTitle": "Checklist",
   "dealsClient": "Client",
   "dealsClientRef": "Client #{id}",
   "dealsClosed": "Closed",
@@ -1128,6 +1274,7 @@
     }
   },
   "msgAgentInvited": "Agent invited",
+  "msgChecklistSaved": "Checklist saved",
   "msgClientCreated": "Client created",
   "msgClientDeleted": "Client deleted",
   "msgClientUpdated": "Client updated",
@@ -1541,6 +1688,80 @@
   },
   "propertiesPhotos": "Photos",
   "propertiesPhotosHint": "Hold a photo to move it — the first one is the cover",
+  "propertiesPriceCheck": "Price check",
+  "propertiesPriceCheckAbove": "{percent}% above",
+  "@propertiesPriceCheckAbove": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "propertiesPriceCheckAtMedian": "at the median",
+  "propertiesPriceCheckBasedOn": "{count, plural, one{Based on {count} listing in {city}} other{Based on {count} listings in {city}}}",
+  "@propertiesPriceCheckBasedOn": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "city": {
+        "type": "String"
+      }
+    }
+  },
+  "propertiesPriceCheckBelow": "{percent}% below",
+  "@propertiesPriceCheckBelow": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "propertiesPriceCheckComparables": "Comparable listings",
+  "propertiesPriceCheckDaysOnMarket": "{count, plural, one{{count} day on the market} other{{count} days on the market}}",
+  "@propertiesPriceCheckDaysOnMarket": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "propertiesPriceCheckLowConfidence": "Few similar listings yet, so treat this as a rough guide",
+  "propertiesPriceCheckSeeComparables": "See comparables",
+  "propertiesPriceCheckSold": "Sold at a median of {price}",
+  "@propertiesPriceCheckSold": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "propertiesPriceCheckVsMedian": "{price} / m² vs median {median} ({difference})",
+  "@propertiesPriceCheckVsMedian": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      },
+      "median": {
+        "type": "String"
+      },
+      "difference": {
+        "type": "String"
+      }
+    }
+  },
+  "propertiesPriceHintRange": "Similar listings: {low}–{high} for this area",
+  "@propertiesPriceHintRange": {
+    "placeholders": {
+      "low": {
+        "type": "String"
+      },
+      "high": {
+        "type": "String"
+      }
+    }
+  },
+  "propertiesPriceHintUseMedian": "Use median",
   "propertiesPriceHistory": "Price history",
   "propertiesPriceLabel": "Price",
   "propertiesPricePerSqm": "{price} per m²",
@@ -1776,6 +1997,14 @@
   "teamsAddAgentHint": "If the agent already has an account they get a request to accept. If not, we email them an invite.",
   "teamsAgents": "Agents",
   "teamsCancelRequest": "Withdraw",
+  "teamsChecklist": "Deal checklist",
+  "teamsChecklistAdd": "Add item",
+  "teamsChecklistDelete": "Delete item",
+  "teamsChecklistEmptyStage": "No items at this stage yet",
+  "teamsChecklistHint": "What a deal collects at each stage",
+  "teamsChecklistNewDealsOnly": "Changes apply to new deals. Deals already under way keep their own list.",
+  "teamsChecklistRename": "Rename",
+  "teamsChecklistReorder": "Drag to reorder",
   "teamsClients": "Clients",
   "teamsCouldNotLoadStats": "Could not load stats",
   "teamsCreate": "Create",

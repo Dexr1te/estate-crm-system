@@ -167,6 +167,31 @@ class PropertiesRemoteDataSource {
     return jsonArray(res).map(PropertyPriceChange.fromJson).toList();
   }
 
+  Future<PriceInsight> getPriceInsightFor(int id) async {
+    final res = await _client.dio.get('/properties/$id/price-insight');
+    return PriceInsight.fromJson(jsonObject(res));
+  }
+
+  Future<PriceInsight> getPriceInsight({
+    required String city,
+    required PropertyType type,
+    int? rooms,
+    double? areaSqm,
+    int? excludeId,
+  }) async {
+    final res = await _client.dio.get(
+      '/properties/price-insight',
+      queryParameters: {
+        'city': city,
+        'type': type.name,
+        if (rooms != null) 'rooms': rooms,
+        if (areaSqm != null) 'areaSqm': areaSqm,
+        if (excludeId != null) 'excludeId': excludeId,
+      },
+    );
+    return PriceInsight.fromJson(jsonObject(res));
+  }
+
   Future<List<ClientMatch>> getInterested(int id) async {
     final res = await _client.dio.get('/properties/$id/interested');
     return jsonArray(res).map(ClientMatch.fromJson).toList();
