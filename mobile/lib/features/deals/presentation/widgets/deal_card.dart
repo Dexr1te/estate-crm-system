@@ -85,6 +85,11 @@ class DealCard extends StatelessWidget {
                 const SizedBox(width: 10),
                 CommentCountBadge(count: deal.commentCount),
               ],
+              if (deal.checklistTotal > 0) ...[
+                const SizedBox(width: 10),
+                ChecklistProgressBadge(
+                    done: deal.checklistDone, total: deal.checklistTotal),
+              ],
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
@@ -121,6 +126,41 @@ class DealCard extends StatelessWidget {
     if (last == null) return null;
     final days = AppClock.now().difference(last).inDays;
     return days >= staleAfter.inDays ? days : null;
+  }
+}
+
+/// How much of the deal's checklist is done, up to its current stage: "5/8".
+class ChecklistProgressBadge extends StatelessWidget {
+  final int done;
+  final int total;
+  const ChecklistProgressBadge(
+      {super.key, required this.done, required this.total});
+
+  @override
+  Widget build(BuildContext context) {
+    final t = context.tokens;
+    return Semantics(
+      label: AppLocalizations.of(context).dealsChecklistBadge(done, total),
+      excludeSemantics: true,
+      child: Row(
+        key: const ValueKey('deal-checklist-progress'),
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.checklist_rounded, size: 13, color: t.textSecondary),
+          const SizedBox(width: 3),
+          Text(
+            '$done/$total',
+            maxLines: 1,
+            overflow: TextOverflow.clip,
+            style: TextStyle(
+                fontFamily: AppFonts.sans,
+                fontSize: 11,
+                fontWeight: FontWeight.w600,
+                color: t.textSecondary),
+          ),
+        ],
+      ),
+    );
   }
 }
 

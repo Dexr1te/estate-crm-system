@@ -3985,6 +3985,11 @@ mixin _$DealResponse {
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   DateTime? get closedAt => throw _privateConstructorUsedError;
   int get commentCount => throw _privateConstructorUsedError;
+  int get checklistDone => throw _privateConstructorUsedError;
+  int get checklistTotal => throw _privateConstructorUsedError;
+  int get openRequired => throw _privateConstructorUsedError;
+  Map<String, int> get openRequiredByStage =>
+      throw _privateConstructorUsedError;
 
   /// Serializes this DealResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -4024,7 +4029,11 @@ abstract class $DealResponseCopyWith<$Res> {
       DateTime? createdAt,
       DateTime? updatedAt,
       DateTime? closedAt,
-      int commentCount});
+      int commentCount,
+      int checklistDone,
+      int checklistTotal,
+      int openRequired,
+      Map<String, int> openRequiredByStage});
 }
 
 /// @nodoc
@@ -4063,6 +4072,10 @@ class _$DealResponseCopyWithImpl<$Res, $Val extends DealResponse>
     Object? updatedAt = freezed,
     Object? closedAt = freezed,
     Object? commentCount = null,
+    Object? checklistDone = null,
+    Object? checklistTotal = null,
+    Object? openRequired = null,
+    Object? openRequiredByStage = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -4149,6 +4162,22 @@ class _$DealResponseCopyWithImpl<$Res, $Val extends DealResponse>
           ? _value.commentCount
           : commentCount // ignore: cast_nullable_to_non_nullable
               as int,
+      checklistDone: null == checklistDone
+          ? _value.checklistDone
+          : checklistDone // ignore: cast_nullable_to_non_nullable
+              as int,
+      checklistTotal: null == checklistTotal
+          ? _value.checklistTotal
+          : checklistTotal // ignore: cast_nullable_to_non_nullable
+              as int,
+      openRequired: null == openRequired
+          ? _value.openRequired
+          : openRequired // ignore: cast_nullable_to_non_nullable
+              as int,
+      openRequiredByStage: null == openRequiredByStage
+          ? _value.openRequiredByStage
+          : openRequiredByStage // ignore: cast_nullable_to_non_nullable
+              as Map<String, int>,
     ) as $Val);
   }
 }
@@ -4183,7 +4212,11 @@ abstract class _$$DealResponseImplCopyWith<$Res>
       DateTime? createdAt,
       DateTime? updatedAt,
       DateTime? closedAt,
-      int commentCount});
+      int commentCount,
+      int checklistDone,
+      int checklistTotal,
+      int openRequired,
+      Map<String, int> openRequiredByStage});
 }
 
 /// @nodoc
@@ -4220,6 +4253,10 @@ class __$$DealResponseImplCopyWithImpl<$Res>
     Object? updatedAt = freezed,
     Object? closedAt = freezed,
     Object? commentCount = null,
+    Object? checklistDone = null,
+    Object? checklistTotal = null,
+    Object? openRequired = null,
+    Object? openRequiredByStage = null,
   }) {
     return _then(_$DealResponseImpl(
       id: null == id
@@ -4306,6 +4343,22 @@ class __$$DealResponseImplCopyWithImpl<$Res>
           ? _value.commentCount
           : commentCount // ignore: cast_nullable_to_non_nullable
               as int,
+      checklistDone: null == checklistDone
+          ? _value.checklistDone
+          : checklistDone // ignore: cast_nullable_to_non_nullable
+              as int,
+      checklistTotal: null == checklistTotal
+          ? _value.checklistTotal
+          : checklistTotal // ignore: cast_nullable_to_non_nullable
+              as int,
+      openRequired: null == openRequired
+          ? _value.openRequired
+          : openRequired // ignore: cast_nullable_to_non_nullable
+              as int,
+      openRequiredByStage: null == openRequiredByStage
+          ? _value._openRequiredByStage
+          : openRequiredByStage // ignore: cast_nullable_to_non_nullable
+              as Map<String, int>,
     ));
   }
 }
@@ -4335,7 +4388,12 @@ class _$DealResponseImpl implements _DealResponse {
       this.createdAt,
       this.updatedAt,
       this.closedAt,
-      this.commentCount = 0});
+      this.commentCount = 0,
+      this.checklistDone = 0,
+      this.checklistTotal = 0,
+      this.openRequired = 0,
+      final Map<String, int> openRequiredByStage = const <String, int>{}})
+      : _openRequiredByStage = openRequiredByStage;
 
   factory _$DealResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$DealResponseImplFromJson(json);
@@ -4388,10 +4446,28 @@ class _$DealResponseImpl implements _DealResponse {
   @override
   @JsonKey()
   final int commentCount;
+  @override
+  @JsonKey()
+  final int checklistDone;
+  @override
+  @JsonKey()
+  final int checklistTotal;
+  @override
+  @JsonKey()
+  final int openRequired;
+  final Map<String, int> _openRequiredByStage;
+  @override
+  @JsonKey()
+  Map<String, int> get openRequiredByStage {
+    if (_openRequiredByStage is EqualUnmodifiableMapView)
+      return _openRequiredByStage;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_openRequiredByStage);
+  }
 
   @override
   String toString() {
-    return 'DealResponse(id: $id, title: $title, status: $status, dealPrice: $dealPrice, budget: $budget, commissionPercent: $commissionPercent, commission: $commission, notes: $notes, lostReason: $lostReason, lostNote: $lostNote, clientId: $clientId, clientName: $clientName, propertyId: $propertyId, propertyTitle: $propertyTitle, propertyAddress: $propertyAddress, agentId: $agentId, agentName: $agentName, createdAt: $createdAt, updatedAt: $updatedAt, closedAt: $closedAt, commentCount: $commentCount)';
+    return 'DealResponse(id: $id, title: $title, status: $status, dealPrice: $dealPrice, budget: $budget, commissionPercent: $commissionPercent, commission: $commission, notes: $notes, lostReason: $lostReason, lostNote: $lostNote, clientId: $clientId, clientName: $clientName, propertyId: $propertyId, propertyTitle: $propertyTitle, propertyAddress: $propertyAddress, agentId: $agentId, agentName: $agentName, createdAt: $createdAt, updatedAt: $updatedAt, closedAt: $closedAt, commentCount: $commentCount, checklistDone: $checklistDone, checklistTotal: $checklistTotal, openRequired: $openRequired, openRequiredByStage: $openRequiredByStage)';
   }
 
   @override
@@ -4434,7 +4510,15 @@ class _$DealResponseImpl implements _DealResponse {
             (identical(other.closedAt, closedAt) ||
                 other.closedAt == closedAt) &&
             (identical(other.commentCount, commentCount) ||
-                other.commentCount == commentCount));
+                other.commentCount == commentCount) &&
+            (identical(other.checklistDone, checklistDone) ||
+                other.checklistDone == checklistDone) &&
+            (identical(other.checklistTotal, checklistTotal) ||
+                other.checklistTotal == checklistTotal) &&
+            (identical(other.openRequired, openRequired) ||
+                other.openRequired == openRequired) &&
+            const DeepCollectionEquality()
+                .equals(other._openRequiredByStage, _openRequiredByStage));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -4461,7 +4545,11 @@ class _$DealResponseImpl implements _DealResponse {
         createdAt,
         updatedAt,
         closedAt,
-        commentCount
+        commentCount,
+        checklistDone,
+        checklistTotal,
+        openRequired,
+        const DeepCollectionEquality().hash(_openRequiredByStage)
       ]);
 
   /// Create a copy of DealResponse
@@ -4503,7 +4591,11 @@ abstract class _DealResponse implements DealResponse {
       final DateTime? createdAt,
       final DateTime? updatedAt,
       final DateTime? closedAt,
-      final int commentCount}) = _$DealResponseImpl;
+      final int commentCount,
+      final int checklistDone,
+      final int checklistTotal,
+      final int openRequired,
+      final Map<String, int> openRequiredByStage}) = _$DealResponseImpl;
 
   factory _DealResponse.fromJson(Map<String, dynamic> json) =
       _$DealResponseImpl.fromJson;
@@ -4551,12 +4643,422 @@ abstract class _DealResponse implements DealResponse {
   DateTime? get closedAt;
   @override
   int get commentCount;
+  @override
+  int get checklistDone;
+  @override
+  int get checklistTotal;
+  @override
+  int get openRequired;
+  @override
+  Map<String, int> get openRequiredByStage;
 
   /// Create a copy of DealResponse
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DealResponseImplCopyWith<_$DealResponseImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+ChecklistItem _$ChecklistItemFromJson(Map<String, dynamic> json) {
+  return _ChecklistItem.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ChecklistItem {
+  int get id => throw _privateConstructorUsedError;
+  @JsonKey(unknownEnumValue: ChecklistStage.LEAD)
+  ChecklistStage get stage => throw _privateConstructorUsedError;
+  String get title => throw _privateConstructorUsedError;
+  int get position => throw _privateConstructorUsedError;
+  bool get required => throw _privateConstructorUsedError;
+  bool get custom => throw _privateConstructorUsedError;
+  bool get done => throw _privateConstructorUsedError;
+  DateTime? get doneAt => throw _privateConstructorUsedError;
+  int? get doneById => throw _privateConstructorUsedError;
+  String? get doneByName => throw _privateConstructorUsedError;
+  int? get documentId => throw _privateConstructorUsedError;
+  String? get documentName => throw _privateConstructorUsedError;
+
+  /// Serializes this ChecklistItem to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of ChecklistItem
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $ChecklistItemCopyWith<ChecklistItem> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ChecklistItemCopyWith<$Res> {
+  factory $ChecklistItemCopyWith(
+          ChecklistItem value, $Res Function(ChecklistItem) then) =
+      _$ChecklistItemCopyWithImpl<$Res, ChecklistItem>;
+  @useResult
+  $Res call(
+      {int id,
+      @JsonKey(unknownEnumValue: ChecklistStage.LEAD) ChecklistStage stage,
+      String title,
+      int position,
+      bool required,
+      bool custom,
+      bool done,
+      DateTime? doneAt,
+      int? doneById,
+      String? doneByName,
+      int? documentId,
+      String? documentName});
+}
+
+/// @nodoc
+class _$ChecklistItemCopyWithImpl<$Res, $Val extends ChecklistItem>
+    implements $ChecklistItemCopyWith<$Res> {
+  _$ChecklistItemCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of ChecklistItem
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? stage = null,
+    Object? title = null,
+    Object? position = null,
+    Object? required = null,
+    Object? custom = null,
+    Object? done = null,
+    Object? doneAt = freezed,
+    Object? doneById = freezed,
+    Object? doneByName = freezed,
+    Object? documentId = freezed,
+    Object? documentName = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      stage: null == stage
+          ? _value.stage
+          : stage // ignore: cast_nullable_to_non_nullable
+              as ChecklistStage,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      position: null == position
+          ? _value.position
+          : position // ignore: cast_nullable_to_non_nullable
+              as int,
+      required: null == required
+          ? _value.required
+          : required // ignore: cast_nullable_to_non_nullable
+              as bool,
+      custom: null == custom
+          ? _value.custom
+          : custom // ignore: cast_nullable_to_non_nullable
+              as bool,
+      done: null == done
+          ? _value.done
+          : done // ignore: cast_nullable_to_non_nullable
+              as bool,
+      doneAt: freezed == doneAt
+          ? _value.doneAt
+          : doneAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      doneById: freezed == doneById
+          ? _value.doneById
+          : doneById // ignore: cast_nullable_to_non_nullable
+              as int?,
+      doneByName: freezed == doneByName
+          ? _value.doneByName
+          : doneByName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      documentId: freezed == documentId
+          ? _value.documentId
+          : documentId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      documentName: freezed == documentName
+          ? _value.documentName
+          : documentName // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ChecklistItemImplCopyWith<$Res>
+    implements $ChecklistItemCopyWith<$Res> {
+  factory _$$ChecklistItemImplCopyWith(
+          _$ChecklistItemImpl value, $Res Function(_$ChecklistItemImpl) then) =
+      __$$ChecklistItemImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int id,
+      @JsonKey(unknownEnumValue: ChecklistStage.LEAD) ChecklistStage stage,
+      String title,
+      int position,
+      bool required,
+      bool custom,
+      bool done,
+      DateTime? doneAt,
+      int? doneById,
+      String? doneByName,
+      int? documentId,
+      String? documentName});
+}
+
+/// @nodoc
+class __$$ChecklistItemImplCopyWithImpl<$Res>
+    extends _$ChecklistItemCopyWithImpl<$Res, _$ChecklistItemImpl>
+    implements _$$ChecklistItemImplCopyWith<$Res> {
+  __$$ChecklistItemImplCopyWithImpl(
+      _$ChecklistItemImpl _value, $Res Function(_$ChecklistItemImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ChecklistItem
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? stage = null,
+    Object? title = null,
+    Object? position = null,
+    Object? required = null,
+    Object? custom = null,
+    Object? done = null,
+    Object? doneAt = freezed,
+    Object? doneById = freezed,
+    Object? doneByName = freezed,
+    Object? documentId = freezed,
+    Object? documentName = freezed,
+  }) {
+    return _then(_$ChecklistItemImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      stage: null == stage
+          ? _value.stage
+          : stage // ignore: cast_nullable_to_non_nullable
+              as ChecklistStage,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      position: null == position
+          ? _value.position
+          : position // ignore: cast_nullable_to_non_nullable
+              as int,
+      required: null == required
+          ? _value.required
+          : required // ignore: cast_nullable_to_non_nullable
+              as bool,
+      custom: null == custom
+          ? _value.custom
+          : custom // ignore: cast_nullable_to_non_nullable
+              as bool,
+      done: null == done
+          ? _value.done
+          : done // ignore: cast_nullable_to_non_nullable
+              as bool,
+      doneAt: freezed == doneAt
+          ? _value.doneAt
+          : doneAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      doneById: freezed == doneById
+          ? _value.doneById
+          : doneById // ignore: cast_nullable_to_non_nullable
+              as int?,
+      doneByName: freezed == doneByName
+          ? _value.doneByName
+          : doneByName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      documentId: freezed == documentId
+          ? _value.documentId
+          : documentId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      documentName: freezed == documentName
+          ? _value.documentName
+          : documentName // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ChecklistItemImpl implements _ChecklistItem {
+  const _$ChecklistItemImpl(
+      {required this.id,
+      @JsonKey(unknownEnumValue: ChecklistStage.LEAD)
+      this.stage = ChecklistStage.LEAD,
+      this.title = '',
+      this.position = 0,
+      this.required = false,
+      this.custom = false,
+      this.done = false,
+      this.doneAt,
+      this.doneById,
+      this.doneByName,
+      this.documentId,
+      this.documentName});
+
+  factory _$ChecklistItemImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ChecklistItemImplFromJson(json);
+
+  @override
+  final int id;
+  @override
+  @JsonKey(unknownEnumValue: ChecklistStage.LEAD)
+  final ChecklistStage stage;
+  @override
+  @JsonKey()
+  final String title;
+  @override
+  @JsonKey()
+  final int position;
+  @override
+  @JsonKey()
+  final bool required;
+  @override
+  @JsonKey()
+  final bool custom;
+  @override
+  @JsonKey()
+  final bool done;
+  @override
+  final DateTime? doneAt;
+  @override
+  final int? doneById;
+  @override
+  final String? doneByName;
+  @override
+  final int? documentId;
+  @override
+  final String? documentName;
+
+  @override
+  String toString() {
+    return 'ChecklistItem(id: $id, stage: $stage, title: $title, position: $position, required: $required, custom: $custom, done: $done, doneAt: $doneAt, doneById: $doneById, doneByName: $doneByName, documentId: $documentId, documentName: $documentName)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ChecklistItemImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.stage, stage) || other.stage == stage) &&
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.position, position) ||
+                other.position == position) &&
+            (identical(other.required, required) ||
+                other.required == required) &&
+            (identical(other.custom, custom) || other.custom == custom) &&
+            (identical(other.done, done) || other.done == done) &&
+            (identical(other.doneAt, doneAt) || other.doneAt == doneAt) &&
+            (identical(other.doneById, doneById) ||
+                other.doneById == doneById) &&
+            (identical(other.doneByName, doneByName) ||
+                other.doneByName == doneByName) &&
+            (identical(other.documentId, documentId) ||
+                other.documentId == documentId) &&
+            (identical(other.documentName, documentName) ||
+                other.documentName == documentName));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      stage,
+      title,
+      position,
+      required,
+      custom,
+      done,
+      doneAt,
+      doneById,
+      doneByName,
+      documentId,
+      documentName);
+
+  /// Create a copy of ChecklistItem
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ChecklistItemImplCopyWith<_$ChecklistItemImpl> get copyWith =>
+      __$$ChecklistItemImplCopyWithImpl<_$ChecklistItemImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ChecklistItemImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ChecklistItem implements ChecklistItem {
+  const factory _ChecklistItem(
+      {required final int id,
+      @JsonKey(unknownEnumValue: ChecklistStage.LEAD)
+      final ChecklistStage stage,
+      final String title,
+      final int position,
+      final bool required,
+      final bool custom,
+      final bool done,
+      final DateTime? doneAt,
+      final int? doneById,
+      final String? doneByName,
+      final int? documentId,
+      final String? documentName}) = _$ChecklistItemImpl;
+
+  factory _ChecklistItem.fromJson(Map<String, dynamic> json) =
+      _$ChecklistItemImpl.fromJson;
+
+  @override
+  int get id;
+  @override
+  @JsonKey(unknownEnumValue: ChecklistStage.LEAD)
+  ChecklistStage get stage;
+  @override
+  String get title;
+  @override
+  int get position;
+  @override
+  bool get required;
+  @override
+  bool get custom;
+  @override
+  bool get done;
+  @override
+  DateTime? get doneAt;
+  @override
+  int? get doneById;
+  @override
+  String? get doneByName;
+  @override
+  int? get documentId;
+  @override
+  String? get documentName;
+
+  /// Create a copy of ChecklistItem
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ChecklistItemImplCopyWith<_$ChecklistItemImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

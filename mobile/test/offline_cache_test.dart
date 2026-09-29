@@ -48,6 +48,7 @@ void main() {
         '/deals/9',
         '/deals/9/comments',
         '/deals/9/comments/mentionable',
+        '/deals/9/checklist',
         '/meetings',
         '/meetings/upcoming',
         '/tasks',

@@ -5,6 +5,7 @@ import 'package:real_estate_crm/core/network/json.dart';
 import 'package:real_estate_crm/core/network/offline_cache.dart';
 import 'package:real_estate_crm/core/network/offline_interceptor.dart';
 import 'package:real_estate_crm/core/session/session_store.dart';
+import 'package:real_estate_crm/core/utils/money.dart';
 
 const apiBaseUrl = String.fromEnvironment(
   'API_BASE_URL',
@@ -65,6 +66,7 @@ class ApiClient {
         if (token != null) {
           options.headers['Authorization'] = 'Bearer $token';
         }
+        options.headers['Accept-Language'] ??= AppCurrency.locale;
         handler.next(options);
       },
       onError: (error, handler) async {

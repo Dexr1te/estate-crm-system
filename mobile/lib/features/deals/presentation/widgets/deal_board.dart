@@ -304,6 +304,11 @@ class _BoardCard extends StatelessWidget {
                 const SizedBox(width: 8),
                 CommentCountBadge(count: deal.commentCount),
               ],
+              if (deal.checklistTotal > 0) ...[
+                const SizedBox(width: 8),
+                ChecklistProgressBadge(
+                    done: deal.checklistDone, total: deal.checklistTotal),
+              ],
               if (stale != null) ...[
                 const SizedBox(width: 8),
                 Flexible(

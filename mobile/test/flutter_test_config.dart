@@ -27,6 +27,8 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) async {
   Injector.notificationsRepository = FakeNotificationsRepository();
   // Every deal detail carries its discussion card, which reads on its own.
   Injector.dealCommentsRepository = FakeDealCommentsRepository();
+  // And its checklist card.
+  Injector.checklistRepository = FakeChecklistRepository();
   Injector.agentsRepository = const FakeAgentsRepository([]);
   Injector.clientsRepository = FakeClientsRepository();
   Injector.propertiesRepository = FakePropertiesRepository(const []);

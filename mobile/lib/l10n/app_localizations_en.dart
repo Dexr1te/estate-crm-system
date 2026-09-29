@@ -1640,6 +1640,100 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dealsCancel => 'Cancel';
 
   @override
+  String get dealsChecklistAdd => 'Add item';
+
+  @override
+  String get dealsChecklistAddTitle => 'New checklist item';
+
+  @override
+  String get dealsChecklistAttach => 'Attach document';
+
+  @override
+  String dealsChecklistBadge(int done, int total) {
+    return 'Checklist: $done of $total done';
+  }
+
+  @override
+  String get dealsChecklistDelete => 'Delete item';
+
+  @override
+  String get dealsChecklistDeleteBody =>
+      'It disappears from this deal\'s checklist.';
+
+  @override
+  String get dealsChecklistDeleteTitle => 'Delete this item?';
+
+  @override
+  String get dealsChecklistDetach => 'Remove document';
+
+  @override
+  String dealsChecklistDoneAt(String date) {
+    return 'Done $date';
+  }
+
+  @override
+  String dealsChecklistDoneBy(String date, String name) {
+    return '$name · $date';
+  }
+
+  @override
+  String get dealsChecklistEmptyStage => 'Nothing to collect at this stage';
+
+  @override
+  String dealsChecklistGateBody(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count required items are not done yet. Move the deal anyway?',
+      one: '1 required item is not done yet. Move the deal anyway?',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get dealsChecklistGateConfirm => 'Move anyway';
+
+  @override
+  String get dealsChecklistGateTitle => 'Required items are open';
+
+  @override
+  String get dealsChecklistItemHint => 'For example, a copy of the passport';
+
+  @override
+  String get dealsChecklistItemLabel => 'What is needed';
+
+  @override
+  String get dealsChecklistLoadFailed => 'Could not load the checklist';
+
+  @override
+  String get dealsChecklistMore => 'Item actions';
+
+  @override
+  String get dealsChecklistNoDocuments =>
+      'This deal has no documents yet. Upload the file under Documents first.';
+
+  @override
+  String get dealsChecklistPickDocument => 'Choose a document';
+
+  @override
+  String dealsChecklistProgress(int done, int total) {
+    return '$done of $total done';
+  }
+
+  @override
+  String get dealsChecklistRequired => 'Required';
+
+  @override
+  String get dealsChecklistRequiredHint =>
+      'The app warns before a deal moves on without it';
+
+  @override
+  String get dealsChecklistStage => 'Stage';
+
+  @override
+  String get dealsChecklistTitle => 'Checklist';
+
+  @override
   String get dealsClient => 'Client';
 
   @override
@@ -2741,6 +2835,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get msgAgentInvited => 'Agent invited';
+
+  @override
+  String get msgChecklistSaved => 'Checklist saved';
 
   @override
   String get msgClientCreated => 'Client created';
@@ -3945,6 +4042,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get teamsCancelRequest => 'Withdraw';
+
+  @override
+  String get teamsChecklist => 'Deal checklist';
+
+  @override
+  String get teamsChecklistAdd => 'Add item';
+
+  @override
+  String get teamsChecklistDelete => 'Delete item';
+
+  @override
+  String get teamsChecklistEmptyStage => 'No items at this stage yet';
+
+  @override
+  String get teamsChecklistHint => 'What a deal collects at each stage';
+
+  @override
+  String get teamsChecklistNewDealsOnly =>
+      'Changes apply to new deals. Deals already under way keep their own list.';
+
+  @override
+  String get teamsChecklistRename => 'Rename';
+
+  @override
+  String get teamsChecklistReorder => 'Drag to reorder';
 
   @override
   String get teamsClients => 'Clients';

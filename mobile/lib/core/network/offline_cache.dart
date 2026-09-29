@@ -54,7 +54,7 @@ class OfflineCache {
   static final _cacheable = <RegExp>[
     RegExp(r'^/clients(/with-details|/\d+(/matches|/activities)?)?$'),
     RegExp(r'^/properties(/\d+(/photos|/cover|/viewings|/price-history)?)?$'),
-    RegExp(r'^/deals(/\d+(/comments(/mentionable)?)?)?$'),
+    RegExp(r'^/deals(/\d+(/comments(/mentionable)?|/checklist)?)?$'),
     RegExp(r'^/meetings(/upcoming|/\d+)?$'),
     RegExp(r'^/tasks$'),
     RegExp(r'^/dashboard/summary$'),
