@@ -31,6 +31,8 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) async {
   Injector.checklistRepository = FakeChecklistRepository();
   Injector.agentsRepository = const FakeAgentsRepository([]);
   Injector.clientsRepository = FakeClientsRepository();
+  // The dashboard's going-cold card reads on its own too.
+  Injector.coldClientsRepository = FakeColdClientsRepository();
   Injector.propertiesRepository = FakePropertiesRepository(const []);
   Injector.dealsRepository = FakeDealsRepository(const []);
   Injector.meetingsRepository = FakeMeetingsRepository(const []);

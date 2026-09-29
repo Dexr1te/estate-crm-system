@@ -8623,6 +8623,7 @@ mixin _$DashboardSummary {
   double get commissionThisMonth => throw _privateConstructorUsedError;
   int get tasksDueToday => throw _privateConstructorUsedError;
   int get tasksOverdue => throw _privateConstructorUsedError;
+  int get coldCount => throw _privateConstructorUsedError;
 
   /// Serializes this DashboardSummary to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -8648,7 +8649,8 @@ abstract class $DashboardSummaryCopyWith<$Res> {
       int upcomingMeetings,
       double commissionThisMonth,
       int tasksDueToday,
-      int tasksOverdue});
+      int tasksOverdue,
+      int coldCount});
 }
 
 /// @nodoc
@@ -8674,6 +8676,7 @@ class _$DashboardSummaryCopyWithImpl<$Res, $Val extends DashboardSummary>
     Object? commissionThisMonth = null,
     Object? tasksDueToday = null,
     Object? tasksOverdue = null,
+    Object? coldCount = null,
   }) {
     return _then(_value.copyWith(
       totalDeals: null == totalDeals
@@ -8708,6 +8711,10 @@ class _$DashboardSummaryCopyWithImpl<$Res, $Val extends DashboardSummary>
           ? _value.tasksOverdue
           : tasksOverdue // ignore: cast_nullable_to_non_nullable
               as int,
+      coldCount: null == coldCount
+          ? _value.coldCount
+          : coldCount // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -8728,7 +8735,8 @@ abstract class _$$DashboardSummaryImplCopyWith<$Res>
       int upcomingMeetings,
       double commissionThisMonth,
       int tasksDueToday,
-      int tasksOverdue});
+      int tasksOverdue,
+      int coldCount});
 }
 
 /// @nodoc
@@ -8752,6 +8760,7 @@ class __$$DashboardSummaryImplCopyWithImpl<$Res>
     Object? commissionThisMonth = null,
     Object? tasksDueToday = null,
     Object? tasksOverdue = null,
+    Object? coldCount = null,
   }) {
     return _then(_$DashboardSummaryImpl(
       totalDeals: null == totalDeals
@@ -8786,6 +8795,10 @@ class __$$DashboardSummaryImplCopyWithImpl<$Res>
           ? _value.tasksOverdue
           : tasksOverdue // ignore: cast_nullable_to_non_nullable
               as int,
+      coldCount: null == coldCount
+          ? _value.coldCount
+          : coldCount // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -8801,7 +8814,8 @@ class _$DashboardSummaryImpl implements _DashboardSummary {
       this.upcomingMeetings = 0,
       this.commissionThisMonth = 0,
       this.tasksDueToday = 0,
-      this.tasksOverdue = 0});
+      this.tasksOverdue = 0,
+      this.coldCount = 0});
 
   factory _$DashboardSummaryImpl.fromJson(Map<String, dynamic> json) =>
       _$$DashboardSummaryImplFromJson(json);
@@ -8830,10 +8844,13 @@ class _$DashboardSummaryImpl implements _DashboardSummary {
   @override
   @JsonKey()
   final int tasksOverdue;
+  @override
+  @JsonKey()
+  final int coldCount;
 
   @override
   String toString() {
-    return 'DashboardSummary(totalDeals: $totalDeals, activeDeals: $activeDeals, closedDeals: $closedDeals, totalClients: $totalClients, upcomingMeetings: $upcomingMeetings, commissionThisMonth: $commissionThisMonth, tasksDueToday: $tasksDueToday, tasksOverdue: $tasksOverdue)';
+    return 'DashboardSummary(totalDeals: $totalDeals, activeDeals: $activeDeals, closedDeals: $closedDeals, totalClients: $totalClients, upcomingMeetings: $upcomingMeetings, commissionThisMonth: $commissionThisMonth, tasksDueToday: $tasksDueToday, tasksOverdue: $tasksOverdue, coldCount: $coldCount)';
   }
 
   @override
@@ -8856,7 +8873,9 @@ class _$DashboardSummaryImpl implements _DashboardSummary {
             (identical(other.tasksDueToday, tasksDueToday) ||
                 other.tasksDueToday == tasksDueToday) &&
             (identical(other.tasksOverdue, tasksOverdue) ||
-                other.tasksOverdue == tasksOverdue));
+                other.tasksOverdue == tasksOverdue) &&
+            (identical(other.coldCount, coldCount) ||
+                other.coldCount == coldCount));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -8870,7 +8889,8 @@ class _$DashboardSummaryImpl implements _DashboardSummary {
       upcomingMeetings,
       commissionThisMonth,
       tasksDueToday,
-      tasksOverdue);
+      tasksOverdue,
+      coldCount);
 
   /// Create a copy of DashboardSummary
   /// with the given fields replaced by the non-null parameter values.
@@ -8898,7 +8918,8 @@ abstract class _DashboardSummary implements DashboardSummary {
       final int upcomingMeetings,
       final double commissionThisMonth,
       final int tasksDueToday,
-      final int tasksOverdue}) = _$DashboardSummaryImpl;
+      final int tasksOverdue,
+      final int coldCount}) = _$DashboardSummaryImpl;
 
   factory _DashboardSummary.fromJson(Map<String, dynamic> json) =
       _$DashboardSummaryImpl.fromJson;
@@ -8919,12 +8940,617 @@ abstract class _DashboardSummary implements DashboardSummary {
   int get tasksDueToday;
   @override
   int get tasksOverdue;
+  @override
+  int get coldCount;
 
   /// Create a copy of DashboardSummary
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DashboardSummaryImplCopyWith<_$DashboardSummaryImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+ColdReason _$ColdReasonFromJson(Map<String, dynamic> json) {
+  return _ColdReason.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ColdReason {
+  @JsonKey(unknownEnumValue: ColdReasonCode.unknown)
+  ColdReasonCode get code => throw _privateConstructorUsedError;
+  String? get dealTitle => throw _privateConstructorUsedError;
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  DealStatus? get dealStatus => throw _privateConstructorUsedError;
+  int? get matchCount => throw _privateConstructorUsedError;
+
+  /// Serializes this ColdReason to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of ColdReason
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $ColdReasonCopyWith<ColdReason> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ColdReasonCopyWith<$Res> {
+  factory $ColdReasonCopyWith(
+          ColdReason value, $Res Function(ColdReason) then) =
+      _$ColdReasonCopyWithImpl<$Res, ColdReason>;
+  @useResult
+  $Res call(
+      {@JsonKey(unknownEnumValue: ColdReasonCode.unknown) ColdReasonCode code,
+      String? dealTitle,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      DealStatus? dealStatus,
+      int? matchCount});
+}
+
+/// @nodoc
+class _$ColdReasonCopyWithImpl<$Res, $Val extends ColdReason>
+    implements $ColdReasonCopyWith<$Res> {
+  _$ColdReasonCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of ColdReason
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? code = null,
+    Object? dealTitle = freezed,
+    Object? dealStatus = freezed,
+    Object? matchCount = freezed,
+  }) {
+    return _then(_value.copyWith(
+      code: null == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as ColdReasonCode,
+      dealTitle: freezed == dealTitle
+          ? _value.dealTitle
+          : dealTitle // ignore: cast_nullable_to_non_nullable
+              as String?,
+      dealStatus: freezed == dealStatus
+          ? _value.dealStatus
+          : dealStatus // ignore: cast_nullable_to_non_nullable
+              as DealStatus?,
+      matchCount: freezed == matchCount
+          ? _value.matchCount
+          : matchCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ColdReasonImplCopyWith<$Res>
+    implements $ColdReasonCopyWith<$Res> {
+  factory _$$ColdReasonImplCopyWith(
+          _$ColdReasonImpl value, $Res Function(_$ColdReasonImpl) then) =
+      __$$ColdReasonImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(unknownEnumValue: ColdReasonCode.unknown) ColdReasonCode code,
+      String? dealTitle,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      DealStatus? dealStatus,
+      int? matchCount});
+}
+
+/// @nodoc
+class __$$ColdReasonImplCopyWithImpl<$Res>
+    extends _$ColdReasonCopyWithImpl<$Res, _$ColdReasonImpl>
+    implements _$$ColdReasonImplCopyWith<$Res> {
+  __$$ColdReasonImplCopyWithImpl(
+      _$ColdReasonImpl _value, $Res Function(_$ColdReasonImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ColdReason
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? code = null,
+    Object? dealTitle = freezed,
+    Object? dealStatus = freezed,
+    Object? matchCount = freezed,
+  }) {
+    return _then(_$ColdReasonImpl(
+      code: null == code
+          ? _value.code
+          : code // ignore: cast_nullable_to_non_nullable
+              as ColdReasonCode,
+      dealTitle: freezed == dealTitle
+          ? _value.dealTitle
+          : dealTitle // ignore: cast_nullable_to_non_nullable
+              as String?,
+      dealStatus: freezed == dealStatus
+          ? _value.dealStatus
+          : dealStatus // ignore: cast_nullable_to_non_nullable
+              as DealStatus?,
+      matchCount: freezed == matchCount
+          ? _value.matchCount
+          : matchCount // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ColdReasonImpl implements _ColdReason {
+  const _$ColdReasonImpl(
+      {@JsonKey(unknownEnumValue: ColdReasonCode.unknown)
+      this.code = ColdReasonCode.unknown,
+      this.dealTitle,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      this.dealStatus,
+      this.matchCount});
+
+  factory _$ColdReasonImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ColdReasonImplFromJson(json);
+
+  @override
+  @JsonKey(unknownEnumValue: ColdReasonCode.unknown)
+  final ColdReasonCode code;
+  @override
+  final String? dealTitle;
+  @override
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  final DealStatus? dealStatus;
+  @override
+  final int? matchCount;
+
+  @override
+  String toString() {
+    return 'ColdReason(code: $code, dealTitle: $dealTitle, dealStatus: $dealStatus, matchCount: $matchCount)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ColdReasonImpl &&
+            (identical(other.code, code) || other.code == code) &&
+            (identical(other.dealTitle, dealTitle) ||
+                other.dealTitle == dealTitle) &&
+            (identical(other.dealStatus, dealStatus) ||
+                other.dealStatus == dealStatus) &&
+            (identical(other.matchCount, matchCount) ||
+                other.matchCount == matchCount));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, code, dealTitle, dealStatus, matchCount);
+
+  /// Create a copy of ColdReason
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ColdReasonImplCopyWith<_$ColdReasonImpl> get copyWith =>
+      __$$ColdReasonImplCopyWithImpl<_$ColdReasonImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ColdReasonImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ColdReason implements ColdReason {
+  const factory _ColdReason(
+      {@JsonKey(unknownEnumValue: ColdReasonCode.unknown)
+      final ColdReasonCode code,
+      final String? dealTitle,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      final DealStatus? dealStatus,
+      final int? matchCount}) = _$ColdReasonImpl;
+
+  factory _ColdReason.fromJson(Map<String, dynamic> json) =
+      _$ColdReasonImpl.fromJson;
+
+  @override
+  @JsonKey(unknownEnumValue: ColdReasonCode.unknown)
+  ColdReasonCode get code;
+  @override
+  String? get dealTitle;
+  @override
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  DealStatus? get dealStatus;
+  @override
+  int? get matchCount;
+
+  /// Create a copy of ColdReason
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ColdReasonImplCopyWith<_$ColdReasonImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+ColdClient _$ColdClientFromJson(Map<String, dynamic> json) {
+  return _ColdClient.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ColdClient {
+  int get id => throw _privateConstructorUsedError;
+  String get fullName => throw _privateConstructorUsedError;
+  String? get phone => throw _privateConstructorUsedError;
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  ClientType? get type => throw _privateConstructorUsedError;
+  int? get agentId => throw _privateConstructorUsedError;
+  String? get agentName => throw _privateConstructorUsedError;
+  DateTime? get lastContactAt => throw _privateConstructorUsedError;
+  int get silentDays => throw _privateConstructorUsedError;
+  List<ColdReason> get reasons => throw _privateConstructorUsedError;
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  ColdNextStep? get nextStep => throw _privateConstructorUsedError;
+
+  /// Serializes this ColdClient to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of ColdClient
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $ColdClientCopyWith<ColdClient> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ColdClientCopyWith<$Res> {
+  factory $ColdClientCopyWith(
+          ColdClient value, $Res Function(ColdClient) then) =
+      _$ColdClientCopyWithImpl<$Res, ColdClient>;
+  @useResult
+  $Res call(
+      {int id,
+      String fullName,
+      String? phone,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      ClientType? type,
+      int? agentId,
+      String? agentName,
+      DateTime? lastContactAt,
+      int silentDays,
+      List<ColdReason> reasons,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      ColdNextStep? nextStep});
+}
+
+/// @nodoc
+class _$ColdClientCopyWithImpl<$Res, $Val extends ColdClient>
+    implements $ColdClientCopyWith<$Res> {
+  _$ColdClientCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of ColdClient
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? fullName = null,
+    Object? phone = freezed,
+    Object? type = freezed,
+    Object? agentId = freezed,
+    Object? agentName = freezed,
+    Object? lastContactAt = freezed,
+    Object? silentDays = null,
+    Object? reasons = null,
+    Object? nextStep = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      fullName: null == fullName
+          ? _value.fullName
+          : fullName // ignore: cast_nullable_to_non_nullable
+              as String,
+      phone: freezed == phone
+          ? _value.phone
+          : phone // ignore: cast_nullable_to_non_nullable
+              as String?,
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as ClientType?,
+      agentId: freezed == agentId
+          ? _value.agentId
+          : agentId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      agentName: freezed == agentName
+          ? _value.agentName
+          : agentName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lastContactAt: freezed == lastContactAt
+          ? _value.lastContactAt
+          : lastContactAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      silentDays: null == silentDays
+          ? _value.silentDays
+          : silentDays // ignore: cast_nullable_to_non_nullable
+              as int,
+      reasons: null == reasons
+          ? _value.reasons
+          : reasons // ignore: cast_nullable_to_non_nullable
+              as List<ColdReason>,
+      nextStep: freezed == nextStep
+          ? _value.nextStep
+          : nextStep // ignore: cast_nullable_to_non_nullable
+              as ColdNextStep?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ColdClientImplCopyWith<$Res>
+    implements $ColdClientCopyWith<$Res> {
+  factory _$$ColdClientImplCopyWith(
+          _$ColdClientImpl value, $Res Function(_$ColdClientImpl) then) =
+      __$$ColdClientImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int id,
+      String fullName,
+      String? phone,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      ClientType? type,
+      int? agentId,
+      String? agentName,
+      DateTime? lastContactAt,
+      int silentDays,
+      List<ColdReason> reasons,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      ColdNextStep? nextStep});
+}
+
+/// @nodoc
+class __$$ColdClientImplCopyWithImpl<$Res>
+    extends _$ColdClientCopyWithImpl<$Res, _$ColdClientImpl>
+    implements _$$ColdClientImplCopyWith<$Res> {
+  __$$ColdClientImplCopyWithImpl(
+      _$ColdClientImpl _value, $Res Function(_$ColdClientImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ColdClient
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? fullName = null,
+    Object? phone = freezed,
+    Object? type = freezed,
+    Object? agentId = freezed,
+    Object? agentName = freezed,
+    Object? lastContactAt = freezed,
+    Object? silentDays = null,
+    Object? reasons = null,
+    Object? nextStep = freezed,
+  }) {
+    return _then(_$ColdClientImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      fullName: null == fullName
+          ? _value.fullName
+          : fullName // ignore: cast_nullable_to_non_nullable
+              as String,
+      phone: freezed == phone
+          ? _value.phone
+          : phone // ignore: cast_nullable_to_non_nullable
+              as String?,
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as ClientType?,
+      agentId: freezed == agentId
+          ? _value.agentId
+          : agentId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      agentName: freezed == agentName
+          ? _value.agentName
+          : agentName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lastContactAt: freezed == lastContactAt
+          ? _value.lastContactAt
+          : lastContactAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      silentDays: null == silentDays
+          ? _value.silentDays
+          : silentDays // ignore: cast_nullable_to_non_nullable
+              as int,
+      reasons: null == reasons
+          ? _value._reasons
+          : reasons // ignore: cast_nullable_to_non_nullable
+              as List<ColdReason>,
+      nextStep: freezed == nextStep
+          ? _value.nextStep
+          : nextStep // ignore: cast_nullable_to_non_nullable
+              as ColdNextStep?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ColdClientImpl extends _ColdClient {
+  const _$ColdClientImpl(
+      {required this.id,
+      this.fullName = '',
+      this.phone,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.type,
+      this.agentId,
+      this.agentName,
+      this.lastContactAt,
+      this.silentDays = 0,
+      final List<ColdReason> reasons = const <ColdReason>[],
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      this.nextStep})
+      : _reasons = reasons,
+        super._();
+
+  factory _$ColdClientImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ColdClientImplFromJson(json);
+
+  @override
+  final int id;
+  @override
+  @JsonKey()
+  final String fullName;
+  @override
+  final String? phone;
+  @override
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  final ClientType? type;
+  @override
+  final int? agentId;
+  @override
+  final String? agentName;
+  @override
+  final DateTime? lastContactAt;
+  @override
+  @JsonKey()
+  final int silentDays;
+  final List<ColdReason> _reasons;
+  @override
+  @JsonKey()
+  List<ColdReason> get reasons {
+    if (_reasons is EqualUnmodifiableListView) return _reasons;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_reasons);
+  }
+
+  @override
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  final ColdNextStep? nextStep;
+
+  @override
+  String toString() {
+    return 'ColdClient(id: $id, fullName: $fullName, phone: $phone, type: $type, agentId: $agentId, agentName: $agentName, lastContactAt: $lastContactAt, silentDays: $silentDays, reasons: $reasons, nextStep: $nextStep)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ColdClientImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.fullName, fullName) ||
+                other.fullName == fullName) &&
+            (identical(other.phone, phone) || other.phone == phone) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.agentId, agentId) || other.agentId == agentId) &&
+            (identical(other.agentName, agentName) ||
+                other.agentName == agentName) &&
+            (identical(other.lastContactAt, lastContactAt) ||
+                other.lastContactAt == lastContactAt) &&
+            (identical(other.silentDays, silentDays) ||
+                other.silentDays == silentDays) &&
+            const DeepCollectionEquality().equals(other._reasons, _reasons) &&
+            (identical(other.nextStep, nextStep) ||
+                other.nextStep == nextStep));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      fullName,
+      phone,
+      type,
+      agentId,
+      agentName,
+      lastContactAt,
+      silentDays,
+      const DeepCollectionEquality().hash(_reasons),
+      nextStep);
+
+  /// Create a copy of ColdClient
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ColdClientImplCopyWith<_$ColdClientImpl> get copyWith =>
+      __$$ColdClientImplCopyWithImpl<_$ColdClientImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ColdClientImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ColdClient extends ColdClient {
+  const factory _ColdClient(
+      {required final int id,
+      final String fullName,
+      final String? phone,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      final ClientType? type,
+      final int? agentId,
+      final String? agentName,
+      final DateTime? lastContactAt,
+      final int silentDays,
+      final List<ColdReason> reasons,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      final ColdNextStep? nextStep}) = _$ColdClientImpl;
+  const _ColdClient._() : super._();
+
+  factory _ColdClient.fromJson(Map<String, dynamic> json) =
+      _$ColdClientImpl.fromJson;
+
+  @override
+  int get id;
+  @override
+  String get fullName;
+  @override
+  String? get phone;
+  @override
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  ClientType? get type;
+  @override
+  int? get agentId;
+  @override
+  String? get agentName;
+  @override
+  DateTime? get lastContactAt;
+  @override
+  int get silentDays;
+  @override
+  List<ColdReason> get reasons;
+  @override
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  ColdNextStep? get nextStep;
+
+  /// Create a copy of ColdClient
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ColdClientImplCopyWith<_$ColdClientImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

@@ -23,4 +23,6 @@ public class DashboardSummary {
     private long tasksDueToday;
     /** Open tasks whose due time has passed. */
     private long tasksOverdue;
+    /** Clients going cold at the default threshold — see ColdClientService. */
+    private long coldCount;
 }

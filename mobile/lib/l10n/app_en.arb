@@ -262,6 +262,75 @@
   "clientsClientIdCopied": "Client ID copied",
   "clientsClientNotFound": "Client not found",
   "clientsClientType": "Client Type",
+  "clientsColdDaysOption": "{count, plural, =1{1 day} other{{count} days}}",
+  "@clientsColdDaysOption": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "clientsColdEmpty": "Nobody is going cold",
+  "clientsColdEmptyHint": "{count, plural, =1{Everyone worth a call has heard from you in the last day.} other{Everyone worth a call has heard from you in the last {count} days.}}",
+  "@clientsColdEmptyHint": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "clientsColdLoadFailed": "Could not load who is going cold",
+  "clientsColdNeverContacted": "Never contacted",
+  "clientsColdNextCheckIn": "Check in",
+  "clientsColdNextFirstCall": "Make the first call",
+  "clientsColdNextPushDeal": "Move the deal forward",
+  "clientsColdNextSendMatches": "Send the listings that fit",
+  "clientsColdReasonLead": "Lead from a listing page",
+  "clientsColdReasonMatches": "{count, plural, =1{1 match} other{{count} matches}}",
+  "@clientsColdReasonMatches": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "clientsColdReasonNegotiation": "Deal in negotiation",
+  "clientsColdReasonOpenDeal": "Open deal",
+  "clientsColdRemind": "Remind me",
+  "clientsColdRemindTask": "Call {name}",
+  "@clientsColdRemindTask": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "clientsColdReminderSet": "Reminder set for tomorrow, {time}",
+  "@clientsColdReminderSet": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "clientsColdSilentDays": "{count, plural, =1{Silent 1 day} other{Silent {count} days}}",
+  "@clientsColdSilentDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "clientsColdSubtitle": "{count, plural, =1{No contact for a day or more} other{No contact for {count} days or more}}",
+  "@clientsColdSubtitle": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "clientsColdTitle": "Going cold",
+  "clientsColdUndo": "Undo",
   "clientsContact": "Contact",
   "clientsContactInfo": "Contact Info",
   "clientsContactedDaysAgo": "{count, plural, =1{Contacted 1 day ago} other{Contacted {count} days ago}}",
@@ -541,6 +610,14 @@
   "dashboardAttention": "Needs attention",
   "dashboardClients": "Clients",
   "dashboardClosedWon": "Closed Won",
+  "dashboardColdTotal": "{count} in all",
+  "@dashboardColdTotal": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "dashboardConversion": "Conversion",
   "dashboardDateSummary": "{date} · team overview",
   "dashboardDecidedDeals": "{count, plural, =0{Nothing closed yet} =1{1 deal decided} other{{count} deals decided}}",

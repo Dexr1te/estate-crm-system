@@ -23,6 +23,7 @@ import 'package:real_estate_crm/features/auth/domain/repositories/auth_repositor
 import 'package:real_estate_crm/features/checklist/domain/checklist_gate.dart';
 import 'package:real_estate_crm/features/checklist/domain/repositories/checklist_repository.dart';
 import 'package:real_estate_crm/features/clients/domain/repositories/clients_repository.dart';
+import 'package:real_estate_crm/features/clients/domain/repositories/cold_clients_repository.dart';
 import 'package:real_estate_crm/features/dashboard/domain/repositories/dashboard_repository.dart';
 import 'package:real_estate_crm/features/deals/domain/repositories/deal_comments_repository.dart';
 import 'package:real_estate_crm/features/deals/domain/repositories/deals_repository.dart';
@@ -1068,6 +1069,38 @@ class FakeTasksRepository implements TasksRepository {
   Future<void> deleteTask(int id) async {
     tasks = tasks.where((t) => t.id != id).toList();
     _changes.add(null);
+  }
+}
+
+/// Clients going cold. The rule lives on the backend and is tested there; this
+/// only honours the threshold, so a screen test can see it change the list —
+/// a client never contacted is cold at any threshold.
+class FakeColdClientsRepository implements ColdClientsRepository {
+  List<ColdClient> clients;
+
+  /// When set, reading fails with it — the card's own error state.
+  Object? readError;
+
+  /// Every read, as `(days, limit)`.
+  final List<(int, int)> queries = [];
+
+  /// When set, a read waits for it — the skeleton stays up until then.
+  Future<void>? hold;
+
+  FakeColdClientsRepository([this.clients = const []]);
+
+  @override
+  Future<List<ColdClient>> getColdClients({
+    int days = ColdClientsRepository.defaultDays,
+    int limit = 20,
+  }) async {
+    queries.add((days, limit));
+    if (hold != null) await hold;
+    if (readError != null) throw readError!;
+    return clients
+        .where((c) => c.lastContactAt == null || c.silentDays >= days)
+        .take(limit)
+        .toList();
   }
 }
 

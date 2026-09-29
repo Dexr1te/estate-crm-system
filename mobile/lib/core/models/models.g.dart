@@ -890,6 +890,7 @@ _$DashboardSummaryImpl _$$DashboardSummaryImplFromJson(
           (json['commissionThisMonth'] as num?)?.toDouble() ?? 0,
       tasksDueToday: (json['tasksDueToday'] as num?)?.toInt() ?? 0,
       tasksOverdue: (json['tasksOverdue'] as num?)?.toInt() ?? 0,
+      coldCount: (json['coldCount'] as num?)?.toInt() ?? 0,
     );
 
 Map<String, dynamic> _$$DashboardSummaryImplToJson(
@@ -903,7 +904,76 @@ Map<String, dynamic> _$$DashboardSummaryImplToJson(
       'commissionThisMonth': instance.commissionThisMonth,
       'tasksDueToday': instance.tasksDueToday,
       'tasksOverdue': instance.tasksOverdue,
+      'coldCount': instance.coldCount,
     };
+
+_$ColdReasonImpl _$$ColdReasonImplFromJson(Map<String, dynamic> json) =>
+    _$ColdReasonImpl(
+      code: $enumDecodeNullable(_$ColdReasonCodeEnumMap, json['code'],
+              unknownValue: ColdReasonCode.unknown) ??
+          ColdReasonCode.unknown,
+      dealTitle: json['dealTitle'] as String?,
+      dealStatus: $enumDecodeNullable(_$DealStatusEnumMap, json['dealStatus'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
+      matchCount: (json['matchCount'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$$ColdReasonImplToJson(_$ColdReasonImpl instance) =>
+    <String, dynamic>{
+      'code': _$ColdReasonCodeEnumMap[instance.code]!,
+      'dealTitle': instance.dealTitle,
+      'dealStatus': _$DealStatusEnumMap[instance.dealStatus],
+      'matchCount': instance.matchCount,
+    };
+
+const _$ColdReasonCodeEnumMap = {
+  ColdReasonCode.openDeal: 'OPEN_DEAL',
+  ColdReasonCode.matches: 'MATCHES',
+  ColdReasonCode.newLead: 'NEW_LEAD',
+  ColdReasonCode.unknown: 'unknown',
+};
+
+_$ColdClientImpl _$$ColdClientImplFromJson(Map<String, dynamic> json) =>
+    _$ColdClientImpl(
+      id: (json['id'] as num).toInt(),
+      fullName: json['fullName'] as String? ?? '',
+      phone: json['phone'] as String?,
+      type: $enumDecodeNullable(_$ClientTypeEnumMap, json['type'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
+      agentId: (json['agentId'] as num?)?.toInt(),
+      agentName: json['agentName'] as String?,
+      lastContactAt: json['lastContactAt'] == null
+          ? null
+          : DateTime.parse(json['lastContactAt'] as String),
+      silentDays: (json['silentDays'] as num?)?.toInt() ?? 0,
+      reasons: (json['reasons'] as List<dynamic>?)
+              ?.map((e) => ColdReason.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const <ColdReason>[],
+      nextStep: $enumDecodeNullable(_$ColdNextStepEnumMap, json['nextStep'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
+    );
+
+Map<String, dynamic> _$$ColdClientImplToJson(_$ColdClientImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'fullName': instance.fullName,
+      'phone': instance.phone,
+      'type': _$ClientTypeEnumMap[instance.type],
+      'agentId': instance.agentId,
+      'agentName': instance.agentName,
+      'lastContactAt': instance.lastContactAt?.toIso8601String(),
+      'silentDays': instance.silentDays,
+      'reasons': instance.reasons,
+      'nextStep': _$ColdNextStepEnumMap[instance.nextStep],
+    };
+
+const _$ColdNextStepEnumMap = {
+  ColdNextStep.pushDeal: 'PUSH_DEAL',
+  ColdNextStep.sendMatches: 'SEND_MATCHES',
+  ColdNextStep.firstCall: 'FIRST_CALL',
+  ColdNextStep.checkIn: 'CHECK_IN',
+};
 
 _$AgentOptionImpl _$$AgentOptionImplFromJson(Map<String, dynamic> json) =>
     _$AgentOptionImpl(

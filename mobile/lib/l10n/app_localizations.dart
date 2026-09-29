@@ -1402,6 +1402,126 @@ abstract class AppLocalizations {
   /// **'Client Type'**
   String get clientsClientType;
 
+  /// No description provided for @clientsColdDaysOption.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 day} other{{count} days}}'**
+  String clientsColdDaysOption(int count);
+
+  /// No description provided for @clientsColdEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody is going cold'**
+  String get clientsColdEmpty;
+
+  /// No description provided for @clientsColdEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Everyone worth a call has heard from you in the last day.} other{Everyone worth a call has heard from you in the last {count} days.}}'**
+  String clientsColdEmptyHint(int count);
+
+  /// No description provided for @clientsColdLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load who is going cold'**
+  String get clientsColdLoadFailed;
+
+  /// No description provided for @clientsColdNeverContacted.
+  ///
+  /// In en, this message translates to:
+  /// **'Never contacted'**
+  String get clientsColdNeverContacted;
+
+  /// No description provided for @clientsColdNextCheckIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Check in'**
+  String get clientsColdNextCheckIn;
+
+  /// No description provided for @clientsColdNextFirstCall.
+  ///
+  /// In en, this message translates to:
+  /// **'Make the first call'**
+  String get clientsColdNextFirstCall;
+
+  /// No description provided for @clientsColdNextPushDeal.
+  ///
+  /// In en, this message translates to:
+  /// **'Move the deal forward'**
+  String get clientsColdNextPushDeal;
+
+  /// No description provided for @clientsColdNextSendMatches.
+  ///
+  /// In en, this message translates to:
+  /// **'Send the listings that fit'**
+  String get clientsColdNextSendMatches;
+
+  /// No description provided for @clientsColdReasonLead.
+  ///
+  /// In en, this message translates to:
+  /// **'Lead from a listing page'**
+  String get clientsColdReasonLead;
+
+  /// No description provided for @clientsColdReasonMatches.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 match} other{{count} matches}}'**
+  String clientsColdReasonMatches(int count);
+
+  /// No description provided for @clientsColdReasonNegotiation.
+  ///
+  /// In en, this message translates to:
+  /// **'Deal in negotiation'**
+  String get clientsColdReasonNegotiation;
+
+  /// No description provided for @clientsColdReasonOpenDeal.
+  ///
+  /// In en, this message translates to:
+  /// **'Open deal'**
+  String get clientsColdReasonOpenDeal;
+
+  /// No description provided for @clientsColdRemind.
+  ///
+  /// In en, this message translates to:
+  /// **'Remind me'**
+  String get clientsColdRemind;
+
+  /// No description provided for @clientsColdRemindTask.
+  ///
+  /// In en, this message translates to:
+  /// **'Call {name}'**
+  String clientsColdRemindTask(String name);
+
+  /// No description provided for @clientsColdReminderSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder set for tomorrow, {time}'**
+  String clientsColdReminderSet(String time);
+
+  /// No description provided for @clientsColdSilentDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Silent 1 day} other{Silent {count} days}}'**
+  String clientsColdSilentDays(int count);
+
+  /// No description provided for @clientsColdSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{No contact for a day or more} other{No contact for {count} days or more}}'**
+  String clientsColdSubtitle(int count);
+
+  /// No description provided for @clientsColdTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Going cold'**
+  String get clientsColdTitle;
+
+  /// No description provided for @clientsColdUndo.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo'**
+  String get clientsColdUndo;
+
   /// No description provided for @clientsContact.
   ///
   /// In en, this message translates to:
@@ -2535,6 +2655,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Closed Won'**
   String get dashboardClosedWon;
+
+  /// No description provided for @dashboardColdTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} in all'**
+  String dashboardColdTotal(int count);
 
   /// No description provided for @dashboardConversion.
   ///
