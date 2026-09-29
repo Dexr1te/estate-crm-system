@@ -1651,6 +1651,80 @@
   },
   "propertiesPhotos": "Photos",
   "propertiesPhotosHint": "Hold a photo to move it — the first one is the cover",
+  "propertiesPriceCheck": "Price check",
+  "propertiesPriceCheckAbove": "{percent}% above",
+  "@propertiesPriceCheckAbove": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "propertiesPriceCheckAtMedian": "at the median",
+  "propertiesPriceCheckBasedOn": "{count, plural, one{Based on {count} listing in {city}} other{Based on {count} listings in {city}}}",
+  "@propertiesPriceCheckBasedOn": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "city": {
+        "type": "String"
+      }
+    }
+  },
+  "propertiesPriceCheckBelow": "{percent}% below",
+  "@propertiesPriceCheckBelow": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "propertiesPriceCheckComparables": "Comparable listings",
+  "propertiesPriceCheckDaysOnMarket": "{count, plural, one{{count} day on the market} other{{count} days on the market}}",
+  "@propertiesPriceCheckDaysOnMarket": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "propertiesPriceCheckLowConfidence": "Few similar listings yet, so treat this as a rough guide",
+  "propertiesPriceCheckSeeComparables": "See comparables",
+  "propertiesPriceCheckSold": "Sold at a median of {price}",
+  "@propertiesPriceCheckSold": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "propertiesPriceCheckVsMedian": "{price} / m² vs median {median} ({difference})",
+  "@propertiesPriceCheckVsMedian": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      },
+      "median": {
+        "type": "String"
+      },
+      "difference": {
+        "type": "String"
+      }
+    }
+  },
+  "propertiesPriceHintRange": "Similar listings: {low}–{high} for this area",
+  "@propertiesPriceHintRange": {
+    "placeholders": {
+      "low": {
+        "type": "String"
+      },
+      "high": {
+        "type": "String"
+      }
+    }
+  },
+  "propertiesPriceHintUseMedian": "Use median",
   "propertiesPriceHistory": "Price history",
   "propertiesPriceLabel": "Price",
   "propertiesPricePerSqm": "{price} per m²",

@@ -10,6 +10,7 @@ import 'package:real_estate_crm/features/properties/presentation/bloc/properties
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_state.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/map_markers.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_location_picker.dart';
+import 'package:real_estate_crm/features/properties/presentation/widgets/property_price_hint.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class PropertyFormScreen extends StatefulWidget {
@@ -289,6 +290,15 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
                   ),
                 ),
               ],
+            ),
+            PropertyPriceHint(
+              city: _cityCtrl,
+              area: _areaCtrl,
+              rooms: _roomsCtrl,
+              type: _type,
+              excludeId: widget.propertyId,
+              onUseMedian: (price) =>
+                  _priceCtrl.text = price.toStringAsFixed(0),
             ),
           ],
         ),

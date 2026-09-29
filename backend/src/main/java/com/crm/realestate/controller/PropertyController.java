@@ -1,6 +1,7 @@
 package com.crm.realestate.controller;
 
 import com.crm.realestate.dto.request.PropertyRequest;
+import com.crm.realestate.dto.response.PriceInsightResponse;
 import com.crm.realestate.dto.response.PropertyResponse;
 import com.crm.realestate.dto.response.ShareLinkResponse;
 import com.crm.realestate.enums.PropertyStatus;
@@ -18,6 +19,7 @@ import com.crm.realestate.dto.response.ClientMatch;
 import com.crm.realestate.dto.response.MeetingResponse;
 import com.crm.realestate.service.MatchingService;
 import com.crm.realestate.service.MeetingService;
+import com.crm.realestate.service.PriceInsightService;
 import com.crm.realestate.service.PropertyService;
 import com.crm.realestate.specification.MapBounds;
 import io.swagger.v3.oas.annotations.Operation;
@@ -44,6 +46,7 @@ public class PropertyController {
     private final MeetingService  meetingService;
     private final PropertyPhotoService photoService;
     private final ListingShareService shareService;
+    private final PriceInsightService priceInsightService;
 
     @GetMapping
     @Operation(summary = "Get all properties (with optional filters, incl. a map rectangle minLat/maxLat/minLng/maxLng and hasLocation). Supports pagination & sorting via Pageable (page, size, sort)")
@@ -86,6 +89,25 @@ public class PropertyController {
                 status, type, city, minPrice, maxPrice, rooms, agentId, search, bounds, hasLocation,
                 pageable);
         return ResponseEntity.ok(page);
+    }
+
+    @GetMapping("/price-insight")
+    @Operation(summary = "Is this price right? Price per m² of the agency's own comparable listings "
+            + "(same city and type; exact rooms, then ±1, then any, until five are found) and what it sold")
+    public ResponseEntity<PriceInsightResponse> priceInsight(
+            // Optional here and checked by the service, so a missing one is a 400 with a reason.
+            @RequestParam(required = false) String city,
+            @RequestParam(required = false) PropertyType type,
+            @RequestParam(required = false) Integer rooms,
+            @RequestParam(required = false) Double areaSqm,
+            @RequestParam(required = false) Long excludeId) {
+        return ResponseEntity.ok(priceInsightService.insight(city, type, rooms, areaSqm, excludeId));
+    }
+
+    @GetMapping("/{id}/price-insight")
+    @Operation(summary = "The price insight for this listing, and where its price per m² sits")
+    public ResponseEntity<PriceInsightResponse> priceInsightFor(@PathVariable Long id) {
+        return ResponseEntity.ok(priceInsightService.insightFor(id));
     }
 
     @GetMapping("/{id}/photos")

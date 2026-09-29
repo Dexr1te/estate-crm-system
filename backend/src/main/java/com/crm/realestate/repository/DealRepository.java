@@ -82,4 +82,13 @@ public interface DealRepository extends JpaRepository<Deal, Long>, JpaSpecificat
     @Query("UPDATE Deal d SET d.client = :target WHERE d.client = :source")
     int moveToClient(@Param("source") com.crm.realestate.entity.Client source,
                      @Param("target") com.crm.realestate.entity.Client target);
+
+    /** Won deals on these listings — what each actually sold for, and when. */
+    @Query("SELECT new com.crm.realestate.repository.projection.ClosedSaleRow("
+            + "d.property.id, d.dealPrice, d.closedAt) FROM Deal d "
+            + "WHERE d.status = com.crm.realestate.enums.DealStatus.CLOSED_WON "
+            + "AND d.property.id IN :propertyIds")
+    List<com.crm.realestate.repository.projection.ClosedSaleRow> closedSalesOf(
+            @Param("propertyIds") java.util.Collection<Long> propertyIds);
+
 }

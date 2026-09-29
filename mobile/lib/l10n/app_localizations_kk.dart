@@ -3588,6 +3588,73 @@ class AppLocalizationsKk extends AppLocalizations {
       'Фотоны басып тұрып жылжытыңыз — біріншісі мұқаба';
 
   @override
+  String get propertiesPriceCheck => 'Бағаны тексеру';
+
+  @override
+  String propertiesPriceCheckAbove(String percent) {
+    return '$percent% жоғары';
+  }
+
+  @override
+  String get propertiesPriceCheckAtMedian => 'медианамен тең';
+
+  @override
+  String propertiesPriceCheckBasedOn(int count, String city) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$city қаласындағы $count нысан негізінде',
+      one: '$city қаласындағы $count нысан негізінде',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String propertiesPriceCheckBelow(String percent) {
+    return '$percent% төмен';
+  }
+
+  @override
+  String get propertiesPriceCheckComparables => 'Ұқсас нысандар';
+
+  @override
+  String propertiesPriceCheckDaysOnMarket(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'сатылымда $count күн',
+      one: 'сатылымда $count күн',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get propertiesPriceCheckLowConfidence =>
+      'Ұқсас нысандар әзірге аз, сондықтан бұл тек бағдар';
+
+  @override
+  String get propertiesPriceCheckSeeComparables => 'Ұқсастарын көру';
+
+  @override
+  String propertiesPriceCheckSold(String price) {
+    return 'Сатылғандар: медиана $price';
+  }
+
+  @override
+  String propertiesPriceCheckVsMedian(
+      String price, String median, String difference) {
+    return '$price / м², медиана $median ($difference)';
+  }
+
+  @override
+  String propertiesPriceHintRange(String low, String high) {
+    return 'Ұқсас нысандар: осы ауданға $low–$high';
+  }
+
+  @override
+  String get propertiesPriceHintUseMedian => 'Медиананы қою';
+
+  @override
   String get propertiesPriceHistory => 'Баға тарихы';
 
   @override

@@ -52,6 +52,18 @@ abstract class PropertiesRepository {
 
   Future<List<PropertyPriceChange>> getPriceHistory(int id);
 
+  /// How this listing's price per m² compares with the agency's own book.
+  Future<PriceInsight> getPriceInsightFor(int id);
+
+  /// The same for figures typed into the form, before the listing is saved.
+  Future<PriceInsight> getPriceInsight({
+    required String city,
+    required PropertyType type,
+    int? rooms,
+    double? areaSqm,
+    int? excludeId,
+  });
+
   Future<PropertyShareLink> getShareLink(int id);
 
   /// The listing's working link, made on the server if it has none yet.

@@ -3710,6 +3710,77 @@ class AppLocalizationsRu extends AppLocalizations {
       'Удерживайте фото, чтобы переставить — первое станет обложкой';
 
   @override
+  String get propertiesPriceCheck => 'Проверка цены';
+
+  @override
+  String propertiesPriceCheckAbove(String percent) {
+    return 'на $percent% выше';
+  }
+
+  @override
+  String get propertiesPriceCheckAtMedian => 'ровно по медиане';
+
+  @override
+  String propertiesPriceCheckBasedOn(int count, String city) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'На основе $count объявления, г. $city',
+      many: 'На основе $count объявлений, г. $city',
+      few: 'На основе $count объявлений, г. $city',
+      one: 'На основе $count объявления, г. $city',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String propertiesPriceCheckBelow(String percent) {
+    return 'на $percent% ниже';
+  }
+
+  @override
+  String get propertiesPriceCheckComparables => 'Похожие объекты';
+
+  @override
+  String propertiesPriceCheckDaysOnMarket(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count дня в продаже',
+      many: '$count дней в продаже',
+      few: '$count дня в продаже',
+      one: '$count день в продаже',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get propertiesPriceCheckLowConfidence =>
+      'Похожих объектов пока мало — это лишь ориентир';
+
+  @override
+  String get propertiesPriceCheckSeeComparables => 'Показать похожие';
+
+  @override
+  String propertiesPriceCheckSold(String price) {
+    return 'Продано: медиана $price';
+  }
+
+  @override
+  String propertiesPriceCheckVsMedian(
+      String price, String median, String difference) {
+    return '$price / м² против медианы $median ($difference)';
+  }
+
+  @override
+  String propertiesPriceHintRange(String low, String high) {
+    return 'Похожие объекты: $low–$high за такую площадь';
+  }
+
+  @override
+  String get propertiesPriceHintUseMedian => 'Взять медиану';
+
+  @override
   String get propertiesPriceHistory => 'История цены';
 
   @override
