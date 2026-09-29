@@ -20,6 +20,7 @@ import 'package:real_estate_crm/features/properties/presentation/bloc/properties
 import 'package:real_estate_crm/features/properties/presentation/widgets/map_markers.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_location_preview.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_photos_card.dart';
+import 'package:real_estate_crm/features/properties/presentation/widgets/property_price_check.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_price_history.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_share_link_card.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
@@ -37,6 +38,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
   List<MeetingResponse> _viewings = const [];
   List<PropertyPhoto> _photos = const [];
   List<PropertyPriceChange> _priceHistory = const [];
+  PriceInsight? _priceInsight;
   bool _loading = true;
   String? _error;
 
@@ -60,6 +62,9 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
         Injector.propertiesRepository
             .getPriceHistory(widget.id)
             .catchError((_) => const <PropertyPriceChange>[]),
+        Injector.propertiesRepository
+            .getPriceInsightFor(widget.id)
+            .catchError((_) => const PriceInsight()),
       ]);
       if (!mounted) return;
       setState(() {
@@ -68,6 +73,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
         _viewings = results[2] as List<MeetingResponse>;
         _photos = results[3] as List<PropertyPhoto>;
         _priceHistory = results[4] as List<PropertyPriceChange>;
+        _priceInsight = results[5] as PriceInsight;
         _loading = false;
       });
     } catch (_) {
@@ -253,6 +259,8 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
           ),
           _DetailsCard(property: p),
           if (listingPoint(p) != null) PropertyLocationPreview(property: p),
+          if (hasPriceCheck(_priceInsight))
+            PropertyPriceCheckCard(insight: _priceInsight!),
           if (_priceHistory.isNotEmpty)
             PropertyPriceHistoryCard(changes: _priceHistory),
           _StatusCard(status: p.status, onChanged: _updateStatus),

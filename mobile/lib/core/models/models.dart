@@ -232,6 +232,104 @@ class PropertyPriceChange with _$PropertyPriceChange {
       _$PropertyPriceChangeFromJson(json);
 }
 
+// ignore: constant_identifier_names
+enum PriceRoomsRule { EXACT, NEAR, ANY }
+
+/// Price per square metre across one group of comparables; the figures are
+/// null when the group is empty.
+@freezed
+class PriceInsightStats with _$PriceInsightStats {
+  const factory PriceInsightStats({
+    @Default(0) int count,
+    double? medianPerSqm,
+    double? p25PerSqm,
+    double? p75PerSqm,
+    int? medianDaysOnMarket,
+  }) = _PriceInsightStats;
+
+  factory PriceInsightStats.fromJson(Map<String, dynamic> json) =>
+      _$PriceInsightStatsFromJson(json);
+}
+
+@freezed
+class PriceInsightRange with _$PriceInsightRange {
+  const factory PriceInsightRange({
+    @Default(0.0) double low,
+    @Default(0.0) double median,
+    @Default(0.0) double high,
+  }) = _PriceInsightRange;
+
+  factory PriceInsightRange.fromJson(Map<String, dynamic> json) =>
+      _$PriceInsightRangeFromJson(json);
+}
+
+/// Where a listing's own price per m² sits among the active comparables.
+@freezed
+class PriceInsightPosition with _$PriceInsightPosition {
+  const factory PriceInsightPosition({
+    @Default(0.0) double pricePerSqm,
+    int? percentile,
+    double? vsMedianPercent,
+  }) = _PriceInsightPosition;
+
+  factory PriceInsightPosition.fromJson(Map<String, dynamic> json) =>
+      _$PriceInsightPositionFromJson(json);
+}
+
+@freezed
+class PriceInsightCriteria with _$PriceInsightCriteria {
+  const factory PriceInsightCriteria({
+    String? city,
+    PropertyType? type,
+    int? rooms,
+    double? areaSqm,
+    @JsonKey(unknownEnumValue: PriceRoomsRule.ANY)
+    @Default(PriceRoomsRule.ANY)
+    PriceRoomsRule roomsRule,
+    int? minRooms,
+    int? maxRooms,
+  }) = _PriceInsightCriteria;
+
+  factory PriceInsightCriteria.fromJson(Map<String, dynamic> json) =>
+      _$PriceInsightCriteriaFromJson(json);
+}
+
+/// One of the agency's own listings a price was compared against.
+@freezed
+class PriceComparable with _$PriceComparable {
+  const factory PriceComparable({
+    required int id,
+    @Default('') String title,
+    @Default(0.0) double price,
+    double? areaSqm,
+    @Default(0.0) double pricePerSqm,
+    int? rooms,
+    @Default(PropertyStatus.AVAILABLE) PropertyStatus status,
+    @Default(false) bool sold,
+  }) = _PriceComparable;
+
+  factory PriceComparable.fromJson(Map<String, dynamic> json) =>
+      _$PriceComparableFromJson(json);
+}
+
+/// Is this price right? The agency's own listings and sales, per m².
+@freezed
+class PriceInsight with _$PriceInsight {
+  const factory PriceInsight({
+    @Default(0) int count,
+    @Default(true) bool lowConfidence,
+    @Default(PriceInsightCriteria()) PriceInsightCriteria criteria,
+    @Default(PriceInsightStats()) PriceInsightStats active,
+    @Default(PriceInsightStats()) PriceInsightStats sold,
+    PriceInsightRange? suggested,
+    PriceInsightPosition? position,
+    @Default(<PriceComparable>[]) List<PriceComparable> comparables,
+  }) = _PriceInsight;
+
+  factory PriceInsight.fromJson(Map<String, dynamic> json) =>
+      _$PriceInsightFromJson(json);
+}
+
 /// A listing's public link. [url] is null while the listing has none.
 @freezed
 class PropertyShareLink with _$PropertyShareLink {

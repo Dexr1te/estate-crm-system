@@ -403,6 +403,37 @@ class FakePropertiesRepository implements PropertiesRepository {
   Future<List<PropertyPriceChange>> getPriceHistory(int id) async =>
       priceHistory;
 
+  /// What `/properties/{id}/price-insight` answers. Insufficient by default —
+  /// no comparables — so a screen that is not about pricing draws no card.
+  PriceInsight priceInsight = const PriceInsight();
+
+  /// What `/properties/price-insight` answers while the form is being typed.
+  PriceInsight formInsight = const PriceInsight();
+
+  /// Every insight the form asked for, as the query it would have sent.
+  final List<Map<String, Object?>> insightRequests = [];
+
+  @override
+  Future<PriceInsight> getPriceInsightFor(int id) async => priceInsight;
+
+  @override
+  Future<PriceInsight> getPriceInsight({
+    required String city,
+    required PropertyType type,
+    int? rooms,
+    double? areaSqm,
+    int? excludeId,
+  }) async {
+    insightRequests.add({
+      'city': city,
+      'type': type,
+      'rooms': rooms,
+      'areaSqm': areaSqm,
+      'excludeId': excludeId,
+    });
+    return formInsight;
+  }
+
   @override
   Future<List<PropertyPhoto>> getPhotos(int id) async => photos;
 

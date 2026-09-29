@@ -5914,6 +5914,85 @@ abstract class AppLocalizations {
   /// **'Hold a photo to move it — the first one is the cover'**
   String get propertiesPhotosHint;
 
+  /// No description provided for @propertiesPriceCheck.
+  ///
+  /// In en, this message translates to:
+  /// **'Price check'**
+  String get propertiesPriceCheck;
+
+  /// No description provided for @propertiesPriceCheckAbove.
+  ///
+  /// In en, this message translates to:
+  /// **'{percent}% above'**
+  String propertiesPriceCheckAbove(String percent);
+
+  /// No description provided for @propertiesPriceCheckAtMedian.
+  ///
+  /// In en, this message translates to:
+  /// **'at the median'**
+  String get propertiesPriceCheckAtMedian;
+
+  /// No description provided for @propertiesPriceCheckBasedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{Based on {count} listing in {city}} other{Based on {count} listings in {city}}}'**
+  String propertiesPriceCheckBasedOn(int count, String city);
+
+  /// No description provided for @propertiesPriceCheckBelow.
+  ///
+  /// In en, this message translates to:
+  /// **'{percent}% below'**
+  String propertiesPriceCheckBelow(String percent);
+
+  /// No description provided for @propertiesPriceCheckComparables.
+  ///
+  /// In en, this message translates to:
+  /// **'Comparable listings'**
+  String get propertiesPriceCheckComparables;
+
+  /// No description provided for @propertiesPriceCheckDaysOnMarket.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} day on the market} other{{count} days on the market}}'**
+  String propertiesPriceCheckDaysOnMarket(int count);
+
+  /// No description provided for @propertiesPriceCheckLowConfidence.
+  ///
+  /// In en, this message translates to:
+  /// **'Few similar listings yet, so treat this as a rough guide'**
+  String get propertiesPriceCheckLowConfidence;
+
+  /// No description provided for @propertiesPriceCheckSeeComparables.
+  ///
+  /// In en, this message translates to:
+  /// **'See comparables'**
+  String get propertiesPriceCheckSeeComparables;
+
+  /// No description provided for @propertiesPriceCheckSold.
+  ///
+  /// In en, this message translates to:
+  /// **'Sold at a median of {price}'**
+  String propertiesPriceCheckSold(String price);
+
+  /// No description provided for @propertiesPriceCheckVsMedian.
+  ///
+  /// In en, this message translates to:
+  /// **'{price} / m² vs median {median} ({difference})'**
+  String propertiesPriceCheckVsMedian(
+      String price, String median, String difference);
+
+  /// No description provided for @propertiesPriceHintRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Similar listings: {low}–{high} for this area'**
+  String propertiesPriceHintRange(String low, String high);
+
+  /// No description provided for @propertiesPriceHintUseMedian.
+  ///
+  /// In en, this message translates to:
+  /// **'Use median'**
+  String get propertiesPriceHintUseMedian;
+
   /// No description provided for @propertiesPriceHistory.
   ///
   /// In en, this message translates to:

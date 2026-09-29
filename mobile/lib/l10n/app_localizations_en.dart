@@ -3443,6 +3443,73 @@ class AppLocalizationsEn extends AppLocalizations {
       'Hold a photo to move it — the first one is the cover';
 
   @override
+  String get propertiesPriceCheck => 'Price check';
+
+  @override
+  String propertiesPriceCheckAbove(String percent) {
+    return '$percent% above';
+  }
+
+  @override
+  String get propertiesPriceCheckAtMedian => 'at the median';
+
+  @override
+  String propertiesPriceCheckBasedOn(int count, String city) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Based on $count listings in $city',
+      one: 'Based on $count listing in $city',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String propertiesPriceCheckBelow(String percent) {
+    return '$percent% below';
+  }
+
+  @override
+  String get propertiesPriceCheckComparables => 'Comparable listings';
+
+  @override
+  String propertiesPriceCheckDaysOnMarket(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days on the market',
+      one: '$count day on the market',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get propertiesPriceCheckLowConfidence =>
+      'Few similar listings yet, so treat this as a rough guide';
+
+  @override
+  String get propertiesPriceCheckSeeComparables => 'See comparables';
+
+  @override
+  String propertiesPriceCheckSold(String price) {
+    return 'Sold at a median of $price';
+  }
+
+  @override
+  String propertiesPriceCheckVsMedian(
+      String price, String median, String difference) {
+    return '$price / m² vs median $median ($difference)';
+  }
+
+  @override
+  String propertiesPriceHintRange(String low, String high) {
+    return 'Similar listings: $low–$high for this area';
+  }
+
+  @override
+  String get propertiesPriceHintUseMedian => 'Use median';
+
+  @override
   String get propertiesPriceHistory => 'Price history';
 
   @override

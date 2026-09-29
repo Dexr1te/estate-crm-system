@@ -86,6 +86,26 @@ class PropertiesRepositoryImpl implements PropertiesRepository {
       _remote.getPriceHistory(id);
 
   @override
+  Future<PriceInsight> getPriceInsightFor(int id) =>
+      _remote.getPriceInsightFor(id);
+
+  @override
+  Future<PriceInsight> getPriceInsight({
+    required String city,
+    required PropertyType type,
+    int? rooms,
+    double? areaSqm,
+    int? excludeId,
+  }) =>
+      _remote.getPriceInsight(
+        city: city,
+        type: type,
+        rooms: rooms,
+        areaSqm: areaSqm,
+        excludeId: excludeId,
+      );
+
+  @override
   Future<PropertyShareLink> getShareLink(int id) => _remote.getShareLink(id);
 
   @override

@@ -337,6 +337,157 @@ Map<String, dynamic> _$$PropertyPriceChangeImplToJson(
       'changedAt': instance.changedAt?.toIso8601String(),
     };
 
+_$PriceInsightStatsImpl _$$PriceInsightStatsImplFromJson(
+        Map<String, dynamic> json) =>
+    _$PriceInsightStatsImpl(
+      count: (json['count'] as num?)?.toInt() ?? 0,
+      medianPerSqm: (json['medianPerSqm'] as num?)?.toDouble(),
+      p25PerSqm: (json['p25PerSqm'] as num?)?.toDouble(),
+      p75PerSqm: (json['p75PerSqm'] as num?)?.toDouble(),
+      medianDaysOnMarket: (json['medianDaysOnMarket'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$$PriceInsightStatsImplToJson(
+        _$PriceInsightStatsImpl instance) =>
+    <String, dynamic>{
+      'count': instance.count,
+      'medianPerSqm': instance.medianPerSqm,
+      'p25PerSqm': instance.p25PerSqm,
+      'p75PerSqm': instance.p75PerSqm,
+      'medianDaysOnMarket': instance.medianDaysOnMarket,
+    };
+
+_$PriceInsightRangeImpl _$$PriceInsightRangeImplFromJson(
+        Map<String, dynamic> json) =>
+    _$PriceInsightRangeImpl(
+      low: (json['low'] as num?)?.toDouble() ?? 0.0,
+      median: (json['median'] as num?)?.toDouble() ?? 0.0,
+      high: (json['high'] as num?)?.toDouble() ?? 0.0,
+    );
+
+Map<String, dynamic> _$$PriceInsightRangeImplToJson(
+        _$PriceInsightRangeImpl instance) =>
+    <String, dynamic>{
+      'low': instance.low,
+      'median': instance.median,
+      'high': instance.high,
+    };
+
+_$PriceInsightPositionImpl _$$PriceInsightPositionImplFromJson(
+        Map<String, dynamic> json) =>
+    _$PriceInsightPositionImpl(
+      pricePerSqm: (json['pricePerSqm'] as num?)?.toDouble() ?? 0.0,
+      percentile: (json['percentile'] as num?)?.toInt(),
+      vsMedianPercent: (json['vsMedianPercent'] as num?)?.toDouble(),
+    );
+
+Map<String, dynamic> _$$PriceInsightPositionImplToJson(
+        _$PriceInsightPositionImpl instance) =>
+    <String, dynamic>{
+      'pricePerSqm': instance.pricePerSqm,
+      'percentile': instance.percentile,
+      'vsMedianPercent': instance.vsMedianPercent,
+    };
+
+_$PriceInsightCriteriaImpl _$$PriceInsightCriteriaImplFromJson(
+        Map<String, dynamic> json) =>
+    _$PriceInsightCriteriaImpl(
+      city: json['city'] as String?,
+      type: $enumDecodeNullable(_$PropertyTypeEnumMap, json['type']),
+      rooms: (json['rooms'] as num?)?.toInt(),
+      areaSqm: (json['areaSqm'] as num?)?.toDouble(),
+      roomsRule: $enumDecodeNullable(_$PriceRoomsRuleEnumMap, json['roomsRule'],
+              unknownValue: PriceRoomsRule.ANY) ??
+          PriceRoomsRule.ANY,
+      minRooms: (json['minRooms'] as num?)?.toInt(),
+      maxRooms: (json['maxRooms'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$$PriceInsightCriteriaImplToJson(
+        _$PriceInsightCriteriaImpl instance) =>
+    <String, dynamic>{
+      'city': instance.city,
+      'type': _$PropertyTypeEnumMap[instance.type],
+      'rooms': instance.rooms,
+      'areaSqm': instance.areaSqm,
+      'roomsRule': _$PriceRoomsRuleEnumMap[instance.roomsRule]!,
+      'minRooms': instance.minRooms,
+      'maxRooms': instance.maxRooms,
+    };
+
+const _$PriceRoomsRuleEnumMap = {
+  PriceRoomsRule.EXACT: 'EXACT',
+  PriceRoomsRule.NEAR: 'NEAR',
+  PriceRoomsRule.ANY: 'ANY',
+};
+
+_$PriceComparableImpl _$$PriceComparableImplFromJson(
+        Map<String, dynamic> json) =>
+    _$PriceComparableImpl(
+      id: (json['id'] as num).toInt(),
+      title: json['title'] as String? ?? '',
+      price: (json['price'] as num?)?.toDouble() ?? 0.0,
+      areaSqm: (json['areaSqm'] as num?)?.toDouble(),
+      pricePerSqm: (json['pricePerSqm'] as num?)?.toDouble() ?? 0.0,
+      rooms: (json['rooms'] as num?)?.toInt(),
+      status: $enumDecodeNullable(_$PropertyStatusEnumMap, json['status']) ??
+          PropertyStatus.AVAILABLE,
+      sold: json['sold'] as bool? ?? false,
+    );
+
+Map<String, dynamic> _$$PriceComparableImplToJson(
+        _$PriceComparableImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'title': instance.title,
+      'price': instance.price,
+      'areaSqm': instance.areaSqm,
+      'pricePerSqm': instance.pricePerSqm,
+      'rooms': instance.rooms,
+      'status': _$PropertyStatusEnumMap[instance.status]!,
+      'sold': instance.sold,
+    };
+
+_$PriceInsightImpl _$$PriceInsightImplFromJson(Map<String, dynamic> json) =>
+    _$PriceInsightImpl(
+      count: (json['count'] as num?)?.toInt() ?? 0,
+      lowConfidence: json['lowConfidence'] as bool? ?? true,
+      criteria: json['criteria'] == null
+          ? const PriceInsightCriteria()
+          : PriceInsightCriteria.fromJson(
+              json['criteria'] as Map<String, dynamic>),
+      active: json['active'] == null
+          ? const PriceInsightStats()
+          : PriceInsightStats.fromJson(json['active'] as Map<String, dynamic>),
+      sold: json['sold'] == null
+          ? const PriceInsightStats()
+          : PriceInsightStats.fromJson(json['sold'] as Map<String, dynamic>),
+      suggested: json['suggested'] == null
+          ? null
+          : PriceInsightRange.fromJson(
+              json['suggested'] as Map<String, dynamic>),
+      position: json['position'] == null
+          ? null
+          : PriceInsightPosition.fromJson(
+              json['position'] as Map<String, dynamic>),
+      comparables: (json['comparables'] as List<dynamic>?)
+              ?.map((e) => PriceComparable.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const <PriceComparable>[],
+    );
+
+Map<String, dynamic> _$$PriceInsightImplToJson(_$PriceInsightImpl instance) =>
+    <String, dynamic>{
+      'count': instance.count,
+      'lowConfidence': instance.lowConfidence,
+      'criteria': instance.criteria,
+      'active': instance.active,
+      'sold': instance.sold,
+      'suggested': instance.suggested,
+      'position': instance.position,
+      'comparables': instance.comparables,
+    };
+
 _$PropertyShareLinkImpl _$$PropertyShareLinkImplFromJson(
         Map<String, dynamic> json) =>
     _$PropertyShareLinkImpl(
