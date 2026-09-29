@@ -14,6 +14,9 @@ import 'package:real_estate_crm/features/agents/domain/repositories/agents_repos
 import 'package:real_estate_crm/features/analytics/data/datasources/analytics_remote_datasource.dart';
 import 'package:real_estate_crm/features/analytics/data/repositories/analytics_repository_impl.dart';
 import 'package:real_estate_crm/features/analytics/domain/repositories/analytics_repository.dart';
+import 'package:real_estate_crm/features/app_lock/data/app_lock_repository_impl.dart';
+import 'package:real_estate_crm/features/app_lock/domain/app_lock_repository.dart';
+import 'package:real_estate_crm/features/app_lock/presentation/controller/app_lock_controller.dart';
 import 'package:real_estate_crm/features/auth/data/datasources/auth_remote_datasource.dart';
 import 'package:real_estate_crm/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:real_estate_crm/features/auth/domain/repositories/auth_repository.dart';
@@ -97,6 +100,12 @@ class Injector {
 
   static DocumentsRepository documentsRepository =
       DocumentsRepositoryImpl(DocumentsRemoteDataSource(_apiClient));
+
+  /// The PIN on the app, kept per user in the keychain.
+  static AppLockRepository appLockRepository = AppLockRepositoryImpl();
+
+  static AppLockController appLock =
+      AppLockController(repository: appLockRepository);
 
   static FileGateway fileGateway = const DeviceFileGateway();
 

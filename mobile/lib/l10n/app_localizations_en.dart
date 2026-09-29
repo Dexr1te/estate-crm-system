@@ -2544,6 +2544,100 @@ class AppLocalizationsEn extends AppLocalizations {
       'The file has more than 5000 rows. Split it into parts.';
 
   @override
+  String get lockAppLock => 'App lock';
+
+  @override
+  String get lockAppLockHint => 'Ask for a PIN to open the app';
+
+  @override
+  String get lockAutoLock => 'Lock after';
+
+  @override
+  String get lockAutoLockFifteenMinutes => '15 minutes in the background';
+
+  @override
+  String get lockAutoLockFiveMinutes => '5 minutes in the background';
+
+  @override
+  String get lockAutoLockImmediately => 'Immediately';
+
+  @override
+  String get lockAutoLockOneMinute => '1 minute in the background';
+
+  @override
+  String get lockAutoLockTitle => 'When to lock the app';
+
+  @override
+  String get lockCancel => 'Cancel';
+
+  @override
+  String get lockChangePin => 'Change PIN';
+
+  @override
+  String get lockConfirmPinTitle => 'Enter the PIN again';
+
+  @override
+  String get lockContinue => 'Continue';
+
+  @override
+  String get lockCurrentPinTitle => 'Enter your current PIN';
+
+  @override
+  String get lockDelete => 'Delete';
+
+  @override
+  String get lockDigitsHint => '4 to 6 digits';
+
+  @override
+  String get lockEnterPin => 'Enter your PIN';
+
+  @override
+  String get lockForgotPin => 'Forgot PIN?';
+
+  @override
+  String get lockForgotPinBody =>
+      'Signing out removes the PIN and the client data saved on this phone. Then sign in again with your password.';
+
+  @override
+  String get lockMismatch => 'The PINs do not match. Try again.';
+
+  @override
+  String get lockNewPinTitle => 'Choose a PIN';
+
+  @override
+  String get lockPinChanged => 'PIN changed';
+
+  @override
+  String lockRetryIn(String time) {
+    return 'Too many attempts. Try again in $time';
+  }
+
+  @override
+  String get lockSecurity => 'Security';
+
+  @override
+  String get lockSignOutAgain => 'Sign out and sign in again';
+
+  @override
+  String get lockTooManyAttempts =>
+      'Too many wrong PINs. Sign out and sign in again with your password.';
+
+  @override
+  String get lockTooShort => 'The PIN needs 4 to 6 digits.';
+
+  @override
+  String get lockTurnOn => 'Turn on';
+
+  @override
+  String get lockTurnedOff => 'App lock is off';
+
+  @override
+  String get lockTurnedOn => 'App lock is on';
+
+  @override
+  String get lockWrongPin => 'Wrong PIN';
+
+  @override
   String get meetingsAddShort => 'Meeting';
 
   @override

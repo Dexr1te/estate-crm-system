@@ -18,6 +18,8 @@ import 'package:real_estate_crm/core/theme/bloc/theme_bloc.dart';
 import 'package:real_estate_crm/core/utils/deep_links.dart';
 import 'package:real_estate_crm/core/utils/router.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/features/app_lock/presentation/controller/app_lock_controller.dart';
+import 'package:real_estate_crm/features/app_lock/presentation/widgets/app_lock_gate.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_state.dart';
@@ -69,6 +71,7 @@ class _MyAppState extends State<MyApp> {
   late final ShortcutHandler _shortcuts;
   late final UnreadCountPoller _unreadPoller;
   late final AppLifecycleListener _lifecycle;
+  final AppLockController _lock = Injector.appLock;
 
   @override
   void initState() {
@@ -89,15 +92,21 @@ class _MyAppState extends State<MyApp> {
     _remindersBloc = RemindersBloc(_notifications)..add(RemindersLoadEvent());
     _tasksBloc = TasksBloc(Injector.tasksRepository);
     router = createRouter(_authBloc);
+    _lock.onSignOut = () async {
+      if (!_authBloc.isClosed) _authBloc.add(AuthLogoutEvent());
+    };
+    _authBloc.addListener(_syncLock);
     _deepLinks = DeepLinkHandler(
       router: router,
       auth: _authBloc,
       confirmSignOut: _confirmInviteSignOut,
+      gate: _lock,
     )..start();
     _shortcuts = ShortcutHandler(
       actions: Injector.quickActions,
       auth: _authBloc,
       open: (s) => unawaited(openAppShortcut(router, s)),
+      gate: _lock,
     );
     unawaited(_shortcuts.start());
     _unreadPoller = UnreadCountPoller(
@@ -109,6 +118,16 @@ class _MyAppState extends State<MyApp> {
       onHide: _unreadPoller.stop,
       onPause: _unreadPoller.stop,
     );
+  }
+
+  /// The lock follows whoever the session belongs to, once that is known.
+  void _syncLock() {
+    final state = _authBloc.state;
+    if (state is AuthAuthenticated) {
+      unawaited(_lock.attach(state.user.userId));
+    } else if (state is AuthUnauthenticated) {
+      unawaited(_lock.attach(null));
+    }
   }
 
   void _startUnreadPolling() {
@@ -158,6 +177,8 @@ class _MyAppState extends State<MyApp> {
   void dispose() {
     Injector.apiClient.onSessionExpired = null;
     _lifecycle.dispose();
+    _authBloc.removeListener(_syncLock);
+    _lock.onSignOut = null;
     _unreadPoller.stop();
     _deepLinks.dispose();
     _shortcuts.dispose();
@@ -289,11 +310,14 @@ class _MyAppState extends State<MyApp> {
               builder: (context, child) => ShortcutTitles(
                 handler: _shortcuts,
                 child: AppTextScaling(
-                  child: MoneyScope(
-                    child: OfflineBanner(
-                      status: Injector.apiClient.offline,
-                      onRetry: _retryOffline,
-                      child: child ?? const SizedBox.shrink(),
+                  child: AppLockGate(
+                    controller: _lock,
+                    child: MoneyScope(
+                      child: OfflineBanner(
+                        status: Injector.apiClient.offline,
+                        onRetry: _retryOffline,
+                        child: child ?? const SizedBox.shrink(),
+                      ),
                     ),
                   ),
                 ),

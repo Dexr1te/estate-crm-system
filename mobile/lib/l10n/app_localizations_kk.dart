@@ -2531,6 +2531,100 @@ class AppLocalizationsKk extends AppLocalizations {
       'Файлда 5000-нан көп жол бар. Оны бөліктерге бөліңіз.';
 
   @override
+  String get lockAppLock => 'Қолданбаны құлыптау';
+
+  @override
+  String get lockAppLockHint => 'Кіру кезінде PIN-код сұрау';
+
+  @override
+  String get lockAutoLock => 'Құлыптау уақыты';
+
+  @override
+  String get lockAutoLockFifteenMinutes => 'Фонда 15 минуттан кейін';
+
+  @override
+  String get lockAutoLockFiveMinutes => 'Фонда 5 минуттан кейін';
+
+  @override
+  String get lockAutoLockImmediately => 'Бірден';
+
+  @override
+  String get lockAutoLockOneMinute => 'Фонда 1 минуттан кейін';
+
+  @override
+  String get lockAutoLockTitle => 'Қолданбаны қашан құлыптау керек';
+
+  @override
+  String get lockCancel => 'Бас тарту';
+
+  @override
+  String get lockChangePin => 'PIN-кодты өзгерту';
+
+  @override
+  String get lockConfirmPinTitle => 'PIN-кодты қайталаңыз';
+
+  @override
+  String get lockContinue => 'Жалғастыру';
+
+  @override
+  String get lockCurrentPinTitle => 'Қазіргі PIN-кодты енгізіңіз';
+
+  @override
+  String get lockDelete => 'Өшіру';
+
+  @override
+  String get lockDigitsHint => '4-тен 6-ға дейін сан';
+
+  @override
+  String get lockEnterPin => 'PIN-кодты енгізіңіз';
+
+  @override
+  String get lockForgotPin => 'PIN-кодты ұмыттыңыз ба?';
+
+  @override
+  String get lockForgotPinBody =>
+      'Шыққанда PIN-код пен телефонда сақталған клиент деректері жойылады. Содан кейін құпиясөзбен қайта кіріңіз.';
+
+  @override
+  String get lockMismatch => 'PIN-кодтар сәйкес келмейді. Қайталап көріңіз.';
+
+  @override
+  String get lockNewPinTitle => 'PIN-код ойлап табыңыз';
+
+  @override
+  String get lockPinChanged => 'PIN-код өзгертілді';
+
+  @override
+  String lockRetryIn(String time) {
+    return 'Әрекет тым көп. $time кейін қайталаңыз';
+  }
+
+  @override
+  String get lockSecurity => 'Қауіпсіздік';
+
+  @override
+  String get lockSignOutAgain => 'Шығып, қайта кіру';
+
+  @override
+  String get lockTooManyAttempts =>
+      'Қате PIN-код тым көп рет енгізілді. Шығып, құпиясөзбен қайта кіріңіз.';
+
+  @override
+  String get lockTooShort => 'PIN-код 4-тен 6-ға дейін саннан тұруы керек.';
+
+  @override
+  String get lockTurnOn => 'Қосу';
+
+  @override
+  String get lockTurnedOff => 'Құлыптау өшірілді';
+
+  @override
+  String get lockTurnedOn => 'Құлыптау қосылды';
+
+  @override
+  String get lockWrongPin => 'PIN-код қате';
+
+  @override
   String get meetingsAddShort => 'Кездесу';
 
   @override
