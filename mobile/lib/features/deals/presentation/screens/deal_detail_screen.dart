@@ -15,6 +15,8 @@ import 'package:real_estate_crm/features/checklist/presentation/bloc/deal_checkl
 import 'package:real_estate_crm/features/checklist/presentation/bloc/deal_checklist_state.dart';
 import 'package:real_estate_crm/features/checklist/presentation/widgets/checklist_sheets.dart';
 import 'package:real_estate_crm/features/checklist/presentation/widgets/deal_checklist_card.dart';
+import 'package:real_estate_crm/features/deals/presentation/bloc/deal_comments_bloc.dart';
+import 'package:real_estate_crm/features/deals/presentation/bloc/deal_comments_event.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_bloc.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_event.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_state.dart';
@@ -53,9 +55,14 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
       ..add(DealChecklistLoadEvent());
   }
 
+  DealCommentsBloc? _commentsBlocOrNull;
+  DealCommentsBloc get _comments =>
+      _commentsBlocOrNull ??= DealDiscussionCard.createBloc(context, widget.id);
+
   @override
   void dispose() {
     _checklistBlocOrNull?.close();
+    _commentsBlocOrNull?.close();
     super.dispose();
   }
 
@@ -230,6 +237,7 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
             onRefresh: () async {
               context.read<DocumentsBloc>().add(DocumentsLoadEvent());
               _checklist.add(DealChecklistLoadEvent());
+              _comments.add(DealCommentsLoadEvent());
               await _load();
             },
             actions: [
@@ -253,7 +261,8 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
               _TimelineCard(deal: deal),
               if (deal.notes != null && deal.notes!.trim().isNotEmpty)
                 _NotesCard(text: deal.notes!),
-              DealDiscussionCard(key: _discussionKey, dealId: deal.id),
+              DealDiscussionCard(
+                  key: _discussionKey, dealId: deal.id, bloc: _comments),
             ],
           ),
         ),

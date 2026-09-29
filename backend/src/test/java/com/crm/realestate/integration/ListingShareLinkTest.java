@@ -282,6 +282,24 @@ class ListingShareLinkTest {
         mockMvc.perform(get("/l/{token}", "x".repeat(300))).andExpect(status().isNotFound());
     }
 
+    @Test
+    @DisplayName("an unknown address under a live link gets the friendly page; elsewhere, a JSON 404")
+    void unknownPath() throws Exception {
+        String token = createAs(agent);
+        String html = html(mockMvc.perform(get("/l/{token}/nope", token)
+                        .header(HttpHeaders.ACCEPT_LANGUAGE, "en"))
+                .andExpect(status().isNotFound())
+                .andExpect(header().string("Cache-Control", "no-store")).andReturn());
+        assertThat(html).contains("<html lang=\"en\">").contains("This link is no longer active");
+        mockMvc.perform(get("/l/{token}/photos", token)).andExpect(status().isNotFound());
+
+        mockMvc.perform(get("/no-such-endpoint").header(HttpHeaders.AUTHORIZATION, bearer(agent)))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.status").value(404))
+                .andExpect(jsonPath("$.error").value("Not Found"))
+                .andExpect(jsonPath("$.path").value("/no-such-endpoint"));
+    }
+
     // Photographs --------------------------------------------------------------------------
 
     @Test

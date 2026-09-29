@@ -75,9 +75,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get adminInactive => 'НЕАКТИВЕН';
 
   @override
-  String get adminInvite => 'Пригласить';
-
-  @override
   String get adminInviteCodeCopied => 'Код приглашения скопирован';
 
   @override
@@ -455,9 +452,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get authSendResetLink => 'Отправить ссылку';
 
   @override
-  String get authSetPasswordContinue => 'Задать пароль и продолжить';
-
-  @override
   String get authSetPasswordSignIn => 'Задать пароль и войти';
 
   @override
@@ -471,9 +465,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get authVerify => 'Подтвердить';
-
-  @override
-  String get authVerifyCodeRequired => 'Введите шесть цифр из письма';
 
   @override
   String authVerifyEmailSubtitle(Object email) {
@@ -685,9 +676,6 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get clientsAddClient => 'Добавить клиента';
-
-  @override
   String get clientsAddFirstClient => 'Добавьте первого клиента';
 
   @override
@@ -705,18 +693,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get clientsBudgetFrom => 'Бюджет от';
 
   @override
-  String clientsBudgetRange(String from, String to) {
-    return '$from – $to';
-  }
-
-  @override
   String get clientsBudgetTo => 'Бюджет до';
 
   @override
   String get clientsBuyer => 'Покупатель';
-
-  @override
-  String get clientsCancel => 'Отмена';
 
   @override
   String clientsClientCreatedId(Object id) {
@@ -889,9 +869,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get clientsCreateClient => 'Создать клиента';
 
   @override
-  String get clientsCreated => 'Создано';
-
-  @override
   String clientsDealCount(num count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -926,11 +903,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get clientsDeleteClient => 'Удалить клиента';
-
-  @override
-  String clientsDeleteConfirm(Object name) {
-    return 'Удалить «$name»?';
-  }
 
   @override
   String get clientsDuplicateEyebrow => 'Возможный дубль';
@@ -994,9 +966,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get clientsFullName => 'Полное имя';
-
-  @override
-  String get clientsFullNameLabel => 'Полное имя';
 
   @override
   String get clientsHistory => 'История';
@@ -1174,9 +1143,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get clientsSourcePublicLink => 'С публичной ссылки';
 
   @override
-  String get clientsTimestamps => 'Отметки времени';
-
-  @override
   String get clientsTitle => 'Клиенты';
 
   @override
@@ -1184,9 +1150,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get clientsUpdateClient => 'Обновить клиента';
-
-  @override
-  String get clientsUpdated => 'Обновлено';
 
   @override
   String clientsUpdatedAt(Object date) {
@@ -1476,18 +1439,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get coreStatusWon => 'Выиграна';
 
   @override
-  String dashboardActiveDeals(Object count) {
-    return '$count активных';
-  }
-
-  @override
   String get dashboardActiveDealsLabel => 'Активных сделок';
-
-  @override
-  String get dashboardAddClient => 'Добавить клиента';
-
-  @override
-  String get dashboardAddProperty => 'Добавить объект';
 
   @override
   String dashboardAgentDeals(num count) {
@@ -1526,19 +1478,6 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String dashboardDateSummary(Object date) {
     return '$date · сводка команды';
-  }
-
-  @override
-  String dashboardDecidedDeals(num count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count сделок завершено',
-      few: '$count сделки завершены',
-      one: '1 сделка завершена',
-      zero: 'Пока ничего не закрыто',
-    );
-    return '$_temp0';
   }
 
   @override
@@ -1633,9 +1572,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get dashboardMeetingsLabel => 'Встречи';
 
   @override
-  String get dashboardMeetingsSubtitle => 'встречи';
-
-  @override
   String get dashboardNewDeal => 'Новая сделка';
 
   @override
@@ -1663,15 +1599,6 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get dashboardNothingScheduledHint =>
       'Назначьте встречу — она появится здесь';
-
-  @override
-  String get dashboardOverviewSubtitle => 'Ваша сводка на сегодня';
-
-  @override
-  String get dashboardOverviewTitle => 'Обзор';
-
-  @override
-  String get dashboardQuickActions => 'Быстрые действия';
 
   @override
   String dashboardRelativeInHours(Object count) {
@@ -1724,19 +1651,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get dashboardTopAgents => 'Лучшие агенты';
 
   @override
-  String get dashboardTotalDeals => 'Всего сделок';
-
-  @override
-  String get dashboardUpcoming => 'Предстоящие';
-
-  @override
   String get dashboardUpcomingMeetings => 'Предстоящие встречи';
-
-  @override
-  String get dashboardValueByStage => 'Суммы по стадиям';
-
-  @override
-  String get dealsAddDeal => 'Добавить сделку';
 
   @override
   String get dealsAgent => 'Агент';
@@ -1770,9 +1685,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String dealsBudgetValue(Object price) {
     return 'Бюджет: $price';
   }
-
-  @override
-  String get dealsCancel => 'Отмена';
 
   @override
   String get dealsChecklistAdd => 'Добавить пункт';
@@ -1884,9 +1796,6 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get dealsClosed => 'Закрыта';
-
-  @override
   String dealsCommentCount(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -1974,9 +1883,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get dealsCreateDeal => 'Создать сделку';
 
   @override
-  String get dealsCreated => 'Создана';
-
-  @override
   String get dealsDealPrice => 'Цена сделки';
 
   @override
@@ -1985,15 +1891,7 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String dealsDeleteConfirm(Object title) {
-    return 'Удалить «$title»?';
-  }
-
-  @override
   String get dealsDeleteTitle => 'Удалить сделку';
-
-  @override
-  String get dealsDetails => 'Детали';
 
   @override
   String get dealsDiscussion => 'Обсуждение';
@@ -2043,9 +1941,6 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get dealsLoading => 'Загрузка…';
-
-  @override
   String get dealsLostConfirm => 'Отметить как проигранную';
 
   @override
@@ -2087,11 +1982,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get dealsNewTitle => 'Новая сделка';
-
-  @override
-  String dealsNextCall(Object when) {
-    return 'звонок $when';
-  }
 
   @override
   String get dealsNoResults => 'Ничего не найдено';
@@ -2139,26 +2029,6 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String dealsStaleWarning(Object days) {
     return 'нет активности $days дней';
-  }
-
-  @override
-  String get dealsStatusClosedLost => 'Закрыта с потерей';
-
-  @override
-  String get dealsStatusClosedWon => 'Успешно закрыта';
-
-  @override
-  String get dealsStatusLead => 'Лид';
-
-  @override
-  String get dealsStatusNegotiation => 'Переговоры';
-
-  @override
-  String get dealsStatusNotes => 'Статус и заметки';
-
-  @override
-  String dealsTapToSelect(Object label) {
-    return 'Нажмите, чтобы выбрать $label';
   }
 
   @override
@@ -2675,9 +2545,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get lockWrongPin => 'Неверный PIN-код';
 
   @override
-  String get meetingsAddShort => 'Встреча';
-
-  @override
   String get meetingsAgendaHint => 'Повестка встречи, темы для обсуждения…';
 
   @override
@@ -2689,22 +2556,12 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get meetingsCancel => 'Отмена';
-
-  @override
   String get meetingsClient => 'Клиент';
 
   @override
   String meetingsClientNumber(Object id) {
     return 'Клиент №$id';
   }
-
-  @override
-  String get meetingsCompleted => 'Выполнено';
-
-  @override
-  String get meetingsCouldNotLoadOptions =>
-      'Не удалось загрузить клиентов и агентов.';
 
   @override
   String meetingsCounter(num count) {
@@ -2739,9 +2596,6 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get meetingsDeleteConfirm => 'Удалить эту встречу?';
-
-  @override
   String get meetingsDeleteMeeting => 'Удалить встречу';
 
   @override
@@ -2766,13 +2620,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get meetingsGroupTomorrow => 'Завтра';
 
   @override
-  String get meetingsLoading => 'Загрузка…';
-
-  @override
   String get meetingsLocation => 'Место';
-
-  @override
-  String get meetingsMarkComplete => 'Отметить выполненной';
 
   @override
   String get meetingsMustBeInFuture => 'Выберите время в будущем';
@@ -2785,13 +2633,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get meetingsNoMeetings => 'Нет встреч';
-
-  @override
-  String get meetingsNoResults => 'Ничего не найдено';
-
-  @override
-  String get meetingsNoResultsSubtitle =>
-      'В этом диапазоне ничего не запланировано';
 
   @override
   String get meetingsNote => 'Заметка к встрече';
@@ -2829,9 +2670,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get meetingsOutcomeSave => 'Сохранить';
 
   @override
-  String get meetingsPeopleAndDeal => 'Участники и сделка';
-
-  @override
   String get meetingsPleaseSelectAgent => 'Пожалуйста, выберите агента';
 
   @override
@@ -2860,9 +2698,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get meetingsSearchByNameOrId => 'Поиск по имени или ID…';
 
   @override
-  String get meetingsSelectDateTime => 'Выберите дату и время';
-
-  @override
   String meetingsSelectEntity(Object label) {
     return 'Выберите $label';
   }
@@ -2875,11 +2710,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get meetingsStatusScheduled => 'Запланирована';
-
-  @override
-  String meetingsTapToSelect(Object label) {
-    return 'Нажмите, чтобы выбрать: $label';
-  }
 
   @override
   String get meetingsTime => 'Время';
@@ -2969,11 +2799,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get mortgageOverpayment => 'Переплата';
-
-  @override
-  String mortgagePerMonth(String amount) {
-    return '$amount в месяц';
-  }
 
   @override
   String get mortgagePresetHousingSavings => 'Жилстройсбережения';
@@ -3393,12 +3218,6 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get profileAbout => 'О приложении';
-
-  @override
-  String get profileAccount => 'Аккаунт';
-
-  @override
   String get profileAgentId => 'ID агента';
 
   @override
@@ -3406,15 +3225,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get profileApp => 'Приложение';
-
-  @override
-  String get profileBuiltForTeams => 'Создано для команд по недвижимости';
-
-  @override
-  String get profileCancel => 'Отмена';
-
-  @override
-  String get profileDarkMode => 'Тёмная тема';
 
   @override
   String get profileDeleteAccount => 'Удалить аккаунт';
@@ -3434,9 +3244,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get profileDeleteHandoverTitle => 'Кому передать ваши записи';
 
   @override
-  String get profileEditName => 'Изменить имя';
-
-  @override
   String get profileEditProfile => 'Изменить профиль';
 
   @override
@@ -3444,9 +3251,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get profileEstateCrm => 'Estate CRM';
-
-  @override
-  String get profileFollowSystem => 'По системе';
 
   @override
   String get profileFullName => 'Полное имя';
@@ -3464,12 +3268,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get profileName => 'Имя';
 
   @override
-  String get profileNameUpdated => 'Имя обновлено локально';
-
-  @override
-  String get profilePreferences => 'Настройки';
-
-  @override
   String get profilePrivacyPolicy => 'Политика конфиденциальности';
 
   @override
@@ -3477,9 +3275,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get profileRemindersOff => 'Выключены';
-
-  @override
-  String get profileRole => 'Роль';
 
   @override
   String get profileSave => 'Сохранить';
@@ -3518,9 +3313,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get profileVersion => 'Версия';
 
   @override
-  String get propertiesAdd => 'Добавить';
-
-  @override
   String get propertiesAddFirstListing => 'Добавьте первый объект';
 
   @override
@@ -3530,13 +3322,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get propertiesAddressLabel => 'Адрес';
 
   @override
-  String get propertiesAgent => 'Агент';
-
-  @override
   String get propertiesAll => 'Все';
-
-  @override
-  String get propertiesApply => 'Применить';
 
   @override
   String get propertiesArea => 'Площадь';
@@ -3576,9 +3362,6 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get propertiesCancel => 'Отмена';
-
-  @override
   String get propertiesCityLabel => 'Город';
 
   @override
@@ -3595,11 +3378,6 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String propertiesDeleteCascade(Object title) {
     return '«$title» будет удалён безвозвратно. Отменить действие нельзя.';
-  }
-
-  @override
-  String propertiesDeleteConfirm(Object title) {
-    return 'Удалить «$title»?';
   }
 
   @override
@@ -3921,9 +3699,6 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get propertiesSearchHint => 'Поиск...';
-
-  @override
   String get propertiesSearchHintFull => 'Адрес, ЖК, ID…';
 
   @override
@@ -3947,13 +3722,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get propertiesType => 'Тип';
 
   @override
-  String get propertiesTypeAndStatus => 'Тип и статус';
-
-  @override
   String get propertiesUpdateProperty => 'Обновить объект';
-
-  @override
-  String get propertiesUpdateStatus => 'Обновить статус';
 
   @override
   String get propertiesViewList => 'Список';
@@ -4221,9 +3990,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get tasksAdd => 'Добавить задачу';
 
   @override
-  String get tasksAddShort => 'Задача';
-
-  @override
   String get tasksAllTasks => 'Все задачи';
 
   @override
@@ -4296,9 +4062,6 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get tasksEmptyOpenHint =>
       'Здесь появятся задачи, добавленные к клиентам и сделкам.';
-
-  @override
-  String get tasksEmptyRecord => 'Открытых задач нет';
 
   @override
   String get tasksEmptyRecordHint =>
@@ -4390,6 +4153,16 @@ class AppLocalizationsRu extends AppLocalizations {
   String get teamsChecklistDelete => 'Удалить пункт';
 
   @override
+  String get teamsChecklistDiscard => 'Не сохранять';
+
+  @override
+  String get teamsChecklistDiscardBody =>
+      'Изменения в чек-листе ещё не сохранены.';
+
+  @override
+  String get teamsChecklistDiscardTitle => 'Выйти без сохранения?';
+
+  @override
   String get teamsChecklistEmptyStage => 'На этом этапе пока нет пунктов';
 
   @override
@@ -4469,9 +4242,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get teamsFullName => 'Полное имя';
 
   @override
-  String get teamsInviteAgent => 'Пригласить агента';
-
-  @override
   String teamsInviteSentBody(Object email) {
     return 'Приглашение отправлено на $email.';
   }
@@ -4537,12 +4307,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get teamsNoTeamLabel => 'Без команды';
 
   @override
-  String get teamsNoTeamSubtitle => 'Вы не управляете командой';
-
-  @override
-  String get teamsNoTeamYet => 'Пока нет команды';
-
-  @override
   String get teamsPending => 'Ожидают';
 
   @override
@@ -4576,9 +4340,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get teamsSave => 'Сохранить';
-
-  @override
-  String get teamsSendInvite => 'Отправить приглашение';
 
   @override
   String get teamsStatusPendingInvite => 'Приглашён';

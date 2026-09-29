@@ -86,7 +86,8 @@ class MortgageSettings {
           : d.termYears,
       type: MortgagePaymentType.values
           .firstWhere((t) => t.name == json['type'], orElse: () => d.type),
-      downPercent: down is num && down >= 0 && down <= kMaxDownPercent
+      // A typed down payment may go past the slider's 90%, up to all of it.
+      downPercent: down is num && down >= 0 && down <= 100
           ? down.toDouble()
           : d.downPercent,
     );

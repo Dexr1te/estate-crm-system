@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
@@ -27,54 +28,80 @@ class ChecklistTemplateScreen extends StatelessWidget {
 class _TemplateView extends StatelessWidget {
   const _TemplateView();
 
+  /// Back with unsaved changes asks first; saying "discard" leaves.
+  Future<void> _confirmLeave(BuildContext context) async {
+    final l10n = AppLocalizations.of(context);
+    final discard = await showConfirmDialog(
+      context,
+      title: l10n.teamsChecklistDiscardTitle,
+      content: l10n.teamsChecklistDiscardBody,
+      confirmLabel: l10n.teamsChecklistDiscard,
+      icon: Icons.edit_off_outlined,
+    );
+    if (!discard || !context.mounted) return;
+    final navigator = Navigator.of(context);
+    // The editor opened by a deep link has nothing under it to go back to.
+    navigator.canPop() ? navigator.pop() : context.go('/');
+  }
+
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    final t = context.tokens;
     return BlocConsumer<ChecklistTemplateBloc, ChecklistTemplateState>(
       listenWhen: (_, next) => next.outcome != null,
       listener: (context, state) => showActionOutcome(context, state.outcome),
-      builder: (context, state) {
-        final bloc = context.read<ChecklistTemplateBloc>();
-        final loaded = state.status == ChecklistTemplateStatus.loaded;
-        return DetailScaffold(
-          title: l10n.teamsChecklist,
-          bottomAction: loaded
-              ? AppFilledButton(
-                  key: const Key('template-save'),
-                  label: l10n.coreSave,
-                  loading: state.saving,
-                  onPressed: state.dirty && !state.saving
-                      ? () => bloc.add(ChecklistTemplateSaveEvent())
-                      : null,
-                )
-              : null,
-          children: [
-            Text(
-              l10n.teamsChecklistNewDealsOnly,
-              maxLines: 4,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                  fontFamily: AppFonts.sans,
-                  fontSize: 12.5,
-                  height: 1.45,
-                  color: t.textSecondary),
+      builder: (context, state) => PopScope(
+        canPop: !state.dirty,
+        onPopInvokedWithResult: (didPop, _) {
+          if (!didPop) _confirmLeave(context);
+        },
+        child: _page(context, state),
+      ),
+    );
+  }
+
+  Widget _page(BuildContext context, ChecklistTemplateState state) {
+    final l10n = AppLocalizations.of(context);
+    final t = context.tokens;
+    final bloc = context.read<ChecklistTemplateBloc>();
+    final loaded = state.status == ChecklistTemplateStatus.loaded;
+    return DetailScaffold(
+      title: l10n.teamsChecklist,
+      // The app bar's back goes around PopScope, so it asks here too.
+      onBack: state.dirty ? () => _confirmLeave(context) : null,
+      bottomAction: loaded
+          ? AppFilledButton(
+              key: const Key('template-save'),
+              label: l10n.coreSave,
+              loading: state.saving,
+              onPressed: state.dirty && !state.saving
+                  ? () => bloc.add(ChecklistTemplateSaveEvent())
+                  : null,
+            )
+          : null,
+      children: [
+        Text(
+          l10n.teamsChecklistNewDealsOnly,
+          maxLines: 4,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+              fontFamily: AppFonts.sans,
+              fontSize: 12.5,
+              height: 1.45,
+              color: t.textSecondary),
+        ),
+        if (state.status == ChecklistTemplateStatus.loading)
+          const AppCard(child: ChecklistBones()),
+        if (state.status == ChecklistTemplateStatus.error)
+          AppCard(
+            child: ChecklistLoadError(
+              message: l10n.dealsChecklistLoadFailed,
+              onRetry: () => bloc.add(ChecklistTemplateLoadEvent()),
             ),
-            if (state.status == ChecklistTemplateStatus.loading)
-              const AppCard(child: ChecklistBones()),
-            if (state.status == ChecklistTemplateStatus.error)
-              AppCard(
-                child: ChecklistLoadError(
-                  message: l10n.dealsChecklistLoadFailed,
-                  onRetry: () => bloc.add(ChecklistTemplateLoadEvent()),
-                ),
-              ),
-            if (loaded)
-              for (final stage in ChecklistStage.values)
-                _StageEditor(stage: stage, lines: state.linesOf(stage)),
-          ],
-        );
-      },
+          ),
+        if (loaded)
+          for (final stage in ChecklistStage.values)
+            _StageEditor(stage: stage, lines: state.linesOf(stage)),
+      ],
     );
   }
 }

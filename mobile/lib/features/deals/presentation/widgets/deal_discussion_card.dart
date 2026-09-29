@@ -17,23 +17,34 @@ import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 /// The conversation about a deal, oldest at the top, with a place to add to it
 /// at the bottom.
+///
+/// A screen that reloads the discussion itself — on pull to refresh — makes
+/// the bloc with [createBloc] and hands it in as [bloc]; otherwise the card
+/// makes and owns its own.
 class DealDiscussionCard extends StatelessWidget {
   final int dealId;
-  const DealDiscussionCard({super.key, required this.dealId});
+  final DealCommentsBloc? bloc;
+  const DealDiscussionCard({super.key, required this.dealId, this.bloc});
+
+  /// The discussion of [dealId], as whoever is signed in, already loading.
+  static DealCommentsBloc createBloc(BuildContext context, int dealId) {
+    final me = context.read<AuthBloc>().currentUser;
+    return DealCommentsBloc(
+      Injector.dealCommentsRepository,
+      dealId: dealId,
+      authorId: me?.userId,
+      authorName: me?.fullName ?? '',
+    )..add(DealCommentsLoadEvent());
+  }
 
   @override
   Widget build(BuildContext context) {
-    final me = context.read<AuthBloc>().currentUser;
-    final repo = Injector.dealCommentsRepository;
+    final body = _DiscussionBody(
+        dealId: dealId, repository: Injector.dealCommentsRepository);
+    final given = bloc;
+    if (given != null) return BlocProvider.value(value: given, child: body);
     return BlocProvider(
-      create: (_) => DealCommentsBloc(
-        repo,
-        dealId: dealId,
-        authorId: me?.userId,
-        authorName: me?.fullName ?? '',
-      )..add(DealCommentsLoadEvent()),
-      child: _DiscussionBody(dealId: dealId, repository: repo),
-    );
+        create: (context) => createBloc(context, dealId), child: body);
   }
 }
 

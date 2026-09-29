@@ -123,7 +123,7 @@ void main() {
         _console(),
         size: const Size(375, 667),
         brightness: Brightness.light,
-        textScale: 1.3,
+        textScale: 1.5,
         locale: locale,
       );
       await tester.pumpAndSettle();

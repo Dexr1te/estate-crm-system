@@ -247,6 +247,18 @@ public class ListingPageRenderer {
         return document(locale, t.getString("lead.thanks.title"), "", body);
     }
 
+    /**
+     * A form post too big to read. Nothing was looked up, so the link back is to whatever token
+     * was posted to — the page it leads to says for itself whether that link still works.
+     */
+    public String tooLarge(String token, Locale locale) {
+        ResourceBundle t = bundle(locale);
+        String body = "<main class=\"card empty\">\n<h1>" + escape(t.getString("lead.tooLarge.title"))
+                + "</h1>\n<p class=\"muted\">" + escape(t.getString("lead.tooLarge.body")) + "</p>\n"
+                + backLink(token, t) + "</main>\n";
+        return document(locale, t.getString("lead.tooLarge.title"), "", body);
+    }
+
     private static String backLink(String token, ResourceBundle t) {
         return "<p class=\"map\"><a href=\"../" + escape(token) + "\">"
                 + escape(t.getString("lead.back")) + "</a></p>\n";

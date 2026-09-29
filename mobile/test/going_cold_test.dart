@@ -142,6 +142,28 @@ void main() {
       expect(find.byKey(const ValueKey('cold-client-1')), findsOneWidget);
     });
 
+    testWidgets(
+        "the summary's total drops with each reminder and comes back on undo",
+        (tester) async {
+      tester.view.physicalSize = const Size(390, 1400);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.reset);
+      final bloc = coldBloc();
+      addTearDown(bloc.close);
+      await tester.pumpWidget(coldCardApp(bloc, total: 12));
+      await tester.pumpAndSettle();
+      expect(find.text('12 in all'), findsOneWidget);
+
+      await tester.tap(find.byKey(const ValueKey('cold-remind-1')));
+      await tester.pumpAndSettle();
+      expect(find.text('11 in all'), findsOneWidget);
+
+      await tester.tap(find.byKey(const ValueKey('cold-undo')));
+      await tester.pumpAndSettle();
+      expect(find.byKey(const ValueKey('cold-client-1')), findsOneWidget);
+      expect(find.text('12 in all'), findsOneWidget);
+    });
+
     testWidgets('a tap opens the client', (tester) async {
       await _pumpCard(tester);
       await tester.tap(find.text('Daniyar Abenov'));
