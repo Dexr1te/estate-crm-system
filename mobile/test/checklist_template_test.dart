@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/theme/app_theme.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/checklist/presentation/bloc/checklist_template_bloc.dart';
 import 'package:real_estate_crm/features/checklist/presentation/bloc/checklist_template_event.dart';
 import 'package:real_estate_crm/features/checklist/presentation/screens/checklist_template_screen.dart';
+import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 import 'fakes.dart';
 import 'responsive_harness.dart';
@@ -104,6 +107,81 @@ void main() {
     expect(saved.last.stage, ChecklistStage.CLOSED_WON);
     expect(find.text('Checklist saved'), findsOneWidget);
     expect(_save(tester).onPressed, isNull);
+  });
+
+  group('leaving with unsaved changes', () {
+    Future<void> open(WidgetTester tester) async {
+      tester.view.physicalSize = const Size(390, 1400);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.reset);
+      await tester.pumpWidget(MaterialApp.router(
+        theme: AppTheme.light,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        locale: const Locale('en'),
+        routerConfig: GoRouter(routes: [
+          GoRoute(
+            path: '/',
+            builder: (context, _) => Scaffold(
+              body: TextButton(
+                onPressed: () => context.push('/template'),
+                child: const Text('open editor'),
+              ),
+            ),
+          ),
+          GoRoute(
+              path: '/template',
+              builder: (_, __) => const ChecklistTemplateScreen()),
+        ]),
+      ));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('open editor'));
+      await tester.pumpAndSettle();
+    }
+
+    Future<void> change(WidgetTester tester) async {
+      await tester.tap(find.byKey(const ValueKey('template-delete-id-3')));
+      await tester.pumpAndSettle();
+    }
+
+    Finder backButton() => find.byTooltip('Back');
+
+    testWidgets('back with nothing changed leaves at once', (tester) async {
+      await open(tester);
+      await tester.tap(backButton());
+      await tester.pumpAndSettle();
+      expect(find.byType(ChecklistTemplateScreen), findsNothing);
+      expect(find.text('Discard changes?'), findsNothing);
+    });
+
+    testWidgets('back asks first; cancel stays with the edits', (tester) async {
+      await open(tester);
+      await change(tester);
+      await tester.tap(backButton());
+      await tester.pumpAndSettle();
+      expect(find.text('Discard changes?'), findsOneWidget);
+
+      await tester.tap(find.text('Cancel'));
+      await tester.pumpAndSettle();
+      expect(find.byType(ChecklistTemplateScreen), findsOneWidget);
+      expect(find.text('Signed deposit agreement'), findsNothing,
+          reason: 'the edit is still there');
+      expect(_save(tester).onPressed, isNotNull);
+    });
+
+    testWidgets('system back asks too; discard leaves without saving',
+        (tester) async {
+      await open(tester);
+      await change(tester);
+      await tester.binding.handlePopRoute();
+      await tester.pumpAndSettle();
+      expect(find.text('Discard changes?'), findsOneWidget);
+
+      await tester.tap(find.text('Discard'));
+      await tester.pumpAndSettle();
+      expect(find.byType(ChecklistTemplateScreen), findsNothing);
+      expect(_repo.savedTemplates, isEmpty);
+    });
   });
 
   testWidgets('a line is dragged into order by its handle', (tester) async {

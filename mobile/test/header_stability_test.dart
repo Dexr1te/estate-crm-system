@@ -171,7 +171,7 @@ void main() {
         child: const ClientsScreen(),
       ),
       repo.release,
-      textScale: 1.3,
+      textScale: 1.5,
     );
   });
 

@@ -79,7 +79,7 @@ public class ListingPageController {
             @RequestHeader(value = HttpHeaders.ACCEPT_LANGUAGE, required = false) String language) {
         Locale locale = renderer.pickLocale(language);
         if (request.getContentLengthLong() > MAX_LEAD_BODY) {
-            return html(HttpStatus.PAYLOAD_TOO_LARGE).body(renderer.notFound(locale));
+            return html(HttpStatus.PAYLOAD_TOO_LARGE).body(renderer.tooLarge(token, locale));
         }
         Optional<String> title = leadService.titleOf(token);
         if (title.isEmpty()) {
@@ -136,7 +136,8 @@ public class ListingPageController {
                 .body(bytes);
     }
 
-    private ResponseEntity.BodyBuilder html(HttpStatus status) {
+    /** The headers every public page goes out with; the error handler's 404 page uses them too. */
+    public static ResponseEntity.BodyBuilder html(HttpStatus status) {
         return ResponseEntity.status(status)
                 .header(HttpHeaders.CONTENT_TYPE,
                         MediaType.TEXT_HTML_VALUE + ";charset=" + StandardCharsets.UTF_8.name())

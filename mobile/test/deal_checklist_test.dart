@@ -180,6 +180,44 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
+  testWidgets('pull to refresh brings in new comments and checklist lines',
+      (tester) async {
+    final comments = FakeDealCommentsRepository();
+    Injector.dealCommentsRepository = comments;
+    addTearDown(
+        () => Injector.dealCommentsRepository = FakeDealCommentsRepository());
+    await _pump(tester);
+    expect(find.text('Buyer signed the offer'), findsNothing);
+
+    comments.comments = [
+      DealComment(
+          id: 1,
+          dealId: 1,
+          body: 'Buyer signed the offer',
+          authorId: 5,
+          authorName: 'Timur Aliev',
+          createdAt: DateTime(2026, 9, 29, 9)),
+    ];
+    _checklist.byDeal[1] = [
+      ...checklistItems(),
+      checklistItems().first.copyWith(id: 777, title: 'Keys handed over'),
+    ];
+    final before = comments.requestedBefore.length;
+    await tester.drag(find.byType(Scrollable).first, const Offset(0, 5000));
+    await tester.pumpAndSettle();
+    await tester.fling(
+        find.byType(Scrollable).first, const Offset(0, 600), 1000);
+    await tester.pumpAndSettle();
+
+    expect(comments.requestedBefore.length, before + 1);
+    await tester.scrollUntilVisible(find.text('Buyer signed the offer'), 300,
+        scrollable: find.byType(Scrollable).first);
+    expect(find.text('Buyer signed the offer'), findsOneWidget);
+    await tester.scrollUntilVisible(find.text('Keys handed over'), -300,
+        scrollable: find.byType(Scrollable).first);
+    expect(find.text('Keys handed over'), findsOneWidget);
+  });
+
   for (final locale in kAcceptanceLocales) {
     testWidgets('the checklist card in ${locale.languageCode} at 320 and 1.5x',
         (tester) async {

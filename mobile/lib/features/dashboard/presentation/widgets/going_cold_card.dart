@@ -41,10 +41,32 @@ class _GoingColdCardState extends State<GoingColdCard>
   @override
   ColdClientsBloc get coldBloc => context.read<ColdClientsBloc>();
 
+  /// How many rows the list had when it last came from the server. Each
+  /// "Remind me" since takes one off the summary's total until it is
+  /// reloaded; an undo lands as a plain load and puts the total back.
+  int? _loadedCount;
+
+  void _track(ColdClientsState state) {
+    if (state is ColdClientsLoaded &&
+        state is! ColdClientsReminderSet &&
+        state is! ColdClientsActionFailure) {
+      _loadedCount = state.clients.length;
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _track(coldBloc.state);
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ColdClientsBloc, ColdClientsState>(
-      listener: onColdState,
+      listener: (context, state) {
+        _track(state);
+        onColdState(context, state);
+      },
       builder: (context, state) {
         if (state is ColdClientsLoaded && state.clients.isEmpty) {
           return const SizedBox.shrink(key: ValueKey('going-cold-hidden'));
@@ -63,8 +85,13 @@ class _GoingColdCardState extends State<GoingColdCard>
     final shown = state is ColdClientsLoaded
         ? state.clients.take(kGoingColdPreview).toList()
         : null;
-    final total = widget.total ??
-        (state is ColdClientsLoaded ? state.clients.length : null);
+    final reminded = state is ColdClientsLoaded && _loadedCount != null
+        ? _loadedCount! - state.clients.length
+        : 0;
+    final summary = widget.total;
+    final total = summary != null
+        ? summary - reminded
+        : (state is ColdClientsLoaded ? state.clients.length : null);
     final secondary = TextStyle(
         fontFamily: AppFonts.sans, fontSize: 12.5, color: t.textSecondary);
 

@@ -83,7 +83,7 @@ final coldClients = [
 /// The going-cold card alone on a page, under a router that names where a
 /// tap went.
 Widget coldCardApp(ColdClientsBloc bloc,
-        {Locale locale = const Locale('en')}) =>
+        {Locale locale = const Locale('en'), int? total}) =>
     MaterialApp.router(
       theme: AppTheme.light,
       locale: locale,
@@ -99,7 +99,7 @@ Widget coldCardApp(ColdClientsBloc bloc,
                 padding: const EdgeInsets.all(16),
                 child: BlocProvider.value(
                   value: bloc,
-                  child: GoingColdCard(onSeeAll: () {}),
+                  child: GoingColdCard(onSeeAll: () {}, total: total),
                 ),
               ),
             ),

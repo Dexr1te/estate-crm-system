@@ -106,7 +106,7 @@ void main() {
         _wrap(_repo()),
         size: const Size(320, 568),
         brightness: Brightness.dark,
-        textScale: 1.3,
+        textScale: 1.5,
         locale: locale,
       );
       await _openBoard(tester);

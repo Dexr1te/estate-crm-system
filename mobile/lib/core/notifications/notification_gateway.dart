@@ -102,9 +102,11 @@ class LocalNotificationGateway implements NotificationGateway {
 
   static const _details = NotificationDetails(
     android: AndroidNotificationDetails(
+      // The id stays: a new one would leave the old channel behind on every
+      // installed phone. Android renames a channel in place.
       'meeting_reminders',
-      'Meeting reminders',
-      channelDescription: 'A warning before a scheduled meeting',
+      'Reminders',
+      channelDescription: 'A warning before a meeting or a task is due',
       importance: Importance.high,
       priority: Priority.high,
     ),

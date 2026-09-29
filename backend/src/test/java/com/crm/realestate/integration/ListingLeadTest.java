@@ -46,10 +46,12 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -286,6 +288,25 @@ class ListingLeadTest {
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .content("name=Dana&phone=%2B77012223344&consent=yes&message=" + "x".repeat(20_000)))
                 .andExpect(status().isPayloadTooLarge());
+        assertNothingWritten();
+    }
+
+    @Test
+    @DisplayName("an oversized body says the message is too long, in the reader's language")
+    void bodyLimitPage() throws Exception {
+        Map<String, String> titles = Map.of("en", "Your message is too long",
+                "ru", "Сообщение слишком длинное", "kk", "Хабарлама тым ұзын");
+        for (Map.Entry<String, String> title : titles.entrySet()) {
+            String page = html(mockMvc.perform(post("/l/{token}/interest", token)
+                            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                            .header(HttpHeaders.ACCEPT_LANGUAGE, title.getKey())
+                            .content("name=Dana&message=" + "x".repeat(20_000)))
+                    .andExpect(status().isPayloadTooLarge())
+                    .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
+                    .andReturn());
+            assertThat(page).contains(title.getValue()).contains("href=\"../" + token + "\"")
+                    .doesNotContain("This link is no longer active");
+        }
         assertNothingWritten();
     }
 

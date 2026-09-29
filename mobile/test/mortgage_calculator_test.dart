@@ -185,11 +185,19 @@ void main() {
       expect(back.downPercent, 20);
 
       final junk = MortgageSettings.fromJson(
-          {'rate': 'x', 'term': 99, 'type': 'balloon', 'down': 95});
+          {'rate': 'x', 'term': 99, 'type': 'balloon', 'down': 101});
       expect(junk.ratePercent, 18);
       expect(junk.termYears, 20);
       expect(junk.type, MortgagePaymentType.annuity);
       expect(junk.downPercent, 20);
+      expect(MortgageSettings.fromJson({'down': -1}).downPercent, 20);
+    });
+
+    test('a typed down payment past the slider is remembered, up to 100%', () {
+      for (final down in [95.0, 100.0, 0.0]) {
+        final s = MortgageSettings(downPercent: down);
+        expect(MortgageSettings.fromJson(s.toJson()).downPercent, down);
+      }
     });
 
     test('presets are editable starting points with sane values', () {
