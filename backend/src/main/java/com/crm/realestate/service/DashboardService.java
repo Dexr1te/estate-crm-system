@@ -41,6 +41,7 @@ public class DashboardService {
     private final SecurityUtils     securityUtils;
     private final ScopeService      scopeService;
     private final EntityManager     entityManager;
+    private final ColdClientService coldClientService;
 
     /**
      * Seven counts and a sum, computed in the database over exactly the records the caller may see.
@@ -89,6 +90,7 @@ public class DashboardService {
                 .upcomingMeetings(upcomingMeetings)
                 .tasksDueToday(tasksDueToday)
                 .tasksOverdue(tasksOverdue)
+                .coldCount(coldClientService.count(currentUser, agentId, teamId))
                 .commissionThisMonth(commissionWonInMonth(deals, now.toLocalDate().withDayOfMonth(1)))
                 .build();
     }

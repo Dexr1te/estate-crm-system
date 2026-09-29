@@ -52,7 +52,7 @@ class OfflineCache {
   Future<void> _queue = Future.value();
 
   static final _cacheable = <RegExp>[
-    RegExp(r'^/clients(/with-details|/\d+(/matches|/activities)?)?$'),
+    RegExp(r'^/clients(/with-details|/cold|/\d+(/matches|/activities)?)?$'),
     RegExp(r'^/properties(/\d+(/photos|/cover|/viewings|/price-history)?)?$'),
     RegExp(r'^/deals(/\d+(/comments(/mentionable)?)?)?$'),
     RegExp(r'^/meetings(/upcoming|/\d+)?$'),

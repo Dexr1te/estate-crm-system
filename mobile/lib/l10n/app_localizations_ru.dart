@@ -736,6 +736,121 @@ class AppLocalizationsRu extends AppLocalizations {
   String get clientsClientType => 'Тип клиента';
 
   @override
+  String clientsColdDaysOption(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count дня',
+      many: '$count дней',
+      few: '$count дня',
+      one: '$count день',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clientsColdEmpty => 'Никто не остывает';
+
+  @override
+  String clientsColdEmptyHint(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Все, кому стоит позвонить, слышали вас за последние $count дня.',
+      many: 'Все, кому стоит позвонить, слышали вас за последние $count дней.',
+      few: 'Все, кому стоит позвонить, слышали вас за последние $count дня.',
+      one: 'Все, кому стоит позвонить, слышали вас за последний $count день.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clientsColdLoadFailed =>
+      'Не удалось загрузить остывающих клиентов';
+
+  @override
+  String get clientsColdNeverContacted => 'Ещё не связывались';
+
+  @override
+  String get clientsColdNextCheckIn => 'Узнать, как дела';
+
+  @override
+  String get clientsColdNextFirstCall => 'Сделать первый звонок';
+
+  @override
+  String get clientsColdNextPushDeal => 'Продвинуть сделку';
+
+  @override
+  String get clientsColdNextSendMatches => 'Отправить подходящие объекты';
+
+  @override
+  String get clientsColdReasonLead => 'Заявка со страницы объекта';
+
+  @override
+  String clientsColdReasonMatches(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count подходящего объекта',
+      many: '$count подходящих объектов',
+      few: '$count подходящих объекта',
+      one: '$count подходящий объект',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clientsColdReasonNegotiation => 'Сделка на переговорах';
+
+  @override
+  String get clientsColdReasonOpenDeal => 'Открытая сделка';
+
+  @override
+  String get clientsColdRemind => 'Напомнить';
+
+  @override
+  String clientsColdRemindTask(String name) {
+    return 'Позвонить: $name';
+  }
+
+  @override
+  String clientsColdReminderSet(String time) {
+    return 'Напоминание на завтра, $time';
+  }
+
+  @override
+  String clientsColdSilentDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Без связи $count дня',
+      many: 'Без связи $count дней',
+      few: 'Без связи $count дня',
+      one: 'Без связи $count день',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String clientsColdSubtitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Без связи $count дня и дольше',
+      many: 'Без связи $count дней и дольше',
+      few: 'Без связи $count дня и дольше',
+      one: 'Без связи $count день и дольше',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clientsColdTitle => 'Остывают';
+
+  @override
+  String get clientsColdUndo => 'Отменить';
+
+  @override
   String get clientsContact => 'Контакт';
 
   @override
@@ -1399,6 +1514,11 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get dashboardClosedWon => 'Успешно закрыто';
+
+  @override
+  String dashboardColdTotal(int count) {
+    return 'всего $count';
+  }
 
   @override
   String get dashboardConversion => 'Конверсия';

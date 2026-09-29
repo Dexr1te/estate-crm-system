@@ -450,10 +450,79 @@ class DashboardSummary with _$DashboardSummary {
     @Default(0) double commissionThisMonth,
     @Default(0) int tasksDueToday,
     @Default(0) int tasksOverdue,
+    @Default(0) int coldCount,
   }) = _DashboardSummary;
 
   factory DashboardSummary.fromJson(Map<String, dynamic> json) =>
       _$DashboardSummaryFromJson(json);
+}
+
+/// Why a client going cold is still worth the call. Unknown values read as
+/// [unknown] and are not shown.
+enum ColdReasonCode {
+  @JsonValue('OPEN_DEAL')
+  openDeal,
+  @JsonValue('MATCHES')
+  matches,
+  @JsonValue('NEW_LEAD')
+  newLead,
+  unknown,
+}
+
+/// What the call should be about.
+enum ColdNextStep {
+  @JsonValue('PUSH_DEAL')
+  pushDeal,
+  @JsonValue('SEND_MATCHES')
+  sendMatches,
+  @JsonValue('FIRST_CALL')
+  firstCall,
+  @JsonValue('CHECK_IN')
+  checkIn,
+}
+
+@freezed
+class ColdReason with _$ColdReason {
+  const factory ColdReason({
+    @JsonKey(unknownEnumValue: ColdReasonCode.unknown)
+    @Default(ColdReasonCode.unknown)
+    ColdReasonCode code,
+    String? dealTitle,
+    @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+    DealStatus? dealStatus,
+    int? matchCount,
+  }) = _ColdReason;
+
+  factory ColdReason.fromJson(Map<String, dynamic> json) =>
+      _$ColdReasonFromJson(json);
+}
+
+/// A client nobody has spoken to in a while — `GET /clients/cold`.
+@freezed
+class ColdClient with _$ColdClient {
+  const ColdClient._();
+
+  const factory ColdClient({
+    required int id,
+    @Default('') String fullName,
+    String? phone,
+    @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+    ClientType? type,
+    int? agentId,
+    String? agentName,
+    DateTime? lastContactAt,
+    @Default(0) int silentDays,
+    @Default(<ColdReason>[]) List<ColdReason> reasons,
+    @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+    ColdNextStep? nextStep,
+  }) = _ColdClient;
+
+  /// The reasons the app knows how to word, most valuable first.
+  List<ColdReason> get knownReasons =>
+      reasons.where((r) => r.code != ColdReasonCode.unknown).toList();
+
+  factory ColdClient.fromJson(Map<String, dynamic> json) =>
+      _$ColdClientFromJson(json);
 }
 
 @freezed

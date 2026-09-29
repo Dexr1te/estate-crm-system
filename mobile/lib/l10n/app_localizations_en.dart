@@ -733,6 +733,111 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clientsClientType => 'Client Type';
 
   @override
+  String clientsColdDaysOption(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days',
+      one: '1 day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clientsColdEmpty => 'Nobody is going cold';
+
+  @override
+  String clientsColdEmptyHint(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          'Everyone worth a call has heard from you in the last $count days.',
+      one: 'Everyone worth a call has heard from you in the last day.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clientsColdLoadFailed => 'Could not load who is going cold';
+
+  @override
+  String get clientsColdNeverContacted => 'Never contacted';
+
+  @override
+  String get clientsColdNextCheckIn => 'Check in';
+
+  @override
+  String get clientsColdNextFirstCall => 'Make the first call';
+
+  @override
+  String get clientsColdNextPushDeal => 'Move the deal forward';
+
+  @override
+  String get clientsColdNextSendMatches => 'Send the listings that fit';
+
+  @override
+  String get clientsColdReasonLead => 'Lead from a listing page';
+
+  @override
+  String clientsColdReasonMatches(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count matches',
+      one: '1 match',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clientsColdReasonNegotiation => 'Deal in negotiation';
+
+  @override
+  String get clientsColdReasonOpenDeal => 'Open deal';
+
+  @override
+  String get clientsColdRemind => 'Remind me';
+
+  @override
+  String clientsColdRemindTask(String name) {
+    return 'Call $name';
+  }
+
+  @override
+  String clientsColdReminderSet(String time) {
+    return 'Reminder set for tomorrow, $time';
+  }
+
+  @override
+  String clientsColdSilentDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Silent $count days',
+      one: 'Silent 1 day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String clientsColdSubtitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'No contact for $count days or more',
+      one: 'No contact for a day or more',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clientsColdTitle => 'Going cold';
+
+  @override
+  String get clientsColdUndo => 'Undo';
+
+  @override
   String get clientsContact => 'Contact';
 
   @override
@@ -1388,6 +1493,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dashboardClosedWon => 'Closed Won';
+
+  @override
+  String dashboardColdTotal(int count) {
+    return '$count in all';
+  }
 
   @override
   String get dashboardConversion => 'Conversion';

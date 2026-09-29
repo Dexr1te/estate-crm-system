@@ -37,6 +37,7 @@ void main() {
       for (final path in [
         '/clients',
         '/clients/with-details',
+        '/clients/cold',
         '/clients/7',
         '/clients/7/matches',
         '/clients/7/activities',
