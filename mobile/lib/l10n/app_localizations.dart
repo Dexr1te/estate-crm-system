@@ -4138,6 +4138,186 @@ abstract class AppLocalizations {
   /// **'The file has more than 5000 rows. Split it into parts.'**
   String get importTooManyRows;
 
+  /// No description provided for @lockAppLock.
+  ///
+  /// In en, this message translates to:
+  /// **'App lock'**
+  String get lockAppLock;
+
+  /// No description provided for @lockAppLockHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Ask for a PIN to open the app'**
+  String get lockAppLockHint;
+
+  /// No description provided for @lockAutoLock.
+  ///
+  /// In en, this message translates to:
+  /// **'Lock after'**
+  String get lockAutoLock;
+
+  /// No description provided for @lockAutoLockFifteenMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'15 minutes in the background'**
+  String get lockAutoLockFifteenMinutes;
+
+  /// No description provided for @lockAutoLockFiveMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'5 minutes in the background'**
+  String get lockAutoLockFiveMinutes;
+
+  /// No description provided for @lockAutoLockImmediately.
+  ///
+  /// In en, this message translates to:
+  /// **'Immediately'**
+  String get lockAutoLockImmediately;
+
+  /// No description provided for @lockAutoLockOneMinute.
+  ///
+  /// In en, this message translates to:
+  /// **'1 minute in the background'**
+  String get lockAutoLockOneMinute;
+
+  /// No description provided for @lockAutoLockTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'When to lock the app'**
+  String get lockAutoLockTitle;
+
+  /// No description provided for @lockCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get lockCancel;
+
+  /// No description provided for @lockChangePin.
+  ///
+  /// In en, this message translates to:
+  /// **'Change PIN'**
+  String get lockChangePin;
+
+  /// No description provided for @lockConfirmPinTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the PIN again'**
+  String get lockConfirmPinTitle;
+
+  /// No description provided for @lockContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get lockContinue;
+
+  /// No description provided for @lockCurrentPinTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your current PIN'**
+  String get lockCurrentPinTitle;
+
+  /// No description provided for @lockDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get lockDelete;
+
+  /// No description provided for @lockDigitsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'4 to 6 digits'**
+  String get lockDigitsHint;
+
+  /// No description provided for @lockEnterPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your PIN'**
+  String get lockEnterPin;
+
+  /// No description provided for @lockForgotPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot PIN?'**
+  String get lockForgotPin;
+
+  /// No description provided for @lockForgotPinBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Signing out removes the PIN and the client data saved on this phone. Then sign in again with your password.'**
+  String get lockForgotPinBody;
+
+  /// No description provided for @lockMismatch.
+  ///
+  /// In en, this message translates to:
+  /// **'The PINs do not match. Try again.'**
+  String get lockMismatch;
+
+  /// No description provided for @lockNewPinTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a PIN'**
+  String get lockNewPinTitle;
+
+  /// No description provided for @lockPinChanged.
+  ///
+  /// In en, this message translates to:
+  /// **'PIN changed'**
+  String get lockPinChanged;
+
+  /// No description provided for @lockRetryIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many attempts. Try again in {time}'**
+  String lockRetryIn(String time);
+
+  /// No description provided for @lockSecurity.
+  ///
+  /// In en, this message translates to:
+  /// **'Security'**
+  String get lockSecurity;
+
+  /// No description provided for @lockSignOutAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out and sign in again'**
+  String get lockSignOutAgain;
+
+  /// No description provided for @lockTooManyAttempts.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many wrong PINs. Sign out and sign in again with your password.'**
+  String get lockTooManyAttempts;
+
+  /// No description provided for @lockTooShort.
+  ///
+  /// In en, this message translates to:
+  /// **'The PIN needs 4 to 6 digits.'**
+  String get lockTooShort;
+
+  /// No description provided for @lockTurnOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn on'**
+  String get lockTurnOn;
+
+  /// No description provided for @lockTurnedOff.
+  ///
+  /// In en, this message translates to:
+  /// **'App lock is off'**
+  String get lockTurnedOff;
+
+  /// No description provided for @lockTurnedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'App lock is on'**
+  String get lockTurnedOn;
+
+  /// No description provided for @lockWrongPin.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong PIN'**
+  String get lockWrongPin;
+
   /// No description provided for @meetingsAddShort.
   ///
   /// In en, this message translates to:

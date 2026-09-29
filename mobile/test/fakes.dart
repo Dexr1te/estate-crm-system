@@ -19,6 +19,7 @@ import 'package:real_estate_crm/core/utils/share_gateway.dart';
 import 'package:real_estate_crm/features/admin/domain/repositories/admin_repository.dart';
 import 'package:real_estate_crm/features/agents/domain/repositories/agents_repository.dart';
 import 'package:real_estate_crm/features/analytics/domain/repositories/analytics_repository.dart';
+import 'package:real_estate_crm/features/app_lock/data/app_lock_repository_impl.dart';
 import 'package:real_estate_crm/features/auth/domain/repositories/auth_repository.dart';
 import 'package:real_estate_crm/features/clients/domain/repositories/clients_repository.dart';
 import 'package:real_estate_crm/features/dashboard/domain/repositories/dashboard_repository.dart';
@@ -1346,3 +1347,26 @@ class FakeExportsRepository implements ExportsRepository {
     return ExportFile(fileName: fileName, bytes: Uint8List.fromList(bytes));
   }
 }
+
+/// The keychain, in memory. [values] is what is on the "device".
+class FakeSecretStore implements SecretStore {
+  final Map<String, String> values = {};
+
+  @override
+  Future<String?> read(String key) async => values[key];
+
+  @override
+  Future<void> write(String key, String value) async => values[key] = value;
+
+  @override
+  Future<void> delete(String key) async => values.remove(key);
+}
+
+/// The real lock repository over [store], hashing on the test's own isolate
+/// with few enough rounds that a widget test does not wait on it.
+AppLockRepositoryImpl fakeAppLockRepository([FakeSecretStore? store]) =>
+    AppLockRepositoryImpl(
+      store: store ?? FakeSecretStore(),
+      iterations: 64,
+      inBackground: false,
+    );

@@ -2360,6 +2360,100 @@ class AppLocalizationsRu extends AppLocalizations {
       'В файле больше 5000 строк. Разделите его на части.';
 
   @override
+  String get lockAppLock => 'Блокировка приложения';
+
+  @override
+  String get lockAppLockHint => 'Запрашивать PIN-код при входе';
+
+  @override
+  String get lockAutoLock => 'Блокировать через';
+
+  @override
+  String get lockAutoLockFifteenMinutes => '15 минут в фоне';
+
+  @override
+  String get lockAutoLockFiveMinutes => '5 минут в фоне';
+
+  @override
+  String get lockAutoLockImmediately => 'Сразу';
+
+  @override
+  String get lockAutoLockOneMinute => '1 минуту в фоне';
+
+  @override
+  String get lockAutoLockTitle => 'Когда блокировать приложение';
+
+  @override
+  String get lockCancel => 'Отмена';
+
+  @override
+  String get lockChangePin => 'Сменить PIN-код';
+
+  @override
+  String get lockConfirmPinTitle => 'Повторите PIN-код';
+
+  @override
+  String get lockContinue => 'Продолжить';
+
+  @override
+  String get lockCurrentPinTitle => 'Введите текущий PIN-код';
+
+  @override
+  String get lockDelete => 'Стереть';
+
+  @override
+  String get lockDigitsHint => 'От 4 до 6 цифр';
+
+  @override
+  String get lockEnterPin => 'Введите PIN-код';
+
+  @override
+  String get lockForgotPin => 'Забыли PIN-код?';
+
+  @override
+  String get lockForgotPinBody =>
+      'При выходе PIN-код и сохранённые на телефоне данные клиентов будут удалены. Затем войдите снова с паролем.';
+
+  @override
+  String get lockMismatch => 'PIN-коды не совпадают. Попробуйте ещё раз.';
+
+  @override
+  String get lockNewPinTitle => 'Придумайте PIN-код';
+
+  @override
+  String get lockPinChanged => 'PIN-код изменён';
+
+  @override
+  String lockRetryIn(String time) {
+    return 'Слишком много попыток. Повторите через $time';
+  }
+
+  @override
+  String get lockSecurity => 'Безопасность';
+
+  @override
+  String get lockSignOutAgain => 'Выйти и войти заново';
+
+  @override
+  String get lockTooManyAttempts =>
+      'Слишком много неверных PIN-кодов. Выйдите и войдите снова с паролем.';
+
+  @override
+  String get lockTooShort => 'PIN-код должен содержать от 4 до 6 цифр.';
+
+  @override
+  String get lockTurnOn => 'Включить';
+
+  @override
+  String get lockTurnedOff => 'Блокировка выключена';
+
+  @override
+  String get lockTurnedOn => 'Блокировка включена';
+
+  @override
+  String get lockWrongPin => 'Неверный PIN-код';
+
+  @override
   String get meetingsAddShort => 'Встреча';
 
   @override

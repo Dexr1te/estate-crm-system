@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/map/map_tiles.dart';
 import 'package:real_estate_crm/core/utils/money.dart';
+import 'package:real_estate_crm/features/app_lock/presentation/controller/app_lock_controller.dart';
 
 import 'fakes.dart';
 
@@ -35,6 +36,9 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) async {
   Injector.documentsRepository = FakeDocumentsRepository();
   Injector.exportsRepository = FakeExportsRepository();
   Injector.notificationsPollInterval = null;
+  // No PIN on the phone: the lock stays off, and its keychain is memory.
+  Injector.appLockRepository = fakeAppLockRepository();
+  Injector.appLock = AppLockController(repository: Injector.appLockRepository);
   // Maps draw blank tiles: no test reaches OpenStreetMap.
   MapTiles.provider = BlankTileProvider.new;
   MapTiles.urlTemplate = 'blank://{z}/{x}/{y}';

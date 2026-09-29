@@ -9,6 +9,7 @@ import 'package:real_estate_crm/core/notifications/reminder_plan.dart';
 import 'package:real_estate_crm/core/notifications/reminders_bloc.dart';
 import 'package:real_estate_crm/core/theme/bloc/theme_bloc.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/features/app_lock/presentation/widgets/app_lock_settings.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_state.dart';
@@ -106,6 +107,8 @@ class ProfileScreen extends StatelessWidget {
                 ),
               ),
             ),
+            _GroupLabel(l10n.lockSecurity),
+            AppLockSettings(controller: Injector.appLock),
             _GroupLabel(l10n.profileApp),
             AppCard(
               child: Row(

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:app_links/app_links.dart';
 import 'package:go_router/go_router.dart';
+import 'package:real_estate_crm/core/utils/launch_gate.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart';
 
@@ -34,7 +35,9 @@ class DeepLinkHandler {
     required AuthBloc auth,
     Stream<Uri>? links,
     Future<bool> Function()? confirmSignOut,
+    LaunchGate? gate,
   })  : _router = router,
+        _gate = gate,
         _auth = auth,
         _confirmSignOut = confirmSignOut,
         _links = links ?? AppLinks().uriLinkStream;
@@ -42,6 +45,9 @@ class DeepLinkHandler {
   final GoRouter _router;
   final AuthBloc _auth;
   final Stream<Uri> _links;
+
+  /// A link that arrives while the app is locked waits for the PIN.
+  final LaunchGate? _gate;
 
   final Future<bool> Function()? _confirmSignOut;
 
@@ -52,6 +58,7 @@ class DeepLinkHandler {
 
   void start() {
     _auth.addListener(_flush);
+    _gate?.addListener(_flush);
     _sub = _links.listen(_onLink, onError: (_) {});
   }
 
@@ -65,6 +72,7 @@ class DeepLinkHandler {
   void _flush() {
     final location = _pending;
     if (location == null || !_auth.isSessionResolved) return;
+    if (!(_gate?.isOpen ?? true)) return;
     if (_auth.isAuthenticated) {
       _askToSignOut();
       return;
@@ -93,6 +101,7 @@ class DeepLinkHandler {
   void dispose() {
     _disposed = true;
     _auth.removeListener(_flush);
+    _gate?.removeListener(_flush);
     _sub?.cancel();
   }
 }

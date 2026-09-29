@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/widgets.dart';
 import 'package:quick_actions/quick_actions.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/utils/launch_gate.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
@@ -46,7 +47,9 @@ class ShortcutHandler {
     required QuickActions actions,
     required AuthBloc auth,
     required void Function(AppShortcut shortcut) open,
+    LaunchGate? gate,
   })  : _actions = actions,
+        _gate = gate,
         _auth = auth,
         _open = open;
 
@@ -54,12 +57,16 @@ class ShortcutHandler {
   final AuthBloc _auth;
   final void Function(AppShortcut shortcut) _open;
 
+  /// A shortcut pressed while the app is locked waits for the PIN.
+  final LaunchGate? _gate;
+
   AppShortcut? _pending;
   String? _titlesLocale;
   bool _disposed = false;
 
   Future<void> start() async {
     _auth.addListener(_flush);
+    _gate?.addListener(_flush);
     try {
       await _actions.initialize(_onAction);
     } catch (_) {}
@@ -75,6 +82,7 @@ class ShortcutHandler {
   void _flush() {
     final shortcut = _pending;
     if (shortcut == null || !_auth.isSessionResolved) return;
+    if (!(_gate?.isOpen ?? true)) return;
     _pending = null;
     final user = _auth.currentUser;
     if (user == null) return;
@@ -97,6 +105,7 @@ class ShortcutHandler {
   void dispose() {
     _disposed = true;
     _auth.removeListener(_flush);
+    _gate?.removeListener(_flush);
   }
 }
 
