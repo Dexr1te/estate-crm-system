@@ -16,11 +16,13 @@ import com.crm.realestate.security.SecurityUtils;
 import com.crm.realestate.specification.MapBounds;
 import com.crm.realestate.specification.PropertySpecification;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -40,6 +42,13 @@ public class PropertyService {
     private final PropertyMapper     propertyMapper;
     private final PropertyPriceChangeRepository priceChangeRepository;
     private final NotificationEvents notificationEvents;
+
+    /** How far ahead an agreement's end counts as "running out". */
+    public static final int MANDATE_WINDOW_DAYS = 14;
+
+    /** Statuses of a listing still on the market, whose agreement therefore still matters. */
+    private static final List<PropertyStatus> ON_THE_MARKET =
+            List.of(PropertyStatus.AVAILABLE, PropertyStatus.RESERVED);
 
     public List<PropertyResponse> getAll() {
         return findVisible(PropertySpecification.build(null, null, null, null, null, null, null, null));
@@ -97,6 +106,26 @@ public class PropertyService {
         org.springframework.data.domain.Page<Property> page = propertyRepository.findAll(spec, pageable);
         Map<Long, PropertyPriceChange> latestChanges = propertyMapper.latestChanges(page.getContent());
         return page.map(p -> propertyMapper.toResponse(p, latestChanges.get(p.getId())));
+    }
+
+    /**
+     * The agency's listings still on the market whose seller agreement ends within
+     * {@link #MANDATE_WINDOW_DAYS} days, or has already ended: the ones to renew with the seller
+     * before somebody else lists them. Soonest (or longest gone) first. An agreement without an
+     * end date never runs out, and a sold listing no longer needs one. Seen by the whole team,
+     * like the listings themselves.
+     */
+    public List<PropertyResponse> mandatesEnding() {
+        LocalDate horizon = LocalDate.now().plusDays(MANDATE_WINDOW_DAYS);
+        Specification<Property> ending = (root, query, cb) -> cb.and(
+                cb.isNotNull(root.get("mandateType")),
+                cb.isNotNull(root.get("mandateEndDate")),
+                cb.lessThanOrEqualTo(root.<LocalDate>get("mandateEndDate"), horizon),
+                root.get("status").in(ON_THE_MARKET));
+        User currentUser = securityUtils.getCurrentUser();
+        return propertyMapper.toResponses(propertyRepository.findAll(
+                ending.and(scopeService.visibleToTeam(currentUser)),
+                Sort.by(Sort.Order.asc("mandateEndDate"), Sort.Order.asc("id"))));
     }
 
     public PropertyResponse getById(Long id) {
@@ -204,6 +233,8 @@ public class PropertyService {
         property.setTotalFloors(request.getTotalFloors());
         property.setLatitude(request.getLatitude());
         property.setLongitude(request.getLongitude());
+        property.setMandateType(request.getMandateType());
+        property.setMandateEndDate(request.getMandateEndDate());
 
         if (scopeService.isAdmin(currentUser) && request.getAgentId() != null) {
             User agent = userRepository.findById(request.getAgentId())

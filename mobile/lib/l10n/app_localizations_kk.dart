@@ -1586,6 +1586,11 @@ class AppLocalizationsKk extends AppLocalizations {
   }
 
   @override
+  String dashboardMandatesTotal(int count) {
+    return 'барлығы $count';
+  }
+
+  @override
   String get dashboardMeetingLoad => 'Алдағы екі апта';
 
   @override
@@ -3427,6 +3432,92 @@ class AppLocalizationsKk extends AppLocalizations {
   String get propertiesLocation => 'Орналасуы';
 
   @override
+  String get propertiesMandate => 'Сатушымен келісім';
+
+  @override
+  String get propertiesMandateClearEndDate => 'Аяқталу күнін алып тастау';
+
+  @override
+  String get propertiesMandateEndDate => 'Соңғы күні';
+
+  @override
+  String propertiesMandateEndedAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count күн бұрын аяқталды',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get propertiesMandateEndedYesterday => 'Кеше аяқталды';
+
+  @override
+  String propertiesMandateEndsIn(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count күннен кейін аяқталады',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get propertiesMandateEndsToday => 'Бүгін аяқталады';
+
+  @override
+  String get propertiesMandateEndsTomorrow => 'Ертең аяқталады';
+
+  @override
+  String get propertiesMandateExclusive => 'Эксклюзив';
+
+  @override
+  String propertiesMandateExclusiveEnded(String date) {
+    return 'Эксклюзив $date аяқталды';
+  }
+
+  @override
+  String propertiesMandateExclusiveUntil(String date) {
+    return '$date дейін эксклюзив';
+  }
+
+  @override
+  String get propertiesMandateNoEndDate => 'Аяқталу күні жоқ';
+
+  @override
+  String get propertiesMandateNone => 'Жоқ';
+
+  @override
+  String get propertiesMandateOpen => 'Ашық';
+
+  @override
+  String get propertiesMandateOpenBadge => 'Ашық келісім';
+
+  @override
+  String propertiesMandateOpenEnded(String date) {
+    return 'Келісім $date аяқталды';
+  }
+
+  @override
+  String propertiesMandateOpenUntil(String date) {
+    return '$date дейін ашық';
+  }
+
+  @override
+  String get propertiesMandatesEmpty => 'Аяқталатын келісім жоқ';
+
+  @override
+  String get propertiesMandatesEmptyHint =>
+      'Сатылымдағы нысандар бойынша ешбір келісім алдағы екі аптада аяқталмайды.';
+
+  @override
+  String get propertiesMandatesLoadFailed => 'Аяқталатын келісімдер жүктелмеді';
+
+  @override
+  String get propertiesMandatesTitle => 'Келісімдер аяқталып келеді';
+
+  @override
   String propertiesMapCapped(int count) {
     return '$count көрсетілді — қалғанын көру үшін картаны жақындатыңыз';
   }
@@ -3625,6 +3716,95 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get propertiesPropertyNotFound => 'Нысан табылмады';
+
+  @override
+  String get propertiesReport => 'Сатушыға есеп';
+
+  @override
+  String propertiesReportAsOf(String date) {
+    return '$date жағдай бойынша';
+  }
+
+  @override
+  String get propertiesReportAwaitingOutcome => 'Нәтиже әлі белгіленбеген';
+
+  @override
+  String get propertiesReportCurrentPrice => 'Қазір';
+
+  @override
+  String get propertiesReportDaysOnMarket => 'Сатылымдағы күндер';
+
+  @override
+  String get propertiesReportLinkLeads => 'Сілтеме арқылы өтінімдер';
+
+  @override
+  String get propertiesReportLinkViews => 'Сілтемені ашу саны';
+
+  @override
+  String propertiesReportListedOn(String date) {
+    return '$date бастап сатылымда';
+  }
+
+  @override
+  String get propertiesReportLoadFailed => 'Есепті жүктеу мүмкін болмады';
+
+  @override
+  String get propertiesReportMatchingBuyers => 'Сәйкес сатып алушылар';
+
+  @override
+  String propertiesReportNextViewing(String date) {
+    return 'Келесі көрсету $date';
+  }
+
+  @override
+  String get propertiesReportNoViewings => 'Әзірге көрсетулер болған жоқ';
+
+  @override
+  String get propertiesReportOriginalPrice => 'Бастапқы баға';
+
+  @override
+  String get propertiesReportOutcomes => 'Көрсетуден кейінгі пікір';
+
+  @override
+  String get propertiesReportPrice => 'Баға';
+
+  @override
+  String get propertiesReportPriceChange => 'Өзгеріс';
+
+  @override
+  String get propertiesReportPriceChanges => 'Баға өзгерістері';
+
+  @override
+  String get propertiesReportPriceUnchanged =>
+      'Баға сатылымға шыққаннан бері өзгерген жоқ';
+
+  @override
+  String get propertiesReportShare => 'Сатушыға жіберу';
+
+  @override
+  String get propertiesReportShareFailed =>
+      'Есепті жіберу мүмкін болмады. Қайталап көріңіз.';
+
+  @override
+  String propertiesReportSoldOn(String date) {
+    return '$date сатылды';
+  }
+
+  @override
+  String propertiesReportTextHeading(String title) {
+    return 'Сатушыға есеп: $title';
+  }
+
+  @override
+  String propertiesReportTextLine(String label, String value) {
+    return '$label: $value';
+  }
+
+  @override
+  String get propertiesReportViewingsHeld => 'Өткізілген көрсетулер';
+
+  @override
+  String get propertiesReportViewingsUpcoming => 'Алдағы көрсетулер';
 
   @override
   String get propertiesRooms => 'Бөлмелер';

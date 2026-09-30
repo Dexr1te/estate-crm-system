@@ -632,6 +632,14 @@
   "dashboardIdleDays": "{count, plural, =1{no movement for 1 day} other{no movement for {count} days}}",
   "dashboardLeaderboard": "Top agents",
   "dashboardLoadTotal": "{count, plural, =0{nothing booked} =1{1 meeting} other{{count} meetings}}",
+  "dashboardMandatesTotal": "{count} in all",
+  "@dashboardMandatesTotal": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "dashboardMeetingLoad": "Next two weeks",
   "dashboardMeetingsLabel": "Meetings",
   "dashboardNewDeal": "New Deal",
@@ -1573,6 +1581,69 @@
     }
   },
   "propertiesLocation": "Location",
+  "propertiesMandate": "Seller agreement",
+  "propertiesMandateClearEndDate": "Remove the end date",
+  "propertiesMandateEndDate": "Last day",
+  "propertiesMandateEndedAgo": "{count, plural, =1{Ended 1 day ago} other{Ended {count} days ago}}",
+  "@propertiesMandateEndedAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "propertiesMandateEndedYesterday": "Ended yesterday",
+  "propertiesMandateEndsIn": "{count, plural, =1{Ends in 1 day} other{Ends in {count} days}}",
+  "@propertiesMandateEndsIn": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "propertiesMandateEndsToday": "Ends today",
+  "propertiesMandateEndsTomorrow": "Ends tomorrow",
+  "propertiesMandateExclusive": "Exclusive",
+  "propertiesMandateExclusiveEnded": "Exclusive ended {date}",
+  "@propertiesMandateExclusiveEnded": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "propertiesMandateExclusiveUntil": "Exclusive until {date}",
+  "@propertiesMandateExclusiveUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "propertiesMandateNoEndDate": "No end date",
+  "propertiesMandateNone": "None",
+  "propertiesMandateOpen": "Open",
+  "propertiesMandateOpenBadge": "Open agreement",
+  "propertiesMandateOpenEnded": "Agreement ended {date}",
+  "@propertiesMandateOpenEnded": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "propertiesMandateOpenUntil": "Open until {date}",
+  "@propertiesMandateOpenUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "propertiesMandatesEmpty": "No agreements running out",
+  "propertiesMandatesEmptyHint": "No seller agreement on a listing still for sale ends in the next two weeks.",
+  "propertiesMandatesLoadFailed": "Could not load the agreements running out",
+  "propertiesMandatesTitle": "Agreements running out",
   "propertiesMapCapped": "Showing {count} — zoom in to see the rest",
   "@propertiesMapCapped": {
     "placeholders": {
@@ -1717,6 +1788,76 @@
   "propertiesPropertyIdCopied": "Property ID copied",
   "propertiesPropertyIdLabel": "Property ID: {id}",
   "propertiesPropertyNotFound": "Property not found",
+  "propertiesReport": "Report for the seller",
+  "propertiesReportAsOf": "As of {date}",
+  "@propertiesReportAsOf": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "propertiesReportAwaitingOutcome": "Not recorded yet",
+  "propertiesReportCurrentPrice": "Now",
+  "propertiesReportDaysOnMarket": "Days on the market",
+  "propertiesReportLinkLeads": "Enquiries from the link",
+  "propertiesReportLinkViews": "Link opens",
+  "propertiesReportListedOn": "Listed on {date}",
+  "@propertiesReportListedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "propertiesReportLoadFailed": "Couldn't load the report",
+  "propertiesReportMatchingBuyers": "Buyers it fits",
+  "propertiesReportNextViewing": "Next viewing {date}",
+  "@propertiesReportNextViewing": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "propertiesReportNoViewings": "No viewings yet",
+  "propertiesReportOriginalPrice": "Listed at",
+  "propertiesReportOutcomes": "What viewers said",
+  "propertiesReportPrice": "Price",
+  "propertiesReportPriceChange": "Change",
+  "propertiesReportPriceChanges": "Price changes",
+  "propertiesReportPriceUnchanged": "The price has not changed since it was listed",
+  "propertiesReportShare": "Share with the seller",
+  "propertiesReportShareFailed": "Couldn't share the report. Try again.",
+  "propertiesReportSoldOn": "Sold on {date}",
+  "@propertiesReportSoldOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "propertiesReportTextHeading": "Report for the seller: {title}",
+  "@propertiesReportTextHeading": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "propertiesReportTextLine": "{label}: {value}",
+  "@propertiesReportTextLine": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "propertiesReportViewingsHeld": "Viewings held",
+  "propertiesReportViewingsUpcoming": "Viewings to come",
   "propertiesRooms": "Rooms",
   "propertiesRoomsCount": "{rooms} rooms",
   "propertiesSearchHintFull": "Address, complex, ID…",

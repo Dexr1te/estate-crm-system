@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 public interface PropertyShareLinkRepository extends JpaRepository<PropertyShareLink, Long> {
@@ -22,6 +23,15 @@ public interface PropertyShareLinkRepository extends JpaRepository<PropertyShare
     @Query("update PropertyShareLink l set l.viewCount = l.viewCount + 1, l.lastViewedAt = :at "
             + "where l.id = :id")
     int recordView(@Param("id") Long id, @Param("at") LocalDateTime at);
+
+    /**
+     * Opens and enquiries through every link this listing has had, revoked ones included, so
+     * switching a link off does not erase what it brought in. {@code [views, leads]}, zeros when
+     * the listing never had a link.
+     */
+    @Query("select coalesce(sum(l.viewCount), 0), coalesce(sum(l.leadCount), 0) "
+            + "from PropertyShareLink l where l.property.id = :propertyId")
+    List<Object[]> totalsFor(@Param("propertyId") Long propertyId);
 
     /** One more enquiry through this link; see {@code V35__client_source.sql}. */
     @Modifying(clearAutomatically = true, flushAutomatically = true)

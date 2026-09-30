@@ -57,6 +57,10 @@ class PropertiesRepositoryImpl implements PropertiesRepository {
       _remote.getAllProperties();
 
   @override
+  Future<List<PropertyResponse>> getMandatesEnding() =>
+      _remote.getMandatesEnding();
+
+  @override
   Future<PropertyResponse> getProperty(int id) => _remote.getProperty(id);
 
   @override
@@ -84,6 +88,9 @@ class PropertiesRepositoryImpl implements PropertiesRepository {
   @override
   Future<List<PropertyPriceChange>> getPriceHistory(int id) =>
       _remote.getPriceHistory(id);
+
+  @override
+  Future<SellerReport> getSellerReport(int id) => _remote.getSellerReport(id);
 
   @override
   Future<PriceInsight> getPriceInsightFor(int id) =>

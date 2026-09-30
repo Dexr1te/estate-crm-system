@@ -36,6 +36,10 @@ public interface PropertyRepository extends JpaRepository<Property, Long>, JpaSp
     @EntityGraph(attributePaths = {"agent"})
     List<Property> findAll(Specification<Property> spec);
 
+    @Override
+    @EntityGraph(attributePaths = {"agent"})
+    List<Property> findAll(Specification<Property> spec, org.springframework.data.domain.Sort sort);
+
     @EntityGraph(attributePaths = {"agent"})
     List<Property> findByAgentId(Long agentId);
 

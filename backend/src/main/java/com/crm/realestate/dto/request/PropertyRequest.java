@@ -1,5 +1,6 @@
 package com.crm.realestate.dto.request;
 
+import com.crm.realestate.enums.MandateType;
 import com.crm.realestate.enums.PropertyStatus;
 import com.crm.realestate.enums.PropertyType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -11,6 +12,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Data
 public class PropertyRequest {
@@ -50,10 +52,26 @@ public class PropertyRequest {
     @DecimalMax(value = "180.0", message = "Longitude must be between -180 and 180")
     private Double longitude;
 
+    /**
+     * The seller's agreement. Both are sent on every save, like the pin: sending neither records
+     * that there is no agreement (or clears the one there was).
+     */
+    private MandateType mandateType;
+
+    /** The last day the agreement holds; null for none. May be in the past: it records what was. */
+    private LocalDate mandateEndDate;
+
     /** A point needs both halves; one without the other would put the flat nowhere. */
     @JsonIgnore
     @AssertTrue(message = "Latitude and longitude go together: send both or neither")
     public boolean isLocationComplete() {
         return (latitude == null) == (longitude == null);
+    }
+
+    /** An end date belongs to an agreement; an exclusive one with no end date is fine. */
+    @JsonIgnore
+    @AssertTrue(message = "A mandate end date needs a mandate type")
+    public boolean isMandateComplete() {
+        return mandateEndDate == null || mandateType != null;
     }
 }

@@ -417,6 +417,23 @@ class FakePropertiesRepository implements PropertiesRepository {
   Future<List<PropertyPriceChange>> getPriceHistory(int id) async =>
       priceHistory;
 
+  /// What `/properties/{id}/report` answers; an empty report by default.
+  SellerReport? sellerReport;
+
+  /// When set, reading the report fails with it — the screen's error state.
+  Object? sellerReportError;
+
+  /// Every report read, so a retry can be told from the first load.
+  int sellerReportReads = 0;
+
+  @override
+  Future<SellerReport> getSellerReport(int id) async {
+    sellerReportReads++;
+    final error = sellerReportError;
+    if (error != null) throw error;
+    return sellerReport ?? SellerReport(propertyId: id);
+  }
+
   /// What `/properties/{id}/price-insight` answers. Insufficient by default —
   /// no comparables — so a screen that is not about pricing draws no card.
   PriceInsight priceInsight = const PriceInsight();
@@ -614,6 +631,23 @@ class FakePropertiesRepository implements PropertiesRepository {
 
   @override
   Future<List<PropertyResponse>> getAllProperties() async => properties;
+
+  /// What `/properties/mandates-ending` answers, soonest first.
+  List<PropertyResponse> mandatesEnding = const [];
+
+  /// When set, the running-out list fails the way a dropped connection would.
+  bool failMandates = false;
+
+  /// How many times the running-out list was asked for.
+  int mandatesRequests = 0;
+
+  @override
+  Future<List<PropertyResponse>> getMandatesEnding() async {
+    mandatesRequests++;
+    if (failMandates) throw StateError('offline');
+    return mandatesEnding;
+  }
+
   @override
   Future<PropertyResponse> getProperty(int id) async =>
       properties.firstWhere((p) => p.id == id);
