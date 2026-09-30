@@ -1769,6 +1769,76 @@
   "propertiesPropertyIdCopied": "Property ID copied",
   "propertiesPropertyIdLabel": "Property ID: {id}",
   "propertiesPropertyNotFound": "Property not found",
+  "propertiesReport": "Report for the seller",
+  "propertiesReportAsOf": "As of {date}",
+  "@propertiesReportAsOf": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "propertiesReportAwaitingOutcome": "Not recorded yet",
+  "propertiesReportCurrentPrice": "Now",
+  "propertiesReportDaysOnMarket": "Days on the market",
+  "propertiesReportLinkLeads": "Enquiries from the link",
+  "propertiesReportLinkViews": "Link opens",
+  "propertiesReportListedOn": "Listed on {date}",
+  "@propertiesReportListedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "propertiesReportLoadFailed": "Couldn't load the report",
+  "propertiesReportMatchingBuyers": "Buyers it fits",
+  "propertiesReportNextViewing": "Next viewing {date}",
+  "@propertiesReportNextViewing": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "propertiesReportNoViewings": "No viewings yet",
+  "propertiesReportOriginalPrice": "Listed at",
+  "propertiesReportOutcomes": "What viewers said",
+  "propertiesReportPrice": "Price",
+  "propertiesReportPriceChange": "Change",
+  "propertiesReportPriceChanges": "Price changes",
+  "propertiesReportPriceUnchanged": "The price has not changed since it was listed",
+  "propertiesReportShare": "Share with the seller",
+  "propertiesReportShareFailed": "Couldn't share the report. Try again.",
+  "propertiesReportSoldOn": "Sold on {date}",
+  "@propertiesReportSoldOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "propertiesReportTextHeading": "Report for the seller: {title}",
+  "@propertiesReportTextHeading": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "propertiesReportTextLine": "{label}: {value}",
+  "@propertiesReportTextLine": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "propertiesReportViewingsHeld": "Viewings held",
+  "propertiesReportViewingsUpcoming": "Viewings to come",
   "propertiesRooms": "Rooms",
   "propertiesRoomsCount": "{rooms} rooms",
   "propertiesSearchHintFull": "Address, complex, ID…",

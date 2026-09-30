@@ -172,6 +172,11 @@ class PropertiesRemoteDataSource {
     return jsonArray(res).map(PropertyPriceChange.fromJson).toList();
   }
 
+  Future<SellerReport> getSellerReport(int id) async {
+    final res = await _client.dio.get('/properties/$id/report');
+    return SellerReport.fromJson(jsonObject(res));
+  }
+
   Future<PriceInsight> getPriceInsightFor(int id) async {
     final res = await _client.dio.get('/properties/$id/price-insight');
     return PriceInsight.fromJson(jsonObject(res));

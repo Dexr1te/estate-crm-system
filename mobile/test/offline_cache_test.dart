@@ -46,6 +46,7 @@ void main() {
         '/properties/3/photos',
         '/properties/3/cover',
         '/properties/3/price-insight',
+        '/properties/3/report',
         '/properties/price-insight',
         '/properties/mandates-ending',
         '/deals',

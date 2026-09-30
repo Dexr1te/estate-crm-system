@@ -365,6 +365,79 @@ class PropertyShareLink with _$PropertyShareLink {
       _$PropertyShareLinkFromJson(json);
 }
 
+/// A listing's viewings as the seller report counts them. [outcomes] is keyed
+/// by the [ViewingOutcome] name, so one the app does not know yet still parses.
+@freezed
+class SellerReportViewings with _$SellerReportViewings {
+  const SellerReportViewings._();
+
+  const factory SellerReportViewings({
+    @Default(0) int total,
+    @Default(0) int held,
+    @Default(0) int upcoming,
+    @Default(<String, int>{}) Map<String, int> outcomes,
+    @Default(0) int awaitingOutcome,
+    DateTime? lastHeldAt,
+    DateTime? nextAt,
+  }) = _SellerReportViewings;
+
+  int count(ViewingOutcome outcome) => outcomes[outcome.name] ?? 0;
+
+  factory SellerReportViewings.fromJson(Map<String, dynamic> json) =>
+      _$SellerReportViewingsFromJson(json);
+}
+
+@freezed
+class SellerReportLink with _$SellerReportLink {
+  const factory SellerReportLink({
+    @Default(false) bool active,
+    @Default(0) int views,
+    @Default(0) int leads,
+  }) = _SellerReportLink;
+
+  factory SellerReportLink.fromJson(Map<String, dynamic> json) =>
+      _$SellerReportLinkFromJson(json);
+}
+
+@freezed
+class SellerReportPrice with _$SellerReportPrice {
+  const factory SellerReportPrice({
+    @Default(0.0) double current,
+    @Default(0.0) double original,
+    @Default(0.0) double change,
+    double? changePercent,
+
+    /// Oldest first.
+    @Default(<PropertyPriceChange>[]) List<PropertyPriceChange> changes,
+  }) = _SellerReportPrice;
+
+  factory SellerReportPrice.fromJson(Map<String, dynamic> json) =>
+      _$SellerReportPriceFromJson(json);
+}
+
+/// What the agency has done for one listing, for its owner. Counts only.
+@freezed
+class SellerReport with _$SellerReport {
+  const factory SellerReport({
+    required int propertyId,
+    @Default('') String title,
+    @Default('') String address,
+    String? city,
+    @Default(PropertyStatus.AVAILABLE) PropertyStatus status,
+    DateTime? listedAt,
+    @Default(0) int daysOnMarket,
+    DateTime? soldAt,
+    DateTime? generatedOn,
+    @Default(SellerReportViewings()) SellerReportViewings viewings,
+    @Default(SellerReportLink()) SellerReportLink publicLink,
+    @Default(SellerReportPrice()) SellerReportPrice price,
+    @Default(0) int matchingBuyers,
+  }) = _SellerReport;
+
+  factory SellerReport.fromJson(Map<String, dynamic> json) =>
+      _$SellerReportFromJson(json);
+}
+
 @freezed
 class PropertyMatch with _$PropertyMatch {
   const factory PropertyMatch({

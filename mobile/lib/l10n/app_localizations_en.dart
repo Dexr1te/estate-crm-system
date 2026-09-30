@@ -3723,6 +3723,95 @@ class AppLocalizationsEn extends AppLocalizations {
   String get propertiesPropertyNotFound => 'Property not found';
 
   @override
+  String get propertiesReport => 'Report for the seller';
+
+  @override
+  String propertiesReportAsOf(String date) {
+    return 'As of $date';
+  }
+
+  @override
+  String get propertiesReportAwaitingOutcome => 'Not recorded yet';
+
+  @override
+  String get propertiesReportCurrentPrice => 'Now';
+
+  @override
+  String get propertiesReportDaysOnMarket => 'Days on the market';
+
+  @override
+  String get propertiesReportLinkLeads => 'Enquiries from the link';
+
+  @override
+  String get propertiesReportLinkViews => 'Link opens';
+
+  @override
+  String propertiesReportListedOn(String date) {
+    return 'Listed on $date';
+  }
+
+  @override
+  String get propertiesReportLoadFailed => 'Couldn\'t load the report';
+
+  @override
+  String get propertiesReportMatchingBuyers => 'Buyers it fits';
+
+  @override
+  String propertiesReportNextViewing(String date) {
+    return 'Next viewing $date';
+  }
+
+  @override
+  String get propertiesReportNoViewings => 'No viewings yet';
+
+  @override
+  String get propertiesReportOriginalPrice => 'Listed at';
+
+  @override
+  String get propertiesReportOutcomes => 'What viewers said';
+
+  @override
+  String get propertiesReportPrice => 'Price';
+
+  @override
+  String get propertiesReportPriceChange => 'Change';
+
+  @override
+  String get propertiesReportPriceChanges => 'Price changes';
+
+  @override
+  String get propertiesReportPriceUnchanged =>
+      'The price has not changed since it was listed';
+
+  @override
+  String get propertiesReportShare => 'Share with the seller';
+
+  @override
+  String get propertiesReportShareFailed =>
+      'Couldn\'t share the report. Try again.';
+
+  @override
+  String propertiesReportSoldOn(String date) {
+    return 'Sold on $date';
+  }
+
+  @override
+  String propertiesReportTextHeading(String title) {
+    return 'Report for the seller: $title';
+  }
+
+  @override
+  String propertiesReportTextLine(String label, String value) {
+    return '$label: $value';
+  }
+
+  @override
+  String get propertiesReportViewingsHeld => 'Viewings held';
+
+  @override
+  String get propertiesReportViewingsUpcoming => 'Viewings to come';
+
+  @override
   String get propertiesRooms => 'Rooms';
 
   @override
