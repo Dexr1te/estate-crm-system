@@ -20,11 +20,14 @@ import 'package:real_estate_crm/features/dashboard/presentation/widgets/attentio
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/dashboard_hero.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/goal_ring_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/going_cold_card.dart';
+import 'package:real_estate_crm/features/dashboard/presentation/widgets/mandates_ending_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/meeting_load_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/meeting_row.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/pipeline_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/top_agents_card.dart';
 import 'package:real_estate_crm/features/notifications/presentation/widgets/notification_bell.dart';
+import 'package:real_estate_crm/features/properties/presentation/bloc/mandates_bloc.dart';
+import 'package:real_estate_crm/features/properties/presentation/bloc/mandates_event.dart';
 import 'package:real_estate_crm/features/route/domain/day_route.dart';
 import 'package:real_estate_crm/features/tasks/presentation/bloc/tasks_bloc.dart';
 import 'package:real_estate_crm/features/tasks/presentation/bloc/tasks_event.dart';
@@ -43,6 +46,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final _tasks = TasksBloc(Injector.tasksRepository);
   final _cold =
       ColdClientsBloc(Injector.coldClientsRepository, Injector.tasksRepository);
+  final _mandates = MandatesBloc(Injector.propertiesRepository);
 
   @override
   void initState() {
@@ -50,12 +54,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
     context.read<DashboardBloc>().add(DashboardLoadEvent());
     _tasks.add(TasksLoadEvent());
     _cold.add(ColdClientsLoadEvent());
+    _mandates.add(MandatesLoadEvent());
   }
 
   @override
   void dispose() {
     _tasks.close();
     _cold.close();
+    _mandates.close();
     super.dispose();
   }
 
@@ -104,6 +110,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       providers: [
         BlocProvider.value(value: _tasks),
         BlocProvider.value(value: _cold),
+        BlocProvider.value(value: _mandates),
       ],
       child: Scaffold(
         body: SafeArea(
@@ -114,6 +121,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ctx.read<DashboardBloc>().add(DashboardLoadEvent());
                 _tasks.add(TasksLoadEvent());
                 _cold.add(ColdClientsLoadEvent());
+                _mandates.add(MandatesLoadEvent());
               },
               color: t.primary,
               child: AppMetrics.constrain(
@@ -210,6 +218,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
         topGap: gap,
         total: state.summary.coldCount,
         onSeeAll: () => context.push('/clients/cold'),
+      ),
+      MandatesEndingCard(
+        topGap: gap,
+        onSeeAll: () => context.push('/properties/mandates'),
       ),
       SizedBox(height: gap),
       BlocBuilder<GoalBloc, GoalState>(

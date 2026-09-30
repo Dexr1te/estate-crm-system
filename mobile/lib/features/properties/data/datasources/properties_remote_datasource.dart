@@ -77,6 +77,11 @@ class PropertiesRemoteDataSource {
     return PagedResponse.parse(res.data, PropertyResponse.fromJson).content;
   }
 
+  Future<List<PropertyResponse>> getMandatesEnding() async {
+    final res = await _client.dio.get('/properties/mandates-ending');
+    return jsonArray(res).map(PropertyResponse.fromJson).toList();
+  }
+
   Future<PropertyResponse> getProperty(int id) async {
     final res = await _client.dio.get('/properties/$id');
     return PropertyResponse.fromJson(jsonObject(res));

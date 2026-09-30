@@ -1543,6 +1543,11 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String dashboardMandatesTotal(int count) {
+    return '$count in all';
+  }
+
+  @override
   String get dashboardMeetingLoad => 'Next two weeks';
 
   @override
@@ -3419,6 +3424,95 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get propertiesLocation => 'Location';
+
+  @override
+  String get propertiesMandate => 'Seller agreement';
+
+  @override
+  String get propertiesMandateClearEndDate => 'Remove the end date';
+
+  @override
+  String get propertiesMandateEndDate => 'Last day';
+
+  @override
+  String propertiesMandateEndedAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Ended $count days ago',
+      one: 'Ended 1 day ago',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get propertiesMandateEndedYesterday => 'Ended yesterday';
+
+  @override
+  String propertiesMandateEndsIn(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Ends in $count days',
+      one: 'Ends in 1 day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get propertiesMandateEndsToday => 'Ends today';
+
+  @override
+  String get propertiesMandateEndsTomorrow => 'Ends tomorrow';
+
+  @override
+  String get propertiesMandateExclusive => 'Exclusive';
+
+  @override
+  String propertiesMandateExclusiveEnded(String date) {
+    return 'Exclusive ended $date';
+  }
+
+  @override
+  String propertiesMandateExclusiveUntil(String date) {
+    return 'Exclusive until $date';
+  }
+
+  @override
+  String get propertiesMandateNoEndDate => 'No end date';
+
+  @override
+  String get propertiesMandateNone => 'None';
+
+  @override
+  String get propertiesMandateOpen => 'Open';
+
+  @override
+  String get propertiesMandateOpenBadge => 'Open agreement';
+
+  @override
+  String propertiesMandateOpenEnded(String date) {
+    return 'Agreement ended $date';
+  }
+
+  @override
+  String propertiesMandateOpenUntil(String date) {
+    return 'Open until $date';
+  }
+
+  @override
+  String get propertiesMandatesEmpty => 'No agreements running out';
+
+  @override
+  String get propertiesMandatesEmptyHint =>
+      'No seller agreement on a listing still for sale ends in the next two weeks.';
+
+  @override
+  String get propertiesMandatesLoadFailed =>
+      'Could not load the agreements running out';
+
+  @override
+  String get propertiesMandatesTitle => 'Agreements running out';
 
   @override
   String propertiesMapCapped(int count) {

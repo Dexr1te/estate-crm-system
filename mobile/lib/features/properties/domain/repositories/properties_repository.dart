@@ -36,6 +36,10 @@ abstract class PropertiesRepository {
 
   Future<List<PropertyResponse>> getAllProperties();
 
+  /// The agency's listings still on the market whose seller agreement ends
+  /// within two weeks or has ended, soonest first.
+  Future<List<PropertyResponse>> getMandatesEnding();
+
   Future<PropertyResponse> getProperty(int id);
 
   Future<PropertyResponse> createProperty(Map<String, dynamic> data);

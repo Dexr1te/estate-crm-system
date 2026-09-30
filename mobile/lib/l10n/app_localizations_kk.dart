@@ -1532,6 +1532,11 @@ class AppLocalizationsKk extends AppLocalizations {
   }
 
   @override
+  String dashboardMandatesTotal(int count) {
+    return 'барлығы $count';
+  }
+
+  @override
   String get dashboardMeetingLoad => 'Алдағы екі апта';
 
   @override
@@ -3365,6 +3370,92 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get propertiesLocation => 'Орналасуы';
+
+  @override
+  String get propertiesMandate => 'Сатушымен келісім';
+
+  @override
+  String get propertiesMandateClearEndDate => 'Аяқталу күнін алып тастау';
+
+  @override
+  String get propertiesMandateEndDate => 'Соңғы күні';
+
+  @override
+  String propertiesMandateEndedAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count күн бұрын аяқталды',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get propertiesMandateEndedYesterday => 'Кеше аяқталды';
+
+  @override
+  String propertiesMandateEndsIn(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count күннен кейін аяқталады',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get propertiesMandateEndsToday => 'Бүгін аяқталады';
+
+  @override
+  String get propertiesMandateEndsTomorrow => 'Ертең аяқталады';
+
+  @override
+  String get propertiesMandateExclusive => 'Эксклюзив';
+
+  @override
+  String propertiesMandateExclusiveEnded(String date) {
+    return 'Эксклюзив $date аяқталды';
+  }
+
+  @override
+  String propertiesMandateExclusiveUntil(String date) {
+    return '$date дейін эксклюзив';
+  }
+
+  @override
+  String get propertiesMandateNoEndDate => 'Аяқталу күні жоқ';
+
+  @override
+  String get propertiesMandateNone => 'Жоқ';
+
+  @override
+  String get propertiesMandateOpen => 'Ашық';
+
+  @override
+  String get propertiesMandateOpenBadge => 'Ашық келісім';
+
+  @override
+  String propertiesMandateOpenEnded(String date) {
+    return 'Келісім $date аяқталды';
+  }
+
+  @override
+  String propertiesMandateOpenUntil(String date) {
+    return '$date дейін ашық';
+  }
+
+  @override
+  String get propertiesMandatesEmpty => 'Аяқталатын келісім жоқ';
+
+  @override
+  String get propertiesMandatesEmptyHint =>
+      'Сатылымдағы нысандар бойынша ешбір келісім алдағы екі аптада аяқталмайды.';
+
+  @override
+  String get propertiesMandatesLoadFailed => 'Аяқталатын келісімдер жүктелмеді';
+
+  @override
+  String get propertiesMandatesTitle => 'Келісімдер аяқталып келеді';
 
   @override
   String propertiesMapCapped(int count) {

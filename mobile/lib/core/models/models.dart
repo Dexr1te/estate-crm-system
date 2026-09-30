@@ -20,6 +20,11 @@ enum PropertyType { APARTMENT, HOUSE, COMMERCIAL, LAND, OFFICE }
 // ignore: constant_identifier_names
 enum PropertyStatus { AVAILABLE, RESERVED, SOLD }
 
+/// The seller's agreement with the agency on a listing. A listing with none
+/// recorded has a null type, which is not the same as an open one.
+// ignore: constant_identifier_names
+enum MandateType { EXCLUSIVE, OPEN }
+
 // ignore: constant_identifier_names
 enum DealStatus { LEAD, NEGOTIATION, CLOSED_WON, CLOSED_LOST }
 
@@ -215,6 +220,14 @@ class PropertyResponse with _$PropertyResponse {
     /// Where it stands, in degrees; both null until an agent drops a pin.
     double? latitude,
     double? longitude,
+
+    /// The seller's agreement; null when none is recorded. A kind this build
+    /// does not know reads as none rather than failing the whole listing.
+    @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+    MandateType? mandateType,
+
+    /// Its last day (a date, no time); null when it has no end date.
+    DateTime? mandateEndDate,
   }) = _PropertyResponse;
 
   factory PropertyResponse.fromJson(Map<String, dynamic> json) =>

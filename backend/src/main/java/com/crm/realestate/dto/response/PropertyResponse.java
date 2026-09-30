@@ -1,10 +1,12 @@
 package com.crm.realestate.dto.response;
 
+import com.crm.realestate.enums.MandateType;
 import com.crm.realestate.enums.PropertyStatus;
 import com.crm.realestate.enums.PropertyType;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -31,4 +33,8 @@ public class PropertyResponse {
     /** What it cost before the latest change of price, or null if it was never changed. */
     private BigDecimal previousPrice;
     private LocalDateTime priceChangedAt;
+    /** The seller's agreement; null when none is recorded. */
+    private MandateType mandateType;
+    /** Its last day, as a date ("2026-10-12"); null when it has no end date. */
+    private LocalDate mandateEndDate;
 }
