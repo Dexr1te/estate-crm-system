@@ -52,6 +52,10 @@ abstract class PropertiesRepository {
 
   Future<List<PropertyPriceChange>> getPriceHistory(int id);
 
+  /// What the agency has done for this listing, for its owner: days on the
+  /// market, viewings and their outcomes, link enquiries, price, matches.
+  Future<SellerReport> getSellerReport(int id);
+
   /// How this listing's price per m² compares with the agency's own book.
   Future<PriceInsight> getPriceInsightFor(int id);
 

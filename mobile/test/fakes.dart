@@ -407,6 +407,23 @@ class FakePropertiesRepository implements PropertiesRepository {
   Future<List<PropertyPriceChange>> getPriceHistory(int id) async =>
       priceHistory;
 
+  /// What `/properties/{id}/report` answers; an empty report by default.
+  SellerReport? sellerReport;
+
+  /// When set, reading the report fails with it — the screen's error state.
+  Object? sellerReportError;
+
+  /// Every report read, so a retry can be told from the first load.
+  int sellerReportReads = 0;
+
+  @override
+  Future<SellerReport> getSellerReport(int id) async {
+    sellerReportReads++;
+    final error = sellerReportError;
+    if (error != null) throw error;
+    return sellerReport ?? SellerReport(propertyId: id);
+  }
+
   /// What `/properties/{id}/price-insight` answers. Insufficient by default —
   /// no comparables — so a screen that is not about pricing draws no card.
   PriceInsight priceInsight = const PriceInsight();

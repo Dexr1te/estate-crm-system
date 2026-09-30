@@ -36,6 +36,7 @@ import 'package:real_estate_crm/features/profile/presentation/screens/profile_sc
 import 'package:real_estate_crm/features/properties/presentation/screens/properties_screen.dart';
 import 'package:real_estate_crm/features/properties/presentation/screens/property_detail_screen.dart';
 import 'package:real_estate_crm/features/properties/presentation/screens/property_form_screen.dart';
+import 'package:real_estate_crm/features/properties/presentation/screens/seller_report_screen.dart';
 import 'package:real_estate_crm/features/route/domain/day_route.dart';
 import 'package:real_estate_crm/features/route/presentation/screens/route_screen.dart';
 import 'package:real_estate_crm/features/search/presentation/screens/search_screen.dart';
@@ -323,6 +324,14 @@ GoRouter createRouter(AuthBloc authBloc) {
                     parentNavigatorKey: _rootKey,
                     pageBuilder: (_, s) => NoTransitionPage(
                       child: PropertyFormScreen(
+                          propertyId: int.parse(s.pathParameters['id']!)),
+                    ),
+                  ),
+                  GoRoute(
+                    path: 'report',
+                    parentNavigatorKey: _rootKey,
+                    pageBuilder: (_, s) => NoTransitionPage(
+                      child: SellerReportScreen(
                           propertyId: int.parse(s.pathParameters['id']!)),
                     ),
                   ),
