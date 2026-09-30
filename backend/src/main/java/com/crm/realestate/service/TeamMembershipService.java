@@ -59,6 +59,7 @@ public class TeamMembershipService {
     private final EmailService              emailService;
     private final NotificationEvents        notificationEvents;
     private final ChecklistTemplateService  checklistTemplateService;
+    private final MessageTemplateService    messageTemplateService;
 
     // The manager's side ---------------------------------------------------------------
 
@@ -82,8 +83,10 @@ public class TeamMembershipService {
         manager.setDataScope(DataScope.TEAM);
         userRepository.save(manager);
         recordHandoverService.adoptTeamlessRecords(manager);
-        // The agency starts with the default deal checklist, in the language its manager uses.
+        // The agency starts with the default deal checklist and message templates, in the
+        // language its manager uses.
         checklistTemplateService.seedIfNeeded(team, manager);
+        messageTemplateService.seedIfNeeded(team, manager);
         auditLogService.record(manager, "CREATE_TEAM", "Team", team.getId(), "name=" + team.getName());
         return toTeamResponse(team);
     }

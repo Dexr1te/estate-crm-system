@@ -828,6 +828,26 @@ const _$ChecklistStageEnumMap = {
   ChecklistStage.CLOSED_WON: 'CLOSED_WON',
 };
 
+_$MessageTemplateImpl _$$MessageTemplateImplFromJson(
+        Map<String, dynamic> json) =>
+    _$MessageTemplateImpl(
+      id: (json['id'] as num).toInt(),
+      title: json['title'] as String? ?? '',
+      body: json['body'] as String? ?? '',
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
+    );
+
+Map<String, dynamic> _$$MessageTemplateImplToJson(
+        _$MessageTemplateImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'title': instance.title,
+      'body': instance.body,
+      'updatedAt': instance.updatedAt?.toIso8601String(),
+    };
+
 _$DealCommentImpl _$$DealCommentImplFromJson(Map<String, dynamic> json) =>
     _$DealCommentImpl(
       id: (json['id'] as num).toInt(),

@@ -32,6 +32,7 @@ import 'package:real_estate_crm/features/documents/domain/repositories/documents
 import 'package:real_estate_crm/features/exports/domain/repositories/exports_repository.dart';
 import 'package:real_estate_crm/features/imports/domain/repositories/imports_repository.dart';
 import 'package:real_estate_crm/features/meetings/domain/repositories/meetings_repository.dart';
+import 'package:real_estate_crm/features/message_templates/domain/repositories/message_templates_repository.dart';
 import 'package:real_estate_crm/features/notifications/domain/repositories/notifications_repository.dart';
 import 'package:real_estate_crm/features/properties/domain/map_area.dart';
 import 'package:real_estate_crm/features/properties/domain/repositories/properties_repository.dart';
@@ -219,8 +220,13 @@ class FakeClientsRepository implements ClientsRepository {
   Object? logError;
 
   /// Every log attempt, successful or not, in order.
-  final List<({ActivityType type, DateTime? occurredAt, List<int> propertyIds})>
-      logCalls = [];
+  final List<
+      ({
+        ActivityType type,
+        DateTime? occurredAt,
+        List<int> propertyIds,
+        String? note
+      })> logCalls = [];
 
   /// What `/clients/duplicates` answers, whatever was asked — the matching
   /// rules live on the backend and are tested there.
@@ -277,8 +283,12 @@ class FakeClientsRepository implements ClientsRepository {
     DateTime? occurredAt,
     List<int> propertyIds = const [],
   }) async {
-    logCalls
-        .add((type: type, occurredAt: occurredAt, propertyIds: propertyIds));
+    logCalls.add((
+      type: type,
+      occurredAt: occurredAt,
+      propertyIds: propertyIds,
+      note: note
+    ));
     if (logError != null) throw logError!;
     final logged = ClientActivity(
       id: activities.fold<int>(0, (m, a) => a.id > m ? a.id : m) + 1,
@@ -1575,5 +1585,54 @@ class FakeChecklistRepository implements ChecklistRepository {
         ),
     ];
     return template;
+  }
+}
+
+/// The agency's message templates in memory. Every write is recorded;
+/// [readError] and [writeError] make reads and writes fail.
+class FakeMessageTemplatesRepository implements MessageTemplatesRepository {
+  List<MessageTemplate> templates;
+  Object? readError;
+  Object? writeError;
+  int reads = 0;
+  int _nextId = 7000;
+
+  final List<({int? id, String title, String body})> saved = [];
+  final List<int> deleted = [];
+
+  FakeMessageTemplatesRepository([this.templates = const []]);
+
+  @override
+  Future<List<MessageTemplate>> getTemplates() async {
+    reads++;
+    if (readError != null) throw readError!;
+    return templates;
+  }
+
+  @override
+  Future<MessageTemplate> createTemplate(
+      {required String title, required String body}) async {
+    saved.add((id: null, title: title, body: body));
+    if (writeError != null) throw writeError!;
+    final template = MessageTemplate(id: _nextId++, title: title, body: body);
+    templates = [...templates, template];
+    return template;
+  }
+
+  @override
+  Future<MessageTemplate> updateTemplate(int id,
+      {required String title, required String body}) async {
+    saved.add((id: id, title: title, body: body));
+    if (writeError != null) throw writeError!;
+    final template = MessageTemplate(id: id, title: title, body: body);
+    templates = [for (final t in templates) t.id == id ? template : t];
+    return template;
+  }
+
+  @override
+  Future<void> deleteTemplate(int id) async {
+    deleted.add(id);
+    if (writeError != null) throw writeError!;
+    templates = templates.where((t) => t.id != id).toList();
   }
 }

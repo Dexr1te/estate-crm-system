@@ -110,7 +110,8 @@ public class ChecklistTemplateService {
                 .toList());
     }
 
-    private static String languageFor(Team team, User reader) {
+    /** The language defaults are written in: see {@link DefaultChecklist}. Message templates share it. */
+    static String languageFor(Team team, User reader) {
         boolean ownManager = reader != null && reader.getRole() == Role.MANAGER
                 && reader.getTeam() != null && reader.getTeam().getId().equals(team.getId());
         String language = ownManager ? DefaultChecklist.supported(acceptLanguage()) : null;

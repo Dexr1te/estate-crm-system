@@ -542,6 +542,22 @@ class ChecklistItem with _$ChecklistItem {
       _$ChecklistItemFromJson(json);
 }
 
+/// One of the agency's message templates. [body] carries its placeholders
+/// unfilled — `{client}`, `{agent}`, `{listing}`, `{price}`, `{address}`,
+/// `{link}` — and the app fills them for the client in hand.
+@freezed
+class MessageTemplate with _$MessageTemplate {
+  const factory MessageTemplate({
+    required int id,
+    @Default('') String title,
+    @Default('') String body,
+    DateTime? updatedAt,
+  }) = _MessageTemplate;
+
+  factory MessageTemplate.fromJson(Map<String, dynamic> json) =>
+      _$MessageTemplateFromJson(json);
+}
+
 /// One line in the discussion on a deal.
 @freezed
 class DealComment with _$DealComment {

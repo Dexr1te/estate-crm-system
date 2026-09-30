@@ -7938,6 +7938,212 @@ abstract class _ChecklistItem implements ChecklistItem {
       throw _privateConstructorUsedError;
 }
 
+MessageTemplate _$MessageTemplateFromJson(Map<String, dynamic> json) {
+  return _MessageTemplate.fromJson(json);
+}
+
+/// @nodoc
+mixin _$MessageTemplate {
+  int get id => throw _privateConstructorUsedError;
+  String get title => throw _privateConstructorUsedError;
+  String get body => throw _privateConstructorUsedError;
+  DateTime? get updatedAt => throw _privateConstructorUsedError;
+
+  /// Serializes this MessageTemplate to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of MessageTemplate
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $MessageTemplateCopyWith<MessageTemplate> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MessageTemplateCopyWith<$Res> {
+  factory $MessageTemplateCopyWith(
+          MessageTemplate value, $Res Function(MessageTemplate) then) =
+      _$MessageTemplateCopyWithImpl<$Res, MessageTemplate>;
+  @useResult
+  $Res call({int id, String title, String body, DateTime? updatedAt});
+}
+
+/// @nodoc
+class _$MessageTemplateCopyWithImpl<$Res, $Val extends MessageTemplate>
+    implements $MessageTemplateCopyWith<$Res> {
+  _$MessageTemplateCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of MessageTemplate
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? title = null,
+    Object? body = null,
+    Object? updatedAt = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      body: null == body
+          ? _value.body
+          : body // ignore: cast_nullable_to_non_nullable
+              as String,
+      updatedAt: freezed == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$MessageTemplateImplCopyWith<$Res>
+    implements $MessageTemplateCopyWith<$Res> {
+  factory _$$MessageTemplateImplCopyWith(_$MessageTemplateImpl value,
+          $Res Function(_$MessageTemplateImpl) then) =
+      __$$MessageTemplateImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({int id, String title, String body, DateTime? updatedAt});
+}
+
+/// @nodoc
+class __$$MessageTemplateImplCopyWithImpl<$Res>
+    extends _$MessageTemplateCopyWithImpl<$Res, _$MessageTemplateImpl>
+    implements _$$MessageTemplateImplCopyWith<$Res> {
+  __$$MessageTemplateImplCopyWithImpl(
+      _$MessageTemplateImpl _value, $Res Function(_$MessageTemplateImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of MessageTemplate
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? title = null,
+    Object? body = null,
+    Object? updatedAt = freezed,
+  }) {
+    return _then(_$MessageTemplateImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      body: null == body
+          ? _value.body
+          : body // ignore: cast_nullable_to_non_nullable
+              as String,
+      updatedAt: freezed == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$MessageTemplateImpl implements _MessageTemplate {
+  const _$MessageTemplateImpl(
+      {required this.id, this.title = '', this.body = '', this.updatedAt});
+
+  factory _$MessageTemplateImpl.fromJson(Map<String, dynamic> json) =>
+      _$$MessageTemplateImplFromJson(json);
+
+  @override
+  final int id;
+  @override
+  @JsonKey()
+  final String title;
+  @override
+  @JsonKey()
+  final String body;
+  @override
+  final DateTime? updatedAt;
+
+  @override
+  String toString() {
+    return 'MessageTemplate(id: $id, title: $title, body: $body, updatedAt: $updatedAt)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MessageTemplateImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.body, body) || other.body == body) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, title, body, updatedAt);
+
+  /// Create a copy of MessageTemplate
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MessageTemplateImplCopyWith<_$MessageTemplateImpl> get copyWith =>
+      __$$MessageTemplateImplCopyWithImpl<_$MessageTemplateImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$MessageTemplateImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _MessageTemplate implements MessageTemplate {
+  const factory _MessageTemplate(
+      {required final int id,
+      final String title,
+      final String body,
+      final DateTime? updatedAt}) = _$MessageTemplateImpl;
+
+  factory _MessageTemplate.fromJson(Map<String, dynamic> json) =
+      _$MessageTemplateImpl.fromJson;
+
+  @override
+  int get id;
+  @override
+  String get title;
+  @override
+  String get body;
+  @override
+  DateTime? get updatedAt;
+
+  /// Create a copy of MessageTemplate
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$MessageTemplateImplCopyWith<_$MessageTemplateImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 DealComment _$DealCommentFromJson(Map<String, dynamic> json) {
   return _DealComment.fromJson(json);
 }

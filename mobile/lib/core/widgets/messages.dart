@@ -47,12 +47,18 @@ enum ActionMessage {
   memberRemoved,
   teamLeft,
   checklistSaved,
+  templateSaved,
+  templateDeleted,
 }
 
 String actionMessageLabel(AppLocalizations l10n, ActionMessage message) {
   switch (message) {
     case ActionMessage.checklistSaved:
       return l10n.msgChecklistSaved;
+    case ActionMessage.templateSaved:
+      return l10n.msgTemplateSaved;
+    case ActionMessage.templateDeleted:
+      return l10n.msgTemplateDeleted;
     case ActionMessage.clientCreated:
       return l10n.msgClientCreated;
     case ActionMessage.clientUpdated:
