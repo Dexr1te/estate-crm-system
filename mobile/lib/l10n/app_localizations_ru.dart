@@ -831,6 +831,56 @@ class AppLocalizationsRu extends AppLocalizations {
   String get clientsColdUndo => 'Отменить';
 
   @override
+  String get clientsComposeClearListing => 'Убрать объект';
+
+  @override
+  String get clientsComposeHint =>
+      'Текст можно поправить перед отправкой. Отправленное сохранится в истории клиента.';
+
+  @override
+  String get clientsComposeListing => 'Объект';
+
+  @override
+  String get clientsComposeListingHint =>
+      'Подставит объект, его цену, адрес и ссылку';
+
+  @override
+  String get clientsComposeListingNone => 'Без объекта';
+
+  @override
+  String get clientsComposeNoListings => 'Нет объектов';
+
+  @override
+  String get clientsComposeNoTemplates => 'В агентстве пока нет шаблонов';
+
+  @override
+  String get clientsComposePickListing => 'Выберите объект';
+
+  @override
+  String get clientsComposePickTemplate => 'Выберите шаблон';
+
+  @override
+  String get clientsComposeSearchListings => 'Поиск объектов';
+
+  @override
+  String get clientsComposeSearchTemplates => 'Поиск шаблонов';
+
+  @override
+  String get clientsComposeSms => 'SMS';
+
+  @override
+  String get clientsComposeText => 'Сообщение';
+
+  @override
+  String get clientsComposeTextHint => 'Напишите сообщение или выберите шаблон';
+
+  @override
+  String get clientsComposeTitle => 'Написать клиенту';
+
+  @override
+  String get clientsComposeUseTemplate => 'Выбрать шаблон';
+
+  @override
   String get clientsContact => 'Контакт';
 
   @override
@@ -1161,6 +1211,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get clientsWantedType => 'Тип объекта';
+
+  @override
+  String get clientsWrite => 'WhatsApp или SMS';
 
   @override
   String get compareAction => 'Сравнить';
@@ -3029,6 +3082,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get msgTeamUpdated => 'Команда обновлена';
 
   @override
+  String get msgTemplateDeleted => 'Шаблон удалён';
+
+  @override
+  String get msgTemplateSaved => 'Шаблон сохранён';
+
+  @override
   String get msgUserActivated => 'Пользователь активирован';
 
   @override
@@ -4361,4 +4420,82 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get teamsUpcoming => 'Предстоящие';
+
+  @override
+  String get templatesAdd => 'Добавить шаблон';
+
+  @override
+  String get templatesBodyHint => 'Что отправит агент';
+
+  @override
+  String get templatesBodyLabel => 'Текст';
+
+  @override
+  String get templatesDelete => 'Удалить шаблон';
+
+  @override
+  String templatesDeleteBody(String title) {
+    return '«$title» больше не будет предлагаться агентам.';
+  }
+
+  @override
+  String get templatesDeleteTitle => 'Удалить шаблон?';
+
+  @override
+  String get templatesEdit => 'Редактировать шаблон';
+
+  @override
+  String get templatesEmpty => 'Шаблонов пока нет';
+
+  @override
+  String get templatesEmptyBody =>
+      'Добавьте сообщения, которые агенты отправляют чаще всего.';
+
+  @override
+  String get templatesHint => 'Готовые тексты для WhatsApp и SMS';
+
+  @override
+  String get templatesInsert => 'Вставить подстановку';
+
+  @override
+  String get templatesIntro =>
+      'Агенты выбирают шаблон, когда пишут клиенту. Подстановки заполняются данными клиента, агента и выбранного объекта.';
+
+  @override
+  String get templatesLoadFailed => 'Не удалось загрузить шаблоны';
+
+  @override
+  String get templatesNew => 'Новый шаблон';
+
+  @override
+  String get templatesPlaceholderAddress => 'Адрес';
+
+  @override
+  String get templatesPlaceholderAgent => 'Имя агента';
+
+  @override
+  String get templatesPlaceholderClient => 'Имя клиента';
+
+  @override
+  String get templatesPlaceholderLink => 'Ссылка на объект';
+
+  @override
+  String get templatesPlaceholderListing => 'Объект';
+
+  @override
+  String get templatesPlaceholderPrice => 'Цена';
+
+  @override
+  String get templatesTitle => 'Шаблоны сообщений';
+
+  @override
+  String get templatesTitleHint => 'Например, Приглашение на просмотр';
+
+  @override
+  String get templatesTitleLabel => 'Название';
+
+  @override
+  String templatesUnknownPlaceholder(String names) {
+    return 'Неизвестная подстановка: $names. Используйте те, что ниже.';
+  }
 }

@@ -315,6 +315,22 @@
   },
   "clientsColdTitle": "Going cold",
   "clientsColdUndo": "Undo",
+  "clientsComposeClearListing": "Remove listing",
+  "clientsComposeHint": "You can edit the text before sending. What you send is saved to the client's history.",
+  "clientsComposeListing": "Listing",
+  "clientsComposeListingHint": "Fills in the listing, its price, address and link",
+  "clientsComposeListingNone": "No listing",
+  "clientsComposeNoListings": "No listings",
+  "clientsComposeNoTemplates": "Your agency has no templates yet",
+  "clientsComposePickListing": "Choose a listing",
+  "clientsComposePickTemplate": "Choose a template",
+  "clientsComposeSearchListings": "Search listings",
+  "clientsComposeSearchTemplates": "Search templates",
+  "clientsComposeSms": "SMS",
+  "clientsComposeText": "Message",
+  "clientsComposeTextHint": "Write a message or use a template",
+  "clientsComposeTitle": "Write to the client",
+  "clientsComposeUseTemplate": "Use template",
   "clientsContact": "Contact",
   "clientsContactInfo": "Contact Info",
   "clientsContactedDaysAgo": "{count, plural, =1{Contacted 1 day ago} other{Contacted {count} days ago}}",
@@ -467,6 +483,7 @@
   "clientsUpdatedAt": "Updated {date}",
   "clientsWantedCity": "City",
   "clientsWantedType": "Property type",
+  "clientsWrite": "WhatsApp or SMS",
   "compareAction": "Compare",
   "compareAdd": "Add to comparison",
   "compareAdded": "Added to comparison",
@@ -1248,6 +1265,8 @@
   "msgTeamJoined": "You have joined the team",
   "msgTeamLeft": "You have left the team",
   "msgTeamUpdated": "Team updated",
+  "msgTemplateDeleted": "Template deleted",
+  "msgTemplateSaved": "Template saved",
   "msgUserActivated": "User activated",
   "msgUserDeactivated": "User deactivated",
   "msgUserDeleted": "User deleted",
@@ -1989,5 +2008,43 @@
   "teamsSuccessorMe": "Me",
   "teamsTeamLabel": "Team",
   "teamsTeamName": "Team name",
-  "teamsUpcoming": "Upcoming"
+  "teamsUpcoming": "Upcoming",
+  "templatesAdd": "Add template",
+  "templatesBodyHint": "What the agent will send",
+  "templatesBodyLabel": "Text",
+  "templatesDelete": "Delete template",
+  "templatesDeleteBody": "\"{title}\" will no longer be offered to agents.",
+  "@templatesDeleteBody": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "templatesDeleteTitle": "Delete template?",
+  "templatesEdit": "Edit template",
+  "templatesEmpty": "No templates yet",
+  "templatesEmptyBody": "Add the messages your agents send most often.",
+  "templatesHint": "Ready texts for WhatsApp and SMS",
+  "templatesInsert": "Insert a placeholder",
+  "templatesIntro": "Agents pick a template when writing to a client. Placeholders fill in with the client, the agent and the chosen listing.",
+  "templatesLoadFailed": "Could not load templates",
+  "templatesNew": "New template",
+  "templatesPlaceholderAddress": "Address",
+  "templatesPlaceholderAgent": "Agent's name",
+  "templatesPlaceholderClient": "Client's name",
+  "templatesPlaceholderLink": "Listing link",
+  "templatesPlaceholderListing": "Listing",
+  "templatesPlaceholderPrice": "Price",
+  "templatesTitle": "Message templates",
+  "templatesTitleHint": "For example, Viewing invitation",
+  "templatesTitleLabel": "Title",
+  "templatesUnknownPlaceholder": "Unknown placeholder: {names}. Use the ones below.",
+  "@templatesUnknownPlaceholder": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  }
 }

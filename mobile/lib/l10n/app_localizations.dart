@@ -1486,6 +1486,102 @@ abstract class AppLocalizations {
   /// **'Undo'**
   String get clientsColdUndo;
 
+  /// No description provided for @clientsComposeClearListing.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove listing'**
+  String get clientsComposeClearListing;
+
+  /// No description provided for @clientsComposeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'You can edit the text before sending. What you send is saved to the client\'s history.'**
+  String get clientsComposeHint;
+
+  /// No description provided for @clientsComposeListing.
+  ///
+  /// In en, this message translates to:
+  /// **'Listing'**
+  String get clientsComposeListing;
+
+  /// No description provided for @clientsComposeListingHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Fills in the listing, its price, address and link'**
+  String get clientsComposeListingHint;
+
+  /// No description provided for @clientsComposeListingNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No listing'**
+  String get clientsComposeListingNone;
+
+  /// No description provided for @clientsComposeNoListings.
+  ///
+  /// In en, this message translates to:
+  /// **'No listings'**
+  String get clientsComposeNoListings;
+
+  /// No description provided for @clientsComposeNoTemplates.
+  ///
+  /// In en, this message translates to:
+  /// **'Your agency has no templates yet'**
+  String get clientsComposeNoTemplates;
+
+  /// No description provided for @clientsComposePickListing.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a listing'**
+  String get clientsComposePickListing;
+
+  /// No description provided for @clientsComposePickTemplate.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a template'**
+  String get clientsComposePickTemplate;
+
+  /// No description provided for @clientsComposeSearchListings.
+  ///
+  /// In en, this message translates to:
+  /// **'Search listings'**
+  String get clientsComposeSearchListings;
+
+  /// No description provided for @clientsComposeSearchTemplates.
+  ///
+  /// In en, this message translates to:
+  /// **'Search templates'**
+  String get clientsComposeSearchTemplates;
+
+  /// No description provided for @clientsComposeSms.
+  ///
+  /// In en, this message translates to:
+  /// **'SMS'**
+  String get clientsComposeSms;
+
+  /// No description provided for @clientsComposeText.
+  ///
+  /// In en, this message translates to:
+  /// **'Message'**
+  String get clientsComposeText;
+
+  /// No description provided for @clientsComposeTextHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Write a message or use a template'**
+  String get clientsComposeTextHint;
+
+  /// No description provided for @clientsComposeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Write to the client'**
+  String get clientsComposeTitle;
+
+  /// No description provided for @clientsComposeUseTemplate.
+  ///
+  /// In en, this message translates to:
+  /// **'Use template'**
+  String get clientsComposeUseTemplate;
+
   /// No description provided for @clientsContact.
   ///
   /// In en, this message translates to:
@@ -2025,6 +2121,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Property type'**
   String get clientsWantedType;
+
+  /// No description provided for @clientsWrite.
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp or SMS'**
+  String get clientsWrite;
 
   /// No description provided for @compareAction.
   ///
@@ -5224,6 +5326,18 @@ abstract class AppLocalizations {
   /// **'Team updated'**
   String get msgTeamUpdated;
 
+  /// No description provided for @msgTemplateDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Template deleted'**
+  String get msgTemplateDeleted;
+
+  /// No description provided for @msgTemplateSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Template saved'**
+  String get msgTemplateSaved;
+
   /// No description provided for @msgUserActivated.
   ///
   /// In en, this message translates to:
@@ -7294,6 +7408,150 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Upcoming'**
   String get teamsUpcoming;
+
+  /// No description provided for @templatesAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add template'**
+  String get templatesAdd;
+
+  /// No description provided for @templatesBodyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What the agent will send'**
+  String get templatesBodyHint;
+
+  /// No description provided for @templatesBodyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Text'**
+  String get templatesBodyLabel;
+
+  /// No description provided for @templatesDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete template'**
+  String get templatesDelete;
+
+  /// No description provided for @templatesDeleteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'\"{title}\" will no longer be offered to agents.'**
+  String templatesDeleteBody(String title);
+
+  /// No description provided for @templatesDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete template?'**
+  String get templatesDeleteTitle;
+
+  /// No description provided for @templatesEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit template'**
+  String get templatesEdit;
+
+  /// No description provided for @templatesEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No templates yet'**
+  String get templatesEmpty;
+
+  /// No description provided for @templatesEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Add the messages your agents send most often.'**
+  String get templatesEmptyBody;
+
+  /// No description provided for @templatesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready texts for WhatsApp and SMS'**
+  String get templatesHint;
+
+  /// No description provided for @templatesInsert.
+  ///
+  /// In en, this message translates to:
+  /// **'Insert a placeholder'**
+  String get templatesInsert;
+
+  /// No description provided for @templatesIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Agents pick a template when writing to a client. Placeholders fill in with the client, the agent and the chosen listing.'**
+  String get templatesIntro;
+
+  /// No description provided for @templatesLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load templates'**
+  String get templatesLoadFailed;
+
+  /// No description provided for @templatesNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New template'**
+  String get templatesNew;
+
+  /// No description provided for @templatesPlaceholderAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get templatesPlaceholderAddress;
+
+  /// No description provided for @templatesPlaceholderAgent.
+  ///
+  /// In en, this message translates to:
+  /// **'Agent\'s name'**
+  String get templatesPlaceholderAgent;
+
+  /// No description provided for @templatesPlaceholderClient.
+  ///
+  /// In en, this message translates to:
+  /// **'Client\'s name'**
+  String get templatesPlaceholderClient;
+
+  /// No description provided for @templatesPlaceholderLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Listing link'**
+  String get templatesPlaceholderLink;
+
+  /// No description provided for @templatesPlaceholderListing.
+  ///
+  /// In en, this message translates to:
+  /// **'Listing'**
+  String get templatesPlaceholderListing;
+
+  /// No description provided for @templatesPlaceholderPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Price'**
+  String get templatesPlaceholderPrice;
+
+  /// No description provided for @templatesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Message templates'**
+  String get templatesTitle;
+
+  /// No description provided for @templatesTitleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'For example, Viewing invitation'**
+  String get templatesTitleHint;
+
+  /// No description provided for @templatesTitleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get templatesTitleLabel;
+
+  /// No description provided for @templatesUnknownPlaceholder.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown placeholder: {names}. Use the ones below.'**
+  String templatesUnknownPlaceholder(String names);
 }
 
 class _AppLocalizationsDelegate

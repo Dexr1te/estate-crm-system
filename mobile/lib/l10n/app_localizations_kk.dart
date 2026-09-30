@@ -810,6 +810,57 @@ class AppLocalizationsKk extends AppLocalizations {
   String get clientsColdUndo => 'Болдырмау';
 
   @override
+  String get clientsComposeClearListing => 'Нысанды алып тастау';
+
+  @override
+  String get clientsComposeHint =>
+      'Жіберу алдында мәтінді түзетуге болады. Жіберілген хабарлама клиент тарихында сақталады.';
+
+  @override
+  String get clientsComposeListing => 'Нысан';
+
+  @override
+  String get clientsComposeListingHint =>
+      'Нысанды, оның бағасын, мекенжайын және сілтемесін қояды';
+
+  @override
+  String get clientsComposeListingNone => 'Нысансыз';
+
+  @override
+  String get clientsComposeNoListings => 'Нысандар жоқ';
+
+  @override
+  String get clientsComposeNoTemplates => 'Агенттікте әзірге үлгілер жоқ';
+
+  @override
+  String get clientsComposePickListing => 'Нысанды таңдаңыз';
+
+  @override
+  String get clientsComposePickTemplate => 'Үлгіні таңдаңыз';
+
+  @override
+  String get clientsComposeSearchListings => 'Нысандарды іздеу';
+
+  @override
+  String get clientsComposeSearchTemplates => 'Үлгілерді іздеу';
+
+  @override
+  String get clientsComposeSms => 'SMS';
+
+  @override
+  String get clientsComposeText => 'Хабарлама';
+
+  @override
+  String get clientsComposeTextHint =>
+      'Хабарлама жазыңыз немесе үлгіні таңдаңыз';
+
+  @override
+  String get clientsComposeTitle => 'Клиентке жазу';
+
+  @override
+  String get clientsComposeUseTemplate => 'Үлгіні қолдану';
+
+  @override
   String get clientsContact => 'Байланыс';
 
   @override
@@ -1133,6 +1184,9 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get clientsWantedType => 'Нысан түрі';
+
+  @override
+  String get clientsWrite => 'WhatsApp немесе SMS';
 
   @override
   String get compareAction => 'Салыстыру';
@@ -2973,6 +3027,12 @@ class AppLocalizationsKk extends AppLocalizations {
   String get msgTeamUpdated => 'Команда жаңартылды';
 
   @override
+  String get msgTemplateDeleted => 'Үлгі жойылды';
+
+  @override
+  String get msgTemplateSaved => 'Үлгі сақталды';
+
+  @override
   String get msgUserActivated => 'Пайдаланушы белсендірілді';
 
   @override
@@ -4233,4 +4293,82 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get teamsUpcoming => 'Алдағы';
+
+  @override
+  String get templatesAdd => 'Үлгі қосу';
+
+  @override
+  String get templatesBodyHint => 'Агент не жібереді';
+
+  @override
+  String get templatesBodyLabel => 'Мәтін';
+
+  @override
+  String get templatesDelete => 'Үлгіні жою';
+
+  @override
+  String templatesDeleteBody(String title) {
+    return '«$title» агенттерге енді ұсынылмайды.';
+  }
+
+  @override
+  String get templatesDeleteTitle => 'Үлгіні жою керек пе?';
+
+  @override
+  String get templatesEdit => 'Үлгіні өңдеу';
+
+  @override
+  String get templatesEmpty => 'Әзірге үлгілер жоқ';
+
+  @override
+  String get templatesEmptyBody =>
+      'Агенттер жиі жіберетін хабарламаларды қосыңыз.';
+
+  @override
+  String get templatesHint => 'WhatsApp пен SMS үшін дайын мәтіндер';
+
+  @override
+  String get templatesInsert => 'Орын толтырғыш қою';
+
+  @override
+  String get templatesIntro =>
+      'Агенттер клиентке жазғанда үлгіні таңдайды. Орын толтырғыштар клиент, агент және таңдалған нысан деректерімен толтырылады.';
+
+  @override
+  String get templatesLoadFailed => 'Үлгілерді жүктеу мүмкін болмады';
+
+  @override
+  String get templatesNew => 'Жаңа үлгі';
+
+  @override
+  String get templatesPlaceholderAddress => 'Мекенжайы';
+
+  @override
+  String get templatesPlaceholderAgent => 'Агенттің аты';
+
+  @override
+  String get templatesPlaceholderClient => 'Клиенттің аты';
+
+  @override
+  String get templatesPlaceholderLink => 'Нысан сілтемесі';
+
+  @override
+  String get templatesPlaceholderListing => 'Нысан';
+
+  @override
+  String get templatesPlaceholderPrice => 'Бағасы';
+
+  @override
+  String get templatesTitle => 'Хабарлама үлгілері';
+
+  @override
+  String get templatesTitleHint => 'Мысалы, Көрсетілімге шақыру';
+
+  @override
+  String get templatesTitleLabel => 'Атауы';
+
+  @override
+  String templatesUnknownPlaceholder(String names) {
+    return 'Белгісіз орын толтырғыш: $names. Төмендегілерді пайдаланыңыз.';
+  }
 }

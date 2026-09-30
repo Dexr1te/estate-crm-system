@@ -7,6 +7,8 @@ extension RoleContext on BuildContext {
   Role? get currentRole => read<AuthBloc>().currentUser?.role;
 
   int? get currentUserId => read<AuthBloc>().currentUser?.userId;
+
+  String? get currentUserName => read<AuthBloc>().currentUser?.fullName;
   bool get isAdmin => currentRole == Role.ADMIN;
   bool get isManager => currentRole == Role.MANAGER;
   bool get isAdminOrManager => isAdmin || isManager;

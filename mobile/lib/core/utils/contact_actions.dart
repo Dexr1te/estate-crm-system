@@ -77,6 +77,23 @@ class ContactActions {
     }
   }
 
+  /// The phone's messages app, addressed to [phone] with [text] typed in.
+  /// The body is percent-encoded by hand: iOS shows a `+` from form encoding
+  /// as a literal plus instead of a space.
+  static Future<bool> sms(String? phone, String text) async {
+    final number = phone?.replaceAll(RegExp(r'[^\d+]'), '') ?? '';
+    if (number.isEmpty) return false;
+    final uri = Uri(
+        scheme: 'sms',
+        path: number,
+        query: 'body=${Uri.encodeComponent(text)}');
+    try {
+      return await opener(uri, LaunchMode.externalApplication);
+    } catch (_) {
+      return false;
+    }
+  }
+
   static Future<bool> _open(String scheme, String? raw, {RegExp? strip}) async {
     if (raw == null || raw.trim().isEmpty) return false;
     final value = strip == null ? raw.trim() : raw.replaceAll(strip, '');

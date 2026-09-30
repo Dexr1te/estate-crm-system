@@ -51,6 +51,9 @@ import 'package:real_estate_crm/features/imports/domain/repositories/imports_rep
 import 'package:real_estate_crm/features/meetings/data/datasources/meetings_remote_datasource.dart';
 import 'package:real_estate_crm/features/meetings/data/repositories/meetings_repository_impl.dart';
 import 'package:real_estate_crm/features/meetings/domain/repositories/meetings_repository.dart';
+import 'package:real_estate_crm/features/message_templates/data/datasources/message_templates_remote_datasource.dart';
+import 'package:real_estate_crm/features/message_templates/data/repositories/message_templates_repository_impl.dart';
+import 'package:real_estate_crm/features/message_templates/domain/repositories/message_templates_repository.dart';
 import 'package:real_estate_crm/features/notifications/data/datasources/notifications_remote_datasource.dart';
 import 'package:real_estate_crm/features/notifications/data/repositories/notifications_repository_impl.dart';
 import 'package:real_estate_crm/features/notifications/domain/repositories/notifications_repository.dart';
@@ -97,6 +100,10 @@ class Injector {
 
   static ChecklistRepository checklistRepository =
       ChecklistRepositoryImpl(ChecklistRemoteDataSource(_apiClient));
+
+  static MessageTemplatesRepository messageTemplatesRepository =
+      MessageTemplatesRepositoryImpl(
+          MessageTemplatesRemoteDataSource(_apiClient));
 
   static DocumentsRepository documentsRepository =
       DocumentsRepositoryImpl(DocumentsRemoteDataSource(_apiClient));
