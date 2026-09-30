@@ -113,6 +113,13 @@ public class PropertyController {
         return ResponseEntity.ok(priceInsightService.insightFor(id));
     }
 
+    @GetMapping("/mandates-ending")
+    @Operation(summary = "The agency's listings still on the market (available or reserved) whose "
+            + "seller agreement ends within 14 days or has already ended; soonest first")
+    public ResponseEntity<List<PropertyResponse>> mandatesEnding() {
+        return ResponseEntity.ok(propertyService.mandatesEnding());
+    }
+
     @GetMapping("/{id}/photos")
     @Operation(summary = "The photographs of this listing, in gallery order")
     public ResponseEntity<List<PropertyPhotoResponse>> photos(@PathVariable Long id) {

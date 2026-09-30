@@ -278,6 +278,12 @@ _$PropertyResponseImpl _$$PropertyResponseImplFromJson(
           : DateTime.parse(json['priceChangedAt'] as String),
       latitude: (json['latitude'] as num?)?.toDouble(),
       longitude: (json['longitude'] as num?)?.toDouble(),
+      mandateType: $enumDecodeNullable(
+          _$MandateTypeEnumMap, json['mandateType'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
+      mandateEndDate: json['mandateEndDate'] == null
+          ? null
+          : DateTime.parse(json['mandateEndDate'] as String),
     );
 
 Map<String, dynamic> _$$PropertyResponseImplToJson(
@@ -303,12 +309,19 @@ Map<String, dynamic> _$$PropertyResponseImplToJson(
       'priceChangedAt': instance.priceChangedAt?.toIso8601String(),
       'latitude': instance.latitude,
       'longitude': instance.longitude,
+      'mandateType': _$MandateTypeEnumMap[instance.mandateType],
+      'mandateEndDate': instance.mandateEndDate?.toIso8601String(),
     };
 
 const _$PropertyStatusEnumMap = {
   PropertyStatus.AVAILABLE: 'AVAILABLE',
   PropertyStatus.RESERVED: 'RESERVED',
   PropertyStatus.SOLD: 'SOLD',
+};
+
+const _$MandateTypeEnumMap = {
+  MandateType.EXCLUSIVE: 'EXCLUSIVE',
+  MandateType.OPEN: 'OPEN',
 };
 
 _$PropertyPriceChangeImpl _$$PropertyPriceChangeImplFromJson(

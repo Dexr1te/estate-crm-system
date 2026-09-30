@@ -55,7 +55,7 @@ class OfflineCache {
     RegExp(r'^/clients(/with-details|/cold|/\d+(/matches|/activities)?)?$'),
     RegExp(
         r'^/properties(/\d+(/photos|/cover|/viewings|/price-history|/price-insight|/report)?)?$'),
-    RegExp(r'^/properties/price-insight$'),
+    RegExp(r'^/properties/(price-insight|mandates-ending)$'),
     RegExp(r'^/deals(/\d+(/comments(/mentionable)?|/checklist)?)?$'),
     RegExp(r'^/meetings(/upcoming|/\d+)?$'),
     RegExp(r'^/tasks$'),

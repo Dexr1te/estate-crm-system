@@ -2129,6 +2129,14 @@ mixin _$PropertyResponse {
   double? get latitude => throw _privateConstructorUsedError;
   double? get longitude => throw _privateConstructorUsedError;
 
+  /// The seller's agreement; null when none is recorded. A kind this build
+  /// does not know reads as none rather than failing the whole listing.
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  MandateType? get mandateType => throw _privateConstructorUsedError;
+
+  /// Its last day (a date, no time); null when it has no end date.
+  DateTime? get mandateEndDate => throw _privateConstructorUsedError;
+
   /// Serializes this PropertyResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
@@ -2165,7 +2173,10 @@ abstract class $PropertyResponseCopyWith<$Res> {
       double? previousPrice,
       DateTime? priceChangedAt,
       double? latitude,
-      double? longitude});
+      double? longitude,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      MandateType? mandateType,
+      DateTime? mandateEndDate});
 }
 
 /// @nodoc
@@ -2203,6 +2214,8 @@ class _$PropertyResponseCopyWithImpl<$Res, $Val extends PropertyResponse>
     Object? priceChangedAt = freezed,
     Object? latitude = freezed,
     Object? longitude = freezed,
+    Object? mandateType = freezed,
+    Object? mandateEndDate = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -2285,6 +2298,14 @@ class _$PropertyResponseCopyWithImpl<$Res, $Val extends PropertyResponse>
           ? _value.longitude
           : longitude // ignore: cast_nullable_to_non_nullable
               as double?,
+      mandateType: freezed == mandateType
+          ? _value.mandateType
+          : mandateType // ignore: cast_nullable_to_non_nullable
+              as MandateType?,
+      mandateEndDate: freezed == mandateEndDate
+          ? _value.mandateEndDate
+          : mandateEndDate // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
   }
 }
@@ -2317,7 +2338,10 @@ abstract class _$$PropertyResponseImplCopyWith<$Res>
       double? previousPrice,
       DateTime? priceChangedAt,
       double? latitude,
-      double? longitude});
+      double? longitude,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      MandateType? mandateType,
+      DateTime? mandateEndDate});
 }
 
 /// @nodoc
@@ -2353,6 +2377,8 @@ class __$$PropertyResponseImplCopyWithImpl<$Res>
     Object? priceChangedAt = freezed,
     Object? latitude = freezed,
     Object? longitude = freezed,
+    Object? mandateType = freezed,
+    Object? mandateEndDate = freezed,
   }) {
     return _then(_$PropertyResponseImpl(
       id: null == id
@@ -2435,6 +2461,14 @@ class __$$PropertyResponseImplCopyWithImpl<$Res>
           ? _value.longitude
           : longitude // ignore: cast_nullable_to_non_nullable
               as double?,
+      mandateType: freezed == mandateType
+          ? _value.mandateType
+          : mandateType // ignore: cast_nullable_to_non_nullable
+              as MandateType?,
+      mandateEndDate: freezed == mandateEndDate
+          ? _value.mandateEndDate
+          : mandateEndDate // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -2462,7 +2496,10 @@ class _$PropertyResponseImpl implements _PropertyResponse {
       this.previousPrice,
       this.priceChangedAt,
       this.latitude,
-      this.longitude});
+      this.longitude,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      this.mandateType,
+      this.mandateEndDate});
 
   factory _$PropertyResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$PropertyResponseImplFromJson(json);
@@ -2515,9 +2552,19 @@ class _$PropertyResponseImpl implements _PropertyResponse {
   @override
   final double? longitude;
 
+  /// The seller's agreement; null when none is recorded. A kind this build
+  /// does not know reads as none rather than failing the whole listing.
+  @override
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  final MandateType? mandateType;
+
+  /// Its last day (a date, no time); null when it has no end date.
+  @override
+  final DateTime? mandateEndDate;
+
   @override
   String toString() {
-    return 'PropertyResponse(id: $id, title: $title, description: $description, address: $address, city: $city, type: $type, status: $status, price: $price, areaSqm: $areaSqm, rooms: $rooms, floor: $floor, totalFloors: $totalFloors, agentId: $agentId, agentName: $agentName, createdAt: $createdAt, updatedAt: $updatedAt, previousPrice: $previousPrice, priceChangedAt: $priceChangedAt, latitude: $latitude, longitude: $longitude)';
+    return 'PropertyResponse(id: $id, title: $title, description: $description, address: $address, city: $city, type: $type, status: $status, price: $price, areaSqm: $areaSqm, rooms: $rooms, floor: $floor, totalFloors: $totalFloors, agentId: $agentId, agentName: $agentName, createdAt: $createdAt, updatedAt: $updatedAt, previousPrice: $previousPrice, priceChangedAt: $priceChangedAt, latitude: $latitude, longitude: $longitude, mandateType: $mandateType, mandateEndDate: $mandateEndDate)';
   }
 
   @override
@@ -2553,7 +2600,11 @@ class _$PropertyResponseImpl implements _PropertyResponse {
             (identical(other.latitude, latitude) ||
                 other.latitude == latitude) &&
             (identical(other.longitude, longitude) ||
-                other.longitude == longitude));
+                other.longitude == longitude) &&
+            (identical(other.mandateType, mandateType) ||
+                other.mandateType == mandateType) &&
+            (identical(other.mandateEndDate, mandateEndDate) ||
+                other.mandateEndDate == mandateEndDate));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -2579,7 +2630,9 @@ class _$PropertyResponseImpl implements _PropertyResponse {
         previousPrice,
         priceChangedAt,
         latitude,
-        longitude
+        longitude,
+        mandateType,
+        mandateEndDate
       ]);
 
   /// Create a copy of PropertyResponse
@@ -2620,7 +2673,10 @@ abstract class _PropertyResponse implements PropertyResponse {
       final double? previousPrice,
       final DateTime? priceChangedAt,
       final double? latitude,
-      final double? longitude}) = _$PropertyResponseImpl;
+      final double? longitude,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      final MandateType? mandateType,
+      final DateTime? mandateEndDate}) = _$PropertyResponseImpl;
 
   factory _PropertyResponse.fromJson(Map<String, dynamic> json) =
       _$PropertyResponseImpl.fromJson;
@@ -2667,6 +2723,16 @@ abstract class _PropertyResponse implements PropertyResponse {
   double? get latitude;
   @override
   double? get longitude;
+
+  /// The seller's agreement; null when none is recorded. A kind this build
+  /// does not know reads as none rather than failing the whole listing.
+  @override
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  MandateType? get mandateType;
+
+  /// Its last day (a date, no time); null when it has no end date.
+  @override
+  DateTime? get mandateEndDate;
 
   /// Create a copy of PropertyResponse
   /// with the given fields replaced by the non-null parameter values.

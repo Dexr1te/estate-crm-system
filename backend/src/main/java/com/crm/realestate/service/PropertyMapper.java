@@ -64,6 +64,8 @@ public class PropertyMapper {
         res.setTotalFloors(p.getTotalFloors());
         res.setLatitude(p.getLatitude());
         res.setLongitude(p.getLongitude());
+        res.setMandateType(p.getMandateType());
+        res.setMandateEndDate(p.getMandateEndDate());
         res.setCreatedAt(p.getCreatedAt());
         res.setUpdatedAt(p.getUpdatedAt());
         if (p.getAgent() != null) {

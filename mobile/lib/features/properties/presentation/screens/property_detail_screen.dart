@@ -17,6 +17,7 @@ import 'package:real_estate_crm/features/properties/brochure/listing_brochure.da
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_bloc.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_event.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_state.dart';
+import 'package:real_estate_crm/features/properties/presentation/widgets/mandate_badge.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/map_markers.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_location_preview.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_photos_card.dart';
@@ -390,6 +391,10 @@ class _PropertyHero extends StatelessWidget {
                   color: t.heroTextMuted),
             ),
           ),
+          if (property.mandateType != null) ...[
+            const SizedBox(height: 12),
+            MandateBadge(property: property),
+          ],
         ],
       ),
     );

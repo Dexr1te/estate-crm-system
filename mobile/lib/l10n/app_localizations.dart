@@ -2704,6 +2704,12 @@ abstract class AppLocalizations {
   /// **'{count, plural, =0{nothing booked} =1{1 meeting} other{{count} meetings}}'**
   String dashboardLoadTotal(num count);
 
+  /// No description provided for @dashboardMandatesTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} in all'**
+  String dashboardMandatesTotal(int count);
+
   /// No description provided for @dashboardMeetingLoad.
   ///
   /// In en, this message translates to:
@@ -5841,6 +5847,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Location'**
   String get propertiesLocation;
+
+  /// No description provided for @propertiesMandate.
+  ///
+  /// In en, this message translates to:
+  /// **'Seller agreement'**
+  String get propertiesMandate;
+
+  /// No description provided for @propertiesMandateClearEndDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove the end date'**
+  String get propertiesMandateClearEndDate;
+
+  /// No description provided for @propertiesMandateEndDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Last day'**
+  String get propertiesMandateEndDate;
+
+  /// No description provided for @propertiesMandateEndedAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Ended 1 day ago} other{Ended {count} days ago}}'**
+  String propertiesMandateEndedAgo(int count);
+
+  /// No description provided for @propertiesMandateEndedYesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Ended yesterday'**
+  String get propertiesMandateEndedYesterday;
+
+  /// No description provided for @propertiesMandateEndsIn.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Ends in 1 day} other{Ends in {count} days}}'**
+  String propertiesMandateEndsIn(int count);
+
+  /// No description provided for @propertiesMandateEndsToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Ends today'**
+  String get propertiesMandateEndsToday;
+
+  /// No description provided for @propertiesMandateEndsTomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Ends tomorrow'**
+  String get propertiesMandateEndsTomorrow;
+
+  /// No description provided for @propertiesMandateExclusive.
+  ///
+  /// In en, this message translates to:
+  /// **'Exclusive'**
+  String get propertiesMandateExclusive;
+
+  /// No description provided for @propertiesMandateExclusiveEnded.
+  ///
+  /// In en, this message translates to:
+  /// **'Exclusive ended {date}'**
+  String propertiesMandateExclusiveEnded(String date);
+
+  /// No description provided for @propertiesMandateExclusiveUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'Exclusive until {date}'**
+  String propertiesMandateExclusiveUntil(String date);
+
+  /// No description provided for @propertiesMandateNoEndDate.
+  ///
+  /// In en, this message translates to:
+  /// **'No end date'**
+  String get propertiesMandateNoEndDate;
+
+  /// No description provided for @propertiesMandateNone.
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get propertiesMandateNone;
+
+  /// No description provided for @propertiesMandateOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get propertiesMandateOpen;
+
+  /// No description provided for @propertiesMandateOpenBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Open agreement'**
+  String get propertiesMandateOpenBadge;
+
+  /// No description provided for @propertiesMandateOpenEnded.
+  ///
+  /// In en, this message translates to:
+  /// **'Agreement ended {date}'**
+  String propertiesMandateOpenEnded(String date);
+
+  /// No description provided for @propertiesMandateOpenUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'Open until {date}'**
+  String propertiesMandateOpenUntil(String date);
+
+  /// No description provided for @propertiesMandatesEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No agreements running out'**
+  String get propertiesMandatesEmpty;
+
+  /// No description provided for @propertiesMandatesEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'No seller agreement on a listing still for sale ends in the next two weeks.'**
+  String get propertiesMandatesEmptyHint;
+
+  /// No description provided for @propertiesMandatesLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load the agreements running out'**
+  String get propertiesMandatesLoadFailed;
+
+  /// No description provided for @propertiesMandatesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Agreements running out'**
+  String get propertiesMandatesTitle;
 
   /// No description provided for @propertiesMapCapped.
   ///

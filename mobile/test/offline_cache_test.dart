@@ -48,6 +48,7 @@ void main() {
         '/properties/3/price-insight',
         '/properties/3/report',
         '/properties/price-insight',
+        '/properties/mandates-ending',
         '/deals',
         '/deals/9',
         '/deals/9/comments',

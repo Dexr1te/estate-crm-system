@@ -1566,6 +1566,11 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String dashboardMandatesTotal(int count) {
+    return 'всего $count';
+  }
+
+  @override
   String get dashboardMeetingLoad => 'Ближайшие две недели';
 
   @override
@@ -3480,6 +3485,99 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get propertiesLocation => 'Расположение';
+
+  @override
+  String get propertiesMandate => 'Договор с продавцом';
+
+  @override
+  String get propertiesMandateClearEndDate => 'Убрать дату окончания';
+
+  @override
+  String get propertiesMandateEndDate => 'Последний день';
+
+  @override
+  String propertiesMandateEndedAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Истёк $count дня назад',
+      many: 'Истёк $count дней назад',
+      few: 'Истёк $count дня назад',
+      one: 'Истёк $count день назад',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get propertiesMandateEndedYesterday => 'Истёк вчера';
+
+  @override
+  String propertiesMandateEndsIn(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Истекает через $count дня',
+      many: 'Истекает через $count дней',
+      few: 'Истекает через $count дня',
+      one: 'Истекает через $count день',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get propertiesMandateEndsToday => 'Истекает сегодня';
+
+  @override
+  String get propertiesMandateEndsTomorrow => 'Истекает завтра';
+
+  @override
+  String get propertiesMandateExclusive => 'Эксклюзив';
+
+  @override
+  String propertiesMandateExclusiveEnded(String date) {
+    return 'Эксклюзив истёк $date';
+  }
+
+  @override
+  String propertiesMandateExclusiveUntil(String date) {
+    return 'Эксклюзив до $date';
+  }
+
+  @override
+  String get propertiesMandateNoEndDate => 'Без даты окончания';
+
+  @override
+  String get propertiesMandateNone => 'Нет';
+
+  @override
+  String get propertiesMandateOpen => 'Открытый';
+
+  @override
+  String get propertiesMandateOpenBadge => 'Открытый договор';
+
+  @override
+  String propertiesMandateOpenEnded(String date) {
+    return 'Договор истёк $date';
+  }
+
+  @override
+  String propertiesMandateOpenUntil(String date) {
+    return 'Открытый до $date';
+  }
+
+  @override
+  String get propertiesMandatesEmpty => 'Истекающих договоров нет';
+
+  @override
+  String get propertiesMandatesEmptyHint =>
+      'Ни один договор по объектам в продаже не истекает в ближайшие две недели.';
+
+  @override
+  String get propertiesMandatesLoadFailed =>
+      'Не удалось загрузить истекающие договоры';
+
+  @override
+  String get propertiesMandatesTitle => 'Договоры истекают';
 
   @override
   String propertiesMapCapped(int count) {

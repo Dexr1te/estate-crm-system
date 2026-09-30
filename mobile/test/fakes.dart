@@ -621,6 +621,23 @@ class FakePropertiesRepository implements PropertiesRepository {
 
   @override
   Future<List<PropertyResponse>> getAllProperties() async => properties;
+
+  /// What `/properties/mandates-ending` answers, soonest first.
+  List<PropertyResponse> mandatesEnding = const [];
+
+  /// When set, the running-out list fails the way a dropped connection would.
+  bool failMandates = false;
+
+  /// How many times the running-out list was asked for.
+  int mandatesRequests = 0;
+
+  @override
+  Future<List<PropertyResponse>> getMandatesEnding() async {
+    mandatesRequests++;
+    if (failMandates) throw StateError('offline');
+    return mandatesEnding;
+  }
+
   @override
   Future<PropertyResponse> getProperty(int id) async =>
       properties.firstWhere((p) => p.id == id);

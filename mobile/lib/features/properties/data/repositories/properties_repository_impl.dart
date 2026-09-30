@@ -57,6 +57,10 @@ class PropertiesRepositoryImpl implements PropertiesRepository {
       _remote.getAllProperties();
 
   @override
+  Future<List<PropertyResponse>> getMandatesEnding() =>
+      _remote.getMandatesEnding();
+
+  @override
   Future<PropertyResponse> getProperty(int id) => _remote.getProperty(id);
 
   @override
