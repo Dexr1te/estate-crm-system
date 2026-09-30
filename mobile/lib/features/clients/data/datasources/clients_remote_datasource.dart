@@ -24,6 +24,11 @@ class ClientsRemoteDataSource {
     return jsonArray(res).map(ClientListItem.fromJson).toList();
   }
 
+  Future<List<ClientTagUsage>> getClientTags() async {
+    final res = await _client.dio.get('/clients/tags');
+    return jsonArray(res).map(ClientTagUsage.fromJson).toList();
+  }
+
   Future<ClientResponse> getClient(int id) async {
     final res = await _client.dio.get('/clients/$id');
     return ClientResponse.fromJson(jsonObject(res));

@@ -2,6 +2,7 @@ import 'package:real_estate_crm/core/bloc/action_outcome.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/network/api_error.dart';
 import 'package:real_estate_crm/core/widgets/messages.dart';
+import 'package:real_estate_crm/features/clients/domain/client_tags.dart';
 
 abstract class ClientsState {}
 
@@ -67,6 +68,9 @@ class ClientSummary {
 
   final DateTime? createdAt;
 
+  /// The agency's tags on this client, in name order.
+  final List<String> tags;
+
   const ClientSummary({
     required this.id,
     required this.fullName,
@@ -81,7 +85,13 @@ class ClientSummary {
     this.lastContactAt,
     this.source = ClientSource.manual,
     this.createdAt,
+    this.tags = const [],
   });
+
+  /// Carries every one of [wanted], compared without case — the server's
+  /// `tags` filter, so the list and its export narrow the same way.
+  bool hasAllTags(Iterable<String> wanted) =>
+      wanted.every((w) => ClientTags.holds(tags, w));
 
   /// How long a buyer from the public page counts as a new lead.
   static const newLeadWindow = Duration(days: 7);
@@ -140,6 +150,7 @@ class ClientSummary {
             .fold<DateTime?>(null, (a, b) => a == null || b.isAfter(a) ? b : a),
         source: c.source,
         createdAt: c.createdAt,
+        tags: c.tags,
       );
     }).toList();
   }

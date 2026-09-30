@@ -1654,6 +1654,12 @@ abstract class AppLocalizations {
   /// **'Sellers'**
   String get clientsFilterSellers;
 
+  /// No description provided for @clientsFilterTagsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Tags · {count}'**
+  String clientsFilterTagsCount(Object count);
+
   /// No description provided for @clientsFollowUpCall.
   ///
   /// In en, this message translates to:
@@ -1989,6 +1995,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'From the public link'**
   String get clientsSourcePublicLink;
+
+  /// No description provided for @clientsTagAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add tag'**
+  String get clientsTagAdd;
+
+  /// No description provided for @clientsTagAddHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a tag'**
+  String get clientsTagAddHint;
+
+  /// No description provided for @clientsTagFilterClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear tags'**
+  String get clientsTagFilterClear;
+
+  /// No description provided for @clientsTagFilterDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Show clients'**
+  String get clientsTagFilterDone;
+
+  /// No description provided for @clientsTagFilterEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No client has a tag yet. Add tags on the client form.'**
+  String get clientsTagFilterEmpty;
+
+  /// No description provided for @clientsTagFilterSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Clients carrying every tag you pick'**
+  String get clientsTagFilterSubtitle;
+
+  /// No description provided for @clientsTagFilterTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter by tags'**
+  String get clientsTagFilterTitle;
+
+  /// No description provided for @clientsTagLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'Up to {count} tags per client'**
+  String clientsTagLimit(Object count);
+
+  /// No description provided for @clientsTagRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove tag {tag}'**
+  String clientsTagRemove(Object tag);
+
+  /// No description provided for @clientsTagSuggestions.
+  ///
+  /// In en, this message translates to:
+  /// **'Already used in the agency'**
+  String get clientsTagSuggestions;
+
+  /// No description provided for @clientsTagTooLong.
+  ///
+  /// In en, this message translates to:
+  /// **'A tag can be at most {count} characters'**
+  String clientsTagTooLong(Object count);
+
+  /// No description provided for @clientsTags.
+  ///
+  /// In en, this message translates to:
+  /// **'Tags'**
+  String get clientsTags;
+
+  /// No description provided for @clientsTagsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Short labels to find a client by later: investor, urgent, VIP.'**
+  String get clientsTagsHint;
+
+  /// No description provided for @clientsTagsMore.
+  ///
+  /// In en, this message translates to:
+  /// **'+{count}'**
+  String clientsTagsMore(Object count);
 
   /// No description provided for @clientsTitle.
   ///
@@ -3987,6 +4077,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Status'**
   String get importFieldStatus;
+
+  /// No description provided for @importFieldTags.
+  ///
+  /// In en, this message translates to:
+  /// **'Tags'**
+  String get importFieldTags;
 
   /// No description provided for @importFieldTitle.
   ///

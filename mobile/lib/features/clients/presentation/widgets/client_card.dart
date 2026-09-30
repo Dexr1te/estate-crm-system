@@ -3,6 +3,7 @@ import 'package:real_estate_crm/core/utils/clock.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_state.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/client_source_badge.dart';
+import 'package:real_estate_crm/features/clients/presentation/widgets/client_tag_chips.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/contact_time.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
@@ -11,6 +12,9 @@ class ClientCard extends StatelessWidget {
   final VoidCallback onTap;
 
   const ClientCard({super.key, required this.client, required this.onTap});
+
+  /// Tags a row shows before counting the rest as "+N".
+  static const maxVisibleTags = 3;
 
   @override
   Widget build(BuildContext context) {
@@ -74,6 +78,11 @@ class ClientCard extends StatelessWidget {
                     if (ClientSourceBadge.shows(client.source)) ...[
                       const SizedBox(height: 5),
                       ClientSourceBadge(source: client.source),
+                    ],
+                    if (client.tags.isNotEmpty) ...[
+                      const SizedBox(height: 6),
+                      ClientTagChips(
+                          tags: client.tags, maxVisible: maxVisibleTags),
                     ],
                   ],
                 ),

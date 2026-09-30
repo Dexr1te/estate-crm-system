@@ -105,10 +105,26 @@ class ClientResponse with _$ClientResponse {
     double? budgetMax,
     int? minRooms,
     double? minAreaSqm,
+
+    /// The agency's tags on this client, in name order.
+    @Default(<String>[]) List<String> tags,
   }) = _ClientResponse;
 
   factory ClientResponse.fromJson(Map<String, dynamic> json) =>
       _$ClientResponseFromJson(json);
+}
+
+/// A tag of the agency and how many of its clients carry it — what the tag
+/// editor suggests, the most used first.
+@freezed
+class ClientTagUsage with _$ClientTagUsage {
+  const factory ClientTagUsage({
+    required String name,
+    @Default(0) int count,
+  }) = _ClientTagUsage;
+
+  factory ClientTagUsage.fromJson(Map<String, dynamic> json) =>
+      _$ClientTagUsageFromJson(json);
 }
 
 @freezed

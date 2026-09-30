@@ -41,7 +41,7 @@ class CsvExportRoundTripTest extends CsvExportFixture {
                 .andExpect(jsonPath("$.delimiter").value("en".equals(lang) ? "," : ";"))
                 .andExpect(jsonPath("$.mapping").value(contains(Arrays.asList(
                         "fullName", "phone", "email", "type", null, "wantedCity", "wantedType",
-                        "budgetMin", "budgetMax", "minRooms", "minAreaSqm", "notes", null, null).toArray())))
+                        "budgetMin", "budgetMax", "minRooms", "minAreaSqm", "notes", "tags", null, null).toArray())))
                 .andExpect(jsonPath("$.totalRows").value(1))
                 .andExpect(jsonPath("$.invalidRows").value(0))
                 .andExpect(jsonPath("$.validRows").value(1))

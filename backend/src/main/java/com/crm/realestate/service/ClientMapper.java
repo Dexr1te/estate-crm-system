@@ -2,7 +2,12 @@ package com.crm.realestate.service;
 
 import com.crm.realestate.dto.response.ClientResponse;
 import com.crm.realestate.entity.Client;
+import com.crm.realestate.entity.ClientTag;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.stream.Collectors;
 
 /**
  * The one definition of what a client looks like over the wire.
@@ -31,6 +36,10 @@ public class ClientMapper {
         res.setBudgetMax(client.getBudgetMax());
         res.setMinRooms(client.getMinRooms());
         res.setMinAreaSqm(client.getMinAreaSqm());
+        res.setTags(client.getTags().stream()
+                .sorted(Comparator.comparing(ClientTag::getNameKey))
+                .map(ClientTag::getName)
+                .collect(Collectors.toCollection(ArrayList::new)));
         if (client.getAgent() != null) {
             res.setAgentId(client.getAgent().getId());
             res.setAgentName(client.getAgent().getFullName());

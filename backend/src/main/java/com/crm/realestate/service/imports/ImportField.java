@@ -47,6 +47,9 @@ public enum ImportField {
     CLIENT_MIN_AREA(ImportKind.CLIENTS, "minAreaSqm", false,
             "area", "min area", "size", "площадь", "мин площадь", "площадь от", "аудан",
             "ең аз аудан"),
+    CLIENT_TAGS(ImportKind.CLIENTS, "tags", false,
+            "tags", "tag", "labels", "label", "теги", "тег", "метки", "метка", "ярлыки", "тегтер",
+            "белгілер", "белгі"),
 
     // Listings ----------------------------------------------------------------------------------
     PROPERTY_TITLE(ImportKind.PROPERTIES, "title", true,

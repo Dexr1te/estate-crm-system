@@ -955,6 +955,11 @@ class AppLocalizationsRu extends AppLocalizations {
   String get clientsFilterSellers => 'Продавцы';
 
   @override
+  String clientsFilterTagsCount(Object count) {
+    return 'Теги · $count';
+  }
+
+  @override
   String get clientsFollowUpCall => 'Записать этот звонок?';
 
   @override
@@ -1141,6 +1146,59 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get clientsSourcePublicLink => 'С публичной ссылки';
+
+  @override
+  String get clientsTagAdd => 'Добавить тег';
+
+  @override
+  String get clientsTagAddHint => 'Добавить тег';
+
+  @override
+  String get clientsTagFilterClear => 'Сбросить теги';
+
+  @override
+  String get clientsTagFilterDone => 'Показать клиентов';
+
+  @override
+  String get clientsTagFilterEmpty =>
+      'Пока ни у одного клиента нет тегов. Их добавляют в карточке клиента.';
+
+  @override
+  String get clientsTagFilterSubtitle =>
+      'Клиенты, у которых есть все выбранные теги';
+
+  @override
+  String get clientsTagFilterTitle => 'Фильтр по тегам';
+
+  @override
+  String clientsTagLimit(Object count) {
+    return 'Не больше $count тегов на клиента';
+  }
+
+  @override
+  String clientsTagRemove(Object tag) {
+    return 'Убрать тег $tag';
+  }
+
+  @override
+  String get clientsTagSuggestions => 'Уже есть в агентстве';
+
+  @override
+  String clientsTagTooLong(Object count) {
+    return 'Тег — не длиннее $count символов';
+  }
+
+  @override
+  String get clientsTags => 'Теги';
+
+  @override
+  String get clientsTagsHint =>
+      'Короткие метки, чтобы потом найти клиента: инвестор, срочно, VIP.';
+
+  @override
+  String clientsTagsMore(Object count) {
+    return '+$count';
+  }
 
   @override
   String get clientsTitle => 'Клиенты';
@@ -2326,6 +2384,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get importFieldStatus => 'Статус';
+
+  @override
+  String get importFieldTags => 'Теги';
 
   @override
   String get importFieldTitle => 'Название';

@@ -927,6 +927,11 @@ class AppLocalizationsKk extends AppLocalizations {
   String get clientsFilterSellers => 'Сатушылар';
 
   @override
+  String clientsFilterTagsCount(Object count) {
+    return 'Тегтер · $count';
+  }
+
+  @override
   String get clientsFollowUpCall => 'Бұл қоңырауды жазып қоясыз ба?';
 
   @override
@@ -1113,6 +1118,59 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get clientsSourcePublicLink => 'Жария сілтемеден';
+
+  @override
+  String get clientsTagAdd => 'Тег қосу';
+
+  @override
+  String get clientsTagAddHint => 'Тег қосу';
+
+  @override
+  String get clientsTagFilterClear => 'Тегтерді тазалау';
+
+  @override
+  String get clientsTagFilterDone => 'Клиенттерді көрсету';
+
+  @override
+  String get clientsTagFilterEmpty =>
+      'Әзірге ешбір клиентте тег жоқ. Тегтер клиент карточкасында қосылады.';
+
+  @override
+  String get clientsTagFilterSubtitle =>
+      'Таңдалған тегтердің бәрі бар клиенттер';
+
+  @override
+  String get clientsTagFilterTitle => 'Тегтер бойынша сүзу';
+
+  @override
+  String clientsTagLimit(Object count) {
+    return 'Бір клиентке $count тегтен артық емес';
+  }
+
+  @override
+  String clientsTagRemove(Object tag) {
+    return '$tag тегін алып тастау';
+  }
+
+  @override
+  String get clientsTagSuggestions => 'Агенттікте бұрыннан бар';
+
+  @override
+  String clientsTagTooLong(Object count) {
+    return 'Тег $count таңбадан аспауы керек';
+  }
+
+  @override
+  String get clientsTags => 'Тегтер';
+
+  @override
+  String get clientsTagsHint =>
+      'Клиентті кейін табуға арналған қысқа белгілер: инвестор, шұғыл, VIP.';
+
+  @override
+  String clientsTagsMore(Object count) {
+    return '+$count';
+  }
 
   @override
   String get clientsTitle => 'Клиенттер';
@@ -2278,6 +2336,9 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get importFieldStatus => 'Мәртебе';
+
+  @override
+  String get importFieldTags => 'Тегтер';
 
   @override
   String get importFieldTitle => 'Атауы';

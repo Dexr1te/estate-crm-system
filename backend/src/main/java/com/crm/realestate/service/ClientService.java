@@ -32,6 +32,7 @@ public class ClientService {
     private final SecurityUtils    securityUtils;
     private final ScopeService     scopeService;
     private final ClientMapper     clientMapper;
+    private final ClientTagService tagService;
 
     public List<ClientResponse> getAll() {
         return findVisible(ClientSpecification.build(null, null, null, null, null));
@@ -45,10 +46,32 @@ public class ClientService {
             String search,
             org.springframework.data.domain.Pageable pageable
     ) {
+        return search(type, agentId, createdFrom, createdTo, search, null, pageable);
+    }
+
+    /** A page of clients under every filter given, {@code tags} included (all of them). */
+    public org.springframework.data.domain.Page<ClientResponse> search(
+            ClientType type,
+            Long agentId,
+            LocalDate createdFrom,
+            LocalDate createdTo,
+            String search,
+            List<String> tags,
+            org.springframework.data.domain.Pageable pageable
+    ) {
         User currentUser = securityUtils.getCurrentUser();
-        Specification<Client> spec = ClientSpecification.build(type, agentId, createdFrom, createdTo, search)
+        Specification<Client> spec = ClientSpecification.build(type, agentId, createdFrom, createdTo, search, tags)
                 .and(scopeService.visibleTo(currentUser));
         return clientRepository.findAll(spec, pageable).map(this::toResponse);
+    }
+
+    /**
+     * Every client under all the filters given, unpaged. Only a request naming tags ends up here:
+     * the older unpaged filters keep their one-filter-at-a-time answers for the apps that use them.
+     */
+    public List<ClientResponse> filter(ClientType type, Long agentId, LocalDate createdFrom,
+                                       LocalDate createdTo, String search, List<String> tags) {
+        return findVisible(ClientSpecification.build(type, agentId, createdFrom, createdTo, search, tags));
     }
 
     public List<ClientResponse> getByAgent(Long agentId) {
@@ -121,6 +144,9 @@ public class ClientService {
         if (client.getEmail() != null && clientRepository.existsByEmailAndTeam(client.getEmail(), client.getTeam())) {
             throw new RuntimeException("Client with this email already exists");
         }
+        if (request.getTags() != null) {
+            tagService.assign(client, request.getTags());
+        }
         return toResponse(clientRepository.save(client));
     }
 
@@ -128,13 +154,26 @@ public class ClientService {
     public ClientResponse update(Long id, ClientRequest request) {
         User currentUser = securityUtils.getCurrentUser();
         Client client = findVisibleById(id, currentUser);
+        Long teamBefore = client.getTeam() == null ? null : client.getTeam().getId();
         mapRequestToEntity(request, client, currentUser);
+        Long teamAfter = client.getTeam() == null ? null : client.getTeam().getId();
+        if (request.getTags() != null) {
+            tagService.assign(client, request.getTags());
+        } else if (!java.util.Objects.equals(teamBefore, teamAfter) && !client.getTags().isEmpty()) {
+            // Placed in an agency: the same words, but from that agency's vocabulary.
+            tagService.assign(client, tagService.names(client));
+        }
         return toResponse(clientRepository.save(client));
     }
 
     @Transactional
     public void delete(Long id) {
-        clientRepository.delete(findVisibleById(id, securityUtils.getCurrentUser()));
+        Client client = findVisibleById(id, securityUtils.getCurrentUser());
+        boolean tagged = !client.getTags().isEmpty();
+        clientRepository.delete(client);
+        if (tagged) {
+            tagService.forgetUnused(client.getTeam());
+        }
     }
 
     private List<ClientResponse> findVisible(Specification<Client> filter) {

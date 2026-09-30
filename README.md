@@ -32,7 +32,9 @@ Android, and a React web client. The app is the product being shipped; see
 
 **Clients.** Buyers and sellers, with the phone number an agent actually rings.
 A buyer also carries a wish list — city, type, budget from and to, minimum rooms
-and area — which is what makes the next two features possible.
+and area — which is what makes the next two features possible. Any client can
+carry up to ten short tags — "investor", "urgent", "VIP" — from the agency's own
+vocabulary, and the list filters on them.
 
 **Listings.** Flats, houses, commercial space and land, with price, area, rooms,
 floor and photographs. The first photograph is the cover the lists show, and the
@@ -167,7 +169,7 @@ handful marked public. Full OpenAPI at `/api/swagger-ui.html`.
 | --- | --- |
 | Auth (public) | `/auth/login`, `/auth/register`, `/auth/verify-email`, `/auth/resend-verification`, `/auth/refresh`, `/auth/accept-invite`, `/auth/forgot-password`, `/auth/reset-password` |
 | Me | `/auth/me` (get, update, **delete**), `/me/team`, `/me/team-requests` |
-| Clients | `/clients`, `/clients/{id}`, `/clients/with-details`, `/clients/{id}/matches` |
+| Clients | `/clients` (`?tags=`), `/clients/{id}`, `/clients/with-details`, `/clients/{id}/matches`, `/clients/tags` |
 | Properties | `/properties`, `/properties/{id}`, `/properties/{id}/status`, `/properties/{id}/photos` (+ `order`, `{photoId}/content`), `/properties/{id}/cover`, `/properties/{id}/interested`, `/properties/{id}/viewings`, `/properties/{id}/price-history` |
 | Deals | `/deals`, `/deals/{id}`, `/deals/{id}/status`, `/deals/{dealId}/documents` |
 | Meetings | `/meetings`, `/meetings/upcoming`, `/meetings/{id}`, `/meetings/{id}/complete`, `/meetings/{id}/outcome` |

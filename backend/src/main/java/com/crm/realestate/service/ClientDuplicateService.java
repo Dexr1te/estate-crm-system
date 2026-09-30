@@ -49,6 +49,7 @@ public class ClientDuplicateService {
     private final TaskRepository taskRepository;
     private final ClientService clientService;
     private final ClientMapper clientMapper;
+    private final ClientTagService tagService;
     private final ScopeService scopeService;
     private final SecurityUtils securityUtils;
     private final AuditLogService auditLogService;
@@ -97,7 +98,8 @@ public class ClientDuplicateService {
     /**
      * Folds {@code sourceId} into {@code targetId}: its deals, meetings (viewing outcomes ride on
      * them), logged contacts and tasks move over; the target's empty contact details and buyer
-     * requirements are filled from it; its notes are appended; then it is deleted.
+     * requirements are filled from it; its notes are appended; its tags are added to the target's,
+     * the target's own first, up to the limit on one client; then it is deleted.
      *
      * <p>Moves are bulk updates, one statement per kind of record. The persistence context is then
      * cleared before the source is deleted — a stale {@code deals} collection on it would otherwise
@@ -121,14 +123,11 @@ public class ClientDuplicateService {
         }
 
         Client carried = snapshot(source);
+        List<String> carriedTags = tagService.names(source);
         int deals = dealRepository.moveToClient(source, target);
         int meetings = meetingRepository.moveToClient(source, target);
         int activities = activityRepository.moveToClient(source, target);
         int tasks = taskRepository.moveToClient(source, target);
-        auditLogService.record(currentUser, "MERGE_CLIENT", "Client", targetId,
-                "source=" + sourceId + " name=" + carried.getFullName()
-                        + " deals=" + deals + " meetings=" + meetings
-                        + " activities=" + activities + " tasks=" + tasks);
 
         entityManager.flush();
         entityManager.clear();
@@ -140,6 +139,12 @@ public class ClientDuplicateService {
         Client merged = clientRepository.findById(targetId)
                 .orElseThrow(() -> new ResourceNotFoundException("Client not found with id: " + targetId));
         fillFrom(merged, carried);
+        // Both cards are in one agency, so the source's tags are words the target's agency has.
+        int tags = tagService.union(merged, carriedTags);
+        auditLogService.record(currentUser, "MERGE_CLIENT", "Client", targetId,
+                "source=" + sourceId + " name=" + carried.getFullName()
+                        + " deals=" + deals + " meetings=" + meetings
+                        + " activities=" + activities + " tasks=" + tasks + " tags=" + tags);
         return clientMapper.toResponse(clientRepository.save(merged));
     }
 

@@ -19,6 +19,9 @@ class ClientsRepositoryImpl implements ClientsRepository {
       _remote.getClientsWithDetails();
 
   @override
+  Future<List<ClientTagUsage>> getClientTags() => _remote.getClientTags();
+
+  @override
   Future<ClientResponse> getClient(int id) => _remote.getClient(id);
 
   @override

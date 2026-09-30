@@ -350,6 +350,12 @@ class FakeClientsRepository implements ClientsRepository {
 
   @override
   Future<List<ClientListItem>> getClientsWithDetails() async => listItems;
+
+  /// What `/clients/tags` answers.
+  List<ClientTagUsage> tagUsage = const [];
+
+  @override
+  Future<List<ClientTagUsage>> getClientTags() async => tagUsage;
   @override
   Future<ClientResponse> getClient(int id) async =>
       clients.firstWhere((c) => c.id == id);
@@ -364,9 +370,14 @@ class FakeClientsRepository implements ClientsRepository {
         id: 1000 + created.length, fullName: data['fullName'] as String);
   }
 
+  /// Every update made through the fake, as `(id, data)`.
+  final List<(int, Map<String, dynamic>)> updated = [];
+
   @override
-  Future<ClientResponse> updateClient(int id, Map<String, dynamic> data) =>
-      throw UnimplementedError();
+  Future<ClientResponse> updateClient(int id, Map<String, dynamic> data) async {
+    updated.add((id, data));
+    return clients.firstWhere((c) => c.id == id);
+  }
   @override
   Future<void> deleteClient(int id) => throw UnimplementedError();
 }

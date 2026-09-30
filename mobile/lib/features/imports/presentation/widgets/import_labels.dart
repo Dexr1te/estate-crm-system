@@ -21,6 +21,7 @@ String importFieldLabel(AppLocalizations l10n, ImportKind kind, String field) =>
       'budgetMax' => l10n.importFieldBudgetMax,
       'minRooms' => l10n.importFieldMinRooms,
       'minAreaSqm' => l10n.importFieldMinArea,
+      'tags' => l10n.importFieldTags,
       'title' => l10n.importFieldTitle,
       'address' => l10n.importFieldAddress,
       'city' => l10n.importFieldCity,

@@ -7,6 +7,7 @@ import com.crm.realestate.dto.response.ImportPreviewResponse.DuplicateSource;
 import com.crm.realestate.dto.response.ImportPreviewResponse.RowStatus;
 import com.crm.realestate.dto.response.ImportResultResponse;
 import com.crm.realestate.entity.Client;
+import com.crm.realestate.entity.ClientTag;
 import com.crm.realestate.entity.Property;
 import com.crm.realestate.entity.Team;
 import com.crm.realestate.entity.User;
@@ -23,6 +24,8 @@ import com.crm.realestate.service.AuditLogService;
 import com.crm.realestate.service.ClientDuplicateService;
 import com.crm.realestate.service.ClientDuplicateService.ContactIndex;
 import com.crm.realestate.service.ClientDuplicateService.KnownClient;
+import com.crm.realestate.service.ClientTagService;
+import com.crm.realestate.service.ClientTags;
 import com.crm.realestate.service.ContactNormalizer;
 import com.crm.realestate.service.ScopeService;
 import lombok.RequiredArgsConstructor;
@@ -75,6 +78,7 @@ public class ImportService {
     private final ScopeService scopeService;
     private final SecurityUtils securityUtils;
     private final AuditLogService auditLogService;
+    private final ClientTagService tagService;
 
     @Transactional(readOnly = true)
     public ImportPreviewResponse preview(ImportKind kind, MultipartFile file, List<String> mapping) {
@@ -96,6 +100,7 @@ public class ImportService {
         int invalid = 0;
         List<Client> clients = new ArrayList<>();
         List<Property> properties = new ArrayList<>();
+        Map<Client, List<String>> typedTags = new java.util.IdentityHashMap<>();
         for (Checked checked : analysis.rows) {
             if (!checked.row.valid()) {
                 invalid++;
@@ -107,12 +112,18 @@ public class ImportService {
                 continue;
             }
             if (kind == ImportKind.CLIENTS) {
-                clients.add(toClient(checked.row, assignee, team));
+                Client client = toClient(checked.row, assignee, team);
+                clients.add(client);
+                List<String> tags = checked.row.get(ImportField.CLIENT_TAGS);
+                if (tags != null) {
+                    typedTags.put(client, tags);
+                }
             } else {
                 properties.add(toProperty(checked.row, assignee, team));
             }
             created++;
         }
+        tagAll(typedTags, team);
         clientRepository.saveAll(clients);
         propertyRepository.saveAll(properties);
 
@@ -189,7 +200,10 @@ public class ImportService {
         private static ImportPreviewResponse.Row toRow(Checked checked, RowStatus status) {
             Map<String, String> values = new LinkedHashMap<>();
             checked.row.values().forEach((key, value) -> values.put(key,
-                    value instanceof BigDecimal d ? d.toPlainString() : String.valueOf(value)));
+                    value instanceof BigDecimal d ? d.toPlainString()
+                            : value instanceof List<?> list ? list.stream().map(String::valueOf)
+                                    .collect(java.util.stream.Collectors.joining(", "))
+                            : String.valueOf(value)));
             return ImportPreviewResponse.Row.builder()
                     .row(checked.row.number())
                     .status(status)
@@ -332,6 +346,7 @@ public class ImportService {
             Map.entry("budgetMax", new String[]{"Budget to", "Бюджет до", "Бюджет дейін"}),
             Map.entry("minRooms", new String[]{"Rooms", "Комнаты", "Бөлме саны"}),
             Map.entry("minAreaSqm", new String[]{"Area", "Площадь", "Аудан"}),
+            Map.entry("tags", new String[]{"Tags", "Теги", "Тегтер"}),
             Map.entry("title", new String[]{"Title", "Название", "Атауы"}),
             Map.entry("address", new String[]{"Address", "Адрес", "Мекенжай"}),
             Map.entry("city", new String[]{"City", "Город", "Қала"}),
@@ -375,6 +390,20 @@ public class ImportService {
     }
 
     // Writing -----------------------------------------------------------------------------------
+
+    /**
+     * Puts the tags read from each row on its client, from the agency's vocabulary: the whole
+     * file's tags are resolved at once, so a sheet of five thousand rows is one lookup.
+     */
+    private void tagAll(Map<Client, List<String>> typed, Team team) {
+        if (typed.isEmpty()) {
+            return;
+        }
+        Map<String, ClientTag> byKey = tagService.resolve(team,
+                typed.values().stream().flatMap(List::stream).toList());
+        typed.forEach((client, names) -> names.forEach(name ->
+                client.getTags().add(byKey.get(ClientTags.key(name)))));
+    }
 
     private static Client toClient(ImportRow row, User agent, Team team) {
         return Client.builder()

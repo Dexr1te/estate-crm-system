@@ -67,6 +67,9 @@ _$ClientResponseImpl _$$ClientResponseImplFromJson(Map<String, dynamic> json) =>
       budgetMax: (json['budgetMax'] as num?)?.toDouble(),
       minRooms: (json['minRooms'] as num?)?.toInt(),
       minAreaSqm: (json['minAreaSqm'] as num?)?.toDouble(),
+      tags:
+          (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList() ??
+              const <String>[],
     );
 
 Map<String, dynamic> _$$ClientResponseImplToJson(
@@ -89,6 +92,7 @@ Map<String, dynamic> _$$ClientResponseImplToJson(
       'budgetMax': instance.budgetMax,
       'minRooms': instance.minRooms,
       'minAreaSqm': instance.minAreaSqm,
+      'tags': instance.tags,
     };
 
 const _$ClientTypeEnumMap = {
@@ -109,6 +113,19 @@ const _$PropertyTypeEnumMap = {
   PropertyType.LAND: 'LAND',
   PropertyType.OFFICE: 'OFFICE',
 };
+
+_$ClientTagUsageImpl _$$ClientTagUsageImplFromJson(Map<String, dynamic> json) =>
+    _$ClientTagUsageImpl(
+      name: json['name'] as String,
+      count: (json['count'] as num?)?.toInt() ?? 0,
+    );
+
+Map<String, dynamic> _$$ClientTagUsageImplToJson(
+        _$ClientTagUsageImpl instance) =>
+    <String, dynamic>{
+      'name': instance.name,
+      'count': instance.count,
+    };
 
 _$ClientListItemImpl _$$ClientListItemImplFromJson(Map<String, dynamic> json) =>
     _$ClientListItemImpl(

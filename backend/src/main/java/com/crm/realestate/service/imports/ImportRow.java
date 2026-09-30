@@ -1,6 +1,7 @@
 package com.crm.realestate.service.imports;
 
 import com.crm.realestate.enums.ClientType;
+import com.crm.realestate.service.ClientTags;
 import com.crm.realestate.service.ContactNormalizer;
 
 import java.math.BigDecimal;
@@ -102,6 +103,14 @@ public final class ImportRow {
                 }
             }
             case CLIENT_TYPE -> known(field, ImportValues.clientType(cell));
+            case CLIENT_TAGS -> {
+                // "investor, urgent" — the export writes them so, and people type them so.
+                List<String> tags = ClientTags.normalise(List.of(cell));
+                String violation = ClientTags.violation(tags);
+                if (ClientTags.TOO_LONG.equals(violation)) errors.put(field.key(), "TOO_LONG");
+                else if (violation != null) errors.put(field.key(), "OUT_OF_RANGE");
+                else if (!tags.isEmpty()) values.put(field.key(), tags);
+            }
             case CLIENT_WANTED_TYPE, PROPERTY_TYPE -> known(field, ImportValues.propertyType(cell));
             case PROPERTY_STATUS -> known(field, ImportValues.propertyStatus(cell));
             case CLIENT_BUDGET_MIN, CLIENT_BUDGET_MAX, PROPERTY_PRICE ->

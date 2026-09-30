@@ -3,6 +3,7 @@ package com.crm.realestate.service.exports;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -24,11 +25,12 @@ public record ExportFilters(
         LocalDate createdFrom,
         LocalDate createdTo,
         LocalDate closedFrom,
-        LocalDate closedTo) {
+        LocalDate closedTo,
+        List<String> tags) {
 
     public static ExportFilters none() {
         return new ExportFilters(null, null, null, null, null, null, null, null, null,
-                null, null, null, null);
+                null, null, null, null, null);
     }
 
     /** "type=BUYER agentId=7": the filters that were set, for the audit journal. */
@@ -47,6 +49,7 @@ public record ExportFilters(
         set.put("createdTo", createdTo);
         set.put("closedFrom", closedFrom);
         set.put("closedTo", closedTo);
+        set.put("tags", tags == null || tags.isEmpty() ? null : String.join(",", tags));
         return set.entrySet().stream()
                 .filter(e -> e.getValue() != null && !e.getValue().toString().isBlank())
                 .map(e -> e.getKey() + "=" + e.getValue())

@@ -14,6 +14,7 @@ import 'package:real_estate_crm/features/clients/presentation/bloc/clients_event
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_state.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/client_history_card.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/client_source_badge.dart';
+import 'package:real_estate_crm/features/clients/presentation/widgets/client_tag_chips.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/duplicate_warning.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/log_contact_sheet.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/send_matches_sheet.dart';
@@ -480,6 +481,12 @@ class _IdentityCard extends StatelessWidget {
                     ),
                   ],
                 ),
+                if (client.tags.isNotEmpty) ...[
+                  const SizedBox(height: 8),
+                  ClientTagChips(
+                      key: const ValueKey('client-detail-tags'),
+                      tags: client.tags),
+                ],
               ],
             ),
           ),
