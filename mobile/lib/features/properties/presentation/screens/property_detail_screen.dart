@@ -240,6 +240,12 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
             loading: _brochureBusy,
             onPressed: _shareBrochure,
           ),
+          AppGhostButton(
+            key: const ValueKey('property-seller-report'),
+            label: l10n.propertiesReport,
+            icon: Icons.assessment_outlined,
+            onPressed: () => context.push('/properties/${widget.id}/report'),
+          ),
           CompareTrayControls(propertyId: p.id),
           if (p.price > 0)
             PropertyMortgageCard(

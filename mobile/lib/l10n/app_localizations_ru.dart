@@ -3691,6 +3691,95 @@ class AppLocalizationsRu extends AppLocalizations {
   String get propertiesPropertyNotFound => 'Объект не найден';
 
   @override
+  String get propertiesReport => 'Отчёт для продавца';
+
+  @override
+  String propertiesReportAsOf(String date) {
+    return 'На $date';
+  }
+
+  @override
+  String get propertiesReportAwaitingOutcome => 'Итог ещё не отмечен';
+
+  @override
+  String get propertiesReportCurrentPrice => 'Сейчас';
+
+  @override
+  String get propertiesReportDaysOnMarket => 'Дней в продаже';
+
+  @override
+  String get propertiesReportLinkLeads => 'Заявок по ссылке';
+
+  @override
+  String get propertiesReportLinkViews => 'Открытий ссылки';
+
+  @override
+  String propertiesReportListedOn(String date) {
+    return 'В продаже с $date';
+  }
+
+  @override
+  String get propertiesReportLoadFailed => 'Не удалось загрузить отчёт';
+
+  @override
+  String get propertiesReportMatchingBuyers => 'Подходящих покупателей';
+
+  @override
+  String propertiesReportNextViewing(String date) {
+    return 'Следующий показ $date';
+  }
+
+  @override
+  String get propertiesReportNoViewings => 'Показов пока не было';
+
+  @override
+  String get propertiesReportOriginalPrice => 'Начальная цена';
+
+  @override
+  String get propertiesReportOutcomes => 'Что сказали после показа';
+
+  @override
+  String get propertiesReportPrice => 'Цена';
+
+  @override
+  String get propertiesReportPriceChange => 'Изменение';
+
+  @override
+  String get propertiesReportPriceChanges => 'Изменения цены';
+
+  @override
+  String get propertiesReportPriceUnchanged =>
+      'Цена не менялась с начала продажи';
+
+  @override
+  String get propertiesReportShare => 'Отправить продавцу';
+
+  @override
+  String get propertiesReportShareFailed =>
+      'Не удалось отправить отчёт. Попробуйте ещё раз.';
+
+  @override
+  String propertiesReportSoldOn(String date) {
+    return 'Продан $date';
+  }
+
+  @override
+  String propertiesReportTextHeading(String title) {
+    return 'Отчёт для продавца: $title';
+  }
+
+  @override
+  String propertiesReportTextLine(String label, String value) {
+    return '$label: $value';
+  }
+
+  @override
+  String get propertiesReportViewingsHeld => 'Показов проведено';
+
+  @override
+  String get propertiesReportViewingsUpcoming => 'Показов впереди';
+
+  @override
   String get propertiesRooms => 'Комнаты';
 
   @override

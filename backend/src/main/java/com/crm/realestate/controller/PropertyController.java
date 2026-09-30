@@ -3,6 +3,7 @@ package com.crm.realestate.controller;
 import com.crm.realestate.dto.request.PropertyRequest;
 import com.crm.realestate.dto.response.PriceInsightResponse;
 import com.crm.realestate.dto.response.PropertyResponse;
+import com.crm.realestate.dto.response.SellerReportResponse;
 import com.crm.realestate.dto.response.ShareLinkResponse;
 import com.crm.realestate.enums.PropertyStatus;
 import com.crm.realestate.enums.PropertyType;
@@ -21,6 +22,7 @@ import com.crm.realestate.service.MatchingService;
 import com.crm.realestate.service.MeetingService;
 import com.crm.realestate.service.PriceInsightService;
 import com.crm.realestate.service.PropertyService;
+import com.crm.realestate.service.SellerReportService;
 import com.crm.realestate.specification.MapBounds;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -47,6 +49,7 @@ public class PropertyController {
     private final PropertyPhotoService photoService;
     private final ListingShareService shareService;
     private final PriceInsightService priceInsightService;
+    private final SellerReportService sellerReportService;
 
     @GetMapping
     @Operation(summary = "Get all properties (with optional filters, incl. a map rectangle minLat/maxLat/minLng/maxLng and hasLocation). Supports pagination & sorting via Pageable (page, size, sort)")
@@ -185,6 +188,13 @@ public class PropertyController {
     @Operation(summary = "Every viewing booked for this listing, most recent first")
     public ResponseEntity<List<MeetingResponse>> viewings(@PathVariable Long id) {
         return ResponseEntity.ok(meetingService.getByProperty(id));
+    }
+
+    @GetMapping("/{id}/report")
+    @Operation(summary = "The report for the seller: days on the market, viewings and what came of "
+            + "them, enquiries through the public link, the price's history, and matching buyers")
+    public ResponseEntity<SellerReportResponse> sellerReport(@PathVariable Long id) {
+        return ResponseEntity.ok(sellerReportService.reportFor(id));
     }
 
     @GetMapping("/{id}/interested")

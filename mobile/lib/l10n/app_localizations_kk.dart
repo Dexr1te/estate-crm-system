@@ -3567,6 +3567,95 @@ class AppLocalizationsKk extends AppLocalizations {
   String get propertiesPropertyNotFound => 'Нысан табылмады';
 
   @override
+  String get propertiesReport => 'Сатушыға есеп';
+
+  @override
+  String propertiesReportAsOf(String date) {
+    return '$date жағдай бойынша';
+  }
+
+  @override
+  String get propertiesReportAwaitingOutcome => 'Нәтиже әлі белгіленбеген';
+
+  @override
+  String get propertiesReportCurrentPrice => 'Қазір';
+
+  @override
+  String get propertiesReportDaysOnMarket => 'Сатылымдағы күндер';
+
+  @override
+  String get propertiesReportLinkLeads => 'Сілтеме арқылы өтінімдер';
+
+  @override
+  String get propertiesReportLinkViews => 'Сілтемені ашу саны';
+
+  @override
+  String propertiesReportListedOn(String date) {
+    return '$date бастап сатылымда';
+  }
+
+  @override
+  String get propertiesReportLoadFailed => 'Есепті жүктеу мүмкін болмады';
+
+  @override
+  String get propertiesReportMatchingBuyers => 'Сәйкес сатып алушылар';
+
+  @override
+  String propertiesReportNextViewing(String date) {
+    return 'Келесі көрсету $date';
+  }
+
+  @override
+  String get propertiesReportNoViewings => 'Әзірге көрсетулер болған жоқ';
+
+  @override
+  String get propertiesReportOriginalPrice => 'Бастапқы баға';
+
+  @override
+  String get propertiesReportOutcomes => 'Көрсетуден кейінгі пікір';
+
+  @override
+  String get propertiesReportPrice => 'Баға';
+
+  @override
+  String get propertiesReportPriceChange => 'Өзгеріс';
+
+  @override
+  String get propertiesReportPriceChanges => 'Баға өзгерістері';
+
+  @override
+  String get propertiesReportPriceUnchanged =>
+      'Баға сатылымға шыққаннан бері өзгерген жоқ';
+
+  @override
+  String get propertiesReportShare => 'Сатушыға жіберу';
+
+  @override
+  String get propertiesReportShareFailed =>
+      'Есепті жіберу мүмкін болмады. Қайталап көріңіз.';
+
+  @override
+  String propertiesReportSoldOn(String date) {
+    return '$date сатылды';
+  }
+
+  @override
+  String propertiesReportTextHeading(String title) {
+    return 'Сатушыға есеп: $title';
+  }
+
+  @override
+  String propertiesReportTextLine(String label, String value) {
+    return '$label: $value';
+  }
+
+  @override
+  String get propertiesReportViewingsHeld => 'Өткізілген көрсетулер';
+
+  @override
+  String get propertiesReportViewingsUpcoming => 'Алдағы көрсетулер';
+
+  @override
   String get propertiesRooms => 'Бөлмелер';
 
   @override

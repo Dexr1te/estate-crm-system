@@ -4808,6 +4808,1214 @@ abstract class _PropertyShareLink implements PropertyShareLink {
       throw _privateConstructorUsedError;
 }
 
+SellerReportViewings _$SellerReportViewingsFromJson(Map<String, dynamic> json) {
+  return _SellerReportViewings.fromJson(json);
+}
+
+/// @nodoc
+mixin _$SellerReportViewings {
+  int get total => throw _privateConstructorUsedError;
+  int get held => throw _privateConstructorUsedError;
+  int get upcoming => throw _privateConstructorUsedError;
+  Map<String, int> get outcomes => throw _privateConstructorUsedError;
+  int get awaitingOutcome => throw _privateConstructorUsedError;
+  DateTime? get lastHeldAt => throw _privateConstructorUsedError;
+  DateTime? get nextAt => throw _privateConstructorUsedError;
+
+  /// Serializes this SellerReportViewings to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of SellerReportViewings
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $SellerReportViewingsCopyWith<SellerReportViewings> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $SellerReportViewingsCopyWith<$Res> {
+  factory $SellerReportViewingsCopyWith(SellerReportViewings value,
+          $Res Function(SellerReportViewings) then) =
+      _$SellerReportViewingsCopyWithImpl<$Res, SellerReportViewings>;
+  @useResult
+  $Res call(
+      {int total,
+      int held,
+      int upcoming,
+      Map<String, int> outcomes,
+      int awaitingOutcome,
+      DateTime? lastHeldAt,
+      DateTime? nextAt});
+}
+
+/// @nodoc
+class _$SellerReportViewingsCopyWithImpl<$Res,
+        $Val extends SellerReportViewings>
+    implements $SellerReportViewingsCopyWith<$Res> {
+  _$SellerReportViewingsCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of SellerReportViewings
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? total = null,
+    Object? held = null,
+    Object? upcoming = null,
+    Object? outcomes = null,
+    Object? awaitingOutcome = null,
+    Object? lastHeldAt = freezed,
+    Object? nextAt = freezed,
+  }) {
+    return _then(_value.copyWith(
+      total: null == total
+          ? _value.total
+          : total // ignore: cast_nullable_to_non_nullable
+              as int,
+      held: null == held
+          ? _value.held
+          : held // ignore: cast_nullable_to_non_nullable
+              as int,
+      upcoming: null == upcoming
+          ? _value.upcoming
+          : upcoming // ignore: cast_nullable_to_non_nullable
+              as int,
+      outcomes: null == outcomes
+          ? _value.outcomes
+          : outcomes // ignore: cast_nullable_to_non_nullable
+              as Map<String, int>,
+      awaitingOutcome: null == awaitingOutcome
+          ? _value.awaitingOutcome
+          : awaitingOutcome // ignore: cast_nullable_to_non_nullable
+              as int,
+      lastHeldAt: freezed == lastHeldAt
+          ? _value.lastHeldAt
+          : lastHeldAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      nextAt: freezed == nextAt
+          ? _value.nextAt
+          : nextAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$SellerReportViewingsImplCopyWith<$Res>
+    implements $SellerReportViewingsCopyWith<$Res> {
+  factory _$$SellerReportViewingsImplCopyWith(_$SellerReportViewingsImpl value,
+          $Res Function(_$SellerReportViewingsImpl) then) =
+      __$$SellerReportViewingsImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int total,
+      int held,
+      int upcoming,
+      Map<String, int> outcomes,
+      int awaitingOutcome,
+      DateTime? lastHeldAt,
+      DateTime? nextAt});
+}
+
+/// @nodoc
+class __$$SellerReportViewingsImplCopyWithImpl<$Res>
+    extends _$SellerReportViewingsCopyWithImpl<$Res, _$SellerReportViewingsImpl>
+    implements _$$SellerReportViewingsImplCopyWith<$Res> {
+  __$$SellerReportViewingsImplCopyWithImpl(_$SellerReportViewingsImpl _value,
+      $Res Function(_$SellerReportViewingsImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of SellerReportViewings
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? total = null,
+    Object? held = null,
+    Object? upcoming = null,
+    Object? outcomes = null,
+    Object? awaitingOutcome = null,
+    Object? lastHeldAt = freezed,
+    Object? nextAt = freezed,
+  }) {
+    return _then(_$SellerReportViewingsImpl(
+      total: null == total
+          ? _value.total
+          : total // ignore: cast_nullable_to_non_nullable
+              as int,
+      held: null == held
+          ? _value.held
+          : held // ignore: cast_nullable_to_non_nullable
+              as int,
+      upcoming: null == upcoming
+          ? _value.upcoming
+          : upcoming // ignore: cast_nullable_to_non_nullable
+              as int,
+      outcomes: null == outcomes
+          ? _value._outcomes
+          : outcomes // ignore: cast_nullable_to_non_nullable
+              as Map<String, int>,
+      awaitingOutcome: null == awaitingOutcome
+          ? _value.awaitingOutcome
+          : awaitingOutcome // ignore: cast_nullable_to_non_nullable
+              as int,
+      lastHeldAt: freezed == lastHeldAt
+          ? _value.lastHeldAt
+          : lastHeldAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      nextAt: freezed == nextAt
+          ? _value.nextAt
+          : nextAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$SellerReportViewingsImpl extends _SellerReportViewings {
+  const _$SellerReportViewingsImpl(
+      {this.total = 0,
+      this.held = 0,
+      this.upcoming = 0,
+      final Map<String, int> outcomes = const <String, int>{},
+      this.awaitingOutcome = 0,
+      this.lastHeldAt,
+      this.nextAt})
+      : _outcomes = outcomes,
+        super._();
+
+  factory _$SellerReportViewingsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SellerReportViewingsImplFromJson(json);
+
+  @override
+  @JsonKey()
+  final int total;
+  @override
+  @JsonKey()
+  final int held;
+  @override
+  @JsonKey()
+  final int upcoming;
+  final Map<String, int> _outcomes;
+  @override
+  @JsonKey()
+  Map<String, int> get outcomes {
+    if (_outcomes is EqualUnmodifiableMapView) return _outcomes;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_outcomes);
+  }
+
+  @override
+  @JsonKey()
+  final int awaitingOutcome;
+  @override
+  final DateTime? lastHeldAt;
+  @override
+  final DateTime? nextAt;
+
+  @override
+  String toString() {
+    return 'SellerReportViewings(total: $total, held: $held, upcoming: $upcoming, outcomes: $outcomes, awaitingOutcome: $awaitingOutcome, lastHeldAt: $lastHeldAt, nextAt: $nextAt)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SellerReportViewingsImpl &&
+            (identical(other.total, total) || other.total == total) &&
+            (identical(other.held, held) || other.held == held) &&
+            (identical(other.upcoming, upcoming) ||
+                other.upcoming == upcoming) &&
+            const DeepCollectionEquality().equals(other._outcomes, _outcomes) &&
+            (identical(other.awaitingOutcome, awaitingOutcome) ||
+                other.awaitingOutcome == awaitingOutcome) &&
+            (identical(other.lastHeldAt, lastHeldAt) ||
+                other.lastHeldAt == lastHeldAt) &&
+            (identical(other.nextAt, nextAt) || other.nextAt == nextAt));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      total,
+      held,
+      upcoming,
+      const DeepCollectionEquality().hash(_outcomes),
+      awaitingOutcome,
+      lastHeldAt,
+      nextAt);
+
+  /// Create a copy of SellerReportViewings
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SellerReportViewingsImplCopyWith<_$SellerReportViewingsImpl>
+      get copyWith =>
+          __$$SellerReportViewingsImplCopyWithImpl<_$SellerReportViewingsImpl>(
+              this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$SellerReportViewingsImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _SellerReportViewings extends SellerReportViewings {
+  const factory _SellerReportViewings(
+      {final int total,
+      final int held,
+      final int upcoming,
+      final Map<String, int> outcomes,
+      final int awaitingOutcome,
+      final DateTime? lastHeldAt,
+      final DateTime? nextAt}) = _$SellerReportViewingsImpl;
+  const _SellerReportViewings._() : super._();
+
+  factory _SellerReportViewings.fromJson(Map<String, dynamic> json) =
+      _$SellerReportViewingsImpl.fromJson;
+
+  @override
+  int get total;
+  @override
+  int get held;
+  @override
+  int get upcoming;
+  @override
+  Map<String, int> get outcomes;
+  @override
+  int get awaitingOutcome;
+  @override
+  DateTime? get lastHeldAt;
+  @override
+  DateTime? get nextAt;
+
+  /// Create a copy of SellerReportViewings
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$SellerReportViewingsImplCopyWith<_$SellerReportViewingsImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+SellerReportLink _$SellerReportLinkFromJson(Map<String, dynamic> json) {
+  return _SellerReportLink.fromJson(json);
+}
+
+/// @nodoc
+mixin _$SellerReportLink {
+  bool get active => throw _privateConstructorUsedError;
+  int get views => throw _privateConstructorUsedError;
+  int get leads => throw _privateConstructorUsedError;
+
+  /// Serializes this SellerReportLink to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of SellerReportLink
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $SellerReportLinkCopyWith<SellerReportLink> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $SellerReportLinkCopyWith<$Res> {
+  factory $SellerReportLinkCopyWith(
+          SellerReportLink value, $Res Function(SellerReportLink) then) =
+      _$SellerReportLinkCopyWithImpl<$Res, SellerReportLink>;
+  @useResult
+  $Res call({bool active, int views, int leads});
+}
+
+/// @nodoc
+class _$SellerReportLinkCopyWithImpl<$Res, $Val extends SellerReportLink>
+    implements $SellerReportLinkCopyWith<$Res> {
+  _$SellerReportLinkCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of SellerReportLink
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? active = null,
+    Object? views = null,
+    Object? leads = null,
+  }) {
+    return _then(_value.copyWith(
+      active: null == active
+          ? _value.active
+          : active // ignore: cast_nullable_to_non_nullable
+              as bool,
+      views: null == views
+          ? _value.views
+          : views // ignore: cast_nullable_to_non_nullable
+              as int,
+      leads: null == leads
+          ? _value.leads
+          : leads // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$SellerReportLinkImplCopyWith<$Res>
+    implements $SellerReportLinkCopyWith<$Res> {
+  factory _$$SellerReportLinkImplCopyWith(_$SellerReportLinkImpl value,
+          $Res Function(_$SellerReportLinkImpl) then) =
+      __$$SellerReportLinkImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({bool active, int views, int leads});
+}
+
+/// @nodoc
+class __$$SellerReportLinkImplCopyWithImpl<$Res>
+    extends _$SellerReportLinkCopyWithImpl<$Res, _$SellerReportLinkImpl>
+    implements _$$SellerReportLinkImplCopyWith<$Res> {
+  __$$SellerReportLinkImplCopyWithImpl(_$SellerReportLinkImpl _value,
+      $Res Function(_$SellerReportLinkImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of SellerReportLink
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? active = null,
+    Object? views = null,
+    Object? leads = null,
+  }) {
+    return _then(_$SellerReportLinkImpl(
+      active: null == active
+          ? _value.active
+          : active // ignore: cast_nullable_to_non_nullable
+              as bool,
+      views: null == views
+          ? _value.views
+          : views // ignore: cast_nullable_to_non_nullable
+              as int,
+      leads: null == leads
+          ? _value.leads
+          : leads // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$SellerReportLinkImpl implements _SellerReportLink {
+  const _$SellerReportLinkImpl(
+      {this.active = false, this.views = 0, this.leads = 0});
+
+  factory _$SellerReportLinkImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SellerReportLinkImplFromJson(json);
+
+  @override
+  @JsonKey()
+  final bool active;
+  @override
+  @JsonKey()
+  final int views;
+  @override
+  @JsonKey()
+  final int leads;
+
+  @override
+  String toString() {
+    return 'SellerReportLink(active: $active, views: $views, leads: $leads)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SellerReportLinkImpl &&
+            (identical(other.active, active) || other.active == active) &&
+            (identical(other.views, views) || other.views == views) &&
+            (identical(other.leads, leads) || other.leads == leads));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, active, views, leads);
+
+  /// Create a copy of SellerReportLink
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SellerReportLinkImplCopyWith<_$SellerReportLinkImpl> get copyWith =>
+      __$$SellerReportLinkImplCopyWithImpl<_$SellerReportLinkImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$SellerReportLinkImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _SellerReportLink implements SellerReportLink {
+  const factory _SellerReportLink(
+      {final bool active,
+      final int views,
+      final int leads}) = _$SellerReportLinkImpl;
+
+  factory _SellerReportLink.fromJson(Map<String, dynamic> json) =
+      _$SellerReportLinkImpl.fromJson;
+
+  @override
+  bool get active;
+  @override
+  int get views;
+  @override
+  int get leads;
+
+  /// Create a copy of SellerReportLink
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$SellerReportLinkImplCopyWith<_$SellerReportLinkImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+SellerReportPrice _$SellerReportPriceFromJson(Map<String, dynamic> json) {
+  return _SellerReportPrice.fromJson(json);
+}
+
+/// @nodoc
+mixin _$SellerReportPrice {
+  double get current => throw _privateConstructorUsedError;
+  double get original => throw _privateConstructorUsedError;
+  double get change => throw _privateConstructorUsedError;
+  double? get changePercent => throw _privateConstructorUsedError;
+
+  /// Oldest first.
+  List<PropertyPriceChange> get changes => throw _privateConstructorUsedError;
+
+  /// Serializes this SellerReportPrice to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of SellerReportPrice
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $SellerReportPriceCopyWith<SellerReportPrice> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $SellerReportPriceCopyWith<$Res> {
+  factory $SellerReportPriceCopyWith(
+          SellerReportPrice value, $Res Function(SellerReportPrice) then) =
+      _$SellerReportPriceCopyWithImpl<$Res, SellerReportPrice>;
+  @useResult
+  $Res call(
+      {double current,
+      double original,
+      double change,
+      double? changePercent,
+      List<PropertyPriceChange> changes});
+}
+
+/// @nodoc
+class _$SellerReportPriceCopyWithImpl<$Res, $Val extends SellerReportPrice>
+    implements $SellerReportPriceCopyWith<$Res> {
+  _$SellerReportPriceCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of SellerReportPrice
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? current = null,
+    Object? original = null,
+    Object? change = null,
+    Object? changePercent = freezed,
+    Object? changes = null,
+  }) {
+    return _then(_value.copyWith(
+      current: null == current
+          ? _value.current
+          : current // ignore: cast_nullable_to_non_nullable
+              as double,
+      original: null == original
+          ? _value.original
+          : original // ignore: cast_nullable_to_non_nullable
+              as double,
+      change: null == change
+          ? _value.change
+          : change // ignore: cast_nullable_to_non_nullable
+              as double,
+      changePercent: freezed == changePercent
+          ? _value.changePercent
+          : changePercent // ignore: cast_nullable_to_non_nullable
+              as double?,
+      changes: null == changes
+          ? _value.changes
+          : changes // ignore: cast_nullable_to_non_nullable
+              as List<PropertyPriceChange>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$SellerReportPriceImplCopyWith<$Res>
+    implements $SellerReportPriceCopyWith<$Res> {
+  factory _$$SellerReportPriceImplCopyWith(_$SellerReportPriceImpl value,
+          $Res Function(_$SellerReportPriceImpl) then) =
+      __$$SellerReportPriceImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {double current,
+      double original,
+      double change,
+      double? changePercent,
+      List<PropertyPriceChange> changes});
+}
+
+/// @nodoc
+class __$$SellerReportPriceImplCopyWithImpl<$Res>
+    extends _$SellerReportPriceCopyWithImpl<$Res, _$SellerReportPriceImpl>
+    implements _$$SellerReportPriceImplCopyWith<$Res> {
+  __$$SellerReportPriceImplCopyWithImpl(_$SellerReportPriceImpl _value,
+      $Res Function(_$SellerReportPriceImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of SellerReportPrice
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? current = null,
+    Object? original = null,
+    Object? change = null,
+    Object? changePercent = freezed,
+    Object? changes = null,
+  }) {
+    return _then(_$SellerReportPriceImpl(
+      current: null == current
+          ? _value.current
+          : current // ignore: cast_nullable_to_non_nullable
+              as double,
+      original: null == original
+          ? _value.original
+          : original // ignore: cast_nullable_to_non_nullable
+              as double,
+      change: null == change
+          ? _value.change
+          : change // ignore: cast_nullable_to_non_nullable
+              as double,
+      changePercent: freezed == changePercent
+          ? _value.changePercent
+          : changePercent // ignore: cast_nullable_to_non_nullable
+              as double?,
+      changes: null == changes
+          ? _value._changes
+          : changes // ignore: cast_nullable_to_non_nullable
+              as List<PropertyPriceChange>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$SellerReportPriceImpl implements _SellerReportPrice {
+  const _$SellerReportPriceImpl(
+      {this.current = 0.0,
+      this.original = 0.0,
+      this.change = 0.0,
+      this.changePercent,
+      final List<PropertyPriceChange> changes = const <PropertyPriceChange>[]})
+      : _changes = changes;
+
+  factory _$SellerReportPriceImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SellerReportPriceImplFromJson(json);
+
+  @override
+  @JsonKey()
+  final double current;
+  @override
+  @JsonKey()
+  final double original;
+  @override
+  @JsonKey()
+  final double change;
+  @override
+  final double? changePercent;
+
+  /// Oldest first.
+  final List<PropertyPriceChange> _changes;
+
+  /// Oldest first.
+  @override
+  @JsonKey()
+  List<PropertyPriceChange> get changes {
+    if (_changes is EqualUnmodifiableListView) return _changes;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_changes);
+  }
+
+  @override
+  String toString() {
+    return 'SellerReportPrice(current: $current, original: $original, change: $change, changePercent: $changePercent, changes: $changes)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SellerReportPriceImpl &&
+            (identical(other.current, current) || other.current == current) &&
+            (identical(other.original, original) ||
+                other.original == original) &&
+            (identical(other.change, change) || other.change == change) &&
+            (identical(other.changePercent, changePercent) ||
+                other.changePercent == changePercent) &&
+            const DeepCollectionEquality().equals(other._changes, _changes));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, current, original, change,
+      changePercent, const DeepCollectionEquality().hash(_changes));
+
+  /// Create a copy of SellerReportPrice
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SellerReportPriceImplCopyWith<_$SellerReportPriceImpl> get copyWith =>
+      __$$SellerReportPriceImplCopyWithImpl<_$SellerReportPriceImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$SellerReportPriceImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _SellerReportPrice implements SellerReportPrice {
+  const factory _SellerReportPrice(
+      {final double current,
+      final double original,
+      final double change,
+      final double? changePercent,
+      final List<PropertyPriceChange> changes}) = _$SellerReportPriceImpl;
+
+  factory _SellerReportPrice.fromJson(Map<String, dynamic> json) =
+      _$SellerReportPriceImpl.fromJson;
+
+  @override
+  double get current;
+  @override
+  double get original;
+  @override
+  double get change;
+  @override
+  double? get changePercent;
+
+  /// Oldest first.
+  @override
+  List<PropertyPriceChange> get changes;
+
+  /// Create a copy of SellerReportPrice
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$SellerReportPriceImplCopyWith<_$SellerReportPriceImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+SellerReport _$SellerReportFromJson(Map<String, dynamic> json) {
+  return _SellerReport.fromJson(json);
+}
+
+/// @nodoc
+mixin _$SellerReport {
+  int get propertyId => throw _privateConstructorUsedError;
+  String get title => throw _privateConstructorUsedError;
+  String get address => throw _privateConstructorUsedError;
+  String? get city => throw _privateConstructorUsedError;
+  PropertyStatus get status => throw _privateConstructorUsedError;
+  DateTime? get listedAt => throw _privateConstructorUsedError;
+  int get daysOnMarket => throw _privateConstructorUsedError;
+  DateTime? get soldAt => throw _privateConstructorUsedError;
+  DateTime? get generatedOn => throw _privateConstructorUsedError;
+  SellerReportViewings get viewings => throw _privateConstructorUsedError;
+  SellerReportLink get publicLink => throw _privateConstructorUsedError;
+  SellerReportPrice get price => throw _privateConstructorUsedError;
+  int get matchingBuyers => throw _privateConstructorUsedError;
+
+  /// Serializes this SellerReport to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of SellerReport
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $SellerReportCopyWith<SellerReport> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $SellerReportCopyWith<$Res> {
+  factory $SellerReportCopyWith(
+          SellerReport value, $Res Function(SellerReport) then) =
+      _$SellerReportCopyWithImpl<$Res, SellerReport>;
+  @useResult
+  $Res call(
+      {int propertyId,
+      String title,
+      String address,
+      String? city,
+      PropertyStatus status,
+      DateTime? listedAt,
+      int daysOnMarket,
+      DateTime? soldAt,
+      DateTime? generatedOn,
+      SellerReportViewings viewings,
+      SellerReportLink publicLink,
+      SellerReportPrice price,
+      int matchingBuyers});
+
+  $SellerReportViewingsCopyWith<$Res> get viewings;
+  $SellerReportLinkCopyWith<$Res> get publicLink;
+  $SellerReportPriceCopyWith<$Res> get price;
+}
+
+/// @nodoc
+class _$SellerReportCopyWithImpl<$Res, $Val extends SellerReport>
+    implements $SellerReportCopyWith<$Res> {
+  _$SellerReportCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of SellerReport
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? propertyId = null,
+    Object? title = null,
+    Object? address = null,
+    Object? city = freezed,
+    Object? status = null,
+    Object? listedAt = freezed,
+    Object? daysOnMarket = null,
+    Object? soldAt = freezed,
+    Object? generatedOn = freezed,
+    Object? viewings = null,
+    Object? publicLink = null,
+    Object? price = null,
+    Object? matchingBuyers = null,
+  }) {
+    return _then(_value.copyWith(
+      propertyId: null == propertyId
+          ? _value.propertyId
+          : propertyId // ignore: cast_nullable_to_non_nullable
+              as int,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      address: null == address
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as String,
+      city: freezed == city
+          ? _value.city
+          : city // ignore: cast_nullable_to_non_nullable
+              as String?,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as PropertyStatus,
+      listedAt: freezed == listedAt
+          ? _value.listedAt
+          : listedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      daysOnMarket: null == daysOnMarket
+          ? _value.daysOnMarket
+          : daysOnMarket // ignore: cast_nullable_to_non_nullable
+              as int,
+      soldAt: freezed == soldAt
+          ? _value.soldAt
+          : soldAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      generatedOn: freezed == generatedOn
+          ? _value.generatedOn
+          : generatedOn // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      viewings: null == viewings
+          ? _value.viewings
+          : viewings // ignore: cast_nullable_to_non_nullable
+              as SellerReportViewings,
+      publicLink: null == publicLink
+          ? _value.publicLink
+          : publicLink // ignore: cast_nullable_to_non_nullable
+              as SellerReportLink,
+      price: null == price
+          ? _value.price
+          : price // ignore: cast_nullable_to_non_nullable
+              as SellerReportPrice,
+      matchingBuyers: null == matchingBuyers
+          ? _value.matchingBuyers
+          : matchingBuyers // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+
+  /// Create a copy of SellerReport
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $SellerReportViewingsCopyWith<$Res> get viewings {
+    return $SellerReportViewingsCopyWith<$Res>(_value.viewings, (value) {
+      return _then(_value.copyWith(viewings: value) as $Val);
+    });
+  }
+
+  /// Create a copy of SellerReport
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $SellerReportLinkCopyWith<$Res> get publicLink {
+    return $SellerReportLinkCopyWith<$Res>(_value.publicLink, (value) {
+      return _then(_value.copyWith(publicLink: value) as $Val);
+    });
+  }
+
+  /// Create a copy of SellerReport
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $SellerReportPriceCopyWith<$Res> get price {
+    return $SellerReportPriceCopyWith<$Res>(_value.price, (value) {
+      return _then(_value.copyWith(price: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$SellerReportImplCopyWith<$Res>
+    implements $SellerReportCopyWith<$Res> {
+  factory _$$SellerReportImplCopyWith(
+          _$SellerReportImpl value, $Res Function(_$SellerReportImpl) then) =
+      __$$SellerReportImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int propertyId,
+      String title,
+      String address,
+      String? city,
+      PropertyStatus status,
+      DateTime? listedAt,
+      int daysOnMarket,
+      DateTime? soldAt,
+      DateTime? generatedOn,
+      SellerReportViewings viewings,
+      SellerReportLink publicLink,
+      SellerReportPrice price,
+      int matchingBuyers});
+
+  @override
+  $SellerReportViewingsCopyWith<$Res> get viewings;
+  @override
+  $SellerReportLinkCopyWith<$Res> get publicLink;
+  @override
+  $SellerReportPriceCopyWith<$Res> get price;
+}
+
+/// @nodoc
+class __$$SellerReportImplCopyWithImpl<$Res>
+    extends _$SellerReportCopyWithImpl<$Res, _$SellerReportImpl>
+    implements _$$SellerReportImplCopyWith<$Res> {
+  __$$SellerReportImplCopyWithImpl(
+      _$SellerReportImpl _value, $Res Function(_$SellerReportImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of SellerReport
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? propertyId = null,
+    Object? title = null,
+    Object? address = null,
+    Object? city = freezed,
+    Object? status = null,
+    Object? listedAt = freezed,
+    Object? daysOnMarket = null,
+    Object? soldAt = freezed,
+    Object? generatedOn = freezed,
+    Object? viewings = null,
+    Object? publicLink = null,
+    Object? price = null,
+    Object? matchingBuyers = null,
+  }) {
+    return _then(_$SellerReportImpl(
+      propertyId: null == propertyId
+          ? _value.propertyId
+          : propertyId // ignore: cast_nullable_to_non_nullable
+              as int,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      address: null == address
+          ? _value.address
+          : address // ignore: cast_nullable_to_non_nullable
+              as String,
+      city: freezed == city
+          ? _value.city
+          : city // ignore: cast_nullable_to_non_nullable
+              as String?,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as PropertyStatus,
+      listedAt: freezed == listedAt
+          ? _value.listedAt
+          : listedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      daysOnMarket: null == daysOnMarket
+          ? _value.daysOnMarket
+          : daysOnMarket // ignore: cast_nullable_to_non_nullable
+              as int,
+      soldAt: freezed == soldAt
+          ? _value.soldAt
+          : soldAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      generatedOn: freezed == generatedOn
+          ? _value.generatedOn
+          : generatedOn // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      viewings: null == viewings
+          ? _value.viewings
+          : viewings // ignore: cast_nullable_to_non_nullable
+              as SellerReportViewings,
+      publicLink: null == publicLink
+          ? _value.publicLink
+          : publicLink // ignore: cast_nullable_to_non_nullable
+              as SellerReportLink,
+      price: null == price
+          ? _value.price
+          : price // ignore: cast_nullable_to_non_nullable
+              as SellerReportPrice,
+      matchingBuyers: null == matchingBuyers
+          ? _value.matchingBuyers
+          : matchingBuyers // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$SellerReportImpl implements _SellerReport {
+  const _$SellerReportImpl(
+      {required this.propertyId,
+      this.title = '',
+      this.address = '',
+      this.city,
+      this.status = PropertyStatus.AVAILABLE,
+      this.listedAt,
+      this.daysOnMarket = 0,
+      this.soldAt,
+      this.generatedOn,
+      this.viewings = const SellerReportViewings(),
+      this.publicLink = const SellerReportLink(),
+      this.price = const SellerReportPrice(),
+      this.matchingBuyers = 0});
+
+  factory _$SellerReportImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SellerReportImplFromJson(json);
+
+  @override
+  final int propertyId;
+  @override
+  @JsonKey()
+  final String title;
+  @override
+  @JsonKey()
+  final String address;
+  @override
+  final String? city;
+  @override
+  @JsonKey()
+  final PropertyStatus status;
+  @override
+  final DateTime? listedAt;
+  @override
+  @JsonKey()
+  final int daysOnMarket;
+  @override
+  final DateTime? soldAt;
+  @override
+  final DateTime? generatedOn;
+  @override
+  @JsonKey()
+  final SellerReportViewings viewings;
+  @override
+  @JsonKey()
+  final SellerReportLink publicLink;
+  @override
+  @JsonKey()
+  final SellerReportPrice price;
+  @override
+  @JsonKey()
+  final int matchingBuyers;
+
+  @override
+  String toString() {
+    return 'SellerReport(propertyId: $propertyId, title: $title, address: $address, city: $city, status: $status, listedAt: $listedAt, daysOnMarket: $daysOnMarket, soldAt: $soldAt, generatedOn: $generatedOn, viewings: $viewings, publicLink: $publicLink, price: $price, matchingBuyers: $matchingBuyers)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SellerReportImpl &&
+            (identical(other.propertyId, propertyId) ||
+                other.propertyId == propertyId) &&
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.address, address) || other.address == address) &&
+            (identical(other.city, city) || other.city == city) &&
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.listedAt, listedAt) ||
+                other.listedAt == listedAt) &&
+            (identical(other.daysOnMarket, daysOnMarket) ||
+                other.daysOnMarket == daysOnMarket) &&
+            (identical(other.soldAt, soldAt) || other.soldAt == soldAt) &&
+            (identical(other.generatedOn, generatedOn) ||
+                other.generatedOn == generatedOn) &&
+            (identical(other.viewings, viewings) ||
+                other.viewings == viewings) &&
+            (identical(other.publicLink, publicLink) ||
+                other.publicLink == publicLink) &&
+            (identical(other.price, price) || other.price == price) &&
+            (identical(other.matchingBuyers, matchingBuyers) ||
+                other.matchingBuyers == matchingBuyers));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      propertyId,
+      title,
+      address,
+      city,
+      status,
+      listedAt,
+      daysOnMarket,
+      soldAt,
+      generatedOn,
+      viewings,
+      publicLink,
+      price,
+      matchingBuyers);
+
+  /// Create a copy of SellerReport
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SellerReportImplCopyWith<_$SellerReportImpl> get copyWith =>
+      __$$SellerReportImplCopyWithImpl<_$SellerReportImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$SellerReportImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _SellerReport implements SellerReport {
+  const factory _SellerReport(
+      {required final int propertyId,
+      final String title,
+      final String address,
+      final String? city,
+      final PropertyStatus status,
+      final DateTime? listedAt,
+      final int daysOnMarket,
+      final DateTime? soldAt,
+      final DateTime? generatedOn,
+      final SellerReportViewings viewings,
+      final SellerReportLink publicLink,
+      final SellerReportPrice price,
+      final int matchingBuyers}) = _$SellerReportImpl;
+
+  factory _SellerReport.fromJson(Map<String, dynamic> json) =
+      _$SellerReportImpl.fromJson;
+
+  @override
+  int get propertyId;
+  @override
+  String get title;
+  @override
+  String get address;
+  @override
+  String? get city;
+  @override
+  PropertyStatus get status;
+  @override
+  DateTime? get listedAt;
+  @override
+  int get daysOnMarket;
+  @override
+  DateTime? get soldAt;
+  @override
+  DateTime? get generatedOn;
+  @override
+  SellerReportViewings get viewings;
+  @override
+  SellerReportLink get publicLink;
+  @override
+  SellerReportPrice get price;
+  @override
+  int get matchingBuyers;
+
+  /// Create a copy of SellerReport
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$SellerReportImplCopyWith<_$SellerReportImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 PropertyMatch _$PropertyMatchFromJson(Map<String, dynamic> json) {
   return _PropertyMatch.fromJson(json);
 }
