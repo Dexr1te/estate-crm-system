@@ -4,10 +4,12 @@ import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart' show LatLng;
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/utils/clock.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_bloc.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_event.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_state.dart';
+import 'package:real_estate_crm/features/properties/presentation/widgets/mandate_badge.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/map_markers.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_location_picker.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_price_hint.dart';
@@ -38,6 +40,8 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
   PropertyType _type = PropertyType.APARTMENT;
   PropertyStatus _status = PropertyStatus.AVAILABLE;
   LatLng? _pin;
+  MandateType? _mandateType;
+  DateTime? _mandateEndDate;
   int _step = 0;
   bool _loading = false;
   bool _initLoading = false;
@@ -85,6 +89,8 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
         _type = p.type;
         _status = p.status;
         _pin = listingPoint(p);
+        _mandateType = p.mandateType;
+        _mandateEndDate = p.mandateType == null ? null : p.mandateEndDate;
         _initLoading = false;
       });
     } catch (_) {
@@ -113,6 +119,32 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
     return v.isEmpty ? null : double.tryParse(v);
   }
 
+  static String _dateOnly(DateTime d) => '${d.year.toString().padLeft(4, '0')}-'
+      '${d.month.toString().padLeft(2, '0')}-'
+      '${d.day.toString().padLeft(2, '0')}';
+
+  void _setMandateType(MandateType? type) => setState(() {
+        _mandateType = type;
+        if (type == null) _mandateEndDate = null;
+      });
+
+  Future<void> _pickMandateEnd() async {
+    final now = AppClock.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final initial = _mandateEndDate ?? today.add(const Duration(days: 90));
+    final first = initial.isBefore(today)
+        ? initial
+        : today.subtract(const Duration(days: 365));
+    final date = await showDatePicker(
+      context: context,
+      initialDate: initial,
+      firstDate: first,
+      lastDate: today.add(const Duration(days: 365 * 5)),
+    );
+    if (date == null || !mounted) return;
+    setState(() => _mandateEndDate = date);
+  }
+
   void _submit() {
     if (!(_stepTwoKey.currentState?.validate() ?? false)) return;
     setState(() => _loading = true);
@@ -138,6 +170,11 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
       // Always sent: an edit that took the pin off must clear it.
       'latitude': _pin?.latitude,
       'longitude': _pin?.longitude,
+      // Always sent too: choosing "None" must clear the agreement.
+      'mandateType': _mandateType?.name,
+      'mandateEndDate': _mandateType == null || _mandateEndDate == null
+          ? null
+          : _dateOnly(_mandateEndDate!),
     };
 
     if (widget.isEditing) {
@@ -436,6 +473,8 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
           ],
         ),
         SizedBox(height: gap),
+        _mandateSection(l10n),
+        SizedBox(height: gap),
         FormSectionCard(
           eyebrow: l10n.propertiesDescription,
           children: [
@@ -448,6 +487,68 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
             ),
           ],
         ),
+      ],
+    );
+  }
+
+  Widget _mandateSection(AppLocalizations l10n) {
+    final locale = Localizations.localeOf(context).toLanguageTag();
+    const options = <MandateType?>[null, ...MandateType.values];
+    final end = _mandateEndDate;
+    return FormSectionCard(
+      key: const ValueKey('property-mandate-section'),
+      eyebrow: l10n.propertiesMandate,
+      children: [
+        Row(
+          children: [
+            for (var i = 0; i < options.length; i++) ...[
+              if (i > 0) const SizedBox(width: 8),
+              Expanded(
+                child: FilterPill(
+                  key: ValueKey('mandate-type-${options[i]?.name ?? 'none'}'),
+                  label: mandateTypeLabel(l10n, options[i]),
+                  selected: _mandateType == options[i],
+                  onCard: true,
+                  onTap: () => _setMandateType(options[i]),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 6, vertical: 11),
+                ),
+              ),
+            ],
+          ],
+        ),
+        if (_mandateType != null)
+          LabelledField(
+            label: l10n.propertiesMandateEndDate,
+            child: Row(
+              children: [
+                Expanded(
+                  child: PickerField(
+                    key: const ValueKey('mandate-end-date'),
+                    value: end == null
+                        ? null
+                        : mandateDateLabel(end, AppClock.now(), locale),
+                    placeholder: l10n.propertiesMandateNoEndDate,
+                    onTap: _pickMandateEnd,
+                    trailingIcon: Icons.calendar_today_outlined,
+                  ),
+                ),
+                if (end != null) ...[
+                  const SizedBox(width: 4),
+                  IconButton(
+                    key: const ValueKey('mandate-end-date-clear'),
+                    tooltip: l10n.propertiesMandateClearEndDate,
+                    constraints: const BoxConstraints(
+                        minWidth: AppMetrics.minHitTarget,
+                        minHeight: AppMetrics.minHitTarget),
+                    onPressed: () => setState(() => _mandateEndDate = null),
+                    icon: Icon(Icons.close_rounded,
+                        size: 18, color: context.tokens.textSecondary),
+                  ),
+                ],
+              ],
+            ),
+          ),
       ],
     );
   }

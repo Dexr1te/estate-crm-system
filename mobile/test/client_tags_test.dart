@@ -171,8 +171,8 @@ Future<ClientsBloc> _pumpRouted(WidgetTester tester, String initial) async {
                   clientId: int.parse(s.pathParameters['id']!))),
           GoRoute(
               path: '/clients/:id',
-              builder: (_, s) => ClientDetailScreen(
-                  id: int.parse(s.pathParameters['id']!))),
+              builder: (_, s) =>
+                  ClientDetailScreen(id: int.parse(s.pathParameters['id']!))),
         ],
       ),
     ),
@@ -355,7 +355,8 @@ void main() {
     await tester.tap(find.byKey(
         const ValueKey('client-tag-suggestion-Ипотека одобрена банком')));
     await tester.pumpAndSettle();
-    expect(find.byKey(const ValueKey('client-tag-remove-Ипотека одобрена банком')),
+    expect(
+        find.byKey(const ValueKey('client-tag-remove-Ипотека одобрена банком')),
         findsOneWidget);
     expect(find.byKey(const ValueKey('client-tag-field')), findsOneWidget);
   });
@@ -394,7 +395,8 @@ void main() {
     expect(find.byType(FilterPill), findsNothing);
   });
 
-  testWidgets('the form sends the tags, a typed one included, and keeps them on edit',
+  testWidgets(
+      'the form sends the tags, a typed one included, and keeps them on edit',
       (tester) async {
     await _pumpRouted(tester, '/clients/new');
     await tester.enterText(find.byType(TextField).first, 'Dana Omarova');
@@ -438,8 +440,7 @@ void main() {
   // Layout ------------------------------------------------------------------------------------
 
   forEachAcceptanceCase('tag editor', (tester, size, brightness, scale) async {
-    await expectNoOverflow(
-        tester, _editor(tags: _crowded.tags),
+    await expectNoOverflow(tester, _editor(tags: _crowded.tags),
         size: size, brightness: brightness, textScale: scale);
   });
 

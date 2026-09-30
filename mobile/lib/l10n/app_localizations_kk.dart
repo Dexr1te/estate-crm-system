@@ -810,6 +810,57 @@ class AppLocalizationsKk extends AppLocalizations {
   String get clientsColdUndo => 'Болдырмау';
 
   @override
+  String get clientsComposeClearListing => 'Нысанды алып тастау';
+
+  @override
+  String get clientsComposeHint =>
+      'Жіберу алдында мәтінді түзетуге болады. Жіберілген хабарлама клиент тарихында сақталады.';
+
+  @override
+  String get clientsComposeListing => 'Нысан';
+
+  @override
+  String get clientsComposeListingHint =>
+      'Нысанды, оның бағасын, мекенжайын және сілтемесін қояды';
+
+  @override
+  String get clientsComposeListingNone => 'Нысансыз';
+
+  @override
+  String get clientsComposeNoListings => 'Нысандар жоқ';
+
+  @override
+  String get clientsComposeNoTemplates => 'Агенттікте әзірге үлгілер жоқ';
+
+  @override
+  String get clientsComposePickListing => 'Нысанды таңдаңыз';
+
+  @override
+  String get clientsComposePickTemplate => 'Үлгіні таңдаңыз';
+
+  @override
+  String get clientsComposeSearchListings => 'Нысандарды іздеу';
+
+  @override
+  String get clientsComposeSearchTemplates => 'Үлгілерді іздеу';
+
+  @override
+  String get clientsComposeSms => 'SMS';
+
+  @override
+  String get clientsComposeText => 'Хабарлама';
+
+  @override
+  String get clientsComposeTextHint =>
+      'Хабарлама жазыңыз немесе үлгіні таңдаңыз';
+
+  @override
+  String get clientsComposeTitle => 'Клиентке жазу';
+
+  @override
+  String get clientsComposeUseTemplate => 'Үлгіні қолдану';
+
+  @override
   String get clientsContact => 'Байланыс';
 
   @override
@@ -1191,6 +1242,9 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get clientsWantedType => 'Нысан түрі';
+
+  @override
+  String get clientsWrite => 'WhatsApp немесе SMS';
 
   @override
   String get compareAction => 'Салыстыру';
@@ -1587,6 +1641,11 @@ class AppLocalizationsKk extends AppLocalizations {
       zero: 'ештеңе жоспарланбаған',
     );
     return '$_temp0';
+  }
+
+  @override
+  String dashboardMandatesTotal(int count) {
+    return 'барлығы $count';
   }
 
   @override
@@ -3034,6 +3093,12 @@ class AppLocalizationsKk extends AppLocalizations {
   String get msgTeamUpdated => 'Команда жаңартылды';
 
   @override
+  String get msgTemplateDeleted => 'Үлгі жойылды';
+
+  @override
+  String get msgTemplateSaved => 'Үлгі сақталды';
+
+  @override
   String get msgUserActivated => 'Пайдаланушы белсендірілді';
 
   @override
@@ -3428,6 +3493,92 @@ class AppLocalizationsKk extends AppLocalizations {
   String get propertiesLocation => 'Орналасуы';
 
   @override
+  String get propertiesMandate => 'Сатушымен келісім';
+
+  @override
+  String get propertiesMandateClearEndDate => 'Аяқталу күнін алып тастау';
+
+  @override
+  String get propertiesMandateEndDate => 'Соңғы күні';
+
+  @override
+  String propertiesMandateEndedAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count күн бұрын аяқталды',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get propertiesMandateEndedYesterday => 'Кеше аяқталды';
+
+  @override
+  String propertiesMandateEndsIn(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count күннен кейін аяқталады',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get propertiesMandateEndsToday => 'Бүгін аяқталады';
+
+  @override
+  String get propertiesMandateEndsTomorrow => 'Ертең аяқталады';
+
+  @override
+  String get propertiesMandateExclusive => 'Эксклюзив';
+
+  @override
+  String propertiesMandateExclusiveEnded(String date) {
+    return 'Эксклюзив $date аяқталды';
+  }
+
+  @override
+  String propertiesMandateExclusiveUntil(String date) {
+    return '$date дейін эксклюзив';
+  }
+
+  @override
+  String get propertiesMandateNoEndDate => 'Аяқталу күні жоқ';
+
+  @override
+  String get propertiesMandateNone => 'Жоқ';
+
+  @override
+  String get propertiesMandateOpen => 'Ашық';
+
+  @override
+  String get propertiesMandateOpenBadge => 'Ашық келісім';
+
+  @override
+  String propertiesMandateOpenEnded(String date) {
+    return 'Келісім $date аяқталды';
+  }
+
+  @override
+  String propertiesMandateOpenUntil(String date) {
+    return '$date дейін ашық';
+  }
+
+  @override
+  String get propertiesMandatesEmpty => 'Аяқталатын келісім жоқ';
+
+  @override
+  String get propertiesMandatesEmptyHint =>
+      'Сатылымдағы нысандар бойынша ешбір келісім алдағы екі аптада аяқталмайды.';
+
+  @override
+  String get propertiesMandatesLoadFailed => 'Аяқталатын келісімдер жүктелмеді';
+
+  @override
+  String get propertiesMandatesTitle => 'Келісімдер аяқталып келеді';
+
+  @override
   String propertiesMapCapped(int count) {
     return '$count көрсетілді — қалғанын көру үшін картаны жақындатыңыз';
   }
@@ -3626,6 +3777,95 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get propertiesPropertyNotFound => 'Нысан табылмады';
+
+  @override
+  String get propertiesReport => 'Сатушыға есеп';
+
+  @override
+  String propertiesReportAsOf(String date) {
+    return '$date жағдай бойынша';
+  }
+
+  @override
+  String get propertiesReportAwaitingOutcome => 'Нәтиже әлі белгіленбеген';
+
+  @override
+  String get propertiesReportCurrentPrice => 'Қазір';
+
+  @override
+  String get propertiesReportDaysOnMarket => 'Сатылымдағы күндер';
+
+  @override
+  String get propertiesReportLinkLeads => 'Сілтеме арқылы өтінімдер';
+
+  @override
+  String get propertiesReportLinkViews => 'Сілтемені ашу саны';
+
+  @override
+  String propertiesReportListedOn(String date) {
+    return '$date бастап сатылымда';
+  }
+
+  @override
+  String get propertiesReportLoadFailed => 'Есепті жүктеу мүмкін болмады';
+
+  @override
+  String get propertiesReportMatchingBuyers => 'Сәйкес сатып алушылар';
+
+  @override
+  String propertiesReportNextViewing(String date) {
+    return 'Келесі көрсету $date';
+  }
+
+  @override
+  String get propertiesReportNoViewings => 'Әзірге көрсетулер болған жоқ';
+
+  @override
+  String get propertiesReportOriginalPrice => 'Бастапқы баға';
+
+  @override
+  String get propertiesReportOutcomes => 'Көрсетуден кейінгі пікір';
+
+  @override
+  String get propertiesReportPrice => 'Баға';
+
+  @override
+  String get propertiesReportPriceChange => 'Өзгеріс';
+
+  @override
+  String get propertiesReportPriceChanges => 'Баға өзгерістері';
+
+  @override
+  String get propertiesReportPriceUnchanged =>
+      'Баға сатылымға шыққаннан бері өзгерген жоқ';
+
+  @override
+  String get propertiesReportShare => 'Сатушыға жіберу';
+
+  @override
+  String get propertiesReportShareFailed =>
+      'Есепті жіберу мүмкін болмады. Қайталап көріңіз.';
+
+  @override
+  String propertiesReportSoldOn(String date) {
+    return '$date сатылды';
+  }
+
+  @override
+  String propertiesReportTextHeading(String title) {
+    return 'Сатушыға есеп: $title';
+  }
+
+  @override
+  String propertiesReportTextLine(String label, String value) {
+    return '$label: $value';
+  }
+
+  @override
+  String get propertiesReportViewingsHeld => 'Өткізілген көрсетулер';
+
+  @override
+  String get propertiesReportViewingsUpcoming => 'Алдағы көрсетулер';
 
   @override
   String get propertiesRooms => 'Бөлмелер';
@@ -4294,4 +4534,82 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get teamsUpcoming => 'Алдағы';
+
+  @override
+  String get templatesAdd => 'Үлгі қосу';
+
+  @override
+  String get templatesBodyHint => 'Агент не жібереді';
+
+  @override
+  String get templatesBodyLabel => 'Мәтін';
+
+  @override
+  String get templatesDelete => 'Үлгіні жою';
+
+  @override
+  String templatesDeleteBody(String title) {
+    return '«$title» агенттерге енді ұсынылмайды.';
+  }
+
+  @override
+  String get templatesDeleteTitle => 'Үлгіні жою керек пе?';
+
+  @override
+  String get templatesEdit => 'Үлгіні өңдеу';
+
+  @override
+  String get templatesEmpty => 'Әзірге үлгілер жоқ';
+
+  @override
+  String get templatesEmptyBody =>
+      'Агенттер жиі жіберетін хабарламаларды қосыңыз.';
+
+  @override
+  String get templatesHint => 'WhatsApp пен SMS үшін дайын мәтіндер';
+
+  @override
+  String get templatesInsert => 'Орын толтырғыш қою';
+
+  @override
+  String get templatesIntro =>
+      'Агенттер клиентке жазғанда үлгіні таңдайды. Орын толтырғыштар клиент, агент және таңдалған нысан деректерімен толтырылады.';
+
+  @override
+  String get templatesLoadFailed => 'Үлгілерді жүктеу мүмкін болмады';
+
+  @override
+  String get templatesNew => 'Жаңа үлгі';
+
+  @override
+  String get templatesPlaceholderAddress => 'Мекенжайы';
+
+  @override
+  String get templatesPlaceholderAgent => 'Агенттің аты';
+
+  @override
+  String get templatesPlaceholderClient => 'Клиенттің аты';
+
+  @override
+  String get templatesPlaceholderLink => 'Нысан сілтемесі';
+
+  @override
+  String get templatesPlaceholderListing => 'Нысан';
+
+  @override
+  String get templatesPlaceholderPrice => 'Бағасы';
+
+  @override
+  String get templatesTitle => 'Хабарлама үлгілері';
+
+  @override
+  String get templatesTitleHint => 'Мысалы, Көрсетілімге шақыру';
+
+  @override
+  String get templatesTitleLabel => 'Атауы';
+
+  @override
+  String templatesUnknownPlaceholder(String names) {
+    return 'Белгісіз орын толтырғыш: $names. Төмендегілерді пайдаланыңыз.';
+  }
 }

@@ -30,12 +30,15 @@ import 'package:real_estate_crm/features/imports/presentation/screens/import_scr
 import 'package:real_estate_crm/features/meetings/presentation/screens/meeting_detail_screen.dart';
 import 'package:real_estate_crm/features/meetings/presentation/screens/meeting_form_screen.dart';
 import 'package:real_estate_crm/features/meetings/presentation/screens/meetings_screen.dart';
+import 'package:real_estate_crm/features/message_templates/presentation/screens/message_templates_screen.dart';
 import 'package:real_estate_crm/features/mortgage/presentation/screens/mortgage_screen.dart';
 import 'package:real_estate_crm/features/notifications/presentation/screens/notifications_screen.dart';
 import 'package:real_estate_crm/features/profile/presentation/screens/profile_screen.dart';
+import 'package:real_estate_crm/features/properties/presentation/screens/mandates_ending_screen.dart';
 import 'package:real_estate_crm/features/properties/presentation/screens/properties_screen.dart';
 import 'package:real_estate_crm/features/properties/presentation/screens/property_detail_screen.dart';
 import 'package:real_estate_crm/features/properties/presentation/screens/property_form_screen.dart';
+import 'package:real_estate_crm/features/properties/presentation/screens/seller_report_screen.dart';
 import 'package:real_estate_crm/features/route/domain/day_route.dart';
 import 'package:real_estate_crm/features/route/presentation/screens/route_screen.dart';
 import 'package:real_estate_crm/features/search/presentation/screens/search_screen.dart';
@@ -103,6 +106,9 @@ String? resolveRedirect({
     return '/dashboard';
   }
   if (location.startsWith('/checklist-template') && role != Role.MANAGER) {
+    return '/dashboard';
+  }
+  if (location.startsWith('/message-templates') && role != Role.MANAGER) {
     return '/dashboard';
   }
   if (location.startsWith('/import') &&
@@ -217,6 +223,12 @@ GoRouter createRouter(AuthBloc authBloc) {
             const NoTransitionPage(child: ChecklistTemplateScreen()),
       ),
       GoRoute(
+        path: '/message-templates',
+        parentNavigatorKey: _rootKey,
+        pageBuilder: (_, __) =>
+            const NoTransitionPage(child: MessageTemplatesScreen()),
+      ),
+      GoRoute(
         path: '/import',
         parentNavigatorKey: _rootKey,
         pageBuilder: (_, __) => const NoTransitionPage(child: ImportScreen()),
@@ -311,6 +323,12 @@ GoRouter createRouter(AuthBloc authBloc) {
                     const NoTransitionPage(child: PropertyFormScreen()),
               ),
               GoRoute(
+                path: 'mandates',
+                parentNavigatorKey: _rootKey,
+                pageBuilder: (_, __) =>
+                    const NoTransitionPage(child: MandatesEndingScreen()),
+              ),
+              GoRoute(
                 path: ':id',
                 parentNavigatorKey: _rootKey,
                 pageBuilder: (_, s) => NoTransitionPage(
@@ -323,6 +341,14 @@ GoRouter createRouter(AuthBloc authBloc) {
                     parentNavigatorKey: _rootKey,
                     pageBuilder: (_, s) => NoTransitionPage(
                       child: PropertyFormScreen(
+                          propertyId: int.parse(s.pathParameters['id']!)),
+                    ),
+                  ),
+                  GoRoute(
+                    path: 'report',
+                    parentNavigatorKey: _rootKey,
+                    pageBuilder: (_, s) => NoTransitionPage(
+                      child: SellerReportScreen(
                           propertyId: int.parse(s.pathParameters['id']!)),
                     ),
                   ),

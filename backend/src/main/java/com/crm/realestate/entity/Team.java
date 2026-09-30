@@ -48,6 +48,15 @@ public class Team {
     @Builder.Default
     private boolean checklistTemplateSeeded = false;
 
+    /**
+     * Whether the default message templates have been written for this agency (V40). Like
+     * {@link #checklistTemplateSeeded}, only the guarded update in MessageTemplateRepository
+     * writes it.
+     */
+    @Column(name = "message_templates_seeded", nullable = false, updatable = false)
+    @Builder.Default
+    private boolean messageTemplatesSeeded = false;
+
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 

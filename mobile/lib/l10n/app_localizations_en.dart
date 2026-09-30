@@ -818,6 +818,56 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clientsColdUndo => 'Undo';
 
   @override
+  String get clientsComposeClearListing => 'Remove listing';
+
+  @override
+  String get clientsComposeHint =>
+      'You can edit the text before sending. What you send is saved to the client\'s history.';
+
+  @override
+  String get clientsComposeListing => 'Listing';
+
+  @override
+  String get clientsComposeListingHint =>
+      'Fills in the listing, its price, address and link';
+
+  @override
+  String get clientsComposeListingNone => 'No listing';
+
+  @override
+  String get clientsComposeNoListings => 'No listings';
+
+  @override
+  String get clientsComposeNoTemplates => 'Your agency has no templates yet';
+
+  @override
+  String get clientsComposePickListing => 'Choose a listing';
+
+  @override
+  String get clientsComposePickTemplate => 'Choose a template';
+
+  @override
+  String get clientsComposeSearchListings => 'Search listings';
+
+  @override
+  String get clientsComposeSearchTemplates => 'Search templates';
+
+  @override
+  String get clientsComposeSms => 'SMS';
+
+  @override
+  String get clientsComposeText => 'Message';
+
+  @override
+  String get clientsComposeTextHint => 'Write a message or use a template';
+
+  @override
+  String get clientsComposeTitle => 'Write to the client';
+
+  @override
+  String get clientsComposeUseTemplate => 'Use template';
+
+  @override
   String get clientsContact => 'Contact';
 
   @override
@@ -1199,6 +1249,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get clientsWantedType => 'Property type';
+
+  @override
+  String get clientsWrite => 'WhatsApp or SMS';
 
   @override
   String get compareAction => 'Compare';
@@ -1597,6 +1650,11 @@ class AppLocalizationsEn extends AppLocalizations {
       zero: 'nothing booked',
     );
     return '$_temp0';
+  }
+
+  @override
+  String dashboardMandatesTotal(int count) {
+    return '$count in all';
   }
 
   @override
@@ -3048,6 +3106,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get msgTeamUpdated => 'Team updated';
 
   @override
+  String get msgTemplateDeleted => 'Template deleted';
+
+  @override
+  String get msgTemplateSaved => 'Template saved';
+
+  @override
   String get msgUserActivated => 'User activated';
 
   @override
@@ -3481,6 +3545,95 @@ class AppLocalizationsEn extends AppLocalizations {
   String get propertiesLocation => 'Location';
 
   @override
+  String get propertiesMandate => 'Seller agreement';
+
+  @override
+  String get propertiesMandateClearEndDate => 'Remove the end date';
+
+  @override
+  String get propertiesMandateEndDate => 'Last day';
+
+  @override
+  String propertiesMandateEndedAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Ended $count days ago',
+      one: 'Ended 1 day ago',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get propertiesMandateEndedYesterday => 'Ended yesterday';
+
+  @override
+  String propertiesMandateEndsIn(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Ends in $count days',
+      one: 'Ends in 1 day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get propertiesMandateEndsToday => 'Ends today';
+
+  @override
+  String get propertiesMandateEndsTomorrow => 'Ends tomorrow';
+
+  @override
+  String get propertiesMandateExclusive => 'Exclusive';
+
+  @override
+  String propertiesMandateExclusiveEnded(String date) {
+    return 'Exclusive ended $date';
+  }
+
+  @override
+  String propertiesMandateExclusiveUntil(String date) {
+    return 'Exclusive until $date';
+  }
+
+  @override
+  String get propertiesMandateNoEndDate => 'No end date';
+
+  @override
+  String get propertiesMandateNone => 'None';
+
+  @override
+  String get propertiesMandateOpen => 'Open';
+
+  @override
+  String get propertiesMandateOpenBadge => 'Open agreement';
+
+  @override
+  String propertiesMandateOpenEnded(String date) {
+    return 'Agreement ended $date';
+  }
+
+  @override
+  String propertiesMandateOpenUntil(String date) {
+    return 'Open until $date';
+  }
+
+  @override
+  String get propertiesMandatesEmpty => 'No agreements running out';
+
+  @override
+  String get propertiesMandatesEmptyHint =>
+      'No seller agreement on a listing still for sale ends in the next two weeks.';
+
+  @override
+  String get propertiesMandatesLoadFailed =>
+      'Could not load the agreements running out';
+
+  @override
+  String get propertiesMandatesTitle => 'Agreements running out';
+
+  @override
   String propertiesMapCapped(int count) {
     return 'Showing $count — zoom in to see the rest';
   }
@@ -3687,6 +3840,95 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get propertiesPropertyNotFound => 'Property not found';
+
+  @override
+  String get propertiesReport => 'Report for the seller';
+
+  @override
+  String propertiesReportAsOf(String date) {
+    return 'As of $date';
+  }
+
+  @override
+  String get propertiesReportAwaitingOutcome => 'Not recorded yet';
+
+  @override
+  String get propertiesReportCurrentPrice => 'Now';
+
+  @override
+  String get propertiesReportDaysOnMarket => 'Days on the market';
+
+  @override
+  String get propertiesReportLinkLeads => 'Enquiries from the link';
+
+  @override
+  String get propertiesReportLinkViews => 'Link opens';
+
+  @override
+  String propertiesReportListedOn(String date) {
+    return 'Listed on $date';
+  }
+
+  @override
+  String get propertiesReportLoadFailed => 'Couldn\'t load the report';
+
+  @override
+  String get propertiesReportMatchingBuyers => 'Buyers it fits';
+
+  @override
+  String propertiesReportNextViewing(String date) {
+    return 'Next viewing $date';
+  }
+
+  @override
+  String get propertiesReportNoViewings => 'No viewings yet';
+
+  @override
+  String get propertiesReportOriginalPrice => 'Listed at';
+
+  @override
+  String get propertiesReportOutcomes => 'What viewers said';
+
+  @override
+  String get propertiesReportPrice => 'Price';
+
+  @override
+  String get propertiesReportPriceChange => 'Change';
+
+  @override
+  String get propertiesReportPriceChanges => 'Price changes';
+
+  @override
+  String get propertiesReportPriceUnchanged =>
+      'The price has not changed since it was listed';
+
+  @override
+  String get propertiesReportShare => 'Share with the seller';
+
+  @override
+  String get propertiesReportShareFailed =>
+      'Couldn\'t share the report. Try again.';
+
+  @override
+  String propertiesReportSoldOn(String date) {
+    return 'Sold on $date';
+  }
+
+  @override
+  String propertiesReportTextHeading(String title) {
+    return 'Report for the seller: $title';
+  }
+
+  @override
+  String propertiesReportTextLine(String label, String value) {
+    return '$label: $value';
+  }
+
+  @override
+  String get propertiesReportViewingsHeld => 'Viewings held';
+
+  @override
+  String get propertiesReportViewingsUpcoming => 'Viewings to come';
 
   @override
   String get propertiesRooms => 'Rooms';
@@ -4356,4 +4598,82 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get teamsUpcoming => 'Upcoming';
+
+  @override
+  String get templatesAdd => 'Add template';
+
+  @override
+  String get templatesBodyHint => 'What the agent will send';
+
+  @override
+  String get templatesBodyLabel => 'Text';
+
+  @override
+  String get templatesDelete => 'Delete template';
+
+  @override
+  String templatesDeleteBody(String title) {
+    return '\"$title\" will no longer be offered to agents.';
+  }
+
+  @override
+  String get templatesDeleteTitle => 'Delete template?';
+
+  @override
+  String get templatesEdit => 'Edit template';
+
+  @override
+  String get templatesEmpty => 'No templates yet';
+
+  @override
+  String get templatesEmptyBody =>
+      'Add the messages your agents send most often.';
+
+  @override
+  String get templatesHint => 'Ready texts for WhatsApp and SMS';
+
+  @override
+  String get templatesInsert => 'Insert a placeholder';
+
+  @override
+  String get templatesIntro =>
+      'Agents pick a template when writing to a client. Placeholders fill in with the client, the agent and the chosen listing.';
+
+  @override
+  String get templatesLoadFailed => 'Could not load templates';
+
+  @override
+  String get templatesNew => 'New template';
+
+  @override
+  String get templatesPlaceholderAddress => 'Address';
+
+  @override
+  String get templatesPlaceholderAgent => 'Agent\'s name';
+
+  @override
+  String get templatesPlaceholderClient => 'Client\'s name';
+
+  @override
+  String get templatesPlaceholderLink => 'Listing link';
+
+  @override
+  String get templatesPlaceholderListing => 'Listing';
+
+  @override
+  String get templatesPlaceholderPrice => 'Price';
+
+  @override
+  String get templatesTitle => 'Message templates';
+
+  @override
+  String get templatesTitleHint => 'For example, Viewing invitation';
+
+  @override
+  String get templatesTitleLabel => 'Title';
+
+  @override
+  String templatesUnknownPlaceholder(String names) {
+    return 'Unknown placeholder: $names. Use the ones below.';
+  }
 }

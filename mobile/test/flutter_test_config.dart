@@ -30,6 +30,8 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) async {
   Injector.dealCommentsRepository = FakeDealCommentsRepository();
   // And its checklist card.
   Injector.checklistRepository = FakeChecklistRepository();
+  // And the client card's compose sheet reads the agency's templates.
+  Injector.messageTemplatesRepository = FakeMessageTemplatesRepository();
   Injector.agentsRepository = const FakeAgentsRepository([]);
   Injector.clientsRepository = FakeClientsRepository();
   // The dashboard's going-cold card reads on its own too.

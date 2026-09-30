@@ -15,6 +15,7 @@ import 'package:real_estate_crm/features/clients/presentation/bloc/clients_state
 import 'package:real_estate_crm/features/clients/presentation/widgets/client_history_card.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/client_source_badge.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/client_tag_chips.dart';
+import 'package:real_estate_crm/features/clients/presentation/widgets/compose_message_sheet.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/duplicate_warning.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/log_contact_sheet.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/send_matches_sheet.dart';
@@ -193,6 +194,53 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
     } catch (_) {
       // The message is out; the history simply misses this one.
     }
+  }
+
+  /// A message has just gone out from the compose sheet: written down, as
+  /// sent, the same quiet way as listings sent from the matches card.
+  Future<void> _recordMessage(String text, int? propertyId) async {
+    final l10n = AppLocalizations.of(context);
+    try {
+      final logged = await Injector.clientsRepository.logActivity(widget.id,
+          type: ActivityType.MESSAGE,
+          note: text.length > _maxNote ? text.substring(0, _maxNote) : text,
+          propertyIds: [if (propertyId != null) propertyId]);
+      if (!mounted) return;
+      _addActivity(logged);
+      if (propertyId != null) {
+        setState(() {
+          _matches = [
+            for (final m in _matches)
+              m.property.id == propertyId
+                  ? m.copyWith(lastSentAt: logged.occurredAt)
+                  : m,
+          ];
+        });
+      }
+      _confirm(l10n.clientsSendLogged);
+    } catch (_) {
+      // The message is out; the history simply misses this one.
+    }
+  }
+
+  /// What the history keeps of one entry's note.
+  static const _maxNote = 2000;
+
+  void _compose() {
+    final client = _client;
+    if (client == null) return;
+    if ((client.phone ?? '').replaceAll(RegExp(r'\D'), '').isEmpty) {
+      showActionUnavailable(
+          context, AppLocalizations.of(context).clientsNoPhone);
+      return;
+    }
+    showComposeMessageSheet(
+      context,
+      client: client,
+      agentName: context.currentUserName,
+      suggested: [for (final m in _matches) m.property],
+      onSent: _recordMessage,
+    );
   }
 
   bool _canDeleteActivity(ClientActivity activity) =>
@@ -392,7 +440,11 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
         ],
         children: [
           _IdentityCard(client: client, onCopyId: _copyId),
-          _ContactCard(client: client, onCall: _call, onMessage: _message),
+          _ContactCard(
+              client: client,
+              onCall: _call,
+              onMessage: _message,
+              onCompose: _compose),
           ClientHistoryCard(
             activities: _activities,
             onLog: _logContact,
@@ -500,8 +552,12 @@ class _ContactCard extends StatelessWidget {
   final ClientResponse client;
   final VoidCallback onCall;
   final VoidCallback onMessage;
+  final VoidCallback onCompose;
   const _ContactCard(
-      {required this.client, required this.onCall, required this.onMessage});
+      {required this.client,
+      required this.onCall,
+      required this.onMessage,
+      required this.onCompose});
 
   @override
   Widget build(BuildContext context) {
@@ -541,6 +597,15 @@ class _ContactCard extends StatelessWidget {
                 ),
               ),
             ],
+          ),
+          const SizedBox(height: 8),
+          AppGhostButton(
+            key: const ValueKey('client-compose'),
+            label: l10n.clientsWrite,
+            icon: Icons.chat_bubble_outline_rounded,
+            onPressed: onCompose,
+            height: AppMetrics.minHitTarget,
+            fontSize: 12.5,
           ),
         ],
       ),

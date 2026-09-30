@@ -1,11 +1,13 @@
 package com.crm.realestate.entity;
 
+import com.crm.realestate.enums.MandateType;
 import com.crm.realestate.enums.PropertyStatus;
 import com.crm.realestate.enums.PropertyType;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -50,6 +52,15 @@ public class Property {
     /** Where it stands, in degrees (WGS 84). Both or neither; null until an agent drops a pin. */
     private Double latitude;
     private Double longitude;
+
+    /** The seller's agreement with the agency; null when none has been recorded. */
+    @Enumerated(EnumType.STRING)
+    @Column(name = "mandate_type", length = 20)
+    private MandateType mandateType;
+
+    /** The last day the agreement holds; null when it has no end date. Never set without a type. */
+    @Column(name = "mandate_end_date")
+    private LocalDate mandateEndDate;
 
     // Агент который ведёт объект
     @ManyToOne(fetch = FetchType.LAZY)

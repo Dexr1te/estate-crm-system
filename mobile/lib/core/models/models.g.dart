@@ -295,6 +295,12 @@ _$PropertyResponseImpl _$$PropertyResponseImplFromJson(
           : DateTime.parse(json['priceChangedAt'] as String),
       latitude: (json['latitude'] as num?)?.toDouble(),
       longitude: (json['longitude'] as num?)?.toDouble(),
+      mandateType: $enumDecodeNullable(
+          _$MandateTypeEnumMap, json['mandateType'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
+      mandateEndDate: json['mandateEndDate'] == null
+          ? null
+          : DateTime.parse(json['mandateEndDate'] as String),
     );
 
 Map<String, dynamic> _$$PropertyResponseImplToJson(
@@ -320,12 +326,19 @@ Map<String, dynamic> _$$PropertyResponseImplToJson(
       'priceChangedAt': instance.priceChangedAt?.toIso8601String(),
       'latitude': instance.latitude,
       'longitude': instance.longitude,
+      'mandateType': _$MandateTypeEnumMap[instance.mandateType],
+      'mandateEndDate': instance.mandateEndDate?.toIso8601String(),
     };
 
 const _$PropertyStatusEnumMap = {
   PropertyStatus.AVAILABLE: 'AVAILABLE',
   PropertyStatus.RESERVED: 'RESERVED',
   PropertyStatus.SOLD: 'SOLD',
+};
+
+const _$MandateTypeEnumMap = {
+  MandateType.EXCLUSIVE: 'EXCLUSIVE',
+  MandateType.OPEN: 'OPEN',
 };
 
 _$PropertyPriceChangeImpl _$$PropertyPriceChangeImplFromJson(
@@ -529,6 +542,126 @@ Map<String, dynamic> _$$PropertyShareLinkImplToJson(
       'leadCount': instance.leadCount,
     };
 
+_$SellerReportViewingsImpl _$$SellerReportViewingsImplFromJson(
+        Map<String, dynamic> json) =>
+    _$SellerReportViewingsImpl(
+      total: (json['total'] as num?)?.toInt() ?? 0,
+      held: (json['held'] as num?)?.toInt() ?? 0,
+      upcoming: (json['upcoming'] as num?)?.toInt() ?? 0,
+      outcomes: (json['outcomes'] as Map<String, dynamic>?)?.map(
+            (k, e) => MapEntry(k, (e as num).toInt()),
+          ) ??
+          const <String, int>{},
+      awaitingOutcome: (json['awaitingOutcome'] as num?)?.toInt() ?? 0,
+      lastHeldAt: json['lastHeldAt'] == null
+          ? null
+          : DateTime.parse(json['lastHeldAt'] as String),
+      nextAt: json['nextAt'] == null
+          ? null
+          : DateTime.parse(json['nextAt'] as String),
+    );
+
+Map<String, dynamic> _$$SellerReportViewingsImplToJson(
+        _$SellerReportViewingsImpl instance) =>
+    <String, dynamic>{
+      'total': instance.total,
+      'held': instance.held,
+      'upcoming': instance.upcoming,
+      'outcomes': instance.outcomes,
+      'awaitingOutcome': instance.awaitingOutcome,
+      'lastHeldAt': instance.lastHeldAt?.toIso8601String(),
+      'nextAt': instance.nextAt?.toIso8601String(),
+    };
+
+_$SellerReportLinkImpl _$$SellerReportLinkImplFromJson(
+        Map<String, dynamic> json) =>
+    _$SellerReportLinkImpl(
+      active: json['active'] as bool? ?? false,
+      views: (json['views'] as num?)?.toInt() ?? 0,
+      leads: (json['leads'] as num?)?.toInt() ?? 0,
+    );
+
+Map<String, dynamic> _$$SellerReportLinkImplToJson(
+        _$SellerReportLinkImpl instance) =>
+    <String, dynamic>{
+      'active': instance.active,
+      'views': instance.views,
+      'leads': instance.leads,
+    };
+
+_$SellerReportPriceImpl _$$SellerReportPriceImplFromJson(
+        Map<String, dynamic> json) =>
+    _$SellerReportPriceImpl(
+      current: (json['current'] as num?)?.toDouble() ?? 0.0,
+      original: (json['original'] as num?)?.toDouble() ?? 0.0,
+      change: (json['change'] as num?)?.toDouble() ?? 0.0,
+      changePercent: (json['changePercent'] as num?)?.toDouble(),
+      changes: (json['changes'] as List<dynamic>?)
+              ?.map((e) =>
+                  PropertyPriceChange.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const <PropertyPriceChange>[],
+    );
+
+Map<String, dynamic> _$$SellerReportPriceImplToJson(
+        _$SellerReportPriceImpl instance) =>
+    <String, dynamic>{
+      'current': instance.current,
+      'original': instance.original,
+      'change': instance.change,
+      'changePercent': instance.changePercent,
+      'changes': instance.changes,
+    };
+
+_$SellerReportImpl _$$SellerReportImplFromJson(Map<String, dynamic> json) =>
+    _$SellerReportImpl(
+      propertyId: (json['propertyId'] as num).toInt(),
+      title: json['title'] as String? ?? '',
+      address: json['address'] as String? ?? '',
+      city: json['city'] as String?,
+      status: $enumDecodeNullable(_$PropertyStatusEnumMap, json['status']) ??
+          PropertyStatus.AVAILABLE,
+      listedAt: json['listedAt'] == null
+          ? null
+          : DateTime.parse(json['listedAt'] as String),
+      daysOnMarket: (json['daysOnMarket'] as num?)?.toInt() ?? 0,
+      soldAt: json['soldAt'] == null
+          ? null
+          : DateTime.parse(json['soldAt'] as String),
+      generatedOn: json['generatedOn'] == null
+          ? null
+          : DateTime.parse(json['generatedOn'] as String),
+      viewings: json['viewings'] == null
+          ? const SellerReportViewings()
+          : SellerReportViewings.fromJson(
+              json['viewings'] as Map<String, dynamic>),
+      publicLink: json['publicLink'] == null
+          ? const SellerReportLink()
+          : SellerReportLink.fromJson(
+              json['publicLink'] as Map<String, dynamic>),
+      price: json['price'] == null
+          ? const SellerReportPrice()
+          : SellerReportPrice.fromJson(json['price'] as Map<String, dynamic>),
+      matchingBuyers: (json['matchingBuyers'] as num?)?.toInt() ?? 0,
+    );
+
+Map<String, dynamic> _$$SellerReportImplToJson(_$SellerReportImpl instance) =>
+    <String, dynamic>{
+      'propertyId': instance.propertyId,
+      'title': instance.title,
+      'address': instance.address,
+      'city': instance.city,
+      'status': _$PropertyStatusEnumMap[instance.status]!,
+      'listedAt': instance.listedAt?.toIso8601String(),
+      'daysOnMarket': instance.daysOnMarket,
+      'soldAt': instance.soldAt?.toIso8601String(),
+      'generatedOn': instance.generatedOn?.toIso8601String(),
+      'viewings': instance.viewings,
+      'publicLink': instance.publicLink,
+      'price': instance.price,
+      'matchingBuyers': instance.matchingBuyers,
+    };
+
 _$PropertyMatchImpl _$$PropertyMatchImplFromJson(Map<String, dynamic> json) =>
     _$PropertyMatchImpl(
       property:
@@ -711,6 +844,26 @@ const _$ChecklistStageEnumMap = {
   ChecklistStage.NEGOTIATION: 'NEGOTIATION',
   ChecklistStage.CLOSED_WON: 'CLOSED_WON',
 };
+
+_$MessageTemplateImpl _$$MessageTemplateImplFromJson(
+        Map<String, dynamic> json) =>
+    _$MessageTemplateImpl(
+      id: (json['id'] as num).toInt(),
+      title: json['title'] as String? ?? '',
+      body: json['body'] as String? ?? '',
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
+    );
+
+Map<String, dynamic> _$$MessageTemplateImplToJson(
+        _$MessageTemplateImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'title': instance.title,
+      'body': instance.body,
+      'updatedAt': instance.updatedAt?.toIso8601String(),
+    };
 
 _$DealCommentImpl _$$DealCommentImplFromJson(Map<String, dynamic> json) =>
     _$DealCommentImpl(

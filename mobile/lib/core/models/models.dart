@@ -20,6 +20,11 @@ enum PropertyType { APARTMENT, HOUSE, COMMERCIAL, LAND, OFFICE }
 // ignore: constant_identifier_names
 enum PropertyStatus { AVAILABLE, RESERVED, SOLD }
 
+/// The seller's agreement with the agency on a listing. A listing with none
+/// recorded has a null type, which is not the same as an open one.
+// ignore: constant_identifier_names
+enum MandateType { EXCLUSIVE, OPEN }
+
 // ignore: constant_identifier_names
 enum DealStatus { LEAD, NEGOTIATION, CLOSED_WON, CLOSED_LOST }
 
@@ -231,6 +236,14 @@ class PropertyResponse with _$PropertyResponse {
     /// Where it stands, in degrees; both null until an agent drops a pin.
     double? latitude,
     double? longitude,
+
+    /// The seller's agreement; null when none is recorded. A kind this build
+    /// does not know reads as none rather than failing the whole listing.
+    @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+    MandateType? mandateType,
+
+    /// Its last day (a date, no time); null when it has no end date.
+    DateTime? mandateEndDate,
   }) = _PropertyResponse;
 
   factory PropertyResponse.fromJson(Map<String, dynamic> json) =>
@@ -368,6 +381,79 @@ class PropertyShareLink with _$PropertyShareLink {
       _$PropertyShareLinkFromJson(json);
 }
 
+/// A listing's viewings as the seller report counts them. [outcomes] is keyed
+/// by the [ViewingOutcome] name, so one the app does not know yet still parses.
+@freezed
+class SellerReportViewings with _$SellerReportViewings {
+  const SellerReportViewings._();
+
+  const factory SellerReportViewings({
+    @Default(0) int total,
+    @Default(0) int held,
+    @Default(0) int upcoming,
+    @Default(<String, int>{}) Map<String, int> outcomes,
+    @Default(0) int awaitingOutcome,
+    DateTime? lastHeldAt,
+    DateTime? nextAt,
+  }) = _SellerReportViewings;
+
+  int count(ViewingOutcome outcome) => outcomes[outcome.name] ?? 0;
+
+  factory SellerReportViewings.fromJson(Map<String, dynamic> json) =>
+      _$SellerReportViewingsFromJson(json);
+}
+
+@freezed
+class SellerReportLink with _$SellerReportLink {
+  const factory SellerReportLink({
+    @Default(false) bool active,
+    @Default(0) int views,
+    @Default(0) int leads,
+  }) = _SellerReportLink;
+
+  factory SellerReportLink.fromJson(Map<String, dynamic> json) =>
+      _$SellerReportLinkFromJson(json);
+}
+
+@freezed
+class SellerReportPrice with _$SellerReportPrice {
+  const factory SellerReportPrice({
+    @Default(0.0) double current,
+    @Default(0.0) double original,
+    @Default(0.0) double change,
+    double? changePercent,
+
+    /// Oldest first.
+    @Default(<PropertyPriceChange>[]) List<PropertyPriceChange> changes,
+  }) = _SellerReportPrice;
+
+  factory SellerReportPrice.fromJson(Map<String, dynamic> json) =>
+      _$SellerReportPriceFromJson(json);
+}
+
+/// What the agency has done for one listing, for its owner. Counts only.
+@freezed
+class SellerReport with _$SellerReport {
+  const factory SellerReport({
+    required int propertyId,
+    @Default('') String title,
+    @Default('') String address,
+    String? city,
+    @Default(PropertyStatus.AVAILABLE) PropertyStatus status,
+    DateTime? listedAt,
+    @Default(0) int daysOnMarket,
+    DateTime? soldAt,
+    DateTime? generatedOn,
+    @Default(SellerReportViewings()) SellerReportViewings viewings,
+    @Default(SellerReportLink()) SellerReportLink publicLink,
+    @Default(SellerReportPrice()) SellerReportPrice price,
+    @Default(0) int matchingBuyers,
+  }) = _SellerReport;
+
+  factory SellerReport.fromJson(Map<String, dynamic> json) =>
+      _$SellerReportFromJson(json);
+}
+
 @freezed
 class PropertyMatch with _$PropertyMatch {
   const factory PropertyMatch({
@@ -470,6 +556,22 @@ class ChecklistItem with _$ChecklistItem {
 
   factory ChecklistItem.fromJson(Map<String, dynamic> json) =>
       _$ChecklistItemFromJson(json);
+}
+
+/// One of the agency's message templates. [body] carries its placeholders
+/// unfilled — `{client}`, `{agent}`, `{listing}`, `{price}`, `{address}`,
+/// `{link}` — and the app fills them for the client in hand.
+@freezed
+class MessageTemplate with _$MessageTemplate {
+  const factory MessageTemplate({
+    required int id,
+    @Default('') String title,
+    @Default('') String body,
+    DateTime? updatedAt,
+  }) = _MessageTemplate;
+
+  factory MessageTemplate.fromJson(Map<String, dynamic> json) =>
+      _$MessageTemplateFromJson(json);
 }
 
 /// One line in the discussion on a deal.

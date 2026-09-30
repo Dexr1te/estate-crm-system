@@ -124,6 +124,18 @@ void main() {
     expect(find.byKey(const Key('checklist-template-row')), findsOneWidget);
   });
 
+  testWidgets('the agency message templates are kept from here',
+      (tester) async {
+    _teams();
+    await _pumpConsole(tester);
+    expect(find.byKey(const Key('message-templates-row')), findsOneWidget);
+    expect(find.text('Message templates'), findsOneWidget);
+
+    _teams(members: const []);
+    await _pumpConsole(tester);
+    expect(find.byKey(const Key('message-templates-row')), findsOneWidget);
+  });
+
   testWidgets('bringing the book in from a spreadsheet starts here',
       (tester) async {
     _teams();

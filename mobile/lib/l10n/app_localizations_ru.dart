@@ -831,6 +831,56 @@ class AppLocalizationsRu extends AppLocalizations {
   String get clientsColdUndo => 'Отменить';
 
   @override
+  String get clientsComposeClearListing => 'Убрать объект';
+
+  @override
+  String get clientsComposeHint =>
+      'Текст можно поправить перед отправкой. Отправленное сохранится в истории клиента.';
+
+  @override
+  String get clientsComposeListing => 'Объект';
+
+  @override
+  String get clientsComposeListingHint =>
+      'Подставит объект, его цену, адрес и ссылку';
+
+  @override
+  String get clientsComposeListingNone => 'Без объекта';
+
+  @override
+  String get clientsComposeNoListings => 'Нет объектов';
+
+  @override
+  String get clientsComposeNoTemplates => 'В агентстве пока нет шаблонов';
+
+  @override
+  String get clientsComposePickListing => 'Выберите объект';
+
+  @override
+  String get clientsComposePickTemplate => 'Выберите шаблон';
+
+  @override
+  String get clientsComposeSearchListings => 'Поиск объектов';
+
+  @override
+  String get clientsComposeSearchTemplates => 'Поиск шаблонов';
+
+  @override
+  String get clientsComposeSms => 'SMS';
+
+  @override
+  String get clientsComposeText => 'Сообщение';
+
+  @override
+  String get clientsComposeTextHint => 'Напишите сообщение или выберите шаблон';
+
+  @override
+  String get clientsComposeTitle => 'Написать клиенту';
+
+  @override
+  String get clientsComposeUseTemplate => 'Выбрать шаблон';
+
+  @override
   String get clientsContact => 'Контакт';
 
   @override
@@ -1219,6 +1269,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get clientsWantedType => 'Тип объекта';
+
+  @override
+  String get clientsWrite => 'WhatsApp или SMS';
 
   @override
   String get compareAction => 'Сравнить';
@@ -1621,6 +1674,11 @@ class AppLocalizationsRu extends AppLocalizations {
       zero: 'ничего не назначено',
     );
     return '$_temp0';
+  }
+
+  @override
+  String dashboardMandatesTotal(int count) {
+    return 'всего $count';
   }
 
   @override
@@ -3090,6 +3148,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get msgTeamUpdated => 'Команда обновлена';
 
   @override
+  String get msgTemplateDeleted => 'Шаблон удалён';
+
+  @override
+  String get msgTemplateSaved => 'Шаблон сохранён';
+
+  @override
   String get msgUserActivated => 'Пользователь активирован';
 
   @override
@@ -3543,6 +3607,99 @@ class AppLocalizationsRu extends AppLocalizations {
   String get propertiesLocation => 'Расположение';
 
   @override
+  String get propertiesMandate => 'Договор с продавцом';
+
+  @override
+  String get propertiesMandateClearEndDate => 'Убрать дату окончания';
+
+  @override
+  String get propertiesMandateEndDate => 'Последний день';
+
+  @override
+  String propertiesMandateEndedAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Истёк $count дня назад',
+      many: 'Истёк $count дней назад',
+      few: 'Истёк $count дня назад',
+      one: 'Истёк $count день назад',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get propertiesMandateEndedYesterday => 'Истёк вчера';
+
+  @override
+  String propertiesMandateEndsIn(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Истекает через $count дня',
+      many: 'Истекает через $count дней',
+      few: 'Истекает через $count дня',
+      one: 'Истекает через $count день',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get propertiesMandateEndsToday => 'Истекает сегодня';
+
+  @override
+  String get propertiesMandateEndsTomorrow => 'Истекает завтра';
+
+  @override
+  String get propertiesMandateExclusive => 'Эксклюзив';
+
+  @override
+  String propertiesMandateExclusiveEnded(String date) {
+    return 'Эксклюзив истёк $date';
+  }
+
+  @override
+  String propertiesMandateExclusiveUntil(String date) {
+    return 'Эксклюзив до $date';
+  }
+
+  @override
+  String get propertiesMandateNoEndDate => 'Без даты окончания';
+
+  @override
+  String get propertiesMandateNone => 'Нет';
+
+  @override
+  String get propertiesMandateOpen => 'Открытый';
+
+  @override
+  String get propertiesMandateOpenBadge => 'Открытый договор';
+
+  @override
+  String propertiesMandateOpenEnded(String date) {
+    return 'Договор истёк $date';
+  }
+
+  @override
+  String propertiesMandateOpenUntil(String date) {
+    return 'Открытый до $date';
+  }
+
+  @override
+  String get propertiesMandatesEmpty => 'Истекающих договоров нет';
+
+  @override
+  String get propertiesMandatesEmptyHint =>
+      'Ни один договор по объектам в продаже не истекает в ближайшие две недели.';
+
+  @override
+  String get propertiesMandatesLoadFailed =>
+      'Не удалось загрузить истекающие договоры';
+
+  @override
+  String get propertiesMandatesTitle => 'Договоры истекают';
+
+  @override
   String propertiesMapCapped(int count) {
     return 'Показано $count — приблизьте карту, чтобы увидеть остальные';
   }
@@ -3750,6 +3907,95 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get propertiesPropertyNotFound => 'Объект не найден';
+
+  @override
+  String get propertiesReport => 'Отчёт для продавца';
+
+  @override
+  String propertiesReportAsOf(String date) {
+    return 'На $date';
+  }
+
+  @override
+  String get propertiesReportAwaitingOutcome => 'Итог ещё не отмечен';
+
+  @override
+  String get propertiesReportCurrentPrice => 'Сейчас';
+
+  @override
+  String get propertiesReportDaysOnMarket => 'Дней в продаже';
+
+  @override
+  String get propertiesReportLinkLeads => 'Заявок по ссылке';
+
+  @override
+  String get propertiesReportLinkViews => 'Открытий ссылки';
+
+  @override
+  String propertiesReportListedOn(String date) {
+    return 'В продаже с $date';
+  }
+
+  @override
+  String get propertiesReportLoadFailed => 'Не удалось загрузить отчёт';
+
+  @override
+  String get propertiesReportMatchingBuyers => 'Подходящих покупателей';
+
+  @override
+  String propertiesReportNextViewing(String date) {
+    return 'Следующий показ $date';
+  }
+
+  @override
+  String get propertiesReportNoViewings => 'Показов пока не было';
+
+  @override
+  String get propertiesReportOriginalPrice => 'Начальная цена';
+
+  @override
+  String get propertiesReportOutcomes => 'Что сказали после показа';
+
+  @override
+  String get propertiesReportPrice => 'Цена';
+
+  @override
+  String get propertiesReportPriceChange => 'Изменение';
+
+  @override
+  String get propertiesReportPriceChanges => 'Изменения цены';
+
+  @override
+  String get propertiesReportPriceUnchanged =>
+      'Цена не менялась с начала продажи';
+
+  @override
+  String get propertiesReportShare => 'Отправить продавцу';
+
+  @override
+  String get propertiesReportShareFailed =>
+      'Не удалось отправить отчёт. Попробуйте ещё раз.';
+
+  @override
+  String propertiesReportSoldOn(String date) {
+    return 'Продан $date';
+  }
+
+  @override
+  String propertiesReportTextHeading(String title) {
+    return 'Отчёт для продавца: $title';
+  }
+
+  @override
+  String propertiesReportTextLine(String label, String value) {
+    return '$label: $value';
+  }
+
+  @override
+  String get propertiesReportViewingsHeld => 'Показов проведено';
+
+  @override
+  String get propertiesReportViewingsUpcoming => 'Показов впереди';
 
   @override
   String get propertiesRooms => 'Комнаты';
@@ -4422,4 +4668,82 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get teamsUpcoming => 'Предстоящие';
+
+  @override
+  String get templatesAdd => 'Добавить шаблон';
+
+  @override
+  String get templatesBodyHint => 'Что отправит агент';
+
+  @override
+  String get templatesBodyLabel => 'Текст';
+
+  @override
+  String get templatesDelete => 'Удалить шаблон';
+
+  @override
+  String templatesDeleteBody(String title) {
+    return '«$title» больше не будет предлагаться агентам.';
+  }
+
+  @override
+  String get templatesDeleteTitle => 'Удалить шаблон?';
+
+  @override
+  String get templatesEdit => 'Редактировать шаблон';
+
+  @override
+  String get templatesEmpty => 'Шаблонов пока нет';
+
+  @override
+  String get templatesEmptyBody =>
+      'Добавьте сообщения, которые агенты отправляют чаще всего.';
+
+  @override
+  String get templatesHint => 'Готовые тексты для WhatsApp и SMS';
+
+  @override
+  String get templatesInsert => 'Вставить подстановку';
+
+  @override
+  String get templatesIntro =>
+      'Агенты выбирают шаблон, когда пишут клиенту. Подстановки заполняются данными клиента, агента и выбранного объекта.';
+
+  @override
+  String get templatesLoadFailed => 'Не удалось загрузить шаблоны';
+
+  @override
+  String get templatesNew => 'Новый шаблон';
+
+  @override
+  String get templatesPlaceholderAddress => 'Адрес';
+
+  @override
+  String get templatesPlaceholderAgent => 'Имя агента';
+
+  @override
+  String get templatesPlaceholderClient => 'Имя клиента';
+
+  @override
+  String get templatesPlaceholderLink => 'Ссылка на объект';
+
+  @override
+  String get templatesPlaceholderListing => 'Объект';
+
+  @override
+  String get templatesPlaceholderPrice => 'Цена';
+
+  @override
+  String get templatesTitle => 'Шаблоны сообщений';
+
+  @override
+  String get templatesTitleHint => 'Например, Приглашение на просмотр';
+
+  @override
+  String get templatesTitleLabel => 'Название';
+
+  @override
+  String templatesUnknownPlaceholder(String names) {
+    return 'Неизвестная подстановка: $names. Используйте те, что ниже.';
+  }
 }

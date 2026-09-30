@@ -36,6 +36,10 @@ abstract class PropertiesRepository {
 
   Future<List<PropertyResponse>> getAllProperties();
 
+  /// The agency's listings still on the market whose seller agreement ends
+  /// within two weeks or has ended, soonest first.
+  Future<List<PropertyResponse>> getMandatesEnding();
+
   Future<PropertyResponse> getProperty(int id);
 
   Future<PropertyResponse> createProperty(Map<String, dynamic> data);
@@ -51,6 +55,10 @@ abstract class PropertiesRepository {
   Future<List<MeetingResponse>> getViewings(int id);
 
   Future<List<PropertyPriceChange>> getPriceHistory(int id);
+
+  /// What the agency has done for this listing, for its owner: days on the
+  /// market, viewings and their outcomes, link enquiries, price, matches.
+  Future<SellerReport> getSellerReport(int id);
 
   /// How this listing's price per m² compares with the agency's own book.
   Future<PriceInsight> getPriceInsightFor(int id);

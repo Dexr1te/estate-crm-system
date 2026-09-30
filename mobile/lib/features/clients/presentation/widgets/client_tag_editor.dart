@@ -125,7 +125,8 @@ class _ClientTagEditorState extends State<ClientTagEditor> {
         ? const <ClientTagUsage>[]
         : widget.suggestions
             .where((s) => !ClientTags.holds(widget.tags, s.name))
-            .where((s) => query.isEmpty || ClientTags.key(s.name).contains(query))
+            .where(
+                (s) => query.isEmpty || ClientTags.key(s.name).contains(query))
             .take(ClientTagEditor.maxSuggestions)
             .toList();
     final problem = full ? TagProblem.limit : _problem;
