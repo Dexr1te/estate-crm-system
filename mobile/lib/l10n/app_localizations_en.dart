@@ -986,6 +986,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clientsFilterSellers => 'Sellers';
 
   @override
+  String clientsFilterTagsCount(Object count) {
+    return 'Tags · $count';
+  }
+
+  @override
   String get clientsFollowUpCall => 'Log this call?';
 
   @override
@@ -1172,6 +1177,58 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get clientsSourcePublicLink => 'From the public link';
+
+  @override
+  String get clientsTagAdd => 'Add tag';
+
+  @override
+  String get clientsTagAddHint => 'Add a tag';
+
+  @override
+  String get clientsTagFilterClear => 'Clear tags';
+
+  @override
+  String get clientsTagFilterDone => 'Show clients';
+
+  @override
+  String get clientsTagFilterEmpty =>
+      'No client has a tag yet. Add tags on the client form.';
+
+  @override
+  String get clientsTagFilterSubtitle => 'Clients carrying every tag you pick';
+
+  @override
+  String get clientsTagFilterTitle => 'Filter by tags';
+
+  @override
+  String clientsTagLimit(Object count) {
+    return 'Up to $count tags per client';
+  }
+
+  @override
+  String clientsTagRemove(Object tag) {
+    return 'Remove tag $tag';
+  }
+
+  @override
+  String get clientsTagSuggestions => 'Already used in the agency';
+
+  @override
+  String clientsTagTooLong(Object count) {
+    return 'A tag can be at most $count characters';
+  }
+
+  @override
+  String get clientsTags => 'Tags';
+
+  @override
+  String get clientsTagsHint =>
+      'Short labels to find a client by later: investor, urgent, VIP.';
+
+  @override
+  String clientsTagsMore(Object count) {
+    return '+$count';
+  }
 
   @override
   String get clientsTitle => 'Clients';
@@ -2348,6 +2405,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get importFieldStatus => 'Status';
+
+  @override
+  String get importFieldTags => 'Tags';
 
   @override
   String get importFieldTitle => 'Title';

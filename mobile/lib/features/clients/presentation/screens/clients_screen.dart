@@ -10,6 +10,7 @@ import 'package:real_estate_crm/features/clients/presentation/bloc/clients_bloc.
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_event.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_state.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/client_card.dart';
+import 'package:real_estate_crm/features/clients/presentation/widgets/client_tag_filter_sheet.dart';
 import 'package:real_estate_crm/features/exports/presentation/widgets/export_button.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
@@ -29,6 +30,9 @@ class _ClientsScreenState extends State<ClientsScreen> {
   /// [ClientSummary.isNewLead].
   bool _leadsOnly = false;
 
+  /// Clients carrying every one of these tags; alongside the other filters.
+  Set<String> _tags = const {};
+
   @override
   void initState() {
     super.initState();
@@ -47,8 +51,15 @@ class _ClientsScreenState extends State<ClientsScreen> {
     return all
         .where((c) => _typeFilter == null || c.type == _typeFilter)
         .where((c) => !_leadsOnly || c.isNewLead(now))
+        .where((c) => c.hasAllTags(_tags))
         .where((c) => _search.isEmpty || c.matches(_search))
         .toList();
+  }
+
+  Future<void> _pickTags(List<ClientSummary> all) async {
+    final picked = await showClientTagFilter(context,
+        available: tagCounts(all), selected: _tags);
+    if (picked != null && mounted) setState(() => _tags = picked);
   }
 
   ExportFilters get _exportFilters => ExportFilters(
@@ -58,6 +69,7 @@ class _ClientsScreenState extends State<ClientsScreen> {
             ? AppClock.now().subtract(ClientSummary.newLeadWindow)
             : null,
         search: _search.trim().isEmpty ? null : _search.trim(),
+        tags: _tags.toList(),
       );
 
   void _pick({ClientType? type, bool leads = false}) => setState(() {
@@ -150,6 +162,14 @@ class _ClientsScreenState extends State<ClientsScreen> {
                             selected: _leadsOnly,
                             onTap: () => _pick(leads: true),
                           ),
+                          FilterPill(
+                            key: const ValueKey('clients-filter-tags'),
+                            label: _tags.isEmpty
+                                ? l10n.clientsTags
+                                : l10n.clientsFilterTagsCount(_tags.length),
+                            selected: _tags.isNotEmpty,
+                            onTap: () => _pickTags(all),
+                          ),
                         ]),
                         const SizedBox(height: 14),
                       ],
@@ -186,7 +206,10 @@ class _ClientsScreenState extends State<ClientsScreen> {
         title: l10n.clientsNoClientsFound,
         subtitle: _leadsOnly && _search.isEmpty
             ? l10n.clientsNewLeadsEmpty
-            : _search.isNotEmpty || _typeFilter != null || _leadsOnly
+            : _search.isNotEmpty ||
+                    _typeFilter != null ||
+                    _leadsOnly ||
+                    _tags.isNotEmpty
                 ? l10n.clientsTryDifferentSearch
                 : l10n.clientsAddFirstClient,
       );

@@ -34,12 +34,17 @@ class ExportFilters {
   final String? search;
   final DateTime? createdFrom;
 
+  /// Clients carrying every one of these tags. Travels as one comma-separated
+  /// value: a tag never holds a comma.
+  final List<String> tags;
+
   const ExportFilters({
     this.type,
     this.status,
     this.source,
     this.search,
     this.createdFrom,
+    this.tags = const [],
   });
 
   static const none = ExportFilters();
@@ -49,7 +54,8 @@ class ExportFilters {
       status == null &&
       source == null &&
       (search == null || search!.trim().isEmpty) &&
-      createdFrom == null;
+      createdFrom == null &&
+      tags.isEmpty;
 
   Map<String, String> toQuery() => {
         if (type != null) 'type': type!,
@@ -58,6 +64,7 @@ class ExportFilters {
         if (search != null && search!.trim().isNotEmpty)
           'search': search!.trim(),
         if (createdFrom != null) 'createdFrom': _date(createdFrom!),
+        if (tags.isNotEmpty) 'tags': tags.join(','),
       };
 
   static String _date(DateTime d) => '${d.year.toString().padLeft(4, '0')}-'
@@ -71,10 +78,12 @@ class ExportFilters {
       other.status == status &&
       other.source == source &&
       other.search == search &&
-      other.createdFrom == createdFrom;
+      other.createdFrom == createdFrom &&
+      other.tags.join(',') == tags.join(',');
 
   @override
-  int get hashCode => Object.hash(type, status, source, search, createdFrom);
+  int get hashCode =>
+      Object.hash(type, status, source, search, createdFrom, tags.join(','));
 
   @override
   String toString() => 'ExportFilters(${toQuery()})';

@@ -34,7 +34,7 @@ import java.util.Locale;
 /**
  * Reads the rows of an export a page at a time, keyed on the id, and hands each page to
  * {@link ExportColumns}. Every association a row reads is fetched with it, so a page costs one
- * statement (two for listings, whose public-link views are summed per page) however many rows it
+ * statement (two for clients and listings, whose tags and public-link views are read per page) however many rows it
  * holds, and the session is cleared between pages so fifty thousand rows are never all in memory.
  */
 @Component
@@ -66,7 +66,8 @@ class ExportSheets {
                 Specification<Client> spec = clients(query);
                 long after = 0;
                 for (List<Client> page; !(page = page(Client.class, spec, after, "agent")).isEmpty(); ) {
-                    for (Client client : page) csv.row(columns.client(client, csv, language));
+                    var tags = columns.tags(page);
+                    for (Client client : page) csv.row(columns.client(client, tags, csv, language));
                     after = page.get(page.size() - 1).getId();
                     entityManager.clear();
                 }
@@ -102,7 +103,7 @@ class ExportSheets {
         Specification<Client> bySource = (root, cq, cb) ->
                 source == null ? cb.conjunction() : cb.equal(root.get("source"), source);
         return ClientSpecification.build(parse(ClientType.class, f.type()), f.agentId(),
-                        f.createdFrom(), f.createdTo(), f.search())
+                        f.createdFrom(), f.createdTo(), f.search(), f.tags())
                 .and(bySource)
                 .and(scopeService.visibleTo(q.user()))
                 .and(inAgency(q.user()));

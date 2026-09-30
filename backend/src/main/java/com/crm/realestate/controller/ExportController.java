@@ -21,6 +21,7 @@ import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * Clients, listings and deals as a CSV spreadsheet, under the list's own filters. Managers and
@@ -57,9 +58,10 @@ public class ExportController {
                        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate createdTo,
                        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate closedFrom,
                        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate closedTo,
+                       @RequestParam(required = false) List<String> tags,
                        HttpServletResponse response) throws IOException {
         ExportFilters filters = new ExportFilters(type, status, source, city, agentId, search,
-                minPrice, maxPrice, rooms, createdFrom, createdTo, closedFrom, closedTo);
+                minPrice, maxPrice, rooms, createdFrom, createdTo, closedFrom, closedTo, tags);
         ExportService.Plan plan = exportService.prepare(ExportKind.fromPath(kind), filters, lang, delimiter);
 
         response.setStatus(HttpServletResponse.SC_OK);

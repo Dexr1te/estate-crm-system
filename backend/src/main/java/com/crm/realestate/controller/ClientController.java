@@ -13,6 +13,8 @@ import com.crm.realestate.enums.ClientType;
 import com.crm.realestate.service.ClientActivityService;
 import com.crm.realestate.service.ClientDuplicateService;
 import com.crm.realestate.service.ClientService;
+import com.crm.realestate.service.ClientTagService;
+import com.crm.realestate.dto.response.ClientTagUsage;
 import com.crm.realestate.service.ColdClientService;
 import com.crm.realestate.service.MatchingService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -39,6 +41,7 @@ public class ClientController {
     private final ClientActivityService activityService;
     private final ClientDuplicateService duplicateService;
     private final ColdClientService coldClientService;
+    private final ClientTagService tagService;
 
     @GetMapping
     @Operation(summary = "Get all clients (supports pagination, sorting, and filters). Backward-compatible: returns legacy list when no paging/filters provided.")
@@ -48,6 +51,7 @@ public class ClientController {
             @RequestParam(required = false) String search,
             @RequestParam(required = false) String createdFrom,
             @RequestParam(required = false) String createdTo,
+            @RequestParam(required = false) List<String> tags,
             org.springframework.data.domain.Pageable pageable,
             jakarta.servlet.http.HttpServletRequest request) {
 
@@ -55,16 +59,19 @@ public class ClientController {
                 || request.getParameterMap().containsKey("size")
                 || request.getParameterMap().containsKey("sort");
 
+        boolean hasTags = tags != null && tags.stream().anyMatch(t -> t != null && !t.isBlank());
+
         boolean hasAnyFilter = type != null || agentId != null || (search != null && !search.isBlank())
-                || createdFrom != null || createdTo != null;
+                || createdFrom != null || createdTo != null || hasTags;
 
         // If no paging and no filters -> legacy full list
         if (!hasPageParams && !hasAnyFilter) {
             return ResponseEntity.ok(clientService.getAll());
         }
 
-        // If filters provided but no paging -> preserve legacy filtered list behavior (mobile/frontend compatibility)
-        if (!hasPageParams && hasAnyFilter) {
+        // If filters provided but no paging -> preserve legacy filtered list behavior (mobile/frontend compatibility).
+        // Tags are newer than this and take the combined branch below instead.
+        if (!hasPageParams && !hasTags) {
             if (search != null && !search.isBlank()) {
                 return ResponseEntity.ok(clientService.search(search));
             }
@@ -84,7 +91,6 @@ public class ClientController {
             return ResponseEntity.ok(clientService.getAll());
         }
 
-        // Now hasPageParams == true -> perform paged search. Parse createdFrom / createdTo if present
         java.time.LocalDate fromDate = null;
         java.time.LocalDate toDate = null;
         try {
@@ -98,6 +104,12 @@ public class ClientController {
             return ResponseEntity.badRequest().body("Invalid date format for createdFrom/createdTo. Use ISO format: yyyy-MM-dd");
         }
 
+        // Tags without paging: a plain list, every filter given applied together.
+        if (!hasPageParams) {
+            return ResponseEntity.ok(clientService.filter(type, agentId, fromDate, toDate, search, tags));
+        }
+
+        // Now hasPageParams == true -> perform paged search.
         // Enforce maximum page size to protect from large requests
         final int MAX_PAGE_SIZE = 100;
         final int DEFAULT_PAGE_SIZE = 20;
@@ -109,9 +121,16 @@ public class ClientController {
         }
 
         org.springframework.data.domain.Page<com.crm.realestate.dto.response.ClientResponse> page = clientService.search(
-                type, agentId, fromDate, toDate, search, effectivePageable);
+                type, agentId, fromDate, toDate, search, tags, effectivePageable);
 
         return ResponseEntity.ok(page);
+    }
+
+    @GetMapping("/tags")
+    @Operation(summary = "The caller's agency's client tags with how many clients carry each, most used first — "
+            + "for suggestions. Agency-wide whatever the caller's data scope; never another agency's")
+    public ResponseEntity<List<ClientTagUsage>> tags() {
+        return ResponseEntity.ok(tagService.usage());
     }
 
     @GetMapping("/with-details")

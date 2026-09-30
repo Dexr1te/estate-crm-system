@@ -9,6 +9,7 @@ import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_bloc.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_event.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_state.dart';
+import 'package:real_estate_crm/features/clients/presentation/widgets/client_tag_editor.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/duplicate_warning.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
@@ -31,7 +32,12 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
   final _budgetMaxCtrl = TextEditingController();
   final _roomsCtrl = TextEditingController();
   final _areaCtrl = TextEditingController();
+  final _tagCtrl = TextEditingController();
   ClientType _type = ClientType.BUYER;
+
+  /// The client's tags, and the agency's tags in use to suggest from.
+  List<String> _tags = const [];
+  List<ClientTagUsage> _tagSuggestions = const [];
   PropertyType? _wantedType;
   bool _loading = false;
   bool _initLoading = false;
@@ -48,6 +54,16 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
   void initState() {
     super.initState();
     if (widget.isEditing) _load();
+    _loadTagSuggestions();
+  }
+
+  Future<void> _loadTagSuggestions() async {
+    try {
+      final usage = await Injector.clientsRepository.getClientTags();
+      if (mounted) setState(() => _tagSuggestions = usage);
+    } catch (_) {
+      // Suggestions are a convenience; a tag can still be typed without them.
+    }
   }
 
   @override
@@ -62,7 +78,8 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
       _budgetMinCtrl,
       _budgetMaxCtrl,
       _roomsCtrl,
-      _areaCtrl
+      _areaCtrl,
+      _tagCtrl
     ]) {
       c.dispose();
     }
@@ -88,6 +105,7 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
       setState(() {
         _type = c.type;
         _wantedType = c.wantedType;
+        _tags = c.tags;
         _initLoading = false;
       });
     } catch (_) {
@@ -141,6 +159,9 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
 
   void _submit() {
     if (!_formKey.currentState!.validate()) return;
+    // A tag typed but not yet added is still meant; one that does not fit is
+    // already named under the field.
+    final tags = addTypedTags(_tags, _tagCtrl.text, _tagSuggestions).tags;
     setState(() => _loading = true);
     final data = {
       'fullName': _nameCtrl.text.trim(),
@@ -160,6 +181,8 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
           'minRooms': _number(_roomsCtrl)!.round(),
         if (_number(_areaCtrl) != null) 'minAreaSqm': _number(_areaCtrl),
       },
+      // Always sent: an empty list is how the last tag is taken off.
+      'tags': tags,
     };
     if (widget.isEditing) {
       context
@@ -319,6 +342,17 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
                       roomsCtrl: _roomsCtrl,
                       areaCtrl: _areaCtrl,
                     ),
+                  FormSectionCard(
+                    eyebrow: l10n.clientsTags,
+                    children: [
+                      ClientTagEditor(
+                        tags: _tags,
+                        suggestions: _tagSuggestions,
+                        controller: _tagCtrl,
+                        onChanged: (tags) => setState(() => _tags = tags),
+                      ),
+                    ],
+                  ),
                   FormSectionCard(
                     eyebrow: l10n.clientsNotes,
                     children: [

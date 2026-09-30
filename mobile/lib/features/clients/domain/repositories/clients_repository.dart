@@ -9,6 +9,9 @@ abstract class ClientsRepository {
 
   Future<List<ClientListItem>> getClientsWithDetails();
 
+  /// The agency's tags in use, most used first — suggestions for the editor.
+  Future<List<ClientTagUsage>> getClientTags();
+
   Future<ClientResponse> getClient(int id);
 
   Future<ClientResponse> createClient(Map<String, dynamic> data);

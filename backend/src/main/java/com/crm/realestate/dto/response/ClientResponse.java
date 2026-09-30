@@ -6,6 +6,8 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 public class ClientResponse {
@@ -27,4 +29,7 @@ public class ClientResponse {
     private BigDecimal budgetMax;
     private Integer minRooms;
     private Double minAreaSqm;
+
+    /** The agency's tags on this client, in name order; empty when none. */
+    private List<String> tags = new ArrayList<>();
 }

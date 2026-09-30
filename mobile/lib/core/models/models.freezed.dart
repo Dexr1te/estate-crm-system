@@ -392,6 +392,9 @@ mixin _$ClientResponse {
   int? get minRooms => throw _privateConstructorUsedError;
   double? get minAreaSqm => throw _privateConstructorUsedError;
 
+  /// The agency's tags on this client, in name order.
+  List<String> get tags => throw _privateConstructorUsedError;
+
   /// Serializes this ClientResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
@@ -425,7 +428,8 @@ abstract class $ClientResponseCopyWith<$Res> {
       double? budgetMin,
       double? budgetMax,
       int? minRooms,
-      double? minAreaSqm});
+      double? minAreaSqm,
+      List<String> tags});
 }
 
 /// @nodoc
@@ -460,6 +464,7 @@ class _$ClientResponseCopyWithImpl<$Res, $Val extends ClientResponse>
     Object? budgetMax = freezed,
     Object? minRooms = freezed,
     Object? minAreaSqm = freezed,
+    Object? tags = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -530,6 +535,10 @@ class _$ClientResponseCopyWithImpl<$Res, $Val extends ClientResponse>
           ? _value.minAreaSqm
           : minAreaSqm // ignore: cast_nullable_to_non_nullable
               as double?,
+      tags: null == tags
+          ? _value.tags
+          : tags // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ) as $Val);
   }
 }
@@ -559,7 +568,8 @@ abstract class _$$ClientResponseImplCopyWith<$Res>
       double? budgetMin,
       double? budgetMax,
       int? minRooms,
-      double? minAreaSqm});
+      double? minAreaSqm,
+      List<String> tags});
 }
 
 /// @nodoc
@@ -592,6 +602,7 @@ class __$$ClientResponseImplCopyWithImpl<$Res>
     Object? budgetMax = freezed,
     Object? minRooms = freezed,
     Object? minAreaSqm = freezed,
+    Object? tags = null,
   }) {
     return _then(_$ClientResponseImpl(
       id: null == id
@@ -662,6 +673,10 @@ class __$$ClientResponseImplCopyWithImpl<$Res>
           ? _value.minAreaSqm
           : minAreaSqm // ignore: cast_nullable_to_non_nullable
               as double?,
+      tags: null == tags
+          ? _value._tags
+          : tags // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
@@ -687,7 +702,9 @@ class _$ClientResponseImpl implements _ClientResponse {
       this.budgetMin,
       this.budgetMax,
       this.minRooms,
-      this.minAreaSqm});
+      this.minAreaSqm,
+      final List<String> tags = const <String>[]})
+      : _tags = tags;
 
   factory _$ClientResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$ClientResponseImplFromJson(json);
@@ -730,9 +747,21 @@ class _$ClientResponseImpl implements _ClientResponse {
   @override
   final double? minAreaSqm;
 
+  /// The agency's tags on this client, in name order.
+  final List<String> _tags;
+
+  /// The agency's tags on this client, in name order.
+  @override
+  @JsonKey()
+  List<String> get tags {
+    if (_tags is EqualUnmodifiableListView) return _tags;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_tags);
+  }
+
   @override
   String toString() {
-    return 'ClientResponse(id: $id, fullName: $fullName, email: $email, phone: $phone, type: $type, source: $source, notes: $notes, agentId: $agentId, agentName: $agentName, createdAt: $createdAt, updatedAt: $updatedAt, wantedType: $wantedType, wantedCity: $wantedCity, budgetMin: $budgetMin, budgetMax: $budgetMax, minRooms: $minRooms, minAreaSqm: $minAreaSqm)';
+    return 'ClientResponse(id: $id, fullName: $fullName, email: $email, phone: $phone, type: $type, source: $source, notes: $notes, agentId: $agentId, agentName: $agentName, createdAt: $createdAt, updatedAt: $updatedAt, wantedType: $wantedType, wantedCity: $wantedCity, budgetMin: $budgetMin, budgetMax: $budgetMax, minRooms: $minRooms, minAreaSqm: $minAreaSqm, tags: $tags)';
   }
 
   @override
@@ -766,7 +795,8 @@ class _$ClientResponseImpl implements _ClientResponse {
             (identical(other.minRooms, minRooms) ||
                 other.minRooms == minRooms) &&
             (identical(other.minAreaSqm, minAreaSqm) ||
-                other.minAreaSqm == minAreaSqm));
+                other.minAreaSqm == minAreaSqm) &&
+            const DeepCollectionEquality().equals(other._tags, _tags));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -789,7 +819,8 @@ class _$ClientResponseImpl implements _ClientResponse {
       budgetMin,
       budgetMax,
       minRooms,
-      minAreaSqm);
+      minAreaSqm,
+      const DeepCollectionEquality().hash(_tags));
 
   /// Create a copy of ClientResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -826,7 +857,8 @@ abstract class _ClientResponse implements ClientResponse {
       final double? budgetMin,
       final double? budgetMax,
       final int? minRooms,
-      final double? minAreaSqm}) = _$ClientResponseImpl;
+      final double? minAreaSqm,
+      final List<String> tags}) = _$ClientResponseImpl;
 
   factory _ClientResponse.fromJson(Map<String, dynamic> json) =
       _$ClientResponseImpl.fromJson;
@@ -867,11 +899,183 @@ abstract class _ClientResponse implements ClientResponse {
   @override
   double? get minAreaSqm;
 
+  /// The agency's tags on this client, in name order.
+  @override
+  List<String> get tags;
+
   /// Create a copy of ClientResponse
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ClientResponseImplCopyWith<_$ClientResponseImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+ClientTagUsage _$ClientTagUsageFromJson(Map<String, dynamic> json) {
+  return _ClientTagUsage.fromJson(json);
+}
+
+/// @nodoc
+mixin _$ClientTagUsage {
+  String get name => throw _privateConstructorUsedError;
+  int get count => throw _privateConstructorUsedError;
+
+  /// Serializes this ClientTagUsage to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of ClientTagUsage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $ClientTagUsageCopyWith<ClientTagUsage> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $ClientTagUsageCopyWith<$Res> {
+  factory $ClientTagUsageCopyWith(
+          ClientTagUsage value, $Res Function(ClientTagUsage) then) =
+      _$ClientTagUsageCopyWithImpl<$Res, ClientTagUsage>;
+  @useResult
+  $Res call({String name, int count});
+}
+
+/// @nodoc
+class _$ClientTagUsageCopyWithImpl<$Res, $Val extends ClientTagUsage>
+    implements $ClientTagUsageCopyWith<$Res> {
+  _$ClientTagUsageCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of ClientTagUsage
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = null,
+    Object? count = null,
+  }) {
+    return _then(_value.copyWith(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      count: null == count
+          ? _value.count
+          : count // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$ClientTagUsageImplCopyWith<$Res>
+    implements $ClientTagUsageCopyWith<$Res> {
+  factory _$$ClientTagUsageImplCopyWith(_$ClientTagUsageImpl value,
+          $Res Function(_$ClientTagUsageImpl) then) =
+      __$$ClientTagUsageImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String name, int count});
+}
+
+/// @nodoc
+class __$$ClientTagUsageImplCopyWithImpl<$Res>
+    extends _$ClientTagUsageCopyWithImpl<$Res, _$ClientTagUsageImpl>
+    implements _$$ClientTagUsageImplCopyWith<$Res> {
+  __$$ClientTagUsageImplCopyWithImpl(
+      _$ClientTagUsageImpl _value, $Res Function(_$ClientTagUsageImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of ClientTagUsage
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? name = null,
+    Object? count = null,
+  }) {
+    return _then(_$ClientTagUsageImpl(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      count: null == count
+          ? _value.count
+          : count // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ClientTagUsageImpl implements _ClientTagUsage {
+  const _$ClientTagUsageImpl({required this.name, this.count = 0});
+
+  factory _$ClientTagUsageImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ClientTagUsageImplFromJson(json);
+
+  @override
+  final String name;
+  @override
+  @JsonKey()
+  final int count;
+
+  @override
+  String toString() {
+    return 'ClientTagUsage(name: $name, count: $count)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ClientTagUsageImpl &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.count, count) || other.count == count));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, name, count);
+
+  /// Create a copy of ClientTagUsage
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ClientTagUsageImplCopyWith<_$ClientTagUsageImpl> get copyWith =>
+      __$$ClientTagUsageImplCopyWithImpl<_$ClientTagUsageImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ClientTagUsageImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _ClientTagUsage implements ClientTagUsage {
+  const factory _ClientTagUsage({required final String name, final int count}) =
+      _$ClientTagUsageImpl;
+
+  factory _ClientTagUsage.fromJson(Map<String, dynamic> json) =
+      _$ClientTagUsageImpl.fromJson;
+
+  @override
+  String get name;
+  @override
+  int get count;
+
+  /// Create a copy of ClientTagUsage
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ClientTagUsageImplCopyWith<_$ClientTagUsageImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

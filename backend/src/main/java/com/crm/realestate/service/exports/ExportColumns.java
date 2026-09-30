@@ -4,6 +4,7 @@ import com.crm.realestate.entity.Client;
 import com.crm.realestate.entity.Deal;
 import com.crm.realestate.entity.Property;
 import com.crm.realestate.entity.User;
+import com.crm.realestate.service.ClientTagService;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -30,6 +31,7 @@ class ExportColumns {
     private static final BigDecimal ONE_HUNDRED = BigDecimal.valueOf(100);
 
     private final EntityManager entityManager;
+    private final ClientTagService tagService;
 
     List<String> headings(ExportKind kind, int lang) {
         return switch (kind) {
@@ -37,7 +39,7 @@ class ExportColumns {
                     Stream.of("fullName", "phone", "email", "type").map(k -> imported(k, lang)),
                     Stream.concat(Stream.of(heading("agent", lang)), Stream.concat(
                             Stream.of("wantedCity", "wantedType", "budgetMin", "budgetMax",
-                                    "minRooms", "minAreaSqm", "notes").map(k -> imported(k, lang)),
+                                    "minRooms", "minAreaSqm", "notes", "tags").map(k -> imported(k, lang)),
                             Stream.of("source", "created").map(k -> heading(k, lang))))).toList();
             case PROPERTIES -> Stream.concat(
                     Stream.of("title", "address", "city", "type", "status", "price", "areaSqm",
@@ -49,12 +51,22 @@ class ExportColumns {
         };
     }
 
-    List<String> client(Client c, CsvWriter csv, int lang) {
+    /**
+     * A client's tags are one cell, joined by ", " — a tag never holds a comma (see ClientTags),
+     * and the import splits the cell on commas again.
+     */
+    List<String> client(Client c, Map<Long, List<String>> tags, CsvWriter csv, int lang) {
         return Arrays.asList(c.getFullName(), c.getPhone(), c.getEmail(), value(c.getType(), lang),
                 name(c.getAgent()), c.getWantedCity(), value(c.getWantedType(), lang),
                 csv.decimal(c.getBudgetMin()), csv.decimal(c.getBudgetMax()), whole(c.getMinRooms()),
-                csv.decimal(c.getMinAreaSqm()), c.getNotes(), value(c.getSource(), lang),
-                date(c.getCreatedAt()));
+                csv.decimal(c.getMinAreaSqm()), c.getNotes(),
+                String.join(", ", tags.getOrDefault(c.getId(), List.of())),
+                value(c.getSource(), lang), date(c.getCreatedAt()));
+    }
+
+    /** Each client's tag names, in name order: one query a page. */
+    Map<Long, List<String>> tags(List<Client> page) {
+        return tagService.namesByClient(page.stream().map(Client::getId).toList());
     }
 
     List<String> property(Property p, Map<Long, Long> views, CsvWriter csv, int lang) {

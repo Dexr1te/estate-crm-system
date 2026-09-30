@@ -10,7 +10,9 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "clients",
@@ -86,6 +88,21 @@ public class Client {
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<Deal> deals = new ArrayList<>();
+
+    /**
+     * The agency's tags this client carries, at most {@code ClientTags.MAX_PER_CLIENT}. Set only
+     * through {@code ClientTagService}, which keeps them inside the client's own agency. Loaded a
+     * batch of clients at a time, so a list costs one extra statement per hundred rows rather than
+     * one per row.
+     */
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "client_tag_links",
+            joinColumns = @JoinColumn(name = "client_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    @OrderBy("nameKey ASC")
+    @org.hibernate.annotations.BatchSize(size = 100)
+    @Builder.Default
+    private Set<ClientTag> tags = new LinkedHashSet<>();
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
