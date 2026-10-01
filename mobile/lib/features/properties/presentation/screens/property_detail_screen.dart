@@ -11,6 +11,7 @@ import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_state.dart';
 import 'package:real_estate_crm/features/compare/presentation/widgets/compare_tray_controls.dart';
+import 'package:real_estate_crm/features/deposits/presentation/widgets/deposit_labels.dart';
 import 'package:real_estate_crm/features/mortgage/presentation/widgets/mortgage_card.dart';
 import 'package:real_estate_crm/features/properties/brochure/brochure_photos.dart';
 import 'package:real_estate_crm/features/properties/brochure/listing_brochure.dart';
@@ -394,6 +395,10 @@ class _PropertyHero extends StatelessWidget {
           if (property.mandateType != null) ...[
             const SizedBox(height: 12),
             MandateBadge(property: property),
+          ],
+          if (property.depositHoldUntil != null) ...[
+            const SizedBox(height: 8),
+            DepositBadge(property: property),
           ],
         ],
       ),

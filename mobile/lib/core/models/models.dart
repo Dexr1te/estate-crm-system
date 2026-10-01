@@ -244,6 +244,10 @@ class PropertyResponse with _$PropertyResponse {
 
     /// Its last day (a date, no time); null when it has no end date.
     DateTime? mandateEndDate,
+
+    /// The last day the listing is held for a buyer's deposit; null when no
+    /// deal on it has an active deposit. While set, the listing is reserved.
+    DateTime? depositHoldUntil,
   }) = _PropertyResponse;
 
   factory PropertyResponse.fromJson(Map<String, dynamic> json) =>
@@ -905,4 +909,43 @@ class AppNotification with _$AppNotification {
 
   factory AppNotification.fromJson(Map<String, dynamic> json) =>
       _$AppNotificationFromJson(json);
+}
+
+/// Who keeps a buyer's deposit while the deal is under way.
+// ignore: constant_identifier_names
+enum DepositHolder { AGENCY, SELLER, NOTARY }
+
+/// How a deposit ended; a deposit without one is still active.
+// ignore: constant_identifier_names
+enum DepositOutcome { APPLIED, REFUNDED, FORFEITED }
+
+/// Money a buyer put down on a deal, and how long the deal's listing is held
+/// for them. [amount] is in the agency's currency.
+@freezed
+class DealDeposit with _$DealDeposit {
+  const factory DealDeposit({
+    required int id,
+    required int dealId,
+    @Default('') String dealTitle,
+    int? clientId,
+    String? clientName,
+    int? propertyId,
+    String? propertyTitle,
+    int? agentId,
+    String? agentName,
+    @Default(0.0) double amount,
+    required DateTime receivedOn,
+    required DateTime holdUntil,
+    @JsonKey(unknownEnumValue: DepositHolder.AGENCY)
+    @Default(DepositHolder.AGENCY)
+    DepositHolder holder,
+    String? note,
+    @Default(true) bool active,
+    @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+    DepositOutcome? outcome,
+    DateTime? closedOn,
+  }) = _DealDeposit;
+
+  factory DealDeposit.fromJson(Map<String, dynamic> json) =>
+      _$DealDepositFromJson(json);
 }

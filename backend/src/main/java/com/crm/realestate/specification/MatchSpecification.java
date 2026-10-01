@@ -1,12 +1,15 @@
 package com.crm.realestate.specification;
 
 import com.crm.realestate.entity.Client;
+import com.crm.realestate.entity.DealDeposit;
 import com.crm.realestate.entity.Property;
 import com.crm.realestate.enums.ClientType;
 import com.crm.realestate.enums.PropertyStatus;
 import org.springframework.data.jpa.domain.Specification;
 
 import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.Subquery;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +40,15 @@ public final class MatchSpecification {
 
             List<Predicate> predicates = new ArrayList<>();
             predicates.add(cb.equal(root.get("status"), PropertyStatus.AVAILABLE));
+
+            // A listing held for another buyer by their deposit is not a fresh match, whatever its
+            // status says.
+            Subquery<Long> held = query.subquery(Long.class);
+            Root<DealDeposit> deposit = held.from(DealDeposit.class);
+            held.select(deposit.get("id")).where(
+                    cb.isNull(deposit.get("outcome")),
+                    cb.equal(deposit.get("deal").get("property"), root));
+            predicates.add(cb.not(cb.exists(held)));
 
             if (buyer.getWantedType() != null) {
                 predicates.add(cb.equal(root.get("type"), buyer.getWantedType()));

@@ -201,7 +201,8 @@ class PropertyPriceHistoryTest {
                 .isEqualTo(fewAll);
         assertThat(manyPage).as("a page of 3 took %d statements, of 15 took %d", fewPage, manyPage)
                 .isEqualTo(fewPage);
-        assertThat(manyAll).isLessThanOrEqualTo(3);
+        // The listings, their agents, their latest price changes, and the deposits holding them.
+        assertThat(manyAll).isLessThanOrEqualTo(4);
 
         assertThat(propertyService.getAll())
                 .hasSize(15)

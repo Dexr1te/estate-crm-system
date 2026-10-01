@@ -22,6 +22,8 @@ import 'package:real_estate_crm/features/deals/presentation/bloc/deals_event.dar
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_state.dart';
 import 'package:real_estate_crm/features/deals/presentation/widgets/deal_discussion_card.dart';
 import 'package:real_estate_crm/features/deals/presentation/widgets/lost_reason_sheet.dart';
+import 'package:real_estate_crm/features/deposits/presentation/bloc/deal_deposits_bloc.dart';
+import 'package:real_estate_crm/features/deposits/presentation/widgets/deal_deposit_card.dart';
 import 'package:real_estate_crm/features/documents/presentation/bloc/documents_bloc.dart';
 import 'package:real_estate_crm/features/documents/presentation/bloc/documents_event.dart';
 import 'package:real_estate_crm/features/documents/presentation/widgets/deal_documents_card.dart';
@@ -59,8 +61,14 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
   DealCommentsBloc get _comments =>
       _commentsBlocOrNull ??= DealDiscussionCard.createBloc(context, widget.id);
 
+  DealDepositsBloc? _depositsBlocOrNull;
+  DealDepositsBloc get _deposits => _depositsBlocOrNull ??=
+      DealDepositsBloc(Injector.depositsRepository, dealId: widget.id)
+        ..add(DealDepositsLoadEvent());
+
   @override
   void dispose() {
+    _depositsBlocOrNull?.close();
     _checklistBlocOrNull?.close();
     _commentsBlocOrNull?.close();
     super.dispose();
@@ -156,6 +164,8 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
 
   void _onWriteResult(BuildContext _, DealsState state) {
     if (state is DealsActionSuccess) {
+      // Winning the deal applies its deposit on the server.
+      _depositsBlocOrNull?.add(DealDepositsLoadEvent());
       _confirmedStatus = null;
       _confirmed = null;
     } else if (state is DealsActionFailure && _confirmedStatus != null) {
@@ -228,6 +238,7 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
           )..add(DocumentsLoadEvent()),
         ),
         BlocProvider.value(value: _checklist),
+        BlocProvider.value(value: _deposits),
       ],
       child: BlocListener<DealsBloc, DealsState>(
         listener: _onWriteResult,
@@ -237,6 +248,7 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
             onRefresh: () async {
               context.read<DocumentsBloc>().add(DocumentsLoadEvent());
               _checklist.add(DealChecklistLoadEvent());
+              _deposits.add(DealDepositsLoadEvent());
               _comments.add(DealCommentsLoadEvent());
               await _load();
             },
@@ -254,6 +266,10 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
               if (deal.status == DealStatus.CLOSED_LOST)
                 _LostReasonCard(deal: deal),
               if (deal.commissionPercent != null) _CommissionCard(deal: deal),
+              DealDepositCard(
+                deal: deal,
+                onSaved: () => _comments.add(DealCommentsLoadEvent()),
+              ),
               _ParticipantsCard(deal: deal),
               RecordTasksCard(deal: PickerItem(id: deal.id, title: deal.title)),
               DealChecklistCard(deal: deal),

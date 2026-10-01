@@ -4,11 +4,14 @@ import com.crm.realestate.dto.response.PropertyPriceChangeResponse;
 import com.crm.realestate.dto.response.PropertyResponse;
 import com.crm.realestate.entity.Property;
 import com.crm.realestate.entity.PropertyPriceChange;
+import com.crm.realestate.repository.DealDepositRepository;
 import com.crm.realestate.repository.PropertyPriceChangeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -26,14 +29,40 @@ import java.util.stream.Collectors;
 public class PropertyMapper {
 
     private final PropertyPriceChangeRepository priceChangeRepository;
+    private final DealDepositRepository depositRepository;
 
     public PropertyResponse toResponse(Property p) {
-        return toResponse(p, latestChanges(List.of(p)).get(p.getId()));
+        return toResponse(p, latestChanges(List.of(p)).get(p.getId()), depositHolds(List.of(p)).get(p.getId()));
     }
 
     public List<PropertyResponse> toResponses(List<Property> properties) {
         Map<Long, PropertyPriceChange> latest = latestChanges(properties);
-        return properties.stream().map(p -> toResponse(p, latest.get(p.getId()))).toList();
+        Map<Long, LocalDate> holds = depositHolds(properties);
+        return properties.stream()
+                .map(p -> toResponse(p, latest.get(p.getId()), holds.get(p.getId())))
+                .toList();
+    }
+
+    /**
+     * The hold of each listing that a deal's active deposit reserves, keyed by listing id, in one
+     * statement; absent when none does.
+     */
+    public Map<Long, LocalDate> depositHolds(Collection<Property> properties) {
+        List<Long> ids = properties.stream().map(Property::getId).filter(Objects::nonNull).toList();
+        if (ids.isEmpty()) {
+            return Map.of();
+        }
+        Map<Long, LocalDate> holds = new HashMap<>();
+        for (Object[] row : depositRepository.activeHolds(ids)) {
+            holds.put((Long) row[0], (LocalDate) row[1]);
+        }
+        return holds;
+    }
+
+    public PropertyResponse toResponse(Property p, PropertyPriceChange latestChange, LocalDate depositHoldUntil) {
+        PropertyResponse res = toResponse(p, latestChange);
+        res.setDepositHoldUntil(depositHoldUntil);
+        return res;
     }
 
     /** The newest price change of each listing, keyed by listing id; absent if never changed. */

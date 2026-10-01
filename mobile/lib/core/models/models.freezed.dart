@@ -2341,6 +2341,10 @@ mixin _$PropertyResponse {
   /// Its last day (a date, no time); null when it has no end date.
   DateTime? get mandateEndDate => throw _privateConstructorUsedError;
 
+  /// The last day the listing is held for a buyer's deposit; null when no
+  /// deal on it has an active deposit. While set, the listing is reserved.
+  DateTime? get depositHoldUntil => throw _privateConstructorUsedError;
+
   /// Serializes this PropertyResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
@@ -2380,7 +2384,8 @@ abstract class $PropertyResponseCopyWith<$Res> {
       double? longitude,
       @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       MandateType? mandateType,
-      DateTime? mandateEndDate});
+      DateTime? mandateEndDate,
+      DateTime? depositHoldUntil});
 }
 
 /// @nodoc
@@ -2420,6 +2425,7 @@ class _$PropertyResponseCopyWithImpl<$Res, $Val extends PropertyResponse>
     Object? longitude = freezed,
     Object? mandateType = freezed,
     Object? mandateEndDate = freezed,
+    Object? depositHoldUntil = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -2510,6 +2516,10 @@ class _$PropertyResponseCopyWithImpl<$Res, $Val extends PropertyResponse>
           ? _value.mandateEndDate
           : mandateEndDate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      depositHoldUntil: freezed == depositHoldUntil
+          ? _value.depositHoldUntil
+          : depositHoldUntil // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
   }
 }
@@ -2545,7 +2555,8 @@ abstract class _$$PropertyResponseImplCopyWith<$Res>
       double? longitude,
       @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       MandateType? mandateType,
-      DateTime? mandateEndDate});
+      DateTime? mandateEndDate,
+      DateTime? depositHoldUntil});
 }
 
 /// @nodoc
@@ -2583,6 +2594,7 @@ class __$$PropertyResponseImplCopyWithImpl<$Res>
     Object? longitude = freezed,
     Object? mandateType = freezed,
     Object? mandateEndDate = freezed,
+    Object? depositHoldUntil = freezed,
   }) {
     return _then(_$PropertyResponseImpl(
       id: null == id
@@ -2673,6 +2685,10 @@ class __$$PropertyResponseImplCopyWithImpl<$Res>
           ? _value.mandateEndDate
           : mandateEndDate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      depositHoldUntil: freezed == depositHoldUntil
+          ? _value.depositHoldUntil
+          : depositHoldUntil // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -2703,7 +2719,8 @@ class _$PropertyResponseImpl implements _PropertyResponse {
       this.longitude,
       @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       this.mandateType,
-      this.mandateEndDate});
+      this.mandateEndDate,
+      this.depositHoldUntil});
 
   factory _$PropertyResponseImpl.fromJson(Map<String, dynamic> json) =>
       _$$PropertyResponseImplFromJson(json);
@@ -2766,9 +2783,14 @@ class _$PropertyResponseImpl implements _PropertyResponse {
   @override
   final DateTime? mandateEndDate;
 
+  /// The last day the listing is held for a buyer's deposit; null when no
+  /// deal on it has an active deposit. While set, the listing is reserved.
+  @override
+  final DateTime? depositHoldUntil;
+
   @override
   String toString() {
-    return 'PropertyResponse(id: $id, title: $title, description: $description, address: $address, city: $city, type: $type, status: $status, price: $price, areaSqm: $areaSqm, rooms: $rooms, floor: $floor, totalFloors: $totalFloors, agentId: $agentId, agentName: $agentName, createdAt: $createdAt, updatedAt: $updatedAt, previousPrice: $previousPrice, priceChangedAt: $priceChangedAt, latitude: $latitude, longitude: $longitude, mandateType: $mandateType, mandateEndDate: $mandateEndDate)';
+    return 'PropertyResponse(id: $id, title: $title, description: $description, address: $address, city: $city, type: $type, status: $status, price: $price, areaSqm: $areaSqm, rooms: $rooms, floor: $floor, totalFloors: $totalFloors, agentId: $agentId, agentName: $agentName, createdAt: $createdAt, updatedAt: $updatedAt, previousPrice: $previousPrice, priceChangedAt: $priceChangedAt, latitude: $latitude, longitude: $longitude, mandateType: $mandateType, mandateEndDate: $mandateEndDate, depositHoldUntil: $depositHoldUntil)';
   }
 
   @override
@@ -2808,7 +2830,9 @@ class _$PropertyResponseImpl implements _PropertyResponse {
             (identical(other.mandateType, mandateType) ||
                 other.mandateType == mandateType) &&
             (identical(other.mandateEndDate, mandateEndDate) ||
-                other.mandateEndDate == mandateEndDate));
+                other.mandateEndDate == mandateEndDate) &&
+            (identical(other.depositHoldUntil, depositHoldUntil) ||
+                other.depositHoldUntil == depositHoldUntil));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -2836,7 +2860,8 @@ class _$PropertyResponseImpl implements _PropertyResponse {
         latitude,
         longitude,
         mandateType,
-        mandateEndDate
+        mandateEndDate,
+        depositHoldUntil
       ]);
 
   /// Create a copy of PropertyResponse
@@ -2880,7 +2905,8 @@ abstract class _PropertyResponse implements PropertyResponse {
       final double? longitude,
       @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       final MandateType? mandateType,
-      final DateTime? mandateEndDate}) = _$PropertyResponseImpl;
+      final DateTime? mandateEndDate,
+      final DateTime? depositHoldUntil}) = _$PropertyResponseImpl;
 
   factory _PropertyResponse.fromJson(Map<String, dynamic> json) =
       _$PropertyResponseImpl.fromJson;
@@ -2937,6 +2963,11 @@ abstract class _PropertyResponse implements PropertyResponse {
   /// Its last day (a date, no time); null when it has no end date.
   @override
   DateTime? get mandateEndDate;
+
+  /// The last day the listing is held for a buyer's deposit; null when no
+  /// deal on it has an active deposit. While set, the listing is reserved.
+  @override
+  DateTime? get depositHoldUntil;
 
   /// Create a copy of PropertyResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -12523,5 +12554,520 @@ abstract class _AppNotification extends AppNotification {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AppNotificationImplCopyWith<_$AppNotificationImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+DealDeposit _$DealDepositFromJson(Map<String, dynamic> json) {
+  return _DealDeposit.fromJson(json);
+}
+
+/// @nodoc
+mixin _$DealDeposit {
+  int get id => throw _privateConstructorUsedError;
+  int get dealId => throw _privateConstructorUsedError;
+  String get dealTitle => throw _privateConstructorUsedError;
+  int? get clientId => throw _privateConstructorUsedError;
+  String? get clientName => throw _privateConstructorUsedError;
+  int? get propertyId => throw _privateConstructorUsedError;
+  String? get propertyTitle => throw _privateConstructorUsedError;
+  int? get agentId => throw _privateConstructorUsedError;
+  String? get agentName => throw _privateConstructorUsedError;
+  double get amount => throw _privateConstructorUsedError;
+  DateTime get receivedOn => throw _privateConstructorUsedError;
+  DateTime get holdUntil => throw _privateConstructorUsedError;
+  @JsonKey(unknownEnumValue: DepositHolder.AGENCY)
+  DepositHolder get holder => throw _privateConstructorUsedError;
+  String? get note => throw _privateConstructorUsedError;
+  bool get active => throw _privateConstructorUsedError;
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  DepositOutcome? get outcome => throw _privateConstructorUsedError;
+  DateTime? get closedOn => throw _privateConstructorUsedError;
+
+  /// Serializes this DealDeposit to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of DealDeposit
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $DealDepositCopyWith<DealDeposit> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $DealDepositCopyWith<$Res> {
+  factory $DealDepositCopyWith(
+          DealDeposit value, $Res Function(DealDeposit) then) =
+      _$DealDepositCopyWithImpl<$Res, DealDeposit>;
+  @useResult
+  $Res call(
+      {int id,
+      int dealId,
+      String dealTitle,
+      int? clientId,
+      String? clientName,
+      int? propertyId,
+      String? propertyTitle,
+      int? agentId,
+      String? agentName,
+      double amount,
+      DateTime receivedOn,
+      DateTime holdUntil,
+      @JsonKey(unknownEnumValue: DepositHolder.AGENCY) DepositHolder holder,
+      String? note,
+      bool active,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      DepositOutcome? outcome,
+      DateTime? closedOn});
+}
+
+/// @nodoc
+class _$DealDepositCopyWithImpl<$Res, $Val extends DealDeposit>
+    implements $DealDepositCopyWith<$Res> {
+  _$DealDepositCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of DealDeposit
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? dealId = null,
+    Object? dealTitle = null,
+    Object? clientId = freezed,
+    Object? clientName = freezed,
+    Object? propertyId = freezed,
+    Object? propertyTitle = freezed,
+    Object? agentId = freezed,
+    Object? agentName = freezed,
+    Object? amount = null,
+    Object? receivedOn = null,
+    Object? holdUntil = null,
+    Object? holder = null,
+    Object? note = freezed,
+    Object? active = null,
+    Object? outcome = freezed,
+    Object? closedOn = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      dealId: null == dealId
+          ? _value.dealId
+          : dealId // ignore: cast_nullable_to_non_nullable
+              as int,
+      dealTitle: null == dealTitle
+          ? _value.dealTitle
+          : dealTitle // ignore: cast_nullable_to_non_nullable
+              as String,
+      clientId: freezed == clientId
+          ? _value.clientId
+          : clientId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      clientName: freezed == clientName
+          ? _value.clientName
+          : clientName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      propertyId: freezed == propertyId
+          ? _value.propertyId
+          : propertyId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      propertyTitle: freezed == propertyTitle
+          ? _value.propertyTitle
+          : propertyTitle // ignore: cast_nullable_to_non_nullable
+              as String?,
+      agentId: freezed == agentId
+          ? _value.agentId
+          : agentId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      agentName: freezed == agentName
+          ? _value.agentName
+          : agentName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      amount: null == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as double,
+      receivedOn: null == receivedOn
+          ? _value.receivedOn
+          : receivedOn // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      holdUntil: null == holdUntil
+          ? _value.holdUntil
+          : holdUntil // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      holder: null == holder
+          ? _value.holder
+          : holder // ignore: cast_nullable_to_non_nullable
+              as DepositHolder,
+      note: freezed == note
+          ? _value.note
+          : note // ignore: cast_nullable_to_non_nullable
+              as String?,
+      active: null == active
+          ? _value.active
+          : active // ignore: cast_nullable_to_non_nullable
+              as bool,
+      outcome: freezed == outcome
+          ? _value.outcome
+          : outcome // ignore: cast_nullable_to_non_nullable
+              as DepositOutcome?,
+      closedOn: freezed == closedOn
+          ? _value.closedOn
+          : closedOn // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$DealDepositImplCopyWith<$Res>
+    implements $DealDepositCopyWith<$Res> {
+  factory _$$DealDepositImplCopyWith(
+          _$DealDepositImpl value, $Res Function(_$DealDepositImpl) then) =
+      __$$DealDepositImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int id,
+      int dealId,
+      String dealTitle,
+      int? clientId,
+      String? clientName,
+      int? propertyId,
+      String? propertyTitle,
+      int? agentId,
+      String? agentName,
+      double amount,
+      DateTime receivedOn,
+      DateTime holdUntil,
+      @JsonKey(unknownEnumValue: DepositHolder.AGENCY) DepositHolder holder,
+      String? note,
+      bool active,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      DepositOutcome? outcome,
+      DateTime? closedOn});
+}
+
+/// @nodoc
+class __$$DealDepositImplCopyWithImpl<$Res>
+    extends _$DealDepositCopyWithImpl<$Res, _$DealDepositImpl>
+    implements _$$DealDepositImplCopyWith<$Res> {
+  __$$DealDepositImplCopyWithImpl(
+      _$DealDepositImpl _value, $Res Function(_$DealDepositImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of DealDeposit
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? dealId = null,
+    Object? dealTitle = null,
+    Object? clientId = freezed,
+    Object? clientName = freezed,
+    Object? propertyId = freezed,
+    Object? propertyTitle = freezed,
+    Object? agentId = freezed,
+    Object? agentName = freezed,
+    Object? amount = null,
+    Object? receivedOn = null,
+    Object? holdUntil = null,
+    Object? holder = null,
+    Object? note = freezed,
+    Object? active = null,
+    Object? outcome = freezed,
+    Object? closedOn = freezed,
+  }) {
+    return _then(_$DealDepositImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      dealId: null == dealId
+          ? _value.dealId
+          : dealId // ignore: cast_nullable_to_non_nullable
+              as int,
+      dealTitle: null == dealTitle
+          ? _value.dealTitle
+          : dealTitle // ignore: cast_nullable_to_non_nullable
+              as String,
+      clientId: freezed == clientId
+          ? _value.clientId
+          : clientId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      clientName: freezed == clientName
+          ? _value.clientName
+          : clientName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      propertyId: freezed == propertyId
+          ? _value.propertyId
+          : propertyId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      propertyTitle: freezed == propertyTitle
+          ? _value.propertyTitle
+          : propertyTitle // ignore: cast_nullable_to_non_nullable
+              as String?,
+      agentId: freezed == agentId
+          ? _value.agentId
+          : agentId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      agentName: freezed == agentName
+          ? _value.agentName
+          : agentName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      amount: null == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as double,
+      receivedOn: null == receivedOn
+          ? _value.receivedOn
+          : receivedOn // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      holdUntil: null == holdUntil
+          ? _value.holdUntil
+          : holdUntil // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      holder: null == holder
+          ? _value.holder
+          : holder // ignore: cast_nullable_to_non_nullable
+              as DepositHolder,
+      note: freezed == note
+          ? _value.note
+          : note // ignore: cast_nullable_to_non_nullable
+              as String?,
+      active: null == active
+          ? _value.active
+          : active // ignore: cast_nullable_to_non_nullable
+              as bool,
+      outcome: freezed == outcome
+          ? _value.outcome
+          : outcome // ignore: cast_nullable_to_non_nullable
+              as DepositOutcome?,
+      closedOn: freezed == closedOn
+          ? _value.closedOn
+          : closedOn // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$DealDepositImpl implements _DealDeposit {
+  const _$DealDepositImpl(
+      {required this.id,
+      required this.dealId,
+      this.dealTitle = '',
+      this.clientId,
+      this.clientName,
+      this.propertyId,
+      this.propertyTitle,
+      this.agentId,
+      this.agentName,
+      this.amount = 0.0,
+      required this.receivedOn,
+      required this.holdUntil,
+      @JsonKey(unknownEnumValue: DepositHolder.AGENCY)
+      this.holder = DepositHolder.AGENCY,
+      this.note,
+      this.active = true,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      this.outcome,
+      this.closedOn});
+
+  factory _$DealDepositImpl.fromJson(Map<String, dynamic> json) =>
+      _$$DealDepositImplFromJson(json);
+
+  @override
+  final int id;
+  @override
+  final int dealId;
+  @override
+  @JsonKey()
+  final String dealTitle;
+  @override
+  final int? clientId;
+  @override
+  final String? clientName;
+  @override
+  final int? propertyId;
+  @override
+  final String? propertyTitle;
+  @override
+  final int? agentId;
+  @override
+  final String? agentName;
+  @override
+  @JsonKey()
+  final double amount;
+  @override
+  final DateTime receivedOn;
+  @override
+  final DateTime holdUntil;
+  @override
+  @JsonKey(unknownEnumValue: DepositHolder.AGENCY)
+  final DepositHolder holder;
+  @override
+  final String? note;
+  @override
+  @JsonKey()
+  final bool active;
+  @override
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  final DepositOutcome? outcome;
+  @override
+  final DateTime? closedOn;
+
+  @override
+  String toString() {
+    return 'DealDeposit(id: $id, dealId: $dealId, dealTitle: $dealTitle, clientId: $clientId, clientName: $clientName, propertyId: $propertyId, propertyTitle: $propertyTitle, agentId: $agentId, agentName: $agentName, amount: $amount, receivedOn: $receivedOn, holdUntil: $holdUntil, holder: $holder, note: $note, active: $active, outcome: $outcome, closedOn: $closedOn)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DealDepositImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.dealId, dealId) || other.dealId == dealId) &&
+            (identical(other.dealTitle, dealTitle) ||
+                other.dealTitle == dealTitle) &&
+            (identical(other.clientId, clientId) ||
+                other.clientId == clientId) &&
+            (identical(other.clientName, clientName) ||
+                other.clientName == clientName) &&
+            (identical(other.propertyId, propertyId) ||
+                other.propertyId == propertyId) &&
+            (identical(other.propertyTitle, propertyTitle) ||
+                other.propertyTitle == propertyTitle) &&
+            (identical(other.agentId, agentId) || other.agentId == agentId) &&
+            (identical(other.agentName, agentName) ||
+                other.agentName == agentName) &&
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.receivedOn, receivedOn) ||
+                other.receivedOn == receivedOn) &&
+            (identical(other.holdUntil, holdUntil) ||
+                other.holdUntil == holdUntil) &&
+            (identical(other.holder, holder) || other.holder == holder) &&
+            (identical(other.note, note) || other.note == note) &&
+            (identical(other.active, active) || other.active == active) &&
+            (identical(other.outcome, outcome) || other.outcome == outcome) &&
+            (identical(other.closedOn, closedOn) ||
+                other.closedOn == closedOn));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      dealId,
+      dealTitle,
+      clientId,
+      clientName,
+      propertyId,
+      propertyTitle,
+      agentId,
+      agentName,
+      amount,
+      receivedOn,
+      holdUntil,
+      holder,
+      note,
+      active,
+      outcome,
+      closedOn);
+
+  /// Create a copy of DealDeposit
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DealDepositImplCopyWith<_$DealDepositImpl> get copyWith =>
+      __$$DealDepositImplCopyWithImpl<_$DealDepositImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$DealDepositImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _DealDeposit implements DealDeposit {
+  const factory _DealDeposit(
+      {required final int id,
+      required final int dealId,
+      final String dealTitle,
+      final int? clientId,
+      final String? clientName,
+      final int? propertyId,
+      final String? propertyTitle,
+      final int? agentId,
+      final String? agentName,
+      final double amount,
+      required final DateTime receivedOn,
+      required final DateTime holdUntil,
+      @JsonKey(unknownEnumValue: DepositHolder.AGENCY)
+      final DepositHolder holder,
+      final String? note,
+      final bool active,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      final DepositOutcome? outcome,
+      final DateTime? closedOn}) = _$DealDepositImpl;
+
+  factory _DealDeposit.fromJson(Map<String, dynamic> json) =
+      _$DealDepositImpl.fromJson;
+
+  @override
+  int get id;
+  @override
+  int get dealId;
+  @override
+  String get dealTitle;
+  @override
+  int? get clientId;
+  @override
+  String? get clientName;
+  @override
+  int? get propertyId;
+  @override
+  String? get propertyTitle;
+  @override
+  int? get agentId;
+  @override
+  String? get agentName;
+  @override
+  double get amount;
+  @override
+  DateTime get receivedOn;
+  @override
+  DateTime get holdUntil;
+  @override
+  @JsonKey(unknownEnumValue: DepositHolder.AGENCY)
+  DepositHolder get holder;
+  @override
+  String? get note;
+  @override
+  bool get active;
+  @override
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  DepositOutcome? get outcome;
+  @override
+  DateTime? get closedOn;
+
+  /// Create a copy of DealDeposit
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$DealDepositImplCopyWith<_$DealDepositImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

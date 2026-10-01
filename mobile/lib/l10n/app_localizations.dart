@@ -3742,6 +3742,234 @@ abstract class AppLocalizations {
   /// **'List'**
   String get dealsViewList;
 
+  /// No description provided for @depositsAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get depositsAmount;
+
+  /// No description provided for @depositsAmountHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. 500,000'**
+  String get depositsAmountHint;
+
+  /// No description provided for @depositsCloseAction.
+  ///
+  /// In en, this message translates to:
+  /// **'End deposit'**
+  String get depositsCloseAction;
+
+  /// No description provided for @depositsCloseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How did the deposit end?'**
+  String get depositsCloseTitle;
+
+  /// No description provided for @depositsClosedBeforeReceived.
+  ///
+  /// In en, this message translates to:
+  /// **'It cannot end before the money came in'**
+  String get depositsClosedBeforeReceived;
+
+  /// No description provided for @depositsClosedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get depositsClosedOn;
+
+  /// No description provided for @depositsDealClosedHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The deal is closed; a deposit can no longer be recorded.'**
+  String get depositsDealClosedHint;
+
+  /// No description provided for @depositsEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get depositsEdit;
+
+  /// No description provided for @depositsEditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit the deposit'**
+  String get depositsEditTitle;
+
+  /// No description provided for @depositsEndingEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No deposits running out'**
+  String get depositsEndingEmpty;
+
+  /// No description provided for @depositsEndingEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Active deposits show here a week before their hold ends.'**
+  String get depositsEndingEmptyHint;
+
+  /// No description provided for @depositsEndingLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load the deposits'**
+  String get depositsEndingLoadFailed;
+
+  /// No description provided for @depositsEndingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Deposits ending'**
+  String get depositsEndingTitle;
+
+  /// No description provided for @depositsHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Earlier deposits'**
+  String get depositsHistory;
+
+  /// No description provided for @depositsHoldBeforeReceived.
+  ///
+  /// In en, this message translates to:
+  /// **'The hold cannot end before the money came in'**
+  String get depositsHoldBeforeReceived;
+
+  /// No description provided for @depositsHoldEndedAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Hold ended 1 day ago} other{Hold ended {count} days ago}}'**
+  String depositsHoldEndedAgo(int count);
+
+  /// No description provided for @depositsHoldEndedYesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Hold ended yesterday'**
+  String get depositsHoldEndedYesterday;
+
+  /// No description provided for @depositsHoldEndsIn.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Hold ends in 1 day} other{Hold ends in {count} days}}'**
+  String depositsHoldEndsIn(int count);
+
+  /// No description provided for @depositsHoldEndsToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Hold ends today'**
+  String get depositsHoldEndsToday;
+
+  /// No description provided for @depositsHoldEndsTomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Hold ends tomorrow'**
+  String get depositsHoldEndsTomorrow;
+
+  /// No description provided for @depositsHoldUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'Held until'**
+  String get depositsHoldUntil;
+
+  /// No description provided for @depositsHolder.
+  ///
+  /// In en, this message translates to:
+  /// **'Held by'**
+  String get depositsHolder;
+
+  /// No description provided for @depositsHolderAgency.
+  ///
+  /// In en, this message translates to:
+  /// **'Agency'**
+  String get depositsHolderAgency;
+
+  /// No description provided for @depositsHolderNotary.
+  ///
+  /// In en, this message translates to:
+  /// **'Notary'**
+  String get depositsHolderNotary;
+
+  /// No description provided for @depositsHolderSeller.
+  ///
+  /// In en, this message translates to:
+  /// **'Seller'**
+  String get depositsHolderSeller;
+
+  /// No description provided for @depositsLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load the deposit'**
+  String get depositsLoadFailed;
+
+  /// No description provided for @depositsNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No deposit recorded'**
+  String get depositsNone;
+
+  /// No description provided for @depositsNoneHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Record it when the buyer puts money down; the listing then shows as reserved.'**
+  String get depositsNoneHint;
+
+  /// No description provided for @depositsNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get depositsNote;
+
+  /// No description provided for @depositsNoteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Receipt number, terms'**
+  String get depositsNoteHint;
+
+  /// No description provided for @depositsOutcomeApplied.
+  ///
+  /// In en, this message translates to:
+  /// **'Applied to the purchase'**
+  String get depositsOutcomeApplied;
+
+  /// No description provided for @depositsOutcomeForfeited.
+  ///
+  /// In en, this message translates to:
+  /// **'Forfeited'**
+  String get depositsOutcomeForfeited;
+
+  /// No description provided for @depositsOutcomeRefunded.
+  ///
+  /// In en, this message translates to:
+  /// **'Refunded'**
+  String get depositsOutcomeRefunded;
+
+  /// No description provided for @depositsReceivedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Received'**
+  String get depositsReceivedOn;
+
+  /// No description provided for @depositsRecord.
+  ///
+  /// In en, this message translates to:
+  /// **'Record deposit'**
+  String get depositsRecord;
+
+  /// No description provided for @depositsRecordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Record a deposit'**
+  String get depositsRecordTitle;
+
+  /// No description provided for @depositsReservedUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'Reserved until {date}'**
+  String depositsReservedUntil(String date);
+
+  /// No description provided for @depositsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Deposit'**
+  String get depositsTitle;
+
   /// No description provided for @documentsAdd.
   ///
   /// In en, this message translates to:

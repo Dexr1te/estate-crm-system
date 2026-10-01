@@ -846,6 +846,65 @@
   "dealsUpdateDeal": "Update Deal",
   "dealsViewBoard": "Board",
   "dealsViewList": "List",
+  "depositsAmount": "Amount",
+  "depositsAmountHint": "e.g. 500,000",
+  "depositsCloseAction": "End deposit",
+  "depositsCloseTitle": "How did the deposit end?",
+  "depositsClosedBeforeReceived": "It cannot end before the money came in",
+  "depositsClosedOn": "Date",
+  "depositsDealClosedHint": "The deal is closed; a deposit can no longer be recorded.",
+  "depositsEdit": "Edit",
+  "depositsEditTitle": "Edit the deposit",
+  "depositsEndingEmpty": "No deposits running out",
+  "depositsEndingEmptyHint": "Active deposits show here a week before their hold ends.",
+  "depositsEndingLoadFailed": "Couldn't load the deposits",
+  "depositsEndingTitle": "Deposits ending",
+  "depositsHistory": "Earlier deposits",
+  "depositsHoldBeforeReceived": "The hold cannot end before the money came in",
+  "depositsHoldEndedAgo": "{count, plural, =1{Hold ended 1 day ago} other{Hold ended {count} days ago}}",
+  "@depositsHoldEndedAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "depositsHoldEndedYesterday": "Hold ended yesterday",
+  "depositsHoldEndsIn": "{count, plural, =1{Hold ends in 1 day} other{Hold ends in {count} days}}",
+  "@depositsHoldEndsIn": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "depositsHoldEndsToday": "Hold ends today",
+  "depositsHoldEndsTomorrow": "Hold ends tomorrow",
+  "depositsHoldUntil": "Held until",
+  "depositsHolder": "Held by",
+  "depositsHolderAgency": "Agency",
+  "depositsHolderNotary": "Notary",
+  "depositsHolderSeller": "Seller",
+  "depositsLoadFailed": "Couldn't load the deposit",
+  "depositsNone": "No deposit recorded",
+  "depositsNoneHint": "Record it when the buyer puts money down; the listing then shows as reserved.",
+  "depositsNote": "Note",
+  "depositsNoteHint": "Receipt number, terms",
+  "depositsOutcomeApplied": "Applied to the purchase",
+  "depositsOutcomeForfeited": "Forfeited",
+  "depositsOutcomeRefunded": "Refunded",
+  "depositsReceivedOn": "Received",
+  "depositsRecord": "Record deposit",
+  "depositsRecordTitle": "Record a deposit",
+  "depositsReservedUntil": "Reserved until {date}",
+  "@depositsReservedUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "depositsTitle": "Deposit",
   "documentsAdd": "Attach file",
   "documentsCount": "{count, plural, =0{No files} =1{1 file} other{{count} files}}",
   "documentsDeleteConfirm": "{name} will be removed from this deal. This cannot be undone.",
