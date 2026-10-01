@@ -47,6 +47,9 @@ jwt:
 
 app:
   base-url: http://localhost:8080
+  # The tests run ClientDateNotifier themselves, with the day they want.
+  scheduling:
+    enabled: false
   mail:
     enabled: false
     # Tests must not depend on DNS being reachable, or on a domain still

@@ -17,6 +17,7 @@ Future<void> showComposeMessageSheet(
   String? agentName,
   List<PropertyResponse> suggested = const [],
   ComposeSent? onSent,
+  bool Function(MessageTemplate template)? preferTemplate,
 }) {
   final l10n = AppLocalizations.of(context);
   return showAppBottomSheet<void>(
@@ -28,6 +29,7 @@ Future<void> showComposeMessageSheet(
       agentName: agentName,
       suggested: suggested,
       onSent: onSent,
+      preferTemplate: preferTemplate,
     ),
   );
 }
@@ -44,12 +46,17 @@ class ComposeMessageSheet extends StatefulWidget {
   final List<PropertyResponse> suggested;
   final ComposeSent? onSent;
 
+  /// The template to start from, if the agency has one that fits — a
+  /// birthday greeting on a birthday. The sheet opens empty otherwise.
+  final bool Function(MessageTemplate template)? preferTemplate;
+
   const ComposeMessageSheet({
     super.key,
     required this.client,
     this.agentName,
     this.suggested = const [],
     this.onSent,
+    this.preferTemplate,
   });
 
   @override
@@ -69,6 +76,34 @@ class _ComposeMessageSheetState extends State<ComposeMessageSheet> {
 
   bool get _hasPhone =>
       (widget.client.phone ?? '').replaceAll(RegExp(r'\D'), '').isNotEmpty;
+
+  @override
+  void initState() {
+    super.initState();
+    final prefer = widget.preferTemplate;
+    if (prefer != null) _startFrom(prefer);
+  }
+
+  /// Called from [initState], so the first frame already shows it busy.
+  Future<void> _startFrom(bool Function(MessageTemplate) prefer) async {
+    _busy = true;
+    MessageTemplate? match;
+    try {
+      final templates =
+          await Injector.messageTemplatesRepository.getTemplates();
+      match = templates.where(prefer).firstOrNull;
+    } catch (_) {
+      // Without the templates the agent writes the greeting themselves.
+    }
+    if (!mounted) return;
+    setState(() {
+      _busy = false;
+      if (match != null && _text.text.isEmpty) {
+        _template = match;
+        _fill();
+      }
+    });
+  }
 
   @override
   void dispose() {

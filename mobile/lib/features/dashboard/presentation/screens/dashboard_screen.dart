@@ -11,6 +11,9 @@ import 'package:real_estate_crm/core/utils/contact_actions.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_state.dart';
+import 'package:real_estate_crm/features/clients/domain/repositories/client_dates_repository.dart';
+import 'package:real_estate_crm/features/clients/presentation/bloc/client_dates_bloc.dart';
+import 'package:real_estate_crm/features/clients/presentation/bloc/client_dates_event.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/cold_clients_bloc.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/cold_clients_event.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/bloc/dashboard_bloc.dart';
@@ -18,6 +21,7 @@ import 'package:real_estate_crm/features/dashboard/presentation/bloc/dashboard_e
 import 'package:real_estate_crm/features/dashboard/presentation/bloc/dashboard_state.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/attention_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/dashboard_hero.dart';
+import 'package:real_estate_crm/features/dashboard/presentation/widgets/dates_this_week_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/goal_ring_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/going_cold_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/mandates_ending_card.dart';
@@ -47,6 +51,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final _cold =
       ColdClientsBloc(Injector.coldClientsRepository, Injector.tasksRepository);
   final _mandates = MandatesBloc(Injector.propertiesRepository);
+  final _dates = ClientDatesBloc(Injector.clientDatesRepository,
+      days: ClientDatesRepository.weekDays);
 
   @override
   void initState() {
@@ -55,6 +61,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     _tasks.add(TasksLoadEvent());
     _cold.add(ColdClientsLoadEvent());
     _mandates.add(MandatesLoadEvent());
+    _dates.add(ClientDatesLoadEvent());
   }
 
   @override
@@ -62,6 +69,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     _tasks.close();
     _cold.close();
     _mandates.close();
+    _dates.close();
     super.dispose();
   }
 
@@ -111,6 +119,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         BlocProvider.value(value: _tasks),
         BlocProvider.value(value: _cold),
         BlocProvider.value(value: _mandates),
+        BlocProvider.value(value: _dates),
       ],
       child: Scaffold(
         body: SafeArea(
@@ -122,6 +131,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 _tasks.add(TasksLoadEvent());
                 _cold.add(ColdClientsLoadEvent());
                 _mandates.add(MandatesLoadEvent());
+                _dates.add(ClientDatesLoadEvent());
               },
               color: t.primary,
               child: AppMetrics.constrain(
@@ -214,6 +224,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
       ],
       SizedBox(height: gap),
       TodayTasksCard(onSeeAll: () => context.push('/tasks')),
+      DatesThisWeekCard(
+        topGap: gap,
+        onSeeAll: () => context.push('/clients/dates'),
+      ),
       GoingColdCard(
         topGap: gap,
         total: state.summary.coldCount,

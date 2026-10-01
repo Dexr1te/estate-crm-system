@@ -44,10 +44,10 @@ class CsvExportTest extends CsvExportFixture {
         String text = text("clients", "lang", "ru", "search", "Бекова");
 
         assertThat(text).startsWith("ФИО;Телефон;Email;Тип;Агент;Город;Тип недвижимости;Бюджет от;"
-                + "Бюджет до;Комнаты;Площадь;Примечание;Теги;Источник;Создан\r\n");
+                + "Бюджет до;Комнаты;Площадь;Примечание;Теги;День рождения;Источник;Создан\r\n");
         assertThat(text).contains("Бекова Айгерим;+77011112233;aigerim@mail.kz;Покупатель;Arman Agent;"
                 + "Алматы;Квартира;30000000;45000000,5;2;55,5;"
-                + "\"Звонить после 18:00; \"\"срочно\"\", 2 комнаты\nлучше центр\";;С публичной ссылки;");
+                + "\"Звонить после 18:00; \"\"срочно\"\", 2 комнаты\nлучше центр\";;--05-14;С публичной ссылки;");
         assertThat(text).matches("(?s).*;\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}\r\n$");
         // The only bare LF is the one inside the quoted note.
         assertThat(text.replace("\r\n", "").chars().filter(c -> c == '\n').count()).isEqualTo(1);
@@ -59,7 +59,7 @@ class CsvExportTest extends CsvExportFixture {
         signIn(manager);
         assertThat(text("clients", "search", "Бекова")).startsWith(
                 "Full name,Phone,Email,Type,Agent,City,Property type,Budget from,Budget to,Rooms,"
-                        + "Area,Notes,Tags,Source,Created\r\n")
+                        + "Area,Notes,Tags,Birthday,Source,Created\r\n")
                 .contains(",Buyer,", ",45000000.5,", ",Public link,",
                         "\"Звонить после 18:00; \"\"срочно\"\", 2 комнаты\nлучше центр\"");
         assertThat(text("clients", "lang", "en", "delimiter", "semicolon")).startsWith("Full name;Phone;");

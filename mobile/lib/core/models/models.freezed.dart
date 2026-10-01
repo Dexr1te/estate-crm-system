@@ -395,6 +395,10 @@ mixin _$ClientResponse {
   /// The agency's tags on this client, in name order.
   List<String> get tags => throw _privateConstructorUsedError;
 
+  /// `1990-05-14`, or `--05-14` when the year is not known. Read it
+  /// through `ClientBirthday.parse`.
+  String? get birthday => throw _privateConstructorUsedError;
+
   /// Serializes this ClientResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
@@ -429,7 +433,8 @@ abstract class $ClientResponseCopyWith<$Res> {
       double? budgetMax,
       int? minRooms,
       double? minAreaSqm,
-      List<String> tags});
+      List<String> tags,
+      String? birthday});
 }
 
 /// @nodoc
@@ -465,6 +470,7 @@ class _$ClientResponseCopyWithImpl<$Res, $Val extends ClientResponse>
     Object? minRooms = freezed,
     Object? minAreaSqm = freezed,
     Object? tags = null,
+    Object? birthday = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -539,6 +545,10 @@ class _$ClientResponseCopyWithImpl<$Res, $Val extends ClientResponse>
           ? _value.tags
           : tags // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      birthday: freezed == birthday
+          ? _value.birthday
+          : birthday // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -569,7 +579,8 @@ abstract class _$$ClientResponseImplCopyWith<$Res>
       double? budgetMax,
       int? minRooms,
       double? minAreaSqm,
-      List<String> tags});
+      List<String> tags,
+      String? birthday});
 }
 
 /// @nodoc
@@ -603,6 +614,7 @@ class __$$ClientResponseImplCopyWithImpl<$Res>
     Object? minRooms = freezed,
     Object? minAreaSqm = freezed,
     Object? tags = null,
+    Object? birthday = freezed,
   }) {
     return _then(_$ClientResponseImpl(
       id: null == id
@@ -677,6 +689,10 @@ class __$$ClientResponseImplCopyWithImpl<$Res>
           ? _value._tags
           : tags // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      birthday: freezed == birthday
+          ? _value.birthday
+          : birthday // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -703,7 +719,8 @@ class _$ClientResponseImpl implements _ClientResponse {
       this.budgetMax,
       this.minRooms,
       this.minAreaSqm,
-      final List<String> tags = const <String>[]})
+      final List<String> tags = const <String>[],
+      this.birthday})
       : _tags = tags;
 
   factory _$ClientResponseImpl.fromJson(Map<String, dynamic> json) =>
@@ -759,9 +776,14 @@ class _$ClientResponseImpl implements _ClientResponse {
     return EqualUnmodifiableListView(_tags);
   }
 
+  /// `1990-05-14`, or `--05-14` when the year is not known. Read it
+  /// through `ClientBirthday.parse`.
+  @override
+  final String? birthday;
+
   @override
   String toString() {
-    return 'ClientResponse(id: $id, fullName: $fullName, email: $email, phone: $phone, type: $type, source: $source, notes: $notes, agentId: $agentId, agentName: $agentName, createdAt: $createdAt, updatedAt: $updatedAt, wantedType: $wantedType, wantedCity: $wantedCity, budgetMin: $budgetMin, budgetMax: $budgetMax, minRooms: $minRooms, minAreaSqm: $minAreaSqm, tags: $tags)';
+    return 'ClientResponse(id: $id, fullName: $fullName, email: $email, phone: $phone, type: $type, source: $source, notes: $notes, agentId: $agentId, agentName: $agentName, createdAt: $createdAt, updatedAt: $updatedAt, wantedType: $wantedType, wantedCity: $wantedCity, budgetMin: $budgetMin, budgetMax: $budgetMax, minRooms: $minRooms, minAreaSqm: $minAreaSqm, tags: $tags, birthday: $birthday)';
   }
 
   @override
@@ -796,31 +818,35 @@ class _$ClientResponseImpl implements _ClientResponse {
                 other.minRooms == minRooms) &&
             (identical(other.minAreaSqm, minAreaSqm) ||
                 other.minAreaSqm == minAreaSqm) &&
-            const DeepCollectionEquality().equals(other._tags, _tags));
+            const DeepCollectionEquality().equals(other._tags, _tags) &&
+            (identical(other.birthday, birthday) ||
+                other.birthday == birthday));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      fullName,
-      email,
-      phone,
-      type,
-      source,
-      notes,
-      agentId,
-      agentName,
-      createdAt,
-      updatedAt,
-      wantedType,
-      wantedCity,
-      budgetMin,
-      budgetMax,
-      minRooms,
-      minAreaSqm,
-      const DeepCollectionEquality().hash(_tags));
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        id,
+        fullName,
+        email,
+        phone,
+        type,
+        source,
+        notes,
+        agentId,
+        agentName,
+        createdAt,
+        updatedAt,
+        wantedType,
+        wantedCity,
+        budgetMin,
+        budgetMax,
+        minRooms,
+        minAreaSqm,
+        const DeepCollectionEquality().hash(_tags),
+        birthday
+      ]);
 
   /// Create a copy of ClientResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -858,7 +884,8 @@ abstract class _ClientResponse implements ClientResponse {
       final double? budgetMax,
       final int? minRooms,
       final double? minAreaSqm,
-      final List<String> tags}) = _$ClientResponseImpl;
+      final List<String> tags,
+      final String? birthday}) = _$ClientResponseImpl;
 
   factory _ClientResponse.fromJson(Map<String, dynamic> json) =
       _$ClientResponseImpl.fromJson;
@@ -902,6 +929,11 @@ abstract class _ClientResponse implements ClientResponse {
   /// The agency's tags on this client, in name order.
   @override
   List<String> get tags;
+
+  /// `1990-05-14`, or `--05-14` when the year is not known. Read it
+  /// through `ClientBirthday.parse`.
+  @override
+  String? get birthday;
 
   /// Create a copy of ClientResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -11235,6 +11267,459 @@ abstract class _ColdClient extends ColdClient {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ColdClientImplCopyWith<_$ColdClientImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+UpcomingClientDate _$UpcomingClientDateFromJson(Map<String, dynamic> json) {
+  return _UpcomingClientDate.fromJson(json);
+}
+
+/// @nodoc
+mixin _$UpcomingClientDate {
+  @JsonKey(unknownEnumValue: ClientDateKind.unknown)
+  ClientDateKind get kind => throw _privateConstructorUsedError;
+
+  /// The day it falls on this time; 29 February is the 28th in a common
+  /// year.
+  DateTime get date => throw _privateConstructorUsedError;
+
+  /// 0 today, 1 tomorrow.
+  int get daysAway => throw _privateConstructorUsedError;
+
+  /// The age the client turns, or the years since the deal was won. Null
+  /// for a birthday whose year is not known.
+  int? get years => throw _privateConstructorUsedError;
+  int get clientId => throw _privateConstructorUsedError;
+  String get clientName => throw _privateConstructorUsedError;
+  String? get phone => throw _privateConstructorUsedError;
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  ClientType? get clientType => throw _privateConstructorUsedError;
+  int? get agentId => throw _privateConstructorUsedError;
+  String? get agentName => throw _privateConstructorUsedError;
+  int? get dealId => throw _privateConstructorUsedError;
+  String? get dealTitle => throw _privateConstructorUsedError;
+  String? get propertyTitle => throw _privateConstructorUsedError;
+
+  /// Serializes this UpcomingClientDate to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of UpcomingClientDate
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $UpcomingClientDateCopyWith<UpcomingClientDate> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $UpcomingClientDateCopyWith<$Res> {
+  factory $UpcomingClientDateCopyWith(
+          UpcomingClientDate value, $Res Function(UpcomingClientDate) then) =
+      _$UpcomingClientDateCopyWithImpl<$Res, UpcomingClientDate>;
+  @useResult
+  $Res call(
+      {@JsonKey(unknownEnumValue: ClientDateKind.unknown) ClientDateKind kind,
+      DateTime date,
+      int daysAway,
+      int? years,
+      int clientId,
+      String clientName,
+      String? phone,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      ClientType? clientType,
+      int? agentId,
+      String? agentName,
+      int? dealId,
+      String? dealTitle,
+      String? propertyTitle});
+}
+
+/// @nodoc
+class _$UpcomingClientDateCopyWithImpl<$Res, $Val extends UpcomingClientDate>
+    implements $UpcomingClientDateCopyWith<$Res> {
+  _$UpcomingClientDateCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of UpcomingClientDate
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? kind = null,
+    Object? date = null,
+    Object? daysAway = null,
+    Object? years = freezed,
+    Object? clientId = null,
+    Object? clientName = null,
+    Object? phone = freezed,
+    Object? clientType = freezed,
+    Object? agentId = freezed,
+    Object? agentName = freezed,
+    Object? dealId = freezed,
+    Object? dealTitle = freezed,
+    Object? propertyTitle = freezed,
+  }) {
+    return _then(_value.copyWith(
+      kind: null == kind
+          ? _value.kind
+          : kind // ignore: cast_nullable_to_non_nullable
+              as ClientDateKind,
+      date: null == date
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      daysAway: null == daysAway
+          ? _value.daysAway
+          : daysAway // ignore: cast_nullable_to_non_nullable
+              as int,
+      years: freezed == years
+          ? _value.years
+          : years // ignore: cast_nullable_to_non_nullable
+              as int?,
+      clientId: null == clientId
+          ? _value.clientId
+          : clientId // ignore: cast_nullable_to_non_nullable
+              as int,
+      clientName: null == clientName
+          ? _value.clientName
+          : clientName // ignore: cast_nullable_to_non_nullable
+              as String,
+      phone: freezed == phone
+          ? _value.phone
+          : phone // ignore: cast_nullable_to_non_nullable
+              as String?,
+      clientType: freezed == clientType
+          ? _value.clientType
+          : clientType // ignore: cast_nullable_to_non_nullable
+              as ClientType?,
+      agentId: freezed == agentId
+          ? _value.agentId
+          : agentId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      agentName: freezed == agentName
+          ? _value.agentName
+          : agentName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      dealId: freezed == dealId
+          ? _value.dealId
+          : dealId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      dealTitle: freezed == dealTitle
+          ? _value.dealTitle
+          : dealTitle // ignore: cast_nullable_to_non_nullable
+              as String?,
+      propertyTitle: freezed == propertyTitle
+          ? _value.propertyTitle
+          : propertyTitle // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$UpcomingClientDateImplCopyWith<$Res>
+    implements $UpcomingClientDateCopyWith<$Res> {
+  factory _$$UpcomingClientDateImplCopyWith(_$UpcomingClientDateImpl value,
+          $Res Function(_$UpcomingClientDateImpl) then) =
+      __$$UpcomingClientDateImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(unknownEnumValue: ClientDateKind.unknown) ClientDateKind kind,
+      DateTime date,
+      int daysAway,
+      int? years,
+      int clientId,
+      String clientName,
+      String? phone,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      ClientType? clientType,
+      int? agentId,
+      String? agentName,
+      int? dealId,
+      String? dealTitle,
+      String? propertyTitle});
+}
+
+/// @nodoc
+class __$$UpcomingClientDateImplCopyWithImpl<$Res>
+    extends _$UpcomingClientDateCopyWithImpl<$Res, _$UpcomingClientDateImpl>
+    implements _$$UpcomingClientDateImplCopyWith<$Res> {
+  __$$UpcomingClientDateImplCopyWithImpl(_$UpcomingClientDateImpl _value,
+      $Res Function(_$UpcomingClientDateImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of UpcomingClientDate
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? kind = null,
+    Object? date = null,
+    Object? daysAway = null,
+    Object? years = freezed,
+    Object? clientId = null,
+    Object? clientName = null,
+    Object? phone = freezed,
+    Object? clientType = freezed,
+    Object? agentId = freezed,
+    Object? agentName = freezed,
+    Object? dealId = freezed,
+    Object? dealTitle = freezed,
+    Object? propertyTitle = freezed,
+  }) {
+    return _then(_$UpcomingClientDateImpl(
+      kind: null == kind
+          ? _value.kind
+          : kind // ignore: cast_nullable_to_non_nullable
+              as ClientDateKind,
+      date: null == date
+          ? _value.date
+          : date // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      daysAway: null == daysAway
+          ? _value.daysAway
+          : daysAway // ignore: cast_nullable_to_non_nullable
+              as int,
+      years: freezed == years
+          ? _value.years
+          : years // ignore: cast_nullable_to_non_nullable
+              as int?,
+      clientId: null == clientId
+          ? _value.clientId
+          : clientId // ignore: cast_nullable_to_non_nullable
+              as int,
+      clientName: null == clientName
+          ? _value.clientName
+          : clientName // ignore: cast_nullable_to_non_nullable
+              as String,
+      phone: freezed == phone
+          ? _value.phone
+          : phone // ignore: cast_nullable_to_non_nullable
+              as String?,
+      clientType: freezed == clientType
+          ? _value.clientType
+          : clientType // ignore: cast_nullable_to_non_nullable
+              as ClientType?,
+      agentId: freezed == agentId
+          ? _value.agentId
+          : agentId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      agentName: freezed == agentName
+          ? _value.agentName
+          : agentName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      dealId: freezed == dealId
+          ? _value.dealId
+          : dealId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      dealTitle: freezed == dealTitle
+          ? _value.dealTitle
+          : dealTitle // ignore: cast_nullable_to_non_nullable
+              as String?,
+      propertyTitle: freezed == propertyTitle
+          ? _value.propertyTitle
+          : propertyTitle // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$UpcomingClientDateImpl implements _UpcomingClientDate {
+  const _$UpcomingClientDateImpl(
+      {@JsonKey(unknownEnumValue: ClientDateKind.unknown)
+      this.kind = ClientDateKind.unknown,
+      required this.date,
+      this.daysAway = 0,
+      this.years,
+      required this.clientId,
+      this.clientName = '',
+      this.phone,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      this.clientType,
+      this.agentId,
+      this.agentName,
+      this.dealId,
+      this.dealTitle,
+      this.propertyTitle});
+
+  factory _$UpcomingClientDateImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UpcomingClientDateImplFromJson(json);
+
+  @override
+  @JsonKey(unknownEnumValue: ClientDateKind.unknown)
+  final ClientDateKind kind;
+
+  /// The day it falls on this time; 29 February is the 28th in a common
+  /// year.
+  @override
+  final DateTime date;
+
+  /// 0 today, 1 tomorrow.
+  @override
+  @JsonKey()
+  final int daysAway;
+
+  /// The age the client turns, or the years since the deal was won. Null
+  /// for a birthday whose year is not known.
+  @override
+  final int? years;
+  @override
+  final int clientId;
+  @override
+  @JsonKey()
+  final String clientName;
+  @override
+  final String? phone;
+  @override
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  final ClientType? clientType;
+  @override
+  final int? agentId;
+  @override
+  final String? agentName;
+  @override
+  final int? dealId;
+  @override
+  final String? dealTitle;
+  @override
+  final String? propertyTitle;
+
+  @override
+  String toString() {
+    return 'UpcomingClientDate(kind: $kind, date: $date, daysAway: $daysAway, years: $years, clientId: $clientId, clientName: $clientName, phone: $phone, clientType: $clientType, agentId: $agentId, agentName: $agentName, dealId: $dealId, dealTitle: $dealTitle, propertyTitle: $propertyTitle)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$UpcomingClientDateImpl &&
+            (identical(other.kind, kind) || other.kind == kind) &&
+            (identical(other.date, date) || other.date == date) &&
+            (identical(other.daysAway, daysAway) ||
+                other.daysAway == daysAway) &&
+            (identical(other.years, years) || other.years == years) &&
+            (identical(other.clientId, clientId) ||
+                other.clientId == clientId) &&
+            (identical(other.clientName, clientName) ||
+                other.clientName == clientName) &&
+            (identical(other.phone, phone) || other.phone == phone) &&
+            (identical(other.clientType, clientType) ||
+                other.clientType == clientType) &&
+            (identical(other.agentId, agentId) || other.agentId == agentId) &&
+            (identical(other.agentName, agentName) ||
+                other.agentName == agentName) &&
+            (identical(other.dealId, dealId) || other.dealId == dealId) &&
+            (identical(other.dealTitle, dealTitle) ||
+                other.dealTitle == dealTitle) &&
+            (identical(other.propertyTitle, propertyTitle) ||
+                other.propertyTitle == propertyTitle));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      kind,
+      date,
+      daysAway,
+      years,
+      clientId,
+      clientName,
+      phone,
+      clientType,
+      agentId,
+      agentName,
+      dealId,
+      dealTitle,
+      propertyTitle);
+
+  /// Create a copy of UpcomingClientDate
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$UpcomingClientDateImplCopyWith<_$UpcomingClientDateImpl> get copyWith =>
+      __$$UpcomingClientDateImplCopyWithImpl<_$UpcomingClientDateImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$UpcomingClientDateImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _UpcomingClientDate implements UpcomingClientDate {
+  const factory _UpcomingClientDate(
+      {@JsonKey(unknownEnumValue: ClientDateKind.unknown)
+      final ClientDateKind kind,
+      required final DateTime date,
+      final int daysAway,
+      final int? years,
+      required final int clientId,
+      final String clientName,
+      final String? phone,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      final ClientType? clientType,
+      final int? agentId,
+      final String? agentName,
+      final int? dealId,
+      final String? dealTitle,
+      final String? propertyTitle}) = _$UpcomingClientDateImpl;
+
+  factory _UpcomingClientDate.fromJson(Map<String, dynamic> json) =
+      _$UpcomingClientDateImpl.fromJson;
+
+  @override
+  @JsonKey(unknownEnumValue: ClientDateKind.unknown)
+  ClientDateKind get kind;
+
+  /// The day it falls on this time; 29 February is the 28th in a common
+  /// year.
+  @override
+  DateTime get date;
+
+  /// 0 today, 1 tomorrow.
+  @override
+  int get daysAway;
+
+  /// The age the client turns, or the years since the deal was won. Null
+  /// for a birthday whose year is not known.
+  @override
+  int? get years;
+  @override
+  int get clientId;
+  @override
+  String get clientName;
+  @override
+  String? get phone;
+  @override
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  ClientType? get clientType;
+  @override
+  int? get agentId;
+  @override
+  String? get agentName;
+  @override
+  int? get dealId;
+  @override
+  String? get dealTitle;
+  @override
+  String? get propertyTitle;
+
+  /// Create a copy of UpcomingClientDate
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$UpcomingClientDateImplCopyWith<_$UpcomingClientDateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

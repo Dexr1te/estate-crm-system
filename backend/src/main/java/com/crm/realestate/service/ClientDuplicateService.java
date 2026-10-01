@@ -165,6 +165,9 @@ public class ClientDuplicateService {
                 .budgetMax(source.getBudgetMax())
                 .minRooms(source.getMinRooms())
                 .minAreaSqm(source.getMinAreaSqm())
+                .birthMonth(source.getBirthMonth())
+                .birthDay(source.getBirthDay())
+                .birthYear(source.getBirthYear())
                 .build();
     }
 
@@ -183,6 +186,10 @@ public class ClientDuplicateService {
             target.setNotes(isBlank(target.getNotes())
                     ? source.getNotes()
                     : target.getNotes().stripTrailing() + "\n\n" + source.getNotes().strip());
+        }
+        ClientBirthday birthday = ClientBirthday.of(source);
+        if (ClientBirthday.of(target) == null && birthday != null) {
+            birthday.applyTo(target);
         }
         if (target.getType() != ClientType.BUYER) {
             return;

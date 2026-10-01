@@ -22,6 +22,7 @@ String importFieldLabel(AppLocalizations l10n, ImportKind kind, String field) =>
       'minRooms' => l10n.importFieldMinRooms,
       'minAreaSqm' => l10n.importFieldMinArea,
       'tags' => l10n.importFieldTags,
+      'birthday' => l10n.importFieldBirthday,
       'title' => l10n.importFieldTitle,
       'address' => l10n.importFieldAddress,
       'city' => l10n.importFieldCity,
@@ -43,6 +44,7 @@ String importErrorLabel(AppLocalizations l10n, String code) => switch (code) {
       'UNKNOWN_VALUE' => l10n.importErrorUnknownValue,
       'TOO_LONG' => l10n.importErrorTooLong,
       'NEGATIVE' => l10n.importErrorNegative,
+      'INVALID_DATE' => l10n.importErrorInvalidDate,
       _ => l10n.importErrorOutOfRange,
     };
 

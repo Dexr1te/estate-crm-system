@@ -690,6 +690,35 @@ class AppLocalizationsRu extends AppLocalizations {
   String get clientsAnyType => 'Любой';
 
   @override
+  String get clientsBirthday => 'День рождения';
+
+  @override
+  String clientsBirthdayAge(int age) {
+    String _temp0 = intl.Intl.pluralLogic(
+      age,
+      locale: localeName,
+      other: '$age года',
+      many: '$age лет',
+      few: '$age года',
+      one: '$age год',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clientsBirthdayClear => 'Убрать день рождения';
+
+  @override
+  String get clientsBirthdayHint =>
+      'Если год неизвестен, сохраняются только день и месяц.';
+
+  @override
+  String get clientsBirthdayNoYear => 'Год неизвестен';
+
+  @override
+  String get clientsBirthdayPick => 'Выбрать дату';
+
+  @override
   String get clientsBudgetFrom => 'Бюджет от';
 
   @override
@@ -917,6 +946,67 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get clientsCreateClient => 'Создать клиента';
+
+  @override
+  String clientsDatesAnniversary(int years) {
+    String _temp0 = intl.Intl.pluralLogic(
+      years,
+      locale: localeName,
+      other: '$years года с покупки',
+      many: '$years лет с покупки',
+      few: '$years года с покупки',
+      one: '$years год с покупки',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clientsDatesBirthday => 'День рождения';
+
+  @override
+  String get clientsDatesEmpty => 'В ближайшие две недели дат нет';
+
+  @override
+  String get clientsDatesEmptyHint =>
+      'Добавьте день рождения в карточке клиента. Годовщина выигранной сделки появляется здесь каждый год сама.';
+
+  @override
+  String get clientsDatesGreet => 'Поздравить';
+
+  @override
+  String clientsDatesInDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Через $count дня',
+      many: 'Через $count дней',
+      few: 'Через $count дня',
+      one: 'Через $count день',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clientsDatesLoadFailed => 'Не удалось загрузить ближайшие даты';
+
+  @override
+  String get clientsDatesTitle => 'Ближайшие даты';
+
+  @override
+  String get clientsDatesToday => 'Сегодня';
+
+  @override
+  String get clientsDatesTomorrow => 'Завтра';
+
+  @override
+  String clientsDatesTurns(int years) {
+    return 'День рождения, исполняется $years';
+  }
+
+  @override
+  String clientsDatesWhen(String when, String date) {
+    return '$when · $date';
+  }
 
   @override
   String clientsDealCount(num count) {
@@ -1589,6 +1679,14 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String dashboardDateSummary(Object date) {
     return '$date · сводка команды';
+  }
+
+  @override
+  String get dashboardDatesTitle => 'Даты на этой неделе';
+
+  @override
+  String dashboardDatesTotal(int count) {
+    return '$count на неделе';
   }
 
   @override
@@ -2366,6 +2464,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get importEntrySubtitle => 'Клиенты и объекты из Excel или другой CRM';
 
   @override
+  String get importErrorInvalidDate => 'Не дата';
+
+  @override
   String get importErrorInvalidEmail => 'Неверный email';
 
   @override
@@ -2394,6 +2495,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get importFieldArea => 'Площадь';
+
+  @override
+  String get importFieldBirthday => 'День рождения';
 
   @override
   String get importFieldBudgetMax => 'Бюджет до';
@@ -3163,6 +3267,11 @@ class AppLocalizationsRu extends AppLocalizations {
   String get msgUserDeleted => 'Пользователь удалён';
 
   @override
+  String notificationsClientBirthday(String name) {
+    return 'Сегодня день рождения у клиента $name';
+  }
+
+  @override
   String notificationsCountClients(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -3309,6 +3418,19 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String notificationsPriceDrop(String oldPrice, String price, String title) {
     return '$title подешевел до $price, было $oldPrice';
+  }
+
+  @override
+  String notificationsPurchaseAnniversary(String name, int years) {
+    String _temp0 = intl.Intl.pluralLogic(
+      years,
+      locale: localeName,
+      other: 'Сегодня $years года с покупки клиента $name',
+      many: 'Сегодня $years лет с покупки клиента $name',
+      few: 'Сегодня $years года с покупки клиента $name',
+      one: 'Сегодня $years год с покупки клиента $name',
+    );
+    return '$_temp0';
   }
 
   @override

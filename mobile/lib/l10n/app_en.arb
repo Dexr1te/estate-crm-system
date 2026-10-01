@@ -238,6 +238,19 @@
   "clientsAgent": "Agent",
   "clientsAgentMeta": "agent {name}",
   "clientsAnyType": "Any",
+  "clientsBirthday": "Birthday",
+  "clientsBirthdayAge": "{age} years old",
+  "@clientsBirthdayAge": {
+    "placeholders": {
+      "age": {
+        "type": "int"
+      }
+    }
+  },
+  "clientsBirthdayClear": "Remove birthday",
+  "clientsBirthdayHint": "With the year unknown, only the day and month are kept.",
+  "clientsBirthdayNoYear": "Year unknown",
+  "clientsBirthdayPick": "Choose a date",
   "clientsBudgetFrom": "Budget from",
   "clientsBudgetTo": "Budget to",
   "clientsBuyer": "Buyer",
@@ -353,6 +366,49 @@
   "clientsContactedYesterday": "Contacted yesterday",
   "clientsCounter": "{total} total · {active} in progress",
   "clientsCreateClient": "Create Client",
+  "clientsDatesAnniversary": "{years, plural, one{{years} year since the purchase} other{{years} years since the purchase}}",
+  "@clientsDatesAnniversary": {
+    "placeholders": {
+      "years": {
+        "type": "int"
+      }
+    }
+  },
+  "clientsDatesBirthday": "Birthday",
+  "clientsDatesEmpty": "No dates in the next two weeks",
+  "clientsDatesEmptyHint": "Add a client's birthday on their card. A won deal's anniversary shows up here every year on its own.",
+  "clientsDatesGreet": "Greet",
+  "clientsDatesInDays": "{count, plural, one{In {count} day} other{In {count} days}}",
+  "@clientsDatesInDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "clientsDatesLoadFailed": "Couldn't load the dates coming up",
+  "clientsDatesTitle": "Dates coming up",
+  "clientsDatesToday": "Today",
+  "clientsDatesTomorrow": "Tomorrow",
+  "clientsDatesTurns": "Birthday, turns {years}",
+  "@clientsDatesTurns": {
+    "placeholders": {
+      "years": {
+        "type": "int"
+      }
+    }
+  },
+  "clientsDatesWhen": "{when} · {date}",
+  "@clientsDatesWhen": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "clientsDealCount": "{count, plural, =1{1 deal} other{{count} deals}}",
   "clientsDeals": "Deals",
   "clientsDelete": "Delete",
@@ -628,6 +684,15 @@
   },
   "dashboardConversion": "Conversion",
   "dashboardDateSummary": "{date} · team overview",
+  "dashboardDatesTitle": "Dates this week",
+  "dashboardDatesTotal": "{count} this week",
+  "@dashboardDatesTotal": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "dashboardGoalClear": "Remove target",
   "dashboardGoalCommission": "Commission this month: {amount}",
   "dashboardGoalEyebrow": "TARGET",
@@ -915,6 +980,7 @@
   },
   "importEmptyFile": "The file is empty",
   "importEntrySubtitle": "Clients and listings from Excel or another CRM",
+  "importErrorInvalidDate": "Not a date",
   "importErrorInvalidEmail": "Not an email address",
   "importErrorInvalidNumber": "Not a number",
   "importErrorInvalidPhone": "Not a phone number",
@@ -925,6 +991,7 @@
   "importErrorUnknownValue": "Unknown value",
   "importFieldAddress": "Address",
   "importFieldArea": "Area",
+  "importFieldBirthday": "Birthday",
   "importFieldBudgetMax": "Budget to",
   "importFieldBudgetMin": "Budget from",
   "importFieldCity": "City",
@@ -1294,6 +1361,14 @@
   "msgUserActivated": "User activated",
   "msgUserDeactivated": "User deactivated",
   "msgUserDeleted": "User deleted",
+  "notificationsClientBirthday": "It's {name}'s birthday today",
+  "@notificationsClientBirthday": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "notificationsCountClients": "{count, plural, =1{1 client} other{{count} clients}}",
   "@notificationsCountClients": {
     "placeholders": {
@@ -1459,6 +1534,17 @@
       },
       "title": {
         "type": "String"
+      }
+    }
+  },
+  "notificationsPurchaseAnniversary": "{years, plural, one{A year today since {name}'s purchase} other{{years} years today since {name}'s purchase}}",
+  "@notificationsPurchaseAnniversary": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "years": {
+        "type": "int"
       }
     }
   },

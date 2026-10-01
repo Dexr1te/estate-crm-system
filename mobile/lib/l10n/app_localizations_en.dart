@@ -687,6 +687,27 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clientsAnyType => 'Any';
 
   @override
+  String get clientsBirthday => 'Birthday';
+
+  @override
+  String clientsBirthdayAge(int age) {
+    return '$age years old';
+  }
+
+  @override
+  String get clientsBirthdayClear => 'Remove birthday';
+
+  @override
+  String get clientsBirthdayHint =>
+      'With the year unknown, only the day and month are kept.';
+
+  @override
+  String get clientsBirthdayNoYear => 'Year unknown';
+
+  @override
+  String get clientsBirthdayPick => 'Choose a date';
+
+  @override
   String get clientsBudgetFrom => 'Budget from';
 
   @override
@@ -902,6 +923,63 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get clientsCreateClient => 'Create Client';
+
+  @override
+  String clientsDatesAnniversary(int years) {
+    String _temp0 = intl.Intl.pluralLogic(
+      years,
+      locale: localeName,
+      other: '$years years since the purchase',
+      one: '$years year since the purchase',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clientsDatesBirthday => 'Birthday';
+
+  @override
+  String get clientsDatesEmpty => 'No dates in the next two weeks';
+
+  @override
+  String get clientsDatesEmptyHint =>
+      'Add a client\'s birthday on their card. A won deal\'s anniversary shows up here every year on its own.';
+
+  @override
+  String get clientsDatesGreet => 'Greet';
+
+  @override
+  String clientsDatesInDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'In $count days',
+      one: 'In $count day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clientsDatesLoadFailed => 'Couldn\'t load the dates coming up';
+
+  @override
+  String get clientsDatesTitle => 'Dates coming up';
+
+  @override
+  String get clientsDatesToday => 'Today';
+
+  @override
+  String get clientsDatesTomorrow => 'Tomorrow';
+
+  @override
+  String clientsDatesTurns(int years) {
+    return 'Birthday, turns $years';
+  }
+
+  @override
+  String clientsDatesWhen(String when, String date) {
+    return '$when · $date';
+  }
 
   @override
   String clientsDealCount(num count) {
@@ -1567,6 +1645,14 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String dashboardDateSummary(Object date) {
     return '$date · team overview';
+  }
+
+  @override
+  String get dashboardDatesTitle => 'Dates this week';
+
+  @override
+  String dashboardDatesTotal(int count) {
+    return '$count this week';
   }
 
   @override
@@ -2329,6 +2415,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'Clients and listings from Excel or another CRM';
 
   @override
+  String get importErrorInvalidDate => 'Not a date';
+
+  @override
   String get importErrorInvalidEmail => 'Not an email address';
 
   @override
@@ -2357,6 +2446,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get importFieldArea => 'Area';
+
+  @override
+  String get importFieldBirthday => 'Birthday';
 
   @override
   String get importFieldBudgetMax => 'Budget to';
@@ -3121,6 +3213,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get msgUserDeleted => 'User deleted';
 
   @override
+  String notificationsClientBirthday(String name) {
+    return 'It\'s $name\'s birthday today';
+  }
+
+  @override
   String notificationsCountClients(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -3253,6 +3350,17 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String notificationsPriceDrop(String oldPrice, String price, String title) {
     return '$title is now $price, down from $oldPrice';
+  }
+
+  @override
+  String notificationsPurchaseAnniversary(String name, int years) {
+    String _temp0 = intl.Intl.pluralLogic(
+      years,
+      locale: localeName,
+      other: '$years years today since $name\'s purchase',
+      one: 'A year today since $name\'s purchase',
+    );
+    return '$_temp0';
   }
 
   @override

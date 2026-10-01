@@ -32,4 +32,7 @@ public class ClientResponse {
 
     /** The agency's tags on this client, in name order; empty when none. */
     private List<String> tags = new ArrayList<>();
+
+    /** {@code 1990-05-14}, {@code --05-14} when the year is not known, or null. */
+    private String birthday;
 }

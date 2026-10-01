@@ -9,8 +9,10 @@ import com.crm.realestate.dto.response.ClientListItem;
 import com.crm.realestate.dto.response.ClientResponse;
 import com.crm.realestate.dto.response.ColdClient;
 import com.crm.realestate.dto.response.PropertyMatch;
+import com.crm.realestate.dto.response.UpcomingClientDate;
 import com.crm.realestate.enums.ClientType;
 import com.crm.realestate.service.ClientActivityService;
+import com.crm.realestate.service.ClientDateService;
 import com.crm.realestate.service.ClientDuplicateService;
 import com.crm.realestate.service.ClientService;
 import com.crm.realestate.service.ClientTagService;
@@ -42,6 +44,7 @@ public class ClientController {
     private final ClientDuplicateService duplicateService;
     private final ColdClientService coldClientService;
     private final ClientTagService tagService;
+    private final ClientDateService dateService;
 
     @GetMapping
     @Operation(summary = "Get all clients (supports pagination, sorting, and filters). Backward-compatible: returns legacy list when no paging/filters provided.")
@@ -146,6 +149,18 @@ public class ClientController {
     public ResponseEntity<List<ColdClient>> cold(@RequestParam(required = false) Integer days,
                                                  @RequestParam(required = false) Integer limit) {
         return ResponseEntity.ok(coldClientService.list(days, limit));
+    }
+
+    @GetMapping("/upcoming-dates")
+    @Operation(summary = "Birthdays and purchase anniversaries in the next `days` (1-60, default 14) from `from` "
+            + "(the caller's today, default the server's), soonest first. An agent's own clients only; "
+            + "a manager's whole agency")
+    public ResponseEntity<List<UpcomingClientDate>> upcomingDates(
+            @RequestParam(required = false) Integer days,
+            @RequestParam(required = false)
+            @org.springframework.format.annotation.DateTimeFormat(iso = org.springframework.format.annotation.DateTimeFormat.ISO.DATE)
+            java.time.LocalDate from) {
+        return ResponseEntity.ok(dateService.upcoming(days, from));
     }
 
     @GetMapping("/duplicates")

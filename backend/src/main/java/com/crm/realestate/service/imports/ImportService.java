@@ -21,6 +21,7 @@ import com.crm.realestate.repository.PropertyRepository;
 import com.crm.realestate.repository.UserRepository;
 import com.crm.realestate.security.SecurityUtils;
 import com.crm.realestate.service.AuditLogService;
+import com.crm.realestate.service.ClientBirthday;
 import com.crm.realestate.service.ClientDuplicateService;
 import com.crm.realestate.service.ClientDuplicateService.ContactIndex;
 import com.crm.realestate.service.ClientDuplicateService.KnownClient;
@@ -203,6 +204,7 @@ public class ImportService {
                     value instanceof BigDecimal d ? d.toPlainString()
                             : value instanceof List<?> list ? list.stream().map(String::valueOf)
                                     .collect(java.util.stream.Collectors.joining(", "))
+                            : value instanceof ClientBirthday birthday ? birthday.format()
                             : String.valueOf(value)));
             return ImportPreviewResponse.Row.builder()
                     .row(checked.row.number())
@@ -347,6 +349,7 @@ public class ImportService {
             Map.entry("minRooms", new String[]{"Rooms", "Комнаты", "Бөлме саны"}),
             Map.entry("minAreaSqm", new String[]{"Area", "Площадь", "Аудан"}),
             Map.entry("tags", new String[]{"Tags", "Теги", "Тегтер"}),
+            Map.entry("birthday", new String[]{"Birthday", "День рождения", "Туған күн"}),
             Map.entry("title", new String[]{"Title", "Название", "Атауы"}),
             Map.entry("address", new String[]{"Address", "Адрес", "Мекенжай"}),
             Map.entry("city", new String[]{"City", "Город", "Қала"}),
@@ -406,7 +409,7 @@ public class ImportService {
     }
 
     private static Client toClient(ImportRow row, User agent, Team team) {
-        return Client.builder()
+        Client client = Client.builder()
                 .fullName(row.get(ImportField.CLIENT_FULL_NAME))
                 .phone(row.get(ImportField.CLIENT_PHONE))
                 .email(row.get(ImportField.CLIENT_EMAIL))
@@ -422,6 +425,11 @@ public class ImportService {
                 .agent(agent)
                 .team(team)
                 .build();
+        ClientBirthday birthday = row.get(ImportField.CLIENT_BIRTHDAY);
+        if (birthday != null) {
+            birthday.applyTo(client);
+        }
+        return client;
     }
 
     private static Property toProperty(ImportRow row, User agent, Team team) {

@@ -215,6 +215,14 @@ public class ClientService {
         client.setType(request.getType());
         client.setNotes(request.getNotes());
         applyRequirements(request, client);
+        if (request.getBirthday() != null) {
+            ClientBirthday birthday = ClientBirthday.parse(request.getBirthday(), LocalDate.now());
+            if (birthday == null) {
+                ClientBirthday.clear(client);
+            } else {
+                birthday.applyTo(client);
+            }
+        }
 
         if (scopeService.isAdmin(currentUser) && request.getAgentId() != null) {
             User agent = userRepository.findById(request.getAgentId())

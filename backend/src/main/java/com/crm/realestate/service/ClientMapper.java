@@ -40,6 +40,7 @@ public class ClientMapper {
                 .sorted(Comparator.comparing(ClientTag::getNameKey))
                 .map(ClientTag::getName)
                 .collect(Collectors.toCollection(ArrayList::new)));
+        res.setBirthday(ClientBirthday.format(client));
         if (client.getAgent() != null) {
             res.setAgentId(client.getAgent().getId());
             res.setAgentName(client.getAgent().getFullName());

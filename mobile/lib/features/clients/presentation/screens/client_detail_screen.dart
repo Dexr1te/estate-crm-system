@@ -6,9 +6,11 @@ import 'package:real_estate_crm/core/auth/role_context.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
+import 'package:real_estate_crm/core/utils/clock.dart';
 import 'package:real_estate_crm/core/utils/contact_actions.dart';
 import 'package:real_estate_crm/core/utils/contact_follow_up.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/features/clients/domain/client_birthday.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_bloc.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_event.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_state.dart';
@@ -548,6 +550,15 @@ class _IdentityCard extends StatelessWidget {
   }
 }
 
+/// "14 May 1990 · 36 years old", or "14 May" without a year.
+String _birthdayValue(
+    BuildContext context, AppLocalizations l10n, ClientBirthday birthday) {
+  final label = clientBirthdayLabel(
+      birthday, Localizations.localeOf(context).toLanguageTag());
+  final age = birthday.ageOn(AppClock.now());
+  return age == null ? label : '$label · ${l10n.clientsBirthdayAge(age)}';
+}
+
 class _ContactCard extends StatelessWidget {
   final ClientResponse client;
   final VoidCallback onCall;
@@ -573,6 +584,14 @@ class _ContactCard extends StatelessWidget {
           InfoRow(label: l10n.clientsPhone, value: client.phone ?? dash),
           const SizedBox(height: 10),
           InfoRow(label: l10n.clientsEmail, value: client.email ?? dash),
+          if (ClientBirthday.of(client) case final birthday?) ...[
+            const SizedBox(height: 10),
+            InfoRow(
+              key: const ValueKey('client-birthday-row'),
+              label: l10n.clientsBirthday,
+              value: _birthdayValue(context, l10n, birthday),
+            ),
+          ],
           const SizedBox(height: 10),
           InfoRow(label: l10n.clientsAgent, value: client.agentName ?? dash),
           const SizedBox(height: 14),

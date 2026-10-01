@@ -50,6 +50,9 @@ public enum ImportField {
     CLIENT_TAGS(ImportKind.CLIENTS, "tags", false,
             "tags", "tag", "labels", "label", "теги", "тег", "метки", "метка", "ярлыки", "тегтер",
             "белгілер", "белгі"),
+    CLIENT_BIRTHDAY(ImportKind.CLIENTS, "birthday", false,
+            "birthday", "date of birth", "birth date", "dob", "день рождения", "дата рождения",
+            "др", "туған күн", "туған күні", "туылған күні"),
 
     // Listings ----------------------------------------------------------------------------------
     PROPERTY_TITLE(ImportKind.PROPERTIES, "title", true,

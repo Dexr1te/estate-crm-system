@@ -7,6 +7,7 @@ import 'package:real_estate_crm/core/map/map_tiles.dart';
 import 'package:real_estate_crm/core/utils/money.dart';
 import 'package:real_estate_crm/features/app_lock/presentation/controller/app_lock_controller.dart';
 
+import 'client_dates_fixtures.dart';
 import 'fakes.dart';
 
 /// Every screen that shows a client or a deal now carries its tasks card, and
@@ -36,6 +37,8 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) async {
   Injector.clientsRepository = FakeClientsRepository();
   // The dashboard's going-cold card reads on its own too.
   Injector.coldClientsRepository = FakeColdClientsRepository();
+  // And the dashboard's dates-this-week card.
+  Injector.clientDatesRepository = FakeClientDatesRepository();
   Injector.propertiesRepository = FakePropertiesRepository(const []);
   Injector.dealsRepository = FakeDealsRepository(const []);
   Injector.meetingsRepository = FakeMeetingsRepository(const []);

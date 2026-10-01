@@ -6,9 +6,11 @@ import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/features/clients/domain/client_birthday.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_bloc.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_event.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_state.dart';
+import 'package:real_estate_crm/features/clients/presentation/widgets/client_birthday_field.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/client_tag_editor.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/duplicate_warning.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
@@ -39,6 +41,7 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
   List<String> _tags = const [];
   List<ClientTagUsage> _tagSuggestions = const [];
   PropertyType? _wantedType;
+  ClientBirthday? _birthday;
   bool _loading = false;
   bool _initLoading = false;
 
@@ -106,6 +109,7 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
         _type = c.type;
         _wantedType = c.wantedType;
         _tags = c.tags;
+        _birthday = ClientBirthday.of(c);
         _initLoading = false;
       });
     } catch (_) {
@@ -183,6 +187,8 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
       },
       // Always sent: an empty list is how the last tag is taken off.
       'tags': tags,
+      // Always sent too: an empty one takes the birthday off.
+      'birthday': _birthday?.toApi() ?? '',
     };
     if (widget.isEditing) {
       context
@@ -330,6 +336,10 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
                           duplicates: _duplicates,
                           onOpen: (d) => context.push('/clients/${d.id}'),
                         ),
+                      ClientBirthdayField(
+                        value: _birthday,
+                        onChanged: (v) => setState(() => _birthday = v),
+                      ),
                     ],
                   ),
                   if (_type == ClientType.BUYER)
