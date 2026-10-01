@@ -395,6 +395,11 @@ mixin _$ClientResponse {
   /// The agency's tags on this client, in name order.
   List<String> get tags => throw _privateConstructorUsedError;
 
+  /// How the client reached the agency; null when nobody recorded it.
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  LeadSource? get leadSource => throw _privateConstructorUsedError;
+  String? get leadSourceDetail => throw _privateConstructorUsedError;
+
   /// Serializes this ClientResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
@@ -429,7 +434,10 @@ abstract class $ClientResponseCopyWith<$Res> {
       double? budgetMax,
       int? minRooms,
       double? minAreaSqm,
-      List<String> tags});
+      List<String> tags,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      LeadSource? leadSource,
+      String? leadSourceDetail});
 }
 
 /// @nodoc
@@ -465,6 +473,8 @@ class _$ClientResponseCopyWithImpl<$Res, $Val extends ClientResponse>
     Object? minRooms = freezed,
     Object? minAreaSqm = freezed,
     Object? tags = null,
+    Object? leadSource = freezed,
+    Object? leadSourceDetail = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -539,6 +549,14 @@ class _$ClientResponseCopyWithImpl<$Res, $Val extends ClientResponse>
           ? _value.tags
           : tags // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      leadSource: freezed == leadSource
+          ? _value.leadSource
+          : leadSource // ignore: cast_nullable_to_non_nullable
+              as LeadSource?,
+      leadSourceDetail: freezed == leadSourceDetail
+          ? _value.leadSourceDetail
+          : leadSourceDetail // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -569,7 +587,10 @@ abstract class _$$ClientResponseImplCopyWith<$Res>
       double? budgetMax,
       int? minRooms,
       double? minAreaSqm,
-      List<String> tags});
+      List<String> tags,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      LeadSource? leadSource,
+      String? leadSourceDetail});
 }
 
 /// @nodoc
@@ -603,6 +624,8 @@ class __$$ClientResponseImplCopyWithImpl<$Res>
     Object? minRooms = freezed,
     Object? minAreaSqm = freezed,
     Object? tags = null,
+    Object? leadSource = freezed,
+    Object? leadSourceDetail = freezed,
   }) {
     return _then(_$ClientResponseImpl(
       id: null == id
@@ -677,6 +700,14 @@ class __$$ClientResponseImplCopyWithImpl<$Res>
           ? _value._tags
           : tags // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      leadSource: freezed == leadSource
+          ? _value.leadSource
+          : leadSource // ignore: cast_nullable_to_non_nullable
+              as LeadSource?,
+      leadSourceDetail: freezed == leadSourceDetail
+          ? _value.leadSourceDetail
+          : leadSourceDetail // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -703,7 +734,10 @@ class _$ClientResponseImpl implements _ClientResponse {
       this.budgetMax,
       this.minRooms,
       this.minAreaSqm,
-      final List<String> tags = const <String>[]})
+      final List<String> tags = const <String>[],
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      this.leadSource,
+      this.leadSourceDetail})
       : _tags = tags;
 
   factory _$ClientResponseImpl.fromJson(Map<String, dynamic> json) =>
@@ -759,9 +793,16 @@ class _$ClientResponseImpl implements _ClientResponse {
     return EqualUnmodifiableListView(_tags);
   }
 
+  /// How the client reached the agency; null when nobody recorded it.
+  @override
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  final LeadSource? leadSource;
+  @override
+  final String? leadSourceDetail;
+
   @override
   String toString() {
-    return 'ClientResponse(id: $id, fullName: $fullName, email: $email, phone: $phone, type: $type, source: $source, notes: $notes, agentId: $agentId, agentName: $agentName, createdAt: $createdAt, updatedAt: $updatedAt, wantedType: $wantedType, wantedCity: $wantedCity, budgetMin: $budgetMin, budgetMax: $budgetMax, minRooms: $minRooms, minAreaSqm: $minAreaSqm, tags: $tags)';
+    return 'ClientResponse(id: $id, fullName: $fullName, email: $email, phone: $phone, type: $type, source: $source, notes: $notes, agentId: $agentId, agentName: $agentName, createdAt: $createdAt, updatedAt: $updatedAt, wantedType: $wantedType, wantedCity: $wantedCity, budgetMin: $budgetMin, budgetMax: $budgetMax, minRooms: $minRooms, minAreaSqm: $minAreaSqm, tags: $tags, leadSource: $leadSource, leadSourceDetail: $leadSourceDetail)';
   }
 
   @override
@@ -796,31 +837,38 @@ class _$ClientResponseImpl implements _ClientResponse {
                 other.minRooms == minRooms) &&
             (identical(other.minAreaSqm, minAreaSqm) ||
                 other.minAreaSqm == minAreaSqm) &&
-            const DeepCollectionEquality().equals(other._tags, _tags));
+            const DeepCollectionEquality().equals(other._tags, _tags) &&
+            (identical(other.leadSource, leadSource) ||
+                other.leadSource == leadSource) &&
+            (identical(other.leadSourceDetail, leadSourceDetail) ||
+                other.leadSourceDetail == leadSourceDetail));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      fullName,
-      email,
-      phone,
-      type,
-      source,
-      notes,
-      agentId,
-      agentName,
-      createdAt,
-      updatedAt,
-      wantedType,
-      wantedCity,
-      budgetMin,
-      budgetMax,
-      minRooms,
-      minAreaSqm,
-      const DeepCollectionEquality().hash(_tags));
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        id,
+        fullName,
+        email,
+        phone,
+        type,
+        source,
+        notes,
+        agentId,
+        agentName,
+        createdAt,
+        updatedAt,
+        wantedType,
+        wantedCity,
+        budgetMin,
+        budgetMax,
+        minRooms,
+        minAreaSqm,
+        const DeepCollectionEquality().hash(_tags),
+        leadSource,
+        leadSourceDetail
+      ]);
 
   /// Create a copy of ClientResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -858,7 +906,10 @@ abstract class _ClientResponse implements ClientResponse {
       final double? budgetMax,
       final int? minRooms,
       final double? minAreaSqm,
-      final List<String> tags}) = _$ClientResponseImpl;
+      final List<String> tags,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      final LeadSource? leadSource,
+      final String? leadSourceDetail}) = _$ClientResponseImpl;
 
   factory _ClientResponse.fromJson(Map<String, dynamic> json) =
       _$ClientResponseImpl.fromJson;
@@ -902,6 +953,13 @@ abstract class _ClientResponse implements ClientResponse {
   /// The agency's tags on this client, in name order.
   @override
   List<String> get tags;
+
+  /// How the client reached the agency; null when nobody recorded it.
+  @override
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  LeadSource? get leadSource;
+  @override
+  String? get leadSourceDetail;
 
   /// Create a copy of ClientResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -12674,6 +12732,461 @@ abstract class _DealFunnel implements DealFunnel {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DealFunnelImplCopyWith<_$DealFunnelImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+LeadSourceBreakdown _$LeadSourceBreakdownFromJson(Map<String, dynamic> json) {
+  return _LeadSourceBreakdown.fromJson(json);
+}
+
+/// @nodoc
+mixin _$LeadSourceBreakdown {
+  DateTime? get from => throw _privateConstructorUsedError;
+  DateTime? get to => throw _privateConstructorUsedError;
+  int get clients => throw _privateConstructorUsedError;
+  int get won => throw _privateConstructorUsedError;
+  List<LeadSourceRow> get sources => throw _privateConstructorUsedError;
+
+  /// Serializes this LeadSourceBreakdown to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of LeadSourceBreakdown
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $LeadSourceBreakdownCopyWith<LeadSourceBreakdown> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $LeadSourceBreakdownCopyWith<$Res> {
+  factory $LeadSourceBreakdownCopyWith(
+          LeadSourceBreakdown value, $Res Function(LeadSourceBreakdown) then) =
+      _$LeadSourceBreakdownCopyWithImpl<$Res, LeadSourceBreakdown>;
+  @useResult
+  $Res call(
+      {DateTime? from,
+      DateTime? to,
+      int clients,
+      int won,
+      List<LeadSourceRow> sources});
+}
+
+/// @nodoc
+class _$LeadSourceBreakdownCopyWithImpl<$Res, $Val extends LeadSourceBreakdown>
+    implements $LeadSourceBreakdownCopyWith<$Res> {
+  _$LeadSourceBreakdownCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of LeadSourceBreakdown
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? from = freezed,
+    Object? to = freezed,
+    Object? clients = null,
+    Object? won = null,
+    Object? sources = null,
+  }) {
+    return _then(_value.copyWith(
+      from: freezed == from
+          ? _value.from
+          : from // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      to: freezed == to
+          ? _value.to
+          : to // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      clients: null == clients
+          ? _value.clients
+          : clients // ignore: cast_nullable_to_non_nullable
+              as int,
+      won: null == won
+          ? _value.won
+          : won // ignore: cast_nullable_to_non_nullable
+              as int,
+      sources: null == sources
+          ? _value.sources
+          : sources // ignore: cast_nullable_to_non_nullable
+              as List<LeadSourceRow>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$LeadSourceBreakdownImplCopyWith<$Res>
+    implements $LeadSourceBreakdownCopyWith<$Res> {
+  factory _$$LeadSourceBreakdownImplCopyWith(_$LeadSourceBreakdownImpl value,
+          $Res Function(_$LeadSourceBreakdownImpl) then) =
+      __$$LeadSourceBreakdownImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {DateTime? from,
+      DateTime? to,
+      int clients,
+      int won,
+      List<LeadSourceRow> sources});
+}
+
+/// @nodoc
+class __$$LeadSourceBreakdownImplCopyWithImpl<$Res>
+    extends _$LeadSourceBreakdownCopyWithImpl<$Res, _$LeadSourceBreakdownImpl>
+    implements _$$LeadSourceBreakdownImplCopyWith<$Res> {
+  __$$LeadSourceBreakdownImplCopyWithImpl(_$LeadSourceBreakdownImpl _value,
+      $Res Function(_$LeadSourceBreakdownImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of LeadSourceBreakdown
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? from = freezed,
+    Object? to = freezed,
+    Object? clients = null,
+    Object? won = null,
+    Object? sources = null,
+  }) {
+    return _then(_$LeadSourceBreakdownImpl(
+      from: freezed == from
+          ? _value.from
+          : from // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      to: freezed == to
+          ? _value.to
+          : to // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      clients: null == clients
+          ? _value.clients
+          : clients // ignore: cast_nullable_to_non_nullable
+              as int,
+      won: null == won
+          ? _value.won
+          : won // ignore: cast_nullable_to_non_nullable
+              as int,
+      sources: null == sources
+          ? _value._sources
+          : sources // ignore: cast_nullable_to_non_nullable
+              as List<LeadSourceRow>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$LeadSourceBreakdownImpl implements _LeadSourceBreakdown {
+  const _$LeadSourceBreakdownImpl(
+      {this.from,
+      this.to,
+      this.clients = 0,
+      this.won = 0,
+      final List<LeadSourceRow> sources = const <LeadSourceRow>[]})
+      : _sources = sources;
+
+  factory _$LeadSourceBreakdownImpl.fromJson(Map<String, dynamic> json) =>
+      _$$LeadSourceBreakdownImplFromJson(json);
+
+  @override
+  final DateTime? from;
+  @override
+  final DateTime? to;
+  @override
+  @JsonKey()
+  final int clients;
+  @override
+  @JsonKey()
+  final int won;
+  final List<LeadSourceRow> _sources;
+  @override
+  @JsonKey()
+  List<LeadSourceRow> get sources {
+    if (_sources is EqualUnmodifiableListView) return _sources;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_sources);
+  }
+
+  @override
+  String toString() {
+    return 'LeadSourceBreakdown(from: $from, to: $to, clients: $clients, won: $won, sources: $sources)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$LeadSourceBreakdownImpl &&
+            (identical(other.from, from) || other.from == from) &&
+            (identical(other.to, to) || other.to == to) &&
+            (identical(other.clients, clients) || other.clients == clients) &&
+            (identical(other.won, won) || other.won == won) &&
+            const DeepCollectionEquality().equals(other._sources, _sources));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, from, to, clients, won,
+      const DeepCollectionEquality().hash(_sources));
+
+  /// Create a copy of LeadSourceBreakdown
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$LeadSourceBreakdownImplCopyWith<_$LeadSourceBreakdownImpl> get copyWith =>
+      __$$LeadSourceBreakdownImplCopyWithImpl<_$LeadSourceBreakdownImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$LeadSourceBreakdownImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _LeadSourceBreakdown implements LeadSourceBreakdown {
+  const factory _LeadSourceBreakdown(
+      {final DateTime? from,
+      final DateTime? to,
+      final int clients,
+      final int won,
+      final List<LeadSourceRow> sources}) = _$LeadSourceBreakdownImpl;
+
+  factory _LeadSourceBreakdown.fromJson(Map<String, dynamic> json) =
+      _$LeadSourceBreakdownImpl.fromJson;
+
+  @override
+  DateTime? get from;
+  @override
+  DateTime? get to;
+  @override
+  int get clients;
+  @override
+  int get won;
+  @override
+  List<LeadSourceRow> get sources;
+
+  /// Create a copy of LeadSourceBreakdown
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$LeadSourceBreakdownImplCopyWith<_$LeadSourceBreakdownImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+LeadSourceRow _$LeadSourceRowFromJson(Map<String, dynamic> json) {
+  return _LeadSourceRow.fromJson(json);
+}
+
+/// @nodoc
+mixin _$LeadSourceRow {
+  String get source => throw _privateConstructorUsedError;
+  int get clients => throw _privateConstructorUsedError;
+  int get won => throw _privateConstructorUsedError;
+  double get conversionRate => throw _privateConstructorUsedError;
+
+  /// Serializes this LeadSourceRow to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of LeadSourceRow
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $LeadSourceRowCopyWith<LeadSourceRow> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $LeadSourceRowCopyWith<$Res> {
+  factory $LeadSourceRowCopyWith(
+          LeadSourceRow value, $Res Function(LeadSourceRow) then) =
+      _$LeadSourceRowCopyWithImpl<$Res, LeadSourceRow>;
+  @useResult
+  $Res call({String source, int clients, int won, double conversionRate});
+}
+
+/// @nodoc
+class _$LeadSourceRowCopyWithImpl<$Res, $Val extends LeadSourceRow>
+    implements $LeadSourceRowCopyWith<$Res> {
+  _$LeadSourceRowCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of LeadSourceRow
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? source = null,
+    Object? clients = null,
+    Object? won = null,
+    Object? conversionRate = null,
+  }) {
+    return _then(_value.copyWith(
+      source: null == source
+          ? _value.source
+          : source // ignore: cast_nullable_to_non_nullable
+              as String,
+      clients: null == clients
+          ? _value.clients
+          : clients // ignore: cast_nullable_to_non_nullable
+              as int,
+      won: null == won
+          ? _value.won
+          : won // ignore: cast_nullable_to_non_nullable
+              as int,
+      conversionRate: null == conversionRate
+          ? _value.conversionRate
+          : conversionRate // ignore: cast_nullable_to_non_nullable
+              as double,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$LeadSourceRowImplCopyWith<$Res>
+    implements $LeadSourceRowCopyWith<$Res> {
+  factory _$$LeadSourceRowImplCopyWith(
+          _$LeadSourceRowImpl value, $Res Function(_$LeadSourceRowImpl) then) =
+      __$$LeadSourceRowImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String source, int clients, int won, double conversionRate});
+}
+
+/// @nodoc
+class __$$LeadSourceRowImplCopyWithImpl<$Res>
+    extends _$LeadSourceRowCopyWithImpl<$Res, _$LeadSourceRowImpl>
+    implements _$$LeadSourceRowImplCopyWith<$Res> {
+  __$$LeadSourceRowImplCopyWithImpl(
+      _$LeadSourceRowImpl _value, $Res Function(_$LeadSourceRowImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of LeadSourceRow
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? source = null,
+    Object? clients = null,
+    Object? won = null,
+    Object? conversionRate = null,
+  }) {
+    return _then(_$LeadSourceRowImpl(
+      source: null == source
+          ? _value.source
+          : source // ignore: cast_nullable_to_non_nullable
+              as String,
+      clients: null == clients
+          ? _value.clients
+          : clients // ignore: cast_nullable_to_non_nullable
+              as int,
+      won: null == won
+          ? _value.won
+          : won // ignore: cast_nullable_to_non_nullable
+              as int,
+      conversionRate: null == conversionRate
+          ? _value.conversionRate
+          : conversionRate // ignore: cast_nullable_to_non_nullable
+              as double,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$LeadSourceRowImpl implements _LeadSourceRow {
+  const _$LeadSourceRowImpl(
+      {this.source = 'UNKNOWN',
+      this.clients = 0,
+      this.won = 0,
+      this.conversionRate = 0});
+
+  factory _$LeadSourceRowImpl.fromJson(Map<String, dynamic> json) =>
+      _$$LeadSourceRowImplFromJson(json);
+
+  @override
+  @JsonKey()
+  final String source;
+  @override
+  @JsonKey()
+  final int clients;
+  @override
+  @JsonKey()
+  final int won;
+  @override
+  @JsonKey()
+  final double conversionRate;
+
+  @override
+  String toString() {
+    return 'LeadSourceRow(source: $source, clients: $clients, won: $won, conversionRate: $conversionRate)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$LeadSourceRowImpl &&
+            (identical(other.source, source) || other.source == source) &&
+            (identical(other.clients, clients) || other.clients == clients) &&
+            (identical(other.won, won) || other.won == won) &&
+            (identical(other.conversionRate, conversionRate) ||
+                other.conversionRate == conversionRate));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, source, clients, won, conversionRate);
+
+  /// Create a copy of LeadSourceRow
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$LeadSourceRowImplCopyWith<_$LeadSourceRowImpl> get copyWith =>
+      __$$LeadSourceRowImplCopyWithImpl<_$LeadSourceRowImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$LeadSourceRowImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _LeadSourceRow implements LeadSourceRow {
+  const factory _LeadSourceRow(
+      {final String source,
+      final int clients,
+      final int won,
+      final double conversionRate}) = _$LeadSourceRowImpl;
+
+  factory _LeadSourceRow.fromJson(Map<String, dynamic> json) =
+      _$LeadSourceRowImpl.fromJson;
+
+  @override
+  String get source;
+  @override
+  int get clients;
+  @override
+  int get won;
+  @override
+  double get conversionRate;
+
+  /// Create a copy of LeadSourceRow
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$LeadSourceRowImplCopyWith<_$LeadSourceRowImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

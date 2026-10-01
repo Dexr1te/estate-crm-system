@@ -165,6 +165,8 @@ public class ClientDuplicateService {
                 .budgetMax(source.getBudgetMax())
                 .minRooms(source.getMinRooms())
                 .minAreaSqm(source.getMinAreaSqm())
+                .leadSource(source.getLeadSource())
+                .leadSourceDetail(source.getLeadSourceDetail())
                 .build();
     }
 
@@ -183,6 +185,11 @@ public class ClientDuplicateService {
             target.setNotes(isBlank(target.getNotes())
                     ? source.getNotes()
                     : target.getNotes().stripTrailing() + "\n\n" + source.getNotes().strip());
+        }
+        // How they reached the agency: the target's own answer stands, the source's fills a blank.
+        if (target.getLeadSource() == null && source.getLeadSource() != null) {
+            target.setLeadSource(source.getLeadSource());
+            target.setLeadSourceDetail(source.getLeadSourceDetail());
         }
         if (target.getType() != ClientType.BUYER) {
             return;

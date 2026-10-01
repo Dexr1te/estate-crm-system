@@ -347,6 +347,9 @@ public class ImportService {
             Map.entry("minRooms", new String[]{"Rooms", "Комнаты", "Бөлме саны"}),
             Map.entry("minAreaSqm", new String[]{"Area", "Площадь", "Аудан"}),
             Map.entry("tags", new String[]{"Tags", "Теги", "Тегтер"}),
+            Map.entry("leadSource", new String[]{"Lead source", "Источник лида", "Лид көзі"}),
+            Map.entry("leadSourceDetail", new String[]{"Lead source detail", "Источник лида: подробности",
+                    "Лид көзі туралы"}),
             Map.entry("title", new String[]{"Title", "Название", "Атауы"}),
             Map.entry("address", new String[]{"Address", "Адрес", "Мекенжай"}),
             Map.entry("city", new String[]{"City", "Город", "Қала"}),
@@ -406,7 +409,7 @@ public class ImportService {
     }
 
     private static Client toClient(ImportRow row, User agent, Team team) {
-        return Client.builder()
+        Client client = Client.builder()
                 .fullName(row.get(ImportField.CLIENT_FULL_NAME))
                 .phone(row.get(ImportField.CLIENT_PHONE))
                 .email(row.get(ImportField.CLIENT_EMAIL))
@@ -422,6 +425,9 @@ public class ImportService {
                 .agent(agent)
                 .team(team)
                 .build();
+        com.crm.realestate.service.ClientService.applyLeadSource(client,
+                row.get(ImportField.CLIENT_LEAD_SOURCE), row.get(ImportField.CLIENT_LEAD_SOURCE_DETAIL));
+        return client;
     }
 
     private static Property toProperty(ImportRow row, User agent, Team team) {

@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/network/api_error.dart';
 import 'package:real_estate_crm/core/utils/clock.dart';
 import 'package:real_estate_crm/features/analytics/domain/repositories/analytics_repository.dart';
@@ -24,11 +25,16 @@ class AnalyticsBloc extends Bloc<AnalyticsEvent, AnalyticsState> {
     final request = ++_request;
     final range = AnalyticsRange.of(period, AppClock.now());
     emit(AnalyticsLoading(period, agentId));
+    // Asked alongside the funnel; a failure here is the section's own.
+    final leadSources = _repo
+        .getLeadSources(from: range.from, to: range.to, agentId: agentId)
+        .then<LeadSourceBreakdown?>((b) => b, onError: (Object _) => null);
     try {
       final funnel = await _repo.getFunnel(
           from: range.from, to: range.to, agentId: agentId);
+      final sources = await leadSources;
       if (request != _request) return;
-      emit(AnalyticsLoaded(funnel, period, agentId));
+      emit(AnalyticsLoaded(funnel, period, agentId, leadSources: sources));
     } catch (e) {
       if (request != _request) return;
       emit(AnalyticsError(ApiFailure.from(e), period, agentId));

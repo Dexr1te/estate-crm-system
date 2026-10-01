@@ -103,6 +103,8 @@ public final class ImportRow {
                 }
             }
             case CLIENT_TYPE -> known(field, ImportValues.clientType(cell));
+            case CLIENT_LEAD_SOURCE -> known(field, ImportValues.leadSource(cell));
+            case CLIENT_LEAD_SOURCE_DETAIL -> text(field, cell, 255);
             case CLIENT_TAGS -> {
                 // "investor, urgent" — the export writes them so, and people type them so.
                 List<String> tags = ClientTags.normalise(List.of(cell));

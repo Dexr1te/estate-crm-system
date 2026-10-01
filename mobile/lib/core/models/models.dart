@@ -64,6 +64,28 @@ enum ClientSource {
   publicLink,
 }
 
+/// How a client reached the agency: the channel, not how the card was
+/// entered (that is [ClientSource]). Optional on a client.
+// ignore: constant_identifier_names
+enum LeadSource {
+  // ignore: constant_identifier_names
+  REFERRAL,
+  // ignore: constant_identifier_names
+  WEBSITE,
+  // ignore: constant_identifier_names
+  PORTAL,
+  // ignore: constant_identifier_names
+  SOCIAL,
+  // ignore: constant_identifier_names
+  WALK_IN,
+  // ignore: constant_identifier_names
+  COLD_CALL,
+  // ignore: constant_identifier_names
+  REPEAT,
+  // ignore: constant_identifier_names
+  OTHER,
+}
+
 // ignore: constant_identifier_names
 enum DuplicateMatch { PHONE, EMAIL, PHONE_AND_EMAIL }
 
@@ -113,6 +135,11 @@ class ClientResponse with _$ClientResponse {
 
     /// The agency's tags on this client, in name order.
     @Default(<String>[]) List<String> tags,
+
+    /// How the client reached the agency; null when nobody recorded it.
+    @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+    LeadSource? leadSource,
+    String? leadSourceDetail,
   }) = _ClientResponse;
 
   factory ClientResponse.fromJson(Map<String, dynamic> json) =>
@@ -867,6 +894,36 @@ class DealFunnel with _$DealFunnel {
 
   factory DealFunnel.fromJson(Map<String, dynamic> json) =>
       _$DealFunnelFromJson(json);
+}
+
+/// Clients created in a period by how they reached the agency, and how many
+/// of each have a won deal.
+@freezed
+class LeadSourceBreakdown with _$LeadSourceBreakdown {
+  const factory LeadSourceBreakdown({
+    DateTime? from,
+    DateTime? to,
+    @Default(0) int clients,
+    @Default(0) int won,
+    @Default(<LeadSourceRow>[]) List<LeadSourceRow> sources,
+  }) = _LeadSourceBreakdown;
+
+  factory LeadSourceBreakdown.fromJson(Map<String, dynamic> json) =>
+      _$LeadSourceBreakdownFromJson(json);
+}
+
+/// One channel: a [LeadSource] name, or `UNKNOWN` for clients with none.
+@freezed
+class LeadSourceRow with _$LeadSourceRow {
+  const factory LeadSourceRow({
+    @Default('UNKNOWN') String source,
+    @Default(0) int clients,
+    @Default(0) int won,
+    @Default(0) double conversionRate,
+  }) = _LeadSourceRow;
+
+  factory LeadSourceRow.fromJson(Map<String, dynamic> json) =>
+      _$LeadSourceRowFromJson(json);
 }
 
 @freezed

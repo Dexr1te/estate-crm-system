@@ -52,6 +52,7 @@ public class ClientController {
             @RequestParam(required = false) String createdFrom,
             @RequestParam(required = false) String createdTo,
             @RequestParam(required = false) List<String> tags,
+            @RequestParam(required = false) com.crm.realestate.enums.LeadSource leadSource,
             org.springframework.data.domain.Pageable pageable,
             jakarta.servlet.http.HttpServletRequest request) {
 
@@ -62,7 +63,7 @@ public class ClientController {
         boolean hasTags = tags != null && tags.stream().anyMatch(t -> t != null && !t.isBlank());
 
         boolean hasAnyFilter = type != null || agentId != null || (search != null && !search.isBlank())
-                || createdFrom != null || createdTo != null || hasTags;
+                || createdFrom != null || createdTo != null || hasTags || leadSource != null;
 
         // If no paging and no filters -> legacy full list
         if (!hasPageParams && !hasAnyFilter) {
@@ -70,8 +71,8 @@ public class ClientController {
         }
 
         // If filters provided but no paging -> preserve legacy filtered list behavior (mobile/frontend compatibility).
-        // Tags are newer than this and take the combined branch below instead.
-        if (!hasPageParams && !hasTags) {
+        // Tags and the lead source are newer than this and take the combined branch below instead.
+        if (!hasPageParams && !hasTags && leadSource == null) {
             if (search != null && !search.isBlank()) {
                 return ResponseEntity.ok(clientService.search(search));
             }
@@ -104,9 +105,9 @@ public class ClientController {
             return ResponseEntity.badRequest().body("Invalid date format for createdFrom/createdTo. Use ISO format: yyyy-MM-dd");
         }
 
-        // Tags without paging: a plain list, every filter given applied together.
+        // Tags or a lead source without paging: a plain list, every filter given applied together.
         if (!hasPageParams) {
-            return ResponseEntity.ok(clientService.filter(type, agentId, fromDate, toDate, search, tags));
+            return ResponseEntity.ok(clientService.filter(type, agentId, fromDate, toDate, search, tags, leadSource));
         }
 
         // Now hasPageParams == true -> perform paged search.
@@ -121,7 +122,7 @@ public class ClientController {
         }
 
         org.springframework.data.domain.Page<com.crm.realestate.dto.response.ClientResponse> page = clientService.search(
-                type, agentId, fromDate, toDate, search, tags, effectivePageable);
+                type, agentId, fromDate, toDate, search, tags, leadSource, effectivePageable);
 
         return ResponseEntity.ok(page);
     }

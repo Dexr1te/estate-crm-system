@@ -11,6 +11,7 @@ import 'package:real_estate_crm/features/clients/presentation/bloc/clients_event
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_state.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/client_tag_editor.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/duplicate_warning.dart';
+import 'package:real_estate_crm/features/clients/presentation/widgets/lead_source.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class ClientFormScreen extends StatefulWidget {
@@ -33,7 +34,11 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
   final _roomsCtrl = TextEditingController();
   final _areaCtrl = TextEditingController();
   final _tagCtrl = TextEditingController();
+  final _leadDetailCtrl = TextEditingController();
   ClientType _type = ClientType.BUYER;
+
+  /// How the client reached the agency; null when not recorded.
+  LeadSource? _leadSource;
 
   /// The client's tags, and the agency's tags in use to suggest from.
   List<String> _tags = const [];
@@ -79,7 +84,8 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
       _budgetMaxCtrl,
       _roomsCtrl,
       _areaCtrl,
-      _tagCtrl
+      _tagCtrl,
+      _leadDetailCtrl
     ]) {
       c.dispose();
     }
@@ -101,11 +107,13 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
       _budgetMaxCtrl.text = _amount(c.budgetMax);
       _roomsCtrl.text = c.minRooms?.toString() ?? '';
       _areaCtrl.text = _amount(c.minAreaSqm);
+      _leadDetailCtrl.text = c.leadSourceDetail ?? '';
       if (!mounted) return;
       setState(() {
         _type = c.type;
         _wantedType = c.wantedType;
         _tags = c.tags;
+        _leadSource = c.leadSource;
         _initLoading = false;
       });
     } catch (_) {
@@ -157,6 +165,13 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
     return double.tryParse(text);
   }
 
+  /// The detail as typed, trimmed to what the server keeps.
+  String? _leadDetail() {
+    final text = _leadDetailCtrl.text.trim();
+    if (text.isEmpty) return null;
+    return text.length <= 255 ? text : text.substring(0, 255);
+  }
+
   void _submit() {
     if (!_formKey.currentState!.validate()) return;
     // A tag typed but not yet added is still meant; one that does not fit is
@@ -183,6 +198,9 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
       },
       // Always sent: an empty list is how the last tag is taken off.
       'tags': tags,
+      // Always sent too: null is how a recorded source is taken off.
+      'leadSource': _leadSource?.name,
+      'leadSourceDetail': _leadSource == null ? null : _leadDetail(),
     };
     if (widget.isEditing) {
       context
@@ -342,6 +360,16 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
                       roomsCtrl: _roomsCtrl,
                       areaCtrl: _areaCtrl,
                     ),
+                  FormSectionCard(
+                    eyebrow: l10n.clientsLeadSource,
+                    children: [
+                      LeadSourceField(
+                        source: _leadSource,
+                        detailCtrl: _leadDetailCtrl,
+                        onChanged: (s) => setState(() => _leadSource = s),
+                      ),
+                    ],
+                  ),
                   FormSectionCard(
                     eyebrow: l10n.clientsTags,
                     children: [

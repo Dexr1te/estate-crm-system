@@ -171,7 +171,7 @@ handful marked public. Full OpenAPI at `/api/swagger-ui.html`.
 | --- | --- |
 | Auth (public) | `/auth/login`, `/auth/register`, `/auth/verify-email`, `/auth/resend-verification`, `/auth/refresh`, `/auth/accept-invite`, `/auth/forgot-password`, `/auth/reset-password` |
 | Me | `/auth/me` (get, update, **delete**), `/me/team`, `/me/team-requests` |
-| Clients | `/clients` (`?tags=`), `/clients/{id}`, `/clients/with-details`, `/clients/{id}/matches`, `/clients/tags` |
+| Clients | `/clients` (`?tags=`, `?leadSource=`), `/clients/{id}`, `/clients/with-details`, `/clients/{id}/matches`, `/clients/tags` |
 | Properties | `/properties`, `/properties/{id}`, `/properties/{id}/status`, `/properties/{id}/photos` (+ `order`, `{photoId}/content`), `/properties/{id}/cover`, `/properties/{id}/interested`, `/properties/{id}/viewings`, `/properties/{id}/price-history`, `/properties/mandates-ending` |
 | Deals | `/deals`, `/deals/{id}`, `/deals/{id}/status`, `/deals/{dealId}/documents` |
 | Meetings | `/meetings`, `/meetings/upcoming`, `/meetings/{id}`, `/meetings/{id}/complete`, `/meetings/{id}/outcome` |

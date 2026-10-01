@@ -10,4 +10,9 @@ class AnalyticsRepositoryImpl implements AnalyticsRepository {
   Future<DealFunnel> getFunnel(
           {required DateTime from, required DateTime to, int? agentId}) =>
       _remote.getFunnel(from: from, to: to, agentId: agentId);
+
+  @override
+  Future<LeadSourceBreakdown> getLeadSources(
+          {required DateTime from, required DateTime to, int? agentId}) =>
+      _remote.getLeadSources(from: from, to: to, agentId: agentId);
 }

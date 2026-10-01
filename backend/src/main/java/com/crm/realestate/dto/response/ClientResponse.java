@@ -17,6 +17,9 @@ public class ClientResponse {
     private String phone;
     private ClientType type;
     private com.crm.realestate.enums.ClientSource source;
+    /** How the client reached the agency; null when not recorded. */
+    private com.crm.realestate.enums.LeadSource leadSource;
+    private String leadSourceDetail;
     private String notes;
     private Long agentId;
     private String agentName;

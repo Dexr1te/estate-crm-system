@@ -117,6 +117,10 @@ public class ListingLeadService {
                 .phone(form.phone())
                 .type(ClientType.BUYER)
                 .source(ClientSource.PUBLIC_LINK)
+                // Came through the agency's own website; the detail names the listing's page.
+                .leadSource(com.crm.realestate.enums.LeadSource.WEBSITE)
+                .leadSourceDetail(title == null || title.length() <= ClientService.LEAD_SOURCE_DETAIL_MAX
+                        ? title : title.substring(0, ClientService.LEAD_SOURCE_DETAIL_MAX))
                 .notes(notesFor(listing, form))
                 .agent(owner)
                 .team(team)

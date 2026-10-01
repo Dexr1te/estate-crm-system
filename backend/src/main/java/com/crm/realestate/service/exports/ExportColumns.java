@@ -39,7 +39,7 @@ class ExportColumns {
                     Stream.of("fullName", "phone", "email", "type").map(k -> imported(k, lang)),
                     Stream.concat(Stream.of(heading("agent", lang)), Stream.concat(
                             Stream.of("wantedCity", "wantedType", "budgetMin", "budgetMax",
-                                    "minRooms", "minAreaSqm", "notes", "tags").map(k -> imported(k, lang)),
+                                    "minRooms", "minAreaSqm", "notes", "tags", "leadSource", "leadSourceDetail").map(k -> imported(k, lang)),
                             Stream.of("source", "created").map(k -> heading(k, lang))))).toList();
             case PROPERTIES -> Stream.concat(
                     Stream.of("title", "address", "city", "type", "status", "price", "areaSqm",
@@ -61,6 +61,7 @@ class ExportColumns {
                 csv.decimal(c.getBudgetMin()), csv.decimal(c.getBudgetMax()), whole(c.getMinRooms()),
                 csv.decimal(c.getMinAreaSqm()), c.getNotes(),
                 String.join(", ", tags.getOrDefault(c.getId(), List.of())),
+                value(c.getLeadSource(), lang), c.getLeadSourceDetail(),
                 value(c.getSource(), lang), date(c.getCreatedAt()));
     }
 

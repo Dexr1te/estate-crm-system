@@ -26,11 +26,12 @@ public record ExportFilters(
         LocalDate createdTo,
         LocalDate closedFrom,
         LocalDate closedTo,
-        List<String> tags) {
+        List<String> tags,
+        String leadSource) {
 
     public static ExportFilters none() {
         return new ExportFilters(null, null, null, null, null, null, null, null, null,
-                null, null, null, null, null);
+                null, null, null, null, null, null);
     }
 
     /** "type=BUYER agentId=7": the filters that were set, for the audit journal. */
@@ -50,6 +51,7 @@ public record ExportFilters(
         set.put("closedFrom", closedFrom);
         set.put("closedTo", closedTo);
         set.put("tags", tags == null || tags.isEmpty() ? null : String.join(",", tags));
+        set.put("leadSource", leadSource);
         return set.entrySet().stream()
                 .filter(e -> e.getValue() != null && !e.getValue().toString().isBlank())
                 .map(e -> e.getKey() + "=" + e.getValue())

@@ -201,6 +201,21 @@ class AppLocalizationsKk extends AppLocalizations {
   String get analyticsNoLost => 'Бұл кезеңде жоғалған мәміле жоқ.';
 
   @override
+  String get analyticsLeadSources => 'Клиенттер қайдан келеді';
+
+  @override
+  String get analyticsLeadSourcesHint =>
+      'Кезеңде қосылған клиенттер және олардың қаншасы мәміле жасады.';
+
+  @override
+  String analyticsLeadSourceWon(Object count, Object rate) {
+    return '$count мәміле жасады · $rate';
+  }
+
+  @override
+  String get analyticsNoClients => 'Бұл кезеңде клиент қосылмаған.';
+
+  @override
   String get analyticsNoValue => '—';
 
   @override
@@ -983,6 +998,12 @@ class AppLocalizationsKk extends AppLocalizations {
   }
 
   @override
+  String get clientsFilterSource => 'Дереккөз';
+
+  @override
+  String get clientsFilterSourceAll => 'Барлық дереккөздер';
+
+  @override
   String get clientsFollowUpCall => 'Бұл қоңырауды жазып қоясыз ба?';
 
   @override
@@ -1222,6 +1243,42 @@ class AppLocalizationsKk extends AppLocalizations {
   String clientsTagsMore(Object count) {
     return '+$count';
   }
+
+  @override
+  String get clientsLeadSource => 'Қайдан келді';
+
+  @override
+  String get clientsLeadSourceNone => 'Көрсетілмеген';
+
+  @override
+  String get clientsLeadSourceReferral => 'Ұсыныс';
+
+  @override
+  String get clientsLeadSourceWebsite => 'Сайт';
+
+  @override
+  String get clientsLeadSourcePortal => 'Хабарландыру порталы';
+
+  @override
+  String get clientsLeadSourceSocial => 'Әлеуметтік желілер';
+
+  @override
+  String get clientsLeadSourceWalkIn => 'Кеңсеге келді';
+
+  @override
+  String get clientsLeadSourceColdCall => 'Суық қоңырау';
+
+  @override
+  String get clientsLeadSourceRepeat => 'Тұрақты клиент';
+
+  @override
+  String get clientsLeadSourceOther => 'Басқа';
+
+  @override
+  String get clientsLeadSourceDetail => 'Толығырақ';
+
+  @override
+  String get clientsLeadSourceDetailHint => 'Кім ұсынды, қай портал';
 
   @override
   String get clientsTitle => 'Клиенттер';
@@ -2538,6 +2595,12 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get importFieldTags => 'Тегтер';
+
+  @override
+  String get importFieldLeadSource => 'Лид көзі';
+
+  @override
+  String get importFieldLeadSourceDetail => 'Лид көзі туралы';
 
   @override
   String get importFieldTitle => 'Атауы';

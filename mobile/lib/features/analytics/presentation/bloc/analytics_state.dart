@@ -35,7 +35,13 @@ class AnalyticsLoading extends AnalyticsState {
 
 class AnalyticsLoaded extends AnalyticsState {
   final DealFunnel funnel;
-  const AnalyticsLoaded(this.funnel, super.period, super.agentId);
+
+  /// Where the period's clients came from; null when it could not be read,
+  /// which hides that section and nothing else.
+  final LeadSourceBreakdown? leadSources;
+
+  const AnalyticsLoaded(this.funnel, super.period, super.agentId,
+      {this.leadSources});
 }
 
 class AnalyticsError extends AnalyticsState {

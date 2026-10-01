@@ -135,6 +135,8 @@ class ListingLeadTest {
         assertThat(client.getFullName()).isEqualTo("Dana Serikova");
         assertThat(client.getType()).isEqualTo(ClientType.BUYER);
         assertThat(client.getSource()).isEqualTo(ClientSource.PUBLIC_LINK);
+        assertThat(client.getLeadSource()).isEqualTo(com.crm.realestate.enums.LeadSource.WEBSITE);
+        assertThat(client.getLeadSourceDetail()).isEqualTo("Severny Residence, apt 84");
         assertThat(client.getAgent().getId()).isEqualTo(agent.getId());
         assertThat(client.getTeam().getId()).isEqualTo(almaty.getId());
         assertThat(client.getPhoneNormalized()).isEqualTo("77012223344");

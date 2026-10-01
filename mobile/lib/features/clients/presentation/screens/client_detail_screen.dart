@@ -17,6 +17,7 @@ import 'package:real_estate_crm/features/clients/presentation/widgets/client_sou
 import 'package:real_estate_crm/features/clients/presentation/widgets/client_tag_chips.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/compose_message_sheet.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/duplicate_warning.dart';
+import 'package:real_estate_crm/features/clients/presentation/widgets/lead_source.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/log_contact_sheet.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/send_matches_sheet.dart';
 import 'package:real_estate_crm/features/compare/domain/comparison.dart';
@@ -575,6 +576,14 @@ class _ContactCard extends StatelessWidget {
           InfoRow(label: l10n.clientsEmail, value: client.email ?? dash),
           const SizedBox(height: 10),
           InfoRow(label: l10n.clientsAgent, value: client.agentName ?? dash),
+          if (client.leadSource != null) ...[
+            const SizedBox(height: 10),
+            InfoRow(
+                key: const ValueKey('client-detail-lead-source'),
+                label: l10n.clientsLeadSource,
+                value: leadSourceText(
+                    l10n, client.leadSource!, client.leadSourceDetail)),
+          ],
           const SizedBox(height: 14),
           Row(
             children: [

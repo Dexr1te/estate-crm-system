@@ -56,6 +56,15 @@ public class Client {
     @Builder.Default
     private ClientSource source = ClientSource.MANUAL;
 
+    /** How the client reached the agency, or null when nobody recorded it. See {@code V41}. */
+    @Enumerated(EnumType.STRING)
+    @Column(name = "lead_source", length = 20)
+    private com.crm.realestate.enums.LeadSource leadSource;
+
+    /** Who referred them, which portal, which listing; only beside a {@link #leadSource}. */
+    @Column(name = "lead_source_detail", length = 255)
+    private String leadSourceDetail;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "wanted_type", length = 30)
     private PropertyType wantedType;

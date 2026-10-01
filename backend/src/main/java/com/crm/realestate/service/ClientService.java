@@ -6,6 +6,7 @@ import com.crm.realestate.dto.response.ClientResponse;
 import com.crm.realestate.entity.Client;
 import com.crm.realestate.entity.User;
 import com.crm.realestate.enums.ClientType;
+import com.crm.realestate.enums.LeadSource;
 import com.crm.realestate.exception.ResourceNotFoundException;
 import com.crm.realestate.repository.ClientRepository;
 import com.crm.realestate.repository.UserRepository;
@@ -46,10 +47,13 @@ public class ClientService {
             String search,
             org.springframework.data.domain.Pageable pageable
     ) {
-        return search(type, agentId, createdFrom, createdTo, search, null, pageable);
+        return search(type, agentId, createdFrom, createdTo, search, null, null, pageable);
     }
 
-    /** A page of clients under every filter given, {@code tags} included (all of them). */
+    /**
+     * A page of clients under every filter given, {@code tags} included (all of them), and only
+     * those who came through {@code leadSource} when it is given.
+     */
     public org.springframework.data.domain.Page<ClientResponse> search(
             ClientType type,
             Long agentId,
@@ -57,21 +61,26 @@ public class ClientService {
             LocalDate createdTo,
             String search,
             List<String> tags,
+            LeadSource leadSource,
             org.springframework.data.domain.Pageable pageable
     ) {
         User currentUser = securityUtils.getCurrentUser();
         Specification<Client> spec = ClientSpecification.build(type, agentId, createdFrom, createdTo, search, tags)
+                .and(ClientSpecification.leadSource(leadSource))
                 .and(scopeService.visibleTo(currentUser));
         return clientRepository.findAll(spec, pageable).map(this::toResponse);
     }
 
     /**
-     * Every client under all the filters given, unpaged. Only a request naming tags ends up here:
-     * the older unpaged filters keep their one-filter-at-a-time answers for the apps that use them.
+     * Every client under all the filters given, unpaged. Only a request naming tags or a lead
+     * source ends up here: the older unpaged filters keep their one-filter-at-a-time answers for
+     * the apps that use them.
      */
     public List<ClientResponse> filter(ClientType type, Long agentId, LocalDate createdFrom,
-                                       LocalDate createdTo, String search, List<String> tags) {
-        return findVisible(ClientSpecification.build(type, agentId, createdFrom, createdTo, search, tags));
+                                       LocalDate createdTo, String search, List<String> tags,
+                                       LeadSource leadSource) {
+        return findVisible(ClientSpecification.build(type, agentId, createdFrom, createdTo, search, tags)
+                .and(ClientSpecification.leadSource(leadSource)));
     }
 
     public List<ClientResponse> getByAgent(Long agentId) {
@@ -215,6 +224,9 @@ public class ClientService {
         client.setType(request.getType());
         client.setNotes(request.getNotes());
         applyRequirements(request, client);
+        if (isNew || request.isLeadSourceSent()) {
+            applyLeadSource(client, request.getLeadSource(), request.getLeadSourceDetail());
+        }
 
         if (scopeService.isAdmin(currentUser) && request.getAgentId() != null) {
             User agent = userRepository.findById(request.getAgentId())
@@ -248,6 +260,20 @@ public class ClientService {
         client.setMinRooms(buying ? request.getMinRooms() : null);
         client.setMinAreaSqm(buying ? request.getMinAreaSqm() : null);
     }
+
+    /**
+     * How the client reached the agency. The detail only means something beside a source, so it
+     * goes with one that is cleared, and is trimmed to what the column holds.
+     */
+    public static void applyLeadSource(Client client, LeadSource source, String detail) {
+        client.setLeadSource(source);
+        String trimmed = source == null ? null : blankToNull(detail);
+        client.setLeadSourceDetail(trimmed == null || trimmed.length() <= LEAD_SOURCE_DETAIL_MAX
+                ? trimmed : trimmed.substring(0, LEAD_SOURCE_DETAIL_MAX));
+    }
+
+    /** What {@code clients.lead_source_detail} holds. */
+    public static final int LEAD_SOURCE_DETAIL_MAX = 255;
 
     private static String blankToNull(String value) {
         return value == null || value.isBlank() ? null : value.trim();
