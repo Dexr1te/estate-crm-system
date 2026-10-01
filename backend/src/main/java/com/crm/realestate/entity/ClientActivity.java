@@ -59,6 +59,12 @@ public class ClientActivity {
     @Column(columnDefinition = "TEXT")
     private String note;
 
+    /** The open house this visit was signed in at; null for every other entry. See V44. */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "open_house_id")
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    private OpenHouse openHouse;
+
     /** When the call or message happened, which is not always when it was written down. */
     @Column(name = "occurred_at", nullable = false)
     private LocalDateTime occurredAt;

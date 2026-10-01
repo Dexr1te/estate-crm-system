@@ -106,6 +106,7 @@ class _ActivityRow extends StatelessWidget {
     final locale = Localizations.localeOf(context).toLanguageTag();
     final note = activity.note?.trim();
     final author = activity.authorName?.trim();
+    final visit = activity.openHouseId != null;
 
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
@@ -126,8 +127,12 @@ class _ActivityRow extends StatelessWidget {
                       color: t.surfaceVariant,
                       shape: BoxShape.circle,
                     ),
-                    child: Icon(activityTypeIcon(activity.type),
-                        size: 15, color: t.textSecondary),
+                    child: Icon(
+                        visit
+                            ? Icons.meeting_room_outlined
+                            : activityTypeIcon(activity.type),
+                        size: 15,
+                        color: t.textSecondary),
                   ),
                   if (!last)
                     Expanded(
@@ -148,7 +153,9 @@ class _ActivityRow extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      activityTypeLabel(l10n, activity.type),
+                      visit
+                          ? l10n.openHouseActivity
+                          : activityTypeLabel(l10n, activity.type),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -191,6 +198,7 @@ class _ActivityRow extends StatelessWidget {
                       _SentListings(
                         properties: activity.properties,
                         onOpen: onOpenProperty,
+                        sent: !visit,
                       ),
                     ],
                   ],
@@ -224,7 +232,12 @@ class _SentListings extends StatelessWidget {
   final List<ActivityProperty> properties;
   final ValueChanged<int>? onOpen;
 
-  const _SentListings({required this.properties, required this.onOpen});
+  /// False for a visit, where the listing is where it happened rather than
+  /// something that went out, so there is no count to say.
+  final bool sent;
+
+  const _SentListings(
+      {required this.properties, required this.onOpen, this.sent = true});
 
   @override
   Widget build(BuildContext context) {
@@ -234,16 +247,17 @@ class _SentListings extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(
-          l10n.clientsActivitySentListings(properties.length),
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          style: TextStyle(
-              fontFamily: AppFonts.sans,
-              fontSize: 11.5,
-              fontWeight: FontWeight.w600,
-              color: t.textSecondary),
-        ),
+        if (sent)
+          Text(
+            l10n.clientsActivitySentListings(properties.length),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+                fontFamily: AppFonts.sans,
+                fontSize: 11.5,
+                fontWeight: FontWeight.w600,
+                color: t.textSecondary),
+          ),
         for (final p in properties)
           InkWell(
             key: ValueKey('sent-listing-${p.id}'),

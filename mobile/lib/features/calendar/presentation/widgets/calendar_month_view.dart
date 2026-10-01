@@ -46,6 +46,7 @@ class _CalendarMonthViewState extends State<CalendarMonthView> {
       Injector.meetingsRepository,
       Injector.tasksRepository,
       firstDayOfWeekIndex: first,
+      openHouses: Injector.openHousesRepository,
     )..add(CalendarShowMonthEvent(previous?.state.month ?? AppClock.now()));
     previous?.close();
   }
@@ -169,6 +170,10 @@ class _CalendarMonthViewState extends State<CalendarMonthView> {
                       : () => bloc.add(CalendarSelectDayEvent(today)),
                   onOpenMeeting: (m) async {
                     await context.push('/meetings/${m.id}');
+                    if (mounted) bloc.add(CalendarRefreshEvent());
+                  },
+                  onOpenOpenHouse: (o) async {
+                    await context.push('/open-houses/${o.id}');
                     if (mounted) bloc.add(CalendarRefreshEvent());
                   },
                   onRoute: () async {

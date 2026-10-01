@@ -13,6 +13,7 @@ import 'package:real_estate_crm/features/auth/presentation/bloc/auth_state.dart'
 import 'package:real_estate_crm/features/compare/presentation/widgets/compare_tray_controls.dart';
 import 'package:real_estate_crm/features/deposits/presentation/widgets/deposit_labels.dart';
 import 'package:real_estate_crm/features/mortgage/presentation/widgets/mortgage_card.dart';
+import 'package:real_estate_crm/features/open_houses/presentation/widgets/property_open_houses_card.dart';
 import 'package:real_estate_crm/features/properties/brochure/brochure_photos.dart';
 import 'package:real_estate_crm/features/properties/brochure/listing_brochure.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_bloc.dart';
@@ -274,6 +275,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
           _StatusCard(status: p.status, onChanged: _updateStatus),
           _InterestedCard(buyers: _interested, propertyId: widget.id),
           _ViewingsCard(viewings: _viewings),
+          PropertyOpenHousesCard(propertyId: widget.id),
           if (p.description != null && p.description!.trim().isNotEmpty)
             _DescriptionCard(text: p.description!),
         ],

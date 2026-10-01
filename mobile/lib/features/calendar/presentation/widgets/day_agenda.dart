@@ -23,6 +23,9 @@ class DayAgenda extends StatelessWidget {
   final ValueChanged<TaskResponse> onOpenTask;
   final ValueChanged<TaskResponse> onToggleTask;
 
+  /// Opens an open house; without it the row is not tappable.
+  final ValueChanged<OpenHouse>? onOpenOpenHouse;
+
   const DayAgenda({
     super.key,
     required this.day,
@@ -36,6 +39,7 @@ class DayAgenda extends StatelessWidget {
     this.onAdd,
     this.onToday,
     this.onRoute,
+    this.onOpenOpenHouse,
   });
 
   @override
@@ -118,6 +122,8 @@ class DayAgenda extends StatelessWidget {
     final entries = <(DateTime, Widget)>[
       for (final m in loaded.meetingsOn(day))
         (m.scheduledAt, _meeting(m, l10n)),
+      for (final o in loaded.openHousesOn(day))
+        (o.startsAt, _openHouse(o, l10n)),
       for (final task in loaded.tasksOn(day))
         (
           task.dueAt,
@@ -157,6 +163,18 @@ class DayAgenda extends StatelessWidget {
       ],
     ];
   }
+
+  Widget _openHouse(OpenHouse o, AppLocalizations l10n) => MeetingRow(
+        key: ValueKey('calendar-open-house-${o.id}'),
+        time: formatTimeOfDay(o.startsAt),
+        dayOrType: l10n.calendarLegendOpenHouse,
+        title: o.propertyTitle,
+        meta: [
+          '${formatTimeOfDay(o.startsAt)}–${formatTimeOfDay(o.endsAt)}',
+          if (o.visitorCount > 0) l10n.openHouseVisitorsCount(o.visitorCount),
+        ].join(' · '),
+        onTap: onOpenOpenHouse == null ? null : () => onOpenOpenHouse!(o),
+      );
 
   Widget _meeting(MeetingResponse m, AppLocalizations l10n) {
     final place = m.propertyTitle ?? m.propertyAddress;

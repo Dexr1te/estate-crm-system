@@ -177,6 +177,7 @@
     }
   },
   "calendarLegendMeeting": "Meeting",
+  "calendarLegendOpenHouse": "Open house",
   "calendarLegendOverdue": "Overdue",
   "calendarLegendTask": "Task",
   "calendarLegendViewing": "Viewing",
@@ -483,6 +484,7 @@
     }
   },
   "clientsSourceImport": "Imported",
+  "clientsSourceOpenHouse": "From an open house",
   "clientsSourcePublicLink": "From the public link",
   "clientsTagAdd": "Add tag",
   "clientsTagAddHint": "Add a tag",
@@ -1710,6 +1712,91 @@
       }
     }
   },
+  "openHouseActivity": "Open house visit",
+  "openHouseAddVisitor": "Add visitor",
+  "openHouseAlreadySignedIn": "This number has already signed in",
+  "openHouseColleagueClient": "Client of {agent}",
+  "@openHouseColleagueClient": {
+    "placeholders": {
+      "agent": {
+        "type": "String"
+      }
+    }
+  },
+  "openHouseDate": "Date",
+  "openHouseDelete": "Cancel open house",
+  "openHouseDeleteConfirm": "It is removed from the listing and the calendar.",
+  "openHouseEdit": "Edit open house",
+  "openHouseEnds": "Ends",
+  "openHouseEndsBeforeStart": "It has to end after it starts",
+  "openHouseHasVisitors": "People have signed in, so it cannot be cancelled",
+  "openHouseHost": "Held by {name}",
+  "@openHouseHost": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "openHouseInterestLabel": "Interest",
+  "openHouseInterested": "Interested",
+  "openHouseJustLooking": "Just looking",
+  "openHouseKnownClient": "Already a client",
+  "openHouseLive": "On now",
+  "openHouseLoadFailed": "Could not load the open house",
+  "openHouseNewClient": "New client",
+  "openHouseNoVisitors": "Nobody has signed in yet",
+  "openHouseNoVisitorsHint": "Add each visitor as they arrive. A number the agency does not know becomes a new buyer.",
+  "openHouseNone": "No open houses yet. Schedule one and sign visitors in at the door.",
+  "openHouseNoteHint": "Keys, parking, who to call at the door",
+  "openHouseNoteLabel": "Note",
+  "openHousePast": "Past",
+  "openHouseRemoveVisitor": "Remove visitor",
+  "openHouseRemoveVisitorConfirm": "{name} comes off the sheet and the visit leaves the client's history. A client this sign-in created stays.",
+  "@openHouseRemoveVisitorConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "openHouseSave": "Save",
+  "openHouseSchedule": "Schedule an open house",
+  "openHouseSeeAll": "Show all",
+  "openHouseSignIn": "Save",
+  "openHouseSignInNext": "Save and next",
+  "openHouseSignInSheet": "Sign-in sheet",
+  "openHouseSignedIn": "{name} signed in",
+  "@openHouseSignedIn": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "openHouseStarts": "Starts",
+  "openHouseSummary": "Summary",
+  "openHouseSummaryInterested": "Interested",
+  "openHouseSummaryNewClients": "New clients",
+  "openHouseSummaryVisitors": "Visitors",
+  "openHouseTitle": "Open house",
+  "openHouseTooLong": "An open house lasts at most 12 hours",
+  "openHouseUpcoming": "Upcoming",
+  "openHouseVisitorName": "Name",
+  "openHouseVisitorNameHint": "As they give it",
+  "openHouseVisitorNameRequired": "Enter a name",
+  "openHouseVisitorNoteHint": "What they asked about",
+  "openHouseVisitorPhone": "Phone",
+  "openHouseVisitorPhoneInvalid": "Enter a phone number",
+  "openHouseVisitorsCount": "{count, plural, =0{No visitors} =1{1 visitor} other{{count} visitors}}",
+  "@openHouseVisitorsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "openHousesCardTitle": "Open houses",
   "profileAgentId": "Agent ID",
   "profileAgentIdCopied": "Agent ID copied",
   "profileApp": "App",

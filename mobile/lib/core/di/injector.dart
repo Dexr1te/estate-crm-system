@@ -66,6 +66,9 @@ import 'package:real_estate_crm/features/message_templates/domain/repositories/m
 import 'package:real_estate_crm/features/notifications/data/datasources/notifications_remote_datasource.dart';
 import 'package:real_estate_crm/features/notifications/data/repositories/notifications_repository_impl.dart';
 import 'package:real_estate_crm/features/notifications/domain/repositories/notifications_repository.dart';
+import 'package:real_estate_crm/features/open_houses/data/datasources/open_houses_remote_datasource.dart';
+import 'package:real_estate_crm/features/open_houses/data/repositories/open_houses_repository_impl.dart';
+import 'package:real_estate_crm/features/open_houses/domain/repositories/open_houses_repository.dart';
 import 'package:real_estate_crm/features/properties/data/datasources/properties_remote_datasource.dart';
 import 'package:real_estate_crm/features/properties/data/repositories/properties_repository_impl.dart';
 import 'package:real_estate_crm/features/properties/domain/repositories/properties_repository.dart';
@@ -138,6 +141,9 @@ class Injector {
 
   static MeetingsRepository meetingsRepository =
       MeetingsRepositoryImpl(MeetingsRemoteDataSource(_apiClient));
+
+  static OpenHousesRepository openHousesRepository =
+      OpenHousesRepositoryImpl(OpenHousesRemoteDataSource(_apiClient));
 
   static NotificationsRepository notificationsRepository =
       NotificationsRepositoryImpl(NotificationsRemoteDataSource(_apiClient));
