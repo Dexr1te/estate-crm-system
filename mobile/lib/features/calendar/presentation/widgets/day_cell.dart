@@ -120,6 +120,7 @@ class MarkerDot extends StatelessWidget {
     final color = switch (marker) {
       CalendarMarker.meeting => t.primary,
       CalendarMarker.viewing => t.statusText(StatusHue.lead),
+      CalendarMarker.openHouse => t.statusText(StatusHue.positive),
       CalendarMarker.task => t.textSecondary,
       CalendarMarker.overdueTask => t.statusText(StatusHue.danger),
       CalendarMarker.doneTask => t.textHint,

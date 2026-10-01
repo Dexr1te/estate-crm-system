@@ -226,6 +226,7 @@ public class ClientActivityService {
                 .authorId(author == null ? null : author.getId())
                 .authorName(author == null ? activity.getAuthorName() : author.getFullName())
                 .createdAt(activity.getCreatedAt())
+                .openHouseId(activity.getOpenHouse() == null ? null : activity.getOpenHouse().getId())
                 .properties(properties)
                 .build();
     }

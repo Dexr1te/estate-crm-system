@@ -540,6 +540,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get calendarLegendMeeting => 'Meeting';
 
   @override
+  String get calendarLegendOpenHouse => 'Open house';
+
+  @override
   String get calendarLegendOverdue => 'Overdue';
 
   @override
@@ -1174,6 +1177,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get clientsSourceImport => 'Imported';
+
+  @override
+  String get clientsSourceOpenHouse => 'From an open house';
 
   @override
   String get clientsSourcePublicLink => 'From the public link';
@@ -3283,6 +3289,177 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get openHouseActivity => 'Open house visit';
+
+  @override
+  String get openHouseAddVisitor => 'Add visitor';
+
+  @override
+  String get openHouseAlreadySignedIn => 'This number has already signed in';
+
+  @override
+  String openHouseColleagueClient(String agent) {
+    return 'Client of $agent';
+  }
+
+  @override
+  String get openHouseDate => 'Date';
+
+  @override
+  String get openHouseDelete => 'Cancel open house';
+
+  @override
+  String get openHouseDeleteConfirm =>
+      'It is removed from the listing and the calendar.';
+
+  @override
+  String get openHouseEdit => 'Edit open house';
+
+  @override
+  String get openHouseEnds => 'Ends';
+
+  @override
+  String get openHouseEndsBeforeStart => 'It has to end after it starts';
+
+  @override
+  String get openHouseHasVisitors =>
+      'People have signed in, so it cannot be cancelled';
+
+  @override
+  String openHouseHost(String name) {
+    return 'Held by $name';
+  }
+
+  @override
+  String get openHouseInterestLabel => 'Interest';
+
+  @override
+  String get openHouseInterested => 'Interested';
+
+  @override
+  String get openHouseJustLooking => 'Just looking';
+
+  @override
+  String get openHouseKnownClient => 'Already a client';
+
+  @override
+  String get openHouseLive => 'On now';
+
+  @override
+  String get openHouseLoadFailed => 'Could not load the open house';
+
+  @override
+  String get openHouseNewClient => 'New client';
+
+  @override
+  String get openHouseNoVisitors => 'Nobody has signed in yet';
+
+  @override
+  String get openHouseNoVisitorsHint =>
+      'Add each visitor as they arrive. A number the agency does not know becomes a new buyer.';
+
+  @override
+  String get openHouseNone =>
+      'No open houses yet. Schedule one and sign visitors in at the door.';
+
+  @override
+  String get openHouseNoteHint => 'Keys, parking, who to call at the door';
+
+  @override
+  String get openHouseNoteLabel => 'Note';
+
+  @override
+  String get openHousePast => 'Past';
+
+  @override
+  String get openHouseRemoveVisitor => 'Remove visitor';
+
+  @override
+  String openHouseRemoveVisitorConfirm(String name) {
+    return '$name comes off the sheet and the visit leaves the client\'s history. A client this sign-in created stays.';
+  }
+
+  @override
+  String get openHouseSave => 'Save';
+
+  @override
+  String get openHouseSchedule => 'Schedule an open house';
+
+  @override
+  String get openHouseSeeAll => 'Show all';
+
+  @override
+  String get openHouseSignIn => 'Save';
+
+  @override
+  String get openHouseSignInNext => 'Save and next';
+
+  @override
+  String get openHouseSignInSheet => 'Sign-in sheet';
+
+  @override
+  String openHouseSignedIn(String name) {
+    return '$name signed in';
+  }
+
+  @override
+  String get openHouseStarts => 'Starts';
+
+  @override
+  String get openHouseSummary => 'Summary';
+
+  @override
+  String get openHouseSummaryInterested => 'Interested';
+
+  @override
+  String get openHouseSummaryNewClients => 'New clients';
+
+  @override
+  String get openHouseSummaryVisitors => 'Visitors';
+
+  @override
+  String get openHouseTitle => 'Open house';
+
+  @override
+  String get openHouseTooLong => 'An open house lasts at most 12 hours';
+
+  @override
+  String get openHouseUpcoming => 'Upcoming';
+
+  @override
+  String get openHouseVisitorName => 'Name';
+
+  @override
+  String get openHouseVisitorNameHint => 'As they give it';
+
+  @override
+  String get openHouseVisitorNameRequired => 'Enter a name';
+
+  @override
+  String get openHouseVisitorNoteHint => 'What they asked about';
+
+  @override
+  String get openHouseVisitorPhone => 'Phone';
+
+  @override
+  String get openHouseVisitorPhoneInvalid => 'Enter a phone number';
+
+  @override
+  String openHouseVisitorsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count visitors',
+      one: '1 visitor',
+      zero: 'No visitors',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get openHousesCardTitle => 'Open houses';
 
   @override
   String get profileAgentId => 'Agent ID';

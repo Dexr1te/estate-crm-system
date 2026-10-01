@@ -59,6 +59,8 @@ class OfflineCache {
     RegExp(r'^/deals(/\d+(/comments(/mentionable)?|/checklist)?)?$'),
     RegExp(r'^/meetings(/upcoming|/\d+)?$'),
     RegExp(r'^/tasks$'),
+    RegExp(r'^/properties/\d+/open-houses$'),
+    RegExp(r'^/open-houses(/\d+)?$'),
     RegExp(r'^/dashboard/summary$'),
   ];
 

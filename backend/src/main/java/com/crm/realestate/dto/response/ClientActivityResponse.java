@@ -23,6 +23,8 @@ public class ClientActivityResponse {
     private Long authorId;
     private String authorName;
     private LocalDateTime createdAt;
+    /** Set when this entry is a visit signed in at an open house; null otherwise. */
+    private Long openHouseId;
     /** The listings this entry was about — what went out in a message. Empty, never null. */
     @Builder.Default
     private List<PropertyRef> properties = List.of();

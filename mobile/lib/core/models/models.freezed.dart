@@ -1473,6 +1473,9 @@ mixin _$ClientActivity {
   /// The listings this entry was about — what went out in a message.
   List<ActivityProperty> get properties => throw _privateConstructorUsedError;
 
+  /// Set when the entry is a visit signed in at an open house.
+  int? get openHouseId => throw _privateConstructorUsedError;
+
   /// Serializes this ClientActivity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
@@ -1498,7 +1501,8 @@ abstract class $ClientActivityCopyWith<$Res> {
       int? authorId,
       String? authorName,
       DateTime? createdAt,
-      List<ActivityProperty> properties});
+      List<ActivityProperty> properties,
+      int? openHouseId});
 }
 
 /// @nodoc
@@ -1525,6 +1529,7 @@ class _$ClientActivityCopyWithImpl<$Res, $Val extends ClientActivity>
     Object? authorName = freezed,
     Object? createdAt = freezed,
     Object? properties = null,
+    Object? openHouseId = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -1563,6 +1568,10 @@ class _$ClientActivityCopyWithImpl<$Res, $Val extends ClientActivity>
           ? _value.properties
           : properties // ignore: cast_nullable_to_non_nullable
               as List<ActivityProperty>,
+      openHouseId: freezed == openHouseId
+          ? _value.openHouseId
+          : openHouseId // ignore: cast_nullable_to_non_nullable
+              as int?,
     ) as $Val);
   }
 }
@@ -1584,7 +1593,8 @@ abstract class _$$ClientActivityImplCopyWith<$Res>
       int? authorId,
       String? authorName,
       DateTime? createdAt,
-      List<ActivityProperty> properties});
+      List<ActivityProperty> properties,
+      int? openHouseId});
 }
 
 /// @nodoc
@@ -1609,6 +1619,7 @@ class __$$ClientActivityImplCopyWithImpl<$Res>
     Object? authorName = freezed,
     Object? createdAt = freezed,
     Object? properties = null,
+    Object? openHouseId = freezed,
   }) {
     return _then(_$ClientActivityImpl(
       id: null == id
@@ -1647,6 +1658,10 @@ class __$$ClientActivityImplCopyWithImpl<$Res>
           ? _value._properties
           : properties // ignore: cast_nullable_to_non_nullable
               as List<ActivityProperty>,
+      openHouseId: freezed == openHouseId
+          ? _value.openHouseId
+          : openHouseId // ignore: cast_nullable_to_non_nullable
+              as int?,
     ));
   }
 }
@@ -1663,7 +1678,8 @@ class _$ClientActivityImpl implements _ClientActivity {
       this.authorId,
       this.authorName,
       this.createdAt,
-      final List<ActivityProperty> properties = const <ActivityProperty>[]})
+      final List<ActivityProperty> properties = const <ActivityProperty>[],
+      this.openHouseId})
       : _properties = properties;
 
   factory _$ClientActivityImpl.fromJson(Map<String, dynamic> json) =>
@@ -1699,9 +1715,13 @@ class _$ClientActivityImpl implements _ClientActivity {
     return EqualUnmodifiableListView(_properties);
   }
 
+  /// Set when the entry is a visit signed in at an open house.
+  @override
+  final int? openHouseId;
+
   @override
   String toString() {
-    return 'ClientActivity(id: $id, clientId: $clientId, type: $type, note: $note, occurredAt: $occurredAt, authorId: $authorId, authorName: $authorName, createdAt: $createdAt, properties: $properties)';
+    return 'ClientActivity(id: $id, clientId: $clientId, type: $type, note: $note, occurredAt: $occurredAt, authorId: $authorId, authorName: $authorName, createdAt: $createdAt, properties: $properties, openHouseId: $openHouseId)';
   }
 
   @override
@@ -1723,7 +1743,9 @@ class _$ClientActivityImpl implements _ClientActivity {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             const DeepCollectionEquality()
-                .equals(other._properties, _properties));
+                .equals(other._properties, _properties) &&
+            (identical(other.openHouseId, openHouseId) ||
+                other.openHouseId == openHouseId));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1738,7 +1760,8 @@ class _$ClientActivityImpl implements _ClientActivity {
       authorId,
       authorName,
       createdAt,
-      const DeepCollectionEquality().hash(_properties));
+      const DeepCollectionEquality().hash(_properties),
+      openHouseId);
 
   /// Create a copy of ClientActivity
   /// with the given fields replaced by the non-null parameter values.
@@ -1767,7 +1790,8 @@ abstract class _ClientActivity implements ClientActivity {
       final int? authorId,
       final String? authorName,
       final DateTime? createdAt,
-      final List<ActivityProperty> properties}) = _$ClientActivityImpl;
+      final List<ActivityProperty> properties,
+      final int? openHouseId}) = _$ClientActivityImpl;
 
   factory _ClientActivity.fromJson(Map<String, dynamic> json) =
       _$ClientActivityImpl.fromJson;
@@ -1792,6 +1816,10 @@ abstract class _ClientActivity implements ClientActivity {
   /// The listings this entry was about — what went out in a message.
   @override
   List<ActivityProperty> get properties;
+
+  /// Set when the entry is a visit signed in at an open house.
+  @override
+  int? get openHouseId;
 
   /// Create a copy of ClientActivity
   /// with the given fields replaced by the non-null parameter values.
@@ -12523,5 +12551,971 @@ abstract class _AppNotification extends AppNotification {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AppNotificationImplCopyWith<_$AppNotificationImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+OpenHouse _$OpenHouseFromJson(Map<String, dynamic> json) {
+  return _OpenHouse.fromJson(json);
+}
+
+/// @nodoc
+mixin _$OpenHouse {
+  int get id => throw _privateConstructorUsedError;
+  int get propertyId => throw _privateConstructorUsedError;
+  String get propertyTitle => throw _privateConstructorUsedError;
+  String? get propertyAddress => throw _privateConstructorUsedError;
+  int? get agentId => throw _privateConstructorUsedError;
+  String? get agentName => throw _privateConstructorUsedError;
+  DateTime get startsAt => throw _privateConstructorUsedError;
+  DateTime get endsAt => throw _privateConstructorUsedError;
+  String? get note => throw _privateConstructorUsedError;
+  int get visitorCount => throw _privateConstructorUsedError;
+  int get newClientCount => throw _privateConstructorUsedError;
+  int get interestedCount => throw _privateConstructorUsedError;
+
+  /// Whether the signed-in user may move or cancel it.
+  bool get canEdit => throw _privateConstructorUsedError;
+  DateTime? get createdAt => throw _privateConstructorUsedError;
+  List<OpenHouseVisitor> get visitors => throw _privateConstructorUsedError;
+
+  /// Serializes this OpenHouse to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of OpenHouse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $OpenHouseCopyWith<OpenHouse> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $OpenHouseCopyWith<$Res> {
+  factory $OpenHouseCopyWith(OpenHouse value, $Res Function(OpenHouse) then) =
+      _$OpenHouseCopyWithImpl<$Res, OpenHouse>;
+  @useResult
+  $Res call(
+      {int id,
+      int propertyId,
+      String propertyTitle,
+      String? propertyAddress,
+      int? agentId,
+      String? agentName,
+      DateTime startsAt,
+      DateTime endsAt,
+      String? note,
+      int visitorCount,
+      int newClientCount,
+      int interestedCount,
+      bool canEdit,
+      DateTime? createdAt,
+      List<OpenHouseVisitor> visitors});
+}
+
+/// @nodoc
+class _$OpenHouseCopyWithImpl<$Res, $Val extends OpenHouse>
+    implements $OpenHouseCopyWith<$Res> {
+  _$OpenHouseCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of OpenHouse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? propertyId = null,
+    Object? propertyTitle = null,
+    Object? propertyAddress = freezed,
+    Object? agentId = freezed,
+    Object? agentName = freezed,
+    Object? startsAt = null,
+    Object? endsAt = null,
+    Object? note = freezed,
+    Object? visitorCount = null,
+    Object? newClientCount = null,
+    Object? interestedCount = null,
+    Object? canEdit = null,
+    Object? createdAt = freezed,
+    Object? visitors = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      propertyId: null == propertyId
+          ? _value.propertyId
+          : propertyId // ignore: cast_nullable_to_non_nullable
+              as int,
+      propertyTitle: null == propertyTitle
+          ? _value.propertyTitle
+          : propertyTitle // ignore: cast_nullable_to_non_nullable
+              as String,
+      propertyAddress: freezed == propertyAddress
+          ? _value.propertyAddress
+          : propertyAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      agentId: freezed == agentId
+          ? _value.agentId
+          : agentId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      agentName: freezed == agentName
+          ? _value.agentName
+          : agentName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      startsAt: null == startsAt
+          ? _value.startsAt
+          : startsAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      endsAt: null == endsAt
+          ? _value.endsAt
+          : endsAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      note: freezed == note
+          ? _value.note
+          : note // ignore: cast_nullable_to_non_nullable
+              as String?,
+      visitorCount: null == visitorCount
+          ? _value.visitorCount
+          : visitorCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      newClientCount: null == newClientCount
+          ? _value.newClientCount
+          : newClientCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      interestedCount: null == interestedCount
+          ? _value.interestedCount
+          : interestedCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      canEdit: null == canEdit
+          ? _value.canEdit
+          : canEdit // ignore: cast_nullable_to_non_nullable
+              as bool,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      visitors: null == visitors
+          ? _value.visitors
+          : visitors // ignore: cast_nullable_to_non_nullable
+              as List<OpenHouseVisitor>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$OpenHouseImplCopyWith<$Res>
+    implements $OpenHouseCopyWith<$Res> {
+  factory _$$OpenHouseImplCopyWith(
+          _$OpenHouseImpl value, $Res Function(_$OpenHouseImpl) then) =
+      __$$OpenHouseImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int id,
+      int propertyId,
+      String propertyTitle,
+      String? propertyAddress,
+      int? agentId,
+      String? agentName,
+      DateTime startsAt,
+      DateTime endsAt,
+      String? note,
+      int visitorCount,
+      int newClientCount,
+      int interestedCount,
+      bool canEdit,
+      DateTime? createdAt,
+      List<OpenHouseVisitor> visitors});
+}
+
+/// @nodoc
+class __$$OpenHouseImplCopyWithImpl<$Res>
+    extends _$OpenHouseCopyWithImpl<$Res, _$OpenHouseImpl>
+    implements _$$OpenHouseImplCopyWith<$Res> {
+  __$$OpenHouseImplCopyWithImpl(
+      _$OpenHouseImpl _value, $Res Function(_$OpenHouseImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of OpenHouse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? propertyId = null,
+    Object? propertyTitle = null,
+    Object? propertyAddress = freezed,
+    Object? agentId = freezed,
+    Object? agentName = freezed,
+    Object? startsAt = null,
+    Object? endsAt = null,
+    Object? note = freezed,
+    Object? visitorCount = null,
+    Object? newClientCount = null,
+    Object? interestedCount = null,
+    Object? canEdit = null,
+    Object? createdAt = freezed,
+    Object? visitors = null,
+  }) {
+    return _then(_$OpenHouseImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      propertyId: null == propertyId
+          ? _value.propertyId
+          : propertyId // ignore: cast_nullable_to_non_nullable
+              as int,
+      propertyTitle: null == propertyTitle
+          ? _value.propertyTitle
+          : propertyTitle // ignore: cast_nullable_to_non_nullable
+              as String,
+      propertyAddress: freezed == propertyAddress
+          ? _value.propertyAddress
+          : propertyAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      agentId: freezed == agentId
+          ? _value.agentId
+          : agentId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      agentName: freezed == agentName
+          ? _value.agentName
+          : agentName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      startsAt: null == startsAt
+          ? _value.startsAt
+          : startsAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      endsAt: null == endsAt
+          ? _value.endsAt
+          : endsAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      note: freezed == note
+          ? _value.note
+          : note // ignore: cast_nullable_to_non_nullable
+              as String?,
+      visitorCount: null == visitorCount
+          ? _value.visitorCount
+          : visitorCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      newClientCount: null == newClientCount
+          ? _value.newClientCount
+          : newClientCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      interestedCount: null == interestedCount
+          ? _value.interestedCount
+          : interestedCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      canEdit: null == canEdit
+          ? _value.canEdit
+          : canEdit // ignore: cast_nullable_to_non_nullable
+              as bool,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      visitors: null == visitors
+          ? _value._visitors
+          : visitors // ignore: cast_nullable_to_non_nullable
+              as List<OpenHouseVisitor>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$OpenHouseImpl extends _OpenHouse {
+  const _$OpenHouseImpl(
+      {required this.id,
+      required this.propertyId,
+      this.propertyTitle = '',
+      this.propertyAddress,
+      this.agentId,
+      this.agentName,
+      required this.startsAt,
+      required this.endsAt,
+      this.note,
+      this.visitorCount = 0,
+      this.newClientCount = 0,
+      this.interestedCount = 0,
+      this.canEdit = false,
+      this.createdAt,
+      final List<OpenHouseVisitor> visitors = const <OpenHouseVisitor>[]})
+      : _visitors = visitors,
+        super._();
+
+  factory _$OpenHouseImpl.fromJson(Map<String, dynamic> json) =>
+      _$$OpenHouseImplFromJson(json);
+
+  @override
+  final int id;
+  @override
+  final int propertyId;
+  @override
+  @JsonKey()
+  final String propertyTitle;
+  @override
+  final String? propertyAddress;
+  @override
+  final int? agentId;
+  @override
+  final String? agentName;
+  @override
+  final DateTime startsAt;
+  @override
+  final DateTime endsAt;
+  @override
+  final String? note;
+  @override
+  @JsonKey()
+  final int visitorCount;
+  @override
+  @JsonKey()
+  final int newClientCount;
+  @override
+  @JsonKey()
+  final int interestedCount;
+
+  /// Whether the signed-in user may move or cancel it.
+  @override
+  @JsonKey()
+  final bool canEdit;
+  @override
+  final DateTime? createdAt;
+  final List<OpenHouseVisitor> _visitors;
+  @override
+  @JsonKey()
+  List<OpenHouseVisitor> get visitors {
+    if (_visitors is EqualUnmodifiableListView) return _visitors;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_visitors);
+  }
+
+  @override
+  String toString() {
+    return 'OpenHouse(id: $id, propertyId: $propertyId, propertyTitle: $propertyTitle, propertyAddress: $propertyAddress, agentId: $agentId, agentName: $agentName, startsAt: $startsAt, endsAt: $endsAt, note: $note, visitorCount: $visitorCount, newClientCount: $newClientCount, interestedCount: $interestedCount, canEdit: $canEdit, createdAt: $createdAt, visitors: $visitors)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$OpenHouseImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.propertyId, propertyId) ||
+                other.propertyId == propertyId) &&
+            (identical(other.propertyTitle, propertyTitle) ||
+                other.propertyTitle == propertyTitle) &&
+            (identical(other.propertyAddress, propertyAddress) ||
+                other.propertyAddress == propertyAddress) &&
+            (identical(other.agentId, agentId) || other.agentId == agentId) &&
+            (identical(other.agentName, agentName) ||
+                other.agentName == agentName) &&
+            (identical(other.startsAt, startsAt) ||
+                other.startsAt == startsAt) &&
+            (identical(other.endsAt, endsAt) || other.endsAt == endsAt) &&
+            (identical(other.note, note) || other.note == note) &&
+            (identical(other.visitorCount, visitorCount) ||
+                other.visitorCount == visitorCount) &&
+            (identical(other.newClientCount, newClientCount) ||
+                other.newClientCount == newClientCount) &&
+            (identical(other.interestedCount, interestedCount) ||
+                other.interestedCount == interestedCount) &&
+            (identical(other.canEdit, canEdit) || other.canEdit == canEdit) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            const DeepCollectionEquality().equals(other._visitors, _visitors));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      propertyId,
+      propertyTitle,
+      propertyAddress,
+      agentId,
+      agentName,
+      startsAt,
+      endsAt,
+      note,
+      visitorCount,
+      newClientCount,
+      interestedCount,
+      canEdit,
+      createdAt,
+      const DeepCollectionEquality().hash(_visitors));
+
+  /// Create a copy of OpenHouse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$OpenHouseImplCopyWith<_$OpenHouseImpl> get copyWith =>
+      __$$OpenHouseImplCopyWithImpl<_$OpenHouseImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$OpenHouseImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _OpenHouse extends OpenHouse {
+  const factory _OpenHouse(
+      {required final int id,
+      required final int propertyId,
+      final String propertyTitle,
+      final String? propertyAddress,
+      final int? agentId,
+      final String? agentName,
+      required final DateTime startsAt,
+      required final DateTime endsAt,
+      final String? note,
+      final int visitorCount,
+      final int newClientCount,
+      final int interestedCount,
+      final bool canEdit,
+      final DateTime? createdAt,
+      final List<OpenHouseVisitor> visitors}) = _$OpenHouseImpl;
+  const _OpenHouse._() : super._();
+
+  factory _OpenHouse.fromJson(Map<String, dynamic> json) =
+      _$OpenHouseImpl.fromJson;
+
+  @override
+  int get id;
+  @override
+  int get propertyId;
+  @override
+  String get propertyTitle;
+  @override
+  String? get propertyAddress;
+  @override
+  int? get agentId;
+  @override
+  String? get agentName;
+  @override
+  DateTime get startsAt;
+  @override
+  DateTime get endsAt;
+  @override
+  String? get note;
+  @override
+  int get visitorCount;
+  @override
+  int get newClientCount;
+  @override
+  int get interestedCount;
+
+  /// Whether the signed-in user may move or cancel it.
+  @override
+  bool get canEdit;
+  @override
+  DateTime? get createdAt;
+  @override
+  List<OpenHouseVisitor> get visitors;
+
+  /// Create a copy of OpenHouse
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$OpenHouseImplCopyWith<_$OpenHouseImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+OpenHouseVisitor _$OpenHouseVisitorFromJson(Map<String, dynamic> json) {
+  return _OpenHouseVisitor.fromJson(json);
+}
+
+/// @nodoc
+mixin _$OpenHouseVisitor {
+  int get id => throw _privateConstructorUsedError;
+  int get openHouseId => throw _privateConstructorUsedError;
+  String get fullName => throw _privateConstructorUsedError;
+  String get phone => throw _privateConstructorUsedError;
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  OpenHouseInterest? get interest => throw _privateConstructorUsedError;
+  String? get note => throw _privateConstructorUsedError;
+  int? get clientId => throw _privateConstructorUsedError;
+
+  /// Whether the signed-in user may open the client card; a colleague's
+  /// client, on an own-records scope, is named by [clientAgentName] only.
+  bool get clientVisible => throw _privateConstructorUsedError;
+  String? get clientName => throw _privateConstructorUsedError;
+  String? get clientAgentName => throw _privateConstructorUsedError;
+
+  /// Whether this sign-in made the client rather than finding one.
+  bool get newClient => throw _privateConstructorUsedError;
+  int? get signedInById => throw _privateConstructorUsedError;
+  String? get signedInByName => throw _privateConstructorUsedError;
+  DateTime? get signedInAt => throw _privateConstructorUsedError;
+  bool get canRemove => throw _privateConstructorUsedError;
+
+  /// Serializes this OpenHouseVisitor to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of OpenHouseVisitor
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $OpenHouseVisitorCopyWith<OpenHouseVisitor> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $OpenHouseVisitorCopyWith<$Res> {
+  factory $OpenHouseVisitorCopyWith(
+          OpenHouseVisitor value, $Res Function(OpenHouseVisitor) then) =
+      _$OpenHouseVisitorCopyWithImpl<$Res, OpenHouseVisitor>;
+  @useResult
+  $Res call(
+      {int id,
+      int openHouseId,
+      String fullName,
+      String phone,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      OpenHouseInterest? interest,
+      String? note,
+      int? clientId,
+      bool clientVisible,
+      String? clientName,
+      String? clientAgentName,
+      bool newClient,
+      int? signedInById,
+      String? signedInByName,
+      DateTime? signedInAt,
+      bool canRemove});
+}
+
+/// @nodoc
+class _$OpenHouseVisitorCopyWithImpl<$Res, $Val extends OpenHouseVisitor>
+    implements $OpenHouseVisitorCopyWith<$Res> {
+  _$OpenHouseVisitorCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of OpenHouseVisitor
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? openHouseId = null,
+    Object? fullName = null,
+    Object? phone = null,
+    Object? interest = freezed,
+    Object? note = freezed,
+    Object? clientId = freezed,
+    Object? clientVisible = null,
+    Object? clientName = freezed,
+    Object? clientAgentName = freezed,
+    Object? newClient = null,
+    Object? signedInById = freezed,
+    Object? signedInByName = freezed,
+    Object? signedInAt = freezed,
+    Object? canRemove = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      openHouseId: null == openHouseId
+          ? _value.openHouseId
+          : openHouseId // ignore: cast_nullable_to_non_nullable
+              as int,
+      fullName: null == fullName
+          ? _value.fullName
+          : fullName // ignore: cast_nullable_to_non_nullable
+              as String,
+      phone: null == phone
+          ? _value.phone
+          : phone // ignore: cast_nullable_to_non_nullable
+              as String,
+      interest: freezed == interest
+          ? _value.interest
+          : interest // ignore: cast_nullable_to_non_nullable
+              as OpenHouseInterest?,
+      note: freezed == note
+          ? _value.note
+          : note // ignore: cast_nullable_to_non_nullable
+              as String?,
+      clientId: freezed == clientId
+          ? _value.clientId
+          : clientId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      clientVisible: null == clientVisible
+          ? _value.clientVisible
+          : clientVisible // ignore: cast_nullable_to_non_nullable
+              as bool,
+      clientName: freezed == clientName
+          ? _value.clientName
+          : clientName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      clientAgentName: freezed == clientAgentName
+          ? _value.clientAgentName
+          : clientAgentName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      newClient: null == newClient
+          ? _value.newClient
+          : newClient // ignore: cast_nullable_to_non_nullable
+              as bool,
+      signedInById: freezed == signedInById
+          ? _value.signedInById
+          : signedInById // ignore: cast_nullable_to_non_nullable
+              as int?,
+      signedInByName: freezed == signedInByName
+          ? _value.signedInByName
+          : signedInByName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      signedInAt: freezed == signedInAt
+          ? _value.signedInAt
+          : signedInAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      canRemove: null == canRemove
+          ? _value.canRemove
+          : canRemove // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$OpenHouseVisitorImplCopyWith<$Res>
+    implements $OpenHouseVisitorCopyWith<$Res> {
+  factory _$$OpenHouseVisitorImplCopyWith(_$OpenHouseVisitorImpl value,
+          $Res Function(_$OpenHouseVisitorImpl) then) =
+      __$$OpenHouseVisitorImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int id,
+      int openHouseId,
+      String fullName,
+      String phone,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      OpenHouseInterest? interest,
+      String? note,
+      int? clientId,
+      bool clientVisible,
+      String? clientName,
+      String? clientAgentName,
+      bool newClient,
+      int? signedInById,
+      String? signedInByName,
+      DateTime? signedInAt,
+      bool canRemove});
+}
+
+/// @nodoc
+class __$$OpenHouseVisitorImplCopyWithImpl<$Res>
+    extends _$OpenHouseVisitorCopyWithImpl<$Res, _$OpenHouseVisitorImpl>
+    implements _$$OpenHouseVisitorImplCopyWith<$Res> {
+  __$$OpenHouseVisitorImplCopyWithImpl(_$OpenHouseVisitorImpl _value,
+      $Res Function(_$OpenHouseVisitorImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of OpenHouseVisitor
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? openHouseId = null,
+    Object? fullName = null,
+    Object? phone = null,
+    Object? interest = freezed,
+    Object? note = freezed,
+    Object? clientId = freezed,
+    Object? clientVisible = null,
+    Object? clientName = freezed,
+    Object? clientAgentName = freezed,
+    Object? newClient = null,
+    Object? signedInById = freezed,
+    Object? signedInByName = freezed,
+    Object? signedInAt = freezed,
+    Object? canRemove = null,
+  }) {
+    return _then(_$OpenHouseVisitorImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      openHouseId: null == openHouseId
+          ? _value.openHouseId
+          : openHouseId // ignore: cast_nullable_to_non_nullable
+              as int,
+      fullName: null == fullName
+          ? _value.fullName
+          : fullName // ignore: cast_nullable_to_non_nullable
+              as String,
+      phone: null == phone
+          ? _value.phone
+          : phone // ignore: cast_nullable_to_non_nullable
+              as String,
+      interest: freezed == interest
+          ? _value.interest
+          : interest // ignore: cast_nullable_to_non_nullable
+              as OpenHouseInterest?,
+      note: freezed == note
+          ? _value.note
+          : note // ignore: cast_nullable_to_non_nullable
+              as String?,
+      clientId: freezed == clientId
+          ? _value.clientId
+          : clientId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      clientVisible: null == clientVisible
+          ? _value.clientVisible
+          : clientVisible // ignore: cast_nullable_to_non_nullable
+              as bool,
+      clientName: freezed == clientName
+          ? _value.clientName
+          : clientName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      clientAgentName: freezed == clientAgentName
+          ? _value.clientAgentName
+          : clientAgentName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      newClient: null == newClient
+          ? _value.newClient
+          : newClient // ignore: cast_nullable_to_non_nullable
+              as bool,
+      signedInById: freezed == signedInById
+          ? _value.signedInById
+          : signedInById // ignore: cast_nullable_to_non_nullable
+              as int?,
+      signedInByName: freezed == signedInByName
+          ? _value.signedInByName
+          : signedInByName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      signedInAt: freezed == signedInAt
+          ? _value.signedInAt
+          : signedInAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      canRemove: null == canRemove
+          ? _value.canRemove
+          : canRemove // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$OpenHouseVisitorImpl implements _OpenHouseVisitor {
+  const _$OpenHouseVisitorImpl(
+      {required this.id,
+      required this.openHouseId,
+      this.fullName = '',
+      this.phone = '',
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      this.interest,
+      this.note,
+      this.clientId,
+      this.clientVisible = false,
+      this.clientName,
+      this.clientAgentName,
+      this.newClient = false,
+      this.signedInById,
+      this.signedInByName,
+      this.signedInAt,
+      this.canRemove = false});
+
+  factory _$OpenHouseVisitorImpl.fromJson(Map<String, dynamic> json) =>
+      _$$OpenHouseVisitorImplFromJson(json);
+
+  @override
+  final int id;
+  @override
+  final int openHouseId;
+  @override
+  @JsonKey()
+  final String fullName;
+  @override
+  @JsonKey()
+  final String phone;
+  @override
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  final OpenHouseInterest? interest;
+  @override
+  final String? note;
+  @override
+  final int? clientId;
+
+  /// Whether the signed-in user may open the client card; a colleague's
+  /// client, on an own-records scope, is named by [clientAgentName] only.
+  @override
+  @JsonKey()
+  final bool clientVisible;
+  @override
+  final String? clientName;
+  @override
+  final String? clientAgentName;
+
+  /// Whether this sign-in made the client rather than finding one.
+  @override
+  @JsonKey()
+  final bool newClient;
+  @override
+  final int? signedInById;
+  @override
+  final String? signedInByName;
+  @override
+  final DateTime? signedInAt;
+  @override
+  @JsonKey()
+  final bool canRemove;
+
+  @override
+  String toString() {
+    return 'OpenHouseVisitor(id: $id, openHouseId: $openHouseId, fullName: $fullName, phone: $phone, interest: $interest, note: $note, clientId: $clientId, clientVisible: $clientVisible, clientName: $clientName, clientAgentName: $clientAgentName, newClient: $newClient, signedInById: $signedInById, signedInByName: $signedInByName, signedInAt: $signedInAt, canRemove: $canRemove)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$OpenHouseVisitorImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.openHouseId, openHouseId) ||
+                other.openHouseId == openHouseId) &&
+            (identical(other.fullName, fullName) ||
+                other.fullName == fullName) &&
+            (identical(other.phone, phone) || other.phone == phone) &&
+            (identical(other.interest, interest) ||
+                other.interest == interest) &&
+            (identical(other.note, note) || other.note == note) &&
+            (identical(other.clientId, clientId) ||
+                other.clientId == clientId) &&
+            (identical(other.clientVisible, clientVisible) ||
+                other.clientVisible == clientVisible) &&
+            (identical(other.clientName, clientName) ||
+                other.clientName == clientName) &&
+            (identical(other.clientAgentName, clientAgentName) ||
+                other.clientAgentName == clientAgentName) &&
+            (identical(other.newClient, newClient) ||
+                other.newClient == newClient) &&
+            (identical(other.signedInById, signedInById) ||
+                other.signedInById == signedInById) &&
+            (identical(other.signedInByName, signedInByName) ||
+                other.signedInByName == signedInByName) &&
+            (identical(other.signedInAt, signedInAt) ||
+                other.signedInAt == signedInAt) &&
+            (identical(other.canRemove, canRemove) ||
+                other.canRemove == canRemove));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      openHouseId,
+      fullName,
+      phone,
+      interest,
+      note,
+      clientId,
+      clientVisible,
+      clientName,
+      clientAgentName,
+      newClient,
+      signedInById,
+      signedInByName,
+      signedInAt,
+      canRemove);
+
+  /// Create a copy of OpenHouseVisitor
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$OpenHouseVisitorImplCopyWith<_$OpenHouseVisitorImpl> get copyWith =>
+      __$$OpenHouseVisitorImplCopyWithImpl<_$OpenHouseVisitorImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$OpenHouseVisitorImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _OpenHouseVisitor implements OpenHouseVisitor {
+  const factory _OpenHouseVisitor(
+      {required final int id,
+      required final int openHouseId,
+      final String fullName,
+      final String phone,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      final OpenHouseInterest? interest,
+      final String? note,
+      final int? clientId,
+      final bool clientVisible,
+      final String? clientName,
+      final String? clientAgentName,
+      final bool newClient,
+      final int? signedInById,
+      final String? signedInByName,
+      final DateTime? signedInAt,
+      final bool canRemove}) = _$OpenHouseVisitorImpl;
+
+  factory _OpenHouseVisitor.fromJson(Map<String, dynamic> json) =
+      _$OpenHouseVisitorImpl.fromJson;
+
+  @override
+  int get id;
+  @override
+  int get openHouseId;
+  @override
+  String get fullName;
+  @override
+  String get phone;
+  @override
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  OpenHouseInterest? get interest;
+  @override
+  String? get note;
+  @override
+  int? get clientId;
+
+  /// Whether the signed-in user may open the client card; a colleague's
+  /// client, on an own-records scope, is named by [clientAgentName] only.
+  @override
+  bool get clientVisible;
+  @override
+  String? get clientName;
+  @override
+  String? get clientAgentName;
+
+  /// Whether this sign-in made the client rather than finding one.
+  @override
+  bool get newClient;
+  @override
+  int? get signedInById;
+  @override
+  String? get signedInByName;
+  @override
+  DateTime? get signedInAt;
+  @override
+  bool get canRemove;
+
+  /// Create a copy of OpenHouseVisitor
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$OpenHouseVisitorImplCopyWith<_$OpenHouseVisitorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

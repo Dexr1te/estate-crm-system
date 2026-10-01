@@ -1054,6 +1054,12 @@ abstract class AppLocalizations {
   /// **'Meeting'**
   String get calendarLegendMeeting;
 
+  /// No description provided for @calendarLegendOpenHouse.
+  ///
+  /// In en, this message translates to:
+  /// **'Open house'**
+  String get calendarLegendOpenHouse;
+
   /// No description provided for @calendarLegendOverdue.
   ///
   /// In en, this message translates to:
@@ -2085,6 +2091,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Imported'**
   String get clientsSourceImport;
+
+  /// No description provided for @clientsSourceOpenHouse.
+  ///
+  /// In en, this message translates to:
+  /// **'From an open house'**
+  String get clientsSourceOpenHouse;
 
   /// No description provided for @clientsSourcePublicLink.
   ///
@@ -5613,6 +5625,306 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count, plural, =0{No unread notifications} =1{1 unread notification} other{{count} unread notifications}}'**
   String notificationsUnreadLabel(int count);
+
+  /// No description provided for @openHouseActivity.
+  ///
+  /// In en, this message translates to:
+  /// **'Open house visit'**
+  String get openHouseActivity;
+
+  /// No description provided for @openHouseAddVisitor.
+  ///
+  /// In en, this message translates to:
+  /// **'Add visitor'**
+  String get openHouseAddVisitor;
+
+  /// No description provided for @openHouseAlreadySignedIn.
+  ///
+  /// In en, this message translates to:
+  /// **'This number has already signed in'**
+  String get openHouseAlreadySignedIn;
+
+  /// No description provided for @openHouseColleagueClient.
+  ///
+  /// In en, this message translates to:
+  /// **'Client of {agent}'**
+  String openHouseColleagueClient(String agent);
+
+  /// No description provided for @openHouseDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get openHouseDate;
+
+  /// No description provided for @openHouseDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel open house'**
+  String get openHouseDelete;
+
+  /// No description provided for @openHouseDeleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'It is removed from the listing and the calendar.'**
+  String get openHouseDeleteConfirm;
+
+  /// No description provided for @openHouseEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit open house'**
+  String get openHouseEdit;
+
+  /// No description provided for @openHouseEnds.
+  ///
+  /// In en, this message translates to:
+  /// **'Ends'**
+  String get openHouseEnds;
+
+  /// No description provided for @openHouseEndsBeforeStart.
+  ///
+  /// In en, this message translates to:
+  /// **'It has to end after it starts'**
+  String get openHouseEndsBeforeStart;
+
+  /// No description provided for @openHouseHasVisitors.
+  ///
+  /// In en, this message translates to:
+  /// **'People have signed in, so it cannot be cancelled'**
+  String get openHouseHasVisitors;
+
+  /// No description provided for @openHouseHost.
+  ///
+  /// In en, this message translates to:
+  /// **'Held by {name}'**
+  String openHouseHost(String name);
+
+  /// No description provided for @openHouseInterestLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Interest'**
+  String get openHouseInterestLabel;
+
+  /// No description provided for @openHouseInterested.
+  ///
+  /// In en, this message translates to:
+  /// **'Interested'**
+  String get openHouseInterested;
+
+  /// No description provided for @openHouseJustLooking.
+  ///
+  /// In en, this message translates to:
+  /// **'Just looking'**
+  String get openHouseJustLooking;
+
+  /// No description provided for @openHouseKnownClient.
+  ///
+  /// In en, this message translates to:
+  /// **'Already a client'**
+  String get openHouseKnownClient;
+
+  /// No description provided for @openHouseLive.
+  ///
+  /// In en, this message translates to:
+  /// **'On now'**
+  String get openHouseLive;
+
+  /// No description provided for @openHouseLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load the open house'**
+  String get openHouseLoadFailed;
+
+  /// No description provided for @openHouseNewClient.
+  ///
+  /// In en, this message translates to:
+  /// **'New client'**
+  String get openHouseNewClient;
+
+  /// No description provided for @openHouseNoVisitors.
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody has signed in yet'**
+  String get openHouseNoVisitors;
+
+  /// No description provided for @openHouseNoVisitorsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add each visitor as they arrive. A number the agency does not know becomes a new buyer.'**
+  String get openHouseNoVisitorsHint;
+
+  /// No description provided for @openHouseNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No open houses yet. Schedule one and sign visitors in at the door.'**
+  String get openHouseNone;
+
+  /// No description provided for @openHouseNoteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Keys, parking, who to call at the door'**
+  String get openHouseNoteHint;
+
+  /// No description provided for @openHouseNoteLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get openHouseNoteLabel;
+
+  /// No description provided for @openHousePast.
+  ///
+  /// In en, this message translates to:
+  /// **'Past'**
+  String get openHousePast;
+
+  /// No description provided for @openHouseRemoveVisitor.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove visitor'**
+  String get openHouseRemoveVisitor;
+
+  /// No description provided for @openHouseRemoveVisitorConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} comes off the sheet and the visit leaves the client\'s history. A client this sign-in created stays.'**
+  String openHouseRemoveVisitorConfirm(String name);
+
+  /// No description provided for @openHouseSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get openHouseSave;
+
+  /// No description provided for @openHouseSchedule.
+  ///
+  /// In en, this message translates to:
+  /// **'Schedule an open house'**
+  String get openHouseSchedule;
+
+  /// No description provided for @openHouseSeeAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Show all'**
+  String get openHouseSeeAll;
+
+  /// No description provided for @openHouseSignIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get openHouseSignIn;
+
+  /// No description provided for @openHouseSignInNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Save and next'**
+  String get openHouseSignInNext;
+
+  /// No description provided for @openHouseSignInSheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign-in sheet'**
+  String get openHouseSignInSheet;
+
+  /// No description provided for @openHouseSignedIn.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} signed in'**
+  String openHouseSignedIn(String name);
+
+  /// No description provided for @openHouseStarts.
+  ///
+  /// In en, this message translates to:
+  /// **'Starts'**
+  String get openHouseStarts;
+
+  /// No description provided for @openHouseSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Summary'**
+  String get openHouseSummary;
+
+  /// No description provided for @openHouseSummaryInterested.
+  ///
+  /// In en, this message translates to:
+  /// **'Interested'**
+  String get openHouseSummaryInterested;
+
+  /// No description provided for @openHouseSummaryNewClients.
+  ///
+  /// In en, this message translates to:
+  /// **'New clients'**
+  String get openHouseSummaryNewClients;
+
+  /// No description provided for @openHouseSummaryVisitors.
+  ///
+  /// In en, this message translates to:
+  /// **'Visitors'**
+  String get openHouseSummaryVisitors;
+
+  /// No description provided for @openHouseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Open house'**
+  String get openHouseTitle;
+
+  /// No description provided for @openHouseTooLong.
+  ///
+  /// In en, this message translates to:
+  /// **'An open house lasts at most 12 hours'**
+  String get openHouseTooLong;
+
+  /// No description provided for @openHouseUpcoming.
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming'**
+  String get openHouseUpcoming;
+
+  /// No description provided for @openHouseVisitorName.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get openHouseVisitorName;
+
+  /// No description provided for @openHouseVisitorNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'As they give it'**
+  String get openHouseVisitorNameHint;
+
+  /// No description provided for @openHouseVisitorNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a name'**
+  String get openHouseVisitorNameRequired;
+
+  /// No description provided for @openHouseVisitorNoteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What they asked about'**
+  String get openHouseVisitorNoteHint;
+
+  /// No description provided for @openHouseVisitorPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone'**
+  String get openHouseVisitorPhone;
+
+  /// No description provided for @openHouseVisitorPhoneInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a phone number'**
+  String get openHouseVisitorPhoneInvalid;
+
+  /// No description provided for @openHouseVisitorsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No visitors} =1{1 visitor} other{{count} visitors}}'**
+  String openHouseVisitorsCount(int count);
+
+  /// No description provided for @openHousesCardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Open houses'**
+  String get openHousesCardTitle;
 
   /// No description provided for @profileAgentId.
   ///

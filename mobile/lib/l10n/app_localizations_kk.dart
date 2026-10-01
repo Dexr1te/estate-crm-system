@@ -537,6 +537,9 @@ class AppLocalizationsKk extends AppLocalizations {
   String get calendarLegendMeeting => 'Кездесу';
 
   @override
+  String get calendarLegendOpenHouse => 'Ашық есік күні';
+
+  @override
   String get calendarLegendOverdue => 'Мерзімі өткен';
 
   @override
@@ -1166,6 +1169,9 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get clientsSourceImport => 'Импорттан';
+
+  @override
+  String get clientsSourceOpenHouse => 'Ашық есік күнінен';
 
   @override
   String get clientsSourcePublicLink => 'Жария сілтемеден';
@@ -3233,6 +3239,177 @@ class AppLocalizationsKk extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get openHouseActivity => 'Ашық есік күніне келу';
+
+  @override
+  String get openHouseAddVisitor => 'Келушіні қосу';
+
+  @override
+  String get openHouseAlreadySignedIn => 'Бұл нөмір әлдеқашан тіркелген';
+
+  @override
+  String openHouseColleagueClient(String agent) {
+    return 'Клиент: $agent';
+  }
+
+  @override
+  String get openHouseDate => 'Күні';
+
+  @override
+  String get openHouseDelete => 'Ашық есік күнін болдырмау';
+
+  @override
+  String get openHouseDeleteConfirm => 'Ол нысаннан және күнтізбеден жойылады.';
+
+  @override
+  String get openHouseEdit => 'Ашық есік күнін өзгерту';
+
+  @override
+  String get openHouseEnds => 'Аяқталуы';
+
+  @override
+  String get openHouseEndsBeforeStart =>
+      'Аяқталуы басталуынан кейін болуы керек';
+
+  @override
+  String get openHouseHasVisitors =>
+      'Келушілер тіркелген, сондықтан болдырмау мүмкін емес';
+
+  @override
+  String openHouseHost(String name) {
+    return 'Өткізетін: $name';
+  }
+
+  @override
+  String get openHouseInterestLabel => 'Қызығушылық';
+
+  @override
+  String get openHouseInterested => 'Қызықты';
+
+  @override
+  String get openHouseJustLooking => 'Жай қарап жүр';
+
+  @override
+  String get openHouseKnownClient => 'Бұрыннан клиент';
+
+  @override
+  String get openHouseLive => 'Қазір өтуде';
+
+  @override
+  String get openHouseLoadFailed => 'Ашық есік күнін жүктеу мүмкін болмады';
+
+  @override
+  String get openHouseNewClient => 'Жаңа клиент';
+
+  @override
+  String get openHouseNoVisitors => 'Әзірге ешкім тіркелмеген';
+
+  @override
+  String get openHouseNoVisitorsHint =>
+      'Келушілерді келген сайын қосыңыз. Агенттікке белгісіз нөмір жаңа сатып алушы болады.';
+
+  @override
+  String get openHouseNone =>
+      'Әзірге жоқ. Ашық есік күнін белгілеп, келушілерді есік алдында тіркеңіз.';
+
+  @override
+  String get openHouseNoteHint =>
+      'Кілттер, тұрақ, есік алдында кімге қоңырау шалу';
+
+  @override
+  String get openHouseNoteLabel => 'Жазба';
+
+  @override
+  String get openHousePast => 'Өткен';
+
+  @override
+  String get openHouseRemoveVisitor => 'Келушіні алып тастау';
+
+  @override
+  String openHouseRemoveVisitorConfirm(String name) {
+    return '$name парақтан, ал келу клиент тарихынан алынады. Тіркеу кезінде құрылған клиент қалады.';
+  }
+
+  @override
+  String get openHouseSave => 'Сақтау';
+
+  @override
+  String get openHouseSchedule => 'Ашық есік күнін белгілеу';
+
+  @override
+  String get openHouseSeeAll => 'Барлығын көрсету';
+
+  @override
+  String get openHouseSignIn => 'Сақтау';
+
+  @override
+  String get openHouseSignInNext => 'Сақтап, келесісі';
+
+  @override
+  String get openHouseSignInSheet => 'Келушілер парағы';
+
+  @override
+  String openHouseSignedIn(String name) {
+    return '$name тіркелді';
+  }
+
+  @override
+  String get openHouseStarts => 'Басталуы';
+
+  @override
+  String get openHouseSummary => 'Қорытынды';
+
+  @override
+  String get openHouseSummaryInterested => 'Қызығушылық танытты';
+
+  @override
+  String get openHouseSummaryNewClients => 'Жаңа клиенттер';
+
+  @override
+  String get openHouseSummaryVisitors => 'Келушілер';
+
+  @override
+  String get openHouseTitle => 'Ашық есік күні';
+
+  @override
+  String get openHouseTooLong => 'Ашық есік күні 12 сағаттан аспайды';
+
+  @override
+  String get openHouseUpcoming => 'Алдағы';
+
+  @override
+  String get openHouseVisitorName => 'Аты';
+
+  @override
+  String get openHouseVisitorNameHint => 'Өзі айтқандай';
+
+  @override
+  String get openHouseVisitorNameRequired => 'Атын енгізіңіз';
+
+  @override
+  String get openHouseVisitorNoteHint => 'Не туралы сұрады';
+
+  @override
+  String get openHouseVisitorPhone => 'Телефон';
+
+  @override
+  String get openHouseVisitorPhoneInvalid => 'Телефон нөмірін енгізіңіз';
+
+  @override
+  String openHouseVisitorsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count келуші',
+      zero: 'Келушілер жоқ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get openHousesCardTitle => 'Ашық есік күндері';
 
   @override
   String get profileAgentId => 'Агент ID';

@@ -40,14 +40,19 @@ List<DateTime> weekDays(DateTime day, int firstDayOfWeekIndex) {
   return (days.first, DateTime(last.year, last.month, last.day + 1));
 }
 
-enum CalendarMarker { meeting, viewing, task, overdueTask, doneTask }
+enum CalendarMarker { meeting, viewing, openHouse, task, overdueTask, doneTask }
 
-/// One month page of meetings and tasks, read once and kept.
+/// One month page of meetings, open houses and tasks, read once and kept.
 class CalendarPage {
   final List<MeetingResponse> meetings;
   final List<TaskResponse> tasks;
+  final List<OpenHouse> openHouses;
 
-  const CalendarPage({this.meetings = const [], this.tasks = const []});
+  const CalendarPage({
+    this.meetings = const [],
+    this.tasks = const [],
+    this.openHouses = const [],
+  });
 
   List<MeetingResponse> meetingsOn(DateTime day) =>
       meetings.where((m) => _same(m.scheduledAt, day)).toList()
@@ -57,7 +62,14 @@ class CalendarPage {
       tasks.where((t) => _same(t.dueAt, day)).toList()
         ..sort((a, b) => a.dueAt.compareTo(b.dueAt));
 
-  int countOn(DateTime day) => meetingsOn(day).length + tasksOn(day).length;
+  /// Open houses that start on [day]; one running past midnight is shown
+  /// where it began.
+  List<OpenHouse> openHousesOn(DateTime day) =>
+      openHouses.where((o) => _same(o.startsAt, day)).toList()
+        ..sort((a, b) => a.startsAt.compareTo(b.startsAt));
+
+  int countOn(DateTime day) =>
+      meetingsOn(day).length + tasksOn(day).length + openHousesOn(day).length;
 
   /// At most three markers, in the order things happen that day.
   List<CalendarMarker> markersOn(DateTime day, DateTime now) {
@@ -67,6 +79,7 @@ class CalendarPage {
           m.scheduledAt,
           m.propertyId != null ? CalendarMarker.viewing : CalendarMarker.meeting
         ),
+      for (final o in openHousesOn(day)) (o.startsAt, CalendarMarker.openHouse),
       for (final t in tasksOn(day))
         (
           t.dueAt,
@@ -83,6 +96,7 @@ class CalendarPage {
   CalendarPage replaceTask(TaskResponse task) => CalendarPage(
         meetings: meetings,
         tasks: [for (final t in tasks) t.id == task.id ? task : t],
+        openHouses: openHouses,
       );
 
   static bool _same(DateTime a, DateTime b) =>
