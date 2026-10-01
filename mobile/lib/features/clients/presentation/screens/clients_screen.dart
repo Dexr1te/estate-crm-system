@@ -11,6 +11,7 @@ import 'package:real_estate_crm/features/clients/presentation/bloc/clients_event
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_state.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/client_card.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/client_tag_filter_sheet.dart';
+import 'package:real_estate_crm/features/clients/presentation/widgets/lead_source.dart';
 import 'package:real_estate_crm/features/exports/presentation/widgets/export_button.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
@@ -33,6 +34,9 @@ class _ClientsScreenState extends State<ClientsScreen> {
   /// Clients carrying every one of these tags; alongside the other filters.
   Set<String> _tags = const {};
 
+  /// Only clients who reached the agency this way; alongside the others.
+  LeadSource? _leadSource;
+
   @override
   void initState() {
     super.initState();
@@ -52,6 +56,7 @@ class _ClientsScreenState extends State<ClientsScreen> {
         .where((c) => _typeFilter == null || c.type == _typeFilter)
         .where((c) => !_leadsOnly || c.isNewLead(now))
         .where((c) => c.hasAllTags(_tags))
+        .where((c) => _leadSource == null || c.leadSource == _leadSource)
         .where((c) => _search.isEmpty || c.matches(_search))
         .toList();
   }
@@ -62,6 +67,17 @@ class _ClientsScreenState extends State<ClientsScreen> {
     if (picked != null && mounted) setState(() => _tags = picked);
   }
 
+  Future<void> _pickLeadSource(List<ClientSummary> all) async {
+    final counts = <LeadSource, int>{};
+    for (final c in all) {
+      final s = c.leadSource;
+      if (s != null) counts[s] = (counts[s] ?? 0) + 1;
+    }
+    final picked = await showLeadSourceFilter(context,
+        counts: counts, selected: _leadSource);
+    if (picked != null && mounted) setState(() => _leadSource = picked.source);
+  }
+
   ExportFilters get _exportFilters => ExportFilters(
         type: _typeFilter?.name,
         source: _leadsOnly ? 'PUBLIC_LINK' : null,
@@ -70,6 +86,7 @@ class _ClientsScreenState extends State<ClientsScreen> {
             : null,
         search: _search.trim().isEmpty ? null : _search.trim(),
         tags: _tags.toList(),
+        leadSource: _leadSource?.name,
       );
 
   void _pick({ClientType? type, bool leads = false}) => setState(() {
@@ -170,6 +187,14 @@ class _ClientsScreenState extends State<ClientsScreen> {
                             selected: _tags.isNotEmpty,
                             onTap: () => _pickTags(all),
                           ),
+                          FilterPill(
+                            key: const ValueKey('clients-filter-source'),
+                            label: _leadSource == null
+                                ? l10n.clientsFilterSource
+                                : leadSourceLabel(l10n, _leadSource),
+                            selected: _leadSource != null,
+                            onTap: () => _pickLeadSource(all),
+                          ),
                         ]),
                         const SizedBox(height: 14),
                       ],
@@ -209,7 +234,8 @@ class _ClientsScreenState extends State<ClientsScreen> {
             : _search.isNotEmpty ||
                     _typeFilter != null ||
                     _leadsOnly ||
-                    _tags.isNotEmpty
+                    _tags.isNotEmpty ||
+                    _leadSource != null
                 ? l10n.clientsTryDifferentSearch
                 : l10n.clientsAddFirstClient,
       );

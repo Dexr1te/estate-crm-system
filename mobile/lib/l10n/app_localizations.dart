@@ -460,6 +460,30 @@ abstract class AppLocalizations {
   /// **'No deals lost in this period.'**
   String get analyticsNoLost;
 
+  /// No description provided for @analyticsLeadSources.
+  ///
+  /// In en, this message translates to:
+  /// **'Where clients come from'**
+  String get analyticsLeadSources;
+
+  /// No description provided for @analyticsLeadSourcesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Clients added in the period, and how many of them have a won deal.'**
+  String get analyticsLeadSourcesHint;
+
+  /// No description provided for @analyticsLeadSourceWon.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} with a won deal · {rate}'**
+  String analyticsLeadSourceWon(Object count, Object rate);
+
+  /// No description provided for @analyticsNoClients.
+  ///
+  /// In en, this message translates to:
+  /// **'No clients added in this period.'**
+  String get analyticsNoClients;
+
   /// No description provided for @analyticsNoValue.
   ///
   /// In en, this message translates to:
@@ -1756,6 +1780,18 @@ abstract class AppLocalizations {
   /// **'Tags · {count}'**
   String clientsFilterTagsCount(Object count);
 
+  /// No description provided for @clientsFilterSource.
+  ///
+  /// In en, this message translates to:
+  /// **'Source'**
+  String get clientsFilterSource;
+
+  /// No description provided for @clientsFilterSourceAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All sources'**
+  String get clientsFilterSourceAll;
+
   /// No description provided for @clientsFollowUpCall.
   ///
   /// In en, this message translates to:
@@ -2175,6 +2211,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'+{count}'**
   String clientsTagsMore(Object count);
+
+  /// No description provided for @clientsLeadSource.
+  ///
+  /// In en, this message translates to:
+  /// **'Where they came from'**
+  String get clientsLeadSource;
+
+  /// No description provided for @clientsLeadSourceNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Not recorded'**
+  String get clientsLeadSourceNone;
+
+  /// No description provided for @clientsLeadSourceReferral.
+  ///
+  /// In en, this message translates to:
+  /// **'Referral'**
+  String get clientsLeadSourceReferral;
+
+  /// No description provided for @clientsLeadSourceWebsite.
+  ///
+  /// In en, this message translates to:
+  /// **'Website'**
+  String get clientsLeadSourceWebsite;
+
+  /// No description provided for @clientsLeadSourcePortal.
+  ///
+  /// In en, this message translates to:
+  /// **'Listings portal'**
+  String get clientsLeadSourcePortal;
+
+  /// No description provided for @clientsLeadSourceSocial.
+  ///
+  /// In en, this message translates to:
+  /// **'Social media'**
+  String get clientsLeadSourceSocial;
+
+  /// No description provided for @clientsLeadSourceWalkIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Walk-in'**
+  String get clientsLeadSourceWalkIn;
+
+  /// No description provided for @clientsLeadSourceColdCall.
+  ///
+  /// In en, this message translates to:
+  /// **'Cold call'**
+  String get clientsLeadSourceColdCall;
+
+  /// No description provided for @clientsLeadSourceRepeat.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat client'**
+  String get clientsLeadSourceRepeat;
+
+  /// No description provided for @clientsLeadSourceOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get clientsLeadSourceOther;
+
+  /// No description provided for @clientsLeadSourceDetail.
+  ///
+  /// In en, this message translates to:
+  /// **'Details'**
+  String get clientsLeadSourceDetail;
+
+  /// No description provided for @clientsLeadSourceDetailHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Who referred them, which portal'**
+  String get clientsLeadSourceDetailHint;
 
   /// No description provided for @clientsTitle.
   ///
@@ -4191,6 +4299,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Tags'**
   String get importFieldTags;
+
+  /// No description provided for @importFieldLeadSource.
+  ///
+  /// In en, this message translates to:
+  /// **'Lead source'**
+  String get importFieldLeadSource;
+
+  /// No description provided for @importFieldLeadSourceDetail.
+  ///
+  /// In en, this message translates to:
+  /// **'Lead source detail'**
+  String get importFieldLeadSourceDetail;
 
   /// No description provided for @importFieldTitle.
   ///

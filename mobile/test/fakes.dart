@@ -735,6 +735,17 @@ class FakeAnalyticsRepository implements AnalyticsRepository {
     if (error != null) throw error!;
     return funnel;
   }
+
+  /// What `/analytics/lead-sources` answers; [leadSourcesError] fails it alone.
+  LeadSourceBreakdown leadSources = const LeadSourceBreakdown();
+  Object? leadSourcesError;
+
+  @override
+  Future<LeadSourceBreakdown> getLeadSources(
+      {required DateTime from, required DateTime to, int? agentId}) async {
+    if (leadSourcesError != null) throw leadSourcesError!;
+    return leadSources;
+  }
 }
 
 class FakeAdminRepository implements AdminRepository {

@@ -3,6 +3,7 @@ package com.crm.realestate.specification;
 import com.crm.realestate.entity.Client;
 import com.crm.realestate.entity.ClientTag;
 import com.crm.realestate.enums.ClientType;
+import com.crm.realestate.enums.LeadSource;
 import com.crm.realestate.service.ClientTags;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -29,6 +30,11 @@ public final class ClientSpecification {
             String search
     ) {
         return build(type, agentId, createdFrom, createdTo, search, null);
+    }
+
+    /** Clients who reached the agency through {@code source}; every client when it is null. */
+    public static Specification<Client> leadSource(LeadSource source) {
+        return (root, query, cb) -> source == null ? cb.conjunction() : cb.equal(root.get("leadSource"), source);
     }
 
     /**

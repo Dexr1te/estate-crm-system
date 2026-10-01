@@ -38,6 +38,9 @@ class ExportFilters {
   /// value: a tag never holds a comma.
   final List<String> tags;
 
+  /// Clients who reached the agency this way: a `LeadSource` name.
+  final String? leadSource;
+
   const ExportFilters({
     this.type,
     this.status,
@@ -45,6 +48,7 @@ class ExportFilters {
     this.search,
     this.createdFrom,
     this.tags = const [],
+    this.leadSource,
   });
 
   static const none = ExportFilters();
@@ -55,7 +59,8 @@ class ExportFilters {
       source == null &&
       (search == null || search!.trim().isEmpty) &&
       createdFrom == null &&
-      tags.isEmpty;
+      tags.isEmpty &&
+      leadSource == null;
 
   Map<String, String> toQuery() => {
         if (type != null) 'type': type!,
@@ -65,6 +70,7 @@ class ExportFilters {
           'search': search!.trim(),
         if (createdFrom != null) 'createdFrom': _date(createdFrom!),
         if (tags.isNotEmpty) 'tags': tags.join(','),
+        if (leadSource != null) 'leadSource': leadSource!,
       };
 
   static String _date(DateTime d) => '${d.year.toString().padLeft(4, '0')}-'
@@ -79,11 +85,12 @@ class ExportFilters {
       other.source == source &&
       other.search == search &&
       other.createdFrom == createdFrom &&
-      other.tags.join(',') == tags.join(',');
+      other.tags.join(',') == tags.join(',') &&
+      other.leadSource == leadSource;
 
   @override
-  int get hashCode =>
-      Object.hash(type, status, source, search, createdFrom, tags.join(','));
+  int get hashCode => Object.hash(
+      type, status, source, search, createdFrom, tags.join(','), leadSource);
 
   @override
   String toString() => 'ExportFilters(${toQuery()})';

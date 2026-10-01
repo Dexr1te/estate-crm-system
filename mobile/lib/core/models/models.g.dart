@@ -70,6 +70,9 @@ _$ClientResponseImpl _$$ClientResponseImplFromJson(Map<String, dynamic> json) =>
       tags:
           (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList() ??
               const <String>[],
+      leadSource: $enumDecodeNullable(_$LeadSourceEnumMap, json['leadSource'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
+      leadSourceDetail: json['leadSourceDetail'] as String?,
     );
 
 Map<String, dynamic> _$$ClientResponseImplToJson(
@@ -93,6 +96,8 @@ Map<String, dynamic> _$$ClientResponseImplToJson(
       'minRooms': instance.minRooms,
       'minAreaSqm': instance.minAreaSqm,
       'tags': instance.tags,
+      'leadSource': _$LeadSourceEnumMap[instance.leadSource],
+      'leadSourceDetail': instance.leadSourceDetail,
     };
 
 const _$ClientTypeEnumMap = {
@@ -112,6 +117,17 @@ const _$PropertyTypeEnumMap = {
   PropertyType.COMMERCIAL: 'COMMERCIAL',
   PropertyType.LAND: 'LAND',
   PropertyType.OFFICE: 'OFFICE',
+};
+
+const _$LeadSourceEnumMap = {
+  LeadSource.REFERRAL: 'REFERRAL',
+  LeadSource.WEBSITE: 'WEBSITE',
+  LeadSource.PORTAL: 'PORTAL',
+  LeadSource.SOCIAL: 'SOCIAL',
+  LeadSource.WALK_IN: 'WALK_IN',
+  LeadSource.COLD_CALL: 'COLD_CALL',
+  LeadSource.REPEAT: 'REPEAT',
+  LeadSource.OTHER: 'OTHER',
 };
 
 _$ClientTagUsageImpl _$$ClientTagUsageImplFromJson(Map<String, dynamic> json) =>
@@ -1199,6 +1215,46 @@ Map<String, dynamic> _$$DealFunnelImplToJson(_$DealFunnelImpl instance) =>
       'avgDaysToWin': instance.avgDaysToWin,
       'lostReasons': instance.lostReasons,
       'monthly': instance.monthly,
+    };
+
+_$LeadSourceBreakdownImpl _$$LeadSourceBreakdownImplFromJson(
+        Map<String, dynamic> json) =>
+    _$LeadSourceBreakdownImpl(
+      from:
+          json['from'] == null ? null : DateTime.parse(json['from'] as String),
+      to: json['to'] == null ? null : DateTime.parse(json['to'] as String),
+      clients: (json['clients'] as num?)?.toInt() ?? 0,
+      won: (json['won'] as num?)?.toInt() ?? 0,
+      sources: (json['sources'] as List<dynamic>?)
+              ?.map((e) => LeadSourceRow.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const <LeadSourceRow>[],
+    );
+
+Map<String, dynamic> _$$LeadSourceBreakdownImplToJson(
+        _$LeadSourceBreakdownImpl instance) =>
+    <String, dynamic>{
+      'from': instance.from?.toIso8601String(),
+      'to': instance.to?.toIso8601String(),
+      'clients': instance.clients,
+      'won': instance.won,
+      'sources': instance.sources,
+    };
+
+_$LeadSourceRowImpl _$$LeadSourceRowImplFromJson(Map<String, dynamic> json) =>
+    _$LeadSourceRowImpl(
+      source: json['source'] as String? ?? 'UNKNOWN',
+      clients: (json['clients'] as num?)?.toInt() ?? 0,
+      won: (json['won'] as num?)?.toInt() ?? 0,
+      conversionRate: (json['conversionRate'] as num?)?.toDouble() ?? 0,
+    );
+
+Map<String, dynamic> _$$LeadSourceRowImplToJson(_$LeadSourceRowImpl instance) =>
+    <String, dynamic>{
+      'source': instance.source,
+      'clients': instance.clients,
+      'won': instance.won,
+      'conversionRate': instance.conversionRate,
     };
 
 _$FunnelLostReasonImpl _$$FunnelLostReasonImplFromJson(

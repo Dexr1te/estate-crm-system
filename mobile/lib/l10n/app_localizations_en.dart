@@ -202,6 +202,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get analyticsNoLost => 'No deals lost in this period.';
 
   @override
+  String get analyticsLeadSources => 'Where clients come from';
+
+  @override
+  String get analyticsLeadSourcesHint =>
+      'Clients added in the period, and how many of them have a won deal.';
+
+  @override
+  String analyticsLeadSourceWon(Object count, Object rate) {
+    return '$count with a won deal · $rate';
+  }
+
+  @override
+  String get analyticsNoClients => 'No clients added in this period.';
+
+  @override
   String get analyticsNoValue => '—';
 
   @override
@@ -991,6 +1006,12 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get clientsFilterSource => 'Source';
+
+  @override
+  String get clientsFilterSourceAll => 'All sources';
+
+  @override
   String get clientsFollowUpCall => 'Log this call?';
 
   @override
@@ -1229,6 +1250,42 @@ class AppLocalizationsEn extends AppLocalizations {
   String clientsTagsMore(Object count) {
     return '+$count';
   }
+
+  @override
+  String get clientsLeadSource => 'Where they came from';
+
+  @override
+  String get clientsLeadSourceNone => 'Not recorded';
+
+  @override
+  String get clientsLeadSourceReferral => 'Referral';
+
+  @override
+  String get clientsLeadSourceWebsite => 'Website';
+
+  @override
+  String get clientsLeadSourcePortal => 'Listings portal';
+
+  @override
+  String get clientsLeadSourceSocial => 'Social media';
+
+  @override
+  String get clientsLeadSourceWalkIn => 'Walk-in';
+
+  @override
+  String get clientsLeadSourceColdCall => 'Cold call';
+
+  @override
+  String get clientsLeadSourceRepeat => 'Repeat client';
+
+  @override
+  String get clientsLeadSourceOther => 'Other';
+
+  @override
+  String get clientsLeadSourceDetail => 'Details';
+
+  @override
+  String get clientsLeadSourceDetailHint => 'Who referred them, which portal';
 
   @override
   String get clientsTitle => 'Clients';
@@ -2408,6 +2465,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get importFieldTags => 'Tags';
+
+  @override
+  String get importFieldLeadSource => 'Lead source';
+
+  @override
+  String get importFieldLeadSourceDetail => 'Lead source detail';
 
   @override
   String get importFieldTitle => 'Title';

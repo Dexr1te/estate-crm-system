@@ -71,6 +71,9 @@ class ClientSummary {
   /// The agency's tags on this client, in name order.
   final List<String> tags;
 
+  /// How the client reached the agency; null when not recorded.
+  final LeadSource? leadSource;
+
   const ClientSummary({
     required this.id,
     required this.fullName,
@@ -86,6 +89,7 @@ class ClientSummary {
     this.source = ClientSource.manual,
     this.createdAt,
     this.tags = const [],
+    this.leadSource,
   });
 
   /// Carries every one of [wanted], compared without case — the server's
@@ -151,6 +155,7 @@ class ClientSummary {
         source: c.source,
         createdAt: c.createdAt,
         tags: c.tags,
+        leadSource: c.leadSource,
       );
     }).toList();
   }

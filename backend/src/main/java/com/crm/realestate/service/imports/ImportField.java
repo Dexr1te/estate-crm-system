@@ -50,6 +50,16 @@ public enum ImportField {
     CLIENT_TAGS(ImportKind.CLIENTS, "tags", false,
             "tags", "tag", "labels", "label", "теги", "тег", "метки", "метка", "ярлыки", "тегтер",
             "белгілер", "белгі"),
+    // Not "source" or "источник" alone: the export's Source column is how the card was entered,
+    // which no import sets, and it must stay unmapped when a sheet comes back.
+    CLIENT_LEAD_SOURCE(ImportKind.CLIENTS, "leadSource", false,
+            "lead source", "channel", "lead channel", "how found", "came from", "источник лида",
+            "источник клиента", "канал", "откуда", "откуда пришел", "откуда узнал", "лид көзі",
+            "клиент көзі", "арна", "қайдан келді"),
+    CLIENT_LEAD_SOURCE_DETAIL(ImportKind.CLIENTS, "leadSourceDetail", false,
+            "lead source detail", "referred by", "referrer", "who referred", "источник лида подробности",
+            "кто порекомендовал", "кто рекомендовал", "подробности источника", "лид көзі туралы",
+            "кім ұсынды"),
 
     // Listings ----------------------------------------------------------------------------------
     PROPERTY_TITLE(ImportKind.PROPERTIES, "title", true,

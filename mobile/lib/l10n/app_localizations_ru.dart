@@ -202,6 +202,21 @@ class AppLocalizationsRu extends AppLocalizations {
   String get analyticsNoLost => 'За этот период проигранных сделок нет.';
 
   @override
+  String get analyticsLeadSources => 'Откуда приходят клиенты';
+
+  @override
+  String get analyticsLeadSourcesHint =>
+      'Клиенты, добавленные за период, и сколько из них со сделкой.';
+
+  @override
+  String analyticsLeadSourceWon(Object count, Object rate) {
+    return '$count со сделкой · $rate';
+  }
+
+  @override
+  String get analyticsNoClients => 'За этот период клиентов не добавлено.';
+
+  @override
   String get analyticsNoValue => '—';
 
   @override
@@ -1010,6 +1025,12 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String get clientsFilterSource => 'Источник';
+
+  @override
+  String get clientsFilterSourceAll => 'Все источники';
+
+  @override
   String get clientsFollowUpCall => 'Записать этот звонок?';
 
   @override
@@ -1249,6 +1270,42 @@ class AppLocalizationsRu extends AppLocalizations {
   String clientsTagsMore(Object count) {
     return '+$count';
   }
+
+  @override
+  String get clientsLeadSource => 'Откуда пришёл';
+
+  @override
+  String get clientsLeadSourceNone => 'Не указано';
+
+  @override
+  String get clientsLeadSourceReferral => 'Рекомендация';
+
+  @override
+  String get clientsLeadSourceWebsite => 'Сайт';
+
+  @override
+  String get clientsLeadSourcePortal => 'Портал объявлений';
+
+  @override
+  String get clientsLeadSourceSocial => 'Соцсети';
+
+  @override
+  String get clientsLeadSourceWalkIn => 'Пришёл в офис';
+
+  @override
+  String get clientsLeadSourceColdCall => 'Холодный звонок';
+
+  @override
+  String get clientsLeadSourceRepeat => 'Повторный клиент';
+
+  @override
+  String get clientsLeadSourceOther => 'Другое';
+
+  @override
+  String get clientsLeadSourceDetail => 'Подробности';
+
+  @override
+  String get clientsLeadSourceDetailHint => 'Кто порекомендовал, какой портал';
 
   @override
   String get clientsTitle => 'Клиенты';
@@ -2445,6 +2502,12 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get importFieldTags => 'Теги';
+
+  @override
+  String get importFieldLeadSource => 'Источник лида';
+
+  @override
+  String get importFieldLeadSourceDetail => 'Источник лида: подробности';
 
   @override
   String get importFieldTitle => 'Название';

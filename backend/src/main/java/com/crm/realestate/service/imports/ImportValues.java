@@ -1,6 +1,7 @@
 package com.crm.realestate.service.imports;
 
 import com.crm.realestate.enums.ClientType;
+import com.crm.realestate.enums.LeadSource;
 import com.crm.realestate.enums.PropertyStatus;
 import com.crm.realestate.enums.PropertyType;
 
@@ -94,6 +95,7 @@ public final class ImportValues {
     private static final Map<String, ClientType> CLIENT_TYPES = new HashMap<>();
     private static final Map<String, PropertyType> PROPERTY_TYPES = new HashMap<>();
     private static final Map<String, PropertyStatus> STATUSES = new HashMap<>();
+    private static final Map<String, LeadSource> LEAD_SOURCES = new HashMap<>();
 
     static {
         words(CLIENT_TYPES, ClientType.BUYER, "buyer", "buy", "purchase", "b", "покупатель",
@@ -120,6 +122,21 @@ public final class ImportValues {
                 "резерв", "задаток", "брондалған", "броньда");
         words(STATUSES, PropertyStatus.SOLD, "sold", "closed", "продана", "продано", "продан",
                 "сделка закрыта", "сатылды", "сатылған");
+        // Each source by the words the export writes for it, its own name, and what people type.
+        words(LEAD_SOURCES, LeadSource.REFERRAL, "referral", "recommendation", "friend",
+                "рекомендация", "по рекомендации", "сарафан", "знакомые", "ұсыныс", "таныстар");
+        words(LEAD_SOURCES, LeadSource.WEBSITE, "website", "site", "web", "сайт", "веб сайт");
+        words(LEAD_SOURCES, LeadSource.PORTAL, "portal", "listings portal", "krisha", "krisha kz",
+                "olx", "портал", "портал объявлений", "крыша", "хабарландыру порталы");
+        words(LEAD_SOURCES, LeadSource.SOCIAL, "social", "social media", "instagram", "telegram",
+                "whatsapp", "соцсети", "социальные сети", "инстаграм", "әлеуметтік желілер");
+        words(LEAD_SOURCES, LeadSource.WALK_IN, "walk in", "walk-in", "office", "visit",
+                "пришел в офис", "офис", "визит", "кеңсеге келді", "кеңсе");
+        words(LEAD_SOURCES, LeadSource.COLD_CALL, "cold call", "call", "холодный звонок", "звонок",
+                "обзвон", "суық қоңырау", "қоңырау");
+        words(LEAD_SOURCES, LeadSource.REPEAT, "repeat", "repeat client", "returning",
+                "повторный клиент", "повторный", "постоянный клиент", "тұрақты клиент");
+        words(LEAD_SOURCES, LeadSource.OTHER, "other", "другое", "прочее", "басқа");
     }
 
     @SafeVarargs
@@ -147,6 +164,10 @@ public final class ImportValues {
 
     public static PropertyType propertyType(String raw) {
         return PROPERTY_TYPES.get(word(raw));
+    }
+
+    public static LeadSource leadSource(String raw) {
+        return LEAD_SOURCES.get(word(raw));
     }
 
     public static PropertyStatus propertyStatus(String raw) {
