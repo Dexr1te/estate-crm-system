@@ -4402,6 +4402,144 @@ abstract class AppLocalizations {
   /// **'The file has more than 5000 rows. Split it into parts.'**
   String get importTooManyRows;
 
+  /// No description provided for @leaderboardDealsLost.
+  ///
+  /// In en, this message translates to:
+  /// **'Deals lost'**
+  String get leaderboardDealsLost;
+
+  /// No description provided for @leaderboardEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Agents who join the agency will be ranked here.'**
+  String get leaderboardEmptyBody;
+
+  /// No description provided for @leaderboardEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No agents yet'**
+  String get leaderboardEmptyTitle;
+
+  /// No description provided for @leaderboardHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Deals, commission and viewings, agent by agent'**
+  String get leaderboardHint;
+
+  /// No description provided for @leaderboardInactive.
+  ///
+  /// In en, this message translates to:
+  /// **'Deactivated'**
+  String get leaderboardInactive;
+
+  /// No description provided for @leaderboardInactiveNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Deactivated members are not ranked with the team. Anyone removed from the agency is not listed: their records moved to a colleague.'**
+  String get leaderboardInactiveNote;
+
+  /// No description provided for @leaderboardLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load the leaderboard'**
+  String get leaderboardLoadFailed;
+
+  /// No description provided for @leaderboardNoValue.
+  ///
+  /// In en, this message translates to:
+  /// **'—'**
+  String get leaderboardNoValue;
+
+  /// No description provided for @leaderboardPeriodCustom.
+  ///
+  /// In en, this message translates to:
+  /// **'Dates'**
+  String get leaderboardPeriodCustom;
+
+  /// No description provided for @leaderboardPeriodLastMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Last month'**
+  String get leaderboardPeriodLastMonth;
+
+  /// No description provided for @leaderboardPeriodQuarter.
+  ///
+  /// In en, this message translates to:
+  /// **'Quarter'**
+  String get leaderboardPeriodQuarter;
+
+  /// No description provided for @leaderboardPeriodThisMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'This month'**
+  String get leaderboardPeriodThisMonth;
+
+  /// No description provided for @leaderboardPickRange.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose dates'**
+  String get leaderboardPickRange;
+
+  /// No description provided for @leaderboardRange.
+  ///
+  /// In en, this message translates to:
+  /// **'{from} – {to}'**
+  String leaderboardRange(String from, String to);
+
+  /// No description provided for @leaderboardSortCommission.
+  ///
+  /// In en, this message translates to:
+  /// **'Commission'**
+  String get leaderboardSortCommission;
+
+  /// No description provided for @leaderboardSortDealsWon.
+  ///
+  /// In en, this message translates to:
+  /// **'Deals won'**
+  String get leaderboardSortDealsWon;
+
+  /// No description provided for @leaderboardSortNewClients.
+  ///
+  /// In en, this message translates to:
+  /// **'New clients'**
+  String get leaderboardSortNewClients;
+
+  /// No description provided for @leaderboardSortViewings.
+  ///
+  /// In en, this message translates to:
+  /// **'Viewings'**
+  String get leaderboardSortViewings;
+
+  /// No description provided for @leaderboardSortWinRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Win rate'**
+  String get leaderboardSortWinRate;
+
+  /// No description provided for @leaderboardSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Won {won} · Viewings {viewings} · Clients {clients}'**
+  String leaderboardSummary(int won, int viewings, int clients);
+
+  /// No description provided for @leaderboardTeamCommission.
+  ///
+  /// In en, this message translates to:
+  /// **'Agency commission'**
+  String get leaderboardTeamCommission;
+
+  /// No description provided for @leaderboardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Leaderboard'**
+  String get leaderboardTitle;
+
+  /// No description provided for @leaderboardWonValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Won value'**
+  String get leaderboardWonValue;
+
   /// No description provided for @lockAppLock.
   ///
   /// In en, this message translates to:

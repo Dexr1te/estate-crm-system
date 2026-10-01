@@ -27,6 +27,7 @@ import 'package:real_estate_crm/features/deals/presentation/screens/deal_detail_
 import 'package:real_estate_crm/features/deals/presentation/screens/deal_form_screen.dart';
 import 'package:real_estate_crm/features/deals/presentation/screens/deals_screen.dart';
 import 'package:real_estate_crm/features/imports/presentation/screens/import_screen.dart';
+import 'package:real_estate_crm/features/leaderboard/presentation/screens/leaderboard_screen.dart';
 import 'package:real_estate_crm/features/meetings/presentation/screens/meeting_detail_screen.dart';
 import 'package:real_estate_crm/features/meetings/presentation/screens/meeting_form_screen.dart';
 import 'package:real_estate_crm/features/meetings/presentation/screens/meetings_screen.dart';
@@ -109,6 +110,9 @@ String? resolveRedirect({
     return '/dashboard';
   }
   if (location.startsWith('/message-templates') && role != Role.MANAGER) {
+    return '/dashboard';
+  }
+  if (location.startsWith('/leaderboard') && role != Role.MANAGER) {
     return '/dashboard';
   }
   if (location.startsWith('/import') &&
@@ -227,6 +231,12 @@ GoRouter createRouter(AuthBloc authBloc) {
         parentNavigatorKey: _rootKey,
         pageBuilder: (_, __) =>
             const NoTransitionPage(child: MessageTemplatesScreen()),
+      ),
+      GoRoute(
+        path: '/leaderboard',
+        parentNavigatorKey: _rootKey,
+        pageBuilder: (_, __) =>
+            const NoTransitionPage(child: LeaderboardScreen()),
       ),
       GoRoute(
         path: '/import',

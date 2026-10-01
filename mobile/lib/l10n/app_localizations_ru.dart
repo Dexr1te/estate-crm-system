@@ -2570,6 +2570,81 @@ class AppLocalizationsRu extends AppLocalizations {
       'В файле больше 5000 строк. Разделите его на части.';
 
   @override
+  String get leaderboardDealsLost => 'Проиграно сделок';
+
+  @override
+  String get leaderboardEmptyBody =>
+      'Здесь появятся агенты, которые вступят в агентство.';
+
+  @override
+  String get leaderboardEmptyTitle => 'Пока нет агентов';
+
+  @override
+  String get leaderboardHint => 'Сделки, комиссия и показы по каждому агенту';
+
+  @override
+  String get leaderboardInactive => 'Деактивированы';
+
+  @override
+  String get leaderboardInactiveNote =>
+      'Деактивированные сотрудники не участвуют в общем рейтинге. Удалённых из агентства здесь нет: их записи перешли к коллеге.';
+
+  @override
+  String get leaderboardLoadFailed => 'Не удалось загрузить рейтинг';
+
+  @override
+  String get leaderboardNoValue => '—';
+
+  @override
+  String get leaderboardPeriodCustom => 'Даты';
+
+  @override
+  String get leaderboardPeriodLastMonth => 'Прошлый месяц';
+
+  @override
+  String get leaderboardPeriodQuarter => 'Квартал';
+
+  @override
+  String get leaderboardPeriodThisMonth => 'Этот месяц';
+
+  @override
+  String get leaderboardPickRange => 'Выберите даты';
+
+  @override
+  String leaderboardRange(String from, String to) {
+    return '$from – $to';
+  }
+
+  @override
+  String get leaderboardSortCommission => 'Комиссия';
+
+  @override
+  String get leaderboardSortDealsWon => 'Выиграно сделок';
+
+  @override
+  String get leaderboardSortNewClients => 'Новые клиенты';
+
+  @override
+  String get leaderboardSortViewings => 'Показы';
+
+  @override
+  String get leaderboardSortWinRate => 'Конверсия';
+
+  @override
+  String leaderboardSummary(int won, int viewings, int clients) {
+    return 'Сделки $won · Показы $viewings · Клиенты $clients';
+  }
+
+  @override
+  String get leaderboardTeamCommission => 'Комиссия агентства';
+
+  @override
+  String get leaderboardTitle => 'Рейтинг агентов';
+
+  @override
+  String get leaderboardWonValue => 'Сумма выигранных';
+
+  @override
   String get lockAppLock => 'Блокировка приложения';
 
   @override
