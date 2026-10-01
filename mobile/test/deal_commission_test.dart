@@ -7,7 +7,6 @@ import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:real_estate_crm/features/dashboard/presentation/widgets/goal_ring_card.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_bloc.dart';
 import 'package:real_estate_crm/features/deals/presentation/screens/deal_detail_screen.dart';
 import 'package:real_estate_crm/features/deals/presentation/screens/deal_form_screen.dart';
@@ -173,76 +172,6 @@ void main() {
         expect(find.text('Enter a rate above 0 and no more than 100'),
             findsOneWidget);
         expect(_repo.sent, isNull);
-      });
-    }
-  });
-
-  group('goal card', () {
-    testWidgets('names the month\'s commission once there is some',
-        (tester) async {
-      await _pump(
-        tester,
-        Scaffold(
-          body: GoalRingCard(
-              achieved: 48500000,
-              target: 60000000,
-              commission: 1212500,
-              onEdit: () {}),
-        ),
-      );
-      expect(
-        find.text('Commission this month: ${formatPrice(1212500)}'),
-        findsOneWidget,
-      );
-    });
-
-    testWidgets('stays quiet while nothing has been earned', (tester) async {
-      await _pump(
-        tester,
-        Scaffold(
-          body: GoalRingCard(achieved: 0, target: null, onEdit: () {}),
-        ),
-      );
-      expect(find.textContaining('Commission'), findsNothing);
-    });
-
-    forEachAcceptanceCase('goal card with commission',
-        (tester, size, brightness, scale) async {
-      await expectNoOverflow(
-        tester,
-        Scaffold(
-          body: Padding(
-            padding: const EdgeInsets.all(16),
-            child: GoalRingCard(
-                achieved: 1234567890,
-                target: 2000000000,
-                commission: 98765432,
-                onEdit: () {}),
-          ),
-        ),
-        size: size,
-        brightness: brightness,
-        textScale: scale,
-      );
-    });
-
-    for (final locale in kAcceptanceLocales) {
-      testWidgets('goal card with commission in ${locale.languageCode}',
-          (tester) async {
-        await expectNoOverflow(
-          tester,
-          Scaffold(
-            body: GoalRingCard(
-                achieved: 1234567890,
-                target: 2000000000,
-                commission: 98765432,
-                onEdit: () {}),
-          ),
-          size: const Size(320, 568),
-          brightness: Brightness.dark,
-          textScale: 1.5,
-          locale: locale,
-        );
       });
     }
   });

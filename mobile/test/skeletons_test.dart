@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
-import 'package:real_estate_crm/core/goal/goal_bloc.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/models/paged_response.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
@@ -113,7 +112,6 @@ class _StalledProperties extends FakePropertiesRepository {
 Widget _dashboard() => MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => AuthBloc(FakeAuthRepository())),
-        BlocProvider(create: (_) => GoalBloc()),
         BlocProvider(
           create: (_) => DashboardBloc(
             _StalledDashboard(),

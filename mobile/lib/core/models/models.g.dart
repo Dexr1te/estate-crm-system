@@ -1081,6 +1081,72 @@ Map<String, dynamic> _$$DashboardSummaryImplToJson(
       'coldCount': instance.coldCount,
     };
 
+_$GoalProgressImpl _$$GoalProgressImplFromJson(Map<String, dynamic> json) =>
+    _$GoalProgressImpl(
+      month: json['month'] as String? ?? '',
+      currency: json['currency'] as String?,
+      agentId: (json['agentId'] as num?)?.toInt(),
+      agentName: json['agentName'] as String?,
+      source: json['source'] as String?,
+      commissionTarget: (json['commissionTarget'] as num?)?.toDouble(),
+      dealsTarget: (json['dealsTarget'] as num?)?.toInt(),
+      personalCommissionTarget:
+          (json['personalCommissionTarget'] as num?)?.toDouble(),
+      personalDealsTarget: (json['personalDealsTarget'] as num?)?.toInt(),
+      commissionAchieved: (json['commissionAchieved'] as num?)?.toDouble() ?? 0,
+      dealsWon: (json['dealsWon'] as num?)?.toInt() ?? 0,
+      commissionPercent: (json['commissionPercent'] as num?)?.toInt(),
+      dealsPercent: (json['dealsPercent'] as num?)?.toInt(),
+      daysLeft: (json['daysLeft'] as num?)?.toInt() ?? 0,
+      commissionPerDay: (json['commissionPerDay'] as num?)?.toDouble(),
+      dealsPerDay: (json['dealsPerDay'] as num?)?.toDouble(),
+      personalEditable: json['personalEditable'] as bool? ?? false,
+    );
+
+Map<String, dynamic> _$$GoalProgressImplToJson(_$GoalProgressImpl instance) =>
+    <String, dynamic>{
+      'month': instance.month,
+      'currency': instance.currency,
+      'agentId': instance.agentId,
+      'agentName': instance.agentName,
+      'source': instance.source,
+      'commissionTarget': instance.commissionTarget,
+      'dealsTarget': instance.dealsTarget,
+      'personalCommissionTarget': instance.personalCommissionTarget,
+      'personalDealsTarget': instance.personalDealsTarget,
+      'commissionAchieved': instance.commissionAchieved,
+      'dealsWon': instance.dealsWon,
+      'commissionPercent': instance.commissionPercent,
+      'dealsPercent': instance.dealsPercent,
+      'daysLeft': instance.daysLeft,
+      'commissionPerDay': instance.commissionPerDay,
+      'dealsPerDay': instance.dealsPerDay,
+      'personalEditable': instance.personalEditable,
+    };
+
+_$TeamGoalsImpl _$$TeamGoalsImplFromJson(Map<String, dynamic> json) =>
+    _$TeamGoalsImpl(
+      month: json['month'] as String? ?? '',
+      currency: json['currency'] as String?,
+      daysLeft: (json['daysLeft'] as num?)?.toInt() ?? 0,
+      agency: GoalProgress.fromJson(json['agency'] as Map<String, dynamic>),
+      agents: (json['agents'] as List<dynamic>?)
+              ?.map((e) => GoalProgress.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const <GoalProgress>[],
+      copied: (json['copied'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$$TeamGoalsImplToJson(_$TeamGoalsImpl instance) =>
+    <String, dynamic>{
+      'month': instance.month,
+      'currency': instance.currency,
+      'daysLeft': instance.daysLeft,
+      'agency': instance.agency,
+      'agents': instance.agents,
+      'copied': instance.copied,
+    };
+
 _$ColdReasonImpl _$$ColdReasonImplFromJson(Map<String, dynamic> json) =>
     _$ColdReasonImpl(
       code: $enumDecodeNullable(_$ColdReasonCodeEnumMap, json['code'],

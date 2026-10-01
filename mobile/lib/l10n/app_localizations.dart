@@ -2782,66 +2782,6 @@ abstract class AppLocalizations {
   /// **'{date} · team overview'**
   String dashboardDateSummary(Object date);
 
-  /// No description provided for @dashboardGoalClear.
-  ///
-  /// In en, this message translates to:
-  /// **'Remove target'**
-  String get dashboardGoalClear;
-
-  /// No description provided for @dashboardGoalCommission.
-  ///
-  /// In en, this message translates to:
-  /// **'Commission this month: {amount}'**
-  String dashboardGoalCommission(Object amount);
-
-  /// No description provided for @dashboardGoalEyebrow.
-  ///
-  /// In en, this message translates to:
-  /// **'TARGET'**
-  String get dashboardGoalEyebrow;
-
-  /// No description provided for @dashboardGoalReached.
-  ///
-  /// In en, this message translates to:
-  /// **'Target reached. Everything from here is ahead of plan.'**
-  String get dashboardGoalReached;
-
-  /// No description provided for @dashboardGoalRemaining.
-  ///
-  /// In en, this message translates to:
-  /// **'{amount} left to hit the target'**
-  String dashboardGoalRemaining(Object amount);
-
-  /// No description provided for @dashboardGoalSheetField.
-  ///
-  /// In en, this message translates to:
-  /// **'Amount'**
-  String get dashboardGoalSheetField;
-
-  /// No description provided for @dashboardGoalSheetHint.
-  ///
-  /// In en, this message translates to:
-  /// **'Closed-won deals count towards it. Stored on this device only.'**
-  String get dashboardGoalSheetHint;
-
-  /// No description provided for @dashboardGoalSheetTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Monthly target'**
-  String get dashboardGoalSheetTitle;
-
-  /// No description provided for @dashboardGoalTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Closed this month'**
-  String get dashboardGoalTitle;
-
-  /// No description provided for @dashboardGoalUnset.
-  ///
-  /// In en, this message translates to:
-  /// **'Tap to set a monthly target and track it here'**
-  String get dashboardGoalUnset;
-
   /// No description provided for @dashboardGreeting.
   ///
   /// In en, this message translates to:
@@ -4173,6 +4113,252 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Too many rows for one file. Narrow the filters and export in parts.'**
   String get exportTooMany;
+
+  /// No description provided for @goalsAgency.
+  ///
+  /// In en, this message translates to:
+  /// **'Whole agency'**
+  String get goalsAgency;
+
+  /// No description provided for @goalsAgentOwn.
+  ///
+  /// In en, this message translates to:
+  /// **'Agent\'s own target'**
+  String get goalsAgentOwn;
+
+  /// No description provided for @goalsCardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This month\'s target'**
+  String get goalsCardTitle;
+
+  /// No description provided for @goalsCommissionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Commission'**
+  String get goalsCommissionLabel;
+
+  /// No description provided for @goalsCommissionOf.
+  ///
+  /// In en, this message translates to:
+  /// **'{achieved} of {target}'**
+  String goalsCommissionOf(String achieved, String target);
+
+  /// No description provided for @goalsCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Nothing to copy from last month} =1{1 target copied} other{{count} targets copied}}'**
+  String goalsCopied(int count);
+
+  /// No description provided for @goalsCopyPrevious.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy last month\'s targets'**
+  String get goalsCopyPrevious;
+
+  /// No description provided for @goalsDaysLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{The month is over} =1{1 day left} other{{count} days left}}'**
+  String goalsDaysLeft(int count);
+
+  /// No description provided for @goalsDealEvery.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, other{a deal every {count} days}}'**
+  String goalsDealEvery(int count);
+
+  /// No description provided for @goalsDealsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Deals won'**
+  String get goalsDealsLabel;
+
+  /// No description provided for @goalsDealsOf.
+  ///
+  /// In en, this message translates to:
+  /// **'{won} of {target} deals won'**
+  String goalsDealsOf(int won, int target);
+
+  /// No description provided for @goalsDealsPerDay.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 deal a day} other{{count} deals a day}}'**
+  String goalsDealsPerDay(int count);
+
+  /// No description provided for @goalsDealsWon.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No deals won yet} =1{1 deal won} other{{count} deals won}}'**
+  String goalsDealsWon(int count);
+
+  /// No description provided for @goalsEyebrow.
+  ///
+  /// In en, this message translates to:
+  /// **'TARGET'**
+  String get goalsEyebrow;
+
+  /// No description provided for @goalsFieldHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave empty for none'**
+  String get goalsFieldHint;
+
+  /// No description provided for @goalsInvalidCommission.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter an amount above zero'**
+  String get goalsInvalidCommission;
+
+  /// No description provided for @goalsInvalidDeals.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a whole number from 1 to 1000'**
+  String get goalsInvalidDeals;
+
+  /// No description provided for @goalsLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load the targets'**
+  String get goalsLoadFailed;
+
+  /// No description provided for @goalsManagerSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Set by your manager'**
+  String get goalsManagerSet;
+
+  /// No description provided for @goalsMonthOver.
+  ///
+  /// In en, this message translates to:
+  /// **'This month is over. Its targets stay as they were.'**
+  String get goalsMonthOver;
+
+  /// No description provided for @goalsNeedOne.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a commission, a number of deals, or both'**
+  String get goalsNeedOne;
+
+  /// No description provided for @goalsNextMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Next month'**
+  String get goalsNextMonth;
+
+  /// No description provided for @goalsNoTarget.
+  ///
+  /// In en, this message translates to:
+  /// **'No target'**
+  String get goalsNoTarget;
+
+  /// No description provided for @goalsNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No target for this month yet'**
+  String get goalsNone;
+
+  /// No description provided for @goalsNoneHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to set your own. If your manager sets one, theirs counts.'**
+  String get goalsNoneHint;
+
+  /// No description provided for @goalsOwn.
+  ///
+  /// In en, this message translates to:
+  /// **'Your own target'**
+  String get goalsOwn;
+
+  /// No description provided for @goalsPerDay.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} a day'**
+  String goalsPerDay(String amount);
+
+  /// No description provided for @goalsPreviousMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous month'**
+  String get goalsPreviousMonth;
+
+  /// No description provided for @goalsReached.
+  ///
+  /// In en, this message translates to:
+  /// **'Target reached. Everything from here is ahead of plan.'**
+  String get goalsReached;
+
+  /// No description provided for @goalsRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove target'**
+  String get goalsRemove;
+
+  /// No description provided for @goalsRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Target removed'**
+  String get goalsRemoved;
+
+  /// No description provided for @goalsSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Target saved'**
+  String get goalsSaved;
+
+  /// No description provided for @goalsSheetFor.
+  ///
+  /// In en, this message translates to:
+  /// **'Target for {name}'**
+  String goalsSheetFor(String name);
+
+  /// No description provided for @goalsSheetHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Deals won this month count, with the commission on each.'**
+  String get goalsSheetHint;
+
+  /// No description provided for @goalsSheetOwnHint.
+  ///
+  /// In en, this message translates to:
+  /// **'If your manager sets a target for you, theirs takes the place of yours.'**
+  String get goalsSheetOwnHint;
+
+  /// No description provided for @goalsSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly target'**
+  String get goalsSheetTitle;
+
+  /// No description provided for @goalsTeamEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No one in the agency yet'**
+  String get goalsTeamEmpty;
+
+  /// No description provided for @goalsTeamHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Targets for each agent and the agency'**
+  String get goalsTeamHint;
+
+  /// No description provided for @goalsTeamIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'A target for each agent and for the whole agency. Progress counts the deals won in the month and the commission on them. Your target replaces one an agent set for themselves.'**
+  String get goalsTeamIntro;
+
+  /// No description provided for @goalsTeamOverrideHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your target replaces one the agent set for themselves.'**
+  String get goalsTeamOverrideHint;
+
+  /// No description provided for @goalsTeamTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly goals'**
+  String get goalsTeamTitle;
 
   /// No description provided for @importAction.
   ///

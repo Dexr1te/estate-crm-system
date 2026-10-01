@@ -61,6 +61,7 @@ class OfflineCache {
     RegExp(r'^/meetings(/upcoming|/\d+)?$'),
     RegExp(r'^/tasks$'),
     RegExp(r'^/dashboard/summary$'),
+    RegExp(r'^/goals/me$'),
   ];
 
   /// Only reads of the main entities are kept; never a write, never anything

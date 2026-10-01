@@ -1562,42 +1562,6 @@ class AppLocalizationsKk extends AppLocalizations {
   }
 
   @override
-  String get dashboardGoalClear => 'Мақсатты алып тастау';
-
-  @override
-  String dashboardGoalCommission(Object amount) {
-    return 'Осы айдағы комиссия: $amount';
-  }
-
-  @override
-  String get dashboardGoalEyebrow => 'МАҚСАТ';
-
-  @override
-  String get dashboardGoalReached =>
-      'Мақсатқа жетті. Бұдан әрі бәрі жоспардан тыс.';
-
-  @override
-  String dashboardGoalRemaining(Object amount) {
-    return 'Мақсатқа $amount қалды';
-  }
-
-  @override
-  String get dashboardGoalSheetField => 'Сома';
-
-  @override
-  String get dashboardGoalSheetHint =>
-      'Жеңіске жеткен мәмілелер есептеледі. Тек осы құрылғыда сақталады.';
-
-  @override
-  String get dashboardGoalSheetTitle => 'Айлық мақсат';
-
-  @override
-  String get dashboardGoalTitle => 'Осы айда жабылды';
-
-  @override
-  String get dashboardGoalUnset => 'Айлық мақсат қою үшін басыңыз';
-
-  @override
   String dashboardGreeting(Object greeting, Object name) {
     return '$greeting, $name';
   }
@@ -2397,6 +2361,182 @@ class AppLocalizationsKk extends AppLocalizations {
   @override
   String get exportTooMany =>
       'Бір файлға жол тым көп. Сүзгілерді тарылтып, бөліктеп жүктеңіз.';
+
+  @override
+  String get goalsAgency => 'Бүкіл агенттік';
+
+  @override
+  String get goalsAgentOwn => 'Агенттің өз мақсаты';
+
+  @override
+  String get goalsCardTitle => 'Айлық мақсат';
+
+  @override
+  String get goalsCommissionLabel => 'Комиссия';
+
+  @override
+  String goalsCommissionOf(String achieved, String target) {
+    return '$target ішінен $achieved';
+  }
+
+  @override
+  String goalsCopied(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count мақсат көшірілді',
+      zero: 'Өткен айдан көшіретін ештеңе жоқ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get goalsCopyPrevious => 'Өткен айдың мақсаттарын көшіру';
+
+  @override
+  String goalsDaysLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count күн қалды',
+      one: '1 күн қалды',
+      zero: 'Ай аяқталды',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String goalsDealEvery(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'әр $count күн сайын бір мәміле',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get goalsDealsLabel => 'Жеңіске жеткен мәмілелер';
+
+  @override
+  String goalsDealsOf(int won, int target) {
+    return 'Жеңіске жеткен мәмілелер: $target ішінен $won';
+  }
+
+  @override
+  String goalsDealsPerDay(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'күніне $count мәміле',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String goalsDealsWon(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count мәміле жеңіске жетті',
+      zero: 'Әзірге жеңіске жеткен мәміле жоқ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get goalsEyebrow => 'МАҚСАТ';
+
+  @override
+  String get goalsFieldHint => 'Қажет болмаса, бос қалдырыңыз';
+
+  @override
+  String get goalsInvalidCommission => 'Нөлден үлкен соманы енгізіңіз';
+
+  @override
+  String get goalsInvalidDeals => '1-ден 1000-ға дейінгі бүтін санды енгізіңіз';
+
+  @override
+  String get goalsLoadFailed => 'Мақсаттарды жүктеу мүмкін болмады';
+
+  @override
+  String get goalsManagerSet => 'Басшы қойған';
+
+  @override
+  String get goalsMonthOver => 'Бұл ай аяқталды, оның мақсаттары өзгермейді.';
+
+  @override
+  String get goalsNeedOne =>
+      'Комиссияны, мәміле санын немесе екеуін де көрсетіңіз';
+
+  @override
+  String get goalsNextMonth => 'Келесі ай';
+
+  @override
+  String get goalsNoTarget => 'Мақсат жоқ';
+
+  @override
+  String get goalsNone => 'Бұл айға әзірге мақсат жоқ';
+
+  @override
+  String get goalsNoneHint =>
+      'Өз мақсатыңызды қою үшін басыңыз. Басшы қойса, соныкі есептеледі.';
+
+  @override
+  String get goalsOwn => 'Өз мақсатыңыз';
+
+  @override
+  String goalsPerDay(String amount) {
+    return 'күніне $amount';
+  }
+
+  @override
+  String get goalsPreviousMonth => 'Алдыңғы ай';
+
+  @override
+  String get goalsReached => 'Мақсатқа жетті. Бұдан әрі бәрі жоспардан тыс.';
+
+  @override
+  String get goalsRemove => 'Мақсатты алып тастау';
+
+  @override
+  String get goalsRemoved => 'Мақсат алынды';
+
+  @override
+  String get goalsSaved => 'Мақсат сақталды';
+
+  @override
+  String goalsSheetFor(String name) {
+    return 'Мақсат: $name';
+  }
+
+  @override
+  String get goalsSheetHint =>
+      'Осы айда жеңіске жеткен мәмілелер мен олардың комиссиясы есептеледі.';
+
+  @override
+  String get goalsSheetOwnHint =>
+      'Басшы сізге мақсат қойса, ол сіздікін алмастырады.';
+
+  @override
+  String get goalsSheetTitle => 'Айлық мақсат';
+
+  @override
+  String get goalsTeamEmpty => 'Агенттікте әзірге ешкім жоқ';
+
+  @override
+  String get goalsTeamHint => 'Әр агент пен агенттік үшін мақсаттар';
+
+  @override
+  String get goalsTeamIntro =>
+      'Әр агентке және бүкіл агенттікке мақсат. Прогресс ай ішінде жеңіске жеткен мәмілелер мен олардың комиссиясы бойынша есептеледі. Сіздің мақсатыңыз агенттің өзі қойғанын алмастырады.';
+
+  @override
+  String get goalsTeamOverrideHint =>
+      'Сіздің мақсатыңыз агенттің өзі қойғанын алмастырады.';
+
+  @override
+  String get goalsTeamTitle => 'Айлық мақсаттар';
 
   @override
   String importAction(int count) {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:real_estate_crm/core/goal/goal_bloc.dart';
+import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/utils/clock.dart';
 import 'package:real_estate_crm/core/utils/formatters.dart';
@@ -12,9 +12,9 @@ import 'package:real_estate_crm/features/dashboard/presentation/screens/dashboar
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/day_rail.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/pipeline_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/top_agents_card.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'fakes.dart';
+import 'goals_fakes.dart';
 import 'quick_add_expect.dart';
 import 'responsive_harness.dart';
 
@@ -121,16 +121,12 @@ Widget _dashboard({
   List<MeetingResponse> meetings = const [],
   List<DealResponse> deals = const [],
   AuthResponse? user,
-  bool loadGoal = false,
 }) =>
     MultiBlocProvider(
       providers: [
         BlocProvider(
             create: (_) => AuthBloc(FakeAuthRepository(user: user))
               ..add(AuthCheckEvent())),
-        BlocProvider(
-            create: (_) => GoalBloc()
-              ..add(loadGoal ? GoalLoadEvent() : GoalChangedEvent(null))),
         BlocProvider(
           create: (_) => DashboardBloc(
             FakeDashboardRepository(const DashboardSummary(
@@ -227,19 +223,41 @@ void main() {
 
   /// The figure is the server's, summed over what the caller may see; the
   /// screen only has to put it on the month's card.
-  testWidgets('the month card carries the commission the summary reports',
+  testWidgets('the month card counts what the server says the month earned',
       (tester) async {
+    Injector.goalsRepository = FakeGoalsRepository(
+        mine: kEmptyGoal.copyWith(commissionAchieved: 1370000, dealsWon: 2));
+    addTearDown(() => Injector.goalsRepository = FakeGoalsRepository());
     await expectNoOverflow(
       tester,
-      _dashboard(meetings: _meetings, deals: _deals),
+      _dashboard(
+        meetings: _meetings,
+        deals: _deals,
+        user: const AuthResponse(userId: 2, fullName: 'A', role: Role.AGENT),
+      ),
       size: const Size(390, 844),
       brightness: Brightness.light,
       textScale: 1.0,
     );
     await tester.pumpAndSettle();
 
-    expect(find.text('Commission this month: ${formatPrice(1370000)}'),
-        findsOneWidget);
+    expect(
+        tester.widget<Text>(find.byKey(const ValueKey('goal-achieved'))).data,
+        formatPrice(1370000));
+    expect(find.text('2 deals won'), findsOneWidget);
+  });
+
+  testWidgets('an admin, who runs no agency, has no month card',
+      (tester) async {
+    await expectNoOverflow(
+      tester,
+      _dashboard(meetings: _meetings, deals: _deals, user: _admin),
+      size: const Size(390, 844),
+      brightness: Brightness.light,
+      textScale: 1.0,
+    );
+    await tester.pumpAndSettle();
+    expect(find.byKey(const ValueKey('goal-card')), findsNothing);
   });
 
   testWidgets('the agent ranking stays hidden from a plain agent',
@@ -279,10 +297,24 @@ void main() {
       (tester, size, brightness, scale) async {
     // The ring only draws a sweep and a percentage once a target exists, so
     // the unset path the other cases exercise never reaches that layout.
-    SharedPreferences.setMockInitialValues({'monthly_goal': 90000000.0});
+    Injector.goalsRepository = FakeGoalsRepository(
+      mine: const GoalProgress(
+        month: '2026-03',
+        source: 'MANAGER',
+        commissionTarget: 2400000,
+        dealsTarget: 6,
+        commissionAchieved: 1370000,
+        dealsWon: 2,
+        commissionPercent: 57,
+        dealsPercent: 33,
+        daysLeft: 20,
+        commissionPerDay: 51500,
+      ),
+    );
+    addTearDown(() => Injector.goalsRepository = FakeGoalsRepository());
     await expectNoOverflow(
       tester,
-      _dashboard(meetings: _meetings, deals: _deals, loadGoal: true),
+      _dashboard(meetings: _meetings, deals: _deals),
       size: size,
       brightness: brightness,
       textScale: scale,

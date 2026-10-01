@@ -1,33 +1,48 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/features/goals/domain/goal_pace.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
+/// The month's target on the dashboard: a ring with how much of it is done,
+/// the commission and the deals won against it, the days left and what each
+/// of them has to bring. Without a target it still shows what the month has
+/// brought, and says how to set one when [onTap] is given.
 class GoalRingCard extends StatelessWidget {
-  final double achieved;
-  final double? target;
-  final double commission;
-  final VoidCallback onEdit;
+  final GoalProgress goal;
+  final VoidCallback? onTap;
 
-  const GoalRingCard({
-    super.key,
-    required this.achieved,
-    required this.target,
-    required this.onEdit,
-    this.commission = 0,
-  });
+  const GoalRingCard({super.key, required this.goal, this.onTap});
 
   @override
   Widget build(BuildContext context) {
     final t = context.tokens;
     final l10n = AppLocalizations.of(context);
-    final hasTarget = target != null && target! > 0;
-    final fraction = hasTarget ? (achieved / target!).clamp(0.0, 1.0) : 0.0;
-    final percent = (fraction * 100).round();
+    final hasTarget = goal.hasTarget;
+    final percent = goalPercent(goal);
+    final commissionTarget = goal.commissionTarget;
+    final dealsTarget = goal.dealsTarget;
+
+    final String status;
+    if (!hasTarget) {
+      status = onTap != null ? l10n.goalsNoneHint : l10n.goalsNone;
+    } else if (goalReached(goal)) {
+      status = l10n.goalsReached;
+    } else {
+      status = goalPace(l10n, goal);
+    }
+
+    final secondary = TextStyle(
+        fontFamily: AppFonts.sans,
+        fontSize: 11.5,
+        height: 1.35,
+        color: t.textSecondary);
 
     return GestureDetector(
-      onTap: onEdit,
+      key: const ValueKey('goal-card'),
+      onTap: onTap,
       behavior: HitTestBehavior.opaque,
       child: AppCard(
         child: Row(
@@ -37,7 +52,7 @@ class GoalRingCard extends StatelessWidget {
               height: 104,
               child: CustomPaint(
                 painter: _RingPainter(
-                  fraction: fraction,
+                  fraction: goalFraction(goal),
                   sweep: t.accent,
                   track: t.chartTrack,
                 ),
@@ -45,36 +60,43 @@ class GoalRingCard extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      if (hasTarget)
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.baseline,
-                          textBaseline: TextBaseline.alphabetic,
-                          children: [
-                            Text(
-                              '$percent',
-                              style: TextStyle(
-                                  fontFamily: AppFonts.sans,
-                                  fontSize: 24,
-                                  height: 1,
-                                  fontWeight: FontWeight.w700,
-                                  color: t.textPrimary),
-                            ),
-                            Text(
-                              '%',
-                              style: TextStyle(
-                                  fontFamily: AppFonts.sans,
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w700,
-                                  color: t.textPrimary),
-                            ),
-                          ],
+                      if (percent != null)
+                        FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.baseline,
+                            textBaseline: TextBaseline.alphabetic,
+                            children: [
+                              Text(
+                                '$percent',
+                                maxLines: 1,
+                                style: TextStyle(
+                                    fontFamily: AppFonts.sans,
+                                    fontSize: 24,
+                                    height: 1,
+                                    fontWeight: FontWeight.w700,
+                                    color: t.textPrimary),
+                              ),
+                              Text(
+                                '%',
+                                maxLines: 1,
+                                style: TextStyle(
+                                    fontFamily: AppFonts.sans,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w700,
+                                    color: t.textPrimary),
+                              ),
+                            ],
+                          ),
                         )
                       else
                         Icon(Icons.flag_outlined, size: 22, color: t.textHint),
                       const SizedBox(height: 3),
                       Text(
-                        l10n.dashboardGoalEyebrow,
+                        l10n.goalsEyebrow,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontFamily: AppFonts.sans,
                             fontSize: 9,
@@ -93,7 +115,7 @@ class GoalRingCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    l10n.dashboardGoalTitle,
+                    l10n.goalsCardTitle,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
@@ -111,7 +133,9 @@ class GoalRingCard extends StatelessWidget {
                       textBaseline: TextBaseline.alphabetic,
                       children: [
                         Text(
-                          formatPrice(achieved),
+                          formatPrice(goal.commissionAchieved),
+                          key: const ValueKey('goal-achieved'),
+                          maxLines: 1,
                           style: TextStyle(
                               fontFamily: AppFonts.sans,
                               fontSize: 20,
@@ -119,10 +143,11 @@ class GoalRingCard extends StatelessWidget {
                               fontWeight: FontWeight.w700,
                               color: t.textPrimary),
                         ),
-                        if (hasTarget) ...[
+                        if (commissionTarget != null) ...[
                           const SizedBox(width: 5),
                           Text(
-                            '/ ${formatPrice(target!)}',
+                            '/ ${formatPrice(commissionTarget)}',
+                            maxLines: 1,
                             style: TextStyle(
                                 fontFamily: AppFonts.sans,
                                 fontSize: 11.5,
@@ -132,33 +157,37 @@ class GoalRingCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 6),
+                  const SizedBox(height: 5),
                   Text(
-                    hasTarget
-                        ? (achieved >= target!
-                            ? l10n.dashboardGoalReached
-                            : l10n.dashboardGoalRemaining(
-                                formatPrice(target! - achieved)))
-                        : l10n.dashboardGoalUnset,
-                    maxLines: 2,
+                    dealsTarget != null
+                        ? l10n.goalsDealsOf(goal.dealsWon, dealsTarget)
+                        : l10n.goalsDealsWon(goal.dealsWon),
+                    maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
                         fontSize: 11.5,
-                        height: 1.35,
-                        color: t.textSecondary),
+                        fontWeight: FontWeight.w600,
+                        color: t.textPrimary),
                   ),
-                  if (commission > 0) ...[
-                    const SizedBox(height: 6),
+                  const SizedBox(height: 5),
+                  Text(
+                    status,
+                    key: const ValueKey('goal-status'),
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                    style: secondary,
+                  ),
+                  if (hasTarget) ...[
+                    const SizedBox(height: 5),
                     Text(
-                      l10n.dashboardGoalCommission(formatPrice(commission)),
+                      goal.setByManager ? l10n.goalsManagerSet : l10n.goalsOwn,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontFamily: AppFonts.sans,
-                          fontSize: 11.5,
-                          fontWeight: FontWeight.w600,
-                          color: t.textPrimary),
+                          fontSize: 10.5,
+                          color: t.textHint),
                     ),
                   ],
                 ],
@@ -212,40 +241,6 @@ class _RingPainter extends CustomPainter {
   @override
   bool shouldRepaint(_RingPainter old) =>
       old.fraction != fraction || old.sweep != sweep || old.track != track;
-}
-
-Future<double?> showGoalSheet(BuildContext context, double? current) {
-  final controller = TextEditingController(
-      text: current == null ? '' : current.round().toString());
-  final l10n = AppLocalizations.of(context);
-
-  return showAppBottomSheet<double?>(
-    context,
-    title: l10n.dashboardGoalSheetTitle,
-    subtitle: l10n.dashboardGoalSheetHint,
-    builder: (ctx) => Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        AppTextField(
-          controller: controller,
-          hint: l10n.dashboardGoalSheetField,
-          keyboardType: TextInputType.number,
-          autofocus: true,
-        ),
-        const SizedBox(height: 14),
-        AppFilledButton(
-          label: l10n.coreSave,
-          onPressed: () =>
-              Navigator.of(ctx).pop(double.tryParse(controller.text.trim())),
-        ),
-        const SizedBox(height: 9),
-        AppGhostButton(
-          label: l10n.dashboardGoalClear,
-          onPressed: () => Navigator.of(ctx).pop(0),
-        ),
-      ],
-    ),
-  );
 }
 
 class GoalRingCardBone extends StatelessWidget {

@@ -1592,43 +1592,6 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get dashboardGoalClear => 'Убрать цель';
-
-  @override
-  String dashboardGoalCommission(Object amount) {
-    return 'Комиссия за месяц: $amount';
-  }
-
-  @override
-  String get dashboardGoalEyebrow => 'ЦЕЛЬ';
-
-  @override
-  String get dashboardGoalReached =>
-      'Цель достигнута. Всё дальше — сверх плана.';
-
-  @override
-  String dashboardGoalRemaining(Object amount) {
-    return 'До цели осталось $amount';
-  }
-
-  @override
-  String get dashboardGoalSheetField => 'Сумма';
-
-  @override
-  String get dashboardGoalSheetHint =>
-      'Засчитываются выигранные сделки. Хранится только на этом устройстве.';
-
-  @override
-  String get dashboardGoalSheetTitle => 'Цель на месяц';
-
-  @override
-  String get dashboardGoalTitle => 'Закрыто за месяц';
-
-  @override
-  String get dashboardGoalUnset =>
-      'Нажмите, чтобы задать цель на месяц и следить за ней здесь';
-
-  @override
   String dashboardGreeting(Object greeting, Object name) {
     return '$greeting, $name';
   }
@@ -2447,6 +2410,196 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get exportTooMany =>
       'Слишком много строк для одного файла. Сузьте фильтры и выгрузите частями.';
+
+  @override
+  String get goalsAgency => 'Всё агентство';
+
+  @override
+  String get goalsAgentOwn => 'Цель агента';
+
+  @override
+  String get goalsCardTitle => 'Цель на месяц';
+
+  @override
+  String get goalsCommissionLabel => 'Комиссия';
+
+  @override
+  String goalsCommissionOf(String achieved, String target) {
+    return '$achieved из $target';
+  }
+
+  @override
+  String goalsCopied(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Скопировано $count цели',
+      many: 'Скопировано $count целей',
+      few: 'Скопировано $count цели',
+      one: 'Скопирована $count цель',
+      zero: 'Копировать из прошлого месяца нечего',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get goalsCopyPrevious => 'Скопировать цели прошлого месяца';
+
+  @override
+  String goalsDaysLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Осталось $count дня',
+      many: 'Осталось $count дней',
+      few: 'Осталось $count дня',
+      one: 'Остался $count день',
+      zero: 'Месяц закончился',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String goalsDealEvery(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'по сделке каждые $count дня',
+      many: 'по сделке каждые $count дней',
+      few: 'по сделке каждые $count дня',
+      one: 'по сделке каждый $count день',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get goalsDealsLabel => 'Выигранные сделки';
+
+  @override
+  String goalsDealsOf(int won, int target) {
+    return 'Выиграно сделок: $won из $target';
+  }
+
+  @override
+  String goalsDealsPerDay(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count сделки в день',
+      many: '$count сделок в день',
+      few: '$count сделки в день',
+      one: '$count сделка в день',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String goalsDealsWon(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Выиграно $count сделки',
+      many: 'Выиграно $count сделок',
+      few: 'Выиграно $count сделки',
+      one: 'Выиграна $count сделка',
+      zero: 'Выигранных сделок пока нет',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get goalsEyebrow => 'ЦЕЛЬ';
+
+  @override
+  String get goalsFieldHint => 'Оставьте пустым, если не нужно';
+
+  @override
+  String get goalsInvalidCommission => 'Введите сумму больше нуля';
+
+  @override
+  String get goalsInvalidDeals => 'Введите целое число от 1 до 1000';
+
+  @override
+  String get goalsLoadFailed => 'Не удалось загрузить цели';
+
+  @override
+  String get goalsManagerSet => 'Поставлена руководителем';
+
+  @override
+  String get goalsMonthOver =>
+      'Этот месяц закончился, его цели остаются как были.';
+
+  @override
+  String get goalsNeedOne => 'Укажите комиссию, число сделок или и то и другое';
+
+  @override
+  String get goalsNextMonth => 'Следующий месяц';
+
+  @override
+  String get goalsNoTarget => 'Без цели';
+
+  @override
+  String get goalsNone => 'Цели на этот месяц пока нет';
+
+  @override
+  String get goalsNoneHint =>
+      'Нажмите, чтобы поставить свою. Если цель поставит руководитель, считается его.';
+
+  @override
+  String get goalsOwn => 'Ваша собственная цель';
+
+  @override
+  String goalsPerDay(String amount) {
+    return '$amount в день';
+  }
+
+  @override
+  String get goalsPreviousMonth => 'Предыдущий месяц';
+
+  @override
+  String get goalsReached => 'Цель достигнута. Всё дальше — сверх плана.';
+
+  @override
+  String get goalsRemove => 'Убрать цель';
+
+  @override
+  String get goalsRemoved => 'Цель убрана';
+
+  @override
+  String get goalsSaved => 'Цель сохранена';
+
+  @override
+  String goalsSheetFor(String name) {
+    return 'Цель: $name';
+  }
+
+  @override
+  String get goalsSheetHint =>
+      'Считаются сделки, выигранные в этом месяце, и комиссия по ним.';
+
+  @override
+  String get goalsSheetOwnHint =>
+      'Если руководитель поставит вам цель, она заменит вашу.';
+
+  @override
+  String get goalsSheetTitle => 'Цель на месяц';
+
+  @override
+  String get goalsTeamEmpty => 'В агентстве пока никого нет';
+
+  @override
+  String get goalsTeamHint => 'Цели для каждого агента и агентства';
+
+  @override
+  String get goalsTeamIntro =>
+      'Цель для каждого агента и для всего агентства. Прогресс считается по сделкам, выигранным за месяц, и комиссии по ним. Ваша цель заменяет ту, что агент поставил себе сам.';
+
+  @override
+  String get goalsTeamOverrideHint =>
+      'Ваша цель заменит ту, что агент поставил себе сам.';
+
+  @override
+  String get goalsTeamTitle => 'Цели на месяц';
 
   @override
   String importAction(int count) {
