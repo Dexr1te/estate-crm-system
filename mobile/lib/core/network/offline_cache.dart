@@ -57,9 +57,11 @@ class OfflineCache {
         r'^/properties(/\d+(/photos|/cover|/viewings|/price-history|/price-insight|/report)?)?$'),
     RegExp(r'^/properties/(price-insight|mandates-ending)$'),
     RegExp(r'^/deals(/\d+(/comments(/mentionable)?|/checklist)?)?$'),
+    RegExp(r'^/deals/(\d+/deposits|deposits-ending)$'),
     RegExp(r'^/meetings(/upcoming|/\d+)?$'),
     RegExp(r'^/tasks$'),
     RegExp(r'^/dashboard/summary$'),
+    RegExp(r'^/goals/me$'),
   ];
 
   /// Only reads of the main entities are kept; never a write, never anything

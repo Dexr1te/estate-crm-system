@@ -59,9 +59,10 @@ public class ExportController {
                        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate closedFrom,
                        @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate closedTo,
                        @RequestParam(required = false) List<String> tags,
+                       @RequestParam(required = false) String leadSource,
                        HttpServletResponse response) throws IOException {
         ExportFilters filters = new ExportFilters(type, status, source, city, agentId, search,
-                minPrice, maxPrice, rooms, createdFrom, createdTo, closedFrom, closedTo, tags);
+                minPrice, maxPrice, rooms, createdFrom, createdTo, closedFrom, closedTo, tags, leadSource);
         ExportService.Plan plan = exportService.prepare(ExportKind.fromPath(kind), filters, lang, delimiter);
 
         response.setStatus(HttpServletResponse.SC_OK);

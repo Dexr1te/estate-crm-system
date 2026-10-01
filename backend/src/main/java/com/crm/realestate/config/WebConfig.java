@@ -31,6 +31,7 @@ public class WebConfig implements WebMvcConfigurer {
                         "/import/**",
                         "/export/**",
                         "/dashboard/**",
+                        "/goals/**",
                         "/users/agents");
     }
 }

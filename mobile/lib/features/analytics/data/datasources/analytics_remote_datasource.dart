@@ -16,6 +16,17 @@ class AnalyticsRemoteDataSource {
     return DealFunnel.fromJson(jsonObject(res));
   }
 
+  Future<LeadSourceBreakdown> getLeadSources(
+      {required DateTime from, required DateTime to, int? agentId}) async {
+    final res =
+        await _client.dio.get('/analytics/lead-sources', queryParameters: {
+      'from': _date(from),
+      'to': _date(to),
+      if (agentId != null) 'agentId': agentId,
+    });
+    return LeadSourceBreakdown.fromJson(jsonObject(res));
+  }
+
   static String _date(DateTime d) =>
       '${d.year.toString().padLeft(4, '0')}-${d.month.toString().padLeft(2, '0')}'
       '-${d.day.toString().padLeft(2, '0')}';

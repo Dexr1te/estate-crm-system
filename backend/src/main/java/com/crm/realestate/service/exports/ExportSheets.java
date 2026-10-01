@@ -105,6 +105,7 @@ class ExportSheets {
         return ClientSpecification.build(parse(ClientType.class, f.type()), f.agentId(),
                         f.createdFrom(), f.createdTo(), f.search(), f.tags())
                 .and(bySource)
+                .and(ClientSpecification.leadSource(parse(com.crm.realestate.enums.LeadSource.class, f.leadSource())))
                 .and(scopeService.visibleTo(q.user()))
                 .and(inAgency(q.user()));
     }

@@ -201,6 +201,21 @@ class AppLocalizationsKk extends AppLocalizations {
   String get analyticsNoLost => 'Бұл кезеңде жоғалған мәміле жоқ.';
 
   @override
+  String get analyticsLeadSources => 'Клиенттер қайдан келеді';
+
+  @override
+  String get analyticsLeadSourcesHint =>
+      'Кезеңде қосылған клиенттер және олардың қаншасы мәміле жасады.';
+
+  @override
+  String analyticsLeadSourceWon(Object count, Object rate) {
+    return '$count мәміле жасады · $rate';
+  }
+
+  @override
+  String get analyticsNoClients => 'Бұл кезеңде клиент қосылмаған.';
+
+  @override
   String get analyticsNoValue => '—';
 
   @override
@@ -983,6 +998,12 @@ class AppLocalizationsKk extends AppLocalizations {
   }
 
   @override
+  String get clientsFilterSource => 'Дереккөз';
+
+  @override
+  String get clientsFilterSourceAll => 'Барлық дереккөздер';
+
+  @override
   String get clientsFollowUpCall => 'Бұл қоңырауды жазып қоясыз ба?';
 
   @override
@@ -1222,6 +1243,42 @@ class AppLocalizationsKk extends AppLocalizations {
   String clientsTagsMore(Object count) {
     return '+$count';
   }
+
+  @override
+  String get clientsLeadSource => 'Қайдан келді';
+
+  @override
+  String get clientsLeadSourceNone => 'Көрсетілмеген';
+
+  @override
+  String get clientsLeadSourceReferral => 'Ұсыныс';
+
+  @override
+  String get clientsLeadSourceWebsite => 'Сайт';
+
+  @override
+  String get clientsLeadSourcePortal => 'Хабарландыру порталы';
+
+  @override
+  String get clientsLeadSourceSocial => 'Әлеуметтік желілер';
+
+  @override
+  String get clientsLeadSourceWalkIn => 'Кеңсеге келді';
+
+  @override
+  String get clientsLeadSourceColdCall => 'Суық қоңырау';
+
+  @override
+  String get clientsLeadSourceRepeat => 'Тұрақты клиент';
+
+  @override
+  String get clientsLeadSourceOther => 'Басқа';
+
+  @override
+  String get clientsLeadSourceDetail => 'Толығырақ';
+
+  @override
+  String get clientsLeadSourceDetailHint => 'Кім ұсынды, қай портал';
 
   @override
   String get clientsTitle => 'Клиенттер';
@@ -1560,42 +1617,6 @@ class AppLocalizationsKk extends AppLocalizations {
   String dashboardDateSummary(Object date) {
     return '$date · команда сводкасы';
   }
-
-  @override
-  String get dashboardGoalClear => 'Мақсатты алып тастау';
-
-  @override
-  String dashboardGoalCommission(Object amount) {
-    return 'Осы айдағы комиссия: $amount';
-  }
-
-  @override
-  String get dashboardGoalEyebrow => 'МАҚСАТ';
-
-  @override
-  String get dashboardGoalReached =>
-      'Мақсатқа жетті. Бұдан әрі бәрі жоспардан тыс.';
-
-  @override
-  String dashboardGoalRemaining(Object amount) {
-    return 'Мақсатқа $amount қалды';
-  }
-
-  @override
-  String get dashboardGoalSheetField => 'Сома';
-
-  @override
-  String get dashboardGoalSheetHint =>
-      'Жеңіске жеткен мәмілелер есептеледі. Тек осы құрылғыда сақталады.';
-
-  @override
-  String get dashboardGoalSheetTitle => 'Айлық мақсат';
-
-  @override
-  String get dashboardGoalTitle => 'Осы айда жабылды';
-
-  @override
-  String get dashboardGoalUnset => 'Айлық мақсат қою үшін басыңыз';
 
   @override
   String dashboardGreeting(Object greeting, Object name) {
@@ -2134,6 +2155,141 @@ class AppLocalizationsKk extends AppLocalizations {
   String get dealsViewList => 'Тізім';
 
   @override
+  String get depositsAmount => 'Сомасы';
+
+  @override
+  String get depositsAmountHint => 'мысалы, 500 000';
+
+  @override
+  String get depositsCloseAction => 'Кепілпұлды жабу';
+
+  @override
+  String get depositsCloseTitle => 'Кепілпұл немен аяқталды?';
+
+  @override
+  String get depositsClosedBeforeReceived =>
+      'Кепілпұл алынғанға дейін аяқтала алмайды';
+
+  @override
+  String get depositsClosedOn => 'Күні';
+
+  @override
+  String get depositsDealClosedHint =>
+      'Мәміле жабық, кепілпұл енгізу мүмкін емес.';
+
+  @override
+  String get depositsEdit => 'Өзгерту';
+
+  @override
+  String get depositsEditTitle => 'Кепілпұлды өзгерту';
+
+  @override
+  String get depositsEndingEmpty => 'Мерзімі бітетін кепілпұл жоқ';
+
+  @override
+  String get depositsEndingEmptyHint =>
+      'Белсенді кепілпұлдар бронь аяқталуына бір апта қалғанда осында шығады.';
+
+  @override
+  String get depositsEndingLoadFailed => 'Кепілпұлдарды жүктеу мүмкін болмады';
+
+  @override
+  String get depositsEndingTitle => 'Мерзімі бітетін кепілпұлдар';
+
+  @override
+  String get depositsHistory => 'Бұрынғы кепілпұлдар';
+
+  @override
+  String get depositsHoldBeforeReceived =>
+      'Бронь кепілпұл алынғаннан бұрын аяқтала алмайды';
+
+  @override
+  String depositsHoldEndedAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Бронь $count күн бұрын аяқталды',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get depositsHoldEndedYesterday => 'Бронь кеше аяқталды';
+
+  @override
+  String depositsHoldEndsIn(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Бронь $count күннен кейін аяқталады',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get depositsHoldEndsToday => 'Бронь бүгін аяқталады';
+
+  @override
+  String get depositsHoldEndsTomorrow => 'Бронь ертең аяқталады';
+
+  @override
+  String get depositsHoldUntil => 'Бронь мерзімі';
+
+  @override
+  String get depositsHolder => 'Сақтаушы';
+
+  @override
+  String get depositsHolderAgency => 'Агенттік';
+
+  @override
+  String get depositsHolderNotary => 'Нотариус';
+
+  @override
+  String get depositsHolderSeller => 'Сатушы';
+
+  @override
+  String get depositsLoadFailed => 'Кепілпұлды жүктеу мүмкін болмады';
+
+  @override
+  String get depositsNone => 'Кепілпұл енгізілмеген';
+
+  @override
+  String get depositsNoneHint =>
+      'Сатып алушы ақша енгізгенде жазыңыз, сонда нысан брондалған деп белгіленеді.';
+
+  @override
+  String get depositsNote => 'Ескертпе';
+
+  @override
+  String get depositsNoteHint => 'Қолхат нөмірі, шарттар';
+
+  @override
+  String get depositsOutcomeApplied => 'Сатып алуға есептелді';
+
+  @override
+  String get depositsOutcomeForfeited => 'Ұсталды';
+
+  @override
+  String get depositsOutcomeRefunded => 'Қайтарылды';
+
+  @override
+  String get depositsReceivedOn => 'Алынған күні';
+
+  @override
+  String get depositsRecord => 'Кепілпұл енгізу';
+
+  @override
+  String get depositsRecordTitle => 'Жаңа кепілпұл';
+
+  @override
+  String depositsReservedUntil(String date) {
+    return '$date дейін брондалған';
+  }
+
+  @override
+  String get depositsTitle => 'Кепілпұл';
+
+  @override
   String get documentsAdd => 'Файл тіркеу';
 
   @override
@@ -2262,6 +2418,182 @@ class AppLocalizationsKk extends AppLocalizations {
   @override
   String get exportTooMany =>
       'Бір файлға жол тым көп. Сүзгілерді тарылтып, бөліктеп жүктеңіз.';
+
+  @override
+  String get goalsAgency => 'Бүкіл агенттік';
+
+  @override
+  String get goalsAgentOwn => 'Агенттің өз мақсаты';
+
+  @override
+  String get goalsCardTitle => 'Айлық мақсат';
+
+  @override
+  String get goalsCommissionLabel => 'Комиссия';
+
+  @override
+  String goalsCommissionOf(String achieved, String target) {
+    return '$target ішінен $achieved';
+  }
+
+  @override
+  String goalsCopied(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count мақсат көшірілді',
+      zero: 'Өткен айдан көшіретін ештеңе жоқ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get goalsCopyPrevious => 'Өткен айдың мақсаттарын көшіру';
+
+  @override
+  String goalsDaysLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count күн қалды',
+      one: '1 күн қалды',
+      zero: 'Ай аяқталды',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String goalsDealEvery(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'әр $count күн сайын бір мәміле',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get goalsDealsLabel => 'Жеңіске жеткен мәмілелер';
+
+  @override
+  String goalsDealsOf(int won, int target) {
+    return 'Жеңіске жеткен мәмілелер: $target ішінен $won';
+  }
+
+  @override
+  String goalsDealsPerDay(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'күніне $count мәміле',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String goalsDealsWon(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count мәміле жеңіске жетті',
+      zero: 'Әзірге жеңіске жеткен мәміле жоқ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get goalsEyebrow => 'МАҚСАТ';
+
+  @override
+  String get goalsFieldHint => 'Қажет болмаса, бос қалдырыңыз';
+
+  @override
+  String get goalsInvalidCommission => 'Нөлден үлкен соманы енгізіңіз';
+
+  @override
+  String get goalsInvalidDeals => '1-ден 1000-ға дейінгі бүтін санды енгізіңіз';
+
+  @override
+  String get goalsLoadFailed => 'Мақсаттарды жүктеу мүмкін болмады';
+
+  @override
+  String get goalsManagerSet => 'Басшы қойған';
+
+  @override
+  String get goalsMonthOver => 'Бұл ай аяқталды, оның мақсаттары өзгермейді.';
+
+  @override
+  String get goalsNeedOne =>
+      'Комиссияны, мәміле санын немесе екеуін де көрсетіңіз';
+
+  @override
+  String get goalsNextMonth => 'Келесі ай';
+
+  @override
+  String get goalsNoTarget => 'Мақсат жоқ';
+
+  @override
+  String get goalsNone => 'Бұл айға әзірге мақсат жоқ';
+
+  @override
+  String get goalsNoneHint =>
+      'Өз мақсатыңызды қою үшін басыңыз. Басшы қойса, соныкі есептеледі.';
+
+  @override
+  String get goalsOwn => 'Өз мақсатыңыз';
+
+  @override
+  String goalsPerDay(String amount) {
+    return 'күніне $amount';
+  }
+
+  @override
+  String get goalsPreviousMonth => 'Алдыңғы ай';
+
+  @override
+  String get goalsReached => 'Мақсатқа жетті. Бұдан әрі бәрі жоспардан тыс.';
+
+  @override
+  String get goalsRemove => 'Мақсатты алып тастау';
+
+  @override
+  String get goalsRemoved => 'Мақсат алынды';
+
+  @override
+  String get goalsSaved => 'Мақсат сақталды';
+
+  @override
+  String goalsSheetFor(String name) {
+    return 'Мақсат: $name';
+  }
+
+  @override
+  String get goalsSheetHint =>
+      'Осы айда жеңіске жеткен мәмілелер мен олардың комиссиясы есептеледі.';
+
+  @override
+  String get goalsSheetOwnHint =>
+      'Басшы сізге мақсат қойса, ол сіздікін алмастырады.';
+
+  @override
+  String get goalsSheetTitle => 'Айлық мақсат';
+
+  @override
+  String get goalsTeamEmpty => 'Агенттікте әзірге ешкім жоқ';
+
+  @override
+  String get goalsTeamHint => 'Әр агент пен агенттік үшін мақсаттар';
+
+  @override
+  String get goalsTeamIntro =>
+      'Әр агентке және бүкіл агенттікке мақсат. Прогресс ай ішінде жеңіске жеткен мәмілелер мен олардың комиссиясы бойынша есептеледі. Сіздің мақсатыңыз агенттің өзі қойғанын алмастырады.';
+
+  @override
+  String get goalsTeamOverrideHint =>
+      'Сіздің мақсатыңыз агенттің өзі қойғанын алмастырады.';
+
+  @override
+  String get goalsTeamTitle => 'Айлық мақсаттар';
 
   @override
   String importAction(int count) {
@@ -2398,6 +2730,12 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get importFieldTags => 'Тегтер';
+
+  @override
+  String get importFieldLeadSource => 'Лид көзі';
+
+  @override
+  String get importFieldLeadSourceDetail => 'Лид көзі туралы';
 
   @override
   String get importFieldTitle => 'Атауы';

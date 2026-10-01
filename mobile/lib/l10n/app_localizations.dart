@@ -460,6 +460,30 @@ abstract class AppLocalizations {
   /// **'No deals lost in this period.'**
   String get analyticsNoLost;
 
+  /// No description provided for @analyticsLeadSources.
+  ///
+  /// In en, this message translates to:
+  /// **'Where clients come from'**
+  String get analyticsLeadSources;
+
+  /// No description provided for @analyticsLeadSourcesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Clients added in the period, and how many of them have a won deal.'**
+  String get analyticsLeadSourcesHint;
+
+  /// No description provided for @analyticsLeadSourceWon.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} with a won deal · {rate}'**
+  String analyticsLeadSourceWon(Object count, Object rate);
+
+  /// No description provided for @analyticsNoClients.
+  ///
+  /// In en, this message translates to:
+  /// **'No clients added in this period.'**
+  String get analyticsNoClients;
+
   /// No description provided for @analyticsNoValue.
   ///
   /// In en, this message translates to:
@@ -1756,6 +1780,18 @@ abstract class AppLocalizations {
   /// **'Tags · {count}'**
   String clientsFilterTagsCount(Object count);
 
+  /// No description provided for @clientsFilterSource.
+  ///
+  /// In en, this message translates to:
+  /// **'Source'**
+  String get clientsFilterSource;
+
+  /// No description provided for @clientsFilterSourceAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All sources'**
+  String get clientsFilterSourceAll;
+
   /// No description provided for @clientsFollowUpCall.
   ///
   /// In en, this message translates to:
@@ -2175,6 +2211,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'+{count}'**
   String clientsTagsMore(Object count);
+
+  /// No description provided for @clientsLeadSource.
+  ///
+  /// In en, this message translates to:
+  /// **'Where they came from'**
+  String get clientsLeadSource;
+
+  /// No description provided for @clientsLeadSourceNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Not recorded'**
+  String get clientsLeadSourceNone;
+
+  /// No description provided for @clientsLeadSourceReferral.
+  ///
+  /// In en, this message translates to:
+  /// **'Referral'**
+  String get clientsLeadSourceReferral;
+
+  /// No description provided for @clientsLeadSourceWebsite.
+  ///
+  /// In en, this message translates to:
+  /// **'Website'**
+  String get clientsLeadSourceWebsite;
+
+  /// No description provided for @clientsLeadSourcePortal.
+  ///
+  /// In en, this message translates to:
+  /// **'Listings portal'**
+  String get clientsLeadSourcePortal;
+
+  /// No description provided for @clientsLeadSourceSocial.
+  ///
+  /// In en, this message translates to:
+  /// **'Social media'**
+  String get clientsLeadSourceSocial;
+
+  /// No description provided for @clientsLeadSourceWalkIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Walk-in'**
+  String get clientsLeadSourceWalkIn;
+
+  /// No description provided for @clientsLeadSourceColdCall.
+  ///
+  /// In en, this message translates to:
+  /// **'Cold call'**
+  String get clientsLeadSourceColdCall;
+
+  /// No description provided for @clientsLeadSourceRepeat.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat client'**
+  String get clientsLeadSourceRepeat;
+
+  /// No description provided for @clientsLeadSourceOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get clientsLeadSourceOther;
+
+  /// No description provided for @clientsLeadSourceDetail.
+  ///
+  /// In en, this message translates to:
+  /// **'Details'**
+  String get clientsLeadSourceDetail;
+
+  /// No description provided for @clientsLeadSourceDetailHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Who referred them, which portal'**
+  String get clientsLeadSourceDetailHint;
 
   /// No description provided for @clientsTitle.
   ///
@@ -2781,66 +2889,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{date} · team overview'**
   String dashboardDateSummary(Object date);
-
-  /// No description provided for @dashboardGoalClear.
-  ///
-  /// In en, this message translates to:
-  /// **'Remove target'**
-  String get dashboardGoalClear;
-
-  /// No description provided for @dashboardGoalCommission.
-  ///
-  /// In en, this message translates to:
-  /// **'Commission this month: {amount}'**
-  String dashboardGoalCommission(Object amount);
-
-  /// No description provided for @dashboardGoalEyebrow.
-  ///
-  /// In en, this message translates to:
-  /// **'TARGET'**
-  String get dashboardGoalEyebrow;
-
-  /// No description provided for @dashboardGoalReached.
-  ///
-  /// In en, this message translates to:
-  /// **'Target reached. Everything from here is ahead of plan.'**
-  String get dashboardGoalReached;
-
-  /// No description provided for @dashboardGoalRemaining.
-  ///
-  /// In en, this message translates to:
-  /// **'{amount} left to hit the target'**
-  String dashboardGoalRemaining(Object amount);
-
-  /// No description provided for @dashboardGoalSheetField.
-  ///
-  /// In en, this message translates to:
-  /// **'Amount'**
-  String get dashboardGoalSheetField;
-
-  /// No description provided for @dashboardGoalSheetHint.
-  ///
-  /// In en, this message translates to:
-  /// **'Closed-won deals count towards it. Stored on this device only.'**
-  String get dashboardGoalSheetHint;
-
-  /// No description provided for @dashboardGoalSheetTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Monthly target'**
-  String get dashboardGoalSheetTitle;
-
-  /// No description provided for @dashboardGoalTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Closed this month'**
-  String get dashboardGoalTitle;
-
-  /// No description provided for @dashboardGoalUnset.
-  ///
-  /// In en, this message translates to:
-  /// **'Tap to set a monthly target and track it here'**
-  String get dashboardGoalUnset;
 
   /// No description provided for @dashboardGreeting.
   ///
@@ -3742,6 +3790,234 @@ abstract class AppLocalizations {
   /// **'List'**
   String get dealsViewList;
 
+  /// No description provided for @depositsAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get depositsAmount;
+
+  /// No description provided for @depositsAmountHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. 500,000'**
+  String get depositsAmountHint;
+
+  /// No description provided for @depositsCloseAction.
+  ///
+  /// In en, this message translates to:
+  /// **'End deposit'**
+  String get depositsCloseAction;
+
+  /// No description provided for @depositsCloseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How did the deposit end?'**
+  String get depositsCloseTitle;
+
+  /// No description provided for @depositsClosedBeforeReceived.
+  ///
+  /// In en, this message translates to:
+  /// **'It cannot end before the money came in'**
+  String get depositsClosedBeforeReceived;
+
+  /// No description provided for @depositsClosedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Date'**
+  String get depositsClosedOn;
+
+  /// No description provided for @depositsDealClosedHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The deal is closed; a deposit can no longer be recorded.'**
+  String get depositsDealClosedHint;
+
+  /// No description provided for @depositsEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get depositsEdit;
+
+  /// No description provided for @depositsEditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit the deposit'**
+  String get depositsEditTitle;
+
+  /// No description provided for @depositsEndingEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No deposits running out'**
+  String get depositsEndingEmpty;
+
+  /// No description provided for @depositsEndingEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Active deposits show here a week before their hold ends.'**
+  String get depositsEndingEmptyHint;
+
+  /// No description provided for @depositsEndingLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load the deposits'**
+  String get depositsEndingLoadFailed;
+
+  /// No description provided for @depositsEndingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Deposits ending'**
+  String get depositsEndingTitle;
+
+  /// No description provided for @depositsHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Earlier deposits'**
+  String get depositsHistory;
+
+  /// No description provided for @depositsHoldBeforeReceived.
+  ///
+  /// In en, this message translates to:
+  /// **'The hold cannot end before the money came in'**
+  String get depositsHoldBeforeReceived;
+
+  /// No description provided for @depositsHoldEndedAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Hold ended 1 day ago} other{Hold ended {count} days ago}}'**
+  String depositsHoldEndedAgo(int count);
+
+  /// No description provided for @depositsHoldEndedYesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Hold ended yesterday'**
+  String get depositsHoldEndedYesterday;
+
+  /// No description provided for @depositsHoldEndsIn.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Hold ends in 1 day} other{Hold ends in {count} days}}'**
+  String depositsHoldEndsIn(int count);
+
+  /// No description provided for @depositsHoldEndsToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Hold ends today'**
+  String get depositsHoldEndsToday;
+
+  /// No description provided for @depositsHoldEndsTomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Hold ends tomorrow'**
+  String get depositsHoldEndsTomorrow;
+
+  /// No description provided for @depositsHoldUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'Held until'**
+  String get depositsHoldUntil;
+
+  /// No description provided for @depositsHolder.
+  ///
+  /// In en, this message translates to:
+  /// **'Held by'**
+  String get depositsHolder;
+
+  /// No description provided for @depositsHolderAgency.
+  ///
+  /// In en, this message translates to:
+  /// **'Agency'**
+  String get depositsHolderAgency;
+
+  /// No description provided for @depositsHolderNotary.
+  ///
+  /// In en, this message translates to:
+  /// **'Notary'**
+  String get depositsHolderNotary;
+
+  /// No description provided for @depositsHolderSeller.
+  ///
+  /// In en, this message translates to:
+  /// **'Seller'**
+  String get depositsHolderSeller;
+
+  /// No description provided for @depositsLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load the deposit'**
+  String get depositsLoadFailed;
+
+  /// No description provided for @depositsNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No deposit recorded'**
+  String get depositsNone;
+
+  /// No description provided for @depositsNoneHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Record it when the buyer puts money down; the listing then shows as reserved.'**
+  String get depositsNoneHint;
+
+  /// No description provided for @depositsNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get depositsNote;
+
+  /// No description provided for @depositsNoteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Receipt number, terms'**
+  String get depositsNoteHint;
+
+  /// No description provided for @depositsOutcomeApplied.
+  ///
+  /// In en, this message translates to:
+  /// **'Applied to the purchase'**
+  String get depositsOutcomeApplied;
+
+  /// No description provided for @depositsOutcomeForfeited.
+  ///
+  /// In en, this message translates to:
+  /// **'Forfeited'**
+  String get depositsOutcomeForfeited;
+
+  /// No description provided for @depositsOutcomeRefunded.
+  ///
+  /// In en, this message translates to:
+  /// **'Refunded'**
+  String get depositsOutcomeRefunded;
+
+  /// No description provided for @depositsReceivedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Received'**
+  String get depositsReceivedOn;
+
+  /// No description provided for @depositsRecord.
+  ///
+  /// In en, this message translates to:
+  /// **'Record deposit'**
+  String get depositsRecord;
+
+  /// No description provided for @depositsRecordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Record a deposit'**
+  String get depositsRecordTitle;
+
+  /// No description provided for @depositsReservedUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'Reserved until {date}'**
+  String depositsReservedUntil(String date);
+
+  /// No description provided for @depositsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Deposit'**
+  String get depositsTitle;
+
   /// No description provided for @documentsAdd.
   ///
   /// In en, this message translates to:
@@ -3945,6 +4221,252 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Too many rows for one file. Narrow the filters and export in parts.'**
   String get exportTooMany;
+
+  /// No description provided for @goalsAgency.
+  ///
+  /// In en, this message translates to:
+  /// **'Whole agency'**
+  String get goalsAgency;
+
+  /// No description provided for @goalsAgentOwn.
+  ///
+  /// In en, this message translates to:
+  /// **'Agent\'s own target'**
+  String get goalsAgentOwn;
+
+  /// No description provided for @goalsCardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This month\'s target'**
+  String get goalsCardTitle;
+
+  /// No description provided for @goalsCommissionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Commission'**
+  String get goalsCommissionLabel;
+
+  /// No description provided for @goalsCommissionOf.
+  ///
+  /// In en, this message translates to:
+  /// **'{achieved} of {target}'**
+  String goalsCommissionOf(String achieved, String target);
+
+  /// No description provided for @goalsCopied.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{Nothing to copy from last month} =1{1 target copied} other{{count} targets copied}}'**
+  String goalsCopied(int count);
+
+  /// No description provided for @goalsCopyPrevious.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy last month\'s targets'**
+  String get goalsCopyPrevious;
+
+  /// No description provided for @goalsDaysLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{The month is over} =1{1 day left} other{{count} days left}}'**
+  String goalsDaysLeft(int count);
+
+  /// No description provided for @goalsDealEvery.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, other{a deal every {count} days}}'**
+  String goalsDealEvery(int count);
+
+  /// No description provided for @goalsDealsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Deals won'**
+  String get goalsDealsLabel;
+
+  /// No description provided for @goalsDealsOf.
+  ///
+  /// In en, this message translates to:
+  /// **'{won} of {target} deals won'**
+  String goalsDealsOf(int won, int target);
+
+  /// No description provided for @goalsDealsPerDay.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 deal a day} other{{count} deals a day}}'**
+  String goalsDealsPerDay(int count);
+
+  /// No description provided for @goalsDealsWon.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No deals won yet} =1{1 deal won} other{{count} deals won}}'**
+  String goalsDealsWon(int count);
+
+  /// No description provided for @goalsEyebrow.
+  ///
+  /// In en, this message translates to:
+  /// **'TARGET'**
+  String get goalsEyebrow;
+
+  /// No description provided for @goalsFieldHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Leave empty for none'**
+  String get goalsFieldHint;
+
+  /// No description provided for @goalsInvalidCommission.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter an amount above zero'**
+  String get goalsInvalidCommission;
+
+  /// No description provided for @goalsInvalidDeals.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a whole number from 1 to 1000'**
+  String get goalsInvalidDeals;
+
+  /// No description provided for @goalsLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load the targets'**
+  String get goalsLoadFailed;
+
+  /// No description provided for @goalsManagerSet.
+  ///
+  /// In en, this message translates to:
+  /// **'Set by your manager'**
+  String get goalsManagerSet;
+
+  /// No description provided for @goalsMonthOver.
+  ///
+  /// In en, this message translates to:
+  /// **'This month is over. Its targets stay as they were.'**
+  String get goalsMonthOver;
+
+  /// No description provided for @goalsNeedOne.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a commission, a number of deals, or both'**
+  String get goalsNeedOne;
+
+  /// No description provided for @goalsNextMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Next month'**
+  String get goalsNextMonth;
+
+  /// No description provided for @goalsNoTarget.
+  ///
+  /// In en, this message translates to:
+  /// **'No target'**
+  String get goalsNoTarget;
+
+  /// No description provided for @goalsNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No target for this month yet'**
+  String get goalsNone;
+
+  /// No description provided for @goalsNoneHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to set your own. If your manager sets one, theirs counts.'**
+  String get goalsNoneHint;
+
+  /// No description provided for @goalsOwn.
+  ///
+  /// In en, this message translates to:
+  /// **'Your own target'**
+  String get goalsOwn;
+
+  /// No description provided for @goalsPerDay.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} a day'**
+  String goalsPerDay(String amount);
+
+  /// No description provided for @goalsPreviousMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous month'**
+  String get goalsPreviousMonth;
+
+  /// No description provided for @goalsReached.
+  ///
+  /// In en, this message translates to:
+  /// **'Target reached. Everything from here is ahead of plan.'**
+  String get goalsReached;
+
+  /// No description provided for @goalsRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove target'**
+  String get goalsRemove;
+
+  /// No description provided for @goalsRemoved.
+  ///
+  /// In en, this message translates to:
+  /// **'Target removed'**
+  String get goalsRemoved;
+
+  /// No description provided for @goalsSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Target saved'**
+  String get goalsSaved;
+
+  /// No description provided for @goalsSheetFor.
+  ///
+  /// In en, this message translates to:
+  /// **'Target for {name}'**
+  String goalsSheetFor(String name);
+
+  /// No description provided for @goalsSheetHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Deals won this month count, with the commission on each.'**
+  String get goalsSheetHint;
+
+  /// No description provided for @goalsSheetOwnHint.
+  ///
+  /// In en, this message translates to:
+  /// **'If your manager sets a target for you, theirs takes the place of yours.'**
+  String get goalsSheetOwnHint;
+
+  /// No description provided for @goalsSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly target'**
+  String get goalsSheetTitle;
+
+  /// No description provided for @goalsTeamEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No one in the agency yet'**
+  String get goalsTeamEmpty;
+
+  /// No description provided for @goalsTeamHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Targets for each agent and the agency'**
+  String get goalsTeamHint;
+
+  /// No description provided for @goalsTeamIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'A target for each agent and for the whole agency. Progress counts the deals won in the month and the commission on them. Your target replaces one an agent set for themselves.'**
+  String get goalsTeamIntro;
+
+  /// No description provided for @goalsTeamOverrideHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your target replaces one the agent set for themselves.'**
+  String get goalsTeamOverrideHint;
+
+  /// No description provided for @goalsTeamTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly goals'**
+  String get goalsTeamTitle;
 
   /// No description provided for @importAction.
   ///
@@ -4191,6 +4713,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Tags'**
   String get importFieldTags;
+
+  /// No description provided for @importFieldLeadSource.
+  ///
+  /// In en, this message translates to:
+  /// **'Lead source'**
+  String get importFieldLeadSource;
+
+  /// No description provided for @importFieldLeadSourceDetail.
+  ///
+  /// In en, this message translates to:
+  /// **'Lead source detail'**
+  String get importFieldLeadSourceDetail;
 
   /// No description provided for @importFieldTitle.
   ///

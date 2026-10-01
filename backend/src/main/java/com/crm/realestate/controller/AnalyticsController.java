@@ -27,6 +27,7 @@ public class AnalyticsController {
 
     private final AnalyticsService analyticsService;
     private final LeaderboardService leaderboardService;
+    private final com.crm.realestate.service.LeadSourceAnalyticsService leadSourceAnalyticsService;
 
     /**
      * Scoped like the dashboard: an agent gets their own figures, a manager their agency's, an
@@ -55,5 +56,15 @@ public class AnalyticsController {
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
             @RequestParam(required = false) Long teamId) {
         return ResponseEntity.ok(leaderboardService.leaderboard(from, to, teamId));
+    }
+
+    /** Scoped like the funnel. Clients created in the period, by how they reached the agency. */
+    @GetMapping("/lead-sources")
+    @Operation(summary = "Clients created in [from, to) per lead source, and how many of each have a won deal")
+    public ResponseEntity<com.crm.realestate.dto.response.LeadSourceBreakdown> leadSources(
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate to,
+            @RequestParam(required = false) Long agentId) {
+        return ResponseEntity.ok(leadSourceAnalyticsService.breakdown(from, to, agentId));
     }
 }

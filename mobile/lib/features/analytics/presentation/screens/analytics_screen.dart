@@ -8,6 +8,7 @@ import 'package:real_estate_crm/features/analytics/presentation/bloc/analytics_b
 import 'package:real_estate_crm/features/analytics/presentation/bloc/analytics_event.dart';
 import 'package:real_estate_crm/features/analytics/presentation/bloc/analytics_state.dart';
 import 'package:real_estate_crm/features/analytics/presentation/widgets/funnel_card.dart';
+import 'package:real_estate_crm/features/analytics/presentation/widgets/lead_sources_card.dart';
 import 'package:real_estate_crm/features/analytics/presentation/widgets/lost_reasons_card.dart';
 import 'package:real_estate_crm/features/analytics/presentation/widgets/monthly_card.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
@@ -114,6 +115,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
       ];
     }
     final f = state.funnel;
+    final sources = state.leadSources;
     final hasHistory =
         f.monthly.any((m) => m.created > 0 || m.won > 0 || m.lost > 0);
     if (f.created == 0) {
@@ -123,6 +125,9 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
           title: l10n.analyticsEmptyTitle,
           subtitle: l10n.analyticsEmptyBody,
         ),
+        // Clients may arrive in a month no deal was opened.
+        if (sources != null && sources.clients > 0)
+          LeadSourcesCard(breakdown: sources),
         if (hasHistory) MonthlyCard(months: f.monthly),
       ];
     }
@@ -139,6 +144,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
       ]),
       FunnelCard(funnel: f),
       LostReasonsCard(reasons: f.lostReasons),
+      if (sources != null) LeadSourcesCard(breakdown: sources),
       MonthlyCard(months: f.monthly),
     ];
   }

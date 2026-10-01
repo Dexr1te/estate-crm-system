@@ -60,6 +60,10 @@
   "analyticsLostReasons": "Why deals are lost",
   "analyticsMonthly": "Last six months",
   "analyticsNoLost": "No deals lost in this period.",
+  "analyticsLeadSources": "Where clients come from",
+  "analyticsLeadSourcesHint": "Clients added in the period, and how many of them have a won deal.",
+  "analyticsLeadSourceWon": "{count} with a won deal · {rate}",
+  "analyticsNoClients": "No clients added in this period.",
   "analyticsNoValue": "—",
   "analyticsOfPrevious": "{percent} of the previous stage",
   "analyticsOpen": "Funnel and analytics",
@@ -391,6 +395,8 @@
   "clientsFilterNewLeads": "New leads",
   "clientsFilterSellers": "Sellers",
   "clientsFilterTagsCount": "Tags · {count}",
+  "clientsFilterSource": "Source",
+  "clientsFilterSourceAll": "All sources",
   "clientsFollowUpCall": "Log this call?",
   "clientsFollowUpEmail": "Log this email?",
   "clientsFollowUpHint": "One tap puts it in the history. A note is optional.",
@@ -492,6 +498,18 @@
   "clientsTags": "Tags",
   "clientsTagsHint": "Short labels to find a client by later: investor, urgent, VIP.",
   "clientsTagsMore": "+{count}",
+  "clientsLeadSource": "Where they came from",
+  "clientsLeadSourceNone": "Not recorded",
+  "clientsLeadSourceReferral": "Referral",
+  "clientsLeadSourceWebsite": "Website",
+  "clientsLeadSourcePortal": "Listings portal",
+  "clientsLeadSourceSocial": "Social media",
+  "clientsLeadSourceWalkIn": "Walk-in",
+  "clientsLeadSourceColdCall": "Cold call",
+  "clientsLeadSourceRepeat": "Repeat client",
+  "clientsLeadSourceOther": "Other",
+  "clientsLeadSourceDetail": "Details",
+  "clientsLeadSourceDetailHint": "Who referred them, which portal",
   "clientsTitle": "Clients",
   "clientsTryDifferentSearch": "Try a different search",
   "clientsUpdateClient": "Update Client",
@@ -628,16 +646,6 @@
   },
   "dashboardConversion": "Conversion",
   "dashboardDateSummary": "{date} · team overview",
-  "dashboardGoalClear": "Remove target",
-  "dashboardGoalCommission": "Commission this month: {amount}",
-  "dashboardGoalEyebrow": "TARGET",
-  "dashboardGoalReached": "Target reached. Everything from here is ahead of plan.",
-  "dashboardGoalRemaining": "{amount} left to hit the target",
-  "dashboardGoalSheetField": "Amount",
-  "dashboardGoalSheetHint": "Closed-won deals count towards it. Stored on this device only.",
-  "dashboardGoalSheetTitle": "Monthly target",
-  "dashboardGoalTitle": "Closed this month",
-  "dashboardGoalUnset": "Tap to set a monthly target and track it here",
   "dashboardGreeting": "{greeting}, {name}",
   "dashboardGreetingAfternoon": "Good afternoon",
   "dashboardGreetingEvening": "Good evening",
@@ -846,6 +854,65 @@
   "dealsUpdateDeal": "Update Deal",
   "dealsViewBoard": "Board",
   "dealsViewList": "List",
+  "depositsAmount": "Amount",
+  "depositsAmountHint": "e.g. 500,000",
+  "depositsCloseAction": "End deposit",
+  "depositsCloseTitle": "How did the deposit end?",
+  "depositsClosedBeforeReceived": "It cannot end before the money came in",
+  "depositsClosedOn": "Date",
+  "depositsDealClosedHint": "The deal is closed; a deposit can no longer be recorded.",
+  "depositsEdit": "Edit",
+  "depositsEditTitle": "Edit the deposit",
+  "depositsEndingEmpty": "No deposits running out",
+  "depositsEndingEmptyHint": "Active deposits show here a week before their hold ends.",
+  "depositsEndingLoadFailed": "Couldn't load the deposits",
+  "depositsEndingTitle": "Deposits ending",
+  "depositsHistory": "Earlier deposits",
+  "depositsHoldBeforeReceived": "The hold cannot end before the money came in",
+  "depositsHoldEndedAgo": "{count, plural, =1{Hold ended 1 day ago} other{Hold ended {count} days ago}}",
+  "@depositsHoldEndedAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "depositsHoldEndedYesterday": "Hold ended yesterday",
+  "depositsHoldEndsIn": "{count, plural, =1{Hold ends in 1 day} other{Hold ends in {count} days}}",
+  "@depositsHoldEndsIn": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "depositsHoldEndsToday": "Hold ends today",
+  "depositsHoldEndsTomorrow": "Hold ends tomorrow",
+  "depositsHoldUntil": "Held until",
+  "depositsHolder": "Held by",
+  "depositsHolderAgency": "Agency",
+  "depositsHolderNotary": "Notary",
+  "depositsHolderSeller": "Seller",
+  "depositsLoadFailed": "Couldn't load the deposit",
+  "depositsNone": "No deposit recorded",
+  "depositsNoneHint": "Record it when the buyer puts money down; the listing then shows as reserved.",
+  "depositsNote": "Note",
+  "depositsNoteHint": "Receipt number, terms",
+  "depositsOutcomeApplied": "Applied to the purchase",
+  "depositsOutcomeForfeited": "Forfeited",
+  "depositsOutcomeRefunded": "Refunded",
+  "depositsReceivedOn": "Received",
+  "depositsRecord": "Record deposit",
+  "depositsRecordTitle": "Record a deposit",
+  "depositsReservedUntil": "Reserved until {date}",
+  "@depositsReservedUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "depositsTitle": "Deposit",
   "documentsAdd": "Attach file",
   "documentsCount": "{count, plural, =0{No files} =1{1 file} other{{count} files}}",
   "documentsDeleteConfirm": "{name} will be removed from this deal. This cannot be undone.",
@@ -880,6 +947,116 @@
   "exportTitleDeals": "Export deals",
   "exportTitleProperties": "Export listings",
   "exportTooMany": "Too many rows for one file. Narrow the filters and export in parts.",
+  "goalsAgency": "Whole agency",
+  "goalsAgentOwn": "Agent's own target",
+  "goalsCardTitle": "This month's target",
+  "goalsCommissionLabel": "Commission",
+  "goalsCommissionOf": "{achieved} of {target}",
+  "@goalsCommissionOf": {
+    "placeholders": {
+      "achieved": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "goalsCopied": "{count, plural, =0{Nothing to copy from last month} =1{1 target copied} other{{count} targets copied}}",
+  "@goalsCopied": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "goalsCopyPrevious": "Copy last month's targets",
+  "goalsDaysLeft": "{count, plural, =0{The month is over} =1{1 day left} other{{count} days left}}",
+  "@goalsDaysLeft": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "goalsDealEvery": "{count, plural, other{a deal every {count} days}}",
+  "@goalsDealEvery": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "goalsDealsLabel": "Deals won",
+  "goalsDealsOf": "{won} of {target} deals won",
+  "@goalsDealsOf": {
+    "placeholders": {
+      "won": {
+        "type": "int"
+      },
+      "target": {
+        "type": "int"
+      }
+    }
+  },
+  "goalsDealsPerDay": "{count, plural, =1{1 deal a day} other{{count} deals a day}}",
+  "@goalsDealsPerDay": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "goalsDealsWon": "{count, plural, =0{No deals won yet} =1{1 deal won} other{{count} deals won}}",
+  "@goalsDealsWon": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "goalsEyebrow": "TARGET",
+  "goalsFieldHint": "Leave empty for none",
+  "goalsInvalidCommission": "Enter an amount above zero",
+  "goalsInvalidDeals": "Enter a whole number from 1 to 1000",
+  "goalsLoadFailed": "Could not load the targets",
+  "goalsManagerSet": "Set by your manager",
+  "goalsMonthOver": "This month is over. Its targets stay as they were.",
+  "goalsNeedOne": "Enter a commission, a number of deals, or both",
+  "goalsNextMonth": "Next month",
+  "goalsNoTarget": "No target",
+  "goalsNone": "No target for this month yet",
+  "goalsNoneHint": "Tap to set your own. If your manager sets one, theirs counts.",
+  "goalsOwn": "Your own target",
+  "goalsPerDay": "{amount} a day",
+  "@goalsPerDay": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "goalsPreviousMonth": "Previous month",
+  "goalsReached": "Target reached. Everything from here is ahead of plan.",
+  "goalsRemove": "Remove target",
+  "goalsRemoved": "Target removed",
+  "goalsSaved": "Target saved",
+  "goalsSheetFor": "Target for {name}",
+  "@goalsSheetFor": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "goalsSheetHint": "Deals won this month count, with the commission on each.",
+  "goalsSheetOwnHint": "If your manager sets a target for you, theirs takes the place of yours.",
+  "goalsSheetTitle": "Monthly target",
+  "goalsTeamEmpty": "No one in the agency yet",
+  "goalsTeamHint": "Targets for each agent and the agency",
+  "goalsTeamIntro": "A target for each agent and for the whole agency. Progress counts the deals won in the month and the commission on them. Your target replaces one an agent set for themselves.",
+  "goalsTeamOverrideHint": "Your target replaces one the agent set for themselves.",
+  "goalsTeamTitle": "Monthly goals",
   "importAction": "{count, plural, =1{Import 1 row} other{Import {count} rows}}",
   "@importAction": {
     "placeholders": {
@@ -942,6 +1119,8 @@
   "importFieldRooms": "Rooms",
   "importFieldStatus": "Status",
   "importFieldTags": "Tags",
+  "importFieldLeadSource": "Lead source",
+  "importFieldLeadSourceDetail": "Lead source detail",
   "importFieldTitle": "Title",
   "importFieldTotalFloors": "Total floors",
   "importFieldWantedCity": "Wanted city",

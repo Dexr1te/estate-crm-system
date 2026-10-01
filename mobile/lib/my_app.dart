@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
-import 'package:real_estate_crm/core/goal/goal_bloc.dart';
 import 'package:real_estate_crm/core/locale/bloc/locale_bloc.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/notifications/notification_gateway.dart';
@@ -55,7 +54,6 @@ class _MyAppState extends State<MyApp> {
   late final AuthBloc _authBloc;
   late final ThemeBloc _themeBloc;
   late final LocaleBloc _localeBloc;
-  late final GoalBloc _goalBloc;
   late final DashboardBloc _dashboardBloc;
   late final ClientsBloc _clientsBloc;
   late final PropertiesBloc _propertiesBloc;
@@ -82,7 +80,6 @@ class _MyAppState extends State<MyApp> {
     };
     _themeBloc = ThemeBloc()..add(ThemeLoadEvent());
     _localeBloc = LocaleBloc()..add(LocaleLoadEvent());
-    _goalBloc = GoalBloc()..add(GoalLoadEvent());
     _dashboardBloc = DashboardBloc(Injector.dashboardRepository,
         Injector.meetingsRepository, Injector.dealsRepository);
     _clientsBloc = ClientsBloc(Injector.clientsRepository);
@@ -185,7 +182,6 @@ class _MyAppState extends State<MyApp> {
     _authBloc.close();
     _themeBloc.close();
     _localeBloc.close();
-    _goalBloc.close();
     _dashboardBloc.close();
     _clientsBloc.close();
     _propertiesBloc.close();
@@ -216,7 +212,6 @@ class _MyAppState extends State<MyApp> {
         BlocProvider.value(value: _authBloc),
         BlocProvider.value(value: _themeBloc),
         BlocProvider.value(value: _localeBloc),
-        BlocProvider.value(value: _goalBloc),
         BlocProvider.value(value: _dashboardBloc),
         BlocProvider.value(value: _clientsBloc),
         BlocProvider.value(value: _propertiesBloc),

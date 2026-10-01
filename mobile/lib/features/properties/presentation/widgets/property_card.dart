@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/features/deposits/presentation/widgets/deposit_labels.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/mandate_badge.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_cover.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_price_history.dart';
@@ -90,6 +91,10 @@ class PropertyCard extends StatelessWidget {
                       if (property.mandateType != null) ...[
                         const SizedBox(height: 6),
                         MandateBadge(property: property),
+                      ],
+                      if (property.depositHoldUntil != null) ...[
+                        const SizedBox(height: 6),
+                        DepositBadge(property: property),
                       ],
                       if (chipBelow) ...[
                         const SizedBox(height: 6),

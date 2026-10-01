@@ -64,6 +64,28 @@ enum ClientSource {
   publicLink,
 }
 
+/// How a client reached the agency: the channel, not how the card was
+/// entered (that is [ClientSource]). Optional on a client.
+// ignore: constant_identifier_names
+enum LeadSource {
+  // ignore: constant_identifier_names
+  REFERRAL,
+  // ignore: constant_identifier_names
+  WEBSITE,
+  // ignore: constant_identifier_names
+  PORTAL,
+  // ignore: constant_identifier_names
+  SOCIAL,
+  // ignore: constant_identifier_names
+  WALK_IN,
+  // ignore: constant_identifier_names
+  COLD_CALL,
+  // ignore: constant_identifier_names
+  REPEAT,
+  // ignore: constant_identifier_names
+  OTHER,
+}
+
 // ignore: constant_identifier_names
 enum DuplicateMatch { PHONE, EMAIL, PHONE_AND_EMAIL }
 
@@ -113,6 +135,11 @@ class ClientResponse with _$ClientResponse {
 
     /// The agency's tags on this client, in name order.
     @Default(<String>[]) List<String> tags,
+
+    /// How the client reached the agency; null when nobody recorded it.
+    @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+    LeadSource? leadSource,
+    String? leadSourceDetail,
   }) = _ClientResponse;
 
   factory ClientResponse.fromJson(Map<String, dynamic> json) =>
@@ -244,6 +271,10 @@ class PropertyResponse with _$PropertyResponse {
 
     /// Its last day (a date, no time); null when it has no end date.
     DateTime? mandateEndDate,
+
+    /// The last day the listing is held for a buyer's deposit; null when no
+    /// deal on it has an active deposit. While set, the listing is reserved.
+    DateTime? depositHoldUntil,
   }) = _PropertyResponse;
 
   factory PropertyResponse.fromJson(Map<String, dynamic> json) =>
@@ -707,6 +738,66 @@ class DashboardSummary with _$DashboardSummary {
       _$DashboardSummaryFromJson(json);
 }
 
+/// One person's month against their target, or the agency's when [agentId]
+/// is null. The manager's target wins over the person's own ([source] says
+/// whose counts); progress is counted on the server from the deals won that
+/// calendar month, in the agency's currency.
+@freezed
+class GoalProgress with _$GoalProgress {
+  const GoalProgress._();
+
+  const factory GoalProgress({
+    /// "2026-10".
+    @Default('') String month,
+    String? currency,
+    int? agentId,
+    String? agentName,
+
+    /// MANAGER or PERSONAL; null while there is no target.
+    String? source,
+    double? commissionTarget,
+    int? dealsTarget,
+
+    /// The person's own target while the manager's overrides it.
+    double? personalCommissionTarget,
+    int? personalDealsTarget,
+    @Default(0) double commissionAchieved,
+    @Default(0) int dealsWon,
+    int? commissionPercent,
+    int? dealsPercent,
+    @Default(0) int daysLeft,
+    double? commissionPerDay,
+    double? dealsPerDay,
+
+    /// Whether the person may set their own: not while the manager's counts.
+    @Default(false) bool personalEditable,
+  }) = _GoalProgress;
+
+  bool get hasTarget => commissionTarget != null || dealsTarget != null;
+  bool get setByManager => source == 'MANAGER';
+
+  factory GoalProgress.fromJson(Map<String, dynamic> json) =>
+      _$GoalProgressFromJson(json);
+}
+
+/// The manager's month: the agency's line and one per member, by name.
+@freezed
+class TeamGoals with _$TeamGoals {
+  const factory TeamGoals({
+    @Default('') String month,
+    String? currency,
+    @Default(0) int daysLeft,
+    required GoalProgress agency,
+    @Default(<GoalProgress>[]) List<GoalProgress> agents,
+
+    /// How many targets a copy from last month brought; null otherwise.
+    int? copied,
+  }) = _TeamGoals;
+
+  factory TeamGoals.fromJson(Map<String, dynamic> json) =>
+      _$TeamGoalsFromJson(json);
+}
+
 /// Why a client going cold is still worth the call. Unknown values read as
 /// [unknown] and are not shown.
 enum ColdReasonCode {
@@ -807,6 +898,36 @@ class DealFunnel with _$DealFunnel {
 
   factory DealFunnel.fromJson(Map<String, dynamic> json) =>
       _$DealFunnelFromJson(json);
+}
+
+/// Clients created in a period by how they reached the agency, and how many
+/// of each have a won deal.
+@freezed
+class LeadSourceBreakdown with _$LeadSourceBreakdown {
+  const factory LeadSourceBreakdown({
+    DateTime? from,
+    DateTime? to,
+    @Default(0) int clients,
+    @Default(0) int won,
+    @Default(<LeadSourceRow>[]) List<LeadSourceRow> sources,
+  }) = _LeadSourceBreakdown;
+
+  factory LeadSourceBreakdown.fromJson(Map<String, dynamic> json) =>
+      _$LeadSourceBreakdownFromJson(json);
+}
+
+/// One channel: a [LeadSource] name, or `UNKNOWN` for clients with none.
+@freezed
+class LeadSourceRow with _$LeadSourceRow {
+  const factory LeadSourceRow({
+    @Default('UNKNOWN') String source,
+    @Default(0) int clients,
+    @Default(0) int won,
+    @Default(0) double conversionRate,
+  }) = _LeadSourceRow;
+
+  factory LeadSourceRow.fromJson(Map<String, dynamic> json) =>
+      _$LeadSourceRowFromJson(json);
 }
 
 @freezed
@@ -943,4 +1064,43 @@ class AppNotification with _$AppNotification {
 
   factory AppNotification.fromJson(Map<String, dynamic> json) =>
       _$AppNotificationFromJson(json);
+}
+
+/// Who keeps a buyer's deposit while the deal is under way.
+// ignore: constant_identifier_names
+enum DepositHolder { AGENCY, SELLER, NOTARY }
+
+/// How a deposit ended; a deposit without one is still active.
+// ignore: constant_identifier_names
+enum DepositOutcome { APPLIED, REFUNDED, FORFEITED }
+
+/// Money a buyer put down on a deal, and how long the deal's listing is held
+/// for them. [amount] is in the agency's currency.
+@freezed
+class DealDeposit with _$DealDeposit {
+  const factory DealDeposit({
+    required int id,
+    required int dealId,
+    @Default('') String dealTitle,
+    int? clientId,
+    String? clientName,
+    int? propertyId,
+    String? propertyTitle,
+    int? agentId,
+    String? agentName,
+    @Default(0.0) double amount,
+    required DateTime receivedOn,
+    required DateTime holdUntil,
+    @JsonKey(unknownEnumValue: DepositHolder.AGENCY)
+    @Default(DepositHolder.AGENCY)
+    DepositHolder holder,
+    String? note,
+    @Default(true) bool active,
+    @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+    DepositOutcome? outcome,
+    DateTime? closedOn,
+  }) = _DealDeposit;
+
+  factory DealDeposit.fromJson(Map<String, dynamic> json) =>
+      _$DealDepositFromJson(json);
 }

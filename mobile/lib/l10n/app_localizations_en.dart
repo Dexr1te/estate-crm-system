@@ -202,6 +202,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get analyticsNoLost => 'No deals lost in this period.';
 
   @override
+  String get analyticsLeadSources => 'Where clients come from';
+
+  @override
+  String get analyticsLeadSourcesHint =>
+      'Clients added in the period, and how many of them have a won deal.';
+
+  @override
+  String analyticsLeadSourceWon(Object count, Object rate) {
+    return '$count with a won deal · $rate';
+  }
+
+  @override
+  String get analyticsNoClients => 'No clients added in this period.';
+
+  @override
   String get analyticsNoValue => '—';
 
   @override
@@ -991,6 +1006,12 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get clientsFilterSource => 'Source';
+
+  @override
+  String get clientsFilterSourceAll => 'All sources';
+
+  @override
   String get clientsFollowUpCall => 'Log this call?';
 
   @override
@@ -1229,6 +1250,42 @@ class AppLocalizationsEn extends AppLocalizations {
   String clientsTagsMore(Object count) {
     return '+$count';
   }
+
+  @override
+  String get clientsLeadSource => 'Where they came from';
+
+  @override
+  String get clientsLeadSourceNone => 'Not recorded';
+
+  @override
+  String get clientsLeadSourceReferral => 'Referral';
+
+  @override
+  String get clientsLeadSourceWebsite => 'Website';
+
+  @override
+  String get clientsLeadSourcePortal => 'Listings portal';
+
+  @override
+  String get clientsLeadSourceSocial => 'Social media';
+
+  @override
+  String get clientsLeadSourceWalkIn => 'Walk-in';
+
+  @override
+  String get clientsLeadSourceColdCall => 'Cold call';
+
+  @override
+  String get clientsLeadSourceRepeat => 'Repeat client';
+
+  @override
+  String get clientsLeadSourceOther => 'Other';
+
+  @override
+  String get clientsLeadSourceDetail => 'Details';
+
+  @override
+  String get clientsLeadSourceDetailHint => 'Who referred them, which portal';
 
   @override
   String get clientsTitle => 'Clients';
@@ -1568,43 +1625,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String dashboardDateSummary(Object date) {
     return '$date · team overview';
   }
-
-  @override
-  String get dashboardGoalClear => 'Remove target';
-
-  @override
-  String dashboardGoalCommission(Object amount) {
-    return 'Commission this month: $amount';
-  }
-
-  @override
-  String get dashboardGoalEyebrow => 'TARGET';
-
-  @override
-  String get dashboardGoalReached =>
-      'Target reached. Everything from here is ahead of plan.';
-
-  @override
-  String dashboardGoalRemaining(Object amount) {
-    return '$amount left to hit the target';
-  }
-
-  @override
-  String get dashboardGoalSheetField => 'Amount';
-
-  @override
-  String get dashboardGoalSheetHint =>
-      'Closed-won deals count towards it. Stored on this device only.';
-
-  @override
-  String get dashboardGoalSheetTitle => 'Monthly target';
-
-  @override
-  String get dashboardGoalTitle => 'Closed this month';
-
-  @override
-  String get dashboardGoalUnset =>
-      'Tap to set a monthly target and track it here';
 
   @override
   String dashboardGreeting(Object greeting, Object name) {
@@ -2144,6 +2164,143 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dealsViewList => 'List';
 
   @override
+  String get depositsAmount => 'Amount';
+
+  @override
+  String get depositsAmountHint => 'e.g. 500,000';
+
+  @override
+  String get depositsCloseAction => 'End deposit';
+
+  @override
+  String get depositsCloseTitle => 'How did the deposit end?';
+
+  @override
+  String get depositsClosedBeforeReceived =>
+      'It cannot end before the money came in';
+
+  @override
+  String get depositsClosedOn => 'Date';
+
+  @override
+  String get depositsDealClosedHint =>
+      'The deal is closed; a deposit can no longer be recorded.';
+
+  @override
+  String get depositsEdit => 'Edit';
+
+  @override
+  String get depositsEditTitle => 'Edit the deposit';
+
+  @override
+  String get depositsEndingEmpty => 'No deposits running out';
+
+  @override
+  String get depositsEndingEmptyHint =>
+      'Active deposits show here a week before their hold ends.';
+
+  @override
+  String get depositsEndingLoadFailed => 'Couldn\'t load the deposits';
+
+  @override
+  String get depositsEndingTitle => 'Deposits ending';
+
+  @override
+  String get depositsHistory => 'Earlier deposits';
+
+  @override
+  String get depositsHoldBeforeReceived =>
+      'The hold cannot end before the money came in';
+
+  @override
+  String depositsHoldEndedAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Hold ended $count days ago',
+      one: 'Hold ended 1 day ago',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get depositsHoldEndedYesterday => 'Hold ended yesterday';
+
+  @override
+  String depositsHoldEndsIn(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Hold ends in $count days',
+      one: 'Hold ends in 1 day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get depositsHoldEndsToday => 'Hold ends today';
+
+  @override
+  String get depositsHoldEndsTomorrow => 'Hold ends tomorrow';
+
+  @override
+  String get depositsHoldUntil => 'Held until';
+
+  @override
+  String get depositsHolder => 'Held by';
+
+  @override
+  String get depositsHolderAgency => 'Agency';
+
+  @override
+  String get depositsHolderNotary => 'Notary';
+
+  @override
+  String get depositsHolderSeller => 'Seller';
+
+  @override
+  String get depositsLoadFailed => 'Couldn\'t load the deposit';
+
+  @override
+  String get depositsNone => 'No deposit recorded';
+
+  @override
+  String get depositsNoneHint =>
+      'Record it when the buyer puts money down; the listing then shows as reserved.';
+
+  @override
+  String get depositsNote => 'Note';
+
+  @override
+  String get depositsNoteHint => 'Receipt number, terms';
+
+  @override
+  String get depositsOutcomeApplied => 'Applied to the purchase';
+
+  @override
+  String get depositsOutcomeForfeited => 'Forfeited';
+
+  @override
+  String get depositsOutcomeRefunded => 'Refunded';
+
+  @override
+  String get depositsReceivedOn => 'Received';
+
+  @override
+  String get depositsRecord => 'Record deposit';
+
+  @override
+  String get depositsRecordTitle => 'Record a deposit';
+
+  @override
+  String depositsReservedUntil(String date) {
+    return 'Reserved until $date';
+  }
+
+  @override
+  String get depositsTitle => 'Deposit';
+
+  @override
   String get documentsAdd => 'Attach file';
 
   @override
@@ -2271,6 +2428,186 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get exportTooMany =>
       'Too many rows for one file. Narrow the filters and export in parts.';
+
+  @override
+  String get goalsAgency => 'Whole agency';
+
+  @override
+  String get goalsAgentOwn => 'Agent\'s own target';
+
+  @override
+  String get goalsCardTitle => 'This month\'s target';
+
+  @override
+  String get goalsCommissionLabel => 'Commission';
+
+  @override
+  String goalsCommissionOf(String achieved, String target) {
+    return '$achieved of $target';
+  }
+
+  @override
+  String goalsCopied(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count targets copied',
+      one: '1 target copied',
+      zero: 'Nothing to copy from last month',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get goalsCopyPrevious => 'Copy last month\'s targets';
+
+  @override
+  String goalsDaysLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days left',
+      one: '1 day left',
+      zero: 'The month is over',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String goalsDealEvery(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'a deal every $count days',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get goalsDealsLabel => 'Deals won';
+
+  @override
+  String goalsDealsOf(int won, int target) {
+    return '$won of $target deals won';
+  }
+
+  @override
+  String goalsDealsPerDay(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count deals a day',
+      one: '1 deal a day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String goalsDealsWon(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count deals won',
+      one: '1 deal won',
+      zero: 'No deals won yet',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get goalsEyebrow => 'TARGET';
+
+  @override
+  String get goalsFieldHint => 'Leave empty for none';
+
+  @override
+  String get goalsInvalidCommission => 'Enter an amount above zero';
+
+  @override
+  String get goalsInvalidDeals => 'Enter a whole number from 1 to 1000';
+
+  @override
+  String get goalsLoadFailed => 'Could not load the targets';
+
+  @override
+  String get goalsManagerSet => 'Set by your manager';
+
+  @override
+  String get goalsMonthOver =>
+      'This month is over. Its targets stay as they were.';
+
+  @override
+  String get goalsNeedOne => 'Enter a commission, a number of deals, or both';
+
+  @override
+  String get goalsNextMonth => 'Next month';
+
+  @override
+  String get goalsNoTarget => 'No target';
+
+  @override
+  String get goalsNone => 'No target for this month yet';
+
+  @override
+  String get goalsNoneHint =>
+      'Tap to set your own. If your manager sets one, theirs counts.';
+
+  @override
+  String get goalsOwn => 'Your own target';
+
+  @override
+  String goalsPerDay(String amount) {
+    return '$amount a day';
+  }
+
+  @override
+  String get goalsPreviousMonth => 'Previous month';
+
+  @override
+  String get goalsReached =>
+      'Target reached. Everything from here is ahead of plan.';
+
+  @override
+  String get goalsRemove => 'Remove target';
+
+  @override
+  String get goalsRemoved => 'Target removed';
+
+  @override
+  String get goalsSaved => 'Target saved';
+
+  @override
+  String goalsSheetFor(String name) {
+    return 'Target for $name';
+  }
+
+  @override
+  String get goalsSheetHint =>
+      'Deals won this month count, with the commission on each.';
+
+  @override
+  String get goalsSheetOwnHint =>
+      'If your manager sets a target for you, theirs takes the place of yours.';
+
+  @override
+  String get goalsSheetTitle => 'Monthly target';
+
+  @override
+  String get goalsTeamEmpty => 'No one in the agency yet';
+
+  @override
+  String get goalsTeamHint => 'Targets for each agent and the agency';
+
+  @override
+  String get goalsTeamIntro =>
+      'A target for each agent and for the whole agency. Progress counts the deals won in the month and the commission on them. Your target replaces one an agent set for themselves.';
+
+  @override
+  String get goalsTeamOverrideHint =>
+      'Your target replaces one the agent set for themselves.';
+
+  @override
+  String get goalsTeamTitle => 'Monthly goals';
 
   @override
   String importAction(int count) {
@@ -2408,6 +2745,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get importFieldTags => 'Tags';
+
+  @override
+  String get importFieldLeadSource => 'Lead source';
+
+  @override
+  String get importFieldLeadSourceDetail => 'Lead source detail';
 
   @override
   String get importFieldTitle => 'Title';

@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:real_estate_crm/core/goal/goal_bloc.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/utils/deep_links.dart';
 import 'package:real_estate_crm/core/utils/router.dart';
@@ -105,7 +104,6 @@ void main() {
       await tester.pumpWidget(MultiBlocProvider(
         providers: [
           BlocProvider.value(value: auth),
-          BlocProvider(create: (_) => GoalBloc()..add(GoalChangedEvent(null))),
           BlocProvider(
             create: (_) => DashboardBloc(
               FakeDashboardRepository(const DashboardSummary()),

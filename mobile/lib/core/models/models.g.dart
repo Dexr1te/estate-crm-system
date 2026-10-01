@@ -70,6 +70,9 @@ _$ClientResponseImpl _$$ClientResponseImplFromJson(Map<String, dynamic> json) =>
       tags:
           (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList() ??
               const <String>[],
+      leadSource: $enumDecodeNullable(_$LeadSourceEnumMap, json['leadSource'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
+      leadSourceDetail: json['leadSourceDetail'] as String?,
     );
 
 Map<String, dynamic> _$$ClientResponseImplToJson(
@@ -93,6 +96,8 @@ Map<String, dynamic> _$$ClientResponseImplToJson(
       'minRooms': instance.minRooms,
       'minAreaSqm': instance.minAreaSqm,
       'tags': instance.tags,
+      'leadSource': _$LeadSourceEnumMap[instance.leadSource],
+      'leadSourceDetail': instance.leadSourceDetail,
     };
 
 const _$ClientTypeEnumMap = {
@@ -112,6 +117,17 @@ const _$PropertyTypeEnumMap = {
   PropertyType.COMMERCIAL: 'COMMERCIAL',
   PropertyType.LAND: 'LAND',
   PropertyType.OFFICE: 'OFFICE',
+};
+
+const _$LeadSourceEnumMap = {
+  LeadSource.REFERRAL: 'REFERRAL',
+  LeadSource.WEBSITE: 'WEBSITE',
+  LeadSource.PORTAL: 'PORTAL',
+  LeadSource.SOCIAL: 'SOCIAL',
+  LeadSource.WALK_IN: 'WALK_IN',
+  LeadSource.COLD_CALL: 'COLD_CALL',
+  LeadSource.REPEAT: 'REPEAT',
+  LeadSource.OTHER: 'OTHER',
 };
 
 _$ClientTagUsageImpl _$$ClientTagUsageImplFromJson(Map<String, dynamic> json) =>
@@ -301,6 +317,9 @@ _$PropertyResponseImpl _$$PropertyResponseImplFromJson(
       mandateEndDate: json['mandateEndDate'] == null
           ? null
           : DateTime.parse(json['mandateEndDate'] as String),
+      depositHoldUntil: json['depositHoldUntil'] == null
+          ? null
+          : DateTime.parse(json['depositHoldUntil'] as String),
     );
 
 Map<String, dynamic> _$$PropertyResponseImplToJson(
@@ -328,6 +347,7 @@ Map<String, dynamic> _$$PropertyResponseImplToJson(
       'longitude': instance.longitude,
       'mandateType': _$MandateTypeEnumMap[instance.mandateType],
       'mandateEndDate': instance.mandateEndDate?.toIso8601String(),
+      'depositHoldUntil': instance.depositHoldUntil?.toIso8601String(),
     };
 
 const _$PropertyStatusEnumMap = {
@@ -1077,6 +1097,72 @@ Map<String, dynamic> _$$DashboardSummaryImplToJson(
       'coldCount': instance.coldCount,
     };
 
+_$GoalProgressImpl _$$GoalProgressImplFromJson(Map<String, dynamic> json) =>
+    _$GoalProgressImpl(
+      month: json['month'] as String? ?? '',
+      currency: json['currency'] as String?,
+      agentId: (json['agentId'] as num?)?.toInt(),
+      agentName: json['agentName'] as String?,
+      source: json['source'] as String?,
+      commissionTarget: (json['commissionTarget'] as num?)?.toDouble(),
+      dealsTarget: (json['dealsTarget'] as num?)?.toInt(),
+      personalCommissionTarget:
+          (json['personalCommissionTarget'] as num?)?.toDouble(),
+      personalDealsTarget: (json['personalDealsTarget'] as num?)?.toInt(),
+      commissionAchieved: (json['commissionAchieved'] as num?)?.toDouble() ?? 0,
+      dealsWon: (json['dealsWon'] as num?)?.toInt() ?? 0,
+      commissionPercent: (json['commissionPercent'] as num?)?.toInt(),
+      dealsPercent: (json['dealsPercent'] as num?)?.toInt(),
+      daysLeft: (json['daysLeft'] as num?)?.toInt() ?? 0,
+      commissionPerDay: (json['commissionPerDay'] as num?)?.toDouble(),
+      dealsPerDay: (json['dealsPerDay'] as num?)?.toDouble(),
+      personalEditable: json['personalEditable'] as bool? ?? false,
+    );
+
+Map<String, dynamic> _$$GoalProgressImplToJson(_$GoalProgressImpl instance) =>
+    <String, dynamic>{
+      'month': instance.month,
+      'currency': instance.currency,
+      'agentId': instance.agentId,
+      'agentName': instance.agentName,
+      'source': instance.source,
+      'commissionTarget': instance.commissionTarget,
+      'dealsTarget': instance.dealsTarget,
+      'personalCommissionTarget': instance.personalCommissionTarget,
+      'personalDealsTarget': instance.personalDealsTarget,
+      'commissionAchieved': instance.commissionAchieved,
+      'dealsWon': instance.dealsWon,
+      'commissionPercent': instance.commissionPercent,
+      'dealsPercent': instance.dealsPercent,
+      'daysLeft': instance.daysLeft,
+      'commissionPerDay': instance.commissionPerDay,
+      'dealsPerDay': instance.dealsPerDay,
+      'personalEditable': instance.personalEditable,
+    };
+
+_$TeamGoalsImpl _$$TeamGoalsImplFromJson(Map<String, dynamic> json) =>
+    _$TeamGoalsImpl(
+      month: json['month'] as String? ?? '',
+      currency: json['currency'] as String?,
+      daysLeft: (json['daysLeft'] as num?)?.toInt() ?? 0,
+      agency: GoalProgress.fromJson(json['agency'] as Map<String, dynamic>),
+      agents: (json['agents'] as List<dynamic>?)
+              ?.map((e) => GoalProgress.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const <GoalProgress>[],
+      copied: (json['copied'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$$TeamGoalsImplToJson(_$TeamGoalsImpl instance) =>
+    <String, dynamic>{
+      'month': instance.month,
+      'currency': instance.currency,
+      'daysLeft': instance.daysLeft,
+      'agency': instance.agency,
+      'agents': instance.agents,
+      'copied': instance.copied,
+    };
+
 _$ColdReasonImpl _$$ColdReasonImplFromJson(Map<String, dynamic> json) =>
     _$ColdReasonImpl(
       code: $enumDecodeNullable(_$ColdReasonCodeEnumMap, json['code'],
@@ -1199,6 +1285,46 @@ Map<String, dynamic> _$$DealFunnelImplToJson(_$DealFunnelImpl instance) =>
       'avgDaysToWin': instance.avgDaysToWin,
       'lostReasons': instance.lostReasons,
       'monthly': instance.monthly,
+    };
+
+_$LeadSourceBreakdownImpl _$$LeadSourceBreakdownImplFromJson(
+        Map<String, dynamic> json) =>
+    _$LeadSourceBreakdownImpl(
+      from:
+          json['from'] == null ? null : DateTime.parse(json['from'] as String),
+      to: json['to'] == null ? null : DateTime.parse(json['to'] as String),
+      clients: (json['clients'] as num?)?.toInt() ?? 0,
+      won: (json['won'] as num?)?.toInt() ?? 0,
+      sources: (json['sources'] as List<dynamic>?)
+              ?.map((e) => LeadSourceRow.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const <LeadSourceRow>[],
+    );
+
+Map<String, dynamic> _$$LeadSourceBreakdownImplToJson(
+        _$LeadSourceBreakdownImpl instance) =>
+    <String, dynamic>{
+      'from': instance.from?.toIso8601String(),
+      'to': instance.to?.toIso8601String(),
+      'clients': instance.clients,
+      'won': instance.won,
+      'sources': instance.sources,
+    };
+
+_$LeadSourceRowImpl _$$LeadSourceRowImplFromJson(Map<String, dynamic> json) =>
+    _$LeadSourceRowImpl(
+      source: json['source'] as String? ?? 'UNKNOWN',
+      clients: (json['clients'] as num?)?.toInt() ?? 0,
+      won: (json['won'] as num?)?.toInt() ?? 0,
+      conversionRate: (json['conversionRate'] as num?)?.toDouble() ?? 0,
+    );
+
+Map<String, dynamic> _$$LeadSourceRowImplToJson(_$LeadSourceRowImpl instance) =>
+    <String, dynamic>{
+      'source': instance.source,
+      'clients': instance.clients,
+      'won': instance.won,
+      'conversionRate': instance.conversionRate,
     };
 
 _$FunnelLostReasonImpl _$$FunnelLostReasonImplFromJson(
@@ -1334,4 +1460,63 @@ const _$NotificationTypeEnumMap = {
   NotificationType.dealMention: 'DEAL_MENTION',
   NotificationType.dealComment: 'DEAL_COMMENT',
   NotificationType.unknown: 'unknown',
+};
+
+_$DealDepositImpl _$$DealDepositImplFromJson(Map<String, dynamic> json) =>
+    _$DealDepositImpl(
+      id: (json['id'] as num).toInt(),
+      dealId: (json['dealId'] as num).toInt(),
+      dealTitle: json['dealTitle'] as String? ?? '',
+      clientId: (json['clientId'] as num?)?.toInt(),
+      clientName: json['clientName'] as String?,
+      propertyId: (json['propertyId'] as num?)?.toInt(),
+      propertyTitle: json['propertyTitle'] as String?,
+      agentId: (json['agentId'] as num?)?.toInt(),
+      agentName: json['agentName'] as String?,
+      amount: (json['amount'] as num?)?.toDouble() ?? 0.0,
+      receivedOn: DateTime.parse(json['receivedOn'] as String),
+      holdUntil: DateTime.parse(json['holdUntil'] as String),
+      holder: $enumDecodeNullable(_$DepositHolderEnumMap, json['holder'],
+              unknownValue: DepositHolder.AGENCY) ??
+          DepositHolder.AGENCY,
+      note: json['note'] as String?,
+      active: json['active'] as bool? ?? true,
+      outcome: $enumDecodeNullable(_$DepositOutcomeEnumMap, json['outcome'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
+      closedOn: json['closedOn'] == null
+          ? null
+          : DateTime.parse(json['closedOn'] as String),
+    );
+
+Map<String, dynamic> _$$DealDepositImplToJson(_$DealDepositImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'dealId': instance.dealId,
+      'dealTitle': instance.dealTitle,
+      'clientId': instance.clientId,
+      'clientName': instance.clientName,
+      'propertyId': instance.propertyId,
+      'propertyTitle': instance.propertyTitle,
+      'agentId': instance.agentId,
+      'agentName': instance.agentName,
+      'amount': instance.amount,
+      'receivedOn': instance.receivedOn.toIso8601String(),
+      'holdUntil': instance.holdUntil.toIso8601String(),
+      'holder': _$DepositHolderEnumMap[instance.holder]!,
+      'note': instance.note,
+      'active': instance.active,
+      'outcome': _$DepositOutcomeEnumMap[instance.outcome],
+      'closedOn': instance.closedOn?.toIso8601String(),
+    };
+
+const _$DepositHolderEnumMap = {
+  DepositHolder.AGENCY: 'AGENCY',
+  DepositHolder.SELLER: 'SELLER',
+  DepositHolder.NOTARY: 'NOTARY',
+};
+
+const _$DepositOutcomeEnumMap = {
+  DepositOutcome.APPLIED: 'APPLIED',
+  DepositOutcome.REFUNDED: 'REFUNDED',
+  DepositOutcome.FORFEITED: 'FORFEITED',
 };

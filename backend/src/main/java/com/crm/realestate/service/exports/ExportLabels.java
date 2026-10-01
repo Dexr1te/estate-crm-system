@@ -4,6 +4,7 @@ import com.crm.realestate.enums.ClientSource;
 import com.crm.realestate.enums.ClientType;
 import com.crm.realestate.enums.DealLostReason;
 import com.crm.realestate.enums.DealStatus;
+import com.crm.realestate.enums.LeadSource;
 import com.crm.realestate.enums.PropertyStatus;
 import com.crm.realestate.enums.PropertyType;
 import com.crm.realestate.service.imports.ImportService;
@@ -69,6 +70,14 @@ final class ExportLabels {
             Map.entry(ClientSource.MANUAL, new String[]{"Manual", "Вручную", "Қолмен"}),
             Map.entry(ClientSource.IMPORT, new String[]{"Imported", "Из импорта", "Импорттан"}),
             Map.entry(ClientSource.PUBLIC_LINK, new String[]{"Public link", "С публичной ссылки", "Жария сілтемеден"}),
+            Map.entry(LeadSource.REFERRAL, new String[]{"Referral", "Рекомендация", "Ұсыныс"}),
+            Map.entry(LeadSource.WEBSITE, new String[]{"Website", "Сайт", "Сайт"}),
+            Map.entry(LeadSource.PORTAL, new String[]{"Listings portal", "Портал объявлений", "Хабарландыру порталы"}),
+            Map.entry(LeadSource.SOCIAL, new String[]{"Social media", "Соцсети", "Әлеуметтік желілер"}),
+            Map.entry(LeadSource.WALK_IN, new String[]{"Walk-in", "Пришёл в офис", "Кеңсеге келді"}),
+            Map.entry(LeadSource.COLD_CALL, new String[]{"Cold call", "Холодный звонок", "Суық қоңырау"}),
+            Map.entry(LeadSource.REPEAT, new String[]{"Repeat client", "Повторный клиент", "Тұрақты клиент"}),
+            Map.entry(LeadSource.OTHER, new String[]{"Other", "Другое", "Басқа"}),
             Map.entry(DealStatus.LEAD, new String[]{"Lead", "Лид", "Лид"}),
             Map.entry(DealStatus.NEGOTIATION, new String[]{"Negotiation", "Переговоры", "Келіссөздер"}),
             Map.entry(DealStatus.CLOSED_WON, new String[]{"Won", "Выиграна", "Жеңіске жетті"}),

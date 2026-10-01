@@ -39,12 +39,18 @@ import 'package:real_estate_crm/features/deals/data/repositories/deal_comments_r
 import 'package:real_estate_crm/features/deals/data/repositories/deals_repository_impl.dart';
 import 'package:real_estate_crm/features/deals/domain/repositories/deal_comments_repository.dart';
 import 'package:real_estate_crm/features/deals/domain/repositories/deals_repository.dart';
+import 'package:real_estate_crm/features/deposits/data/datasources/deposits_remote_datasource.dart';
+import 'package:real_estate_crm/features/deposits/data/repositories/deposits_repository_impl.dart';
+import 'package:real_estate_crm/features/deposits/domain/repositories/deposits_repository.dart';
 import 'package:real_estate_crm/features/documents/data/datasources/documents_remote_datasource.dart';
 import 'package:real_estate_crm/features/documents/data/repositories/documents_repository_impl.dart';
 import 'package:real_estate_crm/features/documents/domain/repositories/documents_repository.dart';
 import 'package:real_estate_crm/features/exports/data/datasources/exports_remote_datasource.dart';
 import 'package:real_estate_crm/features/exports/data/repositories/exports_repository_impl.dart';
 import 'package:real_estate_crm/features/exports/domain/repositories/exports_repository.dart';
+import 'package:real_estate_crm/features/goals/data/datasources/goals_remote_datasource.dart';
+import 'package:real_estate_crm/features/goals/data/repositories/goals_repository_impl.dart';
+import 'package:real_estate_crm/features/goals/domain/repositories/goals_repository.dart';
 import 'package:real_estate_crm/features/imports/data/datasources/imports_remote_datasource.dart';
 import 'package:real_estate_crm/features/imports/data/repositories/imports_repository_impl.dart';
 import 'package:real_estate_crm/features/imports/domain/repositories/imports_repository.dart';
@@ -103,6 +109,9 @@ class Injector {
 
   static ChecklistRepository checklistRepository =
       ChecklistRepositoryImpl(ChecklistRemoteDataSource(_apiClient));
+
+  static DepositsRepository depositsRepository =
+      DepositsRepositoryImpl(DepositsRemoteDataSource(_apiClient));
 
   static MessageTemplatesRepository messageTemplatesRepository =
       MessageTemplatesRepositoryImpl(
@@ -164,6 +173,9 @@ class Injector {
 
   static ExportsRepository exportsRepository =
       ExportsRepositoryImpl(ExportsRemoteDataSource(_apiClient));
+
+  static GoalsRepository goalsRepository =
+      GoalsRepositoryImpl(GoalsRemoteDataSource(_apiClient));
 
   static SearchRepository get searchRepository => SearchRepositoryImpl(
       clientsRepository, propertiesRepository, dealsRepository);
