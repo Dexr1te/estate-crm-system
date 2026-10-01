@@ -2155,6 +2155,141 @@ class AppLocalizationsKk extends AppLocalizations {
   String get dealsViewList => 'Тізім';
 
   @override
+  String get depositsAmount => 'Сомасы';
+
+  @override
+  String get depositsAmountHint => 'мысалы, 500 000';
+
+  @override
+  String get depositsCloseAction => 'Кепілпұлды жабу';
+
+  @override
+  String get depositsCloseTitle => 'Кепілпұл немен аяқталды?';
+
+  @override
+  String get depositsClosedBeforeReceived =>
+      'Кепілпұл алынғанға дейін аяқтала алмайды';
+
+  @override
+  String get depositsClosedOn => 'Күні';
+
+  @override
+  String get depositsDealClosedHint =>
+      'Мәміле жабық, кепілпұл енгізу мүмкін емес.';
+
+  @override
+  String get depositsEdit => 'Өзгерту';
+
+  @override
+  String get depositsEditTitle => 'Кепілпұлды өзгерту';
+
+  @override
+  String get depositsEndingEmpty => 'Мерзімі бітетін кепілпұл жоқ';
+
+  @override
+  String get depositsEndingEmptyHint =>
+      'Белсенді кепілпұлдар бронь аяқталуына бір апта қалғанда осында шығады.';
+
+  @override
+  String get depositsEndingLoadFailed => 'Кепілпұлдарды жүктеу мүмкін болмады';
+
+  @override
+  String get depositsEndingTitle => 'Мерзімі бітетін кепілпұлдар';
+
+  @override
+  String get depositsHistory => 'Бұрынғы кепілпұлдар';
+
+  @override
+  String get depositsHoldBeforeReceived =>
+      'Бронь кепілпұл алынғаннан бұрын аяқтала алмайды';
+
+  @override
+  String depositsHoldEndedAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Бронь $count күн бұрын аяқталды',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get depositsHoldEndedYesterday => 'Бронь кеше аяқталды';
+
+  @override
+  String depositsHoldEndsIn(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Бронь $count күннен кейін аяқталады',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get depositsHoldEndsToday => 'Бронь бүгін аяқталады';
+
+  @override
+  String get depositsHoldEndsTomorrow => 'Бронь ертең аяқталады';
+
+  @override
+  String get depositsHoldUntil => 'Бронь мерзімі';
+
+  @override
+  String get depositsHolder => 'Сақтаушы';
+
+  @override
+  String get depositsHolderAgency => 'Агенттік';
+
+  @override
+  String get depositsHolderNotary => 'Нотариус';
+
+  @override
+  String get depositsHolderSeller => 'Сатушы';
+
+  @override
+  String get depositsLoadFailed => 'Кепілпұлды жүктеу мүмкін болмады';
+
+  @override
+  String get depositsNone => 'Кепілпұл енгізілмеген';
+
+  @override
+  String get depositsNoneHint =>
+      'Сатып алушы ақша енгізгенде жазыңыз, сонда нысан брондалған деп белгіленеді.';
+
+  @override
+  String get depositsNote => 'Ескертпе';
+
+  @override
+  String get depositsNoteHint => 'Қолхат нөмірі, шарттар';
+
+  @override
+  String get depositsOutcomeApplied => 'Сатып алуға есептелді';
+
+  @override
+  String get depositsOutcomeForfeited => 'Ұсталды';
+
+  @override
+  String get depositsOutcomeRefunded => 'Қайтарылды';
+
+  @override
+  String get depositsReceivedOn => 'Алынған күні';
+
+  @override
+  String get depositsRecord => 'Кепілпұл енгізу';
+
+  @override
+  String get depositsRecordTitle => 'Жаңа кепілпұл';
+
+  @override
+  String depositsReservedUntil(String date) {
+    return '$date дейін брондалған';
+  }
+
+  @override
+  String get depositsTitle => 'Кепілпұл';
+
+  @override
   String get documentsAdd => 'Файл тіркеу';
 
   @override

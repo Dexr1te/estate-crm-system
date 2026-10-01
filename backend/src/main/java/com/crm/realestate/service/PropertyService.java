@@ -105,7 +105,8 @@ public class PropertyService {
 
         org.springframework.data.domain.Page<Property> page = propertyRepository.findAll(spec, pageable);
         Map<Long, PropertyPriceChange> latestChanges = propertyMapper.latestChanges(page.getContent());
-        return page.map(p -> propertyMapper.toResponse(p, latestChanges.get(p.getId())));
+        Map<Long, LocalDate> holds = propertyMapper.depositHolds(page.getContent());
+        return page.map(p -> propertyMapper.toResponse(p, latestChanges.get(p.getId()), holds.get(p.getId())));
     }
 
     /**

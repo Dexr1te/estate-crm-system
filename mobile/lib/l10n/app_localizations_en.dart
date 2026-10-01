@@ -2164,6 +2164,143 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dealsViewList => 'List';
 
   @override
+  String get depositsAmount => 'Amount';
+
+  @override
+  String get depositsAmountHint => 'e.g. 500,000';
+
+  @override
+  String get depositsCloseAction => 'End deposit';
+
+  @override
+  String get depositsCloseTitle => 'How did the deposit end?';
+
+  @override
+  String get depositsClosedBeforeReceived =>
+      'It cannot end before the money came in';
+
+  @override
+  String get depositsClosedOn => 'Date';
+
+  @override
+  String get depositsDealClosedHint =>
+      'The deal is closed; a deposit can no longer be recorded.';
+
+  @override
+  String get depositsEdit => 'Edit';
+
+  @override
+  String get depositsEditTitle => 'Edit the deposit';
+
+  @override
+  String get depositsEndingEmpty => 'No deposits running out';
+
+  @override
+  String get depositsEndingEmptyHint =>
+      'Active deposits show here a week before their hold ends.';
+
+  @override
+  String get depositsEndingLoadFailed => 'Couldn\'t load the deposits';
+
+  @override
+  String get depositsEndingTitle => 'Deposits ending';
+
+  @override
+  String get depositsHistory => 'Earlier deposits';
+
+  @override
+  String get depositsHoldBeforeReceived =>
+      'The hold cannot end before the money came in';
+
+  @override
+  String depositsHoldEndedAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Hold ended $count days ago',
+      one: 'Hold ended 1 day ago',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get depositsHoldEndedYesterday => 'Hold ended yesterday';
+
+  @override
+  String depositsHoldEndsIn(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Hold ends in $count days',
+      one: 'Hold ends in 1 day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get depositsHoldEndsToday => 'Hold ends today';
+
+  @override
+  String get depositsHoldEndsTomorrow => 'Hold ends tomorrow';
+
+  @override
+  String get depositsHoldUntil => 'Held until';
+
+  @override
+  String get depositsHolder => 'Held by';
+
+  @override
+  String get depositsHolderAgency => 'Agency';
+
+  @override
+  String get depositsHolderNotary => 'Notary';
+
+  @override
+  String get depositsHolderSeller => 'Seller';
+
+  @override
+  String get depositsLoadFailed => 'Couldn\'t load the deposit';
+
+  @override
+  String get depositsNone => 'No deposit recorded';
+
+  @override
+  String get depositsNoneHint =>
+      'Record it when the buyer puts money down; the listing then shows as reserved.';
+
+  @override
+  String get depositsNote => 'Note';
+
+  @override
+  String get depositsNoteHint => 'Receipt number, terms';
+
+  @override
+  String get depositsOutcomeApplied => 'Applied to the purchase';
+
+  @override
+  String get depositsOutcomeForfeited => 'Forfeited';
+
+  @override
+  String get depositsOutcomeRefunded => 'Refunded';
+
+  @override
+  String get depositsReceivedOn => 'Received';
+
+  @override
+  String get depositsRecord => 'Record deposit';
+
+  @override
+  String get depositsRecordTitle => 'Record a deposit';
+
+  @override
+  String depositsReservedUntil(String date) {
+    return 'Reserved until $date';
+  }
+
+  @override
+  String get depositsTitle => 'Deposit';
+
+  @override
   String get documentsAdd => 'Attach file';
 
   @override

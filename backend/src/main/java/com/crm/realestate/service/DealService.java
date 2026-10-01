@@ -49,6 +49,7 @@ public class DealService {
     private final NotificationEvents notificationEvents;
     private final DealCommentRepository commentRepository;
     private final DealChecklistStore checklistStore;
+    private final DealDepositStore depositStore;
 
     static final BigDecimal ONE_HUNDRED = BigDecimal.valueOf(100);
     static final int LOST_NOTE_MAX = 500;
@@ -299,6 +300,10 @@ public class DealService {
         statusChangeRepository.save(DealStatusChange.builder()
                 .deal(deal).fromStatus(from).toStatus(deal.getStatus()).changedBy(by).build());
         notificationEvents.dealStatusChanged(deal, from, by);
+        if (deal.getStatus() == DealStatus.CLOSED_WON) {
+            // The deposit went towards the price.
+            depositStore.applyOnWin(deal, by);
+        }
     }
 
     /**

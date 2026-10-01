@@ -26,6 +26,7 @@ import 'package:real_estate_crm/features/dashboard/presentation/screens/dashboar
 import 'package:real_estate_crm/features/deals/presentation/screens/deal_detail_screen.dart';
 import 'package:real_estate_crm/features/deals/presentation/screens/deal_form_screen.dart';
 import 'package:real_estate_crm/features/deals/presentation/screens/deals_screen.dart';
+import 'package:real_estate_crm/features/deposits/presentation/screens/deposits_ending_screen.dart';
 import 'package:real_estate_crm/features/goals/presentation/screens/team_goals_screen.dart';
 import 'package:real_estate_crm/features/imports/presentation/screens/import_screen.dart';
 import 'package:real_estate_crm/features/meetings/presentation/screens/meeting_detail_screen.dart';
@@ -398,6 +399,12 @@ GoRouter createRouter(AuthBloc authBloc) {
                         int.tryParse(s.uri.queryParameters['propertyId'] ?? ''),
                   ),
                 ),
+              ),
+              GoRoute(
+                path: 'deposits',
+                parentNavigatorKey: _rootKey,
+                pageBuilder: (_, __) =>
+                    const NoTransitionPage(child: DepositsEndingScreen()),
               ),
               GoRoute(
                 path: ':id',

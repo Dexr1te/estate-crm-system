@@ -2198,6 +2198,146 @@ class AppLocalizationsRu extends AppLocalizations {
   String get dealsViewList => 'Список';
 
   @override
+  String get depositsAmount => 'Сумма';
+
+  @override
+  String get depositsAmountHint => 'например, 500 000';
+
+  @override
+  String get depositsCloseAction => 'Закрыть задаток';
+
+  @override
+  String get depositsCloseTitle => 'Чем закончился задаток?';
+
+  @override
+  String get depositsClosedBeforeReceived =>
+      'Задаток не может закончиться раньше, чем получен';
+
+  @override
+  String get depositsClosedOn => 'Дата';
+
+  @override
+  String get depositsDealClosedHint => 'Сделка закрыта, задаток уже не внести.';
+
+  @override
+  String get depositsEdit => 'Изменить';
+
+  @override
+  String get depositsEditTitle => 'Изменить задаток';
+
+  @override
+  String get depositsEndingEmpty => 'Истекающих задатков нет';
+
+  @override
+  String get depositsEndingEmptyHint =>
+      'Активные задатки появятся здесь за неделю до конца брони.';
+
+  @override
+  String get depositsEndingLoadFailed => 'Не удалось загрузить задатки';
+
+  @override
+  String get depositsEndingTitle => 'Истекающие задатки';
+
+  @override
+  String get depositsHistory => 'Прежние задатки';
+
+  @override
+  String get depositsHoldBeforeReceived =>
+      'Бронь не может закончиться раньше, чем получен задаток';
+
+  @override
+  String depositsHoldEndedAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Бронь истекла $count дня назад',
+      many: 'Бронь истекла $count дней назад',
+      few: 'Бронь истекла $count дня назад',
+      one: 'Бронь истекла $count день назад',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get depositsHoldEndedYesterday => 'Бронь истекла вчера';
+
+  @override
+  String depositsHoldEndsIn(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Бронь истекает через $count дня',
+      many: 'Бронь истекает через $count дней',
+      few: 'Бронь истекает через $count дня',
+      one: 'Бронь истекает через $count день',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get depositsHoldEndsToday => 'Бронь истекает сегодня';
+
+  @override
+  String get depositsHoldEndsTomorrow => 'Бронь истекает завтра';
+
+  @override
+  String get depositsHoldUntil => 'Бронь до';
+
+  @override
+  String get depositsHolder => 'Хранится у';
+
+  @override
+  String get depositsHolderAgency => 'Агентство';
+
+  @override
+  String get depositsHolderNotary => 'Нотариус';
+
+  @override
+  String get depositsHolderSeller => 'Продавец';
+
+  @override
+  String get depositsLoadFailed => 'Не удалось загрузить задаток';
+
+  @override
+  String get depositsNone => 'Задаток не внесён';
+
+  @override
+  String get depositsNoneHint =>
+      'Запишите, когда покупатель внесёт деньги, и объект будет отмечен как забронированный.';
+
+  @override
+  String get depositsNote => 'Заметка';
+
+  @override
+  String get depositsNoteHint => 'Номер расписки, условия';
+
+  @override
+  String get depositsOutcomeApplied => 'Зачтён в счёт покупки';
+
+  @override
+  String get depositsOutcomeForfeited => 'Удержан';
+
+  @override
+  String get depositsOutcomeRefunded => 'Возвращён';
+
+  @override
+  String get depositsReceivedOn => 'Получен';
+
+  @override
+  String get depositsRecord => 'Внести задаток';
+
+  @override
+  String get depositsRecordTitle => 'Новый задаток';
+
+  @override
+  String depositsReservedUntil(String date) {
+    return 'Бронь до $date';
+  }
+
+  @override
+  String get depositsTitle => 'Задаток';
+
+  @override
   String get documentsAdd => 'Прикрепить файл';
 
   @override

@@ -37,4 +37,9 @@ public class PropertyResponse {
     private MandateType mandateType;
     /** Its last day, as a date ("2026-10-12"); null when it has no end date. */
     private LocalDate mandateEndDate;
+    /**
+     * The last day the listing is held for a buyer who put down a deposit; null when no deal on it
+     * has an active deposit. While set, the listing is reserved and is not offered as a match.
+     */
+    private LocalDate depositHoldUntil;
 }

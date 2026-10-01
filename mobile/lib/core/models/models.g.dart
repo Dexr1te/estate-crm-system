@@ -317,6 +317,9 @@ _$PropertyResponseImpl _$$PropertyResponseImplFromJson(
       mandateEndDate: json['mandateEndDate'] == null
           ? null
           : DateTime.parse(json['mandateEndDate'] as String),
+      depositHoldUntil: json['depositHoldUntil'] == null
+          ? null
+          : DateTime.parse(json['depositHoldUntil'] as String),
     );
 
 Map<String, dynamic> _$$PropertyResponseImplToJson(
@@ -344,6 +347,7 @@ Map<String, dynamic> _$$PropertyResponseImplToJson(
       'longitude': instance.longitude,
       'mandateType': _$MandateTypeEnumMap[instance.mandateType],
       'mandateEndDate': instance.mandateEndDate?.toIso8601String(),
+      'depositHoldUntil': instance.depositHoldUntil?.toIso8601String(),
     };
 
 const _$PropertyStatusEnumMap = {
@@ -1394,4 +1398,63 @@ const _$NotificationTypeEnumMap = {
   NotificationType.dealMention: 'DEAL_MENTION',
   NotificationType.dealComment: 'DEAL_COMMENT',
   NotificationType.unknown: 'unknown',
+};
+
+_$DealDepositImpl _$$DealDepositImplFromJson(Map<String, dynamic> json) =>
+    _$DealDepositImpl(
+      id: (json['id'] as num).toInt(),
+      dealId: (json['dealId'] as num).toInt(),
+      dealTitle: json['dealTitle'] as String? ?? '',
+      clientId: (json['clientId'] as num?)?.toInt(),
+      clientName: json['clientName'] as String?,
+      propertyId: (json['propertyId'] as num?)?.toInt(),
+      propertyTitle: json['propertyTitle'] as String?,
+      agentId: (json['agentId'] as num?)?.toInt(),
+      agentName: json['agentName'] as String?,
+      amount: (json['amount'] as num?)?.toDouble() ?? 0.0,
+      receivedOn: DateTime.parse(json['receivedOn'] as String),
+      holdUntil: DateTime.parse(json['holdUntil'] as String),
+      holder: $enumDecodeNullable(_$DepositHolderEnumMap, json['holder'],
+              unknownValue: DepositHolder.AGENCY) ??
+          DepositHolder.AGENCY,
+      note: json['note'] as String?,
+      active: json['active'] as bool? ?? true,
+      outcome: $enumDecodeNullable(_$DepositOutcomeEnumMap, json['outcome'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
+      closedOn: json['closedOn'] == null
+          ? null
+          : DateTime.parse(json['closedOn'] as String),
+    );
+
+Map<String, dynamic> _$$DealDepositImplToJson(_$DealDepositImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'dealId': instance.dealId,
+      'dealTitle': instance.dealTitle,
+      'clientId': instance.clientId,
+      'clientName': instance.clientName,
+      'propertyId': instance.propertyId,
+      'propertyTitle': instance.propertyTitle,
+      'agentId': instance.agentId,
+      'agentName': instance.agentName,
+      'amount': instance.amount,
+      'receivedOn': instance.receivedOn.toIso8601String(),
+      'holdUntil': instance.holdUntil.toIso8601String(),
+      'holder': _$DepositHolderEnumMap[instance.holder]!,
+      'note': instance.note,
+      'active': instance.active,
+      'outcome': _$DepositOutcomeEnumMap[instance.outcome],
+      'closedOn': instance.closedOn?.toIso8601String(),
+    };
+
+const _$DepositHolderEnumMap = {
+  DepositHolder.AGENCY: 'AGENCY',
+  DepositHolder.SELLER: 'SELLER',
+  DepositHolder.NOTARY: 'NOTARY',
+};
+
+const _$DepositOutcomeEnumMap = {
+  DepositOutcome.APPLIED: 'APPLIED',
+  DepositOutcome.REFUNDED: 'REFUNDED',
+  DepositOutcome.FORFEITED: 'FORFEITED',
 };

@@ -17,6 +17,7 @@ import 'package:real_estate_crm/features/dashboard/presentation/bloc/dashboard_e
 import 'package:real_estate_crm/features/dashboard/presentation/bloc/dashboard_state.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/attention_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/dashboard_hero.dart';
+import 'package:real_estate_crm/features/dashboard/presentation/widgets/deposits_ending_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/goal_ring_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/going_cold_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/mandates_ending_card.dart';
@@ -25,6 +26,7 @@ import 'package:real_estate_crm/features/dashboard/presentation/widgets/meeting_
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/my_goal_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/pipeline_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/top_agents_card.dart';
+import 'package:real_estate_crm/features/deposits/presentation/bloc/deposits_ending_bloc.dart';
 import 'package:real_estate_crm/features/goals/presentation/bloc/my_goal_bloc.dart';
 import 'package:real_estate_crm/features/goals/presentation/bloc/my_goal_event.dart';
 import 'package:real_estate_crm/features/notifications/presentation/widgets/notification_bell.dart';
@@ -49,6 +51,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final _cold =
       ColdClientsBloc(Injector.coldClientsRepository, Injector.tasksRepository);
   final _mandates = MandatesBloc(Injector.propertiesRepository);
+  final _deposits = DepositsEndingBloc(Injector.depositsRepository);
   final _goal = MyGoalBloc(Injector.goalsRepository);
 
   @override
@@ -58,6 +61,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     _tasks.add(TasksLoadEvent());
     _cold.add(ColdClientsLoadEvent());
     _mandates.add(MandatesLoadEvent());
+    _deposits.add(DepositsEndingLoadEvent());
     _goal.add(MyGoalLoadEvent());
   }
 
@@ -66,6 +70,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     _tasks.close();
     _cold.close();
     _mandates.close();
+    _deposits.close();
     _goal.close();
     super.dispose();
   }
@@ -116,6 +121,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         BlocProvider.value(value: _tasks),
         BlocProvider.value(value: _cold),
         BlocProvider.value(value: _mandates),
+        BlocProvider.value(value: _deposits),
         BlocProvider.value(value: _goal),
       ],
       child: Scaffold(
@@ -128,6 +134,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 _tasks.add(TasksLoadEvent());
                 _cold.add(ColdClientsLoadEvent());
                 _mandates.add(MandatesLoadEvent());
+                _deposits.add(DepositsEndingLoadEvent());
                 _goal.add(MyGoalLoadEvent());
               },
               color: t.primary,
@@ -229,6 +236,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
       MandatesEndingCard(
         topGap: gap,
         onSeeAll: () => context.push('/properties/mandates'),
+      ),
+      DepositsEndingCard(
+        topGap: gap,
+        onSeeAll: () => context.push('/deals/deposits'),
       ),
       // An admin runs no agency, so has no month of their own to show.
       if (!context.isAdmin) ...[
