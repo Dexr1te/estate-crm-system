@@ -142,6 +142,9 @@ class ClientResponse with _$ClientResponse {
     @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
     LeadSource? leadSource,
     String? leadSourceDetail,
+    /// `1990-05-14`, or `--05-14` when the year is not known. Read it
+    /// through `ClientBirthday.parse`.
+    String? birthday,
   }) = _ClientResponse;
 
   factory ClientResponse.fromJson(Map<String, dynamic> json) =>
@@ -871,6 +874,51 @@ class ColdClient with _$ColdClient {
       _$ColdClientFromJson(json);
 }
 
+/// A date that comes round every year. Unknown values read as [unknown] and
+/// are not shown.
+enum ClientDateKind {
+  @JsonValue('BIRTHDAY')
+  birthday,
+  @JsonValue('PURCHASE_ANNIVERSARY')
+  purchaseAnniversary,
+  unknown,
+}
+
+/// A birthday or purchase anniversary coming up —
+/// `GET /clients/upcoming-dates`.
+@freezed
+class UpcomingClientDate with _$UpcomingClientDate {
+  const factory UpcomingClientDate({
+    @JsonKey(unknownEnumValue: ClientDateKind.unknown)
+    @Default(ClientDateKind.unknown)
+    ClientDateKind kind,
+
+    /// The day it falls on this time; 29 February is the 28th in a common
+    /// year.
+    required DateTime date,
+
+    /// 0 today, 1 tomorrow.
+    @Default(0) int daysAway,
+
+    /// The age the client turns, or the years since the deal was won. Null
+    /// for a birthday whose year is not known.
+    int? years,
+    required int clientId,
+    @Default('') String clientName,
+    String? phone,
+    @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+    ClientType? clientType,
+    int? agentId,
+    String? agentName,
+    int? dealId,
+    String? dealTitle,
+    String? propertyTitle,
+  }) = _UpcomingClientDate;
+
+  factory UpcomingClientDate.fromJson(Map<String, dynamic> json) =>
+      _$UpcomingClientDateFromJson(json);
+}
+
 @freezed
 class AgentOption with _$AgentOption {
   const factory AgentOption({
@@ -1019,6 +1067,10 @@ enum NotificationType {
   dealMention,
   @JsonValue('DEAL_COMMENT')
   dealComment,
+  @JsonValue('CLIENT_BIRTHDAY')
+  clientBirthday,
+  @JsonValue('PURCHASE_ANNIVERSARY')
+  purchaseAnniversary,
   unknown,
 }
 

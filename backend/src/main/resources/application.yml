@@ -117,6 +117,13 @@ app:
   # outside a submission window: it exists only so a reviewer can get past a
   # login screen that has no sign-up behind it. See DemoDataSeeder, and
   # docs/app-store-submission.md for how it is used.
+  # Birthdays and purchase anniversaries: each agent is told on the day, at the
+  # first run of the cron in the agency's time zone (blank = the server's).
+  # Hourly through the day, so a server that was down at eight still tells
+  # everybody by nine; nobody is told twice.
+  client-dates:
+    cron: ${CLIENT_DATES_CRON:0 0 8-21 * * *}
+    zone: ${CLIENT_DATES_ZONE:Asia/Almaty}
   demo:
     enabled: ${DEMO_ENABLED:false}
     email: ${DEMO_EMAIL:reviewer@demo.estatecrm.app}

@@ -1,6 +1,7 @@
 package com.crm.realestate.service.imports;
 
 import com.crm.realestate.enums.ClientType;
+import com.crm.realestate.service.ClientBirthday;
 import com.crm.realestate.service.ClientTags;
 import com.crm.realestate.service.ContactNormalizer;
 
@@ -19,7 +20,7 @@ import java.util.regex.Pattern;
  *
  * <p>Error codes are stable strings the app translates: {@code REQUIRED}, {@code INVALID_NUMBER},
  * {@code INVALID_EMAIL}, {@code INVALID_PHONE}, {@code UNKNOWN_VALUE}, {@code TOO_LONG},
- * {@code NEGATIVE}, {@code OUT_OF_RANGE}.
+ * {@code NEGATIVE}, {@code OUT_OF_RANGE}, {@code INVALID_DATE}.
  */
 public final class ImportRow {
 
@@ -112,6 +113,11 @@ public final class ImportRow {
                 if (ClientTags.TOO_LONG.equals(violation)) errors.put(field.key(), "TOO_LONG");
                 else if (violation != null) errors.put(field.key(), "OUT_OF_RANGE");
                 else if (!tags.isEmpty()) values.put(field.key(), tags);
+            }
+            case CLIENT_BIRTHDAY -> {
+                ClientBirthday birthday = ClientBirthday.read(cell, java.time.LocalDate.now());
+                if (birthday == null) errors.put(field.key(), "INVALID_DATE");
+                else values.put(field.key(), birthday);
             }
             case CLIENT_WANTED_TYPE, PROPERTY_TYPE -> known(field, ImportValues.propertyType(cell));
             case PROPERTY_STATUS -> known(field, ImportValues.propertyStatus(cell));

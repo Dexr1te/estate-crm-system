@@ -73,6 +73,7 @@ _$ClientResponseImpl _$$ClientResponseImplFromJson(Map<String, dynamic> json) =>
       leadSource: $enumDecodeNullable(_$LeadSourceEnumMap, json['leadSource'],
           unknownValue: JsonKey.nullForUndefinedEnumValue),
       leadSourceDetail: json['leadSourceDetail'] as String?,
+      birthday: json['birthday'] as String?,
     );
 
 Map<String, dynamic> _$$ClientResponseImplToJson(
@@ -98,6 +99,7 @@ Map<String, dynamic> _$$ClientResponseImplToJson(
       'tags': instance.tags,
       'leadSource': _$LeadSourceEnumMap[instance.leadSource],
       'leadSourceDetail': instance.leadSourceDetail,
+      'birthday': instance.birthday,
     };
 
 const _$ClientTypeEnumMap = {
@@ -1234,6 +1236,51 @@ const _$ColdNextStepEnumMap = {
   ColdNextStep.checkIn: 'CHECK_IN',
 };
 
+_$UpcomingClientDateImpl _$$UpcomingClientDateImplFromJson(
+        Map<String, dynamic> json) =>
+    _$UpcomingClientDateImpl(
+      kind: $enumDecodeNullable(_$ClientDateKindEnumMap, json['kind'],
+              unknownValue: ClientDateKind.unknown) ??
+          ClientDateKind.unknown,
+      date: DateTime.parse(json['date'] as String),
+      daysAway: (json['daysAway'] as num?)?.toInt() ?? 0,
+      years: (json['years'] as num?)?.toInt(),
+      clientId: (json['clientId'] as num).toInt(),
+      clientName: json['clientName'] as String? ?? '',
+      phone: json['phone'] as String?,
+      clientType: $enumDecodeNullable(_$ClientTypeEnumMap, json['clientType'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
+      agentId: (json['agentId'] as num?)?.toInt(),
+      agentName: json['agentName'] as String?,
+      dealId: (json['dealId'] as num?)?.toInt(),
+      dealTitle: json['dealTitle'] as String?,
+      propertyTitle: json['propertyTitle'] as String?,
+    );
+
+Map<String, dynamic> _$$UpcomingClientDateImplToJson(
+        _$UpcomingClientDateImpl instance) =>
+    <String, dynamic>{
+      'kind': _$ClientDateKindEnumMap[instance.kind]!,
+      'date': instance.date.toIso8601String(),
+      'daysAway': instance.daysAway,
+      'years': instance.years,
+      'clientId': instance.clientId,
+      'clientName': instance.clientName,
+      'phone': instance.phone,
+      'clientType': _$ClientTypeEnumMap[instance.clientType],
+      'agentId': instance.agentId,
+      'agentName': instance.agentName,
+      'dealId': instance.dealId,
+      'dealTitle': instance.dealTitle,
+      'propertyTitle': instance.propertyTitle,
+    };
+
+const _$ClientDateKindEnumMap = {
+  ClientDateKind.birthday: 'BIRTHDAY',
+  ClientDateKind.purchaseAnniversary: 'PURCHASE_ANNIVERSARY',
+  ClientDateKind.unknown: 'unknown',
+};
+
 _$AgentOptionImpl _$$AgentOptionImplFromJson(Map<String, dynamic> json) =>
     _$AgentOptionImpl(
       id: (json['id'] as num).toInt(),
@@ -1462,6 +1509,8 @@ const _$NotificationTypeEnumMap = {
   NotificationType.listingLead: 'LISTING_LEAD',
   NotificationType.dealMention: 'DEAL_MENTION',
   NotificationType.dealComment: 'DEAL_COMMENT',
+  NotificationType.clientBirthday: 'CLIENT_BIRTHDAY',
+  NotificationType.purchaseAnniversary: 'PURCHASE_ANNIVERSARY',
   NotificationType.unknown: 'unknown',
 };
 

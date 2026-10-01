@@ -60,6 +60,9 @@ public enum ImportField {
             "lead source detail", "referred by", "referrer", "who referred", "источник лида подробности",
             "кто порекомендовал", "кто рекомендовал", "подробности источника", "лид көзі туралы",
             "кім ұсынды"),
+    CLIENT_BIRTHDAY(ImportKind.CLIENTS, "birthday", false,
+            "birthday", "date of birth", "birth date", "dob", "день рождения", "дата рождения",
+            "др", "туған күн", "туған күні", "туылған күні"),
 
     // Listings ----------------------------------------------------------------------------------
     PROPERTY_TITLE(ImportKind.PROPERTIES, "title", true,

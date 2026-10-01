@@ -90,6 +90,7 @@ abstract class CsvExportFixture {
                 .budgetMin(new BigDecimal("30000000")).budgetMax(new BigDecimal("45000000.50"))
                 .minRooms(2).minAreaSqm(55.5).source(ClientSource.PUBLIC_LINK)
                 .leadSource(com.crm.realestate.enums.LeadSource.REFERRAL).leadSourceDetail("Дана, соседка")
+                .birthMonth(5).birthDay(14)
                 .agent(agent).team(almaty).build());
         clientRepository.save(Client.builder().fullName("Алиев Тимур").phone("+77025556677")
                 .type(ClientType.SELLER).agent(manager).team(almaty).build());

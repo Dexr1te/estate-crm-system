@@ -170,6 +170,9 @@ public class ClientDuplicateService {
                 .minAreaSqm(source.getMinAreaSqm())
                 .leadSource(source.getLeadSource())
                 .leadSourceDetail(source.getLeadSourceDetail())
+                .birthMonth(source.getBirthMonth())
+                .birthDay(source.getBirthDay())
+                .birthYear(source.getBirthYear())
                 .build();
     }
 
@@ -193,6 +196,10 @@ public class ClientDuplicateService {
         if (target.getLeadSource() == null && source.getLeadSource() != null) {
             target.setLeadSource(source.getLeadSource());
             target.setLeadSourceDetail(source.getLeadSourceDetail());
+        }
+        ClientBirthday birthday = ClientBirthday.of(source);
+        if (ClientBirthday.of(target) == null && birthday != null) {
+            birthday.applyTo(target);
         }
         if (target.getType() != ClientType.BUYER) {
             return;

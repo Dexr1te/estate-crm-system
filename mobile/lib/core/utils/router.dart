@@ -16,6 +16,7 @@ import 'package:real_estate_crm/features/auth/presentation/screens/splash_screen
 import 'package:real_estate_crm/features/auth/presentation/screens/verify_email_screen.dart';
 import 'package:real_estate_crm/features/auth/presentation/screens/waiting_for_team_screen.dart';
 import 'package:real_estate_crm/features/checklist/presentation/screens/checklist_template_screen.dart';
+import 'package:real_estate_crm/features/clients/presentation/screens/client_dates_screen.dart';
 import 'package:real_estate_crm/features/clients/presentation/screens/client_detail_screen.dart';
 import 'package:real_estate_crm/features/clients/presentation/screens/client_form_screen.dart';
 import 'package:real_estate_crm/features/clients/presentation/screens/clients_screen.dart';
@@ -319,6 +320,12 @@ GoRouter createRouter(AuthBloc authBloc) {
                 parentNavigatorKey: _rootKey,
                 pageBuilder: (_, __) =>
                     const NoTransitionPage(child: ColdClientsScreen()),
+              ),
+              GoRoute(
+                path: 'dates',
+                parentNavigatorKey: _rootKey,
+                pageBuilder: (_, __) =>
+                    const NoTransitionPage(child: ClientDatesScreen()),
               ),
               GoRoute(
                 path: ':id',

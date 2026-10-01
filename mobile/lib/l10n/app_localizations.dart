@@ -1348,6 +1348,42 @@ abstract class AppLocalizations {
   /// **'Any'**
   String get clientsAnyType;
 
+  /// No description provided for @clientsBirthday.
+  ///
+  /// In en, this message translates to:
+  /// **'Birthday'**
+  String get clientsBirthday;
+
+  /// No description provided for @clientsBirthdayAge.
+  ///
+  /// In en, this message translates to:
+  /// **'{age} years old'**
+  String clientsBirthdayAge(int age);
+
+  /// No description provided for @clientsBirthdayClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove birthday'**
+  String get clientsBirthdayClear;
+
+  /// No description provided for @clientsBirthdayHint.
+  ///
+  /// In en, this message translates to:
+  /// **'With the year unknown, only the day and month are kept.'**
+  String get clientsBirthdayHint;
+
+  /// No description provided for @clientsBirthdayNoYear.
+  ///
+  /// In en, this message translates to:
+  /// **'Year unknown'**
+  String get clientsBirthdayNoYear;
+
+  /// No description provided for @clientsBirthdayPick.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a date'**
+  String get clientsBirthdayPick;
+
   /// No description provided for @clientsBudgetFrom.
   ///
   /// In en, this message translates to:
@@ -1659,6 +1695,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Create Client'**
   String get clientsCreateClient;
+
+  /// No description provided for @clientsDatesAnniversary.
+  ///
+  /// In en, this message translates to:
+  /// **'{years, plural, one{{years} year since the purchase} other{{years} years since the purchase}}'**
+  String clientsDatesAnniversary(int years);
+
+  /// No description provided for @clientsDatesBirthday.
+  ///
+  /// In en, this message translates to:
+  /// **'Birthday'**
+  String get clientsDatesBirthday;
+
+  /// No description provided for @clientsDatesEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No dates in the next two weeks'**
+  String get clientsDatesEmpty;
+
+  /// No description provided for @clientsDatesEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a client\'s birthday on their card. A won deal\'s anniversary shows up here every year on its own.'**
+  String get clientsDatesEmptyHint;
+
+  /// No description provided for @clientsDatesGreet.
+  ///
+  /// In en, this message translates to:
+  /// **'Greet'**
+  String get clientsDatesGreet;
+
+  /// No description provided for @clientsDatesInDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{In {count} day} other{In {count} days}}'**
+  String clientsDatesInDays(int count);
+
+  /// No description provided for @clientsDatesLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load the dates coming up'**
+  String get clientsDatesLoadFailed;
+
+  /// No description provided for @clientsDatesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Dates coming up'**
+  String get clientsDatesTitle;
+
+  /// No description provided for @clientsDatesToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get clientsDatesToday;
+
+  /// No description provided for @clientsDatesTomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Tomorrow'**
+  String get clientsDatesTomorrow;
+
+  /// No description provided for @clientsDatesTurns.
+  ///
+  /// In en, this message translates to:
+  /// **'Birthday, turns {years}'**
+  String clientsDatesTurns(int years);
+
+  /// No description provided for @clientsDatesWhen.
+  ///
+  /// In en, this message translates to:
+  /// **'{when} · {date}'**
+  String clientsDatesWhen(String when, String date);
 
   /// No description provided for @clientsDealCount.
   ///
@@ -2901,6 +3009,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{date} · team overview'**
   String dashboardDateSummary(Object date);
+
+  /// No description provided for @dashboardDatesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Dates this week'**
+  String get dashboardDatesTitle;
+
+  /// No description provided for @dashboardDatesTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} this week'**
+  String dashboardDatesTotal(int count);
 
   /// No description provided for @dashboardGreeting.
   ///
@@ -4564,6 +4684,12 @@ abstract class AppLocalizations {
   /// **'Clients and listings from Excel or another CRM'**
   String get importEntrySubtitle;
 
+  /// No description provided for @importErrorInvalidDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Not a date'**
+  String get importErrorInvalidDate;
+
   /// No description provided for @importErrorInvalidEmail.
   ///
   /// In en, this message translates to:
@@ -4623,6 +4749,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Area'**
   String get importFieldArea;
+
+  /// No description provided for @importFieldBirthday.
+  ///
+  /// In en, this message translates to:
+  /// **'Birthday'**
+  String get importFieldBirthday;
 
   /// No description provided for @importFieldBudgetMax.
   ///
@@ -6142,6 +6274,12 @@ abstract class AppLocalizations {
   /// **'User deleted'**
   String get msgUserDeleted;
 
+  /// No description provided for @notificationsClientBirthday.
+  ///
+  /// In en, this message translates to:
+  /// **'It\'s {name}\'s birthday today'**
+  String notificationsClientBirthday(String name);
+
   /// No description provided for @notificationsCountClients.
   ///
   /// In en, this message translates to:
@@ -6261,6 +6399,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{title} is now {price}, down from {oldPrice}'**
   String notificationsPriceDrop(String oldPrice, String price, String title);
+
+  /// No description provided for @notificationsPurchaseAnniversary.
+  ///
+  /// In en, this message translates to:
+  /// **'{years, plural, one{A year today since {name}\'s purchase} other{{years} years today since {name}\'s purchase}}'**
+  String notificationsPurchaseAnniversary(String name, int years);
 
   /// No description provided for @notificationsSomeone.
   ///

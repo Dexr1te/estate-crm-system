@@ -23,10 +23,13 @@ import 'package:real_estate_crm/features/auth/domain/repositories/auth_repositor
 import 'package:real_estate_crm/features/checklist/data/datasources/checklist_remote_datasource.dart';
 import 'package:real_estate_crm/features/checklist/data/repositories/checklist_repository_impl.dart';
 import 'package:real_estate_crm/features/checklist/domain/repositories/checklist_repository.dart';
+import 'package:real_estate_crm/features/clients/data/datasources/client_dates_remote_datasource.dart';
 import 'package:real_estate_crm/features/clients/data/datasources/clients_remote_datasource.dart';
 import 'package:real_estate_crm/features/clients/data/datasources/cold_clients_remote_datasource.dart';
+import 'package:real_estate_crm/features/clients/data/repositories/client_dates_repository_impl.dart';
 import 'package:real_estate_crm/features/clients/data/repositories/clients_repository_impl.dart';
 import 'package:real_estate_crm/features/clients/data/repositories/cold_clients_repository_impl.dart';
+import 'package:real_estate_crm/features/clients/domain/repositories/client_dates_repository.dart';
 import 'package:real_estate_crm/features/clients/domain/repositories/clients_repository.dart';
 import 'package:real_estate_crm/features/clients/domain/repositories/cold_clients_repository.dart';
 import 'package:real_estate_crm/features/compare/data/comparison_tray.dart';
@@ -100,6 +103,9 @@ class Injector {
 
   static ColdClientsRepository coldClientsRepository =
       ColdClientsRepositoryImpl(ColdClientsRemoteDataSource(_apiClient));
+
+  static ClientDatesRepository clientDatesRepository =
+      ClientDatesRepositoryImpl(ClientDatesRemoteDataSource(_apiClient));
 
   static PropertiesRepository propertiesRepository =
       PropertiesRepositoryImpl(PropertiesRemoteDataSource(_apiClient));

@@ -42,13 +42,13 @@ class MessageTemplateTest extends ChecklistFixture {
     void defaultsSeededOnFirstReadInManagersLanguage() throws Exception {
         JsonNode templates = json(as(manager, get(URL).header("Accept-Language", "kk-KZ,kk;q=0.9"))
                 .andExpect(status().isOk()));
-        assertThat(templates).hasSize(5);
+        assertThat(templates).hasSize(6);
         assertThat(templates.get(0).get("title").asText()).isEqualTo("Танысу");
         assertThat(templates.get(0).get("body").asText()).contains("{client}", "{agent}");
         assertThat(templates.get(1).get("body").asText()).contains("{listing}", "{price}", "{address}", "{link}");
 
-        as(manager, get(URL)).andExpect(jsonPath("$.length()").value(5));
-        assertThat(messageTemplateRepository.findByTeamIdOrderByIdAsc(almaty.getId())).hasSize(5);
+        as(manager, get(URL)).andExpect(jsonPath("$.length()").value(6));
+        assertThat(messageTemplateRepository.findByTeamIdOrderByIdAsc(almaty.getId())).hasSize(6);
     }
 
     @Test
@@ -71,7 +71,7 @@ class MessageTemplateTest extends ChecklistFixture {
         assertThat(messageTemplateRepository.findByTeamIdOrderByIdAsc(teamId))
                 .extracting(MessageTemplate::getTitle)
                 .containsExactly("Introduction", "A listing for you", "Viewing invitation",
-                        "After the viewing", "Price reduced");
+                        "After the viewing", "Price reduced", "Birthday greeting");
         assertThat(teamRepository.findById(teamId).orElseThrow().isMessageTemplatesSeeded()).isTrue();
     }
 
@@ -93,11 +93,11 @@ class MessageTemplateTest extends ChecklistFixture {
                 .andExpect(jsonPath("$.body").value("{ Client }, come by."));
 
         as(agent, get(URL))
-                .andExpect(jsonPath("$.length()").value(6))
-                .andExpect(jsonPath("$[5].title").value("Keys"));
+                .andExpect(jsonPath("$.length()").value(7))
+                .andExpect(jsonPath("$[6].title").value("Keys"));
 
         as(manager, delete(URL + "/" + id)).andExpect(status().isNoContent());
-        as(agent, get(URL)).andExpect(jsonPath("$.length()").value(5));
+        as(agent, get(URL)).andExpect(jsonPath("$.length()").value(6));
 
         assertThat(auditLogRepository.findAll())
                 .filteredOn(log -> log.getEntityId() != null && log.getEntityId() == id)
@@ -137,11 +137,11 @@ class MessageTemplateTest extends ChecklistFixture {
         as(admin, get(URL)).andExpect(status().isBadRequest());
         as(admin, get(URL).param("teamId", String.valueOf(astana.getId())))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(5));
+                .andExpect(jsonPath("$.length()").value(6));
         write(admin, post(URL).param("teamId", String.valueOf(astana.getId())),
                 "{\"title\":\"From the platform\",\"body\":\"Hello, {client}\"}")
                 .andExpect(status().isCreated());
-        assertThat(messageTemplateRepository.findByTeamIdOrderByIdAsc(astana.getId())).hasSize(6);
+        assertThat(messageTemplateRepository.findByTeamIdOrderByIdAsc(astana.getId())).hasSize(7);
         assertThat(messageTemplateRepository.findByTeamIdOrderByIdAsc(almaty.getId())).isEmpty();
     }
 
@@ -173,7 +173,7 @@ class MessageTemplateTest extends ChecklistFixture {
     @DisplayName("an agency keeps at most fifty templates")
     void capped() throws Exception {
         as(manager, get(URL)).andExpect(status().isOk());
-        for (int i = 5; i < 50; i++) {
+        for (int i = 6; i < 50; i++) {
             write(manager, post(URL), "{\"title\":\"T" + i + "\",\"body\":\"Hi\"}").andExpect(status().isCreated());
         }
         write(manager, post(URL), "{\"title\":\"One too many\",\"body\":\"Hi\"}")

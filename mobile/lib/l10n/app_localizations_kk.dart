@@ -702,6 +702,27 @@ class AppLocalizationsKk extends AppLocalizations {
   String get clientsAnyType => 'Кез келген';
 
   @override
+  String get clientsBirthday => 'Туған күн';
+
+  @override
+  String clientsBirthdayAge(int age) {
+    return '$age жаста';
+  }
+
+  @override
+  String get clientsBirthdayClear => 'Туған күнді өшіру';
+
+  @override
+  String get clientsBirthdayHint =>
+      'Жылы белгісіз болса, тек күні мен айы сақталады.';
+
+  @override
+  String get clientsBirthdayNoYear => 'Жылы белгісіз';
+
+  @override
+  String get clientsBirthdayPick => 'Күнді таңдау';
+
+  @override
   String get clientsBudgetFrom => 'Бюджет бастап';
 
   @override
@@ -912,6 +933,61 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get clientsCreateClient => 'Клиент құру';
+
+  @override
+  String clientsDatesAnniversary(int years) {
+    String _temp0 = intl.Intl.pluralLogic(
+      years,
+      locale: localeName,
+      other: 'Сатып алғанына $years жыл',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clientsDatesBirthday => 'Туған күн';
+
+  @override
+  String get clientsDatesEmpty => 'Алдағы екі аптада күндер жоқ';
+
+  @override
+  String get clientsDatesEmptyHint =>
+      'Клиент карточкасына туған күнін қосыңыз. Сәтті мәміленің жылдығы мұнда жыл сайын өзі шығады.';
+
+  @override
+  String get clientsDatesGreet => 'Құттықтау';
+
+  @override
+  String clientsDatesInDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count күннен кейін',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clientsDatesLoadFailed => 'Жақын күндерді жүктеу мүмкін болмады';
+
+  @override
+  String get clientsDatesTitle => 'Жақын күндер';
+
+  @override
+  String get clientsDatesToday => 'Бүгін';
+
+  @override
+  String get clientsDatesTomorrow => 'Ертең';
+
+  @override
+  String clientsDatesTurns(int years) {
+    return 'Туған күні, $years жасқа толады';
+  }
+
+  @override
+  String clientsDatesWhen(String when, String date) {
+    return '$when · $date';
+  }
 
   @override
   String clientsDealCount(num count) {
@@ -1622,6 +1698,14 @@ class AppLocalizationsKk extends AppLocalizations {
   @override
   String dashboardDateSummary(Object date) {
     return '$date · команда сводкасы';
+  }
+
+  @override
+  String get dashboardDatesTitle => 'Осы аптадағы күндер';
+
+  @override
+  String dashboardDatesTotal(int count) {
+    return 'аптада $count';
   }
 
   @override
@@ -2657,6 +2741,9 @@ class AppLocalizationsKk extends AppLocalizations {
       'Excel немесе басқа CRM-нен клиенттер мен нысандар';
 
   @override
+  String get importErrorInvalidDate => 'Күн емес';
+
+  @override
   String get importErrorInvalidEmail => 'Email қате';
 
   @override
@@ -2685,6 +2772,9 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get importFieldArea => 'Аудан';
+
+  @override
+  String get importFieldBirthday => 'Туған күн';
 
   @override
   String get importFieldBudgetMax => 'Бюджет (дейін)';
@@ -3528,6 +3618,11 @@ class AppLocalizationsKk extends AppLocalizations {
   String get msgUserDeleted => 'Пайдаланушы жойылды';
 
   @override
+  String notificationsClientBirthday(String name) {
+    return 'Бүгін $name клиенттің туған күні';
+  }
+
+  @override
   String notificationsCountClients(int count) {
     return '$count клиент';
   }
@@ -3624,6 +3719,16 @@ class AppLocalizationsKk extends AppLocalizations {
   @override
   String notificationsPriceDrop(String oldPrice, String price, String title) {
     return '$title арзандады: $price, бұрын $oldPrice';
+  }
+
+  @override
+  String notificationsPurchaseAnniversary(String name, int years) {
+    String _temp0 = intl.Intl.pluralLogic(
+      years,
+      locale: localeName,
+      other: 'Бүгін $name сатып алғанына $years жыл',
+    );
+    return '$_temp0';
   }
 
   @override

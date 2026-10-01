@@ -103,6 +103,19 @@ NotificationCopy notificationCopy(AppLocalizations l10n, AppNotification n) {
           l10n.notificationsDealComment(name('authorName'), plain('dealTitle')),
           _snippet(n),
           Icons.chat_bubble_outline_rounded);
+    case NotificationType.clientBirthday:
+      final years = n.count('years');
+      return NotificationCopy(
+          l10n.notificationsClientBirthday(name('clientName')),
+          years > 0 ? l10n.clientsDatesTurns(years) : null,
+          Icons.cake_outlined);
+    case NotificationType.purchaseAnniversary:
+      final deal = n.text('dealTitle')?.trim();
+      return NotificationCopy(
+          l10n.notificationsPurchaseAnniversary(
+              name('clientName'), n.count('years')),
+          deal == null || deal.isEmpty ? null : deal,
+          Icons.vpn_key_outlined);
     case NotificationType.unknown:
       return NotificationCopy(
           l10n.notificationsUnknown, null, Icons.notifications_none_rounded);
@@ -156,6 +169,8 @@ NotificationTarget? notificationTarget(AppNotification n) {
     case NotificationType.dealStatusChanged:
       return id == null ? null : NotificationTarget('/deals/$id');
     case NotificationType.listingLead:
+    case NotificationType.clientBirthday:
+    case NotificationType.purchaseAnniversary:
       return id == null ? null : NotificationTarget('/clients/$id');
     case NotificationType.dealMention:
     case NotificationType.dealComment:

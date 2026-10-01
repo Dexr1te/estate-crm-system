@@ -279,8 +279,8 @@ class ClientTagsTest {
 
         String all = exportText();
         assertThat(all).startsWith("Full name,Phone,Email,Type,Agent,City,Property type,Budget from,"
-                + "Budget to,Rooms,Area,Notes,Tags,Lead source,Lead source detail,Source,Created\r\n");
-        assertThat(all).contains("Aigerim,,,Buyer,Asel Nurlanovna,,,,,,,,\"investor, VIP\",,,Manual,");
+                + "Budget to,Rooms,Area,Notes,Tags,Lead source,Lead source detail,Birthday,Source,Created\r\n");
+        assertThat(all).contains("Aigerim,,,Buyer,Asel Nurlanovna,,,,,,,,\"investor, VIP\",,,,Manual,");
 
         String tagged = exportText("tags", "vip");
         assertThat(tagged).contains("Aigerim").doesNotContain("Madina");
