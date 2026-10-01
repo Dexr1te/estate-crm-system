@@ -136,6 +136,17 @@ void main() {
     expect(find.byKey(const Key('message-templates-row')), findsOneWidget);
   });
 
+  testWidgets('the monthly goals are set from here', (tester) async {
+    _teams();
+    await _pumpConsole(tester);
+    expect(find.byKey(const Key('team-goals-row')), findsOneWidget);
+    expect(find.text('Monthly goals'), findsOneWidget);
+
+    _teams(members: const []);
+    await _pumpConsole(tester);
+    expect(find.byKey(const Key('team-goals-row')), findsOneWidget);
+  });
+
   testWidgets('bringing the book in from a spreadsheet starts here',
       (tester) async {
     _teams();

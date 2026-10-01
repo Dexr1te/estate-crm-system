@@ -10635,6 +10635,825 @@ abstract class _DashboardSummary implements DashboardSummary {
       throw _privateConstructorUsedError;
 }
 
+GoalProgress _$GoalProgressFromJson(Map<String, dynamic> json) {
+  return _GoalProgress.fromJson(json);
+}
+
+/// @nodoc
+mixin _$GoalProgress {
+  /// "2026-10".
+  String get month => throw _privateConstructorUsedError;
+  String? get currency => throw _privateConstructorUsedError;
+  int? get agentId => throw _privateConstructorUsedError;
+  String? get agentName => throw _privateConstructorUsedError;
+
+  /// MANAGER or PERSONAL; null while there is no target.
+  String? get source => throw _privateConstructorUsedError;
+  double? get commissionTarget => throw _privateConstructorUsedError;
+  int? get dealsTarget => throw _privateConstructorUsedError;
+
+  /// The person's own target while the manager's overrides it.
+  double? get personalCommissionTarget => throw _privateConstructorUsedError;
+  int? get personalDealsTarget => throw _privateConstructorUsedError;
+  double get commissionAchieved => throw _privateConstructorUsedError;
+  int get dealsWon => throw _privateConstructorUsedError;
+  int? get commissionPercent => throw _privateConstructorUsedError;
+  int? get dealsPercent => throw _privateConstructorUsedError;
+  int get daysLeft => throw _privateConstructorUsedError;
+  double? get commissionPerDay => throw _privateConstructorUsedError;
+  double? get dealsPerDay => throw _privateConstructorUsedError;
+
+  /// Whether the person may set their own: not while the manager's counts.
+  bool get personalEditable => throw _privateConstructorUsedError;
+
+  /// Serializes this GoalProgress to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of GoalProgress
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $GoalProgressCopyWith<GoalProgress> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $GoalProgressCopyWith<$Res> {
+  factory $GoalProgressCopyWith(
+          GoalProgress value, $Res Function(GoalProgress) then) =
+      _$GoalProgressCopyWithImpl<$Res, GoalProgress>;
+  @useResult
+  $Res call(
+      {String month,
+      String? currency,
+      int? agentId,
+      String? agentName,
+      String? source,
+      double? commissionTarget,
+      int? dealsTarget,
+      double? personalCommissionTarget,
+      int? personalDealsTarget,
+      double commissionAchieved,
+      int dealsWon,
+      int? commissionPercent,
+      int? dealsPercent,
+      int daysLeft,
+      double? commissionPerDay,
+      double? dealsPerDay,
+      bool personalEditable});
+}
+
+/// @nodoc
+class _$GoalProgressCopyWithImpl<$Res, $Val extends GoalProgress>
+    implements $GoalProgressCopyWith<$Res> {
+  _$GoalProgressCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of GoalProgress
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? month = null,
+    Object? currency = freezed,
+    Object? agentId = freezed,
+    Object? agentName = freezed,
+    Object? source = freezed,
+    Object? commissionTarget = freezed,
+    Object? dealsTarget = freezed,
+    Object? personalCommissionTarget = freezed,
+    Object? personalDealsTarget = freezed,
+    Object? commissionAchieved = null,
+    Object? dealsWon = null,
+    Object? commissionPercent = freezed,
+    Object? dealsPercent = freezed,
+    Object? daysLeft = null,
+    Object? commissionPerDay = freezed,
+    Object? dealsPerDay = freezed,
+    Object? personalEditable = null,
+  }) {
+    return _then(_value.copyWith(
+      month: null == month
+          ? _value.month
+          : month // ignore: cast_nullable_to_non_nullable
+              as String,
+      currency: freezed == currency
+          ? _value.currency
+          : currency // ignore: cast_nullable_to_non_nullable
+              as String?,
+      agentId: freezed == agentId
+          ? _value.agentId
+          : agentId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      agentName: freezed == agentName
+          ? _value.agentName
+          : agentName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      source: freezed == source
+          ? _value.source
+          : source // ignore: cast_nullable_to_non_nullable
+              as String?,
+      commissionTarget: freezed == commissionTarget
+          ? _value.commissionTarget
+          : commissionTarget // ignore: cast_nullable_to_non_nullable
+              as double?,
+      dealsTarget: freezed == dealsTarget
+          ? _value.dealsTarget
+          : dealsTarget // ignore: cast_nullable_to_non_nullable
+              as int?,
+      personalCommissionTarget: freezed == personalCommissionTarget
+          ? _value.personalCommissionTarget
+          : personalCommissionTarget // ignore: cast_nullable_to_non_nullable
+              as double?,
+      personalDealsTarget: freezed == personalDealsTarget
+          ? _value.personalDealsTarget
+          : personalDealsTarget // ignore: cast_nullable_to_non_nullable
+              as int?,
+      commissionAchieved: null == commissionAchieved
+          ? _value.commissionAchieved
+          : commissionAchieved // ignore: cast_nullable_to_non_nullable
+              as double,
+      dealsWon: null == dealsWon
+          ? _value.dealsWon
+          : dealsWon // ignore: cast_nullable_to_non_nullable
+              as int,
+      commissionPercent: freezed == commissionPercent
+          ? _value.commissionPercent
+          : commissionPercent // ignore: cast_nullable_to_non_nullable
+              as int?,
+      dealsPercent: freezed == dealsPercent
+          ? _value.dealsPercent
+          : dealsPercent // ignore: cast_nullable_to_non_nullable
+              as int?,
+      daysLeft: null == daysLeft
+          ? _value.daysLeft
+          : daysLeft // ignore: cast_nullable_to_non_nullable
+              as int,
+      commissionPerDay: freezed == commissionPerDay
+          ? _value.commissionPerDay
+          : commissionPerDay // ignore: cast_nullable_to_non_nullable
+              as double?,
+      dealsPerDay: freezed == dealsPerDay
+          ? _value.dealsPerDay
+          : dealsPerDay // ignore: cast_nullable_to_non_nullable
+              as double?,
+      personalEditable: null == personalEditable
+          ? _value.personalEditable
+          : personalEditable // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$GoalProgressImplCopyWith<$Res>
+    implements $GoalProgressCopyWith<$Res> {
+  factory _$$GoalProgressImplCopyWith(
+          _$GoalProgressImpl value, $Res Function(_$GoalProgressImpl) then) =
+      __$$GoalProgressImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String month,
+      String? currency,
+      int? agentId,
+      String? agentName,
+      String? source,
+      double? commissionTarget,
+      int? dealsTarget,
+      double? personalCommissionTarget,
+      int? personalDealsTarget,
+      double commissionAchieved,
+      int dealsWon,
+      int? commissionPercent,
+      int? dealsPercent,
+      int daysLeft,
+      double? commissionPerDay,
+      double? dealsPerDay,
+      bool personalEditable});
+}
+
+/// @nodoc
+class __$$GoalProgressImplCopyWithImpl<$Res>
+    extends _$GoalProgressCopyWithImpl<$Res, _$GoalProgressImpl>
+    implements _$$GoalProgressImplCopyWith<$Res> {
+  __$$GoalProgressImplCopyWithImpl(
+      _$GoalProgressImpl _value, $Res Function(_$GoalProgressImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of GoalProgress
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? month = null,
+    Object? currency = freezed,
+    Object? agentId = freezed,
+    Object? agentName = freezed,
+    Object? source = freezed,
+    Object? commissionTarget = freezed,
+    Object? dealsTarget = freezed,
+    Object? personalCommissionTarget = freezed,
+    Object? personalDealsTarget = freezed,
+    Object? commissionAchieved = null,
+    Object? dealsWon = null,
+    Object? commissionPercent = freezed,
+    Object? dealsPercent = freezed,
+    Object? daysLeft = null,
+    Object? commissionPerDay = freezed,
+    Object? dealsPerDay = freezed,
+    Object? personalEditable = null,
+  }) {
+    return _then(_$GoalProgressImpl(
+      month: null == month
+          ? _value.month
+          : month // ignore: cast_nullable_to_non_nullable
+              as String,
+      currency: freezed == currency
+          ? _value.currency
+          : currency // ignore: cast_nullable_to_non_nullable
+              as String?,
+      agentId: freezed == agentId
+          ? _value.agentId
+          : agentId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      agentName: freezed == agentName
+          ? _value.agentName
+          : agentName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      source: freezed == source
+          ? _value.source
+          : source // ignore: cast_nullable_to_non_nullable
+              as String?,
+      commissionTarget: freezed == commissionTarget
+          ? _value.commissionTarget
+          : commissionTarget // ignore: cast_nullable_to_non_nullable
+              as double?,
+      dealsTarget: freezed == dealsTarget
+          ? _value.dealsTarget
+          : dealsTarget // ignore: cast_nullable_to_non_nullable
+              as int?,
+      personalCommissionTarget: freezed == personalCommissionTarget
+          ? _value.personalCommissionTarget
+          : personalCommissionTarget // ignore: cast_nullable_to_non_nullable
+              as double?,
+      personalDealsTarget: freezed == personalDealsTarget
+          ? _value.personalDealsTarget
+          : personalDealsTarget // ignore: cast_nullable_to_non_nullable
+              as int?,
+      commissionAchieved: null == commissionAchieved
+          ? _value.commissionAchieved
+          : commissionAchieved // ignore: cast_nullable_to_non_nullable
+              as double,
+      dealsWon: null == dealsWon
+          ? _value.dealsWon
+          : dealsWon // ignore: cast_nullable_to_non_nullable
+              as int,
+      commissionPercent: freezed == commissionPercent
+          ? _value.commissionPercent
+          : commissionPercent // ignore: cast_nullable_to_non_nullable
+              as int?,
+      dealsPercent: freezed == dealsPercent
+          ? _value.dealsPercent
+          : dealsPercent // ignore: cast_nullable_to_non_nullable
+              as int?,
+      daysLeft: null == daysLeft
+          ? _value.daysLeft
+          : daysLeft // ignore: cast_nullable_to_non_nullable
+              as int,
+      commissionPerDay: freezed == commissionPerDay
+          ? _value.commissionPerDay
+          : commissionPerDay // ignore: cast_nullable_to_non_nullable
+              as double?,
+      dealsPerDay: freezed == dealsPerDay
+          ? _value.dealsPerDay
+          : dealsPerDay // ignore: cast_nullable_to_non_nullable
+              as double?,
+      personalEditable: null == personalEditable
+          ? _value.personalEditable
+          : personalEditable // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$GoalProgressImpl extends _GoalProgress {
+  const _$GoalProgressImpl(
+      {this.month = '',
+      this.currency,
+      this.agentId,
+      this.agentName,
+      this.source,
+      this.commissionTarget,
+      this.dealsTarget,
+      this.personalCommissionTarget,
+      this.personalDealsTarget,
+      this.commissionAchieved = 0,
+      this.dealsWon = 0,
+      this.commissionPercent,
+      this.dealsPercent,
+      this.daysLeft = 0,
+      this.commissionPerDay,
+      this.dealsPerDay,
+      this.personalEditable = false})
+      : super._();
+
+  factory _$GoalProgressImpl.fromJson(Map<String, dynamic> json) =>
+      _$$GoalProgressImplFromJson(json);
+
+  /// "2026-10".
+  @override
+  @JsonKey()
+  final String month;
+  @override
+  final String? currency;
+  @override
+  final int? agentId;
+  @override
+  final String? agentName;
+
+  /// MANAGER or PERSONAL; null while there is no target.
+  @override
+  final String? source;
+  @override
+  final double? commissionTarget;
+  @override
+  final int? dealsTarget;
+
+  /// The person's own target while the manager's overrides it.
+  @override
+  final double? personalCommissionTarget;
+  @override
+  final int? personalDealsTarget;
+  @override
+  @JsonKey()
+  final double commissionAchieved;
+  @override
+  @JsonKey()
+  final int dealsWon;
+  @override
+  final int? commissionPercent;
+  @override
+  final int? dealsPercent;
+  @override
+  @JsonKey()
+  final int daysLeft;
+  @override
+  final double? commissionPerDay;
+  @override
+  final double? dealsPerDay;
+
+  /// Whether the person may set their own: not while the manager's counts.
+  @override
+  @JsonKey()
+  final bool personalEditable;
+
+  @override
+  String toString() {
+    return 'GoalProgress(month: $month, currency: $currency, agentId: $agentId, agentName: $agentName, source: $source, commissionTarget: $commissionTarget, dealsTarget: $dealsTarget, personalCommissionTarget: $personalCommissionTarget, personalDealsTarget: $personalDealsTarget, commissionAchieved: $commissionAchieved, dealsWon: $dealsWon, commissionPercent: $commissionPercent, dealsPercent: $dealsPercent, daysLeft: $daysLeft, commissionPerDay: $commissionPerDay, dealsPerDay: $dealsPerDay, personalEditable: $personalEditable)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GoalProgressImpl &&
+            (identical(other.month, month) || other.month == month) &&
+            (identical(other.currency, currency) ||
+                other.currency == currency) &&
+            (identical(other.agentId, agentId) || other.agentId == agentId) &&
+            (identical(other.agentName, agentName) ||
+                other.agentName == agentName) &&
+            (identical(other.source, source) || other.source == source) &&
+            (identical(other.commissionTarget, commissionTarget) ||
+                other.commissionTarget == commissionTarget) &&
+            (identical(other.dealsTarget, dealsTarget) ||
+                other.dealsTarget == dealsTarget) &&
+            (identical(
+                    other.personalCommissionTarget, personalCommissionTarget) ||
+                other.personalCommissionTarget == personalCommissionTarget) &&
+            (identical(other.personalDealsTarget, personalDealsTarget) ||
+                other.personalDealsTarget == personalDealsTarget) &&
+            (identical(other.commissionAchieved, commissionAchieved) ||
+                other.commissionAchieved == commissionAchieved) &&
+            (identical(other.dealsWon, dealsWon) ||
+                other.dealsWon == dealsWon) &&
+            (identical(other.commissionPercent, commissionPercent) ||
+                other.commissionPercent == commissionPercent) &&
+            (identical(other.dealsPercent, dealsPercent) ||
+                other.dealsPercent == dealsPercent) &&
+            (identical(other.daysLeft, daysLeft) ||
+                other.daysLeft == daysLeft) &&
+            (identical(other.commissionPerDay, commissionPerDay) ||
+                other.commissionPerDay == commissionPerDay) &&
+            (identical(other.dealsPerDay, dealsPerDay) ||
+                other.dealsPerDay == dealsPerDay) &&
+            (identical(other.personalEditable, personalEditable) ||
+                other.personalEditable == personalEditable));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      month,
+      currency,
+      agentId,
+      agentName,
+      source,
+      commissionTarget,
+      dealsTarget,
+      personalCommissionTarget,
+      personalDealsTarget,
+      commissionAchieved,
+      dealsWon,
+      commissionPercent,
+      dealsPercent,
+      daysLeft,
+      commissionPerDay,
+      dealsPerDay,
+      personalEditable);
+
+  /// Create a copy of GoalProgress
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GoalProgressImplCopyWith<_$GoalProgressImpl> get copyWith =>
+      __$$GoalProgressImplCopyWithImpl<_$GoalProgressImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$GoalProgressImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _GoalProgress extends GoalProgress {
+  const factory _GoalProgress(
+      {final String month,
+      final String? currency,
+      final int? agentId,
+      final String? agentName,
+      final String? source,
+      final double? commissionTarget,
+      final int? dealsTarget,
+      final double? personalCommissionTarget,
+      final int? personalDealsTarget,
+      final double commissionAchieved,
+      final int dealsWon,
+      final int? commissionPercent,
+      final int? dealsPercent,
+      final int daysLeft,
+      final double? commissionPerDay,
+      final double? dealsPerDay,
+      final bool personalEditable}) = _$GoalProgressImpl;
+  const _GoalProgress._() : super._();
+
+  factory _GoalProgress.fromJson(Map<String, dynamic> json) =
+      _$GoalProgressImpl.fromJson;
+
+  /// "2026-10".
+  @override
+  String get month;
+  @override
+  String? get currency;
+  @override
+  int? get agentId;
+  @override
+  String? get agentName;
+
+  /// MANAGER or PERSONAL; null while there is no target.
+  @override
+  String? get source;
+  @override
+  double? get commissionTarget;
+  @override
+  int? get dealsTarget;
+
+  /// The person's own target while the manager's overrides it.
+  @override
+  double? get personalCommissionTarget;
+  @override
+  int? get personalDealsTarget;
+  @override
+  double get commissionAchieved;
+  @override
+  int get dealsWon;
+  @override
+  int? get commissionPercent;
+  @override
+  int? get dealsPercent;
+  @override
+  int get daysLeft;
+  @override
+  double? get commissionPerDay;
+  @override
+  double? get dealsPerDay;
+
+  /// Whether the person may set their own: not while the manager's counts.
+  @override
+  bool get personalEditable;
+
+  /// Create a copy of GoalProgress
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$GoalProgressImplCopyWith<_$GoalProgressImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+TeamGoals _$TeamGoalsFromJson(Map<String, dynamic> json) {
+  return _TeamGoals.fromJson(json);
+}
+
+/// @nodoc
+mixin _$TeamGoals {
+  String get month => throw _privateConstructorUsedError;
+  String? get currency => throw _privateConstructorUsedError;
+  int get daysLeft => throw _privateConstructorUsedError;
+  GoalProgress get agency => throw _privateConstructorUsedError;
+  List<GoalProgress> get agents => throw _privateConstructorUsedError;
+
+  /// How many targets a copy from last month brought; null otherwise.
+  int? get copied => throw _privateConstructorUsedError;
+
+  /// Serializes this TeamGoals to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of TeamGoals
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $TeamGoalsCopyWith<TeamGoals> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $TeamGoalsCopyWith<$Res> {
+  factory $TeamGoalsCopyWith(TeamGoals value, $Res Function(TeamGoals) then) =
+      _$TeamGoalsCopyWithImpl<$Res, TeamGoals>;
+  @useResult
+  $Res call(
+      {String month,
+      String? currency,
+      int daysLeft,
+      GoalProgress agency,
+      List<GoalProgress> agents,
+      int? copied});
+
+  $GoalProgressCopyWith<$Res> get agency;
+}
+
+/// @nodoc
+class _$TeamGoalsCopyWithImpl<$Res, $Val extends TeamGoals>
+    implements $TeamGoalsCopyWith<$Res> {
+  _$TeamGoalsCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of TeamGoals
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? month = null,
+    Object? currency = freezed,
+    Object? daysLeft = null,
+    Object? agency = null,
+    Object? agents = null,
+    Object? copied = freezed,
+  }) {
+    return _then(_value.copyWith(
+      month: null == month
+          ? _value.month
+          : month // ignore: cast_nullable_to_non_nullable
+              as String,
+      currency: freezed == currency
+          ? _value.currency
+          : currency // ignore: cast_nullable_to_non_nullable
+              as String?,
+      daysLeft: null == daysLeft
+          ? _value.daysLeft
+          : daysLeft // ignore: cast_nullable_to_non_nullable
+              as int,
+      agency: null == agency
+          ? _value.agency
+          : agency // ignore: cast_nullable_to_non_nullable
+              as GoalProgress,
+      agents: null == agents
+          ? _value.agents
+          : agents // ignore: cast_nullable_to_non_nullable
+              as List<GoalProgress>,
+      copied: freezed == copied
+          ? _value.copied
+          : copied // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ) as $Val);
+  }
+
+  /// Create a copy of TeamGoals
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $GoalProgressCopyWith<$Res> get agency {
+    return $GoalProgressCopyWith<$Res>(_value.agency, (value) {
+      return _then(_value.copyWith(agency: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$TeamGoalsImplCopyWith<$Res>
+    implements $TeamGoalsCopyWith<$Res> {
+  factory _$$TeamGoalsImplCopyWith(
+          _$TeamGoalsImpl value, $Res Function(_$TeamGoalsImpl) then) =
+      __$$TeamGoalsImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String month,
+      String? currency,
+      int daysLeft,
+      GoalProgress agency,
+      List<GoalProgress> agents,
+      int? copied});
+
+  @override
+  $GoalProgressCopyWith<$Res> get agency;
+}
+
+/// @nodoc
+class __$$TeamGoalsImplCopyWithImpl<$Res>
+    extends _$TeamGoalsCopyWithImpl<$Res, _$TeamGoalsImpl>
+    implements _$$TeamGoalsImplCopyWith<$Res> {
+  __$$TeamGoalsImplCopyWithImpl(
+      _$TeamGoalsImpl _value, $Res Function(_$TeamGoalsImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of TeamGoals
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? month = null,
+    Object? currency = freezed,
+    Object? daysLeft = null,
+    Object? agency = null,
+    Object? agents = null,
+    Object? copied = freezed,
+  }) {
+    return _then(_$TeamGoalsImpl(
+      month: null == month
+          ? _value.month
+          : month // ignore: cast_nullable_to_non_nullable
+              as String,
+      currency: freezed == currency
+          ? _value.currency
+          : currency // ignore: cast_nullable_to_non_nullable
+              as String?,
+      daysLeft: null == daysLeft
+          ? _value.daysLeft
+          : daysLeft // ignore: cast_nullable_to_non_nullable
+              as int,
+      agency: null == agency
+          ? _value.agency
+          : agency // ignore: cast_nullable_to_non_nullable
+              as GoalProgress,
+      agents: null == agents
+          ? _value._agents
+          : agents // ignore: cast_nullable_to_non_nullable
+              as List<GoalProgress>,
+      copied: freezed == copied
+          ? _value.copied
+          : copied // ignore: cast_nullable_to_non_nullable
+              as int?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$TeamGoalsImpl implements _TeamGoals {
+  const _$TeamGoalsImpl(
+      {this.month = '',
+      this.currency,
+      this.daysLeft = 0,
+      required this.agency,
+      final List<GoalProgress> agents = const <GoalProgress>[],
+      this.copied})
+      : _agents = agents;
+
+  factory _$TeamGoalsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TeamGoalsImplFromJson(json);
+
+  @override
+  @JsonKey()
+  final String month;
+  @override
+  final String? currency;
+  @override
+  @JsonKey()
+  final int daysLeft;
+  @override
+  final GoalProgress agency;
+  final List<GoalProgress> _agents;
+  @override
+  @JsonKey()
+  List<GoalProgress> get agents {
+    if (_agents is EqualUnmodifiableListView) return _agents;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_agents);
+  }
+
+  /// How many targets a copy from last month brought; null otherwise.
+  @override
+  final int? copied;
+
+  @override
+  String toString() {
+    return 'TeamGoals(month: $month, currency: $currency, daysLeft: $daysLeft, agency: $agency, agents: $agents, copied: $copied)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TeamGoalsImpl &&
+            (identical(other.month, month) || other.month == month) &&
+            (identical(other.currency, currency) ||
+                other.currency == currency) &&
+            (identical(other.daysLeft, daysLeft) ||
+                other.daysLeft == daysLeft) &&
+            (identical(other.agency, agency) || other.agency == agency) &&
+            const DeepCollectionEquality().equals(other._agents, _agents) &&
+            (identical(other.copied, copied) || other.copied == copied));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, month, currency, daysLeft,
+      agency, const DeepCollectionEquality().hash(_agents), copied);
+
+  /// Create a copy of TeamGoals
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$TeamGoalsImplCopyWith<_$TeamGoalsImpl> get copyWith =>
+      __$$TeamGoalsImplCopyWithImpl<_$TeamGoalsImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$TeamGoalsImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _TeamGoals implements TeamGoals {
+  const factory _TeamGoals(
+      {final String month,
+      final String? currency,
+      final int daysLeft,
+      required final GoalProgress agency,
+      final List<GoalProgress> agents,
+      final int? copied}) = _$TeamGoalsImpl;
+
+  factory _TeamGoals.fromJson(Map<String, dynamic> json) =
+      _$TeamGoalsImpl.fromJson;
+
+  @override
+  String get month;
+  @override
+  String? get currency;
+  @override
+  int get daysLeft;
+  @override
+  GoalProgress get agency;
+  @override
+  List<GoalProgress> get agents;
+
+  /// How many targets a copy from last month brought; null otherwise.
+  @override
+  int? get copied;
+
+  /// Create a copy of TeamGoals
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$TeamGoalsImplCopyWith<_$TeamGoalsImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 ColdReason _$ColdReasonFromJson(Map<String, dynamic> json) {
   return _ColdReason.fromJson(json);
 }

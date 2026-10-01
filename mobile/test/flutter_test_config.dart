@@ -8,6 +8,7 @@ import 'package:real_estate_crm/core/utils/money.dart';
 import 'package:real_estate_crm/features/app_lock/presentation/controller/app_lock_controller.dart';
 
 import 'fakes.dart';
+import 'goals_fakes.dart';
 
 /// Every screen that shows a client or a deal now carries its tasks card, and
 /// that card reads through the injector on its own. A test that is not about
@@ -32,6 +33,8 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) async {
   Injector.checklistRepository = FakeChecklistRepository();
   // And the client card's compose sheet reads the agency's templates.
   Injector.messageTemplatesRepository = FakeMessageTemplatesRepository();
+  // And the dashboard's goal card reads the month's target.
+  Injector.goalsRepository = FakeGoalsRepository();
   Injector.agentsRepository = const FakeAgentsRepository([]);
   Injector.clientsRepository = FakeClientsRepository();
   // The dashboard's going-cold card reads on its own too.

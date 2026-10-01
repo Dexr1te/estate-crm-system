@@ -707,6 +707,66 @@ class DashboardSummary with _$DashboardSummary {
       _$DashboardSummaryFromJson(json);
 }
 
+/// One person's month against their target, or the agency's when [agentId]
+/// is null. The manager's target wins over the person's own ([source] says
+/// whose counts); progress is counted on the server from the deals won that
+/// calendar month, in the agency's currency.
+@freezed
+class GoalProgress with _$GoalProgress {
+  const GoalProgress._();
+
+  const factory GoalProgress({
+    /// "2026-10".
+    @Default('') String month,
+    String? currency,
+    int? agentId,
+    String? agentName,
+
+    /// MANAGER or PERSONAL; null while there is no target.
+    String? source,
+    double? commissionTarget,
+    int? dealsTarget,
+
+    /// The person's own target while the manager's overrides it.
+    double? personalCommissionTarget,
+    int? personalDealsTarget,
+    @Default(0) double commissionAchieved,
+    @Default(0) int dealsWon,
+    int? commissionPercent,
+    int? dealsPercent,
+    @Default(0) int daysLeft,
+    double? commissionPerDay,
+    double? dealsPerDay,
+
+    /// Whether the person may set their own: not while the manager's counts.
+    @Default(false) bool personalEditable,
+  }) = _GoalProgress;
+
+  bool get hasTarget => commissionTarget != null || dealsTarget != null;
+  bool get setByManager => source == 'MANAGER';
+
+  factory GoalProgress.fromJson(Map<String, dynamic> json) =>
+      _$GoalProgressFromJson(json);
+}
+
+/// The manager's month: the agency's line and one per member, by name.
+@freezed
+class TeamGoals with _$TeamGoals {
+  const factory TeamGoals({
+    @Default('') String month,
+    String? currency,
+    @Default(0) int daysLeft,
+    required GoalProgress agency,
+    @Default(<GoalProgress>[]) List<GoalProgress> agents,
+
+    /// How many targets a copy from last month brought; null otherwise.
+    int? copied,
+  }) = _TeamGoals;
+
+  factory TeamGoals.fromJson(Map<String, dynamic> json) =>
+      _$TeamGoalsFromJson(json);
+}
+
 /// Why a client going cold is still worth the call. Unknown values read as
 /// [unknown] and are not shown.
 enum ColdReasonCode {
