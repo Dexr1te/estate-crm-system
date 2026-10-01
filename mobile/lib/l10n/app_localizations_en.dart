@@ -1570,43 +1570,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get dashboardGoalClear => 'Remove target';
-
-  @override
-  String dashboardGoalCommission(Object amount) {
-    return 'Commission this month: $amount';
-  }
-
-  @override
-  String get dashboardGoalEyebrow => 'TARGET';
-
-  @override
-  String get dashboardGoalReached =>
-      'Target reached. Everything from here is ahead of plan.';
-
-  @override
-  String dashboardGoalRemaining(Object amount) {
-    return '$amount left to hit the target';
-  }
-
-  @override
-  String get dashboardGoalSheetField => 'Amount';
-
-  @override
-  String get dashboardGoalSheetHint =>
-      'Closed-won deals count towards it. Stored on this device only.';
-
-  @override
-  String get dashboardGoalSheetTitle => 'Monthly target';
-
-  @override
-  String get dashboardGoalTitle => 'Closed this month';
-
-  @override
-  String get dashboardGoalUnset =>
-      'Tap to set a monthly target and track it here';
-
-  @override
   String dashboardGreeting(Object greeting, Object name) {
     return '$greeting, $name';
   }
@@ -2271,6 +2234,186 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get exportTooMany =>
       'Too many rows for one file. Narrow the filters and export in parts.';
+
+  @override
+  String get goalsAgency => 'Whole agency';
+
+  @override
+  String get goalsAgentOwn => 'Agent\'s own target';
+
+  @override
+  String get goalsCardTitle => 'This month\'s target';
+
+  @override
+  String get goalsCommissionLabel => 'Commission';
+
+  @override
+  String goalsCommissionOf(String achieved, String target) {
+    return '$achieved of $target';
+  }
+
+  @override
+  String goalsCopied(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count targets copied',
+      one: '1 target copied',
+      zero: 'Nothing to copy from last month',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get goalsCopyPrevious => 'Copy last month\'s targets';
+
+  @override
+  String goalsDaysLeft(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days left',
+      one: '1 day left',
+      zero: 'The month is over',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String goalsDealEvery(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'a deal every $count days',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get goalsDealsLabel => 'Deals won';
+
+  @override
+  String goalsDealsOf(int won, int target) {
+    return '$won of $target deals won';
+  }
+
+  @override
+  String goalsDealsPerDay(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count deals a day',
+      one: '1 deal a day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String goalsDealsWon(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count deals won',
+      one: '1 deal won',
+      zero: 'No deals won yet',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get goalsEyebrow => 'TARGET';
+
+  @override
+  String get goalsFieldHint => 'Leave empty for none';
+
+  @override
+  String get goalsInvalidCommission => 'Enter an amount above zero';
+
+  @override
+  String get goalsInvalidDeals => 'Enter a whole number from 1 to 1000';
+
+  @override
+  String get goalsLoadFailed => 'Could not load the targets';
+
+  @override
+  String get goalsManagerSet => 'Set by your manager';
+
+  @override
+  String get goalsMonthOver =>
+      'This month is over. Its targets stay as they were.';
+
+  @override
+  String get goalsNeedOne => 'Enter a commission, a number of deals, or both';
+
+  @override
+  String get goalsNextMonth => 'Next month';
+
+  @override
+  String get goalsNoTarget => 'No target';
+
+  @override
+  String get goalsNone => 'No target for this month yet';
+
+  @override
+  String get goalsNoneHint =>
+      'Tap to set your own. If your manager sets one, theirs counts.';
+
+  @override
+  String get goalsOwn => 'Your own target';
+
+  @override
+  String goalsPerDay(String amount) {
+    return '$amount a day';
+  }
+
+  @override
+  String get goalsPreviousMonth => 'Previous month';
+
+  @override
+  String get goalsReached =>
+      'Target reached. Everything from here is ahead of plan.';
+
+  @override
+  String get goalsRemove => 'Remove target';
+
+  @override
+  String get goalsRemoved => 'Target removed';
+
+  @override
+  String get goalsSaved => 'Target saved';
+
+  @override
+  String goalsSheetFor(String name) {
+    return 'Target for $name';
+  }
+
+  @override
+  String get goalsSheetHint =>
+      'Deals won this month count, with the commission on each.';
+
+  @override
+  String get goalsSheetOwnHint =>
+      'If your manager sets a target for you, theirs takes the place of yours.';
+
+  @override
+  String get goalsSheetTitle => 'Monthly target';
+
+  @override
+  String get goalsTeamEmpty => 'No one in the agency yet';
+
+  @override
+  String get goalsTeamHint => 'Targets for each agent and the agency';
+
+  @override
+  String get goalsTeamIntro =>
+      'A target for each agent and for the whole agency. Progress counts the deals won in the month and the commission on them. Your target replaces one an agent set for themselves.';
+
+  @override
+  String get goalsTeamOverrideHint =>
+      'Your target replaces one the agent set for themselves.';
+
+  @override
+  String get goalsTeamTitle => 'Monthly goals';
 
   @override
   String importAction(int count) {

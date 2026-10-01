@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/auth/role_context.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
-import 'package:real_estate_crm/core/goal/goal_bloc.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
 import 'package:real_estate_crm/core/utils/clock.dart';
@@ -23,8 +22,11 @@ import 'package:real_estate_crm/features/dashboard/presentation/widgets/going_co
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/mandates_ending_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/meeting_load_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/meeting_row.dart';
+import 'package:real_estate_crm/features/dashboard/presentation/widgets/my_goal_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/pipeline_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/top_agents_card.dart';
+import 'package:real_estate_crm/features/goals/presentation/bloc/my_goal_bloc.dart';
+import 'package:real_estate_crm/features/goals/presentation/bloc/my_goal_event.dart';
 import 'package:real_estate_crm/features/notifications/presentation/widgets/notification_bell.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/mandates_bloc.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/mandates_event.dart';
@@ -47,6 +49,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final _cold =
       ColdClientsBloc(Injector.coldClientsRepository, Injector.tasksRepository);
   final _mandates = MandatesBloc(Injector.propertiesRepository);
+  final _goal = MyGoalBloc(Injector.goalsRepository);
 
   @override
   void initState() {
@@ -55,6 +58,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     _tasks.add(TasksLoadEvent());
     _cold.add(ColdClientsLoadEvent());
     _mandates.add(MandatesLoadEvent());
+    _goal.add(MyGoalLoadEvent());
   }
 
   @override
@@ -62,6 +66,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     _tasks.close();
     _cold.close();
     _mandates.close();
+    _goal.close();
     super.dispose();
   }
 
@@ -111,6 +116,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         BlocProvider.value(value: _tasks),
         BlocProvider.value(value: _cold),
         BlocProvider.value(value: _mandates),
+        BlocProvider.value(value: _goal),
       ],
       child: Scaffold(
         body: SafeArea(
@@ -122,6 +128,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 _tasks.add(TasksLoadEvent());
                 _cold.add(ColdClientsLoadEvent());
                 _mandates.add(MandatesLoadEvent());
+                _goal.add(MyGoalLoadEvent());
               },
               color: t.primary,
               child: AppMetrics.constrain(
@@ -223,20 +230,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
         topGap: gap,
         onSeeAll: () => context.push('/properties/mandates'),
       ),
-      SizedBox(height: gap),
-      BlocBuilder<GoalBloc, GoalState>(
-        builder: (goalCtx, goal) => GoalRingCard(
-          achieved: state.closedValueThisMonth(now),
-          target: goal.target,
-          commission: state.summary.commissionThisMonth,
-          onEdit: () async {
-            final picked = await showGoalSheet(goalCtx, goal.target);
-            if (picked != null && goalCtx.mounted) {
-              goalCtx.read<GoalBloc>().add(GoalChangedEvent(picked));
-            }
-          },
-        ),
-      ),
+      // An admin runs no agency, so has no month of their own to show.
+      if (!context.isAdmin) ...[
+        SizedBox(height: gap),
+        const MyGoalCard(),
+      ],
       SizedBox(height: gap),
       MetricsCard(metrics: [
         Metric(

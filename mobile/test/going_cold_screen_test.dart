@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
-import 'package:real_estate_crm/core/goal/goal_bloc.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
 import 'package:real_estate_crm/core/utils/clock.dart';
@@ -95,7 +94,6 @@ void main() {
         BlocProvider(
             create: (_) =>
                 AuthBloc(FakeAuthRepository())..add(AuthCheckEvent())),
-        BlocProvider(create: (_) => GoalBloc()..add(GoalChangedEvent(null))),
         BlocProvider(
           create: (_) => DashboardBloc(
             FakeDashboardRepository(const DashboardSummary(coldCount: 9)),
