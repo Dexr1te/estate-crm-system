@@ -955,6 +955,44 @@ class FunnelMonth with _$FunnelMonth {
       _$FunnelMonthFromJson(json);
 }
 
+/// How each person in one agency did over [from, to), for its manager.
+/// [agents] are ranked by commission; [inactive] are members deactivated but
+/// still in the agency, ranked apart.
+@freezed
+class AgentLeaderboard with _$AgentLeaderboard {
+  const factory AgentLeaderboard({
+    DateTime? from,
+    DateTime? to,
+    String? currency,
+    @Default(<LeaderboardRow>[]) List<LeaderboardRow> agents,
+    @Default(<LeaderboardRow>[]) List<LeaderboardRow> inactive,
+    LeaderboardRow? totals,
+  }) = _AgentLeaderboard;
+
+  factory AgentLeaderboard.fromJson(Map<String, dynamic> json) =>
+      _$AgentLeaderboardFromJson(json);
+}
+
+@freezed
+class LeaderboardRow with _$LeaderboardRow {
+  const factory LeaderboardRow({
+    int? rank,
+    int? agentId,
+    @Default('') String fullName,
+    String? role,
+    @Default(0) int dealsWon,
+    @Default(0) int dealsLost,
+    @Default(0) double wonValue,
+    @Default(0) double commission,
+    @Default(0) int viewingsHeld,
+    @Default(0) int newClients,
+    double? winRate,
+  }) = _LeaderboardRow;
+
+  factory LeaderboardRow.fromJson(Map<String, dynamic> json) =>
+      _$LeaderboardRowFromJson(json);
+}
+
 enum NotificationType {
   @JsonValue('TASK_ASSIGNED')
   taskAssigned,

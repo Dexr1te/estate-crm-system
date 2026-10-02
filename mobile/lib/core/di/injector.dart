@@ -54,6 +54,9 @@ import 'package:real_estate_crm/features/goals/domain/repositories/goals_reposit
 import 'package:real_estate_crm/features/imports/data/datasources/imports_remote_datasource.dart';
 import 'package:real_estate_crm/features/imports/data/repositories/imports_repository_impl.dart';
 import 'package:real_estate_crm/features/imports/domain/repositories/imports_repository.dart';
+import 'package:real_estate_crm/features/leaderboard/data/datasources/leaderboard_remote_datasource.dart';
+import 'package:real_estate_crm/features/leaderboard/data/repositories/leaderboard_repository_impl.dart';
+import 'package:real_estate_crm/features/leaderboard/domain/repositories/leaderboard_repository.dart';
 import 'package:real_estate_crm/features/meetings/data/datasources/meetings_remote_datasource.dart';
 import 'package:real_estate_crm/features/meetings/data/repositories/meetings_repository_impl.dart';
 import 'package:real_estate_crm/features/meetings/domain/repositories/meetings_repository.dart';
@@ -149,6 +152,9 @@ class Injector {
 
   static AnalyticsRepository analyticsRepository =
       AnalyticsRepositoryImpl(AnalyticsRemoteDataSource(_apiClient));
+
+  static LeaderboardRepository leaderboardRepository =
+      LeaderboardRepositoryImpl(LeaderboardRemoteDataSource(_apiClient));
 
   static AgentsRepository agentsRepository =
       AgentsRepositoryImpl(AgentsRemoteDataSource(_apiClient));

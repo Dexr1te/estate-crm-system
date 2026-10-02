@@ -1177,6 +1177,52 @@
   "importTemplateFailed": "Could not prepare the template",
   "importTitle": "Import from a spreadsheet",
   "importTooManyRows": "The file has more than 5000 rows. Split it into parts.",
+  "leaderboardDealsLost": "Deals lost",
+  "leaderboardEmptyBody": "Agents who join the agency will be ranked here.",
+  "leaderboardEmptyTitle": "No agents yet",
+  "leaderboardHint": "Deals, commission and viewings, agent by agent",
+  "leaderboardInactive": "Deactivated",
+  "leaderboardInactiveNote": "Deactivated members are not ranked with the team. Anyone removed from the agency is not listed: their records moved to a colleague.",
+  "leaderboardLoadFailed": "Could not load the leaderboard",
+  "leaderboardNoValue": "—",
+  "leaderboardPeriodCustom": "Dates",
+  "leaderboardPeriodLastMonth": "Last month",
+  "leaderboardPeriodQuarter": "Quarter",
+  "leaderboardPeriodThisMonth": "This month",
+  "leaderboardPickRange": "Choose dates",
+  "leaderboardRange": "{from} – {to}",
+  "@leaderboardRange": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "leaderboardSortCommission": "Commission",
+  "leaderboardSortDealsWon": "Deals won",
+  "leaderboardSortNewClients": "New clients",
+  "leaderboardSortViewings": "Viewings",
+  "leaderboardSortWinRate": "Win rate",
+  "leaderboardSummary": "Won {won} · Viewings {viewings} · Clients {clients}",
+  "@leaderboardSummary": {
+    "placeholders": {
+      "won": {
+        "type": "int"
+      },
+      "viewings": {
+        "type": "int"
+      },
+      "clients": {
+        "type": "int"
+      }
+    }
+  },
+  "leaderboardTeamCommission": "Agency commission",
+  "leaderboardTitle": "Leaderboard",
+  "leaderboardWonValue": "Won value",
   "lockAppLock": "App lock",
   "lockAppLockHint": "Ask for a PIN to open the app",
   "lockAutoLock": "Lock after",

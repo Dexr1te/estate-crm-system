@@ -2860,6 +2860,82 @@ class AppLocalizationsKk extends AppLocalizations {
       'Файлда 5000-нан көп жол бар. Оны бөліктерге бөліңіз.';
 
   @override
+  String get leaderboardDealsLost => 'Жоғалған мәмілелер';
+
+  @override
+  String get leaderboardEmptyBody =>
+      'Агенттікке қосылған агенттер осында көрсетіледі.';
+
+  @override
+  String get leaderboardEmptyTitle => 'Әзірге агенттер жоқ';
+
+  @override
+  String get leaderboardHint =>
+      'Әр агенттің мәмілелері, комиссиясы мен көрсетілімдері';
+
+  @override
+  String get leaderboardInactive => 'Өшірілгендер';
+
+  @override
+  String get leaderboardInactiveNote =>
+      'Өшірілген қызметкерлер жалпы рейтингке қосылмайды. Агенттіктен шығарылғандар мұнда жоқ: олардың жазбалары әріптесіне өтті.';
+
+  @override
+  String get leaderboardLoadFailed => 'Рейтингті жүктеу мүмкін болмады';
+
+  @override
+  String get leaderboardNoValue => '—';
+
+  @override
+  String get leaderboardPeriodCustom => 'Күндер';
+
+  @override
+  String get leaderboardPeriodLastMonth => 'Өткен ай';
+
+  @override
+  String get leaderboardPeriodQuarter => 'Тоқсан';
+
+  @override
+  String get leaderboardPeriodThisMonth => 'Осы ай';
+
+  @override
+  String get leaderboardPickRange => 'Күндерді таңдаңыз';
+
+  @override
+  String leaderboardRange(String from, String to) {
+    return '$from – $to';
+  }
+
+  @override
+  String get leaderboardSortCommission => 'Комиссия';
+
+  @override
+  String get leaderboardSortDealsWon => 'Жабылған мәмілелер';
+
+  @override
+  String get leaderboardSortNewClients => 'Жаңа клиенттер';
+
+  @override
+  String get leaderboardSortViewings => 'Көрсетілімдер';
+
+  @override
+  String get leaderboardSortWinRate => 'Сәттілік үлесі';
+
+  @override
+  String leaderboardSummary(int won, int viewings, int clients) {
+    return 'Мәмілелер $won · Көрсетілімдер $viewings · Клиенттер $clients';
+  }
+
+  @override
+  String get leaderboardTeamCommission => 'Агенттік комиссиясы';
+
+  @override
+  String get leaderboardTitle => 'Агенттер рейтингі';
+
+  @override
+  String get leaderboardWonValue => 'Жабылған сомасы';
+
+  @override
   String get lockAppLock => 'Қолданбаны құлыптау';
 
   @override

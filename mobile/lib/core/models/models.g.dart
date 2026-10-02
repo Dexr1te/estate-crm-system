@@ -1359,6 +1359,68 @@ Map<String, dynamic> _$$FunnelMonthImplToJson(_$FunnelMonthImpl instance) =>
       'lost': instance.lost,
     };
 
+_$AgentLeaderboardImpl _$$AgentLeaderboardImplFromJson(
+        Map<String, dynamic> json) =>
+    _$AgentLeaderboardImpl(
+      from:
+          json['from'] == null ? null : DateTime.parse(json['from'] as String),
+      to: json['to'] == null ? null : DateTime.parse(json['to'] as String),
+      currency: json['currency'] as String?,
+      agents: (json['agents'] as List<dynamic>?)
+              ?.map((e) => LeaderboardRow.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const <LeaderboardRow>[],
+      inactive: (json['inactive'] as List<dynamic>?)
+              ?.map((e) => LeaderboardRow.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const <LeaderboardRow>[],
+      totals: json['totals'] == null
+          ? null
+          : LeaderboardRow.fromJson(json['totals'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$AgentLeaderboardImplToJson(
+        _$AgentLeaderboardImpl instance) =>
+    <String, dynamic>{
+      'from': instance.from?.toIso8601String(),
+      'to': instance.to?.toIso8601String(),
+      'currency': instance.currency,
+      'agents': instance.agents,
+      'inactive': instance.inactive,
+      'totals': instance.totals,
+    };
+
+_$LeaderboardRowImpl _$$LeaderboardRowImplFromJson(Map<String, dynamic> json) =>
+    _$LeaderboardRowImpl(
+      rank: (json['rank'] as num?)?.toInt(),
+      agentId: (json['agentId'] as num?)?.toInt(),
+      fullName: json['fullName'] as String? ?? '',
+      role: json['role'] as String?,
+      dealsWon: (json['dealsWon'] as num?)?.toInt() ?? 0,
+      dealsLost: (json['dealsLost'] as num?)?.toInt() ?? 0,
+      wonValue: (json['wonValue'] as num?)?.toDouble() ?? 0,
+      commission: (json['commission'] as num?)?.toDouble() ?? 0,
+      viewingsHeld: (json['viewingsHeld'] as num?)?.toInt() ?? 0,
+      newClients: (json['newClients'] as num?)?.toInt() ?? 0,
+      winRate: (json['winRate'] as num?)?.toDouble(),
+    );
+
+Map<String, dynamic> _$$LeaderboardRowImplToJson(
+        _$LeaderboardRowImpl instance) =>
+    <String, dynamic>{
+      'rank': instance.rank,
+      'agentId': instance.agentId,
+      'fullName': instance.fullName,
+      'role': instance.role,
+      'dealsWon': instance.dealsWon,
+      'dealsLost': instance.dealsLost,
+      'wonValue': instance.wonValue,
+      'commission': instance.commission,
+      'viewingsHeld': instance.viewingsHeld,
+      'newClients': instance.newClients,
+      'winRate': instance.winRate,
+    };
+
 _$AppNotificationImpl _$$AppNotificationImplFromJson(
         Map<String, dynamic> json) =>
     _$AppNotificationImpl(

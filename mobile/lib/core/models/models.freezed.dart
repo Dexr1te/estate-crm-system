@@ -13615,6 +13615,683 @@ abstract class _FunnelMonth implements FunnelMonth {
       throw _privateConstructorUsedError;
 }
 
+AgentLeaderboard _$AgentLeaderboardFromJson(Map<String, dynamic> json) {
+  return _AgentLeaderboard.fromJson(json);
+}
+
+/// @nodoc
+mixin _$AgentLeaderboard {
+  DateTime? get from => throw _privateConstructorUsedError;
+  DateTime? get to => throw _privateConstructorUsedError;
+  String? get currency => throw _privateConstructorUsedError;
+  List<LeaderboardRow> get agents => throw _privateConstructorUsedError;
+  List<LeaderboardRow> get inactive => throw _privateConstructorUsedError;
+  LeaderboardRow? get totals => throw _privateConstructorUsedError;
+
+  /// Serializes this AgentLeaderboard to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of AgentLeaderboard
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $AgentLeaderboardCopyWith<AgentLeaderboard> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $AgentLeaderboardCopyWith<$Res> {
+  factory $AgentLeaderboardCopyWith(
+          AgentLeaderboard value, $Res Function(AgentLeaderboard) then) =
+      _$AgentLeaderboardCopyWithImpl<$Res, AgentLeaderboard>;
+  @useResult
+  $Res call(
+      {DateTime? from,
+      DateTime? to,
+      String? currency,
+      List<LeaderboardRow> agents,
+      List<LeaderboardRow> inactive,
+      LeaderboardRow? totals});
+
+  $LeaderboardRowCopyWith<$Res>? get totals;
+}
+
+/// @nodoc
+class _$AgentLeaderboardCopyWithImpl<$Res, $Val extends AgentLeaderboard>
+    implements $AgentLeaderboardCopyWith<$Res> {
+  _$AgentLeaderboardCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of AgentLeaderboard
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? from = freezed,
+    Object? to = freezed,
+    Object? currency = freezed,
+    Object? agents = null,
+    Object? inactive = null,
+    Object? totals = freezed,
+  }) {
+    return _then(_value.copyWith(
+      from: freezed == from
+          ? _value.from
+          : from // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      to: freezed == to
+          ? _value.to
+          : to // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      currency: freezed == currency
+          ? _value.currency
+          : currency // ignore: cast_nullable_to_non_nullable
+              as String?,
+      agents: null == agents
+          ? _value.agents
+          : agents // ignore: cast_nullable_to_non_nullable
+              as List<LeaderboardRow>,
+      inactive: null == inactive
+          ? _value.inactive
+          : inactive // ignore: cast_nullable_to_non_nullable
+              as List<LeaderboardRow>,
+      totals: freezed == totals
+          ? _value.totals
+          : totals // ignore: cast_nullable_to_non_nullable
+              as LeaderboardRow?,
+    ) as $Val);
+  }
+
+  /// Create a copy of AgentLeaderboard
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $LeaderboardRowCopyWith<$Res>? get totals {
+    if (_value.totals == null) {
+      return null;
+    }
+
+    return $LeaderboardRowCopyWith<$Res>(_value.totals!, (value) {
+      return _then(_value.copyWith(totals: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$AgentLeaderboardImplCopyWith<$Res>
+    implements $AgentLeaderboardCopyWith<$Res> {
+  factory _$$AgentLeaderboardImplCopyWith(_$AgentLeaderboardImpl value,
+          $Res Function(_$AgentLeaderboardImpl) then) =
+      __$$AgentLeaderboardImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {DateTime? from,
+      DateTime? to,
+      String? currency,
+      List<LeaderboardRow> agents,
+      List<LeaderboardRow> inactive,
+      LeaderboardRow? totals});
+
+  @override
+  $LeaderboardRowCopyWith<$Res>? get totals;
+}
+
+/// @nodoc
+class __$$AgentLeaderboardImplCopyWithImpl<$Res>
+    extends _$AgentLeaderboardCopyWithImpl<$Res, _$AgentLeaderboardImpl>
+    implements _$$AgentLeaderboardImplCopyWith<$Res> {
+  __$$AgentLeaderboardImplCopyWithImpl(_$AgentLeaderboardImpl _value,
+      $Res Function(_$AgentLeaderboardImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of AgentLeaderboard
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? from = freezed,
+    Object? to = freezed,
+    Object? currency = freezed,
+    Object? agents = null,
+    Object? inactive = null,
+    Object? totals = freezed,
+  }) {
+    return _then(_$AgentLeaderboardImpl(
+      from: freezed == from
+          ? _value.from
+          : from // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      to: freezed == to
+          ? _value.to
+          : to // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      currency: freezed == currency
+          ? _value.currency
+          : currency // ignore: cast_nullable_to_non_nullable
+              as String?,
+      agents: null == agents
+          ? _value._agents
+          : agents // ignore: cast_nullable_to_non_nullable
+              as List<LeaderboardRow>,
+      inactive: null == inactive
+          ? _value._inactive
+          : inactive // ignore: cast_nullable_to_non_nullable
+              as List<LeaderboardRow>,
+      totals: freezed == totals
+          ? _value.totals
+          : totals // ignore: cast_nullable_to_non_nullable
+              as LeaderboardRow?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$AgentLeaderboardImpl implements _AgentLeaderboard {
+  const _$AgentLeaderboardImpl(
+      {this.from,
+      this.to,
+      this.currency,
+      final List<LeaderboardRow> agents = const <LeaderboardRow>[],
+      final List<LeaderboardRow> inactive = const <LeaderboardRow>[],
+      this.totals})
+      : _agents = agents,
+        _inactive = inactive;
+
+  factory _$AgentLeaderboardImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AgentLeaderboardImplFromJson(json);
+
+  @override
+  final DateTime? from;
+  @override
+  final DateTime? to;
+  @override
+  final String? currency;
+  final List<LeaderboardRow> _agents;
+  @override
+  @JsonKey()
+  List<LeaderboardRow> get agents {
+    if (_agents is EqualUnmodifiableListView) return _agents;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_agents);
+  }
+
+  final List<LeaderboardRow> _inactive;
+  @override
+  @JsonKey()
+  List<LeaderboardRow> get inactive {
+    if (_inactive is EqualUnmodifiableListView) return _inactive;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_inactive);
+  }
+
+  @override
+  final LeaderboardRow? totals;
+
+  @override
+  String toString() {
+    return 'AgentLeaderboard(from: $from, to: $to, currency: $currency, agents: $agents, inactive: $inactive, totals: $totals)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$AgentLeaderboardImpl &&
+            (identical(other.from, from) || other.from == from) &&
+            (identical(other.to, to) || other.to == to) &&
+            (identical(other.currency, currency) ||
+                other.currency == currency) &&
+            const DeepCollectionEquality().equals(other._agents, _agents) &&
+            const DeepCollectionEquality().equals(other._inactive, _inactive) &&
+            (identical(other.totals, totals) || other.totals == totals));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      from,
+      to,
+      currency,
+      const DeepCollectionEquality().hash(_agents),
+      const DeepCollectionEquality().hash(_inactive),
+      totals);
+
+  /// Create a copy of AgentLeaderboard
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$AgentLeaderboardImplCopyWith<_$AgentLeaderboardImpl> get copyWith =>
+      __$$AgentLeaderboardImplCopyWithImpl<_$AgentLeaderboardImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$AgentLeaderboardImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _AgentLeaderboard implements AgentLeaderboard {
+  const factory _AgentLeaderboard(
+      {final DateTime? from,
+      final DateTime? to,
+      final String? currency,
+      final List<LeaderboardRow> agents,
+      final List<LeaderboardRow> inactive,
+      final LeaderboardRow? totals}) = _$AgentLeaderboardImpl;
+
+  factory _AgentLeaderboard.fromJson(Map<String, dynamic> json) =
+      _$AgentLeaderboardImpl.fromJson;
+
+  @override
+  DateTime? get from;
+  @override
+  DateTime? get to;
+  @override
+  String? get currency;
+  @override
+  List<LeaderboardRow> get agents;
+  @override
+  List<LeaderboardRow> get inactive;
+  @override
+  LeaderboardRow? get totals;
+
+  /// Create a copy of AgentLeaderboard
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$AgentLeaderboardImplCopyWith<_$AgentLeaderboardImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+LeaderboardRow _$LeaderboardRowFromJson(Map<String, dynamic> json) {
+  return _LeaderboardRow.fromJson(json);
+}
+
+/// @nodoc
+mixin _$LeaderboardRow {
+  int? get rank => throw _privateConstructorUsedError;
+  int? get agentId => throw _privateConstructorUsedError;
+  String get fullName => throw _privateConstructorUsedError;
+  String? get role => throw _privateConstructorUsedError;
+  int get dealsWon => throw _privateConstructorUsedError;
+  int get dealsLost => throw _privateConstructorUsedError;
+  double get wonValue => throw _privateConstructorUsedError;
+  double get commission => throw _privateConstructorUsedError;
+  int get viewingsHeld => throw _privateConstructorUsedError;
+  int get newClients => throw _privateConstructorUsedError;
+  double? get winRate => throw _privateConstructorUsedError;
+
+  /// Serializes this LeaderboardRow to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of LeaderboardRow
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $LeaderboardRowCopyWith<LeaderboardRow> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $LeaderboardRowCopyWith<$Res> {
+  factory $LeaderboardRowCopyWith(
+          LeaderboardRow value, $Res Function(LeaderboardRow) then) =
+      _$LeaderboardRowCopyWithImpl<$Res, LeaderboardRow>;
+  @useResult
+  $Res call(
+      {int? rank,
+      int? agentId,
+      String fullName,
+      String? role,
+      int dealsWon,
+      int dealsLost,
+      double wonValue,
+      double commission,
+      int viewingsHeld,
+      int newClients,
+      double? winRate});
+}
+
+/// @nodoc
+class _$LeaderboardRowCopyWithImpl<$Res, $Val extends LeaderboardRow>
+    implements $LeaderboardRowCopyWith<$Res> {
+  _$LeaderboardRowCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of LeaderboardRow
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? rank = freezed,
+    Object? agentId = freezed,
+    Object? fullName = null,
+    Object? role = freezed,
+    Object? dealsWon = null,
+    Object? dealsLost = null,
+    Object? wonValue = null,
+    Object? commission = null,
+    Object? viewingsHeld = null,
+    Object? newClients = null,
+    Object? winRate = freezed,
+  }) {
+    return _then(_value.copyWith(
+      rank: freezed == rank
+          ? _value.rank
+          : rank // ignore: cast_nullable_to_non_nullable
+              as int?,
+      agentId: freezed == agentId
+          ? _value.agentId
+          : agentId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      fullName: null == fullName
+          ? _value.fullName
+          : fullName // ignore: cast_nullable_to_non_nullable
+              as String,
+      role: freezed == role
+          ? _value.role
+          : role // ignore: cast_nullable_to_non_nullable
+              as String?,
+      dealsWon: null == dealsWon
+          ? _value.dealsWon
+          : dealsWon // ignore: cast_nullable_to_non_nullable
+              as int,
+      dealsLost: null == dealsLost
+          ? _value.dealsLost
+          : dealsLost // ignore: cast_nullable_to_non_nullable
+              as int,
+      wonValue: null == wonValue
+          ? _value.wonValue
+          : wonValue // ignore: cast_nullable_to_non_nullable
+              as double,
+      commission: null == commission
+          ? _value.commission
+          : commission // ignore: cast_nullable_to_non_nullable
+              as double,
+      viewingsHeld: null == viewingsHeld
+          ? _value.viewingsHeld
+          : viewingsHeld // ignore: cast_nullable_to_non_nullable
+              as int,
+      newClients: null == newClients
+          ? _value.newClients
+          : newClients // ignore: cast_nullable_to_non_nullable
+              as int,
+      winRate: freezed == winRate
+          ? _value.winRate
+          : winRate // ignore: cast_nullable_to_non_nullable
+              as double?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$LeaderboardRowImplCopyWith<$Res>
+    implements $LeaderboardRowCopyWith<$Res> {
+  factory _$$LeaderboardRowImplCopyWith(_$LeaderboardRowImpl value,
+          $Res Function(_$LeaderboardRowImpl) then) =
+      __$$LeaderboardRowImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int? rank,
+      int? agentId,
+      String fullName,
+      String? role,
+      int dealsWon,
+      int dealsLost,
+      double wonValue,
+      double commission,
+      int viewingsHeld,
+      int newClients,
+      double? winRate});
+}
+
+/// @nodoc
+class __$$LeaderboardRowImplCopyWithImpl<$Res>
+    extends _$LeaderboardRowCopyWithImpl<$Res, _$LeaderboardRowImpl>
+    implements _$$LeaderboardRowImplCopyWith<$Res> {
+  __$$LeaderboardRowImplCopyWithImpl(
+      _$LeaderboardRowImpl _value, $Res Function(_$LeaderboardRowImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of LeaderboardRow
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? rank = freezed,
+    Object? agentId = freezed,
+    Object? fullName = null,
+    Object? role = freezed,
+    Object? dealsWon = null,
+    Object? dealsLost = null,
+    Object? wonValue = null,
+    Object? commission = null,
+    Object? viewingsHeld = null,
+    Object? newClients = null,
+    Object? winRate = freezed,
+  }) {
+    return _then(_$LeaderboardRowImpl(
+      rank: freezed == rank
+          ? _value.rank
+          : rank // ignore: cast_nullable_to_non_nullable
+              as int?,
+      agentId: freezed == agentId
+          ? _value.agentId
+          : agentId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      fullName: null == fullName
+          ? _value.fullName
+          : fullName // ignore: cast_nullable_to_non_nullable
+              as String,
+      role: freezed == role
+          ? _value.role
+          : role // ignore: cast_nullable_to_non_nullable
+              as String?,
+      dealsWon: null == dealsWon
+          ? _value.dealsWon
+          : dealsWon // ignore: cast_nullable_to_non_nullable
+              as int,
+      dealsLost: null == dealsLost
+          ? _value.dealsLost
+          : dealsLost // ignore: cast_nullable_to_non_nullable
+              as int,
+      wonValue: null == wonValue
+          ? _value.wonValue
+          : wonValue // ignore: cast_nullable_to_non_nullable
+              as double,
+      commission: null == commission
+          ? _value.commission
+          : commission // ignore: cast_nullable_to_non_nullable
+              as double,
+      viewingsHeld: null == viewingsHeld
+          ? _value.viewingsHeld
+          : viewingsHeld // ignore: cast_nullable_to_non_nullable
+              as int,
+      newClients: null == newClients
+          ? _value.newClients
+          : newClients // ignore: cast_nullable_to_non_nullable
+              as int,
+      winRate: freezed == winRate
+          ? _value.winRate
+          : winRate // ignore: cast_nullable_to_non_nullable
+              as double?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$LeaderboardRowImpl implements _LeaderboardRow {
+  const _$LeaderboardRowImpl(
+      {this.rank,
+      this.agentId,
+      this.fullName = '',
+      this.role,
+      this.dealsWon = 0,
+      this.dealsLost = 0,
+      this.wonValue = 0,
+      this.commission = 0,
+      this.viewingsHeld = 0,
+      this.newClients = 0,
+      this.winRate});
+
+  factory _$LeaderboardRowImpl.fromJson(Map<String, dynamic> json) =>
+      _$$LeaderboardRowImplFromJson(json);
+
+  @override
+  final int? rank;
+  @override
+  final int? agentId;
+  @override
+  @JsonKey()
+  final String fullName;
+  @override
+  final String? role;
+  @override
+  @JsonKey()
+  final int dealsWon;
+  @override
+  @JsonKey()
+  final int dealsLost;
+  @override
+  @JsonKey()
+  final double wonValue;
+  @override
+  @JsonKey()
+  final double commission;
+  @override
+  @JsonKey()
+  final int viewingsHeld;
+  @override
+  @JsonKey()
+  final int newClients;
+  @override
+  final double? winRate;
+
+  @override
+  String toString() {
+    return 'LeaderboardRow(rank: $rank, agentId: $agentId, fullName: $fullName, role: $role, dealsWon: $dealsWon, dealsLost: $dealsLost, wonValue: $wonValue, commission: $commission, viewingsHeld: $viewingsHeld, newClients: $newClients, winRate: $winRate)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$LeaderboardRowImpl &&
+            (identical(other.rank, rank) || other.rank == rank) &&
+            (identical(other.agentId, agentId) || other.agentId == agentId) &&
+            (identical(other.fullName, fullName) ||
+                other.fullName == fullName) &&
+            (identical(other.role, role) || other.role == role) &&
+            (identical(other.dealsWon, dealsWon) ||
+                other.dealsWon == dealsWon) &&
+            (identical(other.dealsLost, dealsLost) ||
+                other.dealsLost == dealsLost) &&
+            (identical(other.wonValue, wonValue) ||
+                other.wonValue == wonValue) &&
+            (identical(other.commission, commission) ||
+                other.commission == commission) &&
+            (identical(other.viewingsHeld, viewingsHeld) ||
+                other.viewingsHeld == viewingsHeld) &&
+            (identical(other.newClients, newClients) ||
+                other.newClients == newClients) &&
+            (identical(other.winRate, winRate) || other.winRate == winRate));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      rank,
+      agentId,
+      fullName,
+      role,
+      dealsWon,
+      dealsLost,
+      wonValue,
+      commission,
+      viewingsHeld,
+      newClients,
+      winRate);
+
+  /// Create a copy of LeaderboardRow
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$LeaderboardRowImplCopyWith<_$LeaderboardRowImpl> get copyWith =>
+      __$$LeaderboardRowImplCopyWithImpl<_$LeaderboardRowImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$LeaderboardRowImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _LeaderboardRow implements LeaderboardRow {
+  const factory _LeaderboardRow(
+      {final int? rank,
+      final int? agentId,
+      final String fullName,
+      final String? role,
+      final int dealsWon,
+      final int dealsLost,
+      final double wonValue,
+      final double commission,
+      final int viewingsHeld,
+      final int newClients,
+      final double? winRate}) = _$LeaderboardRowImpl;
+
+  factory _LeaderboardRow.fromJson(Map<String, dynamic> json) =
+      _$LeaderboardRowImpl.fromJson;
+
+  @override
+  int? get rank;
+  @override
+  int? get agentId;
+  @override
+  String get fullName;
+  @override
+  String? get role;
+  @override
+  int get dealsWon;
+  @override
+  int get dealsLost;
+  @override
+  double get wonValue;
+  @override
+  double get commission;
+  @override
+  int get viewingsHeld;
+  @override
+  int get newClients;
+  @override
+  double? get winRate;
+
+  /// Create a copy of LeaderboardRow
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$LeaderboardRowImplCopyWith<_$LeaderboardRowImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 AppNotification _$AppNotificationFromJson(Map<String, dynamic> json) {
   return _AppNotification.fromJson(json);
 }

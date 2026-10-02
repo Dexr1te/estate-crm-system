@@ -2876,6 +2876,82 @@ class AppLocalizationsEn extends AppLocalizations {
       'The file has more than 5000 rows. Split it into parts.';
 
   @override
+  String get leaderboardDealsLost => 'Deals lost';
+
+  @override
+  String get leaderboardEmptyBody =>
+      'Agents who join the agency will be ranked here.';
+
+  @override
+  String get leaderboardEmptyTitle => 'No agents yet';
+
+  @override
+  String get leaderboardHint =>
+      'Deals, commission and viewings, agent by agent';
+
+  @override
+  String get leaderboardInactive => 'Deactivated';
+
+  @override
+  String get leaderboardInactiveNote =>
+      'Deactivated members are not ranked with the team. Anyone removed from the agency is not listed: their records moved to a colleague.';
+
+  @override
+  String get leaderboardLoadFailed => 'Could not load the leaderboard';
+
+  @override
+  String get leaderboardNoValue => '—';
+
+  @override
+  String get leaderboardPeriodCustom => 'Dates';
+
+  @override
+  String get leaderboardPeriodLastMonth => 'Last month';
+
+  @override
+  String get leaderboardPeriodQuarter => 'Quarter';
+
+  @override
+  String get leaderboardPeriodThisMonth => 'This month';
+
+  @override
+  String get leaderboardPickRange => 'Choose dates';
+
+  @override
+  String leaderboardRange(String from, String to) {
+    return '$from – $to';
+  }
+
+  @override
+  String get leaderboardSortCommission => 'Commission';
+
+  @override
+  String get leaderboardSortDealsWon => 'Deals won';
+
+  @override
+  String get leaderboardSortNewClients => 'New clients';
+
+  @override
+  String get leaderboardSortViewings => 'Viewings';
+
+  @override
+  String get leaderboardSortWinRate => 'Win rate';
+
+  @override
+  String leaderboardSummary(int won, int viewings, int clients) {
+    return 'Won $won · Viewings $viewings · Clients $clients';
+  }
+
+  @override
+  String get leaderboardTeamCommission => 'Agency commission';
+
+  @override
+  String get leaderboardTitle => 'Leaderboard';
+
+  @override
+  String get leaderboardWonValue => 'Won value';
+
+  @override
   String get lockAppLock => 'App lock';
 
   @override
