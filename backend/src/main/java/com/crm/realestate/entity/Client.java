@@ -84,6 +84,19 @@ public class Client {
     @Column(name = "min_area_sqm")
     private Double minAreaSqm;
 
+    /**
+     * The client's birthday, day and month, with the year only when it is known (V45). Read and
+     * written through {@code ClientBirthday}, which keeps the three consistent.
+     */
+    @Column(name = "birth_month")
+    private Integer birthMonth;
+
+    @Column(name = "birth_day")
+    private Integer birthDay;
+
+    @Column(name = "birth_year")
+    private Integer birthYear;
+
     // Агент который ведёт клиента
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "agent_id")

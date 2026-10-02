@@ -555,6 +555,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get calendarLegendMeeting => 'Meeting';
 
   @override
+  String get calendarLegendOpenHouse => 'Open house';
+
+  @override
   String get calendarLegendOverdue => 'Overdue';
 
   @override
@@ -700,6 +703,27 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get clientsAnyType => 'Any';
+
+  @override
+  String get clientsBirthday => 'Birthday';
+
+  @override
+  String clientsBirthdayAge(int age) {
+    return '$age years old';
+  }
+
+  @override
+  String get clientsBirthdayClear => 'Remove birthday';
+
+  @override
+  String get clientsBirthdayHint =>
+      'With the year unknown, only the day and month are kept.';
+
+  @override
+  String get clientsBirthdayNoYear => 'Year unknown';
+
+  @override
+  String get clientsBirthdayPick => 'Choose a date';
 
   @override
   String get clientsBudgetFrom => 'Budget from';
@@ -917,6 +941,63 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get clientsCreateClient => 'Create Client';
+
+  @override
+  String clientsDatesAnniversary(int years) {
+    String _temp0 = intl.Intl.pluralLogic(
+      years,
+      locale: localeName,
+      other: '$years years since the purchase',
+      one: '$years year since the purchase',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clientsDatesBirthday => 'Birthday';
+
+  @override
+  String get clientsDatesEmpty => 'No dates in the next two weeks';
+
+  @override
+  String get clientsDatesEmptyHint =>
+      'Add a client\'s birthday on their card. A won deal\'s anniversary shows up here every year on its own.';
+
+  @override
+  String get clientsDatesGreet => 'Greet';
+
+  @override
+  String clientsDatesInDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'In $count days',
+      one: 'In $count day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clientsDatesLoadFailed => 'Couldn\'t load the dates coming up';
+
+  @override
+  String get clientsDatesTitle => 'Dates coming up';
+
+  @override
+  String get clientsDatesToday => 'Today';
+
+  @override
+  String get clientsDatesTomorrow => 'Tomorrow';
+
+  @override
+  String clientsDatesTurns(int years) {
+    return 'Birthday, turns $years';
+  }
+
+  @override
+  String clientsDatesWhen(String when, String date) {
+    return '$when · $date';
+  }
 
   @override
   String clientsDealCount(num count) {
@@ -1195,6 +1276,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get clientsSourceImport => 'Imported';
+
+  @override
+  String get clientsSourceOpenHouse => 'From an open house';
 
   @override
   String get clientsSourcePublicLink => 'From the public link';
@@ -1624,6 +1708,14 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String dashboardDateSummary(Object date) {
     return '$date · team overview';
+  }
+
+  @override
+  String get dashboardDatesTitle => 'Dates this week';
+
+  @override
+  String dashboardDatesTotal(int count) {
+    return '$count this week';
   }
 
   @override
@@ -2666,6 +2758,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'Clients and listings from Excel or another CRM';
 
   @override
+  String get importErrorInvalidDate => 'Not a date';
+
+  @override
   String get importErrorInvalidEmail => 'Not an email address';
 
   @override
@@ -2694,6 +2789,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get importFieldArea => 'Area';
+
+  @override
+  String get importFieldBirthday => 'Birthday';
 
   @override
   String get importFieldBudgetMax => 'Budget to';
@@ -3540,6 +3638,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get msgUserDeleted => 'User deleted';
 
   @override
+  String notificationsClientBirthday(String name) {
+    return 'It\'s $name\'s birthday today';
+  }
+
+  @override
   String notificationsCountClients(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -3675,6 +3778,17 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String notificationsPurchaseAnniversary(String name, int years) {
+    String _temp0 = intl.Intl.pluralLogic(
+      years,
+      locale: localeName,
+      other: '$years years today since $name\'s purchase',
+      one: 'A year today since $name\'s purchase',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get notificationsSomeone => 'Someone';
 
   @override
@@ -3702,6 +3816,177 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get openHouseActivity => 'Open house visit';
+
+  @override
+  String get openHouseAddVisitor => 'Add visitor';
+
+  @override
+  String get openHouseAlreadySignedIn => 'This number has already signed in';
+
+  @override
+  String openHouseColleagueClient(String agent) {
+    return 'Client of $agent';
+  }
+
+  @override
+  String get openHouseDate => 'Date';
+
+  @override
+  String get openHouseDelete => 'Cancel open house';
+
+  @override
+  String get openHouseDeleteConfirm =>
+      'It is removed from the listing and the calendar.';
+
+  @override
+  String get openHouseEdit => 'Edit open house';
+
+  @override
+  String get openHouseEnds => 'Ends';
+
+  @override
+  String get openHouseEndsBeforeStart => 'It has to end after it starts';
+
+  @override
+  String get openHouseHasVisitors =>
+      'People have signed in, so it cannot be cancelled';
+
+  @override
+  String openHouseHost(String name) {
+    return 'Held by $name';
+  }
+
+  @override
+  String get openHouseInterestLabel => 'Interest';
+
+  @override
+  String get openHouseInterested => 'Interested';
+
+  @override
+  String get openHouseJustLooking => 'Just looking';
+
+  @override
+  String get openHouseKnownClient => 'Already a client';
+
+  @override
+  String get openHouseLive => 'On now';
+
+  @override
+  String get openHouseLoadFailed => 'Could not load the open house';
+
+  @override
+  String get openHouseNewClient => 'New client';
+
+  @override
+  String get openHouseNoVisitors => 'Nobody has signed in yet';
+
+  @override
+  String get openHouseNoVisitorsHint =>
+      'Add each visitor as they arrive. A number the agency does not know becomes a new buyer.';
+
+  @override
+  String get openHouseNone =>
+      'No open houses yet. Schedule one and sign visitors in at the door.';
+
+  @override
+  String get openHouseNoteHint => 'Keys, parking, who to call at the door';
+
+  @override
+  String get openHouseNoteLabel => 'Note';
+
+  @override
+  String get openHousePast => 'Past';
+
+  @override
+  String get openHouseRemoveVisitor => 'Remove visitor';
+
+  @override
+  String openHouseRemoveVisitorConfirm(String name) {
+    return '$name comes off the sheet and the visit leaves the client\'s history. A client this sign-in created stays.';
+  }
+
+  @override
+  String get openHouseSave => 'Save';
+
+  @override
+  String get openHouseSchedule => 'Schedule an open house';
+
+  @override
+  String get openHouseSeeAll => 'Show all';
+
+  @override
+  String get openHouseSignIn => 'Save';
+
+  @override
+  String get openHouseSignInNext => 'Save and next';
+
+  @override
+  String get openHouseSignInSheet => 'Sign-in sheet';
+
+  @override
+  String openHouseSignedIn(String name) {
+    return '$name signed in';
+  }
+
+  @override
+  String get openHouseStarts => 'Starts';
+
+  @override
+  String get openHouseSummary => 'Summary';
+
+  @override
+  String get openHouseSummaryInterested => 'Interested';
+
+  @override
+  String get openHouseSummaryNewClients => 'New clients';
+
+  @override
+  String get openHouseSummaryVisitors => 'Visitors';
+
+  @override
+  String get openHouseTitle => 'Open house';
+
+  @override
+  String get openHouseTooLong => 'An open house lasts at most 12 hours';
+
+  @override
+  String get openHouseUpcoming => 'Upcoming';
+
+  @override
+  String get openHouseVisitorName => 'Name';
+
+  @override
+  String get openHouseVisitorNameHint => 'As they give it';
+
+  @override
+  String get openHouseVisitorNameRequired => 'Enter a name';
+
+  @override
+  String get openHouseVisitorNoteHint => 'What they asked about';
+
+  @override
+  String get openHouseVisitorPhone => 'Phone';
+
+  @override
+  String get openHouseVisitorPhoneInvalid => 'Enter a phone number';
+
+  @override
+  String openHouseVisitorsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count visitors',
+      one: '1 visitor',
+      zero: 'No visitors',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get openHousesCardTitle => 'Open houses';
 
   @override
   String get profileAgentId => 'Agent ID';

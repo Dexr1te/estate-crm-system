@@ -7,9 +7,11 @@ import 'package:real_estate_crm/core/map/map_tiles.dart';
 import 'package:real_estate_crm/core/utils/money.dart';
 import 'package:real_estate_crm/features/app_lock/presentation/controller/app_lock_controller.dart';
 
+import 'client_dates_fixtures.dart';
 import 'deposit_fakes.dart';
 import 'fakes.dart';
 import 'goals_fakes.dart';
+import 'open_house_fakes.dart';
 
 /// Every screen that shows a client or a deal now carries its tasks card, and
 /// that card reads through the injector on its own. A test that is not about
@@ -42,11 +44,15 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) async {
   Injector.clientsRepository = FakeClientsRepository();
   // The dashboard's going-cold card reads on its own too.
   Injector.coldClientsRepository = FakeColdClientsRepository();
+  // And the dashboard's dates-this-week card.
+  Injector.clientDatesRepository = FakeClientDatesRepository();
   Injector.propertiesRepository = FakePropertiesRepository(const []);
   Injector.dealsRepository = FakeDealsRepository(const []);
   Injector.meetingsRepository = FakeMeetingsRepository(const []);
   Injector.documentsRepository = FakeDocumentsRepository();
   Injector.exportsRepository = FakeExportsRepository();
+  // A listing's open houses card and the calendar read open houses too.
+  Injector.openHousesRepository = FakeOpenHousesRepository();
   Injector.notificationsPollInterval = null;
   // No PIN on the phone: the lock stays off, and its keychain is memory.
   Injector.appLockRepository = fakeAppLockRepository();

@@ -168,6 +168,25 @@ public class NotificationEvents {
                         deal.getId(), commentParams(deal, comment))));
     }
 
+    /**
+     * A client's birthday or purchase anniversary is today. Nobody did anything, so there is no
+     * actor; {@code years} is the age they turn or the years since the deal, null when not known.
+     */
+    public void clientDate(User recipient, Client client, NotificationType type, Integer years,
+                           String dealTitle) {
+        guard("client date", () -> {
+            Map<String, Object> params = new LinkedHashMap<>();
+            params.put("clientName", client.getFullName());
+            if (years != null) {
+                params.put("years", years);
+            }
+            if (dealTitle != null) {
+                params.put("dealTitle", dealTitle);
+            }
+            notifications.notify(recipient, null, client.getTeam(), type, client.getId(), params);
+        });
+    }
+
     private static Map<String, Object> commentParams(Deal deal, DealComment comment) {
         Map<String, Object> params = new LinkedHashMap<>();
         params.put("dealTitle", deal.getTitle());

@@ -12,6 +12,7 @@ import com.crm.realestate.repository.ClientActivityRepository;
 import com.crm.realestate.repository.ClientRepository;
 import com.crm.realestate.repository.DealRepository;
 import com.crm.realestate.repository.MeetingRepository;
+import com.crm.realestate.repository.OpenHouseVisitorRepository;
 import com.crm.realestate.repository.TaskRepository;
 import com.crm.realestate.security.SecurityUtils;
 import jakarta.persistence.EntityManager;
@@ -47,6 +48,7 @@ public class ClientDuplicateService {
     private final MeetingRepository meetingRepository;
     private final ClientActivityRepository activityRepository;
     private final TaskRepository taskRepository;
+    private final OpenHouseVisitorRepository openHouseVisitorRepository;
     private final ClientService clientService;
     private final ClientMapper clientMapper;
     private final ClientTagService tagService;
@@ -128,6 +130,7 @@ public class ClientDuplicateService {
         int meetings = meetingRepository.moveToClient(source, target);
         int activities = activityRepository.moveToClient(source, target);
         int tasks = taskRepository.moveToClient(source, target);
+        openHouseVisitorRepository.moveToClient(source, target);
 
         entityManager.flush();
         entityManager.clear();
@@ -167,6 +170,9 @@ public class ClientDuplicateService {
                 .minAreaSqm(source.getMinAreaSqm())
                 .leadSource(source.getLeadSource())
                 .leadSourceDetail(source.getLeadSourceDetail())
+                .birthMonth(source.getBirthMonth())
+                .birthDay(source.getBirthDay())
+                .birthYear(source.getBirthYear())
                 .build();
     }
 
@@ -190,6 +196,10 @@ public class ClientDuplicateService {
         if (target.getLeadSource() == null && source.getLeadSource() != null) {
             target.setLeadSource(source.getLeadSource());
             target.setLeadSourceDetail(source.getLeadSourceDetail());
+        }
+        ClientBirthday birthday = ClientBirthday.of(source);
+        if (ClientBirthday.of(target) == null && birthday != null) {
+            birthday.applyTo(target);
         }
         if (target.getType() != ClientType.BUYER) {
             return;

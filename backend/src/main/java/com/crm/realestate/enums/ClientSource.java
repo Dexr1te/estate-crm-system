@@ -7,5 +7,7 @@ public enum ClientSource {
     /** Brought in from a spreadsheet. */
     IMPORT,
     /** Left their details on a listing's public page. */
-    PUBLIC_LINK
+    PUBLIC_LINK,
+    /** Signed in at an open house with a number the agency did not know. See V44. */
+    OPEN_HOUSE
 }

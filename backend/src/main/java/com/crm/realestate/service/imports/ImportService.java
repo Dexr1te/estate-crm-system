@@ -21,6 +21,7 @@ import com.crm.realestate.repository.PropertyRepository;
 import com.crm.realestate.repository.UserRepository;
 import com.crm.realestate.security.SecurityUtils;
 import com.crm.realestate.service.AuditLogService;
+import com.crm.realestate.service.ClientBirthday;
 import com.crm.realestate.service.ClientDuplicateService;
 import com.crm.realestate.service.ClientDuplicateService.ContactIndex;
 import com.crm.realestate.service.ClientDuplicateService.KnownClient;
@@ -203,6 +204,7 @@ public class ImportService {
                     value instanceof BigDecimal d ? d.toPlainString()
                             : value instanceof List<?> list ? list.stream().map(String::valueOf)
                                     .collect(java.util.stream.Collectors.joining(", "))
+                            : value instanceof ClientBirthday birthday ? birthday.format()
                             : String.valueOf(value)));
             return ImportPreviewResponse.Row.builder()
                     .row(checked.row.number())
@@ -350,6 +352,7 @@ public class ImportService {
             Map.entry("leadSource", new String[]{"Lead source", "Источник лида", "Лид көзі"}),
             Map.entry("leadSourceDetail", new String[]{"Lead source detail", "Источник лида: подробности",
                     "Лид көзі туралы"}),
+            Map.entry("birthday", new String[]{"Birthday", "День рождения", "Туған күн"}),
             Map.entry("title", new String[]{"Title", "Название", "Атауы"}),
             Map.entry("address", new String[]{"Address", "Адрес", "Мекенжай"}),
             Map.entry("city", new String[]{"City", "Город", "Қала"}),
@@ -427,6 +430,10 @@ public class ImportService {
                 .build();
         com.crm.realestate.service.ClientService.applyLeadSource(client,
                 row.get(ImportField.CLIENT_LEAD_SOURCE), row.get(ImportField.CLIENT_LEAD_SOURCE_DETAIL));
+        ClientBirthday birthday = row.get(ImportField.CLIENT_BIRTHDAY);
+        if (birthday != null) {
+            birthday.applyTo(client);
+        }
         return client;
     }
 

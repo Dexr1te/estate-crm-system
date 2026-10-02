@@ -62,6 +62,8 @@ enum ClientSource {
   imported,
   @JsonValue('PUBLIC_LINK')
   publicLink,
+  @JsonValue('OPEN_HOUSE')
+  openHouse,
 }
 
 /// How a client reached the agency: the channel, not how the card was
@@ -140,6 +142,9 @@ class ClientResponse with _$ClientResponse {
     @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
     LeadSource? leadSource,
     String? leadSourceDetail,
+    /// `1990-05-14`, or `--05-14` when the year is not known. Read it
+    /// through `ClientBirthday.parse`.
+    String? birthday,
   }) = _ClientResponse;
 
   factory ClientResponse.fromJson(Map<String, dynamic> json) =>
@@ -195,6 +200,9 @@ class ClientActivity with _$ClientActivity {
 
     /// The listings this entry was about — what went out in a message.
     @Default(<ActivityProperty>[]) List<ActivityProperty> properties,
+
+    /// Set when the entry is a visit signed in at an open house.
+    int? openHouseId,
   }) = _ClientActivity;
 
   factory ClientActivity.fromJson(Map<String, dynamic> json) =>
@@ -866,6 +874,51 @@ class ColdClient with _$ColdClient {
       _$ColdClientFromJson(json);
 }
 
+/// A date that comes round every year. Unknown values read as [unknown] and
+/// are not shown.
+enum ClientDateKind {
+  @JsonValue('BIRTHDAY')
+  birthday,
+  @JsonValue('PURCHASE_ANNIVERSARY')
+  purchaseAnniversary,
+  unknown,
+}
+
+/// A birthday or purchase anniversary coming up —
+/// `GET /clients/upcoming-dates`.
+@freezed
+class UpcomingClientDate with _$UpcomingClientDate {
+  const factory UpcomingClientDate({
+    @JsonKey(unknownEnumValue: ClientDateKind.unknown)
+    @Default(ClientDateKind.unknown)
+    ClientDateKind kind,
+
+    /// The day it falls on this time; 29 February is the 28th in a common
+    /// year.
+    required DateTime date,
+
+    /// 0 today, 1 tomorrow.
+    @Default(0) int daysAway,
+
+    /// The age the client turns, or the years since the deal was won. Null
+    /// for a birthday whose year is not known.
+    int? years,
+    required int clientId,
+    @Default('') String clientName,
+    String? phone,
+    @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+    ClientType? clientType,
+    int? agentId,
+    String? agentName,
+    int? dealId,
+    String? dealTitle,
+    String? propertyTitle,
+  }) = _UpcomingClientDate;
+
+  factory UpcomingClientDate.fromJson(Map<String, dynamic> json) =>
+      _$UpcomingClientDateFromJson(json);
+}
+
 @freezed
 class AgentOption with _$AgentOption {
   const factory AgentOption({
@@ -1014,6 +1067,10 @@ enum NotificationType {
   dealMention,
   @JsonValue('DEAL_COMMENT')
   dealComment,
+  @JsonValue('CLIENT_BIRTHDAY')
+  clientBirthday,
+  @JsonValue('PURCHASE_ANNIVERSARY')
+  purchaseAnniversary,
   unknown,
 }
 
@@ -1103,4 +1160,80 @@ class DealDeposit with _$DealDeposit {
 
   factory DealDeposit.fromJson(Map<String, dynamic> json) =>
       _$DealDepositFromJson(json);
+}
+
+/// What a visitor said at the door of an open house. Not asking is allowed,
+/// and reads as null; so does a value this app does not know.
+enum OpenHouseInterest {
+  @JsonValue('INTERESTED')
+  interested,
+  @JsonValue('JUST_LOOKING')
+  justLooking,
+}
+
+/// A listing held open for a few hours, with its summary. [visitors] is the
+/// sign-in sheet and comes only with a single open house.
+@freezed
+class OpenHouse with _$OpenHouse {
+  const OpenHouse._();
+
+  const factory OpenHouse({
+    required int id,
+    required int propertyId,
+    @Default('') String propertyTitle,
+    String? propertyAddress,
+    int? agentId,
+    String? agentName,
+    required DateTime startsAt,
+    required DateTime endsAt,
+    String? note,
+    @Default(0) int visitorCount,
+    @Default(0) int newClientCount,
+    @Default(0) int interestedCount,
+
+    /// Whether the signed-in user may move or cancel it.
+    @Default(false) bool canEdit,
+    DateTime? createdAt,
+    @Default(<OpenHouseVisitor>[]) List<OpenHouseVisitor> visitors,
+  }) = _OpenHouse;
+
+  /// Over by [now]: what turns the sheet into a summary.
+  bool isOver(DateTime now) => !endsAt.isAfter(now);
+
+  /// Running at [now].
+  bool isOn(DateTime now) => !startsAt.isAfter(now) && endsAt.isAfter(now);
+
+  factory OpenHouse.fromJson(Map<String, dynamic> json) =>
+      _$OpenHouseFromJson(json);
+}
+
+/// One line of an open house's sign-in sheet.
+@freezed
+class OpenHouseVisitor with _$OpenHouseVisitor {
+  const factory OpenHouseVisitor({
+    required int id,
+    required int openHouseId,
+    @Default('') String fullName,
+    @Default('') String phone,
+    @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+    OpenHouseInterest? interest,
+    String? note,
+    int? clientId,
+
+    /// Whether the signed-in user may open the client card; a colleague's
+    /// client, on an own-records scope, is named by [clientAgentName] only.
+    @Default(false) bool clientVisible,
+    String? clientName,
+    String? clientAgentName,
+
+    /// Whether this sign-in made the client rather than finding one.
+    @Default(false) bool newClient,
+    int? signedInById,
+    String? signedInByName,
+    DateTime? signedInAt,
+    @Default(false) bool canRemove,
+  }) = _OpenHouseVisitor;
+
+  factory OpenHouseVisitor.fromJson(Map<String, dynamic> json) =>
+      _$OpenHouseVisitorFromJson(json);
 }

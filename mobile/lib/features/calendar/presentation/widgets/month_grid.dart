@@ -92,6 +92,7 @@ class CalendarLegend extends StatelessWidget {
     final items = [
       (CalendarMarker.meeting, l10n.calendarLegendMeeting),
       (CalendarMarker.viewing, l10n.calendarLegendViewing),
+      (CalendarMarker.openHouse, l10n.calendarLegendOpenHouse),
       (CalendarMarker.task, l10n.calendarLegendTask),
       (CalendarMarker.overdueTask, l10n.calendarLegendOverdue),
     ];
@@ -105,14 +106,16 @@ class CalendarLegend extends StatelessWidget {
             children: [
               MarkerDot(marker: marker, size: 7),
               const SizedBox(width: 5),
-              Text(
-                label,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                    fontFamily: AppFonts.sans,
-                    fontSize: 11,
-                    color: t.textSecondary),
+              Flexible(
+                child: Text(
+                  label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      fontFamily: AppFonts.sans,
+                      fontSize: 11,
+                      color: t.textSecondary),
+                ),
               ),
             ],
           ),

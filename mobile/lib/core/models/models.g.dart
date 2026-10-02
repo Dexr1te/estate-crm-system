@@ -73,6 +73,7 @@ _$ClientResponseImpl _$$ClientResponseImplFromJson(Map<String, dynamic> json) =>
       leadSource: $enumDecodeNullable(_$LeadSourceEnumMap, json['leadSource'],
           unknownValue: JsonKey.nullForUndefinedEnumValue),
       leadSourceDetail: json['leadSourceDetail'] as String?,
+      birthday: json['birthday'] as String?,
     );
 
 Map<String, dynamic> _$$ClientResponseImplToJson(
@@ -98,6 +99,7 @@ Map<String, dynamic> _$$ClientResponseImplToJson(
       'tags': instance.tags,
       'leadSource': _$LeadSourceEnumMap[instance.leadSource],
       'leadSourceDetail': instance.leadSourceDetail,
+      'birthday': instance.birthday,
     };
 
 const _$ClientTypeEnumMap = {
@@ -109,6 +111,7 @@ const _$ClientSourceEnumMap = {
   ClientSource.manual: 'MANUAL',
   ClientSource.imported: 'IMPORT',
   ClientSource.publicLink: 'PUBLIC_LINK',
+  ClientSource.openHouse: 'OPEN_HOUSE',
 };
 
 const _$PropertyTypeEnumMap = {
@@ -206,6 +209,7 @@ _$ClientActivityImpl _$$ClientActivityImplFromJson(Map<String, dynamic> json) =>
               ?.map((e) => ActivityProperty.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const <ActivityProperty>[],
+      openHouseId: (json['openHouseId'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$ClientActivityImplToJson(
@@ -220,6 +224,7 @@ Map<String, dynamic> _$$ClientActivityImplToJson(
       'authorName': instance.authorName,
       'createdAt': instance.createdAt?.toIso8601String(),
       'properties': instance.properties,
+      'openHouseId': instance.openHouseId,
     };
 
 const _$ActivityTypeEnumMap = {
@@ -1231,6 +1236,51 @@ const _$ColdNextStepEnumMap = {
   ColdNextStep.checkIn: 'CHECK_IN',
 };
 
+_$UpcomingClientDateImpl _$$UpcomingClientDateImplFromJson(
+        Map<String, dynamic> json) =>
+    _$UpcomingClientDateImpl(
+      kind: $enumDecodeNullable(_$ClientDateKindEnumMap, json['kind'],
+              unknownValue: ClientDateKind.unknown) ??
+          ClientDateKind.unknown,
+      date: DateTime.parse(json['date'] as String),
+      daysAway: (json['daysAway'] as num?)?.toInt() ?? 0,
+      years: (json['years'] as num?)?.toInt(),
+      clientId: (json['clientId'] as num).toInt(),
+      clientName: json['clientName'] as String? ?? '',
+      phone: json['phone'] as String?,
+      clientType: $enumDecodeNullable(_$ClientTypeEnumMap, json['clientType'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
+      agentId: (json['agentId'] as num?)?.toInt(),
+      agentName: json['agentName'] as String?,
+      dealId: (json['dealId'] as num?)?.toInt(),
+      dealTitle: json['dealTitle'] as String?,
+      propertyTitle: json['propertyTitle'] as String?,
+    );
+
+Map<String, dynamic> _$$UpcomingClientDateImplToJson(
+        _$UpcomingClientDateImpl instance) =>
+    <String, dynamic>{
+      'kind': _$ClientDateKindEnumMap[instance.kind]!,
+      'date': instance.date.toIso8601String(),
+      'daysAway': instance.daysAway,
+      'years': instance.years,
+      'clientId': instance.clientId,
+      'clientName': instance.clientName,
+      'phone': instance.phone,
+      'clientType': _$ClientTypeEnumMap[instance.clientType],
+      'agentId': instance.agentId,
+      'agentName': instance.agentName,
+      'dealId': instance.dealId,
+      'dealTitle': instance.dealTitle,
+      'propertyTitle': instance.propertyTitle,
+    };
+
+const _$ClientDateKindEnumMap = {
+  ClientDateKind.birthday: 'BIRTHDAY',
+  ClientDateKind.purchaseAnniversary: 'PURCHASE_ANNIVERSARY',
+  ClientDateKind.unknown: 'unknown',
+};
+
 _$AgentOptionImpl _$$AgentOptionImplFromJson(Map<String, dynamic> json) =>
     _$AgentOptionImpl(
       id: (json['id'] as num).toInt(),
@@ -1459,6 +1509,8 @@ const _$NotificationTypeEnumMap = {
   NotificationType.listingLead: 'LISTING_LEAD',
   NotificationType.dealMention: 'DEAL_MENTION',
   NotificationType.dealComment: 'DEAL_COMMENT',
+  NotificationType.clientBirthday: 'CLIENT_BIRTHDAY',
+  NotificationType.purchaseAnniversary: 'PURCHASE_ANNIVERSARY',
   NotificationType.unknown: 'unknown',
 };
 
@@ -1519,4 +1571,96 @@ const _$DepositOutcomeEnumMap = {
   DepositOutcome.APPLIED: 'APPLIED',
   DepositOutcome.REFUNDED: 'REFUNDED',
   DepositOutcome.FORFEITED: 'FORFEITED',
+};
+
+_$OpenHouseImpl _$$OpenHouseImplFromJson(Map<String, dynamic> json) =>
+    _$OpenHouseImpl(
+      id: (json['id'] as num).toInt(),
+      propertyId: (json['propertyId'] as num).toInt(),
+      propertyTitle: json['propertyTitle'] as String? ?? '',
+      propertyAddress: json['propertyAddress'] as String?,
+      agentId: (json['agentId'] as num?)?.toInt(),
+      agentName: json['agentName'] as String?,
+      startsAt: DateTime.parse(json['startsAt'] as String),
+      endsAt: DateTime.parse(json['endsAt'] as String),
+      note: json['note'] as String?,
+      visitorCount: (json['visitorCount'] as num?)?.toInt() ?? 0,
+      newClientCount: (json['newClientCount'] as num?)?.toInt() ?? 0,
+      interestedCount: (json['interestedCount'] as num?)?.toInt() ?? 0,
+      canEdit: json['canEdit'] as bool? ?? false,
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      visitors: (json['visitors'] as List<dynamic>?)
+              ?.map((e) => OpenHouseVisitor.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const <OpenHouseVisitor>[],
+    );
+
+Map<String, dynamic> _$$OpenHouseImplToJson(_$OpenHouseImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'propertyId': instance.propertyId,
+      'propertyTitle': instance.propertyTitle,
+      'propertyAddress': instance.propertyAddress,
+      'agentId': instance.agentId,
+      'agentName': instance.agentName,
+      'startsAt': instance.startsAt.toIso8601String(),
+      'endsAt': instance.endsAt.toIso8601String(),
+      'note': instance.note,
+      'visitorCount': instance.visitorCount,
+      'newClientCount': instance.newClientCount,
+      'interestedCount': instance.interestedCount,
+      'canEdit': instance.canEdit,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'visitors': instance.visitors,
+    };
+
+_$OpenHouseVisitorImpl _$$OpenHouseVisitorImplFromJson(
+        Map<String, dynamic> json) =>
+    _$OpenHouseVisitorImpl(
+      id: (json['id'] as num).toInt(),
+      openHouseId: (json['openHouseId'] as num).toInt(),
+      fullName: json['fullName'] as String? ?? '',
+      phone: json['phone'] as String? ?? '',
+      interest: $enumDecodeNullable(
+          _$OpenHouseInterestEnumMap, json['interest'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
+      note: json['note'] as String?,
+      clientId: (json['clientId'] as num?)?.toInt(),
+      clientVisible: json['clientVisible'] as bool? ?? false,
+      clientName: json['clientName'] as String?,
+      clientAgentName: json['clientAgentName'] as String?,
+      newClient: json['newClient'] as bool? ?? false,
+      signedInById: (json['signedInById'] as num?)?.toInt(),
+      signedInByName: json['signedInByName'] as String?,
+      signedInAt: json['signedInAt'] == null
+          ? null
+          : DateTime.parse(json['signedInAt'] as String),
+      canRemove: json['canRemove'] as bool? ?? false,
+    );
+
+Map<String, dynamic> _$$OpenHouseVisitorImplToJson(
+        _$OpenHouseVisitorImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'openHouseId': instance.openHouseId,
+      'fullName': instance.fullName,
+      'phone': instance.phone,
+      'interest': _$OpenHouseInterestEnumMap[instance.interest],
+      'note': instance.note,
+      'clientId': instance.clientId,
+      'clientVisible': instance.clientVisible,
+      'clientName': instance.clientName,
+      'clientAgentName': instance.clientAgentName,
+      'newClient': instance.newClient,
+      'signedInById': instance.signedInById,
+      'signedInByName': instance.signedInByName,
+      'signedInAt': instance.signedInAt?.toIso8601String(),
+      'canRemove': instance.canRemove,
+    };
+
+const _$OpenHouseInterestEnumMap = {
+  OpenHouseInterest.interested: 'INTERESTED',
+  OpenHouseInterest.justLooking: 'JUST_LOOKING',
 };

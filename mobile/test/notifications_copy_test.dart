@@ -72,6 +72,9 @@ final _everyType = <AppNotification>[
     'authorName': 'Asel',
     'snippet': 'Owner agreed to 5% off',
   }),
+  _n(NotificationType.clientBirthday, {'clientName': 'Aigerim', 'years': 36}),
+  _n(NotificationType.purchaseAnniversary,
+      {'clientName': 'Bolat', 'years': 3, 'dealTitle': 'Dostyk flat'}),
   _n(NotificationType.unknown, const {}),
 ];
 

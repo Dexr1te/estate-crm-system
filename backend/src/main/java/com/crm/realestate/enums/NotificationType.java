@@ -27,5 +27,9 @@ public enum NotificationType {
     /** Somebody @mentioned you in a deal's discussion. Target: the deal. */
     DEAL_MENTION,
     /** Somebody else commented on one of your deals without mentioning you. Target: the deal. */
-    DEAL_COMMENT
+    DEAL_COMMENT,
+    /** It is one of your clients' birthday today. Target: the client. */
+    CLIENT_BIRTHDAY,
+    /** A deal of one of your clients was won on this day in an earlier year. Target: the client. */
+    PURCHASE_ANNIVERSARY
 }

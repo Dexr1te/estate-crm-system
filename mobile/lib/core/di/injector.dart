@@ -23,10 +23,13 @@ import 'package:real_estate_crm/features/auth/domain/repositories/auth_repositor
 import 'package:real_estate_crm/features/checklist/data/datasources/checklist_remote_datasource.dart';
 import 'package:real_estate_crm/features/checklist/data/repositories/checklist_repository_impl.dart';
 import 'package:real_estate_crm/features/checklist/domain/repositories/checklist_repository.dart';
+import 'package:real_estate_crm/features/clients/data/datasources/client_dates_remote_datasource.dart';
 import 'package:real_estate_crm/features/clients/data/datasources/clients_remote_datasource.dart';
 import 'package:real_estate_crm/features/clients/data/datasources/cold_clients_remote_datasource.dart';
+import 'package:real_estate_crm/features/clients/data/repositories/client_dates_repository_impl.dart';
 import 'package:real_estate_crm/features/clients/data/repositories/clients_repository_impl.dart';
 import 'package:real_estate_crm/features/clients/data/repositories/cold_clients_repository_impl.dart';
+import 'package:real_estate_crm/features/clients/domain/repositories/client_dates_repository.dart';
 import 'package:real_estate_crm/features/clients/domain/repositories/clients_repository.dart';
 import 'package:real_estate_crm/features/clients/domain/repositories/cold_clients_repository.dart';
 import 'package:real_estate_crm/features/compare/data/comparison_tray.dart';
@@ -66,6 +69,9 @@ import 'package:real_estate_crm/features/message_templates/domain/repositories/m
 import 'package:real_estate_crm/features/notifications/data/datasources/notifications_remote_datasource.dart';
 import 'package:real_estate_crm/features/notifications/data/repositories/notifications_repository_impl.dart';
 import 'package:real_estate_crm/features/notifications/domain/repositories/notifications_repository.dart';
+import 'package:real_estate_crm/features/open_houses/data/datasources/open_houses_remote_datasource.dart';
+import 'package:real_estate_crm/features/open_houses/data/repositories/open_houses_repository_impl.dart';
+import 'package:real_estate_crm/features/open_houses/domain/repositories/open_houses_repository.dart';
 import 'package:real_estate_crm/features/properties/data/datasources/properties_remote_datasource.dart';
 import 'package:real_estate_crm/features/properties/data/repositories/properties_repository_impl.dart';
 import 'package:real_estate_crm/features/properties/domain/repositories/properties_repository.dart';
@@ -97,6 +103,9 @@ class Injector {
 
   static ColdClientsRepository coldClientsRepository =
       ColdClientsRepositoryImpl(ColdClientsRemoteDataSource(_apiClient));
+
+  static ClientDatesRepository clientDatesRepository =
+      ClientDatesRepositoryImpl(ClientDatesRemoteDataSource(_apiClient));
 
   static PropertiesRepository propertiesRepository =
       PropertiesRepositoryImpl(PropertiesRemoteDataSource(_apiClient));
@@ -138,6 +147,9 @@ class Injector {
 
   static MeetingsRepository meetingsRepository =
       MeetingsRepositoryImpl(MeetingsRemoteDataSource(_apiClient));
+
+  static OpenHousesRepository openHousesRepository =
+      OpenHousesRepositoryImpl(OpenHousesRemoteDataSource(_apiClient));
 
   static NotificationsRepository notificationsRepository =
       NotificationsRepositoryImpl(NotificationsRemoteDataSource(_apiClient));

@@ -16,6 +16,7 @@ import 'package:real_estate_crm/features/auth/presentation/screens/splash_screen
 import 'package:real_estate_crm/features/auth/presentation/screens/verify_email_screen.dart';
 import 'package:real_estate_crm/features/auth/presentation/screens/waiting_for_team_screen.dart';
 import 'package:real_estate_crm/features/checklist/presentation/screens/checklist_template_screen.dart';
+import 'package:real_estate_crm/features/clients/presentation/screens/client_dates_screen.dart';
 import 'package:real_estate_crm/features/clients/presentation/screens/client_detail_screen.dart';
 import 'package:real_estate_crm/features/clients/presentation/screens/client_form_screen.dart';
 import 'package:real_estate_crm/features/clients/presentation/screens/clients_screen.dart';
@@ -36,6 +37,7 @@ import 'package:real_estate_crm/features/meetings/presentation/screens/meetings_
 import 'package:real_estate_crm/features/message_templates/presentation/screens/message_templates_screen.dart';
 import 'package:real_estate_crm/features/mortgage/presentation/screens/mortgage_screen.dart';
 import 'package:real_estate_crm/features/notifications/presentation/screens/notifications_screen.dart';
+import 'package:real_estate_crm/features/open_houses/presentation/screens/open_house_screen.dart';
 import 'package:real_estate_crm/features/profile/presentation/screens/profile_screen.dart';
 import 'package:real_estate_crm/features/properties/presentation/screens/mandates_ending_screen.dart';
 import 'package:real_estate_crm/features/properties/presentation/screens/properties_screen.dart';
@@ -276,6 +278,13 @@ GoRouter createRouter(AuthBloc authBloc) {
         parentNavigatorKey: _rootKey,
         pageBuilder: (_, __) => const NoTransitionPage(child: TasksScreen()),
       ),
+      GoRoute(
+        path: '/open-houses/:id',
+        parentNavigatorKey: _rootKey,
+        pageBuilder: (_, s) => NoTransitionPage(
+          child: OpenHouseScreen(id: int.parse(s.pathParameters['id']!)),
+        ),
+      ),
       ShellRoute(
         navigatorKey: _shellKey,
         builder: (_, __, child) => MainScaffold(child: child),
@@ -311,6 +320,12 @@ GoRouter createRouter(AuthBloc authBloc) {
                 parentNavigatorKey: _rootKey,
                 pageBuilder: (_, __) =>
                     const NoTransitionPage(child: ColdClientsScreen()),
+              ),
+              GoRoute(
+                path: 'dates',
+                parentNavigatorKey: _rootKey,
+                pageBuilder: (_, __) =>
+                    const NoTransitionPage(child: ClientDatesScreen()),
               ),
               GoRoute(
                 path: ':id',

@@ -76,4 +76,11 @@ public class ClientRequest {
         this.leadSource = leadSource;
         this.leadSourceSent = true;
     }
+
+    /**
+     * {@code 1990-05-14}, or {@code --05-14} when the year is not known. Null leaves an existing
+     * client's birthday as it is, so an app that predates birthdays cannot wipe one by saving; an
+     * empty string takes it off.
+     */
+    private String birthday;
 }

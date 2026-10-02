@@ -10,18 +10,24 @@ import 'package:real_estate_crm/features/calendar/domain/calendar_grid.dart';
 import 'package:real_estate_crm/features/calendar/presentation/bloc/calendar_event.dart';
 import 'package:real_estate_crm/features/calendar/presentation/bloc/calendar_state.dart';
 import 'package:real_estate_crm/features/meetings/domain/repositories/meetings_repository.dart';
+import 'package:real_estate_crm/features/open_houses/domain/repositories/open_houses_repository.dart';
 import 'package:real_estate_crm/features/tasks/domain/repositories/tasks_repository.dart';
 
 class CalendarBloc extends Bloc<CalendarEvent, CalendarState>
     with SingleFlight {
   final MeetingsRepository _meetings;
   final TasksRepository _tasks;
+
+  /// Optional: without it the calendar shows no open houses.
+  final OpenHousesRepository? _openHouses;
   final int firstDayOfWeekIndex;
   final _tickets = <DateTime, int>{};
   late final StreamSubscription<void> _changes;
 
-  CalendarBloc(this._meetings, this._tasks, {required this.firstDayOfWeekIndex})
-      : super(CalendarState(
+  CalendarBloc(this._meetings, this._tasks,
+      {required this.firstDayOfWeekIndex, OpenHousesRepository? openHouses})
+      : _openHouses = openHouses,
+        super(CalendarState(
           month: monthOf(AppClock.now()),
           selectedDay: dayOf(AppClock.now()),
         )) {
@@ -76,10 +82,16 @@ class CalendarBloc extends Bloc<CalendarEvent, CalendarState>
       final read = await Future.wait<List<Object>>([
         _meetings.getMeetingsBetween(from, to),
         _tasks.getTasks(TaskQuery(includeDone: true, from: from, to: to)),
+        // A month still opens when open houses cannot be read.
+        _openHouses
+                ?.getBetween(from, to)
+                .catchError((Object _) => const <OpenHouse>[]) ??
+            Future.value(const <OpenHouse>[]),
       ]);
       final page = CalendarPage(
         meetings: read[0].cast<MeetingResponse>(),
         tasks: read[1].cast<TaskResponse>(),
+        openHouses: read[2].cast<OpenHouse>(),
       );
       if (isClosed || _tickets[month] != ticket) return;
       emit(state.copyWith(pages: {...state.pages, month: page}));

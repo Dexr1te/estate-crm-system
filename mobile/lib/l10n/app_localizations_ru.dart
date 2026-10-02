@@ -556,6 +556,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get calendarLegendMeeting => 'Встреча';
 
   @override
+  String get calendarLegendOpenHouse => 'День открытых дверей';
+
+  @override
   String get calendarLegendOverdue => 'Просрочено';
 
   @override
@@ -703,6 +706,35 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get clientsAnyType => 'Любой';
+
+  @override
+  String get clientsBirthday => 'День рождения';
+
+  @override
+  String clientsBirthdayAge(int age) {
+    String _temp0 = intl.Intl.pluralLogic(
+      age,
+      locale: localeName,
+      other: '$age года',
+      many: '$age лет',
+      few: '$age года',
+      one: '$age год',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clientsBirthdayClear => 'Убрать день рождения';
+
+  @override
+  String get clientsBirthdayHint =>
+      'Если год неизвестен, сохраняются только день и месяц.';
+
+  @override
+  String get clientsBirthdayNoYear => 'Год неизвестен';
+
+  @override
+  String get clientsBirthdayPick => 'Выбрать дату';
 
   @override
   String get clientsBudgetFrom => 'Бюджет от';
@@ -932,6 +964,67 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get clientsCreateClient => 'Создать клиента';
+
+  @override
+  String clientsDatesAnniversary(int years) {
+    String _temp0 = intl.Intl.pluralLogic(
+      years,
+      locale: localeName,
+      other: '$years года с покупки',
+      many: '$years лет с покупки',
+      few: '$years года с покупки',
+      one: '$years год с покупки',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clientsDatesBirthday => 'День рождения';
+
+  @override
+  String get clientsDatesEmpty => 'В ближайшие две недели дат нет';
+
+  @override
+  String get clientsDatesEmptyHint =>
+      'Добавьте день рождения в карточке клиента. Годовщина выигранной сделки появляется здесь каждый год сама.';
+
+  @override
+  String get clientsDatesGreet => 'Поздравить';
+
+  @override
+  String clientsDatesInDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Через $count дня',
+      many: 'Через $count дней',
+      few: 'Через $count дня',
+      one: 'Через $count день',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clientsDatesLoadFailed => 'Не удалось загрузить ближайшие даты';
+
+  @override
+  String get clientsDatesTitle => 'Ближайшие даты';
+
+  @override
+  String get clientsDatesToday => 'Сегодня';
+
+  @override
+  String get clientsDatesTomorrow => 'Завтра';
+
+  @override
+  String clientsDatesTurns(int years) {
+    return 'День рождения, исполняется $years';
+  }
+
+  @override
+  String clientsDatesWhen(String when, String date) {
+    return '$when · $date';
+  }
 
   @override
   String clientsDealCount(num count) {
@@ -1214,6 +1307,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get clientsSourceImport => 'Из импорта';
+
+  @override
+  String get clientsSourceOpenHouse => 'С дня открытых дверей';
 
   @override
   String get clientsSourcePublicLink => 'С публичной ссылки';
@@ -1646,6 +1742,14 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String dashboardDateSummary(Object date) {
     return '$date · сводка команды';
+  }
+
+  @override
+  String get dashboardDatesTitle => 'Даты на этой неделе';
+
+  @override
+  String dashboardDatesTotal(int count) {
+    return '$count на неделе';
   }
 
   @override
@@ -2716,6 +2820,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get importEntrySubtitle => 'Клиенты и объекты из Excel или другой CRM';
 
   @override
+  String get importErrorInvalidDate => 'Не дата';
+
+  @override
   String get importErrorInvalidEmail => 'Неверный email';
 
   @override
@@ -2744,6 +2851,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get importFieldArea => 'Площадь';
+
+  @override
+  String get importFieldBirthday => 'День рождения';
 
   @override
   String get importFieldBudgetMax => 'Бюджет до';
@@ -3594,6 +3704,11 @@ class AppLocalizationsRu extends AppLocalizations {
   String get msgUserDeleted => 'Пользователь удалён';
 
   @override
+  String notificationsClientBirthday(String name) {
+    return 'Сегодня день рождения у клиента $name';
+  }
+
+  @override
   String notificationsCountClients(int count) {
     String _temp0 = intl.Intl.pluralLogic(
       count,
@@ -3743,6 +3858,19 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String notificationsPurchaseAnniversary(String name, int years) {
+    String _temp0 = intl.Intl.pluralLogic(
+      years,
+      locale: localeName,
+      other: 'Сегодня $years года с покупки клиента $name',
+      many: 'Сегодня $years лет с покупки клиента $name',
+      few: 'Сегодня $years года с покупки клиента $name',
+      one: 'Сегодня $years год с покупки клиента $name',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get notificationsSomeone => 'Кто-то';
 
   @override
@@ -3772,6 +3900,179 @@ class AppLocalizationsRu extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get openHouseActivity => 'Визит на день открытых дверей';
+
+  @override
+  String get openHouseAddVisitor => 'Добавить гостя';
+
+  @override
+  String get openHouseAlreadySignedIn => 'Этот номер уже записан';
+
+  @override
+  String openHouseColleagueClient(String agent) {
+    return 'Клиент: $agent';
+  }
+
+  @override
+  String get openHouseDate => 'Дата';
+
+  @override
+  String get openHouseDelete => 'Отменить день открытых дверей';
+
+  @override
+  String get openHouseDeleteConfirm => 'Он исчезнет из объекта и календаря.';
+
+  @override
+  String get openHouseEdit => 'Изменить день открытых дверей';
+
+  @override
+  String get openHouseEnds => 'Конец';
+
+  @override
+  String get openHouseEndsBeforeStart => 'Конец должен быть позже начала';
+
+  @override
+  String get openHouseHasVisitors =>
+      'Гости уже записаны, поэтому отменить нельзя';
+
+  @override
+  String openHouseHost(String name) {
+    return 'Проводит $name';
+  }
+
+  @override
+  String get openHouseInterestLabel => 'Интерес';
+
+  @override
+  String get openHouseInterested => 'Интересно';
+
+  @override
+  String get openHouseJustLooking => 'Просто смотрит';
+
+  @override
+  String get openHouseKnownClient => 'Уже клиент';
+
+  @override
+  String get openHouseLive => 'Идёт сейчас';
+
+  @override
+  String get openHouseLoadFailed => 'Не удалось загрузить день открытых дверей';
+
+  @override
+  String get openHouseNewClient => 'Новый клиент';
+
+  @override
+  String get openHouseNoVisitors => 'Пока никто не записан';
+
+  @override
+  String get openHouseNoVisitorsHint =>
+      'Добавляйте гостей по мере прихода. Незнакомый агентству номер станет новым покупателем.';
+
+  @override
+  String get openHouseNone =>
+      'Пока нет. Назначьте день открытых дверей и записывайте гостей у входа.';
+
+  @override
+  String get openHouseNoteHint => 'Ключи, парковка, кому звонить у двери';
+
+  @override
+  String get openHouseNoteLabel => 'Заметка';
+
+  @override
+  String get openHousePast => 'Прошедшие';
+
+  @override
+  String get openHouseRemoveVisitor => 'Убрать гостя';
+
+  @override
+  String openHouseRemoveVisitorConfirm(String name) {
+    return '$name будет убран(а) из листа, а визит из истории клиента. Клиент, созданный при записи, останется.';
+  }
+
+  @override
+  String get openHouseSave => 'Сохранить';
+
+  @override
+  String get openHouseSchedule => 'Назначить день открытых дверей';
+
+  @override
+  String get openHouseSeeAll => 'Показать все';
+
+  @override
+  String get openHouseSignIn => 'Сохранить';
+
+  @override
+  String get openHouseSignInNext => 'Сохранить и следующий';
+
+  @override
+  String get openHouseSignInSheet => 'Лист гостей';
+
+  @override
+  String openHouseSignedIn(String name) {
+    return '$name записан(а)';
+  }
+
+  @override
+  String get openHouseStarts => 'Начало';
+
+  @override
+  String get openHouseSummary => 'Итоги';
+
+  @override
+  String get openHouseSummaryInterested => 'Заинтересованы';
+
+  @override
+  String get openHouseSummaryNewClients => 'Новые клиенты';
+
+  @override
+  String get openHouseSummaryVisitors => 'Гости';
+
+  @override
+  String get openHouseTitle => 'День открытых дверей';
+
+  @override
+  String get openHouseTooLong =>
+      'День открытых дверей длится не больше 12 часов';
+
+  @override
+  String get openHouseUpcoming => 'Предстоящие';
+
+  @override
+  String get openHouseVisitorName => 'Имя';
+
+  @override
+  String get openHouseVisitorNameHint => 'Как представился';
+
+  @override
+  String get openHouseVisitorNameRequired => 'Введите имя';
+
+  @override
+  String get openHouseVisitorNoteHint => 'О чём спрашивал';
+
+  @override
+  String get openHouseVisitorPhone => 'Телефон';
+
+  @override
+  String get openHouseVisitorPhoneInvalid => 'Введите номер телефона';
+
+  @override
+  String openHouseVisitorsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count гостя',
+      many: '$count гостей',
+      few: '$count гостя',
+      one: '$count гость',
+      zero: 'Нет гостей',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get openHousesCardTitle => 'Дни открытых дверей';
 
   @override
   String get profileAgentId => 'ID агента';

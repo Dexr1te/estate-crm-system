@@ -41,7 +41,7 @@ class CsvExportRoundTripTest extends CsvExportFixture {
                 .andExpect(jsonPath("$.delimiter").value("en".equals(lang) ? "," : ";"))
                 .andExpect(jsonPath("$.mapping").value(contains(Arrays.asList(
                         "fullName", "phone", "email", "type", null, "wantedCity", "wantedType",
-                        "budgetMin", "budgetMax", "minRooms", "minAreaSqm", "notes", "tags", "leadSource", "leadSourceDetail", null, null).toArray())))
+                        "budgetMin", "budgetMax", "minRooms", "minAreaSqm", "notes", "tags", "leadSource", "leadSourceDetail", "birthday", null, null).toArray())))
                 .andExpect(jsonPath("$.totalRows").value(1))
                 .andExpect(jsonPath("$.invalidRows").value(0))
                 .andExpect(jsonPath("$.validRows").value(1))
@@ -53,6 +53,7 @@ class CsvExportRoundTripTest extends CsvExportFixture {
                 .andExpect(jsonPath("$.sample[0].values.minAreaSqm").value("55.5"))
                 .andExpect(jsonPath("$.sample[0].values.leadSource").value("REFERRAL"))
                 .andExpect(jsonPath("$.sample[0].values.leadSourceDetail").value("Дана, соседка"))
+                .andExpect(jsonPath("$.sample[0].values.birthday").value("--05-14"))
                 .andExpect(jsonPath("$.sample[0].values.notes")
                         .value("Звонить после 18:00; \"срочно\", 2 комнаты\nлучше центр"));
     }

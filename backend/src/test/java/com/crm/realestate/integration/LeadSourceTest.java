@@ -178,8 +178,8 @@ class LeadSourceTest {
         create("Madina", null, null);
 
         String all = exportText("lang", "ru");
-        assertThat(all).contains("Теги;Источник лида;Источник лида: подробности;Источник;Создан\r\n");
-        assertThat(all).contains(";Рекомендация;Dana;Вручную;");
+        assertThat(all).contains("Теги;Источник лида;Источник лида: подробности;День рождения;Источник;Создан\r\n");
+        assertThat(all).contains(";Рекомендация;Dana;;Вручную;");
         assertThat(exportText("leadSource", "REFERRAL")).contains("Aigerim").doesNotContain("Madina");
         mockMvc.perform(get("/export/clients").param("leadSource", "NEWSPAPER"))
                 .andExpect(status().isBadRequest());

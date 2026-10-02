@@ -177,6 +177,7 @@
     }
   },
   "calendarLegendMeeting": "Meeting",
+  "calendarLegendOpenHouse": "Open house",
   "calendarLegendOverdue": "Overdue",
   "calendarLegendTask": "Task",
   "calendarLegendViewing": "Viewing",
@@ -242,6 +243,19 @@
   "clientsAgent": "Agent",
   "clientsAgentMeta": "agent {name}",
   "clientsAnyType": "Any",
+  "clientsBirthday": "Birthday",
+  "clientsBirthdayAge": "{age} years old",
+  "@clientsBirthdayAge": {
+    "placeholders": {
+      "age": {
+        "type": "int"
+      }
+    }
+  },
+  "clientsBirthdayClear": "Remove birthday",
+  "clientsBirthdayHint": "With the year unknown, only the day and month are kept.",
+  "clientsBirthdayNoYear": "Year unknown",
+  "clientsBirthdayPick": "Choose a date",
   "clientsBudgetFrom": "Budget from",
   "clientsBudgetTo": "Budget to",
   "clientsBuyer": "Buyer",
@@ -357,6 +371,49 @@
   "clientsContactedYesterday": "Contacted yesterday",
   "clientsCounter": "{total} total · {active} in progress",
   "clientsCreateClient": "Create Client",
+  "clientsDatesAnniversary": "{years, plural, one{{years} year since the purchase} other{{years} years since the purchase}}",
+  "@clientsDatesAnniversary": {
+    "placeholders": {
+      "years": {
+        "type": "int"
+      }
+    }
+  },
+  "clientsDatesBirthday": "Birthday",
+  "clientsDatesEmpty": "No dates in the next two weeks",
+  "clientsDatesEmptyHint": "Add a client's birthday on their card. A won deal's anniversary shows up here every year on its own.",
+  "clientsDatesGreet": "Greet",
+  "clientsDatesInDays": "{count, plural, one{In {count} day} other{In {count} days}}",
+  "@clientsDatesInDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "clientsDatesLoadFailed": "Couldn't load the dates coming up",
+  "clientsDatesTitle": "Dates coming up",
+  "clientsDatesToday": "Today",
+  "clientsDatesTomorrow": "Tomorrow",
+  "clientsDatesTurns": "Birthday, turns {years}",
+  "@clientsDatesTurns": {
+    "placeholders": {
+      "years": {
+        "type": "int"
+      }
+    }
+  },
+  "clientsDatesWhen": "{when} · {date}",
+  "@clientsDatesWhen": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "clientsDealCount": "{count, plural, =1{1 deal} other{{count} deals}}",
   "clientsDeals": "Deals",
   "clientsDelete": "Delete",
@@ -483,6 +540,7 @@
     }
   },
   "clientsSourceImport": "Imported",
+  "clientsSourceOpenHouse": "From an open house",
   "clientsSourcePublicLink": "From the public link",
   "clientsTagAdd": "Add tag",
   "clientsTagAddHint": "Add a tag",
@@ -646,6 +704,15 @@
   },
   "dashboardConversion": "Conversion",
   "dashboardDateSummary": "{date} · team overview",
+  "dashboardDatesTitle": "Dates this week",
+  "dashboardDatesTotal": "{count} this week",
+  "@dashboardDatesTotal": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "dashboardGreeting": "{greeting}, {name}",
   "dashboardGreetingAfternoon": "Good afternoon",
   "dashboardGreetingEvening": "Good evening",
@@ -1092,6 +1159,7 @@
   },
   "importEmptyFile": "The file is empty",
   "importEntrySubtitle": "Clients and listings from Excel or another CRM",
+  "importErrorInvalidDate": "Not a date",
   "importErrorInvalidEmail": "Not an email address",
   "importErrorInvalidNumber": "Not a number",
   "importErrorInvalidPhone": "Not a phone number",
@@ -1102,6 +1170,7 @@
   "importErrorUnknownValue": "Unknown value",
   "importFieldAddress": "Address",
   "importFieldArea": "Area",
+  "importFieldBirthday": "Birthday",
   "importFieldBudgetMax": "Budget to",
   "importFieldBudgetMin": "Budget from",
   "importFieldCity": "City",
@@ -1519,6 +1588,14 @@
   "msgUserActivated": "User activated",
   "msgUserDeactivated": "User deactivated",
   "msgUserDeleted": "User deleted",
+  "notificationsClientBirthday": "It's {name}'s birthday today",
+  "@notificationsClientBirthday": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "notificationsCountClients": "{count, plural, =1{1 client} other{{count} clients}}",
   "@notificationsCountClients": {
     "placeholders": {
@@ -1687,6 +1764,17 @@
       }
     }
   },
+  "notificationsPurchaseAnniversary": "{years, plural, one{A year today since {name}'s purchase} other{{years} years today since {name}'s purchase}}",
+  "@notificationsPurchaseAnniversary": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "years": {
+        "type": "int"
+      }
+    }
+  },
   "notificationsSomeone": "Someone",
   "notificationsTaskAssigned": "{actor} gave you a task: {title}",
   "@notificationsTaskAssigned": {
@@ -1710,6 +1798,91 @@
       }
     }
   },
+  "openHouseActivity": "Open house visit",
+  "openHouseAddVisitor": "Add visitor",
+  "openHouseAlreadySignedIn": "This number has already signed in",
+  "openHouseColleagueClient": "Client of {agent}",
+  "@openHouseColleagueClient": {
+    "placeholders": {
+      "agent": {
+        "type": "String"
+      }
+    }
+  },
+  "openHouseDate": "Date",
+  "openHouseDelete": "Cancel open house",
+  "openHouseDeleteConfirm": "It is removed from the listing and the calendar.",
+  "openHouseEdit": "Edit open house",
+  "openHouseEnds": "Ends",
+  "openHouseEndsBeforeStart": "It has to end after it starts",
+  "openHouseHasVisitors": "People have signed in, so it cannot be cancelled",
+  "openHouseHost": "Held by {name}",
+  "@openHouseHost": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "openHouseInterestLabel": "Interest",
+  "openHouseInterested": "Interested",
+  "openHouseJustLooking": "Just looking",
+  "openHouseKnownClient": "Already a client",
+  "openHouseLive": "On now",
+  "openHouseLoadFailed": "Could not load the open house",
+  "openHouseNewClient": "New client",
+  "openHouseNoVisitors": "Nobody has signed in yet",
+  "openHouseNoVisitorsHint": "Add each visitor as they arrive. A number the agency does not know becomes a new buyer.",
+  "openHouseNone": "No open houses yet. Schedule one and sign visitors in at the door.",
+  "openHouseNoteHint": "Keys, parking, who to call at the door",
+  "openHouseNoteLabel": "Note",
+  "openHousePast": "Past",
+  "openHouseRemoveVisitor": "Remove visitor",
+  "openHouseRemoveVisitorConfirm": "{name} comes off the sheet and the visit leaves the client's history. A client this sign-in created stays.",
+  "@openHouseRemoveVisitorConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "openHouseSave": "Save",
+  "openHouseSchedule": "Schedule an open house",
+  "openHouseSeeAll": "Show all",
+  "openHouseSignIn": "Save",
+  "openHouseSignInNext": "Save and next",
+  "openHouseSignInSheet": "Sign-in sheet",
+  "openHouseSignedIn": "{name} signed in",
+  "@openHouseSignedIn": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "openHouseStarts": "Starts",
+  "openHouseSummary": "Summary",
+  "openHouseSummaryInterested": "Interested",
+  "openHouseSummaryNewClients": "New clients",
+  "openHouseSummaryVisitors": "Visitors",
+  "openHouseTitle": "Open house",
+  "openHouseTooLong": "An open house lasts at most 12 hours",
+  "openHouseUpcoming": "Upcoming",
+  "openHouseVisitorName": "Name",
+  "openHouseVisitorNameHint": "As they give it",
+  "openHouseVisitorNameRequired": "Enter a name",
+  "openHouseVisitorNoteHint": "What they asked about",
+  "openHouseVisitorPhone": "Phone",
+  "openHouseVisitorPhoneInvalid": "Enter a phone number",
+  "openHouseVisitorsCount": "{count, plural, =0{No visitors} =1{1 visitor} other{{count} visitors}}",
+  "@openHouseVisitorsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "openHousesCardTitle": "Open houses",
   "profileAgentId": "Agent ID",
   "profileAgentIdCopied": "Agent ID copied",
   "profileApp": "App",

@@ -4,6 +4,7 @@ import com.crm.realestate.entity.Client;
 import com.crm.realestate.entity.Deal;
 import com.crm.realestate.entity.Property;
 import com.crm.realestate.entity.User;
+import com.crm.realestate.service.ClientBirthday;
 import com.crm.realestate.service.ClientTagService;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +40,8 @@ class ExportColumns {
                     Stream.of("fullName", "phone", "email", "type").map(k -> imported(k, lang)),
                     Stream.concat(Stream.of(heading("agent", lang)), Stream.concat(
                             Stream.of("wantedCity", "wantedType", "budgetMin", "budgetMax",
-                                    "minRooms", "minAreaSqm", "notes", "tags", "leadSource", "leadSourceDetail").map(k -> imported(k, lang)),
+                                    "minRooms", "minAreaSqm", "notes", "tags", "leadSource", "leadSourceDetail",
+                                    "birthday").map(k -> imported(k, lang)),
                             Stream.of("source", "created").map(k -> heading(k, lang))))).toList();
             case PROPERTIES -> Stream.concat(
                     Stream.of("title", "address", "city", "type", "status", "price", "areaSqm",
@@ -62,7 +64,7 @@ class ExportColumns {
                 csv.decimal(c.getMinAreaSqm()), c.getNotes(),
                 String.join(", ", tags.getOrDefault(c.getId(), List.of())),
                 value(c.getLeadSource(), lang), c.getLeadSourceDetail(),
-                value(c.getSource(), lang), date(c.getCreatedAt()));
+                ClientBirthday.format(c), value(c.getSource(), lang), date(c.getCreatedAt()));
     }
 
     /** Each client's tag names, in name order: one query a page. */

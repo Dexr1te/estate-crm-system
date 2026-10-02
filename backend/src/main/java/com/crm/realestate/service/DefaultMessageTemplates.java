@@ -30,6 +30,10 @@ final class DefaultMessageTemplates {
     record Text(String title, String body) {
     }
 
+    /** The birthday greeting's title in English, Russian and Kazakh; the app looks for these. */
+    static final String[] BIRTHDAY_TITLES = {"Birthday greeting", "Поздравление с днём рождения",
+            "Туған күн құттықтауы"};
+
     static final List<Template> TEMPLATES = List.of(
             new Template(
                     new Text("Introduction",
@@ -85,7 +89,18 @@ final class DefaultMessageTemplates {
                                     + "{listing}\nТеперь {price}\n{link}\n{agent}"),
                     new Text("Баға төмендеді",
                             "Жақсы жаңалық, {client}: бағасы төмендеді.\n"
-                                    + "{listing}\nҚазір {price}\n{link}\n{agent}")));
+                                    + "{listing}\nҚазір {price}\n{link}\n{agent}")),
+            // Offered first by the app's "Dates coming up" list on a client's birthday.
+            new Template(
+                    new Text(BIRTHDAY_TITLES[0],
+                            "Happy birthday, {client}! Wishing you health, joy and every success. "
+                                    + "{agent}"),
+                    new Text(BIRTHDAY_TITLES[1],
+                            "{client}, с днём рождения! Желаю здоровья, радости и успехов во всём. "
+                                    + "{agent}"),
+                    new Text(BIRTHDAY_TITLES[2],
+                            "{client}, туған күніңізбен құттықтаймын! Зор денсаулық, қуаныш пен "
+                                    + "барлық істе сәттілік тілеймін. {agent}")));
 
     private DefaultMessageTemplates() {
     }

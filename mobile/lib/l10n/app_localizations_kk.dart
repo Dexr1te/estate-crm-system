@@ -552,6 +552,9 @@ class AppLocalizationsKk extends AppLocalizations {
   String get calendarLegendMeeting => 'Кездесу';
 
   @override
+  String get calendarLegendOpenHouse => 'Ашық есік күні';
+
+  @override
   String get calendarLegendOverdue => 'Мерзімі өткен';
 
   @override
@@ -697,6 +700,27 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get clientsAnyType => 'Кез келген';
+
+  @override
+  String get clientsBirthday => 'Туған күн';
+
+  @override
+  String clientsBirthdayAge(int age) {
+    return '$age жаста';
+  }
+
+  @override
+  String get clientsBirthdayClear => 'Туған күнді өшіру';
+
+  @override
+  String get clientsBirthdayHint =>
+      'Жылы белгісіз болса, тек күні мен айы сақталады.';
+
+  @override
+  String get clientsBirthdayNoYear => 'Жылы белгісіз';
+
+  @override
+  String get clientsBirthdayPick => 'Күнді таңдау';
 
   @override
   String get clientsBudgetFrom => 'Бюджет бастап';
@@ -909,6 +933,61 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get clientsCreateClient => 'Клиент құру';
+
+  @override
+  String clientsDatesAnniversary(int years) {
+    String _temp0 = intl.Intl.pluralLogic(
+      years,
+      locale: localeName,
+      other: 'Сатып алғанына $years жыл',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clientsDatesBirthday => 'Туған күн';
+
+  @override
+  String get clientsDatesEmpty => 'Алдағы екі аптада күндер жоқ';
+
+  @override
+  String get clientsDatesEmptyHint =>
+      'Клиент карточкасына туған күнін қосыңыз. Сәтті мәміленің жылдығы мұнда жыл сайын өзі шығады.';
+
+  @override
+  String get clientsDatesGreet => 'Құттықтау';
+
+  @override
+  String clientsDatesInDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count күннен кейін',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get clientsDatesLoadFailed => 'Жақын күндерді жүктеу мүмкін болмады';
+
+  @override
+  String get clientsDatesTitle => 'Жақын күндер';
+
+  @override
+  String get clientsDatesToday => 'Бүгін';
+
+  @override
+  String get clientsDatesTomorrow => 'Ертең';
+
+  @override
+  String clientsDatesTurns(int years) {
+    return 'Туған күні, $years жасқа толады';
+  }
+
+  @override
+  String clientsDatesWhen(String when, String date) {
+    return '$when · $date';
+  }
 
   @override
   String clientsDealCount(num count) {
@@ -1187,6 +1266,9 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get clientsSourceImport => 'Импорттан';
+
+  @override
+  String get clientsSourceOpenHouse => 'Ашық есік күнінен';
 
   @override
   String get clientsSourcePublicLink => 'Жария сілтемеден';
@@ -1616,6 +1698,14 @@ class AppLocalizationsKk extends AppLocalizations {
   @override
   String dashboardDateSummary(Object date) {
     return '$date · команда сводкасы';
+  }
+
+  @override
+  String get dashboardDatesTitle => 'Осы аптадағы күндер';
+
+  @override
+  String dashboardDatesTotal(int count) {
+    return 'аптада $count';
   }
 
   @override
@@ -2651,6 +2741,9 @@ class AppLocalizationsKk extends AppLocalizations {
       'Excel немесе басқа CRM-нен клиенттер мен нысандар';
 
   @override
+  String get importErrorInvalidDate => 'Күн емес';
+
+  @override
   String get importErrorInvalidEmail => 'Email қате';
 
   @override
@@ -2679,6 +2772,9 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get importFieldArea => 'Аудан';
+
+  @override
+  String get importFieldBirthday => 'Туған күн';
 
   @override
   String get importFieldBudgetMax => 'Бюджет (дейін)';
@@ -3522,6 +3618,11 @@ class AppLocalizationsKk extends AppLocalizations {
   String get msgUserDeleted => 'Пайдаланушы жойылды';
 
   @override
+  String notificationsClientBirthday(String name) {
+    return 'Бүгін $name клиенттің туған күні';
+  }
+
+  @override
   String notificationsCountClients(int count) {
     return '$count клиент';
   }
@@ -3621,6 +3722,16 @@ class AppLocalizationsKk extends AppLocalizations {
   }
 
   @override
+  String notificationsPurchaseAnniversary(String name, int years) {
+    String _temp0 = intl.Intl.pluralLogic(
+      years,
+      locale: localeName,
+      other: 'Бүгін $name сатып алғанына $years жыл',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get notificationsSomeone => 'Біреу';
 
   @override
@@ -3647,6 +3758,177 @@ class AppLocalizationsKk extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get openHouseActivity => 'Ашық есік күніне келу';
+
+  @override
+  String get openHouseAddVisitor => 'Келушіні қосу';
+
+  @override
+  String get openHouseAlreadySignedIn => 'Бұл нөмір әлдеқашан тіркелген';
+
+  @override
+  String openHouseColleagueClient(String agent) {
+    return 'Клиент: $agent';
+  }
+
+  @override
+  String get openHouseDate => 'Күні';
+
+  @override
+  String get openHouseDelete => 'Ашық есік күнін болдырмау';
+
+  @override
+  String get openHouseDeleteConfirm => 'Ол нысаннан және күнтізбеден жойылады.';
+
+  @override
+  String get openHouseEdit => 'Ашық есік күнін өзгерту';
+
+  @override
+  String get openHouseEnds => 'Аяқталуы';
+
+  @override
+  String get openHouseEndsBeforeStart =>
+      'Аяқталуы басталуынан кейін болуы керек';
+
+  @override
+  String get openHouseHasVisitors =>
+      'Келушілер тіркелген, сондықтан болдырмау мүмкін емес';
+
+  @override
+  String openHouseHost(String name) {
+    return 'Өткізетін: $name';
+  }
+
+  @override
+  String get openHouseInterestLabel => 'Қызығушылық';
+
+  @override
+  String get openHouseInterested => 'Қызықты';
+
+  @override
+  String get openHouseJustLooking => 'Жай қарап жүр';
+
+  @override
+  String get openHouseKnownClient => 'Бұрыннан клиент';
+
+  @override
+  String get openHouseLive => 'Қазір өтуде';
+
+  @override
+  String get openHouseLoadFailed => 'Ашық есік күнін жүктеу мүмкін болмады';
+
+  @override
+  String get openHouseNewClient => 'Жаңа клиент';
+
+  @override
+  String get openHouseNoVisitors => 'Әзірге ешкім тіркелмеген';
+
+  @override
+  String get openHouseNoVisitorsHint =>
+      'Келушілерді келген сайын қосыңыз. Агенттікке белгісіз нөмір жаңа сатып алушы болады.';
+
+  @override
+  String get openHouseNone =>
+      'Әзірге жоқ. Ашық есік күнін белгілеп, келушілерді есік алдында тіркеңіз.';
+
+  @override
+  String get openHouseNoteHint =>
+      'Кілттер, тұрақ, есік алдында кімге қоңырау шалу';
+
+  @override
+  String get openHouseNoteLabel => 'Жазба';
+
+  @override
+  String get openHousePast => 'Өткен';
+
+  @override
+  String get openHouseRemoveVisitor => 'Келушіні алып тастау';
+
+  @override
+  String openHouseRemoveVisitorConfirm(String name) {
+    return '$name парақтан, ал келу клиент тарихынан алынады. Тіркеу кезінде құрылған клиент қалады.';
+  }
+
+  @override
+  String get openHouseSave => 'Сақтау';
+
+  @override
+  String get openHouseSchedule => 'Ашық есік күнін белгілеу';
+
+  @override
+  String get openHouseSeeAll => 'Барлығын көрсету';
+
+  @override
+  String get openHouseSignIn => 'Сақтау';
+
+  @override
+  String get openHouseSignInNext => 'Сақтап, келесісі';
+
+  @override
+  String get openHouseSignInSheet => 'Келушілер парағы';
+
+  @override
+  String openHouseSignedIn(String name) {
+    return '$name тіркелді';
+  }
+
+  @override
+  String get openHouseStarts => 'Басталуы';
+
+  @override
+  String get openHouseSummary => 'Қорытынды';
+
+  @override
+  String get openHouseSummaryInterested => 'Қызығушылық танытты';
+
+  @override
+  String get openHouseSummaryNewClients => 'Жаңа клиенттер';
+
+  @override
+  String get openHouseSummaryVisitors => 'Келушілер';
+
+  @override
+  String get openHouseTitle => 'Ашық есік күні';
+
+  @override
+  String get openHouseTooLong => 'Ашық есік күні 12 сағаттан аспайды';
+
+  @override
+  String get openHouseUpcoming => 'Алдағы';
+
+  @override
+  String get openHouseVisitorName => 'Аты';
+
+  @override
+  String get openHouseVisitorNameHint => 'Өзі айтқандай';
+
+  @override
+  String get openHouseVisitorNameRequired => 'Атын енгізіңіз';
+
+  @override
+  String get openHouseVisitorNoteHint => 'Не туралы сұрады';
+
+  @override
+  String get openHouseVisitorPhone => 'Телефон';
+
+  @override
+  String get openHouseVisitorPhoneInvalid => 'Телефон нөмірін енгізіңіз';
+
+  @override
+  String openHouseVisitorsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count келуші',
+      zero: 'Келушілер жоқ',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get openHousesCardTitle => 'Ашық есік күндері';
 
   @override
   String get profileAgentId => 'Агент ID';

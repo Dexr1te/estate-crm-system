@@ -22,6 +22,11 @@ class ClientSourceBadge extends StatelessWidget {
             key: const ValueKey('client-source-public-link'),
             label: l10n.clientsSourcePublicLink,
             hue: StatusHue.positive);
+      case ClientSource.openHouse:
+        return StatusChip(
+            key: const ValueKey('client-source-open-house'),
+            label: l10n.clientsSourceOpenHouse,
+            hue: StatusHue.positive);
       case ClientSource.imported:
         return StatusChip(
             key: const ValueKey('client-source-import'),
