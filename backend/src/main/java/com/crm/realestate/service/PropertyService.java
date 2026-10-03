@@ -42,6 +42,7 @@ public class PropertyService {
     private final PropertyMapper     propertyMapper;
     private final PropertyPriceChangeRepository priceChangeRepository;
     private final NotificationEvents notificationEvents;
+    private final ChangeLogService   changeLog;
 
     /** How far ahead an agreement's end counts as "running out". */
     public static final int MANDATE_WINDOW_DAYS = 14;
@@ -139,19 +140,25 @@ public class PropertyService {
         Property property = new Property();
         mapRequestToEntity(request, property, currentUser);
         Property saved = propertyRepository.save(property);
+        changeLog.created(ChangeSnapshot.target(saved), currentUser);
         notificationEvents.listingAvailable(saved, currentUser);
         return toResponse(saved);
     }
 
-    /** An edit that moves the price leaves a row behind, so a reduction can be seen afterwards. */
+    /**
+     * An edit that moves the price leaves a row behind, so a reduction can be seen afterwards, and
+     * every field it moves leaves a line in the change log.
+     */
     @Transactional
     public PropertyResponse update(Long id, PropertyRequest request) {
         User currentUser = securityUtils.getCurrentUser();
         Property property = findVisibleById(id, currentUser);
         BigDecimal oldPrice = property.getPrice();
         PropertyStatus oldStatus = property.getStatus();
+        Map<String, String> before = ChangeSnapshot.of(property);
         mapRequestToEntity(request, property, currentUser);
         Property saved = propertyRepository.save(property);
+        changeLog.changed(ChangeSnapshot.target(saved), currentUser, before, ChangeSnapshot.of(saved));
         BigDecimal newPrice = saved.getPrice();
         if (oldPrice != null && newPrice != null && oldPrice.compareTo(newPrice) != 0) {
             priceChangeRepository.save(PropertyPriceChange.builder()
@@ -183,17 +190,31 @@ public class PropertyService {
         User currentUser = securityUtils.getCurrentUser();
         Property property = findVisibleById(id, currentUser);
         PropertyStatus oldStatus = property.getStatus();
+        Map<String, String> before = ChangeSnapshot.of(property);
         property.setStatus(status);
         Property saved = propertyRepository.save(property);
+        changeLog.changed(ChangeSnapshot.target(saved), currentUser, before, ChangeSnapshot.of(saved));
         if (oldStatus != PropertyStatus.AVAILABLE) {
             notificationEvents.listingAvailable(saved, currentUser);
         }
         return toResponse(saved);
     }
 
+    /** The change log keeps the line saying so after the listing is gone. */
     @Transactional
     public void delete(Long id) {
-        propertyRepository.delete(findVisibleById(id, securityUtils.getCurrentUser()));
+        User currentUser = securityUtils.getCurrentUser();
+        Property property = findVisibleById(id, currentUser);
+        changeLog.deleted(ChangeSnapshot.target(property), currentUser);
+        propertyRepository.delete(property);
+    }
+
+    /**
+     * The listing, if the caller's agency holds it. What hangs off a listing — its change log —
+     * goes through here, behind the same wall as the listing itself.
+     */
+    public Property requireVisible(Long id, User currentUser) {
+        return findVisibleById(id, currentUser);
     }
 
     // Private helpers

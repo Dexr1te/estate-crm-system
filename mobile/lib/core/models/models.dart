@@ -142,6 +142,7 @@ class ClientResponse with _$ClientResponse {
     @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
     LeadSource? leadSource,
     String? leadSourceDetail,
+
     /// `1990-05-14`, or `--05-14` when the year is not known. Read it
     /// through `ClientBirthday.parse`.
     String? birthday,
@@ -1236,4 +1237,59 @@ class OpenHouseVisitor with _$OpenHouseVisitor {
 
   factory OpenHouseVisitor.fromJson(Map<String, dynamic> json) =>
       _$OpenHouseVisitorFromJson(json);
+}
+
+/// The records whose changes the server writes down.
+enum ChangeEntityType {
+  @JsonValue('PROPERTY')
+  property,
+  @JsonValue('DEAL')
+  deal,
+  @JsonValue('CLIENT')
+  client,
+}
+
+/// What one line of a change log says happened. An edit the app does not
+/// know reads as [updated].
+enum ChangeAction {
+  @JsonValue('CREATED')
+  created,
+  @JsonValue('DELETED')
+  deleted,
+  @JsonValue('STATUS_CHANGED')
+  statusChanged,
+  @JsonValue('PRICE_CHANGED')
+  priceChanged,
+  @JsonValue('AGENT_CHANGED')
+  agentChanged,
+  @JsonValue('UPDATED')
+  updated,
+}
+
+/// One line of a listing's, deal's or client's change log: it was created or
+/// deleted, or [field] went from [oldValue] to [newValue]. Values are the
+/// server's plain text (enum names, plain numbers, ISO dates, names) and are
+/// put into words on screen. [actorId] is null once that person has left;
+/// [actorName] still says who it was.
+@freezed
+class RecordChange with _$RecordChange {
+  const factory RecordChange({
+    required int id,
+    @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+    ChangeEntityType? entityType,
+    @Default(0) int entityId,
+    String? entityLabel,
+    @JsonKey(unknownEnumValue: ChangeAction.updated)
+    @Default(ChangeAction.updated)
+    ChangeAction action,
+    String? field,
+    String? oldValue,
+    String? newValue,
+    int? actorId,
+    String? actorName,
+    DateTime? changedAt,
+  }) = _RecordChange;
+
+  factory RecordChange.fromJson(Map<String, dynamic> json) =>
+      _$RecordChangeFromJson(json);
 }

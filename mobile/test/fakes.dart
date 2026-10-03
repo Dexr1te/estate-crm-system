@@ -21,6 +21,7 @@ import 'package:real_estate_crm/features/agents/domain/repositories/agents_repos
 import 'package:real_estate_crm/features/analytics/domain/repositories/analytics_repository.dart';
 import 'package:real_estate_crm/features/app_lock/data/app_lock_repository_impl.dart';
 import 'package:real_estate_crm/features/auth/domain/repositories/auth_repository.dart';
+import 'package:real_estate_crm/features/change_log/domain/repositories/change_log_repository.dart';
 import 'package:real_estate_crm/features/checklist/domain/checklist_gate.dart';
 import 'package:real_estate_crm/features/checklist/domain/repositories/checklist_repository.dart';
 import 'package:real_estate_crm/features/clients/domain/repositories/clients_repository.dart';
@@ -718,6 +719,84 @@ class FakeAgentsRepository implements AgentsRepository {
 
   @override
   Future<List<AgentOption>> getAgentOptions() async => agents;
+}
+
+/// Change logs in memory, newest first as the server sends them. [history]
+/// answers a record's own lines; [feed] filters [changes] the way the server's
+/// `/audit` does, and remembers each filter it was asked for. Pages are
+/// [pageSize] lines long.
+class FakeChangeLogRepository implements ChangeLogRepository {
+  final List<RecordChange> changes;
+  final List<ChangeLogFilter> feedRequests = [];
+  final List<int> pagesRead = [];
+  final int pageSize;
+
+  /// When set, every read fails with it.
+  Object? failWith;
+
+  FakeChangeLogRepository({List<RecordChange>? changes, this.pageSize = 30})
+      : changes = changes ?? [];
+
+  PagedResponse<RecordChange> _page(List<RecordChange> all, int page) {
+    final start = page * pageSize;
+    final content = all.skip(start).take(pageSize).toList();
+    final totalPages = all.isEmpty ? 1 : (all.length / pageSize).ceil();
+    return PagedResponse(
+      content: content,
+      page: page,
+      totalPages: totalPages,
+      totalElements: all.length,
+      isLast: start + pageSize >= all.length,
+    );
+  }
+
+  @override
+  Future<PagedResponse<RecordChange>> history(
+    ChangeEntityType type,
+    int id, {
+    int page = 0,
+    int size = 30,
+  }) async {
+    final error = failWith;
+    if (error != null) throw error;
+    pagesRead.add(page);
+    return _page(
+        changes.where((c) => c.entityType == type && c.entityId == id).toList(),
+        page);
+  }
+
+  @override
+  Future<PagedResponse<RecordChange>> feed(
+    ChangeLogFilter filter, {
+    int page = 0,
+    int size = 30,
+  }) async {
+    final error = failWith;
+    if (error != null) throw error;
+    feedRequests.add(filter);
+    pagesRead.add(page);
+    bool inDays(RecordChange c) {
+      final at = c.changedAt;
+      if (at == null) return filter.from == null && filter.to == null;
+      final from = filter.from;
+      final to = filter.to;
+      if (from != null && at.isBefore(from)) return false;
+      if (to != null && !at.isBefore(to.add(const Duration(days: 1)))) {
+        return false;
+      }
+      return true;
+    }
+
+    return _page(
+        changes
+            .where((c) =>
+                (filter.entityType == null ||
+                    c.entityType == filter.entityType) &&
+                (filter.actorId == null || c.actorId == filter.actorId) &&
+                inDays(c))
+            .toList(),
+        page);
+  }
 }
 
 /// Answers every funnel request with [funnel] and records what was asked.

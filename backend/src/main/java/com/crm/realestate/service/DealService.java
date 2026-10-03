@@ -50,6 +50,7 @@ public class DealService {
     private final DealCommentRepository commentRepository;
     private final DealChecklistStore checklistStore;
     private final DealDepositStore depositStore;
+    private final ChangeLogService changeLog;
 
     static final BigDecimal ONE_HUNDRED = BigDecimal.valueOf(100);
     static final int LOST_NOTE_MAX = 500;
@@ -79,8 +80,9 @@ public class DealService {
         mapRequestToEntity(request, deal, currentUser);
         applyLostReason(deal, null, request.getLostReason(), request.getLostNote());
         stampClosedAt(deal, null);
-        syncPropertyStatusWithDeal(deal);
+        syncPropertyStatusWithDeal(deal, currentUser);
         Deal saved = dealRepository.save(deal);
+        changeLog.created(ChangeSnapshot.target(saved), currentUser);
         recordStatusChange(saved, null, currentUser);
         checklistStore.copyTemplate(saved, currentUser);
         return respond(saved, 0);
@@ -92,6 +94,7 @@ public class DealService {
         Deal deal = findVisibleById(id, currentUser);
         Property previousProperty = deal.getProperty();
         DealStatus previousStatus = deal.getStatus();
+        Map<String, String> before = ChangeSnapshot.of(deal);
         requireLostReason(statusOf(request), previousStatus, request.getLostReason(), request.getLostNote());
         mapRequestToEntity(request, deal, currentUser);
         applyLostReason(deal, previousStatus, request.getLostReason(), request.getLostNote());
@@ -100,19 +103,21 @@ public class DealService {
 
         if (previousProperty != null && deal.getProperty() == null
                 && previousProperty.getStatus() == PropertyStatus.RESERVED) {
-            previousProperty.setStatus(PropertyStatus.AVAILABLE);
+            setPropertyStatus(previousProperty, PropertyStatus.AVAILABLE, currentUser);
             propertyRepository.save(previousProperty);
         }
 
         if (previousProperty != null && deal.getProperty() != null
                 && !previousProperty.getId().equals(deal.getProperty().getId())
                 && previousProperty.getStatus() == PropertyStatus.RESERVED) {
-            previousProperty.setStatus(PropertyStatus.AVAILABLE);
+            setPropertyStatus(previousProperty, PropertyStatus.AVAILABLE, currentUser);
             propertyRepository.save(previousProperty);
         }
 
-        syncPropertyStatusWithDeal(deal);
-        return respond(dealRepository.save(deal), commentRepository.countByDealId(id));
+        syncPropertyStatusWithDeal(deal, currentUser);
+        Deal saved = dealRepository.save(deal);
+        changeLog.changed(ChangeSnapshot.target(saved), currentUser, before, ChangeSnapshot.of(saved));
+        return respond(saved, commentRepository.countByDealId(id));
     }
 
     @Transactional
@@ -121,20 +126,27 @@ public class DealService {
         User currentUser = securityUtils.getCurrentUser();
         Deal deal = findVisibleById(id, currentUser);
         DealStatus previousStatus = deal.getStatus();
+        Map<String, String> before = ChangeSnapshot.of(deal);
         requireLostReason(newStatus, previousStatus, lostReason, lostNote);
         deal.setStatus(newStatus);
         applyLostReason(deal, previousStatus, lostReason, lostNote);
         stampClosedAt(deal, previousStatus);
         recordStatusChange(deal, previousStatus, currentUser);
 
-        syncPropertyStatusWithDeal(deal);
+        syncPropertyStatusWithDeal(deal, currentUser);
 
-        return respond(dealRepository.save(deal), commentRepository.countByDealId(id));
+        Deal saved = dealRepository.save(deal);
+        changeLog.changed(ChangeSnapshot.target(saved), currentUser, before, ChangeSnapshot.of(saved));
+        return respond(saved, commentRepository.countByDealId(id));
     }
 
+    /** The change log keeps the line saying so after the deal is gone. */
     @Transactional
     public void delete(Long id) {
-        dealRepository.delete(findVisibleById(id, securityUtils.getCurrentUser()));
+        User currentUser = securityUtils.getCurrentUser();
+        Deal deal = findVisibleById(id, currentUser);
+        changeLog.deleted(ChangeSnapshot.target(deal), currentUser);
+        dealRepository.delete(deal);
     }
 
     private List<DealResponse> findVisible(Specification<Deal> filter) {
@@ -330,17 +342,30 @@ public class DealService {
                 .divide(ONE_HUNDRED, 2, RoundingMode.HALF_UP);
     }
 
-    private void syncPropertyStatusWithDeal(Deal deal) {
+    private void syncPropertyStatusWithDeal(Deal deal, User actor) {
         if (deal.getProperty() == null) {
             return;
         }
 
         if (deal.getStatus() == DealStatus.CLOSED_WON) {
-            deal.getProperty().setStatus(PropertyStatus.SOLD);
+            setPropertyStatus(deal.getProperty(), PropertyStatus.SOLD, actor);
         } else if (deal.getStatus() == DealStatus.CLOSED_LOST) {
-            deal.getProperty().setStatus(PropertyStatus.AVAILABLE);
+            setPropertyStatus(deal.getProperty(), PropertyStatus.AVAILABLE, actor);
         } else {
-            deal.getProperty().setStatus(PropertyStatus.RESERVED);
+            setPropertyStatus(deal.getProperty(), PropertyStatus.RESERVED, actor);
+        }
+    }
+
+    /**
+     * A deal moves its listing along with it; the listing's change log says so, in the name of
+     * whoever moved the deal.
+     */
+    private void setPropertyStatus(Property property, PropertyStatus status, User actor) {
+        PropertyStatus old = property.getStatus();
+        property.setStatus(status);
+        if (old != status) {
+            changeLog.fieldChanged(ChangeSnapshot.target(property), actor, "status",
+                    old == null ? null : old.name(), status.name());
         }
     }
 

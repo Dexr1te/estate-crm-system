@@ -597,6 +597,229 @@ class AppLocalizationsKk extends AppLocalizations {
   String get calendarViewMonth => 'Ай';
 
   @override
+  String get changeLogAnyTime => 'Барлық уақыт';
+
+  @override
+  String get changeLogAnyone => 'Барлық қызметкерлер';
+
+  @override
+  String get changeLogAutomatic => 'Автоматты түрде';
+
+  @override
+  String changeLogChange(String field, String from, String to) {
+    return '$field: $from → $to';
+  }
+
+  @override
+  String get changeLogClearFilters => 'Сүзгілерді тазалау';
+
+  @override
+  String get changeLogCreated => 'Құрылды';
+
+  @override
+  String changeLogDays(String from, String to) {
+    return '$from – $to';
+  }
+
+  @override
+  String get changeLogDeleted => 'Жойылды';
+
+  @override
+  String changeLogEdited(String field) {
+    return '$field: өзгертілді';
+  }
+
+  @override
+  String get changeLogEmptyBody =>
+      'Бұл жазбаның әр өзгерісі осында көрсетіледі: кім және қашан енгізгені.';
+
+  @override
+  String get changeLogEmptyTitle => 'Әзірге өзгерістер жоқ';
+
+  @override
+  String get changeLogEntityClient => 'Клиент';
+
+  @override
+  String get changeLogEntityDeal => 'Мәміле';
+
+  @override
+  String get changeLogEntityOther => 'Жазба';
+
+  @override
+  String get changeLogEntityProperty => 'Нысан';
+
+  @override
+  String get changeLogFieldAddress => 'Мекенжай';
+
+  @override
+  String get changeLogFieldAgent => 'Агент';
+
+  @override
+  String get changeLogFieldArea => 'Ауданы';
+
+  @override
+  String get changeLogFieldBirthday => 'Туған күні';
+
+  @override
+  String get changeLogFieldBudget => 'Бюджет';
+
+  @override
+  String get changeLogFieldBudgetMax => 'Бюджет дейін';
+
+  @override
+  String get changeLogFieldBudgetMin => 'Бюджет бастап';
+
+  @override
+  String get changeLogFieldCity => 'Қала';
+
+  @override
+  String get changeLogFieldClient => 'Клиент';
+
+  @override
+  String get changeLogFieldCommission => 'Комиссия';
+
+  @override
+  String get changeLogFieldDealPrice => 'Мәміле бағасы';
+
+  @override
+  String get changeLogFieldDescription => 'Сипаттама';
+
+  @override
+  String get changeLogFieldEmail => 'Email';
+
+  @override
+  String get changeLogFieldFloor => 'Қабат';
+
+  @override
+  String get changeLogFieldLeadSource => 'Дереккөз';
+
+  @override
+  String get changeLogFieldLeadSourceDetail => 'Дереккөз туралы толығырақ';
+
+  @override
+  String get changeLogFieldListing => 'Нысан';
+
+  @override
+  String get changeLogFieldLocation => 'Картадағы орны';
+
+  @override
+  String get changeLogFieldLostNote => 'Жоғалту туралы ескертпе';
+
+  @override
+  String get changeLogFieldLostReason => 'Жоғалту себебі';
+
+  @override
+  String get changeLogFieldMandate => 'Сатушымен келісім';
+
+  @override
+  String get changeLogFieldMandateEnd => 'Келісім мерзімі';
+
+  @override
+  String get changeLogFieldMinArea => 'Ауданы, кемінде';
+
+  @override
+  String get changeLogFieldMinRooms => 'Бөлме саны, кемінде';
+
+  @override
+  String get changeLogFieldName => 'Аты';
+
+  @override
+  String get changeLogFieldNotes => 'Жазбалар';
+
+  @override
+  String get changeLogFieldOther => 'Басқа мәліметтер';
+
+  @override
+  String get changeLogFieldPhone => 'Телефон';
+
+  @override
+  String get changeLogFieldPrice => 'Баға';
+
+  @override
+  String get changeLogFieldRooms => 'Бөлмелер';
+
+  @override
+  String get changeLogFieldStatus => 'Мәртебе';
+
+  @override
+  String get changeLogFieldTags => 'Тегтер';
+
+  @override
+  String get changeLogFieldTitle => 'Атауы';
+
+  @override
+  String get changeLogFieldTotalFloors => 'Үйдегі қабаттар';
+
+  @override
+  String get changeLogFieldType => 'Түрі';
+
+  @override
+  String get changeLogFieldWantedCity => 'Қалаған қала';
+
+  @override
+  String get changeLogFieldWantedType => 'Іздейді';
+
+  @override
+  String get changeLogFilterAll => 'Барлығы';
+
+  @override
+  String get changeLogFilterClients => 'Клиенттер';
+
+  @override
+  String get changeLogFilterDeals => 'Мәмілелер';
+
+  @override
+  String get changeLogFilterListings => 'Нысандар';
+
+  @override
+  String get changeLogLoadFailed => 'Тарихты жүктеу мүмкін болмады';
+
+  @override
+  String get changeLogNoValue => '—';
+
+  @override
+  String get changeLogPeopleFailed =>
+      'Агенттік қызметкерлерін жүктеу мүмкін болмады';
+
+  @override
+  String changeLogPercent(String value) {
+    return '$value%';
+  }
+
+  @override
+  String get changeLogPickDays => 'Кезең';
+
+  @override
+  String get changeLogPickPerson => 'Өзгерісті кім енгізді';
+
+  @override
+  String changeLogRecord(String kind, String label) {
+    return '$kind: $label';
+  }
+
+  @override
+  String get changeLogTeamEmptyBody =>
+      'Агенттіктің нысандары, мәмілелері және клиенттеріндегі өзгерістер осында көрсетіледі.';
+
+  @override
+  String get changeLogTeamEmptyFiltered => 'Бұл сүзгілер бойынша ештеңе жоқ.';
+
+  @override
+  String get changeLogTeamHint => 'Агенттікте кім не өзгертті';
+
+  @override
+  String get changeLogTeamTitle => 'Өзгерістер журналы';
+
+  @override
+  String get changeLogTitle => 'Өзгерістер тарихы';
+
+  @override
+  String get changeLogUnknownValue => 'басқа мән';
+
+  @override
+  String get changeLogUntitled => 'Атауы жоқ';
+
+  @override
   String get clientsActivityCall => 'Қоңырау';
 
   @override

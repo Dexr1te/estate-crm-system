@@ -48,6 +48,7 @@ public class AccountRemovalService {
     private final AuditLogService    auditLogService;
     private final ScopeService       scopeService;
     private final NotificationEvents notificationEvents;
+    private final ChangeLogService   changeLog;
 
     @Value("${app.primary-admin-email:admin@gmail.com}")
     private String primaryAdminEmail;
@@ -100,7 +101,18 @@ public class AccountRemovalService {
                     target.getFullName(), deals.size(), meetings.size(), documents.size(), openTasks));
         }
 
+        // Someone closing their own account is the row about to go: their name stays on the lines,
+        // the reference does not (see below for the same reasoning about audit_logs).
+        User changeActor = targetId.equals(actor.getId()) ? null : actor;
+        String changeActorName = ChangeSnapshot.person(actor);
+
         if (replacement != null) {
+            deals.forEach(d -> changeLog.agentChanged(ChangeSnapshot.target(d), changeActor, changeActorName,
+                    target, replacement));
+            clients.forEach(c -> changeLog.agentChanged(ChangeSnapshot.target(c), changeActor, changeActorName,
+                    target, replacement));
+            properties.forEach(p -> changeLog.agentChanged(ChangeSnapshot.target(p), changeActor, changeActorName,
+                    target, replacement));
             deals.forEach(d -> d.setAgent(replacement));
             meetings.forEach(m -> m.setAgent(replacement));
             documents.forEach(d -> d.setUploadedBy(replacement));

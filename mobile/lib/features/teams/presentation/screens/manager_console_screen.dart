@@ -6,6 +6,7 @@ import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart';
+import 'package:real_estate_crm/features/change_log/presentation/widgets/change_log_entries.dart';
 import 'package:real_estate_crm/features/checklist/presentation/widgets/checklist_template_row.dart';
 import 'package:real_estate_crm/features/exports/presentation/widgets/export_console_card.dart';
 import 'package:real_estate_crm/features/goals/presentation/widgets/team_goals_row.dart';
@@ -321,6 +322,8 @@ class _MembersList extends StatelessWidget {
           const SizedBox(height: 9),
           const TeamGoalsSettingsRow(),
           const SizedBox(height: 9),
+          const ChangeLogSettingsRow(),
+          const SizedBox(height: 9),
           EmptyState(
             title: l10n.teamsNoMembers,
             subtitle: l10n.teamsNoMembersBody,
@@ -331,7 +334,7 @@ class _MembersList extends StatelessWidget {
     }
     return ListView.separated(
       padding: padding,
-      itemCount: state.members.length + 8,
+      itemCount: state.members.length + 9,
       separatorBuilder: (_, __) => const SizedBox(height: 9),
       itemBuilder: (_, i) {
         if (i == 0) return const ImportEntryCard();
@@ -347,6 +350,9 @@ class _MembersList extends StatelessWidget {
             actionLabel: l10n.teamsAgents,
             onAction: onStats,
           );
+        }
+        if (i == state.members.length + 8) {
+          return const ChangeLogSettingsRow();
         }
         final member = state.members[i - 8];
         return MemberCard(

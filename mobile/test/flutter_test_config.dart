@@ -53,6 +53,8 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) async {
   Injector.exportsRepository = FakeExportsRepository();
   // A listing's open houses card and the calendar read open houses too.
   Injector.openHousesRepository = FakeOpenHousesRepository();
+  // A record's history of changes and the agency's change log.
+  Injector.changeLogRepository = FakeChangeLogRepository();
   Injector.notificationsPollInterval = null;
   // No PIN on the phone: the lock stays off, and its keychain is memory.
   Injector.appLockRepository = fakeAppLockRepository();

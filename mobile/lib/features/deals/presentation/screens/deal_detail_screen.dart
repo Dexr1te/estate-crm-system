@@ -9,6 +9,7 @@ import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:real_estate_crm/features/change_log/presentation/widgets/change_log_entries.dart';
 import 'package:real_estate_crm/features/checklist/domain/checklist_gate.dart';
 import 'package:real_estate_crm/features/checklist/presentation/bloc/deal_checklist_bloc.dart';
 import 'package:real_estate_crm/features/checklist/presentation/bloc/deal_checklist_event.dart';
@@ -279,6 +280,7 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
                 _NotesCard(text: deal.notes!),
               DealDiscussionCard(
                   key: _discussionKey, dealId: deal.id, bloc: _comments),
+              ChangeHistoryButton(location: '/deals/${widget.id}/changes'),
             ],
           ),
         ),

@@ -147,6 +147,20 @@ void main() {
     expect(find.byKey(const Key('team-goals-row')), findsOneWidget);
   });
 
+  testWidgets("the agency's change log is read from here", (tester) async {
+    _teams();
+    await _pumpConsole(tester);
+    await tester.scrollUntilVisible(
+        find.byKey(const Key('change-log-row')), 200,
+        scrollable: find.byType(Scrollable).last);
+    expect(find.byKey(const Key('change-log-row')), findsOneWidget);
+    expect(find.text('Change log'), findsOneWidget);
+
+    _teams(members: const []);
+    await _pumpConsole(tester);
+    expect(find.byKey(const Key('change-log-row')), findsOneWidget);
+  });
+
   testWidgets('bringing the book in from a spreadsheet starts here',
       (tester) async {
     _teams();
