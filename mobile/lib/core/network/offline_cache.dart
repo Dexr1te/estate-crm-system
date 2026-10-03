@@ -62,6 +62,8 @@ class OfflineCache {
     RegExp(r'^/tasks$'),
     RegExp(r'^/properties/\d+/open-houses$'),
     RegExp(r'^/open-houses(/\d+)?$'),
+    RegExp(r'^/(properties|clients)/\d+/offers$'),
+    RegExp(r'^/offers/\d+$'),
     RegExp(r'^/dashboard/summary$'),
     RegExp(r'^/goals/me$'),
   ];

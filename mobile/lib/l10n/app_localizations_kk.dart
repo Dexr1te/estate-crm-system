@@ -3760,6 +3760,223 @@ class AppLocalizationsKk extends AppLocalizations {
   }
 
   @override
+  String get offersAccept => 'Қабылдау';
+
+  @override
+  String offersAcceptConfirm(String amount) {
+    return '$amount келісілген баға болады. Нысан бойынша басқа ұсыныстар шешім қабылдағанша қосалқы ретінде ашық қалады.';
+  }
+
+  @override
+  String get offersAcceptTitle => 'Ұсынысты қабылдау керек пе?';
+
+  @override
+  String get offersAgent => 'Агент';
+
+  @override
+  String get offersAlreadyAccepted =>
+      'Бұл нысан бойынша басқа ұсыныс қабылданған; алдымен оны кері қайтарыңыз';
+
+  @override
+  String get offersAlreadyOpen =>
+      'Бұл сатып алушының мұнда ашық ұсынысы бар; оған қарсы ұсыныс жасаңыз';
+
+  @override
+  String get offersAmount => 'Сома';
+
+  @override
+  String get offersAmountHint => 'Ұсынылған сома';
+
+  @override
+  String offersAsking(String price) {
+    return 'сұралғаны $price';
+  }
+
+  @override
+  String get offersBackup =>
+      'Басқа ұсыныс қабылданды; бұл қосалқы ретінде күтуде';
+
+  @override
+  String get offersBuyer => 'Сатып алушы';
+
+  @override
+  String get offersCardTitle => 'Ұсыныстар';
+
+  @override
+  String get offersClientNone =>
+      'Бұл сатып алушыдан әзірге ұсыныс жоқ. Ұсыныс нысан бетінде жазылады.';
+
+  @override
+  String get offersClientNotBuyer => 'Ұсынысты тек сатып алушы жасай алады';
+
+  @override
+  String get offersClosedHeading => 'Жабылғандар';
+
+  @override
+  String offersColleagueBuyer(String agent) {
+    return 'Сатып алушы: $agent';
+  }
+
+  @override
+  String get offersCounter => 'Қарсы ұсыныс';
+
+  @override
+  String get offersCounterFrom => 'Кімнің сомасы';
+
+  @override
+  String get offersCounterTitle => 'Жаңа сома';
+
+  @override
+  String get offersDecidedOn => 'Шешілді';
+
+  @override
+  String get offersExpiresOn => 'Жарамды мерзімі';
+
+  @override
+  String get offersExpiryPast => 'Мерзім бүгіннен ерте бола алмайды';
+
+  @override
+  String get offersFigureBuyer => 'Сатып алушының сомасы';
+
+  @override
+  String get offersFigureSeller => 'Сатушының сомасы';
+
+  @override
+  String get offersHiddenBuyer => 'Әріптестің сатып алушысы';
+
+  @override
+  String get offersHistory => 'Келіссөз барысы';
+
+  @override
+  String get offersListLoadFailed => 'Ұсыныстарды жүктеу мүмкін болмады';
+
+  @override
+  String get offersLoadFailed => 'Ұсынысты жүктеу мүмкін болмады';
+
+  @override
+  String get offersNoBuyers => 'Сатып алушылар табылмады';
+
+  @override
+  String get offersNoDeadline => 'Мерзімсіз';
+
+  @override
+  String get offersNoLongerOpen => 'Бұл ұсыныс енді ашық емес';
+
+  @override
+  String get offersNone =>
+      'Әзірге ұсыныс жоқ. Сатып алушы баға атағанда жазып қойыңыз.';
+
+  @override
+  String get offersNote => 'Ескертпе';
+
+  @override
+  String get offersNoteHint => 'Шарттар, төлем тәсілі, тілектер';
+
+  @override
+  String offersOfAsking(int percent) {
+    return 'бағаның $percent%';
+  }
+
+  @override
+  String offersOnTableNow(String amount) {
+    return 'Қазіргі сома: $amount';
+  }
+
+  @override
+  String get offersPartyBuyer => 'Сатып алушы';
+
+  @override
+  String get offersPartySeller => 'Сатушы';
+
+  @override
+  String get offersPickBuyer => 'Сатып алушыны таңдаңыз';
+
+  @override
+  String get offersPropertySold => 'Нысан сатылған, ұсыныс қабылданбайды';
+
+  @override
+  String get offersRecord => 'Ұсынысты жазу';
+
+  @override
+  String get offersRecordTitle => 'Жаңа ұсыныс';
+
+  @override
+  String get offersReject => 'Қабылдамау';
+
+  @override
+  String get offersRejectConfirm =>
+      'Ұсыныс қабылданбаған ретінде жабылады, оны қайта ашу мүмкін емес.';
+
+  @override
+  String get offersRejectTitle => 'Ұсынысты қабылдамау керек пе?';
+
+  @override
+  String get offersSave => 'Сақтау';
+
+  @override
+  String get offersSearchBuyers => 'Сатып алушыларды іздеу';
+
+  @override
+  String get offersShowAll => 'Барлығын көрсету';
+
+  @override
+  String get offersStatusAccepted => 'Қабылданды';
+
+  @override
+  String get offersStatusCountered => 'Қарсы ұсыныс';
+
+  @override
+  String get offersStatusExpired => 'Мерзімі өтті';
+
+  @override
+  String get offersStatusNew => 'Жаңа';
+
+  @override
+  String get offersStatusRejected => 'Қабылданбады';
+
+  @override
+  String get offersStatusWithdrawn => 'Кері қайтарылды';
+
+  @override
+  String get offersStepAccepted => 'Қабылданды';
+
+  @override
+  String get offersStepCounteredBuyer => 'Сатып алушының қарсы ұсынысы';
+
+  @override
+  String get offersStepCounteredSeller => 'Сатушының қарсы ұсынысы';
+
+  @override
+  String get offersStepOffered => 'Сатып алушының ұсынысы';
+
+  @override
+  String get offersStepOther => 'Өзгеріс';
+
+  @override
+  String get offersStepRejected => 'Қабылданбады';
+
+  @override
+  String get offersStepWithdrawn => 'Кері қайтарылды';
+
+  @override
+  String get offersTitle => 'Ұсыныс';
+
+  @override
+  String offersValidUntil(String date) {
+    return '$date дейін жарамды';
+  }
+
+  @override
+  String get offersWithdraw => 'Кері қайтару';
+
+  @override
+  String get offersWithdrawConfirm =>
+      'Сатып алушы бас тартты. Ұсыныс жабылады, оны қайта ашу мүмкін емес.';
+
+  @override
+  String get offersWithdrawTitle => 'Ұсынысты кері қайтару керек пе?';
+
+  @override
   String get openHouseActivity => 'Ашық есік күніне келу';
 
   @override

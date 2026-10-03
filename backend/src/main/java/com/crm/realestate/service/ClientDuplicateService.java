@@ -13,6 +13,7 @@ import com.crm.realestate.repository.ClientRepository;
 import com.crm.realestate.repository.DealRepository;
 import com.crm.realestate.repository.MeetingRepository;
 import com.crm.realestate.repository.OpenHouseVisitorRepository;
+import com.crm.realestate.repository.PropertyOfferRepository;
 import com.crm.realestate.repository.TaskRepository;
 import com.crm.realestate.security.SecurityUtils;
 import jakarta.persistence.EntityManager;
@@ -49,6 +50,7 @@ public class ClientDuplicateService {
     private final ClientActivityRepository activityRepository;
     private final TaskRepository taskRepository;
     private final OpenHouseVisitorRepository openHouseVisitorRepository;
+    private final PropertyOfferRepository offerRepository;
     private final ClientService clientService;
     private final ClientMapper clientMapper;
     private final ClientTagService tagService;
@@ -131,6 +133,7 @@ public class ClientDuplicateService {
         int activities = activityRepository.moveToClient(source, target);
         int tasks = taskRepository.moveToClient(source, target);
         openHouseVisitorRepository.moveToClient(source, target);
+        offerRepository.moveToClient(source, target);
 
         entityManager.flush();
         entityManager.clear();
