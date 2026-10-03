@@ -5478,4 +5478,155 @@ class AppLocalizationsRu extends AppLocalizations {
   String templatesUnknownPlaceholder(String names) {
     return 'Неизвестная подстановка: $names. Используйте те, что ниже.';
   }
+
+  @override
+  String get clientsActivityHandover => 'Передан коллеге';
+
+  @override
+  String clientsActivityHandoverDetail(String from, String to) {
+    return 'От $from к $to';
+  }
+
+  @override
+  String clientsActivityHandoverTo(String to) {
+    return 'К $to';
+  }
+
+  @override
+  String get handoverAction => 'Передать работу';
+
+  @override
+  String handoverIntro(String name) {
+    return '$name остаётся в агентстве. Выберите, кому и что передать; в истории каждого клиента появится отметка.';
+  }
+
+  @override
+  String get handoverFrom => 'От кого';
+
+  @override
+  String get handoverTo => 'Кому';
+
+  @override
+  String get handoverChooseColleague => 'Выберите коллегу';
+
+  @override
+  String get handoverNoColleagues => 'Пока некому передать';
+
+  @override
+  String get handoverWhat => 'Что передать';
+
+  @override
+  String get handoverPartClients => 'Клиенты';
+
+  @override
+  String get handoverPartClientsHint =>
+      'Вместе с открытыми сделками, встречами и задачами';
+
+  @override
+  String get handoverPartListings => 'Объекты';
+
+  @override
+  String get handoverPartListingsHint =>
+      'Вместе с предстоящими днями открытых дверей';
+
+  @override
+  String get handoverPartDeals => 'Открытые сделки';
+
+  @override
+  String get handoverPartDealsHint => 'Все сделки, которые ещё не закрыты';
+
+  @override
+  String get handoverPartUpcoming => 'Встречи и задачи';
+
+  @override
+  String get handoverPartUpcomingHint =>
+      'Предстоящие встречи и невыполненные задачи';
+
+  @override
+  String get handoverAllClients => 'Все клиенты';
+
+  @override
+  String handoverSomeClients(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Выбрано $count клиента',
+      many: 'Выбрано $count клиентов',
+      few: 'Выбрано $count клиента',
+      one: 'Выбран $count клиент',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get handoverPickClients => 'Выбрать клиентов';
+
+  @override
+  String get handoverPickAll => 'Выбрать всех';
+
+  @override
+  String get handoverPickNone => 'Снять выбор';
+
+  @override
+  String get handoverPickDone => 'Готово';
+
+  @override
+  String get handoverNoClients => 'Нет клиентов для выбора';
+
+  @override
+  String get handoverPreview => 'Что будет передано';
+
+  @override
+  String get handoverCountDeals => 'Сделки';
+
+  @override
+  String get handoverCountMeetings => 'Встречи';
+
+  @override
+  String get handoverCountTasks => 'Задачи';
+
+  @override
+  String get handoverCountOpenHouses => 'Дни открытых дверей';
+
+  @override
+  String get handoverPickTarget =>
+      'Выберите, кому передать, чтобы увидеть, что перейдёт';
+
+  @override
+  String get handoverNothingSelected => 'Отметьте хотя бы что-то одно';
+
+  @override
+  String get handoverNothingToMove => 'Передавать нечего';
+
+  @override
+  String get handoverPreviewFailed => 'Не удалось посчитать, что перейдёт';
+
+  @override
+  String get handoverConfirm => 'Передать';
+
+  @override
+  String handoverConfirmTitle(String name) {
+    return 'Передать коллеге $name?';
+  }
+
+  @override
+  String handoverConfirmBody(String from, String to) {
+    return 'Работа перейдёт от $from к $to. Никто не покидает агентство, а в истории каждого клиента появится отметка.';
+  }
+
+  @override
+  String handoverDoneTitle(String name) {
+    return 'Передано: $name';
+  }
+
+  @override
+  String handoverDoneBody(String name) {
+    return '$name получит уведомление о переданной работе.';
+  }
+
+  @override
+  String get handoverDoneAction => 'Вернуться к команде';
+
+  @override
+  String get handoverLoadFailed => 'Не удалось загрузить команду';
 }

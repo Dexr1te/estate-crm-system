@@ -5308,4 +5308,151 @@ class AppLocalizationsKk extends AppLocalizations {
   String templatesUnknownPlaceholder(String names) {
     return 'Белгісіз орын толтырғыш: $names. Төмендегілерді пайдаланыңыз.';
   }
+
+  @override
+  String get clientsActivityHandover => 'Әріптеске берілді';
+
+  @override
+  String clientsActivityHandoverDetail(String from, String to) {
+    return '$from әріптесінен $to әріптесіне';
+  }
+
+  @override
+  String clientsActivityHandoverTo(String to) {
+    return '$to әріптесіне';
+  }
+
+  @override
+  String get handoverAction => 'Жұмысты беру';
+
+  @override
+  String handoverIntro(String name) {
+    return '$name агенттікте қалады. Кімге және не беретінін таңдаңыз; әр клиенттің тарихында белгі қалады.';
+  }
+
+  @override
+  String get handoverFrom => 'Кімнен';
+
+  @override
+  String get handoverTo => 'Кімге';
+
+  @override
+  String get handoverChooseColleague => 'Әріптесті таңдаңыз';
+
+  @override
+  String get handoverNoColleagues => 'Әзірге беретін ешкім жоқ';
+
+  @override
+  String get handoverWhat => 'Не беріледі';
+
+  @override
+  String get handoverPartClients => 'Клиенттер';
+
+  @override
+  String get handoverPartClientsHint =>
+      'Ашық мәмілелерімен, кездесулерімен және тапсырмаларымен';
+
+  @override
+  String get handoverPartListings => 'Нысандар';
+
+  @override
+  String get handoverPartListingsHint => 'Алдағы ашық есік күндерімен';
+
+  @override
+  String get handoverPartDeals => 'Ашық мәмілелер';
+
+  @override
+  String get handoverPartDealsHint => 'Әлі жабылмаған барлық мәмілелер';
+
+  @override
+  String get handoverPartUpcoming => 'Кездесулер мен тапсырмалар';
+
+  @override
+  String get handoverPartUpcomingHint =>
+      'Алдағы кездесулер мен орындалмаған тапсырмалар';
+
+  @override
+  String get handoverAllClients => 'Барлық клиенттер';
+
+  @override
+  String handoverSomeClients(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count клиент таңдалды',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get handoverPickClients => 'Клиенттерді таңдау';
+
+  @override
+  String get handoverPickAll => 'Барлығын таңдау';
+
+  @override
+  String get handoverPickNone => 'Тазалау';
+
+  @override
+  String get handoverPickDone => 'Дайын';
+
+  @override
+  String get handoverNoClients => 'Таңдайтын клиент жоқ';
+
+  @override
+  String get handoverPreview => 'Берілетіндер';
+
+  @override
+  String get handoverCountDeals => 'Мәмілелер';
+
+  @override
+  String get handoverCountMeetings => 'Кездесулер';
+
+  @override
+  String get handoverCountTasks => 'Тапсырмалар';
+
+  @override
+  String get handoverCountOpenHouses => 'Ашық есік күндері';
+
+  @override
+  String get handoverPickTarget =>
+      'Не өтетінін көру үшін кімге беретінін таңдаңыз';
+
+  @override
+  String get handoverNothingSelected => 'Кем дегенде бір нәрсені белгілеңіз';
+
+  @override
+  String get handoverNothingToMove => 'Беретін ештеңе жоқ';
+
+  @override
+  String get handoverPreviewFailed => 'Не өтетінін есептеу мүмкін болмады';
+
+  @override
+  String get handoverConfirm => 'Беру';
+
+  @override
+  String handoverConfirmTitle(String name) {
+    return '$name әріптесіне беру керек пе?';
+  }
+
+  @override
+  String handoverConfirmBody(String from, String to) {
+    return 'Жұмыс $from әріптесінен $to әріптесіне өтеді. Ешкім агенттіктен кетпейді, әр клиенттің тарихында белгі қалады.';
+  }
+
+  @override
+  String handoverDoneTitle(String name) {
+    return 'Берілді: $name';
+  }
+
+  @override
+  String handoverDoneBody(String name) {
+    return '$name берілген жұмыс туралы хабарлама алады.';
+  }
+
+  @override
+  String get handoverDoneAction => 'Командаға оралу';
+
+  @override
+  String get handoverLoadFailed => 'Команданы жүктеу мүмкін болмады';
 }

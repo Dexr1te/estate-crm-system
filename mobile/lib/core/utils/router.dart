@@ -48,6 +48,7 @@ import 'package:real_estate_crm/features/route/domain/day_route.dart';
 import 'package:real_estate_crm/features/route/presentation/screens/route_screen.dart';
 import 'package:real_estate_crm/features/search/presentation/screens/search_screen.dart';
 import 'package:real_estate_crm/features/tasks/presentation/screens/tasks_screen.dart';
+import 'package:real_estate_crm/features/teams/presentation/screens/handover_screen.dart';
 import 'package:real_estate_crm/features/teams/presentation/screens/manager_console_screen.dart';
 
 final _rootKey = GlobalKey<NavigatorState>();
@@ -120,6 +121,9 @@ String? resolveRedirect({
     return '/dashboard';
   }
   if (location.startsWith('/team-goals') && role != Role.MANAGER) {
+    return '/dashboard';
+  }
+  if (location.startsWith('/team-handover') && role != Role.MANAGER) {
     return '/dashboard';
   }
   if (location.startsWith('/import') &&
@@ -250,6 +254,13 @@ GoRouter createRouter(AuthBloc authBloc) {
         parentNavigatorKey: _rootKey,
         pageBuilder: (_, __) =>
             const NoTransitionPage(child: TeamGoalsScreen()),
+      ),
+      GoRoute(
+        path: '/team-handover/:id',
+        parentNavigatorKey: _rootKey,
+        pageBuilder: (_, s) => NoTransitionPage(
+          child: HandoverScreen(agentId: int.parse(s.pathParameters['id']!)),
+        ),
       ),
       GoRoute(
         path: '/import',

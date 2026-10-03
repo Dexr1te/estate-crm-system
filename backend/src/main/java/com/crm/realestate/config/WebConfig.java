@@ -33,6 +33,7 @@ public class WebConfig implements WebMvcConfigurer {
                         "/export/**",
                         "/dashboard/**",
                         "/goals/**",
+                        "/handovers/**",
                         "/users/agents");
     }
 }

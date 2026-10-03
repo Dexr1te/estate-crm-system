@@ -28,6 +28,9 @@ public interface OpenHouseRepository extends JpaRepository<OpenHouse, Long>, Jpa
             + "WHERE o.property.id = :propertyId ORDER BY o.startsAt DESC, o.id DESC")
     List<OpenHouse> findByPropertyNewestFirst(@Param("propertyId") Long propertyId);
 
+    /** The open houses someone is still to host in a team — see WorkHandoverService. */
+    List<OpenHouse> findByAgentIdAndTeamIdAndEndsAtAfter(Long agentId, Long teamId, java.time.LocalDateTime now);
+
     /** Hands open houses held in a team to a colleague — see RecordHandoverService. */
     @Modifying(flushAutomatically = true)
     @Query("UPDATE OpenHouse o SET o.agent = :to WHERE o.agent = :from AND o.team = :team")

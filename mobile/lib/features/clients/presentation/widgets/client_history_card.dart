@@ -65,7 +65,9 @@ class ClientHistoryCard extends StatelessWidget {
                 activity: items[i],
                 last: i == items.length - 1,
                 onDelete: canDelete(items[i]) ? () => onDelete(items[i]) : null,
-                onEdit: onEdit != null && canDelete(items[i])
+                onEdit: onEdit != null &&
+                        canDelete(items[i]) &&
+                        items[i].handoverToName == null
                     ? () => onEdit!(items[i])
                     : null,
                 onOpenProperty: onOpenProperty,
@@ -107,6 +109,9 @@ class _ActivityRow extends StatelessWidget {
     final note = activity.note?.trim();
     final author = activity.authorName?.trim();
     final visit = activity.openHouseId != null;
+    final handedTo = activity.handoverToName?.trim();
+    final handedFrom = activity.handoverFromName?.trim() ?? '';
+    final handover = handedTo != null;
 
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
@@ -128,9 +133,11 @@ class _ActivityRow extends StatelessWidget {
                       shape: BoxShape.circle,
                     ),
                     child: Icon(
-                        visit
-                            ? Icons.meeting_room_outlined
-                            : activityTypeIcon(activity.type),
+                        handover
+                            ? Icons.swap_horiz_rounded
+                            : visit
+                                ? Icons.meeting_room_outlined
+                                : activityTypeIcon(activity.type),
                         size: 15,
                         color: t.textSecondary),
                   ),
@@ -153,9 +160,11 @@ class _ActivityRow extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      visit
-                          ? l10n.openHouseActivity
-                          : activityTypeLabel(l10n, activity.type),
+                      handover
+                          ? l10n.clientsActivityHandover
+                          : visit
+                              ? l10n.openHouseActivity
+                              : activityTypeLabel(l10n, activity.type),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -180,6 +189,23 @@ class _ActivityRow extends StatelessWidget {
                           fontSize: 11,
                           color: t.textHint),
                     ),
+                    if (handover) ...[
+                      const SizedBox(height: 6),
+                      Text(
+                        handedFrom.isEmpty
+                            ? l10n.clientsActivityHandoverTo(handedTo)
+                            : l10n.clientsActivityHandoverDetail(
+                                handedFrom, handedTo),
+                        key: ValueKey('handover-line-${activity.id}'),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontFamily: AppFonts.sans,
+                            fontSize: 12.5,
+                            height: 1.45,
+                            color: t.textSecondary),
+                      ),
+                    ],
                     if (note != null && note.isNotEmpty) ...[
                       const SizedBox(height: 6),
                       Text(

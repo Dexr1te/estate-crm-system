@@ -74,4 +74,12 @@ class TeamsRepositoryImpl implements TeamsRepository {
 
   @override
   Future<AuthResponse> leaveTeam() => _remote.leaveTeam();
+
+  @override
+  Future<HandoverSummary> previewHandover(HandoverSelection selection) =>
+      _remote.previewHandover(selection);
+
+  @override
+  Future<HandoverSummary> handOver(HandoverSelection selection) =>
+      _remote.handOver(selection);
 }

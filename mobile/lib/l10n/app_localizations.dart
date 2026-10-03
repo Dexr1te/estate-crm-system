@@ -9058,6 +9058,252 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unknown placeholder: {names}. Use the ones below.'**
   String templatesUnknownPlaceholder(String names);
+
+  /// No description provided for @clientsActivityHandover.
+  ///
+  /// In en, this message translates to:
+  /// **'Handed over'**
+  String get clientsActivityHandover;
+
+  /// No description provided for @clientsActivityHandoverDetail.
+  ///
+  /// In en, this message translates to:
+  /// **'From {from} to {to}'**
+  String clientsActivityHandoverDetail(String from, String to);
+
+  /// No description provided for @clientsActivityHandoverTo.
+  ///
+  /// In en, this message translates to:
+  /// **'To {to}'**
+  String clientsActivityHandoverTo(String to);
+
+  /// No description provided for @handoverAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Hand over work'**
+  String get handoverAction;
+
+  /// No description provided for @handoverIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} stays in the agency. Choose who takes over and what moves; each client\'s history will say so.'**
+  String handoverIntro(String name);
+
+  /// No description provided for @handoverFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'From'**
+  String get handoverFrom;
+
+  /// No description provided for @handoverTo.
+  ///
+  /// In en, this message translates to:
+  /// **'To'**
+  String get handoverTo;
+
+  /// No description provided for @handoverChooseColleague.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a colleague'**
+  String get handoverChooseColleague;
+
+  /// No description provided for @handoverNoColleagues.
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody else can take it yet'**
+  String get handoverNoColleagues;
+
+  /// No description provided for @handoverWhat.
+  ///
+  /// In en, this message translates to:
+  /// **'What moves'**
+  String get handoverWhat;
+
+  /// No description provided for @handoverPartClients.
+  ///
+  /// In en, this message translates to:
+  /// **'Clients'**
+  String get handoverPartClients;
+
+  /// No description provided for @handoverPartClientsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'With their open deals, meetings and tasks'**
+  String get handoverPartClientsHint;
+
+  /// No description provided for @handoverPartListings.
+  ///
+  /// In en, this message translates to:
+  /// **'Listings'**
+  String get handoverPartListings;
+
+  /// No description provided for @handoverPartListingsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'With open houses still to come'**
+  String get handoverPartListingsHint;
+
+  /// No description provided for @handoverPartDeals.
+  ///
+  /// In en, this message translates to:
+  /// **'Open deals'**
+  String get handoverPartDeals;
+
+  /// No description provided for @handoverPartDealsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Every deal not yet won or lost'**
+  String get handoverPartDealsHint;
+
+  /// No description provided for @handoverPartUpcoming.
+  ///
+  /// In en, this message translates to:
+  /// **'Meetings and tasks'**
+  String get handoverPartUpcoming;
+
+  /// No description provided for @handoverPartUpcomingHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Meetings to come and tasks not done'**
+  String get handoverPartUpcomingHint;
+
+  /// No description provided for @handoverAllClients.
+  ///
+  /// In en, this message translates to:
+  /// **'All clients'**
+  String get handoverAllClients;
+
+  /// No description provided for @handoverSomeClients.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 client picked} other{{count} clients picked}}'**
+  String handoverSomeClients(int count);
+
+  /// No description provided for @handoverPickClients.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose clients'**
+  String get handoverPickClients;
+
+  /// No description provided for @handoverPickAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Select all'**
+  String get handoverPickAll;
+
+  /// No description provided for @handoverPickNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get handoverPickNone;
+
+  /// No description provided for @handoverPickDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get handoverPickDone;
+
+  /// No description provided for @handoverNoClients.
+  ///
+  /// In en, this message translates to:
+  /// **'No clients to pick'**
+  String get handoverNoClients;
+
+  /// No description provided for @handoverPreview.
+  ///
+  /// In en, this message translates to:
+  /// **'What will move'**
+  String get handoverPreview;
+
+  /// No description provided for @handoverCountDeals.
+  ///
+  /// In en, this message translates to:
+  /// **'Deals'**
+  String get handoverCountDeals;
+
+  /// No description provided for @handoverCountMeetings.
+  ///
+  /// In en, this message translates to:
+  /// **'Meetings'**
+  String get handoverCountMeetings;
+
+  /// No description provided for @handoverCountTasks.
+  ///
+  /// In en, this message translates to:
+  /// **'Tasks'**
+  String get handoverCountTasks;
+
+  /// No description provided for @handoverCountOpenHouses.
+  ///
+  /// In en, this message translates to:
+  /// **'Open houses'**
+  String get handoverCountOpenHouses;
+
+  /// No description provided for @handoverPickTarget.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose who takes over to see what moves'**
+  String get handoverPickTarget;
+
+  /// No description provided for @handoverNothingSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose at least one thing to hand over'**
+  String get handoverNothingSelected;
+
+  /// No description provided for @handoverNothingToMove.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing to hand over'**
+  String get handoverNothingToMove;
+
+  /// No description provided for @handoverPreviewFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not count what moves'**
+  String get handoverPreviewFailed;
+
+  /// No description provided for @handoverConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Hand over'**
+  String get handoverConfirm;
+
+  /// No description provided for @handoverConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Hand over to {name}?'**
+  String handoverConfirmTitle(String name);
+
+  /// No description provided for @handoverConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Work moves from {from} to {to}. Nobody leaves the agency, and each client\'s history will note it.'**
+  String handoverConfirmBody(String from, String to);
+
+  /// No description provided for @handoverDoneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Handed over to {name}'**
+  String handoverDoneTitle(String name);
+
+  /// No description provided for @handoverDoneBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} has been told what is now theirs.'**
+  String handoverDoneBody(String name);
+
+  /// No description provided for @handoverDoneAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to the team'**
+  String get handoverDoneAction;
+
+  /// No description provided for @handoverLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load the team'**
+  String get handoverLoadFailed;
 }
 
 class _AppLocalizationsDelegate
