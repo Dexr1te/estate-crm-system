@@ -2601,5 +2601,108 @@
         "type": "String"
       }
     }
-  }
+  },
+  "clientsActivityHandover": "Handed over",
+  "clientsActivityHandoverDetail": "From {from} to {to}",
+  "@clientsActivityHandoverDetail": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "clientsActivityHandoverTo": "To {to}",
+  "@clientsActivityHandoverTo": {
+    "placeholders": {
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "handoverAction": "Hand over work",
+  "handoverIntro": "{name} stays in the agency. Choose who takes over and what moves; each client's history will say so.",
+  "@handoverIntro": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "handoverFrom": "From",
+  "handoverTo": "To",
+  "handoverChooseColleague": "Choose a colleague",
+  "handoverNoColleagues": "Nobody else can take it yet",
+  "handoverWhat": "What moves",
+  "handoverPartClients": "Clients",
+  "handoverPartClientsHint": "With their open deals, meetings and tasks",
+  "handoverPartListings": "Listings",
+  "handoverPartListingsHint": "With open houses still to come",
+  "handoverPartDeals": "Open deals",
+  "handoverPartDealsHint": "Every deal not yet won or lost",
+  "handoverPartUpcoming": "Meetings and tasks",
+  "handoverPartUpcomingHint": "Meetings to come and tasks not done",
+  "handoverAllClients": "All clients",
+  "handoverSomeClients": "{count, plural, =1{1 client picked} other{{count} clients picked}}",
+  "@handoverSomeClients": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "handoverPickClients": "Choose clients",
+  "handoverPickAll": "Select all",
+  "handoverPickNone": "Clear",
+  "handoverPickDone": "Done",
+  "handoverNoClients": "No clients to pick",
+  "handoverPreview": "What will move",
+  "handoverCountDeals": "Deals",
+  "handoverCountMeetings": "Meetings",
+  "handoverCountTasks": "Tasks",
+  "handoverCountOpenHouses": "Open houses",
+  "handoverPickTarget": "Choose who takes over to see what moves",
+  "handoverNothingSelected": "Choose at least one thing to hand over",
+  "handoverNothingToMove": "Nothing to hand over",
+  "handoverPreviewFailed": "Could not count what moves",
+  "handoverConfirm": "Hand over",
+  "handoverConfirmTitle": "Hand over to {name}?",
+  "@handoverConfirmTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "handoverConfirmBody": "Work moves from {from} to {to}. Nobody leaves the agency, and each client's history will note it.",
+  "@handoverConfirmBody": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "handoverDoneTitle": "Handed over to {name}",
+  "@handoverDoneTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "handoverDoneBody": "{name} has been told what is now theirs.",
+  "@handoverDoneBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "handoverDoneAction": "Back to the team",
+  "handoverLoadFailed": "Could not load the team"
 }

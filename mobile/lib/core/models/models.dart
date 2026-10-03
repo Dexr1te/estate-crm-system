@@ -203,6 +203,12 @@ class ClientActivity with _$ClientActivity {
 
     /// Set when the entry is a visit signed in at an open house.
     int? openHouseId,
+
+    /// Set, both of them, on the line a manager's handover wrote: who held
+    /// the client before and who holds it now. The from name is empty when
+    /// nobody held it.
+    String? handoverFromName,
+    String? handoverToName,
   }) = _ClientActivity;
 
   factory ClientActivity.fromJson(Map<String, dynamic> json) =>

@@ -924,6 +924,56 @@ class FakeTeamsRepository implements TeamsRepository {
 
   bool leftTeam = false;
 
+  /// Every preview asked for, in order.
+  final List<HandoverSelection> previews = [];
+
+  /// When set, a preview fails with it.
+  Object? previewError;
+
+  /// When set, the handover itself fails with it and nothing moves.
+  Object? handOverError;
+
+  /// What the last handover sent.
+  HandoverSelection? handedOver;
+
+  @override
+  Future<HandoverSummary> previewHandover(HandoverSelection selection) async {
+    previews.add(selection);
+    if (previewError case final Object error) throw error;
+    return _handoverSummary(selection, done: false);
+  }
+
+  @override
+  Future<HandoverSummary> handOver(HandoverSelection selection) async {
+    if (handOverError case final Object error) throw error;
+    handedOver = selection;
+    return _handoverSummary(selection, done: true);
+  }
+
+  /// A book of 4 clients, 2 listings, 3 open deals, 5 meetings and 6 tasks;
+  /// a client picked by hand brings one meeting and one task.
+  HandoverSummary _handoverSummary(HandoverSelection s, {required bool done}) {
+    final picked = s.clientIds?.length;
+    final clients = picked ?? (s.clients ? 4 : 0);
+    final listings = s.listings ? 2 : 0;
+    final deals = s.deals ? 3 : 0;
+    final meetings = s.upcoming ? 5 : picked ?? 0;
+    final tasks = s.upcoming ? 6 : picked ?? 0;
+    final to = members.where((m) => m.id == s.toAgentId).firstOrNull;
+    return HandoverSummary(
+      done: done,
+      fromAgentId: s.fromAgentId,
+      toAgentId: s.toAgentId,
+      toAgentName: to?.fullName ?? '',
+      clients: clients,
+      listings: listings,
+      deals: deals,
+      meetings: meetings,
+      tasks: tasks,
+      total: clients + listings + deals + meetings + tasks,
+    );
+  }
+
   @override
   Never noSuchMethod(Invocation i) => throw UnimplementedError();
 }

@@ -99,6 +99,11 @@ public class ClientActivityService {
         User currentUser = securityUtils.getCurrentUser();
         Client client = clientService.requireVisible(clientId, currentUser);
         ClientActivity activity = requireEditable(client, activityId, currentUser);
+        if (activity.getHandoverToName() != null) {
+            // It records what was done to the card, not what anybody said; it can go, not be reworded.
+            throw new BusinessException(HttpStatus.CONFLICT, "HANDOVER_ENTRY_READ_ONLY",
+                    "A handover line cannot be changed");
+        }
         String note = validNote(request);
         LocalDateTime occurredAt = request.getOccurredAt() == null
                 ? activity.getOccurredAt() : validOccurredAt(request.getOccurredAt());
@@ -227,6 +232,8 @@ public class ClientActivityService {
                 .authorName(author == null ? activity.getAuthorName() : author.getFullName())
                 .createdAt(activity.getCreatedAt())
                 .openHouseId(activity.getOpenHouse() == null ? null : activity.getOpenHouse().getId())
+                .handoverFromName(activity.getHandoverFromName())
+                .handoverToName(activity.getHandoverToName())
                 .properties(properties)
                 .build();
     }

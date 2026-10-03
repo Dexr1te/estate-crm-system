@@ -65,6 +65,17 @@ public class ClientActivity {
     @OnDelete(action = OnDeleteAction.SET_NULL)
     private OpenHouse openHouse;
 
+    /**
+     * Set, with {@link #handoverToName}, on the line a manager's handover writes: who held the
+     * client before and who holds it now, by name as they were called then. Null on every other
+     * entry. See V48.
+     */
+    @Column(name = "handover_from_name")
+    private String handoverFromName;
+
+    @Column(name = "handover_to_name")
+    private String handoverToName;
+
     /** When the call or message happened, which is not always when it was written down. */
     @Column(name = "occurred_at", nullable = false)
     private LocalDateTime occurredAt;

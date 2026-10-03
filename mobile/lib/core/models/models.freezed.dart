@@ -1565,6 +1565,12 @@ mixin _$ClientActivity {
   /// Set when the entry is a visit signed in at an open house.
   int? get openHouseId => throw _privateConstructorUsedError;
 
+  /// Set, both of them, on the line a manager's handover wrote: who held
+  /// the client before and who holds it now. The from name is empty when
+  /// nobody held it.
+  String? get handoverFromName => throw _privateConstructorUsedError;
+  String? get handoverToName => throw _privateConstructorUsedError;
+
   /// Serializes this ClientActivity to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
@@ -1591,7 +1597,9 @@ abstract class $ClientActivityCopyWith<$Res> {
       String? authorName,
       DateTime? createdAt,
       List<ActivityProperty> properties,
-      int? openHouseId});
+      int? openHouseId,
+      String? handoverFromName,
+      String? handoverToName});
 }
 
 /// @nodoc
@@ -1619,6 +1627,8 @@ class _$ClientActivityCopyWithImpl<$Res, $Val extends ClientActivity>
     Object? createdAt = freezed,
     Object? properties = null,
     Object? openHouseId = freezed,
+    Object? handoverFromName = freezed,
+    Object? handoverToName = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -1661,6 +1671,14 @@ class _$ClientActivityCopyWithImpl<$Res, $Val extends ClientActivity>
           ? _value.openHouseId
           : openHouseId // ignore: cast_nullable_to_non_nullable
               as int?,
+      handoverFromName: freezed == handoverFromName
+          ? _value.handoverFromName
+          : handoverFromName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      handoverToName: freezed == handoverToName
+          ? _value.handoverToName
+          : handoverToName // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -1683,7 +1701,9 @@ abstract class _$$ClientActivityImplCopyWith<$Res>
       String? authorName,
       DateTime? createdAt,
       List<ActivityProperty> properties,
-      int? openHouseId});
+      int? openHouseId,
+      String? handoverFromName,
+      String? handoverToName});
 }
 
 /// @nodoc
@@ -1709,6 +1729,8 @@ class __$$ClientActivityImplCopyWithImpl<$Res>
     Object? createdAt = freezed,
     Object? properties = null,
     Object? openHouseId = freezed,
+    Object? handoverFromName = freezed,
+    Object? handoverToName = freezed,
   }) {
     return _then(_$ClientActivityImpl(
       id: null == id
@@ -1751,6 +1773,14 @@ class __$$ClientActivityImplCopyWithImpl<$Res>
           ? _value.openHouseId
           : openHouseId // ignore: cast_nullable_to_non_nullable
               as int?,
+      handoverFromName: freezed == handoverFromName
+          ? _value.handoverFromName
+          : handoverFromName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      handoverToName: freezed == handoverToName
+          ? _value.handoverToName
+          : handoverToName // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -1768,7 +1798,9 @@ class _$ClientActivityImpl implements _ClientActivity {
       this.authorName,
       this.createdAt,
       final List<ActivityProperty> properties = const <ActivityProperty>[],
-      this.openHouseId})
+      this.openHouseId,
+      this.handoverFromName,
+      this.handoverToName})
       : _properties = properties;
 
   factory _$ClientActivityImpl.fromJson(Map<String, dynamic> json) =>
@@ -1808,9 +1840,17 @@ class _$ClientActivityImpl implements _ClientActivity {
   @override
   final int? openHouseId;
 
+  /// Set, both of them, on the line a manager's handover wrote: who held
+  /// the client before and who holds it now. The from name is empty when
+  /// nobody held it.
+  @override
+  final String? handoverFromName;
+  @override
+  final String? handoverToName;
+
   @override
   String toString() {
-    return 'ClientActivity(id: $id, clientId: $clientId, type: $type, note: $note, occurredAt: $occurredAt, authorId: $authorId, authorName: $authorName, createdAt: $createdAt, properties: $properties, openHouseId: $openHouseId)';
+    return 'ClientActivity(id: $id, clientId: $clientId, type: $type, note: $note, occurredAt: $occurredAt, authorId: $authorId, authorName: $authorName, createdAt: $createdAt, properties: $properties, openHouseId: $openHouseId, handoverFromName: $handoverFromName, handoverToName: $handoverToName)';
   }
 
   @override
@@ -1834,7 +1874,11 @@ class _$ClientActivityImpl implements _ClientActivity {
             const DeepCollectionEquality()
                 .equals(other._properties, _properties) &&
             (identical(other.openHouseId, openHouseId) ||
-                other.openHouseId == openHouseId));
+                other.openHouseId == openHouseId) &&
+            (identical(other.handoverFromName, handoverFromName) ||
+                other.handoverFromName == handoverFromName) &&
+            (identical(other.handoverToName, handoverToName) ||
+                other.handoverToName == handoverToName));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1850,7 +1894,9 @@ class _$ClientActivityImpl implements _ClientActivity {
       authorName,
       createdAt,
       const DeepCollectionEquality().hash(_properties),
-      openHouseId);
+      openHouseId,
+      handoverFromName,
+      handoverToName);
 
   /// Create a copy of ClientActivity
   /// with the given fields replaced by the non-null parameter values.
@@ -1880,7 +1926,9 @@ abstract class _ClientActivity implements ClientActivity {
       final String? authorName,
       final DateTime? createdAt,
       final List<ActivityProperty> properties,
-      final int? openHouseId}) = _$ClientActivityImpl;
+      final int? openHouseId,
+      final String? handoverFromName,
+      final String? handoverToName}) = _$ClientActivityImpl;
 
   factory _ClientActivity.fromJson(Map<String, dynamic> json) =
       _$ClientActivityImpl.fromJson;
@@ -1909,6 +1957,14 @@ abstract class _ClientActivity implements ClientActivity {
   /// Set when the entry is a visit signed in at an open house.
   @override
   int? get openHouseId;
+
+  /// Set, both of them, on the line a manager's handover wrote: who held
+  /// the client before and who holds it now. The from name is empty when
+  /// nobody held it.
+  @override
+  String? get handoverFromName;
+  @override
+  String? get handoverToName;
 
   /// Create a copy of ClientActivity
   /// with the given fields replaced by the non-null parameter values.

@@ -210,6 +210,8 @@ _$ClientActivityImpl _$$ClientActivityImplFromJson(Map<String, dynamic> json) =>
               .toList() ??
           const <ActivityProperty>[],
       openHouseId: (json['openHouseId'] as num?)?.toInt(),
+      handoverFromName: json['handoverFromName'] as String?,
+      handoverToName: json['handoverToName'] as String?,
     );
 
 Map<String, dynamic> _$$ClientActivityImplToJson(
@@ -225,6 +227,8 @@ Map<String, dynamic> _$$ClientActivityImplToJson(
       'createdAt': instance.createdAt?.toIso8601String(),
       'properties': instance.properties,
       'openHouseId': instance.openHouseId,
+      'handoverFromName': instance.handoverFromName,
+      'handoverToName': instance.handoverToName,
     };
 
 const _$ActivityTypeEnumMap = {

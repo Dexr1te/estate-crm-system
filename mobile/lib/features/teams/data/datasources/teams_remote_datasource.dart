@@ -88,4 +88,15 @@ class TeamsRemoteDataSource {
     final res = await _client.dio.delete('/me/team');
     return AuthResponse.fromJson(jsonObject(res));
   }
+
+  Future<HandoverSummary> previewHandover(HandoverSelection selection) async {
+    final res =
+        await _client.dio.post('/handovers/preview', data: selection.toJson());
+    return HandoverSummary.fromJson(jsonObject(res));
+  }
+
+  Future<HandoverSummary> handOver(HandoverSelection selection) async {
+    final res = await _client.dio.post('/handovers', data: selection.toJson());
+    return HandoverSummary.fromJson(jsonObject(res));
+  }
 }

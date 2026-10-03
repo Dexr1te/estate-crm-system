@@ -5380,4 +5380,151 @@ class AppLocalizationsEn extends AppLocalizations {
   String templatesUnknownPlaceholder(String names) {
     return 'Unknown placeholder: $names. Use the ones below.';
   }
+
+  @override
+  String get clientsActivityHandover => 'Handed over';
+
+  @override
+  String clientsActivityHandoverDetail(String from, String to) {
+    return 'From $from to $to';
+  }
+
+  @override
+  String clientsActivityHandoverTo(String to) {
+    return 'To $to';
+  }
+
+  @override
+  String get handoverAction => 'Hand over work';
+
+  @override
+  String handoverIntro(String name) {
+    return '$name stays in the agency. Choose who takes over and what moves; each client\'s history will say so.';
+  }
+
+  @override
+  String get handoverFrom => 'From';
+
+  @override
+  String get handoverTo => 'To';
+
+  @override
+  String get handoverChooseColleague => 'Choose a colleague';
+
+  @override
+  String get handoverNoColleagues => 'Nobody else can take it yet';
+
+  @override
+  String get handoverWhat => 'What moves';
+
+  @override
+  String get handoverPartClients => 'Clients';
+
+  @override
+  String get handoverPartClientsHint =>
+      'With their open deals, meetings and tasks';
+
+  @override
+  String get handoverPartListings => 'Listings';
+
+  @override
+  String get handoverPartListingsHint => 'With open houses still to come';
+
+  @override
+  String get handoverPartDeals => 'Open deals';
+
+  @override
+  String get handoverPartDealsHint => 'Every deal not yet won or lost';
+
+  @override
+  String get handoverPartUpcoming => 'Meetings and tasks';
+
+  @override
+  String get handoverPartUpcomingHint => 'Meetings to come and tasks not done';
+
+  @override
+  String get handoverAllClients => 'All clients';
+
+  @override
+  String handoverSomeClients(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count clients picked',
+      one: '1 client picked',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get handoverPickClients => 'Choose clients';
+
+  @override
+  String get handoverPickAll => 'Select all';
+
+  @override
+  String get handoverPickNone => 'Clear';
+
+  @override
+  String get handoverPickDone => 'Done';
+
+  @override
+  String get handoverNoClients => 'No clients to pick';
+
+  @override
+  String get handoverPreview => 'What will move';
+
+  @override
+  String get handoverCountDeals => 'Deals';
+
+  @override
+  String get handoverCountMeetings => 'Meetings';
+
+  @override
+  String get handoverCountTasks => 'Tasks';
+
+  @override
+  String get handoverCountOpenHouses => 'Open houses';
+
+  @override
+  String get handoverPickTarget => 'Choose who takes over to see what moves';
+
+  @override
+  String get handoverNothingSelected =>
+      'Choose at least one thing to hand over';
+
+  @override
+  String get handoverNothingToMove => 'Nothing to hand over';
+
+  @override
+  String get handoverPreviewFailed => 'Could not count what moves';
+
+  @override
+  String get handoverConfirm => 'Hand over';
+
+  @override
+  String handoverConfirmTitle(String name) {
+    return 'Hand over to $name?';
+  }
+
+  @override
+  String handoverConfirmBody(String from, String to) {
+    return 'Work moves from $from to $to. Nobody leaves the agency, and each client\'s history will note it.';
+  }
+
+  @override
+  String handoverDoneTitle(String name) {
+    return 'Handed over to $name';
+  }
+
+  @override
+  String handoverDoneBody(String name) {
+    return '$name has been told what is now theirs.';
+  }
+
+  @override
+  String get handoverDoneAction => 'Back to the team';
+
+  @override
+  String get handoverLoadFailed => 'Could not load the team';
 }
