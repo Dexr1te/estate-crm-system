@@ -25,6 +25,9 @@ public class ClientActivityResponse {
     private LocalDateTime createdAt;
     /** Set when this entry is a visit signed in at an open house; null otherwise. */
     private Long openHouseId;
+    /** Set on the line a handover wrote: who held the client before, and who after. */
+    private String handoverFromName;
+    private String handoverToName;
     /** The listings this entry was about — what went out in a message. Empty, never null. */
     @Builder.Default
     private List<PropertyRef> properties = List.of();

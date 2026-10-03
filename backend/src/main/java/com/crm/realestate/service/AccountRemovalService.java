@@ -15,6 +15,7 @@ import com.crm.realestate.repository.DealRepository;
 import com.crm.realestate.repository.DocumentRepository;
 import com.crm.realestate.repository.MeetingRepository;
 import com.crm.realestate.repository.OpenHouseRepository;
+import com.crm.realestate.repository.PropertyOfferRepository;
 import com.crm.realestate.repository.PropertyRepository;
 import com.crm.realestate.repository.TaskRepository;
 import com.crm.realestate.repository.UserRepository;
@@ -45,10 +46,12 @@ public class AccountRemovalService {
     private final PropertyRepository propertyRepository;
     private final TaskRepository     taskRepository;
     private final OpenHouseRepository openHouseRepository;
+    private final PropertyOfferRepository offerRepository;
     private final AuditLogService    auditLogService;
     private final ScopeService       scopeService;
     private final NotificationEvents notificationEvents;
     private final ChangeLogService   changeLog;
+    private final RecordHandoverService recordHandoverService;
 
     @Value("${app.primary-admin-email:admin@gmail.com}")
     private String primaryAdminEmail;
@@ -113,21 +116,15 @@ public class AccountRemovalService {
                     target, replacement));
             properties.forEach(p -> changeLog.agentChanged(ChangeSnapshot.target(p), changeActor, changeActorName,
                     target, replacement));
-            deals.forEach(d -> d.setAgent(replacement));
-            meetings.forEach(m -> m.setAgent(replacement));
+            recordHandoverService.move(
+                    RecordHandoverService.Records.of(clients, properties, deals, meetings, tasks), replacement);
             documents.forEach(d -> d.setUploadedBy(replacement));
-            clients.forEach(c -> c.setAgent(replacement));
-            properties.forEach(p -> p.setAgent(replacement));
-            tasks.forEach(t -> t.setAssignee(replacement));
-            dealRepository.saveAll(deals);
-            meetingRepository.saveAll(meetings);
             documentRepository.saveAll(documents);
-            clientRepository.saveAll(clients);
-            propertyRepository.saveAll(properties);
-            taskRepository.saveAll(tasks);
             // An open house the leaver was to hold is the agency's event; without a successor
             // the schema forgets the host instead (V44).
             openHouseRepository.reassignAll(target, replacement);
+            // So are the offers the leaver was following up (V47).
+            offerRepository.reassignAll(target, replacement);
             notificationEvents.recordsHandedOver(target, replacement, actor, replacement.getTeam(),
                     clients.size(), properties.size(), deals.size(), meetings.size(), tasks.size());
         }
