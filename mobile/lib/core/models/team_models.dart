@@ -187,3 +187,87 @@ class AddMemberResult {
     );
   }
 }
+
+/// What a manager hands from one member to another: parts of the whole
+/// book, or the clients in [clientIds] alone. A client brings its open deals,
+/// meetings to come and open tasks along on the server.
+class HandoverSelection {
+  final int fromAgentId;
+  final int toAgentId;
+  final bool clients;
+  final bool listings;
+  final bool deals;
+  final bool upcoming;
+
+  /// Only these clients, in place of [clients]; null for all of them.
+  final List<int>? clientIds;
+
+  const HandoverSelection({
+    required this.fromAgentId,
+    required this.toAgentId,
+    this.clients = false,
+    this.listings = false,
+    this.deals = false,
+    this.upcoming = false,
+    this.clientIds,
+  });
+
+  Map<String, dynamic> toJson() => {
+        'fromAgentId': fromAgentId,
+        'toAgentId': toAgentId,
+        'clients': clientIds == null && clients,
+        'listings': listings,
+        'deals': deals,
+        'upcoming': upcoming,
+        if (clientIds != null) 'clientIds': clientIds,
+      };
+}
+
+/// How much a handover moves (a preview) or moved ([done]).
+class HandoverSummary {
+  final bool done;
+  final int? fromAgentId;
+  final String? fromAgentName;
+  final int toAgentId;
+  final String toAgentName;
+  final int clients;
+  final int listings;
+  final int deals;
+  final int meetings;
+  final int tasks;
+  final int openHouses;
+  final int total;
+
+  const HandoverSummary({
+    this.done = false,
+    this.fromAgentId,
+    this.fromAgentName,
+    required this.toAgentId,
+    this.toAgentName = '',
+    this.clients = 0,
+    this.listings = 0,
+    this.deals = 0,
+    this.meetings = 0,
+    this.tasks = 0,
+    this.openHouses = 0,
+    this.total = 0,
+  });
+
+  factory HandoverSummary.fromJson(Map<String, dynamic> json) {
+    int count(String key) => (json[key] as num?)?.toInt() ?? 0;
+    return HandoverSummary(
+      done: json['done'] == true,
+      fromAgentId: (json['fromAgentId'] as num?)?.toInt(),
+      fromAgentName: json['fromAgentName'] as String?,
+      toAgentId: (json['toAgentId'] as num).toInt(),
+      toAgentName: (json['toAgentName'] ?? '') as String,
+      clients: count('clients'),
+      listings: count('listings'),
+      deals: count('deals'),
+      meetings: count('meetings'),
+      tasks: count('tasks'),
+      openHouses: count('openHouses'),
+      total: count('total'),
+    );
+  }
+}

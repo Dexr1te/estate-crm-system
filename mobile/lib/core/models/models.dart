@@ -213,6 +213,12 @@ class ClientActivity with _$ClientActivity {
 
     /// Set when the entry is a visit signed in at an open house.
     int? openHouseId,
+
+    /// Set, both of them, on the line a manager's handover wrote: who held
+    /// the client before and who holds it now. The from name is empty when
+    /// nobody held it.
+    String? handoverFromName,
+    String? handoverToName,
   }) = _ClientActivity;
 
   factory ClientActivity.fromJson(Map<String, dynamic> json) =>
@@ -1294,4 +1300,110 @@ class OpenHouseVisitor with _$OpenHouseVisitor {
 
   factory OpenHouseVisitor.fromJson(Map<String, dynamic> json) =>
       _$OpenHouseVisitorFromJson(json);
+}
+
+/// Where a buyer's offer on a listing stands. [isNew] and [countered] are
+/// open; the rest are decided. [expired] is an open offer past its last day,
+/// as the server works it out when it reads one.
+enum OfferStatus {
+  @JsonValue('NEW')
+  isNew,
+  @JsonValue('COUNTERED')
+  countered,
+  @JsonValue('ACCEPTED')
+  accepted,
+  @JsonValue('REJECTED')
+  rejected,
+  @JsonValue('WITHDRAWN')
+  withdrawn,
+  @JsonValue('EXPIRED')
+  expired;
+
+  bool get isOpen => this == isNew || this == countered;
+}
+
+/// Whose figure is on the table: the buyer's offer or the seller's counter.
+enum OfferParty {
+  @JsonValue('BUYER')
+  buyer,
+  @JsonValue('SELLER')
+  seller,
+}
+
+/// One step in an offer's negotiation.
+enum OfferAction {
+  @JsonValue('OFFERED')
+  offered,
+  @JsonValue('COUNTERED')
+  countered,
+  @JsonValue('ACCEPTED')
+  accepted,
+  @JsonValue('REJECTED')
+  rejected,
+  @JsonValue('WITHDRAWN')
+  withdrawn,
+}
+
+/// A buyer's offer on a listing. [amount] is the figure on the table now, in
+/// the agency's currency. [history] is the negotiation and comes only with a
+/// single offer.
+@freezed
+class PropertyOffer with _$PropertyOffer {
+  const factory PropertyOffer({
+    required int id,
+    required int propertyId,
+    @Default('') String propertyTitle,
+    String? propertyAddress,
+    double? propertyPrice,
+    required int clientId,
+
+    /// Whether the signed-in user may open the buyer's card; a colleague's
+    /// buyer, on an own-records scope, is named by [clientAgentName] only.
+    @Default(false) bool clientVisible,
+    String? clientName,
+    String? clientAgentName,
+    int? agentId,
+    String? agentName,
+    @Default(0.0) double amount,
+    @JsonKey(unknownEnumValue: OfferParty.buyer)
+    @Default(OfferParty.buyer)
+    OfferParty lastParty,
+    String? note,
+    DateTime? expiresOn,
+    @JsonKey(unknownEnumValue: OfferStatus.isNew)
+    @Default(OfferStatus.isNew)
+    OfferStatus status,
+
+    /// Another offer on the same listing is accepted while this one waits.
+    @Default(false) bool otherAccepted,
+
+    /// Whether the signed-in user may counter, accept, reject or withdraw it.
+    @Default(false) bool canEdit,
+    DateTime? decidedAt,
+    DateTime? createdAt,
+    @Default(<OfferStep>[]) List<OfferStep> history,
+  }) = _PropertyOffer;
+
+  factory PropertyOffer.fromJson(Map<String, dynamic> json) =>
+      _$PropertyOfferFromJson(json);
+}
+
+/// One step in an offer's negotiation, the first first.
+@freezed
+class OfferStep with _$OfferStep {
+  const factory OfferStep({
+    required int id,
+    @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+    OfferAction? action,
+    @Default(0.0) double amount,
+    @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+    OfferParty? party,
+    String? note,
+    int? actorId,
+    String? actorName,
+    DateTime? createdAt,
+  }) = _OfferStep;
+
+  factory OfferStep.fromJson(Map<String, dynamic> json) =>
+      _$OfferStepFromJson(json);
 }

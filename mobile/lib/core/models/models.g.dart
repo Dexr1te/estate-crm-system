@@ -210,6 +210,8 @@ _$ClientActivityImpl _$$ClientActivityImplFromJson(Map<String, dynamic> json) =>
               .toList() ??
           const <ActivityProperty>[],
       openHouseId: (json['openHouseId'] as num?)?.toInt(),
+      handoverFromName: json['handoverFromName'] as String?,
+      handoverToName: json['handoverToName'] as String?,
     );
 
 Map<String, dynamic> _$$ClientActivityImplToJson(
@@ -225,6 +227,8 @@ Map<String, dynamic> _$$ClientActivityImplToJson(
       'createdAt': instance.createdAt?.toIso8601String(),
       'properties': instance.properties,
       'openHouseId': instance.openHouseId,
+      'handoverFromName': instance.handoverFromName,
+      'handoverToName': instance.handoverToName,
     };
 
 const _$ActivityTypeEnumMap = {
@@ -1738,4 +1742,117 @@ Map<String, dynamic> _$$OpenHouseVisitorImplToJson(
 const _$OpenHouseInterestEnumMap = {
   OpenHouseInterest.interested: 'INTERESTED',
   OpenHouseInterest.justLooking: 'JUST_LOOKING',
+};
+
+_$PropertyOfferImpl _$$PropertyOfferImplFromJson(Map<String, dynamic> json) =>
+    _$PropertyOfferImpl(
+      id: (json['id'] as num).toInt(),
+      propertyId: (json['propertyId'] as num).toInt(),
+      propertyTitle: json['propertyTitle'] as String? ?? '',
+      propertyAddress: json['propertyAddress'] as String?,
+      propertyPrice: (json['propertyPrice'] as num?)?.toDouble(),
+      clientId: (json['clientId'] as num).toInt(),
+      clientVisible: json['clientVisible'] as bool? ?? false,
+      clientName: json['clientName'] as String?,
+      clientAgentName: json['clientAgentName'] as String?,
+      agentId: (json['agentId'] as num?)?.toInt(),
+      agentName: json['agentName'] as String?,
+      amount: (json['amount'] as num?)?.toDouble() ?? 0.0,
+      lastParty: $enumDecodeNullable(_$OfferPartyEnumMap, json['lastParty'],
+              unknownValue: OfferParty.buyer) ??
+          OfferParty.buyer,
+      note: json['note'] as String?,
+      expiresOn: json['expiresOn'] == null
+          ? null
+          : DateTime.parse(json['expiresOn'] as String),
+      status: $enumDecodeNullable(_$OfferStatusEnumMap, json['status'],
+              unknownValue: OfferStatus.isNew) ??
+          OfferStatus.isNew,
+      otherAccepted: json['otherAccepted'] as bool? ?? false,
+      canEdit: json['canEdit'] as bool? ?? false,
+      decidedAt: json['decidedAt'] == null
+          ? null
+          : DateTime.parse(json['decidedAt'] as String),
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      history: (json['history'] as List<dynamic>?)
+              ?.map((e) => OfferStep.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const <OfferStep>[],
+    );
+
+Map<String, dynamic> _$$PropertyOfferImplToJson(_$PropertyOfferImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'propertyId': instance.propertyId,
+      'propertyTitle': instance.propertyTitle,
+      'propertyAddress': instance.propertyAddress,
+      'propertyPrice': instance.propertyPrice,
+      'clientId': instance.clientId,
+      'clientVisible': instance.clientVisible,
+      'clientName': instance.clientName,
+      'clientAgentName': instance.clientAgentName,
+      'agentId': instance.agentId,
+      'agentName': instance.agentName,
+      'amount': instance.amount,
+      'lastParty': _$OfferPartyEnumMap[instance.lastParty]!,
+      'note': instance.note,
+      'expiresOn': instance.expiresOn?.toIso8601String(),
+      'status': _$OfferStatusEnumMap[instance.status]!,
+      'otherAccepted': instance.otherAccepted,
+      'canEdit': instance.canEdit,
+      'decidedAt': instance.decidedAt?.toIso8601String(),
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'history': instance.history,
+    };
+
+const _$OfferPartyEnumMap = {
+  OfferParty.buyer: 'BUYER',
+  OfferParty.seller: 'SELLER',
+};
+
+const _$OfferStatusEnumMap = {
+  OfferStatus.isNew: 'NEW',
+  OfferStatus.countered: 'COUNTERED',
+  OfferStatus.accepted: 'ACCEPTED',
+  OfferStatus.rejected: 'REJECTED',
+  OfferStatus.withdrawn: 'WITHDRAWN',
+  OfferStatus.expired: 'EXPIRED',
+};
+
+_$OfferStepImpl _$$OfferStepImplFromJson(Map<String, dynamic> json) =>
+    _$OfferStepImpl(
+      id: (json['id'] as num).toInt(),
+      action: $enumDecodeNullable(_$OfferActionEnumMap, json['action'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
+      amount: (json['amount'] as num?)?.toDouble() ?? 0.0,
+      party: $enumDecodeNullable(_$OfferPartyEnumMap, json['party'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
+      note: json['note'] as String?,
+      actorId: (json['actorId'] as num?)?.toInt(),
+      actorName: json['actorName'] as String?,
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+    );
+
+Map<String, dynamic> _$$OfferStepImplToJson(_$OfferStepImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'action': _$OfferActionEnumMap[instance.action],
+      'amount': instance.amount,
+      'party': _$OfferPartyEnumMap[instance.party],
+      'note': instance.note,
+      'actorId': instance.actorId,
+      'actorName': instance.actorName,
+      'createdAt': instance.createdAt?.toIso8601String(),
+    };
+
+const _$OfferActionEnumMap = {
+  OfferAction.offered: 'OFFERED',
+  OfferAction.countered: 'COUNTERED',
+  OfferAction.accepted: 'ACCEPTED',
+  OfferAction.rejected: 'REJECTED',
+  OfferAction.withdrawn: 'WITHDRAWN',
 };

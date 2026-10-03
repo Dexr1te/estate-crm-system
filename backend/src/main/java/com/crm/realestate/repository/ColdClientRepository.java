@@ -30,7 +30,8 @@ public interface ColdClientRepository extends org.springframework.data.repositor
                     u.full_name AS agent_name,
                     c.created_at,
                     GREATEST(
-                        (SELECT MAX(a.occurred_at) FROM client_activities a WHERE a.client_id = c.id),
+                        (SELECT MAX(a.occurred_at) FROM client_activities a
+                          WHERE a.client_id = c.id AND a.handover_to_name IS NULL),
                         (SELECT MAX(m.scheduled_at) FROM meetings m
                           WHERE m.client_id = c.id AND m.scheduled_at <= :now)
                     ) AS last_contact_at,
@@ -67,7 +68,8 @@ public interface ColdClientRepository extends org.springframework.data.repositor
                   AND (:narrowTeamId = -1 OR c.team_id = :narrowTeamId)
                   AND c.created_at <= :cutoff
                   AND NOT EXISTS (SELECT 1 FROM client_activities a
-                                   WHERE a.client_id = c.id AND a.occurred_at > :cutoff)
+                                   WHERE a.client_id = c.id AND a.occurred_at > :cutoff
+                                     AND a.handover_to_name IS NULL)
                   AND NOT EXISTS (SELECT 1 FROM meetings m
                                    WHERE m.client_id = c.id AND m.scheduled_at > :cutoff)
                   AND NOT EXISTS (SELECT 1 FROM tasks t

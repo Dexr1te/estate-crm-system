@@ -1798,6 +1798,114 @@
       }
     }
   },
+  "offersAccept": "Accept",
+  "offersAcceptConfirm": "{amount} becomes the agreed price. Other offers on this listing stay open as backups until you decide on them.",
+  "@offersAcceptConfirm": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "offersAcceptTitle": "Accept this offer?",
+  "offersAgent": "Agent",
+  "offersAlreadyAccepted": "Another offer on this listing is already accepted; withdraw it first",
+  "offersAlreadyOpen": "This buyer already has an open offer here; counter it instead",
+  "offersAmount": "Amount",
+  "offersAmountHint": "What they offer",
+  "offersAsking": "asking {price}",
+  "@offersAsking": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "offersBackup": "Another offer is accepted; this one waits as a backup",
+  "offersBuyer": "Buyer",
+  "offersCardTitle": "Offers",
+  "offersClientNone": "No offers from this buyer yet. Record one from a listing.",
+  "offersClientNotBuyer": "Only a buyer can make an offer",
+  "offersClosedHeading": "Closed",
+  "offersColleagueBuyer": "Buyer of {agent}",
+  "@offersColleagueBuyer": {
+    "placeholders": {
+      "agent": {
+        "type": "String"
+      }
+    }
+  },
+  "offersCounter": "Counter",
+  "offersCounterFrom": "Whose figure",
+  "offersCounterTitle": "New figure",
+  "offersDecidedOn": "Decided",
+  "offersExpiresOn": "Valid until",
+  "offersExpiryPast": "The deadline cannot be before today",
+  "offersFigureBuyer": "The buyer's figure",
+  "offersFigureSeller": "The seller's figure",
+  "offersHiddenBuyer": "A colleague's buyer",
+  "offersHistory": "Negotiation",
+  "offersListLoadFailed": "Could not load the offers",
+  "offersLoadFailed": "Could not load the offer",
+  "offersNoBuyers": "No buyers found",
+  "offersNoDeadline": "No deadline",
+  "offersNoLongerOpen": "This offer is no longer open",
+  "offersNone": "No offers yet. Record one when a buyer names a price.",
+  "offersNote": "Note",
+  "offersNoteHint": "Terms, how they pay, what they asked for",
+  "offersOfAsking": "{percent}% of asking",
+  "@offersOfAsking": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "offersOnTableNow": "On the table now: {amount}",
+  "@offersOnTableNow": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "offersPartyBuyer": "Buyer",
+  "offersPartySeller": "Seller",
+  "offersPickBuyer": "Choose a buyer",
+  "offersPropertySold": "This listing is sold and takes no more offers",
+  "offersRecord": "Record an offer",
+  "offersRecordTitle": "Record an offer",
+  "offersReject": "Reject",
+  "offersRejectConfirm": "The offer is closed as rejected and cannot be reopened.",
+  "offersRejectTitle": "Reject this offer?",
+  "offersSave": "Save",
+  "offersSearchBuyers": "Search buyers",
+  "offersShowAll": "Show all",
+  "offersStatusAccepted": "Accepted",
+  "offersStatusCountered": "Countered",
+  "offersStatusExpired": "Expired",
+  "offersStatusNew": "New",
+  "offersStatusRejected": "Rejected",
+  "offersStatusWithdrawn": "Withdrawn",
+  "offersStepAccepted": "Accepted",
+  "offersStepCounteredBuyer": "Buyer's counter",
+  "offersStepCounteredSeller": "Seller's counter",
+  "offersStepOffered": "Offer from the buyer",
+  "offersStepOther": "Change",
+  "offersStepRejected": "Rejected",
+  "offersStepWithdrawn": "Withdrawn",
+  "offersTitle": "Offer",
+  "offersValidUntil": "Valid until {date}",
+  "@offersValidUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "offersWithdraw": "Withdraw",
+  "offersWithdrawConfirm": "The buyer has pulled out. The offer is closed and cannot be reopened.",
+  "offersWithdrawTitle": "Withdraw this offer?",
   "openHouseActivity": "Open house visit",
   "openHouseAddVisitor": "Add visitor",
   "openHouseAlreadySignedIn": "This number has already signed in",
@@ -2691,5 +2799,108 @@
         "type": "int"
       }
     }
-  }
+  },
+  "clientsActivityHandover": "Handed over",
+  "clientsActivityHandoverDetail": "From {from} to {to}",
+  "@clientsActivityHandoverDetail": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "clientsActivityHandoverTo": "To {to}",
+  "@clientsActivityHandoverTo": {
+    "placeholders": {
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "handoverAction": "Hand over work",
+  "handoverIntro": "{name} stays in the agency. Choose who takes over and what moves; each client's history will say so.",
+  "@handoverIntro": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "handoverFrom": "From",
+  "handoverTo": "To",
+  "handoverChooseColleague": "Choose a colleague",
+  "handoverNoColleagues": "Nobody else can take it yet",
+  "handoverWhat": "What moves",
+  "handoverPartClients": "Clients",
+  "handoverPartClientsHint": "With their open deals, meetings and tasks",
+  "handoverPartListings": "Listings",
+  "handoverPartListingsHint": "With open houses still to come",
+  "handoverPartDeals": "Open deals",
+  "handoverPartDealsHint": "Every deal not yet won or lost",
+  "handoverPartUpcoming": "Meetings and tasks",
+  "handoverPartUpcomingHint": "Meetings to come and tasks not done",
+  "handoverAllClients": "All clients",
+  "handoverSomeClients": "{count, plural, =1{1 client picked} other{{count} clients picked}}",
+  "@handoverSomeClients": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "handoverPickClients": "Choose clients",
+  "handoverPickAll": "Select all",
+  "handoverPickNone": "Clear",
+  "handoverPickDone": "Done",
+  "handoverNoClients": "No clients to pick",
+  "handoverPreview": "What will move",
+  "handoverCountDeals": "Deals",
+  "handoverCountMeetings": "Meetings",
+  "handoverCountTasks": "Tasks",
+  "handoverCountOpenHouses": "Open houses",
+  "handoverPickTarget": "Choose who takes over to see what moves",
+  "handoverNothingSelected": "Choose at least one thing to hand over",
+  "handoverNothingToMove": "Nothing to hand over",
+  "handoverPreviewFailed": "Could not count what moves",
+  "handoverConfirm": "Hand over",
+  "handoverConfirmTitle": "Hand over to {name}?",
+  "@handoverConfirmTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "handoverConfirmBody": "Work moves from {from} to {to}. Nobody leaves the agency, and each client's history will note it.",
+  "@handoverConfirmBody": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "handoverDoneTitle": "Handed over to {name}",
+  "@handoverDoneTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "handoverDoneBody": "{name} has been told what is now theirs.",
+  "@handoverDoneBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "handoverDoneAction": "Back to the team",
+  "handoverLoadFailed": "Could not load the team"
 }

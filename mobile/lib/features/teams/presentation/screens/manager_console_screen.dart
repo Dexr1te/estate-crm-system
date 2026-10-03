@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/team_models.dart';
 import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
@@ -109,7 +110,9 @@ class _ManagerConsoleScreenState extends State<ManagerConsoleScreen> {
   ) async {
     if (member.isTeamManager) return;
     final l10n = AppLocalizations.of(context);
-    final remove = await showAppBottomSheet<bool>(
+    final canHandOver =
+        member.isActive && member.status == UserAccountStatus.active;
+    final choice = await showAppBottomSheet<_MemberAction>(
       context,
       title: member.fullName,
       builder: (ctx) => Column(
@@ -120,15 +123,29 @@ class _ManagerConsoleScreenState extends State<ManagerConsoleScreen> {
           if (member.phone != null && member.phone!.isNotEmpty)
             InfoRow(label: l10n.teamsPhoneOptional, value: member.phone!),
           const SizedBox(height: 16),
+          if (canHandOver) ...[
+            AppFilledButton(
+              key: const Key('member-hand-over'),
+              label: l10n.handoverAction,
+              onPressed: () => Navigator.pop(ctx, _MemberAction.handOver),
+            ),
+            const SizedBox(height: 9),
+          ],
           AppGhostButton(
             label: l10n.teamsRemoveMember,
-            onPressed: () => Navigator.pop(ctx, true),
+            onPressed: () => Navigator.pop(ctx, _MemberAction.remove),
           ),
         ],
       ),
     );
-    if (remove == true && context.mounted) {
-      await _removeMember(context, bloc, state, member);
+    if (!context.mounted) return;
+    switch (choice) {
+      case _MemberAction.handOver:
+        await context.push('/team-handover/${member.id}');
+      case _MemberAction.remove:
+        await _removeMember(context, bloc, state, member);
+      case null:
+        break;
     }
   }
 
@@ -435,6 +452,8 @@ class _PendingList extends StatelessWidget {
     );
   }
 }
+
+enum _MemberAction { handOver, remove }
 
 class _AddMemberForm {
   final String email, fullName;

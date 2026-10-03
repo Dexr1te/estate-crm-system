@@ -38,6 +38,7 @@ import 'package:real_estate_crm/features/meetings/presentation/screens/meetings_
 import 'package:real_estate_crm/features/message_templates/presentation/screens/message_templates_screen.dart';
 import 'package:real_estate_crm/features/mortgage/presentation/screens/mortgage_screen.dart';
 import 'package:real_estate_crm/features/notifications/presentation/screens/notifications_screen.dart';
+import 'package:real_estate_crm/features/offers/presentation/screens/offer_screen.dart';
 import 'package:real_estate_crm/features/open_houses/presentation/screens/open_house_screen.dart';
 import 'package:real_estate_crm/features/profile/presentation/screens/profile_screen.dart';
 import 'package:real_estate_crm/features/properties/presentation/screens/mandates_ending_screen.dart';
@@ -49,6 +50,7 @@ import 'package:real_estate_crm/features/route/domain/day_route.dart';
 import 'package:real_estate_crm/features/route/presentation/screens/route_screen.dart';
 import 'package:real_estate_crm/features/search/presentation/screens/search_screen.dart';
 import 'package:real_estate_crm/features/tasks/presentation/screens/tasks_screen.dart';
+import 'package:real_estate_crm/features/teams/presentation/screens/handover_screen.dart';
 import 'package:real_estate_crm/features/teams/presentation/screens/manager_console_screen.dart';
 
 final _rootKey = GlobalKey<NavigatorState>();
@@ -121,6 +123,9 @@ String? resolveRedirect({
     return '/dashboard';
   }
   if (location.startsWith('/team-goals') && role != Role.MANAGER) {
+    return '/dashboard';
+  }
+  if (location.startsWith('/team-handover') && role != Role.MANAGER) {
     return '/dashboard';
   }
   if (location.startsWith('/import') &&
@@ -253,6 +258,13 @@ GoRouter createRouter(AuthBloc authBloc) {
             const NoTransitionPage(child: TeamGoalsScreen()),
       ),
       GoRoute(
+        path: '/team-handover/:id',
+        parentNavigatorKey: _rootKey,
+        pageBuilder: (_, s) => NoTransitionPage(
+          child: HandoverScreen(agentId: int.parse(s.pathParameters['id']!)),
+        ),
+      ),
+      GoRoute(
         path: '/import',
         parentNavigatorKey: _rootKey,
         pageBuilder: (_, __) => const NoTransitionPage(child: ImportScreen()),
@@ -284,6 +296,13 @@ GoRouter createRouter(AuthBloc authBloc) {
         parentNavigatorKey: _rootKey,
         pageBuilder: (_, s) => NoTransitionPage(
           child: OpenHouseScreen(id: int.parse(s.pathParameters['id']!)),
+        ),
+      ),
+      GoRoute(
+        path: '/offers/:id',
+        parentNavigatorKey: _rootKey,
+        pageBuilder: (_, s) => NoTransitionPage(
+          child: OfferScreen(id: int.parse(s.pathParameters['id']!)),
         ),
       ),
       ShellRoute(

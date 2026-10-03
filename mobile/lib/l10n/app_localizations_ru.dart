@@ -3902,6 +3902,225 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String get offersAccept => 'Принять';
+
+  @override
+  String offersAcceptConfirm(String amount) {
+    return '$amount станет согласованной ценой. Остальные предложения по объекту останутся открытыми как запасные, пока вы их не решите.';
+  }
+
+  @override
+  String get offersAcceptTitle => 'Принять предложение?';
+
+  @override
+  String get offersAgent => 'Агент';
+
+  @override
+  String get offersAlreadyAccepted =>
+      'Другое предложение по объекту уже принято; сначала отзовите его';
+
+  @override
+  String get offersAlreadyOpen =>
+      'У этого покупателя уже есть открытое предложение; ответьте на него встречным';
+
+  @override
+  String get offersAmount => 'Сумма';
+
+  @override
+  String get offersAmountHint => 'Сколько предлагают';
+
+  @override
+  String offersAsking(String price) {
+    return 'запрошено $price';
+  }
+
+  @override
+  String get offersBackup =>
+      'Принято другое предложение; это ждёт как запасное';
+
+  @override
+  String get offersBuyer => 'Покупатель';
+
+  @override
+  String get offersCardTitle => 'Предложения';
+
+  @override
+  String get offersClientNone =>
+      'Предложений от этого покупателя пока нет. Их записывают на странице объекта.';
+
+  @override
+  String get offersClientNotBuyer =>
+      'Предложение может сделать только покупатель';
+
+  @override
+  String get offersClosedHeading => 'Закрытые';
+
+  @override
+  String offersColleagueBuyer(String agent) {
+    return 'Покупатель: $agent';
+  }
+
+  @override
+  String get offersCounter => 'Встречное';
+
+  @override
+  String get offersCounterFrom => 'Чья сумма';
+
+  @override
+  String get offersCounterTitle => 'Новая сумма';
+
+  @override
+  String get offersDecidedOn => 'Решено';
+
+  @override
+  String get offersExpiresOn => 'Действует до';
+
+  @override
+  String get offersExpiryPast => 'Срок не может быть раньше сегодняшнего дня';
+
+  @override
+  String get offersFigureBuyer => 'Сумма покупателя';
+
+  @override
+  String get offersFigureSeller => 'Сумма продавца';
+
+  @override
+  String get offersHiddenBuyer => 'Покупатель коллеги';
+
+  @override
+  String get offersHistory => 'Ход переговоров';
+
+  @override
+  String get offersListLoadFailed => 'Не удалось загрузить предложения';
+
+  @override
+  String get offersLoadFailed => 'Не удалось загрузить предложение';
+
+  @override
+  String get offersNoBuyers => 'Покупатели не найдены';
+
+  @override
+  String get offersNoDeadline => 'Без срока';
+
+  @override
+  String get offersNoLongerOpen => 'Это предложение уже закрыто';
+
+  @override
+  String get offersNone =>
+      'Предложений пока нет. Запишите, когда покупатель назовёт цену.';
+
+  @override
+  String get offersNote => 'Заметка';
+
+  @override
+  String get offersNoteHint => 'Условия, способ оплаты, пожелания';
+
+  @override
+  String offersOfAsking(int percent) {
+    return '$percent% от цены';
+  }
+
+  @override
+  String offersOnTableNow(String amount) {
+    return 'Сейчас на столе: $amount';
+  }
+
+  @override
+  String get offersPartyBuyer => 'Покупатель';
+
+  @override
+  String get offersPartySeller => 'Продавец';
+
+  @override
+  String get offersPickBuyer => 'Выберите покупателя';
+
+  @override
+  String get offersPropertySold =>
+      'Объект продан и больше не принимает предложений';
+
+  @override
+  String get offersRecord => 'Записать предложение';
+
+  @override
+  String get offersRecordTitle => 'Новое предложение';
+
+  @override
+  String get offersReject => 'Отклонить';
+
+  @override
+  String get offersRejectConfirm =>
+      'Предложение закроется как отклонённое, вернуть его нельзя.';
+
+  @override
+  String get offersRejectTitle => 'Отклонить предложение?';
+
+  @override
+  String get offersSave => 'Сохранить';
+
+  @override
+  String get offersSearchBuyers => 'Поиск покупателей';
+
+  @override
+  String get offersShowAll => 'Показать все';
+
+  @override
+  String get offersStatusAccepted => 'Принято';
+
+  @override
+  String get offersStatusCountered => 'Встречное';
+
+  @override
+  String get offersStatusExpired => 'Истекло';
+
+  @override
+  String get offersStatusNew => 'Новое';
+
+  @override
+  String get offersStatusRejected => 'Отклонено';
+
+  @override
+  String get offersStatusWithdrawn => 'Отозвано';
+
+  @override
+  String get offersStepAccepted => 'Принято';
+
+  @override
+  String get offersStepCounteredBuyer => 'Встречное от покупателя';
+
+  @override
+  String get offersStepCounteredSeller => 'Встречное от продавца';
+
+  @override
+  String get offersStepOffered => 'Предложение покупателя';
+
+  @override
+  String get offersStepOther => 'Изменение';
+
+  @override
+  String get offersStepRejected => 'Отклонено';
+
+  @override
+  String get offersStepWithdrawn => 'Отозвано';
+
+  @override
+  String get offersTitle => 'Предложение';
+
+  @override
+  String offersValidUntil(String date) {
+    return 'Действует до $date';
+  }
+
+  @override
+  String get offersWithdraw => 'Отозвать';
+
+  @override
+  String get offersWithdrawConfirm =>
+      'Покупатель отказался. Предложение закроется, вернуть его нельзя.';
+
+  @override
+  String get offersWithdrawTitle => 'Отозвать предложение?';
+
+  @override
   String get openHouseActivity => 'Визит на день открытых дверей';
 
   @override
@@ -5643,4 +5862,155 @@ class AppLocalizationsRu extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get clientsActivityHandover => 'Передан коллеге';
+
+  @override
+  String clientsActivityHandoverDetail(String from, String to) {
+    return 'От $from к $to';
+  }
+
+  @override
+  String clientsActivityHandoverTo(String to) {
+    return 'К $to';
+  }
+
+  @override
+  String get handoverAction => 'Передать работу';
+
+  @override
+  String handoverIntro(String name) {
+    return '$name остаётся в агентстве. Выберите, кому и что передать; в истории каждого клиента появится отметка.';
+  }
+
+  @override
+  String get handoverFrom => 'От кого';
+
+  @override
+  String get handoverTo => 'Кому';
+
+  @override
+  String get handoverChooseColleague => 'Выберите коллегу';
+
+  @override
+  String get handoverNoColleagues => 'Пока некому передать';
+
+  @override
+  String get handoverWhat => 'Что передать';
+
+  @override
+  String get handoverPartClients => 'Клиенты';
+
+  @override
+  String get handoverPartClientsHint =>
+      'Вместе с открытыми сделками, встречами и задачами';
+
+  @override
+  String get handoverPartListings => 'Объекты';
+
+  @override
+  String get handoverPartListingsHint =>
+      'Вместе с предстоящими днями открытых дверей';
+
+  @override
+  String get handoverPartDeals => 'Открытые сделки';
+
+  @override
+  String get handoverPartDealsHint => 'Все сделки, которые ещё не закрыты';
+
+  @override
+  String get handoverPartUpcoming => 'Встречи и задачи';
+
+  @override
+  String get handoverPartUpcomingHint =>
+      'Предстоящие встречи и невыполненные задачи';
+
+  @override
+  String get handoverAllClients => 'Все клиенты';
+
+  @override
+  String handoverSomeClients(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Выбрано $count клиента',
+      many: 'Выбрано $count клиентов',
+      few: 'Выбрано $count клиента',
+      one: 'Выбран $count клиент',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get handoverPickClients => 'Выбрать клиентов';
+
+  @override
+  String get handoverPickAll => 'Выбрать всех';
+
+  @override
+  String get handoverPickNone => 'Снять выбор';
+
+  @override
+  String get handoverPickDone => 'Готово';
+
+  @override
+  String get handoverNoClients => 'Нет клиентов для выбора';
+
+  @override
+  String get handoverPreview => 'Что будет передано';
+
+  @override
+  String get handoverCountDeals => 'Сделки';
+
+  @override
+  String get handoverCountMeetings => 'Встречи';
+
+  @override
+  String get handoverCountTasks => 'Задачи';
+
+  @override
+  String get handoverCountOpenHouses => 'Дни открытых дверей';
+
+  @override
+  String get handoverPickTarget =>
+      'Выберите, кому передать, чтобы увидеть, что перейдёт';
+
+  @override
+  String get handoverNothingSelected => 'Отметьте хотя бы что-то одно';
+
+  @override
+  String get handoverNothingToMove => 'Передавать нечего';
+
+  @override
+  String get handoverPreviewFailed => 'Не удалось посчитать, что перейдёт';
+
+  @override
+  String get handoverConfirm => 'Передать';
+
+  @override
+  String handoverConfirmTitle(String name) {
+    return 'Передать коллеге $name?';
+  }
+
+  @override
+  String handoverConfirmBody(String from, String to) {
+    return 'Работа перейдёт от $from к $to. Никто не покидает агентство, а в истории каждого клиента появится отметка.';
+  }
+
+  @override
+  String handoverDoneTitle(String name) {
+    return 'Передано: $name';
+  }
+
+  @override
+  String handoverDoneBody(String name) {
+    return '$name получит уведомление о переданной работе.';
+  }
+
+  @override
+  String get handoverDoneAction => 'Вернуться к команде';
+
+  @override
+  String get handoverLoadFailed => 'Не удалось загрузить команду';
 }

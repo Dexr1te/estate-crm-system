@@ -41,4 +41,10 @@ abstract class TeamsRepository {
   Future<void> declineRequest(int requestId);
 
   Future<AuthResponse> leaveTeam();
+
+  /// What handing [selection] over would move, without moving it.
+  Future<HandoverSummary> previewHandover(HandoverSelection selection);
+
+  /// Hands it over: both people stay in the agency.
+  Future<HandoverSummary> handOver(HandoverSelection selection);
 }

@@ -11,6 +11,7 @@ import 'client_dates_fixtures.dart';
 import 'deposit_fakes.dart';
 import 'fakes.dart';
 import 'goals_fakes.dart';
+import 'offer_fakes.dart';
 import 'open_house_fakes.dart';
 
 /// Every screen that shows a client or a deal now carries its tasks card, and
@@ -55,6 +56,8 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) async {
   Injector.exportsRepository = FakeExportsRepository();
   // A listing's open houses card and the calendar read open houses too.
   Injector.openHousesRepository = FakeOpenHousesRepository();
+  // A listing's and a client's offers cards read offers too.
+  Injector.offersRepository = FakeOffersRepository();
   Injector.notificationsPollInterval = null;
   // No PIN on the phone: the lock stays off, and its keychain is memory.
   Injector.appLockRepository = fakeAppLockRepository();

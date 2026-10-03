@@ -95,6 +95,7 @@ public interface ClientRepository extends JpaRepository<Client, Long>, org.sprin
                         SELECT MAX(a.occurred_at)
                         FROM client_activities a
                         WHERE a.client_id = c.id
+                          AND a.handover_to_name IS NULL
                     ),
                     (
                         SELECT MAX(m2.scheduled_at)

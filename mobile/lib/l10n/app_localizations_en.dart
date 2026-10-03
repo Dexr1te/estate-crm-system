@@ -3818,6 +3818,224 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get offersAccept => 'Accept';
+
+  @override
+  String offersAcceptConfirm(String amount) {
+    return '$amount becomes the agreed price. Other offers on this listing stay open as backups until you decide on them.';
+  }
+
+  @override
+  String get offersAcceptTitle => 'Accept this offer?';
+
+  @override
+  String get offersAgent => 'Agent';
+
+  @override
+  String get offersAlreadyAccepted =>
+      'Another offer on this listing is already accepted; withdraw it first';
+
+  @override
+  String get offersAlreadyOpen =>
+      'This buyer already has an open offer here; counter it instead';
+
+  @override
+  String get offersAmount => 'Amount';
+
+  @override
+  String get offersAmountHint => 'What they offer';
+
+  @override
+  String offersAsking(String price) {
+    return 'asking $price';
+  }
+
+  @override
+  String get offersBackup =>
+      'Another offer is accepted; this one waits as a backup';
+
+  @override
+  String get offersBuyer => 'Buyer';
+
+  @override
+  String get offersCardTitle => 'Offers';
+
+  @override
+  String get offersClientNone =>
+      'No offers from this buyer yet. Record one from a listing.';
+
+  @override
+  String get offersClientNotBuyer => 'Only a buyer can make an offer';
+
+  @override
+  String get offersClosedHeading => 'Closed';
+
+  @override
+  String offersColleagueBuyer(String agent) {
+    return 'Buyer of $agent';
+  }
+
+  @override
+  String get offersCounter => 'Counter';
+
+  @override
+  String get offersCounterFrom => 'Whose figure';
+
+  @override
+  String get offersCounterTitle => 'New figure';
+
+  @override
+  String get offersDecidedOn => 'Decided';
+
+  @override
+  String get offersExpiresOn => 'Valid until';
+
+  @override
+  String get offersExpiryPast => 'The deadline cannot be before today';
+
+  @override
+  String get offersFigureBuyer => 'The buyer\'s figure';
+
+  @override
+  String get offersFigureSeller => 'The seller\'s figure';
+
+  @override
+  String get offersHiddenBuyer => 'A colleague\'s buyer';
+
+  @override
+  String get offersHistory => 'Negotiation';
+
+  @override
+  String get offersListLoadFailed => 'Could not load the offers';
+
+  @override
+  String get offersLoadFailed => 'Could not load the offer';
+
+  @override
+  String get offersNoBuyers => 'No buyers found';
+
+  @override
+  String get offersNoDeadline => 'No deadline';
+
+  @override
+  String get offersNoLongerOpen => 'This offer is no longer open';
+
+  @override
+  String get offersNone =>
+      'No offers yet. Record one when a buyer names a price.';
+
+  @override
+  String get offersNote => 'Note';
+
+  @override
+  String get offersNoteHint => 'Terms, how they pay, what they asked for';
+
+  @override
+  String offersOfAsking(int percent) {
+    return '$percent% of asking';
+  }
+
+  @override
+  String offersOnTableNow(String amount) {
+    return 'On the table now: $amount';
+  }
+
+  @override
+  String get offersPartyBuyer => 'Buyer';
+
+  @override
+  String get offersPartySeller => 'Seller';
+
+  @override
+  String get offersPickBuyer => 'Choose a buyer';
+
+  @override
+  String get offersPropertySold =>
+      'This listing is sold and takes no more offers';
+
+  @override
+  String get offersRecord => 'Record an offer';
+
+  @override
+  String get offersRecordTitle => 'Record an offer';
+
+  @override
+  String get offersReject => 'Reject';
+
+  @override
+  String get offersRejectConfirm =>
+      'The offer is closed as rejected and cannot be reopened.';
+
+  @override
+  String get offersRejectTitle => 'Reject this offer?';
+
+  @override
+  String get offersSave => 'Save';
+
+  @override
+  String get offersSearchBuyers => 'Search buyers';
+
+  @override
+  String get offersShowAll => 'Show all';
+
+  @override
+  String get offersStatusAccepted => 'Accepted';
+
+  @override
+  String get offersStatusCountered => 'Countered';
+
+  @override
+  String get offersStatusExpired => 'Expired';
+
+  @override
+  String get offersStatusNew => 'New';
+
+  @override
+  String get offersStatusRejected => 'Rejected';
+
+  @override
+  String get offersStatusWithdrawn => 'Withdrawn';
+
+  @override
+  String get offersStepAccepted => 'Accepted';
+
+  @override
+  String get offersStepCounteredBuyer => 'Buyer\'s counter';
+
+  @override
+  String get offersStepCounteredSeller => 'Seller\'s counter';
+
+  @override
+  String get offersStepOffered => 'Offer from the buyer';
+
+  @override
+  String get offersStepOther => 'Change';
+
+  @override
+  String get offersStepRejected => 'Rejected';
+
+  @override
+  String get offersStepWithdrawn => 'Withdrawn';
+
+  @override
+  String get offersTitle => 'Offer';
+
+  @override
+  String offersValidUntil(String date) {
+    return 'Valid until $date';
+  }
+
+  @override
+  String get offersWithdraw => 'Withdraw';
+
+  @override
+  String get offersWithdrawConfirm =>
+      'The buyer has pulled out. The offer is closed and cannot be reopened.';
+
+  @override
+  String get offersWithdrawTitle => 'Withdraw this offer?';
+
+  @override
   String get openHouseActivity => 'Open house visit';
 
   @override
@@ -5537,4 +5755,151 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get clientsActivityHandover => 'Handed over';
+
+  @override
+  String clientsActivityHandoverDetail(String from, String to) {
+    return 'From $from to $to';
+  }
+
+  @override
+  String clientsActivityHandoverTo(String to) {
+    return 'To $to';
+  }
+
+  @override
+  String get handoverAction => 'Hand over work';
+
+  @override
+  String handoverIntro(String name) {
+    return '$name stays in the agency. Choose who takes over and what moves; each client\'s history will say so.';
+  }
+
+  @override
+  String get handoverFrom => 'From';
+
+  @override
+  String get handoverTo => 'To';
+
+  @override
+  String get handoverChooseColleague => 'Choose a colleague';
+
+  @override
+  String get handoverNoColleagues => 'Nobody else can take it yet';
+
+  @override
+  String get handoverWhat => 'What moves';
+
+  @override
+  String get handoverPartClients => 'Clients';
+
+  @override
+  String get handoverPartClientsHint =>
+      'With their open deals, meetings and tasks';
+
+  @override
+  String get handoverPartListings => 'Listings';
+
+  @override
+  String get handoverPartListingsHint => 'With open houses still to come';
+
+  @override
+  String get handoverPartDeals => 'Open deals';
+
+  @override
+  String get handoverPartDealsHint => 'Every deal not yet won or lost';
+
+  @override
+  String get handoverPartUpcoming => 'Meetings and tasks';
+
+  @override
+  String get handoverPartUpcomingHint => 'Meetings to come and tasks not done';
+
+  @override
+  String get handoverAllClients => 'All clients';
+
+  @override
+  String handoverSomeClients(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count clients picked',
+      one: '1 client picked',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get handoverPickClients => 'Choose clients';
+
+  @override
+  String get handoverPickAll => 'Select all';
+
+  @override
+  String get handoverPickNone => 'Clear';
+
+  @override
+  String get handoverPickDone => 'Done';
+
+  @override
+  String get handoverNoClients => 'No clients to pick';
+
+  @override
+  String get handoverPreview => 'What will move';
+
+  @override
+  String get handoverCountDeals => 'Deals';
+
+  @override
+  String get handoverCountMeetings => 'Meetings';
+
+  @override
+  String get handoverCountTasks => 'Tasks';
+
+  @override
+  String get handoverCountOpenHouses => 'Open houses';
+
+  @override
+  String get handoverPickTarget => 'Choose who takes over to see what moves';
+
+  @override
+  String get handoverNothingSelected =>
+      'Choose at least one thing to hand over';
+
+  @override
+  String get handoverNothingToMove => 'Nothing to hand over';
+
+  @override
+  String get handoverPreviewFailed => 'Could not count what moves';
+
+  @override
+  String get handoverConfirm => 'Hand over';
+
+  @override
+  String handoverConfirmTitle(String name) {
+    return 'Hand over to $name?';
+  }
+
+  @override
+  String handoverConfirmBody(String from, String to) {
+    return 'Work moves from $from to $to. Nobody leaves the agency, and each client\'s history will note it.';
+  }
+
+  @override
+  String handoverDoneTitle(String name) {
+    return 'Handed over to $name';
+  }
+
+  @override
+  String handoverDoneBody(String name) {
+    return '$name has been told what is now theirs.';
+  }
+
+  @override
+  String get handoverDoneAction => 'Back to the team';
+
+  @override
+  String get handoverLoadFailed => 'Could not load the team';
 }
