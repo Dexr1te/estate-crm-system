@@ -80,6 +80,7 @@ public class OpenHouseService {
     private final ClientActivityPropertyRepository activityPropertyRepository;
     private final ScopeService scopeService;
     private final SecurityUtils securityUtils;
+    private final ChangeLogService changeLog;
 
     // Reading -----------------------------------------------------------------------------
 
@@ -193,14 +194,18 @@ public class OpenHouseService {
                 team != null ? team.getId() : null,
                 holder.getId(),
                 normalized, null, null, PageRequest.of(0, 1)).stream().findFirst();
-        Client client = existing.orElseGet(() -> clientRepository.save(Client.builder()
-                .fullName(name)
-                .phone(phone)
-                .type(ClientType.BUYER)
-                .source(ClientSource.OPEN_HOUSE)
-                .agent(holder)
-                .team(team)
-                .build()));
+        Client client = existing.orElseGet(() -> {
+            Client made = clientRepository.save(Client.builder()
+                    .fullName(name)
+                    .phone(phone)
+                    .type(ClientType.BUYER)
+                    .source(ClientSource.OPEN_HOUSE)
+                    .agent(holder)
+                    .team(team)
+                    .build());
+            changeLog.created(ChangeSnapshot.target(made), user);
+            return made;
+        });
 
         String note = strip(request.getNote());
         ClientActivity activity = activityRepository.save(ClientActivity.builder()

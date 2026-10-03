@@ -1168,6 +1168,426 @@ abstract class AppLocalizations {
   /// **'Month'**
   String get calendarViewMonth;
 
+  /// No description provided for @changeLogAnyTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Any time'**
+  String get changeLogAnyTime;
+
+  /// No description provided for @changeLogAnyone.
+  ///
+  /// In en, this message translates to:
+  /// **'Anyone'**
+  String get changeLogAnyone;
+
+  /// No description provided for @changeLogAutomatic.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatically'**
+  String get changeLogAutomatic;
+
+  /// No description provided for @changeLogChange.
+  ///
+  /// In en, this message translates to:
+  /// **'{field}: {from} → {to}'**
+  String changeLogChange(String field, String from, String to);
+
+  /// No description provided for @changeLogClearFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear filters'**
+  String get changeLogClearFilters;
+
+  /// No description provided for @changeLogCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Created'**
+  String get changeLogCreated;
+
+  /// No description provided for @changeLogDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{from} – {to}'**
+  String changeLogDays(String from, String to);
+
+  /// No description provided for @changeLogDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted'**
+  String get changeLogDeleted;
+
+  /// No description provided for @changeLogEdited.
+  ///
+  /// In en, this message translates to:
+  /// **'{field} edited'**
+  String changeLogEdited(String field);
+
+  /// No description provided for @changeLogEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Every edit to this record will show up here, with who made it and when.'**
+  String get changeLogEmptyBody;
+
+  /// No description provided for @changeLogEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No changes yet'**
+  String get changeLogEmptyTitle;
+
+  /// No description provided for @changeLogEntityClient.
+  ///
+  /// In en, this message translates to:
+  /// **'Client'**
+  String get changeLogEntityClient;
+
+  /// No description provided for @changeLogEntityDeal.
+  ///
+  /// In en, this message translates to:
+  /// **'Deal'**
+  String get changeLogEntityDeal;
+
+  /// No description provided for @changeLogEntityOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Record'**
+  String get changeLogEntityOther;
+
+  /// No description provided for @changeLogEntityProperty.
+  ///
+  /// In en, this message translates to:
+  /// **'Listing'**
+  String get changeLogEntityProperty;
+
+  /// No description provided for @changeLogFieldAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get changeLogFieldAddress;
+
+  /// No description provided for @changeLogFieldAgent.
+  ///
+  /// In en, this message translates to:
+  /// **'Agent'**
+  String get changeLogFieldAgent;
+
+  /// No description provided for @changeLogFieldArea.
+  ///
+  /// In en, this message translates to:
+  /// **'Area'**
+  String get changeLogFieldArea;
+
+  /// No description provided for @changeLogFieldBirthday.
+  ///
+  /// In en, this message translates to:
+  /// **'Birthday'**
+  String get changeLogFieldBirthday;
+
+  /// No description provided for @changeLogFieldBudget.
+  ///
+  /// In en, this message translates to:
+  /// **'Budget'**
+  String get changeLogFieldBudget;
+
+  /// No description provided for @changeLogFieldBudgetMax.
+  ///
+  /// In en, this message translates to:
+  /// **'Budget up to'**
+  String get changeLogFieldBudgetMax;
+
+  /// No description provided for @changeLogFieldBudgetMin.
+  ///
+  /// In en, this message translates to:
+  /// **'Budget from'**
+  String get changeLogFieldBudgetMin;
+
+  /// No description provided for @changeLogFieldCity.
+  ///
+  /// In en, this message translates to:
+  /// **'City'**
+  String get changeLogFieldCity;
+
+  /// No description provided for @changeLogFieldClient.
+  ///
+  /// In en, this message translates to:
+  /// **'Client'**
+  String get changeLogFieldClient;
+
+  /// No description provided for @changeLogFieldCommission.
+  ///
+  /// In en, this message translates to:
+  /// **'Commission'**
+  String get changeLogFieldCommission;
+
+  /// No description provided for @changeLogFieldDealPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Deal price'**
+  String get changeLogFieldDealPrice;
+
+  /// No description provided for @changeLogFieldDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get changeLogFieldDescription;
+
+  /// No description provided for @changeLogFieldEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get changeLogFieldEmail;
+
+  /// No description provided for @changeLogFieldFloor.
+  ///
+  /// In en, this message translates to:
+  /// **'Floor'**
+  String get changeLogFieldFloor;
+
+  /// No description provided for @changeLogFieldLeadSource.
+  ///
+  /// In en, this message translates to:
+  /// **'Lead source'**
+  String get changeLogFieldLeadSource;
+
+  /// No description provided for @changeLogFieldLeadSourceDetail.
+  ///
+  /// In en, this message translates to:
+  /// **'Lead source details'**
+  String get changeLogFieldLeadSourceDetail;
+
+  /// No description provided for @changeLogFieldListing.
+  ///
+  /// In en, this message translates to:
+  /// **'Listing'**
+  String get changeLogFieldListing;
+
+  /// No description provided for @changeLogFieldLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Location on the map'**
+  String get changeLogFieldLocation;
+
+  /// No description provided for @changeLogFieldLostNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note on the loss'**
+  String get changeLogFieldLostNote;
+
+  /// No description provided for @changeLogFieldLostReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Why it was lost'**
+  String get changeLogFieldLostReason;
+
+  /// No description provided for @changeLogFieldMandate.
+  ///
+  /// In en, this message translates to:
+  /// **'Agreement with the seller'**
+  String get changeLogFieldMandate;
+
+  /// No description provided for @changeLogFieldMandateEnd.
+  ///
+  /// In en, this message translates to:
+  /// **'Agreement ends'**
+  String get changeLogFieldMandateEnd;
+
+  /// No description provided for @changeLogFieldMinArea.
+  ///
+  /// In en, this message translates to:
+  /// **'Area, at least'**
+  String get changeLogFieldMinArea;
+
+  /// No description provided for @changeLogFieldMinRooms.
+  ///
+  /// In en, this message translates to:
+  /// **'Rooms, at least'**
+  String get changeLogFieldMinRooms;
+
+  /// No description provided for @changeLogFieldName.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get changeLogFieldName;
+
+  /// No description provided for @changeLogFieldNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get changeLogFieldNotes;
+
+  /// No description provided for @changeLogFieldOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other details'**
+  String get changeLogFieldOther;
+
+  /// No description provided for @changeLogFieldPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone'**
+  String get changeLogFieldPhone;
+
+  /// No description provided for @changeLogFieldPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Price'**
+  String get changeLogFieldPrice;
+
+  /// No description provided for @changeLogFieldRooms.
+  ///
+  /// In en, this message translates to:
+  /// **'Rooms'**
+  String get changeLogFieldRooms;
+
+  /// No description provided for @changeLogFieldStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get changeLogFieldStatus;
+
+  /// No description provided for @changeLogFieldTags.
+  ///
+  /// In en, this message translates to:
+  /// **'Tags'**
+  String get changeLogFieldTags;
+
+  /// No description provided for @changeLogFieldTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get changeLogFieldTitle;
+
+  /// No description provided for @changeLogFieldTotalFloors.
+  ///
+  /// In en, this message translates to:
+  /// **'Floors in the building'**
+  String get changeLogFieldTotalFloors;
+
+  /// No description provided for @changeLogFieldType.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get changeLogFieldType;
+
+  /// No description provided for @changeLogFieldWantedCity.
+  ///
+  /// In en, this message translates to:
+  /// **'City wanted'**
+  String get changeLogFieldWantedCity;
+
+  /// No description provided for @changeLogFieldWantedType.
+  ///
+  /// In en, this message translates to:
+  /// **'Looking for'**
+  String get changeLogFieldWantedType;
+
+  /// No description provided for @changeLogFilterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get changeLogFilterAll;
+
+  /// No description provided for @changeLogFilterClients.
+  ///
+  /// In en, this message translates to:
+  /// **'Clients'**
+  String get changeLogFilterClients;
+
+  /// No description provided for @changeLogFilterDeals.
+  ///
+  /// In en, this message translates to:
+  /// **'Deals'**
+  String get changeLogFilterDeals;
+
+  /// No description provided for @changeLogFilterListings.
+  ///
+  /// In en, this message translates to:
+  /// **'Listings'**
+  String get changeLogFilterListings;
+
+  /// No description provided for @changeLogLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load the history'**
+  String get changeLogLoadFailed;
+
+  /// No description provided for @changeLogNoValue.
+  ///
+  /// In en, this message translates to:
+  /// **'—'**
+  String get changeLogNoValue;
+
+  /// No description provided for @changeLogPeopleFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load the agency\'s people'**
+  String get changeLogPeopleFailed;
+
+  /// No description provided for @changeLogPercent.
+  ///
+  /// In en, this message translates to:
+  /// **'{value}%'**
+  String changeLogPercent(String value);
+
+  /// No description provided for @changeLogPickDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Days to show'**
+  String get changeLogPickDays;
+
+  /// No description provided for @changeLogPickPerson.
+  ///
+  /// In en, this message translates to:
+  /// **'Who made the change'**
+  String get changeLogPickPerson;
+
+  /// No description provided for @changeLogRecord.
+  ///
+  /// In en, this message translates to:
+  /// **'{kind}: {label}'**
+  String changeLogRecord(String kind, String label);
+
+  /// No description provided for @changeLogTeamEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Edits to the agency\'s listings, deals and clients will show up here.'**
+  String get changeLogTeamEmptyBody;
+
+  /// No description provided for @changeLogTeamEmptyFiltered.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing matches these filters.'**
+  String get changeLogTeamEmptyFiltered;
+
+  /// No description provided for @changeLogTeamHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Who changed what across the agency'**
+  String get changeLogTeamHint;
+
+  /// No description provided for @changeLogTeamTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Change log'**
+  String get changeLogTeamTitle;
+
+  /// No description provided for @changeLogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'History of changes'**
+  String get changeLogTitle;
+
+  /// No description provided for @changeLogUnknownValue.
+  ///
+  /// In en, this message translates to:
+  /// **'another value'**
+  String get changeLogUnknownValue;
+
+  /// No description provided for @changeLogUntitled.
+  ///
+  /// In en, this message translates to:
+  /// **'Untitled'**
+  String get changeLogUntitled;
+
   /// No description provided for @clientsActivityCall.
   ///
   /// In en, this message translates to:

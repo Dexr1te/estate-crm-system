@@ -56,6 +56,8 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) async {
   Injector.exportsRepository = FakeExportsRepository();
   // A listing's open houses card and the calendar read open houses too.
   Injector.openHousesRepository = FakeOpenHousesRepository();
+  // A record's history of changes and the agency's change log.
+  Injector.changeLogRepository = FakeChangeLogRepository();
   // A listing's and a client's offers cards read offers too.
   Injector.offersRepository = FakeOffersRepository();
   Injector.notificationsPollInterval = null;

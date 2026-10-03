@@ -20,6 +20,9 @@ import 'package:real_estate_crm/features/app_lock/presentation/controller/app_lo
 import 'package:real_estate_crm/features/auth/data/datasources/auth_remote_datasource.dart';
 import 'package:real_estate_crm/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:real_estate_crm/features/auth/domain/repositories/auth_repository.dart';
+import 'package:real_estate_crm/features/change_log/data/datasources/change_log_remote_datasource.dart';
+import 'package:real_estate_crm/features/change_log/data/repositories/change_log_repository_impl.dart';
+import 'package:real_estate_crm/features/change_log/domain/repositories/change_log_repository.dart';
 import 'package:real_estate_crm/features/checklist/data/datasources/checklist_remote_datasource.dart';
 import 'package:real_estate_crm/features/checklist/data/repositories/checklist_repository_impl.dart';
 import 'package:real_estate_crm/features/checklist/domain/repositories/checklist_repository.dart';
@@ -162,6 +165,9 @@ class Injector {
 
   static OpenHousesRepository openHousesRepository =
       OpenHousesRepositoryImpl(OpenHousesRemoteDataSource(_apiClient));
+
+  static ChangeLogRepository changeLogRepository =
+      ChangeLogRepositoryImpl(ChangeLogRemoteDataSource(_apiClient));
 
   static NotificationsRepository notificationsRepository =
       NotificationsRepositoryImpl(NotificationsRemoteDataSource(_apiClient));

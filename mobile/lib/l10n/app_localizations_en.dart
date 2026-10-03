@@ -600,6 +600,228 @@ class AppLocalizationsEn extends AppLocalizations {
   String get calendarViewMonth => 'Month';
 
   @override
+  String get changeLogAnyTime => 'Any time';
+
+  @override
+  String get changeLogAnyone => 'Anyone';
+
+  @override
+  String get changeLogAutomatic => 'Automatically';
+
+  @override
+  String changeLogChange(String field, String from, String to) {
+    return '$field: $from → $to';
+  }
+
+  @override
+  String get changeLogClearFilters => 'Clear filters';
+
+  @override
+  String get changeLogCreated => 'Created';
+
+  @override
+  String changeLogDays(String from, String to) {
+    return '$from – $to';
+  }
+
+  @override
+  String get changeLogDeleted => 'Deleted';
+
+  @override
+  String changeLogEdited(String field) {
+    return '$field edited';
+  }
+
+  @override
+  String get changeLogEmptyBody =>
+      'Every edit to this record will show up here, with who made it and when.';
+
+  @override
+  String get changeLogEmptyTitle => 'No changes yet';
+
+  @override
+  String get changeLogEntityClient => 'Client';
+
+  @override
+  String get changeLogEntityDeal => 'Deal';
+
+  @override
+  String get changeLogEntityOther => 'Record';
+
+  @override
+  String get changeLogEntityProperty => 'Listing';
+
+  @override
+  String get changeLogFieldAddress => 'Address';
+
+  @override
+  String get changeLogFieldAgent => 'Agent';
+
+  @override
+  String get changeLogFieldArea => 'Area';
+
+  @override
+  String get changeLogFieldBirthday => 'Birthday';
+
+  @override
+  String get changeLogFieldBudget => 'Budget';
+
+  @override
+  String get changeLogFieldBudgetMax => 'Budget up to';
+
+  @override
+  String get changeLogFieldBudgetMin => 'Budget from';
+
+  @override
+  String get changeLogFieldCity => 'City';
+
+  @override
+  String get changeLogFieldClient => 'Client';
+
+  @override
+  String get changeLogFieldCommission => 'Commission';
+
+  @override
+  String get changeLogFieldDealPrice => 'Deal price';
+
+  @override
+  String get changeLogFieldDescription => 'Description';
+
+  @override
+  String get changeLogFieldEmail => 'Email';
+
+  @override
+  String get changeLogFieldFloor => 'Floor';
+
+  @override
+  String get changeLogFieldLeadSource => 'Lead source';
+
+  @override
+  String get changeLogFieldLeadSourceDetail => 'Lead source details';
+
+  @override
+  String get changeLogFieldListing => 'Listing';
+
+  @override
+  String get changeLogFieldLocation => 'Location on the map';
+
+  @override
+  String get changeLogFieldLostNote => 'Note on the loss';
+
+  @override
+  String get changeLogFieldLostReason => 'Why it was lost';
+
+  @override
+  String get changeLogFieldMandate => 'Agreement with the seller';
+
+  @override
+  String get changeLogFieldMandateEnd => 'Agreement ends';
+
+  @override
+  String get changeLogFieldMinArea => 'Area, at least';
+
+  @override
+  String get changeLogFieldMinRooms => 'Rooms, at least';
+
+  @override
+  String get changeLogFieldName => 'Name';
+
+  @override
+  String get changeLogFieldNotes => 'Notes';
+
+  @override
+  String get changeLogFieldOther => 'Other details';
+
+  @override
+  String get changeLogFieldPhone => 'Phone';
+
+  @override
+  String get changeLogFieldPrice => 'Price';
+
+  @override
+  String get changeLogFieldRooms => 'Rooms';
+
+  @override
+  String get changeLogFieldStatus => 'Status';
+
+  @override
+  String get changeLogFieldTags => 'Tags';
+
+  @override
+  String get changeLogFieldTitle => 'Title';
+
+  @override
+  String get changeLogFieldTotalFloors => 'Floors in the building';
+
+  @override
+  String get changeLogFieldType => 'Type';
+
+  @override
+  String get changeLogFieldWantedCity => 'City wanted';
+
+  @override
+  String get changeLogFieldWantedType => 'Looking for';
+
+  @override
+  String get changeLogFilterAll => 'All';
+
+  @override
+  String get changeLogFilterClients => 'Clients';
+
+  @override
+  String get changeLogFilterDeals => 'Deals';
+
+  @override
+  String get changeLogFilterListings => 'Listings';
+
+  @override
+  String get changeLogLoadFailed => 'Could not load the history';
+
+  @override
+  String get changeLogNoValue => '—';
+
+  @override
+  String get changeLogPeopleFailed => 'Could not load the agency\'s people';
+
+  @override
+  String changeLogPercent(String value) {
+    return '$value%';
+  }
+
+  @override
+  String get changeLogPickDays => 'Days to show';
+
+  @override
+  String get changeLogPickPerson => 'Who made the change';
+
+  @override
+  String changeLogRecord(String kind, String label) {
+    return '$kind: $label';
+  }
+
+  @override
+  String get changeLogTeamEmptyBody =>
+      'Edits to the agency\'s listings, deals and clients will show up here.';
+
+  @override
+  String get changeLogTeamEmptyFiltered => 'Nothing matches these filters.';
+
+  @override
+  String get changeLogTeamHint => 'Who changed what across the agency';
+
+  @override
+  String get changeLogTeamTitle => 'Change log';
+
+  @override
+  String get changeLogTitle => 'History of changes';
+
+  @override
+  String get changeLogUnknownValue => 'another value';
+
+  @override
+  String get changeLogUntitled => 'Untitled';
+
+  @override
   String get clientsActivityCall => 'Call';
 
   @override

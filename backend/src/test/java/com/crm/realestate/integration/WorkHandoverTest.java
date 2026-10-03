@@ -15,7 +15,10 @@ import com.crm.realestate.entity.Property;
 import com.crm.realestate.entity.Task;
 import com.crm.realestate.entity.Team;
 import com.crm.realestate.entity.User;
+import com.crm.realestate.entity.RecordChange;
 import com.crm.realestate.enums.ActivityType;
+import com.crm.realestate.enums.ChangeAction;
+import com.crm.realestate.enums.ChangeEntityType;
 import com.crm.realestate.enums.ClientType;
 import com.crm.realestate.enums.DataScope;
 import com.crm.realestate.enums.DealStatus;
@@ -27,6 +30,7 @@ import com.crm.realestate.enums.UserStatus;
 import com.crm.realestate.exception.BusinessException;
 import com.crm.realestate.exception.ResourceNotFoundException;
 import com.crm.realestate.repository.AuditLogRepository;
+import com.crm.realestate.repository.RecordChangeRepository;
 import com.crm.realestate.repository.ClientRepository;
 import com.crm.realestate.repository.DealRepository;
 import com.crm.realestate.repository.MeetingRepository;
@@ -61,6 +65,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.tuple;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -90,6 +95,7 @@ class WorkHandoverTest {
     @Autowired private OpenHouseRepository openHouseRepository;
     @Autowired private NotificationRepository notificationRepository;
     @Autowired private AuditLogRepository auditLogRepository;
+    @Autowired private RecordChangeRepository changeRepository;
     @Autowired private UserRepository userRepository;
     @Autowired private TeamRepository teamRepository;
     @Autowired private EntityManager entityManager;
@@ -343,6 +349,13 @@ class WorkHandoverTest {
                     assertThat(a.getEntityId()).isEqualTo(agent.getId());
                     assertThat(a.getMetadata()).contains("to=ho-colleague@almaty.kz", "clients=1", "listings=1");
                 });
+        assertThat(changeRepository.findAll()).filteredOn(c -> c.getAction() == ChangeAction.AGENT_CHANGED)
+                .extracting(RecordChange::getEntityType, RecordChange::getOldValue, RecordChange::getNewValue,
+                        RecordChange::getActorName)
+                .containsExactlyInAnyOrder(
+                        tuple(ChangeEntityType.CLIENT, agent.getFullName(), colleague.getFullName(), manager.getFullName()),
+                        tuple(ChangeEntityType.PROPERTY, agent.getFullName(), colleague.getFullName(), manager.getFullName()),
+                        tuple(ChangeEntityType.DEAL, agent.getFullName(), colleague.getFullName(), manager.getFullName()));
     }
 
     // Who may, and within what ----------------------------------------------------------

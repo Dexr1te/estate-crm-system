@@ -10,6 +10,7 @@ import 'package:real_estate_crm/core/utils/clock.dart';
 import 'package:real_estate_crm/core/utils/contact_actions.dart';
 import 'package:real_estate_crm/core/utils/contact_follow_up.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/features/change_log/presentation/widgets/change_log_entries.dart';
 import 'package:real_estate_crm/features/clients/domain/client_birthday.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_bloc.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_event.dart';
@@ -468,6 +469,7 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
                 client: client, matches: _matches, onSent: _recordSent),
           if (client.notes != null && client.notes!.trim().isNotEmpty)
             _NotesCard(client: client),
+          ChangeHistoryButton(location: '/clients/${widget.id}/changes'),
         ],
       ),
     );

@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -58,6 +59,7 @@ public class ClientDuplicateService {
     private final SecurityUtils securityUtils;
     private final AuditLogService auditLogService;
     private final EntityManager entityManager;
+    private final ChangeLogService changeLog;
 
     public List<ClientDuplicate> find(String phone, String email, Long excludeId) {
         String normalizedPhone = ContactNormalizer.phone(phone);
@@ -126,6 +128,9 @@ public class ClientDuplicateService {
                     "Clients from different agencies cannot be merged");
         }
 
+        Map<String, String> before = ChangeSnapshot.of(target);
+        // The card that goes says so in its own log, written before the persistence context is cleared.
+        changeLog.deleted(ChangeSnapshot.target(source), currentUser);
         Client carried = snapshot(source);
         List<String> carriedTags = tagService.names(source);
         int deals = dealRepository.moveToClient(source, target);
@@ -153,7 +158,9 @@ public class ClientDuplicateService {
                 "source=" + sourceId + " name=" + carried.getFullName()
                         + " deals=" + deals + " meetings=" + meetings
                         + " activities=" + activities + " tasks=" + tasks + " tags=" + tags);
-        return clientMapper.toResponse(clientRepository.save(merged));
+        Client saved = clientRepository.save(merged);
+        changeLog.changed(ChangeSnapshot.target(saved), currentUser, before, ChangeSnapshot.of(saved));
+        return clientMapper.toResponse(saved);
     }
 
     private static Long teamIdOf(Client client) {

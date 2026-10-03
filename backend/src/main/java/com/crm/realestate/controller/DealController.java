@@ -31,6 +31,7 @@ public class DealController {
 
     private final DealService dealService;
     private final LeaseService leaseService;
+    private final com.crm.realestate.service.ChangeHistoryService changeHistoryService;
 
     @GetMapping
     @Operation(summary = "Get all deals (optional filter by agent or status)")
@@ -101,5 +102,14 @@ public class DealController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         dealService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}/changes")
+    @Operation(summary = "Who changed what on this deal and when, newest first, a page at a time")
+    public ResponseEntity<org.springframework.data.domain.Page<com.crm.realestate.dto.response.RecordChangeResponse>> changes(
+            @PathVariable Long id,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "30") int size) {
+        return ResponseEntity.ok(changeHistoryService.forDeal(id, page, size));
     }
 }

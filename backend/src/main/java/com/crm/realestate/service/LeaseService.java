@@ -29,6 +29,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Leases: the rent deals whose last day is coming, and carrying one on past it.
@@ -60,6 +61,7 @@ public class LeaseService {
     private final DealService dealService;
     private final ScopeService scopeService;
     private final SecurityUtils securityUtils;
+    private final ChangeLogService changeLog;
 
     /** The caller's won rents ending in {@code [from, from + days]} (from: today if null), soonest first. */
     public List<LeaseEnding> ending(Integer days, LocalDate from) {
@@ -101,6 +103,7 @@ public class LeaseService {
             throw new BusinessException(HttpStatus.BAD_REQUEST, "RENT_REQUIRED",
                     "A rent deal needs a monthly rent above zero");
         }
+        Map<String, String> before = ChangeSnapshot.of(deal);
         LocalDate previousEnd = deal.getLeaseEnd();
         BigDecimal previousRent = deal.getMonthlyRent();
         deal.setLeaseEnd(request.getLeaseEnd());
@@ -108,6 +111,7 @@ public class LeaseService {
             deal.setMonthlyRent(rent);
         }
         Deal saved = dealRepository.save(deal);
+        changeLog.changed(ChangeSnapshot.target(saved), me, before, ChangeSnapshot.of(saved));
         commentRepository.save(DealComment.builder()
                 .deal(saved)
                 .team(saved.getTeam())

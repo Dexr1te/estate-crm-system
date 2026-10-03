@@ -17346,6 +17346,391 @@ abstract class _OpenHouseVisitor implements OpenHouseVisitor {
       throw _privateConstructorUsedError;
 }
 
+RecordChange _$RecordChangeFromJson(Map<String, dynamic> json) {
+  return _RecordChange.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RecordChange {
+  int get id => throw _privateConstructorUsedError;
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  ChangeEntityType? get entityType => throw _privateConstructorUsedError;
+  int get entityId => throw _privateConstructorUsedError;
+  String? get entityLabel => throw _privateConstructorUsedError;
+  @JsonKey(unknownEnumValue: ChangeAction.updated)
+  ChangeAction get action => throw _privateConstructorUsedError;
+  String? get field => throw _privateConstructorUsedError;
+  String? get oldValue => throw _privateConstructorUsedError;
+  String? get newValue => throw _privateConstructorUsedError;
+  int? get actorId => throw _privateConstructorUsedError;
+  String? get actorName => throw _privateConstructorUsedError;
+  DateTime? get changedAt => throw _privateConstructorUsedError;
+
+  /// Serializes this RecordChange to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of RecordChange
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $RecordChangeCopyWith<RecordChange> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RecordChangeCopyWith<$Res> {
+  factory $RecordChangeCopyWith(
+          RecordChange value, $Res Function(RecordChange) then) =
+      _$RecordChangeCopyWithImpl<$Res, RecordChange>;
+  @useResult
+  $Res call(
+      {int id,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      ChangeEntityType? entityType,
+      int entityId,
+      String? entityLabel,
+      @JsonKey(unknownEnumValue: ChangeAction.updated) ChangeAction action,
+      String? field,
+      String? oldValue,
+      String? newValue,
+      int? actorId,
+      String? actorName,
+      DateTime? changedAt});
+}
+
+/// @nodoc
+class _$RecordChangeCopyWithImpl<$Res, $Val extends RecordChange>
+    implements $RecordChangeCopyWith<$Res> {
+  _$RecordChangeCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of RecordChange
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? entityType = freezed,
+    Object? entityId = null,
+    Object? entityLabel = freezed,
+    Object? action = null,
+    Object? field = freezed,
+    Object? oldValue = freezed,
+    Object? newValue = freezed,
+    Object? actorId = freezed,
+    Object? actorName = freezed,
+    Object? changedAt = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      entityType: freezed == entityType
+          ? _value.entityType
+          : entityType // ignore: cast_nullable_to_non_nullable
+              as ChangeEntityType?,
+      entityId: null == entityId
+          ? _value.entityId
+          : entityId // ignore: cast_nullable_to_non_nullable
+              as int,
+      entityLabel: freezed == entityLabel
+          ? _value.entityLabel
+          : entityLabel // ignore: cast_nullable_to_non_nullable
+              as String?,
+      action: null == action
+          ? _value.action
+          : action // ignore: cast_nullable_to_non_nullable
+              as ChangeAction,
+      field: freezed == field
+          ? _value.field
+          : field // ignore: cast_nullable_to_non_nullable
+              as String?,
+      oldValue: freezed == oldValue
+          ? _value.oldValue
+          : oldValue // ignore: cast_nullable_to_non_nullable
+              as String?,
+      newValue: freezed == newValue
+          ? _value.newValue
+          : newValue // ignore: cast_nullable_to_non_nullable
+              as String?,
+      actorId: freezed == actorId
+          ? _value.actorId
+          : actorId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      actorName: freezed == actorName
+          ? _value.actorName
+          : actorName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      changedAt: freezed == changedAt
+          ? _value.changedAt
+          : changedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$RecordChangeImplCopyWith<$Res>
+    implements $RecordChangeCopyWith<$Res> {
+  factory _$$RecordChangeImplCopyWith(
+          _$RecordChangeImpl value, $Res Function(_$RecordChangeImpl) then) =
+      __$$RecordChangeImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int id,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      ChangeEntityType? entityType,
+      int entityId,
+      String? entityLabel,
+      @JsonKey(unknownEnumValue: ChangeAction.updated) ChangeAction action,
+      String? field,
+      String? oldValue,
+      String? newValue,
+      int? actorId,
+      String? actorName,
+      DateTime? changedAt});
+}
+
+/// @nodoc
+class __$$RecordChangeImplCopyWithImpl<$Res>
+    extends _$RecordChangeCopyWithImpl<$Res, _$RecordChangeImpl>
+    implements _$$RecordChangeImplCopyWith<$Res> {
+  __$$RecordChangeImplCopyWithImpl(
+      _$RecordChangeImpl _value, $Res Function(_$RecordChangeImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of RecordChange
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? entityType = freezed,
+    Object? entityId = null,
+    Object? entityLabel = freezed,
+    Object? action = null,
+    Object? field = freezed,
+    Object? oldValue = freezed,
+    Object? newValue = freezed,
+    Object? actorId = freezed,
+    Object? actorName = freezed,
+    Object? changedAt = freezed,
+  }) {
+    return _then(_$RecordChangeImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      entityType: freezed == entityType
+          ? _value.entityType
+          : entityType // ignore: cast_nullable_to_non_nullable
+              as ChangeEntityType?,
+      entityId: null == entityId
+          ? _value.entityId
+          : entityId // ignore: cast_nullable_to_non_nullable
+              as int,
+      entityLabel: freezed == entityLabel
+          ? _value.entityLabel
+          : entityLabel // ignore: cast_nullable_to_non_nullable
+              as String?,
+      action: null == action
+          ? _value.action
+          : action // ignore: cast_nullable_to_non_nullable
+              as ChangeAction,
+      field: freezed == field
+          ? _value.field
+          : field // ignore: cast_nullable_to_non_nullable
+              as String?,
+      oldValue: freezed == oldValue
+          ? _value.oldValue
+          : oldValue // ignore: cast_nullable_to_non_nullable
+              as String?,
+      newValue: freezed == newValue
+          ? _value.newValue
+          : newValue // ignore: cast_nullable_to_non_nullable
+              as String?,
+      actorId: freezed == actorId
+          ? _value.actorId
+          : actorId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      actorName: freezed == actorName
+          ? _value.actorName
+          : actorName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      changedAt: freezed == changedAt
+          ? _value.changedAt
+          : changedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RecordChangeImpl implements _RecordChange {
+  const _$RecordChangeImpl(
+      {required this.id,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      this.entityType,
+      this.entityId = 0,
+      this.entityLabel,
+      @JsonKey(unknownEnumValue: ChangeAction.updated)
+      this.action = ChangeAction.updated,
+      this.field,
+      this.oldValue,
+      this.newValue,
+      this.actorId,
+      this.actorName,
+      this.changedAt});
+
+  factory _$RecordChangeImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RecordChangeImplFromJson(json);
+
+  @override
+  final int id;
+  @override
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  final ChangeEntityType? entityType;
+  @override
+  @JsonKey()
+  final int entityId;
+  @override
+  final String? entityLabel;
+  @override
+  @JsonKey(unknownEnumValue: ChangeAction.updated)
+  final ChangeAction action;
+  @override
+  final String? field;
+  @override
+  final String? oldValue;
+  @override
+  final String? newValue;
+  @override
+  final int? actorId;
+  @override
+  final String? actorName;
+  @override
+  final DateTime? changedAt;
+
+  @override
+  String toString() {
+    return 'RecordChange(id: $id, entityType: $entityType, entityId: $entityId, entityLabel: $entityLabel, action: $action, field: $field, oldValue: $oldValue, newValue: $newValue, actorId: $actorId, actorName: $actorName, changedAt: $changedAt)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RecordChangeImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.entityType, entityType) ||
+                other.entityType == entityType) &&
+            (identical(other.entityId, entityId) ||
+                other.entityId == entityId) &&
+            (identical(other.entityLabel, entityLabel) ||
+                other.entityLabel == entityLabel) &&
+            (identical(other.action, action) || other.action == action) &&
+            (identical(other.field, field) || other.field == field) &&
+            (identical(other.oldValue, oldValue) ||
+                other.oldValue == oldValue) &&
+            (identical(other.newValue, newValue) ||
+                other.newValue == newValue) &&
+            (identical(other.actorId, actorId) || other.actorId == actorId) &&
+            (identical(other.actorName, actorName) ||
+                other.actorName == actorName) &&
+            (identical(other.changedAt, changedAt) ||
+                other.changedAt == changedAt));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      entityType,
+      entityId,
+      entityLabel,
+      action,
+      field,
+      oldValue,
+      newValue,
+      actorId,
+      actorName,
+      changedAt);
+
+  /// Create a copy of RecordChange
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RecordChangeImplCopyWith<_$RecordChangeImpl> get copyWith =>
+      __$$RecordChangeImplCopyWithImpl<_$RecordChangeImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RecordChangeImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RecordChange implements RecordChange {
+  const factory _RecordChange(
+      {required final int id,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      final ChangeEntityType? entityType,
+      final int entityId,
+      final String? entityLabel,
+      @JsonKey(unknownEnumValue: ChangeAction.updated)
+      final ChangeAction action,
+      final String? field,
+      final String? oldValue,
+      final String? newValue,
+      final int? actorId,
+      final String? actorName,
+      final DateTime? changedAt}) = _$RecordChangeImpl;
+
+  factory _RecordChange.fromJson(Map<String, dynamic> json) =
+      _$RecordChangeImpl.fromJson;
+
+  @override
+  int get id;
+  @override
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  ChangeEntityType? get entityType;
+  @override
+  int get entityId;
+  @override
+  String? get entityLabel;
+  @override
+  @JsonKey(unknownEnumValue: ChangeAction.updated)
+  ChangeAction get action;
+  @override
+  String? get field;
+  @override
+  String? get oldValue;
+  @override
+  String? get newValue;
+  @override
+  int? get actorId;
+  @override
+  String? get actorName;
+  @override
+  DateTime? get changedAt;
+
+  /// Create a copy of RecordChange
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$RecordChangeImplCopyWith<_$RecordChangeImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 PropertyOffer _$PropertyOfferFromJson(Map<String, dynamic> json) {
   return _PropertyOffer.fromJson(json);
 }

@@ -5,12 +5,16 @@ import com.crm.realestate.entity.Client;
 import com.crm.realestate.entity.Deal;
 import com.crm.realestate.entity.Notification;
 import com.crm.realestate.entity.Property;
+import com.crm.realestate.entity.RecordChange;
+import com.crm.realestate.enums.ChangeAction;
+import com.crm.realestate.enums.ChangeEntityType;
 import com.crm.realestate.enums.DealKind;
 import com.crm.realestate.enums.DealStatus;
 import com.crm.realestate.enums.NotificationType;
 import com.crm.realestate.enums.PropertyStatus;
 import com.crm.realestate.repository.DealCommentRepository;
 import com.crm.realestate.repository.NotificationRepository;
+import com.crm.realestate.repository.RecordChangeRepository;
 import com.crm.realestate.service.AnalyticsService;
 import com.crm.realestate.service.LeaseEndNotifier;
 import com.crm.realestate.service.LeaseService;
@@ -29,6 +33,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 import static org.hamcrest.Matchers.nullValue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -52,6 +57,7 @@ class DealLeaseTest extends ColdClientsFixture {
     @Autowired private AnalyticsService analyticsService;
     @Autowired private NotificationRepository notificationRepository;
     @Autowired private DealCommentRepository commentRepository;
+    @Autowired private RecordChangeRepository changeRepository;
 
     // The lease on the deal -----------------------------------------------------------------
 
@@ -227,6 +233,11 @@ class DealLeaseTest extends ColdClientsFixture {
         assertThat(commentRepository.findAll()).singleElement()
                 .satisfies(c -> assertThat(c.getBody()).contains("11.10.2027", "11.10.2026"));
         assertThat(dealRepository.count()).isEqualTo(1);
+        assertThat(changeRepository.findByEntityTypeAndEntityIdOrderByIdAsc(ChangeEntityType.DEAL, lease.getId()))
+                .extracting(RecordChange::getAction, RecordChange::getField, RecordChange::getNewValue)
+                .containsExactlyInAnyOrder(
+                        tuple(ChangeAction.UPDATED, "leaseEnd", "2027-10-11"),
+                        tuple(ChangeAction.PRICE_CHANGED, "monthlyRent", "320000"));
 
         renew(lease, "\"leaseEnd\":\"2027-10-11\"")
                 .andExpect(status().isBadRequest())

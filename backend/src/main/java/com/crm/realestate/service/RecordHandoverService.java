@@ -42,6 +42,7 @@ public class RecordHandoverService {
     private final OpenHouseRepository openHouseRepository;
     private final PropertyOfferRepository offerRepository;
     private final NotificationEvents notificationEvents;
+    private final ChangeLogService   changeLog;
 
     /**
      * Brings what someone owned while in no team into the team they have just joined.
@@ -71,6 +72,8 @@ public class RecordHandoverService {
      */
     @Transactional
     public void reassignTeamRecords(User from, User to, Team team, User actor) {
+        // Each client, listing and deal says it changed hands; read before the bulk update moves them.
+        changeLog.handingOver(from, to, team, actor);
         int clients    = clientRepository.reassignInTeam(from, to, team);
         int properties = propertyRepository.reassignInTeam(from, to, team);
         int deals      = dealRepository.reassignInTeam(from, to, team);

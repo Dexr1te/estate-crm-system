@@ -52,6 +52,7 @@ public class ListingLeadService {
     private final ClientActivityPropertyRepository activityPropertyRepository;
     private final NotificationEvents notificationEvents;
     private final LeadRateLimiter rateLimiter;
+    private final ChangeLogService changeLog;
 
     /** What the buyer typed, trimmed; nulls for fields that were not sent. */
     public record LeadForm(String name, String phone, String message, boolean consent) {
@@ -112,7 +113,7 @@ public class ListingLeadService {
                 owner != null ? owner.getId() : null,
                 phone, null, null, PageRequest.of(0, 1)).stream().findFirst();
 
-        Client client = existing.orElseGet(() -> clientRepository.save(Client.builder()
+        Client client = existing.orElseGet(() -> created(Client.builder()
                 .fullName(form.name())
                 .phone(form.phone())
                 .type(ClientType.BUYER)
@@ -205,5 +206,12 @@ public class ListingLeadService {
         }
         String stripped = value.strip();
         return stripped.isEmpty() ? null : stripped;
+    }
+
+    /** A card the website made: the change log says so, in nobody's name. */
+    private Client created(Client client) {
+        Client saved = clientRepository.save(client);
+        changeLog.created(ChangeSnapshot.target(saved), null);
+        return saved;
     }
 }

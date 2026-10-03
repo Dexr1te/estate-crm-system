@@ -601,6 +601,229 @@ class AppLocalizationsRu extends AppLocalizations {
   String get calendarViewMonth => 'Месяц';
 
   @override
+  String get changeLogAnyTime => 'За всё время';
+
+  @override
+  String get changeLogAnyone => 'Все сотрудники';
+
+  @override
+  String get changeLogAutomatic => 'Автоматически';
+
+  @override
+  String changeLogChange(String field, String from, String to) {
+    return '$field: $from → $to';
+  }
+
+  @override
+  String get changeLogClearFilters => 'Сбросить фильтры';
+
+  @override
+  String get changeLogCreated => 'Создано';
+
+  @override
+  String changeLogDays(String from, String to) {
+    return '$from – $to';
+  }
+
+  @override
+  String get changeLogDeleted => 'Удалено';
+
+  @override
+  String changeLogEdited(String field) {
+    return '$field: изменено';
+  }
+
+  @override
+  String get changeLogEmptyBody =>
+      'Здесь появится каждое изменение этой записи: кто и когда его внёс.';
+
+  @override
+  String get changeLogEmptyTitle => 'Изменений пока нет';
+
+  @override
+  String get changeLogEntityClient => 'Клиент';
+
+  @override
+  String get changeLogEntityDeal => 'Сделка';
+
+  @override
+  String get changeLogEntityOther => 'Запись';
+
+  @override
+  String get changeLogEntityProperty => 'Объект';
+
+  @override
+  String get changeLogFieldAddress => 'Адрес';
+
+  @override
+  String get changeLogFieldAgent => 'Агент';
+
+  @override
+  String get changeLogFieldArea => 'Площадь';
+
+  @override
+  String get changeLogFieldBirthday => 'День рождения';
+
+  @override
+  String get changeLogFieldBudget => 'Бюджет';
+
+  @override
+  String get changeLogFieldBudgetMax => 'Бюджет до';
+
+  @override
+  String get changeLogFieldBudgetMin => 'Бюджет от';
+
+  @override
+  String get changeLogFieldCity => 'Город';
+
+  @override
+  String get changeLogFieldClient => 'Клиент';
+
+  @override
+  String get changeLogFieldCommission => 'Комиссия';
+
+  @override
+  String get changeLogFieldDealPrice => 'Цена сделки';
+
+  @override
+  String get changeLogFieldDescription => 'Описание';
+
+  @override
+  String get changeLogFieldEmail => 'Email';
+
+  @override
+  String get changeLogFieldFloor => 'Этаж';
+
+  @override
+  String get changeLogFieldLeadSource => 'Источник';
+
+  @override
+  String get changeLogFieldLeadSourceDetail => 'Подробности источника';
+
+  @override
+  String get changeLogFieldListing => 'Объект';
+
+  @override
+  String get changeLogFieldLocation => 'Точка на карте';
+
+  @override
+  String get changeLogFieldLostNote => 'Комментарий к проигрышу';
+
+  @override
+  String get changeLogFieldLostReason => 'Причина проигрыша';
+
+  @override
+  String get changeLogFieldMandate => 'Договор с продавцом';
+
+  @override
+  String get changeLogFieldMandateEnd => 'Договор до';
+
+  @override
+  String get changeLogFieldMinArea => 'Площадь от';
+
+  @override
+  String get changeLogFieldMinRooms => 'Комнат от';
+
+  @override
+  String get changeLogFieldName => 'Имя';
+
+  @override
+  String get changeLogFieldNotes => 'Заметки';
+
+  @override
+  String get changeLogFieldOther => 'Другие данные';
+
+  @override
+  String get changeLogFieldPhone => 'Телефон';
+
+  @override
+  String get changeLogFieldPrice => 'Цена';
+
+  @override
+  String get changeLogFieldRooms => 'Комнаты';
+
+  @override
+  String get changeLogFieldStatus => 'Статус';
+
+  @override
+  String get changeLogFieldTags => 'Теги';
+
+  @override
+  String get changeLogFieldTitle => 'Название';
+
+  @override
+  String get changeLogFieldTotalFloors => 'Этажей в доме';
+
+  @override
+  String get changeLogFieldType => 'Тип';
+
+  @override
+  String get changeLogFieldWantedCity => 'Желаемый город';
+
+  @override
+  String get changeLogFieldWantedType => 'Ищет';
+
+  @override
+  String get changeLogFilterAll => 'Все';
+
+  @override
+  String get changeLogFilterClients => 'Клиенты';
+
+  @override
+  String get changeLogFilterDeals => 'Сделки';
+
+  @override
+  String get changeLogFilterListings => 'Объекты';
+
+  @override
+  String get changeLogLoadFailed => 'Не удалось загрузить историю';
+
+  @override
+  String get changeLogNoValue => '—';
+
+  @override
+  String get changeLogPeopleFailed =>
+      'Не удалось загрузить сотрудников агентства';
+
+  @override
+  String changeLogPercent(String value) {
+    return '$value%';
+  }
+
+  @override
+  String get changeLogPickDays => 'Период';
+
+  @override
+  String get changeLogPickPerson => 'Кто внёс изменение';
+
+  @override
+  String changeLogRecord(String kind, String label) {
+    return '$kind: $label';
+  }
+
+  @override
+  String get changeLogTeamEmptyBody =>
+      'Здесь появятся изменения объектов, сделок и клиентов агентства.';
+
+  @override
+  String get changeLogTeamEmptyFiltered => 'По этим фильтрам ничего нет.';
+
+  @override
+  String get changeLogTeamHint => 'Кто что менял в агентстве';
+
+  @override
+  String get changeLogTeamTitle => 'Журнал изменений';
+
+  @override
+  String get changeLogTitle => 'История изменений';
+
+  @override
+  String get changeLogUnknownValue => 'другое значение';
+
+  @override
+  String get changeLogUntitled => 'Без названия';
+
+  @override
   String get clientsActivityCall => 'Звонок';
 
   @override

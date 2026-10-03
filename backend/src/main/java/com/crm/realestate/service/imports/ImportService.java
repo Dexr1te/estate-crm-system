@@ -80,6 +80,7 @@ public class ImportService {
     private final SecurityUtils securityUtils;
     private final AuditLogService auditLogService;
     private final ClientTagService tagService;
+    private final com.crm.realestate.service.ChangeLogService changeLog;
 
     @Transactional(readOnly = true)
     public ImportPreviewResponse preview(ImportKind kind, MultipartFile file, List<String> mapping) {
@@ -127,6 +128,8 @@ public class ImportService {
         tagAll(typedTags, team);
         clientRepository.saveAll(clients);
         propertyRepository.saveAll(properties);
+        clients.forEach(c -> changeLog.created(com.crm.realestate.service.ChangeSnapshot.target(c), importer));
+        properties.forEach(p -> changeLog.created(com.crm.realestate.service.ChangeSnapshot.target(p), importer));
 
         // Journalled against the agency the rows went into: there is no single record to name.
         auditLogService.record(importer, "IMPORT_" + kind.name(), "Team", team.getId(),

@@ -1744,6 +1744,57 @@ const _$OpenHouseInterestEnumMap = {
   OpenHouseInterest.justLooking: 'JUST_LOOKING',
 };
 
+_$RecordChangeImpl _$$RecordChangeImplFromJson(Map<String, dynamic> json) =>
+    _$RecordChangeImpl(
+      id: (json['id'] as num).toInt(),
+      entityType: $enumDecodeNullable(
+          _$ChangeEntityTypeEnumMap, json['entityType'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
+      entityId: (json['entityId'] as num?)?.toInt() ?? 0,
+      entityLabel: json['entityLabel'] as String?,
+      action: $enumDecodeNullable(_$ChangeActionEnumMap, json['action'],
+              unknownValue: ChangeAction.updated) ??
+          ChangeAction.updated,
+      field: json['field'] as String?,
+      oldValue: json['oldValue'] as String?,
+      newValue: json['newValue'] as String?,
+      actorId: (json['actorId'] as num?)?.toInt(),
+      actorName: json['actorName'] as String?,
+      changedAt: json['changedAt'] == null
+          ? null
+          : DateTime.parse(json['changedAt'] as String),
+    );
+
+Map<String, dynamic> _$$RecordChangeImplToJson(_$RecordChangeImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'entityType': _$ChangeEntityTypeEnumMap[instance.entityType],
+      'entityId': instance.entityId,
+      'entityLabel': instance.entityLabel,
+      'action': _$ChangeActionEnumMap[instance.action]!,
+      'field': instance.field,
+      'oldValue': instance.oldValue,
+      'newValue': instance.newValue,
+      'actorId': instance.actorId,
+      'actorName': instance.actorName,
+      'changedAt': instance.changedAt?.toIso8601String(),
+    };
+
+const _$ChangeEntityTypeEnumMap = {
+  ChangeEntityType.property: 'PROPERTY',
+  ChangeEntityType.deal: 'DEAL',
+  ChangeEntityType.client: 'CLIENT',
+};
+
+const _$ChangeActionEnumMap = {
+  ChangeAction.created: 'CREATED',
+  ChangeAction.deleted: 'DELETED',
+  ChangeAction.statusChanged: 'STATUS_CHANGED',
+  ChangeAction.priceChanged: 'PRICE_CHANGED',
+  ChangeAction.agentChanged: 'AGENT_CHANGED',
+  ChangeAction.updated: 'UPDATED',
+};
+
 _$PropertyOfferImpl _$$PropertyOfferImplFromJson(Map<String, dynamic> json) =>
     _$PropertyOfferImpl(
       id: (json['id'] as num).toInt(),
