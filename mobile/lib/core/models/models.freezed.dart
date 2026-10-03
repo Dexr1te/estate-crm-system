@@ -16558,3 +16558,942 @@ abstract class _OpenHouseVisitor implements OpenHouseVisitor {
   _$$OpenHouseVisitorImplCopyWith<_$OpenHouseVisitorImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+PropertyOffer _$PropertyOfferFromJson(Map<String, dynamic> json) {
+  return _PropertyOffer.fromJson(json);
+}
+
+/// @nodoc
+mixin _$PropertyOffer {
+  int get id => throw _privateConstructorUsedError;
+  int get propertyId => throw _privateConstructorUsedError;
+  String get propertyTitle => throw _privateConstructorUsedError;
+  String? get propertyAddress => throw _privateConstructorUsedError;
+  double? get propertyPrice => throw _privateConstructorUsedError;
+  int get clientId => throw _privateConstructorUsedError;
+
+  /// Whether the signed-in user may open the buyer's card; a colleague's
+  /// buyer, on an own-records scope, is named by [clientAgentName] only.
+  bool get clientVisible => throw _privateConstructorUsedError;
+  String? get clientName => throw _privateConstructorUsedError;
+  String? get clientAgentName => throw _privateConstructorUsedError;
+  int? get agentId => throw _privateConstructorUsedError;
+  String? get agentName => throw _privateConstructorUsedError;
+  double get amount => throw _privateConstructorUsedError;
+  @JsonKey(unknownEnumValue: OfferParty.buyer)
+  OfferParty get lastParty => throw _privateConstructorUsedError;
+  String? get note => throw _privateConstructorUsedError;
+  DateTime? get expiresOn => throw _privateConstructorUsedError;
+  @JsonKey(unknownEnumValue: OfferStatus.isNew)
+  OfferStatus get status => throw _privateConstructorUsedError;
+
+  /// Another offer on the same listing is accepted while this one waits.
+  bool get otherAccepted => throw _privateConstructorUsedError;
+
+  /// Whether the signed-in user may counter, accept, reject or withdraw it.
+  bool get canEdit => throw _privateConstructorUsedError;
+  DateTime? get decidedAt => throw _privateConstructorUsedError;
+  DateTime? get createdAt => throw _privateConstructorUsedError;
+  List<OfferStep> get history => throw _privateConstructorUsedError;
+
+  /// Serializes this PropertyOffer to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of PropertyOffer
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $PropertyOfferCopyWith<PropertyOffer> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $PropertyOfferCopyWith<$Res> {
+  factory $PropertyOfferCopyWith(
+          PropertyOffer value, $Res Function(PropertyOffer) then) =
+      _$PropertyOfferCopyWithImpl<$Res, PropertyOffer>;
+  @useResult
+  $Res call(
+      {int id,
+      int propertyId,
+      String propertyTitle,
+      String? propertyAddress,
+      double? propertyPrice,
+      int clientId,
+      bool clientVisible,
+      String? clientName,
+      String? clientAgentName,
+      int? agentId,
+      String? agentName,
+      double amount,
+      @JsonKey(unknownEnumValue: OfferParty.buyer) OfferParty lastParty,
+      String? note,
+      DateTime? expiresOn,
+      @JsonKey(unknownEnumValue: OfferStatus.isNew) OfferStatus status,
+      bool otherAccepted,
+      bool canEdit,
+      DateTime? decidedAt,
+      DateTime? createdAt,
+      List<OfferStep> history});
+}
+
+/// @nodoc
+class _$PropertyOfferCopyWithImpl<$Res, $Val extends PropertyOffer>
+    implements $PropertyOfferCopyWith<$Res> {
+  _$PropertyOfferCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of PropertyOffer
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? propertyId = null,
+    Object? propertyTitle = null,
+    Object? propertyAddress = freezed,
+    Object? propertyPrice = freezed,
+    Object? clientId = null,
+    Object? clientVisible = null,
+    Object? clientName = freezed,
+    Object? clientAgentName = freezed,
+    Object? agentId = freezed,
+    Object? agentName = freezed,
+    Object? amount = null,
+    Object? lastParty = null,
+    Object? note = freezed,
+    Object? expiresOn = freezed,
+    Object? status = null,
+    Object? otherAccepted = null,
+    Object? canEdit = null,
+    Object? decidedAt = freezed,
+    Object? createdAt = freezed,
+    Object? history = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      propertyId: null == propertyId
+          ? _value.propertyId
+          : propertyId // ignore: cast_nullable_to_non_nullable
+              as int,
+      propertyTitle: null == propertyTitle
+          ? _value.propertyTitle
+          : propertyTitle // ignore: cast_nullable_to_non_nullable
+              as String,
+      propertyAddress: freezed == propertyAddress
+          ? _value.propertyAddress
+          : propertyAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      propertyPrice: freezed == propertyPrice
+          ? _value.propertyPrice
+          : propertyPrice // ignore: cast_nullable_to_non_nullable
+              as double?,
+      clientId: null == clientId
+          ? _value.clientId
+          : clientId // ignore: cast_nullable_to_non_nullable
+              as int,
+      clientVisible: null == clientVisible
+          ? _value.clientVisible
+          : clientVisible // ignore: cast_nullable_to_non_nullable
+              as bool,
+      clientName: freezed == clientName
+          ? _value.clientName
+          : clientName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      clientAgentName: freezed == clientAgentName
+          ? _value.clientAgentName
+          : clientAgentName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      agentId: freezed == agentId
+          ? _value.agentId
+          : agentId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      agentName: freezed == agentName
+          ? _value.agentName
+          : agentName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      amount: null == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as double,
+      lastParty: null == lastParty
+          ? _value.lastParty
+          : lastParty // ignore: cast_nullable_to_non_nullable
+              as OfferParty,
+      note: freezed == note
+          ? _value.note
+          : note // ignore: cast_nullable_to_non_nullable
+              as String?,
+      expiresOn: freezed == expiresOn
+          ? _value.expiresOn
+          : expiresOn // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as OfferStatus,
+      otherAccepted: null == otherAccepted
+          ? _value.otherAccepted
+          : otherAccepted // ignore: cast_nullable_to_non_nullable
+              as bool,
+      canEdit: null == canEdit
+          ? _value.canEdit
+          : canEdit // ignore: cast_nullable_to_non_nullable
+              as bool,
+      decidedAt: freezed == decidedAt
+          ? _value.decidedAt
+          : decidedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      history: null == history
+          ? _value.history
+          : history // ignore: cast_nullable_to_non_nullable
+              as List<OfferStep>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$PropertyOfferImplCopyWith<$Res>
+    implements $PropertyOfferCopyWith<$Res> {
+  factory _$$PropertyOfferImplCopyWith(
+          _$PropertyOfferImpl value, $Res Function(_$PropertyOfferImpl) then) =
+      __$$PropertyOfferImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int id,
+      int propertyId,
+      String propertyTitle,
+      String? propertyAddress,
+      double? propertyPrice,
+      int clientId,
+      bool clientVisible,
+      String? clientName,
+      String? clientAgentName,
+      int? agentId,
+      String? agentName,
+      double amount,
+      @JsonKey(unknownEnumValue: OfferParty.buyer) OfferParty lastParty,
+      String? note,
+      DateTime? expiresOn,
+      @JsonKey(unknownEnumValue: OfferStatus.isNew) OfferStatus status,
+      bool otherAccepted,
+      bool canEdit,
+      DateTime? decidedAt,
+      DateTime? createdAt,
+      List<OfferStep> history});
+}
+
+/// @nodoc
+class __$$PropertyOfferImplCopyWithImpl<$Res>
+    extends _$PropertyOfferCopyWithImpl<$Res, _$PropertyOfferImpl>
+    implements _$$PropertyOfferImplCopyWith<$Res> {
+  __$$PropertyOfferImplCopyWithImpl(
+      _$PropertyOfferImpl _value, $Res Function(_$PropertyOfferImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of PropertyOffer
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? propertyId = null,
+    Object? propertyTitle = null,
+    Object? propertyAddress = freezed,
+    Object? propertyPrice = freezed,
+    Object? clientId = null,
+    Object? clientVisible = null,
+    Object? clientName = freezed,
+    Object? clientAgentName = freezed,
+    Object? agentId = freezed,
+    Object? agentName = freezed,
+    Object? amount = null,
+    Object? lastParty = null,
+    Object? note = freezed,
+    Object? expiresOn = freezed,
+    Object? status = null,
+    Object? otherAccepted = null,
+    Object? canEdit = null,
+    Object? decidedAt = freezed,
+    Object? createdAt = freezed,
+    Object? history = null,
+  }) {
+    return _then(_$PropertyOfferImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      propertyId: null == propertyId
+          ? _value.propertyId
+          : propertyId // ignore: cast_nullable_to_non_nullable
+              as int,
+      propertyTitle: null == propertyTitle
+          ? _value.propertyTitle
+          : propertyTitle // ignore: cast_nullable_to_non_nullable
+              as String,
+      propertyAddress: freezed == propertyAddress
+          ? _value.propertyAddress
+          : propertyAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      propertyPrice: freezed == propertyPrice
+          ? _value.propertyPrice
+          : propertyPrice // ignore: cast_nullable_to_non_nullable
+              as double?,
+      clientId: null == clientId
+          ? _value.clientId
+          : clientId // ignore: cast_nullable_to_non_nullable
+              as int,
+      clientVisible: null == clientVisible
+          ? _value.clientVisible
+          : clientVisible // ignore: cast_nullable_to_non_nullable
+              as bool,
+      clientName: freezed == clientName
+          ? _value.clientName
+          : clientName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      clientAgentName: freezed == clientAgentName
+          ? _value.clientAgentName
+          : clientAgentName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      agentId: freezed == agentId
+          ? _value.agentId
+          : agentId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      agentName: freezed == agentName
+          ? _value.agentName
+          : agentName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      amount: null == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as double,
+      lastParty: null == lastParty
+          ? _value.lastParty
+          : lastParty // ignore: cast_nullable_to_non_nullable
+              as OfferParty,
+      note: freezed == note
+          ? _value.note
+          : note // ignore: cast_nullable_to_non_nullable
+              as String?,
+      expiresOn: freezed == expiresOn
+          ? _value.expiresOn
+          : expiresOn // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as OfferStatus,
+      otherAccepted: null == otherAccepted
+          ? _value.otherAccepted
+          : otherAccepted // ignore: cast_nullable_to_non_nullable
+              as bool,
+      canEdit: null == canEdit
+          ? _value.canEdit
+          : canEdit // ignore: cast_nullable_to_non_nullable
+              as bool,
+      decidedAt: freezed == decidedAt
+          ? _value.decidedAt
+          : decidedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      history: null == history
+          ? _value._history
+          : history // ignore: cast_nullable_to_non_nullable
+              as List<OfferStep>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$PropertyOfferImpl implements _PropertyOffer {
+  const _$PropertyOfferImpl(
+      {required this.id,
+      required this.propertyId,
+      this.propertyTitle = '',
+      this.propertyAddress,
+      this.propertyPrice,
+      required this.clientId,
+      this.clientVisible = false,
+      this.clientName,
+      this.clientAgentName,
+      this.agentId,
+      this.agentName,
+      this.amount = 0.0,
+      @JsonKey(unknownEnumValue: OfferParty.buyer)
+      this.lastParty = OfferParty.buyer,
+      this.note,
+      this.expiresOn,
+      @JsonKey(unknownEnumValue: OfferStatus.isNew)
+      this.status = OfferStatus.isNew,
+      this.otherAccepted = false,
+      this.canEdit = false,
+      this.decidedAt,
+      this.createdAt,
+      final List<OfferStep> history = const <OfferStep>[]})
+      : _history = history;
+
+  factory _$PropertyOfferImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PropertyOfferImplFromJson(json);
+
+  @override
+  final int id;
+  @override
+  final int propertyId;
+  @override
+  @JsonKey()
+  final String propertyTitle;
+  @override
+  final String? propertyAddress;
+  @override
+  final double? propertyPrice;
+  @override
+  final int clientId;
+
+  /// Whether the signed-in user may open the buyer's card; a colleague's
+  /// buyer, on an own-records scope, is named by [clientAgentName] only.
+  @override
+  @JsonKey()
+  final bool clientVisible;
+  @override
+  final String? clientName;
+  @override
+  final String? clientAgentName;
+  @override
+  final int? agentId;
+  @override
+  final String? agentName;
+  @override
+  @JsonKey()
+  final double amount;
+  @override
+  @JsonKey(unknownEnumValue: OfferParty.buyer)
+  final OfferParty lastParty;
+  @override
+  final String? note;
+  @override
+  final DateTime? expiresOn;
+  @override
+  @JsonKey(unknownEnumValue: OfferStatus.isNew)
+  final OfferStatus status;
+
+  /// Another offer on the same listing is accepted while this one waits.
+  @override
+  @JsonKey()
+  final bool otherAccepted;
+
+  /// Whether the signed-in user may counter, accept, reject or withdraw it.
+  @override
+  @JsonKey()
+  final bool canEdit;
+  @override
+  final DateTime? decidedAt;
+  @override
+  final DateTime? createdAt;
+  final List<OfferStep> _history;
+  @override
+  @JsonKey()
+  List<OfferStep> get history {
+    if (_history is EqualUnmodifiableListView) return _history;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_history);
+  }
+
+  @override
+  String toString() {
+    return 'PropertyOffer(id: $id, propertyId: $propertyId, propertyTitle: $propertyTitle, propertyAddress: $propertyAddress, propertyPrice: $propertyPrice, clientId: $clientId, clientVisible: $clientVisible, clientName: $clientName, clientAgentName: $clientAgentName, agentId: $agentId, agentName: $agentName, amount: $amount, lastParty: $lastParty, note: $note, expiresOn: $expiresOn, status: $status, otherAccepted: $otherAccepted, canEdit: $canEdit, decidedAt: $decidedAt, createdAt: $createdAt, history: $history)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$PropertyOfferImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.propertyId, propertyId) ||
+                other.propertyId == propertyId) &&
+            (identical(other.propertyTitle, propertyTitle) ||
+                other.propertyTitle == propertyTitle) &&
+            (identical(other.propertyAddress, propertyAddress) ||
+                other.propertyAddress == propertyAddress) &&
+            (identical(other.propertyPrice, propertyPrice) ||
+                other.propertyPrice == propertyPrice) &&
+            (identical(other.clientId, clientId) ||
+                other.clientId == clientId) &&
+            (identical(other.clientVisible, clientVisible) ||
+                other.clientVisible == clientVisible) &&
+            (identical(other.clientName, clientName) ||
+                other.clientName == clientName) &&
+            (identical(other.clientAgentName, clientAgentName) ||
+                other.clientAgentName == clientAgentName) &&
+            (identical(other.agentId, agentId) || other.agentId == agentId) &&
+            (identical(other.agentName, agentName) ||
+                other.agentName == agentName) &&
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.lastParty, lastParty) ||
+                other.lastParty == lastParty) &&
+            (identical(other.note, note) || other.note == note) &&
+            (identical(other.expiresOn, expiresOn) ||
+                other.expiresOn == expiresOn) &&
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.otherAccepted, otherAccepted) ||
+                other.otherAccepted == otherAccepted) &&
+            (identical(other.canEdit, canEdit) || other.canEdit == canEdit) &&
+            (identical(other.decidedAt, decidedAt) ||
+                other.decidedAt == decidedAt) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            const DeepCollectionEquality().equals(other._history, _history));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        id,
+        propertyId,
+        propertyTitle,
+        propertyAddress,
+        propertyPrice,
+        clientId,
+        clientVisible,
+        clientName,
+        clientAgentName,
+        agentId,
+        agentName,
+        amount,
+        lastParty,
+        note,
+        expiresOn,
+        status,
+        otherAccepted,
+        canEdit,
+        decidedAt,
+        createdAt,
+        const DeepCollectionEquality().hash(_history)
+      ]);
+
+  /// Create a copy of PropertyOffer
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$PropertyOfferImplCopyWith<_$PropertyOfferImpl> get copyWith =>
+      __$$PropertyOfferImplCopyWithImpl<_$PropertyOfferImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$PropertyOfferImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _PropertyOffer implements PropertyOffer {
+  const factory _PropertyOffer(
+      {required final int id,
+      required final int propertyId,
+      final String propertyTitle,
+      final String? propertyAddress,
+      final double? propertyPrice,
+      required final int clientId,
+      final bool clientVisible,
+      final String? clientName,
+      final String? clientAgentName,
+      final int? agentId,
+      final String? agentName,
+      final double amount,
+      @JsonKey(unknownEnumValue: OfferParty.buyer) final OfferParty lastParty,
+      final String? note,
+      final DateTime? expiresOn,
+      @JsonKey(unknownEnumValue: OfferStatus.isNew) final OfferStatus status,
+      final bool otherAccepted,
+      final bool canEdit,
+      final DateTime? decidedAt,
+      final DateTime? createdAt,
+      final List<OfferStep> history}) = _$PropertyOfferImpl;
+
+  factory _PropertyOffer.fromJson(Map<String, dynamic> json) =
+      _$PropertyOfferImpl.fromJson;
+
+  @override
+  int get id;
+  @override
+  int get propertyId;
+  @override
+  String get propertyTitle;
+  @override
+  String? get propertyAddress;
+  @override
+  double? get propertyPrice;
+  @override
+  int get clientId;
+
+  /// Whether the signed-in user may open the buyer's card; a colleague's
+  /// buyer, on an own-records scope, is named by [clientAgentName] only.
+  @override
+  bool get clientVisible;
+  @override
+  String? get clientName;
+  @override
+  String? get clientAgentName;
+  @override
+  int? get agentId;
+  @override
+  String? get agentName;
+  @override
+  double get amount;
+  @override
+  @JsonKey(unknownEnumValue: OfferParty.buyer)
+  OfferParty get lastParty;
+  @override
+  String? get note;
+  @override
+  DateTime? get expiresOn;
+  @override
+  @JsonKey(unknownEnumValue: OfferStatus.isNew)
+  OfferStatus get status;
+
+  /// Another offer on the same listing is accepted while this one waits.
+  @override
+  bool get otherAccepted;
+
+  /// Whether the signed-in user may counter, accept, reject or withdraw it.
+  @override
+  bool get canEdit;
+  @override
+  DateTime? get decidedAt;
+  @override
+  DateTime? get createdAt;
+  @override
+  List<OfferStep> get history;
+
+  /// Create a copy of PropertyOffer
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$PropertyOfferImplCopyWith<_$PropertyOfferImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+OfferStep _$OfferStepFromJson(Map<String, dynamic> json) {
+  return _OfferStep.fromJson(json);
+}
+
+/// @nodoc
+mixin _$OfferStep {
+  int get id => throw _privateConstructorUsedError;
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  OfferAction? get action => throw _privateConstructorUsedError;
+  double get amount => throw _privateConstructorUsedError;
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  OfferParty? get party => throw _privateConstructorUsedError;
+  String? get note => throw _privateConstructorUsedError;
+  int? get actorId => throw _privateConstructorUsedError;
+  String? get actorName => throw _privateConstructorUsedError;
+  DateTime? get createdAt => throw _privateConstructorUsedError;
+
+  /// Serializes this OfferStep to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of OfferStep
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $OfferStepCopyWith<OfferStep> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $OfferStepCopyWith<$Res> {
+  factory $OfferStepCopyWith(OfferStep value, $Res Function(OfferStep) then) =
+      _$OfferStepCopyWithImpl<$Res, OfferStep>;
+  @useResult
+  $Res call(
+      {int id,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      OfferAction? action,
+      double amount,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      OfferParty? party,
+      String? note,
+      int? actorId,
+      String? actorName,
+      DateTime? createdAt});
+}
+
+/// @nodoc
+class _$OfferStepCopyWithImpl<$Res, $Val extends OfferStep>
+    implements $OfferStepCopyWith<$Res> {
+  _$OfferStepCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of OfferStep
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? action = freezed,
+    Object? amount = null,
+    Object? party = freezed,
+    Object? note = freezed,
+    Object? actorId = freezed,
+    Object? actorName = freezed,
+    Object? createdAt = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      action: freezed == action
+          ? _value.action
+          : action // ignore: cast_nullable_to_non_nullable
+              as OfferAction?,
+      amount: null == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as double,
+      party: freezed == party
+          ? _value.party
+          : party // ignore: cast_nullable_to_non_nullable
+              as OfferParty?,
+      note: freezed == note
+          ? _value.note
+          : note // ignore: cast_nullable_to_non_nullable
+              as String?,
+      actorId: freezed == actorId
+          ? _value.actorId
+          : actorId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      actorName: freezed == actorName
+          ? _value.actorName
+          : actorName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$OfferStepImplCopyWith<$Res>
+    implements $OfferStepCopyWith<$Res> {
+  factory _$$OfferStepImplCopyWith(
+          _$OfferStepImpl value, $Res Function(_$OfferStepImpl) then) =
+      __$$OfferStepImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int id,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      OfferAction? action,
+      double amount,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      OfferParty? party,
+      String? note,
+      int? actorId,
+      String? actorName,
+      DateTime? createdAt});
+}
+
+/// @nodoc
+class __$$OfferStepImplCopyWithImpl<$Res>
+    extends _$OfferStepCopyWithImpl<$Res, _$OfferStepImpl>
+    implements _$$OfferStepImplCopyWith<$Res> {
+  __$$OfferStepImplCopyWithImpl(
+      _$OfferStepImpl _value, $Res Function(_$OfferStepImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of OfferStep
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? action = freezed,
+    Object? amount = null,
+    Object? party = freezed,
+    Object? note = freezed,
+    Object? actorId = freezed,
+    Object? actorName = freezed,
+    Object? createdAt = freezed,
+  }) {
+    return _then(_$OfferStepImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      action: freezed == action
+          ? _value.action
+          : action // ignore: cast_nullable_to_non_nullable
+              as OfferAction?,
+      amount: null == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as double,
+      party: freezed == party
+          ? _value.party
+          : party // ignore: cast_nullable_to_non_nullable
+              as OfferParty?,
+      note: freezed == note
+          ? _value.note
+          : note // ignore: cast_nullable_to_non_nullable
+              as String?,
+      actorId: freezed == actorId
+          ? _value.actorId
+          : actorId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      actorName: freezed == actorName
+          ? _value.actorName
+          : actorName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$OfferStepImpl implements _OfferStep {
+  const _$OfferStepImpl(
+      {required this.id,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.action,
+      this.amount = 0.0,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue) this.party,
+      this.note,
+      this.actorId,
+      this.actorName,
+      this.createdAt});
+
+  factory _$OfferStepImpl.fromJson(Map<String, dynamic> json) =>
+      _$$OfferStepImplFromJson(json);
+
+  @override
+  final int id;
+  @override
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  final OfferAction? action;
+  @override
+  @JsonKey()
+  final double amount;
+  @override
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  final OfferParty? party;
+  @override
+  final String? note;
+  @override
+  final int? actorId;
+  @override
+  final String? actorName;
+  @override
+  final DateTime? createdAt;
+
+  @override
+  String toString() {
+    return 'OfferStep(id: $id, action: $action, amount: $amount, party: $party, note: $note, actorId: $actorId, actorName: $actorName, createdAt: $createdAt)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$OfferStepImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.action, action) || other.action == action) &&
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.party, party) || other.party == party) &&
+            (identical(other.note, note) || other.note == note) &&
+            (identical(other.actorId, actorId) || other.actorId == actorId) &&
+            (identical(other.actorName, actorName) ||
+                other.actorName == actorName) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, action, amount, party, note,
+      actorId, actorName, createdAt);
+
+  /// Create a copy of OfferStep
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$OfferStepImplCopyWith<_$OfferStepImpl> get copyWith =>
+      __$$OfferStepImplCopyWithImpl<_$OfferStepImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$OfferStepImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _OfferStep implements OfferStep {
+  const factory _OfferStep(
+      {required final int id,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      final OfferAction? action,
+      final double amount,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      final OfferParty? party,
+      final String? note,
+      final int? actorId,
+      final String? actorName,
+      final DateTime? createdAt}) = _$OfferStepImpl;
+
+  factory _OfferStep.fromJson(Map<String, dynamic> json) =
+      _$OfferStepImpl.fromJson;
+
+  @override
+  int get id;
+  @override
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  OfferAction? get action;
+  @override
+  double get amount;
+  @override
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  OfferParty? get party;
+  @override
+  String? get note;
+  @override
+  int? get actorId;
+  @override
+  String? get actorName;
+  @override
+  DateTime? get createdAt;
+
+  /// Create a copy of OfferStep
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$OfferStepImplCopyWith<_$OfferStepImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}

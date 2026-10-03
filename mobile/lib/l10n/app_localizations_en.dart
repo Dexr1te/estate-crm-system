@@ -3818,6 +3818,224 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get offersAccept => 'Accept';
+
+  @override
+  String offersAcceptConfirm(String amount) {
+    return '$amount becomes the agreed price. Other offers on this listing stay open as backups until you decide on them.';
+  }
+
+  @override
+  String get offersAcceptTitle => 'Accept this offer?';
+
+  @override
+  String get offersAgent => 'Agent';
+
+  @override
+  String get offersAlreadyAccepted =>
+      'Another offer on this listing is already accepted; withdraw it first';
+
+  @override
+  String get offersAlreadyOpen =>
+      'This buyer already has an open offer here; counter it instead';
+
+  @override
+  String get offersAmount => 'Amount';
+
+  @override
+  String get offersAmountHint => 'What they offer';
+
+  @override
+  String offersAsking(String price) {
+    return 'asking $price';
+  }
+
+  @override
+  String get offersBackup =>
+      'Another offer is accepted; this one waits as a backup';
+
+  @override
+  String get offersBuyer => 'Buyer';
+
+  @override
+  String get offersCardTitle => 'Offers';
+
+  @override
+  String get offersClientNone =>
+      'No offers from this buyer yet. Record one from a listing.';
+
+  @override
+  String get offersClientNotBuyer => 'Only a buyer can make an offer';
+
+  @override
+  String get offersClosedHeading => 'Closed';
+
+  @override
+  String offersColleagueBuyer(String agent) {
+    return 'Buyer of $agent';
+  }
+
+  @override
+  String get offersCounter => 'Counter';
+
+  @override
+  String get offersCounterFrom => 'Whose figure';
+
+  @override
+  String get offersCounterTitle => 'New figure';
+
+  @override
+  String get offersDecidedOn => 'Decided';
+
+  @override
+  String get offersExpiresOn => 'Valid until';
+
+  @override
+  String get offersExpiryPast => 'The deadline cannot be before today';
+
+  @override
+  String get offersFigureBuyer => 'The buyer\'s figure';
+
+  @override
+  String get offersFigureSeller => 'The seller\'s figure';
+
+  @override
+  String get offersHiddenBuyer => 'A colleague\'s buyer';
+
+  @override
+  String get offersHistory => 'Negotiation';
+
+  @override
+  String get offersListLoadFailed => 'Could not load the offers';
+
+  @override
+  String get offersLoadFailed => 'Could not load the offer';
+
+  @override
+  String get offersNoBuyers => 'No buyers found';
+
+  @override
+  String get offersNoDeadline => 'No deadline';
+
+  @override
+  String get offersNoLongerOpen => 'This offer is no longer open';
+
+  @override
+  String get offersNone =>
+      'No offers yet. Record one when a buyer names a price.';
+
+  @override
+  String get offersNote => 'Note';
+
+  @override
+  String get offersNoteHint => 'Terms, how they pay, what they asked for';
+
+  @override
+  String offersOfAsking(int percent) {
+    return '$percent% of asking';
+  }
+
+  @override
+  String offersOnTableNow(String amount) {
+    return 'On the table now: $amount';
+  }
+
+  @override
+  String get offersPartyBuyer => 'Buyer';
+
+  @override
+  String get offersPartySeller => 'Seller';
+
+  @override
+  String get offersPickBuyer => 'Choose a buyer';
+
+  @override
+  String get offersPropertySold =>
+      'This listing is sold and takes no more offers';
+
+  @override
+  String get offersRecord => 'Record an offer';
+
+  @override
+  String get offersRecordTitle => 'Record an offer';
+
+  @override
+  String get offersReject => 'Reject';
+
+  @override
+  String get offersRejectConfirm =>
+      'The offer is closed as rejected and cannot be reopened.';
+
+  @override
+  String get offersRejectTitle => 'Reject this offer?';
+
+  @override
+  String get offersSave => 'Save';
+
+  @override
+  String get offersSearchBuyers => 'Search buyers';
+
+  @override
+  String get offersShowAll => 'Show all';
+
+  @override
+  String get offersStatusAccepted => 'Accepted';
+
+  @override
+  String get offersStatusCountered => 'Countered';
+
+  @override
+  String get offersStatusExpired => 'Expired';
+
+  @override
+  String get offersStatusNew => 'New';
+
+  @override
+  String get offersStatusRejected => 'Rejected';
+
+  @override
+  String get offersStatusWithdrawn => 'Withdrawn';
+
+  @override
+  String get offersStepAccepted => 'Accepted';
+
+  @override
+  String get offersStepCounteredBuyer => 'Buyer\'s counter';
+
+  @override
+  String get offersStepCounteredSeller => 'Seller\'s counter';
+
+  @override
+  String get offersStepOffered => 'Offer from the buyer';
+
+  @override
+  String get offersStepOther => 'Change';
+
+  @override
+  String get offersStepRejected => 'Rejected';
+
+  @override
+  String get offersStepWithdrawn => 'Withdrawn';
+
+  @override
+  String get offersTitle => 'Offer';
+
+  @override
+  String offersValidUntil(String date) {
+    return 'Valid until $date';
+  }
+
+  @override
+  String get offersWithdraw => 'Withdraw';
+
+  @override
+  String get offersWithdrawConfirm =>
+      'The buyer has pulled out. The offer is closed and cannot be reopened.';
+
+  @override
+  String get offersWithdrawTitle => 'Withdraw this offer?';
+
+  @override
   String get openHouseActivity => 'Open house visit';
 
   @override

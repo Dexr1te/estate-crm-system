@@ -15,6 +15,7 @@ import com.crm.realestate.repository.DealRepository;
 import com.crm.realestate.repository.DocumentRepository;
 import com.crm.realestate.repository.MeetingRepository;
 import com.crm.realestate.repository.OpenHouseRepository;
+import com.crm.realestate.repository.PropertyOfferRepository;
 import com.crm.realestate.repository.PropertyRepository;
 import com.crm.realestate.repository.TaskRepository;
 import com.crm.realestate.repository.UserRepository;
@@ -45,6 +46,7 @@ public class AccountRemovalService {
     private final PropertyRepository propertyRepository;
     private final TaskRepository     taskRepository;
     private final OpenHouseRepository openHouseRepository;
+    private final PropertyOfferRepository offerRepository;
     private final AuditLogService    auditLogService;
     private final ScopeService       scopeService;
     private final NotificationEvents notificationEvents;
@@ -116,6 +118,8 @@ public class AccountRemovalService {
             // An open house the leaver was to hold is the agency's event; without a successor
             // the schema forgets the host instead (V44).
             openHouseRepository.reassignAll(target, replacement);
+            // So are the offers the leaver was following up (V47).
+            offerRepository.reassignAll(target, replacement);
             notificationEvents.recordsHandedOver(target, replacement, actor, replacement.getTeam(),
                     clients.size(), properties.size(), deals.size(), meetings.size(), tasks.size());
         }

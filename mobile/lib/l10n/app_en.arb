@@ -1798,6 +1798,114 @@
       }
     }
   },
+  "offersAccept": "Accept",
+  "offersAcceptConfirm": "{amount} becomes the agreed price. Other offers on this listing stay open as backups until you decide on them.",
+  "@offersAcceptConfirm": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "offersAcceptTitle": "Accept this offer?",
+  "offersAgent": "Agent",
+  "offersAlreadyAccepted": "Another offer on this listing is already accepted; withdraw it first",
+  "offersAlreadyOpen": "This buyer already has an open offer here; counter it instead",
+  "offersAmount": "Amount",
+  "offersAmountHint": "What they offer",
+  "offersAsking": "asking {price}",
+  "@offersAsking": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "offersBackup": "Another offer is accepted; this one waits as a backup",
+  "offersBuyer": "Buyer",
+  "offersCardTitle": "Offers",
+  "offersClientNone": "No offers from this buyer yet. Record one from a listing.",
+  "offersClientNotBuyer": "Only a buyer can make an offer",
+  "offersClosedHeading": "Closed",
+  "offersColleagueBuyer": "Buyer of {agent}",
+  "@offersColleagueBuyer": {
+    "placeholders": {
+      "agent": {
+        "type": "String"
+      }
+    }
+  },
+  "offersCounter": "Counter",
+  "offersCounterFrom": "Whose figure",
+  "offersCounterTitle": "New figure",
+  "offersDecidedOn": "Decided",
+  "offersExpiresOn": "Valid until",
+  "offersExpiryPast": "The deadline cannot be before today",
+  "offersFigureBuyer": "The buyer's figure",
+  "offersFigureSeller": "The seller's figure",
+  "offersHiddenBuyer": "A colleague's buyer",
+  "offersHistory": "Negotiation",
+  "offersListLoadFailed": "Could not load the offers",
+  "offersLoadFailed": "Could not load the offer",
+  "offersNoBuyers": "No buyers found",
+  "offersNoDeadline": "No deadline",
+  "offersNoLongerOpen": "This offer is no longer open",
+  "offersNone": "No offers yet. Record one when a buyer names a price.",
+  "offersNote": "Note",
+  "offersNoteHint": "Terms, how they pay, what they asked for",
+  "offersOfAsking": "{percent}% of asking",
+  "@offersOfAsking": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "offersOnTableNow": "On the table now: {amount}",
+  "@offersOnTableNow": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "offersPartyBuyer": "Buyer",
+  "offersPartySeller": "Seller",
+  "offersPickBuyer": "Choose a buyer",
+  "offersPropertySold": "This listing is sold and takes no more offers",
+  "offersRecord": "Record an offer",
+  "offersRecordTitle": "Record an offer",
+  "offersReject": "Reject",
+  "offersRejectConfirm": "The offer is closed as rejected and cannot be reopened.",
+  "offersRejectTitle": "Reject this offer?",
+  "offersSave": "Save",
+  "offersSearchBuyers": "Search buyers",
+  "offersShowAll": "Show all",
+  "offersStatusAccepted": "Accepted",
+  "offersStatusCountered": "Countered",
+  "offersStatusExpired": "Expired",
+  "offersStatusNew": "New",
+  "offersStatusRejected": "Rejected",
+  "offersStatusWithdrawn": "Withdrawn",
+  "offersStepAccepted": "Accepted",
+  "offersStepCounteredBuyer": "Buyer's counter",
+  "offersStepCounteredSeller": "Seller's counter",
+  "offersStepOffered": "Offer from the buyer",
+  "offersStepOther": "Change",
+  "offersStepRejected": "Rejected",
+  "offersStepWithdrawn": "Withdrawn",
+  "offersTitle": "Offer",
+  "offersValidUntil": "Valid until {date}",
+  "@offersValidUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "offersWithdraw": "Withdraw",
+  "offersWithdrawConfirm": "The buyer has pulled out. The offer is closed and cannot be reopened.",
+  "offersWithdrawTitle": "Withdraw this offer?",
   "openHouseActivity": "Open house visit",
   "openHouseAddVisitor": "Add visitor",
   "openHouseAlreadySignedIn": "This number has already signed in",

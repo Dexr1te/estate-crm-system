@@ -23,6 +23,7 @@ import 'package:real_estate_crm/features/clients/presentation/widgets/lead_sourc
 import 'package:real_estate_crm/features/clients/presentation/widgets/log_contact_sheet.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/send_matches_sheet.dart';
 import 'package:real_estate_crm/features/compare/domain/comparison.dart';
+import 'package:real_estate_crm/features/offers/presentation/widgets/client_offers_card.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_card.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_cover.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_price_history.dart';
@@ -460,6 +461,8 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
           RecordTasksCard(
               client: PickerItem(id: client.id, title: client.fullName)),
           _DealsCard(deals: _deals),
+          if (client.type == ClientType.BUYER)
+            ClientOffersCard(clientId: client.id),
           if (client.type == ClientType.BUYER)
             _MatchesCard(
                 client: client, matches: _matches, onSent: _recordSent),

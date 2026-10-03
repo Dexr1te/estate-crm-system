@@ -6442,6 +6442,402 @@ abstract class AppLocalizations {
   /// **'{count, plural, =0{No unread notifications} =1{1 unread notification} other{{count} unread notifications}}'**
   String notificationsUnreadLabel(int count);
 
+  /// No description provided for @offersAccept.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept'**
+  String get offersAccept;
+
+  /// No description provided for @offersAcceptConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} becomes the agreed price. Other offers on this listing stay open as backups until you decide on them.'**
+  String offersAcceptConfirm(String amount);
+
+  /// No description provided for @offersAcceptTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Accept this offer?'**
+  String get offersAcceptTitle;
+
+  /// No description provided for @offersAgent.
+  ///
+  /// In en, this message translates to:
+  /// **'Agent'**
+  String get offersAgent;
+
+  /// No description provided for @offersAlreadyAccepted.
+  ///
+  /// In en, this message translates to:
+  /// **'Another offer on this listing is already accepted; withdraw it first'**
+  String get offersAlreadyAccepted;
+
+  /// No description provided for @offersAlreadyOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'This buyer already has an open offer here; counter it instead'**
+  String get offersAlreadyOpen;
+
+  /// No description provided for @offersAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get offersAmount;
+
+  /// No description provided for @offersAmountHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What they offer'**
+  String get offersAmountHint;
+
+  /// No description provided for @offersAsking.
+  ///
+  /// In en, this message translates to:
+  /// **'asking {price}'**
+  String offersAsking(String price);
+
+  /// No description provided for @offersBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'Another offer is accepted; this one waits as a backup'**
+  String get offersBackup;
+
+  /// No description provided for @offersBuyer.
+  ///
+  /// In en, this message translates to:
+  /// **'Buyer'**
+  String get offersBuyer;
+
+  /// No description provided for @offersCardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Offers'**
+  String get offersCardTitle;
+
+  /// No description provided for @offersClientNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No offers from this buyer yet. Record one from a listing.'**
+  String get offersClientNone;
+
+  /// No description provided for @offersClientNotBuyer.
+  ///
+  /// In en, this message translates to:
+  /// **'Only a buyer can make an offer'**
+  String get offersClientNotBuyer;
+
+  /// No description provided for @offersClosedHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed'**
+  String get offersClosedHeading;
+
+  /// No description provided for @offersColleagueBuyer.
+  ///
+  /// In en, this message translates to:
+  /// **'Buyer of {agent}'**
+  String offersColleagueBuyer(String agent);
+
+  /// No description provided for @offersCounter.
+  ///
+  /// In en, this message translates to:
+  /// **'Counter'**
+  String get offersCounter;
+
+  /// No description provided for @offersCounterFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'Whose figure'**
+  String get offersCounterFrom;
+
+  /// No description provided for @offersCounterTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New figure'**
+  String get offersCounterTitle;
+
+  /// No description provided for @offersDecidedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Decided'**
+  String get offersDecidedOn;
+
+  /// No description provided for @offersExpiresOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Valid until'**
+  String get offersExpiresOn;
+
+  /// No description provided for @offersExpiryPast.
+  ///
+  /// In en, this message translates to:
+  /// **'The deadline cannot be before today'**
+  String get offersExpiryPast;
+
+  /// No description provided for @offersFigureBuyer.
+  ///
+  /// In en, this message translates to:
+  /// **'The buyer\'s figure'**
+  String get offersFigureBuyer;
+
+  /// No description provided for @offersFigureSeller.
+  ///
+  /// In en, this message translates to:
+  /// **'The seller\'s figure'**
+  String get offersFigureSeller;
+
+  /// No description provided for @offersHiddenBuyer.
+  ///
+  /// In en, this message translates to:
+  /// **'A colleague\'s buyer'**
+  String get offersHiddenBuyer;
+
+  /// No description provided for @offersHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Negotiation'**
+  String get offersHistory;
+
+  /// No description provided for @offersListLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load the offers'**
+  String get offersListLoadFailed;
+
+  /// No description provided for @offersLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load the offer'**
+  String get offersLoadFailed;
+
+  /// No description provided for @offersNoBuyers.
+  ///
+  /// In en, this message translates to:
+  /// **'No buyers found'**
+  String get offersNoBuyers;
+
+  /// No description provided for @offersNoDeadline.
+  ///
+  /// In en, this message translates to:
+  /// **'No deadline'**
+  String get offersNoDeadline;
+
+  /// No description provided for @offersNoLongerOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'This offer is no longer open'**
+  String get offersNoLongerOpen;
+
+  /// No description provided for @offersNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No offers yet. Record one when a buyer names a price.'**
+  String get offersNone;
+
+  /// No description provided for @offersNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get offersNote;
+
+  /// No description provided for @offersNoteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms, how they pay, what they asked for'**
+  String get offersNoteHint;
+
+  /// No description provided for @offersOfAsking.
+  ///
+  /// In en, this message translates to:
+  /// **'{percent}% of asking'**
+  String offersOfAsking(int percent);
+
+  /// No description provided for @offersOnTableNow.
+  ///
+  /// In en, this message translates to:
+  /// **'On the table now: {amount}'**
+  String offersOnTableNow(String amount);
+
+  /// No description provided for @offersPartyBuyer.
+  ///
+  /// In en, this message translates to:
+  /// **'Buyer'**
+  String get offersPartyBuyer;
+
+  /// No description provided for @offersPartySeller.
+  ///
+  /// In en, this message translates to:
+  /// **'Seller'**
+  String get offersPartySeller;
+
+  /// No description provided for @offersPickBuyer.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a buyer'**
+  String get offersPickBuyer;
+
+  /// No description provided for @offersPropertySold.
+  ///
+  /// In en, this message translates to:
+  /// **'This listing is sold and takes no more offers'**
+  String get offersPropertySold;
+
+  /// No description provided for @offersRecord.
+  ///
+  /// In en, this message translates to:
+  /// **'Record an offer'**
+  String get offersRecord;
+
+  /// No description provided for @offersRecordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Record an offer'**
+  String get offersRecordTitle;
+
+  /// No description provided for @offersReject.
+  ///
+  /// In en, this message translates to:
+  /// **'Reject'**
+  String get offersReject;
+
+  /// No description provided for @offersRejectConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'The offer is closed as rejected and cannot be reopened.'**
+  String get offersRejectConfirm;
+
+  /// No description provided for @offersRejectTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reject this offer?'**
+  String get offersRejectTitle;
+
+  /// No description provided for @offersSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get offersSave;
+
+  /// No description provided for @offersSearchBuyers.
+  ///
+  /// In en, this message translates to:
+  /// **'Search buyers'**
+  String get offersSearchBuyers;
+
+  /// No description provided for @offersShowAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Show all'**
+  String get offersShowAll;
+
+  /// No description provided for @offersStatusAccepted.
+  ///
+  /// In en, this message translates to:
+  /// **'Accepted'**
+  String get offersStatusAccepted;
+
+  /// No description provided for @offersStatusCountered.
+  ///
+  /// In en, this message translates to:
+  /// **'Countered'**
+  String get offersStatusCountered;
+
+  /// No description provided for @offersStatusExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Expired'**
+  String get offersStatusExpired;
+
+  /// No description provided for @offersStatusNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New'**
+  String get offersStatusNew;
+
+  /// No description provided for @offersStatusRejected.
+  ///
+  /// In en, this message translates to:
+  /// **'Rejected'**
+  String get offersStatusRejected;
+
+  /// No description provided for @offersStatusWithdrawn.
+  ///
+  /// In en, this message translates to:
+  /// **'Withdrawn'**
+  String get offersStatusWithdrawn;
+
+  /// No description provided for @offersStepAccepted.
+  ///
+  /// In en, this message translates to:
+  /// **'Accepted'**
+  String get offersStepAccepted;
+
+  /// No description provided for @offersStepCounteredBuyer.
+  ///
+  /// In en, this message translates to:
+  /// **'Buyer\'s counter'**
+  String get offersStepCounteredBuyer;
+
+  /// No description provided for @offersStepCounteredSeller.
+  ///
+  /// In en, this message translates to:
+  /// **'Seller\'s counter'**
+  String get offersStepCounteredSeller;
+
+  /// No description provided for @offersStepOffered.
+  ///
+  /// In en, this message translates to:
+  /// **'Offer from the buyer'**
+  String get offersStepOffered;
+
+  /// No description provided for @offersStepOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Change'**
+  String get offersStepOther;
+
+  /// No description provided for @offersStepRejected.
+  ///
+  /// In en, this message translates to:
+  /// **'Rejected'**
+  String get offersStepRejected;
+
+  /// No description provided for @offersStepWithdrawn.
+  ///
+  /// In en, this message translates to:
+  /// **'Withdrawn'**
+  String get offersStepWithdrawn;
+
+  /// No description provided for @offersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Offer'**
+  String get offersTitle;
+
+  /// No description provided for @offersValidUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'Valid until {date}'**
+  String offersValidUntil(String date);
+
+  /// No description provided for @offersWithdraw.
+  ///
+  /// In en, this message translates to:
+  /// **'Withdraw'**
+  String get offersWithdraw;
+
+  /// No description provided for @offersWithdrawConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'The buyer has pulled out. The offer is closed and cannot be reopened.'**
+  String get offersWithdrawConfirm;
+
+  /// No description provided for @offersWithdrawTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Withdraw this offer?'**
+  String get offersWithdrawTitle;
+
   /// No description provided for @openHouseActivity.
   ///
   /// In en, this message translates to:

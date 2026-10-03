@@ -8,6 +8,7 @@ import com.crm.realestate.repository.ClientRepository;
 import com.crm.realestate.repository.DealRepository;
 import com.crm.realestate.repository.MeetingRepository;
 import com.crm.realestate.repository.OpenHouseRepository;
+import com.crm.realestate.repository.PropertyOfferRepository;
 import com.crm.realestate.repository.PropertyRepository;
 import com.crm.realestate.repository.TaskRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,7 @@ public class RecordHandoverService {
     private final DealCommentRepository dealCommentRepository;
     private final TaskRepository     taskRepository;
     private final OpenHouseRepository openHouseRepository;
+    private final PropertyOfferRepository offerRepository;
     private final NotificationEvents notificationEvents;
 
     /**
@@ -67,6 +69,7 @@ public class RecordHandoverService {
         int meetings   = meetingRepository.reassignInTeam(from, to, team);
         int tasks      = taskRepository.reassignInTeam(from, to, team);
         openHouseRepository.reassignInTeam(from, to, team);
+        offerRepository.reassignInTeam(from, to, team);
         if (clients + properties + deals + meetings + tasks > 0) {
             log.info("Handed {} clients, {} listings, {} deals, {} meetings and {} tasks in team {} from user {} to user {}",
                     clients, properties, deals, meetings, tasks, team.getId(), from.getId(), to.getId());

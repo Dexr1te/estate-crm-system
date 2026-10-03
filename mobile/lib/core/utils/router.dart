@@ -37,6 +37,7 @@ import 'package:real_estate_crm/features/meetings/presentation/screens/meetings_
 import 'package:real_estate_crm/features/message_templates/presentation/screens/message_templates_screen.dart';
 import 'package:real_estate_crm/features/mortgage/presentation/screens/mortgage_screen.dart';
 import 'package:real_estate_crm/features/notifications/presentation/screens/notifications_screen.dart';
+import 'package:real_estate_crm/features/offers/presentation/screens/offer_screen.dart';
 import 'package:real_estate_crm/features/open_houses/presentation/screens/open_house_screen.dart';
 import 'package:real_estate_crm/features/profile/presentation/screens/profile_screen.dart';
 import 'package:real_estate_crm/features/properties/presentation/screens/mandates_ending_screen.dart';
@@ -283,6 +284,13 @@ GoRouter createRouter(AuthBloc authBloc) {
         parentNavigatorKey: _rootKey,
         pageBuilder: (_, s) => NoTransitionPage(
           child: OpenHouseScreen(id: int.parse(s.pathParameters['id']!)),
+        ),
+      ),
+      GoRoute(
+        path: '/offers/:id',
+        parentNavigatorKey: _rootKey,
+        pageBuilder: (_, s) => NoTransitionPage(
+          child: OfferScreen(id: int.parse(s.pathParameters['id']!)),
         ),
       ),
       ShellRoute(
