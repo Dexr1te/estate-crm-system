@@ -7,6 +7,7 @@ import com.crm.realestate.entity.Deal;
 import com.crm.realestate.entity.DealStatusChange;
 import com.crm.realestate.entity.Property;
 import com.crm.realestate.entity.User;
+import com.crm.realestate.enums.DealKind;
 import com.crm.realestate.enums.DealLostReason;
 import com.crm.realestate.enums.DealStatus;
 import com.crm.realestate.enums.PropertyStatus;
@@ -50,6 +51,7 @@ public class DealService {
     private final DealCommentRepository commentRepository;
     private final DealChecklistStore checklistStore;
     private final DealDepositStore depositStore;
+    private final ChangeLogService changeLog;
 
     static final BigDecimal ONE_HUNDRED = BigDecimal.valueOf(100);
     static final int LOST_NOTE_MAX = 500;
@@ -66,6 +68,11 @@ public class DealService {
         return findVisible(DealSpecification.build(status, null, null));
     }
 
+    /** One deal's response, for another service that has just changed it — the lease renewal. */
+    DealResponse responseFor(Deal deal) {
+        return respond(deal, commentRepository.countByDealId(deal.getId()));
+    }
+
     public DealResponse getById(Long id) {
         Deal deal = findVisibleById(id, securityUtils.getCurrentUser());
         return respond(deal, commentRepository.countByDealId(deal.getId()));
@@ -79,8 +86,9 @@ public class DealService {
         mapRequestToEntity(request, deal, currentUser);
         applyLostReason(deal, null, request.getLostReason(), request.getLostNote());
         stampClosedAt(deal, null);
-        syncPropertyStatusWithDeal(deal);
+        syncPropertyStatusWithDeal(deal, currentUser);
         Deal saved = dealRepository.save(deal);
+        changeLog.created(ChangeSnapshot.target(saved), currentUser);
         recordStatusChange(saved, null, currentUser);
         checklistStore.copyTemplate(saved, currentUser);
         return respond(saved, 0);
@@ -92,6 +100,8 @@ public class DealService {
         Deal deal = findVisibleById(id, currentUser);
         Property previousProperty = deal.getProperty();
         DealStatus previousStatus = deal.getStatus();
+        DealKind previousKind = deal.getKind();
+        Map<String, String> before = ChangeSnapshot.of(deal);
         requireLostReason(statusOf(request), previousStatus, request.getLostReason(), request.getLostNote());
         mapRequestToEntity(request, deal, currentUser);
         applyLostReason(deal, previousStatus, request.getLostReason(), request.getLostNote());
@@ -100,19 +110,27 @@ public class DealService {
 
         if (previousProperty != null && deal.getProperty() == null
                 && previousProperty.getStatus() == PropertyStatus.RESERVED) {
-            previousProperty.setStatus(PropertyStatus.AVAILABLE);
+            setPropertyStatus(previousProperty, PropertyStatus.AVAILABLE, currentUser);
             propertyRepository.save(previousProperty);
         }
 
         if (previousProperty != null && deal.getProperty() != null
                 && !previousProperty.getId().equals(deal.getProperty().getId())
                 && previousProperty.getStatus() == PropertyStatus.RESERVED) {
-            previousProperty.setStatus(PropertyStatus.AVAILABLE);
+            setPropertyStatus(previousProperty, PropertyStatus.AVAILABLE, currentUser);
             propertyRepository.save(previousProperty);
         }
 
-        syncPropertyStatusWithDeal(deal);
-        return respond(dealRepository.save(deal), commentRepository.countByDealId(id));
+        // A sale turned into a rent lets go of the listing it was holding.
+        if (previousKind == DealKind.SALE && deal.getKind() == DealKind.RENT && deal.getProperty() != null
+                && deal.getProperty().getStatus() == PropertyStatus.RESERVED) {
+            setPropertyStatus(deal.getProperty(), PropertyStatus.AVAILABLE, currentUser);
+        }
+
+        syncPropertyStatusWithDeal(deal, currentUser);
+        Deal saved = dealRepository.save(deal);
+        changeLog.changed(ChangeSnapshot.target(saved), currentUser, before, ChangeSnapshot.of(saved));
+        return respond(saved, commentRepository.countByDealId(id));
     }
 
     @Transactional
@@ -121,20 +139,27 @@ public class DealService {
         User currentUser = securityUtils.getCurrentUser();
         Deal deal = findVisibleById(id, currentUser);
         DealStatus previousStatus = deal.getStatus();
+        Map<String, String> before = ChangeSnapshot.of(deal);
         requireLostReason(newStatus, previousStatus, lostReason, lostNote);
         deal.setStatus(newStatus);
         applyLostReason(deal, previousStatus, lostReason, lostNote);
         stampClosedAt(deal, previousStatus);
         recordStatusChange(deal, previousStatus, currentUser);
 
-        syncPropertyStatusWithDeal(deal);
+        syncPropertyStatusWithDeal(deal, currentUser);
 
-        return respond(dealRepository.save(deal), commentRepository.countByDealId(id));
+        Deal saved = dealRepository.save(deal);
+        changeLog.changed(ChangeSnapshot.target(saved), currentUser, before, ChangeSnapshot.of(saved));
+        return respond(saved, commentRepository.countByDealId(id));
     }
 
+    /** The change log keeps the line saying so after the deal is gone. */
     @Transactional
     public void delete(Long id) {
-        dealRepository.delete(findVisibleById(id, securityUtils.getCurrentUser()));
+        User currentUser = securityUtils.getCurrentUser();
+        Deal deal = findVisibleById(id, currentUser);
+        changeLog.deleted(ChangeSnapshot.target(deal), currentUser);
+        dealRepository.delete(deal);
     }
 
     private List<DealResponse> findVisible(Specification<Deal> filter) {
@@ -250,6 +275,64 @@ public class DealService {
        } else if (isNew) {
            deal.setAgent(currentUser);
        }
+       applyLease(request, deal, currentUser);
+    }
+
+    /**
+     * The sale-or-rent part of a request. A request that leaves {@code kind} out is from an app that
+     * knows nothing of rents: a new deal is a sale, and an existing deal keeps its kind and its lease
+     * as they are. A rent never has a sale price, whatever was sent; a sale never has a lease.
+     */
+    private void applyLease(DealRequest request, Deal deal, User currentUser) {
+        DealKind kind = request.getKind() != null ? request.getKind()
+                : deal.getKind() != null ? deal.getKind() : DealKind.SALE;
+        deal.setKind(kind);
+        if (kind == DealKind.SALE) {
+            deal.setMonthlyRent(null);
+            deal.setLeaseStart(null);
+            deal.setLeaseEnd(null);
+            deal.setLeaseReminderDays(null);
+            deal.setLandlord(null);
+            deal.setLeaseRemindedFor(null);
+            return;
+        }
+        deal.setDealPrice(null);
+        if (request.getKind() == null) {
+            return;
+        }
+        if (request.getMonthlyRent() == null || request.getMonthlyRent().signum() <= 0) {
+            throw new BusinessException(HttpStatus.BAD_REQUEST, "RENT_REQUIRED",
+                    "A rent deal needs a monthly rent above zero");
+        }
+        LeaseService.requireLeasePeriod(request.getLeaseStart(), request.getLeaseEnd());
+        Integer reminder = request.getLeaseReminderDays();
+        if (reminder != null && (reminder < 1 || reminder > LeaseService.MAX_REMINDER_DAYS)) {
+            throw new BusinessException(HttpStatus.BAD_REQUEST, "INVALID_REMINDER_DAYS",
+                    "The reminder comes 1 to " + LeaseService.MAX_REMINDER_DAYS + " days before the lease ends");
+        }
+        deal.setMonthlyRent(request.getMonthlyRent());
+        deal.setLeaseStart(request.getLeaseStart());
+        deal.setLeaseEnd(request.getLeaseEnd());
+        deal.setLeaseReminderDays(reminder);
+        deal.setLandlord(landlordFor(request.getLandlordId(), deal, currentUser));
+    }
+
+    /** The landlord a request names: a client the caller may see, of the tenant's agency, not the tenant. */
+    private Client landlordFor(Long landlordId, Deal deal, User currentUser) {
+        if (landlordId == null) {
+            return null;
+        }
+        Client landlord = clientRepository.findById(landlordId)
+                .orElseThrow(() -> new ResourceNotFoundException("Client not found with id: " + landlordId));
+        if (!scopeService.canSeeInTeam(currentUser, landlord.getTeam(), landlord.getAgent())) {
+            throw new ResourceNotFoundException("Client not found with id: " + landlordId);
+        }
+        scopeService.requireSameTeam(deal.getClient().getTeam(), landlord.getTeam(), "Landlord");
+        if (landlord.getId().equals(deal.getClient().getId())) {
+            throw new BusinessException(HttpStatus.BAD_REQUEST, "LANDLORD_IS_TENANT",
+                    "The landlord and the tenant are two different clients");
+        }
+        return landlord;
     }
 
     /**
@@ -321,7 +404,10 @@ public class DealService {
         }
     }
 
-    /** What the agent earns on this deal, or null until both the price and the rate are known. */
+    /**
+     * What the agent earns on this deal, or null until both the base and the rate are known. The
+     * base is the price of a sale and one month's rent of a rent — see {@link DealMoney}.
+     */
     static BigDecimal commissionOf(BigDecimal dealPrice, BigDecimal commissionPercent) {
         if (dealPrice == null || commissionPercent == null) {
             return null;
@@ -330,17 +416,34 @@ public class DealService {
                 .divide(ONE_HUNDRED, 2, RoundingMode.HALF_UP);
     }
 
-    private void syncPropertyStatusWithDeal(Deal deal) {
-        if (deal.getProperty() == null) {
+    /**
+     * A sale moves its listing along: reserved while it runs, sold when won, free again when lost.
+     * A rent does not: the statuses are about selling the place, and letting it sells nothing.
+     */
+    private void syncPropertyStatusWithDeal(Deal deal, User actor) {
+        if (deal.getProperty() == null || deal.getKind() == DealKind.RENT) {
             return;
         }
 
         if (deal.getStatus() == DealStatus.CLOSED_WON) {
-            deal.getProperty().setStatus(PropertyStatus.SOLD);
+            setPropertyStatus(deal.getProperty(), PropertyStatus.SOLD, actor);
         } else if (deal.getStatus() == DealStatus.CLOSED_LOST) {
-            deal.getProperty().setStatus(PropertyStatus.AVAILABLE);
+            setPropertyStatus(deal.getProperty(), PropertyStatus.AVAILABLE, actor);
         } else {
-            deal.getProperty().setStatus(PropertyStatus.RESERVED);
+            setPropertyStatus(deal.getProperty(), PropertyStatus.RESERVED, actor);
+        }
+    }
+
+    /**
+     * A deal moves its listing along with it; the listing's change log says so, in the name of
+     * whoever moved the deal.
+     */
+    private void setPropertyStatus(Property property, PropertyStatus status, User actor) {
+        PropertyStatus old = property.getStatus();
+        property.setStatus(status);
+        if (old != status) {
+            changeLog.fieldChanged(ChangeSnapshot.target(property), actor, "status",
+                    old == null ? null : old.name(), status.name());
         }
     }
 
@@ -352,8 +455,20 @@ public class DealService {
         res.setDealPrice(deal.getDealPrice());
         res.setBudget(deal.getBudget());
         res.setCommissionPercent(deal.getCommissionPercent());
-        res.setCommission(commissionOf(deal.getDealPrice(), deal.getCommissionPercent()));
+        res.setCommission(commissionOf(DealMoney.commissionBase(deal), deal.getCommissionPercent()));
         res.setNotes(deal.getNotes());
+        res.setKind(deal.getKind());
+        if (deal.getKind() == DealKind.RENT) {
+            res.setMonthlyRent(deal.getMonthlyRent());
+            res.setLeaseStart(deal.getLeaseStart());
+            res.setLeaseEnd(deal.getLeaseEnd());
+            res.setLeaseReminderDays(deal.getLeaseReminderDays());
+            res.setLeaseReminderDaysEffective(LeaseService.reminderDays(deal));
+            if (deal.getLandlord() != null) {
+                res.setLandlordId(deal.getLandlord().getId());
+                res.setLandlordName(deal.getLandlord().getFullName());
+            }
+        }
         res.setLostReason(deal.getLostReason());
         res.setLostNote(deal.getLostNote());
         res.setCreatedAt(deal.getCreatedAt());

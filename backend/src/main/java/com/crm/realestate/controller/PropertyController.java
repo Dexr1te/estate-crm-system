@@ -50,6 +50,7 @@ public class PropertyController {
     private final ListingShareService shareService;
     private final PriceInsightService priceInsightService;
     private final SellerReportService sellerReportService;
+    private final com.crm.realestate.service.ChangeHistoryService changeHistoryService;
 
     @GetMapping
     @Operation(summary = "Get all properties (with optional filters, incl. a map rectangle minLat/maxLat/minLng/maxLng and hasLocation). Supports pagination & sorting via Pageable (page, size, sort)")
@@ -241,5 +242,14 @@ public class PropertyController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         propertyService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}/changes")
+    @Operation(summary = "Who changed what on this listing and when, newest first, a page at a time")
+    public ResponseEntity<org.springframework.data.domain.Page<com.crm.realestate.dto.response.RecordChangeResponse>> changes(
+            @PathVariable Long id,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "30") int size) {
+        return ResponseEntity.ok(changeHistoryService.forProperty(id, page, size));
     }
 }

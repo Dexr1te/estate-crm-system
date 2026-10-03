@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/utils/clock.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/features/leases/domain/lease.dart';
+import 'package:real_estate_crm/features/leases/presentation/widgets/lease_labels.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class DealCard extends StatelessWidget {
@@ -23,7 +25,7 @@ class DealCard extends StatelessWidget {
     ].join(' · ');
 
     final stale = staleDays(deal);
-    final amount = deal.dealPrice ?? deal.budget ?? 0;
+    final amount = dealShownAmount(deal);
 
     return AppCard(
       onTap: onTap,
@@ -71,15 +73,19 @@ class DealCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.baseline,
             textBaseline: TextBaseline.alphabetic,
             children: [
-              Text(
-                formatPrice(amount),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                    fontFamily: AppFonts.sans,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                    color: t.textPrimary),
+              Flexible(
+                child: Text(
+                  deal.kind == DealKind.rent
+                      ? leaseRentLabel(l10n, amount)
+                      : formatPrice(amount),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      fontFamily: AppFonts.sans,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: t.textPrimary),
+                ),
               ),
               if (deal.commentCount > 0) ...[
                 const SizedBox(width: 10),

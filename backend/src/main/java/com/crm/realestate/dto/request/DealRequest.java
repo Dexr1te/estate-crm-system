@@ -1,5 +1,6 @@
 package com.crm.realestate.dto.request;
 
+import com.crm.realestate.enums.DealKind;
 import com.crm.realestate.enums.DealLostReason;
 import com.crm.realestate.enums.DealStatus;
 import jakarta.validation.constraints.Size;
@@ -11,6 +12,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Data
 public class DealRequest {
@@ -30,6 +32,25 @@ public class DealRequest {
     private BigDecimal commissionPercent;
 
     private String notes;
+
+    /**
+     * SALE or RENT. Left out, a new deal is a sale and an existing one keeps its kind — and its
+     * lease: an app that knows nothing of rents cannot turn one into a sale by saving it.
+     */
+    private DealKind kind;
+
+    /** RENT only, required there: the rent per month, above zero. A rent has no dealPrice. */
+    private BigDecimal monthlyRent;
+
+    /** RENT only, required there: the first and the last day of the lease; the end after the start. */
+    private LocalDate leaseStart;
+    private LocalDate leaseEnd;
+
+    /** RENT only, optional: days before the end to be reminded, 1-365; null for the default 30. */
+    private Integer leaseReminderDays;
+
+    /** RENT only, optional: the client who lets the place; the deal's client is the tenant. */
+    private Long landlordId;
 
     /** Required when status is CLOSED_LOST, ignored otherwise. */
     private DealLostReason lostReason;

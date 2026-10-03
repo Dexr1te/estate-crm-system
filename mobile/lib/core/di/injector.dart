@@ -20,6 +20,9 @@ import 'package:real_estate_crm/features/app_lock/presentation/controller/app_lo
 import 'package:real_estate_crm/features/auth/data/datasources/auth_remote_datasource.dart';
 import 'package:real_estate_crm/features/auth/data/repositories/auth_repository_impl.dart';
 import 'package:real_estate_crm/features/auth/domain/repositories/auth_repository.dart';
+import 'package:real_estate_crm/features/change_log/data/datasources/change_log_remote_datasource.dart';
+import 'package:real_estate_crm/features/change_log/data/repositories/change_log_repository_impl.dart';
+import 'package:real_estate_crm/features/change_log/domain/repositories/change_log_repository.dart';
 import 'package:real_estate_crm/features/checklist/data/datasources/checklist_remote_datasource.dart';
 import 'package:real_estate_crm/features/checklist/data/repositories/checklist_repository_impl.dart';
 import 'package:real_estate_crm/features/checklist/domain/repositories/checklist_repository.dart';
@@ -60,6 +63,9 @@ import 'package:real_estate_crm/features/imports/domain/repositories/imports_rep
 import 'package:real_estate_crm/features/leaderboard/data/datasources/leaderboard_remote_datasource.dart';
 import 'package:real_estate_crm/features/leaderboard/data/repositories/leaderboard_repository_impl.dart';
 import 'package:real_estate_crm/features/leaderboard/domain/repositories/leaderboard_repository.dart';
+import 'package:real_estate_crm/features/leases/data/datasources/leases_remote_datasource.dart';
+import 'package:real_estate_crm/features/leases/data/repositories/leases_repository_impl.dart';
+import 'package:real_estate_crm/features/leases/domain/repositories/leases_repository.dart';
 import 'package:real_estate_crm/features/meetings/data/datasources/meetings_remote_datasource.dart';
 import 'package:real_estate_crm/features/meetings/data/repositories/meetings_repository_impl.dart';
 import 'package:real_estate_crm/features/meetings/domain/repositories/meetings_repository.dart';
@@ -125,6 +131,9 @@ class Injector {
   static DepositsRepository depositsRepository =
       DepositsRepositoryImpl(DepositsRemoteDataSource(_apiClient));
 
+  static LeasesRepository leasesRepository =
+      LeasesRepositoryImpl(LeasesRemoteDataSource(_apiClient));
+
   static MessageTemplatesRepository messageTemplatesRepository =
       MessageTemplatesRepositoryImpl(
           MessageTemplatesRemoteDataSource(_apiClient));
@@ -156,6 +165,9 @@ class Injector {
 
   static OpenHousesRepository openHousesRepository =
       OpenHousesRepositoryImpl(OpenHousesRemoteDataSource(_apiClient));
+
+  static ChangeLogRepository changeLogRepository =
+      ChangeLogRepositoryImpl(ChangeLogRemoteDataSource(_apiClient));
 
   static NotificationsRepository notificationsRepository =
       NotificationsRepositoryImpl(NotificationsRemoteDataSource(_apiClient));

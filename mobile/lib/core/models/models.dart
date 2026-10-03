@@ -54,6 +54,15 @@ enum ViewingOutcome { INTERESTED, REJECTED, NO_SHOW }
 // ignore: constant_identifier_names
 enum ActivityType { CALL, MESSAGE, EMAIL, NOTE }
 
+/// Whether a deal sells a place or lets it. Deals from before rents existed,
+/// and any value this app does not know, read as [sale].
+enum DealKind {
+  @JsonValue('SALE')
+  sale,
+  @JsonValue('RENT')
+  rent,
+}
+
 /// Where a client record came from. Unknown values read as [manual].
 enum ClientSource {
   @JsonValue('MANUAL')
@@ -573,6 +582,22 @@ class DealResponse with _$DealResponse {
     @Default(0) int checklistTotal,
     @Default(0) int openRequired,
     @Default(<String, int>{}) Map<String, int> openRequiredByStage,
+
+    /// A rent has [monthlyRent] and a lease instead of a [dealPrice]; its
+    /// commission is a percentage of one month's rent.
+    @JsonKey(unknownEnumValue: DealKind.sale)
+    @Default(DealKind.sale)
+    DealKind kind,
+    double? monthlyRent,
+    DateTime? leaseStart,
+    DateTime? leaseEnd,
+
+    /// As saved; null means the default, which [leaseReminderDaysEffective]
+    /// fills in.
+    int? leaseReminderDays,
+    int? leaseReminderDaysEffective,
+    int? landlordId,
+    String? landlordName,
   }) = _DealResponse;
 
   factory DealResponse.fromJson(Map<String, dynamic> json) =>
@@ -1078,6 +1103,8 @@ enum NotificationType {
   clientBirthday,
   @JsonValue('PURCHASE_ANNIVERSARY')
   purchaseAnniversary,
+  @JsonValue('LEASE_ENDING')
+  leaseEnding,
   unknown,
 }
 
@@ -1169,6 +1196,36 @@ class DealDeposit with _$DealDeposit {
       _$DealDepositFromJson(json);
 }
 
+/// A won rent whose lease runs out soon, and the two people to call about it:
+/// the tenant (the deal's client) and, when the deal names one, the landlord.
+/// [monthlyRent] is in the agency's currency.
+@freezed
+class LeaseEnding with _$LeaseEnding {
+  const factory LeaseEnding({
+    required int dealId,
+    @Default('') String dealTitle,
+    @Default(0.0) double monthlyRent,
+    DateTime? leaseStart,
+    required DateTime leaseEnd,
+    @Default(0) int daysLeft,
+    @Default(30) int reminderDays,
+    required int tenantId,
+    @Default('') String tenantName,
+    String? tenantPhone,
+    int? landlordId,
+    String? landlordName,
+    String? landlordPhone,
+    int? propertyId,
+    String? propertyTitle,
+    String? propertyAddress,
+    int? agentId,
+    String? agentName,
+  }) = _LeaseEnding;
+
+  factory LeaseEnding.fromJson(Map<String, dynamic> json) =>
+      _$LeaseEndingFromJson(json);
+}
+
 /// What a visitor said at the door of an open house. Not asking is allowed,
 /// and reads as null; so does a value this app does not know.
 enum OpenHouseInterest {
@@ -1243,6 +1300,61 @@ class OpenHouseVisitor with _$OpenHouseVisitor {
 
   factory OpenHouseVisitor.fromJson(Map<String, dynamic> json) =>
       _$OpenHouseVisitorFromJson(json);
+}
+
+/// The records whose changes the server writes down.
+enum ChangeEntityType {
+  @JsonValue('PROPERTY')
+  property,
+  @JsonValue('DEAL')
+  deal,
+  @JsonValue('CLIENT')
+  client,
+}
+
+/// What one line of a change log says happened. An edit the app does not
+/// know reads as [updated].
+enum ChangeAction {
+  @JsonValue('CREATED')
+  created,
+  @JsonValue('DELETED')
+  deleted,
+  @JsonValue('STATUS_CHANGED')
+  statusChanged,
+  @JsonValue('PRICE_CHANGED')
+  priceChanged,
+  @JsonValue('AGENT_CHANGED')
+  agentChanged,
+  @JsonValue('UPDATED')
+  updated,
+}
+
+/// One line of a listing's, deal's or client's change log: it was created or
+/// deleted, or [field] went from [oldValue] to [newValue]. Values are the
+/// server's plain text (enum names, plain numbers, ISO dates, names) and are
+/// put into words on screen. [actorId] is null once that person has left;
+/// [actorName] still says who it was.
+@freezed
+class RecordChange with _$RecordChange {
+  const factory RecordChange({
+    required int id,
+    @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+    ChangeEntityType? entityType,
+    @Default(0) int entityId,
+    String? entityLabel,
+    @JsonKey(unknownEnumValue: ChangeAction.updated)
+    @Default(ChangeAction.updated)
+    ChangeAction action,
+    String? field,
+    String? oldValue,
+    String? newValue,
+    int? actorId,
+    String? actorName,
+    DateTime? changedAt,
+  }) = _RecordChange;
+
+  factory RecordChange.fromJson(Map<String, dynamic> json) =>
+      _$RecordChangeFromJson(json);
 }
 
 /// Where a buyer's offer on a listing stands. [isNew] and [countered] are

@@ -14,6 +14,7 @@ import 'package:real_estate_crm/features/deals/presentation/widgets/deal_board.d
 import 'package:real_estate_crm/features/deals/presentation/widgets/deal_card.dart';
 import 'package:real_estate_crm/features/deals/presentation/widgets/lost_reason_sheet.dart';
 import 'package:real_estate_crm/features/exports/presentation/widgets/export_button.dart';
+import 'package:real_estate_crm/features/leases/domain/lease.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class DealsScreen extends StatefulWidget {
@@ -145,8 +146,8 @@ class _DealsScreenState extends State<DealsScreen> {
               final visible = _filter == null
                   ? all
                   : all.where((d) => d.status == _filter).toList();
-              final totalValue = all.fold<double>(
-                  0, (sum, d) => sum + (d.dealPrice ?? d.budget ?? 0));
+              final totalValue =
+                  all.fold<double>(0, (sum, d) => sum + dealSaleValue(d));
               final active = all
                   .where((d) =>
                       d.status == DealStatus.LEAD ||

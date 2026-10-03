@@ -21,6 +21,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,6 +35,7 @@ public class ClientService {
     private final ScopeService     scopeService;
     private final ClientMapper     clientMapper;
     private final ClientTagService tagService;
+    private final ChangeLogService changeLog;
 
     public List<ClientResponse> getAll() {
         return findVisible(ClientSpecification.build(null, null, null, null, null));
@@ -156,13 +158,16 @@ public class ClientService {
         if (request.getTags() != null) {
             tagService.assign(client, request.getTags());
         }
-        return toResponse(clientRepository.save(client));
+        Client saved = clientRepository.save(client);
+        changeLog.created(ChangeSnapshot.target(saved), currentUser);
+        return toResponse(saved);
     }
 
     @Transactional
     public ClientResponse update(Long id, ClientRequest request) {
         User currentUser = securityUtils.getCurrentUser();
         Client client = findVisibleById(id, currentUser);
+        Map<String, String> before = ChangeSnapshot.of(client);
         Long teamBefore = client.getTeam() == null ? null : client.getTeam().getId();
         mapRequestToEntity(request, client, currentUser);
         Long teamAfter = client.getTeam() == null ? null : client.getTeam().getId();
@@ -172,12 +177,17 @@ public class ClientService {
             // Placed in an agency: the same words, but from that agency's vocabulary.
             tagService.assign(client, tagService.names(client));
         }
-        return toResponse(clientRepository.save(client));
+        Client saved = clientRepository.save(client);
+        changeLog.changed(ChangeSnapshot.target(saved), currentUser, before, ChangeSnapshot.of(saved));
+        return toResponse(saved);
     }
 
+    /** The change log keeps the line saying so after the client is gone. */
     @Transactional
     public void delete(Long id) {
-        Client client = findVisibleById(id, securityUtils.getCurrentUser());
+        User currentUser = securityUtils.getCurrentUser();
+        Client client = findVisibleById(id, currentUser);
+        changeLog.deleted(ChangeSnapshot.target(client), currentUser);
         boolean tagged = !client.getTags().isEmpty();
         clientRepository.delete(client);
         if (tagged) {

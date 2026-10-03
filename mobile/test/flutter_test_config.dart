@@ -37,6 +37,8 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) async {
   Injector.checklistRepository = FakeChecklistRepository();
   // And its deposit card; the dashboard reads the deposits running out.
   Injector.depositsRepository = FakeDepositsRepository();
+  // And the leases running out; a rent deal renews through it.
+  Injector.leasesRepository = FakeLeasesRepository();
   // And the client card's compose sheet reads the agency's templates.
   Injector.messageTemplatesRepository = FakeMessageTemplatesRepository();
   // And the dashboard's goal card reads the month's target.
@@ -54,6 +56,8 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) async {
   Injector.exportsRepository = FakeExportsRepository();
   // A listing's open houses card and the calendar read open houses too.
   Injector.openHousesRepository = FakeOpenHousesRepository();
+  // A record's history of changes and the agency's change log.
+  Injector.changeLogRepository = FakeChangeLogRepository();
   // A listing's and a client's offers cards read offers too.
   Injector.offersRepository = FakeOffersRepository();
   Injector.notificationsPollInterval = null;

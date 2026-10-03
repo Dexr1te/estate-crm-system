@@ -1,11 +1,13 @@
 package com.crm.realestate.dto.response;
 
+import com.crm.realestate.enums.DealKind;
 import com.crm.realestate.enums.DealLostReason;
 import com.crm.realestate.enums.DealStatus;
 import com.crm.realestate.enums.ChecklistStage;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Map;
 
@@ -17,9 +19,24 @@ public class DealResponse {
     private BigDecimal dealPrice;
     private BigDecimal budget;
     private BigDecimal commissionPercent;
-    /** dealPrice × commissionPercent / 100, or null while either is unknown. */
+    /**
+     * commissionPercent of the price of a sale, or of one month's rent of a rent; null while either
+     * is unknown. A rent's dealPrice is always null.
+     */
     private BigDecimal commission;
     private String notes;
+
+    /** SALE or RENT. The lease fields below are null on a sale. */
+    private DealKind kind;
+    private BigDecimal monthlyRent;
+    private LocalDate leaseStart;
+    private LocalDate leaseEnd;
+    /** As saved: null means the default (see leaseReminderDaysEffective). */
+    private Integer leaseReminderDays;
+    /** The days before the end the agent is reminded, the default filled in; null on a sale. */
+    private Integer leaseReminderDaysEffective;
+    private Long landlordId;
+    private String landlordName;
     /** Why the deal was lost; null unless CLOSED_LOST, and null on deals lost before it was asked. */
     private DealLostReason lostReason;
     private String lostNote;

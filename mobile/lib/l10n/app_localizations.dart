@@ -1168,6 +1168,426 @@ abstract class AppLocalizations {
   /// **'Month'**
   String get calendarViewMonth;
 
+  /// No description provided for @changeLogAnyTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Any time'**
+  String get changeLogAnyTime;
+
+  /// No description provided for @changeLogAnyone.
+  ///
+  /// In en, this message translates to:
+  /// **'Anyone'**
+  String get changeLogAnyone;
+
+  /// No description provided for @changeLogAutomatic.
+  ///
+  /// In en, this message translates to:
+  /// **'Automatically'**
+  String get changeLogAutomatic;
+
+  /// No description provided for @changeLogChange.
+  ///
+  /// In en, this message translates to:
+  /// **'{field}: {from} → {to}'**
+  String changeLogChange(String field, String from, String to);
+
+  /// No description provided for @changeLogClearFilters.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear filters'**
+  String get changeLogClearFilters;
+
+  /// No description provided for @changeLogCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Created'**
+  String get changeLogCreated;
+
+  /// No description provided for @changeLogDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{from} – {to}'**
+  String changeLogDays(String from, String to);
+
+  /// No description provided for @changeLogDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted'**
+  String get changeLogDeleted;
+
+  /// No description provided for @changeLogEdited.
+  ///
+  /// In en, this message translates to:
+  /// **'{field} edited'**
+  String changeLogEdited(String field);
+
+  /// No description provided for @changeLogEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Every edit to this record will show up here, with who made it and when.'**
+  String get changeLogEmptyBody;
+
+  /// No description provided for @changeLogEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No changes yet'**
+  String get changeLogEmptyTitle;
+
+  /// No description provided for @changeLogEntityClient.
+  ///
+  /// In en, this message translates to:
+  /// **'Client'**
+  String get changeLogEntityClient;
+
+  /// No description provided for @changeLogEntityDeal.
+  ///
+  /// In en, this message translates to:
+  /// **'Deal'**
+  String get changeLogEntityDeal;
+
+  /// No description provided for @changeLogEntityOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Record'**
+  String get changeLogEntityOther;
+
+  /// No description provided for @changeLogEntityProperty.
+  ///
+  /// In en, this message translates to:
+  /// **'Listing'**
+  String get changeLogEntityProperty;
+
+  /// No description provided for @changeLogFieldAddress.
+  ///
+  /// In en, this message translates to:
+  /// **'Address'**
+  String get changeLogFieldAddress;
+
+  /// No description provided for @changeLogFieldAgent.
+  ///
+  /// In en, this message translates to:
+  /// **'Agent'**
+  String get changeLogFieldAgent;
+
+  /// No description provided for @changeLogFieldArea.
+  ///
+  /// In en, this message translates to:
+  /// **'Area'**
+  String get changeLogFieldArea;
+
+  /// No description provided for @changeLogFieldBirthday.
+  ///
+  /// In en, this message translates to:
+  /// **'Birthday'**
+  String get changeLogFieldBirthday;
+
+  /// No description provided for @changeLogFieldBudget.
+  ///
+  /// In en, this message translates to:
+  /// **'Budget'**
+  String get changeLogFieldBudget;
+
+  /// No description provided for @changeLogFieldBudgetMax.
+  ///
+  /// In en, this message translates to:
+  /// **'Budget up to'**
+  String get changeLogFieldBudgetMax;
+
+  /// No description provided for @changeLogFieldBudgetMin.
+  ///
+  /// In en, this message translates to:
+  /// **'Budget from'**
+  String get changeLogFieldBudgetMin;
+
+  /// No description provided for @changeLogFieldCity.
+  ///
+  /// In en, this message translates to:
+  /// **'City'**
+  String get changeLogFieldCity;
+
+  /// No description provided for @changeLogFieldClient.
+  ///
+  /// In en, this message translates to:
+  /// **'Client'**
+  String get changeLogFieldClient;
+
+  /// No description provided for @changeLogFieldCommission.
+  ///
+  /// In en, this message translates to:
+  /// **'Commission'**
+  String get changeLogFieldCommission;
+
+  /// No description provided for @changeLogFieldDealPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Deal price'**
+  String get changeLogFieldDealPrice;
+
+  /// No description provided for @changeLogFieldDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get changeLogFieldDescription;
+
+  /// No description provided for @changeLogFieldEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get changeLogFieldEmail;
+
+  /// No description provided for @changeLogFieldFloor.
+  ///
+  /// In en, this message translates to:
+  /// **'Floor'**
+  String get changeLogFieldFloor;
+
+  /// No description provided for @changeLogFieldLeadSource.
+  ///
+  /// In en, this message translates to:
+  /// **'Lead source'**
+  String get changeLogFieldLeadSource;
+
+  /// No description provided for @changeLogFieldLeadSourceDetail.
+  ///
+  /// In en, this message translates to:
+  /// **'Lead source details'**
+  String get changeLogFieldLeadSourceDetail;
+
+  /// No description provided for @changeLogFieldListing.
+  ///
+  /// In en, this message translates to:
+  /// **'Listing'**
+  String get changeLogFieldListing;
+
+  /// No description provided for @changeLogFieldLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Location on the map'**
+  String get changeLogFieldLocation;
+
+  /// No description provided for @changeLogFieldLostNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note on the loss'**
+  String get changeLogFieldLostNote;
+
+  /// No description provided for @changeLogFieldLostReason.
+  ///
+  /// In en, this message translates to:
+  /// **'Why it was lost'**
+  String get changeLogFieldLostReason;
+
+  /// No description provided for @changeLogFieldMandate.
+  ///
+  /// In en, this message translates to:
+  /// **'Agreement with the seller'**
+  String get changeLogFieldMandate;
+
+  /// No description provided for @changeLogFieldMandateEnd.
+  ///
+  /// In en, this message translates to:
+  /// **'Agreement ends'**
+  String get changeLogFieldMandateEnd;
+
+  /// No description provided for @changeLogFieldMinArea.
+  ///
+  /// In en, this message translates to:
+  /// **'Area, at least'**
+  String get changeLogFieldMinArea;
+
+  /// No description provided for @changeLogFieldMinRooms.
+  ///
+  /// In en, this message translates to:
+  /// **'Rooms, at least'**
+  String get changeLogFieldMinRooms;
+
+  /// No description provided for @changeLogFieldName.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get changeLogFieldName;
+
+  /// No description provided for @changeLogFieldNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get changeLogFieldNotes;
+
+  /// No description provided for @changeLogFieldOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other details'**
+  String get changeLogFieldOther;
+
+  /// No description provided for @changeLogFieldPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone'**
+  String get changeLogFieldPhone;
+
+  /// No description provided for @changeLogFieldPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'Price'**
+  String get changeLogFieldPrice;
+
+  /// No description provided for @changeLogFieldRooms.
+  ///
+  /// In en, this message translates to:
+  /// **'Rooms'**
+  String get changeLogFieldRooms;
+
+  /// No description provided for @changeLogFieldStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get changeLogFieldStatus;
+
+  /// No description provided for @changeLogFieldTags.
+  ///
+  /// In en, this message translates to:
+  /// **'Tags'**
+  String get changeLogFieldTags;
+
+  /// No description provided for @changeLogFieldTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get changeLogFieldTitle;
+
+  /// No description provided for @changeLogFieldTotalFloors.
+  ///
+  /// In en, this message translates to:
+  /// **'Floors in the building'**
+  String get changeLogFieldTotalFloors;
+
+  /// No description provided for @changeLogFieldType.
+  ///
+  /// In en, this message translates to:
+  /// **'Type'**
+  String get changeLogFieldType;
+
+  /// No description provided for @changeLogFieldWantedCity.
+  ///
+  /// In en, this message translates to:
+  /// **'City wanted'**
+  String get changeLogFieldWantedCity;
+
+  /// No description provided for @changeLogFieldWantedType.
+  ///
+  /// In en, this message translates to:
+  /// **'Looking for'**
+  String get changeLogFieldWantedType;
+
+  /// No description provided for @changeLogFilterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get changeLogFilterAll;
+
+  /// No description provided for @changeLogFilterClients.
+  ///
+  /// In en, this message translates to:
+  /// **'Clients'**
+  String get changeLogFilterClients;
+
+  /// No description provided for @changeLogFilterDeals.
+  ///
+  /// In en, this message translates to:
+  /// **'Deals'**
+  String get changeLogFilterDeals;
+
+  /// No description provided for @changeLogFilterListings.
+  ///
+  /// In en, this message translates to:
+  /// **'Listings'**
+  String get changeLogFilterListings;
+
+  /// No description provided for @changeLogLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load the history'**
+  String get changeLogLoadFailed;
+
+  /// No description provided for @changeLogNoValue.
+  ///
+  /// In en, this message translates to:
+  /// **'—'**
+  String get changeLogNoValue;
+
+  /// No description provided for @changeLogPeopleFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load the agency\'s people'**
+  String get changeLogPeopleFailed;
+
+  /// No description provided for @changeLogPercent.
+  ///
+  /// In en, this message translates to:
+  /// **'{value}%'**
+  String changeLogPercent(String value);
+
+  /// No description provided for @changeLogPickDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Days to show'**
+  String get changeLogPickDays;
+
+  /// No description provided for @changeLogPickPerson.
+  ///
+  /// In en, this message translates to:
+  /// **'Who made the change'**
+  String get changeLogPickPerson;
+
+  /// No description provided for @changeLogRecord.
+  ///
+  /// In en, this message translates to:
+  /// **'{kind}: {label}'**
+  String changeLogRecord(String kind, String label);
+
+  /// No description provided for @changeLogTeamEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Edits to the agency\'s listings, deals and clients will show up here.'**
+  String get changeLogTeamEmptyBody;
+
+  /// No description provided for @changeLogTeamEmptyFiltered.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing matches these filters.'**
+  String get changeLogTeamEmptyFiltered;
+
+  /// No description provided for @changeLogTeamHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Who changed what across the agency'**
+  String get changeLogTeamHint;
+
+  /// No description provided for @changeLogTeamTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Change log'**
+  String get changeLogTeamTitle;
+
+  /// No description provided for @changeLogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'History of changes'**
+  String get changeLogTitle;
+
+  /// No description provided for @changeLogUnknownValue.
+  ///
+  /// In en, this message translates to:
+  /// **'another value'**
+  String get changeLogUnknownValue;
+
+  /// No description provided for @changeLogUntitled.
+  ///
+  /// In en, this message translates to:
+  /// **'Untitled'**
+  String get changeLogUntitled;
+
   /// No description provided for @clientsActivityCall.
   ///
   /// In en, this message translates to:
@@ -9454,6 +9874,234 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unknown placeholder: {names}. Use the ones below.'**
   String templatesUnknownPlaceholder(String names);
+
+  /// No description provided for @dealsKind.
+  ///
+  /// In en, this message translates to:
+  /// **'Sale or rent'**
+  String get dealsKind;
+
+  /// No description provided for @dealsKindSale.
+  ///
+  /// In en, this message translates to:
+  /// **'Sale'**
+  String get dealsKindSale;
+
+  /// No description provided for @dealsKindRent.
+  ///
+  /// In en, this message translates to:
+  /// **'Rent'**
+  String get dealsKindRent;
+
+  /// No description provided for @leasesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Lease'**
+  String get leasesTitle;
+
+  /// No description provided for @leasesMonthlyRent.
+  ///
+  /// In en, this message translates to:
+  /// **'Rent per month'**
+  String get leasesMonthlyRent;
+
+  /// No description provided for @leasesPerMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} a month'**
+  String leasesPerMonth(String amount);
+
+  /// No description provided for @leasesStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Lease starts'**
+  String get leasesStart;
+
+  /// No description provided for @leasesEnd.
+  ///
+  /// In en, this message translates to:
+  /// **'Lease ends'**
+  String get leasesEnd;
+
+  /// No description provided for @leasesPickDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a day'**
+  String get leasesPickDate;
+
+  /// No description provided for @leasesReminderDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Remind me, days before the end'**
+  String get leasesReminderDays;
+
+  /// No description provided for @leasesReminderValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 day before the end} other{{count} days before the end}}'**
+  String leasesReminderValue(int count);
+
+  /// No description provided for @leasesReminder.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder'**
+  String get leasesReminder;
+
+  /// No description provided for @leasesLandlord.
+  ///
+  /// In en, this message translates to:
+  /// **'Landlord'**
+  String get leasesLandlord;
+
+  /// No description provided for @leasesTenant.
+  ///
+  /// In en, this message translates to:
+  /// **'Tenant'**
+  String get leasesTenant;
+
+  /// No description provided for @leasesTenantValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Tenant: {name}'**
+  String leasesTenantValue(String name);
+
+  /// No description provided for @leasesLandlordValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Landlord: {name}'**
+  String leasesLandlordValue(String name);
+
+  /// No description provided for @leasesRentRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the rent per month'**
+  String get leasesRentRequired;
+
+  /// No description provided for @leasesDatesRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick the first and the last day of the lease'**
+  String get leasesDatesRequired;
+
+  /// No description provided for @leasesEndBeforeStart.
+  ///
+  /// In en, this message translates to:
+  /// **'The lease has to end after it starts'**
+  String get leasesEndBeforeStart;
+
+  /// No description provided for @leasesReminderInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'From 1 to 365 days'**
+  String get leasesReminderInvalid;
+
+  /// No description provided for @leasesEndsToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Lease ends today'**
+  String get leasesEndsToday;
+
+  /// No description provided for @leasesEndsTomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Lease ends tomorrow'**
+  String get leasesEndsTomorrow;
+
+  /// No description provided for @leasesEndsIn.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Lease ends in 1 day} other{Lease ends in {count} days}}'**
+  String leasesEndsIn(int count);
+
+  /// No description provided for @leasesEndedYesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Lease ended yesterday'**
+  String get leasesEndedYesterday;
+
+  /// No description provided for @leasesEndedAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Lease ended 1 day ago} other{Lease ended {count} days ago}}'**
+  String leasesEndedAgo(int count);
+
+  /// No description provided for @leasesRenew.
+  ///
+  /// In en, this message translates to:
+  /// **'Renew lease'**
+  String get leasesRenew;
+
+  /// No description provided for @leasesRenewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Renew the lease'**
+  String get leasesRenewTitle;
+
+  /// No description provided for @leasesRenewNewEnd.
+  ///
+  /// In en, this message translates to:
+  /// **'New last day'**
+  String get leasesRenewNewEnd;
+
+  /// No description provided for @leasesRenewHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The deal stays the same; its lease runs on to the new day, and the discussion notes the change.'**
+  String get leasesRenewHint;
+
+  /// No description provided for @leasesRenewEndNotLater.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a day after the current end'**
+  String get leasesRenewEndNotLater;
+
+  /// No description provided for @leasesRenewed.
+  ///
+  /// In en, this message translates to:
+  /// **'Lease renewed'**
+  String get leasesRenewed;
+
+  /// No description provided for @leasesRenewFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t renew the lease'**
+  String get leasesRenewFailed;
+
+  /// No description provided for @leasesRenewWhenWon.
+  ///
+  /// In en, this message translates to:
+  /// **'A lease can be renewed once the deal is won.'**
+  String get leasesRenewWhenWon;
+
+  /// No description provided for @leasesEndingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Leases ending'**
+  String get leasesEndingTitle;
+
+  /// No description provided for @leasesEndingLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load the leases'**
+  String get leasesEndingLoadFailed;
+
+  /// No description provided for @leasesEndingEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No leases end in the next 30 days'**
+  String get leasesEndingEmpty;
+
+  /// No description provided for @leasesEndingEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Won rent deals show here a month before their lease runs out.'**
+  String get leasesEndingEmptyHint;
+
+  /// No description provided for @notificationsLeaseEnding.
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, =0{The lease on {dealTitle} ends today} =1{The lease on {dealTitle} ends tomorrow} other{The lease on {dealTitle} ends in {days} days}}'**
+  String notificationsLeaseEnding(String dealTitle, int days);
 
   /// No description provided for @clientsActivityHandover.
   ///

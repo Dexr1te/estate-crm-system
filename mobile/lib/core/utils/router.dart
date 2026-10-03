@@ -15,6 +15,8 @@ import 'package:real_estate_crm/features/auth/presentation/screens/reset_passwor
 import 'package:real_estate_crm/features/auth/presentation/screens/splash_screen.dart';
 import 'package:real_estate_crm/features/auth/presentation/screens/verify_email_screen.dart';
 import 'package:real_estate_crm/features/auth/presentation/screens/waiting_for_team_screen.dart';
+import 'package:real_estate_crm/features/change_log/presentation/screens/change_history_screen.dart';
+import 'package:real_estate_crm/features/change_log/presentation/screens/team_change_log_screen.dart';
 import 'package:real_estate_crm/features/checklist/presentation/screens/checklist_template_screen.dart';
 import 'package:real_estate_crm/features/clients/presentation/screens/client_dates_screen.dart';
 import 'package:real_estate_crm/features/clients/presentation/screens/client_detail_screen.dart';
@@ -31,6 +33,7 @@ import 'package:real_estate_crm/features/deposits/presentation/screens/deposits_
 import 'package:real_estate_crm/features/goals/presentation/screens/team_goals_screen.dart';
 import 'package:real_estate_crm/features/imports/presentation/screens/import_screen.dart';
 import 'package:real_estate_crm/features/leaderboard/presentation/screens/leaderboard_screen.dart';
+import 'package:real_estate_crm/features/leases/presentation/screens/leases_ending_screen.dart';
 import 'package:real_estate_crm/features/meetings/presentation/screens/meeting_detail_screen.dart';
 import 'package:real_estate_crm/features/meetings/presentation/screens/meeting_form_screen.dart';
 import 'package:real_estate_crm/features/meetings/presentation/screens/meetings_screen.dart';
@@ -122,6 +125,11 @@ String? resolveRedirect({
     return '/dashboard';
   }
   if (location.startsWith('/team-goals') && role != Role.MANAGER) {
+    return '/dashboard';
+  }
+  if (location.startsWith('/audit') &&
+      role != Role.MANAGER &&
+      role != Role.ADMIN) {
     return '/dashboard';
   }
   if (location.startsWith('/team-handover') && role != Role.MANAGER) {
@@ -257,6 +265,12 @@ GoRouter createRouter(AuthBloc authBloc) {
             const NoTransitionPage(child: TeamGoalsScreen()),
       ),
       GoRoute(
+        path: '/audit',
+        parentNavigatorKey: _rootKey,
+        pageBuilder: (_, __) =>
+            const NoTransitionPage(child: TeamChangeLogScreen()),
+      ),
+      GoRoute(
         path: '/team-handover/:id',
         parentNavigatorKey: _rootKey,
         pageBuilder: (_, s) => NoTransitionPage(
@@ -362,6 +376,15 @@ GoRouter createRouter(AuthBloc authBloc) {
                           clientId: int.parse(s.pathParameters['id']!)),
                     ),
                   ),
+                  GoRoute(
+                    path: 'changes',
+                    parentNavigatorKey: _rootKey,
+                    pageBuilder: (_, s) => NoTransitionPage(
+                      child: ChangeHistoryScreen(
+                          type: ChangeEntityType.client,
+                          id: int.parse(s.pathParameters['id']!)),
+                    ),
+                  ),
                 ],
               ),
             ],
@@ -397,6 +420,15 @@ GoRouter createRouter(AuthBloc authBloc) {
                     pageBuilder: (_, s) => NoTransitionPage(
                       child: PropertyFormScreen(
                           propertyId: int.parse(s.pathParameters['id']!)),
+                    ),
+                  ),
+                  GoRoute(
+                    path: 'changes',
+                    parentNavigatorKey: _rootKey,
+                    pageBuilder: (_, s) => NoTransitionPage(
+                      child: ChangeHistoryScreen(
+                          type: ChangeEntityType.property,
+                          id: int.parse(s.pathParameters['id']!)),
                     ),
                   ),
                   GoRoute(
@@ -451,6 +483,12 @@ GoRouter createRouter(AuthBloc authBloc) {
                     const NoTransitionPage(child: DepositsEndingScreen()),
               ),
               GoRoute(
+                path: 'leases',
+                parentNavigatorKey: _rootKey,
+                pageBuilder: (_, __) =>
+                    const NoTransitionPage(child: LeasesEndingScreen()),
+              ),
+              GoRoute(
                 path: ':id',
                 parentNavigatorKey: _rootKey,
                 pageBuilder: (_, s) => NoTransitionPage(
@@ -467,6 +505,15 @@ GoRouter createRouter(AuthBloc authBloc) {
                     pageBuilder: (_, s) => NoTransitionPage(
                       child: DealFormScreen(
                           dealId: int.parse(s.pathParameters['id']!)),
+                    ),
+                  ),
+                  GoRoute(
+                    path: 'changes',
+                    parentNavigatorKey: _rootKey,
+                    pageBuilder: (_, s) => NoTransitionPage(
+                      child: ChangeHistoryScreen(
+                          type: ChangeEntityType.deal,
+                          id: int.parse(s.pathParameters['id']!)),
                     ),
                   ),
                 ],

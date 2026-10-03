@@ -187,6 +187,25 @@ public class NotificationEvents {
         });
     }
 
+    /**
+     * A lease is running out in {@code daysLeft} days: a reason to call the tenant and the
+     * landlord. Nobody did anything, so there is no actor. Goes to the deal's agent.
+     */
+    public void leaseEnding(Deal deal, int daysLeft) {
+        guard("lease ending", () -> {
+            Map<String, Object> params = new LinkedHashMap<>();
+            params.put("dealTitle", deal.getTitle());
+            params.put("tenantName", deal.getClient() == null ? null : deal.getClient().getFullName());
+            if (deal.getLandlord() != null) {
+                params.put("landlordName", deal.getLandlord().getFullName());
+            }
+            params.put("leaseEnd", deal.getLeaseEnd().toString());
+            params.put("days", daysLeft);
+            notifications.notify(deal.getAgent(), null, deal.getTeam(), NotificationType.LEASE_ENDING,
+                    deal.getId(), params);
+        });
+    }
+
     private static Map<String, Object> commentParams(Deal deal, DealComment comment) {
         Map<String, Object> params = new LinkedHashMap<>();
         params.put("dealTitle", deal.getTitle());

@@ -81,8 +81,9 @@ class ExportColumns {
     }
 
     List<String> deal(Deal d, CsvWriter csv, int lang) {
-        BigDecimal commission = d.getDealPrice() == null || d.getCommissionPercent() == null ? null
-                : d.getDealPrice().multiply(d.getCommissionPercent()).divide(ONE_HUNDRED, 2, RoundingMode.HALF_UP);
+        BigDecimal base = com.crm.realestate.service.DealMoney.commissionBase(d);
+        BigDecimal commission = base == null || d.getCommissionPercent() == null ? null
+                : base.multiply(d.getCommissionPercent()).divide(ONE_HUNDRED, 2, RoundingMode.HALF_UP);
         return Arrays.asList(d.getTitle(), value(d.getStatus(), lang),
                 d.getClient() == null ? null : d.getClient().getFullName(),
                 d.getProperty() == null ? null : d.getProperty().getTitle(),

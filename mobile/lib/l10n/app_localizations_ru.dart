@@ -601,6 +601,229 @@ class AppLocalizationsRu extends AppLocalizations {
   String get calendarViewMonth => 'Месяц';
 
   @override
+  String get changeLogAnyTime => 'За всё время';
+
+  @override
+  String get changeLogAnyone => 'Все сотрудники';
+
+  @override
+  String get changeLogAutomatic => 'Автоматически';
+
+  @override
+  String changeLogChange(String field, String from, String to) {
+    return '$field: $from → $to';
+  }
+
+  @override
+  String get changeLogClearFilters => 'Сбросить фильтры';
+
+  @override
+  String get changeLogCreated => 'Создано';
+
+  @override
+  String changeLogDays(String from, String to) {
+    return '$from – $to';
+  }
+
+  @override
+  String get changeLogDeleted => 'Удалено';
+
+  @override
+  String changeLogEdited(String field) {
+    return '$field: изменено';
+  }
+
+  @override
+  String get changeLogEmptyBody =>
+      'Здесь появится каждое изменение этой записи: кто и когда его внёс.';
+
+  @override
+  String get changeLogEmptyTitle => 'Изменений пока нет';
+
+  @override
+  String get changeLogEntityClient => 'Клиент';
+
+  @override
+  String get changeLogEntityDeal => 'Сделка';
+
+  @override
+  String get changeLogEntityOther => 'Запись';
+
+  @override
+  String get changeLogEntityProperty => 'Объект';
+
+  @override
+  String get changeLogFieldAddress => 'Адрес';
+
+  @override
+  String get changeLogFieldAgent => 'Агент';
+
+  @override
+  String get changeLogFieldArea => 'Площадь';
+
+  @override
+  String get changeLogFieldBirthday => 'День рождения';
+
+  @override
+  String get changeLogFieldBudget => 'Бюджет';
+
+  @override
+  String get changeLogFieldBudgetMax => 'Бюджет до';
+
+  @override
+  String get changeLogFieldBudgetMin => 'Бюджет от';
+
+  @override
+  String get changeLogFieldCity => 'Город';
+
+  @override
+  String get changeLogFieldClient => 'Клиент';
+
+  @override
+  String get changeLogFieldCommission => 'Комиссия';
+
+  @override
+  String get changeLogFieldDealPrice => 'Цена сделки';
+
+  @override
+  String get changeLogFieldDescription => 'Описание';
+
+  @override
+  String get changeLogFieldEmail => 'Email';
+
+  @override
+  String get changeLogFieldFloor => 'Этаж';
+
+  @override
+  String get changeLogFieldLeadSource => 'Источник';
+
+  @override
+  String get changeLogFieldLeadSourceDetail => 'Подробности источника';
+
+  @override
+  String get changeLogFieldListing => 'Объект';
+
+  @override
+  String get changeLogFieldLocation => 'Точка на карте';
+
+  @override
+  String get changeLogFieldLostNote => 'Комментарий к проигрышу';
+
+  @override
+  String get changeLogFieldLostReason => 'Причина проигрыша';
+
+  @override
+  String get changeLogFieldMandate => 'Договор с продавцом';
+
+  @override
+  String get changeLogFieldMandateEnd => 'Договор до';
+
+  @override
+  String get changeLogFieldMinArea => 'Площадь от';
+
+  @override
+  String get changeLogFieldMinRooms => 'Комнат от';
+
+  @override
+  String get changeLogFieldName => 'Имя';
+
+  @override
+  String get changeLogFieldNotes => 'Заметки';
+
+  @override
+  String get changeLogFieldOther => 'Другие данные';
+
+  @override
+  String get changeLogFieldPhone => 'Телефон';
+
+  @override
+  String get changeLogFieldPrice => 'Цена';
+
+  @override
+  String get changeLogFieldRooms => 'Комнаты';
+
+  @override
+  String get changeLogFieldStatus => 'Статус';
+
+  @override
+  String get changeLogFieldTags => 'Теги';
+
+  @override
+  String get changeLogFieldTitle => 'Название';
+
+  @override
+  String get changeLogFieldTotalFloors => 'Этажей в доме';
+
+  @override
+  String get changeLogFieldType => 'Тип';
+
+  @override
+  String get changeLogFieldWantedCity => 'Желаемый город';
+
+  @override
+  String get changeLogFieldWantedType => 'Ищет';
+
+  @override
+  String get changeLogFilterAll => 'Все';
+
+  @override
+  String get changeLogFilterClients => 'Клиенты';
+
+  @override
+  String get changeLogFilterDeals => 'Сделки';
+
+  @override
+  String get changeLogFilterListings => 'Объекты';
+
+  @override
+  String get changeLogLoadFailed => 'Не удалось загрузить историю';
+
+  @override
+  String get changeLogNoValue => '—';
+
+  @override
+  String get changeLogPeopleFailed =>
+      'Не удалось загрузить сотрудников агентства';
+
+  @override
+  String changeLogPercent(String value) {
+    return '$value%';
+  }
+
+  @override
+  String get changeLogPickDays => 'Период';
+
+  @override
+  String get changeLogPickPerson => 'Кто внёс изменение';
+
+  @override
+  String changeLogRecord(String kind, String label) {
+    return '$kind: $label';
+  }
+
+  @override
+  String get changeLogTeamEmptyBody =>
+      'Здесь появятся изменения объектов, сделок и клиентов агентства.';
+
+  @override
+  String get changeLogTeamEmptyFiltered => 'По этим фильтрам ничего нет.';
+
+  @override
+  String get changeLogTeamHint => 'Кто что менял в агентстве';
+
+  @override
+  String get changeLogTeamTitle => 'Журнал изменений';
+
+  @override
+  String get changeLogTitle => 'История изменений';
+
+  @override
+  String get changeLogUnknownValue => 'другое значение';
+
+  @override
+  String get changeLogUntitled => 'Без названия';
+
+  @override
   String get clientsActivityCall => 'Звонок';
 
   @override
@@ -5696,6 +5919,171 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String templatesUnknownPlaceholder(String names) {
     return 'Неизвестная подстановка: $names. Используйте те, что ниже.';
+  }
+
+  @override
+  String get dealsKind => 'Продажа или аренда';
+
+  @override
+  String get dealsKindSale => 'Продажа';
+
+  @override
+  String get dealsKindRent => 'Аренда';
+
+  @override
+  String get leasesTitle => 'Аренда';
+
+  @override
+  String get leasesMonthlyRent => 'Аренда в месяц';
+
+  @override
+  String leasesPerMonth(String amount) {
+    return '$amount в месяц';
+  }
+
+  @override
+  String get leasesStart => 'Начало аренды';
+
+  @override
+  String get leasesEnd => 'Конец аренды';
+
+  @override
+  String get leasesPickDate => 'Выберите дату';
+
+  @override
+  String get leasesReminderDays => 'Напомнить за столько дней до конца';
+
+  @override
+  String leasesReminderValue(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'За $count дня до конца',
+      many: 'За $count дней до конца',
+      few: 'За $count дня до конца',
+      one: 'За $count день до конца',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get leasesReminder => 'Напоминание';
+
+  @override
+  String get leasesLandlord => 'Арендодатель';
+
+  @override
+  String get leasesTenant => 'Арендатор';
+
+  @override
+  String leasesTenantValue(String name) {
+    return 'Арендатор: $name';
+  }
+
+  @override
+  String leasesLandlordValue(String name) {
+    return 'Арендодатель: $name';
+  }
+
+  @override
+  String get leasesRentRequired => 'Укажите аренду в месяц';
+
+  @override
+  String get leasesDatesRequired => 'Выберите первый и последний день аренды';
+
+  @override
+  String get leasesEndBeforeStart => 'Аренда должна заканчиваться после начала';
+
+  @override
+  String get leasesReminderInvalid => 'От 1 до 365 дней';
+
+  @override
+  String get leasesEndsToday => 'Аренда заканчивается сегодня';
+
+  @override
+  String get leasesEndsTomorrow => 'Аренда заканчивается завтра';
+
+  @override
+  String leasesEndsIn(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Аренда заканчивается через $count дня',
+      many: 'Аренда заканчивается через $count дней',
+      few: 'Аренда заканчивается через $count дня',
+      one: 'Аренда заканчивается через $count день',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get leasesEndedYesterday => 'Аренда закончилась вчера';
+
+  @override
+  String leasesEndedAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Аренда закончилась $count дня назад',
+      many: 'Аренда закончилась $count дней назад',
+      few: 'Аренда закончилась $count дня назад',
+      one: 'Аренда закончилась $count день назад',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get leasesRenew => 'Продлить аренду';
+
+  @override
+  String get leasesRenewTitle => 'Продление аренды';
+
+  @override
+  String get leasesRenewNewEnd => 'Новый последний день';
+
+  @override
+  String get leasesRenewHint =>
+      'Сделка остаётся той же: аренда продлевается до новой даты, а в обсуждении появится отметка.';
+
+  @override
+  String get leasesRenewEndNotLater => 'Выберите дату позже текущего конца';
+
+  @override
+  String get leasesRenewed => 'Аренда продлена';
+
+  @override
+  String get leasesRenewFailed => 'Не удалось продлить аренду';
+
+  @override
+  String get leasesRenewWhenWon =>
+      'Продлить аренду можно, когда сделка выиграна.';
+
+  @override
+  String get leasesEndingTitle => 'Аренда заканчивается';
+
+  @override
+  String get leasesEndingLoadFailed => 'Не удалось загрузить аренду';
+
+  @override
+  String get leasesEndingEmpty =>
+      'В ближайшие 30 дней аренда ни у кого не заканчивается';
+
+  @override
+  String get leasesEndingEmptyHint =>
+      'Выигранные сделки аренды появятся здесь за месяц до конца договора.';
+
+  @override
+  String notificationsLeaseEnding(String dealTitle, int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'Аренда по сделке «$dealTitle» заканчивается через $days дня',
+      many: 'Аренда по сделке «$dealTitle» заканчивается через $days дней',
+      few: 'Аренда по сделке «$dealTitle» заканчивается через $days дня',
+      one: 'Аренда по сделке «$dealTitle» заканчивается через $days день',
+      zero: 'Аренда по сделке «$dealTitle» заканчивается сегодня',
+    );
+    return '$_temp0';
   }
 
   @override

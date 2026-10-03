@@ -600,6 +600,228 @@ class AppLocalizationsEn extends AppLocalizations {
   String get calendarViewMonth => 'Month';
 
   @override
+  String get changeLogAnyTime => 'Any time';
+
+  @override
+  String get changeLogAnyone => 'Anyone';
+
+  @override
+  String get changeLogAutomatic => 'Automatically';
+
+  @override
+  String changeLogChange(String field, String from, String to) {
+    return '$field: $from → $to';
+  }
+
+  @override
+  String get changeLogClearFilters => 'Clear filters';
+
+  @override
+  String get changeLogCreated => 'Created';
+
+  @override
+  String changeLogDays(String from, String to) {
+    return '$from – $to';
+  }
+
+  @override
+  String get changeLogDeleted => 'Deleted';
+
+  @override
+  String changeLogEdited(String field) {
+    return '$field edited';
+  }
+
+  @override
+  String get changeLogEmptyBody =>
+      'Every edit to this record will show up here, with who made it and when.';
+
+  @override
+  String get changeLogEmptyTitle => 'No changes yet';
+
+  @override
+  String get changeLogEntityClient => 'Client';
+
+  @override
+  String get changeLogEntityDeal => 'Deal';
+
+  @override
+  String get changeLogEntityOther => 'Record';
+
+  @override
+  String get changeLogEntityProperty => 'Listing';
+
+  @override
+  String get changeLogFieldAddress => 'Address';
+
+  @override
+  String get changeLogFieldAgent => 'Agent';
+
+  @override
+  String get changeLogFieldArea => 'Area';
+
+  @override
+  String get changeLogFieldBirthday => 'Birthday';
+
+  @override
+  String get changeLogFieldBudget => 'Budget';
+
+  @override
+  String get changeLogFieldBudgetMax => 'Budget up to';
+
+  @override
+  String get changeLogFieldBudgetMin => 'Budget from';
+
+  @override
+  String get changeLogFieldCity => 'City';
+
+  @override
+  String get changeLogFieldClient => 'Client';
+
+  @override
+  String get changeLogFieldCommission => 'Commission';
+
+  @override
+  String get changeLogFieldDealPrice => 'Deal price';
+
+  @override
+  String get changeLogFieldDescription => 'Description';
+
+  @override
+  String get changeLogFieldEmail => 'Email';
+
+  @override
+  String get changeLogFieldFloor => 'Floor';
+
+  @override
+  String get changeLogFieldLeadSource => 'Lead source';
+
+  @override
+  String get changeLogFieldLeadSourceDetail => 'Lead source details';
+
+  @override
+  String get changeLogFieldListing => 'Listing';
+
+  @override
+  String get changeLogFieldLocation => 'Location on the map';
+
+  @override
+  String get changeLogFieldLostNote => 'Note on the loss';
+
+  @override
+  String get changeLogFieldLostReason => 'Why it was lost';
+
+  @override
+  String get changeLogFieldMandate => 'Agreement with the seller';
+
+  @override
+  String get changeLogFieldMandateEnd => 'Agreement ends';
+
+  @override
+  String get changeLogFieldMinArea => 'Area, at least';
+
+  @override
+  String get changeLogFieldMinRooms => 'Rooms, at least';
+
+  @override
+  String get changeLogFieldName => 'Name';
+
+  @override
+  String get changeLogFieldNotes => 'Notes';
+
+  @override
+  String get changeLogFieldOther => 'Other details';
+
+  @override
+  String get changeLogFieldPhone => 'Phone';
+
+  @override
+  String get changeLogFieldPrice => 'Price';
+
+  @override
+  String get changeLogFieldRooms => 'Rooms';
+
+  @override
+  String get changeLogFieldStatus => 'Status';
+
+  @override
+  String get changeLogFieldTags => 'Tags';
+
+  @override
+  String get changeLogFieldTitle => 'Title';
+
+  @override
+  String get changeLogFieldTotalFloors => 'Floors in the building';
+
+  @override
+  String get changeLogFieldType => 'Type';
+
+  @override
+  String get changeLogFieldWantedCity => 'City wanted';
+
+  @override
+  String get changeLogFieldWantedType => 'Looking for';
+
+  @override
+  String get changeLogFilterAll => 'All';
+
+  @override
+  String get changeLogFilterClients => 'Clients';
+
+  @override
+  String get changeLogFilterDeals => 'Deals';
+
+  @override
+  String get changeLogFilterListings => 'Listings';
+
+  @override
+  String get changeLogLoadFailed => 'Could not load the history';
+
+  @override
+  String get changeLogNoValue => '—';
+
+  @override
+  String get changeLogPeopleFailed => 'Could not load the agency\'s people';
+
+  @override
+  String changeLogPercent(String value) {
+    return '$value%';
+  }
+
+  @override
+  String get changeLogPickDays => 'Days to show';
+
+  @override
+  String get changeLogPickPerson => 'Who made the change';
+
+  @override
+  String changeLogRecord(String kind, String label) {
+    return '$kind: $label';
+  }
+
+  @override
+  String get changeLogTeamEmptyBody =>
+      'Edits to the agency\'s listings, deals and clients will show up here.';
+
+  @override
+  String get changeLogTeamEmptyFiltered => 'Nothing matches these filters.';
+
+  @override
+  String get changeLogTeamHint => 'Who changed what across the agency';
+
+  @override
+  String get changeLogTeamTitle => 'Change log';
+
+  @override
+  String get changeLogTitle => 'History of changes';
+
+  @override
+  String get changeLogUnknownValue => 'another value';
+
+  @override
+  String get changeLogUntitled => 'Untitled';
+
+  @override
   String get clientsActivityCall => 'Call';
 
   @override
@@ -5597,6 +5819,163 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String templatesUnknownPlaceholder(String names) {
     return 'Unknown placeholder: $names. Use the ones below.';
+  }
+
+  @override
+  String get dealsKind => 'Sale or rent';
+
+  @override
+  String get dealsKindSale => 'Sale';
+
+  @override
+  String get dealsKindRent => 'Rent';
+
+  @override
+  String get leasesTitle => 'Lease';
+
+  @override
+  String get leasesMonthlyRent => 'Rent per month';
+
+  @override
+  String leasesPerMonth(String amount) {
+    return '$amount a month';
+  }
+
+  @override
+  String get leasesStart => 'Lease starts';
+
+  @override
+  String get leasesEnd => 'Lease ends';
+
+  @override
+  String get leasesPickDate => 'Pick a day';
+
+  @override
+  String get leasesReminderDays => 'Remind me, days before the end';
+
+  @override
+  String leasesReminderValue(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days before the end',
+      one: '1 day before the end',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get leasesReminder => 'Reminder';
+
+  @override
+  String get leasesLandlord => 'Landlord';
+
+  @override
+  String get leasesTenant => 'Tenant';
+
+  @override
+  String leasesTenantValue(String name) {
+    return 'Tenant: $name';
+  }
+
+  @override
+  String leasesLandlordValue(String name) {
+    return 'Landlord: $name';
+  }
+
+  @override
+  String get leasesRentRequired => 'Enter the rent per month';
+
+  @override
+  String get leasesDatesRequired =>
+      'Pick the first and the last day of the lease';
+
+  @override
+  String get leasesEndBeforeStart => 'The lease has to end after it starts';
+
+  @override
+  String get leasesReminderInvalid => 'From 1 to 365 days';
+
+  @override
+  String get leasesEndsToday => 'Lease ends today';
+
+  @override
+  String get leasesEndsTomorrow => 'Lease ends tomorrow';
+
+  @override
+  String leasesEndsIn(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Lease ends in $count days',
+      one: 'Lease ends in 1 day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get leasesEndedYesterday => 'Lease ended yesterday';
+
+  @override
+  String leasesEndedAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Lease ended $count days ago',
+      one: 'Lease ended 1 day ago',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get leasesRenew => 'Renew lease';
+
+  @override
+  String get leasesRenewTitle => 'Renew the lease';
+
+  @override
+  String get leasesRenewNewEnd => 'New last day';
+
+  @override
+  String get leasesRenewHint =>
+      'The deal stays the same; its lease runs on to the new day, and the discussion notes the change.';
+
+  @override
+  String get leasesRenewEndNotLater => 'Pick a day after the current end';
+
+  @override
+  String get leasesRenewed => 'Lease renewed';
+
+  @override
+  String get leasesRenewFailed => 'Couldn\'t renew the lease';
+
+  @override
+  String get leasesRenewWhenWon =>
+      'A lease can be renewed once the deal is won.';
+
+  @override
+  String get leasesEndingTitle => 'Leases ending';
+
+  @override
+  String get leasesEndingLoadFailed => 'Couldn\'t load the leases';
+
+  @override
+  String get leasesEndingEmpty => 'No leases end in the next 30 days';
+
+  @override
+  String get leasesEndingEmptyHint =>
+      'Won rent deals show here a month before their lease runs out.';
+
+  @override
+  String notificationsLeaseEnding(String dealTitle, int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'The lease on $dealTitle ends in $days days',
+      one: 'The lease on $dealTitle ends tomorrow',
+      zero: 'The lease on $dealTitle ends today',
+    );
+    return '$_temp0';
   }
 
   @override

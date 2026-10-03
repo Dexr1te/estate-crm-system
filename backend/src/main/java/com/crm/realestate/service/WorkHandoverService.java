@@ -81,6 +81,7 @@ public class WorkHandoverService {
     private final RecordHandoverService    recordHandoverService;
     private final NotificationEvents       notificationEvents;
     private final AuditLogService          auditLogService;
+    private final ChangeLogService         changeLog;
 
     /** What the handover would move, without moving it. */
     public HandoverResponse preview(User actor, Long teamId, HandoverRequest request) {
@@ -105,6 +106,14 @@ public class WorkHandoverService {
         Map<Long, Counts> perSource = plan.countsPerSource();
         HandoverResponse response = plan.response(true);
 
+        // Each client, listing and deal says in its change log who held it, before the move does.
+        String actorName = ChangeSnapshot.person(actor);
+        plan.records.clients().forEach(c -> changeLog.agentChanged(ChangeSnapshot.target(c), actor, actorName,
+                c.getAgent(), plan.to));
+        plan.records.listings().forEach(p -> changeLog.agentChanged(ChangeSnapshot.target(p), actor, actorName,
+                p.getAgent(), plan.to));
+        plan.records.deals().forEach(d -> changeLog.agentChanged(ChangeSnapshot.target(d), actor, actorName,
+                d.getAgent(), plan.to));
         recordHandoverService.move(plan.records, plan.to);
 
         LocalDateTime now = LocalDateTime.now();

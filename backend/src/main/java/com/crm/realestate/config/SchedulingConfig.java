@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
- * Turns on the jobs that run on a clock — today, only {@code ClientDateNotifier}. Off in the
+ * Turns on the jobs that run on a clock — {@code ClientDateNotifier} and {@code LeaseEndNotifier}, on the same hours. Off in the
  * tests, which call the job themselves with the day they want.
  */
 @Configuration

@@ -1,11 +1,15 @@
 package com.crm.realestate.entity;
 
 import com.crm.realestate.enums.DealLostReason;
+import com.crm.realestate.enums.DealKind;
 import com.crm.realestate.enums.DealStatus;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +46,36 @@ public class Deal {
     private BigDecimal commissionPercent;
 
     private String notes;
+
+    // A sale or a rent. A rent has no dealPrice; see V50 and DealMoney.
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 8)
+    @Builder.Default
+    private DealKind kind = DealKind.SALE;
+
+    // RENT only: the rent per month, the first and last day of the lease, and how many days
+    // before the end the agent wants to hear about it (null = LeaseService.DEFAULT_REMINDER_DAYS).
+    @Column(name = "monthly_rent", precision = 15, scale = 2)
+    private BigDecimal monthlyRent;
+
+    @Column(name = "lease_start")
+    private LocalDate leaseStart;
+
+    @Column(name = "lease_end")
+    private LocalDate leaseEnd;
+
+    @Column(name = "lease_reminder_days")
+    private Integer leaseReminderDays;
+
+    // RENT only: the client who lets the place. The deal's client is the tenant.
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "landlord_id")
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    private Client landlord;
+
+    // The leaseEnd the agent was last reminded about; see LeaseEndNotifier.
+    @Column(name = "lease_reminded_for")
+    private LocalDate leaseRemindedFor;
 
     // Why the deal was lost. Set only while status is CLOSED_LOST; null on deals lost before V28.
     @Enumerated(EnumType.STRING)
@@ -92,6 +126,7 @@ public class Deal {
         createdAt = LocalDateTime.now();
         updatedAt = LocalDateTime.now();
         if (status == null) status = DealStatus.LEAD;
+        if (kind == null) kind = DealKind.SALE;
     }
 
     @PreUpdate

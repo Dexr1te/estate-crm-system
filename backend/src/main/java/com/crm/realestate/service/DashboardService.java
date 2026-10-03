@@ -112,7 +112,7 @@ public class DashboardService {
         CriteriaQuery<BigDecimal> query = cb.createQuery(BigDecimal.class);
         Root<Deal> root = query.from(Deal.class);
         query.select(cb.sum(cb.prod(
-                root.<BigDecimal>get("dealPrice"), root.<BigDecimal>get("commissionPercent"))));
+                DealMoney.commissionBase(cb, root), root.<BigDecimal>get("commissionPercent"))));
         query.where(won.toPredicate(root, query, cb));
 
         BigDecimal total = entityManager.createQuery(query).getSingleResult();

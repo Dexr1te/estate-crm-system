@@ -9,6 +9,7 @@ import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:real_estate_crm/features/change_log/presentation/widgets/change_log_entries.dart';
 import 'package:real_estate_crm/features/checklist/domain/checklist_gate.dart';
 import 'package:real_estate_crm/features/checklist/presentation/bloc/deal_checklist_bloc.dart';
 import 'package:real_estate_crm/features/checklist/presentation/bloc/deal_checklist_event.dart';
@@ -27,6 +28,9 @@ import 'package:real_estate_crm/features/deposits/presentation/widgets/deal_depo
 import 'package:real_estate_crm/features/documents/presentation/bloc/documents_bloc.dart';
 import 'package:real_estate_crm/features/documents/presentation/bloc/documents_event.dart';
 import 'package:real_estate_crm/features/documents/presentation/widgets/deal_documents_card.dart';
+import 'package:real_estate_crm/features/leases/domain/lease.dart';
+import 'package:real_estate_crm/features/leases/presentation/widgets/deal_lease_card.dart';
+import 'package:real_estate_crm/features/leases/presentation/widgets/lease_labels.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_cover.dart';
 import 'package:real_estate_crm/features/tasks/presentation/widgets/record_tasks_card.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
@@ -265,6 +269,14 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
               _StageCard(status: deal.status, onChanged: _updateStatus),
               if (deal.status == DealStatus.CLOSED_LOST)
                 _LostReasonCard(deal: deal),
+              if (deal.kind == DealKind.rent)
+                DealLeaseCard(
+                  deal: deal,
+                  onRenewed: (renewed) {
+                    setState(() => _d = renewed);
+                    _comments.add(DealCommentsLoadEvent());
+                  },
+                ),
               if (deal.commissionPercent != null) _CommissionCard(deal: deal),
               DealDepositCard(
                 deal: deal,
@@ -279,6 +291,7 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
                 _NotesCard(text: deal.notes!),
               DealDiscussionCard(
                   key: _discussionKey, dealId: deal.id, bloc: _comments),
+              ChangeHistoryButton(location: '/deals/${widget.id}/changes'),
             ],
           ),
         ),
@@ -296,7 +309,8 @@ class _SummaryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = context.tokens;
     final l10n = AppLocalizations.of(context);
-    final amount = deal.dealPrice ?? deal.budget ?? 0;
+    final amount = dealShownAmount(deal);
+    final rent = deal.kind == DealKind.rent;
 
     return AppCard(
       child: Column(
@@ -327,7 +341,8 @@ class _SummaryCard extends StatelessWidget {
             fit: BoxFit.scaleDown,
             alignment: Alignment.centerLeft,
             child: Text(
-              formatPrice(amount),
+              rent ? leaseRentLabel(l10n, amount) : formatPrice(amount),
+              key: rent ? const Key('deal-summary-rent') : null,
               maxLines: 1,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
@@ -343,6 +358,7 @@ class _SummaryCard extends StatelessWidget {
             onTap: onCopyId,
             child: Text(
               [
+                if (rent) dealKindLabel(l10n, deal.kind),
                 if (deal.budget != null)
                   l10n.dealsBudgetValue(formatPrice(deal.budget!)),
                 l10n.dealsIdLabel(deal.id),

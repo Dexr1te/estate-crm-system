@@ -45,6 +45,7 @@ public class ClientController {
     private final ColdClientService coldClientService;
     private final ClientTagService tagService;
     private final ClientDateService dateService;
+    private final com.crm.realestate.service.ChangeHistoryService changeHistoryService;
 
     @GetMapping
     @Operation(summary = "Get all clients (supports pagination, sorting, and filters). Backward-compatible: returns legacy list when no paging/filters provided.")
@@ -241,5 +242,14 @@ public class ClientController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         clientService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}/changes")
+    @Operation(summary = "Who changed what on this client and when, newest first, a page at a time")
+    public ResponseEntity<org.springframework.data.domain.Page<com.crm.realestate.dto.response.RecordChangeResponse>> changes(
+            @PathVariable Long id,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "30") int size) {
+        return ResponseEntity.ok(changeHistoryService.forClient(id, page, size));
     }
 }

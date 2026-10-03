@@ -107,7 +107,7 @@ public class AnalyticsService {
                 cb.sum(cb.<Long>selectCase().when(isWon, 1L).otherwise(0L)).alias("won"),
                 cb.sum(cb.<Long>selectCase().when(isLost, 1L).otherwise(0L)).alias("lost"),
                 cb.sum(cb.<BigDecimal>selectCase()
-                        .when(isWon, root.<BigDecimal>get("dealPrice"))
+                        .when(isWon, DealMoney.saleValue(cb, root))
                         .otherwise(cb.nullLiteral(BigDecimal.class))).alias("value"));
         query.where(deals.toPredicate(root, query, cb));
 
