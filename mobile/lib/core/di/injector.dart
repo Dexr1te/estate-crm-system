@@ -60,6 +60,9 @@ import 'package:real_estate_crm/features/imports/domain/repositories/imports_rep
 import 'package:real_estate_crm/features/leaderboard/data/datasources/leaderboard_remote_datasource.dart';
 import 'package:real_estate_crm/features/leaderboard/data/repositories/leaderboard_repository_impl.dart';
 import 'package:real_estate_crm/features/leaderboard/domain/repositories/leaderboard_repository.dart';
+import 'package:real_estate_crm/features/leases/data/datasources/leases_remote_datasource.dart';
+import 'package:real_estate_crm/features/leases/data/repositories/leases_repository_impl.dart';
+import 'package:real_estate_crm/features/leases/domain/repositories/leases_repository.dart';
 import 'package:real_estate_crm/features/meetings/data/datasources/meetings_remote_datasource.dart';
 import 'package:real_estate_crm/features/meetings/data/repositories/meetings_repository_impl.dart';
 import 'package:real_estate_crm/features/meetings/domain/repositories/meetings_repository.dart';
@@ -121,6 +124,9 @@ class Injector {
 
   static DepositsRepository depositsRepository =
       DepositsRepositoryImpl(DepositsRemoteDataSource(_apiClient));
+
+  static LeasesRepository leasesRepository =
+      LeasesRepositoryImpl(LeasesRemoteDataSource(_apiClient));
 
   static MessageTemplatesRepository messageTemplatesRepository =
       MessageTemplatesRepositoryImpl(

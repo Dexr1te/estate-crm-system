@@ -5380,4 +5380,161 @@ class AppLocalizationsEn extends AppLocalizations {
   String templatesUnknownPlaceholder(String names) {
     return 'Unknown placeholder: $names. Use the ones below.';
   }
+
+  @override
+  String get dealsKind => 'Sale or rent';
+
+  @override
+  String get dealsKindSale => 'Sale';
+
+  @override
+  String get dealsKindRent => 'Rent';
+
+  @override
+  String get leasesTitle => 'Lease';
+
+  @override
+  String get leasesMonthlyRent => 'Rent per month';
+
+  @override
+  String leasesPerMonth(String amount) {
+    return '$amount a month';
+  }
+
+  @override
+  String get leasesStart => 'Lease starts';
+
+  @override
+  String get leasesEnd => 'Lease ends';
+
+  @override
+  String get leasesPickDate => 'Pick a day';
+
+  @override
+  String get leasesReminderDays => 'Remind me, days before the end';
+
+  @override
+  String leasesReminderValue(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days before the end',
+      one: '1 day before the end',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get leasesReminder => 'Reminder';
+
+  @override
+  String get leasesLandlord => 'Landlord';
+
+  @override
+  String get leasesTenant => 'Tenant';
+
+  @override
+  String leasesTenantValue(String name) {
+    return 'Tenant: $name';
+  }
+
+  @override
+  String leasesLandlordValue(String name) {
+    return 'Landlord: $name';
+  }
+
+  @override
+  String get leasesRentRequired => 'Enter the rent per month';
+
+  @override
+  String get leasesDatesRequired =>
+      'Pick the first and the last day of the lease';
+
+  @override
+  String get leasesEndBeforeStart => 'The lease has to end after it starts';
+
+  @override
+  String get leasesReminderInvalid => 'From 1 to 365 days';
+
+  @override
+  String get leasesEndsToday => 'Lease ends today';
+
+  @override
+  String get leasesEndsTomorrow => 'Lease ends tomorrow';
+
+  @override
+  String leasesEndsIn(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Lease ends in $count days',
+      one: 'Lease ends in 1 day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get leasesEndedYesterday => 'Lease ended yesterday';
+
+  @override
+  String leasesEndedAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Lease ended $count days ago',
+      one: 'Lease ended 1 day ago',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get leasesRenew => 'Renew lease';
+
+  @override
+  String get leasesRenewTitle => 'Renew the lease';
+
+  @override
+  String get leasesRenewNewEnd => 'New last day';
+
+  @override
+  String get leasesRenewHint =>
+      'The deal stays the same; its lease runs on to the new day, and the discussion notes the change.';
+
+  @override
+  String get leasesRenewEndNotLater => 'Pick a day after the current end';
+
+  @override
+  String get leasesRenewed => 'Lease renewed';
+
+  @override
+  String get leasesRenewFailed => 'Couldn\'t renew the lease';
+
+  @override
+  String get leasesRenewWhenWon =>
+      'A lease can be renewed once the deal is won.';
+
+  @override
+  String get leasesEndingTitle => 'Leases ending';
+
+  @override
+  String get leasesEndingLoadFailed => 'Couldn\'t load the leases';
+
+  @override
+  String get leasesEndingEmpty => 'No leases end in the next 30 days';
+
+  @override
+  String get leasesEndingEmptyHint =>
+      'Won rent deals show here a month before their lease runs out.';
+
+  @override
+  String notificationsLeaseEnding(String dealTitle, int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'The lease on $dealTitle ends in $days days',
+      one: 'The lease on $dealTitle ends tomorrow',
+      zero: 'The lease on $dealTitle ends today',
+    );
+    return '$_temp0';
+  }
 }

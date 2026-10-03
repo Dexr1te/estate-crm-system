@@ -7219,6 +7219,21 @@ mixin _$DealResponse {
   Map<String, int> get openRequiredByStage =>
       throw _privateConstructorUsedError;
 
+  /// A rent has [monthlyRent] and a lease instead of a [dealPrice]; its
+  /// commission is a percentage of one month's rent.
+  @JsonKey(unknownEnumValue: DealKind.sale)
+  DealKind get kind => throw _privateConstructorUsedError;
+  double? get monthlyRent => throw _privateConstructorUsedError;
+  DateTime? get leaseStart => throw _privateConstructorUsedError;
+  DateTime? get leaseEnd => throw _privateConstructorUsedError;
+
+  /// As saved; null means the default, which [leaseReminderDaysEffective]
+  /// fills in.
+  int? get leaseReminderDays => throw _privateConstructorUsedError;
+  int? get leaseReminderDaysEffective => throw _privateConstructorUsedError;
+  int? get landlordId => throw _privateConstructorUsedError;
+  String? get landlordName => throw _privateConstructorUsedError;
+
   /// Serializes this DealResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
@@ -7261,7 +7276,15 @@ abstract class $DealResponseCopyWith<$Res> {
       int checklistDone,
       int checklistTotal,
       int openRequired,
-      Map<String, int> openRequiredByStage});
+      Map<String, int> openRequiredByStage,
+      @JsonKey(unknownEnumValue: DealKind.sale) DealKind kind,
+      double? monthlyRent,
+      DateTime? leaseStart,
+      DateTime? leaseEnd,
+      int? leaseReminderDays,
+      int? leaseReminderDaysEffective,
+      int? landlordId,
+      String? landlordName});
 }
 
 /// @nodoc
@@ -7304,6 +7327,14 @@ class _$DealResponseCopyWithImpl<$Res, $Val extends DealResponse>
     Object? checklistTotal = null,
     Object? openRequired = null,
     Object? openRequiredByStage = null,
+    Object? kind = null,
+    Object? monthlyRent = freezed,
+    Object? leaseStart = freezed,
+    Object? leaseEnd = freezed,
+    Object? leaseReminderDays = freezed,
+    Object? leaseReminderDaysEffective = freezed,
+    Object? landlordId = freezed,
+    Object? landlordName = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -7406,6 +7437,38 @@ class _$DealResponseCopyWithImpl<$Res, $Val extends DealResponse>
           ? _value.openRequiredByStage
           : openRequiredByStage // ignore: cast_nullable_to_non_nullable
               as Map<String, int>,
+      kind: null == kind
+          ? _value.kind
+          : kind // ignore: cast_nullable_to_non_nullable
+              as DealKind,
+      monthlyRent: freezed == monthlyRent
+          ? _value.monthlyRent
+          : monthlyRent // ignore: cast_nullable_to_non_nullable
+              as double?,
+      leaseStart: freezed == leaseStart
+          ? _value.leaseStart
+          : leaseStart // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      leaseEnd: freezed == leaseEnd
+          ? _value.leaseEnd
+          : leaseEnd // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      leaseReminderDays: freezed == leaseReminderDays
+          ? _value.leaseReminderDays
+          : leaseReminderDays // ignore: cast_nullable_to_non_nullable
+              as int?,
+      leaseReminderDaysEffective: freezed == leaseReminderDaysEffective
+          ? _value.leaseReminderDaysEffective
+          : leaseReminderDaysEffective // ignore: cast_nullable_to_non_nullable
+              as int?,
+      landlordId: freezed == landlordId
+          ? _value.landlordId
+          : landlordId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      landlordName: freezed == landlordName
+          ? _value.landlordName
+          : landlordName // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -7444,7 +7507,15 @@ abstract class _$$DealResponseImplCopyWith<$Res>
       int checklistDone,
       int checklistTotal,
       int openRequired,
-      Map<String, int> openRequiredByStage});
+      Map<String, int> openRequiredByStage,
+      @JsonKey(unknownEnumValue: DealKind.sale) DealKind kind,
+      double? monthlyRent,
+      DateTime? leaseStart,
+      DateTime? leaseEnd,
+      int? leaseReminderDays,
+      int? leaseReminderDaysEffective,
+      int? landlordId,
+      String? landlordName});
 }
 
 /// @nodoc
@@ -7485,6 +7556,14 @@ class __$$DealResponseImplCopyWithImpl<$Res>
     Object? checklistTotal = null,
     Object? openRequired = null,
     Object? openRequiredByStage = null,
+    Object? kind = null,
+    Object? monthlyRent = freezed,
+    Object? leaseStart = freezed,
+    Object? leaseEnd = freezed,
+    Object? leaseReminderDays = freezed,
+    Object? leaseReminderDaysEffective = freezed,
+    Object? landlordId = freezed,
+    Object? landlordName = freezed,
   }) {
     return _then(_$DealResponseImpl(
       id: null == id
@@ -7587,6 +7666,38 @@ class __$$DealResponseImplCopyWithImpl<$Res>
           ? _value._openRequiredByStage
           : openRequiredByStage // ignore: cast_nullable_to_non_nullable
               as Map<String, int>,
+      kind: null == kind
+          ? _value.kind
+          : kind // ignore: cast_nullable_to_non_nullable
+              as DealKind,
+      monthlyRent: freezed == monthlyRent
+          ? _value.monthlyRent
+          : monthlyRent // ignore: cast_nullable_to_non_nullable
+              as double?,
+      leaseStart: freezed == leaseStart
+          ? _value.leaseStart
+          : leaseStart // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      leaseEnd: freezed == leaseEnd
+          ? _value.leaseEnd
+          : leaseEnd // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      leaseReminderDays: freezed == leaseReminderDays
+          ? _value.leaseReminderDays
+          : leaseReminderDays // ignore: cast_nullable_to_non_nullable
+              as int?,
+      leaseReminderDaysEffective: freezed == leaseReminderDaysEffective
+          ? _value.leaseReminderDaysEffective
+          : leaseReminderDaysEffective // ignore: cast_nullable_to_non_nullable
+              as int?,
+      landlordId: freezed == landlordId
+          ? _value.landlordId
+          : landlordId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      landlordName: freezed == landlordName
+          ? _value.landlordName
+          : landlordName // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -7620,7 +7731,15 @@ class _$DealResponseImpl implements _DealResponse {
       this.checklistDone = 0,
       this.checklistTotal = 0,
       this.openRequired = 0,
-      final Map<String, int> openRequiredByStage = const <String, int>{}})
+      final Map<String, int> openRequiredByStage = const <String, int>{},
+      @JsonKey(unknownEnumValue: DealKind.sale) this.kind = DealKind.sale,
+      this.monthlyRent,
+      this.leaseStart,
+      this.leaseEnd,
+      this.leaseReminderDays,
+      this.leaseReminderDaysEffective,
+      this.landlordId,
+      this.landlordName})
       : _openRequiredByStage = openRequiredByStage;
 
   factory _$DealResponseImpl.fromJson(Map<String, dynamic> json) =>
@@ -7693,9 +7812,32 @@ class _$DealResponseImpl implements _DealResponse {
     return EqualUnmodifiableMapView(_openRequiredByStage);
   }
 
+  /// A rent has [monthlyRent] and a lease instead of a [dealPrice]; its
+  /// commission is a percentage of one month's rent.
+  @override
+  @JsonKey(unknownEnumValue: DealKind.sale)
+  final DealKind kind;
+  @override
+  final double? monthlyRent;
+  @override
+  final DateTime? leaseStart;
+  @override
+  final DateTime? leaseEnd;
+
+  /// As saved; null means the default, which [leaseReminderDaysEffective]
+  /// fills in.
+  @override
+  final int? leaseReminderDays;
+  @override
+  final int? leaseReminderDaysEffective;
+  @override
+  final int? landlordId;
+  @override
+  final String? landlordName;
+
   @override
   String toString() {
-    return 'DealResponse(id: $id, title: $title, status: $status, dealPrice: $dealPrice, budget: $budget, commissionPercent: $commissionPercent, commission: $commission, notes: $notes, lostReason: $lostReason, lostNote: $lostNote, clientId: $clientId, clientName: $clientName, propertyId: $propertyId, propertyTitle: $propertyTitle, propertyAddress: $propertyAddress, agentId: $agentId, agentName: $agentName, createdAt: $createdAt, updatedAt: $updatedAt, closedAt: $closedAt, commentCount: $commentCount, checklistDone: $checklistDone, checklistTotal: $checklistTotal, openRequired: $openRequired, openRequiredByStage: $openRequiredByStage)';
+    return 'DealResponse(id: $id, title: $title, status: $status, dealPrice: $dealPrice, budget: $budget, commissionPercent: $commissionPercent, commission: $commission, notes: $notes, lostReason: $lostReason, lostNote: $lostNote, clientId: $clientId, clientName: $clientName, propertyId: $propertyId, propertyTitle: $propertyTitle, propertyAddress: $propertyAddress, agentId: $agentId, agentName: $agentName, createdAt: $createdAt, updatedAt: $updatedAt, closedAt: $closedAt, commentCount: $commentCount, checklistDone: $checklistDone, checklistTotal: $checklistTotal, openRequired: $openRequired, openRequiredByStage: $openRequiredByStage, kind: $kind, monthlyRent: $monthlyRent, leaseStart: $leaseStart, leaseEnd: $leaseEnd, leaseReminderDays: $leaseReminderDays, leaseReminderDaysEffective: $leaseReminderDaysEffective, landlordId: $landlordId, landlordName: $landlordName)';
   }
 
   @override
@@ -7746,7 +7888,24 @@ class _$DealResponseImpl implements _DealResponse {
             (identical(other.openRequired, openRequired) ||
                 other.openRequired == openRequired) &&
             const DeepCollectionEquality()
-                .equals(other._openRequiredByStage, _openRequiredByStage));
+                .equals(other._openRequiredByStage, _openRequiredByStage) &&
+            (identical(other.kind, kind) || other.kind == kind) &&
+            (identical(other.monthlyRent, monthlyRent) ||
+                other.monthlyRent == monthlyRent) &&
+            (identical(other.leaseStart, leaseStart) ||
+                other.leaseStart == leaseStart) &&
+            (identical(other.leaseEnd, leaseEnd) ||
+                other.leaseEnd == leaseEnd) &&
+            (identical(other.leaseReminderDays, leaseReminderDays) ||
+                other.leaseReminderDays == leaseReminderDays) &&
+            (identical(other.leaseReminderDaysEffective,
+                    leaseReminderDaysEffective) ||
+                other.leaseReminderDaysEffective ==
+                    leaseReminderDaysEffective) &&
+            (identical(other.landlordId, landlordId) ||
+                other.landlordId == landlordId) &&
+            (identical(other.landlordName, landlordName) ||
+                other.landlordName == landlordName));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -7777,7 +7936,15 @@ class _$DealResponseImpl implements _DealResponse {
         checklistDone,
         checklistTotal,
         openRequired,
-        const DeepCollectionEquality().hash(_openRequiredByStage)
+        const DeepCollectionEquality().hash(_openRequiredByStage),
+        kind,
+        monthlyRent,
+        leaseStart,
+        leaseEnd,
+        leaseReminderDays,
+        leaseReminderDaysEffective,
+        landlordId,
+        landlordName
       ]);
 
   /// Create a copy of DealResponse
@@ -7823,7 +7990,15 @@ abstract class _DealResponse implements DealResponse {
       final int checklistDone,
       final int checklistTotal,
       final int openRequired,
-      final Map<String, int> openRequiredByStage}) = _$DealResponseImpl;
+      final Map<String, int> openRequiredByStage,
+      @JsonKey(unknownEnumValue: DealKind.sale) final DealKind kind,
+      final double? monthlyRent,
+      final DateTime? leaseStart,
+      final DateTime? leaseEnd,
+      final int? leaseReminderDays,
+      final int? leaseReminderDaysEffective,
+      final int? landlordId,
+      final String? landlordName}) = _$DealResponseImpl;
 
   factory _DealResponse.fromJson(Map<String, dynamic> json) =
       _$DealResponseImpl.fromJson;
@@ -7879,6 +8054,29 @@ abstract class _DealResponse implements DealResponse {
   int get openRequired;
   @override
   Map<String, int> get openRequiredByStage;
+
+  /// A rent has [monthlyRent] and a lease instead of a [dealPrice]; its
+  /// commission is a percentage of one month's rent.
+  @override
+  @JsonKey(unknownEnumValue: DealKind.sale)
+  DealKind get kind;
+  @override
+  double? get monthlyRent;
+  @override
+  DateTime? get leaseStart;
+  @override
+  DateTime? get leaseEnd;
+
+  /// As saved; null means the default, which [leaseReminderDaysEffective]
+  /// fills in.
+  @override
+  int? get leaseReminderDays;
+  @override
+  int? get leaseReminderDaysEffective;
+  @override
+  int? get landlordId;
+  @override
+  String? get landlordName;
 
   /// Create a copy of DealResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -15590,6 +15788,539 @@ abstract class _DealDeposit implements DealDeposit {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DealDepositImplCopyWith<_$DealDepositImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+LeaseEnding _$LeaseEndingFromJson(Map<String, dynamic> json) {
+  return _LeaseEnding.fromJson(json);
+}
+
+/// @nodoc
+mixin _$LeaseEnding {
+  int get dealId => throw _privateConstructorUsedError;
+  String get dealTitle => throw _privateConstructorUsedError;
+  double get monthlyRent => throw _privateConstructorUsedError;
+  DateTime? get leaseStart => throw _privateConstructorUsedError;
+  DateTime get leaseEnd => throw _privateConstructorUsedError;
+  int get daysLeft => throw _privateConstructorUsedError;
+  int get reminderDays => throw _privateConstructorUsedError;
+  int get tenantId => throw _privateConstructorUsedError;
+  String get tenantName => throw _privateConstructorUsedError;
+  String? get tenantPhone => throw _privateConstructorUsedError;
+  int? get landlordId => throw _privateConstructorUsedError;
+  String? get landlordName => throw _privateConstructorUsedError;
+  String? get landlordPhone => throw _privateConstructorUsedError;
+  int? get propertyId => throw _privateConstructorUsedError;
+  String? get propertyTitle => throw _privateConstructorUsedError;
+  String? get propertyAddress => throw _privateConstructorUsedError;
+  int? get agentId => throw _privateConstructorUsedError;
+  String? get agentName => throw _privateConstructorUsedError;
+
+  /// Serializes this LeaseEnding to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of LeaseEnding
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $LeaseEndingCopyWith<LeaseEnding> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $LeaseEndingCopyWith<$Res> {
+  factory $LeaseEndingCopyWith(
+          LeaseEnding value, $Res Function(LeaseEnding) then) =
+      _$LeaseEndingCopyWithImpl<$Res, LeaseEnding>;
+  @useResult
+  $Res call(
+      {int dealId,
+      String dealTitle,
+      double monthlyRent,
+      DateTime? leaseStart,
+      DateTime leaseEnd,
+      int daysLeft,
+      int reminderDays,
+      int tenantId,
+      String tenantName,
+      String? tenantPhone,
+      int? landlordId,
+      String? landlordName,
+      String? landlordPhone,
+      int? propertyId,
+      String? propertyTitle,
+      String? propertyAddress,
+      int? agentId,
+      String? agentName});
+}
+
+/// @nodoc
+class _$LeaseEndingCopyWithImpl<$Res, $Val extends LeaseEnding>
+    implements $LeaseEndingCopyWith<$Res> {
+  _$LeaseEndingCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of LeaseEnding
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? dealId = null,
+    Object? dealTitle = null,
+    Object? monthlyRent = null,
+    Object? leaseStart = freezed,
+    Object? leaseEnd = null,
+    Object? daysLeft = null,
+    Object? reminderDays = null,
+    Object? tenantId = null,
+    Object? tenantName = null,
+    Object? tenantPhone = freezed,
+    Object? landlordId = freezed,
+    Object? landlordName = freezed,
+    Object? landlordPhone = freezed,
+    Object? propertyId = freezed,
+    Object? propertyTitle = freezed,
+    Object? propertyAddress = freezed,
+    Object? agentId = freezed,
+    Object? agentName = freezed,
+  }) {
+    return _then(_value.copyWith(
+      dealId: null == dealId
+          ? _value.dealId
+          : dealId // ignore: cast_nullable_to_non_nullable
+              as int,
+      dealTitle: null == dealTitle
+          ? _value.dealTitle
+          : dealTitle // ignore: cast_nullable_to_non_nullable
+              as String,
+      monthlyRent: null == monthlyRent
+          ? _value.monthlyRent
+          : monthlyRent // ignore: cast_nullable_to_non_nullable
+              as double,
+      leaseStart: freezed == leaseStart
+          ? _value.leaseStart
+          : leaseStart // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      leaseEnd: null == leaseEnd
+          ? _value.leaseEnd
+          : leaseEnd // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      daysLeft: null == daysLeft
+          ? _value.daysLeft
+          : daysLeft // ignore: cast_nullable_to_non_nullable
+              as int,
+      reminderDays: null == reminderDays
+          ? _value.reminderDays
+          : reminderDays // ignore: cast_nullable_to_non_nullable
+              as int,
+      tenantId: null == tenantId
+          ? _value.tenantId
+          : tenantId // ignore: cast_nullable_to_non_nullable
+              as int,
+      tenantName: null == tenantName
+          ? _value.tenantName
+          : tenantName // ignore: cast_nullable_to_non_nullable
+              as String,
+      tenantPhone: freezed == tenantPhone
+          ? _value.tenantPhone
+          : tenantPhone // ignore: cast_nullable_to_non_nullable
+              as String?,
+      landlordId: freezed == landlordId
+          ? _value.landlordId
+          : landlordId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      landlordName: freezed == landlordName
+          ? _value.landlordName
+          : landlordName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      landlordPhone: freezed == landlordPhone
+          ? _value.landlordPhone
+          : landlordPhone // ignore: cast_nullable_to_non_nullable
+              as String?,
+      propertyId: freezed == propertyId
+          ? _value.propertyId
+          : propertyId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      propertyTitle: freezed == propertyTitle
+          ? _value.propertyTitle
+          : propertyTitle // ignore: cast_nullable_to_non_nullable
+              as String?,
+      propertyAddress: freezed == propertyAddress
+          ? _value.propertyAddress
+          : propertyAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      agentId: freezed == agentId
+          ? _value.agentId
+          : agentId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      agentName: freezed == agentName
+          ? _value.agentName
+          : agentName // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$LeaseEndingImplCopyWith<$Res>
+    implements $LeaseEndingCopyWith<$Res> {
+  factory _$$LeaseEndingImplCopyWith(
+          _$LeaseEndingImpl value, $Res Function(_$LeaseEndingImpl) then) =
+      __$$LeaseEndingImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int dealId,
+      String dealTitle,
+      double monthlyRent,
+      DateTime? leaseStart,
+      DateTime leaseEnd,
+      int daysLeft,
+      int reminderDays,
+      int tenantId,
+      String tenantName,
+      String? tenantPhone,
+      int? landlordId,
+      String? landlordName,
+      String? landlordPhone,
+      int? propertyId,
+      String? propertyTitle,
+      String? propertyAddress,
+      int? agentId,
+      String? agentName});
+}
+
+/// @nodoc
+class __$$LeaseEndingImplCopyWithImpl<$Res>
+    extends _$LeaseEndingCopyWithImpl<$Res, _$LeaseEndingImpl>
+    implements _$$LeaseEndingImplCopyWith<$Res> {
+  __$$LeaseEndingImplCopyWithImpl(
+      _$LeaseEndingImpl _value, $Res Function(_$LeaseEndingImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of LeaseEnding
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? dealId = null,
+    Object? dealTitle = null,
+    Object? monthlyRent = null,
+    Object? leaseStart = freezed,
+    Object? leaseEnd = null,
+    Object? daysLeft = null,
+    Object? reminderDays = null,
+    Object? tenantId = null,
+    Object? tenantName = null,
+    Object? tenantPhone = freezed,
+    Object? landlordId = freezed,
+    Object? landlordName = freezed,
+    Object? landlordPhone = freezed,
+    Object? propertyId = freezed,
+    Object? propertyTitle = freezed,
+    Object? propertyAddress = freezed,
+    Object? agentId = freezed,
+    Object? agentName = freezed,
+  }) {
+    return _then(_$LeaseEndingImpl(
+      dealId: null == dealId
+          ? _value.dealId
+          : dealId // ignore: cast_nullable_to_non_nullable
+              as int,
+      dealTitle: null == dealTitle
+          ? _value.dealTitle
+          : dealTitle // ignore: cast_nullable_to_non_nullable
+              as String,
+      monthlyRent: null == monthlyRent
+          ? _value.monthlyRent
+          : monthlyRent // ignore: cast_nullable_to_non_nullable
+              as double,
+      leaseStart: freezed == leaseStart
+          ? _value.leaseStart
+          : leaseStart // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      leaseEnd: null == leaseEnd
+          ? _value.leaseEnd
+          : leaseEnd // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      daysLeft: null == daysLeft
+          ? _value.daysLeft
+          : daysLeft // ignore: cast_nullable_to_non_nullable
+              as int,
+      reminderDays: null == reminderDays
+          ? _value.reminderDays
+          : reminderDays // ignore: cast_nullable_to_non_nullable
+              as int,
+      tenantId: null == tenantId
+          ? _value.tenantId
+          : tenantId // ignore: cast_nullable_to_non_nullable
+              as int,
+      tenantName: null == tenantName
+          ? _value.tenantName
+          : tenantName // ignore: cast_nullable_to_non_nullable
+              as String,
+      tenantPhone: freezed == tenantPhone
+          ? _value.tenantPhone
+          : tenantPhone // ignore: cast_nullable_to_non_nullable
+              as String?,
+      landlordId: freezed == landlordId
+          ? _value.landlordId
+          : landlordId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      landlordName: freezed == landlordName
+          ? _value.landlordName
+          : landlordName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      landlordPhone: freezed == landlordPhone
+          ? _value.landlordPhone
+          : landlordPhone // ignore: cast_nullable_to_non_nullable
+              as String?,
+      propertyId: freezed == propertyId
+          ? _value.propertyId
+          : propertyId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      propertyTitle: freezed == propertyTitle
+          ? _value.propertyTitle
+          : propertyTitle // ignore: cast_nullable_to_non_nullable
+              as String?,
+      propertyAddress: freezed == propertyAddress
+          ? _value.propertyAddress
+          : propertyAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      agentId: freezed == agentId
+          ? _value.agentId
+          : agentId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      agentName: freezed == agentName
+          ? _value.agentName
+          : agentName // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$LeaseEndingImpl implements _LeaseEnding {
+  const _$LeaseEndingImpl(
+      {required this.dealId,
+      this.dealTitle = '',
+      this.monthlyRent = 0.0,
+      this.leaseStart,
+      required this.leaseEnd,
+      this.daysLeft = 0,
+      this.reminderDays = 30,
+      required this.tenantId,
+      this.tenantName = '',
+      this.tenantPhone,
+      this.landlordId,
+      this.landlordName,
+      this.landlordPhone,
+      this.propertyId,
+      this.propertyTitle,
+      this.propertyAddress,
+      this.agentId,
+      this.agentName});
+
+  factory _$LeaseEndingImpl.fromJson(Map<String, dynamic> json) =>
+      _$$LeaseEndingImplFromJson(json);
+
+  @override
+  final int dealId;
+  @override
+  @JsonKey()
+  final String dealTitle;
+  @override
+  @JsonKey()
+  final double monthlyRent;
+  @override
+  final DateTime? leaseStart;
+  @override
+  final DateTime leaseEnd;
+  @override
+  @JsonKey()
+  final int daysLeft;
+  @override
+  @JsonKey()
+  final int reminderDays;
+  @override
+  final int tenantId;
+  @override
+  @JsonKey()
+  final String tenantName;
+  @override
+  final String? tenantPhone;
+  @override
+  final int? landlordId;
+  @override
+  final String? landlordName;
+  @override
+  final String? landlordPhone;
+  @override
+  final int? propertyId;
+  @override
+  final String? propertyTitle;
+  @override
+  final String? propertyAddress;
+  @override
+  final int? agentId;
+  @override
+  final String? agentName;
+
+  @override
+  String toString() {
+    return 'LeaseEnding(dealId: $dealId, dealTitle: $dealTitle, monthlyRent: $monthlyRent, leaseStart: $leaseStart, leaseEnd: $leaseEnd, daysLeft: $daysLeft, reminderDays: $reminderDays, tenantId: $tenantId, tenantName: $tenantName, tenantPhone: $tenantPhone, landlordId: $landlordId, landlordName: $landlordName, landlordPhone: $landlordPhone, propertyId: $propertyId, propertyTitle: $propertyTitle, propertyAddress: $propertyAddress, agentId: $agentId, agentName: $agentName)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$LeaseEndingImpl &&
+            (identical(other.dealId, dealId) || other.dealId == dealId) &&
+            (identical(other.dealTitle, dealTitle) ||
+                other.dealTitle == dealTitle) &&
+            (identical(other.monthlyRent, monthlyRent) ||
+                other.monthlyRent == monthlyRent) &&
+            (identical(other.leaseStart, leaseStart) ||
+                other.leaseStart == leaseStart) &&
+            (identical(other.leaseEnd, leaseEnd) ||
+                other.leaseEnd == leaseEnd) &&
+            (identical(other.daysLeft, daysLeft) ||
+                other.daysLeft == daysLeft) &&
+            (identical(other.reminderDays, reminderDays) ||
+                other.reminderDays == reminderDays) &&
+            (identical(other.tenantId, tenantId) ||
+                other.tenantId == tenantId) &&
+            (identical(other.tenantName, tenantName) ||
+                other.tenantName == tenantName) &&
+            (identical(other.tenantPhone, tenantPhone) ||
+                other.tenantPhone == tenantPhone) &&
+            (identical(other.landlordId, landlordId) ||
+                other.landlordId == landlordId) &&
+            (identical(other.landlordName, landlordName) ||
+                other.landlordName == landlordName) &&
+            (identical(other.landlordPhone, landlordPhone) ||
+                other.landlordPhone == landlordPhone) &&
+            (identical(other.propertyId, propertyId) ||
+                other.propertyId == propertyId) &&
+            (identical(other.propertyTitle, propertyTitle) ||
+                other.propertyTitle == propertyTitle) &&
+            (identical(other.propertyAddress, propertyAddress) ||
+                other.propertyAddress == propertyAddress) &&
+            (identical(other.agentId, agentId) || other.agentId == agentId) &&
+            (identical(other.agentName, agentName) ||
+                other.agentName == agentName));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      dealId,
+      dealTitle,
+      monthlyRent,
+      leaseStart,
+      leaseEnd,
+      daysLeft,
+      reminderDays,
+      tenantId,
+      tenantName,
+      tenantPhone,
+      landlordId,
+      landlordName,
+      landlordPhone,
+      propertyId,
+      propertyTitle,
+      propertyAddress,
+      agentId,
+      agentName);
+
+  /// Create a copy of LeaseEnding
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$LeaseEndingImplCopyWith<_$LeaseEndingImpl> get copyWith =>
+      __$$LeaseEndingImplCopyWithImpl<_$LeaseEndingImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$LeaseEndingImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _LeaseEnding implements LeaseEnding {
+  const factory _LeaseEnding(
+      {required final int dealId,
+      final String dealTitle,
+      final double monthlyRent,
+      final DateTime? leaseStart,
+      required final DateTime leaseEnd,
+      final int daysLeft,
+      final int reminderDays,
+      required final int tenantId,
+      final String tenantName,
+      final String? tenantPhone,
+      final int? landlordId,
+      final String? landlordName,
+      final String? landlordPhone,
+      final int? propertyId,
+      final String? propertyTitle,
+      final String? propertyAddress,
+      final int? agentId,
+      final String? agentName}) = _$LeaseEndingImpl;
+
+  factory _LeaseEnding.fromJson(Map<String, dynamic> json) =
+      _$LeaseEndingImpl.fromJson;
+
+  @override
+  int get dealId;
+  @override
+  String get dealTitle;
+  @override
+  double get monthlyRent;
+  @override
+  DateTime? get leaseStart;
+  @override
+  DateTime get leaseEnd;
+  @override
+  int get daysLeft;
+  @override
+  int get reminderDays;
+  @override
+  int get tenantId;
+  @override
+  String get tenantName;
+  @override
+  String? get tenantPhone;
+  @override
+  int? get landlordId;
+  @override
+  String? get landlordName;
+  @override
+  String? get landlordPhone;
+  @override
+  int? get propertyId;
+  @override
+  String? get propertyTitle;
+  @override
+  String? get propertyAddress;
+  @override
+  int? get agentId;
+  @override
+  String? get agentName;
+
+  /// Create a copy of LeaseEnding
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$LeaseEndingImplCopyWith<_$LeaseEndingImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

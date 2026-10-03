@@ -5478,4 +5478,169 @@ class AppLocalizationsRu extends AppLocalizations {
   String templatesUnknownPlaceholder(String names) {
     return 'Неизвестная подстановка: $names. Используйте те, что ниже.';
   }
+
+  @override
+  String get dealsKind => 'Продажа или аренда';
+
+  @override
+  String get dealsKindSale => 'Продажа';
+
+  @override
+  String get dealsKindRent => 'Аренда';
+
+  @override
+  String get leasesTitle => 'Аренда';
+
+  @override
+  String get leasesMonthlyRent => 'Аренда в месяц';
+
+  @override
+  String leasesPerMonth(String amount) {
+    return '$amount в месяц';
+  }
+
+  @override
+  String get leasesStart => 'Начало аренды';
+
+  @override
+  String get leasesEnd => 'Конец аренды';
+
+  @override
+  String get leasesPickDate => 'Выберите дату';
+
+  @override
+  String get leasesReminderDays => 'Напомнить за столько дней до конца';
+
+  @override
+  String leasesReminderValue(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'За $count дня до конца',
+      many: 'За $count дней до конца',
+      few: 'За $count дня до конца',
+      one: 'За $count день до конца',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get leasesReminder => 'Напоминание';
+
+  @override
+  String get leasesLandlord => 'Арендодатель';
+
+  @override
+  String get leasesTenant => 'Арендатор';
+
+  @override
+  String leasesTenantValue(String name) {
+    return 'Арендатор: $name';
+  }
+
+  @override
+  String leasesLandlordValue(String name) {
+    return 'Арендодатель: $name';
+  }
+
+  @override
+  String get leasesRentRequired => 'Укажите аренду в месяц';
+
+  @override
+  String get leasesDatesRequired => 'Выберите первый и последний день аренды';
+
+  @override
+  String get leasesEndBeforeStart => 'Аренда должна заканчиваться после начала';
+
+  @override
+  String get leasesReminderInvalid => 'От 1 до 365 дней';
+
+  @override
+  String get leasesEndsToday => 'Аренда заканчивается сегодня';
+
+  @override
+  String get leasesEndsTomorrow => 'Аренда заканчивается завтра';
+
+  @override
+  String leasesEndsIn(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Аренда заканчивается через $count дня',
+      many: 'Аренда заканчивается через $count дней',
+      few: 'Аренда заканчивается через $count дня',
+      one: 'Аренда заканчивается через $count день',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get leasesEndedYesterday => 'Аренда закончилась вчера';
+
+  @override
+  String leasesEndedAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Аренда закончилась $count дня назад',
+      many: 'Аренда закончилась $count дней назад',
+      few: 'Аренда закончилась $count дня назад',
+      one: 'Аренда закончилась $count день назад',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get leasesRenew => 'Продлить аренду';
+
+  @override
+  String get leasesRenewTitle => 'Продление аренды';
+
+  @override
+  String get leasesRenewNewEnd => 'Новый последний день';
+
+  @override
+  String get leasesRenewHint =>
+      'Сделка остаётся той же: аренда продлевается до новой даты, а в обсуждении появится отметка.';
+
+  @override
+  String get leasesRenewEndNotLater => 'Выберите дату позже текущего конца';
+
+  @override
+  String get leasesRenewed => 'Аренда продлена';
+
+  @override
+  String get leasesRenewFailed => 'Не удалось продлить аренду';
+
+  @override
+  String get leasesRenewWhenWon =>
+      'Продлить аренду можно, когда сделка выиграна.';
+
+  @override
+  String get leasesEndingTitle => 'Аренда заканчивается';
+
+  @override
+  String get leasesEndingLoadFailed => 'Не удалось загрузить аренду';
+
+  @override
+  String get leasesEndingEmpty =>
+      'В ближайшие 30 дней аренда ни у кого не заканчивается';
+
+  @override
+  String get leasesEndingEmptyHint =>
+      'Выигранные сделки аренды появятся здесь за месяц до конца договора.';
+
+  @override
+  String notificationsLeaseEnding(String dealTitle, int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'Аренда по сделке «$dealTitle» заканчивается через $days дня',
+      many: 'Аренда по сделке «$dealTitle» заканчивается через $days дней',
+      few: 'Аренда по сделке «$dealTitle» заканчивается через $days дня',
+      one: 'Аренда по сделке «$dealTitle» заканчивается через $days день',
+      zero: 'Аренда по сделке «$dealTitle» заканчивается сегодня',
+    );
+    return '$_temp0';
+  }
 }

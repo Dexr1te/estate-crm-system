@@ -31,5 +31,7 @@ public enum NotificationType {
     /** It is one of your clients' birthday today. Target: the client. */
     CLIENT_BIRTHDAY,
     /** A deal of one of your clients was won on this day in an earlier year. Target: the client. */
-    PURCHASE_ANNIVERSARY
+    PURCHASE_ANNIVERSARY,
+    /** A lease one of your rent deals let is running out. Target: the deal. */
+    LEASE_ENDING
 }

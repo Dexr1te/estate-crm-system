@@ -54,6 +54,15 @@ enum ViewingOutcome { INTERESTED, REJECTED, NO_SHOW }
 // ignore: constant_identifier_names
 enum ActivityType { CALL, MESSAGE, EMAIL, NOTE }
 
+/// Whether a deal sells a place or lets it. Deals from before rents existed,
+/// and any value this app does not know, read as [sale].
+enum DealKind {
+  @JsonValue('SALE')
+  sale,
+  @JsonValue('RENT')
+  rent,
+}
+
 /// Where a client record came from. Unknown values read as [manual].
 enum ClientSource {
   @JsonValue('MANUAL')
@@ -142,6 +151,7 @@ class ClientResponse with _$ClientResponse {
     @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
     LeadSource? leadSource,
     String? leadSourceDetail,
+
     /// `1990-05-14`, or `--05-14` when the year is not known. Read it
     /// through `ClientBirthday.parse`.
     String? birthday,
@@ -566,6 +576,22 @@ class DealResponse with _$DealResponse {
     @Default(0) int checklistTotal,
     @Default(0) int openRequired,
     @Default(<String, int>{}) Map<String, int> openRequiredByStage,
+
+    /// A rent has [monthlyRent] and a lease instead of a [dealPrice]; its
+    /// commission is a percentage of one month's rent.
+    @JsonKey(unknownEnumValue: DealKind.sale)
+    @Default(DealKind.sale)
+    DealKind kind,
+    double? monthlyRent,
+    DateTime? leaseStart,
+    DateTime? leaseEnd,
+
+    /// As saved; null means the default, which [leaseReminderDaysEffective]
+    /// fills in.
+    int? leaseReminderDays,
+    int? leaseReminderDaysEffective,
+    int? landlordId,
+    String? landlordName,
   }) = _DealResponse;
 
   factory DealResponse.fromJson(Map<String, dynamic> json) =>
@@ -1071,6 +1097,8 @@ enum NotificationType {
   clientBirthday,
   @JsonValue('PURCHASE_ANNIVERSARY')
   purchaseAnniversary,
+  @JsonValue('LEASE_ENDING')
+  leaseEnding,
   unknown,
 }
 
@@ -1160,6 +1188,36 @@ class DealDeposit with _$DealDeposit {
 
   factory DealDeposit.fromJson(Map<String, dynamic> json) =>
       _$DealDepositFromJson(json);
+}
+
+/// A won rent whose lease runs out soon, and the two people to call about it:
+/// the tenant (the deal's client) and, when the deal names one, the landlord.
+/// [monthlyRent] is in the agency's currency.
+@freezed
+class LeaseEnding with _$LeaseEnding {
+  const factory LeaseEnding({
+    required int dealId,
+    @Default('') String dealTitle,
+    @Default(0.0) double monthlyRent,
+    DateTime? leaseStart,
+    required DateTime leaseEnd,
+    @Default(0) int daysLeft,
+    @Default(30) int reminderDays,
+    required int tenantId,
+    @Default('') String tenantName,
+    String? tenantPhone,
+    int? landlordId,
+    String? landlordName,
+    String? landlordPhone,
+    int? propertyId,
+    String? propertyTitle,
+    String? propertyAddress,
+    int? agentId,
+    String? agentName,
+  }) = _LeaseEnding;
+
+  factory LeaseEnding.fromJson(Map<String, dynamic> json) =>
+      _$LeaseEndingFromJson(json);
 }
 
 /// What a visitor said at the door of an open house. Not asking is allowed,

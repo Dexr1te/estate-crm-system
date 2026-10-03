@@ -116,6 +116,17 @@ NotificationCopy notificationCopy(AppLocalizations l10n, AppNotification n) {
               name('clientName'), n.count('years')),
           deal == null || deal.isEmpty ? null : deal,
           Icons.vpn_key_outlined);
+    case NotificationType.leaseEnding:
+      final tenant = n.text('tenantName')?.trim() ?? '';
+      final landlord = n.text('landlordName')?.trim() ?? '';
+      final people = [
+        if (tenant.isNotEmpty) l10n.leasesTenantValue(tenant),
+        if (landlord.isNotEmpty) l10n.leasesLandlordValue(landlord),
+      ].join(' · ');
+      return NotificationCopy(
+          l10n.notificationsLeaseEnding(plain('dealTitle'), n.count('days')),
+          people.isEmpty ? null : people,
+          Icons.key_outlined);
     case NotificationType.unknown:
       return NotificationCopy(
           l10n.notificationsUnknown, null, Icons.notifications_none_rounded);
@@ -167,6 +178,7 @@ NotificationTarget? notificationTarget(AppNotification n) {
     case NotificationType.priceDropMatch:
       return id == null ? null : NotificationTarget('/properties/$id');
     case NotificationType.dealStatusChanged:
+    case NotificationType.leaseEnding:
       return id == null ? null : NotificationTarget('/deals/$id');
     case NotificationType.listingLead:
     case NotificationType.clientBirthday:

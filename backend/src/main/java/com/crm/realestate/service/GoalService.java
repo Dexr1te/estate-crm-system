@@ -208,7 +208,7 @@ public class GoalService {
      */
     Map<Long, Tally> tallies(Long teamId, YearMonth month) {
         List<Object[]> rows = entityManager.createQuery(
-                        "SELECT a.id, COUNT(d), SUM(d.dealPrice * d.commissionPercent) FROM Deal d "
+                        "SELECT a.id, COUNT(d), SUM(" + DealMoney.JPQL_COMMISSION_BASE + " * d.commissionPercent) FROM Deal d "
                                 + "LEFT JOIN d.agent a "
                                 + "WHERE d.team.id = :teamId AND d.status = :won "
                                 + "AND d.closedAt >= :from AND d.closedAt < :to "

@@ -127,6 +127,8 @@ public class ClientDuplicateService {
         Client carried = snapshot(source);
         List<String> carriedTags = tagService.names(source);
         int deals = dealRepository.moveToClient(source, target);
+        dealRepository.moveLandlord(source, target);
+        dealRepository.forgetSelfLandlord(target);
         int meetings = meetingRepository.moveToClient(source, target);
         int activities = activityRepository.moveToClient(source, target);
         int tasks = taskRepository.moveToClient(source, target);

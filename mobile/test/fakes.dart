@@ -31,6 +31,8 @@ import 'package:real_estate_crm/features/deals/domain/repositories/deals_reposit
 import 'package:real_estate_crm/features/documents/domain/repositories/documents_repository.dart';
 import 'package:real_estate_crm/features/exports/domain/repositories/exports_repository.dart';
 import 'package:real_estate_crm/features/imports/domain/repositories/imports_repository.dart';
+import 'package:real_estate_crm/features/leases/domain/lease.dart';
+import 'package:real_estate_crm/features/leases/domain/repositories/leases_repository.dart';
 import 'package:real_estate_crm/features/meetings/domain/repositories/meetings_repository.dart';
 import 'package:real_estate_crm/features/message_templates/domain/repositories/message_templates_repository.dart';
 import 'package:real_estate_crm/features/notifications/domain/repositories/notifications_repository.dart';
@@ -1657,5 +1659,42 @@ class FakeMessageTemplatesRepository implements MessageTemplatesRepository {
     deleted.add(id);
     if (writeError != null) throw writeError!;
     templates = templates.where((t) => t.id != id).toList();
+  }
+}
+
+/// Leases running out, and renewals, in memory. [asked] remembers the window
+/// and day of every read, [renewed] every renewal asked for; [renewError],
+/// when set, is thrown after the renewal is remembered. A renewal answers with
+/// [deal] carrying the new last day and rent, and one more comment.
+class FakeLeasesRepository implements LeasesRepository {
+  List<LeaseEnding> ending;
+  bool failEnding;
+  Object? renewError;
+  DealResponse? deal;
+
+  final List<(int, DateTime?)> asked = [];
+  final List<(int, LeaseRenewal)> renewed = [];
+
+  FakeLeasesRepository(
+      {this.ending = const [], this.failEnding = false, this.deal});
+
+  @override
+  Future<List<LeaseEnding>> getLeasesEnding(
+      {required int days, DateTime? from}) async {
+    asked.add((days, from));
+    if (failEnding) throw Exception('offline');
+    return ending;
+  }
+
+  @override
+  Future<DealResponse> renew(int dealId, LeaseRenewal renewal) async {
+    renewed.add((dealId, renewal));
+    if (renewError != null) throw renewError!;
+    final before = deal!;
+    return deal = before.copyWith(
+      leaseEnd: renewal.leaseEnd,
+      monthlyRent: renewal.monthlyRent ?? before.monthlyRent,
+      commentCount: before.commentCount + 1,
+    );
   }
 }

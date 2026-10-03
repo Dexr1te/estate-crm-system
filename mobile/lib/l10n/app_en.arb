@@ -2601,5 +2601,95 @@
         "type": "String"
       }
     }
+  },
+  "dealsKind": "Sale or rent",
+  "dealsKindSale": "Sale",
+  "dealsKindRent": "Rent",
+  "leasesTitle": "Lease",
+  "leasesMonthlyRent": "Rent per month",
+  "leasesPerMonth": "{amount} a month",
+  "@leasesPerMonth": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "leasesStart": "Lease starts",
+  "leasesEnd": "Lease ends",
+  "leasesPickDate": "Pick a day",
+  "leasesReminderDays": "Remind me, days before the end",
+  "leasesReminderValue": "{count, plural, =1{1 day before the end} other{{count} days before the end}}",
+  "@leasesReminderValue": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "leasesReminder": "Reminder",
+  "leasesLandlord": "Landlord",
+  "leasesTenant": "Tenant",
+  "leasesTenantValue": "Tenant: {name}",
+  "@leasesTenantValue": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "leasesLandlordValue": "Landlord: {name}",
+  "@leasesLandlordValue": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "leasesRentRequired": "Enter the rent per month",
+  "leasesDatesRequired": "Pick the first and the last day of the lease",
+  "leasesEndBeforeStart": "The lease has to end after it starts",
+  "leasesReminderInvalid": "From 1 to 365 days",
+  "leasesEndsToday": "Lease ends today",
+  "leasesEndsTomorrow": "Lease ends tomorrow",
+  "leasesEndsIn": "{count, plural, =1{Lease ends in 1 day} other{Lease ends in {count} days}}",
+  "@leasesEndsIn": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "leasesEndedYesterday": "Lease ended yesterday",
+  "leasesEndedAgo": "{count, plural, =1{Lease ended 1 day ago} other{Lease ended {count} days ago}}",
+  "@leasesEndedAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "leasesRenew": "Renew lease",
+  "leasesRenewTitle": "Renew the lease",
+  "leasesRenewNewEnd": "New last day",
+  "leasesRenewHint": "The deal stays the same; its lease runs on to the new day, and the discussion notes the change.",
+  "leasesRenewEndNotLater": "Pick a day after the current end",
+  "leasesRenewed": "Lease renewed",
+  "leasesRenewFailed": "Couldn't renew the lease",
+  "leasesRenewWhenWon": "A lease can be renewed once the deal is won.",
+  "leasesEndingTitle": "Leases ending",
+  "leasesEndingLoadFailed": "Couldn't load the leases",
+  "leasesEndingEmpty": "No leases end in the next 30 days",
+  "leasesEndingEmptyHint": "Won rent deals show here a month before their lease runs out.",
+  "notificationsLeaseEnding": "{days, plural, =0{The lease on {dealTitle} ends today} =1{The lease on {dealTitle} ends tomorrow} other{The lease on {dealTitle} ends in {days} days}}",
+  "@notificationsLeaseEnding": {
+    "placeholders": {
+      "dealTitle": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
   }
 }

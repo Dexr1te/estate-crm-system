@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/utils/clock.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/checklist/domain/checklist_gate.dart';
 import 'package:real_estate_crm/features/checklist/presentation/widgets/checklist_sheets.dart';
@@ -10,6 +11,8 @@ import 'package:real_estate_crm/features/deals/presentation/bloc/deals_bloc.dart
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_event.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_state.dart';
 import 'package:real_estate_crm/features/deals/presentation/widgets/lost_reason_sheet.dart';
+import 'package:real_estate_crm/features/leases/domain/lease.dart';
+import 'package:real_estate_crm/features/leases/presentation/widgets/lease_labels.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class DealFormScreen extends StatefulWidget {
@@ -31,6 +34,14 @@ class _DealFormScreenState extends State<DealFormScreen> {
   final _budgetCtrl = TextEditingController();
   final _commissionCtrl = TextEditingController();
   final _notesCtrl = TextEditingController();
+  final _rentCtrl = TextEditingController();
+  final _reminderCtrl = TextEditingController();
+
+  DealKind _kind = DealKind.sale;
+  DateTime? _leaseStart;
+  DateTime? _leaseEnd;
+  PickerItem? _landlord;
+  String? _leaseError;
 
   DealStatus _status = DealStatus.LEAD;
   DealLostReason? _lostReason;
@@ -74,7 +85,9 @@ class _DealFormScreenState extends State<DealFormScreen> {
       _priceCtrl,
       _budgetCtrl,
       _commissionCtrl,
-      _notesCtrl
+      _notesCtrl,
+      _rentCtrl,
+      _reminderCtrl,
     ]) {
       c.dispose();
     }
@@ -102,6 +115,7 @@ class _DealFormScreenState extends State<DealFormScreen> {
         (v) {
           _clients = v;
           _client = _reconcile(v, _client);
+          _landlord = _reconcile(v, _landlord);
         },
       ),
       load<AgentOption>(
@@ -148,7 +162,20 @@ class _DealFormScreenState extends State<DealFormScreen> {
       _commissionCtrl.text =
           d.commissionPercent == null ? '' : formatRate(d.commissionPercent!);
       _notesCtrl.text = d.notes ?? '';
+      _rentCtrl.text = d.monthlyRent == null ? '' : formatRate(d.monthlyRent!);
+      _reminderCtrl.text = d.leaseReminderDays?.toString() ?? '';
       setState(() {
+        _kind = d.kind;
+        _leaseStart = d.leaseStart;
+        _leaseEnd = d.leaseEnd;
+        _landlord = d.landlordId == null
+            ? null
+            : _reconcile(
+                _clients,
+                PickerItem(
+                    id: d.landlordId!,
+                    title:
+                        d.landlordName ?? l10n.dealsClientRef(d.landlordId!)));
         _client = _reconcile(
             _clients,
             PickerItem(
@@ -236,25 +263,95 @@ class _DealFormScreenState extends State<DealFormScreen> {
     return null;
   }
 
+  String? _validateRent(String? _) {
+    if (_kind != DealKind.rent) return null;
+    final v = _double(_rentCtrl);
+    return v == null || v <= 0
+        ? AppLocalizations.of(context).leasesRentRequired
+        : null;
+  }
+
+  String? _validateReminder(String? _) {
+    if (_kind != DealKind.rent || _reminderCtrl.text.trim().isEmpty) {
+      return null;
+    }
+    final v = int.tryParse(_reminderCtrl.text.trim());
+    return v == null || v < 1 || v > kMaxLeaseReminderDays
+        ? AppLocalizations.of(context).leasesReminderInvalid
+        : null;
+  }
+
+  /// What is wrong with the lease's days, or null.
+  String? _leaseDatesError(AppLocalizations l10n) {
+    if (_kind != DealKind.rent) return null;
+    final start = _leaseStart;
+    final end = _leaseEnd;
+    if (start == null || end == null) return l10n.leasesDatesRequired;
+    if (!end.isAfter(start)) return l10n.leasesEndBeforeStart;
+    return null;
+  }
+
+  Future<void> _pickLeaseDay(bool start) async {
+    final now = AppClock.now();
+    final current = start ? _leaseStart : _leaseEnd;
+    final initial = current ??
+        (start
+            ? DateTime(now.year, now.month, now.day)
+            : (_leaseStart == null
+                ? DateTime(now.year + 1, now.month, now.day)
+                : DateTime(_leaseStart!.year + 1, _leaseStart!.month,
+                    _leaseStart!.day)));
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: initial,
+      firstDate: DateTime(now.year - 10),
+      lastDate: DateTime(now.year + 20),
+    );
+    if (picked == null || !mounted) return;
+    setState(() {
+      if (start) {
+        _leaseStart = picked;
+      } else {
+        _leaseEnd = picked;
+      }
+      if (_leaseError != null) {
+        _leaseError = _leaseDatesError(AppLocalizations.of(context));
+      }
+    });
+  }
+
   void _submit() {
     final l10n = AppLocalizations.of(context);
     final formOk = _formKey.currentState?.validate() ?? false;
     setState(() {
       _clientError = _client == null ? l10n.dealsSelectClientError : null;
       _agentError = _agent == null ? l10n.dealsSelectAgentError : null;
+      _leaseError = _leaseDatesError(l10n);
     });
-    if (!formOk || _client == null || _agent == null) return;
+    if (!formOk || _client == null || _agent == null || _leaseError != null) {
+      return;
+    }
 
     setState(() => _loading = true);
-    final price = _double(_priceCtrl);
+    final rent = _kind == DealKind.rent;
+    final price = rent ? null : _double(_priceCtrl);
     final budget = _double(_budgetCtrl);
     final commission = _double(_commissionCtrl);
+    final reminder = int.tryParse(_reminderCtrl.text.trim());
 
     final data = <String, dynamic>{
       'title': _titleCtrl.text.trim(),
       'clientId': _client!.id,
       'agentId': _agent!.id,
       'status': _status.name,
+      'kind': dealKindParam(_kind),
+      if (rent) ...{
+        'monthlyRent': _double(_rentCtrl),
+        'leaseStart': leaseDateParam(_leaseStart!),
+        'leaseEnd': leaseDateParam(_leaseEnd!),
+        if (reminder != null) 'leaseReminderDays': reminder,
+        if (_landlord != null) 'landlordId': _landlord!.id,
+      },
       if (_property != null) 'propertyId': _property!.id,
       if (price != null) 'dealPrice': price,
       if (budget != null) 'budget': budget,
@@ -271,6 +368,67 @@ class _DealFormScreenState extends State<DealFormScreen> {
     } else {
       context.read<DealsBloc>().add(DealsCreateEvent(data));
     }
+  }
+
+  /// The lease of a rent: its first and last day, when to be reminded, and
+  /// who lets the place.
+  Widget _leaseSection(AppLocalizations l10n, AppTokens t) {
+    final locale = Localizations.localeOf(context).toLanguageTag();
+    String? day(DateTime? d) => d == null ? null : formatFullDate(d, locale);
+
+    return FormSectionCard(
+      eyebrow: l10n.leasesTitle,
+      children: [
+        LabelledField(
+          label: l10n.leasesStart,
+          required: true,
+          child: PickerField(
+            key: const ValueKey('deal-form-lease-start'),
+            value: day(_leaseStart),
+            placeholder: l10n.leasesPickDate,
+            trailingIcon: Icons.calendar_today_outlined,
+            onTap: () => _pickLeaseDay(true),
+          ),
+        ),
+        LabelledField(
+          label: l10n.leasesEnd,
+          required: true,
+          child: PickerField(
+            key: const ValueKey('deal-form-lease-end'),
+            value: day(_leaseEnd),
+            placeholder: l10n.leasesPickDate,
+            trailingIcon: Icons.calendar_today_outlined,
+            onTap: () => _pickLeaseDay(false),
+          ),
+        ),
+        if (_leaseError != null)
+          Text(
+            _leaseError!,
+            key: const ValueKey('deal-form-lease-error'),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+                fontFamily: AppFonts.sans, fontSize: 11, color: t.dangerText),
+          ),
+        LabelledField(
+          label: l10n.leasesReminderDays,
+          child: AppTextField(
+            key: const ValueKey('deal-form-lease-reminder'),
+            controller: _reminderCtrl,
+            hint: '$kDefaultLeaseReminderDays',
+            keyboardType: TextInputType.number,
+            textInputAction: TextInputAction.next,
+            validator: _validateReminder,
+          ),
+        ),
+        _PickerRow(
+          label: l10n.leasesLandlord,
+          value: _landlord?.title,
+          onTap: () => _pick(
+              l10n.leasesLandlord, _clients, _landlord, (v) => _landlord = v),
+        ),
+      ],
+    );
   }
 
   @override
@@ -379,21 +537,54 @@ class _DealFormScreenState extends State<DealFormScreen> {
                     ],
                   ),
                   FormSectionCard(
+                    eyebrow: l10n.dealsKind,
+                    children: [
+                      FilterPillWrap(pills: [
+                        for (final k in DealKind.values)
+                          FilterPill(
+                            key: ValueKey('deal-form-kind-${k.name}'),
+                            label: dealKindLabel(l10n, k),
+                            selected: _kind == k,
+                            onCard: true,
+                            onTap: () => setState(() {
+                              _kind = k;
+                              _leaseError = null;
+                            }),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 9),
+                          ),
+                      ]),
+                    ],
+                  ),
+                  FormSectionCard(
                     eyebrow: l10n.dealsFinancials,
                     children: [
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Expanded(
-                            child: LabelledField(
-                              label: l10n.dealsDealPrice,
-                              child: AppTextField(
-                                controller: _priceCtrl,
-                                hint: '12 300 000',
-                                keyboardType: TextInputType.number,
-                                textInputAction: TextInputAction.next,
-                              ),
-                            ),
+                            child: _kind == DealKind.rent
+                                ? LabelledField(
+                                    label: l10n.leasesMonthlyRent,
+                                    required: true,
+                                    child: AppTextField(
+                                      key: const ValueKey('deal-form-rent'),
+                                      controller: _rentCtrl,
+                                      hint: '350 000',
+                                      keyboardType: TextInputType.number,
+                                      textInputAction: TextInputAction.next,
+                                      validator: _validateRent,
+                                    ),
+                                  )
+                                : LabelledField(
+                                    label: l10n.dealsDealPrice,
+                                    child: AppTextField(
+                                      controller: _priceCtrl,
+                                      hint: '12 300 000',
+                                      keyboardType: TextInputType.number,
+                                      textInputAction: TextInputAction.next,
+                                    ),
+                                  ),
                           ),
                           const SizedBox(width: 9),
                           Expanded(
@@ -422,6 +613,7 @@ class _DealFormScreenState extends State<DealFormScreen> {
                       ),
                     ],
                   ),
+                  if (_kind == DealKind.rent) _leaseSection(l10n, t),
                   FormSectionCard(
                     eyebrow: l10n.dealsPipelineStage,
                     children: [

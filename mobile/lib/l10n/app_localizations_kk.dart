@@ -5308,4 +5308,160 @@ class AppLocalizationsKk extends AppLocalizations {
   String templatesUnknownPlaceholder(String names) {
     return 'Белгісіз орын толтырғыш: $names. Төмендегілерді пайдаланыңыз.';
   }
+
+  @override
+  String get dealsKind => 'Сату немесе жалға беру';
+
+  @override
+  String get dealsKindSale => 'Сату';
+
+  @override
+  String get dealsKindRent => 'Жалға беру';
+
+  @override
+  String get leasesTitle => 'Жалдау';
+
+  @override
+  String get leasesMonthlyRent => 'Айлық жалдау ақысы';
+
+  @override
+  String leasesPerMonth(String amount) {
+    return 'айына $amount';
+  }
+
+  @override
+  String get leasesStart => 'Жалдаудың басталуы';
+
+  @override
+  String get leasesEnd => 'Жалдаудың аяқталуы';
+
+  @override
+  String get leasesPickDate => 'Күнді таңдаңыз';
+
+  @override
+  String get leasesReminderDays => 'Аяқталуына дейін неше күн бұрын еске салу';
+
+  @override
+  String leasesReminderValue(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Аяқталуына $count күн қалғанда',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get leasesReminder => 'Еске салу';
+
+  @override
+  String get leasesLandlord => 'Жалға беруші';
+
+  @override
+  String get leasesTenant => 'Жалға алушы';
+
+  @override
+  String leasesTenantValue(String name) {
+    return 'Жалға алушы: $name';
+  }
+
+  @override
+  String leasesLandlordValue(String name) {
+    return 'Жалға беруші: $name';
+  }
+
+  @override
+  String get leasesRentRequired => 'Айлық жалдау ақысын енгізіңіз';
+
+  @override
+  String get leasesDatesRequired =>
+      'Жалдаудың бірінші және соңғы күнін таңдаңыз';
+
+  @override
+  String get leasesEndBeforeStart => 'Жалдау басталғаннан кейін аяқталуы керек';
+
+  @override
+  String get leasesReminderInvalid => '1-ден 365 күнге дейін';
+
+  @override
+  String get leasesEndsToday => 'Жалдау бүгін аяқталады';
+
+  @override
+  String get leasesEndsTomorrow => 'Жалдау ертең аяқталады';
+
+  @override
+  String leasesEndsIn(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Жалдау $count күннен кейін аяқталады',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get leasesEndedYesterday => 'Жалдау кеше аяқталды';
+
+  @override
+  String leasesEndedAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Жалдау $count күн бұрын аяқталды',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get leasesRenew => 'Жалдауды ұзарту';
+
+  @override
+  String get leasesRenewTitle => 'Жалдауды ұзарту';
+
+  @override
+  String get leasesRenewNewEnd => 'Жаңа соңғы күн';
+
+  @override
+  String get leasesRenewHint =>
+      'Мәміле сол күйінде қалады: жалдау жаңа күнге дейін ұзартылады, ал талқылауда белгі қалады.';
+
+  @override
+  String get leasesRenewEndNotLater =>
+      'Қазіргі аяқталу күнінен кейінгі күнді таңдаңыз';
+
+  @override
+  String get leasesRenewed => 'Жалдау ұзартылды';
+
+  @override
+  String get leasesRenewFailed => 'Жалдауды ұзарту мүмкін болмады';
+
+  @override
+  String get leasesRenewWhenWon =>
+      'Мәміле жеңіспен жабылғанда жалдауды ұзартуға болады.';
+
+  @override
+  String get leasesEndingTitle => 'Жалдауы аяқталатындар';
+
+  @override
+  String get leasesEndingLoadFailed => 'Жалдауларды жүктеу мүмкін болмады';
+
+  @override
+  String get leasesEndingEmpty => 'Алдағы 30 күнде жалдау аяқталмайды';
+
+  @override
+  String get leasesEndingEmptyHint =>
+      'Жеңіспен жабылған жалдау мәмілелері шарт аяқталуына бір ай қалғанда осында шығады.';
+
+  @override
+  String notificationsLeaseEnding(String dealTitle, int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other:
+          '«$dealTitle» мәмілесі бойынша жалдау $days күннен кейін аяқталады',
+      one: '«$dealTitle» мәмілесі бойынша жалдау ертең аяқталады',
+      zero: '«$dealTitle» мәмілесі бойынша жалдау бүгін аяқталады',
+    );
+    return '$_temp0';
+  }
 }

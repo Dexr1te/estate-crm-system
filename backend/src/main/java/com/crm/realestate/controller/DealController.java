@@ -1,20 +1,25 @@
 package com.crm.realestate.controller;
 
 import com.crm.realestate.dto.request.DealRequest;
+import com.crm.realestate.dto.request.RenewLeaseRequest;
 import com.crm.realestate.dto.response.DealResponse;
+import com.crm.realestate.dto.response.LeaseEnding;
 import com.crm.realestate.enums.DealLostReason;
 import com.crm.realestate.enums.DealStatus;
 import com.crm.realestate.service.DealService;
+import com.crm.realestate.service.LeaseService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -25,6 +30,7 @@ import java.util.List;
 public class DealController {
 
     private final DealService dealService;
+    private final LeaseService leaseService;
 
     @GetMapping
     @Operation(summary = "Get all deals (optional filter by agent or status)")
@@ -39,6 +45,25 @@ public class DealController {
             return ResponseEntity.ok(dealService.getByStatus(status));
         }
         return ResponseEntity.ok(dealService.getAll());
+    }
+
+    @GetMapping("/leases-ending")
+    @Operation(summary = "Won rent deals whose lease ends in the next `days` (1-365, default 30) from `from` "
+            + "(the caller's today, default the server's), soonest first, with the tenant and landlord to call. "
+            + "The caller's agency only, narrowed by data scope like the deal list")
+    public ResponseEntity<List<LeaseEnding>> leasesEnding(
+            @RequestParam(required = false) Integer days,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate from) {
+        return ResponseEntity.ok(leaseService.ending(days, from));
+    }
+
+    @PostMapping("/{id}/renew-lease")
+    @Operation(summary = "Renew a won rent deal's lease: a later last day, and a new monthly rent if it changed",
+            description = "409 LEASE_NOT_RENEWABLE unless the deal is a won rent; 400 LEASE_END_NOT_LATER "
+                    + "unless the new end is after the current one")
+    public ResponseEntity<DealResponse> renewLease(@PathVariable Long id,
+                                                   @Valid @RequestBody RenewLeaseRequest request) {
+        return ResponseEntity.ok(leaseService.renew(id, request));
     }
 
     @GetMapping("/{id}")

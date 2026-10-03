@@ -9058,6 +9058,234 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unknown placeholder: {names}. Use the ones below.'**
   String templatesUnknownPlaceholder(String names);
+
+  /// No description provided for @dealsKind.
+  ///
+  /// In en, this message translates to:
+  /// **'Sale or rent'**
+  String get dealsKind;
+
+  /// No description provided for @dealsKindSale.
+  ///
+  /// In en, this message translates to:
+  /// **'Sale'**
+  String get dealsKindSale;
+
+  /// No description provided for @dealsKindRent.
+  ///
+  /// In en, this message translates to:
+  /// **'Rent'**
+  String get dealsKindRent;
+
+  /// No description provided for @leasesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Lease'**
+  String get leasesTitle;
+
+  /// No description provided for @leasesMonthlyRent.
+  ///
+  /// In en, this message translates to:
+  /// **'Rent per month'**
+  String get leasesMonthlyRent;
+
+  /// No description provided for @leasesPerMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} a month'**
+  String leasesPerMonth(String amount);
+
+  /// No description provided for @leasesStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Lease starts'**
+  String get leasesStart;
+
+  /// No description provided for @leasesEnd.
+  ///
+  /// In en, this message translates to:
+  /// **'Lease ends'**
+  String get leasesEnd;
+
+  /// No description provided for @leasesPickDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a day'**
+  String get leasesPickDate;
+
+  /// No description provided for @leasesReminderDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Remind me, days before the end'**
+  String get leasesReminderDays;
+
+  /// No description provided for @leasesReminderValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 day before the end} other{{count} days before the end}}'**
+  String leasesReminderValue(int count);
+
+  /// No description provided for @leasesReminder.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder'**
+  String get leasesReminder;
+
+  /// No description provided for @leasesLandlord.
+  ///
+  /// In en, this message translates to:
+  /// **'Landlord'**
+  String get leasesLandlord;
+
+  /// No description provided for @leasesTenant.
+  ///
+  /// In en, this message translates to:
+  /// **'Tenant'**
+  String get leasesTenant;
+
+  /// No description provided for @leasesTenantValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Tenant: {name}'**
+  String leasesTenantValue(String name);
+
+  /// No description provided for @leasesLandlordValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Landlord: {name}'**
+  String leasesLandlordValue(String name);
+
+  /// No description provided for @leasesRentRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the rent per month'**
+  String get leasesRentRequired;
+
+  /// No description provided for @leasesDatesRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick the first and the last day of the lease'**
+  String get leasesDatesRequired;
+
+  /// No description provided for @leasesEndBeforeStart.
+  ///
+  /// In en, this message translates to:
+  /// **'The lease has to end after it starts'**
+  String get leasesEndBeforeStart;
+
+  /// No description provided for @leasesReminderInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'From 1 to 365 days'**
+  String get leasesReminderInvalid;
+
+  /// No description provided for @leasesEndsToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Lease ends today'**
+  String get leasesEndsToday;
+
+  /// No description provided for @leasesEndsTomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Lease ends tomorrow'**
+  String get leasesEndsTomorrow;
+
+  /// No description provided for @leasesEndsIn.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Lease ends in 1 day} other{Lease ends in {count} days}}'**
+  String leasesEndsIn(int count);
+
+  /// No description provided for @leasesEndedYesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Lease ended yesterday'**
+  String get leasesEndedYesterday;
+
+  /// No description provided for @leasesEndedAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{Lease ended 1 day ago} other{Lease ended {count} days ago}}'**
+  String leasesEndedAgo(int count);
+
+  /// No description provided for @leasesRenew.
+  ///
+  /// In en, this message translates to:
+  /// **'Renew lease'**
+  String get leasesRenew;
+
+  /// No description provided for @leasesRenewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Renew the lease'**
+  String get leasesRenewTitle;
+
+  /// No description provided for @leasesRenewNewEnd.
+  ///
+  /// In en, this message translates to:
+  /// **'New last day'**
+  String get leasesRenewNewEnd;
+
+  /// No description provided for @leasesRenewHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The deal stays the same; its lease runs on to the new day, and the discussion notes the change.'**
+  String get leasesRenewHint;
+
+  /// No description provided for @leasesRenewEndNotLater.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a day after the current end'**
+  String get leasesRenewEndNotLater;
+
+  /// No description provided for @leasesRenewed.
+  ///
+  /// In en, this message translates to:
+  /// **'Lease renewed'**
+  String get leasesRenewed;
+
+  /// No description provided for @leasesRenewFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t renew the lease'**
+  String get leasesRenewFailed;
+
+  /// No description provided for @leasesRenewWhenWon.
+  ///
+  /// In en, this message translates to:
+  /// **'A lease can be renewed once the deal is won.'**
+  String get leasesRenewWhenWon;
+
+  /// No description provided for @leasesEndingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Leases ending'**
+  String get leasesEndingTitle;
+
+  /// No description provided for @leasesEndingLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load the leases'**
+  String get leasesEndingLoadFailed;
+
+  /// No description provided for @leasesEndingEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No leases end in the next 30 days'**
+  String get leasesEndingEmpty;
+
+  /// No description provided for @leasesEndingEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Won rent deals show here a month before their lease runs out.'**
+  String get leasesEndingEmptyHint;
+
+  /// No description provided for @notificationsLeaseEnding.
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, =0{The lease on {dealTitle} ends today} =1{The lease on {dealTitle} ends tomorrow} other{The lease on {dealTitle} ends in {days} days}}'**
+  String notificationsLeaseEnding(String dealTitle, int days);
 }
 
 class _AppLocalizationsDelegate

@@ -164,8 +164,8 @@ public class LeaderboardService {
                 agentId.alias("agent"),
                 status.alias("status"),
                 cb.count(deal).alias("n"),
-                cb.sum(deal.<BigDecimal>get("dealPrice")).alias("value"),
-                cb.sum(cb.prod(deal.<BigDecimal>get("dealPrice"),
+                cb.sum(DealMoney.saleValue(cb, deal)).alias("value"),
+                cb.sum(cb.prod(DealMoney.commissionBase(cb, deal),
                         deal.<BigDecimal>get("commissionPercent"))).alias("commission"));
         query.where(
                 cb.equal(deal.get("team").get("id"), teamId),

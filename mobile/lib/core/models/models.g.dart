@@ -788,6 +788,21 @@ _$DealResponseImpl _$$DealResponseImplFromJson(Map<String, dynamic> json) =>
                 (k, e) => MapEntry(k, (e as num).toInt()),
               ) ??
               const <String, int>{},
+      kind: $enumDecodeNullable(_$DealKindEnumMap, json['kind'],
+              unknownValue: DealKind.sale) ??
+          DealKind.sale,
+      monthlyRent: (json['monthlyRent'] as num?)?.toDouble(),
+      leaseStart: json['leaseStart'] == null
+          ? null
+          : DateTime.parse(json['leaseStart'] as String),
+      leaseEnd: json['leaseEnd'] == null
+          ? null
+          : DateTime.parse(json['leaseEnd'] as String),
+      leaseReminderDays: (json['leaseReminderDays'] as num?)?.toInt(),
+      leaseReminderDaysEffective:
+          (json['leaseReminderDaysEffective'] as num?)?.toInt(),
+      landlordId: (json['landlordId'] as num?)?.toInt(),
+      landlordName: json['landlordName'] as String?,
     );
 
 Map<String, dynamic> _$$DealResponseImplToJson(_$DealResponseImpl instance) =>
@@ -817,6 +832,14 @@ Map<String, dynamic> _$$DealResponseImplToJson(_$DealResponseImpl instance) =>
       'checklistTotal': instance.checklistTotal,
       'openRequired': instance.openRequired,
       'openRequiredByStage': instance.openRequiredByStage,
+      'kind': _$DealKindEnumMap[instance.kind]!,
+      'monthlyRent': instance.monthlyRent,
+      'leaseStart': instance.leaseStart?.toIso8601String(),
+      'leaseEnd': instance.leaseEnd?.toIso8601String(),
+      'leaseReminderDays': instance.leaseReminderDays,
+      'leaseReminderDaysEffective': instance.leaseReminderDaysEffective,
+      'landlordId': instance.landlordId,
+      'landlordName': instance.landlordName,
     };
 
 const _$DealLostReasonEnumMap = {
@@ -826,6 +849,11 @@ const _$DealLostReasonEnumMap = {
   DealLostReason.CHANGED_MIND: 'CHANGED_MIND',
   DealLostReason.NO_RESPONSE: 'NO_RESPONSE',
   DealLostReason.OTHER: 'OTHER',
+};
+
+const _$DealKindEnumMap = {
+  DealKind.sale: 'SALE',
+  DealKind.rent: 'RENT',
 };
 
 _$ChecklistItemImpl _$$ChecklistItemImplFromJson(Map<String, dynamic> json) =>
@@ -1511,6 +1539,7 @@ const _$NotificationTypeEnumMap = {
   NotificationType.dealComment: 'DEAL_COMMENT',
   NotificationType.clientBirthday: 'CLIENT_BIRTHDAY',
   NotificationType.purchaseAnniversary: 'PURCHASE_ANNIVERSARY',
+  NotificationType.leaseEnding: 'LEASE_ENDING',
   NotificationType.unknown: 'unknown',
 };
 
@@ -1572,6 +1601,52 @@ const _$DepositOutcomeEnumMap = {
   DepositOutcome.REFUNDED: 'REFUNDED',
   DepositOutcome.FORFEITED: 'FORFEITED',
 };
+
+_$LeaseEndingImpl _$$LeaseEndingImplFromJson(Map<String, dynamic> json) =>
+    _$LeaseEndingImpl(
+      dealId: (json['dealId'] as num).toInt(),
+      dealTitle: json['dealTitle'] as String? ?? '',
+      monthlyRent: (json['monthlyRent'] as num?)?.toDouble() ?? 0.0,
+      leaseStart: json['leaseStart'] == null
+          ? null
+          : DateTime.parse(json['leaseStart'] as String),
+      leaseEnd: DateTime.parse(json['leaseEnd'] as String),
+      daysLeft: (json['daysLeft'] as num?)?.toInt() ?? 0,
+      reminderDays: (json['reminderDays'] as num?)?.toInt() ?? 30,
+      tenantId: (json['tenantId'] as num).toInt(),
+      tenantName: json['tenantName'] as String? ?? '',
+      tenantPhone: json['tenantPhone'] as String?,
+      landlordId: (json['landlordId'] as num?)?.toInt(),
+      landlordName: json['landlordName'] as String?,
+      landlordPhone: json['landlordPhone'] as String?,
+      propertyId: (json['propertyId'] as num?)?.toInt(),
+      propertyTitle: json['propertyTitle'] as String?,
+      propertyAddress: json['propertyAddress'] as String?,
+      agentId: (json['agentId'] as num?)?.toInt(),
+      agentName: json['agentName'] as String?,
+    );
+
+Map<String, dynamic> _$$LeaseEndingImplToJson(_$LeaseEndingImpl instance) =>
+    <String, dynamic>{
+      'dealId': instance.dealId,
+      'dealTitle': instance.dealTitle,
+      'monthlyRent': instance.monthlyRent,
+      'leaseStart': instance.leaseStart?.toIso8601String(),
+      'leaseEnd': instance.leaseEnd.toIso8601String(),
+      'daysLeft': instance.daysLeft,
+      'reminderDays': instance.reminderDays,
+      'tenantId': instance.tenantId,
+      'tenantName': instance.tenantName,
+      'tenantPhone': instance.tenantPhone,
+      'landlordId': instance.landlordId,
+      'landlordName': instance.landlordName,
+      'landlordPhone': instance.landlordPhone,
+      'propertyId': instance.propertyId,
+      'propertyTitle': instance.propertyTitle,
+      'propertyAddress': instance.propertyAddress,
+      'agentId': instance.agentId,
+      'agentName': instance.agentName,
+    };
 
 _$OpenHouseImpl _$$OpenHouseImplFromJson(Map<String, dynamic> json) =>
     _$OpenHouseImpl(

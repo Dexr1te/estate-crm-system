@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/deals/presentation/widgets/deal_card.dart';
+import 'package:real_estate_crm/features/leases/domain/lease.dart';
+import 'package:real_estate_crm/features/leases/presentation/widgets/lease_labels.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class DealBoard extends StatefulWidget {
@@ -98,8 +100,7 @@ class _StageColumn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final total =
-        deals.fold<double>(0, (sum, d) => sum + (d.dealPrice ?? d.budget ?? 0));
+    final total = deals.fold<double>(0, (sum, d) => sum + dealSaleValue(d));
 
     return LayoutBuilder(
       builder: (context, constraints) => Column(
@@ -249,7 +250,7 @@ class _BoardCard extends StatelessWidget {
     final t = context.tokens;
     final l10n = AppLocalizations.of(context);
     final stale = DealCard.staleDays(deal);
-    final amount = deal.dealPrice ?? deal.budget ?? 0;
+    final amount = dealShownAmount(deal);
 
     return AppCard(
       onTap: onTap,
@@ -289,7 +290,9 @@ class _BoardCard extends StatelessWidget {
             children: [
               Flexible(
                 child: Text(
-                  formatPrice(amount),
+                  deal.kind == DealKind.rent
+                      ? leaseRentLabel(l10n, amount)
+                      : formatPrice(amount),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
