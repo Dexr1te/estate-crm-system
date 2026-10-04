@@ -1061,6 +1061,43 @@ Map<String, dynamic> _$$UpcomingMeetingResponseImplToJson(
       'clientName': instance.clientName,
     };
 
+_$TaskRepeatImpl _$$TaskRepeatImplFromJson(Map<String, dynamic> json) =>
+    _$TaskRepeatImpl(
+      frequency: $enumDecodeNullable(
+              _$RepeatFrequencyEnumMap, json['frequency'],
+              unknownValue: RepeatFrequency.none) ??
+          RepeatFrequency.none,
+      weekdays: (json['weekdays'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const <String>[],
+      until: json['until'] == null
+          ? null
+          : DateTime.parse(json['until'] as String),
+      count: (json['count'] as num?)?.toInt(),
+      anchorAt: json['anchorAt'] == null
+          ? null
+          : DateTime.parse(json['anchorAt'] as String),
+    );
+
+Map<String, dynamic> _$$TaskRepeatImplToJson(_$TaskRepeatImpl instance) =>
+    <String, dynamic>{
+      'frequency': _$RepeatFrequencyEnumMap[instance.frequency]!,
+      'weekdays': instance.weekdays,
+      'until': instance.until?.toIso8601String(),
+      'count': instance.count,
+      'anchorAt': instance.anchorAt?.toIso8601String(),
+    };
+
+const _$RepeatFrequencyEnumMap = {
+  RepeatFrequency.none: 'NONE',
+  RepeatFrequency.daily: 'DAILY',
+  RepeatFrequency.weekly: 'WEEKLY',
+  RepeatFrequency.monthly: 'MONTHLY',
+  RepeatFrequency.quarterly: 'QUARTERLY',
+  RepeatFrequency.yearly: 'YEARLY',
+};
+
 _$TaskResponseImpl _$$TaskResponseImplFromJson(Map<String, dynamic> json) =>
     _$TaskResponseImpl(
       id: (json['id'] as num).toInt(),
@@ -1078,6 +1115,11 @@ _$TaskResponseImpl _$$TaskResponseImplFromJson(Map<String, dynamic> json) =>
       clientName: json['clientName'] as String?,
       dealId: (json['dealId'] as num?)?.toInt(),
       dealTitle: json['dealTitle'] as String?,
+      seriesId: (json['seriesId'] as num?)?.toInt(),
+      occurrence: (json['occurrence'] as num?)?.toInt(),
+      repeat: json['repeat'] == null
+          ? null
+          : TaskRepeat.fromJson(json['repeat'] as Map<String, dynamic>),
       createdAt: json['createdAt'] == null
           ? null
           : DateTime.parse(json['createdAt'] as String),
@@ -1101,6 +1143,9 @@ Map<String, dynamic> _$$TaskResponseImplToJson(_$TaskResponseImpl instance) =>
       'clientName': instance.clientName,
       'dealId': instance.dealId,
       'dealTitle': instance.dealTitle,
+      'seriesId': instance.seriesId,
+      'occurrence': instance.occurrence,
+      'repeat': instance.repeat,
       'createdAt': instance.createdAt?.toIso8601String(),
       'updatedAt': instance.updatedAt?.toIso8601String(),
     };

@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/utils/clock.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/features/tasks/domain/task_repeat_rule.dart';
 import 'package:real_estate_crm/features/tasks/presentation/widgets/task_due_field.dart';
 import 'package:real_estate_crm/features/tasks/presentation/widgets/task_link_fields.dart';
+import 'package:real_estate_crm/features/tasks/presentation/widgets/task_repeat_labels.dart';
+import 'package:real_estate_crm/features/tasks/presentation/widgets/task_repeat_sheet.dart';
+import 'package:real_estate_crm/features/tasks/presentation/widgets/task_time.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 typedef TaskSave = Future<void> Function(Map<String, dynamic> data);
@@ -16,6 +21,9 @@ class TaskForm extends StatefulWidget {
   final bool canAssign;
   final TaskSave onSave;
   final Future<void> Function()? onDelete;
+
+  /// Offered on a task that repeats: its series writes nothing more.
+  final Future<void> Function()? onStopRepeating;
   final DateTime? initialDueAt;
 
   const TaskForm({
@@ -28,6 +36,7 @@ class TaskForm extends StatefulWidget {
     this.canAssign = false,
     required this.onSave,
     this.onDelete,
+    this.onStopRepeating,
   });
 
   @override
@@ -42,9 +51,48 @@ class _TaskFormState extends State<TaskForm> {
   late PickerItem? _client = widget.client;
   late PickerItem? _deal = widget.deal;
   late PickerItem? _assignee = widget.assignee;
+  late TaskRepeat? _repeat = widget.task?.repeat;
   String? _dueError;
+  String? _repeatError;
   String? _failure;
   bool _saving = false;
+
+  bool get _repeats =>
+      _repeat != null && _repeat!.frequency != RepeatFrequency.none;
+
+  /// The rule as it will read once saved: a moved due time moves the day the
+  /// pattern counts from.
+  TaskRepeat? get _shownRepeat {
+    final repeat = _repeat;
+    if (repeat == null) return null;
+    final task = widget.task;
+    return task != null && _dueAt != task.dueAt
+        ? repeat.copyWith(anchorAt: null)
+        : repeat;
+  }
+
+  DateTime get _dueOrDefault =>
+      _dueAt ?? quickDueAt(TaskQuickDue.tomorrowMorning, AppClock.now());
+
+  Future<void> _pickRepeat() async {
+    final picked = await showTaskRepeatSheet(context,
+        initial: _shownRepeat, due: _dueOrDefault);
+    if (picked == null || !mounted) return;
+    setState(() {
+      _repeat = picked.frequency == RepeatFrequency.none ? null : picked;
+      _repeatError = null;
+    });
+  }
+
+  Future<void> _stopRepeating() async {
+    final l10n = AppLocalizations.of(context);
+    final ok = await showConfirmDialog(context,
+        title: l10n.tasksRepeatStopTitle,
+        content: l10n.tasksRepeatStopBody,
+        confirmLabel: l10n.tasksRepeatStop,
+        icon: Icons.repeat_rounded);
+    if (ok && mounted) await _run(widget.onStopRepeating!);
+  }
 
   @override
   void dispose() {
@@ -74,10 +122,20 @@ class _TaskFormState extends State<TaskForm> {
   void _submit() {
     final l10n = AppLocalizations.of(context);
     final ok = _formKey.currentState!.validate();
-    setState(() =>
-        _dueError = _dueAt == null ? l10n.meetingsPleaseSelectDateTime : null);
-    if (!ok || _dueAt == null) return;
+    final until = _repeats ? _repeat!.until : null;
+    setState(() {
+      _dueError = _dueAt == null ? l10n.meetingsPleaseSelectDateTime : null;
+      _repeatError = until != null &&
+              _dueAt != null &&
+              until.isBefore(DateTime(_dueAt!.year, _dueAt!.month, _dueAt!.day))
+          ? l10n.tasksRepeatUntilBeforeDue
+          : null;
+    });
+    if (!ok || _dueAt == null || _repeatError != null) return;
     final note = _noteCtrl.text.trim();
+    // A plain task says nothing about repeats, as before; an edited one that
+    // repeated says NONE when the picker took its rule away.
+    final sendRepeat = _repeats || (widget.task?.repeats ?? false);
     _run(() => widget.onSave({
           'title': _titleCtrl.text.trim(),
           if (note.isNotEmpty) 'note': note,
@@ -86,6 +144,7 @@ class _TaskFormState extends State<TaskForm> {
           if (_deal != null) 'dealId': _deal!.id,
           if (widget.canAssign && _assignee != null)
             'assigneeId': _assignee!.id,
+          if (sendRepeat) 'repeat': repeatRequest(_repeat),
         }));
   }
 
@@ -100,6 +159,9 @@ class _TaskFormState extends State<TaskForm> {
   Widget build(BuildContext context) {
     final t = context.tokens;
     final l10n = AppLocalizations.of(context);
+    final locale = Localizations.localeOf(context).toLanguageTag();
+    final saved = widget.task;
+    final shown = _shownRepeat;
 
     return Form(
       key: _formKey,
@@ -107,6 +169,13 @@ class _TaskFormState extends State<TaskForm> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          if (saved != null && saved.repeats) ...[
+            TaskRepeatLine(
+              text: repeatLabel(l10n, saved.repeat!, saved.dueAt, locale),
+              emphasised: true,
+            ),
+            const SizedBox(height: 14),
+          ],
           LabelledField(
             label: l10n.tasksFieldTitle,
             required: true,
@@ -132,6 +201,28 @@ class _TaskFormState extends State<TaskForm> {
               _dueError = null;
             }),
           ),
+          const SizedBox(height: 14),
+          LabelledField(
+            label: l10n.tasksRepeat,
+            child: PickerField(
+              value: shown == null || !_repeats
+                  ? null
+                  : repeatLabel(l10n, shown, _dueOrDefault, locale),
+              placeholder: l10n.tasksRepeatNone,
+              onTap: _pickRepeat,
+              trailingIcon: Icons.repeat_rounded,
+            ),
+          ),
+          if (_repeatError != null) ...[
+            const SizedBox(height: 6),
+            Text(
+              _repeatError!,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                  fontFamily: AppFonts.sans, fontSize: 11, color: t.dangerText),
+            ),
+          ],
           const SizedBox(height: 14),
           TaskLinkFields(
             client: _client,
@@ -181,6 +272,13 @@ class _TaskFormState extends State<TaskForm> {
           const SizedBox(height: 18),
           AppFilledButton(
               label: l10n.tasksSave, loading: _saving, onPressed: _submit),
+          if (widget.onStopRepeating != null &&
+              (widget.task?.repeats ?? false)) ...[
+            const SizedBox(height: 8),
+            AppGhostButton(
+                label: l10n.tasksRepeatStop,
+                onPressed: _saving ? null : _stopRepeating),
+          ],
           if (widget.onDelete != null) ...[
             const SizedBox(height: 8),
             AppGhostButton(

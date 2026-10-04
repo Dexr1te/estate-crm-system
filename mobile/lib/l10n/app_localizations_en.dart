@@ -3827,6 +3827,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get msgTaskReopened => 'Task reopened';
 
   @override
+  String get msgTaskRepeatStopped => 'The task no longer repeats';
+
+  @override
   String get msgTaskUpdated => 'Task updated';
 
   @override
@@ -5484,6 +5487,131 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tasksReopen => 'Reopen';
+
+  @override
+  String get tasksRepeat => 'Repeat';
+
+  @override
+  String get tasksRepeatCount => 'How many times';
+
+  @override
+  String get tasksRepeatCountInvalid => 'From 1 to 999';
+
+  @override
+  String get tasksRepeatDaily => 'Every day';
+
+  @override
+  String tasksRepeatDayOrdinal(int day, String suffix) {
+    String _temp0 = intl.Intl.selectLogic(
+      suffix,
+      {
+        'st': 'st',
+        'nd': 'nd',
+        'rd': 'rd',
+        'other': 'th',
+      },
+    );
+    return '$day$_temp0';
+  }
+
+  @override
+  String get tasksRepeatDays => 'On these days';
+
+  @override
+  String get tasksRepeatEndAfter => 'After';
+
+  @override
+  String get tasksRepeatEndNever => 'Never';
+
+  @override
+  String get tasksRepeatEndOn => 'On a day';
+
+  @override
+  String get tasksRepeatEnds => 'Ends';
+
+  @override
+  String tasksRepeatLeapYear(Object rule) {
+    return '$rule (28 February in other years)';
+  }
+
+  @override
+  String tasksRepeatMonthly(Object day) {
+    return 'Every month on the $day';
+  }
+
+  @override
+  String get tasksRepeatNone => 'Does not repeat';
+
+  @override
+  String get tasksRepeatOptionDaily => 'Daily';
+
+  @override
+  String get tasksRepeatOptionMonthly => 'Monthly';
+
+  @override
+  String get tasksRepeatOptionQuarterly => 'Every 3 months';
+
+  @override
+  String get tasksRepeatOptionWeekly => 'Weekly';
+
+  @override
+  String get tasksRepeatOptionYearly => 'Yearly';
+
+  @override
+  String get tasksRepeatPickDay => 'Pick a day';
+
+  @override
+  String tasksRepeatQuarterly(Object day) {
+    return 'Every 3 months on the $day';
+  }
+
+  @override
+  String tasksRepeatShortMonths(Object rule) {
+    return '$rule (last day in shorter months)';
+  }
+
+  @override
+  String get tasksRepeatStop => 'Stop repeating';
+
+  @override
+  String get tasksRepeatStopBody =>
+      'This one stays as it is; no more are added after it.';
+
+  @override
+  String get tasksRepeatStopTitle => 'Stop repeating this task?';
+
+  @override
+  String tasksRepeatTimes(num count, Object rule) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$rule, $count times',
+      one: '$rule, once',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String tasksRepeatUntil(Object date, Object rule) {
+    return '$rule, until $date';
+  }
+
+  @override
+  String get tasksRepeatUntilBeforeDue =>
+      'The last day cannot be before the task is due';
+
+  @override
+  String get tasksRepeatUse => 'Done';
+
+  @override
+  String tasksRepeatWeekly(Object days) {
+    return 'Every week on $days';
+  }
+
+  @override
+  String tasksRepeatYearly(Object date) {
+    return 'Every year on $date';
+  }
 
   @override
   String get tasksSave => 'Save task';

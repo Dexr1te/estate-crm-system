@@ -3894,6 +3894,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get msgTaskReopened => 'Задача снова в работе';
 
   @override
+  String get msgTaskRepeatStopped => 'Задача больше не повторяется';
+
+  @override
   String get msgTaskUpdated => 'Задача обновлена';
 
   @override
@@ -5583,6 +5586,124 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get tasksReopen => 'Вернуть в работу';
+
+  @override
+  String get tasksRepeat => 'Повтор';
+
+  @override
+  String get tasksRepeatCount => 'Сколько раз';
+
+  @override
+  String get tasksRepeatCountInvalid => 'От 1 до 999';
+
+  @override
+  String get tasksRepeatDaily => 'Каждый день';
+
+  @override
+  String tasksRepeatDayOrdinal(int day, String suffix) {
+    return '$day-го';
+  }
+
+  @override
+  String get tasksRepeatDays => 'По каким дням';
+
+  @override
+  String get tasksRepeatEndAfter => 'После';
+
+  @override
+  String get tasksRepeatEndNever => 'Никогда';
+
+  @override
+  String get tasksRepeatEndOn => 'В день';
+
+  @override
+  String get tasksRepeatEnds => 'Окончание';
+
+  @override
+  String tasksRepeatLeapYear(Object rule) {
+    return '$rule (в невисокосные годы — 28 февраля)';
+  }
+
+  @override
+  String tasksRepeatMonthly(Object day) {
+    return 'Каждый месяц, $day числа';
+  }
+
+  @override
+  String get tasksRepeatNone => 'Не повторяется';
+
+  @override
+  String get tasksRepeatOptionDaily => 'Каждый день';
+
+  @override
+  String get tasksRepeatOptionMonthly => 'Каждый месяц';
+
+  @override
+  String get tasksRepeatOptionQuarterly => 'Раз в 3 месяца';
+
+  @override
+  String get tasksRepeatOptionWeekly => 'Каждую неделю';
+
+  @override
+  String get tasksRepeatOptionYearly => 'Каждый год';
+
+  @override
+  String get tasksRepeatPickDay => 'Выберите день';
+
+  @override
+  String tasksRepeatQuarterly(Object day) {
+    return 'Раз в 3 месяца, $day числа';
+  }
+
+  @override
+  String tasksRepeatShortMonths(Object rule) {
+    return '$rule (в коротких месяцах — в последний день)';
+  }
+
+  @override
+  String get tasksRepeatStop => 'Больше не повторять';
+
+  @override
+  String get tasksRepeatStopBody =>
+      'Эта задача останется как есть, новые после неё не появятся.';
+
+  @override
+  String get tasksRepeatStopTitle => 'Больше не повторять задачу?';
+
+  @override
+  String tasksRepeatTimes(num count, Object rule) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$rule, $count раза',
+      many: '$rule, $count раз',
+      few: '$rule, $count раза',
+      one: '$rule, $count раз',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String tasksRepeatUntil(Object date, Object rule) {
+    return '$rule, до $date';
+  }
+
+  @override
+  String get tasksRepeatUntilBeforeDue =>
+      'Последний день не может быть раньше срока задачи';
+
+  @override
+  String get tasksRepeatUse => 'Готово';
+
+  @override
+  String tasksRepeatWeekly(Object days) {
+    return 'Каждую неделю: $days';
+  }
+
+  @override
+  String tasksRepeatYearly(Object date) {
+    return 'Каждый год, $date';
+  }
 
   @override
   String get tasksSave => 'Сохранить задачу';
