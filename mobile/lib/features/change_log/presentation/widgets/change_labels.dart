@@ -55,6 +55,7 @@ String? _fieldLabel(AppLocalizations l10n, String? field) => switch (field) {
       'email' => l10n.changeLogFieldEmail,
       'leadSource' => l10n.changeLogFieldLeadSource,
       'leadSourceDetail' => l10n.changeLogFieldLeadSourceDetail,
+      'referredBy' => l10n.partnersReferredBy,
       'wantedType' => l10n.changeLogFieldWantedType,
       'wantedCity' => l10n.changeLogFieldWantedCity,
       'budgetMin' => l10n.changeLogFieldBudgetMin,

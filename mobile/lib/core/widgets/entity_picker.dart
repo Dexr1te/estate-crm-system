@@ -5,12 +5,17 @@ import 'package:real_estate_crm/core/widgets/app_bottom_sheet.dart';
 import 'package:real_estate_crm/core/widgets/app_card.dart';
 import 'package:real_estate_crm/core/widgets/app_field.dart';
 import 'package:real_estate_crm/core/widgets/empty_state.dart';
+import 'package:real_estate_crm/core/widgets/status_chips.dart';
 
 class PickerItem {
   final int id;
   final String title;
   final String? subtitle;
-  const PickerItem({required this.id, required this.title, this.subtitle});
+
+  /// A short warning beside the title, such as somebody being away.
+  final String? badge;
+  const PickerItem(
+      {required this.id, required this.title, this.subtitle, this.badge});
 }
 
 Future<PickerItem?> showEntityPicker(
@@ -149,6 +154,16 @@ class _PickerBodyState extends State<_PickerBody> {
                           ],
                         ),
                       ),
+                      if (item.badge != null) ...[
+                        const SizedBox(width: 8),
+                        Flexible(
+                          child: StatusChip(
+                            key: ValueKey('picker-badge-${item.id}'),
+                            label: item.badge!,
+                            hue: StatusHue.negotiation,
+                          ),
+                        ),
+                      ],
                       if (selected) ...[
                         const SizedBox(width: 10),
                         Icon(Icons.check_rounded, size: 18, color: t.accent),

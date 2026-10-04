@@ -65,8 +65,21 @@ class ExportColumns {
                 csv.decimal(c.getBudgetMin()), csv.decimal(c.getBudgetMax()), whole(c.getMinRooms()),
                 csv.decimal(c.getMinAreaSqm()), c.getNotes(),
                 String.join(", ", tags.getOrDefault(c.getId(), List.of())),
-                value(c.getLeadSource(), lang), c.getLeadSourceDetail(),
+                value(c.getLeadSource(), lang), leadSourceDetail(c),
                 ClientBirthday.format(c), value(c.getSource(), lang), date(c.getCreatedAt()));
+    }
+
+    /**
+     * The detail beside the lead source, with the partner's name in front of it for a client a
+     * partner sent: a spreadsheet has no partner to link, so the name is what it keeps. The import
+     * reads such a row back as a referral with this text as the detail.
+     */
+    private static String leadSourceDetail(Client c) {
+        if (c.getReferredBy() == null) {
+            return c.getLeadSourceDetail();
+        }
+        String partner = c.getReferredBy().getName();
+        return c.getLeadSourceDetail() == null ? partner : partner + " - " + c.getLeadSourceDetail();
     }
 
     /** Each client's tag names, in name order: one query a page. */

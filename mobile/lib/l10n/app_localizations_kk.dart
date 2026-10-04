@@ -3808,6 +3808,9 @@ class AppLocalizationsKk extends AppLocalizations {
   String get msgTaskReopened => 'Тапсырма қайта ашылды';
 
   @override
+  String get msgTaskRepeatStopped => 'Тапсырма енді қайталанбайды';
+
+  @override
   String get msgTaskUpdated => 'Тапсырма жаңартылды';
 
   @override
@@ -5414,6 +5417,121 @@ class AppLocalizationsKk extends AppLocalizations {
   String get tasksReopen => 'Қайта ашу';
 
   @override
+  String get tasksRepeat => 'Қайталау';
+
+  @override
+  String get tasksRepeatCount => 'Неше рет';
+
+  @override
+  String get tasksRepeatCountInvalid => '1-ден 999-ға дейін';
+
+  @override
+  String get tasksRepeatDaily => 'Күн сайын';
+
+  @override
+  String tasksRepeatDayOrdinal(int day, String suffix) {
+    return '$day-күні';
+  }
+
+  @override
+  String get tasksRepeatDays => 'Қай күндері';
+
+  @override
+  String get tasksRepeatEndAfter => 'Кейін';
+
+  @override
+  String get tasksRepeatEndNever => 'Ешқашан';
+
+  @override
+  String get tasksRepeatEndOn => 'Белгілі күні';
+
+  @override
+  String get tasksRepeatEnds => 'Аяқталуы';
+
+  @override
+  String tasksRepeatLeapYear(Object rule) {
+    return '$rule (кібісе емес жылдары — 28 ақпан)';
+  }
+
+  @override
+  String tasksRepeatMonthly(Object day) {
+    return 'Ай сайын, $day';
+  }
+
+  @override
+  String get tasksRepeatNone => 'Қайталанбайды';
+
+  @override
+  String get tasksRepeatOptionDaily => 'Күн сайын';
+
+  @override
+  String get tasksRepeatOptionMonthly => 'Ай сайын';
+
+  @override
+  String get tasksRepeatOptionQuarterly => '3 айда бір рет';
+
+  @override
+  String get tasksRepeatOptionWeekly => 'Апта сайын';
+
+  @override
+  String get tasksRepeatOptionYearly => 'Жыл сайын';
+
+  @override
+  String get tasksRepeatPickDay => 'Күнді таңдаңыз';
+
+  @override
+  String tasksRepeatQuarterly(Object day) {
+    return '3 айда бір рет, $day';
+  }
+
+  @override
+  String tasksRepeatShortMonths(Object rule) {
+    return '$rule (қысқа айларда — соңғы күні)';
+  }
+
+  @override
+  String get tasksRepeatStop => 'Енді қайталамау';
+
+  @override
+  String get tasksRepeatStopBody =>
+      'Бұл тапсырма сол күйінде қалады, одан кейін жаңалары қосылмайды.';
+
+  @override
+  String get tasksRepeatStopTitle => 'Тапсырманы енді қайталамау керек пе?';
+
+  @override
+  String tasksRepeatTimes(num count, Object rule) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$rule, $count рет',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String tasksRepeatUntil(Object date, Object rule) {
+    return '$rule, $date дейін';
+  }
+
+  @override
+  String get tasksRepeatUntilBeforeDue =>
+      'Соңғы күн тапсырма мерзімінен ерте болмауы керек';
+
+  @override
+  String get tasksRepeatUse => 'Дайын';
+
+  @override
+  String tasksRepeatWeekly(Object days) {
+    return 'Апта сайын: $days';
+  }
+
+  @override
+  String tasksRepeatYearly(Object date) {
+    return 'Жыл сайын, $date';
+  }
+
+  @override
   String get tasksSave => 'Тапсырманы сақтау';
 
   @override
@@ -6051,6 +6169,484 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get handoverLoadFailed => 'Команданы жүктеу мүмкін болмады';
+
+  @override
+  String get clientsLeadSourcePartner => 'Серіктес';
+
+  @override
+  String get partnersTitle => 'Серіктестер';
+
+  @override
+  String get partnersHint => 'Брокерлер, нотариустар және клиент әкелетіндер';
+
+  @override
+  String get partnersIntro =>
+      'Агенттіктің брокерлері, нотариустары, бағалаушылары және басқа серіктестері, олар әкелген клиенттер мен сәтті мәмілелер бойынша сыйақылар.';
+
+  @override
+  String get partnersAdd => 'Серіктес қосу';
+
+  @override
+  String get partnersEmpty => 'Әзірге серіктестер жоқ';
+
+  @override
+  String get partnersEmptyBody =>
+      'Бірге жұмыс істейтін брокерлерді, нотариустарды және агенттіктерді қосыңыз.';
+
+  @override
+  String get partnersNoMatches => 'Серіктестер табылмады';
+
+  @override
+  String get partnersLoadFailed => 'Серіктестерді жүктеу мүмкін болмады';
+
+  @override
+  String get partnersLoadFailedOne => 'Серіктесті жүктеу мүмкін болмады';
+
+  @override
+  String get partnersSearchHint => 'Аты, компания немесе телефон';
+
+  @override
+  String get partnersFilterAll => 'Барлығы';
+
+  @override
+  String get partnersKindMortgageBroker => 'Ипотека брокері';
+
+  @override
+  String get partnersKindLawyer => 'Заңгер немесе нотариус';
+
+  @override
+  String get partnersKindAppraiser => 'Бағалаушы';
+
+  @override
+  String get partnersKindDeveloper => 'Құрылыс салушы';
+
+  @override
+  String get partnersKindAgency => 'Басқа агенттік';
+
+  @override
+  String get partnersKindOther => 'Басқа';
+
+  @override
+  String partnersReferredCount(int count) {
+    return 'Әкелді: $count';
+  }
+
+  @override
+  String partnersFeePercent(String value) {
+    return 'Комиссияның $value%';
+  }
+
+  @override
+  String partnersFeeFixed(String amount) {
+    return 'Мәміле үшін $amount';
+  }
+
+  @override
+  String get partnersFeeNone => 'Сыйақысыз';
+
+  @override
+  String get partnersStatReferred => 'Әкелген клиенттер';
+
+  @override
+  String get partnersStatWon => 'Сәтті мәмілелер';
+
+  @override
+  String get partnersStatFees => 'Төленетін сыйақы';
+
+  @override
+  String get partnersStatHandoffs => 'Жіберілген клиенттер';
+
+  @override
+  String partnersFeesUnknown(int count) {
+    return 'Комиссиясыз, есепке алынбаған мәмілелер: $count';
+  }
+
+  @override
+  String get partnersStatsScope => 'Сіз көретін клиенттер бойынша.';
+
+  @override
+  String get partnersContact => 'Байланыс';
+
+  @override
+  String get partnersName => 'Аты';
+
+  @override
+  String get partnersNameHint => 'Кіммен жұмыс істейсіз';
+
+  @override
+  String get partnersNameRequired => 'Атын енгізіңіз';
+
+  @override
+  String get partnersCompany => 'Компания';
+
+  @override
+  String get partnersCompanyHint => 'Банк, фирма немесе агенттік';
+
+  @override
+  String get partnersKind => 'Немен айналысады';
+
+  @override
+  String get partnersPhone => 'Телефон';
+
+  @override
+  String get partnersEmail => 'Email';
+
+  @override
+  String get partnersNote => 'Ескертпе';
+
+  @override
+  String get partnersNoteHint =>
+      'Шарттар, қалай хабарласу, есте сақтайтын нәрсе';
+
+  @override
+  String get partnersFee => 'Клиент үшін сыйақы';
+
+  @override
+  String get partnersFeeHint =>
+      'Серіктес әкелген клиенттің әр сәтті мәмілесіне есептеледі.';
+
+  @override
+  String get partnersFeeTypeNone => 'Жоқ';
+
+  @override
+  String get partnersFeeTypePercent => 'Комиссиядан %';
+
+  @override
+  String get partnersFeeTypeFixed => 'Тіркелген сома';
+
+  @override
+  String get partnersFeeValuePercent => 'Пайыз';
+
+  @override
+  String get partnersFeeValueAmount => 'Сома';
+
+  @override
+  String get partnersFeeInvalidPercent =>
+      '0-ден үлкен, 100-ден аспайтын пайызды енгізіңіз';
+
+  @override
+  String get partnersFeeInvalidAmount => '0-ден үлкен соманы енгізіңіз';
+
+  @override
+  String get partnersInvalidFee => 'Сыйақыны тексеріңіз';
+
+  @override
+  String get partnersSave => 'Сақтау';
+
+  @override
+  String get partnersNew => 'Жаңа серіктес';
+
+  @override
+  String get partnersEdit => 'Серіктесті өзгерту';
+
+  @override
+  String get partnersDelete => 'Серіктесті жою';
+
+  @override
+  String partnersDeleteConfirm(String name) {
+    return '$name жойылсын ба? Мұны қайтару мүмкін емес.';
+  }
+
+  @override
+  String get partnersInUse =>
+      'Серіктеске клиенттер байланған, сондықтан оны жою мүмкін емес.';
+
+  @override
+  String get partnersRequired => 'Клиентті әкелген серіктесті таңдаңыз';
+
+  @override
+  String partnersAddedBy(String name) {
+    return 'Қосқан: $name';
+  }
+
+  @override
+  String get partnersReferrals => 'Әкелген клиенттері';
+
+  @override
+  String get partnersNoReferrals => 'Бұл серіктестен әзірге клиент жоқ';
+
+  @override
+  String partnersReferralWon(int count) {
+    return 'Сәтті мәмілелер: $count';
+  }
+
+  @override
+  String partnersReferralFee(String amount) {
+    return 'Сыйақы $amount';
+  }
+
+  @override
+  String get partnersReferralNoDeals => 'Сәтті мәміле жоқ';
+
+  @override
+  String get partnersSentClients => 'Жіберілген клиенттер';
+
+  @override
+  String get partnersNoSentClients => 'Әзірге клиент жіберілмеген';
+
+  @override
+  String get partnersHandoffSent => 'Жіберілді';
+
+  @override
+  String get partnersHandoffInProgress => 'Жұмыста';
+
+  @override
+  String get partnersHandoffDone => 'Аяқталды';
+
+  @override
+  String get partnersClientCard => 'Серіктестер';
+
+  @override
+  String get partnersReferredBy => 'Әкелген';
+
+  @override
+  String get partnersSentTo => 'Жіберілген';
+
+  @override
+  String get partnersSendToPartner => 'Серіктеске жіберу';
+
+  @override
+  String get partnersClientNotSent => 'Серіктестерге әлі жіберілмеген';
+
+  @override
+  String get partnersHandoffEdit => 'Жіберуді өзгерту';
+
+  @override
+  String get partnersHandoffPartner => 'Серіктес';
+
+  @override
+  String get partnersHandoffDate => 'Жіберілген күні';
+
+  @override
+  String get partnersHandoffStatus => 'Күйі';
+
+  @override
+  String get partnersHandoffNoteHint => 'Серіктес немен көмектеседі';
+
+  @override
+  String get partnersHandoffRemove => 'Жіберуді жою';
+
+  @override
+  String get partnersHandoffRemoveConfirm =>
+      'Бұл жіберуді клиент картасынан алып тастау керек пе?';
+
+  @override
+  String partnersHandoffBy(String name) {
+    return 'Жіберген: $name';
+  }
+
+  @override
+  String get partnersPickPartner => 'Серіктесті таңдаңыз';
+
+  @override
+  String get partnersPickerEmpty => 'Серіктестер жоқ';
+
+  @override
+  String get partnersSentOnFuture => 'Күн болашақта бола алмайды';
+
+  @override
+  String partnersOpenHandoffs(int count) {
+    return 'Әлі жұмыста: $count';
+  }
+
+  @override
+  String get timeOffTitle => 'Демалыстар';
+
+  @override
+  String get timeOffWhosOut => 'Кім жоқ';
+
+  @override
+  String get timeOffAdd => 'Демалыс қосу';
+
+  @override
+  String get timeOffNewTitle => 'Жаңа демалыс';
+
+  @override
+  String get timeOffEditTitle => 'Демалыс';
+
+  @override
+  String get timeOffKind => 'Түрі';
+
+  @override
+  String get timeOffKindVacation => 'Демалыс';
+
+  @override
+  String get timeOffKindSickLeave => 'Ауру парағы';
+
+  @override
+  String get timeOffKindDayOff => 'Демалыс күні';
+
+  @override
+  String get timeOffKindOther => 'Басқа';
+
+  @override
+  String get timeOffPerson => 'Кім жоқ';
+
+  @override
+  String get timeOffPickPerson => 'Қызметкерді таңдаңыз';
+
+  @override
+  String get timeOffSearchPeople => 'Әріптестерден іздеу';
+
+  @override
+  String get timeOffDaysEyebrow => 'Күндер';
+
+  @override
+  String get timeOffFirstDay => 'Бірінші күн';
+
+  @override
+  String get timeOffLastDay => 'Соңғы күн';
+
+  @override
+  String get timeOffPickDate => 'Күнді таңдаңыз';
+
+  @override
+  String get timeOffDatesRequired => 'Бірінші және соңғы күнді таңдаңыз';
+
+  @override
+  String get timeOffEndBeforeStart => 'Соңғы күн біріншіден ерте бола алмайды';
+
+  @override
+  String timeOffDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count күн',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get timeOffCover => 'Орнын басады';
+
+  @override
+  String get timeOffNoCover => 'Ешкім';
+
+  @override
+  String get timeOffCoverHint =>
+      'Қызметкер жоқта оның хабарламалары орнын басушыға да келеді. Клиенттер мен мәмілелер оның атында қалады.';
+
+  @override
+  String timeOffCoveredBy(String name) {
+    return 'Орнын басады: $name';
+  }
+
+  @override
+  String get timeOffNobodyCovers => 'Орнын ешкім баспайды';
+
+  @override
+  String get timeOffNote => 'Ескертпе';
+
+  @override
+  String get timeOffNoteHint => 'Әріптестерге не білу керек';
+
+  @override
+  String get timeOffSaved => 'Демалыс сақталды';
+
+  @override
+  String get timeOffCancelled => 'Демалыс тоқтатылды';
+
+  @override
+  String get timeOffCancelAction => 'Демалысты тоқтату';
+
+  @override
+  String get timeOffKeep => 'Қалдыру';
+
+  @override
+  String get timeOffCancelConfirmTitle => 'Бұл демалысты тоқтату керек пе?';
+
+  @override
+  String get timeOffCancelConfirmBody =>
+      'Ол команда тізімінен алынады, ал орнын басушы хабарламаларды алмайды.';
+
+  @override
+  String get timeOffLoadFailed => 'Демалыстарды жүктеу мүмкін болмады';
+
+  @override
+  String get timeOffEmpty => 'Әзірге демалыс жоқ';
+
+  @override
+  String get timeOffEmptyHint =>
+      'Команда сіздің орныңызды кім басатынын білуі үшін демалыс немесе демалыс күнін қосыңыз.';
+
+  @override
+  String get timeOffTeamEmpty => 'Барлығы орнында';
+
+  @override
+  String get timeOffTeamEmptyHint => 'Алдағы үш айда ешкім демалмайды.';
+
+  @override
+  String get timeOffSectionToday => 'Бүгін жоқ';
+
+  @override
+  String get timeOffSectionThisWeek => 'Осы аптадан';
+
+  @override
+  String get timeOffSectionLater => 'Кейінірек';
+
+  @override
+  String get timeOffSectionUpcoming => 'Қазір және алда';
+
+  @override
+  String get timeOffSectionPast => 'Өткендер';
+
+  @override
+  String get timeOffAwayNow => 'Қазір жоқ';
+
+  @override
+  String timeOffAwayUntil(String date) {
+    return '$date дейін жоқ';
+  }
+
+  @override
+  String timeOffAwayOnDay(String name, String kind, String date) {
+    return '$name бұл күні жоқ: $kind, $date дейін';
+  }
+
+  @override
+  String timeOffConflictsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Бұл күндері $count кездесу бар',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get timeOffConflictsHint =>
+      'Олар әлі күнтізбеде. Оларды ауыстырыңыз немесе жұмысты әріптеске беріңіз.';
+
+  @override
+  String get timeOffHandOver => 'Жұмысты беру';
+
+  @override
+  String get timeOffErrorOverlaps => 'Бұл күндердің кейбіріне демалыс бар';
+
+  @override
+  String get timeOffErrorTooLong => 'Демалыс бір жылдан аспайды';
+
+  @override
+  String get timeOffErrorCoverIsAbsent => 'Орнын басқа біреу басуы керек';
+
+  @override
+  String get timeOffErrorNotYours =>
+      'Мұны тек қызметкердің өзі немесе менеджер өзгерте алады';
+
+  @override
+  String timeOffOutToday(int count) {
+    return 'Бүгін жоқ: $count';
+  }
+
+  @override
+  String timeOffCoveringFor(String name) {
+    return 'Сіз орнын басасыз: $name';
+  }
+
+  @override
+  String notificationsTimeOffCover(String name) {
+    return 'Сіз орнын басасыз: $name';
+  }
 
   @override
   String get splitsTitle => 'Комиссияны бөлу';

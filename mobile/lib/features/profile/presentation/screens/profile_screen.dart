@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/locale/bloc/locale_bloc.dart';
 import 'package:real_estate_crm/core/models/models.dart';
@@ -13,6 +14,7 @@ import 'package:real_estate_crm/features/app_lock/presentation/widgets/app_lock_
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_state.dart';
+import 'package:real_estate_crm/features/partners/presentation/widgets/partners_settings_row.dart';
 import 'package:real_estate_crm/features/profile/presentation/widgets/profile_edit_sheet.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -67,6 +69,22 @@ class ProfileScreen extends StatelessWidget {
                 ),
               ),
             ]),
+            if (user.teamId != null)
+              SettingsGroup(rows: [
+                SettingsRow(
+                  key: const ValueKey('profile-time-off'),
+                  label: l10n.timeOffTitle,
+                  showChevron: true,
+                  onTap: () => context.push('/time-off'),
+                ),
+                SettingsRow(
+                  key: const ValueKey('profile-whos-out'),
+                  label: l10n.timeOffWhosOut,
+                  showChevron: true,
+                  onTap: () => context.push('/time-off/team'),
+                ),
+              ]),
+            if (user.teamName != null) const PartnersSettingsRow(),
             _GroupLabel(l10n.profileSettings),
             BlocBuilder<ThemeBloc, ThemeState>(
               builder: (themeCtx, themeState) =>

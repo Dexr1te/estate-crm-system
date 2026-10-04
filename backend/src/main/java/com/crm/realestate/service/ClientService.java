@@ -7,6 +7,7 @@ import com.crm.realestate.entity.Client;
 import com.crm.realestate.entity.User;
 import com.crm.realestate.enums.ClientType;
 import com.crm.realestate.enums.LeadSource;
+import com.crm.realestate.exception.BusinessException;
 import com.crm.realestate.exception.ResourceNotFoundException;
 import com.crm.realestate.repository.ClientRepository;
 import com.crm.realestate.repository.UserRepository;
@@ -14,6 +15,7 @@ import com.crm.realestate.security.SecurityUtils;
 import com.crm.realestate.specification.ClientSpecification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +38,7 @@ public class ClientService {
     private final ClientMapper     clientMapper;
     private final ClientTagService tagService;
     private final ChangeLogService changeLog;
+    private final PartnerService   partnerService;
 
     public List<ClientResponse> getAll() {
         return findVisible(ClientSpecification.build(null, null, null, null, null));
@@ -260,6 +263,25 @@ public class ClientService {
             client.setAgent(currentUser);
             client.setTeam(currentUser.getTeam());
         }
+        if (isNew || request.isLeadSourceSent()) {
+            applyReferral(client, request.getReferredByPartnerId());
+        }
+    }
+
+    /**
+     * The partner who sent the client, once the client's agency is settled: one of that agency's
+     * partners, required with the lead source PARTNER and dropped with any other.
+     */
+    private void applyReferral(Client client, Long partnerId) {
+        if (client.getLeadSource() != LeadSource.PARTNER) {
+            client.setReferredBy(null);
+            return;
+        }
+        if (partnerId == null) {
+            throw new BusinessException(HttpStatus.BAD_REQUEST, "PARTNER_REQUIRED",
+                    "Choose the partner who sent this client");
+        }
+        client.setReferredBy(partnerService.requireInTeam(partnerId, client.getTeam()));
     }
 
     /**
@@ -285,6 +307,9 @@ public class ClientService {
      */
     public static void applyLeadSource(Client client, LeadSource source, String detail) {
         client.setLeadSource(source);
+        if (source != LeadSource.PARTNER) {
+            client.setReferredBy(null);
+        }
         String trimmed = source == null ? null : blankToNull(detail);
         client.setLeadSourceDetail(trimmed == null || trimmed.length() <= LEAD_SOURCE_DETAIL_MAX
                 ? trimmed : trimmed.substring(0, LEAD_SOURCE_DETAIL_MAX));

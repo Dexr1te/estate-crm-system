@@ -25,6 +25,7 @@ import 'package:real_estate_crm/features/clients/presentation/widgets/log_contac
 import 'package:real_estate_crm/features/clients/presentation/widgets/send_matches_sheet.dart';
 import 'package:real_estate_crm/features/compare/domain/comparison.dart';
 import 'package:real_estate_crm/features/offers/presentation/widgets/client_offers_card.dart';
+import 'package:real_estate_crm/features/partners/presentation/widgets/client_partners_card.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_card.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_cover.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_price_history.dart';
@@ -462,6 +463,10 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
           RecordTasksCard(
               client: PickerItem(id: client.id, title: client.fullName)),
           _DealsCard(deals: _deals),
+          ClientPartnersCard(
+              key: ValueKey('client-partners-${client.id}-'
+                  '${client.referredByPartnerId}'),
+              client: client),
           if (client.type == ClientType.BUYER)
             ClientOffersCard(clientId: client.id),
           if (client.type == ClientType.BUYER)
@@ -606,7 +611,8 @@ class _ContactCard extends StatelessWidget {
                 key: const ValueKey('client-detail-lead-source'),
                 label: l10n.clientsLeadSource,
                 value: leadSourceText(
-                    l10n, client.leadSource!, client.leadSourceDetail)),
+                    l10n, client.leadSource!, client.leadSourceDetail,
+                    partner: client.referredByPartnerName)),
           ],
           const SizedBox(height: 14),
           Row(

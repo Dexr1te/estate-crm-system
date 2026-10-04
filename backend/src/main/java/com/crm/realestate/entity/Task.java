@@ -60,6 +60,20 @@ public class Task {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Deal deal;
 
+    /** The repeat rule this task is an occurrence of; null when it does not repeat. */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "series_id")
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    private TaskSeries series;
+
+    /** 1, 2, 3 ... within the series; null outside one. */
+    @Column(name = "occurrence")
+    private Integer occurrence;
+
+    /** This occurrence already wrote the one after it, so completing it again writes nothing. */
+    @Column(name = "next_created", nullable = false)
+    private boolean nextCreated;
+
     /** When it was done; null while it is still open. */
     @Column(name = "completed_at")
     private LocalDateTime completedAt;

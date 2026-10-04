@@ -15,6 +15,8 @@ import com.crm.realestate.repository.DealRepository;
 import com.crm.realestate.repository.DocumentRepository;
 import com.crm.realestate.repository.MeetingRepository;
 import com.crm.realestate.repository.OpenHouseRepository;
+import com.crm.realestate.repository.PartnerHandoffRepository;
+import com.crm.realestate.repository.PartnerRepository;
 import com.crm.realestate.repository.PropertyOfferRepository;
 import com.crm.realestate.repository.PropertyRepository;
 import com.crm.realestate.repository.TaskRepository;
@@ -47,12 +49,15 @@ public class AccountRemovalService {
     private final TaskRepository     taskRepository;
     private final OpenHouseRepository openHouseRepository;
     private final PropertyOfferRepository offerRepository;
+    private final PartnerRepository  partnerRepository;
+    private final PartnerHandoffRepository partnerHandoffRepository;
     private final AuditLogService    auditLogService;
     private final ScopeService       scopeService;
     private final NotificationEvents notificationEvents;
     private final ChangeLogService   changeLog;
     private final RecordHandoverService recordHandoverService;
     private final CommissionSplitStore commissionSplitStore;
+    private final TimeOffService     timeOffService;
 
     @Value("${app.primary-admin-email:admin@gmail.com}")
     private String primaryAdminEmail;
@@ -137,12 +142,25 @@ public class AccountRemovalService {
             commissionSplitStore.passAllShares(target, null, changeActor);
         }
 
+        // The partners the leaver added are the agency's and stay in it: their successor may look
+        // after them, and without one only the name of who added them is forgotten (V53). Who
+        // sent a client to a partner is history, and goes with the account either way.
+        if (replacement != null) {
+            partnerRepository.reassignCreator(target, replacement);
+        } else {
+            partnerRepository.forgetCreator(target);
+        }
+        partnerHandoffRepository.forgetSender(target);
+
         // When someone closes their own account the actor is the row about to go.
         // audit_logs.actor_id is ON DELETE SET NULL (V14), so the reference would
         // be cleared a moment later anyway — but leaning on that makes the write
         // depend on the database's cascade firing in the same transaction.
         // Recording no actor is both safer and lossless: DELETE_OWN_ACCOUNT plus
         // the entity id and the email below already say exactly who left.
+        // Their time off goes with them; what they were covering passes to the successor (V54).
+        timeOffService.accountClosed(target, replacement);
+
         User auditActor = targetId.equals(actor.getId()) ? null : actor;
         auditLogService.record(auditActor, action, "User", targetId,
                 "email=" + target.getEmail()

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/utils/clock.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/features/time_off/presentation/widgets/time_off_labels.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class NotificationCopy {
@@ -18,7 +20,18 @@ class NotificationTarget {
   const NotificationTarget(this.location, {this.push = true});
 }
 
+/// The sentence for [n]. A cover's copy of a colleague's notification leads
+/// its detail with whom they are covering for.
 NotificationCopy notificationCopy(AppLocalizations l10n, AppNotification n) {
+  final copy = _copyOf(l10n, n);
+  final coveringFor = n.text('coveringForName')?.trim() ?? '';
+  if (coveringFor.isEmpty) return copy;
+  final covering = l10n.timeOffCoveringFor(coveringFor);
+  return NotificationCopy(copy.title,
+      copy.detail == null ? covering : '$covering · ${copy.detail}', copy.icon);
+}
+
+NotificationCopy _copyOf(AppLocalizations l10n, AppNotification n) {
   String name(String key) {
     final value = n.text(key);
     return value == null || value.trim().isEmpty
@@ -127,11 +140,36 @@ NotificationCopy notificationCopy(AppLocalizations l10n, AppNotification n) {
           l10n.notificationsLeaseEnding(plain('dealTitle'), n.count('days')),
           people.isEmpty ? null : people,
           Icons.key_outlined);
+    case NotificationType.timeOffCover:
+      return NotificationCopy(
+          l10n.notificationsTimeOffCover(name('absentName')),
+          _timeOffDetail(l10n, n),
+          Icons.beach_access_outlined);
     case NotificationType.unknown:
       return NotificationCopy(
           l10n.notificationsUnknown, null, Icons.notifications_none_rounded);
   }
 }
+
+/// "Vacation · 12 Oct – 16 Oct" for a cover's request.
+String? _timeOffDetail(AppLocalizations l10n, AppNotification n) {
+  final kind = _timeOffKinds[n.text('kind')];
+  final start = DateTime.tryParse(n.text('startDate') ?? '');
+  final end = DateTime.tryParse(n.text('endDate') ?? '');
+  final parts = [
+    if (kind != null) timeOffKindLabel(l10n, kind),
+    if (start != null && end != null)
+      timeOffPeriodLabel(start, end, AppClock.now(), l10n.localeName),
+  ];
+  return parts.isEmpty ? null : parts.join(' · ');
+}
+
+const _timeOffKinds = {
+  'VACATION': TimeOffKind.vacation,
+  'SICK_LEAVE': TimeOffKind.sickLeave,
+  'DAY_OFF': TimeOffKind.dayOff,
+  'OTHER': TimeOffKind.other,
+};
 
 String? _snippet(AppNotification n) {
   final text = n.text('snippet')?.trim();
@@ -189,6 +227,10 @@ NotificationTarget? notificationTarget(AppNotification n) {
       return id == null
           ? null
           : NotificationTarget('/deals/$id?focus=discussion');
+    case NotificationType.timeOffCover:
+      return id == null
+          ? const NotificationTarget('/time-off/team')
+          : NotificationTarget('/time-off/$id');
     case NotificationType.unknown:
       return null;
   }

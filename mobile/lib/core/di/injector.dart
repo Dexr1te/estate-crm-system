@@ -84,6 +84,9 @@ import 'package:real_estate_crm/features/offers/domain/repositories/offers_repos
 import 'package:real_estate_crm/features/open_houses/data/datasources/open_houses_remote_datasource.dart';
 import 'package:real_estate_crm/features/open_houses/data/repositories/open_houses_repository_impl.dart';
 import 'package:real_estate_crm/features/open_houses/domain/repositories/open_houses_repository.dart';
+import 'package:real_estate_crm/features/partners/data/datasources/partners_remote_datasource.dart';
+import 'package:real_estate_crm/features/partners/data/repositories/partners_repository_impl.dart';
+import 'package:real_estate_crm/features/partners/domain/repositories/partners_repository.dart';
 import 'package:real_estate_crm/features/properties/data/datasources/properties_remote_datasource.dart';
 import 'package:real_estate_crm/features/properties/data/repositories/properties_repository_impl.dart';
 import 'package:real_estate_crm/features/properties/domain/repositories/properties_repository.dart';
@@ -97,6 +100,9 @@ import 'package:real_estate_crm/features/tasks/domain/repositories/tasks_reposit
 import 'package:real_estate_crm/features/teams/data/datasources/teams_remote_datasource.dart';
 import 'package:real_estate_crm/features/teams/data/repositories/teams_repository_impl.dart';
 import 'package:real_estate_crm/features/teams/domain/repositories/teams_repository.dart';
+import 'package:real_estate_crm/features/time_off/data/datasources/time_off_remote_datasource.dart';
+import 'package:real_estate_crm/features/time_off/data/repositories/time_off_repository_impl.dart';
+import 'package:real_estate_crm/features/time_off/domain/repositories/time_off_repository.dart';
 
 class Injector {
   Injector._();
@@ -141,6 +147,9 @@ class Injector {
   static LeasesRepository leasesRepository =
       LeasesRepositoryImpl(LeasesRemoteDataSource(_apiClient));
 
+  static TimeOffRepository timeOffRepository =
+      TimeOffRepositoryImpl(TimeOffRemoteDataSource(_apiClient));
+
   static MessageTemplatesRepository messageTemplatesRepository =
       MessageTemplatesRepositoryImpl(
           MessageTemplatesRemoteDataSource(_apiClient));
@@ -172,6 +181,9 @@ class Injector {
 
   static OpenHousesRepository openHousesRepository =
       OpenHousesRepositoryImpl(OpenHousesRemoteDataSource(_apiClient));
+
+  static PartnersRepository partnersRepository =
+      PartnersRepositoryImpl(PartnersRemoteDataSource(_apiClient));
 
   static ChangeLogRepository changeLogRepository =
       ChangeLogRepositoryImpl(ChangeLogRemoteDataSource(_apiClient));

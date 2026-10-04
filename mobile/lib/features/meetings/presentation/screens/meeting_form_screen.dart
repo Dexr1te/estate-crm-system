@@ -8,6 +8,7 @@ import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_bloc.dart';
 import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_event.dart';
 import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_state.dart';
+import 'package:real_estate_crm/features/time_off/presentation/widgets/time_off_labels.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class MeetingFormScreen extends StatefulWidget {
@@ -45,6 +46,7 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
 
   List<PickerItem> _clients = const [];
   List<PickerItem> _agents = const [];
+  final Map<int, AgentOption> _agentOptions = {};
   List<PickerItem> _deals = const [];
   List<PickerItem> _properties = const [];
 
@@ -113,7 +115,10 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
       ),
       load<AgentOption>(
         () => Injector.agentsRepository.getAgentOptions(),
-        (a) => PickerItem(id: a.id, title: a.fullName, subtitle: a.email),
+        (a) {
+          _agentOptions[a.id] = a;
+          return agentPickerItem(context, a);
+        },
         (v) {
           _agents = v;
           _agent = _reconcile(v, _agent);
@@ -456,6 +461,19 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
                           _agentError = null;
                         }, whenNone: l10n.meetingsNoAgentsToAssign),
                       ),
+                      if (agentAwayWarning(
+                              context, _agentOptions[_agent?.id], _scheduledAt)
+                          case final away?)
+                        Text(
+                          away,
+                          key: const ValueKey('meeting-agent-away'),
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontFamily: AppFonts.sans,
+                              fontSize: 11.5,
+                              color: t.dangerText),
+                        ),
                       _PickerRow(
                         label: l10n.meetingsProperty,
                         value: _property?.title,

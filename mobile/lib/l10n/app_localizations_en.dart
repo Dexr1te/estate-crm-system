@@ -3827,6 +3827,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get msgTaskReopened => 'Task reopened';
 
   @override
+  String get msgTaskRepeatStopped => 'The task no longer repeats';
+
+  @override
   String get msgTaskUpdated => 'Task updated';
 
   @override
@@ -5486,6 +5489,131 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tasksReopen => 'Reopen';
 
   @override
+  String get tasksRepeat => 'Repeat';
+
+  @override
+  String get tasksRepeatCount => 'How many times';
+
+  @override
+  String get tasksRepeatCountInvalid => 'From 1 to 999';
+
+  @override
+  String get tasksRepeatDaily => 'Every day';
+
+  @override
+  String tasksRepeatDayOrdinal(int day, String suffix) {
+    String _temp0 = intl.Intl.selectLogic(
+      suffix,
+      {
+        'st': 'st',
+        'nd': 'nd',
+        'rd': 'rd',
+        'other': 'th',
+      },
+    );
+    return '$day$_temp0';
+  }
+
+  @override
+  String get tasksRepeatDays => 'On these days';
+
+  @override
+  String get tasksRepeatEndAfter => 'After';
+
+  @override
+  String get tasksRepeatEndNever => 'Never';
+
+  @override
+  String get tasksRepeatEndOn => 'On a day';
+
+  @override
+  String get tasksRepeatEnds => 'Ends';
+
+  @override
+  String tasksRepeatLeapYear(Object rule) {
+    return '$rule (28 February in other years)';
+  }
+
+  @override
+  String tasksRepeatMonthly(Object day) {
+    return 'Every month on the $day';
+  }
+
+  @override
+  String get tasksRepeatNone => 'Does not repeat';
+
+  @override
+  String get tasksRepeatOptionDaily => 'Daily';
+
+  @override
+  String get tasksRepeatOptionMonthly => 'Monthly';
+
+  @override
+  String get tasksRepeatOptionQuarterly => 'Every 3 months';
+
+  @override
+  String get tasksRepeatOptionWeekly => 'Weekly';
+
+  @override
+  String get tasksRepeatOptionYearly => 'Yearly';
+
+  @override
+  String get tasksRepeatPickDay => 'Pick a day';
+
+  @override
+  String tasksRepeatQuarterly(Object day) {
+    return 'Every 3 months on the $day';
+  }
+
+  @override
+  String tasksRepeatShortMonths(Object rule) {
+    return '$rule (last day in shorter months)';
+  }
+
+  @override
+  String get tasksRepeatStop => 'Stop repeating';
+
+  @override
+  String get tasksRepeatStopBody =>
+      'This one stays as it is; no more are added after it.';
+
+  @override
+  String get tasksRepeatStopTitle => 'Stop repeating this task?';
+
+  @override
+  String tasksRepeatTimes(num count, Object rule) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$rule, $count times',
+      one: '$rule, once',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String tasksRepeatUntil(Object date, Object rule) {
+    return '$rule, until $date';
+  }
+
+  @override
+  String get tasksRepeatUntilBeforeDue =>
+      'The last day cannot be before the task is due';
+
+  @override
+  String get tasksRepeatUse => 'Done';
+
+  @override
+  String tasksRepeatWeekly(Object days) {
+    return 'Every week on $days';
+  }
+
+  @override
+  String tasksRepeatYearly(Object date) {
+    return 'Every year on $date';
+  }
+
+  @override
   String get tasksSave => 'Save task';
 
   @override
@@ -6124,6 +6252,488 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get handoverLoadFailed => 'Could not load the team';
+
+  @override
+  String get clientsLeadSourcePartner => 'Partner';
+
+  @override
+  String get partnersTitle => 'Partners';
+
+  @override
+  String get partnersHint => 'Brokers, notaries and others who send clients';
+
+  @override
+  String get partnersIntro =>
+      'The agency\'s brokers, notaries, appraisers and other partners, the clients they sent and the fees owed on won deals.';
+
+  @override
+  String get partnersAdd => 'Add partner';
+
+  @override
+  String get partnersEmpty => 'No partners yet';
+
+  @override
+  String get partnersEmptyBody =>
+      'Add the brokers, notaries and agencies you work with.';
+
+  @override
+  String get partnersNoMatches => 'No partners match';
+
+  @override
+  String get partnersLoadFailed => 'Could not load partners';
+
+  @override
+  String get partnersLoadFailedOne => 'Could not load the partner';
+
+  @override
+  String get partnersSearchHint => 'Name, company or phone';
+
+  @override
+  String get partnersFilterAll => 'All';
+
+  @override
+  String get partnersKindMortgageBroker => 'Mortgage broker';
+
+  @override
+  String get partnersKindLawyer => 'Lawyer or notary';
+
+  @override
+  String get partnersKindAppraiser => 'Appraiser';
+
+  @override
+  String get partnersKindDeveloper => 'Developer';
+
+  @override
+  String get partnersKindAgency => 'Other agency';
+
+  @override
+  String get partnersKindOther => 'Other';
+
+  @override
+  String partnersReferredCount(int count) {
+    return 'Referred: $count';
+  }
+
+  @override
+  String partnersFeePercent(String value) {
+    return '$value% of commission';
+  }
+
+  @override
+  String partnersFeeFixed(String amount) {
+    return '$amount per deal';
+  }
+
+  @override
+  String get partnersFeeNone => 'No referral fee';
+
+  @override
+  String get partnersStatReferred => 'Referred clients';
+
+  @override
+  String get partnersStatWon => 'Won deals';
+
+  @override
+  String get partnersStatFees => 'Fees owed';
+
+  @override
+  String get partnersStatHandoffs => 'Clients sent';
+
+  @override
+  String partnersFeesUnknown(int count) {
+    return 'Won deals without a commission, not counted: $count';
+  }
+
+  @override
+  String get partnersStatsScope => 'Counted over the clients you see.';
+
+  @override
+  String get partnersContact => 'Contact';
+
+  @override
+  String get partnersName => 'Name';
+
+  @override
+  String get partnersNameHint => 'Who you deal with';
+
+  @override
+  String get partnersNameRequired => 'Enter a name';
+
+  @override
+  String get partnersCompany => 'Company';
+
+  @override
+  String get partnersCompanyHint => 'Bank, firm or agency';
+
+  @override
+  String get partnersKind => 'What they do';
+
+  @override
+  String get partnersPhone => 'Phone';
+
+  @override
+  String get partnersEmail => 'Email';
+
+  @override
+  String get partnersNote => 'Note';
+
+  @override
+  String get partnersNoteHint =>
+      'Terms, how to reach them, anything to remember';
+
+  @override
+  String get partnersFee => 'Referral fee';
+
+  @override
+  String get partnersFeeHint =>
+      'Owed on each won deal of a client the partner sent.';
+
+  @override
+  String get partnersFeeTypeNone => 'None';
+
+  @override
+  String get partnersFeeTypePercent => '% of commission';
+
+  @override
+  String get partnersFeeTypeFixed => 'Fixed amount';
+
+  @override
+  String get partnersFeeValuePercent => 'Percent';
+
+  @override
+  String get partnersFeeValueAmount => 'Amount';
+
+  @override
+  String get partnersFeeInvalidPercent =>
+      'Enter a percent above 0 and at most 100';
+
+  @override
+  String get partnersFeeInvalidAmount => 'Enter an amount above 0';
+
+  @override
+  String get partnersInvalidFee => 'Check the referral fee';
+
+  @override
+  String get partnersSave => 'Save';
+
+  @override
+  String get partnersNew => 'New partner';
+
+  @override
+  String get partnersEdit => 'Edit partner';
+
+  @override
+  String get partnersDelete => 'Delete partner';
+
+  @override
+  String partnersDeleteConfirm(String name) {
+    return 'Delete $name? This cannot be undone.';
+  }
+
+  @override
+  String get partnersInUse =>
+      'Clients are linked to this partner, so it cannot be deleted.';
+
+  @override
+  String get partnersRequired => 'Choose the partner who sent this client';
+
+  @override
+  String partnersAddedBy(String name) {
+    return 'Added by $name';
+  }
+
+  @override
+  String get partnersReferrals => 'Clients they referred';
+
+  @override
+  String get partnersNoReferrals => 'No clients from this partner yet';
+
+  @override
+  String partnersReferralWon(int count) {
+    return 'Won deals: $count';
+  }
+
+  @override
+  String partnersReferralFee(String amount) {
+    return 'Fee $amount';
+  }
+
+  @override
+  String get partnersReferralNoDeals => 'No won deals';
+
+  @override
+  String get partnersSentClients => 'Clients sent to them';
+
+  @override
+  String get partnersNoSentClients => 'No clients sent yet';
+
+  @override
+  String get partnersHandoffSent => 'Sent';
+
+  @override
+  String get partnersHandoffInProgress => 'In progress';
+
+  @override
+  String get partnersHandoffDone => 'Done';
+
+  @override
+  String get partnersClientCard => 'Partners';
+
+  @override
+  String get partnersReferredBy => 'Referred by';
+
+  @override
+  String get partnersSentTo => 'Sent to';
+
+  @override
+  String get partnersSendToPartner => 'Send to a partner';
+
+  @override
+  String get partnersClientNotSent => 'Not sent to any partner yet';
+
+  @override
+  String get partnersHandoffEdit => 'Update hand-off';
+
+  @override
+  String get partnersHandoffPartner => 'Partner';
+
+  @override
+  String get partnersHandoffDate => 'Sent on';
+
+  @override
+  String get partnersHandoffStatus => 'Status';
+
+  @override
+  String get partnersHandoffNoteHint => 'What they are helping with';
+
+  @override
+  String get partnersHandoffRemove => 'Remove hand-off';
+
+  @override
+  String get partnersHandoffRemoveConfirm =>
+      'Take this hand-off off the client?';
+
+  @override
+  String partnersHandoffBy(String name) {
+    return 'Sent by $name';
+  }
+
+  @override
+  String get partnersPickPartner => 'Choose a partner';
+
+  @override
+  String get partnersPickerEmpty => 'No partners';
+
+  @override
+  String get partnersSentOnFuture => 'The day cannot be in the future';
+
+  @override
+  String partnersOpenHandoffs(int count) {
+    return 'Still open: $count';
+  }
+
+  @override
+  String get timeOffTitle => 'Time off';
+
+  @override
+  String get timeOffWhosOut => 'Who\'s out';
+
+  @override
+  String get timeOffAdd => 'Add time off';
+
+  @override
+  String get timeOffNewTitle => 'New time off';
+
+  @override
+  String get timeOffEditTitle => 'Time off';
+
+  @override
+  String get timeOffKind => 'Kind';
+
+  @override
+  String get timeOffKindVacation => 'Vacation';
+
+  @override
+  String get timeOffKindSickLeave => 'Sick leave';
+
+  @override
+  String get timeOffKindDayOff => 'Day off';
+
+  @override
+  String get timeOffKindOther => 'Other';
+
+  @override
+  String get timeOffPerson => 'Who is away';
+
+  @override
+  String get timeOffPickPerson => 'Choose who is away';
+
+  @override
+  String get timeOffSearchPeople => 'Search people';
+
+  @override
+  String get timeOffDaysEyebrow => 'Days';
+
+  @override
+  String get timeOffFirstDay => 'First day';
+
+  @override
+  String get timeOffLastDay => 'Last day';
+
+  @override
+  String get timeOffPickDate => 'Pick a day';
+
+  @override
+  String get timeOffDatesRequired => 'Choose the first and the last day';
+
+  @override
+  String get timeOffEndBeforeStart => 'The last day cannot be before the first';
+
+  @override
+  String timeOffDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days',
+      one: '1 day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get timeOffCover => 'Covering';
+
+  @override
+  String get timeOffNoCover => 'Nobody';
+
+  @override
+  String get timeOffCoverHint =>
+      'While they are away, the cover also gets their notifications. Nothing changes hands.';
+
+  @override
+  String timeOffCoveredBy(String name) {
+    return 'Covered by $name';
+  }
+
+  @override
+  String get timeOffNobodyCovers => 'Nobody covers';
+
+  @override
+  String get timeOffNote => 'Note';
+
+  @override
+  String get timeOffNoteHint => 'Anything colleagues should know';
+
+  @override
+  String get timeOffSaved => 'Time off saved';
+
+  @override
+  String get timeOffCancelled => 'Time off cancelled';
+
+  @override
+  String get timeOffCancelAction => 'Cancel time off';
+
+  @override
+  String get timeOffKeep => 'Keep it';
+
+  @override
+  String get timeOffCancelConfirmTitle => 'Cancel this time off?';
+
+  @override
+  String get timeOffCancelConfirmBody =>
+      'It comes off the team\'s list, and the cover stops getting the notifications.';
+
+  @override
+  String get timeOffLoadFailed => 'Could not load time off';
+
+  @override
+  String get timeOffEmpty => 'No time off yet';
+
+  @override
+  String get timeOffEmptyHint =>
+      'Add a holiday or a day off, so the team knows who covers for you.';
+
+  @override
+  String get timeOffTeamEmpty => 'Everyone is in';
+
+  @override
+  String get timeOffTeamEmptyHint =>
+      'Nobody has time off in the next three months.';
+
+  @override
+  String get timeOffSectionToday => 'Out today';
+
+  @override
+  String get timeOffSectionThisWeek => 'Starting this week';
+
+  @override
+  String get timeOffSectionLater => 'Later';
+
+  @override
+  String get timeOffSectionUpcoming => 'Now and coming up';
+
+  @override
+  String get timeOffSectionPast => 'Past';
+
+  @override
+  String get timeOffAwayNow => 'Away now';
+
+  @override
+  String timeOffAwayUntil(String date) {
+    return 'Away until $date';
+  }
+
+  @override
+  String timeOffAwayOnDay(String name, String kind, String date) {
+    return '$name is away that day: $kind until $date';
+  }
+
+  @override
+  String timeOffConflictsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count meetings on these days',
+      one: '1 meeting on these days',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get timeOffConflictsHint =>
+      'They are still on the calendar. Move them, or hand the work to a colleague.';
+
+  @override
+  String get timeOffHandOver => 'Hand over work';
+
+  @override
+  String get timeOffErrorOverlaps =>
+      'There is already time off on some of these days';
+
+  @override
+  String get timeOffErrorTooLong => 'Time off lasts at most a year';
+
+  @override
+  String get timeOffErrorCoverIsAbsent => 'Somebody else has to cover';
+
+  @override
+  String get timeOffErrorNotYours =>
+      'Only the person away or a manager can change this';
+
+  @override
+  String timeOffOutToday(int count) {
+    return 'Out today: $count';
+  }
+
+  @override
+  String timeOffCoveringFor(String name) {
+    return 'Covering for $name';
+  }
+
+  @override
+  String notificationsTimeOffCover(String name) {
+    return 'You are covering for $name';
+  }
 
   @override
   String get splitsTitle => 'Commission split';

@@ -20,6 +20,9 @@ public class ClientResponse {
     /** How the client reached the agency; null when not recorded. */
     private com.crm.realestate.enums.LeadSource leadSource;
     private String leadSourceDetail;
+    /** The partner who sent them, when the lead source is PARTNER. */
+    private Long referredByPartnerId;
+    private String referredByPartnerName;
     private String notes;
     private Long agentId;
     private String agentName;

@@ -1,6 +1,7 @@
 package com.crm.realestate.service;
 
 import com.crm.realestate.dto.response.AgentOptionResponse;
+import com.crm.realestate.entity.TimeOff;
 import com.crm.realestate.entity.User;
 import com.crm.realestate.repository.UserRepository;
 import com.crm.realestate.security.SecurityUtils;
@@ -8,7 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,6 +22,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final SecurityUtils  securityUtils;
     private final ScopeService   scopeService;
+    private final TimeOffService timeOffService;
 
     // only active agents for frontend select (for meetings, deals)
     public List<AgentOptionResponse> getAgentOptions() {
@@ -39,12 +43,36 @@ public class UserService {
         } else {
             people = userRepository.findByTeamIdAndIsActiveTrueOrderByFullNameAsc(currentUser.getTeam().getId());
         }
+        // Inside an agency each person says when they are away, so nobody hands work to somebody on
+        // holiday without knowing it. One statement for the whole list.
+        Map<Long, List<TimeOff>> away = scopeService.isAdmin(currentUser) || currentUser.getTeam() == null
+                ? null
+                : timeOffService.notOverByPerson(currentUser.getTeam().getId(),
+                        people.stream().map(User::getId).toList());
+        LocalDate today = away == null ? null : timeOffService.today();
         return people
                 .stream()
-                .map(user -> AgentOptionResponse.builder()
-                        .id(user.getId())
-                        .fullName(user.getFullName())
-                        .build())
+                .map(user -> {
+                    AgentOptionResponse.AgentOptionResponseBuilder option = AgentOptionResponse.builder()
+                            .id(user.getId())
+                            .fullName(user.getFullName());
+                    if (away != null) {
+                        List<TimeOff> theirs = away.getOrDefault(user.getId(), List.of());
+                        option.timeOff(theirs.stream()
+                                .map(t -> AgentOptionResponse.Away.builder()
+                                        .kind(t.getKind())
+                                        .startDate(t.getStartDate())
+                                        .endDate(t.getEndDate())
+                                        .build())
+                                .toList());
+                        option.awayUntil(theirs.stream()
+                                .filter(t -> t.covers(today))
+                                .map(TimeOff::getEndDate)
+                                .findFirst()
+                                .orElse(null));
+                    }
+                    return option.build();
+                })
                 .collect(Collectors.toList());
     }
 }

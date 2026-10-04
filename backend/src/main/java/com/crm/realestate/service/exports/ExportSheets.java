@@ -67,7 +67,7 @@ class ExportSheets {
             case CLIENTS -> {
                 Specification<Client> spec = clients(query);
                 long after = 0;
-                for (List<Client> page; !(page = page(Client.class, spec, after, "agent")).isEmpty(); ) {
+                for (List<Client> page; !(page = page(Client.class, spec, after, "agent", "referredBy")).isEmpty(); ) {
                     var tags = columns.tags(page);
                     for (Client client : page) csv.row(columns.client(client, tags, csv, language));
                     after = page.get(page.size() - 1).getId();

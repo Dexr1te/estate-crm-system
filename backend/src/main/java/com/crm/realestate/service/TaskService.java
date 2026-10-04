@@ -1,17 +1,22 @@
 package com.crm.realestate.service;
 
+import com.crm.realestate.dto.request.TaskRepeatRequest;
 import com.crm.realestate.dto.request.TaskRequest;
+import com.crm.realestate.dto.response.TaskRepeatResponse;
 import com.crm.realestate.dto.response.TaskResponse;
 import com.crm.realestate.entity.Client;
 import com.crm.realestate.entity.Deal;
 import com.crm.realestate.entity.Task;
+import com.crm.realestate.entity.TaskSeries;
 import com.crm.realestate.entity.Team;
 import com.crm.realestate.entity.User;
+import com.crm.realestate.enums.RepeatFrequency;
 import com.crm.realestate.exception.BusinessException;
 import com.crm.realestate.exception.ResourceNotFoundException;
 import com.crm.realestate.repository.ClientRepository;
 import com.crm.realestate.repository.DealRepository;
 import com.crm.realestate.repository.TaskRepository;
+import com.crm.realestate.repository.TaskSeriesRepository;
 import com.crm.realestate.repository.UserRepository;
 import com.crm.realestate.security.SecurityUtils;
 import jakarta.persistence.criteria.Predicate;
@@ -23,11 +28,16 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * Follow-ups with a due time: "call Irina back on Friday".
@@ -36,6 +46,12 @@ import java.util.Objects;
  * agent on their own records sees the tasks they have to do, a team sees the agency's, and another
  * agency's task answers not found. Linking one to a client or a deal the caller cannot read is
  * refused the same way, so the refusal does not confirm the record exists.
+ *
+ * <p>A repeating task is a series of ordinary tasks with one open at a time: completing an
+ * occurrence writes the next, due where {@link RepeatSchedule} puts it, for whoever held the one
+ * completed, in its agency, about the same client and deal. Each occurrence writes at most one
+ * next, so reopening and completing it again adds nothing. The rule is changed or stopped through
+ * any occurrence the caller may see, and a change counts for the occurrences still to be written.
  */
 @Service
 @RequiredArgsConstructor
@@ -46,6 +62,7 @@ public class TaskService {
     public static final String HOLDER = "assignee";
 
     private final TaskRepository   taskRepository;
+    private final TaskSeriesRepository seriesRepository;
     private final ClientRepository clientRepository;
     private final DealRepository   dealRepository;
     private final UserRepository   userRepository;
@@ -67,6 +84,12 @@ public class TaskService {
      */
     public List<TaskResponse> list(String status, Long clientId, Long dealId, Long assigneeId,
                                    LocalDateTime from, LocalDateTime to) {
+        return list(status, clientId, dealId, assigneeId, from, to, null);
+    }
+
+    /** As above, optionally only the occurrences of one repeating series. */
+    public List<TaskResponse> list(String status, Long clientId, Long dealId, Long assigneeId,
+                                   LocalDateTime from, LocalDateTime to, Long seriesId) {
         Boolean doneFilter = parseDone(status);
         boolean done = Boolean.TRUE.equals(doneFilter);
         Specification<Task> filter = (root, query, cb) -> {
@@ -89,6 +112,9 @@ public class TaskService {
             if (assigneeId != null) {
                 predicates.add(cb.equal(root.get(HOLDER).get("id"), assigneeId));
             }
+            if (seriesId != null) {
+                predicates.add(cb.equal(root.get("series").get("id"), seriesId));
+            }
             return cb.and(predicates.toArray(new Predicate[0]));
         };
         Sort order = done
@@ -109,6 +135,10 @@ public class TaskService {
         Task task = new Task();
         task.setCreatedBy(currentUser);
         apply(request, task, currentUser);
+        Rule rule = request.getRepeat() == null ? null : parseRepeat(request.getRepeat(), task.getDueAt());
+        if (rule != null) {
+            startSeries(task, rule);
+        }
         Task saved = taskRepository.save(task);
         notificationEvents.taskAssigned(saved, currentUser);
         return toResponse(saved);
@@ -120,7 +150,12 @@ public class TaskService {
         User currentUser = securityUtils.getCurrentUser();
         Task task = findVisibleById(id, currentUser);
         Long previousAssigneeId = task.getAssignee().getId();
+        LocalDateTime previousDue = task.getDueAt();
         apply(request, task, currentUser);
+        if (request.getRepeat() != null) {
+            changeRepeat(task, parseRepeat(request.getRepeat(), task.getDueAt()),
+                    !previousDue.equals(task.getDueAt()));
+        }
         Task saved = taskRepository.save(task);
         if (!previousAssigneeId.equals(saved.getAssignee().getId())) {
             notificationEvents.taskAssigned(saved, currentUser);
@@ -128,14 +163,174 @@ public class TaskService {
         return toResponse(saved);
     }
 
-    /** Completing a finished task again keeps the time it was first done. */
+    /**
+     * Completing a finished task again keeps the time it was first done. Completing an occurrence
+     * of a repeating task writes the next one, once.
+     */
     @Transactional
     public TaskResponse complete(Long id) {
         Task task = findVisibleById(id, securityUtils.getCurrentUser());
         if (task.getCompletedAt() == null) {
-            task.setCompletedAt(LocalDateTime.now());
+            LocalDateTime now = LocalDateTime.now();
+            task.setCompletedAt(now);
+            writeNext(task, now);
         }
         return toResponse(taskRepository.save(task));
+    }
+
+    /**
+     * "Stop repeating": the series writes nothing more. Every occurrence stays as it is, the open
+     * one included, as a task that no longer repeats. Stopping a task that does not repeat is no
+     * change.
+     */
+    @Transactional
+    public TaskResponse stopRepeating(Long id) {
+        Task task = findVisibleById(id, securityUtils.getCurrentUser());
+        TaskSeries series = task.getSeries();
+        if (series != null && series.isActive()) {
+            series.setStoppedAt(LocalDateTime.now());
+            seriesRepository.save(series);
+        }
+        return toResponse(task);
+    }
+
+    /**
+     * The occurrence after {@code done}, for the same person on the same client and deal in the
+     * same agency, unless the series is stopped, has ended, or {@code done} already wrote it.
+     */
+    private void writeNext(Task done, LocalDateTime now) {
+        TaskSeries series = done.getSeries();
+        if (series == null || !series.isActive() || done.isNextCreated() || done.getOccurrence() == null) {
+            return;
+        }
+        int next = done.getOccurrence() + 1;
+        if (taskRepository.existsBySeriesIdAndOccurrence(series.getId(), next)) {
+            done.setNextCreated(true);
+            return;
+        }
+        Optional<LocalDateTime> due = RepeatSchedule.nextDue(series, done.getDueAt(), done.getOccurrence(), now);
+        if (due.isEmpty()) {
+            return;
+        }
+        taskRepository.save(Task.builder()
+                .team(done.getTeam())
+                .assignee(done.getAssignee())
+                .createdBy(done.getCreatedBy())
+                .title(done.getTitle())
+                .note(done.getNote())
+                .client(done.getClient())
+                .deal(done.getDeal())
+                .dueAt(due.get())
+                .series(series)
+                .occurrence(next)
+                .build());
+        done.setNextCreated(true);
+    }
+
+    /** A rule as asked for, checked; null stands for NONE. */
+    private record Rule(RepeatFrequency frequency, Set<DayOfWeek> weekdays, LocalDate until, Integer count) {
+
+        Integer weekdayMask() {
+            return frequency == RepeatFrequency.WEEKLY ? RepeatSchedule.mask(weekdays) : null;
+        }
+    }
+
+    private static Rule parseRepeat(TaskRepeatRequest repeat, LocalDateTime due) {
+        RepeatFrequency frequency;
+        try {
+            frequency = RepeatFrequency.valueOf(repeat.getFrequency().trim().toUpperCase(Locale.ROOT));
+        } catch (NullPointerException | IllegalArgumentException e) {
+            throw new BusinessException(HttpStatus.BAD_REQUEST, "INVALID_REPEAT_FREQUENCY",
+                    "Repeat must be NONE, DAILY, WEEKLY, MONTHLY, QUARTERLY or YEARLY");
+        }
+        if (frequency == RepeatFrequency.NONE) {
+            return null;
+        }
+        // Weekdays mean something to a weekly rule only; whatever else carries them is dropped.
+        Set<DayOfWeek> weekdays = EnumSet.noneOf(DayOfWeek.class);
+        if (frequency == RepeatFrequency.WEEKLY) {
+            if (repeat.getWeekdays() != null) {
+                for (String day : repeat.getWeekdays()) {
+                    try {
+                        weekdays.add(DayOfWeek.valueOf(day.trim().toUpperCase(Locale.ROOT)));
+                    } catch (NullPointerException | IllegalArgumentException e) {
+                        throw new BusinessException(HttpStatus.BAD_REQUEST, "INVALID_WEEKDAY",
+                                "Weekdays must be MONDAY ... SUNDAY");
+                    }
+                }
+            }
+            if (weekdays.isEmpty()) {
+                weekdays.add(due.getDayOfWeek());
+            }
+        }
+        if (repeat.getUntil() != null && repeat.getCount() != null) {
+            throw new BusinessException(HttpStatus.BAD_REQUEST, "REPEAT_ENDS_TWICE",
+                    "A repeat ends on a day or after a number of times, not both");
+        }
+        if (repeat.getCount() != null && (repeat.getCount() < 1 || repeat.getCount() > 999)) {
+            throw new BusinessException(HttpStatus.BAD_REQUEST, "INVALID_REPEAT_COUNT",
+                    "A repeat ends after 1 to 999 times");
+        }
+        if (repeat.getUntil() != null && repeat.getUntil().isBefore(due.toLocalDate())) {
+            throw new BusinessException(HttpStatus.BAD_REQUEST, "REPEAT_UNTIL_BEFORE_DUE",
+                    "A repeat cannot end before the task is due");
+        }
+        return new Rule(frequency, weekdays, repeat.getUntil(), repeat.getCount());
+    }
+
+    /** {@code task} becomes the first occurrence of a new series following {@code rule}. */
+    private void startSeries(Task task, Rule rule) {
+        TaskSeries series = seriesRepository.save(TaskSeries.builder()
+                .frequency(rule.frequency())
+                .weekdays(rule.weekdayMask())
+                .anchorAt(task.getDueAt())
+                .countFrom(1)
+                .untilDate(rule.until())
+                .maxOccurrences(rule.count())
+                .build());
+        task.setSeries(series);
+        task.setOccurrence(1);
+        task.setNextCreated(false);
+    }
+
+    /**
+     * Saving a task with a repeat. NONE stops its series. A rule on a task that does not repeat,
+     * or whose series was stopped, starts a new series from it. Otherwise the series takes the
+     * rule for the occurrences still to be written: a new pattern, or a new due time on this
+     * occurrence, counts the pattern from this occurrence's due time, and a new pattern or end
+     * counts "after N times" from this occurrence. The same rule sent back with the same due time
+     * changes nothing, so editing the title of an occurrence that a month clamped to the 30th
+     * does not move the series off the 31st.
+     */
+    private void changeRepeat(Task task, Rule rule, boolean dueChanged) {
+        TaskSeries series = task.getSeries();
+        boolean active = series != null && series.isActive();
+        if (rule == null) {
+            if (active) {
+                series.setStoppedAt(LocalDateTime.now());
+                seriesRepository.save(series);
+            }
+            return;
+        }
+        if (!active) {
+            startSeries(task, rule);
+            return;
+        }
+        boolean pattern = series.getFrequency() != rule.frequency()
+                || !Objects.equals(series.getWeekdays(), rule.weekdayMask());
+        boolean end = !Objects.equals(series.getUntilDate(), rule.until())
+                || !Objects.equals(series.getMaxOccurrences(), rule.count());
+        if (pattern || dueChanged) {
+            series.setAnchorAt(task.getDueAt());
+        }
+        if (pattern || end) {
+            series.setCountFrom(task.getOccurrence());
+        }
+        series.setFrequency(rule.frequency());
+        series.setWeekdays(rule.weekdayMask());
+        series.setUntilDate(rule.until());
+        series.setMaxOccurrences(rule.count());
+        seriesRepository.save(series);
     }
 
     @Transactional
@@ -270,8 +465,24 @@ public class TaskService {
                 .clientName(task.getClient() == null ? null : task.getClient().getFullName())
                 .dealId(task.getDeal() == null ? null : task.getDeal().getId())
                 .dealTitle(task.getDeal() == null ? null : task.getDeal().getTitle())
+                .seriesId(task.getSeries() == null ? null : task.getSeries().getId())
+                .occurrence(task.getSeries() == null ? null : task.getOccurrence())
+                .repeat(repeatOf(task.getSeries()))
                 .createdAt(task.getCreatedAt())
                 .updatedAt(task.getUpdatedAt())
+                .build();
+    }
+
+    private static TaskRepeatResponse repeatOf(TaskSeries series) {
+        if (series == null || !series.isActive()) {
+            return null;
+        }
+        return TaskRepeatResponse.builder()
+                .frequency(series.getFrequency())
+                .weekdays(List.copyOf(RepeatSchedule.weekdays(series.getWeekdays())))
+                .until(series.getUntilDate())
+                .count(series.getMaxOccurrences())
+                .anchorAt(series.getAnchorAt())
                 .build();
     }
 }

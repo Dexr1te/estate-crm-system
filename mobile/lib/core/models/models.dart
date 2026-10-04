@@ -93,6 +93,10 @@ enum LeadSource {
   COLD_CALL,
   // ignore: constant_identifier_names
   REPEAT,
+
+  /// Sent by one of the agency's partners, named beside it on the client.
+  // ignore: constant_identifier_names
+  PARTNER,
   // ignore: constant_identifier_names
   OTHER,
 }
@@ -151,6 +155,10 @@ class ClientResponse with _$ClientResponse {
     @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
     LeadSource? leadSource,
     String? leadSourceDetail,
+
+    /// The partner who sent them, when [leadSource] is PARTNER.
+    int? referredByPartnerId,
+    String? referredByPartnerName,
 
     /// `1990-05-14`, or `--05-14` when the year is not known. Read it
     /// through `ClientBirthday.parse`.
@@ -732,6 +740,43 @@ class UpcomingMeetingResponse with _$UpcomingMeetingResponse {
       _$UpcomingMeetingResponseFromJson(json);
 }
 
+/// How often a task comes back. A value this build does not know reads as
+/// [none], so the task shows as a plain one rather than a wrong rule.
+enum RepeatFrequency {
+  @JsonValue('NONE')
+  none,
+  @JsonValue('DAILY')
+  daily,
+  @JsonValue('WEEKLY')
+  weekly,
+  @JsonValue('MONTHLY')
+  monthly,
+  @JsonValue('QUARTERLY')
+  quarterly,
+  @JsonValue('YEARLY')
+  yearly,
+}
+
+/// A task's repeat rule. [weekdays] are MONDAY ... SUNDAY, weekly only;
+/// [anchorAt] is the due time the pattern counts from, so a series on the
+/// 31st still says so on the occurrence a short month moved to the 30th. At
+/// most one of [until] and [count] ends it.
+@freezed
+class TaskRepeat with _$TaskRepeat {
+  const factory TaskRepeat({
+    @JsonKey(unknownEnumValue: RepeatFrequency.none)
+    @Default(RepeatFrequency.none)
+    RepeatFrequency frequency,
+    @Default(<String>[]) List<String> weekdays,
+    DateTime? until,
+    int? count,
+    DateTime? anchorAt,
+  }) = _TaskRepeat;
+
+  factory TaskRepeat.fromJson(Map<String, dynamic> json) =>
+      _$TaskRepeatFromJson(json);
+}
+
 @freezed
 class TaskResponse with _$TaskResponse {
   const TaskResponse._();
@@ -750,11 +795,22 @@ class TaskResponse with _$TaskResponse {
     String? clientName,
     int? dealId,
     String? dealTitle,
+
+    /// The series this task is an occurrence of; kept after the series is
+    /// stopped, when [repeat] is null.
+    int? seriesId,
+    int? occurrence,
+
+    /// How it repeats; null when it does not, or no longer does.
+    TaskRepeat? repeat,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) = _TaskResponse;
 
   bool get isDone => completedAt != null;
+
+  bool get repeats =>
+      repeat != null && repeat!.frequency != RepeatFrequency.none;
 
   factory TaskResponse.fromJson(Map<String, dynamic> json) =>
       _$TaskResponseFromJson(json);
@@ -957,10 +1013,96 @@ class AgentOption with _$AgentOption {
     required int id,
     required String fullName,
     String? email,
+
+    /// The last day of the time off they are on today; null when they are in.
+    DateTime? awayUntil,
+
+    /// Their time off that has not ended yet, soonest first.
+    @Default(<AgentAway>[]) List<AgentAway> timeOff,
   }) = _AgentOption;
 
   factory AgentOption.fromJson(Map<String, dynamic> json) =>
       _$AgentOptionFromJson(json);
+}
+
+/// Why somebody is away. A kind this app does not know reads as [other].
+enum TimeOffKind {
+  @JsonValue('VACATION')
+  vacation,
+  @JsonValue('SICK_LEAVE')
+  sickLeave,
+  @JsonValue('DAY_OFF')
+  dayOff,
+  @JsonValue('OTHER')
+  other,
+}
+
+/// A stretch of time off on the agents list: the first and the last day,
+/// both inclusive.
+@freezed
+class AgentAway with _$AgentAway {
+  const factory AgentAway({
+    @JsonKey(unknownEnumValue: TimeOffKind.other)
+    @Default(TimeOffKind.other)
+    TimeOffKind kind,
+    required DateTime startDate,
+    required DateTime endDate,
+  }) = _AgentAway;
+
+  factory AgentAway.fromJson(Map<String, dynamic> json) =>
+      _$AgentAwayFromJson(json);
+}
+
+/// Somebody's time off, and the colleague covering for them. The days are
+/// calendar dates, the first and the last both inclusive.
+@freezed
+class TimeOff with _$TimeOff {
+  const factory TimeOff({
+    required int id,
+    required int userId,
+    @Default('') String userName,
+    @JsonKey(unknownEnumValue: TimeOffKind.other)
+    @Default(TimeOffKind.other)
+    TimeOffKind kind,
+    required DateTime startDate,
+    required DateTime endDate,
+    @Default(1) int days,
+    String? note,
+    int? coverId,
+    String? coverName,
+    int? createdById,
+    String? createdByName,
+
+    /// Whether they are away today.
+    @Default(false) bool current,
+
+    /// Whether the signed-in user may change or cancel it.
+    @Default(false) bool canEdit,
+
+    /// Meetings still to come that the absent person holds on these days.
+    @Default(0) int conflictCount,
+
+    /// Those meetings, when the signed-in user may see them; otherwise empty.
+    @Default(<TimeOffConflict>[]) List<TimeOffConflict> conflicts,
+  }) = _TimeOff;
+
+  factory TimeOff.fromJson(Map<String, dynamic> json) =>
+      _$TimeOffFromJson(json);
+}
+
+/// A meeting the absent person still has on one of their days off.
+@freezed
+class TimeOffConflict with _$TimeOffConflict {
+  const factory TimeOffConflict({
+    required int meetingId,
+    @Default('') String title,
+    required DateTime scheduledAt,
+    String? clientName,
+    String? propertyTitle,
+  }) = _TimeOffConflict;
+
+  factory TimeOffConflict.fromJson(Map<String, dynamic> json) =>
+      _$TimeOffConflictFromJson(json);
 }
 
 @freezed
@@ -1105,6 +1247,8 @@ enum NotificationType {
   purchaseAnniversary,
   @JsonValue('LEASE_ENDING')
   leaseEnding,
+  @JsonValue('TIME_OFF_COVER')
+  timeOffCover,
   unknown,
 }
 
@@ -1355,6 +1499,131 @@ class OpenHouseVisitor with _$OpenHouseVisitor {
 
   factory OpenHouseVisitor.fromJson(Map<String, dynamic> json) =>
       _$OpenHouseVisitorFromJson(json);
+}
+
+/// What an outside partner of the agency does.
+enum PartnerKind {
+  @JsonValue('MORTGAGE_BROKER')
+  mortgageBroker,
+
+  /// A lawyer or a notary.
+  @JsonValue('LAWYER')
+  lawyer,
+  @JsonValue('APPRAISER')
+  appraiser,
+  @JsonValue('DEVELOPER')
+  developer,
+
+  /// Another agency.
+  @JsonValue('AGENCY')
+  agency,
+  @JsonValue('OTHER')
+  other,
+}
+
+/// How a partner's referral fee is worked out on a won deal: a share of the
+/// agency's commission, or a fixed amount in the agency's currency.
+enum ReferralFeeType {
+  @JsonValue('PERCENT')
+  percent,
+  @JsonValue('FIXED')
+  fixed,
+}
+
+/// Where a client sent to a partner has got to.
+enum PartnerHandoffStatus {
+  @JsonValue('SENT')
+  sent,
+  @JsonValue('IN_PROGRESS')
+  inProgress,
+  @JsonValue('DONE')
+  done,
+}
+
+/// One of the agency's partners, with what its referrals came to, counted
+/// over the clients the signed-in user sees.
+@freezed
+class Partner with _$Partner {
+  const factory Partner({
+    required int id,
+    @Default('') String name,
+    String? company,
+    @JsonKey(unknownEnumValue: PartnerKind.other)
+    @Default(PartnerKind.other)
+    PartnerKind kind,
+    String? phone,
+    String? email,
+    String? note,
+
+    /// Both or neither: no fee was agreed when null.
+    @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+    ReferralFeeType? feeType,
+    double? feeValue,
+    int? createdById,
+    String? createdByName,
+
+    /// Whether the signed-in user may change or delete it.
+    @Default(false) bool canEdit,
+    DateTime? createdAt,
+    @Default(0) int referredClients,
+    @Default(0) int wonDeals,
+    @Default(0) double feesOwed,
+
+    /// Won deals left out of [feesOwed] for want of a recorded commission.
+    @Default(0) int wonDealsWithoutCommission,
+    @Default(0) int handoffs,
+    @Default(0) int openHandoffs,
+  }) = _Partner;
+
+  factory Partner.fromJson(Map<String, dynamic> json) =>
+      _$PartnerFromJson(json);
+}
+
+/// A client a partner sent, with their won deals and the fee on them.
+@freezed
+class PartnerReferral with _$PartnerReferral {
+  const factory PartnerReferral({
+    required int clientId,
+    @Default('') String fullName,
+    @Default(ClientType.BUYER) ClientType type,
+    int? agentId,
+    String? agentName,
+    @Default(0) int wonDeals,
+    @Default(0) double feeOwed,
+    @Default(0) int wonDealsWithoutCommission,
+    DateTime? createdAt,
+  }) = _PartnerReferral;
+
+  factory PartnerReferral.fromJson(Map<String, dynamic> json) =>
+      _$PartnerReferralFromJson(json);
+}
+
+/// A client sent to a partner, named from both ends.
+@freezed
+class PartnerHandoff with _$PartnerHandoff {
+  const factory PartnerHandoff({
+    required int id,
+    required int clientId,
+    @Default('') String clientName,
+    required int partnerId,
+    @Default('') String partnerName,
+    String? partnerCompany,
+    @JsonKey(unknownEnumValue: PartnerKind.other)
+    @Default(PartnerKind.other)
+    PartnerKind partnerKind,
+    required DateTime sentOn,
+    @JsonKey(unknownEnumValue: PartnerHandoffStatus.sent)
+    @Default(PartnerHandoffStatus.sent)
+    PartnerHandoffStatus status,
+    String? note,
+    int? sentById,
+    String? sentByName,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) = _PartnerHandoff;
+
+  factory PartnerHandoff.fromJson(Map<String, dynamic> json) =>
+      _$PartnerHandoffFromJson(json);
 }
 
 /// The records whose changes the server writes down.

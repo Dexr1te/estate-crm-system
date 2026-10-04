@@ -33,5 +33,7 @@ public enum NotificationType {
     /** A deal of one of your clients was won on this day in an earlier year. Target: the client. */
     PURCHASE_ANNIVERSARY,
     /** A lease one of your rent deals let is running out. Target: the deal. */
-    LEASE_ENDING
+    LEASE_ENDING,
+    /** You were named to cover for a colleague's time off. Target: the time off. */
+    TIME_OFF_COVER
 }
