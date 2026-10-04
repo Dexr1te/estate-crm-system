@@ -36,8 +36,9 @@ public class TaskController {
             @RequestParam(required = false)
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime from,
             @RequestParam(required = false)
-            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime to) {
-        return ResponseEntity.ok(taskService.list(status, clientId, dealId, assigneeId, from, to));
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime to,
+            @RequestParam(required = false) Long seriesId) {
+        return ResponseEntity.ok(taskService.list(status, clientId, dealId, assigneeId, from, to, seriesId));
     }
 
     @GetMapping("/{id}")
@@ -58,8 +59,14 @@ public class TaskController {
         return ResponseEntity.ok(taskService.update(id, request));
     }
 
+    @PostMapping("/{id}/stop-repeating")
+    @Operation(summary = "Stop the series this task repeats in; every occurrence stays, nothing more is written")
+    public ResponseEntity<TaskResponse> stopRepeating(@PathVariable Long id) {
+        return ResponseEntity.ok(taskService.stopRepeating(id));
+    }
+
     @PostMapping("/{id}/complete")
-    @Operation(summary = "Mark a task done")
+    @Operation(summary = "Mark a task done; a repeating one writes its next occurrence, once")
     public ResponseEntity<TaskResponse> complete(@PathVariable Long id) {
         return ResponseEntity.ok(taskService.complete(id));
     }

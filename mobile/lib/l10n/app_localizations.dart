@@ -6628,6 +6628,12 @@ abstract class AppLocalizations {
   /// **'Task reopened'**
   String get msgTaskReopened;
 
+  /// No description provided for @msgTaskRepeatStopped.
+  ///
+  /// In en, this message translates to:
+  /// **'The task no longer repeats'**
+  String get msgTaskRepeatStopped;
+
   /// No description provided for @msgTaskUpdated.
   ///
   /// In en, this message translates to:
@@ -9274,6 +9280,186 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Reopen'**
   String get tasksReopen;
+
+  /// No description provided for @tasksRepeat.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat'**
+  String get tasksRepeat;
+
+  /// No description provided for @tasksRepeatCount.
+  ///
+  /// In en, this message translates to:
+  /// **'How many times'**
+  String get tasksRepeatCount;
+
+  /// No description provided for @tasksRepeatCountInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'From 1 to 999'**
+  String get tasksRepeatCountInvalid;
+
+  /// No description provided for @tasksRepeatDaily.
+  ///
+  /// In en, this message translates to:
+  /// **'Every day'**
+  String get tasksRepeatDaily;
+
+  /// No description provided for @tasksRepeatDayOrdinal.
+  ///
+  /// In en, this message translates to:
+  /// **'{day}{suffix, select, st{st} nd{nd} rd{rd} other{th}}'**
+  String tasksRepeatDayOrdinal(int day, String suffix);
+
+  /// No description provided for @tasksRepeatDays.
+  ///
+  /// In en, this message translates to:
+  /// **'On these days'**
+  String get tasksRepeatDays;
+
+  /// No description provided for @tasksRepeatEndAfter.
+  ///
+  /// In en, this message translates to:
+  /// **'After'**
+  String get tasksRepeatEndAfter;
+
+  /// No description provided for @tasksRepeatEndNever.
+  ///
+  /// In en, this message translates to:
+  /// **'Never'**
+  String get tasksRepeatEndNever;
+
+  /// No description provided for @tasksRepeatEndOn.
+  ///
+  /// In en, this message translates to:
+  /// **'On a day'**
+  String get tasksRepeatEndOn;
+
+  /// No description provided for @tasksRepeatEnds.
+  ///
+  /// In en, this message translates to:
+  /// **'Ends'**
+  String get tasksRepeatEnds;
+
+  /// No description provided for @tasksRepeatLeapYear.
+  ///
+  /// In en, this message translates to:
+  /// **'{rule} (28 February in other years)'**
+  String tasksRepeatLeapYear(Object rule);
+
+  /// No description provided for @tasksRepeatMonthly.
+  ///
+  /// In en, this message translates to:
+  /// **'Every month on the {day}'**
+  String tasksRepeatMonthly(Object day);
+
+  /// No description provided for @tasksRepeatNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Does not repeat'**
+  String get tasksRepeatNone;
+
+  /// No description provided for @tasksRepeatOptionDaily.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily'**
+  String get tasksRepeatOptionDaily;
+
+  /// No description provided for @tasksRepeatOptionMonthly.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly'**
+  String get tasksRepeatOptionMonthly;
+
+  /// No description provided for @tasksRepeatOptionQuarterly.
+  ///
+  /// In en, this message translates to:
+  /// **'Every 3 months'**
+  String get tasksRepeatOptionQuarterly;
+
+  /// No description provided for @tasksRepeatOptionWeekly.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly'**
+  String get tasksRepeatOptionWeekly;
+
+  /// No description provided for @tasksRepeatOptionYearly.
+  ///
+  /// In en, this message translates to:
+  /// **'Yearly'**
+  String get tasksRepeatOptionYearly;
+
+  /// No description provided for @tasksRepeatPickDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a day'**
+  String get tasksRepeatPickDay;
+
+  /// No description provided for @tasksRepeatQuarterly.
+  ///
+  /// In en, this message translates to:
+  /// **'Every 3 months on the {day}'**
+  String tasksRepeatQuarterly(Object day);
+
+  /// No description provided for @tasksRepeatShortMonths.
+  ///
+  /// In en, this message translates to:
+  /// **'{rule} (last day in shorter months)'**
+  String tasksRepeatShortMonths(Object rule);
+
+  /// No description provided for @tasksRepeatStop.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop repeating'**
+  String get tasksRepeatStop;
+
+  /// No description provided for @tasksRepeatStopBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This one stays as it is; no more are added after it.'**
+  String get tasksRepeatStopBody;
+
+  /// No description provided for @tasksRepeatStopTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop repeating this task?'**
+  String get tasksRepeatStopTitle;
+
+  /// No description provided for @tasksRepeatTimes.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{rule}, once} other{{rule}, {count} times}}'**
+  String tasksRepeatTimes(num count, Object rule);
+
+  /// No description provided for @tasksRepeatUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'{rule}, until {date}'**
+  String tasksRepeatUntil(Object date, Object rule);
+
+  /// No description provided for @tasksRepeatUntilBeforeDue.
+  ///
+  /// In en, this message translates to:
+  /// **'The last day cannot be before the task is due'**
+  String get tasksRepeatUntilBeforeDue;
+
+  /// No description provided for @tasksRepeatUse.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get tasksRepeatUse;
+
+  /// No description provided for @tasksRepeatWeekly.
+  ///
+  /// In en, this message translates to:
+  /// **'Every week on {days}'**
+  String tasksRepeatWeekly(Object days);
+
+  /// No description provided for @tasksRepeatYearly.
+  ///
+  /// In en, this message translates to:
+  /// **'Every year on {date}'**
+  String tasksRepeatYearly(Object date);
 
   /// No description provided for @tasksSave.
   ///

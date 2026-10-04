@@ -10233,6 +10233,257 @@ abstract class _UpcomingMeetingResponse implements UpcomingMeetingResponse {
       get copyWith => throw _privateConstructorUsedError;
 }
 
+TaskRepeat _$TaskRepeatFromJson(Map<String, dynamic> json) {
+  return _TaskRepeat.fromJson(json);
+}
+
+/// @nodoc
+mixin _$TaskRepeat {
+  @JsonKey(unknownEnumValue: RepeatFrequency.none)
+  RepeatFrequency get frequency => throw _privateConstructorUsedError;
+  List<String> get weekdays => throw _privateConstructorUsedError;
+  DateTime? get until => throw _privateConstructorUsedError;
+  int? get count => throw _privateConstructorUsedError;
+  DateTime? get anchorAt => throw _privateConstructorUsedError;
+
+  /// Serializes this TaskRepeat to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of TaskRepeat
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $TaskRepeatCopyWith<TaskRepeat> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $TaskRepeatCopyWith<$Res> {
+  factory $TaskRepeatCopyWith(
+          TaskRepeat value, $Res Function(TaskRepeat) then) =
+      _$TaskRepeatCopyWithImpl<$Res, TaskRepeat>;
+  @useResult
+  $Res call(
+      {@JsonKey(unknownEnumValue: RepeatFrequency.none)
+      RepeatFrequency frequency,
+      List<String> weekdays,
+      DateTime? until,
+      int? count,
+      DateTime? anchorAt});
+}
+
+/// @nodoc
+class _$TaskRepeatCopyWithImpl<$Res, $Val extends TaskRepeat>
+    implements $TaskRepeatCopyWith<$Res> {
+  _$TaskRepeatCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of TaskRepeat
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? frequency = null,
+    Object? weekdays = null,
+    Object? until = freezed,
+    Object? count = freezed,
+    Object? anchorAt = freezed,
+  }) {
+    return _then(_value.copyWith(
+      frequency: null == frequency
+          ? _value.frequency
+          : frequency // ignore: cast_nullable_to_non_nullable
+              as RepeatFrequency,
+      weekdays: null == weekdays
+          ? _value.weekdays
+          : weekdays // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      until: freezed == until
+          ? _value.until
+          : until // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      count: freezed == count
+          ? _value.count
+          : count // ignore: cast_nullable_to_non_nullable
+              as int?,
+      anchorAt: freezed == anchorAt
+          ? _value.anchorAt
+          : anchorAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$TaskRepeatImplCopyWith<$Res>
+    implements $TaskRepeatCopyWith<$Res> {
+  factory _$$TaskRepeatImplCopyWith(
+          _$TaskRepeatImpl value, $Res Function(_$TaskRepeatImpl) then) =
+      __$$TaskRepeatImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(unknownEnumValue: RepeatFrequency.none)
+      RepeatFrequency frequency,
+      List<String> weekdays,
+      DateTime? until,
+      int? count,
+      DateTime? anchorAt});
+}
+
+/// @nodoc
+class __$$TaskRepeatImplCopyWithImpl<$Res>
+    extends _$TaskRepeatCopyWithImpl<$Res, _$TaskRepeatImpl>
+    implements _$$TaskRepeatImplCopyWith<$Res> {
+  __$$TaskRepeatImplCopyWithImpl(
+      _$TaskRepeatImpl _value, $Res Function(_$TaskRepeatImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of TaskRepeat
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? frequency = null,
+    Object? weekdays = null,
+    Object? until = freezed,
+    Object? count = freezed,
+    Object? anchorAt = freezed,
+  }) {
+    return _then(_$TaskRepeatImpl(
+      frequency: null == frequency
+          ? _value.frequency
+          : frequency // ignore: cast_nullable_to_non_nullable
+              as RepeatFrequency,
+      weekdays: null == weekdays
+          ? _value._weekdays
+          : weekdays // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      until: freezed == until
+          ? _value.until
+          : until // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      count: freezed == count
+          ? _value.count
+          : count // ignore: cast_nullable_to_non_nullable
+              as int?,
+      anchorAt: freezed == anchorAt
+          ? _value.anchorAt
+          : anchorAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$TaskRepeatImpl implements _TaskRepeat {
+  const _$TaskRepeatImpl(
+      {@JsonKey(unknownEnumValue: RepeatFrequency.none)
+      this.frequency = RepeatFrequency.none,
+      final List<String> weekdays = const <String>[],
+      this.until,
+      this.count,
+      this.anchorAt})
+      : _weekdays = weekdays;
+
+  factory _$TaskRepeatImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TaskRepeatImplFromJson(json);
+
+  @override
+  @JsonKey(unknownEnumValue: RepeatFrequency.none)
+  final RepeatFrequency frequency;
+  final List<String> _weekdays;
+  @override
+  @JsonKey()
+  List<String> get weekdays {
+    if (_weekdays is EqualUnmodifiableListView) return _weekdays;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_weekdays);
+  }
+
+  @override
+  final DateTime? until;
+  @override
+  final int? count;
+  @override
+  final DateTime? anchorAt;
+
+  @override
+  String toString() {
+    return 'TaskRepeat(frequency: $frequency, weekdays: $weekdays, until: $until, count: $count, anchorAt: $anchorAt)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TaskRepeatImpl &&
+            (identical(other.frequency, frequency) ||
+                other.frequency == frequency) &&
+            const DeepCollectionEquality().equals(other._weekdays, _weekdays) &&
+            (identical(other.until, until) || other.until == until) &&
+            (identical(other.count, count) || other.count == count) &&
+            (identical(other.anchorAt, anchorAt) ||
+                other.anchorAt == anchorAt));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, frequency,
+      const DeepCollectionEquality().hash(_weekdays), until, count, anchorAt);
+
+  /// Create a copy of TaskRepeat
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$TaskRepeatImplCopyWith<_$TaskRepeatImpl> get copyWith =>
+      __$$TaskRepeatImplCopyWithImpl<_$TaskRepeatImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$TaskRepeatImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _TaskRepeat implements TaskRepeat {
+  const factory _TaskRepeat(
+      {@JsonKey(unknownEnumValue: RepeatFrequency.none)
+      final RepeatFrequency frequency,
+      final List<String> weekdays,
+      final DateTime? until,
+      final int? count,
+      final DateTime? anchorAt}) = _$TaskRepeatImpl;
+
+  factory _TaskRepeat.fromJson(Map<String, dynamic> json) =
+      _$TaskRepeatImpl.fromJson;
+
+  @override
+  @JsonKey(unknownEnumValue: RepeatFrequency.none)
+  RepeatFrequency get frequency;
+  @override
+  List<String> get weekdays;
+  @override
+  DateTime? get until;
+  @override
+  int? get count;
+  @override
+  DateTime? get anchorAt;
+
+  /// Create a copy of TaskRepeat
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$TaskRepeatImplCopyWith<_$TaskRepeatImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 TaskResponse _$TaskResponseFromJson(Map<String, dynamic> json) {
   return _TaskResponse.fromJson(json);
 }
@@ -10252,6 +10503,14 @@ mixin _$TaskResponse {
   String? get clientName => throw _privateConstructorUsedError;
   int? get dealId => throw _privateConstructorUsedError;
   String? get dealTitle => throw _privateConstructorUsedError;
+
+  /// The series this task is an occurrence of; kept after the series is
+  /// stopped, when [repeat] is null.
+  int? get seriesId => throw _privateConstructorUsedError;
+  int? get occurrence => throw _privateConstructorUsedError;
+
+  /// How it repeats; null when it does not, or no longer does.
+  TaskRepeat? get repeat => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
   DateTime? get updatedAt => throw _privateConstructorUsedError;
 
@@ -10285,8 +10544,13 @@ abstract class $TaskResponseCopyWith<$Res> {
       String? clientName,
       int? dealId,
       String? dealTitle,
+      int? seriesId,
+      int? occurrence,
+      TaskRepeat? repeat,
       DateTime? createdAt,
       DateTime? updatedAt});
+
+  $TaskRepeatCopyWith<$Res>? get repeat;
 }
 
 /// @nodoc
@@ -10317,6 +10581,9 @@ class _$TaskResponseCopyWithImpl<$Res, $Val extends TaskResponse>
     Object? clientName = freezed,
     Object? dealId = freezed,
     Object? dealTitle = freezed,
+    Object? seriesId = freezed,
+    Object? occurrence = freezed,
+    Object? repeat = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
@@ -10373,6 +10640,18 @@ class _$TaskResponseCopyWithImpl<$Res, $Val extends TaskResponse>
           ? _value.dealTitle
           : dealTitle // ignore: cast_nullable_to_non_nullable
               as String?,
+      seriesId: freezed == seriesId
+          ? _value.seriesId
+          : seriesId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      occurrence: freezed == occurrence
+          ? _value.occurrence
+          : occurrence // ignore: cast_nullable_to_non_nullable
+              as int?,
+      repeat: freezed == repeat
+          ? _value.repeat
+          : repeat // ignore: cast_nullable_to_non_nullable
+              as TaskRepeat?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -10382,6 +10661,20 @@ class _$TaskResponseCopyWithImpl<$Res, $Val extends TaskResponse>
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
     ) as $Val);
+  }
+
+  /// Create a copy of TaskResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $TaskRepeatCopyWith<$Res>? get repeat {
+    if (_value.repeat == null) {
+      return null;
+    }
+
+    return $TaskRepeatCopyWith<$Res>(_value.repeat!, (value) {
+      return _then(_value.copyWith(repeat: value) as $Val);
+    });
   }
 }
 
@@ -10407,8 +10700,14 @@ abstract class _$$TaskResponseImplCopyWith<$Res>
       String? clientName,
       int? dealId,
       String? dealTitle,
+      int? seriesId,
+      int? occurrence,
+      TaskRepeat? repeat,
       DateTime? createdAt,
       DateTime? updatedAt});
+
+  @override
+  $TaskRepeatCopyWith<$Res>? get repeat;
 }
 
 /// @nodoc
@@ -10437,6 +10736,9 @@ class __$$TaskResponseImplCopyWithImpl<$Res>
     Object? clientName = freezed,
     Object? dealId = freezed,
     Object? dealTitle = freezed,
+    Object? seriesId = freezed,
+    Object? occurrence = freezed,
+    Object? repeat = freezed,
     Object? createdAt = freezed,
     Object? updatedAt = freezed,
   }) {
@@ -10493,6 +10795,18 @@ class __$$TaskResponseImplCopyWithImpl<$Res>
           ? _value.dealTitle
           : dealTitle // ignore: cast_nullable_to_non_nullable
               as String?,
+      seriesId: freezed == seriesId
+          ? _value.seriesId
+          : seriesId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      occurrence: freezed == occurrence
+          ? _value.occurrence
+          : occurrence // ignore: cast_nullable_to_non_nullable
+              as int?,
+      repeat: freezed == repeat
+          ? _value.repeat
+          : repeat // ignore: cast_nullable_to_non_nullable
+              as TaskRepeat?,
       createdAt: freezed == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -10522,6 +10836,9 @@ class _$TaskResponseImpl extends _TaskResponse {
       this.clientName,
       this.dealId,
       this.dealTitle,
+      this.seriesId,
+      this.occurrence,
+      this.repeat,
       this.createdAt,
       this.updatedAt})
       : super._();
@@ -10556,6 +10873,17 @@ class _$TaskResponseImpl extends _TaskResponse {
   final int? dealId;
   @override
   final String? dealTitle;
+
+  /// The series this task is an occurrence of; kept after the series is
+  /// stopped, when [repeat] is null.
+  @override
+  final int? seriesId;
+  @override
+  final int? occurrence;
+
+  /// How it repeats; null when it does not, or no longer does.
+  @override
+  final TaskRepeat? repeat;
   @override
   final DateTime? createdAt;
   @override
@@ -10563,7 +10891,7 @@ class _$TaskResponseImpl extends _TaskResponse {
 
   @override
   String toString() {
-    return 'TaskResponse(id: $id, title: $title, note: $note, dueAt: $dueAt, completedAt: $completedAt, assigneeId: $assigneeId, assigneeName: $assigneeName, createdById: $createdById, createdByName: $createdByName, clientId: $clientId, clientName: $clientName, dealId: $dealId, dealTitle: $dealTitle, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'TaskResponse(id: $id, title: $title, note: $note, dueAt: $dueAt, completedAt: $completedAt, assigneeId: $assigneeId, assigneeName: $assigneeName, createdById: $createdById, createdByName: $createdByName, clientId: $clientId, clientName: $clientName, dealId: $dealId, dealTitle: $dealTitle, seriesId: $seriesId, occurrence: $occurrence, repeat: $repeat, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -10592,6 +10920,11 @@ class _$TaskResponseImpl extends _TaskResponse {
             (identical(other.dealId, dealId) || other.dealId == dealId) &&
             (identical(other.dealTitle, dealTitle) ||
                 other.dealTitle == dealTitle) &&
+            (identical(other.seriesId, seriesId) ||
+                other.seriesId == seriesId) &&
+            (identical(other.occurrence, occurrence) ||
+                other.occurrence == occurrence) &&
+            (identical(other.repeat, repeat) || other.repeat == repeat) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -10615,6 +10948,9 @@ class _$TaskResponseImpl extends _TaskResponse {
       clientName,
       dealId,
       dealTitle,
+      seriesId,
+      occurrence,
+      repeat,
       createdAt,
       updatedAt);
 
@@ -10649,6 +10985,9 @@ abstract class _TaskResponse extends TaskResponse {
       final String? clientName,
       final int? dealId,
       final String? dealTitle,
+      final int? seriesId,
+      final int? occurrence,
+      final TaskRepeat? repeat,
       final DateTime? createdAt,
       final DateTime? updatedAt}) = _$TaskResponseImpl;
   const _TaskResponse._() : super._();
@@ -10682,6 +11021,17 @@ abstract class _TaskResponse extends TaskResponse {
   int? get dealId;
   @override
   String? get dealTitle;
+
+  /// The series this task is an occurrence of; kept after the series is
+  /// stopped, when [repeat] is null.
+  @override
+  int? get seriesId;
+  @override
+  int? get occurrence;
+
+  /// How it repeats; null when it does not, or no longer does.
+  @override
+  TaskRepeat? get repeat;
   @override
   DateTime? get createdAt;
   @override

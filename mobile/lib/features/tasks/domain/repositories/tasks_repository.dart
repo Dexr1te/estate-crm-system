@@ -34,7 +34,12 @@ abstract class TasksRepository {
 
   Future<TaskResponse> updateTask(int id, Map<String, dynamic> data);
 
+  /// Completing an occurrence of a repeating task writes the next one on the
+  /// server; [changes] fires, so lists read it back.
   Future<TaskResponse> completeTask(int id);
+
+  /// The series this task repeats in writes nothing more; the task stays.
+  Future<TaskResponse> stopRepeating(int id);
 
   Future<TaskResponse> reopenTask(int id);
 

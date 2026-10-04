@@ -732,6 +732,43 @@ class UpcomingMeetingResponse with _$UpcomingMeetingResponse {
       _$UpcomingMeetingResponseFromJson(json);
 }
 
+/// How often a task comes back. A value this build does not know reads as
+/// [none], so the task shows as a plain one rather than a wrong rule.
+enum RepeatFrequency {
+  @JsonValue('NONE')
+  none,
+  @JsonValue('DAILY')
+  daily,
+  @JsonValue('WEEKLY')
+  weekly,
+  @JsonValue('MONTHLY')
+  monthly,
+  @JsonValue('QUARTERLY')
+  quarterly,
+  @JsonValue('YEARLY')
+  yearly,
+}
+
+/// A task's repeat rule. [weekdays] are MONDAY ... SUNDAY, weekly only;
+/// [anchorAt] is the due time the pattern counts from, so a series on the
+/// 31st still says so on the occurrence a short month moved to the 30th. At
+/// most one of [until] and [count] ends it.
+@freezed
+class TaskRepeat with _$TaskRepeat {
+  const factory TaskRepeat({
+    @JsonKey(unknownEnumValue: RepeatFrequency.none)
+    @Default(RepeatFrequency.none)
+    RepeatFrequency frequency,
+    @Default(<String>[]) List<String> weekdays,
+    DateTime? until,
+    int? count,
+    DateTime? anchorAt,
+  }) = _TaskRepeat;
+
+  factory TaskRepeat.fromJson(Map<String, dynamic> json) =>
+      _$TaskRepeatFromJson(json);
+}
+
 @freezed
 class TaskResponse with _$TaskResponse {
   const TaskResponse._();
@@ -750,11 +787,22 @@ class TaskResponse with _$TaskResponse {
     String? clientName,
     int? dealId,
     String? dealTitle,
+
+    /// The series this task is an occurrence of; kept after the series is
+    /// stopped, when [repeat] is null.
+    int? seriesId,
+    int? occurrence,
+
+    /// How it repeats; null when it does not, or no longer does.
+    TaskRepeat? repeat,
     DateTime? createdAt,
     DateTime? updatedAt,
   }) = _TaskResponse;
 
   bool get isDone => completedAt != null;
+
+  bool get repeats =>
+      repeat != null && repeat!.frequency != RepeatFrequency.none;
 
   factory TaskResponse.fromJson(Map<String, dynamic> json) =>
       _$TaskResponseFromJson(json);

@@ -43,6 +43,11 @@ class TasksRemoteDataSource {
     return TaskResponse.fromJson(jsonObject(res));
   }
 
+  Future<TaskResponse> stopRepeating(int id) async {
+    final res = await _client.dio.post('/tasks/$id/stop-repeating');
+    return TaskResponse.fromJson(jsonObject(res));
+  }
+
   Future<void> deleteTask(int id) async {
     await _client.dio.delete('/tasks/$id');
   }

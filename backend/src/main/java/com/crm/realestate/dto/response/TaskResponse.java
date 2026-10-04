@@ -27,6 +27,12 @@ public class TaskResponse {
     private String clientName;
     private Long dealId;
     private String dealTitle;
+    /** The series this task is an occurrence of, kept after the series is stopped; null otherwise. */
+    private Long seriesId;
+    /** 1, 2, 3 ... within the series. */
+    private Integer occurrence;
+    /** How it repeats; null when it does not, or no longer does. */
+    private TaskRepeatResponse repeat;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

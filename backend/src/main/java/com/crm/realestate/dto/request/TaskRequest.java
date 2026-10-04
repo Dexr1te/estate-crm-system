@@ -29,4 +29,10 @@ public class TaskRequest {
     private Long dealId;
 
     private Long assigneeId;
+
+    /**
+     * How it repeats. Left out, a new task does not repeat and an edited one keeps its rule, so
+     * an app that knows nothing of repeats cannot end a series by saving a task; NONE stops it.
+     */
+    private TaskRepeatRequest repeat;
 }

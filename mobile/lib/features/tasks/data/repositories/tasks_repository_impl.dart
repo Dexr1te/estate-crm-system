@@ -38,5 +38,9 @@ class TasksRepositoryImpl implements TasksRepository {
   Future<TaskResponse> reopenTask(int id) => _write(_remote.reopenTask(id));
 
   @override
+  Future<TaskResponse> stopRepeating(int id) =>
+      _write(_remote.stopRepeating(id));
+
+  @override
   Future<void> deleteTask(int id) => _write(_remote.deleteTask(id));
 }

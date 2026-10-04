@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/utils/clock.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/features/tasks/presentation/widgets/task_repeat_labels.dart';
+import 'package:real_estate_crm/features/tasks/presentation/widgets/task_repeat_sheet.dart';
 import 'package:real_estate_crm/features/tasks/presentation/widgets/task_time.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
@@ -95,6 +97,12 @@ class TaskRow extends StatelessWidget {
                         fontSize: 11,
                         color: overdue ? t.dangerText : t.textHint),
                   ),
+                  if (task.repeats) ...[
+                    const SizedBox(height: 3),
+                    TaskRepeatLine(
+                        text: repeatLabel(
+                            l10n, task.repeat!, task.dueAt, locale)),
+                  ],
                 ],
               ),
             ),

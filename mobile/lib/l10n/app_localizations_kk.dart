@@ -3808,6 +3808,9 @@ class AppLocalizationsKk extends AppLocalizations {
   String get msgTaskReopened => 'Тапсырма қайта ашылды';
 
   @override
+  String get msgTaskRepeatStopped => 'Тапсырма енді қайталанбайды';
+
+  @override
   String get msgTaskUpdated => 'Тапсырма жаңартылды';
 
   @override
@@ -5412,6 +5415,121 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get tasksReopen => 'Қайта ашу';
+
+  @override
+  String get tasksRepeat => 'Қайталау';
+
+  @override
+  String get tasksRepeatCount => 'Неше рет';
+
+  @override
+  String get tasksRepeatCountInvalid => '1-ден 999-ға дейін';
+
+  @override
+  String get tasksRepeatDaily => 'Күн сайын';
+
+  @override
+  String tasksRepeatDayOrdinal(int day, String suffix) {
+    return '$day-күні';
+  }
+
+  @override
+  String get tasksRepeatDays => 'Қай күндері';
+
+  @override
+  String get tasksRepeatEndAfter => 'Кейін';
+
+  @override
+  String get tasksRepeatEndNever => 'Ешқашан';
+
+  @override
+  String get tasksRepeatEndOn => 'Белгілі күні';
+
+  @override
+  String get tasksRepeatEnds => 'Аяқталуы';
+
+  @override
+  String tasksRepeatLeapYear(Object rule) {
+    return '$rule (кібісе емес жылдары — 28 ақпан)';
+  }
+
+  @override
+  String tasksRepeatMonthly(Object day) {
+    return 'Ай сайын, $day';
+  }
+
+  @override
+  String get tasksRepeatNone => 'Қайталанбайды';
+
+  @override
+  String get tasksRepeatOptionDaily => 'Күн сайын';
+
+  @override
+  String get tasksRepeatOptionMonthly => 'Ай сайын';
+
+  @override
+  String get tasksRepeatOptionQuarterly => '3 айда бір рет';
+
+  @override
+  String get tasksRepeatOptionWeekly => 'Апта сайын';
+
+  @override
+  String get tasksRepeatOptionYearly => 'Жыл сайын';
+
+  @override
+  String get tasksRepeatPickDay => 'Күнді таңдаңыз';
+
+  @override
+  String tasksRepeatQuarterly(Object day) {
+    return '3 айда бір рет, $day';
+  }
+
+  @override
+  String tasksRepeatShortMonths(Object rule) {
+    return '$rule (қысқа айларда — соңғы күні)';
+  }
+
+  @override
+  String get tasksRepeatStop => 'Енді қайталамау';
+
+  @override
+  String get tasksRepeatStopBody =>
+      'Бұл тапсырма сол күйінде қалады, одан кейін жаңалары қосылмайды.';
+
+  @override
+  String get tasksRepeatStopTitle => 'Тапсырманы енді қайталамау керек пе?';
+
+  @override
+  String tasksRepeatTimes(num count, Object rule) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$rule, $count рет',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String tasksRepeatUntil(Object date, Object rule) {
+    return '$rule, $date дейін';
+  }
+
+  @override
+  String get tasksRepeatUntilBeforeDue =>
+      'Соңғы күн тапсырма мерзімінен ерте болмауы керек';
+
+  @override
+  String get tasksRepeatUse => 'Дайын';
+
+  @override
+  String tasksRepeatWeekly(Object days) {
+    return 'Апта сайын: $days';
+  }
+
+  @override
+  String tasksRepeatYearly(Object date) {
+    return 'Жыл сайын, $date';
+  }
 
   @override
   String get tasksSave => 'Тапсырманы сақтау';
