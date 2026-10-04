@@ -57,6 +57,14 @@ Future<void> showTaskSheet(
                   : ActionMessage.taskUpdated);
         }
       },
+      onStopRepeating: task == null || !task.repeats
+          ? null
+          : () async {
+              await repo.stopRepeating(task.id);
+              if (sheet.mounted) {
+                Navigator.pop(sheet, ActionMessage.taskRepeatStopped);
+              }
+            },
       onDelete: task == null
           ? null
           : () async {

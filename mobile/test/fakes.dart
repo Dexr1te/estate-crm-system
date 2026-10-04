@@ -1236,6 +1236,7 @@ class FakeTasksRepository implements TasksRepository {
       clientId: data['clientId'] as int?,
       dealId: data['dealId'] as int?,
       assigneeId: data['assigneeId'] as int? ?? 5,
+      repeat: _repeatSent(data['repeat']),
     );
     tasks = [...tasks, created];
     _changes.add(null);
@@ -1253,7 +1254,18 @@ class FakeTasksRepository implements TasksRepository {
               dueAt: DateTime.parse(data['dueAt'] as String),
               clientId: data['clientId'] as int?,
               dealId: data['dealId'] as int?,
+              repeat: data.containsKey('repeat')
+                  ? _repeatSent(data['repeat'])
+                  : t.repeat,
             ));
+  }
+
+  /// The rule a write sent, as the server would answer it; null for NONE.
+  static TaskRepeat? _repeatSent(Object? sent) {
+    if (sent is! Map<String, dynamic> || sent['frequency'] == 'NONE') {
+      return null;
+    }
+    return TaskRepeat.fromJson(sent);
   }
 
   @override
@@ -1263,6 +1275,16 @@ class FakeTasksRepository implements TasksRepository {
   @override
   Future<TaskResponse> reopenTask(int id) async =>
       _replace(id, (t) => t.copyWith(completedAt: null));
+
+  /// Ids whose repeating was stopped, in order. Writing the next occurrence
+  /// is the server's business and is tested there.
+  final List<int> stopped = [];
+
+  @override
+  Future<TaskResponse> stopRepeating(int id) async {
+    stopped.add(id);
+    return _replace(id, (t) => t.copyWith(repeat: null));
+  }
 
   @override
   Future<void> deleteTask(int id) async {

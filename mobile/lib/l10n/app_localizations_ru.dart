@@ -3894,6 +3894,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get msgTaskReopened => 'Задача снова в работе';
 
   @override
+  String get msgTaskRepeatStopped => 'Задача больше не повторяется';
+
+  @override
   String get msgTaskUpdated => 'Задача обновлена';
 
   @override
@@ -5585,6 +5588,124 @@ class AppLocalizationsRu extends AppLocalizations {
   String get tasksReopen => 'Вернуть в работу';
 
   @override
+  String get tasksRepeat => 'Повтор';
+
+  @override
+  String get tasksRepeatCount => 'Сколько раз';
+
+  @override
+  String get tasksRepeatCountInvalid => 'От 1 до 999';
+
+  @override
+  String get tasksRepeatDaily => 'Каждый день';
+
+  @override
+  String tasksRepeatDayOrdinal(int day, String suffix) {
+    return '$day-го';
+  }
+
+  @override
+  String get tasksRepeatDays => 'По каким дням';
+
+  @override
+  String get tasksRepeatEndAfter => 'После';
+
+  @override
+  String get tasksRepeatEndNever => 'Никогда';
+
+  @override
+  String get tasksRepeatEndOn => 'В день';
+
+  @override
+  String get tasksRepeatEnds => 'Окончание';
+
+  @override
+  String tasksRepeatLeapYear(Object rule) {
+    return '$rule (в невисокосные годы — 28 февраля)';
+  }
+
+  @override
+  String tasksRepeatMonthly(Object day) {
+    return 'Каждый месяц, $day числа';
+  }
+
+  @override
+  String get tasksRepeatNone => 'Не повторяется';
+
+  @override
+  String get tasksRepeatOptionDaily => 'Каждый день';
+
+  @override
+  String get tasksRepeatOptionMonthly => 'Каждый месяц';
+
+  @override
+  String get tasksRepeatOptionQuarterly => 'Раз в 3 месяца';
+
+  @override
+  String get tasksRepeatOptionWeekly => 'Каждую неделю';
+
+  @override
+  String get tasksRepeatOptionYearly => 'Каждый год';
+
+  @override
+  String get tasksRepeatPickDay => 'Выберите день';
+
+  @override
+  String tasksRepeatQuarterly(Object day) {
+    return 'Раз в 3 месяца, $day числа';
+  }
+
+  @override
+  String tasksRepeatShortMonths(Object rule) {
+    return '$rule (в коротких месяцах — в последний день)';
+  }
+
+  @override
+  String get tasksRepeatStop => 'Больше не повторять';
+
+  @override
+  String get tasksRepeatStopBody =>
+      'Эта задача останется как есть, новые после неё не появятся.';
+
+  @override
+  String get tasksRepeatStopTitle => 'Больше не повторять задачу?';
+
+  @override
+  String tasksRepeatTimes(num count, Object rule) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$rule, $count раза',
+      many: '$rule, $count раз',
+      few: '$rule, $count раза',
+      one: '$rule, $count раз',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String tasksRepeatUntil(Object date, Object rule) {
+    return '$rule, до $date';
+  }
+
+  @override
+  String get tasksRepeatUntilBeforeDue =>
+      'Последний день не может быть раньше срока задачи';
+
+  @override
+  String get tasksRepeatUse => 'Готово';
+
+  @override
+  String tasksRepeatWeekly(Object days) {
+    return 'Каждую неделю: $days';
+  }
+
+  @override
+  String tasksRepeatYearly(Object date) {
+    return 'Каждый год, $date';
+  }
+
+  @override
   String get tasksSave => 'Сохранить задачу';
 
   @override
@@ -6236,6 +6357,284 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get handoverLoadFailed => 'Не удалось загрузить команду';
+
+  @override
+  String get clientsLeadSourcePartner => 'Партнёр';
+
+  @override
+  String get partnersTitle => 'Партнёры';
+
+  @override
+  String get partnersHint => 'Брокеры, нотариусы и все, кто приводит клиентов';
+
+  @override
+  String get partnersIntro =>
+      'Брокеры, нотариусы, оценщики и другие партнёры агентства, клиенты от них и вознаграждения по успешным сделкам.';
+
+  @override
+  String get partnersAdd => 'Добавить партнёра';
+
+  @override
+  String get partnersEmpty => 'Партнёров пока нет';
+
+  @override
+  String get partnersEmptyBody =>
+      'Добавьте брокеров, нотариусов и агентства, с которыми работаете.';
+
+  @override
+  String get partnersNoMatches => 'Партнёры не найдены';
+
+  @override
+  String get partnersLoadFailed => 'Не удалось загрузить партнёров';
+
+  @override
+  String get partnersLoadFailedOne => 'Не удалось загрузить партнёра';
+
+  @override
+  String get partnersSearchHint => 'Имя, компания или телефон';
+
+  @override
+  String get partnersFilterAll => 'Все';
+
+  @override
+  String get partnersKindMortgageBroker => 'Ипотечный брокер';
+
+  @override
+  String get partnersKindLawyer => 'Юрист или нотариус';
+
+  @override
+  String get partnersKindAppraiser => 'Оценщик';
+
+  @override
+  String get partnersKindDeveloper => 'Застройщик';
+
+  @override
+  String get partnersKindAgency => 'Другое агентство';
+
+  @override
+  String get partnersKindOther => 'Другое';
+
+  @override
+  String partnersReferredCount(int count) {
+    return 'Привёл: $count';
+  }
+
+  @override
+  String partnersFeePercent(String value) {
+    return '$value% от комиссии';
+  }
+
+  @override
+  String partnersFeeFixed(String amount) {
+    return '$amount за сделку';
+  }
+
+  @override
+  String get partnersFeeNone => 'Без вознаграждения';
+
+  @override
+  String get partnersStatReferred => 'Привёл клиентов';
+
+  @override
+  String get partnersStatWon => 'Успешные сделки';
+
+  @override
+  String get partnersStatFees => 'К выплате';
+
+  @override
+  String get partnersStatHandoffs => 'Отправлено клиентов';
+
+  @override
+  String partnersFeesUnknown(int count) {
+    return 'Сделки без комиссии, не учтены: $count';
+  }
+
+  @override
+  String get partnersStatsScope => 'По клиентам, которых вы видите.';
+
+  @override
+  String get partnersContact => 'Контакты';
+
+  @override
+  String get partnersName => 'Имя';
+
+  @override
+  String get partnersNameHint => 'С кем вы работаете';
+
+  @override
+  String get partnersNameRequired => 'Укажите имя';
+
+  @override
+  String get partnersCompany => 'Компания';
+
+  @override
+  String get partnersCompanyHint => 'Банк, фирма или агентство';
+
+  @override
+  String get partnersKind => 'Чем занимается';
+
+  @override
+  String get partnersPhone => 'Телефон';
+
+  @override
+  String get partnersEmail => 'Email';
+
+  @override
+  String get partnersNote => 'Заметка';
+
+  @override
+  String get partnersNoteHint => 'Условия, как связаться, что важно помнить';
+
+  @override
+  String get partnersFee => 'Вознаграждение за клиента';
+
+  @override
+  String get partnersFeeHint =>
+      'Начисляется на каждую успешную сделку приведённого клиента.';
+
+  @override
+  String get partnersFeeTypeNone => 'Нет';
+
+  @override
+  String get partnersFeeTypePercent => '% от комиссии';
+
+  @override
+  String get partnersFeeTypeFixed => 'Фиксированная сумма';
+
+  @override
+  String get partnersFeeValuePercent => 'Процент';
+
+  @override
+  String get partnersFeeValueAmount => 'Сумма';
+
+  @override
+  String get partnersFeeInvalidPercent =>
+      'Укажите процент больше 0 и не больше 100';
+
+  @override
+  String get partnersFeeInvalidAmount => 'Укажите сумму больше 0';
+
+  @override
+  String get partnersInvalidFee => 'Проверьте вознаграждение';
+
+  @override
+  String get partnersSave => 'Сохранить';
+
+  @override
+  String get partnersNew => 'Новый партнёр';
+
+  @override
+  String get partnersEdit => 'Изменить партнёра';
+
+  @override
+  String get partnersDelete => 'Удалить партнёра';
+
+  @override
+  String partnersDeleteConfirm(String name) {
+    return 'Удалить $name? Это нельзя отменить.';
+  }
+
+  @override
+  String get partnersInUse =>
+      'К партнёру привязаны клиенты, поэтому его нельзя удалить.';
+
+  @override
+  String get partnersRequired => 'Выберите партнёра, который привёл клиента';
+
+  @override
+  String partnersAddedBy(String name) {
+    return 'Добавил: $name';
+  }
+
+  @override
+  String get partnersReferrals => 'Кого привёл';
+
+  @override
+  String get partnersNoReferrals => 'Клиентов от этого партнёра пока нет';
+
+  @override
+  String partnersReferralWon(int count) {
+    return 'Успешных сделок: $count';
+  }
+
+  @override
+  String partnersReferralFee(String amount) {
+    return 'Вознаграждение $amount';
+  }
+
+  @override
+  String get partnersReferralNoDeals => 'Нет успешных сделок';
+
+  @override
+  String get partnersSentClients => 'Отправленные клиенты';
+
+  @override
+  String get partnersNoSentClients => 'Клиентов ещё не отправляли';
+
+  @override
+  String get partnersHandoffSent => 'Отправлен';
+
+  @override
+  String get partnersHandoffInProgress => 'В работе';
+
+  @override
+  String get partnersHandoffDone => 'Готово';
+
+  @override
+  String get partnersClientCard => 'Партнёры';
+
+  @override
+  String get partnersReferredBy => 'Привёл';
+
+  @override
+  String get partnersSentTo => 'Отправлен к';
+
+  @override
+  String get partnersSendToPartner => 'Отправить партнёру';
+
+  @override
+  String get partnersClientNotSent => 'Партнёрам пока не отправлялся';
+
+  @override
+  String get partnersHandoffEdit => 'Изменить передачу';
+
+  @override
+  String get partnersHandoffPartner => 'Партнёр';
+
+  @override
+  String get partnersHandoffDate => 'Дата отправки';
+
+  @override
+  String get partnersHandoffStatus => 'Статус';
+
+  @override
+  String get partnersHandoffNoteHint => 'С чем помогает партнёр';
+
+  @override
+  String get partnersHandoffRemove => 'Удалить передачу';
+
+  @override
+  String get partnersHandoffRemoveConfirm =>
+      'Убрать эту передачу из карточки клиента?';
+
+  @override
+  String partnersHandoffBy(String name) {
+    return 'Отправил: $name';
+  }
+
+  @override
+  String get partnersPickPartner => 'Выберите партнёра';
+
+  @override
+  String get partnersPickerEmpty => 'Нет партнёров';
+
+  @override
+  String get partnersSentOnFuture => 'Дата не может быть в будущем';
+
+  @override
+  String partnersOpenHandoffs(int count) {
+    return 'Ещё в работе: $count';
+  }
 
   @override
   String get timeOffTitle => 'Отпуска';

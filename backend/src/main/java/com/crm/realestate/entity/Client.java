@@ -65,6 +65,14 @@ public class Client {
     @Column(name = "lead_source_detail", length = 255)
     private String leadSourceDetail;
 
+    /**
+     * The partner who sent them, exactly when {@link #leadSource} is {@code PARTNER} (V53). Always
+     * one of the client's own agency's partners; a partner someone was referred by is not deleted.
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "referred_by_partner_id")
+    private Partner referredBy;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "wanted_type", length = 30)
     private PropertyType wantedType;

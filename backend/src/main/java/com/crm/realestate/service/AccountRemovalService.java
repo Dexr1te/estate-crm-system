@@ -15,6 +15,8 @@ import com.crm.realestate.repository.DealRepository;
 import com.crm.realestate.repository.DocumentRepository;
 import com.crm.realestate.repository.MeetingRepository;
 import com.crm.realestate.repository.OpenHouseRepository;
+import com.crm.realestate.repository.PartnerHandoffRepository;
+import com.crm.realestate.repository.PartnerRepository;
 import com.crm.realestate.repository.PropertyOfferRepository;
 import com.crm.realestate.repository.PropertyRepository;
 import com.crm.realestate.repository.TaskRepository;
@@ -47,6 +49,8 @@ public class AccountRemovalService {
     private final TaskRepository     taskRepository;
     private final OpenHouseRepository openHouseRepository;
     private final PropertyOfferRepository offerRepository;
+    private final PartnerRepository  partnerRepository;
+    private final PartnerHandoffRepository partnerHandoffRepository;
     private final AuditLogService    auditLogService;
     private final ScopeService       scopeService;
     private final NotificationEvents notificationEvents;
@@ -129,6 +133,16 @@ public class AccountRemovalService {
             notificationEvents.recordsHandedOver(target, replacement, actor, replacement.getTeam(),
                     clients.size(), properties.size(), deals.size(), meetings.size(), tasks.size());
         }
+
+        // The partners the leaver added are the agency's and stay in it: their successor may look
+        // after them, and without one only the name of who added them is forgotten (V53). Who
+        // sent a client to a partner is history, and goes with the account either way.
+        if (replacement != null) {
+            partnerRepository.reassignCreator(target, replacement);
+        } else {
+            partnerRepository.forgetCreator(target);
+        }
+        partnerHandoffRepository.forgetSender(target);
 
         // When someone closes their own account the actor is the row about to go.
         // audit_logs.actor_id is ON DELETE SET NULL (V14), so the reference would

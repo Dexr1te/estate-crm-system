@@ -20,6 +20,8 @@ String leadSourceLabel(AppLocalizations l10n, LeadSource? source) {
       return l10n.clientsLeadSourceColdCall;
     case LeadSource.REPEAT:
       return l10n.clientsLeadSourceRepeat;
+    case LeadSource.PARTNER:
+      return l10n.clientsLeadSourcePartner;
     case LeadSource.OTHER:
       return l10n.clientsLeadSourceOther;
     case null:
@@ -36,27 +38,42 @@ LeadSource? leadSourceFromName(String name) {
   return null;
 }
 
-/// "Referral · Dana, the neighbour", or the source alone.
-String leadSourceText(
-    AppLocalizations l10n, LeadSource source, String? detail) {
-  final d = detail?.trim() ?? '';
-  return d.isEmpty
-      ? leadSourceLabel(l10n, source)
-      : '${leadSourceLabel(l10n, source)} · $d';
+/// "Referral · Dana, the neighbour", or the source alone. A client a partner
+/// sent names the [partner] first: "Partner · Ainur Sadykova · mortgage".
+String leadSourceText(AppLocalizations l10n, LeadSource source, String? detail,
+    {String? partner}) {
+  final parts = [
+    leadSourceLabel(l10n, source),
+    if (source == LeadSource.PARTNER && (partner?.trim().isNotEmpty ?? false))
+      partner!.trim(),
+    if (detail != null && detail.trim().isNotEmpty) detail.trim(),
+  ];
+  return parts.join(' · ');
 }
 
 /// The client form's "Where they came from": one source or none, and a
-/// detail beside it once a source is chosen.
+/// detail beside it once a source is chosen. With PARTNER chosen it also asks
+/// which of the agency's partners, through [onPickPartner].
 class LeadSourceField extends StatelessWidget {
   final LeadSource? source;
   final ValueChanged<LeadSource?> onChanged;
   final TextEditingController detailCtrl;
+
+  /// The partner picked for PARTNER, by name; null while none is.
+  final String? partnerName;
+  final VoidCallback? onPickPartner;
+
+  /// Said under the partner field when the form was sent without one.
+  final String? partnerError;
 
   const LeadSourceField({
     super.key,
     required this.source,
     required this.onChanged,
     required this.detailCtrl,
+    this.partnerName,
+    this.onPickPartner,
+    this.partnerError,
   });
 
   @override
@@ -86,6 +103,39 @@ class LeadSourceField extends StatelessWidget {
               padding: pad,
             ),
         ]),
+        if (source == LeadSource.PARTNER && onPickPartner != null)
+          Padding(
+            padding: const EdgeInsets.only(top: 12),
+            child: LabelledField(
+              label: l10n.partnersHandoffPartner,
+              required: true,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  PickerField(
+                    key: const ValueKey('lead-source-partner'),
+                    value: partnerName,
+                    placeholder: l10n.partnersPickPartner,
+                    onTap: onPickPartner!,
+                    trailingIcon: Icons.handshake_outlined,
+                  ),
+                  if (partnerError != null) ...[
+                    const SizedBox(height: 6),
+                    Text(
+                      partnerError!,
+                      key: const ValueKey('lead-source-partner-error'),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          fontFamily: AppFonts.sans,
+                          fontSize: 11.5,
+                          color: context.tokens.dangerText),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ),
         if (source != null)
           Padding(
             padding: const EdgeInsets.only(top: 12),

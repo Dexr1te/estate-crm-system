@@ -93,6 +93,7 @@ public final class ChangeSnapshot {
         s.put("type", name(c.getType()));
         s.put("leadSource", name(c.getLeadSource()));
         s.put("leadSourceDetail", text(c.getLeadSourceDetail()));
+        s.put("referredBy", c.getReferredBy() == null ? null : text(c.getReferredBy().getName()));
         s.put("wantedType", name(c.getWantedType()));
         s.put("wantedCity", text(c.getWantedCity()));
         s.put("budgetMin", number(c.getBudgetMin()));

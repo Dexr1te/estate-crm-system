@@ -6628,6 +6628,12 @@ abstract class AppLocalizations {
   /// **'Task reopened'**
   String get msgTaskReopened;
 
+  /// No description provided for @msgTaskRepeatStopped.
+  ///
+  /// In en, this message translates to:
+  /// **'The task no longer repeats'**
+  String get msgTaskRepeatStopped;
+
   /// No description provided for @msgTaskUpdated.
   ///
   /// In en, this message translates to:
@@ -9275,6 +9281,186 @@ abstract class AppLocalizations {
   /// **'Reopen'**
   String get tasksReopen;
 
+  /// No description provided for @tasksRepeat.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat'**
+  String get tasksRepeat;
+
+  /// No description provided for @tasksRepeatCount.
+  ///
+  /// In en, this message translates to:
+  /// **'How many times'**
+  String get tasksRepeatCount;
+
+  /// No description provided for @tasksRepeatCountInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'From 1 to 999'**
+  String get tasksRepeatCountInvalid;
+
+  /// No description provided for @tasksRepeatDaily.
+  ///
+  /// In en, this message translates to:
+  /// **'Every day'**
+  String get tasksRepeatDaily;
+
+  /// No description provided for @tasksRepeatDayOrdinal.
+  ///
+  /// In en, this message translates to:
+  /// **'{day}{suffix, select, st{st} nd{nd} rd{rd} other{th}}'**
+  String tasksRepeatDayOrdinal(int day, String suffix);
+
+  /// No description provided for @tasksRepeatDays.
+  ///
+  /// In en, this message translates to:
+  /// **'On these days'**
+  String get tasksRepeatDays;
+
+  /// No description provided for @tasksRepeatEndAfter.
+  ///
+  /// In en, this message translates to:
+  /// **'After'**
+  String get tasksRepeatEndAfter;
+
+  /// No description provided for @tasksRepeatEndNever.
+  ///
+  /// In en, this message translates to:
+  /// **'Never'**
+  String get tasksRepeatEndNever;
+
+  /// No description provided for @tasksRepeatEndOn.
+  ///
+  /// In en, this message translates to:
+  /// **'On a day'**
+  String get tasksRepeatEndOn;
+
+  /// No description provided for @tasksRepeatEnds.
+  ///
+  /// In en, this message translates to:
+  /// **'Ends'**
+  String get tasksRepeatEnds;
+
+  /// No description provided for @tasksRepeatLeapYear.
+  ///
+  /// In en, this message translates to:
+  /// **'{rule} (28 February in other years)'**
+  String tasksRepeatLeapYear(Object rule);
+
+  /// No description provided for @tasksRepeatMonthly.
+  ///
+  /// In en, this message translates to:
+  /// **'Every month on the {day}'**
+  String tasksRepeatMonthly(Object day);
+
+  /// No description provided for @tasksRepeatNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Does not repeat'**
+  String get tasksRepeatNone;
+
+  /// No description provided for @tasksRepeatOptionDaily.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily'**
+  String get tasksRepeatOptionDaily;
+
+  /// No description provided for @tasksRepeatOptionMonthly.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly'**
+  String get tasksRepeatOptionMonthly;
+
+  /// No description provided for @tasksRepeatOptionQuarterly.
+  ///
+  /// In en, this message translates to:
+  /// **'Every 3 months'**
+  String get tasksRepeatOptionQuarterly;
+
+  /// No description provided for @tasksRepeatOptionWeekly.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly'**
+  String get tasksRepeatOptionWeekly;
+
+  /// No description provided for @tasksRepeatOptionYearly.
+  ///
+  /// In en, this message translates to:
+  /// **'Yearly'**
+  String get tasksRepeatOptionYearly;
+
+  /// No description provided for @tasksRepeatPickDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a day'**
+  String get tasksRepeatPickDay;
+
+  /// No description provided for @tasksRepeatQuarterly.
+  ///
+  /// In en, this message translates to:
+  /// **'Every 3 months on the {day}'**
+  String tasksRepeatQuarterly(Object day);
+
+  /// No description provided for @tasksRepeatShortMonths.
+  ///
+  /// In en, this message translates to:
+  /// **'{rule} (last day in shorter months)'**
+  String tasksRepeatShortMonths(Object rule);
+
+  /// No description provided for @tasksRepeatStop.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop repeating'**
+  String get tasksRepeatStop;
+
+  /// No description provided for @tasksRepeatStopBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This one stays as it is; no more are added after it.'**
+  String get tasksRepeatStopBody;
+
+  /// No description provided for @tasksRepeatStopTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop repeating this task?'**
+  String get tasksRepeatStopTitle;
+
+  /// No description provided for @tasksRepeatTimes.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{rule}, once} other{{rule}, {count} times}}'**
+  String tasksRepeatTimes(num count, Object rule);
+
+  /// No description provided for @tasksRepeatUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'{rule}, until {date}'**
+  String tasksRepeatUntil(Object date, Object rule);
+
+  /// No description provided for @tasksRepeatUntilBeforeDue.
+  ///
+  /// In en, this message translates to:
+  /// **'The last day cannot be before the task is due'**
+  String get tasksRepeatUntilBeforeDue;
+
+  /// No description provided for @tasksRepeatUse.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get tasksRepeatUse;
+
+  /// No description provided for @tasksRepeatWeekly.
+  ///
+  /// In en, this message translates to:
+  /// **'Every week on {days}'**
+  String tasksRepeatWeekly(Object days);
+
+  /// No description provided for @tasksRepeatYearly.
+  ///
+  /// In en, this message translates to:
+  /// **'Every year on {date}'**
+  String tasksRepeatYearly(Object date);
+
   /// No description provided for @tasksSave.
   ///
   /// In en, this message translates to:
@@ -10348,6 +10534,510 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Could not load the team'**
   String get handoverLoadFailed;
+
+  /// No description provided for @clientsLeadSourcePartner.
+  ///
+  /// In en, this message translates to:
+  /// **'Partner'**
+  String get clientsLeadSourcePartner;
+
+  /// No description provided for @partnersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Partners'**
+  String get partnersTitle;
+
+  /// No description provided for @partnersHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Brokers, notaries and others who send clients'**
+  String get partnersHint;
+
+  /// No description provided for @partnersIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'The agency\'s brokers, notaries, appraisers and other partners, the clients they sent and the fees owed on won deals.'**
+  String get partnersIntro;
+
+  /// No description provided for @partnersAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add partner'**
+  String get partnersAdd;
+
+  /// No description provided for @partnersEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No partners yet'**
+  String get partnersEmpty;
+
+  /// No description provided for @partnersEmptyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Add the brokers, notaries and agencies you work with.'**
+  String get partnersEmptyBody;
+
+  /// No description provided for @partnersNoMatches.
+  ///
+  /// In en, this message translates to:
+  /// **'No partners match'**
+  String get partnersNoMatches;
+
+  /// No description provided for @partnersLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load partners'**
+  String get partnersLoadFailed;
+
+  /// No description provided for @partnersLoadFailedOne.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load the partner'**
+  String get partnersLoadFailedOne;
+
+  /// No description provided for @partnersSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Name, company or phone'**
+  String get partnersSearchHint;
+
+  /// No description provided for @partnersFilterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get partnersFilterAll;
+
+  /// No description provided for @partnersKindMortgageBroker.
+  ///
+  /// In en, this message translates to:
+  /// **'Mortgage broker'**
+  String get partnersKindMortgageBroker;
+
+  /// No description provided for @partnersKindLawyer.
+  ///
+  /// In en, this message translates to:
+  /// **'Lawyer or notary'**
+  String get partnersKindLawyer;
+
+  /// No description provided for @partnersKindAppraiser.
+  ///
+  /// In en, this message translates to:
+  /// **'Appraiser'**
+  String get partnersKindAppraiser;
+
+  /// No description provided for @partnersKindDeveloper.
+  ///
+  /// In en, this message translates to:
+  /// **'Developer'**
+  String get partnersKindDeveloper;
+
+  /// No description provided for @partnersKindAgency.
+  ///
+  /// In en, this message translates to:
+  /// **'Other agency'**
+  String get partnersKindAgency;
+
+  /// No description provided for @partnersKindOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get partnersKindOther;
+
+  /// No description provided for @partnersReferredCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Referred: {count}'**
+  String partnersReferredCount(int count);
+
+  /// No description provided for @partnersFeePercent.
+  ///
+  /// In en, this message translates to:
+  /// **'{value}% of commission'**
+  String partnersFeePercent(String value);
+
+  /// No description provided for @partnersFeeFixed.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} per deal'**
+  String partnersFeeFixed(String amount);
+
+  /// No description provided for @partnersFeeNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No referral fee'**
+  String get partnersFeeNone;
+
+  /// No description provided for @partnersStatReferred.
+  ///
+  /// In en, this message translates to:
+  /// **'Referred clients'**
+  String get partnersStatReferred;
+
+  /// No description provided for @partnersStatWon.
+  ///
+  /// In en, this message translates to:
+  /// **'Won deals'**
+  String get partnersStatWon;
+
+  /// No description provided for @partnersStatFees.
+  ///
+  /// In en, this message translates to:
+  /// **'Fees owed'**
+  String get partnersStatFees;
+
+  /// No description provided for @partnersStatHandoffs.
+  ///
+  /// In en, this message translates to:
+  /// **'Clients sent'**
+  String get partnersStatHandoffs;
+
+  /// No description provided for @partnersFeesUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Won deals without a commission, not counted: {count}'**
+  String partnersFeesUnknown(int count);
+
+  /// No description provided for @partnersStatsScope.
+  ///
+  /// In en, this message translates to:
+  /// **'Counted over the clients you see.'**
+  String get partnersStatsScope;
+
+  /// No description provided for @partnersContact.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact'**
+  String get partnersContact;
+
+  /// No description provided for @partnersName.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get partnersName;
+
+  /// No description provided for @partnersNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Who you deal with'**
+  String get partnersNameHint;
+
+  /// No description provided for @partnersNameRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a name'**
+  String get partnersNameRequired;
+
+  /// No description provided for @partnersCompany.
+  ///
+  /// In en, this message translates to:
+  /// **'Company'**
+  String get partnersCompany;
+
+  /// No description provided for @partnersCompanyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank, firm or agency'**
+  String get partnersCompanyHint;
+
+  /// No description provided for @partnersKind.
+  ///
+  /// In en, this message translates to:
+  /// **'What they do'**
+  String get partnersKind;
+
+  /// No description provided for @partnersPhone.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone'**
+  String get partnersPhone;
+
+  /// No description provided for @partnersEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get partnersEmail;
+
+  /// No description provided for @partnersNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get partnersNote;
+
+  /// No description provided for @partnersNoteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms, how to reach them, anything to remember'**
+  String get partnersNoteHint;
+
+  /// No description provided for @partnersFee.
+  ///
+  /// In en, this message translates to:
+  /// **'Referral fee'**
+  String get partnersFee;
+
+  /// No description provided for @partnersFeeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Owed on each won deal of a client the partner sent.'**
+  String get partnersFeeHint;
+
+  /// No description provided for @partnersFeeTypeNone.
+  ///
+  /// In en, this message translates to:
+  /// **'None'**
+  String get partnersFeeTypeNone;
+
+  /// No description provided for @partnersFeeTypePercent.
+  ///
+  /// In en, this message translates to:
+  /// **'% of commission'**
+  String get partnersFeeTypePercent;
+
+  /// No description provided for @partnersFeeTypeFixed.
+  ///
+  /// In en, this message translates to:
+  /// **'Fixed amount'**
+  String get partnersFeeTypeFixed;
+
+  /// No description provided for @partnersFeeValuePercent.
+  ///
+  /// In en, this message translates to:
+  /// **'Percent'**
+  String get partnersFeeValuePercent;
+
+  /// No description provided for @partnersFeeValueAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get partnersFeeValueAmount;
+
+  /// No description provided for @partnersFeeInvalidPercent.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a percent above 0 and at most 100'**
+  String get partnersFeeInvalidPercent;
+
+  /// No description provided for @partnersFeeInvalidAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter an amount above 0'**
+  String get partnersFeeInvalidAmount;
+
+  /// No description provided for @partnersInvalidFee.
+  ///
+  /// In en, this message translates to:
+  /// **'Check the referral fee'**
+  String get partnersInvalidFee;
+
+  /// No description provided for @partnersSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get partnersSave;
+
+  /// No description provided for @partnersNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New partner'**
+  String get partnersNew;
+
+  /// No description provided for @partnersEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit partner'**
+  String get partnersEdit;
+
+  /// No description provided for @partnersDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete partner'**
+  String get partnersDelete;
+
+  /// No description provided for @partnersDeleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete {name}? This cannot be undone.'**
+  String partnersDeleteConfirm(String name);
+
+  /// No description provided for @partnersInUse.
+  ///
+  /// In en, this message translates to:
+  /// **'Clients are linked to this partner, so it cannot be deleted.'**
+  String get partnersInUse;
+
+  /// No description provided for @partnersRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the partner who sent this client'**
+  String get partnersRequired;
+
+  /// No description provided for @partnersAddedBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Added by {name}'**
+  String partnersAddedBy(String name);
+
+  /// No description provided for @partnersReferrals.
+  ///
+  /// In en, this message translates to:
+  /// **'Clients they referred'**
+  String get partnersReferrals;
+
+  /// No description provided for @partnersNoReferrals.
+  ///
+  /// In en, this message translates to:
+  /// **'No clients from this partner yet'**
+  String get partnersNoReferrals;
+
+  /// No description provided for @partnersReferralWon.
+  ///
+  /// In en, this message translates to:
+  /// **'Won deals: {count}'**
+  String partnersReferralWon(int count);
+
+  /// No description provided for @partnersReferralFee.
+  ///
+  /// In en, this message translates to:
+  /// **'Fee {amount}'**
+  String partnersReferralFee(String amount);
+
+  /// No description provided for @partnersReferralNoDeals.
+  ///
+  /// In en, this message translates to:
+  /// **'No won deals'**
+  String get partnersReferralNoDeals;
+
+  /// No description provided for @partnersSentClients.
+  ///
+  /// In en, this message translates to:
+  /// **'Clients sent to them'**
+  String get partnersSentClients;
+
+  /// No description provided for @partnersNoSentClients.
+  ///
+  /// In en, this message translates to:
+  /// **'No clients sent yet'**
+  String get partnersNoSentClients;
+
+  /// No description provided for @partnersHandoffSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Sent'**
+  String get partnersHandoffSent;
+
+  /// No description provided for @partnersHandoffInProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'In progress'**
+  String get partnersHandoffInProgress;
+
+  /// No description provided for @partnersHandoffDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get partnersHandoffDone;
+
+  /// No description provided for @partnersClientCard.
+  ///
+  /// In en, this message translates to:
+  /// **'Partners'**
+  String get partnersClientCard;
+
+  /// No description provided for @partnersReferredBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Referred by'**
+  String get partnersReferredBy;
+
+  /// No description provided for @partnersSentTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Sent to'**
+  String get partnersSentTo;
+
+  /// No description provided for @partnersSendToPartner.
+  ///
+  /// In en, this message translates to:
+  /// **'Send to a partner'**
+  String get partnersSendToPartner;
+
+  /// No description provided for @partnersClientNotSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Not sent to any partner yet'**
+  String get partnersClientNotSent;
+
+  /// No description provided for @partnersHandoffEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Update hand-off'**
+  String get partnersHandoffEdit;
+
+  /// No description provided for @partnersHandoffPartner.
+  ///
+  /// In en, this message translates to:
+  /// **'Partner'**
+  String get partnersHandoffPartner;
+
+  /// No description provided for @partnersHandoffDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Sent on'**
+  String get partnersHandoffDate;
+
+  /// No description provided for @partnersHandoffStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Status'**
+  String get partnersHandoffStatus;
+
+  /// No description provided for @partnersHandoffNoteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What they are helping with'**
+  String get partnersHandoffNoteHint;
+
+  /// No description provided for @partnersHandoffRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove hand-off'**
+  String get partnersHandoffRemove;
+
+  /// No description provided for @partnersHandoffRemoveConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Take this hand-off off the client?'**
+  String get partnersHandoffRemoveConfirm;
+
+  /// No description provided for @partnersHandoffBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Sent by {name}'**
+  String partnersHandoffBy(String name);
+
+  /// No description provided for @partnersPickPartner.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a partner'**
+  String get partnersPickPartner;
+
+  /// No description provided for @partnersPickerEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No partners'**
+  String get partnersPickerEmpty;
+
+  /// No description provided for @partnersSentOnFuture.
+  ///
+  /// In en, this message translates to:
+  /// **'The day cannot be in the future'**
+  String get partnersSentOnFuture;
+
+  /// No description provided for @partnersOpenHandoffs.
+  ///
+  /// In en, this message translates to:
+  /// **'Still open: {count}'**
+  String partnersOpenHandoffs(int count);
 
   /// No description provided for @timeOffTitle.
   ///

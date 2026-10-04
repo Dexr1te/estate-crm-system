@@ -23,14 +23,17 @@ public interface TaskRepository extends JpaRepository<Task, Long>, JpaSpecificat
     // cannot duplicate rows and a list costs one statement.
 
     @Override
-    @EntityGraph(attributePaths = {"assignee", "createdBy", "client", "deal"})
+    @EntityGraph(attributePaths = {"assignee", "createdBy", "client", "deal", "series"})
     Optional<Task> findById(Long id);
 
     @Override
-    @EntityGraph(attributePaths = {"assignee", "createdBy", "client", "deal"})
+    @EntityGraph(attributePaths = {"assignee", "createdBy", "client", "deal", "series"})
     List<Task> findAll(Specification<Task> spec, Sort sort);
 
     List<Task> findByAssigneeId(Long assigneeId);
+
+    /** Whether this occurrence of a series was already written — see TaskService.complete. */
+    boolean existsBySeriesIdAndOccurrence(Long seriesId, Integer occurrence);
 
     /** Moves this person's team-less tasks into their team — see RecordHandoverService. */
     @Modifying(flushAutomatically = true)

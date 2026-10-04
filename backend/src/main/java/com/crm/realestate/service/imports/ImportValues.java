@@ -125,6 +125,11 @@ public final class ImportValues {
         // Each source by the words the export writes for it, its own name, and what people type.
         words(LEAD_SOURCES, LeadSource.REFERRAL, "referral", "recommendation", "friend",
                 "рекомендация", "по рекомендации", "сарафан", "знакомые", "ұсыныс", "таныстар");
+        // A sheet names a partner but cannot point at one, so the export's "Partner" comes back
+        // as a referral, the partner's name kept in the detail.
+        LEAD_SOURCES.put(word("partner"), LeadSource.REFERRAL);
+        LEAD_SOURCES.put(word("партнёр"), LeadSource.REFERRAL);
+        LEAD_SOURCES.put(word("серіктес"), LeadSource.REFERRAL);
         words(LEAD_SOURCES, LeadSource.WEBSITE, "website", "site", "web", "сайт", "веб сайт");
         words(LEAD_SOURCES, LeadSource.PORTAL, "portal", "listings portal", "krisha", "krisha kz",
                 "olx", "портал", "портал объявлений", "крыша", "хабарландыру порталы");

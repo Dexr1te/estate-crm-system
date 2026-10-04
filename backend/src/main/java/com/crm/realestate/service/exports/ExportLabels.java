@@ -77,6 +77,7 @@ final class ExportLabels {
             Map.entry(LeadSource.WALK_IN, new String[]{"Walk-in", "Пришёл в офис", "Кеңсеге келді"}),
             Map.entry(LeadSource.COLD_CALL, new String[]{"Cold call", "Холодный звонок", "Суық қоңырау"}),
             Map.entry(LeadSource.REPEAT, new String[]{"Repeat client", "Повторный клиент", "Тұрақты клиент"}),
+            Map.entry(LeadSource.PARTNER, new String[]{"Partner", "Партнёр", "Серіктес"}),
             Map.entry(LeadSource.OTHER, new String[]{"Other", "Другое", "Басқа"}),
             Map.entry(DealStatus.LEAD, new String[]{"Lead", "Лид", "Лид"}),
             Map.entry(DealStatus.NEGOTIATION, new String[]{"Negotiation", "Переговоры", "Келіссөздер"}),

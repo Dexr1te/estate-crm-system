@@ -14,6 +14,7 @@ import 'package:real_estate_crm/features/app_lock/presentation/widgets/app_lock_
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_state.dart';
+import 'package:real_estate_crm/features/partners/presentation/widgets/partners_settings_row.dart';
 import 'package:real_estate_crm/features/profile/presentation/widgets/profile_edit_sheet.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -83,6 +84,7 @@ class ProfileScreen extends StatelessWidget {
                   onTap: () => context.push('/time-off/team'),
                 ),
               ]),
+            if (user.teamName != null) const PartnersSettingsRow(),
             _GroupLabel(l10n.profileSettings),
             BlocBuilder<ThemeBloc, ThemeState>(
               builder: (themeCtx, themeState) =>

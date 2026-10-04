@@ -29,6 +29,10 @@ public class ClientMapper {
         res.setSource(client.getSource());
         res.setLeadSource(client.getLeadSource());
         res.setLeadSourceDetail(client.getLeadSourceDetail());
+        if (client.getReferredBy() != null) {
+            res.setReferredByPartnerId(client.getReferredBy().getId());
+            res.setReferredByPartnerName(client.getReferredBy().getName());
+        }
         res.setNotes(client.getNotes());
         res.setCreatedAt(client.getCreatedAt());
         res.setUpdatedAt(client.getUpdatedAt());
