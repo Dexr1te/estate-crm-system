@@ -68,6 +68,12 @@ public class ClientRequest {
     @Size(max = 255, message = "Lead source detail is at most 255 characters")
     private String leadSourceDetail;
 
+    /**
+     * The partner who sent them: required with the lead source {@code PARTNER} and ignored with any
+     * other. Travels with {@link #leadSource}, so a save without that field leaves it alone too.
+     */
+    private Long referredByPartnerId;
+
     @Setter(AccessLevel.NONE)
     @JsonIgnore
     private boolean leadSourceSent;

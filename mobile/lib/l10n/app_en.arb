@@ -3019,5 +3019,159 @@
     }
   },
   "handoverDoneAction": "Back to the team",
-  "handoverLoadFailed": "Could not load the team"
+  "handoverLoadFailed": "Could not load the team",
+  "clientsLeadSourcePartner": "Partner",
+  "partnersTitle": "Partners",
+  "partnersHint": "Brokers, notaries and others who send clients",
+  "partnersIntro": "The agency's brokers, notaries, appraisers and other partners, the clients they sent and the fees owed on won deals.",
+  "partnersAdd": "Add partner",
+  "partnersEmpty": "No partners yet",
+  "partnersEmptyBody": "Add the brokers, notaries and agencies you work with.",
+  "partnersNoMatches": "No partners match",
+  "partnersLoadFailed": "Could not load partners",
+  "partnersLoadFailedOne": "Could not load the partner",
+  "partnersSearchHint": "Name, company or phone",
+  "partnersFilterAll": "All",
+  "partnersKindMortgageBroker": "Mortgage broker",
+  "partnersKindLawyer": "Lawyer or notary",
+  "partnersKindAppraiser": "Appraiser",
+  "partnersKindDeveloper": "Developer",
+  "partnersKindAgency": "Other agency",
+  "partnersKindOther": "Other",
+  "partnersReferredCount": "Referred: {count}",
+  "@partnersReferredCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "partnersFeePercent": "{value}% of commission",
+  "@partnersFeePercent": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "partnersFeeFixed": "{amount} per deal",
+  "@partnersFeeFixed": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "partnersFeeNone": "No referral fee",
+  "partnersStatReferred": "Referred clients",
+  "partnersStatWon": "Won deals",
+  "partnersStatFees": "Fees owed",
+  "partnersStatHandoffs": "Clients sent",
+  "partnersFeesUnknown": "Won deals without a commission, not counted: {count}",
+  "@partnersFeesUnknown": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "partnersStatsScope": "Counted over the clients you see.",
+  "partnersContact": "Contact",
+  "partnersName": "Name",
+  "partnersNameHint": "Who you deal with",
+  "partnersNameRequired": "Enter a name",
+  "partnersCompany": "Company",
+  "partnersCompanyHint": "Bank, firm or agency",
+  "partnersKind": "What they do",
+  "partnersPhone": "Phone",
+  "partnersEmail": "Email",
+  "partnersNote": "Note",
+  "partnersNoteHint": "Terms, how to reach them, anything to remember",
+  "partnersFee": "Referral fee",
+  "partnersFeeHint": "Owed on each won deal of a client the partner sent.",
+  "partnersFeeTypeNone": "None",
+  "partnersFeeTypePercent": "% of commission",
+  "partnersFeeTypeFixed": "Fixed amount",
+  "partnersFeeValuePercent": "Percent",
+  "partnersFeeValueAmount": "Amount",
+  "partnersFeeInvalidPercent": "Enter a percent above 0 and at most 100",
+  "partnersFeeInvalidAmount": "Enter an amount above 0",
+  "partnersInvalidFee": "Check the referral fee",
+  "partnersSave": "Save",
+  "partnersNew": "New partner",
+  "partnersEdit": "Edit partner",
+  "partnersDelete": "Delete partner",
+  "partnersDeleteConfirm": "Delete {name}? This cannot be undone.",
+  "@partnersDeleteConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "partnersInUse": "Clients are linked to this partner, so it cannot be deleted.",
+  "partnersRequired": "Choose the partner who sent this client",
+  "partnersAddedBy": "Added by {name}",
+  "@partnersAddedBy": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "partnersReferrals": "Clients they referred",
+  "partnersNoReferrals": "No clients from this partner yet",
+  "partnersReferralWon": "Won deals: {count}",
+  "@partnersReferralWon": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "partnersReferralFee": "Fee {amount}",
+  "@partnersReferralFee": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "partnersReferralNoDeals": "No won deals",
+  "partnersSentClients": "Clients sent to them",
+  "partnersNoSentClients": "No clients sent yet",
+  "partnersHandoffSent": "Sent",
+  "partnersHandoffInProgress": "In progress",
+  "partnersHandoffDone": "Done",
+  "partnersClientCard": "Partners",
+  "partnersReferredBy": "Referred by",
+  "partnersSentTo": "Sent to",
+  "partnersSendToPartner": "Send to a partner",
+  "partnersClientNotSent": "Not sent to any partner yet",
+  "partnersHandoffEdit": "Update hand-off",
+  "partnersHandoffPartner": "Partner",
+  "partnersHandoffDate": "Sent on",
+  "partnersHandoffStatus": "Status",
+  "partnersHandoffNoteHint": "What they are helping with",
+  "partnersHandoffRemove": "Remove hand-off",
+  "partnersHandoffRemoveConfirm": "Take this hand-off off the client?",
+  "partnersHandoffBy": "Sent by {name}",
+  "@partnersHandoffBy": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "partnersPickPartner": "Choose a partner",
+  "partnersPickerEmpty": "No partners",
+  "partnersSentOnFuture": "The day cannot be in the future",
+  "partnersOpenHandoffs": "Still open: {count}",
+  "@partnersOpenHandoffs": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

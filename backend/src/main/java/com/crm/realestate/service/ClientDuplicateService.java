@@ -13,6 +13,7 @@ import com.crm.realestate.repository.ClientRepository;
 import com.crm.realestate.repository.DealRepository;
 import com.crm.realestate.repository.MeetingRepository;
 import com.crm.realestate.repository.OpenHouseVisitorRepository;
+import com.crm.realestate.repository.PartnerHandoffRepository;
 import com.crm.realestate.repository.PropertyOfferRepository;
 import com.crm.realestate.repository.TaskRepository;
 import com.crm.realestate.security.SecurityUtils;
@@ -52,6 +53,7 @@ public class ClientDuplicateService {
     private final TaskRepository taskRepository;
     private final OpenHouseVisitorRepository openHouseVisitorRepository;
     private final PropertyOfferRepository offerRepository;
+    private final PartnerHandoffRepository partnerHandoffRepository;
     private final ClientService clientService;
     private final ClientMapper clientMapper;
     private final ClientTagService tagService;
@@ -141,6 +143,7 @@ public class ClientDuplicateService {
         int tasks = taskRepository.moveToClient(source, target);
         openHouseVisitorRepository.moveToClient(source, target);
         offerRepository.moveToClient(source, target);
+        partnerHandoffRepository.moveToClient(source, target);
 
         entityManager.flush();
         entityManager.clear();
@@ -152,6 +155,11 @@ public class ClientDuplicateService {
         Client merged = clientRepository.findById(targetId)
                 .orElseThrow(() -> new ResourceNotFoundException("Client not found with id: " + targetId));
         fillFrom(merged, carried);
+        if (merged.getReferredBy() != null) {
+            // The source's partner was read before the context was cleared; this is the live one.
+            merged.setReferredBy(entityManager.find(com.crm.realestate.entity.Partner.class,
+                    merged.getReferredBy().getId()));
+        }
         // Both cards are in one agency, so the source's tags are words the target's agency has.
         int tags = tagService.union(merged, carriedTags);
         auditLogService.record(currentUser, "MERGE_CLIENT", "Client", targetId,
@@ -182,6 +190,7 @@ public class ClientDuplicateService {
                 .minAreaSqm(source.getMinAreaSqm())
                 .leadSource(source.getLeadSource())
                 .leadSourceDetail(source.getLeadSourceDetail())
+                .referredBy(source.getReferredBy())
                 .birthMonth(source.getBirthMonth())
                 .birthDay(source.getBirthDay())
                 .birthYear(source.getBirthYear())
@@ -208,6 +217,7 @@ public class ClientDuplicateService {
         if (target.getLeadSource() == null && source.getLeadSource() != null) {
             target.setLeadSource(source.getLeadSource());
             target.setLeadSourceDetail(source.getLeadSourceDetail());
+            target.setReferredBy(source.getReferredBy());
         }
         ClientBirthday birthday = ClientBirthday.of(source);
         if (ClientBirthday.of(target) == null && birthday != null) {

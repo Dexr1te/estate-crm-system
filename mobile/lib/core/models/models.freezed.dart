@@ -400,6 +400,10 @@ mixin _$ClientResponse {
   LeadSource? get leadSource => throw _privateConstructorUsedError;
   String? get leadSourceDetail => throw _privateConstructorUsedError;
 
+  /// The partner who sent them, when [leadSource] is PARTNER.
+  int? get referredByPartnerId => throw _privateConstructorUsedError;
+  String? get referredByPartnerName => throw _privateConstructorUsedError;
+
   /// `1990-05-14`, or `--05-14` when the year is not known. Read it
   /// through `ClientBirthday.parse`.
   String? get birthday => throw _privateConstructorUsedError;
@@ -442,6 +446,8 @@ abstract class $ClientResponseCopyWith<$Res> {
       @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       LeadSource? leadSource,
       String? leadSourceDetail,
+      int? referredByPartnerId,
+      String? referredByPartnerName,
       String? birthday});
 }
 
@@ -480,6 +486,8 @@ class _$ClientResponseCopyWithImpl<$Res, $Val extends ClientResponse>
     Object? tags = null,
     Object? leadSource = freezed,
     Object? leadSourceDetail = freezed,
+    Object? referredByPartnerId = freezed,
+    Object? referredByPartnerName = freezed,
     Object? birthday = freezed,
   }) {
     return _then(_value.copyWith(
@@ -563,6 +571,14 @@ class _$ClientResponseCopyWithImpl<$Res, $Val extends ClientResponse>
           ? _value.leadSourceDetail
           : leadSourceDetail // ignore: cast_nullable_to_non_nullable
               as String?,
+      referredByPartnerId: freezed == referredByPartnerId
+          ? _value.referredByPartnerId
+          : referredByPartnerId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      referredByPartnerName: freezed == referredByPartnerName
+          ? _value.referredByPartnerName
+          : referredByPartnerName // ignore: cast_nullable_to_non_nullable
+              as String?,
       birthday: freezed == birthday
           ? _value.birthday
           : birthday // ignore: cast_nullable_to_non_nullable
@@ -601,6 +617,8 @@ abstract class _$$ClientResponseImplCopyWith<$Res>
       @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       LeadSource? leadSource,
       String? leadSourceDetail,
+      int? referredByPartnerId,
+      String? referredByPartnerName,
       String? birthday});
 }
 
@@ -637,6 +655,8 @@ class __$$ClientResponseImplCopyWithImpl<$Res>
     Object? tags = null,
     Object? leadSource = freezed,
     Object? leadSourceDetail = freezed,
+    Object? referredByPartnerId = freezed,
+    Object? referredByPartnerName = freezed,
     Object? birthday = freezed,
   }) {
     return _then(_$ClientResponseImpl(
@@ -720,6 +740,14 @@ class __$$ClientResponseImplCopyWithImpl<$Res>
           ? _value.leadSourceDetail
           : leadSourceDetail // ignore: cast_nullable_to_non_nullable
               as String?,
+      referredByPartnerId: freezed == referredByPartnerId
+          ? _value.referredByPartnerId
+          : referredByPartnerId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      referredByPartnerName: freezed == referredByPartnerName
+          ? _value.referredByPartnerName
+          : referredByPartnerName // ignore: cast_nullable_to_non_nullable
+              as String?,
       birthday: freezed == birthday
           ? _value.birthday
           : birthday // ignore: cast_nullable_to_non_nullable
@@ -754,6 +782,8 @@ class _$ClientResponseImpl implements _ClientResponse {
       @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       this.leadSource,
       this.leadSourceDetail,
+      this.referredByPartnerId,
+      this.referredByPartnerName,
       this.birthday})
       : _tags = tags;
 
@@ -817,6 +847,12 @@ class _$ClientResponseImpl implements _ClientResponse {
   @override
   final String? leadSourceDetail;
 
+  /// The partner who sent them, when [leadSource] is PARTNER.
+  @override
+  final int? referredByPartnerId;
+  @override
+  final String? referredByPartnerName;
+
   /// `1990-05-14`, or `--05-14` when the year is not known. Read it
   /// through `ClientBirthday.parse`.
   @override
@@ -824,7 +860,7 @@ class _$ClientResponseImpl implements _ClientResponse {
 
   @override
   String toString() {
-    return 'ClientResponse(id: $id, fullName: $fullName, email: $email, phone: $phone, type: $type, source: $source, notes: $notes, agentId: $agentId, agentName: $agentName, createdAt: $createdAt, updatedAt: $updatedAt, wantedType: $wantedType, wantedCity: $wantedCity, budgetMin: $budgetMin, budgetMax: $budgetMax, minRooms: $minRooms, minAreaSqm: $minAreaSqm, tags: $tags, leadSource: $leadSource, leadSourceDetail: $leadSourceDetail, birthday: $birthday)';
+    return 'ClientResponse(id: $id, fullName: $fullName, email: $email, phone: $phone, type: $type, source: $source, notes: $notes, agentId: $agentId, agentName: $agentName, createdAt: $createdAt, updatedAt: $updatedAt, wantedType: $wantedType, wantedCity: $wantedCity, budgetMin: $budgetMin, budgetMax: $budgetMax, minRooms: $minRooms, minAreaSqm: $minAreaSqm, tags: $tags, leadSource: $leadSource, leadSourceDetail: $leadSourceDetail, referredByPartnerId: $referredByPartnerId, referredByPartnerName: $referredByPartnerName, birthday: $birthday)';
   }
 
   @override
@@ -864,6 +900,10 @@ class _$ClientResponseImpl implements _ClientResponse {
                 other.leadSource == leadSource) &&
             (identical(other.leadSourceDetail, leadSourceDetail) ||
                 other.leadSourceDetail == leadSourceDetail) &&
+            (identical(other.referredByPartnerId, referredByPartnerId) ||
+                other.referredByPartnerId == referredByPartnerId) &&
+            (identical(other.referredByPartnerName, referredByPartnerName) ||
+                other.referredByPartnerName == referredByPartnerName) &&
             (identical(other.birthday, birthday) ||
                 other.birthday == birthday));
   }
@@ -892,6 +932,8 @@ class _$ClientResponseImpl implements _ClientResponse {
         const DeepCollectionEquality().hash(_tags),
         leadSource,
         leadSourceDetail,
+        referredByPartnerId,
+        referredByPartnerName,
         birthday
       ]);
 
@@ -935,6 +977,8 @@ abstract class _ClientResponse implements ClientResponse {
       @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
       final LeadSource? leadSource,
       final String? leadSourceDetail,
+      final int? referredByPartnerId,
+      final String? referredByPartnerName,
       final String? birthday}) = _$ClientResponseImpl;
 
   factory _ClientResponse.fromJson(Map<String, dynamic> json) =
@@ -986,6 +1030,12 @@ abstract class _ClientResponse implements ClientResponse {
   LeadSource? get leadSource;
   @override
   String? get leadSourceDetail;
+
+  /// The partner who sent them, when [leadSource] is PARTNER.
+  @override
+  int? get referredByPartnerId;
+  @override
+  String? get referredByPartnerName;
 
   /// `1990-05-14`, or `--05-14` when the year is not known. Read it
   /// through `ClientBirthday.parse`.
@@ -17343,6 +17393,1373 @@ abstract class _OpenHouseVisitor implements OpenHouseVisitor {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$OpenHouseVisitorImplCopyWith<_$OpenHouseVisitorImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+Partner _$PartnerFromJson(Map<String, dynamic> json) {
+  return _Partner.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Partner {
+  int get id => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
+  String? get company => throw _privateConstructorUsedError;
+  @JsonKey(unknownEnumValue: PartnerKind.other)
+  PartnerKind get kind => throw _privateConstructorUsedError;
+  String? get phone => throw _privateConstructorUsedError;
+  String? get email => throw _privateConstructorUsedError;
+  String? get note => throw _privateConstructorUsedError;
+
+  /// Both or neither: no fee was agreed when null.
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  ReferralFeeType? get feeType => throw _privateConstructorUsedError;
+  double? get feeValue => throw _privateConstructorUsedError;
+  int? get createdById => throw _privateConstructorUsedError;
+  String? get createdByName => throw _privateConstructorUsedError;
+
+  /// Whether the signed-in user may change or delete it.
+  bool get canEdit => throw _privateConstructorUsedError;
+  DateTime? get createdAt => throw _privateConstructorUsedError;
+  int get referredClients => throw _privateConstructorUsedError;
+  int get wonDeals => throw _privateConstructorUsedError;
+  double get feesOwed => throw _privateConstructorUsedError;
+
+  /// Won deals left out of [feesOwed] for want of a recorded commission.
+  int get wonDealsWithoutCommission => throw _privateConstructorUsedError;
+  int get handoffs => throw _privateConstructorUsedError;
+  int get openHandoffs => throw _privateConstructorUsedError;
+
+  /// Serializes this Partner to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of Partner
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $PartnerCopyWith<Partner> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $PartnerCopyWith<$Res> {
+  factory $PartnerCopyWith(Partner value, $Res Function(Partner) then) =
+      _$PartnerCopyWithImpl<$Res, Partner>;
+  @useResult
+  $Res call(
+      {int id,
+      String name,
+      String? company,
+      @JsonKey(unknownEnumValue: PartnerKind.other) PartnerKind kind,
+      String? phone,
+      String? email,
+      String? note,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      ReferralFeeType? feeType,
+      double? feeValue,
+      int? createdById,
+      String? createdByName,
+      bool canEdit,
+      DateTime? createdAt,
+      int referredClients,
+      int wonDeals,
+      double feesOwed,
+      int wonDealsWithoutCommission,
+      int handoffs,
+      int openHandoffs});
+}
+
+/// @nodoc
+class _$PartnerCopyWithImpl<$Res, $Val extends Partner>
+    implements $PartnerCopyWith<$Res> {
+  _$PartnerCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of Partner
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? company = freezed,
+    Object? kind = null,
+    Object? phone = freezed,
+    Object? email = freezed,
+    Object? note = freezed,
+    Object? feeType = freezed,
+    Object? feeValue = freezed,
+    Object? createdById = freezed,
+    Object? createdByName = freezed,
+    Object? canEdit = null,
+    Object? createdAt = freezed,
+    Object? referredClients = null,
+    Object? wonDeals = null,
+    Object? feesOwed = null,
+    Object? wonDealsWithoutCommission = null,
+    Object? handoffs = null,
+    Object? openHandoffs = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      company: freezed == company
+          ? _value.company
+          : company // ignore: cast_nullable_to_non_nullable
+              as String?,
+      kind: null == kind
+          ? _value.kind
+          : kind // ignore: cast_nullable_to_non_nullable
+              as PartnerKind,
+      phone: freezed == phone
+          ? _value.phone
+          : phone // ignore: cast_nullable_to_non_nullable
+              as String?,
+      email: freezed == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String?,
+      note: freezed == note
+          ? _value.note
+          : note // ignore: cast_nullable_to_non_nullable
+              as String?,
+      feeType: freezed == feeType
+          ? _value.feeType
+          : feeType // ignore: cast_nullable_to_non_nullable
+              as ReferralFeeType?,
+      feeValue: freezed == feeValue
+          ? _value.feeValue
+          : feeValue // ignore: cast_nullable_to_non_nullable
+              as double?,
+      createdById: freezed == createdById
+          ? _value.createdById
+          : createdById // ignore: cast_nullable_to_non_nullable
+              as int?,
+      createdByName: freezed == createdByName
+          ? _value.createdByName
+          : createdByName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      canEdit: null == canEdit
+          ? _value.canEdit
+          : canEdit // ignore: cast_nullable_to_non_nullable
+              as bool,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      referredClients: null == referredClients
+          ? _value.referredClients
+          : referredClients // ignore: cast_nullable_to_non_nullable
+              as int,
+      wonDeals: null == wonDeals
+          ? _value.wonDeals
+          : wonDeals // ignore: cast_nullable_to_non_nullable
+              as int,
+      feesOwed: null == feesOwed
+          ? _value.feesOwed
+          : feesOwed // ignore: cast_nullable_to_non_nullable
+              as double,
+      wonDealsWithoutCommission: null == wonDealsWithoutCommission
+          ? _value.wonDealsWithoutCommission
+          : wonDealsWithoutCommission // ignore: cast_nullable_to_non_nullable
+              as int,
+      handoffs: null == handoffs
+          ? _value.handoffs
+          : handoffs // ignore: cast_nullable_to_non_nullable
+              as int,
+      openHandoffs: null == openHandoffs
+          ? _value.openHandoffs
+          : openHandoffs // ignore: cast_nullable_to_non_nullable
+              as int,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$PartnerImplCopyWith<$Res> implements $PartnerCopyWith<$Res> {
+  factory _$$PartnerImplCopyWith(
+          _$PartnerImpl value, $Res Function(_$PartnerImpl) then) =
+      __$$PartnerImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int id,
+      String name,
+      String? company,
+      @JsonKey(unknownEnumValue: PartnerKind.other) PartnerKind kind,
+      String? phone,
+      String? email,
+      String? note,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      ReferralFeeType? feeType,
+      double? feeValue,
+      int? createdById,
+      String? createdByName,
+      bool canEdit,
+      DateTime? createdAt,
+      int referredClients,
+      int wonDeals,
+      double feesOwed,
+      int wonDealsWithoutCommission,
+      int handoffs,
+      int openHandoffs});
+}
+
+/// @nodoc
+class __$$PartnerImplCopyWithImpl<$Res>
+    extends _$PartnerCopyWithImpl<$Res, _$PartnerImpl>
+    implements _$$PartnerImplCopyWith<$Res> {
+  __$$PartnerImplCopyWithImpl(
+      _$PartnerImpl _value, $Res Function(_$PartnerImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of Partner
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? company = freezed,
+    Object? kind = null,
+    Object? phone = freezed,
+    Object? email = freezed,
+    Object? note = freezed,
+    Object? feeType = freezed,
+    Object? feeValue = freezed,
+    Object? createdById = freezed,
+    Object? createdByName = freezed,
+    Object? canEdit = null,
+    Object? createdAt = freezed,
+    Object? referredClients = null,
+    Object? wonDeals = null,
+    Object? feesOwed = null,
+    Object? wonDealsWithoutCommission = null,
+    Object? handoffs = null,
+    Object? openHandoffs = null,
+  }) {
+    return _then(_$PartnerImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      company: freezed == company
+          ? _value.company
+          : company // ignore: cast_nullable_to_non_nullable
+              as String?,
+      kind: null == kind
+          ? _value.kind
+          : kind // ignore: cast_nullable_to_non_nullable
+              as PartnerKind,
+      phone: freezed == phone
+          ? _value.phone
+          : phone // ignore: cast_nullable_to_non_nullable
+              as String?,
+      email: freezed == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String?,
+      note: freezed == note
+          ? _value.note
+          : note // ignore: cast_nullable_to_non_nullable
+              as String?,
+      feeType: freezed == feeType
+          ? _value.feeType
+          : feeType // ignore: cast_nullable_to_non_nullable
+              as ReferralFeeType?,
+      feeValue: freezed == feeValue
+          ? _value.feeValue
+          : feeValue // ignore: cast_nullable_to_non_nullable
+              as double?,
+      createdById: freezed == createdById
+          ? _value.createdById
+          : createdById // ignore: cast_nullable_to_non_nullable
+              as int?,
+      createdByName: freezed == createdByName
+          ? _value.createdByName
+          : createdByName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      canEdit: null == canEdit
+          ? _value.canEdit
+          : canEdit // ignore: cast_nullable_to_non_nullable
+              as bool,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      referredClients: null == referredClients
+          ? _value.referredClients
+          : referredClients // ignore: cast_nullable_to_non_nullable
+              as int,
+      wonDeals: null == wonDeals
+          ? _value.wonDeals
+          : wonDeals // ignore: cast_nullable_to_non_nullable
+              as int,
+      feesOwed: null == feesOwed
+          ? _value.feesOwed
+          : feesOwed // ignore: cast_nullable_to_non_nullable
+              as double,
+      wonDealsWithoutCommission: null == wonDealsWithoutCommission
+          ? _value.wonDealsWithoutCommission
+          : wonDealsWithoutCommission // ignore: cast_nullable_to_non_nullable
+              as int,
+      handoffs: null == handoffs
+          ? _value.handoffs
+          : handoffs // ignore: cast_nullable_to_non_nullable
+              as int,
+      openHandoffs: null == openHandoffs
+          ? _value.openHandoffs
+          : openHandoffs // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$PartnerImpl implements _Partner {
+  const _$PartnerImpl(
+      {required this.id,
+      this.name = '',
+      this.company,
+      @JsonKey(unknownEnumValue: PartnerKind.other)
+      this.kind = PartnerKind.other,
+      this.phone,
+      this.email,
+      this.note,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      this.feeType,
+      this.feeValue,
+      this.createdById,
+      this.createdByName,
+      this.canEdit = false,
+      this.createdAt,
+      this.referredClients = 0,
+      this.wonDeals = 0,
+      this.feesOwed = 0,
+      this.wonDealsWithoutCommission = 0,
+      this.handoffs = 0,
+      this.openHandoffs = 0});
+
+  factory _$PartnerImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PartnerImplFromJson(json);
+
+  @override
+  final int id;
+  @override
+  @JsonKey()
+  final String name;
+  @override
+  final String? company;
+  @override
+  @JsonKey(unknownEnumValue: PartnerKind.other)
+  final PartnerKind kind;
+  @override
+  final String? phone;
+  @override
+  final String? email;
+  @override
+  final String? note;
+
+  /// Both or neither: no fee was agreed when null.
+  @override
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  final ReferralFeeType? feeType;
+  @override
+  final double? feeValue;
+  @override
+  final int? createdById;
+  @override
+  final String? createdByName;
+
+  /// Whether the signed-in user may change or delete it.
+  @override
+  @JsonKey()
+  final bool canEdit;
+  @override
+  final DateTime? createdAt;
+  @override
+  @JsonKey()
+  final int referredClients;
+  @override
+  @JsonKey()
+  final int wonDeals;
+  @override
+  @JsonKey()
+  final double feesOwed;
+
+  /// Won deals left out of [feesOwed] for want of a recorded commission.
+  @override
+  @JsonKey()
+  final int wonDealsWithoutCommission;
+  @override
+  @JsonKey()
+  final int handoffs;
+  @override
+  @JsonKey()
+  final int openHandoffs;
+
+  @override
+  String toString() {
+    return 'Partner(id: $id, name: $name, company: $company, kind: $kind, phone: $phone, email: $email, note: $note, feeType: $feeType, feeValue: $feeValue, createdById: $createdById, createdByName: $createdByName, canEdit: $canEdit, createdAt: $createdAt, referredClients: $referredClients, wonDeals: $wonDeals, feesOwed: $feesOwed, wonDealsWithoutCommission: $wonDealsWithoutCommission, handoffs: $handoffs, openHandoffs: $openHandoffs)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$PartnerImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.company, company) || other.company == company) &&
+            (identical(other.kind, kind) || other.kind == kind) &&
+            (identical(other.phone, phone) || other.phone == phone) &&
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.note, note) || other.note == note) &&
+            (identical(other.feeType, feeType) || other.feeType == feeType) &&
+            (identical(other.feeValue, feeValue) ||
+                other.feeValue == feeValue) &&
+            (identical(other.createdById, createdById) ||
+                other.createdById == createdById) &&
+            (identical(other.createdByName, createdByName) ||
+                other.createdByName == createdByName) &&
+            (identical(other.canEdit, canEdit) || other.canEdit == canEdit) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.referredClients, referredClients) ||
+                other.referredClients == referredClients) &&
+            (identical(other.wonDeals, wonDeals) ||
+                other.wonDeals == wonDeals) &&
+            (identical(other.feesOwed, feesOwed) ||
+                other.feesOwed == feesOwed) &&
+            (identical(other.wonDealsWithoutCommission,
+                    wonDealsWithoutCommission) ||
+                other.wonDealsWithoutCommission == wonDealsWithoutCommission) &&
+            (identical(other.handoffs, handoffs) ||
+                other.handoffs == handoffs) &&
+            (identical(other.openHandoffs, openHandoffs) ||
+                other.openHandoffs == openHandoffs));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        id,
+        name,
+        company,
+        kind,
+        phone,
+        email,
+        note,
+        feeType,
+        feeValue,
+        createdById,
+        createdByName,
+        canEdit,
+        createdAt,
+        referredClients,
+        wonDeals,
+        feesOwed,
+        wonDealsWithoutCommission,
+        handoffs,
+        openHandoffs
+      ]);
+
+  /// Create a copy of Partner
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$PartnerImplCopyWith<_$PartnerImpl> get copyWith =>
+      __$$PartnerImplCopyWithImpl<_$PartnerImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$PartnerImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Partner implements Partner {
+  const factory _Partner(
+      {required final int id,
+      final String name,
+      final String? company,
+      @JsonKey(unknownEnumValue: PartnerKind.other) final PartnerKind kind,
+      final String? phone,
+      final String? email,
+      final String? note,
+      @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+      final ReferralFeeType? feeType,
+      final double? feeValue,
+      final int? createdById,
+      final String? createdByName,
+      final bool canEdit,
+      final DateTime? createdAt,
+      final int referredClients,
+      final int wonDeals,
+      final double feesOwed,
+      final int wonDealsWithoutCommission,
+      final int handoffs,
+      final int openHandoffs}) = _$PartnerImpl;
+
+  factory _Partner.fromJson(Map<String, dynamic> json) = _$PartnerImpl.fromJson;
+
+  @override
+  int get id;
+  @override
+  String get name;
+  @override
+  String? get company;
+  @override
+  @JsonKey(unknownEnumValue: PartnerKind.other)
+  PartnerKind get kind;
+  @override
+  String? get phone;
+  @override
+  String? get email;
+  @override
+  String? get note;
+
+  /// Both or neither: no fee was agreed when null.
+  @override
+  @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+  ReferralFeeType? get feeType;
+  @override
+  double? get feeValue;
+  @override
+  int? get createdById;
+  @override
+  String? get createdByName;
+
+  /// Whether the signed-in user may change or delete it.
+  @override
+  bool get canEdit;
+  @override
+  DateTime? get createdAt;
+  @override
+  int get referredClients;
+  @override
+  int get wonDeals;
+  @override
+  double get feesOwed;
+
+  /// Won deals left out of [feesOwed] for want of a recorded commission.
+  @override
+  int get wonDealsWithoutCommission;
+  @override
+  int get handoffs;
+  @override
+  int get openHandoffs;
+
+  /// Create a copy of Partner
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$PartnerImplCopyWith<_$PartnerImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+PartnerReferral _$PartnerReferralFromJson(Map<String, dynamic> json) {
+  return _PartnerReferral.fromJson(json);
+}
+
+/// @nodoc
+mixin _$PartnerReferral {
+  int get clientId => throw _privateConstructorUsedError;
+  String get fullName => throw _privateConstructorUsedError;
+  ClientType get type => throw _privateConstructorUsedError;
+  int? get agentId => throw _privateConstructorUsedError;
+  String? get agentName => throw _privateConstructorUsedError;
+  int get wonDeals => throw _privateConstructorUsedError;
+  double get feeOwed => throw _privateConstructorUsedError;
+  int get wonDealsWithoutCommission => throw _privateConstructorUsedError;
+  DateTime? get createdAt => throw _privateConstructorUsedError;
+
+  /// Serializes this PartnerReferral to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of PartnerReferral
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $PartnerReferralCopyWith<PartnerReferral> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $PartnerReferralCopyWith<$Res> {
+  factory $PartnerReferralCopyWith(
+          PartnerReferral value, $Res Function(PartnerReferral) then) =
+      _$PartnerReferralCopyWithImpl<$Res, PartnerReferral>;
+  @useResult
+  $Res call(
+      {int clientId,
+      String fullName,
+      ClientType type,
+      int? agentId,
+      String? agentName,
+      int wonDeals,
+      double feeOwed,
+      int wonDealsWithoutCommission,
+      DateTime? createdAt});
+}
+
+/// @nodoc
+class _$PartnerReferralCopyWithImpl<$Res, $Val extends PartnerReferral>
+    implements $PartnerReferralCopyWith<$Res> {
+  _$PartnerReferralCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of PartnerReferral
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? clientId = null,
+    Object? fullName = null,
+    Object? type = null,
+    Object? agentId = freezed,
+    Object? agentName = freezed,
+    Object? wonDeals = null,
+    Object? feeOwed = null,
+    Object? wonDealsWithoutCommission = null,
+    Object? createdAt = freezed,
+  }) {
+    return _then(_value.copyWith(
+      clientId: null == clientId
+          ? _value.clientId
+          : clientId // ignore: cast_nullable_to_non_nullable
+              as int,
+      fullName: null == fullName
+          ? _value.fullName
+          : fullName // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as ClientType,
+      agentId: freezed == agentId
+          ? _value.agentId
+          : agentId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      agentName: freezed == agentName
+          ? _value.agentName
+          : agentName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      wonDeals: null == wonDeals
+          ? _value.wonDeals
+          : wonDeals // ignore: cast_nullable_to_non_nullable
+              as int,
+      feeOwed: null == feeOwed
+          ? _value.feeOwed
+          : feeOwed // ignore: cast_nullable_to_non_nullable
+              as double,
+      wonDealsWithoutCommission: null == wonDealsWithoutCommission
+          ? _value.wonDealsWithoutCommission
+          : wonDealsWithoutCommission // ignore: cast_nullable_to_non_nullable
+              as int,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$PartnerReferralImplCopyWith<$Res>
+    implements $PartnerReferralCopyWith<$Res> {
+  factory _$$PartnerReferralImplCopyWith(_$PartnerReferralImpl value,
+          $Res Function(_$PartnerReferralImpl) then) =
+      __$$PartnerReferralImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int clientId,
+      String fullName,
+      ClientType type,
+      int? agentId,
+      String? agentName,
+      int wonDeals,
+      double feeOwed,
+      int wonDealsWithoutCommission,
+      DateTime? createdAt});
+}
+
+/// @nodoc
+class __$$PartnerReferralImplCopyWithImpl<$Res>
+    extends _$PartnerReferralCopyWithImpl<$Res, _$PartnerReferralImpl>
+    implements _$$PartnerReferralImplCopyWith<$Res> {
+  __$$PartnerReferralImplCopyWithImpl(
+      _$PartnerReferralImpl _value, $Res Function(_$PartnerReferralImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of PartnerReferral
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? clientId = null,
+    Object? fullName = null,
+    Object? type = null,
+    Object? agentId = freezed,
+    Object? agentName = freezed,
+    Object? wonDeals = null,
+    Object? feeOwed = null,
+    Object? wonDealsWithoutCommission = null,
+    Object? createdAt = freezed,
+  }) {
+    return _then(_$PartnerReferralImpl(
+      clientId: null == clientId
+          ? _value.clientId
+          : clientId // ignore: cast_nullable_to_non_nullable
+              as int,
+      fullName: null == fullName
+          ? _value.fullName
+          : fullName // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as ClientType,
+      agentId: freezed == agentId
+          ? _value.agentId
+          : agentId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      agentName: freezed == agentName
+          ? _value.agentName
+          : agentName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      wonDeals: null == wonDeals
+          ? _value.wonDeals
+          : wonDeals // ignore: cast_nullable_to_non_nullable
+              as int,
+      feeOwed: null == feeOwed
+          ? _value.feeOwed
+          : feeOwed // ignore: cast_nullable_to_non_nullable
+              as double,
+      wonDealsWithoutCommission: null == wonDealsWithoutCommission
+          ? _value.wonDealsWithoutCommission
+          : wonDealsWithoutCommission // ignore: cast_nullable_to_non_nullable
+              as int,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$PartnerReferralImpl implements _PartnerReferral {
+  const _$PartnerReferralImpl(
+      {required this.clientId,
+      this.fullName = '',
+      this.type = ClientType.BUYER,
+      this.agentId,
+      this.agentName,
+      this.wonDeals = 0,
+      this.feeOwed = 0,
+      this.wonDealsWithoutCommission = 0,
+      this.createdAt});
+
+  factory _$PartnerReferralImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PartnerReferralImplFromJson(json);
+
+  @override
+  final int clientId;
+  @override
+  @JsonKey()
+  final String fullName;
+  @override
+  @JsonKey()
+  final ClientType type;
+  @override
+  final int? agentId;
+  @override
+  final String? agentName;
+  @override
+  @JsonKey()
+  final int wonDeals;
+  @override
+  @JsonKey()
+  final double feeOwed;
+  @override
+  @JsonKey()
+  final int wonDealsWithoutCommission;
+  @override
+  final DateTime? createdAt;
+
+  @override
+  String toString() {
+    return 'PartnerReferral(clientId: $clientId, fullName: $fullName, type: $type, agentId: $agentId, agentName: $agentName, wonDeals: $wonDeals, feeOwed: $feeOwed, wonDealsWithoutCommission: $wonDealsWithoutCommission, createdAt: $createdAt)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$PartnerReferralImpl &&
+            (identical(other.clientId, clientId) ||
+                other.clientId == clientId) &&
+            (identical(other.fullName, fullName) ||
+                other.fullName == fullName) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.agentId, agentId) || other.agentId == agentId) &&
+            (identical(other.agentName, agentName) ||
+                other.agentName == agentName) &&
+            (identical(other.wonDeals, wonDeals) ||
+                other.wonDeals == wonDeals) &&
+            (identical(other.feeOwed, feeOwed) || other.feeOwed == feeOwed) &&
+            (identical(other.wonDealsWithoutCommission,
+                    wonDealsWithoutCommission) ||
+                other.wonDealsWithoutCommission == wonDealsWithoutCommission) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      clientId,
+      fullName,
+      type,
+      agentId,
+      agentName,
+      wonDeals,
+      feeOwed,
+      wonDealsWithoutCommission,
+      createdAt);
+
+  /// Create a copy of PartnerReferral
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$PartnerReferralImplCopyWith<_$PartnerReferralImpl> get copyWith =>
+      __$$PartnerReferralImplCopyWithImpl<_$PartnerReferralImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$PartnerReferralImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _PartnerReferral implements PartnerReferral {
+  const factory _PartnerReferral(
+      {required final int clientId,
+      final String fullName,
+      final ClientType type,
+      final int? agentId,
+      final String? agentName,
+      final int wonDeals,
+      final double feeOwed,
+      final int wonDealsWithoutCommission,
+      final DateTime? createdAt}) = _$PartnerReferralImpl;
+
+  factory _PartnerReferral.fromJson(Map<String, dynamic> json) =
+      _$PartnerReferralImpl.fromJson;
+
+  @override
+  int get clientId;
+  @override
+  String get fullName;
+  @override
+  ClientType get type;
+  @override
+  int? get agentId;
+  @override
+  String? get agentName;
+  @override
+  int get wonDeals;
+  @override
+  double get feeOwed;
+  @override
+  int get wonDealsWithoutCommission;
+  @override
+  DateTime? get createdAt;
+
+  /// Create a copy of PartnerReferral
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$PartnerReferralImplCopyWith<_$PartnerReferralImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+PartnerHandoff _$PartnerHandoffFromJson(Map<String, dynamic> json) {
+  return _PartnerHandoff.fromJson(json);
+}
+
+/// @nodoc
+mixin _$PartnerHandoff {
+  int get id => throw _privateConstructorUsedError;
+  int get clientId => throw _privateConstructorUsedError;
+  String get clientName => throw _privateConstructorUsedError;
+  int get partnerId => throw _privateConstructorUsedError;
+  String get partnerName => throw _privateConstructorUsedError;
+  String? get partnerCompany => throw _privateConstructorUsedError;
+  @JsonKey(unknownEnumValue: PartnerKind.other)
+  PartnerKind get partnerKind => throw _privateConstructorUsedError;
+  DateTime get sentOn => throw _privateConstructorUsedError;
+  @JsonKey(unknownEnumValue: PartnerHandoffStatus.sent)
+  PartnerHandoffStatus get status => throw _privateConstructorUsedError;
+  String? get note => throw _privateConstructorUsedError;
+  int? get sentById => throw _privateConstructorUsedError;
+  String? get sentByName => throw _privateConstructorUsedError;
+  DateTime? get createdAt => throw _privateConstructorUsedError;
+  DateTime? get updatedAt => throw _privateConstructorUsedError;
+
+  /// Serializes this PartnerHandoff to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of PartnerHandoff
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $PartnerHandoffCopyWith<PartnerHandoff> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $PartnerHandoffCopyWith<$Res> {
+  factory $PartnerHandoffCopyWith(
+          PartnerHandoff value, $Res Function(PartnerHandoff) then) =
+      _$PartnerHandoffCopyWithImpl<$Res, PartnerHandoff>;
+  @useResult
+  $Res call(
+      {int id,
+      int clientId,
+      String clientName,
+      int partnerId,
+      String partnerName,
+      String? partnerCompany,
+      @JsonKey(unknownEnumValue: PartnerKind.other) PartnerKind partnerKind,
+      DateTime sentOn,
+      @JsonKey(unknownEnumValue: PartnerHandoffStatus.sent)
+      PartnerHandoffStatus status,
+      String? note,
+      int? sentById,
+      String? sentByName,
+      DateTime? createdAt,
+      DateTime? updatedAt});
+}
+
+/// @nodoc
+class _$PartnerHandoffCopyWithImpl<$Res, $Val extends PartnerHandoff>
+    implements $PartnerHandoffCopyWith<$Res> {
+  _$PartnerHandoffCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of PartnerHandoff
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? clientId = null,
+    Object? clientName = null,
+    Object? partnerId = null,
+    Object? partnerName = null,
+    Object? partnerCompany = freezed,
+    Object? partnerKind = null,
+    Object? sentOn = null,
+    Object? status = null,
+    Object? note = freezed,
+    Object? sentById = freezed,
+    Object? sentByName = freezed,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      clientId: null == clientId
+          ? _value.clientId
+          : clientId // ignore: cast_nullable_to_non_nullable
+              as int,
+      clientName: null == clientName
+          ? _value.clientName
+          : clientName // ignore: cast_nullable_to_non_nullable
+              as String,
+      partnerId: null == partnerId
+          ? _value.partnerId
+          : partnerId // ignore: cast_nullable_to_non_nullable
+              as int,
+      partnerName: null == partnerName
+          ? _value.partnerName
+          : partnerName // ignore: cast_nullable_to_non_nullable
+              as String,
+      partnerCompany: freezed == partnerCompany
+          ? _value.partnerCompany
+          : partnerCompany // ignore: cast_nullable_to_non_nullable
+              as String?,
+      partnerKind: null == partnerKind
+          ? _value.partnerKind
+          : partnerKind // ignore: cast_nullable_to_non_nullable
+              as PartnerKind,
+      sentOn: null == sentOn
+          ? _value.sentOn
+          : sentOn // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as PartnerHandoffStatus,
+      note: freezed == note
+          ? _value.note
+          : note // ignore: cast_nullable_to_non_nullable
+              as String?,
+      sentById: freezed == sentById
+          ? _value.sentById
+          : sentById // ignore: cast_nullable_to_non_nullable
+              as int?,
+      sentByName: freezed == sentByName
+          ? _value.sentByName
+          : sentByName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      updatedAt: freezed == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$PartnerHandoffImplCopyWith<$Res>
+    implements $PartnerHandoffCopyWith<$Res> {
+  factory _$$PartnerHandoffImplCopyWith(_$PartnerHandoffImpl value,
+          $Res Function(_$PartnerHandoffImpl) then) =
+      __$$PartnerHandoffImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int id,
+      int clientId,
+      String clientName,
+      int partnerId,
+      String partnerName,
+      String? partnerCompany,
+      @JsonKey(unknownEnumValue: PartnerKind.other) PartnerKind partnerKind,
+      DateTime sentOn,
+      @JsonKey(unknownEnumValue: PartnerHandoffStatus.sent)
+      PartnerHandoffStatus status,
+      String? note,
+      int? sentById,
+      String? sentByName,
+      DateTime? createdAt,
+      DateTime? updatedAt});
+}
+
+/// @nodoc
+class __$$PartnerHandoffImplCopyWithImpl<$Res>
+    extends _$PartnerHandoffCopyWithImpl<$Res, _$PartnerHandoffImpl>
+    implements _$$PartnerHandoffImplCopyWith<$Res> {
+  __$$PartnerHandoffImplCopyWithImpl(
+      _$PartnerHandoffImpl _value, $Res Function(_$PartnerHandoffImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of PartnerHandoff
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? clientId = null,
+    Object? clientName = null,
+    Object? partnerId = null,
+    Object? partnerName = null,
+    Object? partnerCompany = freezed,
+    Object? partnerKind = null,
+    Object? sentOn = null,
+    Object? status = null,
+    Object? note = freezed,
+    Object? sentById = freezed,
+    Object? sentByName = freezed,
+    Object? createdAt = freezed,
+    Object? updatedAt = freezed,
+  }) {
+    return _then(_$PartnerHandoffImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      clientId: null == clientId
+          ? _value.clientId
+          : clientId // ignore: cast_nullable_to_non_nullable
+              as int,
+      clientName: null == clientName
+          ? _value.clientName
+          : clientName // ignore: cast_nullable_to_non_nullable
+              as String,
+      partnerId: null == partnerId
+          ? _value.partnerId
+          : partnerId // ignore: cast_nullable_to_non_nullable
+              as int,
+      partnerName: null == partnerName
+          ? _value.partnerName
+          : partnerName // ignore: cast_nullable_to_non_nullable
+              as String,
+      partnerCompany: freezed == partnerCompany
+          ? _value.partnerCompany
+          : partnerCompany // ignore: cast_nullable_to_non_nullable
+              as String?,
+      partnerKind: null == partnerKind
+          ? _value.partnerKind
+          : partnerKind // ignore: cast_nullable_to_non_nullable
+              as PartnerKind,
+      sentOn: null == sentOn
+          ? _value.sentOn
+          : sentOn // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      status: null == status
+          ? _value.status
+          : status // ignore: cast_nullable_to_non_nullable
+              as PartnerHandoffStatus,
+      note: freezed == note
+          ? _value.note
+          : note // ignore: cast_nullable_to_non_nullable
+              as String?,
+      sentById: freezed == sentById
+          ? _value.sentById
+          : sentById // ignore: cast_nullable_to_non_nullable
+              as int?,
+      sentByName: freezed == sentByName
+          ? _value.sentByName
+          : sentByName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      updatedAt: freezed == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$PartnerHandoffImpl implements _PartnerHandoff {
+  const _$PartnerHandoffImpl(
+      {required this.id,
+      required this.clientId,
+      this.clientName = '',
+      required this.partnerId,
+      this.partnerName = '',
+      this.partnerCompany,
+      @JsonKey(unknownEnumValue: PartnerKind.other)
+      this.partnerKind = PartnerKind.other,
+      required this.sentOn,
+      @JsonKey(unknownEnumValue: PartnerHandoffStatus.sent)
+      this.status = PartnerHandoffStatus.sent,
+      this.note,
+      this.sentById,
+      this.sentByName,
+      this.createdAt,
+      this.updatedAt});
+
+  factory _$PartnerHandoffImpl.fromJson(Map<String, dynamic> json) =>
+      _$$PartnerHandoffImplFromJson(json);
+
+  @override
+  final int id;
+  @override
+  final int clientId;
+  @override
+  @JsonKey()
+  final String clientName;
+  @override
+  final int partnerId;
+  @override
+  @JsonKey()
+  final String partnerName;
+  @override
+  final String? partnerCompany;
+  @override
+  @JsonKey(unknownEnumValue: PartnerKind.other)
+  final PartnerKind partnerKind;
+  @override
+  final DateTime sentOn;
+  @override
+  @JsonKey(unknownEnumValue: PartnerHandoffStatus.sent)
+  final PartnerHandoffStatus status;
+  @override
+  final String? note;
+  @override
+  final int? sentById;
+  @override
+  final String? sentByName;
+  @override
+  final DateTime? createdAt;
+  @override
+  final DateTime? updatedAt;
+
+  @override
+  String toString() {
+    return 'PartnerHandoff(id: $id, clientId: $clientId, clientName: $clientName, partnerId: $partnerId, partnerName: $partnerName, partnerCompany: $partnerCompany, partnerKind: $partnerKind, sentOn: $sentOn, status: $status, note: $note, sentById: $sentById, sentByName: $sentByName, createdAt: $createdAt, updatedAt: $updatedAt)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$PartnerHandoffImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.clientId, clientId) ||
+                other.clientId == clientId) &&
+            (identical(other.clientName, clientName) ||
+                other.clientName == clientName) &&
+            (identical(other.partnerId, partnerId) ||
+                other.partnerId == partnerId) &&
+            (identical(other.partnerName, partnerName) ||
+                other.partnerName == partnerName) &&
+            (identical(other.partnerCompany, partnerCompany) ||
+                other.partnerCompany == partnerCompany) &&
+            (identical(other.partnerKind, partnerKind) ||
+                other.partnerKind == partnerKind) &&
+            (identical(other.sentOn, sentOn) || other.sentOn == sentOn) &&
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.note, note) || other.note == note) &&
+            (identical(other.sentById, sentById) ||
+                other.sentById == sentById) &&
+            (identical(other.sentByName, sentByName) ||
+                other.sentByName == sentByName) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      clientId,
+      clientName,
+      partnerId,
+      partnerName,
+      partnerCompany,
+      partnerKind,
+      sentOn,
+      status,
+      note,
+      sentById,
+      sentByName,
+      createdAt,
+      updatedAt);
+
+  /// Create a copy of PartnerHandoff
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$PartnerHandoffImplCopyWith<_$PartnerHandoffImpl> get copyWith =>
+      __$$PartnerHandoffImplCopyWithImpl<_$PartnerHandoffImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$PartnerHandoffImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _PartnerHandoff implements PartnerHandoff {
+  const factory _PartnerHandoff(
+      {required final int id,
+      required final int clientId,
+      final String clientName,
+      required final int partnerId,
+      final String partnerName,
+      final String? partnerCompany,
+      @JsonKey(unknownEnumValue: PartnerKind.other)
+      final PartnerKind partnerKind,
+      required final DateTime sentOn,
+      @JsonKey(unknownEnumValue: PartnerHandoffStatus.sent)
+      final PartnerHandoffStatus status,
+      final String? note,
+      final int? sentById,
+      final String? sentByName,
+      final DateTime? createdAt,
+      final DateTime? updatedAt}) = _$PartnerHandoffImpl;
+
+  factory _PartnerHandoff.fromJson(Map<String, dynamic> json) =
+      _$PartnerHandoffImpl.fromJson;
+
+  @override
+  int get id;
+  @override
+  int get clientId;
+  @override
+  String get clientName;
+  @override
+  int get partnerId;
+  @override
+  String get partnerName;
+  @override
+  String? get partnerCompany;
+  @override
+  @JsonKey(unknownEnumValue: PartnerKind.other)
+  PartnerKind get partnerKind;
+  @override
+  DateTime get sentOn;
+  @override
+  @JsonKey(unknownEnumValue: PartnerHandoffStatus.sent)
+  PartnerHandoffStatus get status;
+  @override
+  String? get note;
+  @override
+  int? get sentById;
+  @override
+  String? get sentByName;
+  @override
+  DateTime? get createdAt;
+  @override
+  DateTime? get updatedAt;
+
+  /// Create a copy of PartnerHandoff
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$PartnerHandoffImplCopyWith<_$PartnerHandoffImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
