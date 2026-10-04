@@ -14,6 +14,7 @@ import 'package:real_estate_crm/features/clients/presentation/widgets/client_bir
 import 'package:real_estate_crm/features/clients/presentation/widgets/client_tag_editor.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/duplicate_warning.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/lead_source.dart';
+import 'package:real_estate_crm/features/partners/presentation/widgets/partner_picker.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class ClientFormScreen extends StatefulWidget {
@@ -41,6 +42,11 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
 
   /// How the client reached the agency; null when not recorded.
   LeadSource? _leadSource;
+
+  /// The partner who sent them, with [_leadSource] PARTNER.
+  int? _partnerId;
+  String? _partnerName;
+  bool _partnerMissing = false;
 
   /// The client's tags, and the agency's tags in use to suggest from.
   List<String> _tags = const [];
@@ -117,6 +123,8 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
         _wantedType = c.wantedType;
         _tags = c.tags;
         _leadSource = c.leadSource;
+        _partnerId = c.referredByPartnerId;
+        _partnerName = c.referredByPartnerName;
         _birthday = ClientBirthday.of(c);
         _initLoading = false;
       });
@@ -176,8 +184,23 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
     return text.length <= 255 ? text : text.substring(0, 255);
   }
 
+  Future<void> _pickPartner() async {
+    final picked = await showPartnerPicker(context, selectedId: _partnerId);
+    if (picked == null || !mounted) return;
+    setState(() {
+      _partnerId = picked.id;
+      _partnerName = picked.title;
+      _partnerMissing = false;
+    });
+  }
+
   void _submit() {
-    if (!_formKey.currentState!.validate()) return;
+    final partnerMissing =
+        _leadSource == LeadSource.PARTNER && _partnerId == null;
+    if (partnerMissing != _partnerMissing) {
+      setState(() => _partnerMissing = partnerMissing);
+    }
+    if (!_formKey.currentState!.validate() || partnerMissing) return;
     // A tag typed but not yet added is still meant; one that does not fit is
     // already named under the field.
     final tags = addTypedTags(_tags, _tagCtrl.text, _tagSuggestions).tags;
@@ -205,6 +228,8 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
       // Always sent too: null is how a recorded source is taken off.
       'leadSource': _leadSource?.name,
       'leadSourceDetail': _leadSource == null ? null : _leadDetail(),
+      'referredByPartnerId':
+          _leadSource == LeadSource.PARTNER ? _partnerId : null,
       // Always sent too: an empty one takes the birthday off.
       'birthday': _birthday?.toApi() ?? '',
     };
@@ -376,7 +401,14 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
                       LeadSourceField(
                         source: _leadSource,
                         detailCtrl: _leadDetailCtrl,
-                        onChanged: (s) => setState(() => _leadSource = s),
+                        onChanged: (s) => setState(() {
+                          _leadSource = s;
+                          _partnerMissing = false;
+                        }),
+                        partnerName: _partnerName,
+                        onPickPartner: _pickPartner,
+                        partnerError:
+                            _partnerMissing ? l10n.partnersRequired : null,
                       ),
                     ],
                   ),

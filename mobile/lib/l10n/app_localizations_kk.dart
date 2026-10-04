@@ -6169,4 +6169,283 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get handoverLoadFailed => 'Команданы жүктеу мүмкін болмады';
+
+  @override
+  String get clientsLeadSourcePartner => 'Серіктес';
+
+  @override
+  String get partnersTitle => 'Серіктестер';
+
+  @override
+  String get partnersHint => 'Брокерлер, нотариустар және клиент әкелетіндер';
+
+  @override
+  String get partnersIntro =>
+      'Агенттіктің брокерлері, нотариустары, бағалаушылары және басқа серіктестері, олар әкелген клиенттер мен сәтті мәмілелер бойынша сыйақылар.';
+
+  @override
+  String get partnersAdd => 'Серіктес қосу';
+
+  @override
+  String get partnersEmpty => 'Әзірге серіктестер жоқ';
+
+  @override
+  String get partnersEmptyBody =>
+      'Бірге жұмыс істейтін брокерлерді, нотариустарды және агенттіктерді қосыңыз.';
+
+  @override
+  String get partnersNoMatches => 'Серіктестер табылмады';
+
+  @override
+  String get partnersLoadFailed => 'Серіктестерді жүктеу мүмкін болмады';
+
+  @override
+  String get partnersLoadFailedOne => 'Серіктесті жүктеу мүмкін болмады';
+
+  @override
+  String get partnersSearchHint => 'Аты, компания немесе телефон';
+
+  @override
+  String get partnersFilterAll => 'Барлығы';
+
+  @override
+  String get partnersKindMortgageBroker => 'Ипотека брокері';
+
+  @override
+  String get partnersKindLawyer => 'Заңгер немесе нотариус';
+
+  @override
+  String get partnersKindAppraiser => 'Бағалаушы';
+
+  @override
+  String get partnersKindDeveloper => 'Құрылыс салушы';
+
+  @override
+  String get partnersKindAgency => 'Басқа агенттік';
+
+  @override
+  String get partnersKindOther => 'Басқа';
+
+  @override
+  String partnersReferredCount(int count) {
+    return 'Әкелді: $count';
+  }
+
+  @override
+  String partnersFeePercent(String value) {
+    return 'Комиссияның $value%';
+  }
+
+  @override
+  String partnersFeeFixed(String amount) {
+    return 'Мәміле үшін $amount';
+  }
+
+  @override
+  String get partnersFeeNone => 'Сыйақысыз';
+
+  @override
+  String get partnersStatReferred => 'Әкелген клиенттер';
+
+  @override
+  String get partnersStatWon => 'Сәтті мәмілелер';
+
+  @override
+  String get partnersStatFees => 'Төленетін сыйақы';
+
+  @override
+  String get partnersStatHandoffs => 'Жіберілген клиенттер';
+
+  @override
+  String partnersFeesUnknown(int count) {
+    return 'Комиссиясыз, есепке алынбаған мәмілелер: $count';
+  }
+
+  @override
+  String get partnersStatsScope => 'Сіз көретін клиенттер бойынша.';
+
+  @override
+  String get partnersContact => 'Байланыс';
+
+  @override
+  String get partnersName => 'Аты';
+
+  @override
+  String get partnersNameHint => 'Кіммен жұмыс істейсіз';
+
+  @override
+  String get partnersNameRequired => 'Атын енгізіңіз';
+
+  @override
+  String get partnersCompany => 'Компания';
+
+  @override
+  String get partnersCompanyHint => 'Банк, фирма немесе агенттік';
+
+  @override
+  String get partnersKind => 'Немен айналысады';
+
+  @override
+  String get partnersPhone => 'Телефон';
+
+  @override
+  String get partnersEmail => 'Email';
+
+  @override
+  String get partnersNote => 'Ескертпе';
+
+  @override
+  String get partnersNoteHint =>
+      'Шарттар, қалай хабарласу, есте сақтайтын нәрсе';
+
+  @override
+  String get partnersFee => 'Клиент үшін сыйақы';
+
+  @override
+  String get partnersFeeHint =>
+      'Серіктес әкелген клиенттің әр сәтті мәмілесіне есептеледі.';
+
+  @override
+  String get partnersFeeTypeNone => 'Жоқ';
+
+  @override
+  String get partnersFeeTypePercent => 'Комиссиядан %';
+
+  @override
+  String get partnersFeeTypeFixed => 'Тіркелген сома';
+
+  @override
+  String get partnersFeeValuePercent => 'Пайыз';
+
+  @override
+  String get partnersFeeValueAmount => 'Сома';
+
+  @override
+  String get partnersFeeInvalidPercent =>
+      '0-ден үлкен, 100-ден аспайтын пайызды енгізіңіз';
+
+  @override
+  String get partnersFeeInvalidAmount => '0-ден үлкен соманы енгізіңіз';
+
+  @override
+  String get partnersInvalidFee => 'Сыйақыны тексеріңіз';
+
+  @override
+  String get partnersSave => 'Сақтау';
+
+  @override
+  String get partnersNew => 'Жаңа серіктес';
+
+  @override
+  String get partnersEdit => 'Серіктесті өзгерту';
+
+  @override
+  String get partnersDelete => 'Серіктесті жою';
+
+  @override
+  String partnersDeleteConfirm(String name) {
+    return '$name жойылсын ба? Мұны қайтару мүмкін емес.';
+  }
+
+  @override
+  String get partnersInUse =>
+      'Серіктеске клиенттер байланған, сондықтан оны жою мүмкін емес.';
+
+  @override
+  String get partnersRequired => 'Клиентті әкелген серіктесті таңдаңыз';
+
+  @override
+  String partnersAddedBy(String name) {
+    return 'Қосқан: $name';
+  }
+
+  @override
+  String get partnersReferrals => 'Әкелген клиенттері';
+
+  @override
+  String get partnersNoReferrals => 'Бұл серіктестен әзірге клиент жоқ';
+
+  @override
+  String partnersReferralWon(int count) {
+    return 'Сәтті мәмілелер: $count';
+  }
+
+  @override
+  String partnersReferralFee(String amount) {
+    return 'Сыйақы $amount';
+  }
+
+  @override
+  String get partnersReferralNoDeals => 'Сәтті мәміле жоқ';
+
+  @override
+  String get partnersSentClients => 'Жіберілген клиенттер';
+
+  @override
+  String get partnersNoSentClients => 'Әзірге клиент жіберілмеген';
+
+  @override
+  String get partnersHandoffSent => 'Жіберілді';
+
+  @override
+  String get partnersHandoffInProgress => 'Жұмыста';
+
+  @override
+  String get partnersHandoffDone => 'Аяқталды';
+
+  @override
+  String get partnersClientCard => 'Серіктестер';
+
+  @override
+  String get partnersReferredBy => 'Әкелген';
+
+  @override
+  String get partnersSentTo => 'Жіберілген';
+
+  @override
+  String get partnersSendToPartner => 'Серіктеске жіберу';
+
+  @override
+  String get partnersClientNotSent => 'Серіктестерге әлі жіберілмеген';
+
+  @override
+  String get partnersHandoffEdit => 'Жіберуді өзгерту';
+
+  @override
+  String get partnersHandoffPartner => 'Серіктес';
+
+  @override
+  String get partnersHandoffDate => 'Жіберілген күні';
+
+  @override
+  String get partnersHandoffStatus => 'Күйі';
+
+  @override
+  String get partnersHandoffNoteHint => 'Серіктес немен көмектеседі';
+
+  @override
+  String get partnersHandoffRemove => 'Жіберуді жою';
+
+  @override
+  String get partnersHandoffRemoveConfirm =>
+      'Бұл жіберуді клиент картасынан алып тастау керек пе?';
+
+  @override
+  String partnersHandoffBy(String name) {
+    return 'Жіберген: $name';
+  }
+
+  @override
+  String get partnersPickPartner => 'Серіктесті таңдаңыз';
+
+  @override
+  String get partnersPickerEmpty => 'Серіктестер жоқ';
+
+  @override
+  String get partnersSentOnFuture => 'Күн болашақта бола алмайды';
+
+  @override
+  String partnersOpenHandoffs(int count) {
+    return 'Әлі жұмыста: $count';
+  }
 }

@@ -6252,4 +6252,283 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get handoverLoadFailed => 'Could not load the team';
+
+  @override
+  String get clientsLeadSourcePartner => 'Partner';
+
+  @override
+  String get partnersTitle => 'Partners';
+
+  @override
+  String get partnersHint => 'Brokers, notaries and others who send clients';
+
+  @override
+  String get partnersIntro =>
+      'The agency\'s brokers, notaries, appraisers and other partners, the clients they sent and the fees owed on won deals.';
+
+  @override
+  String get partnersAdd => 'Add partner';
+
+  @override
+  String get partnersEmpty => 'No partners yet';
+
+  @override
+  String get partnersEmptyBody =>
+      'Add the brokers, notaries and agencies you work with.';
+
+  @override
+  String get partnersNoMatches => 'No partners match';
+
+  @override
+  String get partnersLoadFailed => 'Could not load partners';
+
+  @override
+  String get partnersLoadFailedOne => 'Could not load the partner';
+
+  @override
+  String get partnersSearchHint => 'Name, company or phone';
+
+  @override
+  String get partnersFilterAll => 'All';
+
+  @override
+  String get partnersKindMortgageBroker => 'Mortgage broker';
+
+  @override
+  String get partnersKindLawyer => 'Lawyer or notary';
+
+  @override
+  String get partnersKindAppraiser => 'Appraiser';
+
+  @override
+  String get partnersKindDeveloper => 'Developer';
+
+  @override
+  String get partnersKindAgency => 'Other agency';
+
+  @override
+  String get partnersKindOther => 'Other';
+
+  @override
+  String partnersReferredCount(int count) {
+    return 'Referred: $count';
+  }
+
+  @override
+  String partnersFeePercent(String value) {
+    return '$value% of commission';
+  }
+
+  @override
+  String partnersFeeFixed(String amount) {
+    return '$amount per deal';
+  }
+
+  @override
+  String get partnersFeeNone => 'No referral fee';
+
+  @override
+  String get partnersStatReferred => 'Referred clients';
+
+  @override
+  String get partnersStatWon => 'Won deals';
+
+  @override
+  String get partnersStatFees => 'Fees owed';
+
+  @override
+  String get partnersStatHandoffs => 'Clients sent';
+
+  @override
+  String partnersFeesUnknown(int count) {
+    return 'Won deals without a commission, not counted: $count';
+  }
+
+  @override
+  String get partnersStatsScope => 'Counted over the clients you see.';
+
+  @override
+  String get partnersContact => 'Contact';
+
+  @override
+  String get partnersName => 'Name';
+
+  @override
+  String get partnersNameHint => 'Who you deal with';
+
+  @override
+  String get partnersNameRequired => 'Enter a name';
+
+  @override
+  String get partnersCompany => 'Company';
+
+  @override
+  String get partnersCompanyHint => 'Bank, firm or agency';
+
+  @override
+  String get partnersKind => 'What they do';
+
+  @override
+  String get partnersPhone => 'Phone';
+
+  @override
+  String get partnersEmail => 'Email';
+
+  @override
+  String get partnersNote => 'Note';
+
+  @override
+  String get partnersNoteHint =>
+      'Terms, how to reach them, anything to remember';
+
+  @override
+  String get partnersFee => 'Referral fee';
+
+  @override
+  String get partnersFeeHint =>
+      'Owed on each won deal of a client the partner sent.';
+
+  @override
+  String get partnersFeeTypeNone => 'None';
+
+  @override
+  String get partnersFeeTypePercent => '% of commission';
+
+  @override
+  String get partnersFeeTypeFixed => 'Fixed amount';
+
+  @override
+  String get partnersFeeValuePercent => 'Percent';
+
+  @override
+  String get partnersFeeValueAmount => 'Amount';
+
+  @override
+  String get partnersFeeInvalidPercent =>
+      'Enter a percent above 0 and at most 100';
+
+  @override
+  String get partnersFeeInvalidAmount => 'Enter an amount above 0';
+
+  @override
+  String get partnersInvalidFee => 'Check the referral fee';
+
+  @override
+  String get partnersSave => 'Save';
+
+  @override
+  String get partnersNew => 'New partner';
+
+  @override
+  String get partnersEdit => 'Edit partner';
+
+  @override
+  String get partnersDelete => 'Delete partner';
+
+  @override
+  String partnersDeleteConfirm(String name) {
+    return 'Delete $name? This cannot be undone.';
+  }
+
+  @override
+  String get partnersInUse =>
+      'Clients are linked to this partner, so it cannot be deleted.';
+
+  @override
+  String get partnersRequired => 'Choose the partner who sent this client';
+
+  @override
+  String partnersAddedBy(String name) {
+    return 'Added by $name';
+  }
+
+  @override
+  String get partnersReferrals => 'Clients they referred';
+
+  @override
+  String get partnersNoReferrals => 'No clients from this partner yet';
+
+  @override
+  String partnersReferralWon(int count) {
+    return 'Won deals: $count';
+  }
+
+  @override
+  String partnersReferralFee(String amount) {
+    return 'Fee $amount';
+  }
+
+  @override
+  String get partnersReferralNoDeals => 'No won deals';
+
+  @override
+  String get partnersSentClients => 'Clients sent to them';
+
+  @override
+  String get partnersNoSentClients => 'No clients sent yet';
+
+  @override
+  String get partnersHandoffSent => 'Sent';
+
+  @override
+  String get partnersHandoffInProgress => 'In progress';
+
+  @override
+  String get partnersHandoffDone => 'Done';
+
+  @override
+  String get partnersClientCard => 'Partners';
+
+  @override
+  String get partnersReferredBy => 'Referred by';
+
+  @override
+  String get partnersSentTo => 'Sent to';
+
+  @override
+  String get partnersSendToPartner => 'Send to a partner';
+
+  @override
+  String get partnersClientNotSent => 'Not sent to any partner yet';
+
+  @override
+  String get partnersHandoffEdit => 'Update hand-off';
+
+  @override
+  String get partnersHandoffPartner => 'Partner';
+
+  @override
+  String get partnersHandoffDate => 'Sent on';
+
+  @override
+  String get partnersHandoffStatus => 'Status';
+
+  @override
+  String get partnersHandoffNoteHint => 'What they are helping with';
+
+  @override
+  String get partnersHandoffRemove => 'Remove hand-off';
+
+  @override
+  String get partnersHandoffRemoveConfirm =>
+      'Take this hand-off off the client?';
+
+  @override
+  String partnersHandoffBy(String name) {
+    return 'Sent by $name';
+  }
+
+  @override
+  String get partnersPickPartner => 'Choose a partner';
+
+  @override
+  String get partnersPickerEmpty => 'No partners';
+
+  @override
+  String get partnersSentOnFuture => 'The day cannot be in the future';
+
+  @override
+  String partnersOpenHandoffs(int count) {
+    return 'Still open: $count';
+  }
 }

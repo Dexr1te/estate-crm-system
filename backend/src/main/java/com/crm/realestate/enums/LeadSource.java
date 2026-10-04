@@ -19,5 +19,10 @@ public enum LeadSource {
     COLD_CALL,
     /** Has bought or sold with the agency before. */
     REPEAT,
+    /**
+     * Sent by one of the agency's partners: always beside the partner on the client, never alone
+     * (V53). A referral by a person who is not a partner stays {@link #REFERRAL}.
+     */
+    PARTNER,
     OTHER
 }

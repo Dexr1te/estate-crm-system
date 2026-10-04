@@ -93,6 +93,10 @@ enum LeadSource {
   COLD_CALL,
   // ignore: constant_identifier_names
   REPEAT,
+
+  /// Sent by one of the agency's partners, named beside it on the client.
+  // ignore: constant_identifier_names
+  PARTNER,
   // ignore: constant_identifier_names
   OTHER,
 }
@@ -151,6 +155,10 @@ class ClientResponse with _$ClientResponse {
     @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
     LeadSource? leadSource,
     String? leadSourceDetail,
+
+    /// The partner who sent them, when [leadSource] is PARTNER.
+    int? referredByPartnerId,
+    String? referredByPartnerName,
 
     /// `1990-05-14`, or `--05-14` when the year is not known. Read it
     /// through `ClientBirthday.parse`.
@@ -1348,6 +1356,131 @@ class OpenHouseVisitor with _$OpenHouseVisitor {
 
   factory OpenHouseVisitor.fromJson(Map<String, dynamic> json) =>
       _$OpenHouseVisitorFromJson(json);
+}
+
+/// What an outside partner of the agency does.
+enum PartnerKind {
+  @JsonValue('MORTGAGE_BROKER')
+  mortgageBroker,
+
+  /// A lawyer or a notary.
+  @JsonValue('LAWYER')
+  lawyer,
+  @JsonValue('APPRAISER')
+  appraiser,
+  @JsonValue('DEVELOPER')
+  developer,
+
+  /// Another agency.
+  @JsonValue('AGENCY')
+  agency,
+  @JsonValue('OTHER')
+  other,
+}
+
+/// How a partner's referral fee is worked out on a won deal: a share of the
+/// agency's commission, or a fixed amount in the agency's currency.
+enum ReferralFeeType {
+  @JsonValue('PERCENT')
+  percent,
+  @JsonValue('FIXED')
+  fixed,
+}
+
+/// Where a client sent to a partner has got to.
+enum PartnerHandoffStatus {
+  @JsonValue('SENT')
+  sent,
+  @JsonValue('IN_PROGRESS')
+  inProgress,
+  @JsonValue('DONE')
+  done,
+}
+
+/// One of the agency's partners, with what its referrals came to, counted
+/// over the clients the signed-in user sees.
+@freezed
+class Partner with _$Partner {
+  const factory Partner({
+    required int id,
+    @Default('') String name,
+    String? company,
+    @JsonKey(unknownEnumValue: PartnerKind.other)
+    @Default(PartnerKind.other)
+    PartnerKind kind,
+    String? phone,
+    String? email,
+    String? note,
+
+    /// Both or neither: no fee was agreed when null.
+    @JsonKey(unknownEnumValue: JsonKey.nullForUndefinedEnumValue)
+    ReferralFeeType? feeType,
+    double? feeValue,
+    int? createdById,
+    String? createdByName,
+
+    /// Whether the signed-in user may change or delete it.
+    @Default(false) bool canEdit,
+    DateTime? createdAt,
+    @Default(0) int referredClients,
+    @Default(0) int wonDeals,
+    @Default(0) double feesOwed,
+
+    /// Won deals left out of [feesOwed] for want of a recorded commission.
+    @Default(0) int wonDealsWithoutCommission,
+    @Default(0) int handoffs,
+    @Default(0) int openHandoffs,
+  }) = _Partner;
+
+  factory Partner.fromJson(Map<String, dynamic> json) =>
+      _$PartnerFromJson(json);
+}
+
+/// A client a partner sent, with their won deals and the fee on them.
+@freezed
+class PartnerReferral with _$PartnerReferral {
+  const factory PartnerReferral({
+    required int clientId,
+    @Default('') String fullName,
+    @Default(ClientType.BUYER) ClientType type,
+    int? agentId,
+    String? agentName,
+    @Default(0) int wonDeals,
+    @Default(0) double feeOwed,
+    @Default(0) int wonDealsWithoutCommission,
+    DateTime? createdAt,
+  }) = _PartnerReferral;
+
+  factory PartnerReferral.fromJson(Map<String, dynamic> json) =>
+      _$PartnerReferralFromJson(json);
+}
+
+/// A client sent to a partner, named from both ends.
+@freezed
+class PartnerHandoff with _$PartnerHandoff {
+  const factory PartnerHandoff({
+    required int id,
+    required int clientId,
+    @Default('') String clientName,
+    required int partnerId,
+    @Default('') String partnerName,
+    String? partnerCompany,
+    @JsonKey(unknownEnumValue: PartnerKind.other)
+    @Default(PartnerKind.other)
+    PartnerKind partnerKind,
+    required DateTime sentOn,
+    @JsonKey(unknownEnumValue: PartnerHandoffStatus.sent)
+    @Default(PartnerHandoffStatus.sent)
+    PartnerHandoffStatus status,
+    String? note,
+    int? sentById,
+    String? sentByName,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) = _PartnerHandoff;
+
+  factory PartnerHandoff.fromJson(Map<String, dynamic> json) =>
+      _$PartnerHandoffFromJson(json);
 }
 
 /// The records whose changes the server writes down.

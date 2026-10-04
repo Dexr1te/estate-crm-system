@@ -42,6 +42,9 @@ import 'package:real_estate_crm/features/mortgage/presentation/screens/mortgage_
 import 'package:real_estate_crm/features/notifications/presentation/screens/notifications_screen.dart';
 import 'package:real_estate_crm/features/offers/presentation/screens/offer_screen.dart';
 import 'package:real_estate_crm/features/open_houses/presentation/screens/open_house_screen.dart';
+import 'package:real_estate_crm/features/partners/presentation/screens/partner_detail_screen.dart';
+import 'package:real_estate_crm/features/partners/presentation/screens/partner_form_screen.dart';
+import 'package:real_estate_crm/features/partners/presentation/screens/partners_screen.dart';
 import 'package:real_estate_crm/features/profile/presentation/screens/profile_screen.dart';
 import 'package:real_estate_crm/features/properties/presentation/screens/mandates_ending_screen.dart';
 import 'package:real_estate_crm/features/properties/presentation/screens/properties_screen.dart';
@@ -310,6 +313,37 @@ GoRouter createRouter(AuthBloc authBloc) {
         pageBuilder: (_, s) => NoTransitionPage(
           child: OpenHouseScreen(id: int.parse(s.pathParameters['id']!)),
         ),
+      ),
+      GoRoute(
+        path: '/partners',
+        parentNavigatorKey: _rootKey,
+        pageBuilder: (_, __) => const NoTransitionPage(child: PartnersScreen()),
+        routes: [
+          GoRoute(
+            path: 'new',
+            parentNavigatorKey: _rootKey,
+            pageBuilder: (_, __) =>
+                const NoTransitionPage(child: PartnerFormScreen()),
+          ),
+          GoRoute(
+            path: ':id',
+            parentNavigatorKey: _rootKey,
+            pageBuilder: (_, s) => NoTransitionPage(
+              child:
+                  PartnerDetailScreen(id: int.parse(s.pathParameters['id']!)),
+            ),
+            routes: [
+              GoRoute(
+                path: 'edit',
+                parentNavigatorKey: _rootKey,
+                pageBuilder: (_, s) => NoTransitionPage(
+                  child: PartnerFormScreen(
+                      partnerId: int.parse(s.pathParameters['id']!)),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
       GoRoute(
         path: '/offers/:id',

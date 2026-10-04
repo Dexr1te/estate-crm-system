@@ -73,6 +73,8 @@ _$ClientResponseImpl _$$ClientResponseImplFromJson(Map<String, dynamic> json) =>
       leadSource: $enumDecodeNullable(_$LeadSourceEnumMap, json['leadSource'],
           unknownValue: JsonKey.nullForUndefinedEnumValue),
       leadSourceDetail: json['leadSourceDetail'] as String?,
+      referredByPartnerId: (json['referredByPartnerId'] as num?)?.toInt(),
+      referredByPartnerName: json['referredByPartnerName'] as String?,
       birthday: json['birthday'] as String?,
     );
 
@@ -99,6 +101,8 @@ Map<String, dynamic> _$$ClientResponseImplToJson(
       'tags': instance.tags,
       'leadSource': _$LeadSourceEnumMap[instance.leadSource],
       'leadSourceDetail': instance.leadSourceDetail,
+      'referredByPartnerId': instance.referredByPartnerId,
+      'referredByPartnerName': instance.referredByPartnerName,
       'birthday': instance.birthday,
     };
 
@@ -130,6 +134,7 @@ const _$LeadSourceEnumMap = {
   LeadSource.WALK_IN: 'WALK_IN',
   LeadSource.COLD_CALL: 'COLD_CALL',
   LeadSource.REPEAT: 'REPEAT',
+  LeadSource.PARTNER: 'PARTNER',
   LeadSource.OTHER: 'OTHER',
 };
 
@@ -1787,6 +1792,156 @@ Map<String, dynamic> _$$OpenHouseVisitorImplToJson(
 const _$OpenHouseInterestEnumMap = {
   OpenHouseInterest.interested: 'INTERESTED',
   OpenHouseInterest.justLooking: 'JUST_LOOKING',
+};
+
+_$PartnerImpl _$$PartnerImplFromJson(Map<String, dynamic> json) =>
+    _$PartnerImpl(
+      id: (json['id'] as num).toInt(),
+      name: json['name'] as String? ?? '',
+      company: json['company'] as String?,
+      kind: $enumDecodeNullable(_$PartnerKindEnumMap, json['kind'],
+              unknownValue: PartnerKind.other) ??
+          PartnerKind.other,
+      phone: json['phone'] as String?,
+      email: json['email'] as String?,
+      note: json['note'] as String?,
+      feeType: $enumDecodeNullable(_$ReferralFeeTypeEnumMap, json['feeType'],
+          unknownValue: JsonKey.nullForUndefinedEnumValue),
+      feeValue: (json['feeValue'] as num?)?.toDouble(),
+      createdById: (json['createdById'] as num?)?.toInt(),
+      createdByName: json['createdByName'] as String?,
+      canEdit: json['canEdit'] as bool? ?? false,
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      referredClients: (json['referredClients'] as num?)?.toInt() ?? 0,
+      wonDeals: (json['wonDeals'] as num?)?.toInt() ?? 0,
+      feesOwed: (json['feesOwed'] as num?)?.toDouble() ?? 0,
+      wonDealsWithoutCommission:
+          (json['wonDealsWithoutCommission'] as num?)?.toInt() ?? 0,
+      handoffs: (json['handoffs'] as num?)?.toInt() ?? 0,
+      openHandoffs: (json['openHandoffs'] as num?)?.toInt() ?? 0,
+    );
+
+Map<String, dynamic> _$$PartnerImplToJson(_$PartnerImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'company': instance.company,
+      'kind': _$PartnerKindEnumMap[instance.kind]!,
+      'phone': instance.phone,
+      'email': instance.email,
+      'note': instance.note,
+      'feeType': _$ReferralFeeTypeEnumMap[instance.feeType],
+      'feeValue': instance.feeValue,
+      'createdById': instance.createdById,
+      'createdByName': instance.createdByName,
+      'canEdit': instance.canEdit,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'referredClients': instance.referredClients,
+      'wonDeals': instance.wonDeals,
+      'feesOwed': instance.feesOwed,
+      'wonDealsWithoutCommission': instance.wonDealsWithoutCommission,
+      'handoffs': instance.handoffs,
+      'openHandoffs': instance.openHandoffs,
+    };
+
+const _$PartnerKindEnumMap = {
+  PartnerKind.mortgageBroker: 'MORTGAGE_BROKER',
+  PartnerKind.lawyer: 'LAWYER',
+  PartnerKind.appraiser: 'APPRAISER',
+  PartnerKind.developer: 'DEVELOPER',
+  PartnerKind.agency: 'AGENCY',
+  PartnerKind.other: 'OTHER',
+};
+
+const _$ReferralFeeTypeEnumMap = {
+  ReferralFeeType.percent: 'PERCENT',
+  ReferralFeeType.fixed: 'FIXED',
+};
+
+_$PartnerReferralImpl _$$PartnerReferralImplFromJson(
+        Map<String, dynamic> json) =>
+    _$PartnerReferralImpl(
+      clientId: (json['clientId'] as num).toInt(),
+      fullName: json['fullName'] as String? ?? '',
+      type: $enumDecodeNullable(_$ClientTypeEnumMap, json['type']) ??
+          ClientType.BUYER,
+      agentId: (json['agentId'] as num?)?.toInt(),
+      agentName: json['agentName'] as String?,
+      wonDeals: (json['wonDeals'] as num?)?.toInt() ?? 0,
+      feeOwed: (json['feeOwed'] as num?)?.toDouble() ?? 0,
+      wonDealsWithoutCommission:
+          (json['wonDealsWithoutCommission'] as num?)?.toInt() ?? 0,
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+    );
+
+Map<String, dynamic> _$$PartnerReferralImplToJson(
+        _$PartnerReferralImpl instance) =>
+    <String, dynamic>{
+      'clientId': instance.clientId,
+      'fullName': instance.fullName,
+      'type': _$ClientTypeEnumMap[instance.type]!,
+      'agentId': instance.agentId,
+      'agentName': instance.agentName,
+      'wonDeals': instance.wonDeals,
+      'feeOwed': instance.feeOwed,
+      'wonDealsWithoutCommission': instance.wonDealsWithoutCommission,
+      'createdAt': instance.createdAt?.toIso8601String(),
+    };
+
+_$PartnerHandoffImpl _$$PartnerHandoffImplFromJson(Map<String, dynamic> json) =>
+    _$PartnerHandoffImpl(
+      id: (json['id'] as num).toInt(),
+      clientId: (json['clientId'] as num).toInt(),
+      clientName: json['clientName'] as String? ?? '',
+      partnerId: (json['partnerId'] as num).toInt(),
+      partnerName: json['partnerName'] as String? ?? '',
+      partnerCompany: json['partnerCompany'] as String?,
+      partnerKind: $enumDecodeNullable(
+              _$PartnerKindEnumMap, json['partnerKind'],
+              unknownValue: PartnerKind.other) ??
+          PartnerKind.other,
+      sentOn: DateTime.parse(json['sentOn'] as String),
+      status: $enumDecodeNullable(_$PartnerHandoffStatusEnumMap, json['status'],
+              unknownValue: PartnerHandoffStatus.sent) ??
+          PartnerHandoffStatus.sent,
+      note: json['note'] as String?,
+      sentById: (json['sentById'] as num?)?.toInt(),
+      sentByName: json['sentByName'] as String?,
+      createdAt: json['createdAt'] == null
+          ? null
+          : DateTime.parse(json['createdAt'] as String),
+      updatedAt: json['updatedAt'] == null
+          ? null
+          : DateTime.parse(json['updatedAt'] as String),
+    );
+
+Map<String, dynamic> _$$PartnerHandoffImplToJson(
+        _$PartnerHandoffImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'clientId': instance.clientId,
+      'clientName': instance.clientName,
+      'partnerId': instance.partnerId,
+      'partnerName': instance.partnerName,
+      'partnerCompany': instance.partnerCompany,
+      'partnerKind': _$PartnerKindEnumMap[instance.partnerKind]!,
+      'sentOn': instance.sentOn.toIso8601String(),
+      'status': _$PartnerHandoffStatusEnumMap[instance.status]!,
+      'note': instance.note,
+      'sentById': instance.sentById,
+      'sentByName': instance.sentByName,
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'updatedAt': instance.updatedAt?.toIso8601String(),
+    };
+
+const _$PartnerHandoffStatusEnumMap = {
+  PartnerHandoffStatus.sent: 'SENT',
+  PartnerHandoffStatus.inProgress: 'IN_PROGRESS',
+  PartnerHandoffStatus.done: 'DONE',
 };
 
 _$RecordChangeImpl _$$RecordChangeImplFromJson(Map<String, dynamic> json) =>
