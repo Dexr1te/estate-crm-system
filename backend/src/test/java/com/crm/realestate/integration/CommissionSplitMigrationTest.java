@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
- * V51 as written, run against deals and users tables shaped like the ones it meets in production.
+ * V55 as written, run against deals and users tables shaped like the ones it meets in production.
  *
  * <p>The rest of the suite builds its schema from the entities, so without this nothing would
  * notice a migration that does not apply, or checks that let through what the API refuses.
@@ -37,7 +37,7 @@ class CommissionSplitMigrationTest {
             s.execute("INSERT INTO users (full_name) VALUES ('Aigul'), ('Timur')");
             s.execute("INSERT INTO deals (title) VALUES ('An old sale')");
         }
-        String script = new ClassPathResource("db/migration/V51__commission_splits.sql")
+        String script = new ClassPathResource("db/migration/V55__commission_splits.sql")
                 .getContentAsString(StandardCharsets.UTF_8);
         try (Statement s = db.createStatement()) {
             for (String statement : script.replaceAll("(?m)^--.*$", "").split(";")) {

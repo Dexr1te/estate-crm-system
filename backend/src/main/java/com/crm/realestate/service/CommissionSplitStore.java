@@ -27,7 +27,7 @@ import java.util.Objects;
 import java.util.function.Function;
 
 /**
- * What the rest of the CRM needs to know about commission splits (V51), kept apart from the
+ * What the rest of the CRM needs to know about commission splits (V55), kept apart from the
  * split's own API so the deal list, the totals and the handovers can lean on it without a cycle.
  *
  * <p><b>The rule.</b> A deal's agent holds the whole commission unless they share it. Each share

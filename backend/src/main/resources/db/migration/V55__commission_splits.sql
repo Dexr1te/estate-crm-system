@@ -1,4 +1,4 @@
--- V51__commission_splits.sql
+-- V55__commission_splits.sql
 --
 -- A deal is often worked by more than one person: the agent who holds it, a
 -- colleague who found the buyer, an agent from another agency who brought the

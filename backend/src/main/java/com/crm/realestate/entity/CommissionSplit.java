@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 /**
  * Someone the deal's agent shares the commission with: a colleague from the deal's agency, or an
- * outside co-broker known only by name (V51). The deal's agent has no row and holds whatever the
+ * outside co-broker known only by name (V55). The deal's agent has no row and holds whatever the
  * rows leave. The cascade rules are declared here as well so a schema generated from the entities
  * — the test database is one — behaves like the migrated one.
  */

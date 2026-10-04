@@ -21,7 +21,7 @@ import java.math.BigDecimal;
  *       commission like any other won deal.</li>
  *   <li>Counts of deals — won, lost, in the funnel — take rents and sales alike: a rent is a deal
  *       the agent closed.</li>
- *   <li>Who earns the commission is the split's business, on top of this base (V51,
+ *   <li>Who earns the commission is the split's business, on top of this base (V55,
  *       {@link CommissionSplitStore}): each colleague their share, the deal's agent the rest, and a
  *       co-broker's share nobody here. Counts and values stay with the deal's agent.</li>
  * </ul>
