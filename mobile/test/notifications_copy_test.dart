@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/utils/clock.dart';
@@ -82,6 +83,19 @@ final _everyType = <AppNotification>[
     'leaseEnd': '2026-10-26',
     'days': 30,
   }),
+  _n(NotificationType.timeOffCover, {
+    'absentName': 'Aigul Bekova',
+    'kind': 'SICK_LEAVE',
+    'startDate': '2026-10-12',
+    'endDate': '2026-10-16',
+    'actorName': 'Marat',
+  }),
+  _n(NotificationType.taskAssigned, {
+    'actorName': 'Asel',
+    'taskTitle': 'Call Irina',
+    'coveringForId': 7,
+    'coveringForName': 'Aigul Bekova',
+  }),
   _n(NotificationType.unknown, const {}),
 ];
 
@@ -103,6 +117,7 @@ class _FakeTimer implements Timer {
 }
 
 void main() {
+  setUpAll(initializeDateFormatting);
   setUp(() => AppClock.freeze(_now));
   tearDown(AppClock.reset);
 

@@ -16,6 +16,8 @@ import 'package:real_estate_crm/features/checklist/presentation/bloc/deal_checkl
 import 'package:real_estate_crm/features/checklist/presentation/bloc/deal_checklist_state.dart';
 import 'package:real_estate_crm/features/checklist/presentation/widgets/checklist_sheets.dart';
 import 'package:real_estate_crm/features/checklist/presentation/widgets/deal_checklist_card.dart';
+import 'package:real_estate_crm/features/commission_split/presentation/bloc/commission_split_bloc.dart';
+import 'package:real_estate_crm/features/commission_split/presentation/widgets/deal_commission_split_card.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deal_comments_bloc.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deal_comments_event.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_bloc.dart';
@@ -70,8 +72,14 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
       DealDepositsBloc(Injector.depositsRepository, dealId: widget.id)
         ..add(DealDepositsLoadEvent());
 
+  CommissionSplitBloc? _splitBlocOrNull;
+  CommissionSplitBloc get _split => _splitBlocOrNull ??=
+      CommissionSplitBloc(Injector.commissionSplitRepository, dealId: widget.id)
+        ..add(CommissionSplitLoadEvent());
+
   @override
   void dispose() {
+    _splitBlocOrNull?.close();
     _depositsBlocOrNull?.close();
     _checklistBlocOrNull?.close();
     _commentsBlocOrNull?.close();
@@ -243,6 +251,7 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
         ),
         BlocProvider.value(value: _checklist),
         BlocProvider.value(value: _deposits),
+        BlocProvider.value(value: _split),
       ],
       child: BlocListener<DealsBloc, DealsState>(
         listener: _onWriteResult,
@@ -253,6 +262,7 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
               context.read<DocumentsBloc>().add(DocumentsLoadEvent());
               _checklist.add(DealChecklistLoadEvent());
               _deposits.add(DealDepositsLoadEvent());
+              _split.add(CommissionSplitLoadEvent());
               _comments.add(DealCommentsLoadEvent());
               await _load();
             },
@@ -278,6 +288,7 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
                   },
                 ),
               if (deal.commissionPercent != null) _CommissionCard(deal: deal),
+              const DealCommissionSplitCard(),
               DealDepositCard(
                 deal: deal,
                 onSaved: () => _comments.add(DealCommentsLoadEvent()),

@@ -6531,4 +6531,322 @@ class AppLocalizationsEn extends AppLocalizations {
   String partnersOpenHandoffs(int count) {
     return 'Still open: $count';
   }
+
+  @override
+  String get timeOffTitle => 'Time off';
+
+  @override
+  String get timeOffWhosOut => 'Who\'s out';
+
+  @override
+  String get timeOffAdd => 'Add time off';
+
+  @override
+  String get timeOffNewTitle => 'New time off';
+
+  @override
+  String get timeOffEditTitle => 'Time off';
+
+  @override
+  String get timeOffKind => 'Kind';
+
+  @override
+  String get timeOffKindVacation => 'Vacation';
+
+  @override
+  String get timeOffKindSickLeave => 'Sick leave';
+
+  @override
+  String get timeOffKindDayOff => 'Day off';
+
+  @override
+  String get timeOffKindOther => 'Other';
+
+  @override
+  String get timeOffPerson => 'Who is away';
+
+  @override
+  String get timeOffPickPerson => 'Choose who is away';
+
+  @override
+  String get timeOffSearchPeople => 'Search people';
+
+  @override
+  String get timeOffDaysEyebrow => 'Days';
+
+  @override
+  String get timeOffFirstDay => 'First day';
+
+  @override
+  String get timeOffLastDay => 'Last day';
+
+  @override
+  String get timeOffPickDate => 'Pick a day';
+
+  @override
+  String get timeOffDatesRequired => 'Choose the first and the last day';
+
+  @override
+  String get timeOffEndBeforeStart => 'The last day cannot be before the first';
+
+  @override
+  String timeOffDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days',
+      one: '1 day',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get timeOffCover => 'Covering';
+
+  @override
+  String get timeOffNoCover => 'Nobody';
+
+  @override
+  String get timeOffCoverHint =>
+      'While they are away, the cover also gets their notifications. Nothing changes hands.';
+
+  @override
+  String timeOffCoveredBy(String name) {
+    return 'Covered by $name';
+  }
+
+  @override
+  String get timeOffNobodyCovers => 'Nobody covers';
+
+  @override
+  String get timeOffNote => 'Note';
+
+  @override
+  String get timeOffNoteHint => 'Anything colleagues should know';
+
+  @override
+  String get timeOffSaved => 'Time off saved';
+
+  @override
+  String get timeOffCancelled => 'Time off cancelled';
+
+  @override
+  String get timeOffCancelAction => 'Cancel time off';
+
+  @override
+  String get timeOffKeep => 'Keep it';
+
+  @override
+  String get timeOffCancelConfirmTitle => 'Cancel this time off?';
+
+  @override
+  String get timeOffCancelConfirmBody =>
+      'It comes off the team\'s list, and the cover stops getting the notifications.';
+
+  @override
+  String get timeOffLoadFailed => 'Could not load time off';
+
+  @override
+  String get timeOffEmpty => 'No time off yet';
+
+  @override
+  String get timeOffEmptyHint =>
+      'Add a holiday or a day off, so the team knows who covers for you.';
+
+  @override
+  String get timeOffTeamEmpty => 'Everyone is in';
+
+  @override
+  String get timeOffTeamEmptyHint =>
+      'Nobody has time off in the next three months.';
+
+  @override
+  String get timeOffSectionToday => 'Out today';
+
+  @override
+  String get timeOffSectionThisWeek => 'Starting this week';
+
+  @override
+  String get timeOffSectionLater => 'Later';
+
+  @override
+  String get timeOffSectionUpcoming => 'Now and coming up';
+
+  @override
+  String get timeOffSectionPast => 'Past';
+
+  @override
+  String get timeOffAwayNow => 'Away now';
+
+  @override
+  String timeOffAwayUntil(String date) {
+    return 'Away until $date';
+  }
+
+  @override
+  String timeOffAwayOnDay(String name, String kind, String date) {
+    return '$name is away that day: $kind until $date';
+  }
+
+  @override
+  String timeOffConflictsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count meetings on these days',
+      one: '1 meeting on these days',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get timeOffConflictsHint =>
+      'They are still on the calendar. Move them, or hand the work to a colleague.';
+
+  @override
+  String get timeOffHandOver => 'Hand over work';
+
+  @override
+  String get timeOffErrorOverlaps =>
+      'There is already time off on some of these days';
+
+  @override
+  String get timeOffErrorTooLong => 'Time off lasts at most a year';
+
+  @override
+  String get timeOffErrorCoverIsAbsent => 'Somebody else has to cover';
+
+  @override
+  String get timeOffErrorNotYours =>
+      'Only the person away or a manager can change this';
+
+  @override
+  String timeOffOutToday(int count) {
+    return 'Out today: $count';
+  }
+
+  @override
+  String timeOffCoveringFor(String name) {
+    return 'Covering for $name';
+  }
+
+  @override
+  String notificationsTimeOffCover(String name) {
+    return 'You are covering for $name';
+  }
+
+  @override
+  String get splitsTitle => 'Commission split';
+
+  @override
+  String get splitsSheetSubtitle =>
+      'Shares of the commission, adding up to 100%';
+
+  @override
+  String get splitsNotSplit => 'Not split';
+
+  @override
+  String splitsAllToAgent(String name) {
+    return 'All of it goes to $name.';
+  }
+
+  @override
+  String get splitsDealAgent => 'Deal agent';
+
+  @override
+  String get splitsColleague => 'Colleague';
+
+  @override
+  String get splitsCoBroker => 'Co-broker';
+
+  @override
+  String splitsCoBrokerFrom(String agency) {
+    return 'Co-broker, $agency';
+  }
+
+  @override
+  String get splitsInactive => 'No longer active';
+
+  @override
+  String splitsPercent(String value) {
+    return '$value%';
+  }
+
+  @override
+  String get splitsAmountUnknown =>
+      'Amounts show once the price and the rate are set';
+
+  @override
+  String get splitsAdd => 'Split the commission';
+
+  @override
+  String get splitsEdit => 'Edit the split';
+
+  @override
+  String get splitsClear => 'Give it all to the agent';
+
+  @override
+  String get splitsLoadFailed => 'Could not load the commission split';
+
+  @override
+  String get splitsAddColleague => 'Add a colleague';
+
+  @override
+  String get splitsAddCoBroker => 'Add a co-broker';
+
+  @override
+  String get splitsCoBrokerName => 'Co-broker\'s name';
+
+  @override
+  String get splitsCoBrokerNameHint => 'Ivan Petrov';
+
+  @override
+  String get splitsCoBrokerAgency => 'Their agency';
+
+  @override
+  String get splitsCoBrokerAgencyHint => 'Optional';
+
+  @override
+  String get splitsCoBrokerNameMissing => 'Name the co-broker';
+
+  @override
+  String get splitsShare => 'Share, %';
+
+  @override
+  String get splitsRemove => 'Remove';
+
+  @override
+  String splitsTotal(String value) {
+    return 'Total $value%';
+  }
+
+  @override
+  String get splitsTotalMustBe100 => 'The shares have to add up to 100%';
+
+  @override
+  String get splitsPercentInvalid =>
+      'A share is above 0 and at most 100, with up to two decimals';
+
+  @override
+  String get splitsBalance => 'Give the rest to the deal agent';
+
+  @override
+  String get splitsPickColleague => 'Choose a colleague';
+
+  @override
+  String get splitsSearchColleague => 'Search by name';
+
+  @override
+  String get splitsNoColleagues => 'Nobody else in the agency to add';
+
+  @override
+  String get splitsTooMany => 'At most 10 people share one commission';
+
+  @override
+  String get splitsColleagueInactive =>
+      'Only active members of the agency can be given a share';
+
+  @override
+  String get splitsShareNote =>
+      'A split deal\'s commission counts for each person by their share; a co-broker\'s share is not the agency\'s.';
 }

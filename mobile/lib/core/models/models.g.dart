@@ -1368,6 +1368,13 @@ _$AgentOptionImpl _$$AgentOptionImplFromJson(Map<String, dynamic> json) =>
       id: (json['id'] as num).toInt(),
       fullName: json['fullName'] as String,
       email: json['email'] as String?,
+      awayUntil: json['awayUntil'] == null
+          ? null
+          : DateTime.parse(json['awayUntil'] as String),
+      timeOff: (json['timeOff'] as List<dynamic>?)
+              ?.map((e) => AgentAway.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const <AgentAway>[],
     );
 
 Map<String, dynamic> _$$AgentOptionImplToJson(_$AgentOptionImpl instance) =>
@@ -1375,6 +1382,96 @@ Map<String, dynamic> _$$AgentOptionImplToJson(_$AgentOptionImpl instance) =>
       'id': instance.id,
       'fullName': instance.fullName,
       'email': instance.email,
+      'awayUntil': instance.awayUntil?.toIso8601String(),
+      'timeOff': instance.timeOff,
+    };
+
+_$AgentAwayImpl _$$AgentAwayImplFromJson(Map<String, dynamic> json) =>
+    _$AgentAwayImpl(
+      kind: $enumDecodeNullable(_$TimeOffKindEnumMap, json['kind'],
+              unknownValue: TimeOffKind.other) ??
+          TimeOffKind.other,
+      startDate: DateTime.parse(json['startDate'] as String),
+      endDate: DateTime.parse(json['endDate'] as String),
+    );
+
+Map<String, dynamic> _$$AgentAwayImplToJson(_$AgentAwayImpl instance) =>
+    <String, dynamic>{
+      'kind': _$TimeOffKindEnumMap[instance.kind]!,
+      'startDate': instance.startDate.toIso8601String(),
+      'endDate': instance.endDate.toIso8601String(),
+    };
+
+const _$TimeOffKindEnumMap = {
+  TimeOffKind.vacation: 'VACATION',
+  TimeOffKind.sickLeave: 'SICK_LEAVE',
+  TimeOffKind.dayOff: 'DAY_OFF',
+  TimeOffKind.other: 'OTHER',
+};
+
+_$TimeOffImpl _$$TimeOffImplFromJson(Map<String, dynamic> json) =>
+    _$TimeOffImpl(
+      id: (json['id'] as num).toInt(),
+      userId: (json['userId'] as num).toInt(),
+      userName: json['userName'] as String? ?? '',
+      kind: $enumDecodeNullable(_$TimeOffKindEnumMap, json['kind'],
+              unknownValue: TimeOffKind.other) ??
+          TimeOffKind.other,
+      startDate: DateTime.parse(json['startDate'] as String),
+      endDate: DateTime.parse(json['endDate'] as String),
+      days: (json['days'] as num?)?.toInt() ?? 1,
+      note: json['note'] as String?,
+      coverId: (json['coverId'] as num?)?.toInt(),
+      coverName: json['coverName'] as String?,
+      createdById: (json['createdById'] as num?)?.toInt(),
+      createdByName: json['createdByName'] as String?,
+      current: json['current'] as bool? ?? false,
+      canEdit: json['canEdit'] as bool? ?? false,
+      conflictCount: (json['conflictCount'] as num?)?.toInt() ?? 0,
+      conflicts: (json['conflicts'] as List<dynamic>?)
+              ?.map((e) => TimeOffConflict.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const <TimeOffConflict>[],
+    );
+
+Map<String, dynamic> _$$TimeOffImplToJson(_$TimeOffImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'userId': instance.userId,
+      'userName': instance.userName,
+      'kind': _$TimeOffKindEnumMap[instance.kind]!,
+      'startDate': instance.startDate.toIso8601String(),
+      'endDate': instance.endDate.toIso8601String(),
+      'days': instance.days,
+      'note': instance.note,
+      'coverId': instance.coverId,
+      'coverName': instance.coverName,
+      'createdById': instance.createdById,
+      'createdByName': instance.createdByName,
+      'current': instance.current,
+      'canEdit': instance.canEdit,
+      'conflictCount': instance.conflictCount,
+      'conflicts': instance.conflicts,
+    };
+
+_$TimeOffConflictImpl _$$TimeOffConflictImplFromJson(
+        Map<String, dynamic> json) =>
+    _$TimeOffConflictImpl(
+      meetingId: (json['meetingId'] as num).toInt(),
+      title: json['title'] as String? ?? '',
+      scheduledAt: DateTime.parse(json['scheduledAt'] as String),
+      clientName: json['clientName'] as String?,
+      propertyTitle: json['propertyTitle'] as String?,
+    );
+
+Map<String, dynamic> _$$TimeOffConflictImplToJson(
+        _$TimeOffConflictImpl instance) =>
+    <String, dynamic>{
+      'meetingId': instance.meetingId,
+      'title': instance.title,
+      'scheduledAt': instance.scheduledAt.toIso8601String(),
+      'clientName': instance.clientName,
+      'propertyTitle': instance.propertyTitle,
     };
 
 _$DealFunnelImpl _$$DealFunnelImplFromJson(Map<String, dynamic> json) =>
@@ -1594,6 +1691,7 @@ const _$NotificationTypeEnumMap = {
   NotificationType.clientBirthday: 'CLIENT_BIRTHDAY',
   NotificationType.purchaseAnniversary: 'PURCHASE_ANNIVERSARY',
   NotificationType.leaseEnding: 'LEASE_ENDING',
+  NotificationType.timeOffCover: 'TIME_OFF_COVER',
   NotificationType.unknown: 'unknown',
 };
 
@@ -1655,6 +1753,81 @@ const _$DepositOutcomeEnumMap = {
   DepositOutcome.REFUNDED: 'REFUNDED',
   DepositOutcome.FORFEITED: 'FORFEITED',
 };
+
+_$CommissionShareImpl _$$CommissionShareImplFromJson(
+        Map<String, dynamic> json) =>
+    _$CommissionShareImpl(
+      kind: $enumDecodeNullable(_$CommissionPartyKindEnumMap, json['kind'],
+              unknownValue: CommissionPartyKind.CO_BROKER) ??
+          CommissionPartyKind.CO_BROKER,
+      userId: (json['userId'] as num?)?.toInt(),
+      name: json['name'] as String?,
+      agency: json['agency'] as String?,
+      percent: (json['percent'] as num?)?.toDouble() ?? 0.0,
+      amount: (json['amount'] as num?)?.toDouble(),
+      active: json['active'] as bool? ?? true,
+    );
+
+Map<String, dynamic> _$$CommissionShareImplToJson(
+        _$CommissionShareImpl instance) =>
+    <String, dynamic>{
+      'kind': _$CommissionPartyKindEnumMap[instance.kind]!,
+      'userId': instance.userId,
+      'name': instance.name,
+      'agency': instance.agency,
+      'percent': instance.percent,
+      'amount': instance.amount,
+      'active': instance.active,
+    };
+
+const _$CommissionPartyKindEnumMap = {
+  CommissionPartyKind.AGENT: 'AGENT',
+  CommissionPartyKind.COLLEAGUE: 'COLLEAGUE',
+  CommissionPartyKind.CO_BROKER: 'CO_BROKER',
+};
+
+_$CommissionColleagueImpl _$$CommissionColleagueImplFromJson(
+        Map<String, dynamic> json) =>
+    _$CommissionColleagueImpl(
+      id: (json['id'] as num).toInt(),
+      fullName: json['fullName'] as String? ?? '',
+    );
+
+Map<String, dynamic> _$$CommissionColleagueImplToJson(
+        _$CommissionColleagueImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'fullName': instance.fullName,
+    };
+
+_$CommissionSplitImpl _$$CommissionSplitImplFromJson(
+        Map<String, dynamic> json) =>
+    _$CommissionSplitImpl(
+      dealId: (json['dealId'] as num).toInt(),
+      commission: (json['commission'] as num?)?.toDouble(),
+      split: json['split'] as bool? ?? false,
+      editable: json['editable'] as bool? ?? false,
+      shares: (json['shares'] as List<dynamic>?)
+              ?.map((e) => CommissionShare.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const <CommissionShare>[],
+      colleagues: (json['colleagues'] as List<dynamic>?)
+              ?.map((e) =>
+                  CommissionColleague.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const <CommissionColleague>[],
+    );
+
+Map<String, dynamic> _$$CommissionSplitImplToJson(
+        _$CommissionSplitImpl instance) =>
+    <String, dynamic>{
+      'dealId': instance.dealId,
+      'commission': instance.commission,
+      'split': instance.split,
+      'editable': instance.editable,
+      'shares': instance.shares,
+      'colleagues': instance.colleagues,
+    };
 
 _$LeaseEndingImpl _$$LeaseEndingImplFromJson(Map<String, dynamic> json) =>
     _$LeaseEndingImpl(

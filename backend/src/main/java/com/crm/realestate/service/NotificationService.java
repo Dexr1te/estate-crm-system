@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -37,9 +38,14 @@ public class NotificationService {
     /** Larger pages are cut down to this, like a hostile or careless client asking for everything. */
     static final int MAX_PAGE_SIZE = 50;
 
+    /** The payload keys a cover's copy adds: whom they are covering for (V54). */
+    public static final String COVERING_FOR_ID = "coveringForId";
+    public static final String COVERING_FOR_NAME = "coveringForName";
+
     private final NotificationRepository notificationRepository;
     private final NotificationWriter     writer;
     private final ObjectMapper           objectMapper;
+    private final AgencyCalendar         calendar;
 
     // Writing ---------------------------------------------------------------------------
 
@@ -57,6 +63,36 @@ public class NotificationService {
             writer.write(recipient, team, type, targetId, params);
         } catch (RuntimeException e) {
             log.warn("Could not notify user {} of {} (target {}): {}",
+                    recipient.getId(), type, targetId, e.toString());
+        }
+        tellCover(recipient, actor, team, type, targetId, params);
+    }
+
+    /**
+     * While {@code recipient} is away, whoever covers for them hears the same, marked as covering
+     * for them; the recipient keeps theirs. Only what happens in an agency is the agency's to
+     * cover — an invitation to join one is the recipient's own. The cover is not told about what
+     * they did themselves, and covering does not chain: a cover's copy goes to nobody else.
+     */
+    private void tellCover(User recipient, User actor, Team team, NotificationType type, Long targetId,
+                           Map<String, Object> params) {
+        if (team == null || team.getId() == null) {
+            return;
+        }
+        try {
+            writer.coverFor(recipient.getId(), team.getId(), calendar.today())
+                    .filter(cover -> !isSamePerson(cover, actor) && !isSamePerson(cover, recipient))
+                    .ifPresent(cover -> {
+                        Map<String, Object> copy = new LinkedHashMap<>();
+                        if (params != null) {
+                            copy.putAll(params);
+                        }
+                        copy.put(COVERING_FOR_ID, recipient.getId());
+                        copy.put(COVERING_FOR_NAME, recipient.getFullName());
+                        writer.write(cover, team, type, targetId, copy, true);
+                    });
+        } catch (RuntimeException e) {
+            log.warn("Could not tell the cover of user {} of {} (target {}): {}",
                     recipient.getId(), type, targetId, e.toString());
         }
     }

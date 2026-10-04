@@ -68,6 +68,7 @@ public class TaskService {
     private final UserRepository   userRepository;
     private final SecurityUtils    securityUtils;
     private final ScopeService     scopeService;
+    private final CommissionSplitStore splitStore;
     private final NotificationEvents notificationEvents;
 
     /**
@@ -442,7 +443,7 @@ public class TaskService {
     private Deal visibleDeal(Long id, User currentUser) {
         Deal deal = dealRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Deal not found with id: " + id));
-        if (!scopeService.canSee(currentUser, deal.getTeam(), deal.getAgent())) {
+        if (!splitStore.canSee(currentUser, deal)) {
             throw new ResourceNotFoundException("Deal not found with id: " + id);
         }
         return deal;

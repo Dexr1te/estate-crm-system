@@ -3205,5 +3205,185 @@
         "type": "int"
       }
     }
-  }
+  },
+  "timeOffTitle": "Time off",
+  "timeOffWhosOut": "Who's out",
+  "timeOffAdd": "Add time off",
+  "timeOffNewTitle": "New time off",
+  "timeOffEditTitle": "Time off",
+  "timeOffKind": "Kind",
+  "timeOffKindVacation": "Vacation",
+  "timeOffKindSickLeave": "Sick leave",
+  "timeOffKindDayOff": "Day off",
+  "timeOffKindOther": "Other",
+  "timeOffPerson": "Who is away",
+  "timeOffPickPerson": "Choose who is away",
+  "timeOffSearchPeople": "Search people",
+  "timeOffDaysEyebrow": "Days",
+  "timeOffFirstDay": "First day",
+  "timeOffLastDay": "Last day",
+  "timeOffPickDate": "Pick a day",
+  "timeOffDatesRequired": "Choose the first and the last day",
+  "timeOffEndBeforeStart": "The last day cannot be before the first",
+  "timeOffDays": "{count, plural, =1{1 day} other{{count} days}}",
+  "@timeOffDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timeOffCover": "Covering",
+  "timeOffNoCover": "Nobody",
+  "timeOffCoverHint": "While they are away, the cover also gets their notifications. Nothing changes hands.",
+  "timeOffCoveredBy": "Covered by {name}",
+  "@timeOffCoveredBy": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "timeOffNobodyCovers": "Nobody covers",
+  "timeOffNote": "Note",
+  "timeOffNoteHint": "Anything colleagues should know",
+  "timeOffSaved": "Time off saved",
+  "timeOffCancelled": "Time off cancelled",
+  "timeOffCancelAction": "Cancel time off",
+  "timeOffKeep": "Keep it",
+  "timeOffCancelConfirmTitle": "Cancel this time off?",
+  "timeOffCancelConfirmBody": "It comes off the team's list, and the cover stops getting the notifications.",
+  "timeOffLoadFailed": "Could not load time off",
+  "timeOffEmpty": "No time off yet",
+  "timeOffEmptyHint": "Add a holiday or a day off, so the team knows who covers for you.",
+  "timeOffTeamEmpty": "Everyone is in",
+  "timeOffTeamEmptyHint": "Nobody has time off in the next three months.",
+  "timeOffSectionToday": "Out today",
+  "timeOffSectionThisWeek": "Starting this week",
+  "timeOffSectionLater": "Later",
+  "timeOffSectionUpcoming": "Now and coming up",
+  "timeOffSectionPast": "Past",
+  "timeOffAwayNow": "Away now",
+  "timeOffAwayUntil": "Away until {date}",
+  "@timeOffAwayUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "timeOffAwayOnDay": "{name} is away that day: {kind} until {date}",
+  "@timeOffAwayOnDay": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "kind": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "timeOffConflictsCount": "{count, plural, =1{1 meeting on these days} other{{count} meetings on these days}}",
+  "@timeOffConflictsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timeOffConflictsHint": "They are still on the calendar. Move them, or hand the work to a colleague.",
+  "timeOffHandOver": "Hand over work",
+  "timeOffErrorOverlaps": "There is already time off on some of these days",
+  "timeOffErrorTooLong": "Time off lasts at most a year",
+  "timeOffErrorCoverIsAbsent": "Somebody else has to cover",
+  "timeOffErrorNotYours": "Only the person away or a manager can change this",
+  "timeOffOutToday": "Out today: {count}",
+  "@timeOffOutToday": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "timeOffCoveringFor": "Covering for {name}",
+  "@timeOffCoveringFor": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsTimeOffCover": "You are covering for {name}",
+  "@notificationsTimeOffCover": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "splitsTitle": "Commission split",
+  "splitsSheetSubtitle": "Shares of the commission, adding up to 100%",
+  "splitsNotSplit": "Not split",
+  "splitsAllToAgent": "All of it goes to {name}.",
+  "@splitsAllToAgent": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "splitsDealAgent": "Deal agent",
+  "splitsColleague": "Colleague",
+  "splitsCoBroker": "Co-broker",
+  "splitsCoBrokerFrom": "Co-broker, {agency}",
+  "@splitsCoBrokerFrom": {
+    "placeholders": {
+      "agency": {
+        "type": "String"
+      }
+    }
+  },
+  "splitsInactive": "No longer active",
+  "splitsPercent": "{value}%",
+  "@splitsPercent": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "splitsAmountUnknown": "Amounts show once the price and the rate are set",
+  "splitsAdd": "Split the commission",
+  "splitsEdit": "Edit the split",
+  "splitsClear": "Give it all to the agent",
+  "splitsLoadFailed": "Could not load the commission split",
+  "splitsAddColleague": "Add a colleague",
+  "splitsAddCoBroker": "Add a co-broker",
+  "splitsCoBrokerName": "Co-broker's name",
+  "splitsCoBrokerNameHint": "Ivan Petrov",
+  "splitsCoBrokerAgency": "Their agency",
+  "splitsCoBrokerAgencyHint": "Optional",
+  "splitsCoBrokerNameMissing": "Name the co-broker",
+  "splitsShare": "Share, %",
+  "splitsRemove": "Remove",
+  "splitsTotal": "Total {value}%",
+  "@splitsTotal": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "splitsTotalMustBe100": "The shares have to add up to 100%",
+  "splitsPercentInvalid": "A share is above 0 and at most 100, with up to two decimals",
+  "splitsBalance": "Give the rest to the deal agent",
+  "splitsPickColleague": "Choose a colleague",
+  "splitsSearchColleague": "Search by name",
+  "splitsNoColleagues": "Nobody else in the agency to add",
+  "splitsTooMany": "At most 10 people share one commission",
+  "splitsColleagueInactive": "Only active members of the agency can be given a share",
+  "splitsShareNote": "A split deal's commission counts for each person by their share; a co-broker's share is not the agency's."
 }

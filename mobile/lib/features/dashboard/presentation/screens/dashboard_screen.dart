@@ -29,6 +29,7 @@ import 'package:real_estate_crm/features/dashboard/presentation/widgets/mandates
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/meeting_load_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/meeting_row.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/my_goal_card.dart';
+import 'package:real_estate_crm/features/dashboard/presentation/widgets/out_today_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/pipeline_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/top_agents_card.dart';
 import 'package:real_estate_crm/features/deposits/presentation/bloc/deposits_ending_bloc.dart';
@@ -42,6 +43,7 @@ import 'package:real_estate_crm/features/route/domain/day_route.dart';
 import 'package:real_estate_crm/features/tasks/presentation/bloc/tasks_bloc.dart';
 import 'package:real_estate_crm/features/tasks/presentation/bloc/tasks_event.dart';
 import 'package:real_estate_crm/features/tasks/presentation/widgets/today_tasks_card.dart';
+import 'package:real_estate_crm/features/time_off/presentation/bloc/time_off_list_bloc.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 const _kUpcomingPreviewCount = 4;
@@ -59,6 +61,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final _mandates = MandatesBloc(Injector.propertiesRepository);
   final _deposits = DepositsEndingBloc(Injector.depositsRepository);
   final _leases = LeasesEndingBloc(Injector.leasesRepository);
+  final _out = TimeOffListBloc.today(Injector.timeOffRepository);
   final _goal = MyGoalBloc(Injector.goalsRepository);
   final _dates = ClientDatesBloc(Injector.clientDatesRepository,
       days: ClientDatesRepository.weekDays);
@@ -72,6 +75,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     _mandates.add(MandatesLoadEvent());
     _deposits.add(DepositsEndingLoadEvent());
     _leases.add(LeasesEndingLoadEvent());
+    if (context.isManager) _out.add(TimeOffListLoadEvent());
     _goal.add(MyGoalLoadEvent());
     _dates.add(ClientDatesLoadEvent());
   }
@@ -83,6 +87,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     _mandates.close();
     _deposits.close();
     _leases.close();
+    _out.close();
     _goal.close();
     _dates.close();
     super.dispose();
@@ -136,6 +141,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         BlocProvider.value(value: _mandates),
         BlocProvider.value(value: _deposits),
         BlocProvider.value(value: _leases),
+        BlocProvider.value(value: _out),
         BlocProvider.value(value: _goal),
         BlocProvider.value(value: _dates),
       ],
@@ -151,6 +157,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 _mandates.add(MandatesLoadEvent());
                 _deposits.add(DepositsEndingLoadEvent());
                 _leases.add(LeasesEndingLoadEvent());
+                if (context.isManager) _out.add(TimeOffListLoadEvent());
                 _goal.add(MyGoalLoadEvent());
                 _dates.add(ClientDatesLoadEvent());
               },
@@ -243,6 +250,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
           onPressed: () => context.push('/route?date=${routeDateParam(now)}'),
         ),
       ],
+      if (context.isManager)
+        OutTodayCard(
+          topGap: 10,
+          onTap: () => context.push('/time-off/team'),
+        ),
       SizedBox(height: gap),
       TodayTasksCard(onSeeAll: () => context.push('/tasks')),
       DatesThisWeekCard(

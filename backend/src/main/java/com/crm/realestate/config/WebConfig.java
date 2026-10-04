@@ -38,6 +38,8 @@ public class WebConfig implements WebMvcConfigurer {
                         "/audit",
                         "/audit/**",
                         "/handovers/**",
+                        "/time-off",
+                        "/time-off/**",
                         "/users/agents");
     }
 }

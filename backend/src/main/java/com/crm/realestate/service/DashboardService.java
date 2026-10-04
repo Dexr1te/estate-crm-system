@@ -42,6 +42,7 @@ public class DashboardService {
     private final ScopeService      scopeService;
     private final EntityManager     entityManager;
     private final ColdClientService coldClientService;
+    private final CommissionSplitStore splitStore;
 
     /**
      * Seven counts and a sum, computed in the database over exactly the records the caller may see.
@@ -91,7 +92,8 @@ public class DashboardService {
                 .tasksDueToday(tasksDueToday)
                 .tasksOverdue(tasksOverdue)
                 .coldCount(coldClientService.count(currentUser, agentId, teamId))
-                .commissionThisMonth(commissionWonInMonth(deals, now.toLocalDate().withDayOfMonth(1)))
+                .commissionThisMonth(commissionWonInMonth(currentUser, agentId, teamId, deals,
+                        now.toLocalDate().withDayOfMonth(1)))
                 .build();
     }
 
@@ -100,25 +102,48 @@ public class DashboardService {
      *
      * <p>SUM skips deals missing a price or a rate, since their product is null. Summing
      * price × percent and dividing once keeps the total exact rather than adding rounded parts.
+     *
+     * <p>Split commissions count by share (see {@link CommissionSplitStore}). About one person —
+     * {@code agentId}, or the caller when they see only their own records — it is that person's
+     * shares: what is left them of their own deals and their part of colleagues'. About an agency
+     * it is the whole commission less what went to co-brokers outside it. Someone on their own
+     * records asking about somebody else still learns nothing.
      */
-    private BigDecimal commissionWonInMonth(Specification<Deal> deals, LocalDate monthStart) {
-        Specification<Deal> won = deals
-                .and((root, query, cb) -> cb.equal(root.get("status"), DealStatus.CLOSED_WON))
-                .and((root, query, cb) -> cb.and(
-                        cb.greaterThanOrEqualTo(root.get("closedAt"), monthStart.atStartOfDay()),
-                        cb.lessThan(root.get("closedAt"), monthStart.plusMonths(1).atStartOfDay())));
+    private BigDecimal commissionWonInMonth(User currentUser, Long agentId, Long teamId,
+                                            Specification<Deal> deals, LocalDate monthStart) {
+        Specification<Deal> wonInMonth = (root, query, cb) -> cb.and(
+                cb.equal(root.get("status"), DealStatus.CLOSED_WON),
+                cb.greaterThanOrEqualTo(root.get("closedAt"), monthStart.atStartOfDay()),
+                cb.lessThan(root.get("closedAt"), monthStart.plusMonths(1).atStartOfDay()));
 
+        boolean ownOnly = !scopeService.isAdmin(currentUser) && !scopeService.seesWholeTeam(currentUser);
+        Long person = agentId != null ? agentId : ownOnly ? currentUser.getId() : null;
+        BigDecimal raw;
+        if (person == null) {
+            Specification<Deal> won = deals.and(wonInMonth);
+            raw = sumOfCommission(won).add(CommissionSplitStore.net(splitStore.shifts(won)));
+        } else if (ownOnly && !person.equals(currentUser.getId())) {
+            raw = BigDecimal.ZERO;
+        } else {
+            Specification<Deal> pool = wonInMonth
+                    .and(this.<Deal>narrowed(currentUser, null, teamId, "agent", false));
+            raw = sumOfCommission(pool.and((root, query, cb) -> cb.equal(root.get("agent").get("id"), person)))
+                    .add(splitStore.shifts(pool).getOrDefault(person, BigDecimal.ZERO));
+        }
+        return raw.divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
+    }
+
+    /** SUM(base × percent) over these deals; zero when there are none. */
+    private BigDecimal sumOfCommission(Specification<Deal> deals) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<BigDecimal> query = cb.createQuery(BigDecimal.class);
         Root<Deal> root = query.from(Deal.class);
         query.select(cb.sum(cb.prod(
                 DealMoney.commissionBase(cb, root), root.<BigDecimal>get("commissionPercent"))));
-        query.where(won.toPredicate(root, query, cb));
+        query.where(deals.toPredicate(root, query, cb));
 
         BigDecimal total = entityManager.createQuery(query).getSingleResult();
-        return total == null
-                ? BigDecimal.ZERO.setScale(2)
-                : total.divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
+        return total == null ? BigDecimal.ZERO : total;
     }
 
     <T> Specification<T> narrowed(User currentUser, Long agentId, Long teamId) {
@@ -126,6 +151,15 @@ public class DashboardService {
     }
 
     private <T> Specification<T> narrowed(User currentUser, Long agentId, Long teamId, String holder) {
+        return narrowed(currentUser, agentId, teamId, holder, true);
+    }
+
+    /**
+     * With {@code byScope} false only the agency's wall applies, not the data scope inside it: for
+     * a person's commission, whose shares lie in colleagues' deals too.
+     */
+    private <T> Specification<T> narrowed(User currentUser, Long agentId, Long teamId, String holder,
+                                          boolean byScope) {
         Specification<T> filter = (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
             if (agentId != null) {
@@ -136,6 +170,6 @@ public class DashboardService {
             }
             return cb.and(predicates.toArray(new Predicate[0]));
         };
-        return filter.and(scopeService.visibleTo(currentUser, holder));
+        return filter.and(byScope ? scopeService.visibleTo(currentUser, holder) : scopeService.visibleToTeam(currentUser));
     }
 }

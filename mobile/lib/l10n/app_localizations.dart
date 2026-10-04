@@ -11038,6 +11038,546 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Still open: {count}'**
   String partnersOpenHandoffs(int count);
+
+  /// No description provided for @timeOffTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Time off'**
+  String get timeOffTitle;
+
+  /// No description provided for @timeOffWhosOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Who\'s out'**
+  String get timeOffWhosOut;
+
+  /// No description provided for @timeOffAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add time off'**
+  String get timeOffAdd;
+
+  /// No description provided for @timeOffNewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New time off'**
+  String get timeOffNewTitle;
+
+  /// No description provided for @timeOffEditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Time off'**
+  String get timeOffEditTitle;
+
+  /// No description provided for @timeOffKind.
+  ///
+  /// In en, this message translates to:
+  /// **'Kind'**
+  String get timeOffKind;
+
+  /// No description provided for @timeOffKindVacation.
+  ///
+  /// In en, this message translates to:
+  /// **'Vacation'**
+  String get timeOffKindVacation;
+
+  /// No description provided for @timeOffKindSickLeave.
+  ///
+  /// In en, this message translates to:
+  /// **'Sick leave'**
+  String get timeOffKindSickLeave;
+
+  /// No description provided for @timeOffKindDayOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Day off'**
+  String get timeOffKindDayOff;
+
+  /// No description provided for @timeOffKindOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get timeOffKindOther;
+
+  /// No description provided for @timeOffPerson.
+  ///
+  /// In en, this message translates to:
+  /// **'Who is away'**
+  String get timeOffPerson;
+
+  /// No description provided for @timeOffPickPerson.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose who is away'**
+  String get timeOffPickPerson;
+
+  /// No description provided for @timeOffSearchPeople.
+  ///
+  /// In en, this message translates to:
+  /// **'Search people'**
+  String get timeOffSearchPeople;
+
+  /// No description provided for @timeOffDaysEyebrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Days'**
+  String get timeOffDaysEyebrow;
+
+  /// No description provided for @timeOffFirstDay.
+  ///
+  /// In en, this message translates to:
+  /// **'First day'**
+  String get timeOffFirstDay;
+
+  /// No description provided for @timeOffLastDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Last day'**
+  String get timeOffLastDay;
+
+  /// No description provided for @timeOffPickDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a day'**
+  String get timeOffPickDate;
+
+  /// No description provided for @timeOffDatesRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the first and the last day'**
+  String get timeOffDatesRequired;
+
+  /// No description provided for @timeOffEndBeforeStart.
+  ///
+  /// In en, this message translates to:
+  /// **'The last day cannot be before the first'**
+  String get timeOffEndBeforeStart;
+
+  /// No description provided for @timeOffDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 day} other{{count} days}}'**
+  String timeOffDays(int count);
+
+  /// No description provided for @timeOffCover.
+  ///
+  /// In en, this message translates to:
+  /// **'Covering'**
+  String get timeOffCover;
+
+  /// No description provided for @timeOffNoCover.
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody'**
+  String get timeOffNoCover;
+
+  /// No description provided for @timeOffCoverHint.
+  ///
+  /// In en, this message translates to:
+  /// **'While they are away, the cover also gets their notifications. Nothing changes hands.'**
+  String get timeOffCoverHint;
+
+  /// No description provided for @timeOffCoveredBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Covered by {name}'**
+  String timeOffCoveredBy(String name);
+
+  /// No description provided for @timeOffNobodyCovers.
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody covers'**
+  String get timeOffNobodyCovers;
+
+  /// No description provided for @timeOffNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get timeOffNote;
+
+  /// No description provided for @timeOffNoteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Anything colleagues should know'**
+  String get timeOffNoteHint;
+
+  /// No description provided for @timeOffSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Time off saved'**
+  String get timeOffSaved;
+
+  /// No description provided for @timeOffCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Time off cancelled'**
+  String get timeOffCancelled;
+
+  /// No description provided for @timeOffCancelAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel time off'**
+  String get timeOffCancelAction;
+
+  /// No description provided for @timeOffKeep.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep it'**
+  String get timeOffKeep;
+
+  /// No description provided for @timeOffCancelConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel this time off?'**
+  String get timeOffCancelConfirmTitle;
+
+  /// No description provided for @timeOffCancelConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'It comes off the team\'s list, and the cover stops getting the notifications.'**
+  String get timeOffCancelConfirmBody;
+
+  /// No description provided for @timeOffLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load time off'**
+  String get timeOffLoadFailed;
+
+  /// No description provided for @timeOffEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No time off yet'**
+  String get timeOffEmpty;
+
+  /// No description provided for @timeOffEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a holiday or a day off, so the team knows who covers for you.'**
+  String get timeOffEmptyHint;
+
+  /// No description provided for @timeOffTeamEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Everyone is in'**
+  String get timeOffTeamEmpty;
+
+  /// No description provided for @timeOffTeamEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody has time off in the next three months.'**
+  String get timeOffTeamEmptyHint;
+
+  /// No description provided for @timeOffSectionToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Out today'**
+  String get timeOffSectionToday;
+
+  /// No description provided for @timeOffSectionThisWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Starting this week'**
+  String get timeOffSectionThisWeek;
+
+  /// No description provided for @timeOffSectionLater.
+  ///
+  /// In en, this message translates to:
+  /// **'Later'**
+  String get timeOffSectionLater;
+
+  /// No description provided for @timeOffSectionUpcoming.
+  ///
+  /// In en, this message translates to:
+  /// **'Now and coming up'**
+  String get timeOffSectionUpcoming;
+
+  /// No description provided for @timeOffSectionPast.
+  ///
+  /// In en, this message translates to:
+  /// **'Past'**
+  String get timeOffSectionPast;
+
+  /// No description provided for @timeOffAwayNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Away now'**
+  String get timeOffAwayNow;
+
+  /// No description provided for @timeOffAwayUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'Away until {date}'**
+  String timeOffAwayUntil(String date);
+
+  /// No description provided for @timeOffAwayOnDay.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} is away that day: {kind} until {date}'**
+  String timeOffAwayOnDay(String name, String kind, String date);
+
+  /// No description provided for @timeOffConflictsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 meeting on these days} other{{count} meetings on these days}}'**
+  String timeOffConflictsCount(int count);
+
+  /// No description provided for @timeOffConflictsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'They are still on the calendar. Move them, or hand the work to a colleague.'**
+  String get timeOffConflictsHint;
+
+  /// No description provided for @timeOffHandOver.
+  ///
+  /// In en, this message translates to:
+  /// **'Hand over work'**
+  String get timeOffHandOver;
+
+  /// No description provided for @timeOffErrorOverlaps.
+  ///
+  /// In en, this message translates to:
+  /// **'There is already time off on some of these days'**
+  String get timeOffErrorOverlaps;
+
+  /// No description provided for @timeOffErrorTooLong.
+  ///
+  /// In en, this message translates to:
+  /// **'Time off lasts at most a year'**
+  String get timeOffErrorTooLong;
+
+  /// No description provided for @timeOffErrorCoverIsAbsent.
+  ///
+  /// In en, this message translates to:
+  /// **'Somebody else has to cover'**
+  String get timeOffErrorCoverIsAbsent;
+
+  /// No description provided for @timeOffErrorNotYours.
+  ///
+  /// In en, this message translates to:
+  /// **'Only the person away or a manager can change this'**
+  String get timeOffErrorNotYours;
+
+  /// No description provided for @timeOffOutToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Out today: {count}'**
+  String timeOffOutToday(int count);
+
+  /// No description provided for @timeOffCoveringFor.
+  ///
+  /// In en, this message translates to:
+  /// **'Covering for {name}'**
+  String timeOffCoveringFor(String name);
+
+  /// No description provided for @notificationsTimeOffCover.
+  ///
+  /// In en, this message translates to:
+  /// **'You are covering for {name}'**
+  String notificationsTimeOffCover(String name);
+
+  /// No description provided for @splitsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Commission split'**
+  String get splitsTitle;
+
+  /// No description provided for @splitsSheetSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Shares of the commission, adding up to 100%'**
+  String get splitsSheetSubtitle;
+
+  /// No description provided for @splitsNotSplit.
+  ///
+  /// In en, this message translates to:
+  /// **'Not split'**
+  String get splitsNotSplit;
+
+  /// No description provided for @splitsAllToAgent.
+  ///
+  /// In en, this message translates to:
+  /// **'All of it goes to {name}.'**
+  String splitsAllToAgent(String name);
+
+  /// No description provided for @splitsDealAgent.
+  ///
+  /// In en, this message translates to:
+  /// **'Deal agent'**
+  String get splitsDealAgent;
+
+  /// No description provided for @splitsColleague.
+  ///
+  /// In en, this message translates to:
+  /// **'Colleague'**
+  String get splitsColleague;
+
+  /// No description provided for @splitsCoBroker.
+  ///
+  /// In en, this message translates to:
+  /// **'Co-broker'**
+  String get splitsCoBroker;
+
+  /// No description provided for @splitsCoBrokerFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'Co-broker, {agency}'**
+  String splitsCoBrokerFrom(String agency);
+
+  /// No description provided for @splitsInactive.
+  ///
+  /// In en, this message translates to:
+  /// **'No longer active'**
+  String get splitsInactive;
+
+  /// No description provided for @splitsPercent.
+  ///
+  /// In en, this message translates to:
+  /// **'{value}%'**
+  String splitsPercent(String value);
+
+  /// No description provided for @splitsAmountUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Amounts show once the price and the rate are set'**
+  String get splitsAmountUnknown;
+
+  /// No description provided for @splitsAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Split the commission'**
+  String get splitsAdd;
+
+  /// No description provided for @splitsEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit the split'**
+  String get splitsEdit;
+
+  /// No description provided for @splitsClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Give it all to the agent'**
+  String get splitsClear;
+
+  /// No description provided for @splitsLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load the commission split'**
+  String get splitsLoadFailed;
+
+  /// No description provided for @splitsAddColleague.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a colleague'**
+  String get splitsAddColleague;
+
+  /// No description provided for @splitsAddCoBroker.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a co-broker'**
+  String get splitsAddCoBroker;
+
+  /// No description provided for @splitsCoBrokerName.
+  ///
+  /// In en, this message translates to:
+  /// **'Co-broker\'s name'**
+  String get splitsCoBrokerName;
+
+  /// No description provided for @splitsCoBrokerNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Ivan Petrov'**
+  String get splitsCoBrokerNameHint;
+
+  /// No description provided for @splitsCoBrokerAgency.
+  ///
+  /// In en, this message translates to:
+  /// **'Their agency'**
+  String get splitsCoBrokerAgency;
+
+  /// No description provided for @splitsCoBrokerAgencyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional'**
+  String get splitsCoBrokerAgencyHint;
+
+  /// No description provided for @splitsCoBrokerNameMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'Name the co-broker'**
+  String get splitsCoBrokerNameMissing;
+
+  /// No description provided for @splitsShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Share, %'**
+  String get splitsShare;
+
+  /// No description provided for @splitsRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get splitsRemove;
+
+  /// No description provided for @splitsTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Total {value}%'**
+  String splitsTotal(String value);
+
+  /// No description provided for @splitsTotalMustBe100.
+  ///
+  /// In en, this message translates to:
+  /// **'The shares have to add up to 100%'**
+  String get splitsTotalMustBe100;
+
+  /// No description provided for @splitsPercentInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'A share is above 0 and at most 100, with up to two decimals'**
+  String get splitsPercentInvalid;
+
+  /// No description provided for @splitsBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Give the rest to the deal agent'**
+  String get splitsBalance;
+
+  /// No description provided for @splitsPickColleague.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a colleague'**
+  String get splitsPickColleague;
+
+  /// No description provided for @splitsSearchColleague.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by name'**
+  String get splitsSearchColleague;
+
+  /// No description provided for @splitsNoColleagues.
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody else in the agency to add'**
+  String get splitsNoColleagues;
+
+  /// No description provided for @splitsTooMany.
+  ///
+  /// In en, this message translates to:
+  /// **'At most 10 people share one commission'**
+  String get splitsTooMany;
+
+  /// No description provided for @splitsColleagueInactive.
+  ///
+  /// In en, this message translates to:
+  /// **'Only active members of the agency can be given a share'**
+  String get splitsColleagueInactive;
+
+  /// No description provided for @splitsShareNote.
+  ///
+  /// In en, this message translates to:
+  /// **'A split deal\'s commission counts for each person by their share; a co-broker\'s share is not the agency\'s.'**
+  String get splitsShareNote;
 }
 
 class _AppLocalizationsDelegate

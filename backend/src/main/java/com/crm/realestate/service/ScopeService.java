@@ -29,7 +29,9 @@ import java.util.Objects;
  * <p>Admins operate the platform and see everything.
  *
  * <p>Every read goes through {@link #visibleTo} or {@link #canSee}, so the rule lives here once
- * rather than as a filter each service has to remember.
+ * rather than as a filter each service has to remember. Deals add one thing on top, in
+ * {@link CommissionSplitStore}: a colleague with a share of the commission sees the deal inside
+ * their own agency, whatever their data scope.
  */
 @Component
 public class ScopeService {

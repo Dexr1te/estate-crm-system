@@ -13322,6 +13322,12 @@ mixin _$AgentOption {
   String get fullName => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
 
+  /// The last day of the time off they are on today; null when they are in.
+  DateTime? get awayUntil => throw _privateConstructorUsedError;
+
+  /// Their time off that has not ended yet, soonest first.
+  List<AgentAway> get timeOff => throw _privateConstructorUsedError;
+
   /// Serializes this AgentOption to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
@@ -13338,7 +13344,12 @@ abstract class $AgentOptionCopyWith<$Res> {
           AgentOption value, $Res Function(AgentOption) then) =
       _$AgentOptionCopyWithImpl<$Res, AgentOption>;
   @useResult
-  $Res call({int id, String fullName, String? email});
+  $Res call(
+      {int id,
+      String fullName,
+      String? email,
+      DateTime? awayUntil,
+      List<AgentAway> timeOff});
 }
 
 /// @nodoc
@@ -13359,6 +13370,8 @@ class _$AgentOptionCopyWithImpl<$Res, $Val extends AgentOption>
     Object? id = null,
     Object? fullName = null,
     Object? email = freezed,
+    Object? awayUntil = freezed,
+    Object? timeOff = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -13373,6 +13386,14 @@ class _$AgentOptionCopyWithImpl<$Res, $Val extends AgentOption>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String?,
+      awayUntil: freezed == awayUntil
+          ? _value.awayUntil
+          : awayUntil // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      timeOff: null == timeOff
+          ? _value.timeOff
+          : timeOff // ignore: cast_nullable_to_non_nullable
+              as List<AgentAway>,
     ) as $Val);
   }
 }
@@ -13385,7 +13406,12 @@ abstract class _$$AgentOptionImplCopyWith<$Res>
       __$$AgentOptionImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int id, String fullName, String? email});
+  $Res call(
+      {int id,
+      String fullName,
+      String? email,
+      DateTime? awayUntil,
+      List<AgentAway> timeOff});
 }
 
 /// @nodoc
@@ -13404,6 +13430,8 @@ class __$$AgentOptionImplCopyWithImpl<$Res>
     Object? id = null,
     Object? fullName = null,
     Object? email = freezed,
+    Object? awayUntil = freezed,
+    Object? timeOff = null,
   }) {
     return _then(_$AgentOptionImpl(
       id: null == id
@@ -13418,6 +13446,14 @@ class __$$AgentOptionImplCopyWithImpl<$Res>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String?,
+      awayUntil: freezed == awayUntil
+          ? _value.awayUntil
+          : awayUntil // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      timeOff: null == timeOff
+          ? _value._timeOff
+          : timeOff // ignore: cast_nullable_to_non_nullable
+              as List<AgentAway>,
     ));
   }
 }
@@ -13426,7 +13462,12 @@ class __$$AgentOptionImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$AgentOptionImpl implements _AgentOption {
   const _$AgentOptionImpl(
-      {required this.id, required this.fullName, this.email});
+      {required this.id,
+      required this.fullName,
+      this.email,
+      this.awayUntil,
+      final List<AgentAway> timeOff = const <AgentAway>[]})
+      : _timeOff = timeOff;
 
   factory _$AgentOptionImpl.fromJson(Map<String, dynamic> json) =>
       _$$AgentOptionImplFromJson(json);
@@ -13438,9 +13479,25 @@ class _$AgentOptionImpl implements _AgentOption {
   @override
   final String? email;
 
+  /// The last day of the time off they are on today; null when they are in.
+  @override
+  final DateTime? awayUntil;
+
+  /// Their time off that has not ended yet, soonest first.
+  final List<AgentAway> _timeOff;
+
+  /// Their time off that has not ended yet, soonest first.
+  @override
+  @JsonKey()
+  List<AgentAway> get timeOff {
+    if (_timeOff is EqualUnmodifiableListView) return _timeOff;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_timeOff);
+  }
+
   @override
   String toString() {
-    return 'AgentOption(id: $id, fullName: $fullName, email: $email)';
+    return 'AgentOption(id: $id, fullName: $fullName, email: $email, awayUntil: $awayUntil, timeOff: $timeOff)';
   }
 
   @override
@@ -13451,12 +13508,16 @@ class _$AgentOptionImpl implements _AgentOption {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.fullName, fullName) ||
                 other.fullName == fullName) &&
-            (identical(other.email, email) || other.email == email));
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.awayUntil, awayUntil) ||
+                other.awayUntil == awayUntil) &&
+            const DeepCollectionEquality().equals(other._timeOff, _timeOff));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, fullName, email);
+  int get hashCode => Object.hash(runtimeType, id, fullName, email, awayUntil,
+      const DeepCollectionEquality().hash(_timeOff));
 
   /// Create a copy of AgentOption
   /// with the given fields replaced by the non-null parameter values.
@@ -13478,7 +13539,9 @@ abstract class _AgentOption implements AgentOption {
   const factory _AgentOption(
       {required final int id,
       required final String fullName,
-      final String? email}) = _$AgentOptionImpl;
+      final String? email,
+      final DateTime? awayUntil,
+      final List<AgentAway> timeOff}) = _$AgentOptionImpl;
 
   factory _AgentOption.fromJson(Map<String, dynamic> json) =
       _$AgentOptionImpl.fromJson;
@@ -13490,11 +13553,971 @@ abstract class _AgentOption implements AgentOption {
   @override
   String? get email;
 
+  /// The last day of the time off they are on today; null when they are in.
+  @override
+  DateTime? get awayUntil;
+
+  /// Their time off that has not ended yet, soonest first.
+  @override
+  List<AgentAway> get timeOff;
+
   /// Create a copy of AgentOption
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AgentOptionImplCopyWith<_$AgentOptionImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+AgentAway _$AgentAwayFromJson(Map<String, dynamic> json) {
+  return _AgentAway.fromJson(json);
+}
+
+/// @nodoc
+mixin _$AgentAway {
+  @JsonKey(unknownEnumValue: TimeOffKind.other)
+  TimeOffKind get kind => throw _privateConstructorUsedError;
+  DateTime get startDate => throw _privateConstructorUsedError;
+  DateTime get endDate => throw _privateConstructorUsedError;
+
+  /// Serializes this AgentAway to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of AgentAway
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $AgentAwayCopyWith<AgentAway> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $AgentAwayCopyWith<$Res> {
+  factory $AgentAwayCopyWith(AgentAway value, $Res Function(AgentAway) then) =
+      _$AgentAwayCopyWithImpl<$Res, AgentAway>;
+  @useResult
+  $Res call(
+      {@JsonKey(unknownEnumValue: TimeOffKind.other) TimeOffKind kind,
+      DateTime startDate,
+      DateTime endDate});
+}
+
+/// @nodoc
+class _$AgentAwayCopyWithImpl<$Res, $Val extends AgentAway>
+    implements $AgentAwayCopyWith<$Res> {
+  _$AgentAwayCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of AgentAway
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? kind = null,
+    Object? startDate = null,
+    Object? endDate = null,
+  }) {
+    return _then(_value.copyWith(
+      kind: null == kind
+          ? _value.kind
+          : kind // ignore: cast_nullable_to_non_nullable
+              as TimeOffKind,
+      startDate: null == startDate
+          ? _value.startDate
+          : startDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      endDate: null == endDate
+          ? _value.endDate
+          : endDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$AgentAwayImplCopyWith<$Res>
+    implements $AgentAwayCopyWith<$Res> {
+  factory _$$AgentAwayImplCopyWith(
+          _$AgentAwayImpl value, $Res Function(_$AgentAwayImpl) then) =
+      __$$AgentAwayImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(unknownEnumValue: TimeOffKind.other) TimeOffKind kind,
+      DateTime startDate,
+      DateTime endDate});
+}
+
+/// @nodoc
+class __$$AgentAwayImplCopyWithImpl<$Res>
+    extends _$AgentAwayCopyWithImpl<$Res, _$AgentAwayImpl>
+    implements _$$AgentAwayImplCopyWith<$Res> {
+  __$$AgentAwayImplCopyWithImpl(
+      _$AgentAwayImpl _value, $Res Function(_$AgentAwayImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of AgentAway
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? kind = null,
+    Object? startDate = null,
+    Object? endDate = null,
+  }) {
+    return _then(_$AgentAwayImpl(
+      kind: null == kind
+          ? _value.kind
+          : kind // ignore: cast_nullable_to_non_nullable
+              as TimeOffKind,
+      startDate: null == startDate
+          ? _value.startDate
+          : startDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      endDate: null == endDate
+          ? _value.endDate
+          : endDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$AgentAwayImpl implements _AgentAway {
+  const _$AgentAwayImpl(
+      {@JsonKey(unknownEnumValue: TimeOffKind.other)
+      this.kind = TimeOffKind.other,
+      required this.startDate,
+      required this.endDate});
+
+  factory _$AgentAwayImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AgentAwayImplFromJson(json);
+
+  @override
+  @JsonKey(unknownEnumValue: TimeOffKind.other)
+  final TimeOffKind kind;
+  @override
+  final DateTime startDate;
+  @override
+  final DateTime endDate;
+
+  @override
+  String toString() {
+    return 'AgentAway(kind: $kind, startDate: $startDate, endDate: $endDate)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$AgentAwayImpl &&
+            (identical(other.kind, kind) || other.kind == kind) &&
+            (identical(other.startDate, startDate) ||
+                other.startDate == startDate) &&
+            (identical(other.endDate, endDate) || other.endDate == endDate));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, kind, startDate, endDate);
+
+  /// Create a copy of AgentAway
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$AgentAwayImplCopyWith<_$AgentAwayImpl> get copyWith =>
+      __$$AgentAwayImplCopyWithImpl<_$AgentAwayImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$AgentAwayImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _AgentAway implements AgentAway {
+  const factory _AgentAway(
+      {@JsonKey(unknownEnumValue: TimeOffKind.other) final TimeOffKind kind,
+      required final DateTime startDate,
+      required final DateTime endDate}) = _$AgentAwayImpl;
+
+  factory _AgentAway.fromJson(Map<String, dynamic> json) =
+      _$AgentAwayImpl.fromJson;
+
+  @override
+  @JsonKey(unknownEnumValue: TimeOffKind.other)
+  TimeOffKind get kind;
+  @override
+  DateTime get startDate;
+  @override
+  DateTime get endDate;
+
+  /// Create a copy of AgentAway
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$AgentAwayImplCopyWith<_$AgentAwayImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+TimeOff _$TimeOffFromJson(Map<String, dynamic> json) {
+  return _TimeOff.fromJson(json);
+}
+
+/// @nodoc
+mixin _$TimeOff {
+  int get id => throw _privateConstructorUsedError;
+  int get userId => throw _privateConstructorUsedError;
+  String get userName => throw _privateConstructorUsedError;
+  @JsonKey(unknownEnumValue: TimeOffKind.other)
+  TimeOffKind get kind => throw _privateConstructorUsedError;
+  DateTime get startDate => throw _privateConstructorUsedError;
+  DateTime get endDate => throw _privateConstructorUsedError;
+  int get days => throw _privateConstructorUsedError;
+  String? get note => throw _privateConstructorUsedError;
+  int? get coverId => throw _privateConstructorUsedError;
+  String? get coverName => throw _privateConstructorUsedError;
+  int? get createdById => throw _privateConstructorUsedError;
+  String? get createdByName => throw _privateConstructorUsedError;
+
+  /// Whether they are away today.
+  bool get current => throw _privateConstructorUsedError;
+
+  /// Whether the signed-in user may change or cancel it.
+  bool get canEdit => throw _privateConstructorUsedError;
+
+  /// Meetings still to come that the absent person holds on these days.
+  int get conflictCount => throw _privateConstructorUsedError;
+
+  /// Those meetings, when the signed-in user may see them; otherwise empty.
+  List<TimeOffConflict> get conflicts => throw _privateConstructorUsedError;
+
+  /// Serializes this TimeOff to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of TimeOff
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $TimeOffCopyWith<TimeOff> get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $TimeOffCopyWith<$Res> {
+  factory $TimeOffCopyWith(TimeOff value, $Res Function(TimeOff) then) =
+      _$TimeOffCopyWithImpl<$Res, TimeOff>;
+  @useResult
+  $Res call(
+      {int id,
+      int userId,
+      String userName,
+      @JsonKey(unknownEnumValue: TimeOffKind.other) TimeOffKind kind,
+      DateTime startDate,
+      DateTime endDate,
+      int days,
+      String? note,
+      int? coverId,
+      String? coverName,
+      int? createdById,
+      String? createdByName,
+      bool current,
+      bool canEdit,
+      int conflictCount,
+      List<TimeOffConflict> conflicts});
+}
+
+/// @nodoc
+class _$TimeOffCopyWithImpl<$Res, $Val extends TimeOff>
+    implements $TimeOffCopyWith<$Res> {
+  _$TimeOffCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of TimeOff
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? userId = null,
+    Object? userName = null,
+    Object? kind = null,
+    Object? startDate = null,
+    Object? endDate = null,
+    Object? days = null,
+    Object? note = freezed,
+    Object? coverId = freezed,
+    Object? coverName = freezed,
+    Object? createdById = freezed,
+    Object? createdByName = freezed,
+    Object? current = null,
+    Object? canEdit = null,
+    Object? conflictCount = null,
+    Object? conflicts = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as int,
+      userName: null == userName
+          ? _value.userName
+          : userName // ignore: cast_nullable_to_non_nullable
+              as String,
+      kind: null == kind
+          ? _value.kind
+          : kind // ignore: cast_nullable_to_non_nullable
+              as TimeOffKind,
+      startDate: null == startDate
+          ? _value.startDate
+          : startDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      endDate: null == endDate
+          ? _value.endDate
+          : endDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      days: null == days
+          ? _value.days
+          : days // ignore: cast_nullable_to_non_nullable
+              as int,
+      note: freezed == note
+          ? _value.note
+          : note // ignore: cast_nullable_to_non_nullable
+              as String?,
+      coverId: freezed == coverId
+          ? _value.coverId
+          : coverId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      coverName: freezed == coverName
+          ? _value.coverName
+          : coverName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdById: freezed == createdById
+          ? _value.createdById
+          : createdById // ignore: cast_nullable_to_non_nullable
+              as int?,
+      createdByName: freezed == createdByName
+          ? _value.createdByName
+          : createdByName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      current: null == current
+          ? _value.current
+          : current // ignore: cast_nullable_to_non_nullable
+              as bool,
+      canEdit: null == canEdit
+          ? _value.canEdit
+          : canEdit // ignore: cast_nullable_to_non_nullable
+              as bool,
+      conflictCount: null == conflictCount
+          ? _value.conflictCount
+          : conflictCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      conflicts: null == conflicts
+          ? _value.conflicts
+          : conflicts // ignore: cast_nullable_to_non_nullable
+              as List<TimeOffConflict>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$TimeOffImplCopyWith<$Res> implements $TimeOffCopyWith<$Res> {
+  factory _$$TimeOffImplCopyWith(
+          _$TimeOffImpl value, $Res Function(_$TimeOffImpl) then) =
+      __$$TimeOffImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int id,
+      int userId,
+      String userName,
+      @JsonKey(unknownEnumValue: TimeOffKind.other) TimeOffKind kind,
+      DateTime startDate,
+      DateTime endDate,
+      int days,
+      String? note,
+      int? coverId,
+      String? coverName,
+      int? createdById,
+      String? createdByName,
+      bool current,
+      bool canEdit,
+      int conflictCount,
+      List<TimeOffConflict> conflicts});
+}
+
+/// @nodoc
+class __$$TimeOffImplCopyWithImpl<$Res>
+    extends _$TimeOffCopyWithImpl<$Res, _$TimeOffImpl>
+    implements _$$TimeOffImplCopyWith<$Res> {
+  __$$TimeOffImplCopyWithImpl(
+      _$TimeOffImpl _value, $Res Function(_$TimeOffImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of TimeOff
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? userId = null,
+    Object? userName = null,
+    Object? kind = null,
+    Object? startDate = null,
+    Object? endDate = null,
+    Object? days = null,
+    Object? note = freezed,
+    Object? coverId = freezed,
+    Object? coverName = freezed,
+    Object? createdById = freezed,
+    Object? createdByName = freezed,
+    Object? current = null,
+    Object? canEdit = null,
+    Object? conflictCount = null,
+    Object? conflicts = null,
+  }) {
+    return _then(_$TimeOffImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      userId: null == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as int,
+      userName: null == userName
+          ? _value.userName
+          : userName // ignore: cast_nullable_to_non_nullable
+              as String,
+      kind: null == kind
+          ? _value.kind
+          : kind // ignore: cast_nullable_to_non_nullable
+              as TimeOffKind,
+      startDate: null == startDate
+          ? _value.startDate
+          : startDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      endDate: null == endDate
+          ? _value.endDate
+          : endDate // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      days: null == days
+          ? _value.days
+          : days // ignore: cast_nullable_to_non_nullable
+              as int,
+      note: freezed == note
+          ? _value.note
+          : note // ignore: cast_nullable_to_non_nullable
+              as String?,
+      coverId: freezed == coverId
+          ? _value.coverId
+          : coverId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      coverName: freezed == coverName
+          ? _value.coverName
+          : coverName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdById: freezed == createdById
+          ? _value.createdById
+          : createdById // ignore: cast_nullable_to_non_nullable
+              as int?,
+      createdByName: freezed == createdByName
+          ? _value.createdByName
+          : createdByName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      current: null == current
+          ? _value.current
+          : current // ignore: cast_nullable_to_non_nullable
+              as bool,
+      canEdit: null == canEdit
+          ? _value.canEdit
+          : canEdit // ignore: cast_nullable_to_non_nullable
+              as bool,
+      conflictCount: null == conflictCount
+          ? _value.conflictCount
+          : conflictCount // ignore: cast_nullable_to_non_nullable
+              as int,
+      conflicts: null == conflicts
+          ? _value._conflicts
+          : conflicts // ignore: cast_nullable_to_non_nullable
+              as List<TimeOffConflict>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$TimeOffImpl implements _TimeOff {
+  const _$TimeOffImpl(
+      {required this.id,
+      required this.userId,
+      this.userName = '',
+      @JsonKey(unknownEnumValue: TimeOffKind.other)
+      this.kind = TimeOffKind.other,
+      required this.startDate,
+      required this.endDate,
+      this.days = 1,
+      this.note,
+      this.coverId,
+      this.coverName,
+      this.createdById,
+      this.createdByName,
+      this.current = false,
+      this.canEdit = false,
+      this.conflictCount = 0,
+      final List<TimeOffConflict> conflicts = const <TimeOffConflict>[]})
+      : _conflicts = conflicts;
+
+  factory _$TimeOffImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TimeOffImplFromJson(json);
+
+  @override
+  final int id;
+  @override
+  final int userId;
+  @override
+  @JsonKey()
+  final String userName;
+  @override
+  @JsonKey(unknownEnumValue: TimeOffKind.other)
+  final TimeOffKind kind;
+  @override
+  final DateTime startDate;
+  @override
+  final DateTime endDate;
+  @override
+  @JsonKey()
+  final int days;
+  @override
+  final String? note;
+  @override
+  final int? coverId;
+  @override
+  final String? coverName;
+  @override
+  final int? createdById;
+  @override
+  final String? createdByName;
+
+  /// Whether they are away today.
+  @override
+  @JsonKey()
+  final bool current;
+
+  /// Whether the signed-in user may change or cancel it.
+  @override
+  @JsonKey()
+  final bool canEdit;
+
+  /// Meetings still to come that the absent person holds on these days.
+  @override
+  @JsonKey()
+  final int conflictCount;
+
+  /// Those meetings, when the signed-in user may see them; otherwise empty.
+  final List<TimeOffConflict> _conflicts;
+
+  /// Those meetings, when the signed-in user may see them; otherwise empty.
+  @override
+  @JsonKey()
+  List<TimeOffConflict> get conflicts {
+    if (_conflicts is EqualUnmodifiableListView) return _conflicts;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_conflicts);
+  }
+
+  @override
+  String toString() {
+    return 'TimeOff(id: $id, userId: $userId, userName: $userName, kind: $kind, startDate: $startDate, endDate: $endDate, days: $days, note: $note, coverId: $coverId, coverName: $coverName, createdById: $createdById, createdByName: $createdByName, current: $current, canEdit: $canEdit, conflictCount: $conflictCount, conflicts: $conflicts)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TimeOffImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.userId, userId) || other.userId == userId) &&
+            (identical(other.userName, userName) ||
+                other.userName == userName) &&
+            (identical(other.kind, kind) || other.kind == kind) &&
+            (identical(other.startDate, startDate) ||
+                other.startDate == startDate) &&
+            (identical(other.endDate, endDate) || other.endDate == endDate) &&
+            (identical(other.days, days) || other.days == days) &&
+            (identical(other.note, note) || other.note == note) &&
+            (identical(other.coverId, coverId) || other.coverId == coverId) &&
+            (identical(other.coverName, coverName) ||
+                other.coverName == coverName) &&
+            (identical(other.createdById, createdById) ||
+                other.createdById == createdById) &&
+            (identical(other.createdByName, createdByName) ||
+                other.createdByName == createdByName) &&
+            (identical(other.current, current) || other.current == current) &&
+            (identical(other.canEdit, canEdit) || other.canEdit == canEdit) &&
+            (identical(other.conflictCount, conflictCount) ||
+                other.conflictCount == conflictCount) &&
+            const DeepCollectionEquality()
+                .equals(other._conflicts, _conflicts));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      userId,
+      userName,
+      kind,
+      startDate,
+      endDate,
+      days,
+      note,
+      coverId,
+      coverName,
+      createdById,
+      createdByName,
+      current,
+      canEdit,
+      conflictCount,
+      const DeepCollectionEquality().hash(_conflicts));
+
+  /// Create a copy of TimeOff
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$TimeOffImplCopyWith<_$TimeOffImpl> get copyWith =>
+      __$$TimeOffImplCopyWithImpl<_$TimeOffImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$TimeOffImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _TimeOff implements TimeOff {
+  const factory _TimeOff(
+      {required final int id,
+      required final int userId,
+      final String userName,
+      @JsonKey(unknownEnumValue: TimeOffKind.other) final TimeOffKind kind,
+      required final DateTime startDate,
+      required final DateTime endDate,
+      final int days,
+      final String? note,
+      final int? coverId,
+      final String? coverName,
+      final int? createdById,
+      final String? createdByName,
+      final bool current,
+      final bool canEdit,
+      final int conflictCount,
+      final List<TimeOffConflict> conflicts}) = _$TimeOffImpl;
+
+  factory _TimeOff.fromJson(Map<String, dynamic> json) = _$TimeOffImpl.fromJson;
+
+  @override
+  int get id;
+  @override
+  int get userId;
+  @override
+  String get userName;
+  @override
+  @JsonKey(unknownEnumValue: TimeOffKind.other)
+  TimeOffKind get kind;
+  @override
+  DateTime get startDate;
+  @override
+  DateTime get endDate;
+  @override
+  int get days;
+  @override
+  String? get note;
+  @override
+  int? get coverId;
+  @override
+  String? get coverName;
+  @override
+  int? get createdById;
+  @override
+  String? get createdByName;
+
+  /// Whether they are away today.
+  @override
+  bool get current;
+
+  /// Whether the signed-in user may change or cancel it.
+  @override
+  bool get canEdit;
+
+  /// Meetings still to come that the absent person holds on these days.
+  @override
+  int get conflictCount;
+
+  /// Those meetings, when the signed-in user may see them; otherwise empty.
+  @override
+  List<TimeOffConflict> get conflicts;
+
+  /// Create a copy of TimeOff
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$TimeOffImplCopyWith<_$TimeOffImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+TimeOffConflict _$TimeOffConflictFromJson(Map<String, dynamic> json) {
+  return _TimeOffConflict.fromJson(json);
+}
+
+/// @nodoc
+mixin _$TimeOffConflict {
+  int get meetingId => throw _privateConstructorUsedError;
+  String get title => throw _privateConstructorUsedError;
+  DateTime get scheduledAt => throw _privateConstructorUsedError;
+  String? get clientName => throw _privateConstructorUsedError;
+  String? get propertyTitle => throw _privateConstructorUsedError;
+
+  /// Serializes this TimeOffConflict to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of TimeOffConflict
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $TimeOffConflictCopyWith<TimeOffConflict> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $TimeOffConflictCopyWith<$Res> {
+  factory $TimeOffConflictCopyWith(
+          TimeOffConflict value, $Res Function(TimeOffConflict) then) =
+      _$TimeOffConflictCopyWithImpl<$Res, TimeOffConflict>;
+  @useResult
+  $Res call(
+      {int meetingId,
+      String title,
+      DateTime scheduledAt,
+      String? clientName,
+      String? propertyTitle});
+}
+
+/// @nodoc
+class _$TimeOffConflictCopyWithImpl<$Res, $Val extends TimeOffConflict>
+    implements $TimeOffConflictCopyWith<$Res> {
+  _$TimeOffConflictCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of TimeOffConflict
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? meetingId = null,
+    Object? title = null,
+    Object? scheduledAt = null,
+    Object? clientName = freezed,
+    Object? propertyTitle = freezed,
+  }) {
+    return _then(_value.copyWith(
+      meetingId: null == meetingId
+          ? _value.meetingId
+          : meetingId // ignore: cast_nullable_to_non_nullable
+              as int,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      scheduledAt: null == scheduledAt
+          ? _value.scheduledAt
+          : scheduledAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      clientName: freezed == clientName
+          ? _value.clientName
+          : clientName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      propertyTitle: freezed == propertyTitle
+          ? _value.propertyTitle
+          : propertyTitle // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$TimeOffConflictImplCopyWith<$Res>
+    implements $TimeOffConflictCopyWith<$Res> {
+  factory _$$TimeOffConflictImplCopyWith(_$TimeOffConflictImpl value,
+          $Res Function(_$TimeOffConflictImpl) then) =
+      __$$TimeOffConflictImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int meetingId,
+      String title,
+      DateTime scheduledAt,
+      String? clientName,
+      String? propertyTitle});
+}
+
+/// @nodoc
+class __$$TimeOffConflictImplCopyWithImpl<$Res>
+    extends _$TimeOffConflictCopyWithImpl<$Res, _$TimeOffConflictImpl>
+    implements _$$TimeOffConflictImplCopyWith<$Res> {
+  __$$TimeOffConflictImplCopyWithImpl(
+      _$TimeOffConflictImpl _value, $Res Function(_$TimeOffConflictImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of TimeOffConflict
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? meetingId = null,
+    Object? title = null,
+    Object? scheduledAt = null,
+    Object? clientName = freezed,
+    Object? propertyTitle = freezed,
+  }) {
+    return _then(_$TimeOffConflictImpl(
+      meetingId: null == meetingId
+          ? _value.meetingId
+          : meetingId // ignore: cast_nullable_to_non_nullable
+              as int,
+      title: null == title
+          ? _value.title
+          : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      scheduledAt: null == scheduledAt
+          ? _value.scheduledAt
+          : scheduledAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      clientName: freezed == clientName
+          ? _value.clientName
+          : clientName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      propertyTitle: freezed == propertyTitle
+          ? _value.propertyTitle
+          : propertyTitle // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$TimeOffConflictImpl implements _TimeOffConflict {
+  const _$TimeOffConflictImpl(
+      {required this.meetingId,
+      this.title = '',
+      required this.scheduledAt,
+      this.clientName,
+      this.propertyTitle});
+
+  factory _$TimeOffConflictImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TimeOffConflictImplFromJson(json);
+
+  @override
+  final int meetingId;
+  @override
+  @JsonKey()
+  final String title;
+  @override
+  final DateTime scheduledAt;
+  @override
+  final String? clientName;
+  @override
+  final String? propertyTitle;
+
+  @override
+  String toString() {
+    return 'TimeOffConflict(meetingId: $meetingId, title: $title, scheduledAt: $scheduledAt, clientName: $clientName, propertyTitle: $propertyTitle)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TimeOffConflictImpl &&
+            (identical(other.meetingId, meetingId) ||
+                other.meetingId == meetingId) &&
+            (identical(other.title, title) || other.title == title) &&
+            (identical(other.scheduledAt, scheduledAt) ||
+                other.scheduledAt == scheduledAt) &&
+            (identical(other.clientName, clientName) ||
+                other.clientName == clientName) &&
+            (identical(other.propertyTitle, propertyTitle) ||
+                other.propertyTitle == propertyTitle));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, meetingId, title, scheduledAt, clientName, propertyTitle);
+
+  /// Create a copy of TimeOffConflict
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$TimeOffConflictImplCopyWith<_$TimeOffConflictImpl> get copyWith =>
+      __$$TimeOffConflictImplCopyWithImpl<_$TimeOffConflictImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$TimeOffConflictImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _TimeOffConflict implements TimeOffConflict {
+  const factory _TimeOffConflict(
+      {required final int meetingId,
+      final String title,
+      required final DateTime scheduledAt,
+      final String? clientName,
+      final String? propertyTitle}) = _$TimeOffConflictImpl;
+
+  factory _TimeOffConflict.fromJson(Map<String, dynamic> json) =
+      _$TimeOffConflictImpl.fromJson;
+
+  @override
+  int get meetingId;
+  @override
+  String get title;
+  @override
+  DateTime get scheduledAt;
+  @override
+  String? get clientName;
+  @override
+  String? get propertyTitle;
+
+  /// Create a copy of TimeOffConflict
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$TimeOffConflictImplCopyWith<_$TimeOffConflictImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -16244,6 +17267,743 @@ abstract class _DealDeposit implements DealDeposit {
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DealDepositImplCopyWith<_$DealDepositImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+CommissionShare _$CommissionShareFromJson(Map<String, dynamic> json) {
+  return _CommissionShare.fromJson(json);
+}
+
+/// @nodoc
+mixin _$CommissionShare {
+  @JsonKey(unknownEnumValue: CommissionPartyKind.CO_BROKER)
+  CommissionPartyKind get kind => throw _privateConstructorUsedError;
+  int? get userId => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
+  String? get agency => throw _privateConstructorUsedError;
+  double get percent => throw _privateConstructorUsedError;
+  double? get amount => throw _privateConstructorUsedError;
+  bool get active => throw _privateConstructorUsedError;
+
+  /// Serializes this CommissionShare to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of CommissionShare
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $CommissionShareCopyWith<CommissionShare> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CommissionShareCopyWith<$Res> {
+  factory $CommissionShareCopyWith(
+          CommissionShare value, $Res Function(CommissionShare) then) =
+      _$CommissionShareCopyWithImpl<$Res, CommissionShare>;
+  @useResult
+  $Res call(
+      {@JsonKey(unknownEnumValue: CommissionPartyKind.CO_BROKER)
+      CommissionPartyKind kind,
+      int? userId,
+      String? name,
+      String? agency,
+      double percent,
+      double? amount,
+      bool active});
+}
+
+/// @nodoc
+class _$CommissionShareCopyWithImpl<$Res, $Val extends CommissionShare>
+    implements $CommissionShareCopyWith<$Res> {
+  _$CommissionShareCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of CommissionShare
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? kind = null,
+    Object? userId = freezed,
+    Object? name = freezed,
+    Object? agency = freezed,
+    Object? percent = null,
+    Object? amount = freezed,
+    Object? active = null,
+  }) {
+    return _then(_value.copyWith(
+      kind: null == kind
+          ? _value.kind
+          : kind // ignore: cast_nullable_to_non_nullable
+              as CommissionPartyKind,
+      userId: freezed == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      agency: freezed == agency
+          ? _value.agency
+          : agency // ignore: cast_nullable_to_non_nullable
+              as String?,
+      percent: null == percent
+          ? _value.percent
+          : percent // ignore: cast_nullable_to_non_nullable
+              as double,
+      amount: freezed == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as double?,
+      active: null == active
+          ? _value.active
+          : active // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$CommissionShareImplCopyWith<$Res>
+    implements $CommissionShareCopyWith<$Res> {
+  factory _$$CommissionShareImplCopyWith(_$CommissionShareImpl value,
+          $Res Function(_$CommissionShareImpl) then) =
+      __$$CommissionShareImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(unknownEnumValue: CommissionPartyKind.CO_BROKER)
+      CommissionPartyKind kind,
+      int? userId,
+      String? name,
+      String? agency,
+      double percent,
+      double? amount,
+      bool active});
+}
+
+/// @nodoc
+class __$$CommissionShareImplCopyWithImpl<$Res>
+    extends _$CommissionShareCopyWithImpl<$Res, _$CommissionShareImpl>
+    implements _$$CommissionShareImplCopyWith<$Res> {
+  __$$CommissionShareImplCopyWithImpl(
+      _$CommissionShareImpl _value, $Res Function(_$CommissionShareImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of CommissionShare
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? kind = null,
+    Object? userId = freezed,
+    Object? name = freezed,
+    Object? agency = freezed,
+    Object? percent = null,
+    Object? amount = freezed,
+    Object? active = null,
+  }) {
+    return _then(_$CommissionShareImpl(
+      kind: null == kind
+          ? _value.kind
+          : kind // ignore: cast_nullable_to_non_nullable
+              as CommissionPartyKind,
+      userId: freezed == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      agency: freezed == agency
+          ? _value.agency
+          : agency // ignore: cast_nullable_to_non_nullable
+              as String?,
+      percent: null == percent
+          ? _value.percent
+          : percent // ignore: cast_nullable_to_non_nullable
+              as double,
+      amount: freezed == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as double?,
+      active: null == active
+          ? _value.active
+          : active // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$CommissionShareImpl implements _CommissionShare {
+  const _$CommissionShareImpl(
+      {@JsonKey(unknownEnumValue: CommissionPartyKind.CO_BROKER)
+      this.kind = CommissionPartyKind.CO_BROKER,
+      this.userId,
+      this.name,
+      this.agency,
+      this.percent = 0.0,
+      this.amount,
+      this.active = true});
+
+  factory _$CommissionShareImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CommissionShareImplFromJson(json);
+
+  @override
+  @JsonKey(unknownEnumValue: CommissionPartyKind.CO_BROKER)
+  final CommissionPartyKind kind;
+  @override
+  final int? userId;
+  @override
+  final String? name;
+  @override
+  final String? agency;
+  @override
+  @JsonKey()
+  final double percent;
+  @override
+  final double? amount;
+  @override
+  @JsonKey()
+  final bool active;
+
+  @override
+  String toString() {
+    return 'CommissionShare(kind: $kind, userId: $userId, name: $name, agency: $agency, percent: $percent, amount: $amount, active: $active)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CommissionShareImpl &&
+            (identical(other.kind, kind) || other.kind == kind) &&
+            (identical(other.userId, userId) || other.userId == userId) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.agency, agency) || other.agency == agency) &&
+            (identical(other.percent, percent) || other.percent == percent) &&
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.active, active) || other.active == active));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, kind, userId, name, agency, percent, amount, active);
+
+  /// Create a copy of CommissionShare
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CommissionShareImplCopyWith<_$CommissionShareImpl> get copyWith =>
+      __$$CommissionShareImplCopyWithImpl<_$CommissionShareImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CommissionShareImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _CommissionShare implements CommissionShare {
+  const factory _CommissionShare(
+      {@JsonKey(unknownEnumValue: CommissionPartyKind.CO_BROKER)
+      final CommissionPartyKind kind,
+      final int? userId,
+      final String? name,
+      final String? agency,
+      final double percent,
+      final double? amount,
+      final bool active}) = _$CommissionShareImpl;
+
+  factory _CommissionShare.fromJson(Map<String, dynamic> json) =
+      _$CommissionShareImpl.fromJson;
+
+  @override
+  @JsonKey(unknownEnumValue: CommissionPartyKind.CO_BROKER)
+  CommissionPartyKind get kind;
+  @override
+  int? get userId;
+  @override
+  String? get name;
+  @override
+  String? get agency;
+  @override
+  double get percent;
+  @override
+  double? get amount;
+  @override
+  bool get active;
+
+  /// Create a copy of CommissionShare
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$CommissionShareImplCopyWith<_$CommissionShareImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+CommissionColleague _$CommissionColleagueFromJson(Map<String, dynamic> json) {
+  return _CommissionColleague.fromJson(json);
+}
+
+/// @nodoc
+mixin _$CommissionColleague {
+  int get id => throw _privateConstructorUsedError;
+  String get fullName => throw _privateConstructorUsedError;
+
+  /// Serializes this CommissionColleague to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of CommissionColleague
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $CommissionColleagueCopyWith<CommissionColleague> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CommissionColleagueCopyWith<$Res> {
+  factory $CommissionColleagueCopyWith(
+          CommissionColleague value, $Res Function(CommissionColleague) then) =
+      _$CommissionColleagueCopyWithImpl<$Res, CommissionColleague>;
+  @useResult
+  $Res call({int id, String fullName});
+}
+
+/// @nodoc
+class _$CommissionColleagueCopyWithImpl<$Res, $Val extends CommissionColleague>
+    implements $CommissionColleagueCopyWith<$Res> {
+  _$CommissionColleagueCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of CommissionColleague
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? fullName = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      fullName: null == fullName
+          ? _value.fullName
+          : fullName // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$CommissionColleagueImplCopyWith<$Res>
+    implements $CommissionColleagueCopyWith<$Res> {
+  factory _$$CommissionColleagueImplCopyWith(_$CommissionColleagueImpl value,
+          $Res Function(_$CommissionColleagueImpl) then) =
+      __$$CommissionColleagueImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({int id, String fullName});
+}
+
+/// @nodoc
+class __$$CommissionColleagueImplCopyWithImpl<$Res>
+    extends _$CommissionColleagueCopyWithImpl<$Res, _$CommissionColleagueImpl>
+    implements _$$CommissionColleagueImplCopyWith<$Res> {
+  __$$CommissionColleagueImplCopyWithImpl(_$CommissionColleagueImpl _value,
+      $Res Function(_$CommissionColleagueImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of CommissionColleague
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? fullName = null,
+  }) {
+    return _then(_$CommissionColleagueImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      fullName: null == fullName
+          ? _value.fullName
+          : fullName // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$CommissionColleagueImpl implements _CommissionColleague {
+  const _$CommissionColleagueImpl({required this.id, this.fullName = ''});
+
+  factory _$CommissionColleagueImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CommissionColleagueImplFromJson(json);
+
+  @override
+  final int id;
+  @override
+  @JsonKey()
+  final String fullName;
+
+  @override
+  String toString() {
+    return 'CommissionColleague(id: $id, fullName: $fullName)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CommissionColleagueImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.fullName, fullName) ||
+                other.fullName == fullName));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, fullName);
+
+  /// Create a copy of CommissionColleague
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CommissionColleagueImplCopyWith<_$CommissionColleagueImpl> get copyWith =>
+      __$$CommissionColleagueImplCopyWithImpl<_$CommissionColleagueImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CommissionColleagueImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _CommissionColleague implements CommissionColleague {
+  const factory _CommissionColleague(
+      {required final int id,
+      final String fullName}) = _$CommissionColleagueImpl;
+
+  factory _CommissionColleague.fromJson(Map<String, dynamic> json) =
+      _$CommissionColleagueImpl.fromJson;
+
+  @override
+  int get id;
+  @override
+  String get fullName;
+
+  /// Create a copy of CommissionColleague
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$CommissionColleagueImplCopyWith<_$CommissionColleagueImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+CommissionSplit _$CommissionSplitFromJson(Map<String, dynamic> json) {
+  return _CommissionSplit.fromJson(json);
+}
+
+/// @nodoc
+mixin _$CommissionSplit {
+  int get dealId => throw _privateConstructorUsedError;
+  double? get commission => throw _privateConstructorUsedError;
+  bool get split => throw _privateConstructorUsedError;
+  bool get editable => throw _privateConstructorUsedError;
+  List<CommissionShare> get shares => throw _privateConstructorUsedError;
+  List<CommissionColleague> get colleagues =>
+      throw _privateConstructorUsedError;
+
+  /// Serializes this CommissionSplit to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of CommissionSplit
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $CommissionSplitCopyWith<CommissionSplit> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CommissionSplitCopyWith<$Res> {
+  factory $CommissionSplitCopyWith(
+          CommissionSplit value, $Res Function(CommissionSplit) then) =
+      _$CommissionSplitCopyWithImpl<$Res, CommissionSplit>;
+  @useResult
+  $Res call(
+      {int dealId,
+      double? commission,
+      bool split,
+      bool editable,
+      List<CommissionShare> shares,
+      List<CommissionColleague> colleagues});
+}
+
+/// @nodoc
+class _$CommissionSplitCopyWithImpl<$Res, $Val extends CommissionSplit>
+    implements $CommissionSplitCopyWith<$Res> {
+  _$CommissionSplitCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of CommissionSplit
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? dealId = null,
+    Object? commission = freezed,
+    Object? split = null,
+    Object? editable = null,
+    Object? shares = null,
+    Object? colleagues = null,
+  }) {
+    return _then(_value.copyWith(
+      dealId: null == dealId
+          ? _value.dealId
+          : dealId // ignore: cast_nullable_to_non_nullable
+              as int,
+      commission: freezed == commission
+          ? _value.commission
+          : commission // ignore: cast_nullable_to_non_nullable
+              as double?,
+      split: null == split
+          ? _value.split
+          : split // ignore: cast_nullable_to_non_nullable
+              as bool,
+      editable: null == editable
+          ? _value.editable
+          : editable // ignore: cast_nullable_to_non_nullable
+              as bool,
+      shares: null == shares
+          ? _value.shares
+          : shares // ignore: cast_nullable_to_non_nullable
+              as List<CommissionShare>,
+      colleagues: null == colleagues
+          ? _value.colleagues
+          : colleagues // ignore: cast_nullable_to_non_nullable
+              as List<CommissionColleague>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$CommissionSplitImplCopyWith<$Res>
+    implements $CommissionSplitCopyWith<$Res> {
+  factory _$$CommissionSplitImplCopyWith(_$CommissionSplitImpl value,
+          $Res Function(_$CommissionSplitImpl) then) =
+      __$$CommissionSplitImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int dealId,
+      double? commission,
+      bool split,
+      bool editable,
+      List<CommissionShare> shares,
+      List<CommissionColleague> colleagues});
+}
+
+/// @nodoc
+class __$$CommissionSplitImplCopyWithImpl<$Res>
+    extends _$CommissionSplitCopyWithImpl<$Res, _$CommissionSplitImpl>
+    implements _$$CommissionSplitImplCopyWith<$Res> {
+  __$$CommissionSplitImplCopyWithImpl(
+      _$CommissionSplitImpl _value, $Res Function(_$CommissionSplitImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of CommissionSplit
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? dealId = null,
+    Object? commission = freezed,
+    Object? split = null,
+    Object? editable = null,
+    Object? shares = null,
+    Object? colleagues = null,
+  }) {
+    return _then(_$CommissionSplitImpl(
+      dealId: null == dealId
+          ? _value.dealId
+          : dealId // ignore: cast_nullable_to_non_nullable
+              as int,
+      commission: freezed == commission
+          ? _value.commission
+          : commission // ignore: cast_nullable_to_non_nullable
+              as double?,
+      split: null == split
+          ? _value.split
+          : split // ignore: cast_nullable_to_non_nullable
+              as bool,
+      editable: null == editable
+          ? _value.editable
+          : editable // ignore: cast_nullable_to_non_nullable
+              as bool,
+      shares: null == shares
+          ? _value._shares
+          : shares // ignore: cast_nullable_to_non_nullable
+              as List<CommissionShare>,
+      colleagues: null == colleagues
+          ? _value._colleagues
+          : colleagues // ignore: cast_nullable_to_non_nullable
+              as List<CommissionColleague>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$CommissionSplitImpl implements _CommissionSplit {
+  const _$CommissionSplitImpl(
+      {required this.dealId,
+      this.commission,
+      this.split = false,
+      this.editable = false,
+      final List<CommissionShare> shares = const <CommissionShare>[],
+      final List<CommissionColleague> colleagues =
+          const <CommissionColleague>[]})
+      : _shares = shares,
+        _colleagues = colleagues;
+
+  factory _$CommissionSplitImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CommissionSplitImplFromJson(json);
+
+  @override
+  final int dealId;
+  @override
+  final double? commission;
+  @override
+  @JsonKey()
+  final bool split;
+  @override
+  @JsonKey()
+  final bool editable;
+  final List<CommissionShare> _shares;
+  @override
+  @JsonKey()
+  List<CommissionShare> get shares {
+    if (_shares is EqualUnmodifiableListView) return _shares;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_shares);
+  }
+
+  final List<CommissionColleague> _colleagues;
+  @override
+  @JsonKey()
+  List<CommissionColleague> get colleagues {
+    if (_colleagues is EqualUnmodifiableListView) return _colleagues;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_colleagues);
+  }
+
+  @override
+  String toString() {
+    return 'CommissionSplit(dealId: $dealId, commission: $commission, split: $split, editable: $editable, shares: $shares, colleagues: $colleagues)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CommissionSplitImpl &&
+            (identical(other.dealId, dealId) || other.dealId == dealId) &&
+            (identical(other.commission, commission) ||
+                other.commission == commission) &&
+            (identical(other.split, split) || other.split == split) &&
+            (identical(other.editable, editable) ||
+                other.editable == editable) &&
+            const DeepCollectionEquality().equals(other._shares, _shares) &&
+            const DeepCollectionEquality()
+                .equals(other._colleagues, _colleagues));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      dealId,
+      commission,
+      split,
+      editable,
+      const DeepCollectionEquality().hash(_shares),
+      const DeepCollectionEquality().hash(_colleagues));
+
+  /// Create a copy of CommissionSplit
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CommissionSplitImplCopyWith<_$CommissionSplitImpl> get copyWith =>
+      __$$CommissionSplitImplCopyWithImpl<_$CommissionSplitImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CommissionSplitImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _CommissionSplit implements CommissionSplit {
+  const factory _CommissionSplit(
+      {required final int dealId,
+      final double? commission,
+      final bool split,
+      final bool editable,
+      final List<CommissionShare> shares,
+      final List<CommissionColleague> colleagues}) = _$CommissionSplitImpl;
+
+  factory _CommissionSplit.fromJson(Map<String, dynamic> json) =
+      _$CommissionSplitImpl.fromJson;
+
+  @override
+  int get dealId;
+  @override
+  double? get commission;
+  @override
+  bool get split;
+  @override
+  bool get editable;
+  @override
+  List<CommissionShare> get shares;
+  @override
+  List<CommissionColleague> get colleagues;
+
+  /// Create a copy of CommissionSplit
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$CommissionSplitImplCopyWith<_$CommissionSplitImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

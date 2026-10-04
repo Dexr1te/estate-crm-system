@@ -40,6 +40,7 @@ public class MeetingService {
     private final PropertyRepository propertyRepository;
     private final SecurityUtils      securityUtils;
     private final ScopeService       scopeService;
+    private final CommissionSplitStore splitStore;
 
     public List<MeetingResponse> getAll() {
         return findVisible(MeetingSpecification.build(null, null, null), Sort.unsorted())
@@ -211,7 +212,7 @@ public class MeetingService {
             Deal deal = dealRepository.findById(request.getDealId())
                     .orElseThrow(() -> new ResourceNotFoundException(
                             "Deal not found with id: " + request.getDealId()));
-            if (!scopeService.canSee(currentUser, deal.getTeam(), deal.getAgent())) {
+            if (!splitStore.canSee(currentUser, deal)) {
                 throw new ResourceNotFoundException("Deal not found with id: " + request.getDealId());
             }
             scopeService.requireSameTeam(client.getTeam(), deal.getTeam(), "Deal");

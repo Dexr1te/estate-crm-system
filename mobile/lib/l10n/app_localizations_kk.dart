@@ -6448,4 +6448,317 @@ class AppLocalizationsKk extends AppLocalizations {
   String partnersOpenHandoffs(int count) {
     return 'Әлі жұмыста: $count';
   }
+
+  @override
+  String get timeOffTitle => 'Демалыстар';
+
+  @override
+  String get timeOffWhosOut => 'Кім жоқ';
+
+  @override
+  String get timeOffAdd => 'Демалыс қосу';
+
+  @override
+  String get timeOffNewTitle => 'Жаңа демалыс';
+
+  @override
+  String get timeOffEditTitle => 'Демалыс';
+
+  @override
+  String get timeOffKind => 'Түрі';
+
+  @override
+  String get timeOffKindVacation => 'Демалыс';
+
+  @override
+  String get timeOffKindSickLeave => 'Ауру парағы';
+
+  @override
+  String get timeOffKindDayOff => 'Демалыс күні';
+
+  @override
+  String get timeOffKindOther => 'Басқа';
+
+  @override
+  String get timeOffPerson => 'Кім жоқ';
+
+  @override
+  String get timeOffPickPerson => 'Қызметкерді таңдаңыз';
+
+  @override
+  String get timeOffSearchPeople => 'Әріптестерден іздеу';
+
+  @override
+  String get timeOffDaysEyebrow => 'Күндер';
+
+  @override
+  String get timeOffFirstDay => 'Бірінші күн';
+
+  @override
+  String get timeOffLastDay => 'Соңғы күн';
+
+  @override
+  String get timeOffPickDate => 'Күнді таңдаңыз';
+
+  @override
+  String get timeOffDatesRequired => 'Бірінші және соңғы күнді таңдаңыз';
+
+  @override
+  String get timeOffEndBeforeStart => 'Соңғы күн біріншіден ерте бола алмайды';
+
+  @override
+  String timeOffDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count күн',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get timeOffCover => 'Орнын басады';
+
+  @override
+  String get timeOffNoCover => 'Ешкім';
+
+  @override
+  String get timeOffCoverHint =>
+      'Қызметкер жоқта оның хабарламалары орнын басушыға да келеді. Клиенттер мен мәмілелер оның атында қалады.';
+
+  @override
+  String timeOffCoveredBy(String name) {
+    return 'Орнын басады: $name';
+  }
+
+  @override
+  String get timeOffNobodyCovers => 'Орнын ешкім баспайды';
+
+  @override
+  String get timeOffNote => 'Ескертпе';
+
+  @override
+  String get timeOffNoteHint => 'Әріптестерге не білу керек';
+
+  @override
+  String get timeOffSaved => 'Демалыс сақталды';
+
+  @override
+  String get timeOffCancelled => 'Демалыс тоқтатылды';
+
+  @override
+  String get timeOffCancelAction => 'Демалысты тоқтату';
+
+  @override
+  String get timeOffKeep => 'Қалдыру';
+
+  @override
+  String get timeOffCancelConfirmTitle => 'Бұл демалысты тоқтату керек пе?';
+
+  @override
+  String get timeOffCancelConfirmBody =>
+      'Ол команда тізімінен алынады, ал орнын басушы хабарламаларды алмайды.';
+
+  @override
+  String get timeOffLoadFailed => 'Демалыстарды жүктеу мүмкін болмады';
+
+  @override
+  String get timeOffEmpty => 'Әзірге демалыс жоқ';
+
+  @override
+  String get timeOffEmptyHint =>
+      'Команда сіздің орныңызды кім басатынын білуі үшін демалыс немесе демалыс күнін қосыңыз.';
+
+  @override
+  String get timeOffTeamEmpty => 'Барлығы орнында';
+
+  @override
+  String get timeOffTeamEmptyHint => 'Алдағы үш айда ешкім демалмайды.';
+
+  @override
+  String get timeOffSectionToday => 'Бүгін жоқ';
+
+  @override
+  String get timeOffSectionThisWeek => 'Осы аптадан';
+
+  @override
+  String get timeOffSectionLater => 'Кейінірек';
+
+  @override
+  String get timeOffSectionUpcoming => 'Қазір және алда';
+
+  @override
+  String get timeOffSectionPast => 'Өткендер';
+
+  @override
+  String get timeOffAwayNow => 'Қазір жоқ';
+
+  @override
+  String timeOffAwayUntil(String date) {
+    return '$date дейін жоқ';
+  }
+
+  @override
+  String timeOffAwayOnDay(String name, String kind, String date) {
+    return '$name бұл күні жоқ: $kind, $date дейін';
+  }
+
+  @override
+  String timeOffConflictsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Бұл күндері $count кездесу бар',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get timeOffConflictsHint =>
+      'Олар әлі күнтізбеде. Оларды ауыстырыңыз немесе жұмысты әріптеске беріңіз.';
+
+  @override
+  String get timeOffHandOver => 'Жұмысты беру';
+
+  @override
+  String get timeOffErrorOverlaps => 'Бұл күндердің кейбіріне демалыс бар';
+
+  @override
+  String get timeOffErrorTooLong => 'Демалыс бір жылдан аспайды';
+
+  @override
+  String get timeOffErrorCoverIsAbsent => 'Орнын басқа біреу басуы керек';
+
+  @override
+  String get timeOffErrorNotYours =>
+      'Мұны тек қызметкердің өзі немесе менеджер өзгерте алады';
+
+  @override
+  String timeOffOutToday(int count) {
+    return 'Бүгін жоқ: $count';
+  }
+
+  @override
+  String timeOffCoveringFor(String name) {
+    return 'Сіз орнын басасыз: $name';
+  }
+
+  @override
+  String notificationsTimeOffCover(String name) {
+    return 'Сіз орнын басасыз: $name';
+  }
+
+  @override
+  String get splitsTitle => 'Комиссияны бөлу';
+
+  @override
+  String get splitsSheetSubtitle => 'Комиссия үлестері, барлығы 100%';
+
+  @override
+  String get splitsNotSplit => 'Бөлінбеген';
+
+  @override
+  String splitsAllToAgent(String name) {
+    return 'Комиссияның бәрі $name алады.';
+  }
+
+  @override
+  String get splitsDealAgent => 'Мәміле агенті';
+
+  @override
+  String get splitsColleague => 'Әріптес';
+
+  @override
+  String get splitsCoBroker => 'Сыртқы агент';
+
+  @override
+  String splitsCoBrokerFrom(String agency) {
+    return 'Сыртқы агент, $agency';
+  }
+
+  @override
+  String get splitsInactive => 'Енді жұмыс істемейді';
+
+  @override
+  String splitsPercent(String value) {
+    return '$value%';
+  }
+
+  @override
+  String get splitsAmountUnknown =>
+      'Баға мен мөлшерлеме көрсетілгенде сомалар шығады';
+
+  @override
+  String get splitsAdd => 'Комиссияны бөлу';
+
+  @override
+  String get splitsEdit => 'Бөлуді өзгерту';
+
+  @override
+  String get splitsClear => 'Бәрін агентке қайтару';
+
+  @override
+  String get splitsLoadFailed => 'Комиссияны бөлуді жүктеу мүмкін болмады';
+
+  @override
+  String get splitsAddColleague => 'Әріптес қосу';
+
+  @override
+  String get splitsAddCoBroker => 'Сыртқы агент қосу';
+
+  @override
+  String get splitsCoBrokerName => 'Сыртқы агенттің аты';
+
+  @override
+  String get splitsCoBrokerNameHint => 'Иван Петров';
+
+  @override
+  String get splitsCoBrokerAgency => 'Агенттігі';
+
+  @override
+  String get splitsCoBrokerAgencyHint => 'Міндетті емес';
+
+  @override
+  String get splitsCoBrokerNameMissing => 'Сыртқы агенттің атын жазыңыз';
+
+  @override
+  String get splitsShare => 'Үлесі, %';
+
+  @override
+  String get splitsRemove => 'Алып тастау';
+
+  @override
+  String splitsTotal(String value) {
+    return 'Барлығы $value%';
+  }
+
+  @override
+  String get splitsTotalMustBe100 => 'Үлестердің қосындысы 100% болуы керек';
+
+  @override
+  String get splitsPercentInvalid =>
+      'Үлес 0-ден көп және 100-ден аспайды, үтірден кейін екі таңбаға дейін';
+
+  @override
+  String get splitsBalance => 'Қалғаны — мәміле агентіне';
+
+  @override
+  String get splitsPickColleague => 'Әріптесті таңдаңыз';
+
+  @override
+  String get splitsSearchColleague => 'Аты бойынша іздеу';
+
+  @override
+  String get splitsNoColleagues => 'Агенттікте қосатын басқа ешкім жоқ';
+
+  @override
+  String get splitsTooMany => 'Бір комиссияны 10 адамнан артық бөлмейді';
+
+  @override
+  String get splitsColleagueInactive =>
+      'Үлесті тек агенттіктің белсенді қызметкеріне беруге болады';
+
+  @override
+  String get splitsShareNote =>
+      'Бөлінген мәміле комиссиясы әркімге өз үлесімен есептеледі; сыртқы агенттің үлесі агенттік сомасына кірмейді.';
 }

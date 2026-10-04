@@ -60,6 +60,7 @@ public class TeamMembershipService {
     private final NotificationEvents        notificationEvents;
     private final ChecklistTemplateService  checklistTemplateService;
     private final MessageTemplateService    messageTemplateService;
+    private final TimeOffService            timeOffService;
 
     // The manager's side ---------------------------------------------------------------
 
@@ -260,6 +261,7 @@ public class TeamMembershipService {
 
         User successor = resolveSuccessor(manager, team, replacementId, member);
         recordHandoverService.reassignTeamRecords(member, successor, team, manager);
+        timeOffService.leftTeam(member, successor, team);
         member.setTeam(null);
         member.setDataScope(DataScope.OWN);
         userRepository.save(member);
@@ -319,6 +321,7 @@ public class TeamMembershipService {
         }
         User successor = resolveSuccessor(user, team, null, user);
         recordHandoverService.reassignTeamRecords(user, successor, team, user);
+        timeOffService.leftTeam(user, successor, team);
         user.setTeam(null);
         user.setDataScope(DataScope.OWN);
         User left = userRepository.save(user);

@@ -1013,10 +1013,96 @@ class AgentOption with _$AgentOption {
     required int id,
     required String fullName,
     String? email,
+
+    /// The last day of the time off they are on today; null when they are in.
+    DateTime? awayUntil,
+
+    /// Their time off that has not ended yet, soonest first.
+    @Default(<AgentAway>[]) List<AgentAway> timeOff,
   }) = _AgentOption;
 
   factory AgentOption.fromJson(Map<String, dynamic> json) =>
       _$AgentOptionFromJson(json);
+}
+
+/// Why somebody is away. A kind this app does not know reads as [other].
+enum TimeOffKind {
+  @JsonValue('VACATION')
+  vacation,
+  @JsonValue('SICK_LEAVE')
+  sickLeave,
+  @JsonValue('DAY_OFF')
+  dayOff,
+  @JsonValue('OTHER')
+  other,
+}
+
+/// A stretch of time off on the agents list: the first and the last day,
+/// both inclusive.
+@freezed
+class AgentAway with _$AgentAway {
+  const factory AgentAway({
+    @JsonKey(unknownEnumValue: TimeOffKind.other)
+    @Default(TimeOffKind.other)
+    TimeOffKind kind,
+    required DateTime startDate,
+    required DateTime endDate,
+  }) = _AgentAway;
+
+  factory AgentAway.fromJson(Map<String, dynamic> json) =>
+      _$AgentAwayFromJson(json);
+}
+
+/// Somebody's time off, and the colleague covering for them. The days are
+/// calendar dates, the first and the last both inclusive.
+@freezed
+class TimeOff with _$TimeOff {
+  const factory TimeOff({
+    required int id,
+    required int userId,
+    @Default('') String userName,
+    @JsonKey(unknownEnumValue: TimeOffKind.other)
+    @Default(TimeOffKind.other)
+    TimeOffKind kind,
+    required DateTime startDate,
+    required DateTime endDate,
+    @Default(1) int days,
+    String? note,
+    int? coverId,
+    String? coverName,
+    int? createdById,
+    String? createdByName,
+
+    /// Whether they are away today.
+    @Default(false) bool current,
+
+    /// Whether the signed-in user may change or cancel it.
+    @Default(false) bool canEdit,
+
+    /// Meetings still to come that the absent person holds on these days.
+    @Default(0) int conflictCount,
+
+    /// Those meetings, when the signed-in user may see them; otherwise empty.
+    @Default(<TimeOffConflict>[]) List<TimeOffConflict> conflicts,
+  }) = _TimeOff;
+
+  factory TimeOff.fromJson(Map<String, dynamic> json) =>
+      _$TimeOffFromJson(json);
+}
+
+/// A meeting the absent person still has on one of their days off.
+@freezed
+class TimeOffConflict with _$TimeOffConflict {
+  const factory TimeOffConflict({
+    required int meetingId,
+    @Default('') String title,
+    required DateTime scheduledAt,
+    String? clientName,
+    String? propertyTitle,
+  }) = _TimeOffConflict;
+
+  factory TimeOffConflict.fromJson(Map<String, dynamic> json) =>
+      _$TimeOffConflictFromJson(json);
 }
 
 @freezed
@@ -1161,6 +1247,8 @@ enum NotificationType {
   purchaseAnniversary,
   @JsonValue('LEASE_ENDING')
   leaseEnding,
+  @JsonValue('TIME_OFF_COVER')
+  timeOffCover,
   unknown,
 }
 
@@ -1250,6 +1338,61 @@ class DealDeposit with _$DealDeposit {
 
   factory DealDeposit.fromJson(Map<String, dynamic> json) =>
       _$DealDepositFromJson(json);
+}
+
+/// Who a share of a deal's commission goes to: the deal's own agent, a
+/// colleague from the agency, or an agent from outside it.
+// ignore: constant_identifier_names
+enum CommissionPartyKind { AGENT, COLLEAGUE, CO_BROKER }
+
+/// One party's share of a deal's commission. [amount] is in the agency's
+/// currency, null while the commission is unknown.
+@freezed
+class CommissionShare with _$CommissionShare {
+  const factory CommissionShare({
+    @JsonKey(unknownEnumValue: CommissionPartyKind.CO_BROKER)
+    @Default(CommissionPartyKind.CO_BROKER)
+    CommissionPartyKind kind,
+    int? userId,
+    String? name,
+    String? agency,
+    @Default(0.0) double percent,
+    double? amount,
+    @Default(true) bool active,
+  }) = _CommissionShare;
+
+  factory CommissionShare.fromJson(Map<String, dynamic> json) =>
+      _$CommissionShareFromJson(json);
+}
+
+/// Someone from the agency who may be given a share.
+@freezed
+class CommissionColleague with _$CommissionColleague {
+  const factory CommissionColleague({
+    required int id,
+    @Default('') String fullName,
+  }) = _CommissionColleague;
+
+  factory CommissionColleague.fromJson(Map<String, dynamic> json) =>
+      _$CommissionColleagueFromJson(json);
+}
+
+/// Who gets what of a deal's commission: the deal's agent first, then the
+/// shares in the order they were entered. [colleagues] is filled only when
+/// the reader may edit.
+@freezed
+class CommissionSplit with _$CommissionSplit {
+  const factory CommissionSplit({
+    required int dealId,
+    double? commission,
+    @Default(false) bool split,
+    @Default(false) bool editable,
+    @Default(<CommissionShare>[]) List<CommissionShare> shares,
+    @Default(<CommissionColleague>[]) List<CommissionColleague> colleagues,
+  }) = _CommissionSplit;
+
+  factory CommissionSplit.fromJson(Map<String, dynamic> json) =>
+      _$CommissionSplitFromJson(json);
 }
 
 /// A won rent whose lease runs out soon, and the two people to call about it:

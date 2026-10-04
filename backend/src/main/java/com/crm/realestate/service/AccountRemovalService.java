@@ -56,6 +56,8 @@ public class AccountRemovalService {
     private final NotificationEvents notificationEvents;
     private final ChangeLogService   changeLog;
     private final RecordHandoverService recordHandoverService;
+    private final CommissionSplitStore commissionSplitStore;
+    private final TimeOffService     timeOffService;
 
     @Value("${app.primary-admin-email:admin@gmail.com}")
     private String primaryAdminEmail;
@@ -121,7 +123,11 @@ public class AccountRemovalService {
             properties.forEach(p -> changeLog.agentChanged(ChangeSnapshot.target(p), changeActor, changeActorName,
                     target, replacement));
             recordHandoverService.move(
-                    RecordHandoverService.Records.of(clients, properties, deals, meetings, tasks), replacement);
+                    RecordHandoverService.Records.of(clients, properties, deals, meetings, tasks), replacement,
+                    changeActor);
+            // The leaver's shares in colleagues' deals are the agency's to keep: the successor
+            // takes them.
+            commissionSplitStore.passAllShares(target, replacement, changeActor);
             documents.forEach(d -> d.setUploadedBy(replacement));
             documentRepository.saveAll(documents);
             // An open house the leaver was to hold is the agency's event; without a successor
@@ -131,6 +137,9 @@ public class AccountRemovalService {
             offerRepository.reassignAll(target, replacement);
             notificationEvents.recordsHandedOver(target, replacement, actor, replacement.getTeam(),
                     clients.size(), properties.size(), deals.size(), meetings.size(), tasks.size());
+        } else {
+            // Nobody to take them: each share goes back to its deal's agent, and the deal says so.
+            commissionSplitStore.passAllShares(target, null, changeActor);
         }
 
         // The partners the leaver added are the agency's and stay in it: their successor may look
@@ -149,6 +158,9 @@ public class AccountRemovalService {
         // depend on the database's cascade firing in the same transaction.
         // Recording no actor is both safer and lossless: DELETE_OWN_ACCOUNT plus
         // the entity id and the email below already say exactly who left.
+        // Their time off goes with them; what they were covering passes to the successor (V54).
+        timeOffService.accountClosed(target, replacement);
+
         User auditActor = targetId.equals(actor.getId()) ? null : actor;
         auditLogService.record(auditActor, action, "User", targetId,
                 "email=" + target.getEmail()

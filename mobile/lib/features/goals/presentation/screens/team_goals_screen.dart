@@ -5,6 +5,7 @@ import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/utils/clock.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/features/commission_split/presentation/widgets/split_labels.dart';
 import 'package:real_estate_crm/features/goals/presentation/bloc/team_goals_bloc.dart';
 import 'package:real_estate_crm/features/goals/presentation/bloc/team_goals_event.dart';
 import 'package:real_estate_crm/features/goals/presentation/bloc/team_goals_state.dart';
@@ -143,6 +144,7 @@ class _TeamGoalsView extends StatelessWidget {
                         agency: true)
                     : null,
               ),
+              const CommissionShareNote(),
               SectionHeader(title: l10n.teamsMembers),
               if (goals.agents.isEmpty)
                 EmptyState(

@@ -114,7 +114,9 @@ public class WorkHandoverService {
                 p.getAgent(), plan.to));
         plan.records.deals().forEach(d -> changeLog.agentChanged(ChangeSnapshot.target(d), actor, actorName,
                 d.getAgent(), plan.to));
-        recordHandoverService.move(plan.records, plan.to);
+        // A deal's split stays; a share the new holder had in it becomes part of what they hold.
+        // The previous holder's shares in colleagues' deals stay theirs: they are not leaving.
+        recordHandoverService.move(plan.records, plan.to, actor);
 
         LocalDateTime now = LocalDateTime.now();
         activityRepository.saveAll(plan.records.clients().stream()

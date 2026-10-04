@@ -22,7 +22,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Moves records between owners when people move between teams.
@@ -43,6 +45,7 @@ public class RecordHandoverService {
     private final PropertyOfferRepository offerRepository;
     private final NotificationEvents notificationEvents;
     private final ChangeLogService   changeLog;
+    private final CommissionSplitStore splitStore;
 
     /**
      * Brings what someone owned while in no team into the team they have just joined.
@@ -74,6 +77,9 @@ public class RecordHandoverService {
     public void reassignTeamRecords(User from, User to, Team team, User actor) {
         // Each client, listing and deal says it changed hands; read before the bulk update moves them.
         changeLog.handingOver(from, to, team, actor);
+        // A share of a colleague's commission is the agency's work too: it goes with the rest,
+        // and becomes part of what `to` holds on a deal that is now theirs.
+        splitStore.passShares(from, to, team, actor);
         int clients    = clientRepository.reassignInTeam(from, to, team);
         int properties = propertyRepository.reassignInTeam(from, to, team);
         int deals      = dealRepository.reassignInTeam(from, to, team);
@@ -81,6 +87,7 @@ public class RecordHandoverService {
         int tasks      = taskRepository.reassignInTeam(from, to, team);
         openHouseRepository.reassignInTeam(from, to, team);
         offerRepository.reassignInTeam(from, to, team);
+        splitStore.foldOwnShares(to, dealId -> from, actor);
         if (clients + properties + deals + meetings + tasks > 0) {
             log.info("Handed {} clients, {} listings, {} deals, {} meetings and {} tasks in team {} from user {} to user {}",
                     clients, properties, deals, meetings, tasks, team.getId(), from.getId(), to.getId());
@@ -114,9 +121,22 @@ public class RecordHandoverService {
      * holds) and a manager's handover (what they chose) both come through here, so the two cannot
      * drift on what "moving a record" means. Saying so to {@code to} is the caller's business; the
      * two say it differently.
+     *
+     * <p>A deal's commission split stays as it is: {@code to} holds what the shares leave, as the
+     * previous agent did. A share {@code to} had in one of these deals becomes part of that. Shares
+     * the previous agent holds in colleagues' deals are not records and do not move here — a
+     * closed account hands them over itself.
      */
     @Transactional
     public void move(Records records, User to) {
+        move(records, to, null);
+    }
+
+    /** {@link #move(Records, User)}, naming who did it in the deals' change log. */
+    @Transactional
+    public void move(Records records, User to, User actor) {
+        Map<Long, User> heldBefore = new HashMap<>();
+        records.deals().forEach(d -> heldBefore.put(d.getId(), d.getAgent()));
         records.clients().forEach(c -> c.setAgent(to));
         records.listings().forEach(p -> p.setAgent(to));
         records.deals().forEach(d -> d.setAgent(to));
@@ -129,6 +149,9 @@ public class RecordHandoverService {
         meetingRepository.saveAll(records.meetings());
         taskRepository.saveAll(records.tasks());
         openHouseRepository.saveAll(records.openHouses());
+        if (!records.deals().isEmpty()) {
+            splitStore.foldOwnShares(to, heldBefore::get, actor);
+        }
     }
 
     @Transactional

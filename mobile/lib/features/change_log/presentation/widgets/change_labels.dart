@@ -70,6 +70,7 @@ String? _fieldLabel(AppLocalizations l10n, String? field) => switch (field) {
       'leaseEnd' => l10n.leasesEnd,
       'leaseReminderDays' => l10n.leasesReminder,
       'landlord' => l10n.leasesLandlord,
+      'commissionSplit' => l10n.splitsTitle,
       _ => null,
     };
 
@@ -83,9 +84,15 @@ T? _byName<T extends Enum>(List<T> values, String name) {
 /// One value as the server wrote it, in words: a status or a type by its
 /// label, money in the agency's currency, a date in the reader's language.
 /// Never the server's own enum name: a value this app does not know reads as
-/// "another value".
+/// "another value". A commission split comes as the server wrote it, "Aigul
+/// Bekova 60%, Ivan Petrov (Etazhi) 40%", and none at all as "Not split".
 String changeValueLabel(AppLocalizations l10n, ChangeEntityType? type,
     String field, String? value, String locale) {
+  if (field == 'commissionSplit') {
+    return value == null || value.trim().isEmpty
+        ? l10n.splitsNotSplit
+        : value.trim();
+  }
   if (value == null || value.trim().isEmpty) return l10n.changeLogNoValue;
   final unknown = l10n.changeLogUnknownValue;
   String? label;
