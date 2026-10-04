@@ -6236,4 +6236,212 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get handoverLoadFailed => 'Не удалось загрузить команду';
+
+  @override
+  String get timeOffTitle => 'Отпуска';
+
+  @override
+  String get timeOffWhosOut => 'Кто отсутствует';
+
+  @override
+  String get timeOffAdd => 'Добавить отсутствие';
+
+  @override
+  String get timeOffNewTitle => 'Новое отсутствие';
+
+  @override
+  String get timeOffEditTitle => 'Отсутствие';
+
+  @override
+  String get timeOffKind => 'Тип';
+
+  @override
+  String get timeOffKindVacation => 'Отпуск';
+
+  @override
+  String get timeOffKindSickLeave => 'Больничный';
+
+  @override
+  String get timeOffKindDayOff => 'Выходной';
+
+  @override
+  String get timeOffKindOther => 'Другое';
+
+  @override
+  String get timeOffPerson => 'Кто отсутствует';
+
+  @override
+  String get timeOffPickPerson => 'Выберите сотрудника';
+
+  @override
+  String get timeOffSearchPeople => 'Поиск по коллегам';
+
+  @override
+  String get timeOffDaysEyebrow => 'Дни';
+
+  @override
+  String get timeOffFirstDay => 'Первый день';
+
+  @override
+  String get timeOffLastDay => 'Последний день';
+
+  @override
+  String get timeOffPickDate => 'Выберите день';
+
+  @override
+  String get timeOffDatesRequired => 'Выберите первый и последний день';
+
+  @override
+  String get timeOffEndBeforeStart =>
+      'Последний день не может быть раньше первого';
+
+  @override
+  String timeOffDays(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count дня',
+      many: '$count дней',
+      few: '$count дня',
+      one: '$count день',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get timeOffCover => 'Замещает';
+
+  @override
+  String get timeOffNoCover => 'Никто';
+
+  @override
+  String get timeOffCoverHint =>
+      'Пока сотрудника нет, замещающий тоже получает его уведомления. Клиенты и сделки остаются за ним.';
+
+  @override
+  String timeOffCoveredBy(String name) {
+    return 'Замещает $name';
+  }
+
+  @override
+  String get timeOffNobodyCovers => 'Никто не замещает';
+
+  @override
+  String get timeOffNote => 'Заметка';
+
+  @override
+  String get timeOffNoteHint => 'Что важно знать коллегам';
+
+  @override
+  String get timeOffSaved => 'Отсутствие сохранено';
+
+  @override
+  String get timeOffCancelled => 'Отсутствие отменено';
+
+  @override
+  String get timeOffCancelAction => 'Отменить отсутствие';
+
+  @override
+  String get timeOffKeep => 'Оставить';
+
+  @override
+  String get timeOffCancelConfirmTitle => 'Отменить это отсутствие?';
+
+  @override
+  String get timeOffCancelConfirmBody =>
+      'Оно исчезнет из списка команды, и замещающий перестанет получать уведомления.';
+
+  @override
+  String get timeOffLoadFailed => 'Не удалось загрузить отсутствия';
+
+  @override
+  String get timeOffEmpty => 'Отсутствий пока нет';
+
+  @override
+  String get timeOffEmptyHint =>
+      'Добавьте отпуск или выходной, чтобы команда знала, кто вас замещает.';
+
+  @override
+  String get timeOffTeamEmpty => 'Все на месте';
+
+  @override
+  String get timeOffTeamEmptyHint =>
+      'В ближайшие три месяца никто не отсутствует.';
+
+  @override
+  String get timeOffSectionToday => 'Нет сегодня';
+
+  @override
+  String get timeOffSectionThisWeek => 'С этой недели';
+
+  @override
+  String get timeOffSectionLater => 'Позже';
+
+  @override
+  String get timeOffSectionUpcoming => 'Сейчас и впереди';
+
+  @override
+  String get timeOffSectionPast => 'Прошедшие';
+
+  @override
+  String get timeOffAwayNow => 'Отсутствует';
+
+  @override
+  String timeOffAwayUntil(String date) {
+    return 'Нет до $date';
+  }
+
+  @override
+  String timeOffAwayOnDay(String name, String kind, String date) {
+    return '$name в этот день отсутствует: $kind до $date';
+  }
+
+  @override
+  String timeOffConflictsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count встречи в эти дни',
+      many: '$count встреч в эти дни',
+      few: '$count встречи в эти дни',
+      one: '$count встреча в эти дни',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get timeOffConflictsHint =>
+      'Они всё ещё в календаре. Перенесите их или передайте работу коллеге.';
+
+  @override
+  String get timeOffHandOver => 'Передать работу';
+
+  @override
+  String get timeOffErrorOverlaps =>
+      'На некоторые из этих дней уже есть отсутствие';
+
+  @override
+  String get timeOffErrorTooLong => 'Отсутствие длится не больше года';
+
+  @override
+  String get timeOffErrorCoverIsAbsent => 'Замещать должен кто-то другой';
+
+  @override
+  String get timeOffErrorNotYours =>
+      'Изменить это может только сам сотрудник или менеджер';
+
+  @override
+  String timeOffOutToday(int count) {
+    return 'Нет сегодня: $count';
+  }
+
+  @override
+  String timeOffCoveringFor(String name) {
+    return 'Вы замещаете: $name';
+  }
+
+  @override
+  String notificationsTimeOffCover(String name) {
+    return 'Вы замещаете: $name';
+  }
 }

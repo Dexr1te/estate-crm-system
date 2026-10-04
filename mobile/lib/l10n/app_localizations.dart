@@ -10348,6 +10348,342 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Could not load the team'**
   String get handoverLoadFailed;
+
+  /// No description provided for @timeOffTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Time off'**
+  String get timeOffTitle;
+
+  /// No description provided for @timeOffWhosOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Who\'s out'**
+  String get timeOffWhosOut;
+
+  /// No description provided for @timeOffAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add time off'**
+  String get timeOffAdd;
+
+  /// No description provided for @timeOffNewTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New time off'**
+  String get timeOffNewTitle;
+
+  /// No description provided for @timeOffEditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Time off'**
+  String get timeOffEditTitle;
+
+  /// No description provided for @timeOffKind.
+  ///
+  /// In en, this message translates to:
+  /// **'Kind'**
+  String get timeOffKind;
+
+  /// No description provided for @timeOffKindVacation.
+  ///
+  /// In en, this message translates to:
+  /// **'Vacation'**
+  String get timeOffKindVacation;
+
+  /// No description provided for @timeOffKindSickLeave.
+  ///
+  /// In en, this message translates to:
+  /// **'Sick leave'**
+  String get timeOffKindSickLeave;
+
+  /// No description provided for @timeOffKindDayOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Day off'**
+  String get timeOffKindDayOff;
+
+  /// No description provided for @timeOffKindOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get timeOffKindOther;
+
+  /// No description provided for @timeOffPerson.
+  ///
+  /// In en, this message translates to:
+  /// **'Who is away'**
+  String get timeOffPerson;
+
+  /// No description provided for @timeOffPickPerson.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose who is away'**
+  String get timeOffPickPerson;
+
+  /// No description provided for @timeOffSearchPeople.
+  ///
+  /// In en, this message translates to:
+  /// **'Search people'**
+  String get timeOffSearchPeople;
+
+  /// No description provided for @timeOffDaysEyebrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Days'**
+  String get timeOffDaysEyebrow;
+
+  /// No description provided for @timeOffFirstDay.
+  ///
+  /// In en, this message translates to:
+  /// **'First day'**
+  String get timeOffFirstDay;
+
+  /// No description provided for @timeOffLastDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Last day'**
+  String get timeOffLastDay;
+
+  /// No description provided for @timeOffPickDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a day'**
+  String get timeOffPickDate;
+
+  /// No description provided for @timeOffDatesRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose the first and the last day'**
+  String get timeOffDatesRequired;
+
+  /// No description provided for @timeOffEndBeforeStart.
+  ///
+  /// In en, this message translates to:
+  /// **'The last day cannot be before the first'**
+  String get timeOffEndBeforeStart;
+
+  /// No description provided for @timeOffDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 day} other{{count} days}}'**
+  String timeOffDays(int count);
+
+  /// No description provided for @timeOffCover.
+  ///
+  /// In en, this message translates to:
+  /// **'Covering'**
+  String get timeOffCover;
+
+  /// No description provided for @timeOffNoCover.
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody'**
+  String get timeOffNoCover;
+
+  /// No description provided for @timeOffCoverHint.
+  ///
+  /// In en, this message translates to:
+  /// **'While they are away, the cover also gets their notifications. Nothing changes hands.'**
+  String get timeOffCoverHint;
+
+  /// No description provided for @timeOffCoveredBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Covered by {name}'**
+  String timeOffCoveredBy(String name);
+
+  /// No description provided for @timeOffNobodyCovers.
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody covers'**
+  String get timeOffNobodyCovers;
+
+  /// No description provided for @timeOffNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get timeOffNote;
+
+  /// No description provided for @timeOffNoteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Anything colleagues should know'**
+  String get timeOffNoteHint;
+
+  /// No description provided for @timeOffSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Time off saved'**
+  String get timeOffSaved;
+
+  /// No description provided for @timeOffCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Time off cancelled'**
+  String get timeOffCancelled;
+
+  /// No description provided for @timeOffCancelAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel time off'**
+  String get timeOffCancelAction;
+
+  /// No description provided for @timeOffKeep.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep it'**
+  String get timeOffKeep;
+
+  /// No description provided for @timeOffCancelConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel this time off?'**
+  String get timeOffCancelConfirmTitle;
+
+  /// No description provided for @timeOffCancelConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'It comes off the team\'s list, and the cover stops getting the notifications.'**
+  String get timeOffCancelConfirmBody;
+
+  /// No description provided for @timeOffLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load time off'**
+  String get timeOffLoadFailed;
+
+  /// No description provided for @timeOffEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No time off yet'**
+  String get timeOffEmpty;
+
+  /// No description provided for @timeOffEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a holiday or a day off, so the team knows who covers for you.'**
+  String get timeOffEmptyHint;
+
+  /// No description provided for @timeOffTeamEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Everyone is in'**
+  String get timeOffTeamEmpty;
+
+  /// No description provided for @timeOffTeamEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody has time off in the next three months.'**
+  String get timeOffTeamEmptyHint;
+
+  /// No description provided for @timeOffSectionToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Out today'**
+  String get timeOffSectionToday;
+
+  /// No description provided for @timeOffSectionThisWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Starting this week'**
+  String get timeOffSectionThisWeek;
+
+  /// No description provided for @timeOffSectionLater.
+  ///
+  /// In en, this message translates to:
+  /// **'Later'**
+  String get timeOffSectionLater;
+
+  /// No description provided for @timeOffSectionUpcoming.
+  ///
+  /// In en, this message translates to:
+  /// **'Now and coming up'**
+  String get timeOffSectionUpcoming;
+
+  /// No description provided for @timeOffSectionPast.
+  ///
+  /// In en, this message translates to:
+  /// **'Past'**
+  String get timeOffSectionPast;
+
+  /// No description provided for @timeOffAwayNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Away now'**
+  String get timeOffAwayNow;
+
+  /// No description provided for @timeOffAwayUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'Away until {date}'**
+  String timeOffAwayUntil(String date);
+
+  /// No description provided for @timeOffAwayOnDay.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} is away that day: {kind} until {date}'**
+  String timeOffAwayOnDay(String name, String kind, String date);
+
+  /// No description provided for @timeOffConflictsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 meeting on these days} other{{count} meetings on these days}}'**
+  String timeOffConflictsCount(int count);
+
+  /// No description provided for @timeOffConflictsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'They are still on the calendar. Move them, or hand the work to a colleague.'**
+  String get timeOffConflictsHint;
+
+  /// No description provided for @timeOffHandOver.
+  ///
+  /// In en, this message translates to:
+  /// **'Hand over work'**
+  String get timeOffHandOver;
+
+  /// No description provided for @timeOffErrorOverlaps.
+  ///
+  /// In en, this message translates to:
+  /// **'There is already time off on some of these days'**
+  String get timeOffErrorOverlaps;
+
+  /// No description provided for @timeOffErrorTooLong.
+  ///
+  /// In en, this message translates to:
+  /// **'Time off lasts at most a year'**
+  String get timeOffErrorTooLong;
+
+  /// No description provided for @timeOffErrorCoverIsAbsent.
+  ///
+  /// In en, this message translates to:
+  /// **'Somebody else has to cover'**
+  String get timeOffErrorCoverIsAbsent;
+
+  /// No description provided for @timeOffErrorNotYours.
+  ///
+  /// In en, this message translates to:
+  /// **'Only the person away or a manager can change this'**
+  String get timeOffErrorNotYours;
+
+  /// No description provided for @timeOffOutToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Out today: {count}'**
+  String timeOffOutToday(int count);
+
+  /// No description provided for @timeOffCoveringFor.
+  ///
+  /// In en, this message translates to:
+  /// **'Covering for {name}'**
+  String timeOffCoveringFor(String name);
+
+  /// No description provided for @notificationsTimeOffCover.
+  ///
+  /// In en, this message translates to:
+  /// **'You are covering for {name}'**
+  String notificationsTimeOffCover(String name);
 }
 
 class _AppLocalizationsDelegate

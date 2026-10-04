@@ -13,6 +13,7 @@ import 'fakes.dart';
 import 'goals_fakes.dart';
 import 'offer_fakes.dart';
 import 'open_house_fakes.dart';
+import 'time_off_fakes.dart';
 
 /// Every screen that shows a client or a deal now carries its tasks card, and
 /// that card reads through the injector on its own. A test that is not about
@@ -60,6 +61,8 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) async {
   Injector.changeLogRepository = FakeChangeLogRepository();
   // A listing's and a client's offers cards read offers too.
   Injector.offersRepository = FakeOffersRepository();
+  // Time off: the profile's list, who's out, and the dashboard's chip.
+  Injector.timeOffRepository = FakeTimeOffRepository();
   Injector.notificationsPollInterval = null;
   // No PIN on the phone: the lock stays off, and its keychain is memory.
   Injector.appLockRepository = fakeAppLockRepository();

@@ -50,6 +50,14 @@ public class Notification {
     @Column(columnDefinition = "TEXT")
     private String payload;
 
+    /**
+     * A cover's copy of a notification meant for somebody away (V54). The payload names whom they
+     * are covering for.
+     */
+    @Column(nullable = false)
+    @Builder.Default
+    private boolean covering = false;
+
     @Column(name = "read_at")
     private LocalDateTime readAt;
 

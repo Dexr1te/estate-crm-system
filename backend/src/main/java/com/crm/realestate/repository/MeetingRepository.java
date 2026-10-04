@@ -84,6 +84,18 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long>, JpaSpec
     @EntityGraph(attributePaths = {"agent", "client", "deal"})
     List<Meeting> findAllUpcoming(@Param("now") LocalDateTime now);
 
+    /**
+     * Meetings these people hold in a team that are still to happen in {@code [from, to)}, soonest
+     * first — what clashes with their time off, see TimeOffService. One statement for a whole list.
+     */
+    @Query("SELECT m FROM Meeting m JOIN FETCH m.agent JOIN FETCH m.client LEFT JOIN FETCH m.property "
+            + "WHERE m.team.id = :teamId AND m.agent.id IN :agentIds AND m.completed = false "
+            + "AND m.scheduledAt >= :from AND m.scheduledAt < :to ORDER BY m.scheduledAt ASC, m.id ASC")
+    List<Meeting> findOpenForAgentsBetween(@Param("teamId") Long teamId,
+                                           @Param("agentIds") java.util.Collection<Long> agentIds,
+                                           @Param("from") LocalDateTime from,
+                                           @Param("to") LocalDateTime to);
+
     /** Moves everything this client had onto another card — see ClientService.merge. */
     @org.springframework.data.jpa.repository.Modifying(flushAutomatically = true)
     @Query("UPDATE Meeting m SET m.client = :target WHERE m.client = :source")

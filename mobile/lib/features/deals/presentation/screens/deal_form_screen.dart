@@ -13,6 +13,7 @@ import 'package:real_estate_crm/features/deals/presentation/bloc/deals_state.dar
 import 'package:real_estate_crm/features/deals/presentation/widgets/lost_reason_sheet.dart';
 import 'package:real_estate_crm/features/leases/domain/lease.dart';
 import 'package:real_estate_crm/features/leases/presentation/widgets/lease_labels.dart';
+import 'package:real_estate_crm/features/time_off/presentation/widgets/time_off_labels.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class DealFormScreen extends StatefulWidget {
@@ -120,7 +121,7 @@ class _DealFormScreenState extends State<DealFormScreen> {
       ),
       load<AgentOption>(
         () => Injector.agentsRepository.getAgentOptions(),
-        (a) => PickerItem(id: a.id, title: a.fullName, subtitle: a.email),
+        (a) => agentPickerItem(context, a),
         (v) {
           _agents = v;
           _agent = _reconcile(v, _agent);

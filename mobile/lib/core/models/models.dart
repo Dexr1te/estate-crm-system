@@ -957,10 +957,96 @@ class AgentOption with _$AgentOption {
     required int id,
     required String fullName,
     String? email,
+
+    /// The last day of the time off they are on today; null when they are in.
+    DateTime? awayUntil,
+
+    /// Their time off that has not ended yet, soonest first.
+    @Default(<AgentAway>[]) List<AgentAway> timeOff,
   }) = _AgentOption;
 
   factory AgentOption.fromJson(Map<String, dynamic> json) =>
       _$AgentOptionFromJson(json);
+}
+
+/// Why somebody is away. A kind this app does not know reads as [other].
+enum TimeOffKind {
+  @JsonValue('VACATION')
+  vacation,
+  @JsonValue('SICK_LEAVE')
+  sickLeave,
+  @JsonValue('DAY_OFF')
+  dayOff,
+  @JsonValue('OTHER')
+  other,
+}
+
+/// A stretch of time off on the agents list: the first and the last day,
+/// both inclusive.
+@freezed
+class AgentAway with _$AgentAway {
+  const factory AgentAway({
+    @JsonKey(unknownEnumValue: TimeOffKind.other)
+    @Default(TimeOffKind.other)
+    TimeOffKind kind,
+    required DateTime startDate,
+    required DateTime endDate,
+  }) = _AgentAway;
+
+  factory AgentAway.fromJson(Map<String, dynamic> json) =>
+      _$AgentAwayFromJson(json);
+}
+
+/// Somebody's time off, and the colleague covering for them. The days are
+/// calendar dates, the first and the last both inclusive.
+@freezed
+class TimeOff with _$TimeOff {
+  const factory TimeOff({
+    required int id,
+    required int userId,
+    @Default('') String userName,
+    @JsonKey(unknownEnumValue: TimeOffKind.other)
+    @Default(TimeOffKind.other)
+    TimeOffKind kind,
+    required DateTime startDate,
+    required DateTime endDate,
+    @Default(1) int days,
+    String? note,
+    int? coverId,
+    String? coverName,
+    int? createdById,
+    String? createdByName,
+
+    /// Whether they are away today.
+    @Default(false) bool current,
+
+    /// Whether the signed-in user may change or cancel it.
+    @Default(false) bool canEdit,
+
+    /// Meetings still to come that the absent person holds on these days.
+    @Default(0) int conflictCount,
+
+    /// Those meetings, when the signed-in user may see them; otherwise empty.
+    @Default(<TimeOffConflict>[]) List<TimeOffConflict> conflicts,
+  }) = _TimeOff;
+
+  factory TimeOff.fromJson(Map<String, dynamic> json) =>
+      _$TimeOffFromJson(json);
+}
+
+/// A meeting the absent person still has on one of their days off.
+@freezed
+class TimeOffConflict with _$TimeOffConflict {
+  const factory TimeOffConflict({
+    required int meetingId,
+    @Default('') String title,
+    required DateTime scheduledAt,
+    String? clientName,
+    String? propertyTitle,
+  }) = _TimeOffConflict;
+
+  factory TimeOffConflict.fromJson(Map<String, dynamic> json) =>
+      _$TimeOffConflictFromJson(json);
 }
 
 @freezed
@@ -1105,6 +1191,8 @@ enum NotificationType {
   purchaseAnniversary,
   @JsonValue('LEASE_ENDING')
   leaseEnding,
+  @JsonValue('TIME_OFF_COVER')
+  timeOffCover,
   unknown,
 }
 

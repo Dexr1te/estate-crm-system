@@ -54,6 +54,9 @@ import 'package:real_estate_crm/features/search/presentation/screens/search_scre
 import 'package:real_estate_crm/features/tasks/presentation/screens/tasks_screen.dart';
 import 'package:real_estate_crm/features/teams/presentation/screens/handover_screen.dart';
 import 'package:real_estate_crm/features/teams/presentation/screens/manager_console_screen.dart';
+import 'package:real_estate_crm/features/time_off/presentation/screens/my_time_off_screen.dart';
+import 'package:real_estate_crm/features/time_off/presentation/screens/team_time_off_screen.dart';
+import 'package:real_estate_crm/features/time_off/presentation/screens/time_off_form_screen.dart';
 
 final _rootKey = GlobalKey<NavigatorState>();
 final _shellKey = GlobalKey<NavigatorState>();
@@ -276,6 +279,37 @@ GoRouter createRouter(AuthBloc authBloc) {
         pageBuilder: (_, s) => NoTransitionPage(
           child: HandoverScreen(agentId: int.parse(s.pathParameters['id']!)),
         ),
+      ),
+      GoRoute(
+        path: '/time-off',
+        parentNavigatorKey: _rootKey,
+        pageBuilder: (_, __) =>
+            const NoTransitionPage(child: MyTimeOffScreen()),
+        routes: [
+          GoRoute(
+            path: 'team',
+            parentNavigatorKey: _rootKey,
+            pageBuilder: (_, __) =>
+                const NoTransitionPage(child: TeamTimeOffScreen()),
+          ),
+          GoRoute(
+            path: 'new',
+            parentNavigatorKey: _rootKey,
+            pageBuilder: (_, s) => NoTransitionPage(
+              child: TimeOffFormScreen(
+                  userId: int.tryParse(s.uri.queryParameters['user'] ?? '')),
+            ),
+          ),
+          GoRoute(
+            path: ':id',
+            parentNavigatorKey: _rootKey,
+            pageBuilder: (_, s) => NoTransitionPage(
+              child: TimeOffFormScreen(
+                  key: ValueKey(s.pathParameters['id']),
+                  id: int.parse(s.pathParameters['id']!)),
+            ),
+          ),
+        ],
       ),
       GoRoute(
         path: '/import',

@@ -94,6 +94,9 @@ import 'package:real_estate_crm/features/tasks/domain/repositories/tasks_reposit
 import 'package:real_estate_crm/features/teams/data/datasources/teams_remote_datasource.dart';
 import 'package:real_estate_crm/features/teams/data/repositories/teams_repository_impl.dart';
 import 'package:real_estate_crm/features/teams/domain/repositories/teams_repository.dart';
+import 'package:real_estate_crm/features/time_off/data/datasources/time_off_remote_datasource.dart';
+import 'package:real_estate_crm/features/time_off/data/repositories/time_off_repository_impl.dart';
+import 'package:real_estate_crm/features/time_off/domain/repositories/time_off_repository.dart';
 
 class Injector {
   Injector._();
@@ -133,6 +136,9 @@ class Injector {
 
   static LeasesRepository leasesRepository =
       LeasesRepositoryImpl(LeasesRemoteDataSource(_apiClient));
+
+  static TimeOffRepository timeOffRepository =
+      TimeOffRepositoryImpl(TimeOffRemoteDataSource(_apiClient));
 
   static MessageTemplatesRepository messageTemplatesRepository =
       MessageTemplatesRepositoryImpl(

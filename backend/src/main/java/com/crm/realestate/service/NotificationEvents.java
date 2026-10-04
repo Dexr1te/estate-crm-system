@@ -7,6 +7,7 @@ import com.crm.realestate.entity.Property;
 import com.crm.realestate.entity.Task;
 import com.crm.realestate.entity.Team;
 import com.crm.realestate.entity.TeamJoinRequest;
+import com.crm.realestate.entity.TimeOff;
 import com.crm.realestate.entity.User;
 import com.crm.realestate.enums.DealStatus;
 import com.crm.realestate.enums.NotificationType;
@@ -203,6 +204,23 @@ public class NotificationEvents {
             params.put("days", daysLeft);
             notifications.notify(deal.getAgent(), null, deal.getTeam(), NotificationType.LEASE_ENDING,
                     deal.getId(), params);
+        });
+    }
+
+    /**
+     * {@code actor} named somebody to cover for a colleague's time off. The cover hears who and
+     * which days, unless they wrote it down themselves.
+     */
+    public void coverAsked(TimeOff timeOff, User actor) {
+        guard("time off cover", () -> {
+            Map<String, Object> params = new LinkedHashMap<>();
+            params.put("absentName", nameOf(timeOff.getUser()));
+            params.put("kind", timeOff.getKind().name());
+            params.put("startDate", timeOff.getStartDate().toString());
+            params.put("endDate", timeOff.getEndDate().toString());
+            params.put("actorName", nameOf(actor));
+            notifications.notify(timeOff.getCover(), actor, timeOff.getTeam(), NotificationType.TIME_OFF_COVER,
+                    timeOff.getId(), params);
         });
     }
 
