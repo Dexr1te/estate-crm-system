@@ -24,12 +24,15 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.YearMonth;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Monthly targets and how far each one has got.
@@ -38,7 +41,8 @@ import java.util.Optional;
  * The manager sets one per member and one for the whole agency; a member may set their own. When
  * both exist the manager's counts, and the member's own comes back if the manager takes theirs
  * off. Progress is never stored: it is counted from the deals won that month, exactly as the
- * dashboard's commissionThisMonth is (closedAt in the month, price × rate).
+ * dashboard's commissionThisMonth is (closedAt in the month, price × rate, each person's share of
+ * a split deal).
  *
  * <p>The tenant wall is the agency. Everything here is read and written inside the caller's own
  * team (an admin names one), a member who belongs to another agency reads as not found, and an
@@ -55,6 +59,7 @@ public class GoalService {
     private final UserRepository userRepository;
     private final AuditLogService auditLogService;
     private final EntityManager entityManager;
+    private final CommissionSplitStore splitStore;
 
     // The member's own month --------------------------------------------------------------------
 
@@ -205,8 +210,14 @@ public class GoalService {
      * Deals won in the month in this agency, per agent, in one grouped query. SUM skips deals
      * missing a price or a rate; summing price × percent and dividing once keeps the total exact.
      * The key is null for deals nobody holds; they still count for the agency.
+     *
+     * <p>Commission is each person's share of it (see {@link CommissionSplitStore}): a colleague
+     * with a share is credited with it, the deal's agent with the rest, and a co-broker's share
+     * counts for nobody, the agency included. A won deal counts once, for its agent.
      */
     Map<Long, Tally> tallies(Long teamId, YearMonth month) {
+        LocalDateTime from = month.atDay(1).atStartOfDay();
+        LocalDateTime to = month.plusMonths(1).atDay(1).atStartOfDay();
         List<Object[]> rows = entityManager.createQuery(
                         "SELECT a.id, COUNT(d), SUM(" + DealMoney.JPQL_COMMISSION_BASE + " * d.commissionPercent) FROM Deal d "
                                 + "LEFT JOIN d.agent a "
@@ -215,16 +226,31 @@ public class GoalService {
                                 + "GROUP BY a.id", Object[].class)
                 .setParameter("teamId", teamId)
                 .setParameter("won", DealStatus.CLOSED_WON)
-                .setParameter("from", month.atDay(1).atStartOfDay())
-                .setParameter("to", month.plusMonths(1).atDay(1).atStartOfDay())
+                .setParameter("from", from)
+                .setParameter("to", to)
                 .getResultList();
-        Map<Long, Tally> tallies = new HashMap<>();
+        Map<Long, Long> won = new HashMap<>();
+        Map<Long, BigDecimal> raw = new HashMap<>(splitStore.shifts((root, q, cb) -> cb.and(
+                cb.equal(root.get("team").get("id"), teamId),
+                cb.equal(root.get("status"), DealStatus.CLOSED_WON),
+                cb.greaterThanOrEqualTo(root.get("closedAt"), from),
+                cb.lessThan(root.get("closedAt"), to))));
         for (Object[] row : rows) {
-            BigDecimal sum = (BigDecimal) row[2];
+            Long agentId = (Long) row[0];
+            won.put(agentId, ((Number) row[1]).longValue());
+            if (row[2] != null) {
+                raw.merge(agentId, (BigDecimal) row[2], BigDecimal::add);
+            }
+        }
+        Set<Long> people = new HashSet<>(won.keySet());
+        people.addAll(raw.keySet());
+        Map<Long, Tally> tallies = new HashMap<>();
+        for (Long person : people) {
+            BigDecimal sum = raw.get(person);
             BigDecimal commission = sum == null
                     ? BigDecimal.ZERO.setScale(2)
                     : sum.divide(HUNDRED, 2, RoundingMode.HALF_UP);
-            tallies.put((Long) row[0], new Tally(((Number) row[1]).longValue(), commission));
+            tallies.put(person, new Tally(won.getOrDefault(person, 0L), commission));
         }
         return tallies;
     }

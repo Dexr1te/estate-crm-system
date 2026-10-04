@@ -3019,5 +3019,67 @@
     }
   },
   "handoverDoneAction": "Back to the team",
-  "handoverLoadFailed": "Could not load the team"
+  "handoverLoadFailed": "Could not load the team",
+  "splitsTitle": "Commission split",
+  "splitsSheetSubtitle": "Shares of the commission, adding up to 100%",
+  "splitsNotSplit": "Not split",
+  "splitsAllToAgent": "All of it goes to {name}.",
+  "@splitsAllToAgent": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "splitsDealAgent": "Deal agent",
+  "splitsColleague": "Colleague",
+  "splitsCoBroker": "Co-broker",
+  "splitsCoBrokerFrom": "Co-broker, {agency}",
+  "@splitsCoBrokerFrom": {
+    "placeholders": {
+      "agency": {
+        "type": "String"
+      }
+    }
+  },
+  "splitsInactive": "No longer active",
+  "splitsPercent": "{value}%",
+  "@splitsPercent": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "splitsAmountUnknown": "Amounts show once the price and the rate are set",
+  "splitsAdd": "Split the commission",
+  "splitsEdit": "Edit the split",
+  "splitsClear": "Give it all to the agent",
+  "splitsLoadFailed": "Could not load the commission split",
+  "splitsAddColleague": "Add a colleague",
+  "splitsAddCoBroker": "Add a co-broker",
+  "splitsCoBrokerName": "Co-broker's name",
+  "splitsCoBrokerNameHint": "Ivan Petrov",
+  "splitsCoBrokerAgency": "Their agency",
+  "splitsCoBrokerAgencyHint": "Optional",
+  "splitsCoBrokerNameMissing": "Name the co-broker",
+  "splitsShare": "Share, %",
+  "splitsRemove": "Remove",
+  "splitsTotal": "Total {value}%",
+  "@splitsTotal": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "splitsTotalMustBe100": "The shares have to add up to 100%",
+  "splitsPercentInvalid": "A share is above 0 and at most 100, with up to two decimals",
+  "splitsBalance": "Give the rest to the deal agent",
+  "splitsPickColleague": "Choose a colleague",
+  "splitsSearchColleague": "Search by name",
+  "splitsNoColleagues": "Nobody else in the agency to add",
+  "splitsTooMany": "At most 10 people share one commission",
+  "splitsColleagueInactive": "Only active members of the agency can be given a share",
+  "splitsShareNote": "A split deal's commission counts for each person by their share; a co-broker's share is not the agency's."
 }

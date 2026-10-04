@@ -35,6 +35,9 @@ import 'package:real_estate_crm/features/clients/data/repositories/cold_clients_
 import 'package:real_estate_crm/features/clients/domain/repositories/client_dates_repository.dart';
 import 'package:real_estate_crm/features/clients/domain/repositories/clients_repository.dart';
 import 'package:real_estate_crm/features/clients/domain/repositories/cold_clients_repository.dart';
+import 'package:real_estate_crm/features/commission_split/data/datasources/commission_split_remote_datasource.dart';
+import 'package:real_estate_crm/features/commission_split/data/repositories/commission_split_repository_impl.dart';
+import 'package:real_estate_crm/features/commission_split/domain/repositories/commission_split_repository.dart';
 import 'package:real_estate_crm/features/compare/data/comparison_tray.dart';
 import 'package:real_estate_crm/features/dashboard/data/datasources/dashboard_remote_datasource.dart';
 import 'package:real_estate_crm/features/dashboard/data/repositories/dashboard_repository_impl.dart';
@@ -130,6 +133,10 @@ class Injector {
 
   static DepositsRepository depositsRepository =
       DepositsRepositoryImpl(DepositsRemoteDataSource(_apiClient));
+
+  static CommissionSplitRepository commissionSplitRepository =
+      CommissionSplitRepositoryImpl(
+          CommissionSplitRemoteDataSource(_apiClient));
 
   static LeasesRepository leasesRepository =
       LeasesRepositoryImpl(LeasesRemoteDataSource(_apiClient));

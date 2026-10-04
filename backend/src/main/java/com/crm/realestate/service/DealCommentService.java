@@ -61,6 +61,7 @@ public class DealCommentService {
     private final UserRepository               userRepository;
     private final SecurityUtils                securityUtils;
     private final ScopeService                 scopeService;
+    private final CommissionSplitStore splitStore;
     private final NotificationEvents           notificationEvents;
 
     /**
@@ -206,7 +207,7 @@ public class DealCommentService {
         boolean active = person.isActive() && person.getStatus() == UserStatus.ACTIVE;
         boolean sameAgency = deal.getTeam() != null
                 && Objects.equals(scopeService.teamIdOf(person), deal.getTeam().getId());
-        return active && sameAgency && scopeService.canSee(person, deal.getTeam(), deal.getAgent());
+        return active && sameAgency && splitStore.canSee(person, deal);
     }
 
     private DealComment requireOnDeal(Deal deal, Long commentId) {

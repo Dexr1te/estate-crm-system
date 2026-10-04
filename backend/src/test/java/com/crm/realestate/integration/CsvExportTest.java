@@ -94,12 +94,12 @@ class CsvExportTest extends CsvExportFixture {
         signIn(manager);
         String text = text("deals", "lang", "ru");
         assertThat(text).startsWith("Название;Статус;Клиент;Объект;Цена сделки;Бюджет;Комиссия %;"
-                + "Комиссия;Агент;Создана;Закрыта;Причина проигрыша;Комментарий к проигрышу\r\n");
+                + "Комиссия;Агент;Создана;Закрыта;Причина проигрыша;Комментарий к проигрышу;Сплит комиссии\r\n");
         assertThat(text).contains("Айгерим — Абая 10;Выиграна;Бекова Айгерим;2-комн., Абая 10;"
                 + "42000000;;2,5;1050000;Arman Agent;");
-        assertThat(text).contains(";2026-09-10 14:30;;\r\n");
+        assertThat(text).contains(";2026-09-10 14:30;;;\r\n");
         assertThat(text).contains("Lost one;Проиграна;Бекова Айгерим;;;;;;Dana Manager;")
-                .contains(";Цена;\"Too expensive, \"\"sorry\"\"\"\r\n");
+                .contains(";Цена;\"Too expensive, \"\"sorry\"\"\";\r\n");
     }
 
     @Test

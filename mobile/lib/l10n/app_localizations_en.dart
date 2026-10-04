@@ -6124,4 +6124,119 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get handoverLoadFailed => 'Could not load the team';
+
+  @override
+  String get splitsTitle => 'Commission split';
+
+  @override
+  String get splitsSheetSubtitle =>
+      'Shares of the commission, adding up to 100%';
+
+  @override
+  String get splitsNotSplit => 'Not split';
+
+  @override
+  String splitsAllToAgent(String name) {
+    return 'All of it goes to $name.';
+  }
+
+  @override
+  String get splitsDealAgent => 'Deal agent';
+
+  @override
+  String get splitsColleague => 'Colleague';
+
+  @override
+  String get splitsCoBroker => 'Co-broker';
+
+  @override
+  String splitsCoBrokerFrom(String agency) {
+    return 'Co-broker, $agency';
+  }
+
+  @override
+  String get splitsInactive => 'No longer active';
+
+  @override
+  String splitsPercent(String value) {
+    return '$value%';
+  }
+
+  @override
+  String get splitsAmountUnknown =>
+      'Amounts show once the price and the rate are set';
+
+  @override
+  String get splitsAdd => 'Split the commission';
+
+  @override
+  String get splitsEdit => 'Edit the split';
+
+  @override
+  String get splitsClear => 'Give it all to the agent';
+
+  @override
+  String get splitsLoadFailed => 'Could not load the commission split';
+
+  @override
+  String get splitsAddColleague => 'Add a colleague';
+
+  @override
+  String get splitsAddCoBroker => 'Add a co-broker';
+
+  @override
+  String get splitsCoBrokerName => 'Co-broker\'s name';
+
+  @override
+  String get splitsCoBrokerNameHint => 'Ivan Petrov';
+
+  @override
+  String get splitsCoBrokerAgency => 'Their agency';
+
+  @override
+  String get splitsCoBrokerAgencyHint => 'Optional';
+
+  @override
+  String get splitsCoBrokerNameMissing => 'Name the co-broker';
+
+  @override
+  String get splitsShare => 'Share, %';
+
+  @override
+  String get splitsRemove => 'Remove';
+
+  @override
+  String splitsTotal(String value) {
+    return 'Total $value%';
+  }
+
+  @override
+  String get splitsTotalMustBe100 => 'The shares have to add up to 100%';
+
+  @override
+  String get splitsPercentInvalid =>
+      'A share is above 0 and at most 100, with up to two decimals';
+
+  @override
+  String get splitsBalance => 'Give the rest to the deal agent';
+
+  @override
+  String get splitsPickColleague => 'Choose a colleague';
+
+  @override
+  String get splitsSearchColleague => 'Search by name';
+
+  @override
+  String get splitsNoColleagues => 'Nobody else in the agency to add';
+
+  @override
+  String get splitsTooMany => 'At most 10 people share one commission';
+
+  @override
+  String get splitsColleagueInactive =>
+      'Only active members of the agency can be given a share';
+
+  @override
+  String get splitsShareNote =>
+      'A split deal\'s commission counts for each person by their share; a co-broker\'s share is not the agency\'s.';
 }

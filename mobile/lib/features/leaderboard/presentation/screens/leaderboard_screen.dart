@@ -4,6 +4,7 @@ import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/utils/clock.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/features/commission_split/presentation/widgets/split_labels.dart';
 import 'package:real_estate_crm/features/leaderboard/presentation/bloc/leaderboard_bloc.dart';
 import 'package:real_estate_crm/features/leaderboard/presentation/bloc/leaderboard_event.dart';
 import 'package:real_estate_crm/features/leaderboard/presentation/bloc/leaderboard_state.dart';
@@ -171,6 +172,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
           caption: l10n.leaderboardSortWinRate,
         ),
       ]),
+      const CommissionShareNote(),
       for (final row in agents)
         LeaderboardRowCard(
           row: row,

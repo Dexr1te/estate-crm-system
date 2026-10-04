@@ -8,6 +8,7 @@ import 'package:real_estate_crm/core/utils/money.dart';
 import 'package:real_estate_crm/features/app_lock/presentation/controller/app_lock_controller.dart';
 
 import 'client_dates_fixtures.dart';
+import 'commission_split_fakes.dart';
 import 'deposit_fakes.dart';
 import 'fakes.dart';
 import 'goals_fakes.dart';
@@ -37,6 +38,8 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) async {
   Injector.checklistRepository = FakeChecklistRepository();
   // And its deposit card; the dashboard reads the deposits running out.
   Injector.depositsRepository = FakeDepositsRepository();
+  // And its commission split card.
+  Injector.commissionSplitRepository = FakeCommissionSplitRepository();
   // And the leases running out; a rent deal renews through it.
   Injector.leasesRepository = FakeLeasesRepository();
   // And the client card's compose sheet reads the agency's templates.

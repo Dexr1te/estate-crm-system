@@ -10,6 +10,7 @@ import com.crm.realestate.enums.DealStatus;
 import com.crm.realestate.enums.PropertyStatus;
 import com.crm.realestate.enums.PropertyType;
 import com.crm.realestate.exception.BusinessException;
+import com.crm.realestate.service.CommissionSplitStore;
 import com.crm.realestate.service.ScopeService;
 import com.crm.realestate.specification.ClientSpecification;
 import com.crm.realestate.specification.DealSpecification;
@@ -45,6 +46,7 @@ class ExportSheets {
 
     private final EntityManager entityManager;
     private final ScopeService scopeService;
+    private final CommissionSplitStore splitStore;
     private final ExportColumns columns;
 
     /** What to export, for whom, narrowed how. */
@@ -86,7 +88,8 @@ class ExportSheets {
                 Specification<Deal> spec = deals(query);
                 long after = 0;
                 for (List<Deal> page; !(page = page(Deal.class, spec, after, "agent", "client", "property")).isEmpty(); ) {
-                    for (Deal deal : page) csv.row(columns.deal(deal, csv, language));
+                    var splits = columns.splits(page);
+                    for (Deal deal : page) csv.row(columns.deal(deal, splits, csv, language));
                     after = page.get(page.size() - 1).getId();
                     entityManager.clear();
                 }
@@ -131,9 +134,10 @@ class ExportSheets {
             p = between(cb, p, root, "createdAt", f.createdFrom(), f.createdTo());
             return between(cb, p, root, "closedAt", f.closedFrom(), f.closedTo());
         };
+        // The deal list's own visibility: a colleague with a share sees the deal there, so here too.
         return DealSpecification.build(parse(DealStatus.class, f.status()), null, f.agentId())
                 .and(extra)
-                .and(scopeService.visibleTo(q.user()))
+                .and(splitStore.visibleTo(q.user()))
                 .and(inAgency(q.user()));
     }
 

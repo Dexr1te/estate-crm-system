@@ -1196,6 +1196,61 @@ class DealDeposit with _$DealDeposit {
       _$DealDepositFromJson(json);
 }
 
+/// Who a share of a deal's commission goes to: the deal's own agent, a
+/// colleague from the agency, or an agent from outside it.
+// ignore: constant_identifier_names
+enum CommissionPartyKind { AGENT, COLLEAGUE, CO_BROKER }
+
+/// One party's share of a deal's commission. [amount] is in the agency's
+/// currency, null while the commission is unknown.
+@freezed
+class CommissionShare with _$CommissionShare {
+  const factory CommissionShare({
+    @JsonKey(unknownEnumValue: CommissionPartyKind.CO_BROKER)
+    @Default(CommissionPartyKind.CO_BROKER)
+    CommissionPartyKind kind,
+    int? userId,
+    String? name,
+    String? agency,
+    @Default(0.0) double percent,
+    double? amount,
+    @Default(true) bool active,
+  }) = _CommissionShare;
+
+  factory CommissionShare.fromJson(Map<String, dynamic> json) =>
+      _$CommissionShareFromJson(json);
+}
+
+/// Someone from the agency who may be given a share.
+@freezed
+class CommissionColleague with _$CommissionColleague {
+  const factory CommissionColleague({
+    required int id,
+    @Default('') String fullName,
+  }) = _CommissionColleague;
+
+  factory CommissionColleague.fromJson(Map<String, dynamic> json) =>
+      _$CommissionColleagueFromJson(json);
+}
+
+/// Who gets what of a deal's commission: the deal's agent first, then the
+/// shares in the order they were entered. [colleagues] is filled only when
+/// the reader may edit.
+@freezed
+class CommissionSplit with _$CommissionSplit {
+  const factory CommissionSplit({
+    required int dealId,
+    double? commission,
+    @Default(false) bool split,
+    @Default(false) bool editable,
+    @Default(<CommissionShare>[]) List<CommissionShare> shares,
+    @Default(<CommissionColleague>[]) List<CommissionColleague> colleagues,
+  }) = _CommissionSplit;
+
+  factory CommissionSplit.fromJson(Map<String, dynamic> json) =>
+      _$CommissionSplitFromJson(json);
+}
+
 /// A won rent whose lease runs out soon, and the two people to call about it:
 /// the tenant (the deal's client) and, when the deal names one, the landlord.
 /// [monthlyRent] is in the agency's currency.

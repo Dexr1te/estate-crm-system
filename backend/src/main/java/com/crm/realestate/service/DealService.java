@@ -52,6 +52,7 @@ public class DealService {
     private final DealChecklistStore checklistStore;
     private final DealDepositStore depositStore;
     private final ChangeLogService changeLog;
+    private final CommissionSplitStore splitStore;
 
     static final BigDecimal ONE_HUNDRED = BigDecimal.valueOf(100);
     static final int LOST_NOTE_MAX = 500;
@@ -101,6 +102,7 @@ public class DealService {
         Property previousProperty = deal.getProperty();
         DealStatus previousStatus = deal.getStatus();
         DealKind previousKind = deal.getKind();
+        User previousAgent = deal.getAgent();
         Map<String, String> before = ChangeSnapshot.of(deal);
         requireLostReason(statusOf(request), previousStatus, request.getLostReason(), request.getLostNote());
         mapRequestToEntity(request, deal, currentUser);
@@ -130,6 +132,11 @@ public class DealService {
         syncPropertyStatusWithDeal(deal, currentUser);
         Deal saved = dealRepository.save(deal);
         changeLog.changed(ChangeSnapshot.target(saved), currentUser, before, ChangeSnapshot.of(saved));
+        // An admin gave the deal to someone who had a share in it: the share is theirs now anyway.
+        if (saved.getAgent() != null && (previousAgent == null
+                || !saved.getAgent().getId().equals(previousAgent.getId()))) {
+            splitStore.foldOwnShares(saved.getAgent(), dealId -> previousAgent, currentUser);
+        }
         return respond(saved, commentRepository.countByDealId(id));
     }
 
@@ -164,7 +171,7 @@ public class DealService {
 
     private List<DealResponse> findVisible(Specification<Deal> filter) {
         User currentUser = securityUtils.getCurrentUser();
-        List<Deal> deals = dealRepository.findAll(filter.and(scopeService.visibleTo(currentUser)));
+        List<Deal> deals = dealRepository.findAll(filter.and(splitStore.visibleTo(currentUser)));
         Map<Long, Long> counts = commentCounts(deals);
         Map<Long, DealChecklistStore.Summary> checklists = checklistStore.summarize(deals);
         return deals.stream()
@@ -212,11 +219,15 @@ public class DealService {
         return findVisibleById(id, currentUser);
     }
 
-    /** Someone else's deal reads as missing, so its existence is not confirmed either. */
+    /**
+     * Someone else's deal reads as missing, so its existence is not confirmed either. A colleague
+     * with a share in the commission works the deal with its agent and sees it whatever their data
+     * scope — see {@link CommissionSplitStore}.
+     */
     private Deal findVisibleById(Long id, User currentUser) {
         Deal deal = dealRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Deal not found with id: " + id));
-        if (!scopeService.canSee(currentUser, deal.getTeam(), deal.getAgent())) {
+        if (!splitStore.canSee(currentUser, deal)) {
             throw new ResourceNotFoundException("Deal not found with id: " + id);
         }
         return deal;

@@ -6236,4 +6236,118 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get handoverLoadFailed => 'Не удалось загрузить команду';
+
+  @override
+  String get splitsTitle => 'Сплит комиссии';
+
+  @override
+  String get splitsSheetSubtitle => 'Доли комиссии, в сумме 100%';
+
+  @override
+  String get splitsNotSplit => 'Не разделена';
+
+  @override
+  String splitsAllToAgent(String name) {
+    return 'Вся комиссия достаётся $name.';
+  }
+
+  @override
+  String get splitsDealAgent => 'Агент сделки';
+
+  @override
+  String get splitsColleague => 'Коллега';
+
+  @override
+  String get splitsCoBroker => 'Ко-брокер';
+
+  @override
+  String splitsCoBrokerFrom(String agency) {
+    return 'Ко-брокер, $agency';
+  }
+
+  @override
+  String get splitsInactive => 'Больше не работает';
+
+  @override
+  String splitsPercent(String value) {
+    return '$value%';
+  }
+
+  @override
+  String get splitsAmountUnknown =>
+      'Суммы появятся, когда будут указаны цена и ставка';
+
+  @override
+  String get splitsAdd => 'Разделить комиссию';
+
+  @override
+  String get splitsEdit => 'Изменить сплит';
+
+  @override
+  String get splitsClear => 'Вернуть всё агенту';
+
+  @override
+  String get splitsLoadFailed => 'Не удалось загрузить сплит комиссии';
+
+  @override
+  String get splitsAddColleague => 'Добавить коллегу';
+
+  @override
+  String get splitsAddCoBroker => 'Добавить ко-брокера';
+
+  @override
+  String get splitsCoBrokerName => 'Имя ко-брокера';
+
+  @override
+  String get splitsCoBrokerNameHint => 'Иван Петров';
+
+  @override
+  String get splitsCoBrokerAgency => 'Их агентство';
+
+  @override
+  String get splitsCoBrokerAgencyHint => 'Необязательно';
+
+  @override
+  String get splitsCoBrokerNameMissing => 'Укажите имя ко-брокера';
+
+  @override
+  String get splitsShare => 'Доля, %';
+
+  @override
+  String get splitsRemove => 'Убрать';
+
+  @override
+  String splitsTotal(String value) {
+    return 'Итого $value%';
+  }
+
+  @override
+  String get splitsTotalMustBe100 => 'Доли должны в сумме давать 100%';
+
+  @override
+  String get splitsPercentInvalid =>
+      'Доля больше 0 и не больше 100, до двух знаков после запятой';
+
+  @override
+  String get splitsBalance => 'Остаток — агенту сделки';
+
+  @override
+  String get splitsPickColleague => 'Выберите коллегу';
+
+  @override
+  String get splitsSearchColleague => 'Поиск по имени';
+
+  @override
+  String get splitsNoColleagues => 'Больше некого добавить';
+
+  @override
+  String get splitsTooMany => 'Комиссию делят не больше 10 человек';
+
+  @override
+  String get splitsColleagueInactive =>
+      'Долю можно дать только действующему сотруднику агентства';
+
+  @override
+  String get splitsShareNote =>
+      'Комиссия по разделённой сделке засчитывается каждому по его доле; доля ко-брокера в сумму агентства не входит.';
 }

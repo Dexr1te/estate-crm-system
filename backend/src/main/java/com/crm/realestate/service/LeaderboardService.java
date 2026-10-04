@@ -43,7 +43,8 @@ import java.util.Map;
  * <p>Only a manager (their own agency) or an admin (naming one with {@code teamId}) asks; the
  * controller turns everyone else away. Every statement is pinned to that one agency's
  * {@code team_id}, so another agency's records never count, whatever the caller's data scope.
- * Four grouped statements, however many people and records there are.
+ * Five grouped statements (the fifth is the commission splits), however many people and records
+ * there are.
  *
  * <p>Who is on the board: the agency's agents and its manager, once they have an account (an
  * invitation nobody has accepted holds no records). Members deactivated by an admin are listed
@@ -60,6 +61,7 @@ public class LeaderboardService {
     private final SecurityUtils  securityUtils;
     private final TeamRepository teamRepository;
     private final EntityManager  entityManager;
+    private final CommissionSplitStore splitStore;
 
     public LeaderboardResponse leaderboard(LocalDate from, LocalDate to, Long teamId) {
         LocalDate start = from != null ? from : LocalDate.now().withDayOfMonth(1);
@@ -153,6 +155,10 @@ public class LeaderboardService {
     /**
      * Won and lost deals by their closing date, per holder: counts, won value and commission. The
      * commission sums price × percent and divides once, exactly as the dashboard's month does.
+     *
+     * <p>Commission is each person's share of it: a split deal credits each colleague with theirs
+     * and leaves its agent the rest, and a co-broker's share is nobody's here, so it leaves the
+     * agency's total. Deals and won value stay with the deal's agent: the deal is theirs.
      */
     private void closedDeals(Long teamId, LocalDateTime startAt, LocalDateTime endAt, Map<Long, Row> rows) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
@@ -174,6 +180,11 @@ public class LeaderboardService {
                 cb.lessThan(deal.get("closedAt"), endAt));
         query.groupBy(agentId, status);
 
+        Map<Long, BigDecimal> commission = new HashMap<>(splitStore.shifts((root, q, c) -> c.and(
+                c.equal(root.get("team").get("id"), teamId),
+                c.equal(root.get("status"), DealStatus.CLOSED_WON),
+                c.greaterThanOrEqualTo(root.get("closedAt"), startAt),
+                c.lessThan(root.get("closedAt"), endAt))));
         for (Tuple t : entityManager.createQuery(query).getResultList()) {
             Row row = rows.get(t.get("agent", Long.class));
             if (row == null) continue;
@@ -181,11 +192,18 @@ public class LeaderboardService {
             if (t.get("status", DealStatus.class) == DealStatus.CLOSED_WON) {
                 row.setDealsWon(n);
                 row.setWonValue(money((BigDecimal) t.get("value"), BigDecimal.ONE));
-                row.setCommission(money((BigDecimal) t.get("commission"), HUNDRED));
+                BigDecimal sum = (BigDecimal) t.get("commission");
+                if (sum != null) {
+                    commission.merge(row.getAgentId(), sum, BigDecimal::add);
+                }
             } else {
                 row.setDealsLost(n);
             }
         }
+        commission.forEach((agent, sum) -> {
+            Row row = rows.get(agent);
+            if (row != null) row.setCommission(money(sum, HUNDRED));
+        });
     }
 
     /**

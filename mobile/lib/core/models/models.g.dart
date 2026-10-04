@@ -1606,6 +1606,81 @@ const _$DepositOutcomeEnumMap = {
   DepositOutcome.FORFEITED: 'FORFEITED',
 };
 
+_$CommissionShareImpl _$$CommissionShareImplFromJson(
+        Map<String, dynamic> json) =>
+    _$CommissionShareImpl(
+      kind: $enumDecodeNullable(_$CommissionPartyKindEnumMap, json['kind'],
+              unknownValue: CommissionPartyKind.CO_BROKER) ??
+          CommissionPartyKind.CO_BROKER,
+      userId: (json['userId'] as num?)?.toInt(),
+      name: json['name'] as String?,
+      agency: json['agency'] as String?,
+      percent: (json['percent'] as num?)?.toDouble() ?? 0.0,
+      amount: (json['amount'] as num?)?.toDouble(),
+      active: json['active'] as bool? ?? true,
+    );
+
+Map<String, dynamic> _$$CommissionShareImplToJson(
+        _$CommissionShareImpl instance) =>
+    <String, dynamic>{
+      'kind': _$CommissionPartyKindEnumMap[instance.kind]!,
+      'userId': instance.userId,
+      'name': instance.name,
+      'agency': instance.agency,
+      'percent': instance.percent,
+      'amount': instance.amount,
+      'active': instance.active,
+    };
+
+const _$CommissionPartyKindEnumMap = {
+  CommissionPartyKind.AGENT: 'AGENT',
+  CommissionPartyKind.COLLEAGUE: 'COLLEAGUE',
+  CommissionPartyKind.CO_BROKER: 'CO_BROKER',
+};
+
+_$CommissionColleagueImpl _$$CommissionColleagueImplFromJson(
+        Map<String, dynamic> json) =>
+    _$CommissionColleagueImpl(
+      id: (json['id'] as num).toInt(),
+      fullName: json['fullName'] as String? ?? '',
+    );
+
+Map<String, dynamic> _$$CommissionColleagueImplToJson(
+        _$CommissionColleagueImpl instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'fullName': instance.fullName,
+    };
+
+_$CommissionSplitImpl _$$CommissionSplitImplFromJson(
+        Map<String, dynamic> json) =>
+    _$CommissionSplitImpl(
+      dealId: (json['dealId'] as num).toInt(),
+      commission: (json['commission'] as num?)?.toDouble(),
+      split: json['split'] as bool? ?? false,
+      editable: json['editable'] as bool? ?? false,
+      shares: (json['shares'] as List<dynamic>?)
+              ?.map((e) => CommissionShare.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const <CommissionShare>[],
+      colleagues: (json['colleagues'] as List<dynamic>?)
+              ?.map((e) =>
+                  CommissionColleague.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const <CommissionColleague>[],
+    );
+
+Map<String, dynamic> _$$CommissionSplitImplToJson(
+        _$CommissionSplitImpl instance) =>
+    <String, dynamic>{
+      'dealId': instance.dealId,
+      'commission': instance.commission,
+      'split': instance.split,
+      'editable': instance.editable,
+      'shares': instance.shares,
+      'colleagues': instance.colleagues,
+    };
+
 _$LeaseEndingImpl _$$LeaseEndingImplFromJson(Map<String, dynamic> json) =>
     _$LeaseEndingImpl(
       dealId: (json['dealId'] as num).toInt(),

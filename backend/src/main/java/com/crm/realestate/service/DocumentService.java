@@ -70,6 +70,7 @@ public class DocumentService {
     private final DocumentStorage storage;
     private final SecurityUtils securityUtils;
     private final ScopeService scopeService;
+    private final CommissionSplitStore splitStore;
 
     public List<DocumentResponse> getByDeal(Long dealId) {
         requireVisibleDeal(dealId);
@@ -131,7 +132,7 @@ public class DocumentService {
     private Deal requireVisibleDeal(Long dealId) {
         Deal deal = dealRepository.findById(dealId)
                 .orElseThrow(() -> new ResourceNotFoundException("Deal not found with id: " + dealId));
-        if (!scopeService.canSee(securityUtils.getCurrentUser(), deal.getTeam(), deal.getAgent())) {
+        if (!splitStore.canSee(securityUtils.getCurrentUser(), deal)) {
             throw new ResourceNotFoundException("Deal not found");
         }
         return deal;

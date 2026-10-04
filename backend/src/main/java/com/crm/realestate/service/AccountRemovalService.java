@@ -52,6 +52,7 @@ public class AccountRemovalService {
     private final NotificationEvents notificationEvents;
     private final ChangeLogService   changeLog;
     private final RecordHandoverService recordHandoverService;
+    private final CommissionSplitStore commissionSplitStore;
 
     @Value("${app.primary-admin-email:admin@gmail.com}")
     private String primaryAdminEmail;
@@ -117,7 +118,11 @@ public class AccountRemovalService {
             properties.forEach(p -> changeLog.agentChanged(ChangeSnapshot.target(p), changeActor, changeActorName,
                     target, replacement));
             recordHandoverService.move(
-                    RecordHandoverService.Records.of(clients, properties, deals, meetings, tasks), replacement);
+                    RecordHandoverService.Records.of(clients, properties, deals, meetings, tasks), replacement,
+                    changeActor);
+            // The leaver's shares in colleagues' deals are the agency's to keep: the successor
+            // takes them.
+            commissionSplitStore.passAllShares(target, replacement, changeActor);
             documents.forEach(d -> d.setUploadedBy(replacement));
             documentRepository.saveAll(documents);
             // An open house the leaver was to hold is the agency's event; without a successor
@@ -127,6 +132,9 @@ public class AccountRemovalService {
             offerRepository.reassignAll(target, replacement);
             notificationEvents.recordsHandedOver(target, replacement, actor, replacement.getTeam(),
                     clients.size(), properties.size(), deals.size(), meetings.size(), tasks.size());
+        } else {
+            // Nobody to take them: each share goes back to its deal's agent, and the deal says so.
+            commissionSplitStore.passAllShares(target, null, changeActor);
         }
 
         // When someone closes their own account the actor is the row about to go.

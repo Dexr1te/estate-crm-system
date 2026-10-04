@@ -15847,6 +15847,743 @@ abstract class _DealDeposit implements DealDeposit {
       throw _privateConstructorUsedError;
 }
 
+CommissionShare _$CommissionShareFromJson(Map<String, dynamic> json) {
+  return _CommissionShare.fromJson(json);
+}
+
+/// @nodoc
+mixin _$CommissionShare {
+  @JsonKey(unknownEnumValue: CommissionPartyKind.CO_BROKER)
+  CommissionPartyKind get kind => throw _privateConstructorUsedError;
+  int? get userId => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
+  String? get agency => throw _privateConstructorUsedError;
+  double get percent => throw _privateConstructorUsedError;
+  double? get amount => throw _privateConstructorUsedError;
+  bool get active => throw _privateConstructorUsedError;
+
+  /// Serializes this CommissionShare to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of CommissionShare
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $CommissionShareCopyWith<CommissionShare> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CommissionShareCopyWith<$Res> {
+  factory $CommissionShareCopyWith(
+          CommissionShare value, $Res Function(CommissionShare) then) =
+      _$CommissionShareCopyWithImpl<$Res, CommissionShare>;
+  @useResult
+  $Res call(
+      {@JsonKey(unknownEnumValue: CommissionPartyKind.CO_BROKER)
+      CommissionPartyKind kind,
+      int? userId,
+      String? name,
+      String? agency,
+      double percent,
+      double? amount,
+      bool active});
+}
+
+/// @nodoc
+class _$CommissionShareCopyWithImpl<$Res, $Val extends CommissionShare>
+    implements $CommissionShareCopyWith<$Res> {
+  _$CommissionShareCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of CommissionShare
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? kind = null,
+    Object? userId = freezed,
+    Object? name = freezed,
+    Object? agency = freezed,
+    Object? percent = null,
+    Object? amount = freezed,
+    Object? active = null,
+  }) {
+    return _then(_value.copyWith(
+      kind: null == kind
+          ? _value.kind
+          : kind // ignore: cast_nullable_to_non_nullable
+              as CommissionPartyKind,
+      userId: freezed == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      agency: freezed == agency
+          ? _value.agency
+          : agency // ignore: cast_nullable_to_non_nullable
+              as String?,
+      percent: null == percent
+          ? _value.percent
+          : percent // ignore: cast_nullable_to_non_nullable
+              as double,
+      amount: freezed == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as double?,
+      active: null == active
+          ? _value.active
+          : active // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$CommissionShareImplCopyWith<$Res>
+    implements $CommissionShareCopyWith<$Res> {
+  factory _$$CommissionShareImplCopyWith(_$CommissionShareImpl value,
+          $Res Function(_$CommissionShareImpl) then) =
+      __$$CommissionShareImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {@JsonKey(unknownEnumValue: CommissionPartyKind.CO_BROKER)
+      CommissionPartyKind kind,
+      int? userId,
+      String? name,
+      String? agency,
+      double percent,
+      double? amount,
+      bool active});
+}
+
+/// @nodoc
+class __$$CommissionShareImplCopyWithImpl<$Res>
+    extends _$CommissionShareCopyWithImpl<$Res, _$CommissionShareImpl>
+    implements _$$CommissionShareImplCopyWith<$Res> {
+  __$$CommissionShareImplCopyWithImpl(
+      _$CommissionShareImpl _value, $Res Function(_$CommissionShareImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of CommissionShare
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? kind = null,
+    Object? userId = freezed,
+    Object? name = freezed,
+    Object? agency = freezed,
+    Object? percent = null,
+    Object? amount = freezed,
+    Object? active = null,
+  }) {
+    return _then(_$CommissionShareImpl(
+      kind: null == kind
+          ? _value.kind
+          : kind // ignore: cast_nullable_to_non_nullable
+              as CommissionPartyKind,
+      userId: freezed == userId
+          ? _value.userId
+          : userId // ignore: cast_nullable_to_non_nullable
+              as int?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      agency: freezed == agency
+          ? _value.agency
+          : agency // ignore: cast_nullable_to_non_nullable
+              as String?,
+      percent: null == percent
+          ? _value.percent
+          : percent // ignore: cast_nullable_to_non_nullable
+              as double,
+      amount: freezed == amount
+          ? _value.amount
+          : amount // ignore: cast_nullable_to_non_nullable
+              as double?,
+      active: null == active
+          ? _value.active
+          : active // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$CommissionShareImpl implements _CommissionShare {
+  const _$CommissionShareImpl(
+      {@JsonKey(unknownEnumValue: CommissionPartyKind.CO_BROKER)
+      this.kind = CommissionPartyKind.CO_BROKER,
+      this.userId,
+      this.name,
+      this.agency,
+      this.percent = 0.0,
+      this.amount,
+      this.active = true});
+
+  factory _$CommissionShareImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CommissionShareImplFromJson(json);
+
+  @override
+  @JsonKey(unknownEnumValue: CommissionPartyKind.CO_BROKER)
+  final CommissionPartyKind kind;
+  @override
+  final int? userId;
+  @override
+  final String? name;
+  @override
+  final String? agency;
+  @override
+  @JsonKey()
+  final double percent;
+  @override
+  final double? amount;
+  @override
+  @JsonKey()
+  final bool active;
+
+  @override
+  String toString() {
+    return 'CommissionShare(kind: $kind, userId: $userId, name: $name, agency: $agency, percent: $percent, amount: $amount, active: $active)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CommissionShareImpl &&
+            (identical(other.kind, kind) || other.kind == kind) &&
+            (identical(other.userId, userId) || other.userId == userId) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.agency, agency) || other.agency == agency) &&
+            (identical(other.percent, percent) || other.percent == percent) &&
+            (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.active, active) || other.active == active));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, kind, userId, name, agency, percent, amount, active);
+
+  /// Create a copy of CommissionShare
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CommissionShareImplCopyWith<_$CommissionShareImpl> get copyWith =>
+      __$$CommissionShareImplCopyWithImpl<_$CommissionShareImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CommissionShareImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _CommissionShare implements CommissionShare {
+  const factory _CommissionShare(
+      {@JsonKey(unknownEnumValue: CommissionPartyKind.CO_BROKER)
+      final CommissionPartyKind kind,
+      final int? userId,
+      final String? name,
+      final String? agency,
+      final double percent,
+      final double? amount,
+      final bool active}) = _$CommissionShareImpl;
+
+  factory _CommissionShare.fromJson(Map<String, dynamic> json) =
+      _$CommissionShareImpl.fromJson;
+
+  @override
+  @JsonKey(unknownEnumValue: CommissionPartyKind.CO_BROKER)
+  CommissionPartyKind get kind;
+  @override
+  int? get userId;
+  @override
+  String? get name;
+  @override
+  String? get agency;
+  @override
+  double get percent;
+  @override
+  double? get amount;
+  @override
+  bool get active;
+
+  /// Create a copy of CommissionShare
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$CommissionShareImplCopyWith<_$CommissionShareImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+CommissionColleague _$CommissionColleagueFromJson(Map<String, dynamic> json) {
+  return _CommissionColleague.fromJson(json);
+}
+
+/// @nodoc
+mixin _$CommissionColleague {
+  int get id => throw _privateConstructorUsedError;
+  String get fullName => throw _privateConstructorUsedError;
+
+  /// Serializes this CommissionColleague to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of CommissionColleague
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $CommissionColleagueCopyWith<CommissionColleague> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CommissionColleagueCopyWith<$Res> {
+  factory $CommissionColleagueCopyWith(
+          CommissionColleague value, $Res Function(CommissionColleague) then) =
+      _$CommissionColleagueCopyWithImpl<$Res, CommissionColleague>;
+  @useResult
+  $Res call({int id, String fullName});
+}
+
+/// @nodoc
+class _$CommissionColleagueCopyWithImpl<$Res, $Val extends CommissionColleague>
+    implements $CommissionColleagueCopyWith<$Res> {
+  _$CommissionColleagueCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of CommissionColleague
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? fullName = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      fullName: null == fullName
+          ? _value.fullName
+          : fullName // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$CommissionColleagueImplCopyWith<$Res>
+    implements $CommissionColleagueCopyWith<$Res> {
+  factory _$$CommissionColleagueImplCopyWith(_$CommissionColleagueImpl value,
+          $Res Function(_$CommissionColleagueImpl) then) =
+      __$$CommissionColleagueImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({int id, String fullName});
+}
+
+/// @nodoc
+class __$$CommissionColleagueImplCopyWithImpl<$Res>
+    extends _$CommissionColleagueCopyWithImpl<$Res, _$CommissionColleagueImpl>
+    implements _$$CommissionColleagueImplCopyWith<$Res> {
+  __$$CommissionColleagueImplCopyWithImpl(_$CommissionColleagueImpl _value,
+      $Res Function(_$CommissionColleagueImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of CommissionColleague
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? fullName = null,
+  }) {
+    return _then(_$CommissionColleagueImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int,
+      fullName: null == fullName
+          ? _value.fullName
+          : fullName // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$CommissionColleagueImpl implements _CommissionColleague {
+  const _$CommissionColleagueImpl({required this.id, this.fullName = ''});
+
+  factory _$CommissionColleagueImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CommissionColleagueImplFromJson(json);
+
+  @override
+  final int id;
+  @override
+  @JsonKey()
+  final String fullName;
+
+  @override
+  String toString() {
+    return 'CommissionColleague(id: $id, fullName: $fullName)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CommissionColleagueImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.fullName, fullName) ||
+                other.fullName == fullName));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, fullName);
+
+  /// Create a copy of CommissionColleague
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CommissionColleagueImplCopyWith<_$CommissionColleagueImpl> get copyWith =>
+      __$$CommissionColleagueImplCopyWithImpl<_$CommissionColleagueImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CommissionColleagueImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _CommissionColleague implements CommissionColleague {
+  const factory _CommissionColleague(
+      {required final int id,
+      final String fullName}) = _$CommissionColleagueImpl;
+
+  factory _CommissionColleague.fromJson(Map<String, dynamic> json) =
+      _$CommissionColleagueImpl.fromJson;
+
+  @override
+  int get id;
+  @override
+  String get fullName;
+
+  /// Create a copy of CommissionColleague
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$CommissionColleagueImplCopyWith<_$CommissionColleagueImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+CommissionSplit _$CommissionSplitFromJson(Map<String, dynamic> json) {
+  return _CommissionSplit.fromJson(json);
+}
+
+/// @nodoc
+mixin _$CommissionSplit {
+  int get dealId => throw _privateConstructorUsedError;
+  double? get commission => throw _privateConstructorUsedError;
+  bool get split => throw _privateConstructorUsedError;
+  bool get editable => throw _privateConstructorUsedError;
+  List<CommissionShare> get shares => throw _privateConstructorUsedError;
+  List<CommissionColleague> get colleagues =>
+      throw _privateConstructorUsedError;
+
+  /// Serializes this CommissionSplit to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of CommissionSplit
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $CommissionSplitCopyWith<CommissionSplit> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CommissionSplitCopyWith<$Res> {
+  factory $CommissionSplitCopyWith(
+          CommissionSplit value, $Res Function(CommissionSplit) then) =
+      _$CommissionSplitCopyWithImpl<$Res, CommissionSplit>;
+  @useResult
+  $Res call(
+      {int dealId,
+      double? commission,
+      bool split,
+      bool editable,
+      List<CommissionShare> shares,
+      List<CommissionColleague> colleagues});
+}
+
+/// @nodoc
+class _$CommissionSplitCopyWithImpl<$Res, $Val extends CommissionSplit>
+    implements $CommissionSplitCopyWith<$Res> {
+  _$CommissionSplitCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of CommissionSplit
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? dealId = null,
+    Object? commission = freezed,
+    Object? split = null,
+    Object? editable = null,
+    Object? shares = null,
+    Object? colleagues = null,
+  }) {
+    return _then(_value.copyWith(
+      dealId: null == dealId
+          ? _value.dealId
+          : dealId // ignore: cast_nullable_to_non_nullable
+              as int,
+      commission: freezed == commission
+          ? _value.commission
+          : commission // ignore: cast_nullable_to_non_nullable
+              as double?,
+      split: null == split
+          ? _value.split
+          : split // ignore: cast_nullable_to_non_nullable
+              as bool,
+      editable: null == editable
+          ? _value.editable
+          : editable // ignore: cast_nullable_to_non_nullable
+              as bool,
+      shares: null == shares
+          ? _value.shares
+          : shares // ignore: cast_nullable_to_non_nullable
+              as List<CommissionShare>,
+      colleagues: null == colleagues
+          ? _value.colleagues
+          : colleagues // ignore: cast_nullable_to_non_nullable
+              as List<CommissionColleague>,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$CommissionSplitImplCopyWith<$Res>
+    implements $CommissionSplitCopyWith<$Res> {
+  factory _$$CommissionSplitImplCopyWith(_$CommissionSplitImpl value,
+          $Res Function(_$CommissionSplitImpl) then) =
+      __$$CommissionSplitImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int dealId,
+      double? commission,
+      bool split,
+      bool editable,
+      List<CommissionShare> shares,
+      List<CommissionColleague> colleagues});
+}
+
+/// @nodoc
+class __$$CommissionSplitImplCopyWithImpl<$Res>
+    extends _$CommissionSplitCopyWithImpl<$Res, _$CommissionSplitImpl>
+    implements _$$CommissionSplitImplCopyWith<$Res> {
+  __$$CommissionSplitImplCopyWithImpl(
+      _$CommissionSplitImpl _value, $Res Function(_$CommissionSplitImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of CommissionSplit
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? dealId = null,
+    Object? commission = freezed,
+    Object? split = null,
+    Object? editable = null,
+    Object? shares = null,
+    Object? colleagues = null,
+  }) {
+    return _then(_$CommissionSplitImpl(
+      dealId: null == dealId
+          ? _value.dealId
+          : dealId // ignore: cast_nullable_to_non_nullable
+              as int,
+      commission: freezed == commission
+          ? _value.commission
+          : commission // ignore: cast_nullable_to_non_nullable
+              as double?,
+      split: null == split
+          ? _value.split
+          : split // ignore: cast_nullable_to_non_nullable
+              as bool,
+      editable: null == editable
+          ? _value.editable
+          : editable // ignore: cast_nullable_to_non_nullable
+              as bool,
+      shares: null == shares
+          ? _value._shares
+          : shares // ignore: cast_nullable_to_non_nullable
+              as List<CommissionShare>,
+      colleagues: null == colleagues
+          ? _value._colleagues
+          : colleagues // ignore: cast_nullable_to_non_nullable
+              as List<CommissionColleague>,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$CommissionSplitImpl implements _CommissionSplit {
+  const _$CommissionSplitImpl(
+      {required this.dealId,
+      this.commission,
+      this.split = false,
+      this.editable = false,
+      final List<CommissionShare> shares = const <CommissionShare>[],
+      final List<CommissionColleague> colleagues =
+          const <CommissionColleague>[]})
+      : _shares = shares,
+        _colleagues = colleagues;
+
+  factory _$CommissionSplitImpl.fromJson(Map<String, dynamic> json) =>
+      _$$CommissionSplitImplFromJson(json);
+
+  @override
+  final int dealId;
+  @override
+  final double? commission;
+  @override
+  @JsonKey()
+  final bool split;
+  @override
+  @JsonKey()
+  final bool editable;
+  final List<CommissionShare> _shares;
+  @override
+  @JsonKey()
+  List<CommissionShare> get shares {
+    if (_shares is EqualUnmodifiableListView) return _shares;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_shares);
+  }
+
+  final List<CommissionColleague> _colleagues;
+  @override
+  @JsonKey()
+  List<CommissionColleague> get colleagues {
+    if (_colleagues is EqualUnmodifiableListView) return _colleagues;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_colleagues);
+  }
+
+  @override
+  String toString() {
+    return 'CommissionSplit(dealId: $dealId, commission: $commission, split: $split, editable: $editable, shares: $shares, colleagues: $colleagues)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$CommissionSplitImpl &&
+            (identical(other.dealId, dealId) || other.dealId == dealId) &&
+            (identical(other.commission, commission) ||
+                other.commission == commission) &&
+            (identical(other.split, split) || other.split == split) &&
+            (identical(other.editable, editable) ||
+                other.editable == editable) &&
+            const DeepCollectionEquality().equals(other._shares, _shares) &&
+            const DeepCollectionEquality()
+                .equals(other._colleagues, _colleagues));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      dealId,
+      commission,
+      split,
+      editable,
+      const DeepCollectionEquality().hash(_shares),
+      const DeepCollectionEquality().hash(_colleagues));
+
+  /// Create a copy of CommissionSplit
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$CommissionSplitImplCopyWith<_$CommissionSplitImpl> get copyWith =>
+      __$$CommissionSplitImplCopyWithImpl<_$CommissionSplitImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$CommissionSplitImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _CommissionSplit implements CommissionSplit {
+  const factory _CommissionSplit(
+      {required final int dealId,
+      final double? commission,
+      final bool split,
+      final bool editable,
+      final List<CommissionShare> shares,
+      final List<CommissionColleague> colleagues}) = _$CommissionSplitImpl;
+
+  factory _CommissionSplit.fromJson(Map<String, dynamic> json) =
+      _$CommissionSplitImpl.fromJson;
+
+  @override
+  int get dealId;
+  @override
+  double? get commission;
+  @override
+  bool get split;
+  @override
+  bool get editable;
+  @override
+  List<CommissionShare> get shares;
+  @override
+  List<CommissionColleague> get colleagues;
+
+  /// Create a copy of CommissionSplit
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$CommissionSplitImplCopyWith<_$CommissionSplitImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 LeaseEnding _$LeaseEndingFromJson(Map<String, dynamic> json) {
   return _LeaseEnding.fromJson(json);
 }

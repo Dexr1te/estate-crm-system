@@ -50,7 +50,8 @@ final class ExportLabels {
             Map.entry("dealCreated", new String[]{"Created", "Создана", "Құрылған"}),
             Map.entry("closed", new String[]{"Closed", "Закрыта", "Жабылған"}),
             Map.entry("lostReason", new String[]{"Lost reason", "Причина проигрыша", "Жоғалту себебі"}),
-            Map.entry("lostNote", new String[]{"Lost note", "Комментарий к проигрышу", "Жоғалту түсініктемесі"}));
+            Map.entry("lostNote", new String[]{"Lost note", "Комментарий к проигрышу", "Жоғалту түсініктемесі"}),
+            Map.entry("commissionSplit", new String[]{"Commission split", "Сплит комиссии", "Комиссияны бөлу"}));
 
     static String heading(String key, int language) {
         return HEADINGS.get(key)[language];

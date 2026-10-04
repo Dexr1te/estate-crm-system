@@ -6,6 +6,7 @@ import com.crm.realestate.entity.Property;
 import com.crm.realestate.entity.User;
 import com.crm.realestate.service.ClientBirthday;
 import com.crm.realestate.service.ClientTagService;
+import com.crm.realestate.service.CommissionSplitStore;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -33,6 +34,7 @@ class ExportColumns {
 
     private final EntityManager entityManager;
     private final ClientTagService tagService;
+    private final CommissionSplitStore splitStore;
 
     List<String> headings(ExportKind kind, int lang) {
         return switch (kind) {
@@ -49,7 +51,7 @@ class ExportColumns {
                     Stream.of("agent", "created", "linkViews").map(k -> heading(k, lang))).toList();
             case DEALS -> Stream.of("dealTitle", "dealStatus", "client", "listing", "dealPrice",
                     "budget", "commissionPercent", "commission", "agent", "dealCreated", "closed",
-                    "lostReason", "lostNote").map(k -> heading(k, lang)).toList();
+                    "lostReason", "lostNote", "commissionSplit").map(k -> heading(k, lang)).toList();
         };
     }
 
@@ -80,7 +82,12 @@ class ExportColumns {
                 whole(views.getOrDefault(p.getId(), 0L)));
     }
 
-    List<String> deal(Deal d, CsvWriter csv, int lang) {
+    /**
+     * A deal's row. The commission is the deal's whole; the agent column names who holds the deal,
+     * and the last column, when the commission is split, who gets what share of it — "Aigul Bekova
+     * 60%, Ivan Petrov (Etazhi) 40%" — empty when it is all the agent's.
+     */
+    List<String> deal(Deal d, Map<Long, String> splits, CsvWriter csv, int lang) {
         BigDecimal base = com.crm.realestate.service.DealMoney.commissionBase(d);
         BigDecimal commission = base == null || d.getCommissionPercent() == null ? null
                 : base.multiply(d.getCommissionPercent()).divide(ONE_HUNDRED, 2, RoundingMode.HALF_UP);
@@ -90,7 +97,12 @@ class ExportColumns {
                 csv.decimal(d.getDealPrice()), csv.decimal(d.getBudget()),
                 csv.decimal(d.getCommissionPercent()), csv.decimal(commission), name(d.getAgent()),
                 date(d.getCreatedAt()), date(d.getClosedAt()), value(d.getLostReason(), lang),
-                d.getLostNote());
+                d.getLostNote(), splits.get(d.getId()));
+    }
+
+    /** Each split deal's shares in a line: one query a page. */
+    Map<Long, String> splits(List<Deal> page) {
+        return splitStore.describe(page);
     }
 
     /** How often each listing's public pages were opened, summed over all its links: one query. */

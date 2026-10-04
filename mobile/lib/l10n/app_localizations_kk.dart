@@ -6051,4 +6051,118 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get handoverLoadFailed => 'Команданы жүктеу мүмкін болмады';
+
+  @override
+  String get splitsTitle => 'Комиссияны бөлу';
+
+  @override
+  String get splitsSheetSubtitle => 'Комиссия үлестері, барлығы 100%';
+
+  @override
+  String get splitsNotSplit => 'Бөлінбеген';
+
+  @override
+  String splitsAllToAgent(String name) {
+    return 'Комиссияның бәрі $name алады.';
+  }
+
+  @override
+  String get splitsDealAgent => 'Мәміле агенті';
+
+  @override
+  String get splitsColleague => 'Әріптес';
+
+  @override
+  String get splitsCoBroker => 'Сыртқы агент';
+
+  @override
+  String splitsCoBrokerFrom(String agency) {
+    return 'Сыртқы агент, $agency';
+  }
+
+  @override
+  String get splitsInactive => 'Енді жұмыс істемейді';
+
+  @override
+  String splitsPercent(String value) {
+    return '$value%';
+  }
+
+  @override
+  String get splitsAmountUnknown =>
+      'Баға мен мөлшерлеме көрсетілгенде сомалар шығады';
+
+  @override
+  String get splitsAdd => 'Комиссияны бөлу';
+
+  @override
+  String get splitsEdit => 'Бөлуді өзгерту';
+
+  @override
+  String get splitsClear => 'Бәрін агентке қайтару';
+
+  @override
+  String get splitsLoadFailed => 'Комиссияны бөлуді жүктеу мүмкін болмады';
+
+  @override
+  String get splitsAddColleague => 'Әріптес қосу';
+
+  @override
+  String get splitsAddCoBroker => 'Сыртқы агент қосу';
+
+  @override
+  String get splitsCoBrokerName => 'Сыртқы агенттің аты';
+
+  @override
+  String get splitsCoBrokerNameHint => 'Иван Петров';
+
+  @override
+  String get splitsCoBrokerAgency => 'Агенттігі';
+
+  @override
+  String get splitsCoBrokerAgencyHint => 'Міндетті емес';
+
+  @override
+  String get splitsCoBrokerNameMissing => 'Сыртқы агенттің атын жазыңыз';
+
+  @override
+  String get splitsShare => 'Үлесі, %';
+
+  @override
+  String get splitsRemove => 'Алып тастау';
+
+  @override
+  String splitsTotal(String value) {
+    return 'Барлығы $value%';
+  }
+
+  @override
+  String get splitsTotalMustBe100 => 'Үлестердің қосындысы 100% болуы керек';
+
+  @override
+  String get splitsPercentInvalid =>
+      'Үлес 0-ден көп және 100-ден аспайды, үтірден кейін екі таңбаға дейін';
+
+  @override
+  String get splitsBalance => 'Қалғаны — мәміле агентіне';
+
+  @override
+  String get splitsPickColleague => 'Әріптесті таңдаңыз';
+
+  @override
+  String get splitsSearchColleague => 'Аты бойынша іздеу';
+
+  @override
+  String get splitsNoColleagues => 'Агенттікте қосатын басқа ешкім жоқ';
+
+  @override
+  String get splitsTooMany => 'Бір комиссияны 10 адамнан артық бөлмейді';
+
+  @override
+  String get splitsColleagueInactive =>
+      'Үлесті тек агенттіктің белсенді қызметкеріне беруге болады';
+
+  @override
+  String get splitsShareNote =>
+      'Бөлінген мәміле комиссиясы әркімге өз үлесімен есептеледі; сыртқы агенттің үлесі агенттік сомасына кірмейді.';
 }

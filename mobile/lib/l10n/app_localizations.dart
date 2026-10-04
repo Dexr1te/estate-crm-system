@@ -10348,6 +10348,210 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Could not load the team'**
   String get handoverLoadFailed;
+
+  /// No description provided for @splitsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Commission split'**
+  String get splitsTitle;
+
+  /// No description provided for @splitsSheetSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Shares of the commission, adding up to 100%'**
+  String get splitsSheetSubtitle;
+
+  /// No description provided for @splitsNotSplit.
+  ///
+  /// In en, this message translates to:
+  /// **'Not split'**
+  String get splitsNotSplit;
+
+  /// No description provided for @splitsAllToAgent.
+  ///
+  /// In en, this message translates to:
+  /// **'All of it goes to {name}.'**
+  String splitsAllToAgent(String name);
+
+  /// No description provided for @splitsDealAgent.
+  ///
+  /// In en, this message translates to:
+  /// **'Deal agent'**
+  String get splitsDealAgent;
+
+  /// No description provided for @splitsColleague.
+  ///
+  /// In en, this message translates to:
+  /// **'Colleague'**
+  String get splitsColleague;
+
+  /// No description provided for @splitsCoBroker.
+  ///
+  /// In en, this message translates to:
+  /// **'Co-broker'**
+  String get splitsCoBroker;
+
+  /// No description provided for @splitsCoBrokerFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'Co-broker, {agency}'**
+  String splitsCoBrokerFrom(String agency);
+
+  /// No description provided for @splitsInactive.
+  ///
+  /// In en, this message translates to:
+  /// **'No longer active'**
+  String get splitsInactive;
+
+  /// No description provided for @splitsPercent.
+  ///
+  /// In en, this message translates to:
+  /// **'{value}%'**
+  String splitsPercent(String value);
+
+  /// No description provided for @splitsAmountUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Amounts show once the price and the rate are set'**
+  String get splitsAmountUnknown;
+
+  /// No description provided for @splitsAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Split the commission'**
+  String get splitsAdd;
+
+  /// No description provided for @splitsEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit the split'**
+  String get splitsEdit;
+
+  /// No description provided for @splitsClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Give it all to the agent'**
+  String get splitsClear;
+
+  /// No description provided for @splitsLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load the commission split'**
+  String get splitsLoadFailed;
+
+  /// No description provided for @splitsAddColleague.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a colleague'**
+  String get splitsAddColleague;
+
+  /// No description provided for @splitsAddCoBroker.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a co-broker'**
+  String get splitsAddCoBroker;
+
+  /// No description provided for @splitsCoBrokerName.
+  ///
+  /// In en, this message translates to:
+  /// **'Co-broker\'s name'**
+  String get splitsCoBrokerName;
+
+  /// No description provided for @splitsCoBrokerNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Ivan Petrov'**
+  String get splitsCoBrokerNameHint;
+
+  /// No description provided for @splitsCoBrokerAgency.
+  ///
+  /// In en, this message translates to:
+  /// **'Their agency'**
+  String get splitsCoBrokerAgency;
+
+  /// No description provided for @splitsCoBrokerAgencyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional'**
+  String get splitsCoBrokerAgencyHint;
+
+  /// No description provided for @splitsCoBrokerNameMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'Name the co-broker'**
+  String get splitsCoBrokerNameMissing;
+
+  /// No description provided for @splitsShare.
+  ///
+  /// In en, this message translates to:
+  /// **'Share, %'**
+  String get splitsShare;
+
+  /// No description provided for @splitsRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get splitsRemove;
+
+  /// No description provided for @splitsTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Total {value}%'**
+  String splitsTotal(String value);
+
+  /// No description provided for @splitsTotalMustBe100.
+  ///
+  /// In en, this message translates to:
+  /// **'The shares have to add up to 100%'**
+  String get splitsTotalMustBe100;
+
+  /// No description provided for @splitsPercentInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'A share is above 0 and at most 100, with up to two decimals'**
+  String get splitsPercentInvalid;
+
+  /// No description provided for @splitsBalance.
+  ///
+  /// In en, this message translates to:
+  /// **'Give the rest to the deal agent'**
+  String get splitsBalance;
+
+  /// No description provided for @splitsPickColleague.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a colleague'**
+  String get splitsPickColleague;
+
+  /// No description provided for @splitsSearchColleague.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by name'**
+  String get splitsSearchColleague;
+
+  /// No description provided for @splitsNoColleagues.
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody else in the agency to add'**
+  String get splitsNoColleagues;
+
+  /// No description provided for @splitsTooMany.
+  ///
+  /// In en, this message translates to:
+  /// **'At most 10 people share one commission'**
+  String get splitsTooMany;
+
+  /// No description provided for @splitsColleagueInactive.
+  ///
+  /// In en, this message translates to:
+  /// **'Only active members of the agency can be given a share'**
+  String get splitsColleagueInactive;
+
+  /// No description provided for @splitsShareNote.
+  ///
+  /// In en, this message translates to:
+  /// **'A split deal\'s commission counts for each person by their share; a co-broker\'s share is not the agency\'s.'**
+  String get splitsShareNote;
 }
 
 class _AppLocalizationsDelegate
