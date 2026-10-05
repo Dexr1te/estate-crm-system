@@ -3,6 +3,8 @@ package com.crm.realestate.entity;
 import com.crm.realestate.enums.RepeatFrequency;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -30,6 +32,7 @@ public class TaskSeries {
 
     /** WEEKLY only: a bit per day, Monday = 1 ... Sunday = 64. */
     @Column(name = "weekdays")
+    @JdbcTypeCode(SqlTypes.SMALLINT)
     private Integer weekdays;
 
     @Column(name = "anchor_at", nullable = false)
