@@ -165,7 +165,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
               child: AppMetrics.constrain(
                 SingleChildScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),
-                  padding: EdgeInsets.fromLTRB(pad, 6, pad, 24),
+                  padding: EdgeInsets.fromLTRB(
+                      pad, 6, pad, 24 + AppMetrics.navClearance(context)),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

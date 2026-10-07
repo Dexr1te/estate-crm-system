@@ -308,10 +308,12 @@ class _MyAppState extends State<MyApp> {
                   child: AppLockGate(
                     controller: _lock,
                     child: MoneyScope(
-                      child: OfflineBanner(
-                        status: Injector.apiClient.offline,
-                        onRetry: _retryOffline,
-                        child: child ?? const SizedBox.shrink(),
+                      child: AppBackdrop(
+                        child: OfflineBanner(
+                          status: Injector.apiClient.offline,
+                          onRetry: _retryOffline,
+                          child: child ?? const SizedBox.shrink(),
+                        ),
                       ),
                     ),
                   ),

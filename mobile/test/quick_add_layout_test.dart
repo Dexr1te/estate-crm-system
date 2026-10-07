@@ -76,7 +76,8 @@ void main() {
     for (final locale in kAcceptanceLocales) {
       await expectNoOverflow(tester, _headers(),
           size: size, brightness: brightness, textScale: scale, locale: locale);
-      final tile = tester.getSize(find.byType(AppIconTile));
+      final tile = tester.getSize(find.descendant(
+          of: find.byType(QuickAddButton), matching: find.byType(AppIconTile)));
       expect(tile.width, greaterThanOrEqualTo(AppMetrics.minHitTarget));
       expect(tester.getSize(find.byType(AppHeaderAction)).height,
           greaterThanOrEqualTo(AppMetrics.minHitTarget));

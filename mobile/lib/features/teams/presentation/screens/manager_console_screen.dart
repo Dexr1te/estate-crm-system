@@ -236,7 +236,8 @@ class _ManagerConsoleScreenState extends State<ManagerConsoleScreen> {
                               state is MyTeamInitial) {
                             return ShimmerList(
                               count: 3,
-                              padding: EdgeInsets.fromLTRB(pad, 0, pad, 24),
+                              padding: EdgeInsets.fromLTRB(pad, 0, pad,
+                                  24 + AppMetrics.navClearance(context)),
                               cardBuilder: () => const MemberCardBone(),
                             );
                           }
@@ -282,7 +283,7 @@ class _ManagerConsoleScreenState extends State<ManagerConsoleScreen> {
                     ),
                     Padding(
                       padding: EdgeInsets.fromLTRB(
-                          pad, 0, pad, 16 + AppMetrics.bottomInset(context)),
+                          pad, 0, pad, 16 + AppMetrics.navClearance(context)),
                       child: AppFilledButton(
                         label: l10n.teamsAddAgent,
                         onPressed: () => _addMember(context, bloc),

@@ -86,12 +86,11 @@ class _SearchViewState extends State<_SearchView> {
 
   @override
   Widget build(BuildContext context) {
-    final t = context.tokens;
     final l10n = AppLocalizations.of(context);
     final pad = AppMetrics.pagePadding(context);
 
     return Scaffold(
-      backgroundColor: t.background,
+      backgroundColor: Colors.transparent,
       body: Column(
         children: [
           _SearchBar(
@@ -255,48 +254,42 @@ class _SearchBar extends StatelessWidget {
     final t = context.tokens;
     final l10n = AppLocalizations.of(context);
 
-    return Container(
-      decoration: BoxDecoration(
-        color: t.surface,
-        border: Border(
-            bottom: BorderSide(color: t.border, width: AppMetrics.borderWidth)),
-      ),
-      child: SafeArea(
-        bottom: false,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(4, 6, 12, 10),
-          child: Row(
-            children: [
-              IconButton(
-                onPressed: () =>
-                    context.canPop() ? context.pop() : context.go('/dashboard'),
-                icon: Icon(Icons.arrow_back_ios_new_rounded,
-                    size: 18, color: t.textPrimary),
-                tooltip: MaterialLocalizations.of(context).backButtonTooltip,
+    return SafeArea(
+      bottom: false,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(6, 6, 12, 10),
+        child: Row(
+          children: [
+            AppIconTile(
+              icon: Icons.arrow_back_ios_new_rounded,
+              strong: true,
+              onPressed: () =>
+                  context.canPop() ? context.pop() : context.go('/dashboard'),
+              tooltip: MaterialLocalizations.of(context).backButtonTooltip,
+            ),
+            const SizedBox(width: 6),
+            Expanded(
+              child: AppTextField(
+                controller: controller,
+                autofocus: true,
+                skin: FieldSkin.page,
+                hint: l10n.searchHint,
+                icon: Icons.search_rounded,
+                textInputAction: TextInputAction.search,
+                onChanged: onChanged,
+                onSubmitted: onSubmitted,
+                suffix: onClear == null
+                    ? null
+                    : IconButton(
+                        onPressed: onClear,
+                        splashRadius: 20,
+                        tooltip: l10n.searchClear,
+                        icon: Icon(Icons.close_rounded,
+                            size: 18, color: t.textSecondary),
+                      ),
               ),
-              Expanded(
-                child: AppTextField(
-                  controller: controller,
-                  autofocus: true,
-                  skin: FieldSkin.page,
-                  hint: l10n.searchHint,
-                  icon: Icons.search_rounded,
-                  textInputAction: TextInputAction.search,
-                  onChanged: onChanged,
-                  onSubmitted: onSubmitted,
-                  suffix: onClear == null
-                      ? null
-                      : IconButton(
-                          onPressed: onClear,
-                          splashRadius: 20,
-                          tooltip: l10n.searchClear,
-                          icon: Icon(Icons.close_rounded,
-                              size: 18, color: t.textSecondary),
-                        ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

@@ -270,29 +270,35 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
   Widget _compareBar(AppLocalizations l10n, double pad) {
     final t = context.tokens;
     final picked = _picked!;
-    return Container(
+    return Padding(
       key: const ValueKey('compare-bar'),
-      decoration: BoxDecoration(
-        color: t.surface,
-        border: Border(top: BorderSide(color: t.border, width: 1)),
+      padding: EdgeInsets.fromLTRB(
+          pad, 8, pad, 8 + AppMetrics.navClearance(context)),
+      child: GlassSurface(
+        blur: AppMetrics.glassBlur,
+        fill: t.glassFillStrong,
+        borderRadius: BorderRadius.circular(AppMetrics.radiusLg),
+        shadow: GlassShadow.floating,
+        child: Padding(
+          padding: const EdgeInsets.all(10),
+          child: picked.length < 2
+              ? Text(
+                  l10n.comparePickHint,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontFamily: AppFonts.sans,
+                      fontSize: 12.5,
+                      color: t.textSecondary),
+                )
+              : AppFilledButton(
+                  key: const ValueKey('compare-open'),
+                  label: l10n.compareBarButton(picked.length),
+                  onPressed: () => context.push(compareLocation(picked)),
+                ),
+        ),
       ),
-      padding: EdgeInsets.fromLTRB(pad, 10, pad, 10),
-      child: picked.length < 2
-          ? Text(
-              l10n.comparePickHint,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  fontFamily: AppFonts.sans,
-                  fontSize: 12.5,
-                  color: t.textSecondary),
-            )
-          : AppFilledButton(
-              key: const ValueKey('compare-open'),
-              label: l10n.compareBarButton(picked.length),
-              onPressed: () => context.push(compareLocation(picked)),
-            ),
     );
   }
 
@@ -301,7 +307,8 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
     if (state is PropertiesLoading || state is PropertiesInitial) {
       return ShimmerList(
         count: 4,
-        padding: EdgeInsets.fromLTRB(pad, 0, pad, 24),
+        padding:
+            EdgeInsets.fromLTRB(pad, 0, pad, 24 + AppMetrics.navClearance(ctx)),
         cardBuilder: () => const PropertyCardBone(),
       );
     }
@@ -328,7 +335,8 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
       color: ctx.tokens.primary,
       child: ListView.separated(
         controller: _scrollCtrl,
-        padding: EdgeInsets.fromLTRB(pad, 0, pad, 24),
+        padding:
+            EdgeInsets.fromLTRB(pad, 0, pad, 24 + AppMetrics.navClearance(ctx)),
         itemCount: items.length + (loadingMore ? 1 : 0),
         separatorBuilder: (_, __) => const SizedBox(height: 9),
         itemBuilder: (_, i) {

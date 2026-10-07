@@ -62,7 +62,7 @@ class DetailScaffold extends StatelessWidget {
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      backgroundColor: t.background,
+      backgroundColor: Colors.transparent,
       body: Column(
         children: [
           DetailAppBar(
@@ -96,68 +96,62 @@ class DetailAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = context.tokens;
 
-    return Container(
-      decoration: BoxDecoration(
-        color: t.surface,
-        border: Border(
-            bottom: BorderSide(color: t.border, width: AppMetrics.borderWidth)),
-      ),
-      child: SafeArea(
-        bottom: false,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(6, 6, 12, 8),
-          child: Row(
-            children: [
-              IconButton(
-                onPressed: onBack ??
-                    () => context.canPop() ? context.pop() : context.go('/'),
-                icon: Icon(Icons.arrow_back_ios_new_rounded,
-                    size: 18, color: t.textPrimary),
-                tooltip: MaterialLocalizations.of(context).backButtonTooltip,
-              ),
-              Expanded(
-                child: LayoutBuilder(builder: (context, constraints) {
-                  final titleText = Text(
-                    title,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        fontFamily: AppFonts.sans,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: t.textPrimary),
+    return SafeArea(
+      bottom: false,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(6, 6, 12, 8),
+        child: Row(
+          children: [
+            AppIconTile(
+              icon: Icons.arrow_back_ios_new_rounded,
+              strong: true,
+              onPressed: onBack ??
+                  () => context.canPop() ? context.pop() : context.go('/'),
+              tooltip: MaterialLocalizations.of(context).backButtonTooltip,
+            ),
+            const SizedBox(width: 6),
+            Expanded(
+              child: LayoutBuilder(builder: (context, constraints) {
+                final titleText = Text(
+                  title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      fontFamily: AppFonts.sans,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: t.textPrimary),
+                );
+                final label = trailingLabel;
+                if (label == null) return titleText;
+                final labelText = Text(
+                  label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: _trailingStyle.copyWith(color: t.textSecondary),
+                );
+                // A counter like kk "2 қадамнан 1-і" at large text can be
+                // wider than the room the title leaves it. Past 40% of the
+                // row it goes under the title rather than off the edge.
+                final below =
+                    singleLineTextWidth(context, label, _trailingStyle) >
+                        constraints.maxWidth * 0.4;
+                if (below) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [titleText, labelText],
                   );
-                  final label = trailingLabel;
-                  if (label == null) return titleText;
-                  final labelText = Text(
-                    label,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: _trailingStyle.copyWith(color: t.textSecondary),
-                  );
-                  // A counter like kk "2 қадамнан 1-і" at large text can be
-                  // wider than the room the title leaves it. Past 40% of the
-                  // row it goes under the title rather than off the edge.
-                  final below =
-                      singleLineTextWidth(context, label, _trailingStyle) >
-                          constraints.maxWidth * 0.4;
-                  if (below) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [titleText, labelText],
-                    );
-                  }
-                  return Row(children: [
-                    Expanded(child: titleText),
-                    const SizedBox(width: 8),
-                    labelText,
-                  ]);
-                }),
-              ),
-              for (final a in actions) ...[const SizedBox(width: 2), a],
-            ],
-          ),
+                }
+                return Row(children: [
+                  Expanded(child: titleText),
+                  const SizedBox(width: 8),
+                  labelText,
+                ]);
+              }),
+            ),
+            for (final a in actions) ...[const SizedBox(width: 2), a],
+          ],
         ),
       ),
     );

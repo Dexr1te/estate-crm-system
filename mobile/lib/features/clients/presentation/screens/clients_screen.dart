@@ -215,7 +215,8 @@ class _ClientsScreenState extends State<ClientsScreen> {
     if (state is ClientsLoading || state is ClientsInitial) {
       return ShimmerList(
         count: 5,
-        padding: EdgeInsets.fromLTRB(pad, 0, pad, 24),
+        padding:
+            EdgeInsets.fromLTRB(pad, 0, pad, 24 + AppMetrics.navClearance(ctx)),
         cardBuilder: () => const ClientCardBone(),
       );
     }
@@ -245,7 +246,8 @@ class _ClientsScreenState extends State<ClientsScreen> {
       onRefresh: () async => ctx.read<ClientsBloc>().add(ClientsLoadEvent()),
       color: ctx.tokens.primary,
       child: ListView.separated(
-        padding: EdgeInsets.fromLTRB(pad, 0, pad, 24),
+        padding:
+            EdgeInsets.fromLTRB(pad, 0, pad, 24 + AppMetrics.navClearance(ctx)),
         itemCount: visible.length,
         separatorBuilder: (_, __) => const SizedBox(height: 9),
         itemBuilder: (_, i) => ClientCard(

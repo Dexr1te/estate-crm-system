@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/theme/app_metrics.dart';
 import 'package:real_estate_crm/core/theme/app_tokens.dart';
+import 'package:real_estate_crm/core/widgets/glass.dart';
 
 class FilterPill extends StatelessWidget {
   final String label;
@@ -26,19 +27,20 @@ class FilterPill extends StatelessWidget {
     final t = context.tokens;
     final radius = BorderRadius.circular(AppMetrics.radiusPill);
 
-    return Material(
-      color: selected ? t.primary : (onCard ? t.surfaceVariant : t.surface),
+    return GlassSurface(
       borderRadius: radius,
-      child: InkWell(
-        borderRadius: radius,
-        onTap: onTap,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            borderRadius: radius,
-            border: selected || onCard
-                ? null
-                : Border.all(color: t.border, width: AppMetrics.borderWidth),
-          ),
+      fill: selected
+          ? t.primary.withValues(alpha: 0.9)
+          : (onCard ? t.surfaceVariant.withValues(alpha: 0.7) : null),
+      rim: selected ? Colors.white.withValues(alpha: 0.12) : null,
+      sheen: selected
+          ? Colors.white.withValues(alpha: t.isDark ? 0.16 : 0.1)
+          : null,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: radius,
+          onTap: onTap,
           child: Padding(
             padding: padding,
             child: Text(
@@ -108,45 +110,44 @@ class SegmentedTabs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.tokens;
-    return Container(
-      padding: const EdgeInsets.all(4),
-      decoration: BoxDecoration(
-        color: t.surfaceVariant,
-        borderRadius: BorderRadius.circular(AppMetrics.radiusSm),
-      ),
-      child: Row(
-        children: [
-          for (var i = 0; i < labels.length; i++)
-            Expanded(
-              child: Material(
-                color: i == selectedIndex ? t.surface : Colors.transparent,
-                borderRadius: BorderRadius.circular(9),
-                child: InkWell(
+    return GlassSurface(
+      borderRadius: BorderRadius.circular(AppMetrics.radiusSm + 2),
+      child: Padding(
+        padding: const EdgeInsets.all(4),
+        child: Row(
+          children: [
+            for (var i = 0; i < labels.length; i++)
+              Expanded(
+                child: Material(
+                  color: i == selectedIndex ? t.surface : Colors.transparent,
                   borderRadius: BorderRadius.circular(9),
-                  onTap: () => onSelected(i),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 9),
-                    child: Text(
-                      labels[i],
-                      textAlign: TextAlign.center,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontFamily: AppFonts.sans,
-                        fontSize: 12.5,
-                        fontWeight: i == selectedIndex
-                            ? FontWeight.w600
-                            : FontWeight.w500,
-                        color: i == selectedIndex
-                            ? t.textPrimary
-                            : t.textSecondary,
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(9),
+                    onTap: () => onSelected(i),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 9),
+                      child: Text(
+                        labels[i],
+                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontFamily: AppFonts.sans,
+                          fontSize: 12.5,
+                          fontWeight: i == selectedIndex
+                              ? FontWeight.w600
+                              : FontWeight.w500,
+                          color: i == selectedIndex
+                              ? t.textPrimary
+                              : t.textSecondary,
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -23,12 +23,26 @@ class AppMetrics {
 
   static const double navIconBox = 18;
 
+  static const double glassBlur = 22;
+  static const double glassBlurSheet = 30;
+
+  static const double navIslandInset = 14;
+  static const double navIslandMaxWidth = 520;
+
   static const double wideBreakpoint = 600;
   static const double wideMaxContentWidth = 560;
 
   static const double singleColumnBreakpoint = 340;
 
   static const double railBreakpoint = 900;
+
+  /// Room a scroll view or a bottom overlay leaves so it clears the floating
+  /// tab bar. The shell's Scaffold extends its body under the bar and reports
+  /// the bar's height as bottom padding; with no bar there it is zero.
+  static double navClearance(BuildContext c) {
+    final padding = MediaQuery.paddingOf(c).bottom;
+    return padding > MediaQuery.viewPaddingOf(c).bottom ? padding : 0;
+  }
 
   static double bottomInset(BuildContext c) {
     final v = MediaQuery.viewPaddingOf(c).bottom;

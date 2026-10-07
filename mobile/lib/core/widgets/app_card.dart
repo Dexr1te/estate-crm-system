@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/theme/app_metrics.dart';
 import 'package:real_estate_crm/core/theme/app_tokens.dart';
+import 'package:real_estate_crm/core/widgets/glass.dart';
 
 class AppCard extends StatelessWidget {
   final Widget child;
@@ -31,22 +32,32 @@ class AppCard extends StatelessWidget {
       child: child,
     );
 
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: nested ? t.surfaceVariant : t.surface,
-        borderRadius: shape,
-        border: nested && borderColor == null
-            ? null
-            : Border.all(
-                color: borderColor ?? t.border,
-                width: borderColor == null ? AppMetrics.borderWidth : 1.5),
-      ),
-      child: onTap == null
-          ? body
-          : Material(
-              color: Colors.transparent,
-              child: InkWell(borderRadius: shape, onTap: onTap, child: body),
-            ),
+    final content = onTap == null
+        ? body
+        : Material(
+            color: Colors.transparent,
+            child: InkWell(borderRadius: shape, onTap: onTap, child: body),
+          );
+
+    if (nested) {
+      return DecoratedBox(
+        decoration: BoxDecoration(
+          color: t.surfaceVariant,
+          borderRadius: shape,
+          border: borderColor == null
+              ? null
+              : Border.all(color: borderColor!, width: 1.5),
+        ),
+        child: content,
+      );
+    }
+
+    return GlassSurface(
+      borderRadius: shape,
+      rim: borderColor,
+      rimWidth: borderColor == null ? AppMetrics.borderWidth : 1.5,
+      shadow: GlassShadow.soft,
+      child: content,
     );
   }
 }
@@ -86,14 +97,12 @@ class AppHeroCard extends StatelessWidget {
       ],
     );
 
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: t.heroSurface,
-        borderRadius: shape,
-        border: t.heroBorder == null
-            ? null
-            : Border.all(color: t.heroBorder!, width: AppMetrics.borderWidth),
-      ),
+    return GlassSurface(
+      borderRadius: shape,
+      fill: t.heroGlass,
+      sheen: Colors.white.withValues(alpha: t.isDark ? 0.05 : 0.08),
+      rim: t.heroBorder,
+      shadow: GlassShadow.soft,
       child: ClipRRect(
         borderRadius: shape,
         child: onTap == null

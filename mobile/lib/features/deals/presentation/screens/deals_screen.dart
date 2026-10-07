@@ -265,7 +265,8 @@ class _DealsScreenState extends State<DealsScreen> {
       onRefresh: () async => ctx.read<DealsBloc>().add(DealsLoadEvent()),
       color: ctx.tokens.primary,
       child: ListView.separated(
-        padding: EdgeInsets.fromLTRB(pad, 0, pad, 24),
+        padding:
+            EdgeInsets.fromLTRB(pad, 0, pad, 24 + AppMetrics.navClearance(ctx)),
         itemCount: visible.length,
         separatorBuilder: (_, __) => const SizedBox(height: 9),
         itemBuilder: (_, i) => DealCard(
@@ -281,7 +282,8 @@ class _DealsScreenState extends State<DealsScreen> {
     if (state is DealsLoading || state is DealsInitial) {
       return ShimmerList(
         count: 4,
-        padding: EdgeInsets.fromLTRB(pad, 0, pad, 24),
+        padding:
+            EdgeInsets.fromLTRB(pad, 0, pad, 24 + AppMetrics.navClearance(ctx)),
         cardBuilder: () => const DealCardBone(),
       );
     }

@@ -31,18 +31,25 @@ class _CompareTrayBarState extends State<CompareTrayBar> {
       builder: (context, _) {
         if (tray.length < 2) return const SizedBox.shrink();
         final t = context.tokens;
-        return Container(
+        return Padding(
           key: const ValueKey('compare-tray-bar'),
-          decoration: BoxDecoration(
-            color: t.surface,
-            border: Border(top: BorderSide(color: t.border, width: 1)),
-          ),
-          padding: EdgeInsets.fromLTRB(widget.pad, 10, widget.pad, 10),
-          child: AppGhostButton(
-            key: const ValueKey('compare-tray-bar-open'),
-            label: AppLocalizations.of(context).compareBarButton(tray.length),
-            icon: Icons.compare_arrows_rounded,
-            onPressed: () => context.push(compareLocation(tray.ids)),
+          padding: EdgeInsets.fromLTRB(
+              widget.pad, 8, widget.pad, 8 + AppMetrics.navClearance(context)),
+          child: GlassSurface(
+            blur: AppMetrics.glassBlur,
+            fill: t.glassFillStrong,
+            borderRadius: BorderRadius.circular(AppMetrics.radiusLg),
+            shadow: GlassShadow.floating,
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: AppGhostButton(
+                key: const ValueKey('compare-tray-bar-open'),
+                label:
+                    AppLocalizations.of(context).compareBarButton(tray.length),
+                icon: Icons.compare_arrows_rounded,
+                onPressed: () => context.push(compareLocation(tray.ids)),
+              ),
+            ),
           ),
         );
       },

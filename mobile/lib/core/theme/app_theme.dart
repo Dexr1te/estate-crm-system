@@ -66,7 +66,7 @@ class AppTheme {
         onBackground: AppColors.textPrimary,
         onSurface: AppColors.textPrimary,
       ),
-      scaffoldBackgroundColor: AppColors.background,
+      scaffoldBackgroundColor: Colors.transparent,
       textTheme: const TextTheme(
         displayLarge:
             TextStyle(color: AppColors.textPrimary, fontFamily: AppFonts.sans),
@@ -181,6 +181,17 @@ class AppTheme {
           side: BorderSide.none),
       dividerTheme:
           const DividerThemeData(color: AppColors.border, thickness: 1),
+      snackBarTheme: SnackBarThemeData(
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: AppColors.primary.withValues(alpha: 0.9),
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18),
+          side: BorderSide(color: Colors.white.withValues(alpha: 0.14)),
+        ),
+        contentTextStyle:
+            const TextStyle(color: Colors.white, fontFamily: AppFonts.sans),
+      ),
       bottomSheetTheme: const BottomSheetThemeData(
         backgroundColor: AppColors.surface,
         modalBackgroundColor: AppColors.surface,
@@ -262,7 +273,7 @@ class AppThemeDark {
         onBackground: AppColors.darkTextPrimary,
         onSurface: AppColors.darkTextPrimary,
       ),
-      scaffoldBackgroundColor: AppColors.darkBackground,
+      scaffoldBackgroundColor: Colors.transparent,
       textTheme: const TextTheme(
         displayLarge: TextStyle(
             color: AppColors.darkTextPrimary, fontFamily: AppFonts.sans),
@@ -459,9 +470,15 @@ class AppThemeDark {
                 ? AppColors.darkPrimary.withAlpha(102)
                 : AppColors.darkBorder),
       ),
-      snackBarTheme: const SnackBarThemeData(
-        backgroundColor: AppColors.darkSurface,
-        contentTextStyle: TextStyle(
+      snackBarTheme: SnackBarThemeData(
+        behavior: SnackBarBehavior.floating,
+        backgroundColor: AppColors.darkSurfaceVariant.withValues(alpha: 0.92),
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18),
+          side: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
+        ),
+        contentTextStyle: const TextStyle(
             color: AppColors.darkTextPrimary, fontFamily: AppFonts.sans),
       ),
     );

@@ -117,7 +117,11 @@ class _PropertiesMapViewState extends State<PropertiesMapView> {
                                     setState(() => _selectedId = p.id)),
                         ],
                       ),
-                      const MapAttribution(),
+                      Padding(
+                        padding: EdgeInsets.only(
+                            bottom: AppMetrics.navClearance(context)),
+                        child: const MapAttribution(),
+                      ),
                     ],
                   ),
                 ),
@@ -136,7 +140,7 @@ class _PropertiesMapViewState extends State<PropertiesMapView> {
               Positioned(
                 left: 12,
                 right: 12,
-                bottom: 22,
+                bottom: 22 + AppMetrics.navClearance(context),
                 child: selected != null
                     ? MapListingCard(
                         property: selected,

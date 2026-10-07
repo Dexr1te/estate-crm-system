@@ -132,7 +132,8 @@ class _MeetingsScreenState extends State<MeetingsScreen> {
                           children: [
                             _header(l10n, pad, l10n.meetingsCounter(thisWeek)),
                             Padding(
-                              padding: EdgeInsets.fromLTRB(pad, 0, pad, 24),
+                              padding: EdgeInsets.fromLTRB(pad, 0, pad,
+                                  24 + AppMetrics.navClearance(context)),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [

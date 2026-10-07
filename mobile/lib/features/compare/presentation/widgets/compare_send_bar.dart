@@ -56,11 +56,10 @@ class _CompareSendBarState extends State<CompareSendBar> {
     final l10n = AppLocalizations.of(context);
     final pad = AppMetrics.pagePadding(context);
 
-    return Container(
-      decoration: BoxDecoration(
-        color: t.surface,
-        border: Border(top: BorderSide(color: t.border, width: 1)),
-      ),
+    return GlassSurface(
+      blur: AppMetrics.glassBlur,
+      fill: t.glassFillStrong,
+      borderRadius: const BorderRadius.vertical(top: Radius.circular(22)),
       child: SafeArea(
         top: false,
         child: Align(
