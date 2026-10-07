@@ -19,6 +19,7 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import jakarta.persistence.criteria.Subquery;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.query.criteria.HibernateCriteriaBuilder;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -216,11 +217,11 @@ public class AnalyticsService {
             points.put(month, MonthPoint.builder().month(month).build());
         }
 
-        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        HibernateCriteriaBuilder cb = (HibernateCriteriaBuilder) entityManager.getCriteriaBuilder();
         CriteriaQuery<Tuple> created = cb.createTupleQuery();
         Root<Deal> c = created.from(Deal.class);
-        Expression<Integer> cy = cb.function("year", Integer.class, c.get("createdAt"));
-        Expression<Integer> cm = cb.function("month", Integer.class, c.get("createdAt"));
+        Expression<Integer> cy = cb.year(c.get("createdAt"));
+        Expression<Integer> cm = cb.month(c.get("createdAt"));
         created.multiselect(cy.alias("y"), cm.alias("m"), cb.count(c).alias("n"));
         created.where(cb.and(deals.toPredicate(c, created, cb),
                 cb.greaterThanOrEqualTo(c.get("createdAt"), since)));
@@ -232,8 +233,8 @@ public class AnalyticsService {
 
         CriteriaQuery<Tuple> closed = cb.createTupleQuery();
         Root<Deal> d = closed.from(Deal.class);
-        Expression<Integer> dy = cb.function("year", Integer.class, d.get("closedAt"));
-        Expression<Integer> dm = cb.function("month", Integer.class, d.get("closedAt"));
+        Expression<Integer> dy = cb.year(d.get("closedAt"));
+        Expression<Integer> dm = cb.month(d.get("closedAt"));
         Expression<DealStatus> status = d.get("status");
         closed.multiselect(dy.alias("y"), dm.alias("m"), status.alias("s"), cb.count(d).alias("n"));
         closed.where(cb.and(deals.toPredicate(d, closed, cb),

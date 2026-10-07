@@ -18,6 +18,7 @@ import jakarta.persistence.criteria.Path;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.query.criteria.HibernateCriteriaBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -140,7 +141,7 @@ public class ClientDateService {
     }
 
     private List<Deal> wonDeals(Set<Integer> keys, LocalDate from, Function<Path<Client>, Predicate> scope) {
-        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        HibernateCriteriaBuilder cb = (HibernateCriteriaBuilder) entityManager.getCriteriaBuilder();
         CriteriaQuery<Deal> query = cb.createQuery(Deal.class);
         Root<Deal> root = query.from(Deal.class);
         @SuppressWarnings("unchecked")
@@ -151,8 +152,8 @@ public class ClientDateService {
         Path<Client> clientPath = (Path<Client>) client;
         Expression<java.time.LocalDateTime> closedAt = root.get("closedAt");
         Expression<Integer> key = cb.sum(
-                cb.prod(cb.function("month", Integer.class, closedAt), 100),
-                cb.function("day", Integer.class, closedAt));
+                cb.prod(cb.month(closedAt), 100),
+                cb.day(closedAt));
         List<Predicate> where = new ArrayList<>();
         where.add(cb.equal(root.get("status"), DealStatus.CLOSED_WON));
         where.add(cb.isNotNull(closedAt));
