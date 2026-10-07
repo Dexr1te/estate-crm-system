@@ -330,8 +330,6 @@ public class TeamMembershipService {
         return authResponseFactory.build(left, null, null);
     }
 
-    // Helpers ---------------------------------------------------------------------------
-
     private Team requireTeam(User manager) {
         if (manager.getTeam() == null) {
             throw new BusinessException(HttpStatus.FORBIDDEN, "TEAM_REQUIRED",

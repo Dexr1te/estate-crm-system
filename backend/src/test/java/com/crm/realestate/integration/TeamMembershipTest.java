@@ -373,8 +373,6 @@ class TeamMembershipTest {
         assertThat(membership.getMembers(manager).get(0).isTeamManager()).isTrue();
     }
 
-    // Fixtures -------------------------------------------------------------------------
-
     private void signIn(User who) {
         SecurityContextHolder.getContext().setAuthentication(
                 new UsernamePasswordAuthenticationToken(who.getEmail(), null, List.of()));

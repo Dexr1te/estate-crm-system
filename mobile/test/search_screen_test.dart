@@ -182,7 +182,6 @@ void main() {
     expect(find.byType(PropertyResultTile), findsOneWidget);
     expect(find.byType(DealResultTile), findsOneWidget);
 
-    // The two rows that do not match are not on screen.
     expect(find.text('Пётр Смирнов'), findsNothing);
     expect(find.text('Дом в Ромашково'), findsNothing);
   });

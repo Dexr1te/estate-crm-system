@@ -18,7 +18,6 @@ import java.util.Optional;
 public interface DealDepositRepository extends JpaRepository<DealDeposit, Long>,
         JpaSpecificationExecutor<DealDeposit> {
 
-    /** A deal's deposits, the latest first. */
     @EntityGraph(attributePaths = {"deal", "deal.client", "deal.property", "deal.agent"})
     List<DealDeposit> findByDealIdOrderByIdDesc(Long dealId);
 

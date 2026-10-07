@@ -344,8 +344,6 @@ class ActivityPropertiesTest {
         assertThat(propertyRepository.findById(abay.getId())).isPresent();
     }
 
-    // Helpers -------------------------------------------------------------------------
-
     private static LocalDateTime sentAt(List<PropertyMatch> matches, Property listing) {
         return matches.stream()
                 .filter(m -> m.getProperty().getId().equals(listing.getId()))

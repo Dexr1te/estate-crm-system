@@ -25,7 +25,6 @@ T? _orNull<T>(T Function() read) {
   }
 }
 
-/// Calls the client whose date it is.
 Future<void> callClientDate(
     BuildContext context, UpcomingClientDate date) async {
   final l10n = AppLocalizations.of(context);

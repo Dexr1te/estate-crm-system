@@ -270,8 +270,6 @@ class LeadSourceTest {
                 .andExpect(jsonPath("$.code").value("INVALID_PERIOD"));
     }
 
-    // Helpers -----------------------------------------------------------------------------------
-
     private ResultActions create(String name, String source, String detail) throws Exception {
         return create(name, source, detail, "BUYER");
     }

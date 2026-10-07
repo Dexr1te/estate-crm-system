@@ -7,7 +7,6 @@ import 'package:real_estate_crm/features/commission_split/domain/repositories/co
 
 abstract class CommissionSplitEvent {}
 
-/// Loads, or reloads, the deal's split.
 class CommissionSplitLoadEvent extends CommissionSplitEvent {}
 
 class CommissionSplitSaveEvent extends CommissionSplitEvent {

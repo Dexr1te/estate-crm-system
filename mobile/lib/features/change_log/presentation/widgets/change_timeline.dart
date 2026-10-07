@@ -8,7 +8,6 @@ import 'package:real_estate_crm/features/change_log/presentation/widgets/change_
 import 'package:real_estate_crm/features/change_log/presentation/widgets/change_labels.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-/// Reads one page of a change log.
 typedef ChangePageLoader = Future<PagedResponse<RecordChange>> Function(
     int page);
 

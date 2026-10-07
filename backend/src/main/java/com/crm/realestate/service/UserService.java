@@ -24,12 +24,10 @@ public class UserService {
     private final ScopeService   scopeService;
     private final TimeOffService timeOffService;
 
-    // only active agents for frontend select (for meetings, deals)
     public List<AgentOptionResponse> getAgentOptions() {
         // Everyone who can be put on a deal or a meeting, not only Role.AGENT.
         // Managers and admins run viewings too, and in a young agency they are
-        // often the only accounts there are — under the old filter that list
-        // came back empty and the meeting form could not be submitted at all.
+        // often the only accounts there are.
         //
         // But only the caller's own agency: this list is also where a departing
         // agent picks who inherits their clients, and a name from another agency

@@ -37,7 +37,6 @@ public class FirebaseConfig {
             }
         } catch (IOException e) {
             log.warn("Firebase initialization failed: {}. Push notifications will be disabled.", e.getMessage());
-            // не падаем просто отключаем Firebase если файл не найден
         }
     }
 }

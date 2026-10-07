@@ -146,7 +146,6 @@ void main() {
       await repo.getClientsWithDetails();
     });
 
-    // Now the signal is gone.
     host.online = false;
     final auth = await _signedIn();
     addTearDown(auth.close);

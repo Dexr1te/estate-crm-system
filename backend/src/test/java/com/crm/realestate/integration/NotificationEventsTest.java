@@ -333,8 +333,6 @@ class NotificationEventsTest {
         });
     }
 
-    // Helpers --------------------------------------------------------------------------
-
     private PropertyRequest listing(String title, String price) {
         PropertyRequest request = new PropertyRequest();
         request.setTitle(title);

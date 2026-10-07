@@ -35,16 +35,16 @@ public class Property {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private PropertyType type;           // APARTMENT, HOUSE, COMMERCIAL...
+    private PropertyType type;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private PropertyStatus status;       // AVAILABLE, RESERVED, SOLD
+    private PropertyStatus status;
 
     @Column(nullable = false, precision = 15, scale = 2)
     private BigDecimal price;
 
-    private Double areaSqm;              // площадь м²
+    private Double areaSqm;
     private Integer rooms;
     private Integer floor;
     private Integer totalFloors;
@@ -62,7 +62,6 @@ public class Property {
     @Column(name = "mandate_end_date")
     private LocalDate mandateEndDate;
 
-    // Агент который ведёт объект
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "agent_id")
     private User agent;

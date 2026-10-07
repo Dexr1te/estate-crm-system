@@ -69,7 +69,6 @@ public class ClientController {
         boolean hasAnyFilter = type != null || agentId != null || (search != null && !search.isBlank())
                 || createdFrom != null || createdTo != null || hasTags || leadSource != null;
 
-        // If no paging and no filters -> legacy full list
         if (!hasPageParams && !hasAnyFilter) {
             return ResponseEntity.ok(clientService.getAll());
         }
@@ -81,7 +80,6 @@ public class ClientController {
                 return ResponseEntity.ok(clientService.search(search));
             }
             if (type != null && agentId != null) {
-                // both provided - fallback to repository method
                 return ResponseEntity.ok(clientService.getByType(type).stream()
                         .filter(c -> c.getAgentId() != null && c.getAgentId().equals(agentId))
                         .toList());
@@ -92,7 +90,6 @@ public class ClientController {
             if (agentId != null) {
                 return ResponseEntity.ok(clientService.getByAgent(agentId));
             }
-            // fallback
             return ResponseEntity.ok(clientService.getAll());
         }
 
@@ -114,7 +111,6 @@ public class ClientController {
             return ResponseEntity.ok(clientService.filter(type, agentId, fromDate, toDate, search, tags, leadSource));
         }
 
-        // Now hasPageParams == true -> perform paged search.
         // Enforce maximum page size to protect from large requests
         final int MAX_PAGE_SIZE = 100;
         final int DEFAULT_PAGE_SIZE = 20;

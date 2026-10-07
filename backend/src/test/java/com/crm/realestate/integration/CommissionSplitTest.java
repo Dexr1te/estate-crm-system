@@ -370,8 +370,6 @@ class CommissionSplitTest extends ChecklistFixture {
                 .andExpect(jsonPath("$.shares[0].percent").value(100));
     }
 
-    // Helpers ----------------------------------------------------------------------------------
-
     private void splitThreeWays() throws Exception {
         save(agent, Map.of("userId", agent.getId(), "percent", 50), Map.of("userId", ownOnly.getId(), "percent", 30),
                 Map.of("coBrokerName", "Ivan Petrov", "coBrokerAgency", "Etazhi", "percent", 20))

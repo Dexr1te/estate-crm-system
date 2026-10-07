@@ -408,8 +408,6 @@ class WorkHandoverTest {
                 .isInstanceOf(ResourceNotFoundException.class);
     }
 
-    // Helpers ---------------------------------------------------------------------------
-
     private static HandoverRequest request(User from, User to) {
         HandoverRequest request = new HandoverRequest();
         request.setFromAgentId(from.getId());

@@ -8,7 +8,6 @@ public enum PartnerKind {
     APPRAISER,
     /** A developer selling new builds. */
     DEVELOPER,
-    /** Another agency. */
     AGENCY,
     OTHER
 }

@@ -23,7 +23,6 @@ public interface PropertyOfferRepository extends JpaRepository<PropertyOffer, Lo
             + "WHERE o.property.id = :propertyId ORDER BY o.amount DESC, o.id DESC")
     List<PropertyOffer> findByPropertyHighestFirst(@Param("propertyId") Long propertyId);
 
-    /** A buyer's offers, the latest first. */
     @Query("SELECT o FROM PropertyOffer o JOIN FETCH o.property JOIN FETCH o.client LEFT JOIN FETCH o.agent "
             + "WHERE o.client.id = :clientId ORDER BY o.createdAt DESC, o.id DESC")
     List<PropertyOffer> findByClientNewestFirst(@Param("clientId") Long clientId);

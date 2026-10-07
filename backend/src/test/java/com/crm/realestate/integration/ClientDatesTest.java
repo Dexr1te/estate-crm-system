@@ -313,8 +313,6 @@ class ClientDatesTest extends ColdClientsFixture {
                 .andExpect(jsonPath("$.content[0].params.years").value(36));
     }
 
-    // Helpers ---------------------------------------------------------------------------
-
     private void birthday(Client client, int month, int day, Integer year) {
         client.setBirthMonth(month);
         client.setBirthDay(day);

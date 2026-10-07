@@ -373,8 +373,6 @@ class ChangeLogTest {
                 .andExpect(jsonPath("$.totalElements").value(0));
     }
 
-    // Helpers ---------------------------------------------------------------------------
-
     private record Page(List<RecordChangeResponse> lines) {}
 
     private Page feed(User who, ChangeEntityType type, Long actorId, ChangeAction action,

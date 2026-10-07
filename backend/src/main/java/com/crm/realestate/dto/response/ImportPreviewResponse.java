@@ -25,7 +25,6 @@ public class ImportPreviewResponse {
     public static final int MAX_PROBLEMS = 1000;
     public static final int SAMPLE_SIZE = 5;
 
-    /** How one row fared. */
     public enum RowStatus { VALID, INVALID, DUPLICATE }
 
     /** Where the same person was already found. */
@@ -78,7 +77,6 @@ public class ImportPreviewResponse {
     @AllArgsConstructor
     public static class Duplicate {
         private DuplicateSource source;
-        /** PHONE, EMAIL or PHONE_AND_EMAIL. */
         private ClientDuplicate.MatchedOn matchedOn;
         /** The agency's client, when the source is AGENCY. */
         private Long clientId;

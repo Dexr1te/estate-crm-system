@@ -48,16 +48,6 @@ public class RecordHandoverService {
     private final CommissionSplitStore splitStore;
 
     /**
-     * Brings what someone owned while in no team into the team they have just joined.
-     *
-     * <p>A person outside any team can still see records that are theirs and team-less — mostly
-     * what an account held before teams existed. The moment they join one, those records would drop
-     * out of sight, because a team member sees only the team's. So they come along.
-     *
-     * <p>Only team-less records move. Anything already in a team stays with that team: a record
-     * belongs to the agency it was made in, not to whoever carried it.
-     */
-    /**
      * Hands what {@code from} holds in {@code team} to {@code to}, who stays in that team.
      *
      * <p>Used when an agent leaves or is taken off a team: the clients, listings, deals and meetings
@@ -154,6 +144,16 @@ public class RecordHandoverService {
         }
     }
 
+    /**
+     * Brings what someone owned while in no team into the team they have just joined.
+     *
+     * <p>A person outside any team can still see records that are theirs and team-less — mostly
+     * what an account held before teams existed. The moment they join one, those records would drop
+     * out of sight, because a team member sees only the team's. So they come along.
+     *
+     * <p>Only team-less records move. Anything already in a team stays with that team: a record
+     * belongs to the agency it was made in, not to whoever carried it.
+     */
     @Transactional
     public void adoptTeamlessRecords(User user) {
         if (user == null || user.getTeam() == null) {

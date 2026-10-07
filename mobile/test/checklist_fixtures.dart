@@ -81,7 +81,6 @@ const checklistDocuments = [
       dealId: 1),
 ];
 
-/// Moves and edits of deals, remembered.
 class RecordingChecklistDeals extends FakeDealsRepository {
   final moves = <(int, DealStatus)>[];
   final updates = <Map<String, dynamic>>[];

@@ -232,8 +232,6 @@ class PropertyLocationTest {
         assertThat(bare).doesNotContain("openstreetmap").doesNotContain("Open in maps");
     }
 
-    // Helpers ---------------------------------------------------------------------------------
-
     private MockHttpServletRequestBuilder inAlmaty(User who) {
         return get("/properties").header(HttpHeaders.AUTHORIZATION, bearer(who))
                 .param("minLat", "43.20").param("maxLat", "43.30")

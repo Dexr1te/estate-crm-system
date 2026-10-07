@@ -444,8 +444,6 @@ class RecurringTaskTest {
         assertThat(completeAndNext(id).getAssigneeId()).isEqualTo(colleague.getId());
     }
 
-    // Helpers -----------------------------------------------------------------------------
-
     /** Completes the task and returns the open occurrence it wrote. */
     private TaskResponse completeAndNext(Long id) {
         Long series = taskService.complete(id).getSeriesId();

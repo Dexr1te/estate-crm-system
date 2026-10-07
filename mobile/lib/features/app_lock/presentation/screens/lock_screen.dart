@@ -14,7 +14,6 @@ String formatRetry(Duration left) {
   return '$m:$s';
 }
 
-/// Everything the app shows while it is locked.
 class LockScreen extends StatefulWidget {
   final AppLockController controller;
   const LockScreen({super.key, required this.controller});

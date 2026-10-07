@@ -180,8 +180,6 @@ class PropertyMandateTest {
                 .andExpect(jsonPath("$[*].title").value(contains("Theirs")));
     }
 
-    // Helpers ---------------------------------------------------------------------------------
-
     private static String body(String type, String endDate) {
         return """
                 {"title":"Agreed flat","address":"Abaya 10","city":"Almaty","type":"APARTMENT",

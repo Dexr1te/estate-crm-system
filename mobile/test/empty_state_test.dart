@@ -17,8 +17,7 @@ void main() {
   // EmptyState fills the height it is given so it can sit centred in a list.
   // In a bottom sheet there is no height to fill — the column is min-sized —
   // and asking for it back demanded an infinite child, so the picker's
-  // "nothing found" rendered as an empty sheet. From the outside that looked
-  // like tapping the field only dimmed the screen.
+  // "nothing found" rendered as an empty sheet.
   testWidgets('an empty state still says its piece where height is unbounded',
       (tester) async {
     await tester.pumpWidget(_host(

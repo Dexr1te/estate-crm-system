@@ -244,8 +244,6 @@ class DealCommissionTest {
                 .isEqualByComparingTo("800000.00");
     }
 
-    // Helpers ------------------------------------------------------------------------
-
     private MvcResult postDeal(String percent) throws Exception {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("title", "Dostyk 210");

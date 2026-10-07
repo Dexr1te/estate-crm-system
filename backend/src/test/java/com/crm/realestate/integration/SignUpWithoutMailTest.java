@@ -32,10 +32,6 @@ import static org.mockito.Mockito.when;
 /**
  * What sign-up does on a host that cannot send the code.
  *
- * <p>It used to answer 201 and create the account anyway, which left the address taken by a row
- * nobody could confirm: the owner could not sign in, could not verify, and could not tell the
- * difference between a slow inbox and a host with no SMTP configured at all.
- *
  * <p>Deliberately not {@code @Transactional}, unlike its neighbours: what is under test is that
  * the account is rolled back, and a test that shares its transaction with the service would see
  * the row it is supposed to prove is gone.

@@ -492,8 +492,6 @@ class TaskTest {
         assertThat(many).as("3 tasks took %d statements, 15 took %d", few, many).isEqualTo(few);
     }
 
-    // Helpers -------------------------------------------------------------------------
-
     private void seedTasks(int count) {
         for (int i = 0; i < count; i++) {
             Deal deal = deal(aigerim, agent);

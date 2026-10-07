@@ -54,9 +54,6 @@ public class DashboardService {
     public DashboardSummary getSummary(Long agentId, Long teamId) {
         User currentUser = securityUtils.getCurrentUser();
 
-        // Counts in the database, and one sum. This used to load every closed deal and every
-        // upcoming meeting into memory to call .size() on them, and the meeting filter read
-        // m.getAgent().getId() per row — an N+1 on top of a full table scan, to produce integers.
         final List<DealStatus> closedStatuses =
                 List.of(DealStatus.CLOSED_WON, DealStatus.CLOSED_LOST);
         final LocalDateTime now = LocalDateTime.now();

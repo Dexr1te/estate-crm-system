@@ -46,7 +46,7 @@ public class Client {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private ClientType type;     // BUYER или SELLER
+    private ClientType type;
 
     private String notes;
 
@@ -105,7 +105,6 @@ public class Client {
     @Column(name = "birth_year")
     private Integer birthYear;
 
-    // Агент который ведёт клиента
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "agent_id")
     private User agent;

@@ -193,8 +193,6 @@ public class AdminService {
             user.setStatus(UserStatus.PENDING_INVITE);
         }
         User saved = userRepository.save(user);
-        // Rotating the token without mailing it out is what "resend" used to do,
-        // which left the recipient with nothing and the old link dead.
         emailService.sendInvite(saved.getEmail(), saved.getFullName(), saved.getInviteToken());
         return toAgentResponse(saved);
     }
@@ -255,8 +253,8 @@ public class AdminService {
     /**
      * Same as {@link #toAgentResponse(User)} but also exposes the one-time invite
      * token. Used only by the create/invite endpoints so the caller can hand the
-     * token to the new user (there is no email delivery). List endpoints keep
-     * using {@link #toAgentResponse(User)}, so tokens are never leaked in bulk.
+     * token to the new user. List endpoints keep using
+     * {@link #toAgentResponse(User)}, so tokens are never leaked in bulk.
      */
     private AgentResponse toInviteResponse(User user) {
         AgentResponse response = toAgentResponse(user);

@@ -28,7 +28,7 @@ public class ClientRequest {
     private String phone;
 
     @NotNull(message = "Client type is required")
-    private ClientType type;   // BUYER or SELLER
+    private ClientType type;
 
     private String notes;
 

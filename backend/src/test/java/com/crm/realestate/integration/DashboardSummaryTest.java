@@ -35,11 +35,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * The summary is five integers. It used to produce them by loading every closed deal and every
- * upcoming meeting into memory, so these tests pin both halves: that the numbers are what they
- * always were, and that getting them no longer costs a scan per figure.
- */
+/** The summary is five integers. */
 @SpringBootTest
 @Transactional
 class DashboardSummaryTest {

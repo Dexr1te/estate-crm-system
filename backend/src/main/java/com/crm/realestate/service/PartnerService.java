@@ -172,8 +172,6 @@ public class PartnerService {
         return partner;
     }
 
-    // Helpers -----------------------------------------------------------------------------
-
     private void apply(PartnerRequest request, Partner partner) {
         String name = strip(request.getName());
         if (name == null) {

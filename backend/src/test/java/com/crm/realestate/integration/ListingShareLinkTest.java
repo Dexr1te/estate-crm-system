@@ -350,8 +350,6 @@ class ListingShareLinkTest {
         assertThat(photos).isIn(401, 403);
     }
 
-    // Helpers --------------------------------------------------------------------------------
-
     private String createAs(User who) {
         return createAs(who, flat);
     }

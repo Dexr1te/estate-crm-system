@@ -8,7 +8,6 @@ import 'package:real_estate_crm/features/time_off/domain/time_off.dart';
 
 abstract class TimeOffListEvent {}
 
-/// Loads, or reloads, the list.
 class TimeOffListLoadEvent extends TimeOffListEvent {}
 
 abstract class TimeOffListState {

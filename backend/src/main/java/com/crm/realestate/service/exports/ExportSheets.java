@@ -49,7 +49,6 @@ class ExportSheets {
     private final CommissionSplitStore splitStore;
     private final ExportColumns columns;
 
-    /** What to export, for whom, narrowed how. */
     record Query(ExportKind kind, User user, ExportFilters filters) {
     }
 

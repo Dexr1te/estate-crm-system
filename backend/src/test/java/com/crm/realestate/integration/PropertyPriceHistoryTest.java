@@ -42,10 +42,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 /**
  * What a listing used to cost.
  *
- * <p>A listing holds one price, so a reduction used to overwrite the old figure without a trace. An
- * edit that moves the price now leaves a row; one that does not, and the listing's creation, leave
- * nothing. The history is seen by whoever can see the listing, outlives the colleague who made the
- * change, and the list reads the latest change without a round trip per row.
+ * <p>An edit that moves the price now leaves a row; one that does not, and the listing's creation,
+ * leave nothing. The history is seen by whoever can see the listing, outlives the colleague who
+ * made the change, and the list reads the latest change without a round trip per row.
  */
 @SpringBootTest
 @Transactional
@@ -208,8 +207,6 @@ class PropertyPriceHistoryTest {
                 .hasSize(15)
                 .allSatisfy(p -> assertThat(p.getPreviousPrice()).isEqualByComparingTo("50000000"));
     }
-
-    // Helpers -------------------------------------------------------------------------
 
     private void pageOfListings() {
         propertyService.search(null, null, null, null, null, null, null, null, PageRequest.of(0, 50));

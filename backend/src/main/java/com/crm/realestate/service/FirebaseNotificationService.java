@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class FirebaseNotificationService {
 
-    // Отправить push уведомление на конкретное устройство
     public void sendToDevice(String fcmToken, String title, String body) {
         if (fcmToken == null || fcmToken.isBlank()) {
             log.warn("FCM token is empty, skipping notification");
@@ -35,7 +34,6 @@ public class FirebaseNotificationService {
         }
     }
 
-    // Отправить на топик (например, всем агентам)
     public void sendToTopic(String topic, String title, String body) {
         try {
             Message message = Message.builder()

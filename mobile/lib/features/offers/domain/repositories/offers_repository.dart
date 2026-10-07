@@ -57,7 +57,6 @@ class CounterDraft {
       };
 }
 
-/// How an offer is decided.
 enum OfferDecision { accept, reject, withdraw }
 
 abstract class OffersRepository {
@@ -70,10 +69,8 @@ abstract class OffersRepository {
   /// One offer with its negotiation.
   Future<PropertyOffer> getOffer(int id);
 
-  /// Records a buyer's offer on [propertyId].
   Future<PropertyOffer> create(int propertyId, OfferDraft draft);
 
-  /// Puts a new figure on the table.
   Future<PropertyOffer> counter(int id, CounterDraft draft);
 
   /// Accepts, rejects or withdraws it, with an optional word on why.

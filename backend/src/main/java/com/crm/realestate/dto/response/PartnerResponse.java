@@ -36,7 +36,6 @@ public class PartnerResponse {
     private boolean canEdit;
     private LocalDateTime createdAt;
 
-    /** Clients the partner sent. */
     private long referredClients;
     /** Won deals of those clients, rents and sales alike. */
     private long wonDeals;

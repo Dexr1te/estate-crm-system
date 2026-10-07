@@ -6,7 +6,6 @@ import 'package:real_estate_crm/features/deposits/domain/repositories/deposits_r
 
 abstract class DepositsEndingEvent {}
 
-/// Loads, or reloads, the deposits whose hold is running out.
 class DepositsEndingLoadEvent extends DepositsEndingEvent {}
 
 abstract class DepositsEndingState {

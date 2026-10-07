@@ -85,7 +85,6 @@ public class PropertyController {
                 || bounds != null || hasLocation != null;
 
         if (!hasPageParams && !hasAnyFilter) {
-            // legacy behavior
             return ResponseEntity.ok(propertyService.getAll());
         }
 

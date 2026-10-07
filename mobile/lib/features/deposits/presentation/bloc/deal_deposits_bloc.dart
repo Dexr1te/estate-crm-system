@@ -7,7 +7,6 @@ import 'package:real_estate_crm/features/deposits/domain/repositories/deposits_r
 
 abstract class DealDepositsEvent {}
 
-/// Loads, or reloads, the deal's deposits.
 class DealDepositsLoadEvent extends DealDepositsEvent {}
 
 class DealDepositsRecordEvent extends DealDepositsEvent {

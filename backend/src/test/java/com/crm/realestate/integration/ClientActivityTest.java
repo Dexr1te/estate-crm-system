@@ -378,8 +378,6 @@ class ClientActivityTest {
                 .isEqualTo(few);
     }
 
-    // Helpers -------------------------------------------------------------------------
-
     private void seedClientsWithHistory(int count) {
         IntStream.range(0, count).forEach(i -> {
             Client c = client("Seeded " + i + " " + System.nanoTime(), agent, almaty);

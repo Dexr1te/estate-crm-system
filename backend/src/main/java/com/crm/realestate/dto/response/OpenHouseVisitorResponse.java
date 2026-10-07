@@ -31,7 +31,6 @@ public class OpenHouseVisitorResponse {
     private boolean clientVisible;
     /** The card's name, when the caller may open it. */
     private String clientName;
-    /** Whose client it is. */
     private String clientAgentName;
     /** Whether this sign-in made the client, rather than finding one. */
     private boolean newClient;

@@ -282,7 +282,6 @@ class _DealFormScreenState extends State<DealFormScreen> {
         : null;
   }
 
-  /// What is wrong with the lease's days, or null.
   String? _leaseDatesError(AppLocalizations l10n) {
     if (_kind != DealKind.rent) return null;
     final start = _leaseStart;

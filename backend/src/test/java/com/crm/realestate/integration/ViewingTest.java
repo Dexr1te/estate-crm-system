@@ -40,12 +40,9 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 /**
  * A viewing knows which listing is being viewed.
  *
- * <p>It could not, until now: the address went into the title as text, so a
- * listing had no history of being shown and a viewing booked from a matching
- * listing had that listing retyped into it. The listing is optional — plenty of
- * meetings are not viewings — and it is held to the same walls as everything
- * else: it must belong to the client's agency, and deleting it later must not
- * take the record of the showing with it.
+ * <p>The listing is optional — plenty of meetings are not viewings — and it is
+ * held to the same walls as everything else: it must belong to the client's
+ * agency, and deleting it later must not take the record of the showing with it.
  */
 @SpringBootTest
 @Transactional

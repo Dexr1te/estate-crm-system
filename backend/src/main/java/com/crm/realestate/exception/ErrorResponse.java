@@ -23,5 +23,5 @@ public class ErrorResponse {
      */
     private String code;
     private LocalDateTime timestamp;
-    private Map<String, String> validationErrors; // для @Valid ошибок
+    private Map<String, String> validationErrors;
 }
