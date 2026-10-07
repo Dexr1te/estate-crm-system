@@ -17,6 +17,7 @@ export 'package:real_estate_crm/core/widgets/dialogs.dart';
 export 'package:real_estate_crm/core/widgets/empty_state.dart';
 export 'package:real_estate_crm/core/widgets/entity_picker.dart';
 export 'package:real_estate_crm/core/widgets/filter_pill.dart';
+export 'package:real_estate_crm/core/widgets/glass.dart';
 export 'package:real_estate_crm/core/widgets/loading_error.dart';
 export 'package:real_estate_crm/core/widgets/messages.dart';
 export 'package:real_estate_crm/core/widgets/metrics_card.dart';

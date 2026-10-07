@@ -96,6 +96,27 @@ class AppTokens {
   Color get sheetScrim => AppColors.primary.withValues(alpha: 0.42);
   Color get dialogScrim => AppColors.primary.withValues(alpha: 0.5);
 
+  Color get glassFill => isDark
+      ? AppColors.darkSurface.withValues(alpha: 0.58)
+      : Colors.white.withValues(alpha: 0.64);
+  Color get glassFillStrong => isDark
+      ? AppColors.darkSurface.withValues(alpha: 0.78)
+      : Colors.white.withValues(alpha: 0.78);
+  Color get glassRim => isDark
+      ? Colors.white.withValues(alpha: 0.09)
+      : AppColors.primary.withValues(alpha: 0.08);
+  Color get glassHighlight =>
+      Colors.white.withValues(alpha: isDark ? 0.16 : 0.9);
+  Color get glassSheen => Colors.white.withValues(alpha: isDark ? 0.05 : 0.35);
+  Color get glassShadow => isDark
+      ? Colors.black.withValues(alpha: 0.34)
+      : AppColors.primary.withValues(alpha: 0.09);
+  Color get glassLens => isDark
+      ? Colors.white.withValues(alpha: 0.11)
+      : AppColors.primary.withValues(alpha: 0.07);
+  Color get heroGlass =>
+      isDark ? glassFill : AppColors.primary.withValues(alpha: 0.93);
+
   Color get chartLead => isDark ? const Color(0xFFA78BFA) : AppColors.lead;
   Color get chartNegotiation =>
       isDark ? const Color(0xFFFBBF24) : AppColors.negotiation;

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/theme/app_metrics.dart';
 import 'package:real_estate_crm/core/theme/app_tokens.dart';
+import 'package:real_estate_crm/core/widgets/glass.dart';
 
 class AppFilledButton extends StatelessWidget {
   final String label;
@@ -167,36 +168,44 @@ class AppHeaderAction extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.tokens;
+    final pill = BorderRadius.circular(AppMetrics.radiusPill);
     return ConstrainedBox(
       constraints: const BoxConstraints(
           minHeight: AppMetrics.minHitTarget, maxWidth: 190),
-      child: Material(
-        color: t.primary,
-        borderRadius: BorderRadius.circular(11),
-        child: InkWell(
-          borderRadius: BorderRadius.circular(11),
-          onTap: onPressed,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 11),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(icon, size: 16, color: t.onPrimary),
-                const SizedBox(width: 7),
-                Flexible(
-                  child: Text(
-                    label,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontFamily: AppFonts.sans,
-                      fontSize: 12.5,
-                      fontWeight: FontWeight.w600,
-                      color: t.onPrimary,
+      child: GlassSurface(
+        blur: AppMetrics.glassBlur,
+        borderRadius: pill,
+        fill: t.primary.withValues(alpha: 0.9),
+        sheen: Colors.white.withValues(alpha: t.isDark ? 0.18 : 0.12),
+        rim: Colors.white.withValues(alpha: 0.12),
+        shadow: GlassShadow.soft,
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            borderRadius: pill,
+            onTap: onPressed,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 11),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(icon, size: 16, color: t.onPrimary),
+                  const SizedBox(width: 7),
+                  Flexible(
+                    child: Text(
+                      label,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontFamily: AppFonts.sans,
+                        fontSize: 12.5,
+                        fontWeight: FontWeight.w600,
+                        color: t.onPrimary,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -258,6 +267,7 @@ class AppIconTile extends StatelessWidget {
   final IconData icon;
   final VoidCallback onPressed;
   final bool danger;
+  final bool strong;
   final String? tooltip;
 
   const AppIconTile({
@@ -265,6 +275,7 @@ class AppIconTile extends StatelessWidget {
     required this.icon,
     required this.onPressed,
     this.danger = false,
+    this.strong = false,
     this.tooltip,
   });
 
@@ -275,18 +286,21 @@ class AppIconTile extends StatelessWidget {
       width: AppMetrics.minHitTarget,
       height: AppMetrics.minHitTarget,
       child: Center(
-        child: Container(
-          width: 34,
-          height: 34,
-          decoration: BoxDecoration(
-            color: danger ? t.dangerFill : Colors.transparent,
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(
-                color: danger ? t.dangerBorder : t.border,
-                width: AppMetrics.borderWidth),
+        child: GlassSurface(
+          blur: AppMetrics.glassBlur,
+          borderRadius: BorderRadius.circular(AppMetrics.radiusPill),
+          fill: danger ? t.dangerFill : null,
+          rim: danger ? t.dangerBorder : null,
+          shadow: GlassShadow.soft,
+          child: SizedBox(
+            width: 38,
+            height: 38,
+            child: Icon(icon,
+                size: 16,
+                color: danger
+                    ? t.dangerText
+                    : (strong ? t.textPrimary : t.textSecondary)),
           ),
-          child: Icon(icon,
-              size: 16, color: danger ? t.dangerText : t.textSecondary),
         ),
       ),
     );

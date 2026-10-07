@@ -204,7 +204,8 @@ class _UsersTab extends StatelessWidget {
         if (state is AdminUsersLoading || state is AdminUsersInitial) {
           return ShimmerList(
             count: 5,
-            padding: EdgeInsets.fromLTRB(pad, 0, pad, 24),
+            padding: EdgeInsets.fromLTRB(
+                pad, 0, pad, 24 + AppMetrics.navClearance(context)),
             cardBuilder: () => const UserCardBone(),
           );
         }
@@ -277,7 +278,7 @@ class _InviteCta extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Padding(
         padding: EdgeInsets.fromLTRB(
-            pad, 0, pad, 16 + AppMetrics.bottomInset(context)),
+            pad, 0, pad, 16 + AppMetrics.navClearance(context)),
         child: AppFilledButton(
           label: AppLocalizations.of(context).adminInviteUser,
           onPressed: onPressed,
@@ -332,7 +333,8 @@ class _TeamsTab extends StatelessWidget {
         if (state is TeamsLoading || state is TeamsInitial) {
           return ShimmerList(
             count: 3,
-            padding: EdgeInsets.fromLTRB(pad, 0, pad, 24),
+            padding: EdgeInsets.fromLTRB(
+                pad, 0, pad, 24 + AppMetrics.navClearance(context)),
             cardBuilder: () => const TeamCardBone(),
           );
         }
@@ -368,7 +370,7 @@ class _TeamsTab extends StatelessWidget {
             ),
             Padding(
               padding: EdgeInsets.fromLTRB(
-                  pad, 0, pad, 16 + AppMetrics.bottomInset(context)),
+                  pad, 0, pad, 16 + AppMetrics.navClearance(context)),
               child: AppFilledButton(
                 label: l10n.adminNewTeam,
                 onPressed: () => _create(context),
@@ -394,7 +396,8 @@ class _AuditTab extends StatelessWidget {
         if (state is AuditLogLoading || state is AuditLogInitial) {
           return ShimmerList(
             count: 6,
-            padding: EdgeInsets.fromLTRB(pad, 0, pad, 24),
+            padding: EdgeInsets.fromLTRB(
+                pad, 0, pad, 24 + AppMetrics.navClearance(context)),
             cardBuilder: () => const _AuditRowBone(),
           );
         }
@@ -419,7 +422,7 @@ class _AuditTab extends StatelessWidget {
           color: ctx.tokens.primary,
           child: ListView.separated(
             padding: EdgeInsets.fromLTRB(
-                pad, 0, pad, 24 + AppMetrics.bottomInset(context)),
+                pad, 0, pad, 24 + AppMetrics.navClearance(context)),
             itemCount: state.entries.length,
             separatorBuilder: (_, __) => const SizedBox(height: 9),
             itemBuilder: (_, i) => _AuditRow(entry: state.entries[i]),

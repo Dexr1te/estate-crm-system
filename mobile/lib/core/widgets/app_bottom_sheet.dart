@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/theme/app_metrics.dart';
 import 'package:real_estate_crm/core/theme/app_tokens.dart';
+import 'package:real_estate_crm/core/widgets/glass.dart';
 
 Future<T?> showAppBottomSheet<T>(
   BuildContext context, {
@@ -36,61 +37,62 @@ class AppSheetShell extends StatelessWidget {
     final t = context.tokens;
     final mq = MediaQuery.of(context);
 
-    return Container(
-      decoration: BoxDecoration(
-        color: t.surface,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-      ),
+    return ConstrainedBox(
       constraints: BoxConstraints(maxHeight: mq.size.height * 0.9),
-      child: SafeArea(
-        top: false,
-        child: SingleChildScrollView(
-          padding: EdgeInsets.only(
-            left: 20,
-            right: 20,
-            top: 10,
-            bottom: 26 + mq.viewInsets.bottom,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Center(
-                child: Container(
-                  width: 38,
-                  height: 4,
-                  margin: const EdgeInsets.only(bottom: 16),
-                  decoration: BoxDecoration(
-                    color: t.border,
-                    borderRadius: BorderRadius.circular(3),
+      child: GlassSurface(
+        blur: AppMetrics.glassBlurSheet,
+        fill: t.glassFillStrong,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+        child: SafeArea(
+          top: false,
+          child: SingleChildScrollView(
+            padding: EdgeInsets.only(
+              left: 20,
+              right: 20,
+              top: 10,
+              bottom: 26 + mq.viewInsets.bottom,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Center(
+                  child: Container(
+                    width: 38,
+                    height: 4,
+                    margin: const EdgeInsets.only(bottom: 16),
+                    decoration: BoxDecoration(
+                      color: t.border,
+                      borderRadius: BorderRadius.circular(3),
+                    ),
                   ),
                 ),
-              ),
-              if (title != null)
-                Text(
-                  title!,
-                  style: TextStyle(
-                      fontFamily: AppFonts.sans,
-                      fontSize: 19,
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: -0.3,
-                      color: t.textPrimary),
-                ),
-              if (subtitle != null) ...[
-                const SizedBox(height: 5),
-                Text(
-                  subtitle!,
-                  style: TextStyle(
-                      fontFamily: AppFonts.sans,
-                      fontSize: 12,
-                      height: 1.5,
-                      color: t.textSecondary),
-                ),
+                if (title != null)
+                  Text(
+                    title!,
+                    style: TextStyle(
+                        fontFamily: AppFonts.sans,
+                        fontSize: 19,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: -0.3,
+                        color: t.textPrimary),
+                  ),
+                if (subtitle != null) ...[
+                  const SizedBox(height: 5),
+                  Text(
+                    subtitle!,
+                    style: TextStyle(
+                        fontFamily: AppFonts.sans,
+                        fontSize: 12,
+                        height: 1.5,
+                        color: t.textSecondary),
+                  ),
+                ],
+                if (title != null || subtitle != null)
+                  SizedBox(height: AppMetrics.blockGap(context) + 4),
+                child,
               ],
-              if (title != null || subtitle != null)
-                SizedBox(height: AppMetrics.blockGap(context) + 4),
-              child,
-            ],
+            ),
           ),
         ),
       ),

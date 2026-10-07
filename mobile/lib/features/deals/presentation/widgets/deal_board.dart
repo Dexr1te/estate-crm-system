@@ -120,7 +120,8 @@ class _StageColumn extends StatelessWidget {
                     onRefresh: onRefresh,
                     color: context.tokens.primary,
                     child: ListView.separated(
-                      padding: EdgeInsets.fromLTRB(padding, 0, padding, 24),
+                      padding: EdgeInsets.fromLTRB(padding, 0, padding,
+                          24 + AppMetrics.navClearance(context)),
                       itemCount: deals.length,
                       separatorBuilder: (_, __) => const SizedBox(height: 9),
                       itemBuilder: (_, i) => _DraggableCard(
@@ -349,17 +350,13 @@ class _DropRail extends StatelessWidget {
     final targets = DealStatus.values.where((s) => s != deal.status).toList();
     final shape = BorderRadius.circular(AppMetrics.radiusLg);
 
-    return Material(
-      color: t.surface,
-      elevation: 8,
-      shadowColor: Colors.black.withValues(alpha: 0.3),
+    return GlassSurface(
+      blur: AppMetrics.glassBlur,
+      fill: t.glassFillStrong,
       borderRadius: shape,
-      child: Container(
+      shadow: GlassShadow.floating,
+      child: Padding(
         padding: const EdgeInsets.all(7),
-        decoration: BoxDecoration(
-          borderRadius: shape,
-          border: Border.all(color: t.border, width: AppMetrics.borderWidth),
-        ),
         child: Row(
           children: [
             for (var i = 0; i < targets.length; i++) ...[
