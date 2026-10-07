@@ -29,7 +29,6 @@ public class GlobalExceptionHandler {
 
     private final ListingPageRenderer listingPages;
 
-    // 404 — ресурс не найден 
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleNotFound(ResourceNotFoundException ex,
                                                          HttpServletRequest request) {
@@ -53,7 +52,6 @@ public class GlobalExceptionHandler {
                 .body(buildError(HttpStatus.NOT_FOUND, "Not found", request.getRequestURI()));
     }
 
-    // 400 — ошибки валидации @Valid
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidation(MethodArgumentNotValidException ex,
                                                            HttpServletRequest request) {
@@ -76,7 +74,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(response);
     }
 
-    // 401 — неверные credentials 
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ErrorResponse> handleBadCredentials(BadCredentialsException ex,
                                                                HttpServletRequest request) {
@@ -85,7 +82,6 @@ public class GlobalExceptionHandler {
                         request.getRequestURI()));
     }
 
-    // 403 — нет доступа 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ErrorResponse> handleAccessDenied(AccessDeniedException ex,
                                                              HttpServletRequest request) {
@@ -93,7 +89,6 @@ public class GlobalExceptionHandler {
                 .body(buildError(HttpStatus.FORBIDDEN, "Access denied", request.getRequestURI()));
     }
 
-    // Правило, на которое клиент должен отреагировать: статус и код задаёт само исключение
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<ErrorResponse> handleBusiness(BusinessException ex,
                                                         HttpServletRequest request) {
@@ -112,7 +107,6 @@ public class GlobalExceptionHandler {
                 .body(buildError(HttpStatus.BAD_REQUEST, ex.getMessage(), request.getRequestURI()));
     }
 
-    // 500 — неожиданная ошибка
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGeneral(Exception ex,
                                                         HttpServletRequest request) {
@@ -122,7 +116,6 @@ public class GlobalExceptionHandler {
                         "Internal server error", request.getRequestURI()));
     }
 
-    // Helper 
     private ErrorResponse buildError(HttpStatus status, String message, String path) {
         return ErrorResponse.builder()
                 .status(status.value())

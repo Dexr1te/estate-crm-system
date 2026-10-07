@@ -416,8 +416,6 @@ class PropertyOfferTest {
         assertThat(read.isCanEdit()).isTrue();
     }
 
-    // Helpers ---------------------------------------------------------------------------
-
     private org.springframework.test.web.servlet.ResultActions offer(Long propertyId, Client client, String amount,
                                                                      LocalDate expiresOn) throws Exception {
         String body = "{\"clientId\":" + client.getId() + ",\"amount\":" + amount

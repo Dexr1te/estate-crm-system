@@ -26,16 +26,13 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     long countByRoleAndStatusAndIsActiveTrue(Role role, UserStatus status);
 
-    // active agents for frontend select (only active!)
     List<User> findByRoleAndIsActiveTrueOrderByFullNameAsc(Role role);
 
     /** Everyone who can be assigned work — see UserService.getAgentOptions. */
     List<User> findByIsActiveTrueOrderByFullNameAsc();
 
-    // all users by role (for admin - including inactive)
     List<User> findByRoleOrderByFullNameAsc(Role role);
 
-    // all users sorted by createdAt desc (for admin dashboard)
     List<User> findAllByOrderByCreatedAtDesc();
     List<User> findByTeamId(Long teamId);
 

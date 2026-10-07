@@ -31,8 +31,7 @@ import java.util.Objects;
  * the listing and its price history from {@link PropertyService}, its viewings from
  * {@link MeetingService}, the buyers it fits from {@link MatchingService}. So another agency's
  * listing is missing here exactly as it is everywhere else, and an agent on own-data scope counts
- * the viewings and buyers they can see, not a colleague's. No migration: every figure is already
- * stored somewhere.
+ * the viewings and buyers they can see, not a colleague's.
  */
 @Service
 @RequiredArgsConstructor

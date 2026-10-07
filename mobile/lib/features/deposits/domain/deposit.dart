@@ -22,7 +22,6 @@ bool depositHoldEnding(PropertyResponse p, DateTime now) {
   return until != null && depositDaysLeft(until, now) <= kDepositWindowDays;
 }
 
-/// The deal's active deposit, if it has one.
 DealDeposit? activeDeposit(List<DealDeposit> deposits) {
   for (final d in deposits) {
     if (d.active) return d;

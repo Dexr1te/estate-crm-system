@@ -17,8 +17,7 @@ import 'responsive_harness.dart';
 
 /// A listing's price history.
 ///
-/// A reduction used to overwrite the old figure without a trace. Now the
-/// listing shows what it was, the card lists every change, and a cut made
+/// The listing shows what it was, the card lists every change, and a cut made
 /// lately is flagged wherever the listing is named — a buyer who passed at the
 /// old price may well not pass at the new one.
 

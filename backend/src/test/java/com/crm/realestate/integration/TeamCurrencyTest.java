@@ -197,8 +197,6 @@ class TeamCurrencyTest {
         assertThat(page(token, "en")).contains("$28,000,000").contains("$448,000");
     }
 
-    // Helpers ------------------------------------------------------------------------------
-
     private ResultActions changeAs(User who, String code) throws Exception {
         return mockMvc.perform(put("/team/currency")
                 .header(HttpHeaders.AUTHORIZATION, bearer(who))

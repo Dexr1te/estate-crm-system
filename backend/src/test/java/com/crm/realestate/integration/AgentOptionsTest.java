@@ -21,13 +21,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * Who can be put on a deal or a meeting.
- *
- * <p>This list used to be Role.AGENT only, which meant a young agency whose only
- * accounts were an admin and a manager got an empty picker — and since the
- * meeting form requires someone to assign, no meeting could be created at all.
- */
+/** Who can be put on a deal or a meeting. */
 @SpringBootTest
 @Transactional
 public class AgentOptionsTest {

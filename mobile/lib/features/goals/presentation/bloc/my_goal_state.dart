@@ -8,8 +8,6 @@ enum MyGoalStatus { loading, loaded, error }
 class MyGoalState {
   final MyGoalStatus status;
   final GoalProgress? goal;
-
-  /// A write is on its way.
   final bool saving;
   final ActionOutcome? outcome;
 

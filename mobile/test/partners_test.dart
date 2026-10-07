@@ -141,7 +141,6 @@ Widget _routed(Widget child, {List<String>? visited}) => MaterialApp.router(
       ),
     );
 
-/// Scrolls [key] into view and taps it.
 Future<void> _tapKey(WidgetTester tester, String key) async {
   final finder = find.byKey(ValueKey(key));
   await tester.ensureVisible(finder);

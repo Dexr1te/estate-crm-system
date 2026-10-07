@@ -653,7 +653,6 @@ class MessageTemplate with _$MessageTemplate {
       _$MessageTemplateFromJson(json);
 }
 
-/// One line in the discussion on a deal.
 @freezed
 class DealComment with _$DealComment {
   const factory DealComment({

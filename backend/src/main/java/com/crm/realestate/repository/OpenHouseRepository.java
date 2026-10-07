@@ -23,7 +23,6 @@ public interface OpenHouseRepository extends JpaRepository<OpenHouse, Long>, Jpa
     @EntityGraph(attributePaths = {"property", "agent"})
     List<OpenHouse> findAll(Specification<OpenHouse> spec, Sort sort);
 
-    /** A listing's open houses, the latest first. */
     @Query("SELECT o FROM OpenHouse o JOIN FETCH o.property LEFT JOIN FETCH o.agent "
             + "WHERE o.property.id = :propertyId ORDER BY o.startsAt DESC, o.id DESC")
     List<OpenHouse> findByPropertyNewestFirst(@Param("propertyId") Long propertyId);

@@ -319,8 +319,6 @@ class SpreadsheetImportTest {
         mockMvc.perform(get("/import/deals/template")).andExpect(status().isNotFound());
     }
 
-    // Helpers ---------------------------------------------------------------------------
-
     private ResultActions upload(String kind, String step, byte[] bytes, String... params) throws Exception {
         var request = multipart("/import/" + kind + "/" + step)
                 .file(new MockMultipartFile("file", "book.csv", "text/csv", bytes));

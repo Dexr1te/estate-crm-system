@@ -76,7 +76,6 @@ class FakeAuthRepository implements AuthRepository {
   Future<AuthResponse> resetPassword(String token, String newPassword) async =>
       user!;
 
-  /// The address the last reset request named, or null if none was made.
   String? resetRequestedFor;
 
   @override
@@ -89,7 +88,6 @@ class FakeAuthRepository implements AuthRepository {
   }) async =>
       registered = (fullName, email, password, role);
 
-  /// What the last sign-up sent, or null if none was made.
   (String, String, String, Role)? registered;
 
   @override
@@ -104,7 +102,6 @@ class FakeAuthRepository implements AuthRepository {
   @override
   Future<void> resendVerification(String email) async => resentFor = email;
 
-  /// The address the last resend named.
   String? resentFor;
 
   @override
@@ -489,7 +486,6 @@ class FakePropertiesRepository implements PropertiesRepository {
   /// Every listing a link was asked for, in order — repeats included.
   final List<int> shareLinkRequests = [];
 
-  /// Listings whose link was switched off.
   final List<int> revokedShareLinks = [];
 
   /// When set, making a link fails the way a dropped connection would.
@@ -956,7 +952,6 @@ class FakeTeamsRepository implements TeamsRepository {
   @override
   Future<void> cancelRequest(int requestId) async => cancelled = requestId;
 
-  /// The request the last withdrawal named.
   int? cancelled;
 
   @override
@@ -965,13 +960,11 @@ class FakeTeamsRepository implements TeamsRepository {
     return const AuthResponse(teamId: 1, teamName: 'Downtown desk');
   }
 
-  /// The request the last acceptance named.
   int? accepted;
 
   @override
   Future<void> declineRequest(int requestId) async => declined = requestId;
 
-  /// The request the last refusal named.
   int? declined;
 
   @override
@@ -985,7 +978,6 @@ class FakeTeamsRepository implements TeamsRepository {
         currency: code);
   }
 
-  /// The currency code the last change asked for.
   String? changedCurrency;
 
   @override
@@ -994,7 +986,6 @@ class FakeTeamsRepository implements TeamsRepository {
     return TeamResponse(id: 1, name: name, memberCount: 1);
   }
 
-  /// The name the last agency was created with.
   String? createdTeamName;
 
   @override
@@ -1014,7 +1005,6 @@ class FakeTeamsRepository implements TeamsRepository {
   /// When set, the handover itself fails with it and nothing moves.
   Object? handOverError;
 
-  /// What the last handover sent.
   HandoverSelection? handedOver;
 
   @override

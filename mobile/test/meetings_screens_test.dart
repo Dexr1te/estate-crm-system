@@ -14,8 +14,7 @@ import 'fakes.dart';
 import 'responsive_harness.dart';
 
 /// Mid-morning, so that a fixture placed a few hours out is still the same
-/// calendar day. Read from the wall clock, these suites passed before dinner
-/// and failed after it.
+/// calendar day.
 final _now = DateTime(2026, 3, 12, 9, 0);
 
 MeetingResponse _meeting(int id, Duration fromNow, String title,
@@ -126,8 +125,7 @@ void main() {
   // The bug this guards: my_app clamps text scaling for the whole app, and a
   // floor of 1.0 intersected with the date picker's own clamp to produce an
   // empty range, which trips an assertion inside TextScaler and paints a red
-  // box where the field was. The suite never saw it because the harness set a
-  // scaler directly instead of clamping the way the app does.
+  // box where the field was.
   testWidgets('the date picker opens instead of painting an error',
       (tester) async {
     await expectNoOverflow(

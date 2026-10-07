@@ -9,13 +9,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.stream.Collectors;
 
-/**
- * The one definition of what a client looks like over the wire.
- *
- * <p>Lifted out of {@code ClientService} when matching started returning clients
- * too: two copies of this would drift the moment a field is added, and the
- * requirement fields were added the same day.
- */
+/** The one definition of what a client looks like over the wire. */
 @Component
 public class ClientMapper {
 

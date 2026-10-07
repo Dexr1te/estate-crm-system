@@ -106,8 +106,7 @@ public class RegistrationService {
      * Spends the code and signs the new account in.
      *
      * <p>Wrong guesses are counted and survive the failed request — that is what the no-rollback is
-     * for. Six digits are a million possibilities, which is plenty against five tries and nothing
-     * against unlimited ones.
+     * for.
      */
     @Transactional(noRollbackFor = BusinessException.class)
     public AuthResponse verifyEmail(VerifyEmailRequest request) {

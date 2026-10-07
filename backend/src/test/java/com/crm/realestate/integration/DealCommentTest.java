@@ -417,8 +417,6 @@ class DealCommentTest {
         assertThat(read.getBody()).isEqualTo("Covered the viewing, they liked it");
     }
 
-    // Helpers -------------------------------------------------------------------------
-
     private void seedDealsWithComments(int count) {
         IntStream.range(0, count).forEach(i -> {
             Deal d = deal("Deal " + i, agent, almaty);

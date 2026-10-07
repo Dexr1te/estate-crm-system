@@ -415,8 +415,6 @@ class PartnerTest {
                 .satisfies(h -> assertThat(h.getSentBy()).isNull());
     }
 
-    // Helpers ---------------------------------------------------------------------------
-
     private static PartnerRequest partner(String name, PartnerKind kind, ReferralFeeType feeType, String fee) {
         PartnerRequest request = new PartnerRequest();
         request.setName(name);

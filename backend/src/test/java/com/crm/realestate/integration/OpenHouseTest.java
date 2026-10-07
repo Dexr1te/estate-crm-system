@@ -479,8 +479,6 @@ class OpenHouseTest {
         assertThat(read.isCanEdit()).isTrue();
     }
 
-    // Helpers ---------------------------------------------------------------------------
-
     private static OpenHouseRequest request(LocalDateTime start, int hours, String note) {
         OpenHouseRequest request = new OpenHouseRequest();
         request.setStartsAt(start);

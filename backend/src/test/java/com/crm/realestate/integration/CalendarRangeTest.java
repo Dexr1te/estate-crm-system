@@ -159,8 +159,6 @@ class CalendarRangeTest {
                 .andExpect(jsonPath("$.length()").value(0));
     }
 
-    // Helpers -------------------------------------------------------------------------
-
     private void meeting(String title, LocalDateTime at, Client client, User holder) {
         meetingRepository.save(Meeting.builder()
                 .title(title).scheduledAt(at)

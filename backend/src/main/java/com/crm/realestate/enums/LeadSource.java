@@ -13,9 +13,7 @@ public enum LeadSource {
     PORTAL,
     /** Instagram, Telegram, WhatsApp channels and the like. */
     SOCIAL,
-    /** Came into the office. */
     WALK_IN,
-    /** The agency called them first. */
     COLD_CALL,
     /** Has bought or sold with the agency before. */
     REPEAT,

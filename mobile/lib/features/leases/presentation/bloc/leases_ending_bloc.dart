@@ -8,7 +8,6 @@ import 'package:real_estate_crm/features/leases/domain/repositories/leases_repos
 
 abstract class LeasesEndingEvent {}
 
-/// Loads, or reloads, the leases running out.
 class LeasesEndingLoadEvent extends LeasesEndingEvent {}
 
 abstract class LeasesEndingState {

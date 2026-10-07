@@ -38,10 +38,8 @@ class ClientBirthday {
     return null;
   }
 
-  /// The client's birthday, if one is recorded.
   static ClientBirthday? of(ClientResponse client) => parse(client.birthday);
 
-  /// What the API is sent.
   String toApi() {
     final md = '${_two(month)}-${_two(day)}';
     final y = year;

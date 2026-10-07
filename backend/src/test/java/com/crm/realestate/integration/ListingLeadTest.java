@@ -344,8 +344,6 @@ class ListingLeadTest {
         assertThat(reopened).contains("action=\"interest\"");
         mockMvc.perform(get("/l/{token}/interest", "nope")).andExpect(status().isNotFound());    }
 
-    // Helpers --------------------------------------------------------------------------------
-
     private MockHttpServletRequestBuilder lead(String name, String phone, String message,
             boolean consent) {
         MockHttpServletRequestBuilder request = post("/l/{token}/interest", token)

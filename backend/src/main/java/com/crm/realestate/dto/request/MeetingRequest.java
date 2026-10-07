@@ -21,7 +21,7 @@ public class MeetingRequest {
 
     private String location;
 
-    private Long dealId;      // опционально
+    private Long dealId;
 
     /** The listing being shown, when this is a viewing. Optional. */
     private Long propertyId;

@@ -317,8 +317,6 @@ class ClientTagsTest {
         tags().andExpect(jsonPath("$[0].name").value("VIP")).andExpect(jsonPath("$[0].count").value(2));
     }
 
-    // Helpers -----------------------------------------------------------------------------------
-
     private ResultActions create(String name, String type, String... tags) throws Exception {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put("fullName", name);

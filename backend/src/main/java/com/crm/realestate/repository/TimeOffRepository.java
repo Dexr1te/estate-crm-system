@@ -56,6 +56,5 @@ public interface TimeOffRepository extends JpaRepository<TimeOff, Long> {
     /** The absences somebody covers anywhere, for whoever is to take the cover over. */
     List<TimeOff> findByCoverId(Long coverId);
 
-    /** The absences somebody covers in one agency. */
     List<TimeOff> findByCoverIdAndTeamId(Long coverId, Long teamId);
 }

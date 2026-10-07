@@ -111,12 +111,7 @@ public class EmailService {
         }
     }
 
-    /**
-     * Tells someone how to get back in.
-     *
-     * <p>Until this existed {@code requestPasswordReset} minted a token, stored it and told nobody,
-     * so the only route back into an invite-only app was asking an administrator.
-     */
+    /** Tells someone how to get back in. */
     @Async
     public void sendPasswordReset(String toEmail, String fullName, String resetToken) {
         if (!enabled) {

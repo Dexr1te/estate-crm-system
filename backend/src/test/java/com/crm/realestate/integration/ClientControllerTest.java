@@ -116,7 +116,6 @@ public class ClientControllerTest {
                                 .andReturn().getResponse().getContentAsString();
 
                 JsonNode root = objectMapper.readTree(json);
-                // Should be a paged response object (not array)
                 assertThat(root.isArray()).isFalse();
                 assertThat(root.has("content")).isTrue();
                 assertThat(root.get("content").isArray()).isTrue();

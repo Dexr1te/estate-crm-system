@@ -265,8 +265,6 @@ class ClientDuplicatesTest {
         assertThat(auditLogRepository.findAll()).isEmpty();
     }
 
-    // Helpers ---------------------------------------------------------------------------
-
     private ResultActions duplicates(String... params) throws Exception {
         var request = get("/clients/duplicates");
         for (int i = 0; i < params.length; i += 2) {

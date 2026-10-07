@@ -68,12 +68,10 @@ public interface DealRepository extends JpaRepository<Deal, Long>, JpaSpecificat
     @EntityGraph(attributePaths = {"client", "property", "agent", "landlord"})
     List<Deal> findByAgentIdAndStatus(Long agentId, DealStatus status);
 
-    // для аналитики количество сделок по статусам у агента
     @Query("SELECT d.status, COUNT(d) FROM Deal d " +
            "WHERE d.agent.id = :agentId GROUP BY d.status")
     List<Object[]> countByStatusForAgent(@Param("agentId") Long agentId);
 
-    // общая сводка по всем сделкам
     @Query("SELECT d.status, COUNT(d) FROM Deal d GROUP BY d.status")
     List<Object[]> countByStatus();
 

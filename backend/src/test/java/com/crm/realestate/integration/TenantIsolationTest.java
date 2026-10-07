@@ -349,8 +349,6 @@ class TenantIsolationTest {
         assertThat(clientService.getById(astanaClient.getId()).getFullName()).isEqualTo("Madina");
     }
 
-    // Fixtures -------------------------------------------------------------------------
-
     private void signIn(User who) {
         SecurityContextHolder.getContext().setAuthentication(
                 new UsernamePasswordAuthenticationToken(who.getEmail(), null, List.of()));

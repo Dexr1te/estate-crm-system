@@ -134,7 +134,6 @@ public class ClientTagService {
         return byKey;
     }
 
-    /** Forgets tags of this agency that no client carries any more. */
     @Transactional
     public void forgetUnused(Team team) {
         tagRepository.deleteUnused(team == null ? null : team.getId());

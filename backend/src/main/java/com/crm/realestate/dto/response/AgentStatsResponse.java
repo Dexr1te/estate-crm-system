@@ -20,5 +20,5 @@ public class AgentStatsResponse {
     private long totalDeals;
     private long activeDeals;      // LEAD + NEGOTIATION
     private long closedDeals;      // CLOSED_WON + CLOSED_LOST
-    private long upcomingMeetings; // upcoming meetings
+    private long upcomingMeetings;
 }

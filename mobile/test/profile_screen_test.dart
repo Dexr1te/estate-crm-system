@@ -148,8 +148,6 @@ void main() {
         textScale: 1.0);
     await tester.pumpAndSettle();
 
-    // The row used to be a two-position switch captioned "Follow system",
-    // which was the one thing it could not do.
     await tester.tap(find.text('Follow system'));
     await tester.pumpAndSettle();
 

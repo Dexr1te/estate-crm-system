@@ -29,13 +29,11 @@ public class SellerReportResponse {
     private String city;
     private PropertyStatus status;
 
-    /** When the listing went up. */
     private LocalDateTime listedAt;
     /** Whole days from listing to today, or to the won deal's close once it has sold. */
     private long daysOnMarket;
     /** The close of the won deal, when there is one; days on the market stop counting there. */
     private LocalDateTime soldAt;
-    /** The day the figures were taken. */
     private LocalDate generatedOn;
 
     private Viewings viewings;
@@ -51,7 +49,6 @@ public class SellerReportResponse {
         private int total;
         /** Done, or their time has passed. */
         private int held;
-        /** Still to come. */
         private int upcoming;
         /** Every {@link ViewingOutcome}, zeros included, so a new one shows up without a change here. */
         private Map<ViewingOutcome, Integer> outcomes;

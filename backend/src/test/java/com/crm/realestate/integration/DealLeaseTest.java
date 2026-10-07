@@ -348,8 +348,6 @@ class DealLeaseTest extends ColdClientsFixture {
         assertThat(dealRepository.findById(lease.getId()).orElseThrow().getLandlord()).isNull();
     }
 
-    // Helpers -----------------------------------------------------------------------------------
-
     /** A rent of 300 000 a month, a year long, ending on {@code end}. */
     private Deal rent(Client tenant, Client landlord, DealStatus status, LocalDate end, Integer reminderDays) {
         Deal deal = deal(tenant, "Lease", status);

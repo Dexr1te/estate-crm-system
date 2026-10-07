@@ -133,7 +133,6 @@ class _CommissionSplitFormState extends State<CommissionSplitForm> {
     setState(() => agent.percent.text = formatRate((10000 - others) / 100));
   }
 
-  /// Everything back to the deal's agent.
   void _allToAgent() {
     final agent = _lines.firstWhere((l) => l.isAgent);
     widget.onConfirm(CommissionSplitDraft([

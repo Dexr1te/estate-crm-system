@@ -85,7 +85,6 @@ public class Deal {
     @Column(name = "lost_note", length = 500)
     private String lostNote;
 
-    // Клиент по сделке
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id", nullable = false)
     private Client client;
@@ -95,7 +94,6 @@ public class Deal {
     @JoinColumn(name = "property_id")
     private Property property;
 
-    // Ответственный агент
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "agent_id", nullable = false)
     private User agent;
@@ -105,12 +103,10 @@ public class Deal {
     @JoinColumn(name = "team_id")
     private Team team;
 
-    // Документы по сделке
     @OneToMany(mappedBy = "deal", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<Document> documents = new ArrayList<>();
 
-    // Встречи по сделке
     @OneToMany(mappedBy = "deal", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<Meeting> meetings = new ArrayList<>();

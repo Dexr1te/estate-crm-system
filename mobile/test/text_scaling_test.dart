@@ -4,8 +4,7 @@ import 'package:real_estate_crm/core/theme/app_text_scaling.dart';
 
 /// Stands in for the platform's scaler on a modern phone, which is not linear
 /// and so does not collapse a clamp into a plain factor the way
-/// `TextScaler.linear` does. That short-circuit is the reason this was
-/// invisible to every widget test the app had.
+/// `TextScaler.linear` does.
 class _PlatformScaler extends TextScaler {
   const _PlatformScaler();
 

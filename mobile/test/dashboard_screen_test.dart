@@ -19,8 +19,7 @@ import 'quick_add_expect.dart';
 import 'responsive_harness.dart';
 
 /// Mid-morning, so that a fixture placed a few hours out is still the same
-/// calendar day. Read from the wall clock, these suites passed before dinner
-/// and failed after it.
+/// calendar day.
 final _now = DateTime(2026, 3, 12, 9, 0);
 
 MeetingResponse _meeting(int id, Duration fromNow, String title) =>

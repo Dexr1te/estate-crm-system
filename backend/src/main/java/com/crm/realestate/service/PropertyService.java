@@ -64,7 +64,6 @@ public class PropertyService {
         return findVisible(PropertySpecification.build(null, null, null, null, null, null, null, query));
     }
 
-    // New: pageable + specification-based search for production-ready filtering and pagination
     public org.springframework.data.domain.Page<PropertyResponse> search(
             PropertyStatus status,
             PropertyType type,
@@ -217,8 +216,6 @@ public class PropertyService {
         return findVisibleById(id, currentUser);
     }
 
-    // Private helpers
-
     private List<PropertyResponse> findVisible(Specification<Property> filter) {
         User currentUser = securityUtils.getCurrentUser();
         return propertyMapper.toResponses(
@@ -236,9 +233,8 @@ public class PropertyService {
     }
 
     /**
-     * A new listing is held by whoever adds it, in their team — it used to be saved with no agent at
-     * all, which left it belonging to nobody. Only an admin may name another agent, and the listing
-     * then lives in that agent's team.
+     * A new listing is held by whoever adds it, in their team. Only an admin may name another
+     * agent, and the listing then lives in that agent's team.
      */
     private void mapRequestToEntity(PropertyRequest request, Property property, User currentUser) {
         boolean isNew = property.getId() == null;

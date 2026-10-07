@@ -423,8 +423,6 @@ class TimeOffTest {
                 .andExpect(jsonPath("$.code").value("TEAM_REQUIRED"));
     }
 
-    // Helpers ---------------------------------------------------------------------------
-
     private static TimeOffRequest request(Long userId, TimeOffKind kind, LocalDate start, LocalDate end, User cover) {
         TimeOffRequest request = new TimeOffRequest();
         request.setUserId(userId);

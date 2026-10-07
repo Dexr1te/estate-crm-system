@@ -14,7 +14,7 @@ import java.util.List;
 @Repository
 public interface ClientActivityRepository extends JpaRepository<ClientActivity, Long> {
 
-    /** Newest first. The author is read off every row, so it is joined rather than fetched per row. */
+    /** The author is read off every row, so it is joined rather than fetched per row. */
     @Query("SELECT a FROM ClientActivity a LEFT JOIN FETCH a.author "
             + "WHERE a.client.id = :clientId ORDER BY a.occurredAt DESC, a.id DESC")
     List<ClientActivity> findByClientNewestFirst(@Param("clientId") Long clientId);

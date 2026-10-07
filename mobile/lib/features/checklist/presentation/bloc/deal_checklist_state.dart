@@ -48,7 +48,6 @@ class DealChecklistState {
       );
 }
 
-/// A checklist write that did not go through.
 class DealChecklistWriteFailed with ActionFailed {
   @override
   final ApiFailure failure;

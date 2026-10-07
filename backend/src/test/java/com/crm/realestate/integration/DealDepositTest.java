@@ -287,8 +287,6 @@ class DealDepositTest extends ChecklistFixture {
                 .andExpect(jsonPath("$.length()").value(2));
     }
 
-    // Helpers ---------------------------------------------------------------------------------
-
     private static String depositsUrl(Deal deal) {
         return "/deals/" + deal.getId() + "/deposits";
     }

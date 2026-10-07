@@ -33,7 +33,6 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final UserDetailsService userDetailsService;
 
-    // публичные endpoints (без токена)
     private static final String[] PUBLIC_URLS = {
             "/auth/login",
             "/auth/register",

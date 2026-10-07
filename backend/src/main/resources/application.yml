@@ -113,10 +113,6 @@ app:
     # offline development, where every lookup fails.
     verify-domain: ${MAIL_VERIFY_DOMAIN:true}
     verify-domain-timeout-ms: ${MAIL_VERIFY_DOMAIN_TIMEOUT_MS:3000}
-  # The account App Review signs in with. Off by default, and it must stay off
-  # outside a submission window: it exists only so a reviewer can get past a
-  # login screen that has no sign-up behind it. See DemoDataSeeder, and
-  # docs/app-store-submission.md for how it is used.
   # Birthdays and purchase anniversaries: each agent is told on the day, at the
   # first run of the cron in the agency's time zone (blank = the server's).
   # Hourly through the day, so a server that was down at eight still tells
@@ -125,6 +121,10 @@ app:
   client-dates:
     cron: ${CLIENT_DATES_CRON:0 0 8-21 * * *}
     zone: ${CLIENT_DATES_ZONE:Asia/Almaty}
+  # The account App Review signs in with. Off by default, and it must stay off
+  # outside a submission window: it exists only so a reviewer can get past a
+  # login screen that has no sign-up behind it. See DemoDataSeeder, and
+  # docs/app-store-submission.md for how it is used.
   demo:
     enabled: ${DEMO_ENABLED:false}
     email: ${DEMO_EMAIL:reviewer@demo.estatecrm.app}
