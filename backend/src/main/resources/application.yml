@@ -102,13 +102,21 @@ app:
   # Custom scheme the landing page offers as "Open in the app".
   invite-deep-link: ${INVITE_DEEP_LINK:estatecrm://accept-invite}
   mail:
-    # Master switch: emails are only sent when true AND SMTP creds are set.
+    # Master switch: emails are only sent when true AND the provider below has
+    # its credentials (SMTP login, or BREVO_API_KEY).
     enabled: ${MAIL_ENABLED:false}
     # Local development only: while mail is off, print sign-up codes to the log
     # so an account can still be confirmed. Never enable this on a real host.
     log-codes: ${MAIL_LOG_CODES:false}
+    # How mail leaves: `smtp` through spring.mail above, or `brevo` through
+    # Brevo's HTTPS API. Use `brevo` on a host that blocks outbound SMTP, as
+    # Render's free plan does; MAIL_FROM must then be a sender Brevo verified.
+    provider: ${MAIL_PROVIDER:smtp}
+    brevo:
+      api-key: ${BREVO_API_KEY:}
     # Gmail rewrites From to the authenticated account, so default to it.
     from: ${MAIL_FROM:${MAIL_USERNAME:no-reply@estatecrm.app}}
+    from-name: ${MAIL_FROM_NAME:Estate CRM}
     # Reject invites to domains that publish no MX/A record. Turn off for
     # offline development, where every lookup fails.
     verify-domain: ${MAIL_VERIFY_DOMAIN:true}
