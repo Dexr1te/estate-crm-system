@@ -73,7 +73,7 @@ class AppTokens {
 
   Color get heroSurface => isDark ? AppColors.darkSurface : AppColors.primary;
   Color get heroText => isDark ? AppColors.darkTextPrimary : Colors.white;
-  Color get heroTextMuted => AppColors.darkTextSecondary;
+  Color get heroTextMuted => Colors.white.withValues(alpha: 0.62);
   Color? get heroBorder => isDark ? AppColors.darkBorder : null;
 
   Color get heroActionFill => isDark ? AppColors.accent : Colors.white;
@@ -93,8 +93,8 @@ class AppTokens {
 
   Color get dangerSolid => isDark ? AppColors.error : const Color(0xFFDC2626);
 
-  Color get sheetScrim => AppColors.primary.withValues(alpha: 0.42);
-  Color get dialogScrim => AppColors.primary.withValues(alpha: 0.5);
+  Color get sheetScrim => Colors.black.withValues(alpha: isDark ? 0.55 : 0.32);
+  Color get dialogScrim => Colors.black.withValues(alpha: isDark ? 0.6 : 0.38);
 
   Color get glassFill => isDark
       ? AppColors.darkSurface.withValues(alpha: 0.58)
@@ -116,6 +116,10 @@ class AppTokens {
       : AppColors.primary.withValues(alpha: 0.07);
   Color get heroGlass =>
       isDark ? glassFill : AppColors.primary.withValues(alpha: 0.93);
+
+  Color get segmentTrack =>
+      isDark ? AppColors.darkSurface : const Color(0xFFE4E4EA);
+  Color get segmentThumb => isDark ? const Color(0xFF3A3A3C) : Colors.white;
 
   Color get chartLead => isDark ? const Color(0xFFA78BFA) : AppColors.lead;
   Color get chartNegotiation =>

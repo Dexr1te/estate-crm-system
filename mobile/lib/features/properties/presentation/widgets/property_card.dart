@@ -7,7 +7,7 @@ import 'package:real_estate_crm/features/properties/presentation/widgets/propert
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_price_history.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
-const double _coverSize = 44;
+const double _coverSize = 56;
 
 class PropertyCard extends StatelessWidget {
   final PropertyResponse property;
@@ -26,7 +26,7 @@ class PropertyCard extends StatelessWidget {
 
     return AppCard(
       onTap: onTap,
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
+      padding: const EdgeInsets.fromLTRB(14, 14, 16, 14),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -72,8 +72,9 @@ class PropertyCard extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontFamily: AppFonts.sans,
-                            fontSize: 14,
+                            fontSize: 16,
                             fontWeight: FontWeight.w600,
+                            letterSpacing: -0.2,
                             color: t.textPrimary),
                       ),
                       if (property.address.isNotEmpty) ...[
@@ -84,7 +85,7 @@ class PropertyCard extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontFamily: AppFonts.sans,
-                              fontSize: 11.5,
+                              fontSize: 13.5,
                               color: t.textSecondary),
                         ),
                       ],
@@ -110,10 +111,7 @@ class PropertyCard extends StatelessWidget {
               ],
             );
           }),
-          Padding(
-            padding: const EdgeInsets.only(top: 11, bottom: 10),
-            child: Container(height: 1, color: t.border),
-          ),
+          const SizedBox(height: 12),
           // A price in tenge or sum runs long ("987,7 млрд сум"): it keeps
           // up to 60% of the line and ends in an ellipsis past that, rather
           // than pushing the specs off the card.
@@ -131,8 +129,9 @@ class PropertyCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 16,
+                        fontSize: 17,
                         fontWeight: FontWeight.w700,
+                        letterSpacing: -0.2,
                         color: t.textPrimary),
                   ),
                 ),
@@ -149,7 +148,7 @@ class PropertyCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 11.5,
+                        fontSize: 13,
                         color: t.textSecondary),
                   ),
                 ),
@@ -180,14 +179,14 @@ class PropertyCardBone extends StatelessWidget {
   @override
   Widget build(BuildContext context) => const ShimmerCard(
         radius: AppMetrics.radiusMd,
-        padding: EdgeInsets.symmetric(horizontal: 14, vertical: 13),
+        padding: EdgeInsets.fromLTRB(14, 14, 16, 14),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisSize: MainAxisSize.min,
           children: [
             Row(
               children: [
-                ShimmerBox(width: 44, height: 44, radius: 13),
+                ShimmerBox(width: 56, height: 56, radius: 14),
                 SizedBox(width: 12),
                 Expanded(
                   child: Column(
@@ -201,13 +200,10 @@ class PropertyCardBone extends StatelessWidget {
                   ),
                 ),
                 SizedBox(width: 8),
-                ShimmerBox(width: 60, height: 22, radius: 11),
+                ShimmerBox(width: 60, height: 12, radius: 6),
               ],
             ),
-            Padding(
-              padding: EdgeInsets.only(top: 11, bottom: 10),
-              child: ShimmerBox(width: double.infinity, height: 1, radius: 0.5),
-            ),
+            SizedBox(height: 12),
             Row(
               children: [
                 ShimmerBox(width: 88, height: 15, radius: 7),

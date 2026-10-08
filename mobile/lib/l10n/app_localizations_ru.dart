@@ -1840,10 +1840,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get coreLogout => 'Выйти';
 
   @override
-  String get coreNavAdmin => 'Администрирование';
+  String get coreNavAdmin => 'Админ';
 
   @override
-  String get coreNavCalendar => 'Календарь';
+  String get coreNavCalendar => 'Встречи';
 
   @override
   String get coreNavClients => 'Клиенты';

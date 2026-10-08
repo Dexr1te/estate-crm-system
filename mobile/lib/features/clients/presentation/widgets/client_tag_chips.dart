@@ -20,7 +20,6 @@ class ClientTagChip extends StatelessWidget {
       decoration: BoxDecoration(
         color: t.surfaceVariant,
         borderRadius: BorderRadius.circular(AppMetrics.radiusPill),
-        border: Border.all(color: t.border, width: AppMetrics.borderWidth),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,

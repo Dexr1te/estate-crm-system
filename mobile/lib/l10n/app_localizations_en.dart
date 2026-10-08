@@ -1815,13 +1815,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get coreNavClients => 'Clients';
 
   @override
-  String get coreNavDashboard => 'Dashboard';
+  String get coreNavDashboard => 'Home';
 
   @override
   String get coreNavDeals => 'Deals';
 
   @override
-  String get coreNavProperties => 'Properties';
+  String get coreNavProperties => 'Listings';
 
   @override
   String get coreNavTeam => 'Team';

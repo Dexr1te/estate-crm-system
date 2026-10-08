@@ -107,12 +107,11 @@ class _TypeTile extends StatelessWidget {
       decoration: BoxDecoration(
         color: t.surfaceVariant,
         borderRadius: BorderRadius.circular(radius),
-        border: Border.all(color: t.border, width: AppMetrics.borderWidth),
       ),
       child: Icon(
         type == null ? Icons.home_work_outlined : propertyTypeIcon(type!),
-        size: size * 0.41,
-        color: live ? t.accent : t.textHint,
+        size: size * 0.4,
+        color: live ? t.textSecondary : t.textHint,
       ),
     );
   }

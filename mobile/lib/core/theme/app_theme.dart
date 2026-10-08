@@ -9,23 +9,23 @@ class AppColors {
   static const accent = Color(0xFFE5B84C);
   static const accentLight = Color(0xFFFFD54F);
 
-  static const background = Color(0xFFF4F6FB);
+  static const background = Color(0xFFF2F2F7);
   static const surface = Color(0xFFFFFFFF);
-  static const surfaceVariant = Color(0xFFEEF1F8);
-  static const border = Color(0xFFE8ECF4);
+  static const surfaceVariant = Color(0xFFEFEFF4);
+  static const border = Color(0xFFE6E6EB);
 
-  static const textPrimary = Color(0xFF0F1E3C);
-  static const textSecondary = Color(0xFF6B7A99);
-  static const textHint = Color(0xFFADB5CC);
+  static const textPrimary = Color(0xFF111318);
+  static const textSecondary = Color(0xFF6E717C);
+  static const textHint = Color(0xFFA5A8B1);
 
-  static const darkBackground = Color(0xFF141625);
-  static const darkSurface = Color(0xFF1E2130);
-  static const darkSurfaceVariant = Color(0xFF252A3D);
-  static const darkBorder = Color(0xFF2A2F45);
+  static const darkBackground = Color(0xFF000000);
+  static const darkSurface = Color(0xFF1C1C1E);
+  static const darkSurfaceVariant = Color(0xFF2C2C2E);
+  static const darkBorder = Color(0xFF2F2F33);
 
-  static const darkTextPrimary = Color(0xFFF0F2FF);
-  static const darkTextSecondary = Color(0xFF8B9CC8);
-  static const darkTextHint = Color(0xFF4A5070);
+  static const darkTextPrimary = Color(0xFFF5F5F7);
+  static const darkTextSecondary = Color(0xFF9A9AA1);
+  static const darkTextHint = Color(0xFF5F5F66);
 
   static const darkPrimary = accent;
   static const onDarkPrimary = Color(0xFF0F1E3C);
@@ -183,12 +183,9 @@ class AppTheme {
           const DividerThemeData(color: AppColors.border, thickness: 1),
       snackBarTheme: SnackBarThemeData(
         behavior: SnackBarBehavior.floating,
-        backgroundColor: AppColors.primary.withValues(alpha: 0.9),
+        backgroundColor: const Color(0xFF1C1C1E),
         elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(18),
-          side: BorderSide(color: Colors.white.withValues(alpha: 0.14)),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         contentTextStyle:
             const TextStyle(color: Colors.white, fontFamily: AppFonts.sans),
       ),
@@ -472,12 +469,9 @@ class AppThemeDark {
       ),
       snackBarTheme: SnackBarThemeData(
         behavior: SnackBarBehavior.floating,
-        backgroundColor: AppColors.darkSurfaceVariant.withValues(alpha: 0.92),
+        backgroundColor: AppColors.darkSurfaceVariant,
         elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(18),
-          side: BorderSide(color: Colors.white.withValues(alpha: 0.1)),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         contentTextStyle: const TextStyle(
             color: AppColors.darkTextPrimary, fontFamily: AppFonts.sans),
       ),

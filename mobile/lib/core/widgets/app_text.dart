@@ -27,23 +27,14 @@ class SectionHeader extends StatelessWidget {
     final t = context.tokens;
     final trailingStyle = TextStyle(
       fontFamily: AppFonts.sans,
-      fontSize: 12,
-      fontWeight: FontWeight.w600,
+      fontSize: 13,
+      fontWeight: FontWeight.w500,
       color: t.textSecondary,
     );
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Container(
-          width: 3,
-          height: 14,
-          decoration: BoxDecoration(
-            color: t.accent,
-            borderRadius: BorderRadius.circular(2),
-          ),
-        ),
-        const SizedBox(width: 9),
         Flexible(
           child: Text(
             title,
@@ -51,8 +42,9 @@ class SectionHeader extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontFamily: AppFonts.sans,
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+              letterSpacing: -0.2,
               color: t.textPrimary,
             ),
           ),
@@ -68,10 +60,10 @@ class SectionHeader extends StatelessWidget {
           _Tappable(
             onTap: onAction!,
             child: Row(mainAxisSize: MainAxisSize.min, children: [
-              Text(actionLabel!, style: trailingStyle),
-              const SizedBox(width: 4),
-              Icon(Icons.arrow_forward_rounded,
-                  size: 13, color: t.textSecondary),
+              Text(actionLabel!,
+                  style: trailingStyle.copyWith(color: t.primary)),
+              const SizedBox(width: 2),
+              Icon(Icons.chevron_right_rounded, size: 17, color: t.primary),
             ]),
           ),
       ],
@@ -120,10 +112,10 @@ class EyebrowLabel extends StatelessWidget {
       overflow: TextOverflow.ellipsis,
       style: TextStyle(
         fontFamily: AppFonts.sans,
-        fontSize: 10.5,
+        fontSize: 11,
         fontWeight: FontWeight.w600,
-        letterSpacing: 1.1,
-        color: color ?? t.accent,
+        letterSpacing: 0.6,
+        color: color ?? t.textSecondary,
       ),
     );
   }
@@ -154,10 +146,10 @@ class ScreenTitle extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
             fontFamily: AppFonts.sans,
-            fontSize: 24,
+            fontSize: 28,
             height: 1.1,
             fontWeight: FontWeight.w700,
-            letterSpacing: -0.5,
+            letterSpacing: -0.8,
             color: t.textPrimary,
           ),
         ),
@@ -169,7 +161,7 @@ class ScreenTitle extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontFamily: AppFonts.sans,
-              fontSize: 12,
+              fontSize: 13,
               color: t.textSecondary,
             ),
           ),

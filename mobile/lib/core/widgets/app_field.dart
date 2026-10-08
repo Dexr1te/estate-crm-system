@@ -50,7 +50,7 @@ class AppTextField extends StatelessWidget {
     OutlineInputBorder border(Color color, [double width = 1]) =>
         OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppMetrics.radiusSm),
-          borderSide: onPage || color == t.primary || color == t.dangerText
+          borderSide: color == t.primary || color == t.dangerText
               ? BorderSide(color: color, width: width)
               : BorderSide.none,
         );
@@ -69,19 +69,19 @@ class AppTextField extends StatelessWidget {
       textInputAction: textInputAction,
       style: TextStyle(
         fontFamily: AppFonts.sans,
-        fontSize: 13.5,
+        fontSize: 15,
         color: t.textPrimary,
       ),
       cursorColor: t.primary,
       decoration: InputDecoration(
         hintText: hint,
         hintStyle: TextStyle(
-            fontFamily: AppFonts.sans, fontSize: 13.5, color: t.textHint),
+            fontFamily: AppFonts.sans, fontSize: 15, color: t.textHint),
         filled: true,
         fillColor: onPage ? t.surface : t.surfaceVariant,
         isDense: true,
         contentPadding:
-            const EdgeInsets.symmetric(horizontal: 14, vertical: 15),
+            const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
         prefixIcon: icon == null
             ? null
             : Padding(

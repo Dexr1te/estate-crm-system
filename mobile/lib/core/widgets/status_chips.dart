@@ -10,32 +10,40 @@ class StatusChip extends StatelessWidget {
   final StatusHue hue;
   const StatusChip({super.key, required this.label, required this.hue});
 
-  static const _padding = EdgeInsets.symmetric(horizontal: 9, vertical: 4);
+  static const _dot = 6.0;
+  static const _gap = 5.0;
   static const _style = TextStyle(
     fontFamily: AppFonts.sans,
-    fontSize: 10,
-    fontWeight: FontWeight.w600,
+    fontSize: 11,
+    fontWeight: FontWeight.w500,
   );
 
   /// The width a chip reading [label] takes at [context]'s text scale.
   static double widthOf(BuildContext context, String label) =>
-      singleLineTextWidth(context, label, _style) + _padding.horizontal;
+      _dot + _gap + singleLineTextWidth(context, label, _style);
 
   @override
   Widget build(BuildContext context) {
-    final p = StatusPalette.resolve(context.tokens, hue);
-    return Container(
-      padding: _padding,
-      decoration: BoxDecoration(
-        color: p.fill,
-        borderRadius: BorderRadius.circular(AppMetrics.radiusPill),
-      ),
-      child: Text(
-        label,
-        maxLines: 1,
-        overflow: TextOverflow.ellipsis,
-        style: _style.copyWith(color: p.label),
-      ),
+    final t = context.tokens;
+    final p = StatusPalette.resolve(t, hue);
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          width: _dot,
+          height: _dot,
+          decoration: BoxDecoration(color: p.label, shape: BoxShape.circle),
+        ),
+        const SizedBox(width: _gap),
+        Flexible(
+          child: Text(
+            label,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: _style.copyWith(color: t.textSecondary),
+          ),
+        ),
+      ],
     );
   }
 }

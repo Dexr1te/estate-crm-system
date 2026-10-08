@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:real_estate_crm/core/theme/app_metrics.dart';
 import 'package:real_estate_crm/core/theme/app_tokens.dart';
 
 class UserAvatar extends StatelessWidget {
@@ -60,15 +59,14 @@ class InitialAvatar extends StatelessWidget {
       decoration: BoxDecoration(
         color: t.surfaceVariant,
         shape: BoxShape.circle,
-        border: Border.all(color: t.border, width: AppMetrics.borderWidth),
       ),
       child: Text(
         _initial(name),
         style: TextStyle(
             fontFamily: AppFonts.sans,
-            fontSize: size * 0.36,
+            fontSize: size * 0.38,
             fontWeight: FontWeight.w600,
-            color: t.textPrimary),
+            color: t.textSecondary),
       ),
     );
   }

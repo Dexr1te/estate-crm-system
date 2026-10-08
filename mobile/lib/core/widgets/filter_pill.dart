@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/theme/app_metrics.dart';
 import 'package:real_estate_crm/core/theme/app_tokens.dart';
-import 'package:real_estate_crm/core/widgets/glass.dart';
 
 class FilterPill extends StatelessWidget {
   final String label;
@@ -27,33 +26,24 @@ class FilterPill extends StatelessWidget {
     final t = context.tokens;
     final radius = BorderRadius.circular(AppMetrics.radiusPill);
 
-    return GlassSurface(
+    return Material(
+      color: selected ? t.primary : (onCard ? t.surfaceVariant : t.surface),
       borderRadius: radius,
-      fill: selected
-          ? t.primary.withValues(alpha: 0.9)
-          : (onCard ? t.surfaceVariant.withValues(alpha: 0.7) : null),
-      rim: selected ? Colors.white.withValues(alpha: 0.12) : null,
-      sheen: selected
-          ? Colors.white.withValues(alpha: t.isDark ? 0.16 : 0.1)
-          : null,
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          borderRadius: radius,
-          onTap: onTap,
-          child: Padding(
-            padding: padding,
-            child: Text(
-              label,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontFamily: AppFonts.sans,
-                fontSize: fontSize,
-                fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
-                color: selected ? t.onPrimary : t.textSecondary,
-              ),
+      child: InkWell(
+        borderRadius: radius,
+        onTap: onTap,
+        child: Padding(
+          padding: padding,
+          child: Text(
+            label,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontFamily: AppFonts.sans,
+              fontSize: fontSize,
+              fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
+              color: selected ? t.onPrimary : t.textSecondary,
             ),
           ),
         ),
@@ -110,16 +100,22 @@ class SegmentedTabs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.tokens;
-    return GlassSurface(
-      borderRadius: BorderRadius.circular(AppMetrics.radiusSm + 2),
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: t.segmentTrack,
+        borderRadius: BorderRadius.circular(AppMetrics.radiusSm),
+      ),
       child: Padding(
-        padding: const EdgeInsets.all(4),
+        padding: const EdgeInsets.all(3),
         child: Row(
           children: [
             for (var i = 0; i < labels.length; i++)
               Expanded(
                 child: Material(
-                  color: i == selectedIndex ? t.surface : Colors.transparent,
+                  color:
+                      i == selectedIndex ? t.segmentThumb : Colors.transparent,
+                  elevation: i == selectedIndex && !t.isDark ? 1 : 0,
+                  shadowColor: Colors.black.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(9),
                   child: InkWell(
                     borderRadius: BorderRadius.circular(9),
