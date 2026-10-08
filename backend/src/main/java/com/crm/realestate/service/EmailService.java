@@ -20,6 +20,9 @@ import org.springframework.web.util.UriComponentsBuilder;
  * the invite code in the API response, so a mail failure (bad SMTP creds, network, etc.) must never
  * break invite creation. When {@code app.mail.enabled} is false the service is a no-op, so the app
  * runs fine with no SMTP configured.
+ *
+ * <p>{@code app.mail.provider} picks how a message leaves: {@code smtp} through the configured
+ * mail server, or {@code brevo} through {@link BrevoMailClient} for hosts that block SMTP.
  */
 @Service
 @RequiredArgsConstructor
@@ -27,12 +30,19 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class EmailService {
 
     private final JavaMailSender mailSender;
+    private final BrevoMailClient brevo;
 
     @Value("${app.mail.enabled:false}")
     private boolean enabled;
 
+    @Value("${app.mail.provider:smtp}")
+    private String provider;
+
     @Value("${app.mail.from:no-reply@estatecrm.app}")
     private String from;
+
+    @Value("${app.mail.from-name:Estate CRM}")
+    private String fromName;
 
     /**
      * Where the invite link points. Defaults to the landing page this backend serves; override it
@@ -77,11 +87,24 @@ public class EmailService {
                     + "forwards it into the container (env_file).");
             return;
         }
+        if (usesBrevo()) {
+            if (!brevo.isConfigured()) {
+                log.warn("Mail is ON with provider=brevo but BREVO_API_KEY is empty — every send "
+                        + "will fail.");
+            }
+            log.info("Mail is ON — provider=brevo, from={}, invite links point at {}, reset links at {}",
+                    from, inviteUrl, resetUrl);
+            return;
+        }
         if (username == null || username.isBlank()) {
             log.warn("Mail is ON but spring.mail.username is empty — SMTP will reject every send.");
         }
         log.info("Mail is ON — host={}, from={}, invite links point at {}, reset links at {}",
                 host, from, inviteUrl, resetUrl);
+    }
+
+    private boolean usesBrevo() {
+        return "brevo".equalsIgnoreCase(provider);
     }
 
     @Async
@@ -94,21 +117,9 @@ public class EmailService {
                 .queryParam("token", inviteToken)
                 .build()
                 .toUriString();
-        try {
-            MimeMessage message = mailSender.createMimeMessage();
-            MimeMessageHelper helper =
-                    new MimeMessageHelper(message, true, StandardCharsets.UTF_8.name());
-            helper.setFrom(from);
-            helper.setTo(toEmail);
-            helper.setSubject("You've been invited to Estate CRM");
-            // Both parts, so a client that refuses HTML still shows a usable link and code.
-            helper.setText(plainBody(fullName, inviteToken, link),
-                    htmlBody(fullName, inviteToken, link));
-            mailSender.send(message);
-            log.info("Invite email sent to {}", toEmail);
-        } catch (Exception e) {
-            log.error("Failed to send invite email to {}: {}", toEmail, e.getMessage());
-        }
+        send(toEmail, "You've been invited to Estate CRM",
+                plainBody(fullName, inviteToken, link), htmlBody(fullName, inviteToken, link),
+                "invite");
     }
 
     /** Tells someone how to get back in. */
@@ -122,20 +133,9 @@ public class EmailService {
                 .queryParam("token", resetToken)
                 .build()
                 .toUriString();
-        try {
-            MimeMessage message = mailSender.createMimeMessage();
-            MimeMessageHelper helper =
-                    new MimeMessageHelper(message, true, StandardCharsets.UTF_8.name());
-            helper.setFrom(from);
-            helper.setTo(toEmail);
-            helper.setSubject("Reset your Estate CRM password");
-            helper.setText(resetPlainBody(fullName, resetToken, link),
-                    resetHtmlBody(fullName, resetToken, link));
-            mailSender.send(message);
-            log.info("Password reset email sent to {}", toEmail);
-        } catch (Exception e) {
-            log.error("Failed to send reset email to {}: {}", toEmail, e.getMessage());
-        }
+        send(toEmail, "Reset your Estate CRM password",
+                resetPlainBody(fullName, resetToken, link), resetHtmlBody(fullName, resetToken, link),
+                "password reset");
     }
 
     /**
@@ -145,9 +145,10 @@ public class EmailService {
      * <p>The one sender here that is neither asynchronous nor silent, because it is the only one
      * whose failure strands somebody. An invite is read back from the API response and a reset can
      * be asked for again; a sign-up code that never arrives leaves an account its owner cannot
-     * confirm, cannot sign into, and cannot register over. So this one waits for SMTP and says
+     * confirm, cannot sign into, and cannot register over. So this one waits for the send and says
      * whether the message left, and {@code RegistrationService} refuses to create the account when
-     * it did not. The wait is bounded by the {@code mail.smtp.*timeout} settings.
+     * it did not. The wait is bounded by the {@code mail.smtp.*timeout} settings, or by
+     * {@link BrevoMailClient}'s own.
      *
      * @return true when the code was accepted for delivery, or written to the log in place of it
      */
@@ -212,12 +213,18 @@ public class EmailService {
      */
     private boolean send(String toEmail, String subject, String plain, String html, String what) {
         try {
+            if (usesBrevo()) {
+                brevo.send(from, fromName, toEmail, subject, plain, html);
+                log.info("Sent {} email to {} via Brevo", what, toEmail);
+                return true;
+            }
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper =
                     new MimeMessageHelper(message, true, StandardCharsets.UTF_8.name());
             helper.setFrom(from);
             helper.setTo(toEmail);
             helper.setSubject(subject);
+            // Both parts, so a client that refuses HTML still shows a usable link and code.
             helper.setText(plain, html);
             mailSender.send(message);
             log.info("Sent {} email to {}", what, toEmail);
