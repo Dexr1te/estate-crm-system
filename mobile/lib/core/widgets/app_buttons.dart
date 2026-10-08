@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/theme/app_metrics.dart';
 import 'package:real_estate_crm/core/theme/app_tokens.dart';
-import 'package:real_estate_crm/core/widgets/glass.dart';
 
 class AppFilledButton extends StatelessWidget {
   final String label;
@@ -99,7 +98,7 @@ class AppGhostButton extends StatelessWidget {
     return SizedBox(
       height: height,
       child: Material(
-        color: Colors.transparent,
+        color: borderColor == null ? t.surfaceVariant : Colors.transparent,
         borderRadius: BorderRadius.circular(AppMetrics.radiusSm),
         child: InkWell(
           borderRadius: BorderRadius.circular(AppMetrics.radiusSm),
@@ -107,9 +106,10 @@ class AppGhostButton extends StatelessWidget {
           child: DecoratedBox(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(AppMetrics.radiusSm),
-              border: Border.all(
-                  color: borderColor ?? t.border,
-                  width: AppMetrics.borderWidth),
+              border: borderColor == null
+                  ? null
+                  : Border.all(
+                      color: borderColor!, width: AppMetrics.borderWidth),
             ),
             child: Center(
               child: loading
@@ -172,24 +172,20 @@ class AppHeaderAction extends StatelessWidget {
     return ConstrainedBox(
       constraints: const BoxConstraints(
           minHeight: AppMetrics.minHitTarget, maxWidth: 190),
-      child: GlassSurface(
-        blur: AppMetrics.glassBlur,
-        borderRadius: pill,
-        fill: t.primary.withValues(alpha: 0.9),
-        sheen: Colors.white.withValues(alpha: t.isDark ? 0.18 : 0.12),
-        rim: Colors.white.withValues(alpha: 0.12),
-        shadow: GlassShadow.soft,
+      child: Center(
+        widthFactor: 1,
         child: Material(
-          color: Colors.transparent,
+          color: t.primary.withValues(alpha: t.isDark ? 0.16 : 0.08),
+          borderRadius: pill,
           child: InkWell(
             borderRadius: pill,
             onTap: onPressed,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 11),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(icon, size: 16, color: t.onPrimary),
+                  Icon(icon, size: 17, color: t.primary),
                   const SizedBox(width: 7),
                   Flexible(
                     child: Text(
@@ -198,9 +194,9 @@ class AppHeaderAction extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 12.5,
+                        fontSize: 13.5,
                         fontWeight: FontWeight.w600,
-                        color: t.onPrimary,
+                        color: t.primary,
                       ),
                     ),
                   ),
@@ -240,8 +236,6 @@ class AppDangerButton extends StatelessWidget {
           child: DecoratedBox(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(AppMetrics.radiusSm),
-              border: Border.all(
-                  color: t.dangerBorder, width: AppMetrics.borderWidth),
             ),
             child: Center(
               child: Text(
@@ -286,22 +280,11 @@ class AppIconTile extends StatelessWidget {
       width: AppMetrics.minHitTarget,
       height: AppMetrics.minHitTarget,
       child: Center(
-        child: GlassSurface(
-          blur: AppMetrics.glassBlur,
-          borderRadius: BorderRadius.circular(AppMetrics.radiusPill),
-          fill: danger ? t.dangerFill : null,
-          rim: danger ? t.dangerBorder : null,
-          shadow: GlassShadow.soft,
-          child: SizedBox(
-            width: 38,
-            height: 38,
-            child: Icon(icon,
-                size: 16,
-                color: danger
-                    ? t.dangerText
-                    : (strong ? t.textPrimary : t.textSecondary)),
-          ),
-        ),
+        child: Icon(icon,
+            size: strong ? 20 : 19,
+            color: danger
+                ? t.dangerText
+                : (strong ? t.textPrimary : t.textSecondary)),
       ),
     );
 

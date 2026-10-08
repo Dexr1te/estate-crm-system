@@ -130,8 +130,6 @@ class _Sent extends StatelessWidget {
             decoration: BoxDecoration(
               color: t.surfaceVariant,
               shape: BoxShape.circle,
-              border:
-                  Border.all(color: t.border, width: AppMetrics.borderWidth),
             ),
             child:
                 Icon(Icons.mark_email_read_outlined, size: 24, color: t.accent),

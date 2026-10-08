@@ -183,7 +183,6 @@ class _MarkBox extends StatelessWidget {
       decoration: BoxDecoration(
         color: t.surfaceVariant,
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: t.border, width: AppMetrics.borderWidth),
       ),
       child: Icon(icon, size: 18, color: color),
     );

@@ -3229,7 +3229,7 @@ abstract class AppLocalizations {
   /// No description provided for @coreNavDashboard.
   ///
   /// In en, this message translates to:
-  /// **'Dashboard'**
+  /// **'Home'**
   String get coreNavDashboard;
 
   /// No description provided for @coreNavDeals.
@@ -3241,7 +3241,7 @@ abstract class AppLocalizations {
   /// No description provided for @coreNavProperties.
   ///
   /// In en, this message translates to:
-  /// **'Properties'**
+  /// **'Listings'**
   String get coreNavProperties;
 
   /// No description provided for @coreNavTeam.

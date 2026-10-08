@@ -1797,7 +1797,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get coreLogout => 'Шығу';
 
   @override
-  String get coreNavAdmin => 'Әкімшілік';
+  String get coreNavAdmin => 'Әкімші';
 
   @override
   String get coreNavCalendar => 'Күнтізбе';
@@ -1806,7 +1806,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get coreNavClients => 'Клиенттер';
 
   @override
-  String get coreNavDashboard => 'Басқару тақтасы';
+  String get coreNavDashboard => 'Басты';
 
   @override
   String get coreNavDeals => 'Мәмілелер';

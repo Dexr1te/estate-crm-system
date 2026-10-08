@@ -171,7 +171,6 @@ class _InviteMark extends StatelessWidget {
       decoration: BoxDecoration(
         color: t.surface,
         borderRadius: BorderRadius.circular(19),
-        border: Border.all(color: t.border, width: AppMetrics.borderWidth),
       ),
       alignment: Alignment.center,
       child: Icon(Icons.vpn_key_outlined, size: 26, color: t.accent),

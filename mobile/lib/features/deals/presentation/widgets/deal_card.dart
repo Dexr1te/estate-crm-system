@@ -43,9 +43,10 @@ class DealCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 14,
+                      fontSize: 16,
                       height: 1.3,
                       fontWeight: FontWeight.w600,
+                      letterSpacing: -0.2,
                       color: t.textPrimary),
                 ),
               ),
@@ -61,14 +62,11 @@ class DealCard extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 11.5,
+                  fontSize: 13.5,
                   color: t.textSecondary),
             ),
           ],
-          Padding(
-            padding: const EdgeInsets.only(top: 11, bottom: 10),
-            child: Container(height: 1, color: t.border),
-          ),
+          const SizedBox(height: 12),
           Row(
             crossAxisAlignment: CrossAxisAlignment.baseline,
             textBaseline: TextBaseline.alphabetic,
@@ -82,8 +80,9 @@ class DealCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 16,
+                      fontSize: 17,
                       fontWeight: FontWeight.w700,
+                      letterSpacing: -0.2,
                       color: t.textPrimary),
                 ),
               ),
@@ -109,7 +108,7 @@ class DealCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 11.5,
+                    fontSize: 13,
                     fontWeight:
                         stale != null ? FontWeight.w600 : FontWeight.w400,
                     color: stale != null ? t.dangerText : t.textSecondary,
@@ -230,15 +229,12 @@ class DealCardBone extends StatelessWidget {
                   ),
                 ),
                 SizedBox(width: 10),
-                ShimmerBox(width: 64, height: 22, radius: 11),
+                ShimmerBox(width: 64, height: 12, radius: 6),
               ],
             ),
             SizedBox(height: 9),
-            ShimmerBar(widthFactor: 0.66, height: 10),
-            Padding(
-              padding: EdgeInsets.only(top: 11, bottom: 10),
-              child: ShimmerBox(width: double.infinity, height: 1, radius: 0.5),
-            ),
+            ShimmerBar(widthFactor: 0.66, height: 11),
+            SizedBox(height: 12),
             Row(
               children: [
                 ShimmerBox(width: 92, height: 15, radius: 7),

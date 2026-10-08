@@ -33,8 +33,6 @@ class TeamCard extends StatelessWidget {
             decoration: BoxDecoration(
               color: t.surfaceVariant,
               borderRadius: BorderRadius.circular(13),
-              border:
-                  Border.all(color: t.border, width: AppMetrics.borderWidth),
             ),
             child: Icon(Icons.groups_outlined, size: 18, color: t.accent),
           ),

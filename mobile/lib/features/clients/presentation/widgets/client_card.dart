@@ -39,96 +39,102 @@ class ClientCard extends StatelessWidget {
         ? t.textPrimary
         : StatusPalette.resolve(t, dealStatusHue(client.status!)).label;
 
+    final showMeta =
+        client.dealCount > 0 || trailingLabel.isNotEmpty || lastContact != null;
+
     return AppCard(
       onTap: onTap,
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
-      child: Column(
+      padding: const EdgeInsets.fromLTRB(14, 14, 16, 14),
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              InitialAvatar(name: client.fullName, size: 42),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+          InitialAvatar(name: client.fullName, size: 44),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.baseline,
+                  textBaseline: TextBaseline.alphabetic,
                   children: [
-                    Text(
-                      client.fullName,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          fontFamily: AppFonts.sans,
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: t.textPrimary),
-                    ),
-                    if (client.phone != null && client.phone!.isNotEmpty) ...[
-                      const SizedBox(height: 3),
-                      Text(
-                        client.phone!,
+                    Expanded(
+                      child: Text(
+                        client.fullName,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontFamily: AppFonts.sans,
-                            fontSize: 11.5,
-                            color: t.textSecondary),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: -0.2,
+                            color: t.textPrimary),
                       ),
-                    ],
-                    if (ClientSourceBadge.shows(client.source)) ...[
-                      const SizedBox(height: 5),
-                      ClientSourceBadge(source: client.source),
-                    ],
-                    if (client.tags.isNotEmpty) ...[
-                      const SizedBox(height: 6),
-                      ClientTagChips(
-                          tags: client.tags, maxVisible: maxVisibleTags),
+                    ),
+                    if (trailingLabel.isNotEmpty) ...[
+                      const SizedBox(width: 8),
+                      Text(
+                        trailingLabel,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontFamily: AppFonts.sans,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                            color: trailingColor),
+                      ),
                     ],
                   ],
                 ),
-              ),
-              const SizedBox(width: 8),
-              ClientTypeChip(type: client.type),
-            ],
-          ),
-          if (client.dealCount > 0 ||
-              trailingLabel.isNotEmpty ||
-              lastContact != null) ...[
-            Padding(
-              padding: const EdgeInsets.only(top: 11, bottom: 10),
-              child: Container(height: 1, color: t.border),
-            ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.baseline,
-              textBaseline: TextBaseline.alphabetic,
-              children: [
-                Expanded(
-                  child: Text(
-                    footerLeft,
+                if (client.phone != null && client.phone!.isNotEmpty) ...[
+                  const SizedBox(height: 3),
+                  Text(
+                    client.phone!,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 11.5,
+                        fontSize: 14,
                         color: t.textSecondary),
                   ),
-                ),
-                if (trailingLabel.isNotEmpty) ...[
-                  const SizedBox(width: 8),
-                  Text(
-                    trailingLabel,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        fontFamily: AppFonts.sans,
-                        fontSize: 11.5,
-                        fontWeight: FontWeight.w600,
-                        color: trailingColor),
+                ],
+                const SizedBox(height: 8),
+                LayoutBuilder(
+                  builder: (context, constraints) => Row(
+                    children: [
+                      ConstrainedBox(
+                        constraints: BoxConstraints(
+                            maxWidth: constraints.maxWidth * 0.55),
+                        child: ClientTypeChip(type: client.type),
+                      ),
+                      if (showMeta) ...[
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Text(
+                            footerLeft,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                fontFamily: AppFonts.sans,
+                                fontSize: 12.5,
+                                color: t.textHint),
+                          ),
+                        ),
+                      ],
+                    ],
                   ),
+                ),
+                if (ClientSourceBadge.shows(client.source)) ...[
+                  const SizedBox(height: 8),
+                  ClientSourceBadge(source: client.source),
+                ],
+                if (client.tags.isNotEmpty) ...[
+                  const SizedBox(height: 8),
+                  ClientTagChips(tags: client.tags, maxVisible: maxVisibleTags),
                 ],
               ],
             ),
-          ],
+          ),
         ],
       ),
     );
@@ -141,40 +147,31 @@ class ClientCardBone extends StatelessWidget {
   @override
   Widget build(BuildContext context) => const ShimmerCard(
         radius: AppMetrics.radiusMd,
-        padding: EdgeInsets.symmetric(horizontal: 14, vertical: 13),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisSize: MainAxisSize.min,
+        padding: EdgeInsets.fromLTRB(14, 14, 16, 14),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                ShimmerCircle(size: 42),
-                SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisSize: MainAxisSize.min,
+            ShimmerCircle(size: 44),
+            SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
                     children: [
-                      ShimmerBar(widthFactor: 0.62, height: 12),
-                      SizedBox(height: 8),
-                      ShimmerBar(widthFactor: 0.4, height: 10),
+                      Expanded(
+                          child: ShimmerBar(widthFactor: 0.62, height: 13)),
+                      SizedBox(width: 8),
+                      ShimmerBox(width: 52, height: 12, radius: 6),
                     ],
                   ),
-                ),
-                SizedBox(width: 8),
-                ShimmerBox(width: 58, height: 22, radius: 11),
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 11, bottom: 10),
-              child: ShimmerBox(width: double.infinity, height: 1, radius: 0.5),
-            ),
-            Row(
-              children: [
-                Expanded(child: ShimmerBar(widthFactor: 0.54, height: 10)),
-                SizedBox(width: 8),
-                ShimmerBox(width: 56, height: 10, radius: 5),
-              ],
+                  SizedBox(height: 8),
+                  ShimmerBar(widthFactor: 0.42, height: 11),
+                  SizedBox(height: 10),
+                  ShimmerBar(widthFactor: 0.7, height: 10),
+                ],
+              ),
             ),
           ],
         ),

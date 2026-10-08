@@ -1,4 +1,3 @@
-import 'dart:math' as math;
 import 'dart:ui' show ImageFilter;
 
 import 'package:flutter/material.dart';
@@ -187,74 +186,13 @@ class _GlassShadowPainter extends CustomPainter {
       old.radius != radius || old.color != color || old.floating != floating;
 }
 
-/// The page behind the glass: the app's background with a few wide, soft
-/// pools of navy and slate, so a blur has something to show.
+/// The page behind everything: the app's background, painted once under the
+/// navigator so a transparent Scaffold shows it.
 class AppBackdrop extends StatelessWidget {
   final Widget child;
   const AppBackdrop({super.key, required this.child});
 
   @override
-  Widget build(BuildContext context) {
-    final t = context.tokens;
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        RepaintBoundary(
-          child: CustomPaint(
-            painter: _AmbientPainter(base: t.background, dark: t.isDark),
-          ),
-        ),
-        child,
-      ],
-    );
-  }
-}
-
-class _Pool {
-  final double x, y, r;
-  final Color color;
-  const _Pool(this.x, this.y, this.r, this.color);
-}
-
-class _AmbientPainter extends CustomPainter {
-  final Color base;
-  final bool dark;
-
-  const _AmbientPainter({required this.base, required this.dark});
-
-  static const _light = [
-    _Pool(-0.05, -0.02, 0.62, Color(0x1F1A3260)),
-    _Pool(1.05, 0.38, 0.52, Color(0x388B9CC8)),
-    _Pool(0.12, 0.82, 0.58, Color(0x8CC9D3EA)),
-    _Pool(0.98, 1.0, 0.42, Color(0x140F1E3C)),
-  ];
-
-  static const _dark = [
-    _Pool(-0.05, 0.02, 0.6, Color(0x8C233A6B)),
-    _Pool(1.05, 0.42, 0.5, Color(0x732B2F5E)),
-    _Pool(0.2, 0.92, 0.56, Color(0x801B3550)),
-  ];
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final rect = Offset.zero & size;
-    canvas.drawRect(rect, Paint()..color = base);
-    final reach = math.max(size.width, size.height);
-    for (final p in dark ? _dark : _light) {
-      final c = Offset(p.x * size.width, p.y * size.height);
-      final r = p.r * reach;
-      canvas.drawCircle(
-        c,
-        r,
-        Paint()
-          ..shader = RadialGradient(
-            colors: [p.color, p.color.withValues(alpha: 0)],
-          ).createShader(Rect.fromCircle(center: c, radius: r)),
-      );
-    }
-  }
-
-  @override
-  bool shouldRepaint(_AmbientPainter old) =>
-      old.base != base || old.dark != dark;
+  Widget build(BuildContext context) =>
+      ColoredBox(color: context.tokens.background, child: child);
 }

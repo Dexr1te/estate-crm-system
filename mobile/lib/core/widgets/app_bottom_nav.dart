@@ -139,18 +139,20 @@ class _NavCell extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 4),
-                Text(
-                  item.label,
-                  maxLines: 1,
-                  softWrap: false,
-                  overflow: TextOverflow.clip,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: AppFonts.sans,
-                    fontSize: 10.5,
-                    height: 1.1,
-                    fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
-                    color: color,
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    item.label,
+                    maxLines: 1,
+                    softWrap: false,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: AppFonts.sans,
+                      fontSize: 10.5,
+                      height: 1.1,
+                      fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
+                      color: color,
+                    ),
                   ),
                 ),
               ],
