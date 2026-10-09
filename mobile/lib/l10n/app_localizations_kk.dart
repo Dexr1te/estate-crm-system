@@ -6761,4 +6761,144 @@ class AppLocalizationsKk extends AppLocalizations {
   @override
   String get splitsShareNote =>
       'Бөлінген мәміле комиссиясы әркімге өз үлесімен есептеледі; сыртқы агенттің үлесі агенттік сомасына кірмейді.';
+
+  @override
+  String get keysCardTitle => 'Кілттер';
+
+  @override
+  String get keysInOffice => 'Кеңседе';
+
+  @override
+  String keysWithHolder(String holder) {
+    return 'Берілді: $holder';
+  }
+
+  @override
+  String keysWithHolderUntil(String date, String holder) {
+    return 'Берілді: $holder · $date дейін';
+  }
+
+  @override
+  String get keysOverdue => 'Мерзімі өтті';
+
+  @override
+  String keysHandedOutBy(String date, String name) {
+    return '$date · $name берді';
+  }
+
+  @override
+  String keysHandedOutOn(String date) {
+    return '$date берілді';
+  }
+
+  @override
+  String get keysHandOver => 'Кілтті беру';
+
+  @override
+  String get keysReturn => 'Кеңсеге қайтару';
+
+  @override
+  String get keysReturnConfirmTitle => 'Кілтті кеңсеге қайтарасыз ба?';
+
+  @override
+  String keysReturnConfirmBody(String holder) {
+    return 'Кілт қайтарылды деп белгіленеді. Кімге берілген: $holder.';
+  }
+
+  @override
+  String get keysReturnConfirm => 'Қайтару';
+
+  @override
+  String get keysHistory => 'Бұрын';
+
+  @override
+  String keysHistoryPeriod(String from, String to) {
+    return '$from – $to';
+  }
+
+  @override
+  String get keysShowAll => 'Барлығын көрсету';
+
+  @override
+  String get keysLoadFailed => 'Кілттерді жүктеу мүмкін болмады';
+
+  @override
+  String get keysErrorAlreadyOut =>
+      'Бұл кілт әлдеқашан берілген. Қазір кімде екені карточкада көрсетілген.';
+
+  @override
+  String get keysErrorNotOut => 'Бұл кілт кеңседе тұр.';
+
+  @override
+  String get keysErrorHolderRequired =>
+      'Әріптесті таңдаңыз немесе атын жазыңыз';
+
+  @override
+  String get keysErrorDueInPast => 'Қайтару күні өтіп кеткен күн бола алмайды';
+
+  @override
+  String get keysHandOverTitle => 'Кілтті беру';
+
+  @override
+  String get keysWho => 'Кімге';
+
+  @override
+  String get keysToColleague => 'Әріптеске';
+
+  @override
+  String get keysToSomeoneElse => 'Басқа адамға';
+
+  @override
+  String get keysColleague => 'Әріптес';
+
+  @override
+  String get keysPickColleague => 'Әріптесті таңдаңыз';
+
+  @override
+  String get keysSearchColleague => 'Аты бойынша іздеу';
+
+  @override
+  String get keysNoColleagues => 'Агенттікте таңдайтын ешкім жоқ';
+
+  @override
+  String get keysHolderName => 'Аты';
+
+  @override
+  String get keysHolderNameHint => 'Иесі, тазалаушы, сатып алушы';
+
+  @override
+  String get keysDueBack => 'Қайтару мерзімі';
+
+  @override
+  String get keysNoDueDate => 'Мерзімсіз';
+
+  @override
+  String get keysNote => 'Ескертпе';
+
+  @override
+  String get keysNoteHint => 'Қай кілттер, брелок, тұрақ картасы';
+
+  @override
+  String get keysNoteTooLong => 'Ескертпе 500 таңбадан аспауы керек';
+
+  @override
+  String get keysSave => 'Беру';
+
+  @override
+  String get keysOutTitle => 'Берілген кілттер';
+
+  @override
+  String get keysOutEmpty => 'Барлық кілт кеңседе';
+
+  @override
+  String get keysOutEmptyHint =>
+      'Нысан карточкасынан берілген кілттер қайтарылғанша осында көрінеді.';
+
+  @override
+  String get keysOutLoadFailed => 'Берілген кілттерді жүктеу мүмкін болмады';
+
+  @override
+  String keysOutOverdueCount(int count) {
+    return 'мерзімі өткені: $count';
+  }
 }

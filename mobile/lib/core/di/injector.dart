@@ -63,6 +63,9 @@ import 'package:real_estate_crm/features/goals/domain/repositories/goals_reposit
 import 'package:real_estate_crm/features/imports/data/datasources/imports_remote_datasource.dart';
 import 'package:real_estate_crm/features/imports/data/repositories/imports_repository_impl.dart';
 import 'package:real_estate_crm/features/imports/domain/repositories/imports_repository.dart';
+import 'package:real_estate_crm/features/keys/data/datasources/keys_remote_datasource.dart';
+import 'package:real_estate_crm/features/keys/data/repositories/keys_repository_impl.dart';
+import 'package:real_estate_crm/features/keys/domain/repositories/keys_repository.dart';
 import 'package:real_estate_crm/features/leaderboard/data/datasources/leaderboard_remote_datasource.dart';
 import 'package:real_estate_crm/features/leaderboard/data/repositories/leaderboard_repository_impl.dart';
 import 'package:real_estate_crm/features/leaderboard/domain/repositories/leaderboard_repository.dart';
@@ -149,6 +152,9 @@ class Injector {
 
   static TimeOffRepository timeOffRepository =
       TimeOffRepositoryImpl(TimeOffRemoteDataSource(_apiClient));
+
+  static KeysRepository keysRepository =
+      KeysRepositoryImpl(KeysRemoteDataSource(_apiClient));
 
   static MessageTemplatesRepository messageTemplatesRepository =
       MessageTemplatesRepositoryImpl(
