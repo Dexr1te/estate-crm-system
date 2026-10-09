@@ -54,6 +54,7 @@ import 'package:real_estate_crm/features/properties/presentation/screens/seller_
 import 'package:real_estate_crm/features/route/domain/day_route.dart';
 import 'package:real_estate_crm/features/route/presentation/screens/route_screen.dart';
 import 'package:real_estate_crm/features/search/presentation/screens/search_screen.dart';
+import 'package:real_estate_crm/features/stars/presentation/screens/starred_screen.dart';
 import 'package:real_estate_crm/features/tasks/presentation/screens/tasks_screen.dart';
 import 'package:real_estate_crm/features/teams/presentation/screens/handover_screen.dart';
 import 'package:real_estate_crm/features/teams/presentation/screens/manager_console_screen.dart';
@@ -340,6 +341,11 @@ GoRouter createRouter(AuthBloc authBloc) {
         path: '/tasks',
         parentNavigatorKey: _rootKey,
         pageBuilder: (_, __) => const NoTransitionPage(child: TasksScreen()),
+      ),
+      GoRoute(
+        path: '/stars',
+        parentNavigatorKey: _rootKey,
+        pageBuilder: (_, __) => const NoTransitionPage(child: StarredScreen()),
       ),
       GoRoute(
         path: '/open-houses/:id',

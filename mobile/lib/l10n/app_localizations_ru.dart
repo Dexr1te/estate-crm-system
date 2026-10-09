@@ -6957,4 +6957,52 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get splitsShareNote =>
       'Комиссия по разделённой сделке засчитывается каждому по его доле; доля ко-брокера в сумму агентства не входит.';
+
+  @override
+  String get starsTitle => 'Избранное';
+
+  @override
+  String get starsStar => 'В избранное';
+
+  @override
+  String get starsUnstar => 'Убрать из избранного';
+
+  @override
+  String get starsSectionClients => 'Клиенты';
+
+  @override
+  String get starsSectionListings => 'Объекты';
+
+  @override
+  String get starsSectionDeals => 'Сделки';
+
+  @override
+  String get starsEmptyTitle => 'В избранном пока пусто';
+
+  @override
+  String get starsEmptyHint =>
+      'Нажмите на звёздочку вверху карточки клиента, объекта или сделки, и она будет здесь, под рукой.';
+
+  @override
+  String get starsLoadFailed => 'Не удалось загрузить избранное';
+
+  @override
+  String get starsStarFailed =>
+      'Не удалось добавить в избранное. Попробуйте ещё раз.';
+
+  @override
+  String get starsUnstarFailed =>
+      'Не удалось убрать из избранного. Попробуйте ещё раз.';
+
+  @override
+  String get starsRecordGone => 'Эта запись больше недоступна';
+
+  @override
+  String starsEntryCount(int count) {
+    return 'Избранное: $count';
+  }
+
+  @override
+  String get starsEntryHint =>
+      'Отмечайте звёздочкой клиентов, объекты и сделки, с которыми работаете';
 }

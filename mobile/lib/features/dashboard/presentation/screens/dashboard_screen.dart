@@ -40,6 +40,8 @@ import 'package:real_estate_crm/features/notifications/presentation/widgets/noti
 import 'package:real_estate_crm/features/properties/presentation/bloc/mandates_bloc.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/mandates_event.dart';
 import 'package:real_estate_crm/features/route/domain/day_route.dart';
+import 'package:real_estate_crm/features/stars/presentation/bloc/stars_bloc.dart';
+import 'package:real_estate_crm/features/stars/presentation/widgets/starred_entry_row.dart';
 import 'package:real_estate_crm/features/tasks/presentation/bloc/tasks_bloc.dart';
 import 'package:real_estate_crm/features/tasks/presentation/bloc/tasks_event.dart';
 import 'package:real_estate_crm/features/tasks/presentation/widgets/today_tasks_card.dart';
@@ -160,6 +162,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 if (context.isManager) _out.add(TimeOffListLoadEvent());
                 _goal.add(MyGoalLoadEvent());
                 _dates.add(ClientDatesLoadEvent());
+                context.read<StarsBloc?>()?.refresh();
               },
               color: t.primary,
               child: AppMetrics.constrain(
@@ -256,6 +259,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
           topGap: 10,
           onTap: () => context.push('/time-off/team'),
         ),
+      StarredEntryRow(
+        topGap: 10,
+        onTap: () => context.push('/stars'),
+      ),
       SizedBox(height: gap),
       TodayTasksCard(onSeeAll: () => context.push('/tasks')),
       DatesThisWeekCard(

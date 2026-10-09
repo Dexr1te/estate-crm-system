@@ -69,6 +69,8 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) async {
   Injector.timeOffRepository = FakeTimeOffRepository();
   // A client's card reads its partners card: who sent them, who they went to.
   Injector.partnersRepository = FakePartnersRepository();
+  // The app-wide starred list, which a record's header star reads.
+  Injector.starsRepository = FakeStarsRepository();
   Injector.notificationsPollInterval = null;
   // No PIN on the phone: the lock stays off, and its keychain is memory.
   Injector.appLockRepository = fakeAppLockRepository();

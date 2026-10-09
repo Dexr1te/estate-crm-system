@@ -11578,6 +11578,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'A split deal\'s commission counts for each person by their share; a co-broker\'s share is not the agency\'s.'**
   String get splitsShareNote;
+
+  /// No description provided for @starsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Starred'**
+  String get starsTitle;
+
+  /// No description provided for @starsStar.
+  ///
+  /// In en, this message translates to:
+  /// **'Star'**
+  String get starsStar;
+
+  /// No description provided for @starsUnstar.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove star'**
+  String get starsUnstar;
+
+  /// No description provided for @starsSectionClients.
+  ///
+  /// In en, this message translates to:
+  /// **'Clients'**
+  String get starsSectionClients;
+
+  /// No description provided for @starsSectionListings.
+  ///
+  /// In en, this message translates to:
+  /// **'Listings'**
+  String get starsSectionListings;
+
+  /// No description provided for @starsSectionDeals.
+  ///
+  /// In en, this message translates to:
+  /// **'Deals'**
+  String get starsSectionDeals;
+
+  /// No description provided for @starsEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing starred yet'**
+  String get starsEmptyTitle;
+
+  /// No description provided for @starsEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the star at the top of a client, a listing or a deal to keep it here, one tap away.'**
+  String get starsEmptyHint;
+
+  /// No description provided for @starsLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load your starred records'**
+  String get starsLoadFailed;
+
+  /// No description provided for @starsStarFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t star it. Try again.'**
+  String get starsStarFailed;
+
+  /// No description provided for @starsUnstarFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t remove the star. Try again.'**
+  String get starsUnstarFailed;
+
+  /// No description provided for @starsRecordGone.
+  ///
+  /// In en, this message translates to:
+  /// **'This record is no longer available'**
+  String get starsRecordGone;
+
+  /// No description provided for @starsEntryCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Starred: {count}'**
+  String starsEntryCount(int count);
+
+  /// No description provided for @starsEntryHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Star the clients, listings and deals you are working on'**
+  String get starsEntryHint;
 }
 
 class _AppLocalizationsDelegate

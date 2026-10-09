@@ -11,6 +11,7 @@ import 'package:real_estate_crm/core/models/export_models.dart';
 import 'package:real_estate_crm/core/models/import_models.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/models/paged_response.dart';
+import 'package:real_estate_crm/core/models/star_models.dart';
 import 'package:real_estate_crm/core/models/team_models.dart';
 import 'package:real_estate_crm/core/notifications/notification_gateway.dart';
 import 'package:real_estate_crm/core/utils/clock.dart';
@@ -39,6 +40,7 @@ import 'package:real_estate_crm/features/message_templates/domain/repositories/m
 import 'package:real_estate_crm/features/notifications/domain/repositories/notifications_repository.dart';
 import 'package:real_estate_crm/features/properties/domain/map_area.dart';
 import 'package:real_estate_crm/features/properties/domain/repositories/properties_repository.dart';
+import 'package:real_estate_crm/features/stars/domain/repositories/stars_repository.dart';
 import 'package:real_estate_crm/features/tasks/domain/repositories/tasks_repository.dart';
 import 'package:real_estate_crm/features/teams/domain/repositories/teams_repository.dart';
 
@@ -1837,5 +1839,59 @@ class FakeLeasesRepository implements LeasesRepository {
       monthlyRent: renewal.monthlyRent ?? before.monthlyRent,
       commentCount: before.commentCount + 1,
     );
+  }
+}
+
+/// Starred records in memory, newest first like the server. A star answers
+/// with what [records] says about the record, or a stand-in title. Every
+/// write is remembered in [writes] first; [gate], when set, then holds it
+/// until completed, so a test can look before the server answers, and
+/// [writeError], when set, is thrown after that. [readError] fails the list.
+class FakeStarsRepository implements StarsRepository {
+  List<StarredItem> items;
+  final Map<StarKey, ({String title, String? subtitle})> records;
+  Object? readError;
+  Object? writeError;
+  Completer<void>? gate;
+
+  /// `PUT CLIENT 1`, `DELETE DEAL 3`, in the order they were asked for.
+  final List<String> writes = [];
+  int reads = 0;
+
+  FakeStarsRepository({this.items = const [], this.records = const {}});
+
+  @override
+  Future<List<StarredItem>> getStars() async {
+    reads++;
+    if (readError != null) throw readError!;
+    return items;
+  }
+
+  @override
+  Future<StarredItem> star(StarKey key) async {
+    writes.add('PUT ${key.type.wire} ${key.id}');
+    await gate?.future;
+    if (writeError != null) throw writeError!;
+    for (final item in items) {
+      if (item.key == key) return item;
+    }
+    final record = records[key];
+    final saved = StarredItem(
+      type: key.type,
+      id: key.id,
+      title: record?.title ?? 'Record ${key.id}',
+      subtitle: record?.subtitle,
+      starredAt: AppClock.now(),
+    );
+    items = [saved, ...items];
+    return saved;
+  }
+
+  @override
+  Future<void> unstar(StarKey key) async {
+    writes.add('DELETE ${key.type.wire} ${key.id}');
+    await gate?.future;
+    if (writeError != null) throw writeError!;
+    items = items.where((item) => item.key != key).toList();
   }
 }

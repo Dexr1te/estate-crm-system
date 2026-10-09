@@ -3385,5 +3385,26 @@
   "splitsNoColleagues": "Nobody else in the agency to add",
   "splitsTooMany": "At most 10 people share one commission",
   "splitsColleagueInactive": "Only active members of the agency can be given a share",
-  "splitsShareNote": "A split deal's commission counts for each person by their share; a co-broker's share is not the agency's."
+  "splitsShareNote": "A split deal's commission counts for each person by their share; a co-broker's share is not the agency's.",
+  "starsTitle": "Starred",
+  "starsStar": "Star",
+  "starsUnstar": "Remove star",
+  "starsSectionClients": "Clients",
+  "starsSectionListings": "Listings",
+  "starsSectionDeals": "Deals",
+  "starsEmptyTitle": "Nothing starred yet",
+  "starsEmptyHint": "Tap the star at the top of a client, a listing or a deal to keep it here, one tap away.",
+  "starsLoadFailed": "Couldn't load your starred records",
+  "starsStarFailed": "Couldn't star it. Try again.",
+  "starsUnstarFailed": "Couldn't remove the star. Try again.",
+  "starsRecordGone": "This record is no longer available",
+  "starsEntryCount": "Starred: {count}",
+  "@starsEntryCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "starsEntryHint": "Star the clients, listings and deals you are working on"
 }
