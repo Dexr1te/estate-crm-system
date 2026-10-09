@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/models/star_models.dart';
 import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
 import 'package:real_estate_crm/core/utils/contact_actions.dart';
 import 'package:real_estate_crm/core/utils/share_gateway.dart';
@@ -29,6 +30,7 @@ import 'package:real_estate_crm/features/properties/presentation/widgets/propert
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_price_check.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_price_history.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_share_link_card.dart';
+import 'package:real_estate_crm/features/stars/presentation/widgets/star_button.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class PropertyDetailScreen extends StatefulWidget {
@@ -229,6 +231,12 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
         title: l10n.propertiesPropertyIdLabel(p.id),
         onRefresh: _load,
         actions: [
+          StarToggle(
+            type: StarType.property,
+            id: widget.id,
+            title: p.title,
+            subtitle: p.address.isNotEmpty ? p.address : p.city,
+          ),
           QuickAddButton.tile(onDone: _load),
           ...detailActions(
             onEdit: () => context.push('/properties/${widget.id}/edit'),

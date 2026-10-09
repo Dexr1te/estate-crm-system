@@ -40,6 +40,8 @@ public class WebConfig implements WebMvcConfigurer {
                         "/handovers/**",
                         "/time-off",
                         "/time-off/**",
+                        "/stars",
+                        "/stars/**",
                         "/keys/**",
                         "/users/agents");
     }

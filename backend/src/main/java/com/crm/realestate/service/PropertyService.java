@@ -8,6 +8,7 @@ import com.crm.realestate.entity.PropertyPriceChange;
 import com.crm.realestate.entity.User;
 import com.crm.realestate.enums.PropertyStatus;
 import com.crm.realestate.enums.PropertyType;
+import com.crm.realestate.enums.StarType;
 import com.crm.realestate.exception.ResourceNotFoundException;
 import com.crm.realestate.repository.PropertyPriceChangeRepository;
 import com.crm.realestate.repository.PropertyRepository;
@@ -43,6 +44,7 @@ public class PropertyService {
     private final PropertyPriceChangeRepository priceChangeRepository;
     private final NotificationEvents notificationEvents;
     private final ChangeLogService   changeLog;
+    private final StarStore          starStore;
 
     /** How far ahead an agreement's end counts as "running out". */
     public static final int MANDATE_WINDOW_DAYS = 14;
@@ -199,12 +201,13 @@ public class PropertyService {
         return toResponse(saved);
     }
 
-    /** The change log keeps the line saying so after the listing is gone. */
+    /** The change log keeps the line saying so after the listing is gone; the stars on it go. */
     @Transactional
     public void delete(Long id) {
         User currentUser = securityUtils.getCurrentUser();
         Property property = findVisibleById(id, currentUser);
         changeLog.deleted(ChangeSnapshot.target(property), currentUser);
+        starStore.recordDeleted(StarType.PROPERTY, property.getId());
         propertyRepository.delete(property);
     }
 

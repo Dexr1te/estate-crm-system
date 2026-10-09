@@ -97,6 +97,9 @@ import 'package:real_estate_crm/features/route/data/repositories/day_route_repos
 import 'package:real_estate_crm/features/route/domain/repositories/day_route_repository.dart';
 import 'package:real_estate_crm/features/search/data/repositories/search_repository_impl.dart';
 import 'package:real_estate_crm/features/search/domain/repositories/search_repository.dart';
+import 'package:real_estate_crm/features/stars/data/datasources/stars_remote_datasource.dart';
+import 'package:real_estate_crm/features/stars/data/repositories/stars_repository_impl.dart';
+import 'package:real_estate_crm/features/stars/domain/repositories/stars_repository.dart';
 import 'package:real_estate_crm/features/tasks/data/datasources/tasks_remote_datasource.dart';
 import 'package:real_estate_crm/features/tasks/data/repositories/tasks_repository_impl.dart';
 import 'package:real_estate_crm/features/tasks/domain/repositories/tasks_repository.dart';
@@ -193,6 +196,10 @@ class Injector {
 
   static ChangeLogRepository changeLogRepository =
       ChangeLogRepositoryImpl(ChangeLogRemoteDataSource(_apiClient));
+
+  /// The signed-in person's starred clients, listings and deals.
+  static StarsRepository starsRepository =
+      StarsRepositoryImpl(StarsRemoteDataSource(_apiClient));
 
   static NotificationsRepository notificationsRepository =
       NotificationsRepositoryImpl(NotificationsRemoteDataSource(_apiClient));

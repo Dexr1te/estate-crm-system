@@ -6851,6 +6851,52 @@ class AppLocalizationsEn extends AppLocalizations {
       'A split deal\'s commission counts for each person by their share; a co-broker\'s share is not the agency\'s.';
 
   @override
+  String get starsTitle => 'Starred';
+
+  @override
+  String get starsStar => 'Star';
+
+  @override
+  String get starsUnstar => 'Remove star';
+
+  @override
+  String get starsSectionClients => 'Clients';
+
+  @override
+  String get starsSectionListings => 'Listings';
+
+  @override
+  String get starsSectionDeals => 'Deals';
+
+  @override
+  String get starsEmptyTitle => 'Nothing starred yet';
+
+  @override
+  String get starsEmptyHint =>
+      'Tap the star at the top of a client, a listing or a deal to keep it here, one tap away.';
+
+  @override
+  String get starsLoadFailed => 'Couldn\'t load your starred records';
+
+  @override
+  String get starsStarFailed => 'Couldn\'t star it. Try again.';
+
+  @override
+  String get starsUnstarFailed => 'Couldn\'t remove the star. Try again.';
+
+  @override
+  String get starsRecordGone => 'This record is no longer available';
+
+  @override
+  String starsEntryCount(int count) {
+    return 'Starred: $count';
+  }
+
+  @override
+  String get starsEntryHint =>
+      'Star the clients, listings and deals you are working on';
+
+  @override
   String get keysCardTitle => 'Keys';
 
   @override

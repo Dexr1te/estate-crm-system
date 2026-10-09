@@ -6763,6 +6763,54 @@ class AppLocalizationsKk extends AppLocalizations {
       'Бөлінген мәміле комиссиясы әркімге өз үлесімен есептеледі; сыртқы агенттің үлесі агенттік сомасына кірмейді.';
 
   @override
+  String get starsTitle => 'Таңдаулылар';
+
+  @override
+  String get starsStar => 'Таңдаулыларға қосу';
+
+  @override
+  String get starsUnstar => 'Таңдаулылардан алып тастау';
+
+  @override
+  String get starsSectionClients => 'Клиенттер';
+
+  @override
+  String get starsSectionListings => 'Нысандар';
+
+  @override
+  String get starsSectionDeals => 'Мәмілелер';
+
+  @override
+  String get starsEmptyTitle => 'Таңдаулылар әзірге бос';
+
+  @override
+  String get starsEmptyHint =>
+      'Клиент, нысан немесе мәміле карточкасының жоғарғы жағындағы жұлдызшаны басыңыз, сонда ол осында, қол астында болады.';
+
+  @override
+  String get starsLoadFailed => 'Таңдаулыларды жүктеу мүмкін болмады';
+
+  @override
+  String get starsStarFailed =>
+      'Таңдаулыларға қосу мүмкін болмады. Қайталап көріңіз.';
+
+  @override
+  String get starsUnstarFailed =>
+      'Таңдаулылардан алып тастау мүмкін болмады. Қайталап көріңіз.';
+
+  @override
+  String get starsRecordGone => 'Бұл жазба енді қолжетімсіз';
+
+  @override
+  String starsEntryCount(int count) {
+    return 'Таңдаулылар: $count';
+  }
+
+  @override
+  String get starsEntryHint =>
+      'Жұмыс істеп жүрген клиенттерді, нысандарды және мәмілелерді жұлдызшамен белгілеңіз';
+
+  @override
   String get keysCardTitle => 'Кілттер';
 
   @override
