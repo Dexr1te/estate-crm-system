@@ -3385,5 +3385,51 @@
   "splitsNoColleagues": "Nobody else in the agency to add",
   "splitsTooMany": "At most 10 people share one commission",
   "splitsColleagueInactive": "Only active members of the agency can be given a share",
-  "splitsShareNote": "A split deal's commission counts for each person by their share; a co-broker's share is not the agency's."
+  "splitsShareNote": "A split deal's commission counts for each person by their share; a co-broker's share is not the agency's.",
+  "expensesTitle": "Expenses",
+  "expensesTotalCaption": "Spent on this listing",
+  "expensesNone": "Nothing spent on this listing yet. Record the photographer, ads and the rest to see what it costs.",
+  "expensesLoadFailed": "Could not load the expenses",
+  "expensesLatest": "Latest",
+  "expensesShowAll": "Show all ({count})",
+  "@expensesShowAll": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "expensesAdd": "Add expense",
+  "expensesAddTitle": "New expense",
+  "expensesCategory": "Spent on",
+  "expensesAmount": "Amount",
+  "expensesAmountHint": "e.g. 45,000",
+  "expensesSpentOn": "Paid on",
+  "expensesNote": "Note",
+  "expensesNoteHint": "Optional",
+  "expensesNoteTooLong": "A note takes at most 500 characters",
+  "expensesDeleteTitle": "Delete this expense?",
+  "expensesDeleteBody": "{category}, {amount}: it will no longer count towards this listing.",
+  "@expensesDeleteBody": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "expensesCategoryPhoto": "Photography",
+  "expensesCategoryAdvertising": "Advertising",
+  "expensesCategoryStaging": "Staging",
+  "expensesCategoryCleaning": "Cleaning",
+  "expensesCategoryLegal": "Legal",
+  "expensesCategoryOther": "Other",
+  "expensesSpendTitle": "Marketing spend",
+  "expensesSpendHint": "What was spent marketing listings in this period.",
+  "expensesSpendNone": "Nothing was spent on listings in this period.",
+  "expensesSpendLoadFailed": "Could not load marketing spend",
+  "expensesByCategory": "By category",
+  "expensesTopListings": "Costliest listings"
 }

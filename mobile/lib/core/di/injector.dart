@@ -54,6 +54,9 @@ import 'package:real_estate_crm/features/deposits/domain/repositories/deposits_r
 import 'package:real_estate_crm/features/documents/data/datasources/documents_remote_datasource.dart';
 import 'package:real_estate_crm/features/documents/data/repositories/documents_repository_impl.dart';
 import 'package:real_estate_crm/features/documents/domain/repositories/documents_repository.dart';
+import 'package:real_estate_crm/features/expenses/data/datasources/expenses_remote_datasource.dart';
+import 'package:real_estate_crm/features/expenses/data/repositories/expenses_repository_impl.dart';
+import 'package:real_estate_crm/features/expenses/domain/repositories/expenses_repository.dart';
 import 'package:real_estate_crm/features/exports/data/datasources/exports_remote_datasource.dart';
 import 'package:real_estate_crm/features/exports/data/repositories/exports_repository_impl.dart';
 import 'package:real_estate_crm/features/exports/domain/repositories/exports_repository.dart';
@@ -178,6 +181,9 @@ class Injector {
 
   static OffersRepository offersRepository =
       OffersRepositoryImpl(OffersRemoteDataSource(_apiClient));
+
+  static ExpensesRepository expensesRepository =
+      ExpensesRepositoryImpl(ExpensesRemoteDataSource(_apiClient));
 
   static OpenHousesRepository openHousesRepository =
       OpenHousesRepositoryImpl(OpenHousesRemoteDataSource(_apiClient));

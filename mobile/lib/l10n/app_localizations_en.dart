@@ -6849,4 +6849,98 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get splitsShareNote =>
       'A split deal\'s commission counts for each person by their share; a co-broker\'s share is not the agency\'s.';
+
+  @override
+  String get expensesTitle => 'Expenses';
+
+  @override
+  String get expensesTotalCaption => 'Spent on this listing';
+
+  @override
+  String get expensesNone =>
+      'Nothing spent on this listing yet. Record the photographer, ads and the rest to see what it costs.';
+
+  @override
+  String get expensesLoadFailed => 'Could not load the expenses';
+
+  @override
+  String get expensesLatest => 'Latest';
+
+  @override
+  String expensesShowAll(int count) {
+    return 'Show all ($count)';
+  }
+
+  @override
+  String get expensesAdd => 'Add expense';
+
+  @override
+  String get expensesAddTitle => 'New expense';
+
+  @override
+  String get expensesCategory => 'Spent on';
+
+  @override
+  String get expensesAmount => 'Amount';
+
+  @override
+  String get expensesAmountHint => 'e.g. 45,000';
+
+  @override
+  String get expensesSpentOn => 'Paid on';
+
+  @override
+  String get expensesNote => 'Note';
+
+  @override
+  String get expensesNoteHint => 'Optional';
+
+  @override
+  String get expensesNoteTooLong => 'A note takes at most 500 characters';
+
+  @override
+  String get expensesDeleteTitle => 'Delete this expense?';
+
+  @override
+  String expensesDeleteBody(String category, String amount) {
+    return '$category, $amount: it will no longer count towards this listing.';
+  }
+
+  @override
+  String get expensesCategoryPhoto => 'Photography';
+
+  @override
+  String get expensesCategoryAdvertising => 'Advertising';
+
+  @override
+  String get expensesCategoryStaging => 'Staging';
+
+  @override
+  String get expensesCategoryCleaning => 'Cleaning';
+
+  @override
+  String get expensesCategoryLegal => 'Legal';
+
+  @override
+  String get expensesCategoryOther => 'Other';
+
+  @override
+  String get expensesSpendTitle => 'Marketing spend';
+
+  @override
+  String get expensesSpendHint =>
+      'What was spent marketing listings in this period.';
+
+  @override
+  String get expensesSpendNone =>
+      'Nothing was spent on listings in this period.';
+
+  @override
+  String get expensesSpendLoadFailed => 'Could not load marketing spend';
+
+  @override
+  String get expensesByCategory => 'By category';
+
+  @override
+  String get expensesTopListings => 'Costliest listings';
 }

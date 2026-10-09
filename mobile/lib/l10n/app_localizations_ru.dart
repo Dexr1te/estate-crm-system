@@ -6957,4 +6957,98 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get splitsShareNote =>
       'Комиссия по разделённой сделке засчитывается каждому по его доле; доля ко-брокера в сумму агентства не входит.';
+
+  @override
+  String get expensesTitle => 'Расходы';
+
+  @override
+  String get expensesTotalCaption => 'Потрачено на объект';
+
+  @override
+  String get expensesNone =>
+      'Расходов по объекту пока нет. Записывайте фотографа, рекламу и всё остальное — так будет видно, во что обходится объект.';
+
+  @override
+  String get expensesLoadFailed => 'Не удалось загрузить расходы';
+
+  @override
+  String get expensesLatest => 'Последние';
+
+  @override
+  String expensesShowAll(int count) {
+    return 'Показать все ($count)';
+  }
+
+  @override
+  String get expensesAdd => 'Добавить расход';
+
+  @override
+  String get expensesAddTitle => 'Новый расход';
+
+  @override
+  String get expensesCategory => 'На что потрачено';
+
+  @override
+  String get expensesAmount => 'Сумма';
+
+  @override
+  String get expensesAmountHint => 'например, 45 000';
+
+  @override
+  String get expensesSpentOn => 'Дата оплаты';
+
+  @override
+  String get expensesNote => 'Заметка';
+
+  @override
+  String get expensesNoteHint => 'Необязательно';
+
+  @override
+  String get expensesNoteTooLong => 'Заметка — не больше 500 символов';
+
+  @override
+  String get expensesDeleteTitle => 'Удалить расход?';
+
+  @override
+  String expensesDeleteBody(String category, String amount) {
+    return '$category, $amount: эта сумма больше не будет учитываться в расходах на объект.';
+  }
+
+  @override
+  String get expensesCategoryPhoto => 'Фотосъёмка';
+
+  @override
+  String get expensesCategoryAdvertising => 'Реклама';
+
+  @override
+  String get expensesCategoryStaging => 'Хоумстейджинг';
+
+  @override
+  String get expensesCategoryCleaning => 'Уборка';
+
+  @override
+  String get expensesCategoryLegal => 'Юридические услуги';
+
+  @override
+  String get expensesCategoryOther => 'Другое';
+
+  @override
+  String get expensesSpendTitle => 'Расходы на продвижение';
+
+  @override
+  String get expensesSpendHint =>
+      'Сколько потрачено на продвижение объектов за период.';
+
+  @override
+  String get expensesSpendNone => 'За этот период расходов на объекты не было.';
+
+  @override
+  String get expensesSpendLoadFailed =>
+      'Не удалось загрузить расходы на продвижение';
+
+  @override
+  String get expensesByCategory => 'По статьям';
+
+  @override
+  String get expensesTopListings => 'Самые затратные объекты';
 }
