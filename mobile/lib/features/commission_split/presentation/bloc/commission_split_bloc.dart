@@ -17,6 +17,19 @@ class CommissionSplitSaveEvent extends CommissionSplitEvent {
 /// Back to the whole commission for the deal's agent.
 class CommissionSplitClearEvent extends CommissionSplitEvent {}
 
+/// The agency has paid share [shareId] out, with an optional [note].
+class CommissionSplitMarkPaidEvent extends CommissionSplitEvent {
+  final int shareId;
+  final String? note;
+  CommissionSplitMarkPaidEvent(this.shareId, {this.note});
+}
+
+/// Share [shareId] is owed again.
+class CommissionSplitUndoPayoutEvent extends CommissionSplitEvent {
+  final int shareId;
+  CommissionSplitUndoPayoutEvent(this.shareId);
+}
+
 enum CommissionSplitStatus { loading, loaded, error }
 
 /// A write the server refused; the split stays as it was.
@@ -77,6 +90,10 @@ class CommissionSplitBloc
         (e, emit) => _write(emit, () => _repo.saveSplit(dealId, e.draft)));
     on<CommissionSplitClearEvent>(
         (e, emit) => _write(emit, () => _repo.clearSplit(dealId)));
+    on<CommissionSplitMarkPaidEvent>((e, emit) =>
+        _write(emit, () => _repo.markPaid(dealId, e.shareId, note: e.note)));
+    on<CommissionSplitUndoPayoutEvent>(
+        (e, emit) => _write(emit, () => _repo.undoPayout(dealId, e.shareId)));
   }
 
   Future<void> _onLoad(

@@ -6761,4 +6761,131 @@ class AppLocalizationsKk extends AppLocalizations {
   @override
   String get splitsShareNote =>
       'Бөлінген мәміле комиссиясы әркімге өз үлесімен есептеледі; сыртқы агенттің үлесі агенттік сомасына кірмейді.';
+
+  @override
+  String get payoutsTitle => 'Төлемдер';
+
+  @override
+  String get payoutsHint =>
+      'Бөлінген комиссиялар бойынша агенттіктің әлі төлейтіні';
+
+  @override
+  String get payoutsPaid => 'Төленді';
+
+  @override
+  String get payoutsUnpaid => 'Төленбеген';
+
+  @override
+  String payoutsPaidOn(String date) {
+    return '$date төленді';
+  }
+
+  @override
+  String get payoutsMarkPaid => 'Төленді деп белгілеу';
+
+  @override
+  String get payoutsUndo => 'Төлемді болдырмау';
+
+  @override
+  String get payoutsMarkTitle => 'Үлесті төленді деп белгілеу';
+
+  @override
+  String get payoutsMarkSubtitle =>
+      'Ақша шынымен төленгенде белгілеңіз. Белгіні кейін болдырмауға болады.';
+
+  @override
+  String get payoutsPaidTo => 'Кімге';
+
+  @override
+  String get payoutsAmount => 'Сомасы';
+
+  @override
+  String get payoutsNote => 'Түсініктеме';
+
+  @override
+  String get payoutsNoteHint =>
+      'Аударым нөмірі, қолма-қол — есте сақтауға тұрарлық нәрсе';
+
+  @override
+  String get payoutsUndoTitle => 'Төлемді болдырмау керек пе?';
+
+  @override
+  String payoutsUndoBody(String name) {
+    return 'Үлес қайтадан төленбеген болып көрсетіледі. Алушы: $name.';
+  }
+
+  @override
+  String get payoutsUnpaidTotal => 'Әлі төленетіні';
+
+  @override
+  String get payoutsPaidTotal => 'Төленгені';
+
+  @override
+  String get payoutsOwedToYou => 'Сізге тиесілі';
+
+  @override
+  String get payoutsPaidToYou => 'Сізге төленгені';
+
+  @override
+  String get payoutsByAgent => 'Кімге қанша қалды';
+
+  @override
+  String payoutsShareCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count үлес',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get payoutsScopeNote =>
+      'Сәтті мәмілелердегі әріптестер мен сыртқы агенттердің үлестері; мәміле агентінің өз бөлігі мұнда есептелмейді.';
+
+  @override
+  String get payoutsEmptyUnpaid => 'Төлейтін ештеңе жоқ';
+
+  @override
+  String get payoutsEmptyUnpaidHint =>
+      'Сәтті мәмілелердегі бөлінген комиссия үлестері төленгенге дейін осында көрінеді.';
+
+  @override
+  String get payoutsEmptyPaid => 'Әзірге төлем жоқ';
+
+  @override
+  String get payoutsEmptyPaidHint =>
+      'Мәміледе төленді деп белгіленген үлес осында шығады.';
+
+  @override
+  String get payoutsLoadFailed => 'Төлемдерді жүктеу мүмкін болмады';
+
+  @override
+  String payoutsMarkedBy(String name) {
+    return 'Белгілеген: $name';
+  }
+
+  @override
+  String payoutsWonOn(String date) {
+    return '$date сәтті жабылды';
+  }
+
+  @override
+  String get payoutsNoAmount => 'Сомасы әлі белгісіз';
+
+  @override
+  String get payoutsAlreadyPaid => 'Бұл үлес төленіп қойған';
+
+  @override
+  String get payoutsNotPaid => 'Бұл үлес төленді деп белгіленбеген';
+
+  @override
+  String get payoutsDealNotWon => 'Тек сәтті мәмілелердің үлестері төленеді';
+
+  @override
+  String get payoutsSharePaidLocked =>
+      'Төленген үлесті өзгертуге болмайды. Алдымен төлемді болдырмаңыз.';
+
+  @override
+  String get payoutsManagerOnly => 'Төлемдерді тек агенттік басшысы белгілейді';
 }

@@ -83,6 +83,13 @@ class ProfileScreen extends StatelessWidget {
                   showChevron: true,
                   onTap: () => context.push('/time-off/team'),
                 ),
+                if (user.role == Role.AGENT)
+                  SettingsRow(
+                    key: const ValueKey('profile-payouts'),
+                    label: l10n.payoutsTitle,
+                    showChevron: true,
+                    onTap: () => context.push('/payouts'),
+                  ),
               ]),
             if (user.teamName != null) const PartnersSettingsRow(),
             _GroupLabel(l10n.profileSettings),

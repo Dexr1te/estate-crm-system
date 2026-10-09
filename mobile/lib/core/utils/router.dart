@@ -45,6 +45,7 @@ import 'package:real_estate_crm/features/open_houses/presentation/screens/open_h
 import 'package:real_estate_crm/features/partners/presentation/screens/partner_detail_screen.dart';
 import 'package:real_estate_crm/features/partners/presentation/screens/partner_form_screen.dart';
 import 'package:real_estate_crm/features/partners/presentation/screens/partners_screen.dart';
+import 'package:real_estate_crm/features/payouts/presentation/screens/payouts_screen.dart';
 import 'package:real_estate_crm/features/profile/presentation/screens/profile_screen.dart';
 import 'package:real_estate_crm/features/properties/presentation/screens/mandates_ending_screen.dart';
 import 'package:real_estate_crm/features/properties/presentation/screens/properties_screen.dart';
@@ -269,6 +270,11 @@ GoRouter createRouter(AuthBloc authBloc) {
         parentNavigatorKey: _rootKey,
         pageBuilder: (_, __) =>
             const NoTransitionPage(child: TeamGoalsScreen()),
+      ),
+      GoRoute(
+        path: '/payouts',
+        parentNavigatorKey: _rootKey,
+        pageBuilder: (_, __) => const NoTransitionPage(child: PayoutsScreen()),
       ),
       GoRoute(
         path: '/audit',

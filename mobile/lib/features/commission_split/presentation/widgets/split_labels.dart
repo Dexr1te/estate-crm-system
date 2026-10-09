@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/features/commission_split/presentation/widgets/payout_widgets.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 /// A share as the card writes it: "50%".
@@ -30,7 +31,7 @@ String splitFailureLabel(AppLocalizations l10n, ApiFailure failure) =>
       'SPLIT_TOTAL_NOT_100' => l10n.splitsTotalMustBe100,
       'SPLIT_COLLEAGUE_INACTIVE' => l10n.splitsColleagueInactive,
       'SPLIT_PARTY_REQUIRED' => l10n.splitsCoBrokerNameMissing,
-      _ => apiFailureLabel(l10n, failure),
+      _ => payoutFailureLabel(l10n, failure) ?? apiFailureLabel(l10n, failure),
     };
 
 /// The line under the leaderboard's and the goals' totals saying how a split

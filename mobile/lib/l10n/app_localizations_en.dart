@@ -6849,4 +6849,130 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get splitsShareNote =>
       'A split deal\'s commission counts for each person by their share; a co-broker\'s share is not the agency\'s.';
+
+  @override
+  String get payoutsTitle => 'Payouts';
+
+  @override
+  String get payoutsHint => 'What the agency still owes from split commissions';
+
+  @override
+  String get payoutsPaid => 'Paid';
+
+  @override
+  String get payoutsUnpaid => 'Unpaid';
+
+  @override
+  String payoutsPaidOn(String date) {
+    return 'Paid $date';
+  }
+
+  @override
+  String get payoutsMarkPaid => 'Mark paid';
+
+  @override
+  String get payoutsUndo => 'Undo payout';
+
+  @override
+  String get payoutsMarkTitle => 'Mark the share paid';
+
+  @override
+  String get payoutsMarkSubtitle =>
+      'Mark it once the money has actually been paid out. It can be undone.';
+
+  @override
+  String get payoutsPaidTo => 'Paid to';
+
+  @override
+  String get payoutsAmount => 'Amount';
+
+  @override
+  String get payoutsNote => 'Note';
+
+  @override
+  String get payoutsNoteHint => 'Transfer number, cash, anything worth keeping';
+
+  @override
+  String get payoutsUndoTitle => 'Undo this payout?';
+
+  @override
+  String payoutsUndoBody(String name) {
+    return '$name\'s share will show as unpaid again.';
+  }
+
+  @override
+  String get payoutsUnpaidTotal => 'Still owed';
+
+  @override
+  String get payoutsPaidTotal => 'Paid out';
+
+  @override
+  String get payoutsOwedToYou => 'Owed to you';
+
+  @override
+  String get payoutsPaidToYou => 'Paid to you';
+
+  @override
+  String get payoutsByAgent => 'Owed by person';
+
+  @override
+  String payoutsShareCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count shares',
+      one: '1 share',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get payoutsScopeNote =>
+      'Colleagues\' and co-brokers\' shares of won deals; the deal agent\'s own part is not listed here.';
+
+  @override
+  String get payoutsEmptyUnpaid => 'Nothing left to pay out';
+
+  @override
+  String get payoutsEmptyUnpaidHint =>
+      'Shares of split commissions on won deals show here until they are paid out.';
+
+  @override
+  String get payoutsEmptyPaid => 'No payouts yet';
+
+  @override
+  String get payoutsEmptyPaidHint =>
+      'A share marked paid on its deal shows here.';
+
+  @override
+  String get payoutsLoadFailed => 'Could not load payouts';
+
+  @override
+  String payoutsMarkedBy(String name) {
+    return 'Marked by $name';
+  }
+
+  @override
+  String payoutsWonOn(String date) {
+    return 'Won $date';
+  }
+
+  @override
+  String get payoutsNoAmount => 'No amount yet';
+
+  @override
+  String get payoutsAlreadyPaid => 'This share has already been paid out';
+
+  @override
+  String get payoutsNotPaid => 'This share is not marked paid';
+
+  @override
+  String get payoutsDealNotWon => 'Only a won deal\'s shares are paid out';
+
+  @override
+  String get payoutsSharePaidLocked =>
+      'A paid share can\'t be changed. Undo its payout first.';
+
+  @override
+  String get payoutsManagerOnly => 'Only the agency\'s manager marks payouts';
 }

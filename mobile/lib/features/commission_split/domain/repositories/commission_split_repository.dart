@@ -6,9 +6,16 @@ abstract class CommissionSplitRepository {
   Future<CommissionSplit> getSplit(int dealId);
 
   /// Replaces the split; the deal's agent, a manager or an admin, totalling
-  /// exactly 100%.
+  /// exactly 100%. A paid share has to stay as it was paid.
   Future<CommissionSplit> saveSplit(int dealId, CommissionSplitDraft draft);
 
   /// Gives the whole commission back to the deal's agent.
   Future<CommissionSplit> clearSplit(int dealId);
+
+  /// The agency has paid share [shareId] of a won deal out; a manager or an
+  /// admin, with an optional [note].
+  Future<CommissionSplit> markPaid(int dealId, int shareId, {String? note});
+
+  /// Share [shareId] is owed again: a payout marked by mistake.
+  Future<CommissionSplit> undoPayout(int dealId, int shareId);
 }
