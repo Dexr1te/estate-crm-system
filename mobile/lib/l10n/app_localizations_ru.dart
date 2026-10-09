@@ -7005,4 +7005,143 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get starsEntryHint =>
       'Отмечайте звёздочкой клиентов, объекты и сделки, с которыми работаете';
+
+  @override
+  String get keysCardTitle => 'Ключи';
+
+  @override
+  String get keysInOffice => 'В офисе';
+
+  @override
+  String keysWithHolder(String holder) {
+    return 'Выданы: $holder';
+  }
+
+  @override
+  String keysWithHolderUntil(String date, String holder) {
+    return 'Выданы: $holder · до $date';
+  }
+
+  @override
+  String get keysOverdue => 'Просрочено';
+
+  @override
+  String keysHandedOutBy(String date, String name) {
+    return '$date · выдал(а) $name';
+  }
+
+  @override
+  String keysHandedOutOn(String date) {
+    return 'Выданы $date';
+  }
+
+  @override
+  String get keysHandOver => 'Выдать ключи';
+
+  @override
+  String get keysReturn => 'Вернуть в офис';
+
+  @override
+  String get keysReturnConfirmTitle => 'Вернуть ключи в офис?';
+
+  @override
+  String keysReturnConfirmBody(String holder) {
+    return 'Ключи будут отмечены как возвращённые. Были выданы: $holder.';
+  }
+
+  @override
+  String get keysReturnConfirm => 'Вернуть';
+
+  @override
+  String get keysHistory => 'Ранее';
+
+  @override
+  String keysHistoryPeriod(String from, String to) {
+    return '$from – $to';
+  }
+
+  @override
+  String get keysShowAll => 'Показать все';
+
+  @override
+  String get keysLoadFailed => 'Не удалось загрузить ключи';
+
+  @override
+  String get keysErrorAlreadyOut =>
+      'Эти ключи уже выданы. На карточке видно, у кого они сейчас.';
+
+  @override
+  String get keysErrorNotOut => 'Эти ключи уже в офисе.';
+
+  @override
+  String get keysErrorHolderRequired => 'Выберите коллегу или впишите имя';
+
+  @override
+  String get keysErrorDueInPast => 'Дата возврата не может быть в прошлом';
+
+  @override
+  String get keysHandOverTitle => 'Выдать ключи';
+
+  @override
+  String get keysWho => 'Кому';
+
+  @override
+  String get keysToColleague => 'Коллеге';
+
+  @override
+  String get keysToSomeoneElse => 'Другому человеку';
+
+  @override
+  String get keysColleague => 'Коллега';
+
+  @override
+  String get keysPickColleague => 'Выберите коллегу';
+
+  @override
+  String get keysSearchColleague => 'Поиск по имени';
+
+  @override
+  String get keysNoColleagues => 'В агентстве некого выбрать';
+
+  @override
+  String get keysHolderName => 'Имя';
+
+  @override
+  String get keysHolderNameHint => 'Собственник, клининг, покупатель';
+
+  @override
+  String get keysDueBack => 'Вернуть до';
+
+  @override
+  String get keysNoDueDate => 'Без срока';
+
+  @override
+  String get keysNote => 'Заметка';
+
+  @override
+  String get keysNoteHint => 'Какие ключи, брелок, карта от парковки';
+
+  @override
+  String get keysNoteTooLong => 'Заметка — не больше 500 символов';
+
+  @override
+  String get keysSave => 'Выдать';
+
+  @override
+  String get keysOutTitle => 'Выданные ключи';
+
+  @override
+  String get keysOutEmpty => 'Все ключи в офисе';
+
+  @override
+  String get keysOutEmptyHint =>
+      'Ключи, выданные с карточки объекта, видны здесь, пока их не вернут.';
+
+  @override
+  String get keysOutLoadFailed => 'Не удалось загрузить выданные ключи';
+
+  @override
+  String keysOutOverdueCount(int count) {
+    return 'просрочено: $count';
+  }
 }

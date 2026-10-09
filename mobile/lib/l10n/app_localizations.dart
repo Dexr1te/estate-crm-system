@@ -11662,6 +11662,252 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Star the clients, listings and deals you are working on'**
   String get starsEntryHint;
+
+  /// No description provided for @keysCardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Keys'**
+  String get keysCardTitle;
+
+  /// No description provided for @keysInOffice.
+  ///
+  /// In en, this message translates to:
+  /// **'In the office'**
+  String get keysInOffice;
+
+  /// No description provided for @keysWithHolder.
+  ///
+  /// In en, this message translates to:
+  /// **'With {holder}'**
+  String keysWithHolder(String holder);
+
+  /// No description provided for @keysWithHolderUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'With {holder} · until {date}'**
+  String keysWithHolderUntil(String date, String holder);
+
+  /// No description provided for @keysOverdue.
+  ///
+  /// In en, this message translates to:
+  /// **'Overdue'**
+  String get keysOverdue;
+
+  /// No description provided for @keysHandedOutBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Handed out {date} by {name}'**
+  String keysHandedOutBy(String date, String name);
+
+  /// No description provided for @keysHandedOutOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Handed out {date}'**
+  String keysHandedOutOn(String date);
+
+  /// No description provided for @keysHandOver.
+  ///
+  /// In en, this message translates to:
+  /// **'Hand over the keys'**
+  String get keysHandOver;
+
+  /// No description provided for @keysReturn.
+  ///
+  /// In en, this message translates to:
+  /// **'Return to the office'**
+  String get keysReturn;
+
+  /// No description provided for @keysReturnConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Return the keys to the office?'**
+  String get keysReturnConfirmTitle;
+
+  /// No description provided for @keysReturnConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'They will be marked as returned. They were with {holder}.'**
+  String keysReturnConfirmBody(String holder);
+
+  /// No description provided for @keysReturnConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Return'**
+  String get keysReturnConfirm;
+
+  /// No description provided for @keysHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Earlier'**
+  String get keysHistory;
+
+  /// No description provided for @keysHistoryPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'{from} – {to}'**
+  String keysHistoryPeriod(String from, String to);
+
+  /// No description provided for @keysShowAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Show all'**
+  String get keysShowAll;
+
+  /// No description provided for @keysLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load the keys'**
+  String get keysLoadFailed;
+
+  /// No description provided for @keysErrorAlreadyOut.
+  ///
+  /// In en, this message translates to:
+  /// **'These keys are already out. The card now shows who has them.'**
+  String get keysErrorAlreadyOut;
+
+  /// No description provided for @keysErrorNotOut.
+  ///
+  /// In en, this message translates to:
+  /// **'These keys are already back in the office.'**
+  String get keysErrorNotOut;
+
+  /// No description provided for @keysErrorHolderRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a colleague or type a name'**
+  String get keysErrorHolderRequired;
+
+  /// No description provided for @keysErrorDueInPast.
+  ///
+  /// In en, this message translates to:
+  /// **'The return date can\'t be in the past'**
+  String get keysErrorDueInPast;
+
+  /// No description provided for @keysHandOverTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Hand over the keys'**
+  String get keysHandOverTitle;
+
+  /// No description provided for @keysWho.
+  ///
+  /// In en, this message translates to:
+  /// **'Who takes them'**
+  String get keysWho;
+
+  /// No description provided for @keysToColleague.
+  ///
+  /// In en, this message translates to:
+  /// **'A colleague'**
+  String get keysToColleague;
+
+  /// No description provided for @keysToSomeoneElse.
+  ///
+  /// In en, this message translates to:
+  /// **'Someone else'**
+  String get keysToSomeoneElse;
+
+  /// No description provided for @keysColleague.
+  ///
+  /// In en, this message translates to:
+  /// **'Colleague'**
+  String get keysColleague;
+
+  /// No description provided for @keysPickColleague.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a colleague'**
+  String get keysPickColleague;
+
+  /// No description provided for @keysSearchColleague.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by name'**
+  String get keysSearchColleague;
+
+  /// No description provided for @keysNoColleagues.
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody in the agency to choose'**
+  String get keysNoColleagues;
+
+  /// No description provided for @keysHolderName.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get keysHolderName;
+
+  /// No description provided for @keysHolderNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Owner, cleaner, buyer'**
+  String get keysHolderNameHint;
+
+  /// No description provided for @keysDueBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Due back'**
+  String get keysDueBack;
+
+  /// No description provided for @keysNoDueDate.
+  ///
+  /// In en, this message translates to:
+  /// **'No return date'**
+  String get keysNoDueDate;
+
+  /// No description provided for @keysNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get keysNote;
+
+  /// No description provided for @keysNoteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Which keys, the fob, the parking card'**
+  String get keysNoteHint;
+
+  /// No description provided for @keysNoteTooLong.
+  ///
+  /// In en, this message translates to:
+  /// **'A note is at most 500 characters'**
+  String get keysNoteTooLong;
+
+  /// No description provided for @keysSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Hand over'**
+  String get keysSave;
+
+  /// No description provided for @keysOutTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Keys out'**
+  String get keysOutTitle;
+
+  /// No description provided for @keysOutEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'All keys are in the office'**
+  String get keysOutEmpty;
+
+  /// No description provided for @keysOutEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Keys handed over from a listing show here until they come back.'**
+  String get keysOutEmptyHint;
+
+  /// No description provided for @keysOutLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load the keys that are out'**
+  String get keysOutLoadFailed;
+
+  /// No description provided for @keysOutOverdueCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} overdue'**
+  String keysOutOverdueCount(int count);
 }
 
 class _AppLocalizationsDelegate

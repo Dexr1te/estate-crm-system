@@ -35,6 +35,8 @@ import 'package:real_estate_crm/features/dashboard/presentation/widgets/top_agen
 import 'package:real_estate_crm/features/deposits/presentation/bloc/deposits_ending_bloc.dart';
 import 'package:real_estate_crm/features/goals/presentation/bloc/my_goal_bloc.dart';
 import 'package:real_estate_crm/features/goals/presentation/bloc/my_goal_event.dart';
+import 'package:real_estate_crm/features/keys/presentation/bloc/keys_out_bloc.dart';
+import 'package:real_estate_crm/features/keys/presentation/widgets/keys_out_card.dart';
 import 'package:real_estate_crm/features/leases/presentation/bloc/leases_ending_bloc.dart';
 import 'package:real_estate_crm/features/notifications/presentation/widgets/notification_bell.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/mandates_bloc.dart';
@@ -63,6 +65,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   final _mandates = MandatesBloc(Injector.propertiesRepository);
   final _deposits = DepositsEndingBloc(Injector.depositsRepository);
   final _leases = LeasesEndingBloc(Injector.leasesRepository);
+  final _keys = KeysOutBloc(Injector.keysRepository);
   final _out = TimeOffListBloc.today(Injector.timeOffRepository);
   final _goal = MyGoalBloc(Injector.goalsRepository);
   final _dates = ClientDatesBloc(Injector.clientDatesRepository,
@@ -77,6 +80,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     _mandates.add(MandatesLoadEvent());
     _deposits.add(DepositsEndingLoadEvent());
     _leases.add(LeasesEndingLoadEvent());
+    _keys.add(KeysOutLoadEvent());
     if (context.isManager) _out.add(TimeOffListLoadEvent());
     _goal.add(MyGoalLoadEvent());
     _dates.add(ClientDatesLoadEvent());
@@ -89,6 +93,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     _mandates.close();
     _deposits.close();
     _leases.close();
+    _keys.close();
     _out.close();
     _goal.close();
     _dates.close();
@@ -143,6 +148,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         BlocProvider.value(value: _mandates),
         BlocProvider.value(value: _deposits),
         BlocProvider.value(value: _leases),
+        BlocProvider.value(value: _keys),
         BlocProvider.value(value: _out),
         BlocProvider.value(value: _goal),
         BlocProvider.value(value: _dates),
@@ -159,6 +165,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 _mandates.add(MandatesLoadEvent());
                 _deposits.add(DepositsEndingLoadEvent());
                 _leases.add(LeasesEndingLoadEvent());
+                _keys.add(KeysOutLoadEvent());
                 if (context.isManager) _out.add(TimeOffListLoadEvent());
                 _goal.add(MyGoalLoadEvent());
                 _dates.add(ClientDatesLoadEvent());
@@ -285,6 +292,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
       LeasesEndingCard(
         topGap: gap,
         onSeeAll: () => context.push('/deals/leases'),
+      ),
+      KeysOutCard(
+        topGap: gap,
+        onSeeAll: () => context.push('/properties/keys'),
       ),
       // An admin runs no agency, so has no month of their own to show.
       if (!context.isAdmin) ...[

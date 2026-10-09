@@ -14,6 +14,7 @@ import 'package:real_estate_crm/features/auth/presentation/bloc/auth_state.dart'
 import 'package:real_estate_crm/features/change_log/presentation/widgets/change_log_entries.dart';
 import 'package:real_estate_crm/features/compare/presentation/widgets/compare_tray_controls.dart';
 import 'package:real_estate_crm/features/deposits/presentation/widgets/deposit_labels.dart';
+import 'package:real_estate_crm/features/keys/presentation/widgets/property_keys_card.dart';
 import 'package:real_estate_crm/features/mortgage/presentation/widgets/mortgage_card.dart';
 import 'package:real_estate_crm/features/offers/presentation/widgets/property_offers_card.dart';
 import 'package:real_estate_crm/features/open_houses/presentation/widgets/property_open_houses_card.dart';
@@ -283,6 +284,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
           if (_priceHistory.isNotEmpty)
             PropertyPriceHistoryCard(changes: _priceHistory),
           _StatusCard(status: p.status, onChanged: _updateStatus),
+          PropertyKeysCard(propertyId: widget.id),
           PropertyOffersCard(propertyId: widget.id),
           _InterestedCard(buyers: _interested, propertyId: widget.id),
           _ViewingsCard(viewings: _viewings),

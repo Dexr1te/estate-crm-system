@@ -32,6 +32,7 @@ import 'package:real_estate_crm/features/deals/presentation/screens/deals_screen
 import 'package:real_estate_crm/features/deposits/presentation/screens/deposits_ending_screen.dart';
 import 'package:real_estate_crm/features/goals/presentation/screens/team_goals_screen.dart';
 import 'package:real_estate_crm/features/imports/presentation/screens/import_screen.dart';
+import 'package:real_estate_crm/features/keys/presentation/screens/keys_out_screen.dart';
 import 'package:real_estate_crm/features/leaderboard/presentation/screens/leaderboard_screen.dart';
 import 'package:real_estate_crm/features/leases/presentation/screens/leases_ending_screen.dart';
 import 'package:real_estate_crm/features/meetings/presentation/screens/meeting_detail_screen.dart';
@@ -479,6 +480,12 @@ GoRouter createRouter(AuthBloc authBloc) {
                 parentNavigatorKey: _rootKey,
                 pageBuilder: (_, __) =>
                     const NoTransitionPage(child: MandatesEndingScreen()),
+              ),
+              GoRoute(
+                path: 'keys',
+                parentNavigatorKey: _rootKey,
+                pageBuilder: (_, __) =>
+                    const NoTransitionPage(child: KeysOutScreen()),
               ),
               GoRoute(
                 path: ':id',
