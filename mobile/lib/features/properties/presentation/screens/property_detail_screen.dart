@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/models/star_models.dart';
 import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
 import 'package:real_estate_crm/core/utils/contact_actions.dart';
 import 'package:real_estate_crm/core/utils/share_gateway.dart';
@@ -14,6 +15,7 @@ import 'package:real_estate_crm/features/change_log/presentation/widgets/change_
 import 'package:real_estate_crm/features/compare/presentation/widgets/compare_tray_controls.dart';
 import 'package:real_estate_crm/features/deposits/presentation/widgets/deposit_labels.dart';
 import 'package:real_estate_crm/features/expenses/presentation/widgets/property_expenses_card.dart';
+import 'package:real_estate_crm/features/keys/presentation/widgets/property_keys_card.dart';
 import 'package:real_estate_crm/features/mortgage/presentation/widgets/mortgage_card.dart';
 import 'package:real_estate_crm/features/offers/presentation/widgets/property_offers_card.dart';
 import 'package:real_estate_crm/features/open_houses/presentation/widgets/property_open_houses_card.dart';
@@ -29,6 +31,7 @@ import 'package:real_estate_crm/features/properties/presentation/widgets/propert
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_price_check.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_price_history.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_share_link_card.dart';
+import 'package:real_estate_crm/features/stars/presentation/widgets/star_button.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class PropertyDetailScreen extends StatefulWidget {
@@ -229,6 +232,12 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
         title: l10n.propertiesPropertyIdLabel(p.id),
         onRefresh: _load,
         actions: [
+          StarToggle(
+            type: StarType.property,
+            id: widget.id,
+            title: p.title,
+            subtitle: p.address.isNotEmpty ? p.address : p.city,
+          ),
           QuickAddButton.tile(onDone: _load),
           ...detailActions(
             onEdit: () => context.push('/properties/${widget.id}/edit'),
@@ -276,6 +285,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
           if (_priceHistory.isNotEmpty)
             PropertyPriceHistoryCard(changes: _priceHistory),
           _StatusCard(status: p.status, onChanged: _updateStatus),
+          PropertyKeysCard(propertyId: widget.id),
           PropertyOffersCard(propertyId: widget.id),
           _InterestedCard(buyers: _interested, propertyId: widget.id),
           _ViewingsCard(viewings: _viewings),

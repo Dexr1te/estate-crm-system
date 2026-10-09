@@ -62,6 +62,7 @@ public class ClientDuplicateService {
     private final AuditLogService auditLogService;
     private final EntityManager entityManager;
     private final ChangeLogService changeLog;
+    private final StarStore starStore;
 
     public List<ClientDuplicate> find(String phone, String email, Long excludeId) {
         String normalizedPhone = ContactNormalizer.phone(phone);
@@ -105,7 +106,7 @@ public class ClientDuplicateService {
 
     /**
      * Folds {@code sourceId} into {@code targetId}: its deals, meetings (viewing outcomes ride on
-     * them), logged contacts and tasks move over; the target's empty contact details and buyer
+     * them), logged contacts, tasks and stars move over; the target's empty contact details and buyer
      * requirements are filled from it; its notes are appended; its tags are added to the target's,
      * the target's own first, up to the limit on one client; then it is deleted.
      *
@@ -144,6 +145,8 @@ public class ClientDuplicateService {
         openHouseVisitorRepository.moveToClient(source, target);
         offerRepository.moveToClient(source, target);
         partnerHandoffRepository.moveToClient(source, target);
+        // Whoever starred the card that goes has the one that stays starred instead.
+        starStore.clientMerged(sourceId, targetId);
 
         entityManager.flush();
         entityManager.clear();
