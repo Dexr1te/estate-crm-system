@@ -11579,6 +11579,180 @@ abstract class AppLocalizations {
   /// **'A split deal\'s commission counts for each person by their share; a co-broker\'s share is not the agency\'s.'**
   String get splitsShareNote;
 
+  /// No description provided for @expensesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Expenses'**
+  String get expensesTitle;
+
+  /// No description provided for @expensesTotalCaption.
+  ///
+  /// In en, this message translates to:
+  /// **'Spent on this listing'**
+  String get expensesTotalCaption;
+
+  /// No description provided for @expensesNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing spent on this listing yet. Record the photographer, ads and the rest to see what it costs.'**
+  String get expensesNone;
+
+  /// No description provided for @expensesLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load the expenses'**
+  String get expensesLoadFailed;
+
+  /// No description provided for @expensesLatest.
+  ///
+  /// In en, this message translates to:
+  /// **'Latest'**
+  String get expensesLatest;
+
+  /// No description provided for @expensesShowAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Show all ({count})'**
+  String expensesShowAll(int count);
+
+  /// No description provided for @expensesAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add expense'**
+  String get expensesAdd;
+
+  /// No description provided for @expensesAddTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New expense'**
+  String get expensesAddTitle;
+
+  /// No description provided for @expensesCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Spent on'**
+  String get expensesCategory;
+
+  /// No description provided for @expensesAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get expensesAmount;
+
+  /// No description provided for @expensesAmountHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. 45,000'**
+  String get expensesAmountHint;
+
+  /// No description provided for @expensesSpentOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Paid on'**
+  String get expensesSpentOn;
+
+  /// No description provided for @expensesNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get expensesNote;
+
+  /// No description provided for @expensesNoteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional'**
+  String get expensesNoteHint;
+
+  /// No description provided for @expensesNoteTooLong.
+  ///
+  /// In en, this message translates to:
+  /// **'A note takes at most 500 characters'**
+  String get expensesNoteTooLong;
+
+  /// No description provided for @expensesDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this expense?'**
+  String get expensesDeleteTitle;
+
+  /// No description provided for @expensesDeleteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{category}, {amount}: it will no longer count towards this listing.'**
+  String expensesDeleteBody(String category, String amount);
+
+  /// No description provided for @expensesCategoryPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Photography'**
+  String get expensesCategoryPhoto;
+
+  /// No description provided for @expensesCategoryAdvertising.
+  ///
+  /// In en, this message translates to:
+  /// **'Advertising'**
+  String get expensesCategoryAdvertising;
+
+  /// No description provided for @expensesCategoryStaging.
+  ///
+  /// In en, this message translates to:
+  /// **'Staging'**
+  String get expensesCategoryStaging;
+
+  /// No description provided for @expensesCategoryCleaning.
+  ///
+  /// In en, this message translates to:
+  /// **'Cleaning'**
+  String get expensesCategoryCleaning;
+
+  /// No description provided for @expensesCategoryLegal.
+  ///
+  /// In en, this message translates to:
+  /// **'Legal'**
+  String get expensesCategoryLegal;
+
+  /// No description provided for @expensesCategoryOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get expensesCategoryOther;
+
+  /// No description provided for @expensesSpendTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Marketing spend'**
+  String get expensesSpendTitle;
+
+  /// No description provided for @expensesSpendHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What was spent marketing listings in this period.'**
+  String get expensesSpendHint;
+
+  /// No description provided for @expensesSpendNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing was spent on listings in this period.'**
+  String get expensesSpendNone;
+
+  /// No description provided for @expensesSpendLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load marketing spend'**
+  String get expensesSpendLoadFailed;
+
+  /// No description provided for @expensesByCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'By category'**
+  String get expensesByCategory;
+
+  /// No description provided for @expensesTopListings.
+  ///
+  /// In en, this message translates to:
+  /// **'Costliest listings'**
+  String get expensesTopListings;
+
   /// No description provided for @starsTitle.
   ///
   /// In en, this message translates to:

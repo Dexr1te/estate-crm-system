@@ -65,6 +65,8 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) async {
   Injector.changeLogRepository = FakeChangeLogRepository();
   // A listing's and a client's offers cards read offers too.
   Injector.offersRepository = FakeOffersRepository();
+  // A listing's expenses card, and the analytics screen's marketing spend.
+  Injector.expensesRepository = FakeExpensesRepository();
   // Time off: the profile's list, who's out, and the dashboard's chip.
   Injector.timeOffRepository = FakeTimeOffRepository();
   // A client's card reads its partners card: who sent them, who they went to.

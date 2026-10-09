@@ -8,6 +8,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:quick_actions/quick_actions.dart';
 import 'package:real_estate_crm/core/models/admin_models.dart';
 import 'package:real_estate_crm/core/models/document_models.dart';
+import 'package:real_estate_crm/core/models/expense_models.dart';
 import 'package:real_estate_crm/core/models/export_models.dart';
 import 'package:real_estate_crm/core/models/import_models.dart';
 import 'package:real_estate_crm/core/models/key_models.dart';
@@ -33,6 +34,7 @@ import 'package:real_estate_crm/features/dashboard/domain/repositories/dashboard
 import 'package:real_estate_crm/features/deals/domain/repositories/deal_comments_repository.dart';
 import 'package:real_estate_crm/features/deals/domain/repositories/deals_repository.dart';
 import 'package:real_estate_crm/features/documents/domain/repositories/documents_repository.dart';
+import 'package:real_estate_crm/features/expenses/domain/repositories/expenses_repository.dart';
 import 'package:real_estate_crm/features/exports/domain/repositories/exports_repository.dart';
 import 'package:real_estate_crm/features/imports/domain/repositories/imports_repository.dart';
 import 'package:real_estate_crm/features/keys/domain/repositories/keys_repository.dart';
@@ -1842,6 +1844,71 @@ class FakeLeasesRepository implements LeasesRepository {
       monthlyRent: renewal.monthlyRent ?? before.monthlyRent,
       commentCount: before.commentCount + 1,
     );
+  }
+}
+
+/// Listings' expenses and the period summary, in memory. Every write and
+/// every summary asked for is remembered; [writeError], when set, is thrown
+/// by every write after it is remembered. A recorded expense may be deleted
+/// by whoever records it here, as it may on the server.
+class FakeExpensesRepository implements ExpensesRepository {
+  Map<int, List<PropertyExpense>> byProperty;
+  ExpenseSummary summary;
+  bool failLoad;
+  Object? summaryError;
+  Object? writeError;
+
+  final List<(int, ExpenseDraft)> created = [];
+  final List<(int, int)> deleted = [];
+  final List<({DateTime from, DateTime to})> summaryRequests = [];
+  int _nextId = 700;
+
+  FakeExpensesRepository({
+    Map<int, List<PropertyExpense>>? byProperty,
+    this.summary = const ExpenseSummary(),
+    this.failLoad = false,
+  }) : byProperty = byProperty ?? {};
+
+  @override
+  Future<PropertyExpenses> getForProperty(int propertyId) async {
+    if (failLoad) throw Exception('offline');
+    return PropertyExpenses.of(byProperty[propertyId] ?? const []);
+  }
+
+  @override
+  Future<PropertyExpense> create(int propertyId, ExpenseDraft draft) async {
+    created.add((propertyId, draft));
+    if (writeError != null) throw writeError!;
+    final note = draft.note?.trim() ?? '';
+    final e = PropertyExpense(
+      id: _nextId++,
+      propertyId: propertyId,
+      category: draft.category,
+      amount: draft.amount,
+      spentOn: draft.spentOn,
+      note: note.isEmpty ? null : note,
+      canDelete: true,
+    );
+    byProperty[propertyId] = [e, ...?byProperty[propertyId]];
+    return e;
+  }
+
+  @override
+  Future<void> delete(int propertyId, int expenseId) async {
+    deleted.add((propertyId, expenseId));
+    if (writeError != null) throw writeError!;
+    byProperty[propertyId] = [
+      for (final e in byProperty[propertyId] ?? const <PropertyExpense>[])
+        if (e.id != expenseId) e
+    ];
+  }
+
+  @override
+  Future<ExpenseSummary> getSummary(
+      {required DateTime from, required DateTime to}) async {
+    summaryRequests.add((from: from, to: to));
+    if (summaryError != null) throw summaryError!;
+    return summary;
   }
 }
 

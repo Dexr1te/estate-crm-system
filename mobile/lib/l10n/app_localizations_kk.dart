@@ -6763,6 +6763,100 @@ class AppLocalizationsKk extends AppLocalizations {
       'Бөлінген мәміле комиссиясы әркімге өз үлесімен есептеледі; сыртқы агенттің үлесі агенттік сомасына кірмейді.';
 
   @override
+  String get expensesTitle => 'Шығындар';
+
+  @override
+  String get expensesTotalCaption => 'Нысанға жұмсалды';
+
+  @override
+  String get expensesNone =>
+      'Бұл нысан бойынша әзірге шығын жоқ. Фотограф, жарнама және басқасын жазып отырыңыз — нысан қаншаға түсетіні көрінеді.';
+
+  @override
+  String get expensesLoadFailed => 'Шығындарды жүктеу мүмкін болмады';
+
+  @override
+  String get expensesLatest => 'Соңғылары';
+
+  @override
+  String expensesShowAll(int count) {
+    return 'Барлығын көрсету ($count)';
+  }
+
+  @override
+  String get expensesAdd => 'Шығын қосу';
+
+  @override
+  String get expensesAddTitle => 'Жаңа шығын';
+
+  @override
+  String get expensesCategory => 'Не үшін жұмсалды';
+
+  @override
+  String get expensesAmount => 'Сомасы';
+
+  @override
+  String get expensesAmountHint => 'мысалы, 45 000';
+
+  @override
+  String get expensesSpentOn => 'Төленген күні';
+
+  @override
+  String get expensesNote => 'Ескертпе';
+
+  @override
+  String get expensesNoteHint => 'Міндетті емес';
+
+  @override
+  String get expensesNoteTooLong => 'Ескертпе 500 таңбадан аспауы керек';
+
+  @override
+  String get expensesDeleteTitle => 'Шығынды жою керек пе?';
+
+  @override
+  String expensesDeleteBody(String category, String amount) {
+    return '$category, $amount: бұл сома енді нысан шығындарына есептелмейді.';
+  }
+
+  @override
+  String get expensesCategoryPhoto => 'Фотосурет түсіру';
+
+  @override
+  String get expensesCategoryAdvertising => 'Жарнама';
+
+  @override
+  String get expensesCategoryStaging => 'Хоумстейджинг';
+
+  @override
+  String get expensesCategoryCleaning => 'Тазалау';
+
+  @override
+  String get expensesCategoryLegal => 'Заң қызметтері';
+
+  @override
+  String get expensesCategoryOther => 'Басқа';
+
+  @override
+  String get expensesSpendTitle => 'Жылжыту шығындары';
+
+  @override
+  String get expensesSpendHint =>
+      'Кезең ішінде нысандарды жылжытуға жұмсалған қаражат.';
+
+  @override
+  String get expensesSpendNone => 'Бұл кезеңде нысандарға шығын болған жоқ.';
+
+  @override
+  String get expensesSpendLoadFailed =>
+      'Жылжыту шығындарын жүктеу мүмкін болмады';
+
+  @override
+  String get expensesByCategory => 'Баптар бойынша';
+
+  @override
+  String get expensesTopListings => 'Ең көп шығын кеткен нысандар';
+
+  @override
   String get starsTitle => 'Таңдаулылар';
 
   @override
