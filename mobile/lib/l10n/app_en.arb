@@ -3448,5 +3448,171 @@
   "payoutsNotPaid": "This share is not marked paid",
   "payoutsDealNotWon": "Only a won deal's shares are paid out",
   "payoutsSharePaidLocked": "A paid share can't be changed. Undo its payout first.",
-  "payoutsManagerOnly": "Only the agency's manager marks payouts"
+  "payoutsManagerOnly": "Only the agency's manager marks payouts",
+  "expensesTitle": "Expenses",
+  "expensesTotalCaption": "Spent on this listing",
+  "expensesNone": "Nothing spent on this listing yet. Record the photographer, ads and the rest to see what it costs.",
+  "expensesLoadFailed": "Could not load the expenses",
+  "expensesLatest": "Latest",
+  "expensesShowAll": "Show all ({count})",
+  "@expensesShowAll": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "expensesAdd": "Add expense",
+  "expensesAddTitle": "New expense",
+  "expensesCategory": "Spent on",
+  "expensesAmount": "Amount",
+  "expensesAmountHint": "e.g. 45,000",
+  "expensesSpentOn": "Paid on",
+  "expensesNote": "Note",
+  "expensesNoteHint": "Optional",
+  "expensesNoteTooLong": "A note takes at most 500 characters",
+  "expensesDeleteTitle": "Delete this expense?",
+  "expensesDeleteBody": "{category}, {amount}: it will no longer count towards this listing.",
+  "@expensesDeleteBody": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "expensesCategoryPhoto": "Photography",
+  "expensesCategoryAdvertising": "Advertising",
+  "expensesCategoryStaging": "Staging",
+  "expensesCategoryCleaning": "Cleaning",
+  "expensesCategoryLegal": "Legal",
+  "expensesCategoryOther": "Other",
+  "expensesSpendTitle": "Marketing spend",
+  "expensesSpendHint": "What was spent marketing listings in this period.",
+  "expensesSpendNone": "Nothing was spent on listings in this period.",
+  "expensesSpendLoadFailed": "Could not load marketing spend",
+  "expensesByCategory": "By category",
+  "expensesTopListings": "Costliest listings",
+  "starsTitle": "Starred",
+  "starsStar": "Star",
+  "starsUnstar": "Remove star",
+  "starsSectionClients": "Clients",
+  "starsSectionListings": "Listings",
+  "starsSectionDeals": "Deals",
+  "starsEmptyTitle": "Nothing starred yet",
+  "starsEmptyHint": "Tap the star at the top of a client, a listing or a deal to keep it here, one tap away.",
+  "starsLoadFailed": "Couldn't load your starred records",
+  "starsStarFailed": "Couldn't star it. Try again.",
+  "starsUnstarFailed": "Couldn't remove the star. Try again.",
+  "starsRecordGone": "This record is no longer available",
+  "starsEntryCount": "Starred: {count}",
+  "@starsEntryCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "starsEntryHint": "Star the clients, listings and deals you are working on",
+  "keysCardTitle": "Keys",
+  "keysInOffice": "In the office",
+  "keysWithHolder": "With {holder}",
+  "@keysWithHolder": {
+    "placeholders": {
+      "holder": {
+        "type": "String"
+      }
+    }
+  },
+  "keysWithHolderUntil": "With {holder} · until {date}",
+  "@keysWithHolderUntil": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "holder": {
+        "type": "String"
+      }
+    }
+  },
+  "keysOverdue": "Overdue",
+  "keysHandedOutBy": "Handed out {date} by {name}",
+  "@keysHandedOutBy": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "keysHandedOutOn": "Handed out {date}",
+  "@keysHandedOutOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "keysHandOver": "Hand over the keys",
+  "keysReturn": "Return to the office",
+  "keysReturnConfirmTitle": "Return the keys to the office?",
+  "keysReturnConfirmBody": "They will be marked as returned. They were with {holder}.",
+  "@keysReturnConfirmBody": {
+    "placeholders": {
+      "holder": {
+        "type": "String"
+      }
+    }
+  },
+  "keysReturnConfirm": "Return",
+  "keysHistory": "Earlier",
+  "keysHistoryPeriod": "{from} – {to}",
+  "@keysHistoryPeriod": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "keysShowAll": "Show all",
+  "keysLoadFailed": "Couldn't load the keys",
+  "keysErrorAlreadyOut": "These keys are already out. The card now shows who has them.",
+  "keysErrorNotOut": "These keys are already back in the office.",
+  "keysErrorHolderRequired": "Choose a colleague or type a name",
+  "keysErrorDueInPast": "The return date can't be in the past",
+  "keysHandOverTitle": "Hand over the keys",
+  "keysWho": "Who takes them",
+  "keysToColleague": "A colleague",
+  "keysToSomeoneElse": "Someone else",
+  "keysColleague": "Colleague",
+  "keysPickColleague": "Choose a colleague",
+  "keysSearchColleague": "Search by name",
+  "keysNoColleagues": "Nobody in the agency to choose",
+  "keysHolderName": "Name",
+  "keysHolderNameHint": "Owner, cleaner, buyer",
+  "keysDueBack": "Due back",
+  "keysNoDueDate": "No return date",
+  "keysNote": "Note",
+  "keysNoteHint": "Which keys, the fob, the parking card",
+  "keysNoteTooLong": "A note is at most 500 characters",
+  "keysSave": "Hand over",
+  "keysOutTitle": "Keys out",
+  "keysOutEmpty": "All keys are in the office",
+  "keysOutEmptyHint": "Keys handed over from a listing show here until they come back.",
+  "keysOutLoadFailed": "Couldn't load the keys that are out",
+  "keysOutOverdueCount": "{count} overdue",
+  "@keysOutOverdueCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

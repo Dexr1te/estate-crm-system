@@ -6888,4 +6888,286 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get payoutsManagerOnly => 'Төлемдерді тек агенттік басшысы белгілейді';
+
+  @override
+  String get expensesTitle => 'Шығындар';
+
+  @override
+  String get expensesTotalCaption => 'Нысанға жұмсалды';
+
+  @override
+  String get expensesNone =>
+      'Бұл нысан бойынша әзірге шығын жоқ. Фотограф, жарнама және басқасын жазып отырыңыз — нысан қаншаға түсетіні көрінеді.';
+
+  @override
+  String get expensesLoadFailed => 'Шығындарды жүктеу мүмкін болмады';
+
+  @override
+  String get expensesLatest => 'Соңғылары';
+
+  @override
+  String expensesShowAll(int count) {
+    return 'Барлығын көрсету ($count)';
+  }
+
+  @override
+  String get expensesAdd => 'Шығын қосу';
+
+  @override
+  String get expensesAddTitle => 'Жаңа шығын';
+
+  @override
+  String get expensesCategory => 'Не үшін жұмсалды';
+
+  @override
+  String get expensesAmount => 'Сомасы';
+
+  @override
+  String get expensesAmountHint => 'мысалы, 45 000';
+
+  @override
+  String get expensesSpentOn => 'Төленген күні';
+
+  @override
+  String get expensesNote => 'Ескертпе';
+
+  @override
+  String get expensesNoteHint => 'Міндетті емес';
+
+  @override
+  String get expensesNoteTooLong => 'Ескертпе 500 таңбадан аспауы керек';
+
+  @override
+  String get expensesDeleteTitle => 'Шығынды жою керек пе?';
+
+  @override
+  String expensesDeleteBody(String category, String amount) {
+    return '$category, $amount: бұл сома енді нысан шығындарына есептелмейді.';
+  }
+
+  @override
+  String get expensesCategoryPhoto => 'Фотосурет түсіру';
+
+  @override
+  String get expensesCategoryAdvertising => 'Жарнама';
+
+  @override
+  String get expensesCategoryStaging => 'Хоумстейджинг';
+
+  @override
+  String get expensesCategoryCleaning => 'Тазалау';
+
+  @override
+  String get expensesCategoryLegal => 'Заң қызметтері';
+
+  @override
+  String get expensesCategoryOther => 'Басқа';
+
+  @override
+  String get expensesSpendTitle => 'Жылжыту шығындары';
+
+  @override
+  String get expensesSpendHint =>
+      'Кезең ішінде нысандарды жылжытуға жұмсалған қаражат.';
+
+  @override
+  String get expensesSpendNone => 'Бұл кезеңде нысандарға шығын болған жоқ.';
+
+  @override
+  String get expensesSpendLoadFailed =>
+      'Жылжыту шығындарын жүктеу мүмкін болмады';
+
+  @override
+  String get expensesByCategory => 'Баптар бойынша';
+
+  @override
+  String get expensesTopListings => 'Ең көп шығын кеткен нысандар';
+
+  @override
+  String get starsTitle => 'Таңдаулылар';
+
+  @override
+  String get starsStar => 'Таңдаулыларға қосу';
+
+  @override
+  String get starsUnstar => 'Таңдаулылардан алып тастау';
+
+  @override
+  String get starsSectionClients => 'Клиенттер';
+
+  @override
+  String get starsSectionListings => 'Нысандар';
+
+  @override
+  String get starsSectionDeals => 'Мәмілелер';
+
+  @override
+  String get starsEmptyTitle => 'Таңдаулылар әзірге бос';
+
+  @override
+  String get starsEmptyHint =>
+      'Клиент, нысан немесе мәміле карточкасының жоғарғы жағындағы жұлдызшаны басыңыз, сонда ол осында, қол астында болады.';
+
+  @override
+  String get starsLoadFailed => 'Таңдаулыларды жүктеу мүмкін болмады';
+
+  @override
+  String get starsStarFailed =>
+      'Таңдаулыларға қосу мүмкін болмады. Қайталап көріңіз.';
+
+  @override
+  String get starsUnstarFailed =>
+      'Таңдаулылардан алып тастау мүмкін болмады. Қайталап көріңіз.';
+
+  @override
+  String get starsRecordGone => 'Бұл жазба енді қолжетімсіз';
+
+  @override
+  String starsEntryCount(int count) {
+    return 'Таңдаулылар: $count';
+  }
+
+  @override
+  String get starsEntryHint =>
+      'Жұмыс істеп жүрген клиенттерді, нысандарды және мәмілелерді жұлдызшамен белгілеңіз';
+
+  @override
+  String get keysCardTitle => 'Кілттер';
+
+  @override
+  String get keysInOffice => 'Кеңседе';
+
+  @override
+  String keysWithHolder(String holder) {
+    return 'Берілді: $holder';
+  }
+
+  @override
+  String keysWithHolderUntil(String date, String holder) {
+    return 'Берілді: $holder · $date дейін';
+  }
+
+  @override
+  String get keysOverdue => 'Мерзімі өтті';
+
+  @override
+  String keysHandedOutBy(String date, String name) {
+    return '$date · $name берді';
+  }
+
+  @override
+  String keysHandedOutOn(String date) {
+    return '$date берілді';
+  }
+
+  @override
+  String get keysHandOver => 'Кілтті беру';
+
+  @override
+  String get keysReturn => 'Кеңсеге қайтару';
+
+  @override
+  String get keysReturnConfirmTitle => 'Кілтті кеңсеге қайтарасыз ба?';
+
+  @override
+  String keysReturnConfirmBody(String holder) {
+    return 'Кілт қайтарылды деп белгіленеді. Кімге берілген: $holder.';
+  }
+
+  @override
+  String get keysReturnConfirm => 'Қайтару';
+
+  @override
+  String get keysHistory => 'Бұрын';
+
+  @override
+  String keysHistoryPeriod(String from, String to) {
+    return '$from – $to';
+  }
+
+  @override
+  String get keysShowAll => 'Барлығын көрсету';
+
+  @override
+  String get keysLoadFailed => 'Кілттерді жүктеу мүмкін болмады';
+
+  @override
+  String get keysErrorAlreadyOut =>
+      'Бұл кілт әлдеқашан берілген. Қазір кімде екені карточкада көрсетілген.';
+
+  @override
+  String get keysErrorNotOut => 'Бұл кілт кеңседе тұр.';
+
+  @override
+  String get keysErrorHolderRequired =>
+      'Әріптесті таңдаңыз немесе атын жазыңыз';
+
+  @override
+  String get keysErrorDueInPast => 'Қайтару күні өтіп кеткен күн бола алмайды';
+
+  @override
+  String get keysHandOverTitle => 'Кілтті беру';
+
+  @override
+  String get keysWho => 'Кімге';
+
+  @override
+  String get keysToColleague => 'Әріптеске';
+
+  @override
+  String get keysToSomeoneElse => 'Басқа адамға';
+
+  @override
+  String get keysColleague => 'Әріптес';
+
+  @override
+  String get keysPickColleague => 'Әріптесті таңдаңыз';
+
+  @override
+  String get keysSearchColleague => 'Аты бойынша іздеу';
+
+  @override
+  String get keysNoColleagues => 'Агенттікте таңдайтын ешкім жоқ';
+
+  @override
+  String get keysHolderName => 'Аты';
+
+  @override
+  String get keysHolderNameHint => 'Иесі, тазалаушы, сатып алушы';
+
+  @override
+  String get keysDueBack => 'Қайтару мерзімі';
+
+  @override
+  String get keysNoDueDate => 'Мерзімсіз';
+
+  @override
+  String get keysNote => 'Ескертпе';
+
+  @override
+  String get keysNoteHint => 'Қай кілттер, брелок, тұрақ картасы';
+
+  @override
+  String get keysNoteTooLong => 'Ескертпе 500 таңбадан аспауы керек';
+
+  @override
+  String get keysSave => 'Беру';
+
+  @override
+  String get keysOutTitle => 'Берілген кілттер';
+
+  @override
+  String get keysOutEmpty => 'Барлық кілт кеңседе';
+
+  @override
+  String get keysOutEmptyHint =>
+      'Нысан карточкасынан берілген кілттер қайтарылғанша осында көрінеді.';
+
+  @override
+  String get keysOutLoadFailed => 'Берілген кілттерді жүктеу мүмкін болмады';
+
+  @override
+  String keysOutOverdueCount(int count) {
+    return 'мерзімі өткені: $count';
+  }
 }

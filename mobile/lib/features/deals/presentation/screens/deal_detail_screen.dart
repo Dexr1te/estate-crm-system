@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/auth/role_context.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/models/star_models.dart';
 import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
@@ -34,6 +35,7 @@ import 'package:real_estate_crm/features/leases/domain/lease.dart';
 import 'package:real_estate_crm/features/leases/presentation/widgets/deal_lease_card.dart';
 import 'package:real_estate_crm/features/leases/presentation/widgets/lease_labels.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_cover.dart';
+import 'package:real_estate_crm/features/stars/presentation/widgets/star_button.dart';
 import 'package:real_estate_crm/features/tasks/presentation/widgets/record_tasks_card.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
@@ -269,6 +271,12 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
               await _load();
             },
             actions: [
+              StarToggle(
+                type: StarType.deal,
+                id: widget.id,
+                title: deal.title,
+                subtitle: deal.clientName,
+              ),
               QuickAddButton.tile(onDone: _load),
               ...detailActions(
                 onEdit: () => context.push('/deals/${widget.id}/edit'),

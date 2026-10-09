@@ -32,6 +32,7 @@ import 'package:real_estate_crm/features/deals/presentation/screens/deals_screen
 import 'package:real_estate_crm/features/deposits/presentation/screens/deposits_ending_screen.dart';
 import 'package:real_estate_crm/features/goals/presentation/screens/team_goals_screen.dart';
 import 'package:real_estate_crm/features/imports/presentation/screens/import_screen.dart';
+import 'package:real_estate_crm/features/keys/presentation/screens/keys_out_screen.dart';
 import 'package:real_estate_crm/features/leaderboard/presentation/screens/leaderboard_screen.dart';
 import 'package:real_estate_crm/features/leases/presentation/screens/leases_ending_screen.dart';
 import 'package:real_estate_crm/features/meetings/presentation/screens/meeting_detail_screen.dart';
@@ -55,6 +56,7 @@ import 'package:real_estate_crm/features/properties/presentation/screens/seller_
 import 'package:real_estate_crm/features/route/domain/day_route.dart';
 import 'package:real_estate_crm/features/route/presentation/screens/route_screen.dart';
 import 'package:real_estate_crm/features/search/presentation/screens/search_screen.dart';
+import 'package:real_estate_crm/features/stars/presentation/screens/starred_screen.dart';
 import 'package:real_estate_crm/features/tasks/presentation/screens/tasks_screen.dart';
 import 'package:real_estate_crm/features/teams/presentation/screens/handover_screen.dart';
 import 'package:real_estate_crm/features/teams/presentation/screens/manager_console_screen.dart';
@@ -348,6 +350,11 @@ GoRouter createRouter(AuthBloc authBloc) {
         pageBuilder: (_, __) => const NoTransitionPage(child: TasksScreen()),
       ),
       GoRoute(
+        path: '/stars',
+        parentNavigatorKey: _rootKey,
+        pageBuilder: (_, __) => const NoTransitionPage(child: StarredScreen()),
+      ),
+      GoRoute(
         path: '/open-houses/:id',
         parentNavigatorKey: _rootKey,
         pageBuilder: (_, s) => NoTransitionPage(
@@ -479,6 +486,12 @@ GoRouter createRouter(AuthBloc authBloc) {
                 parentNavigatorKey: _rootKey,
                 pageBuilder: (_, __) =>
                     const NoTransitionPage(child: MandatesEndingScreen()),
+              ),
+              GoRoute(
+                path: 'keys',
+                parentNavigatorKey: _rootKey,
+                pageBuilder: (_, __) =>
+                    const NoTransitionPage(child: KeysOutScreen()),
               ),
               GoRoute(
                 path: ':id',

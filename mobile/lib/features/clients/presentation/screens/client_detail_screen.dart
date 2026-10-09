@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/auth/role_context.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/models/star_models.dart';
 import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
 import 'package:real_estate_crm/core/utils/clock.dart';
 import 'package:real_estate_crm/core/utils/contact_actions.dart';
@@ -29,6 +30,7 @@ import 'package:real_estate_crm/features/partners/presentation/widgets/client_pa
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_card.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_cover.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_price_history.dart';
+import 'package:real_estate_crm/features/stars/presentation/widgets/star_button.dart';
 import 'package:real_estate_crm/features/tasks/presentation/widgets/record_tasks_card.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
@@ -429,6 +431,12 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
         title: client.fullName,
         onRefresh: _load,
         actions: [
+          StarToggle(
+            type: StarType.client,
+            id: widget.id,
+            title: client.fullName,
+            subtitle: client.phone ?? client.email,
+          ),
           QuickAddButton.tile(onDone: _load),
           if (context.isAdminOrManager)
             AppIconTile(

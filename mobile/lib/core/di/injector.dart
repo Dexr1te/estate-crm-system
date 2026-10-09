@@ -54,6 +54,9 @@ import 'package:real_estate_crm/features/deposits/domain/repositories/deposits_r
 import 'package:real_estate_crm/features/documents/data/datasources/documents_remote_datasource.dart';
 import 'package:real_estate_crm/features/documents/data/repositories/documents_repository_impl.dart';
 import 'package:real_estate_crm/features/documents/domain/repositories/documents_repository.dart';
+import 'package:real_estate_crm/features/expenses/data/datasources/expenses_remote_datasource.dart';
+import 'package:real_estate_crm/features/expenses/data/repositories/expenses_repository_impl.dart';
+import 'package:real_estate_crm/features/expenses/domain/repositories/expenses_repository.dart';
 import 'package:real_estate_crm/features/exports/data/datasources/exports_remote_datasource.dart';
 import 'package:real_estate_crm/features/exports/data/repositories/exports_repository_impl.dart';
 import 'package:real_estate_crm/features/exports/domain/repositories/exports_repository.dart';
@@ -63,6 +66,9 @@ import 'package:real_estate_crm/features/goals/domain/repositories/goals_reposit
 import 'package:real_estate_crm/features/imports/data/datasources/imports_remote_datasource.dart';
 import 'package:real_estate_crm/features/imports/data/repositories/imports_repository_impl.dart';
 import 'package:real_estate_crm/features/imports/domain/repositories/imports_repository.dart';
+import 'package:real_estate_crm/features/keys/data/datasources/keys_remote_datasource.dart';
+import 'package:real_estate_crm/features/keys/data/repositories/keys_repository_impl.dart';
+import 'package:real_estate_crm/features/keys/domain/repositories/keys_repository.dart';
 import 'package:real_estate_crm/features/leaderboard/data/datasources/leaderboard_remote_datasource.dart';
 import 'package:real_estate_crm/features/leaderboard/data/repositories/leaderboard_repository_impl.dart';
 import 'package:real_estate_crm/features/leaderboard/domain/repositories/leaderboard_repository.dart';
@@ -97,6 +103,9 @@ import 'package:real_estate_crm/features/route/data/repositories/day_route_repos
 import 'package:real_estate_crm/features/route/domain/repositories/day_route_repository.dart';
 import 'package:real_estate_crm/features/search/data/repositories/search_repository_impl.dart';
 import 'package:real_estate_crm/features/search/domain/repositories/search_repository.dart';
+import 'package:real_estate_crm/features/stars/data/datasources/stars_remote_datasource.dart';
+import 'package:real_estate_crm/features/stars/data/repositories/stars_repository_impl.dart';
+import 'package:real_estate_crm/features/stars/domain/repositories/stars_repository.dart';
 import 'package:real_estate_crm/features/tasks/data/datasources/tasks_remote_datasource.dart';
 import 'package:real_estate_crm/features/tasks/data/repositories/tasks_repository_impl.dart';
 import 'package:real_estate_crm/features/tasks/domain/repositories/tasks_repository.dart';
@@ -156,6 +165,9 @@ class Injector {
   static TimeOffRepository timeOffRepository =
       TimeOffRepositoryImpl(TimeOffRemoteDataSource(_apiClient));
 
+  static KeysRepository keysRepository =
+      KeysRepositoryImpl(KeysRemoteDataSource(_apiClient));
+
   static MessageTemplatesRepository messageTemplatesRepository =
       MessageTemplatesRepositoryImpl(
           MessageTemplatesRemoteDataSource(_apiClient));
@@ -185,6 +197,9 @@ class Injector {
   static OffersRepository offersRepository =
       OffersRepositoryImpl(OffersRemoteDataSource(_apiClient));
 
+  static ExpensesRepository expensesRepository =
+      ExpensesRepositoryImpl(ExpensesRemoteDataSource(_apiClient));
+
   static OpenHousesRepository openHousesRepository =
       OpenHousesRepositoryImpl(OpenHousesRemoteDataSource(_apiClient));
 
@@ -193,6 +208,10 @@ class Injector {
 
   static ChangeLogRepository changeLogRepository =
       ChangeLogRepositoryImpl(ChangeLogRemoteDataSource(_apiClient));
+
+  /// The signed-in person's starred clients, listings and deals.
+  static StarsRepository starsRepository =
+      StarsRepositoryImpl(StarsRemoteDataSource(_apiClient));
 
   static NotificationsRepository notificationsRepository =
       NotificationsRepositoryImpl(NotificationsRemoteDataSource(_apiClient));

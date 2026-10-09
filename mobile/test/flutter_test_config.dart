@@ -67,10 +67,16 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) async {
   Injector.changeLogRepository = FakeChangeLogRepository();
   // A listing's and a client's offers cards read offers too.
   Injector.offersRepository = FakeOffersRepository();
+  // A listing's expenses card, and the analytics screen's marketing spend.
+  Injector.expensesRepository = FakeExpensesRepository();
   // Time off: the profile's list, who's out, and the dashboard's chip.
   Injector.timeOffRepository = FakeTimeOffRepository();
   // A client's card reads its partners card: who sent them, who they went to.
   Injector.partnersRepository = FakePartnersRepository();
+  // The app-wide starred list, which a record's header star reads.
+  Injector.starsRepository = FakeStarsRepository();
+  // A listing's keys card, and the dashboard's keys out.
+  Injector.keysRepository = FakeKeysRepository();
   Injector.notificationsPollInterval = null;
   // No PIN on the phone: the lock stays off, and its keychain is memory.
   Injector.appLockRepository = fakeAppLockRepository();

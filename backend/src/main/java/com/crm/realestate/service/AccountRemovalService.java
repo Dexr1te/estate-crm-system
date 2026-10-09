@@ -17,6 +17,7 @@ import com.crm.realestate.repository.MeetingRepository;
 import com.crm.realestate.repository.OpenHouseRepository;
 import com.crm.realestate.repository.PartnerHandoffRepository;
 import com.crm.realestate.repository.PartnerRepository;
+import com.crm.realestate.repository.PropertyKeyHandoverRepository;
 import com.crm.realestate.repository.PropertyOfferRepository;
 import com.crm.realestate.repository.PropertyRepository;
 import com.crm.realestate.repository.TaskRepository;
@@ -58,6 +59,7 @@ public class AccountRemovalService {
     private final RecordHandoverService recordHandoverService;
     private final CommissionSplitStore commissionSplitStore;
     private final TimeOffService     timeOffService;
+    private final PropertyKeyHandoverRepository keyHandoverRepository;
 
     @Value("${app.primary-admin-email:admin@gmail.com}")
     private String primaryAdminEmail;
@@ -160,6 +162,10 @@ public class AccountRemovalService {
         // the entity id and the email below already say exactly who left.
         // Their time off goes with them; what they were covering passes to the successor (V54).
         timeOffService.accountClosed(target, replacement);
+        // Keys they took are still in their hands, account or not: the record keeps their name (V56).
+        keyHandoverRepository.keepHolderByName(target,
+                target.getFullName() == null || target.getFullName().isBlank()
+                        ? target.getEmail() : target.getFullName());
 
         User auditActor = targetId.equals(actor.getId()) ? null : actor;
         auditLogService.record(auditActor, action, "User", targetId,

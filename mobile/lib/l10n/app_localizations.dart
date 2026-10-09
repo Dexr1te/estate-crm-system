@@ -11788,6 +11788,510 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Only the agency\'s manager marks payouts'**
   String get payoutsManagerOnly;
+
+  /// No description provided for @expensesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Expenses'**
+  String get expensesTitle;
+
+  /// No description provided for @expensesTotalCaption.
+  ///
+  /// In en, this message translates to:
+  /// **'Spent on this listing'**
+  String get expensesTotalCaption;
+
+  /// No description provided for @expensesNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing spent on this listing yet. Record the photographer, ads and the rest to see what it costs.'**
+  String get expensesNone;
+
+  /// No description provided for @expensesLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load the expenses'**
+  String get expensesLoadFailed;
+
+  /// No description provided for @expensesLatest.
+  ///
+  /// In en, this message translates to:
+  /// **'Latest'**
+  String get expensesLatest;
+
+  /// No description provided for @expensesShowAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Show all ({count})'**
+  String expensesShowAll(int count);
+
+  /// No description provided for @expensesAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add expense'**
+  String get expensesAdd;
+
+  /// No description provided for @expensesAddTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New expense'**
+  String get expensesAddTitle;
+
+  /// No description provided for @expensesCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Spent on'**
+  String get expensesCategory;
+
+  /// No description provided for @expensesAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get expensesAmount;
+
+  /// No description provided for @expensesAmountHint.
+  ///
+  /// In en, this message translates to:
+  /// **'e.g. 45,000'**
+  String get expensesAmountHint;
+
+  /// No description provided for @expensesSpentOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Paid on'**
+  String get expensesSpentOn;
+
+  /// No description provided for @expensesNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get expensesNote;
+
+  /// No description provided for @expensesNoteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Optional'**
+  String get expensesNoteHint;
+
+  /// No description provided for @expensesNoteTooLong.
+  ///
+  /// In en, this message translates to:
+  /// **'A note takes at most 500 characters'**
+  String get expensesNoteTooLong;
+
+  /// No description provided for @expensesDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this expense?'**
+  String get expensesDeleteTitle;
+
+  /// No description provided for @expensesDeleteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{category}, {amount}: it will no longer count towards this listing.'**
+  String expensesDeleteBody(String category, String amount);
+
+  /// No description provided for @expensesCategoryPhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Photography'**
+  String get expensesCategoryPhoto;
+
+  /// No description provided for @expensesCategoryAdvertising.
+  ///
+  /// In en, this message translates to:
+  /// **'Advertising'**
+  String get expensesCategoryAdvertising;
+
+  /// No description provided for @expensesCategoryStaging.
+  ///
+  /// In en, this message translates to:
+  /// **'Staging'**
+  String get expensesCategoryStaging;
+
+  /// No description provided for @expensesCategoryCleaning.
+  ///
+  /// In en, this message translates to:
+  /// **'Cleaning'**
+  String get expensesCategoryCleaning;
+
+  /// No description provided for @expensesCategoryLegal.
+  ///
+  /// In en, this message translates to:
+  /// **'Legal'**
+  String get expensesCategoryLegal;
+
+  /// No description provided for @expensesCategoryOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get expensesCategoryOther;
+
+  /// No description provided for @expensesSpendTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Marketing spend'**
+  String get expensesSpendTitle;
+
+  /// No description provided for @expensesSpendHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What was spent marketing listings in this period.'**
+  String get expensesSpendHint;
+
+  /// No description provided for @expensesSpendNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing was spent on listings in this period.'**
+  String get expensesSpendNone;
+
+  /// No description provided for @expensesSpendLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load marketing spend'**
+  String get expensesSpendLoadFailed;
+
+  /// No description provided for @expensesByCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'By category'**
+  String get expensesByCategory;
+
+  /// No description provided for @expensesTopListings.
+  ///
+  /// In en, this message translates to:
+  /// **'Costliest listings'**
+  String get expensesTopListings;
+
+  /// No description provided for @starsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Starred'**
+  String get starsTitle;
+
+  /// No description provided for @starsStar.
+  ///
+  /// In en, this message translates to:
+  /// **'Star'**
+  String get starsStar;
+
+  /// No description provided for @starsUnstar.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove star'**
+  String get starsUnstar;
+
+  /// No description provided for @starsSectionClients.
+  ///
+  /// In en, this message translates to:
+  /// **'Clients'**
+  String get starsSectionClients;
+
+  /// No description provided for @starsSectionListings.
+  ///
+  /// In en, this message translates to:
+  /// **'Listings'**
+  String get starsSectionListings;
+
+  /// No description provided for @starsSectionDeals.
+  ///
+  /// In en, this message translates to:
+  /// **'Deals'**
+  String get starsSectionDeals;
+
+  /// No description provided for @starsEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing starred yet'**
+  String get starsEmptyTitle;
+
+  /// No description provided for @starsEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the star at the top of a client, a listing or a deal to keep it here, one tap away.'**
+  String get starsEmptyHint;
+
+  /// No description provided for @starsLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load your starred records'**
+  String get starsLoadFailed;
+
+  /// No description provided for @starsStarFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t star it. Try again.'**
+  String get starsStarFailed;
+
+  /// No description provided for @starsUnstarFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t remove the star. Try again.'**
+  String get starsUnstarFailed;
+
+  /// No description provided for @starsRecordGone.
+  ///
+  /// In en, this message translates to:
+  /// **'This record is no longer available'**
+  String get starsRecordGone;
+
+  /// No description provided for @starsEntryCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Starred: {count}'**
+  String starsEntryCount(int count);
+
+  /// No description provided for @starsEntryHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Star the clients, listings and deals you are working on'**
+  String get starsEntryHint;
+
+  /// No description provided for @keysCardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Keys'**
+  String get keysCardTitle;
+
+  /// No description provided for @keysInOffice.
+  ///
+  /// In en, this message translates to:
+  /// **'In the office'**
+  String get keysInOffice;
+
+  /// No description provided for @keysWithHolder.
+  ///
+  /// In en, this message translates to:
+  /// **'With {holder}'**
+  String keysWithHolder(String holder);
+
+  /// No description provided for @keysWithHolderUntil.
+  ///
+  /// In en, this message translates to:
+  /// **'With {holder} · until {date}'**
+  String keysWithHolderUntil(String date, String holder);
+
+  /// No description provided for @keysOverdue.
+  ///
+  /// In en, this message translates to:
+  /// **'Overdue'**
+  String get keysOverdue;
+
+  /// No description provided for @keysHandedOutBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Handed out {date} by {name}'**
+  String keysHandedOutBy(String date, String name);
+
+  /// No description provided for @keysHandedOutOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Handed out {date}'**
+  String keysHandedOutOn(String date);
+
+  /// No description provided for @keysHandOver.
+  ///
+  /// In en, this message translates to:
+  /// **'Hand over the keys'**
+  String get keysHandOver;
+
+  /// No description provided for @keysReturn.
+  ///
+  /// In en, this message translates to:
+  /// **'Return to the office'**
+  String get keysReturn;
+
+  /// No description provided for @keysReturnConfirmTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Return the keys to the office?'**
+  String get keysReturnConfirmTitle;
+
+  /// No description provided for @keysReturnConfirmBody.
+  ///
+  /// In en, this message translates to:
+  /// **'They will be marked as returned. They were with {holder}.'**
+  String keysReturnConfirmBody(String holder);
+
+  /// No description provided for @keysReturnConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Return'**
+  String get keysReturnConfirm;
+
+  /// No description provided for @keysHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Earlier'**
+  String get keysHistory;
+
+  /// No description provided for @keysHistoryPeriod.
+  ///
+  /// In en, this message translates to:
+  /// **'{from} – {to}'**
+  String keysHistoryPeriod(String from, String to);
+
+  /// No description provided for @keysShowAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Show all'**
+  String get keysShowAll;
+
+  /// No description provided for @keysLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load the keys'**
+  String get keysLoadFailed;
+
+  /// No description provided for @keysErrorAlreadyOut.
+  ///
+  /// In en, this message translates to:
+  /// **'These keys are already out. The card now shows who has them.'**
+  String get keysErrorAlreadyOut;
+
+  /// No description provided for @keysErrorNotOut.
+  ///
+  /// In en, this message translates to:
+  /// **'These keys are already back in the office.'**
+  String get keysErrorNotOut;
+
+  /// No description provided for @keysErrorHolderRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a colleague or type a name'**
+  String get keysErrorHolderRequired;
+
+  /// No description provided for @keysErrorDueInPast.
+  ///
+  /// In en, this message translates to:
+  /// **'The return date can\'t be in the past'**
+  String get keysErrorDueInPast;
+
+  /// No description provided for @keysHandOverTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Hand over the keys'**
+  String get keysHandOverTitle;
+
+  /// No description provided for @keysWho.
+  ///
+  /// In en, this message translates to:
+  /// **'Who takes them'**
+  String get keysWho;
+
+  /// No description provided for @keysToColleague.
+  ///
+  /// In en, this message translates to:
+  /// **'A colleague'**
+  String get keysToColleague;
+
+  /// No description provided for @keysToSomeoneElse.
+  ///
+  /// In en, this message translates to:
+  /// **'Someone else'**
+  String get keysToSomeoneElse;
+
+  /// No description provided for @keysColleague.
+  ///
+  /// In en, this message translates to:
+  /// **'Colleague'**
+  String get keysColleague;
+
+  /// No description provided for @keysPickColleague.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a colleague'**
+  String get keysPickColleague;
+
+  /// No description provided for @keysSearchColleague.
+  ///
+  /// In en, this message translates to:
+  /// **'Search by name'**
+  String get keysSearchColleague;
+
+  /// No description provided for @keysNoColleagues.
+  ///
+  /// In en, this message translates to:
+  /// **'Nobody in the agency to choose'**
+  String get keysNoColleagues;
+
+  /// No description provided for @keysHolderName.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get keysHolderName;
+
+  /// No description provided for @keysHolderNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Owner, cleaner, buyer'**
+  String get keysHolderNameHint;
+
+  /// No description provided for @keysDueBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Due back'**
+  String get keysDueBack;
+
+  /// No description provided for @keysNoDueDate.
+  ///
+  /// In en, this message translates to:
+  /// **'No return date'**
+  String get keysNoDueDate;
+
+  /// No description provided for @keysNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get keysNote;
+
+  /// No description provided for @keysNoteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Which keys, the fob, the parking card'**
+  String get keysNoteHint;
+
+  /// No description provided for @keysNoteTooLong.
+  ///
+  /// In en, this message translates to:
+  /// **'A note is at most 500 characters'**
+  String get keysNoteTooLong;
+
+  /// No description provided for @keysSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Hand over'**
+  String get keysSave;
+
+  /// No description provided for @keysOutTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Keys out'**
+  String get keysOutTitle;
+
+  /// No description provided for @keysOutEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'All keys are in the office'**
+  String get keysOutEmpty;
+
+  /// No description provided for @keysOutEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Keys handed over from a listing show here until they come back.'**
+  String get keysOutEmptyHint;
+
+  /// No description provided for @keysOutLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load the keys that are out'**
+  String get keysOutLoadFailed;
+
+  /// No description provided for @keysOutOverdueCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} overdue'**
+  String keysOutOverdueCount(int count);
 }
 
 class _AppLocalizationsDelegate

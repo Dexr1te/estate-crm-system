@@ -11,6 +11,7 @@ import com.crm.realestate.enums.DealKind;
 import com.crm.realestate.enums.DealLostReason;
 import com.crm.realestate.enums.DealStatus;
 import com.crm.realestate.enums.PropertyStatus;
+import com.crm.realestate.enums.StarType;
 import com.crm.realestate.exception.BusinessException;
 import com.crm.realestate.exception.ResourceNotFoundException;
 import com.crm.realestate.repository.ClientRepository;
@@ -53,6 +54,7 @@ public class DealService {
     private final DealDepositStore depositStore;
     private final ChangeLogService changeLog;
     private final CommissionSplitStore splitStore;
+    private final StarStore starStore;
 
     static final BigDecimal ONE_HUNDRED = BigDecimal.valueOf(100);
     static final int LOST_NOTE_MAX = 500;
@@ -160,12 +162,13 @@ public class DealService {
         return respond(saved, commentRepository.countByDealId(id));
     }
 
-    /** The change log keeps the line saying so after the deal is gone. */
+    /** The change log keeps the line saying so after the deal is gone; the stars on it go. */
     @Transactional
     public void delete(Long id) {
         User currentUser = securityUtils.getCurrentUser();
         Deal deal = findVisibleById(id, currentUser);
         changeLog.deleted(ChangeSnapshot.target(deal), currentUser);
+        starStore.recordDeleted(StarType.DEAL, deal.getId());
         dealRepository.delete(deal);
     }
 

@@ -1,17 +1,21 @@
 import 'dart:async';
 import 'dart:typed_data';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/flutter_map.dart';
 
 import 'package:quick_actions/quick_actions.dart';
 import 'package:real_estate_crm/core/models/admin_models.dart';
 import 'package:real_estate_crm/core/models/document_models.dart';
+import 'package:real_estate_crm/core/models/expense_models.dart';
 import 'package:real_estate_crm/core/models/export_models.dart';
 import 'package:real_estate_crm/core/models/import_models.dart';
+import 'package:real_estate_crm/core/models/key_models.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/models/paged_response.dart';
 import 'package:real_estate_crm/core/models/payout_models.dart';
+import 'package:real_estate_crm/core/models/star_models.dart';
 import 'package:real_estate_crm/core/models/team_models.dart';
 import 'package:real_estate_crm/core/notifications/notification_gateway.dart';
 import 'package:real_estate_crm/core/utils/clock.dart';
@@ -31,8 +35,10 @@ import 'package:real_estate_crm/features/dashboard/domain/repositories/dashboard
 import 'package:real_estate_crm/features/deals/domain/repositories/deal_comments_repository.dart';
 import 'package:real_estate_crm/features/deals/domain/repositories/deals_repository.dart';
 import 'package:real_estate_crm/features/documents/domain/repositories/documents_repository.dart';
+import 'package:real_estate_crm/features/expenses/domain/repositories/expenses_repository.dart';
 import 'package:real_estate_crm/features/exports/domain/repositories/exports_repository.dart';
 import 'package:real_estate_crm/features/imports/domain/repositories/imports_repository.dart';
+import 'package:real_estate_crm/features/keys/domain/repositories/keys_repository.dart';
 import 'package:real_estate_crm/features/leases/domain/lease.dart';
 import 'package:real_estate_crm/features/leases/domain/repositories/leases_repository.dart';
 import 'package:real_estate_crm/features/meetings/domain/repositories/meetings_repository.dart';
@@ -41,6 +47,7 @@ import 'package:real_estate_crm/features/notifications/domain/repositories/notif
 import 'package:real_estate_crm/features/payouts/domain/repositories/payouts_repository.dart';
 import 'package:real_estate_crm/features/properties/domain/map_area.dart';
 import 'package:real_estate_crm/features/properties/domain/repositories/properties_repository.dart';
+import 'package:real_estate_crm/features/stars/domain/repositories/stars_repository.dart';
 import 'package:real_estate_crm/features/tasks/domain/repositories/tasks_repository.dart';
 import 'package:real_estate_crm/features/teams/domain/repositories/teams_repository.dart';
 
@@ -1860,5 +1867,230 @@ class FakePayoutsRepository implements PayoutsRepository {
     asked.add(status);
     if (failLoad) throw Exception('offline');
     return byStatus[status] ?? PayoutList(status: status);
+  }
+}
+
+/// Listings' expenses and the period summary, in memory. Every write and
+/// every summary asked for is remembered; [writeError], when set, is thrown
+/// by every write after it is remembered. A recorded expense may be deleted
+/// by whoever records it here, as it may on the server.
+class FakeExpensesRepository implements ExpensesRepository {
+  Map<int, List<PropertyExpense>> byProperty;
+  ExpenseSummary summary;
+  bool failLoad;
+  Object? summaryError;
+  Object? writeError;
+
+  final List<(int, ExpenseDraft)> created = [];
+  final List<(int, int)> deleted = [];
+  final List<({DateTime from, DateTime to})> summaryRequests = [];
+  int _nextId = 700;
+
+  FakeExpensesRepository({
+    Map<int, List<PropertyExpense>>? byProperty,
+    this.summary = const ExpenseSummary(),
+    this.failLoad = false,
+  }) : byProperty = byProperty ?? {};
+
+  @override
+  Future<PropertyExpenses> getForProperty(int propertyId) async {
+    if (failLoad) throw Exception('offline');
+    return PropertyExpenses.of(byProperty[propertyId] ?? const []);
+  }
+
+  @override
+  Future<PropertyExpense> create(int propertyId, ExpenseDraft draft) async {
+    created.add((propertyId, draft));
+    if (writeError != null) throw writeError!;
+    final note = draft.note?.trim() ?? '';
+    final e = PropertyExpense(
+      id: _nextId++,
+      propertyId: propertyId,
+      category: draft.category,
+      amount: draft.amount,
+      spentOn: draft.spentOn,
+      note: note.isEmpty ? null : note,
+      canDelete: true,
+    );
+    byProperty[propertyId] = [e, ...?byProperty[propertyId]];
+    return e;
+  }
+
+  @override
+  Future<void> delete(int propertyId, int expenseId) async {
+    deleted.add((propertyId, expenseId));
+    if (writeError != null) throw writeError!;
+    byProperty[propertyId] = [
+      for (final e in byProperty[propertyId] ?? const <PropertyExpense>[])
+        if (e.id != expenseId) e
+    ];
+  }
+
+  @override
+  Future<ExpenseSummary> getSummary(
+      {required DateTime from, required DateTime to}) async {
+    summaryRequests.add((from: from, to: to));
+    if (summaryError != null) throw summaryError!;
+    return summary;
+  }
+}
+
+/// Starred records in memory, newest first like the server. A star answers
+/// with what [records] says about the record, or a stand-in title. Every
+/// write is remembered in [writes] first; [gate], when set, then holds it
+/// until completed, so a test can look before the server answers, and
+/// [writeError], when set, is thrown after that. [readError] fails the list.
+class FakeStarsRepository implements StarsRepository {
+  List<StarredItem> items;
+  final Map<StarKey, ({String title, String? subtitle})> records;
+  Object? readError;
+  Object? writeError;
+  Completer<void>? gate;
+
+  /// `PUT CLIENT 1`, `DELETE DEAL 3`, in the order they were asked for.
+  final List<String> writes = [];
+  int reads = 0;
+
+  FakeStarsRepository({this.items = const [], this.records = const {}});
+
+  @override
+  Future<List<StarredItem>> getStars() async {
+    reads++;
+    if (readError != null) throw readError!;
+    return items;
+  }
+
+  @override
+  Future<StarredItem> star(StarKey key) async {
+    writes.add('PUT ${key.type.wire} ${key.id}');
+    await gate?.future;
+    if (writeError != null) throw writeError!;
+    for (final item in items) {
+      if (item.key == key) return item;
+    }
+    final record = records[key];
+    final saved = StarredItem(
+      type: key.type,
+      id: key.id,
+      title: record?.title ?? 'Record ${key.id}',
+      subtitle: record?.subtitle,
+      starredAt: AppClock.now(),
+    );
+    items = [saved, ...items];
+    return saved;
+  }
+
+  @override
+  Future<void> unstar(StarKey key) async {
+    writes.add('DELETE ${key.type.wire} ${key.id}');
+    await gate?.future;
+    if (writeError != null) throw writeError!;
+    items = items.where((item) => item.key != key).toList();
+  }
+}
+
+/// Listings' keys in memory, keeping the server's rules the card reacts to:
+/// keys go out once at a time (KEY_ALREADY_OUT) and come back only when out
+/// (KEY_NOT_OUT). A colleague holds them under their name in [names]. [out]
+/// answers the keys-out list as given. [handedOver] and [returned] remember
+/// every write asked for; [readError] and [writeError], when set, are thrown
+/// instead of answering.
+class FakeKeysRepository implements KeysRepository {
+  final Map<int, PropertyKeys> byProperty;
+  final Map<int, String> names;
+  List<KeyHandover> out;
+  Object? readError;
+  Object? writeError;
+
+  final List<(int, KeyHandoverDraft)> handedOver = [];
+  final List<int> returned = [];
+  int reads = 0;
+  int _nextId = 5000;
+
+  FakeKeysRepository({
+    Map<int, PropertyKeys>? byProperty,
+    this.names = const {},
+    this.out = const [],
+  }) : byProperty = byProperty ?? {};
+
+  static DioException refusal(String code, {int status = 409}) {
+    final options = RequestOptions(path: '/properties/keys');
+    return DioException(
+      requestOptions: options,
+      response: Response(
+        requestOptions: options,
+        statusCode: status,
+        data: {'code': code, 'message': code},
+      ),
+      type: DioExceptionType.badResponse,
+    );
+  }
+
+  @override
+  Future<PropertyKeys> getForProperty(int propertyId) async {
+    reads++;
+    if (readError != null) throw readError!;
+    return byProperty[propertyId] ?? PropertyKeys.empty;
+  }
+
+  @override
+  Future<PropertyKeys> handOver(int propertyId, KeyHandoverDraft draft) async {
+    handedOver.add((propertyId, draft));
+    if (writeError != null) throw writeError!;
+    final keys = byProperty[propertyId] ?? PropertyKeys.empty;
+    if (keys.current != null) throw refusal('KEY_ALREADY_OUT');
+    final userId = draft.holderUserId;
+    final note = draft.note?.trim() ?? '';
+    final next = PropertyKeys(
+      current: KeyHandover(
+        id: _nextId++,
+        propertyId: propertyId,
+        holderUserId: userId,
+        holderName: userId == null
+            ? draft.holderName?.trim() ?? ''
+            : names[userId] ?? 'Colleague $userId',
+        note: note.isEmpty ? null : note,
+        handedOutAt: AppClock.now(),
+        dueBackAt: draft.dueBackAt,
+        handedOutByName: 'Aigul Bekova',
+      ),
+      history: keys.history,
+    );
+    byProperty[propertyId] = next;
+    return next;
+  }
+
+  @override
+  Future<PropertyKeys> returnKeys(int propertyId) async {
+    returned.add(propertyId);
+    if (writeError != null) throw writeError!;
+    final keys = byProperty[propertyId] ?? PropertyKeys.empty;
+    final h = keys.current;
+    if (h == null) throw refusal('KEY_NOT_OUT');
+    final back = KeyHandover(
+      id: h.id,
+      propertyId: h.propertyId,
+      propertyTitle: h.propertyTitle,
+      propertyAddress: h.propertyAddress,
+      holderUserId: h.holderUserId,
+      holderName: h.holderName,
+      note: h.note,
+      handedOutAt: h.handedOutAt,
+      dueBackAt: h.dueBackAt,
+      returnedAt: AppClock.now(),
+      handedOutById: h.handedOutById,
+      handedOutByName: h.handedOutByName,
+      returnedByName: 'Aigul Bekova',
+    );
+    final next = PropertyKeys(history: [back, ...keys.history]);
+    byProperty[propertyId] = next;
+    return next;
+  }
+
+  @override
+  Future<List<KeyHandover>> getKeysOut() async {
+    reads++;
+    if (readError != null) throw readError!;
+    return out;
   }
 }
