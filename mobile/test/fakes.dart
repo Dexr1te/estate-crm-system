@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:typed_data';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_map/flutter_map.dart';
 
@@ -9,6 +10,7 @@ import 'package:real_estate_crm/core/models/admin_models.dart';
 import 'package:real_estate_crm/core/models/document_models.dart';
 import 'package:real_estate_crm/core/models/export_models.dart';
 import 'package:real_estate_crm/core/models/import_models.dart';
+import 'package:real_estate_crm/core/models/key_models.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/models/paged_response.dart';
 import 'package:real_estate_crm/core/models/team_models.dart';
@@ -32,6 +34,7 @@ import 'package:real_estate_crm/features/deals/domain/repositories/deals_reposit
 import 'package:real_estate_crm/features/documents/domain/repositories/documents_repository.dart';
 import 'package:real_estate_crm/features/exports/domain/repositories/exports_repository.dart';
 import 'package:real_estate_crm/features/imports/domain/repositories/imports_repository.dart';
+import 'package:real_estate_crm/features/keys/domain/repositories/keys_repository.dart';
 import 'package:real_estate_crm/features/leases/domain/lease.dart';
 import 'package:real_estate_crm/features/leases/domain/repositories/leases_repository.dart';
 import 'package:real_estate_crm/features/meetings/domain/repositories/meetings_repository.dart';
@@ -1837,5 +1840,111 @@ class FakeLeasesRepository implements LeasesRepository {
       monthlyRent: renewal.monthlyRent ?? before.monthlyRent,
       commentCount: before.commentCount + 1,
     );
+  }
+}
+
+/// Listings' keys in memory, keeping the server's rules the card reacts to:
+/// keys go out once at a time (KEY_ALREADY_OUT) and come back only when out
+/// (KEY_NOT_OUT). A colleague holds them under their name in [names]. [out]
+/// answers the keys-out list as given. [handedOver] and [returned] remember
+/// every write asked for; [readError] and [writeError], when set, are thrown
+/// instead of answering.
+class FakeKeysRepository implements KeysRepository {
+  final Map<int, PropertyKeys> byProperty;
+  final Map<int, String> names;
+  List<KeyHandover> out;
+  Object? readError;
+  Object? writeError;
+
+  final List<(int, KeyHandoverDraft)> handedOver = [];
+  final List<int> returned = [];
+  int reads = 0;
+  int _nextId = 5000;
+
+  FakeKeysRepository({
+    Map<int, PropertyKeys>? byProperty,
+    this.names = const {},
+    this.out = const [],
+  }) : byProperty = byProperty ?? {};
+
+  static DioException refusal(String code, {int status = 409}) {
+    final options = RequestOptions(path: '/properties/keys');
+    return DioException(
+      requestOptions: options,
+      response: Response(
+        requestOptions: options,
+        statusCode: status,
+        data: {'code': code, 'message': code},
+      ),
+      type: DioExceptionType.badResponse,
+    );
+  }
+
+  @override
+  Future<PropertyKeys> getForProperty(int propertyId) async {
+    reads++;
+    if (readError != null) throw readError!;
+    return byProperty[propertyId] ?? PropertyKeys.empty;
+  }
+
+  @override
+  Future<PropertyKeys> handOver(int propertyId, KeyHandoverDraft draft) async {
+    handedOver.add((propertyId, draft));
+    if (writeError != null) throw writeError!;
+    final keys = byProperty[propertyId] ?? PropertyKeys.empty;
+    if (keys.current != null) throw refusal('KEY_ALREADY_OUT');
+    final userId = draft.holderUserId;
+    final note = draft.note?.trim() ?? '';
+    final next = PropertyKeys(
+      current: KeyHandover(
+        id: _nextId++,
+        propertyId: propertyId,
+        holderUserId: userId,
+        holderName: userId == null
+            ? draft.holderName?.trim() ?? ''
+            : names[userId] ?? 'Colleague $userId',
+        note: note.isEmpty ? null : note,
+        handedOutAt: AppClock.now(),
+        dueBackAt: draft.dueBackAt,
+        handedOutByName: 'Aigul Bekova',
+      ),
+      history: keys.history,
+    );
+    byProperty[propertyId] = next;
+    return next;
+  }
+
+  @override
+  Future<PropertyKeys> returnKeys(int propertyId) async {
+    returned.add(propertyId);
+    if (writeError != null) throw writeError!;
+    final keys = byProperty[propertyId] ?? PropertyKeys.empty;
+    final h = keys.current;
+    if (h == null) throw refusal('KEY_NOT_OUT');
+    final back = KeyHandover(
+      id: h.id,
+      propertyId: h.propertyId,
+      propertyTitle: h.propertyTitle,
+      propertyAddress: h.propertyAddress,
+      holderUserId: h.holderUserId,
+      holderName: h.holderName,
+      note: h.note,
+      handedOutAt: h.handedOutAt,
+      dueBackAt: h.dueBackAt,
+      returnedAt: AppClock.now(),
+      handedOutById: h.handedOutById,
+      handedOutByName: h.handedOutByName,
+      returnedByName: 'Aigul Bekova',
+    );
+    final next = PropertyKeys(history: [back, ...keys.history]);
+    byProperty[propertyId] = next;
+    return next;
+  }
+
+  @override
+  Future<List<KeyHandover>> getKeysOut() async {
+    reads++;
+    if (readError != null) throw readError!;
+    return out;
   }
 }

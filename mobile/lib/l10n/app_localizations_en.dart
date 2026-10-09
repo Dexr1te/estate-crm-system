@@ -6849,4 +6849,143 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get splitsShareNote =>
       'A split deal\'s commission counts for each person by their share; a co-broker\'s share is not the agency\'s.';
+
+  @override
+  String get keysCardTitle => 'Keys';
+
+  @override
+  String get keysInOffice => 'In the office';
+
+  @override
+  String keysWithHolder(String holder) {
+    return 'With $holder';
+  }
+
+  @override
+  String keysWithHolderUntil(String date, String holder) {
+    return 'With $holder · until $date';
+  }
+
+  @override
+  String get keysOverdue => 'Overdue';
+
+  @override
+  String keysHandedOutBy(String date, String name) {
+    return 'Handed out $date by $name';
+  }
+
+  @override
+  String keysHandedOutOn(String date) {
+    return 'Handed out $date';
+  }
+
+  @override
+  String get keysHandOver => 'Hand over the keys';
+
+  @override
+  String get keysReturn => 'Return to the office';
+
+  @override
+  String get keysReturnConfirmTitle => 'Return the keys to the office?';
+
+  @override
+  String keysReturnConfirmBody(String holder) {
+    return 'They will be marked as returned. They were with $holder.';
+  }
+
+  @override
+  String get keysReturnConfirm => 'Return';
+
+  @override
+  String get keysHistory => 'Earlier';
+
+  @override
+  String keysHistoryPeriod(String from, String to) {
+    return '$from – $to';
+  }
+
+  @override
+  String get keysShowAll => 'Show all';
+
+  @override
+  String get keysLoadFailed => 'Couldn\'t load the keys';
+
+  @override
+  String get keysErrorAlreadyOut =>
+      'These keys are already out. The card now shows who has them.';
+
+  @override
+  String get keysErrorNotOut => 'These keys are already back in the office.';
+
+  @override
+  String get keysErrorHolderRequired => 'Choose a colleague or type a name';
+
+  @override
+  String get keysErrorDueInPast => 'The return date can\'t be in the past';
+
+  @override
+  String get keysHandOverTitle => 'Hand over the keys';
+
+  @override
+  String get keysWho => 'Who takes them';
+
+  @override
+  String get keysToColleague => 'A colleague';
+
+  @override
+  String get keysToSomeoneElse => 'Someone else';
+
+  @override
+  String get keysColleague => 'Colleague';
+
+  @override
+  String get keysPickColleague => 'Choose a colleague';
+
+  @override
+  String get keysSearchColleague => 'Search by name';
+
+  @override
+  String get keysNoColleagues => 'Nobody in the agency to choose';
+
+  @override
+  String get keysHolderName => 'Name';
+
+  @override
+  String get keysHolderNameHint => 'Owner, cleaner, buyer';
+
+  @override
+  String get keysDueBack => 'Due back';
+
+  @override
+  String get keysNoDueDate => 'No return date';
+
+  @override
+  String get keysNote => 'Note';
+
+  @override
+  String get keysNoteHint => 'Which keys, the fob, the parking card';
+
+  @override
+  String get keysNoteTooLong => 'A note is at most 500 characters';
+
+  @override
+  String get keysSave => 'Hand over';
+
+  @override
+  String get keysOutTitle => 'Keys out';
+
+  @override
+  String get keysOutEmpty => 'All keys are in the office';
+
+  @override
+  String get keysOutEmptyHint =>
+      'Keys handed over from a listing show here until they come back.';
+
+  @override
+  String get keysOutLoadFailed => 'Couldn\'t load the keys that are out';
+
+  @override
+  String keysOutOverdueCount(int count) {
+    return '$count overdue';
+  }
 }
