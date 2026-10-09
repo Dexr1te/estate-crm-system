@@ -14,6 +14,7 @@ import 'package:real_estate_crm/core/models/import_models.dart';
 import 'package:real_estate_crm/core/models/key_models.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/models/paged_response.dart';
+import 'package:real_estate_crm/core/models/payout_models.dart';
 import 'package:real_estate_crm/core/models/star_models.dart';
 import 'package:real_estate_crm/core/models/team_models.dart';
 import 'package:real_estate_crm/core/notifications/notification_gateway.dart';
@@ -43,6 +44,7 @@ import 'package:real_estate_crm/features/leases/domain/repositories/leases_repos
 import 'package:real_estate_crm/features/meetings/domain/repositories/meetings_repository.dart';
 import 'package:real_estate_crm/features/message_templates/domain/repositories/message_templates_repository.dart';
 import 'package:real_estate_crm/features/notifications/domain/repositories/notifications_repository.dart';
+import 'package:real_estate_crm/features/payouts/domain/repositories/payouts_repository.dart';
 import 'package:real_estate_crm/features/properties/domain/map_area.dart';
 import 'package:real_estate_crm/features/properties/domain/repositories/properties_repository.dart';
 import 'package:real_estate_crm/features/stars/domain/repositories/stars_repository.dart';
@@ -1844,6 +1846,27 @@ class FakeLeasesRepository implements LeasesRepository {
       monthlyRent: renewal.monthlyRent ?? before.monthlyRent,
       commentCount: before.commentCount + 1,
     );
+  }
+}
+
+/// Payouts in memory, one list per tab. [asked] remembers every status read;
+/// [failLoad], when set, makes every read throw.
+class FakePayoutsRepository implements PayoutsRepository {
+  Map<PayoutStatus, PayoutList> byStatus;
+  bool failLoad;
+
+  final List<PayoutStatus> asked = [];
+
+  FakePayoutsRepository(
+      {Map<PayoutStatus, PayoutList>? byStatus, this.failLoad = false})
+      : byStatus = byStatus ?? {};
+
+  @override
+  Future<PayoutList> getPayouts(
+      {required PayoutStatus status, int? agentId}) async {
+    asked.add(status);
+    if (failLoad) throw Exception('offline');
+    return byStatus[status] ?? PayoutList(status: status);
   }
 }
 

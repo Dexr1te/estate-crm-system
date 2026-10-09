@@ -4,12 +4,15 @@ import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/commission_split/presentation/bloc/commission_split_bloc.dart';
 import 'package:real_estate_crm/features/commission_split/presentation/widgets/commission_split_sheet.dart';
+import 'package:real_estate_crm/features/commission_split/presentation/widgets/payout_widgets.dart';
 import 'package:real_estate_crm/features/commission_split/presentation/widgets/split_labels.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 /// Who gets what of the deal's commission: each party's share and what it
 /// comes to, the deal's agent first, and the editor for whoever may change
-/// it (the server says who: the deal's agent, a manager or an admin). Reads a
+/// it (the server says who: the deal's agent, a manager or an admin). Once
+/// the deal is won each colleague's and co-broker's share says whether it has
+/// been paid out, and a manager marks it paid or undoes that. Reads a
 /// [CommissionSplitBloc] above it. [onSaved] runs after every write the
 /// server took.
 class DealCommissionSplitCard extends StatelessWidget {
@@ -22,6 +25,34 @@ class DealCommissionSplitCard extends StatelessWidget {
     final draft = await showCommissionSplitSheet(context, split);
     if (draft != null) bloc.add(CommissionSplitSaveEvent(draft));
   }
+
+  Future<void> _markPaid(BuildContext context, CommissionShare share) async {
+    final bloc = context.read<CommissionSplitBloc>();
+    final choice = await showMarkPaidSheet(context,
+        name: share.name?.trim() ?? '', amount: share.amount);
+    if (choice != null) {
+      bloc.add(CommissionSplitMarkPaidEvent(share.id!, note: choice.note));
+    }
+  }
+
+  Future<void> _undoPayout(BuildContext context, CommissionShare share) async {
+    final l10n = AppLocalizations.of(context);
+    final bloc = context.read<CommissionSplitBloc>();
+    final ok = await showConfirmDialog(
+      context,
+      title: l10n.payoutsUndoTitle,
+      content: l10n.payoutsUndoBody(share.name?.trim() ?? ''),
+      confirmLabel: l10n.payoutsUndo,
+      icon: Icons.undo_rounded,
+    );
+    if (ok) bloc.add(CommissionSplitUndoPayoutEvent(share.id!));
+  }
+
+  /// A share is a payout once the deal is won: a colleague's or a
+  /// co-broker's, never the deal agent's, who holds what is left. One paid
+  /// before the deal was reopened still says so.
+  static bool _showsPayout(CommissionSplit split, CommissionShare share) =>
+      share.id != null && (split.won || share.paid);
 
   @override
   Widget build(BuildContext context) {
@@ -98,6 +129,19 @@ class DealCommissionSplitCard extends StatelessWidget {
       for (var i = 0; i < split.shares.length; i++) ...[
         if (i > 0) const SizedBox(height: 11),
         _ShareRow(key: Key('deal-split-share-$i'), share: split.shares[i]),
+        if (_showsPayout(split, split.shares[i]))
+          _PayoutLine(
+            key: Key('deal-split-payout-$i'),
+            index: i,
+            share: split.shares[i],
+            onMark: split.payoutsEditable && split.won && !state.saving
+                ? () => _markPaid(context, split.shares[i])
+                : null,
+            onUndo: split.payoutsEditable && !state.saving
+                ? () => _undoPayout(context, split.shares[i])
+                : null,
+            showAction: split.payoutsEditable,
+          ),
       ],
       if (!split.split && agent?.name != null) ...[
         const SizedBox(height: 10),
@@ -202,6 +246,77 @@ class _ShareRow extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+/// Under a colleague's or a co-broker's share of a won deal: paid or not,
+/// the note the manager wrote with it, and for a manager the way to mark it
+/// paid or undo that.
+class _PayoutLine extends StatelessWidget {
+  final int index;
+  final CommissionShare share;
+  final bool showAction;
+  final VoidCallback? onMark;
+  final VoidCallback? onUndo;
+
+  const _PayoutLine({
+    super.key,
+    required this.index,
+    required this.share,
+    required this.showAction,
+    this.onMark,
+    this.onUndo,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final t = context.tokens;
+    final note = share.payoutNote?.trim() ?? '';
+    final action = !showAction
+        ? null
+        : share.paid
+            ? PayoutAction(
+                key: Key('deal-split-undo-$index'),
+                label: l10n.payoutsUndo,
+                onTap: onUndo)
+            : PayoutAction(
+                key: Key('deal-split-mark-paid-$index'),
+                label: l10n.payoutsMarkPaid,
+                onTap: onMark);
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 4),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 8,
+            runSpacing: 2,
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: action == null ? 2 : 0),
+                child: PayoutChip(paid: share.paid, paidAt: share.paidAt),
+              ),
+              if (action != null) action,
+            ],
+          ),
+          if (share.paid && note.isNotEmpty)
+            Text(
+              note,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                  fontFamily: AppFonts.sans,
+                  fontSize: 11.5,
+                  height: 1.4,
+                  color: t.textSecondary),
+            ),
+        ],
+      ),
     );
   }
 }

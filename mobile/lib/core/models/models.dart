@@ -1345,10 +1345,12 @@ class DealDeposit with _$DealDeposit {
 enum CommissionPartyKind { AGENT, COLLEAGUE, CO_BROKER }
 
 /// One party's share of a deal's commission. [amount] is in the agency's
-/// currency, null while the commission is unknown.
+/// currency, null while the commission is unknown. [id] names a colleague's
+/// or a co-broker's share for paying it out; the deal's agent has none.
 @freezed
 class CommissionShare with _$CommissionShare {
   const factory CommissionShare({
+    int? id,
     @JsonKey(unknownEnumValue: CommissionPartyKind.CO_BROKER)
     @Default(CommissionPartyKind.CO_BROKER)
     CommissionPartyKind kind,
@@ -1358,6 +1360,11 @@ class CommissionShare with _$CommissionShare {
     @Default(0.0) double percent,
     double? amount,
     @Default(true) bool active,
+    @Default(false) bool paid,
+    DateTime? paidAt,
+    int? paidById,
+    String? paidByName,
+    String? payoutNote,
   }) = _CommissionShare;
 
   factory CommissionShare.fromJson(Map<String, dynamic> json) =>
@@ -1378,7 +1385,8 @@ class CommissionColleague with _$CommissionColleague {
 
 /// Who gets what of a deal's commission: the deal's agent first, then the
 /// shares in the order they were entered. [colleagues] is filled only when
-/// the reader may edit.
+/// the reader may edit. A share is paid out once the deal is [won], by a
+/// reader whose [payoutsEditable] is set (a manager or an admin).
 @freezed
 class CommissionSplit with _$CommissionSplit {
   const factory CommissionSplit({
@@ -1386,6 +1394,8 @@ class CommissionSplit with _$CommissionSplit {
     double? commission,
     @Default(false) bool split,
     @Default(false) bool editable,
+    @Default(false) bool won,
+    @Default(false) bool payoutsEditable,
     @Default(<CommissionShare>[]) List<CommissionShare> shares,
     @Default(<CommissionColleague>[]) List<CommissionColleague> colleagues,
   }) = _CommissionSplit;

@@ -62,6 +62,56 @@ class FakeCommissionSplitRepository implements CommissionSplitRepository {
     return after;
   }
 
+  /// Every payout marked: the deal, the share and the note.
+  final List<(int, int, String?)> markedPaid = [];
+
+  /// Every payout undone: the deal and the share.
+  final List<(int, int)> undone = [];
+
+  /// When the fake says a share was paid.
+  DateTime paidAt = DateTime(2026, 10, 9, 12);
+
+  @override
+  Future<CommissionSplit> markPaid(int dealId, int shareId,
+      {String? note}) async {
+    markedPaid.add((dealId, shareId, note));
+    if (writeError != null) throw writeError!;
+    return _payout(
+        dealId,
+        shareId,
+        (s) => s.copyWith(
+            paid: true,
+            paidAt: paidAt,
+            paidById: 1,
+            paidByName: 'Asel Nurlanovna',
+            payoutNote: note));
+  }
+
+  @override
+  Future<CommissionSplit> undoPayout(int dealId, int shareId) async {
+    undone.add((dealId, shareId));
+    if (writeError != null) throw writeError!;
+    return _payout(
+        dealId,
+        shareId,
+        (s) => s.copyWith(
+            paid: false,
+            paidAt: null,
+            paidById: null,
+            paidByName: null,
+            payoutNote: null));
+  }
+
+  CommissionSplit _payout(int dealId, int shareId,
+      CommissionShare Function(CommissionShare) change) {
+    final before = byDeal[dealId] ?? CommissionSplit(dealId: dealId);
+    final after = before.copyWith(shares: [
+      for (final s in before.shares) s.id == shareId ? change(s) : s,
+    ]);
+    byDeal[dealId] = after;
+    return after;
+  }
+
   @override
   Future<CommissionSplit> clearSplit(int dealId) async {
     cleared.add(dealId);

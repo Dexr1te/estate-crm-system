@@ -70,9 +70,9 @@ FakeTeamsRepository _teams({
 }
 
 // Tall enough that the members show under the import, export and currency
-// cards; the acceptance cases still pass their own sizes.
+// cards and the settings rows; the acceptance cases still pass their own sizes.
 Future<void> _pumpConsole(WidgetTester tester,
-    {Size size = const Size(390, 1200),
+    {Size size = const Size(390, 1400),
     Brightness brightness = Brightness.light,
     double scale = 1.0}) async {
   // Signed in as the manager: the console's export card follows the session.
@@ -145,6 +145,18 @@ void main() {
     _teams(members: const []);
     await _pumpConsole(tester);
     expect(find.byKey(const Key('team-goals-row')), findsOneWidget);
+  });
+
+  testWidgets('what the agency owes from split commissions is read from here',
+      (tester) async {
+    _teams();
+    await _pumpConsole(tester);
+    expect(find.byKey(const Key('payouts-row')), findsOneWidget);
+    expect(find.text('Payouts'), findsOneWidget);
+
+    _teams(members: const []);
+    await _pumpConsole(tester);
+    expect(find.byKey(const Key('payouts-row')), findsOneWidget);
   });
 
   testWidgets("the agency's change log is read from here", (tester) async {

@@ -11579,6 +11579,216 @@ abstract class AppLocalizations {
   /// **'A split deal\'s commission counts for each person by their share; a co-broker\'s share is not the agency\'s.'**
   String get splitsShareNote;
 
+  /// No description provided for @payoutsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Payouts'**
+  String get payoutsTitle;
+
+  /// No description provided for @payoutsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What the agency still owes from split commissions'**
+  String get payoutsHint;
+
+  /// No description provided for @payoutsPaid.
+  ///
+  /// In en, this message translates to:
+  /// **'Paid'**
+  String get payoutsPaid;
+
+  /// No description provided for @payoutsUnpaid.
+  ///
+  /// In en, this message translates to:
+  /// **'Unpaid'**
+  String get payoutsUnpaid;
+
+  /// No description provided for @payoutsPaidOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Paid {date}'**
+  String payoutsPaidOn(String date);
+
+  /// No description provided for @payoutsMarkPaid.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark paid'**
+  String get payoutsMarkPaid;
+
+  /// No description provided for @payoutsUndo.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo payout'**
+  String get payoutsUndo;
+
+  /// No description provided for @payoutsMarkTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark the share paid'**
+  String get payoutsMarkTitle;
+
+  /// No description provided for @payoutsMarkSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark it once the money has actually been paid out. It can be undone.'**
+  String get payoutsMarkSubtitle;
+
+  /// No description provided for @payoutsPaidTo.
+  ///
+  /// In en, this message translates to:
+  /// **'Paid to'**
+  String get payoutsPaidTo;
+
+  /// No description provided for @payoutsAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount'**
+  String get payoutsAmount;
+
+  /// No description provided for @payoutsNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get payoutsNote;
+
+  /// No description provided for @payoutsNoteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Transfer number, cash, anything worth keeping'**
+  String get payoutsNoteHint;
+
+  /// No description provided for @payoutsUndoTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo this payout?'**
+  String get payoutsUndoTitle;
+
+  /// No description provided for @payoutsUndoBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{name}\'s share will show as unpaid again.'**
+  String payoutsUndoBody(String name);
+
+  /// No description provided for @payoutsUnpaidTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Still owed'**
+  String get payoutsUnpaidTotal;
+
+  /// No description provided for @payoutsPaidTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Paid out'**
+  String get payoutsPaidTotal;
+
+  /// No description provided for @payoutsOwedToYou.
+  ///
+  /// In en, this message translates to:
+  /// **'Owed to you'**
+  String get payoutsOwedToYou;
+
+  /// No description provided for @payoutsPaidToYou.
+  ///
+  /// In en, this message translates to:
+  /// **'Paid to you'**
+  String get payoutsPaidToYou;
+
+  /// No description provided for @payoutsByAgent.
+  ///
+  /// In en, this message translates to:
+  /// **'Owed by person'**
+  String get payoutsByAgent;
+
+  /// No description provided for @payoutsShareCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 share} other{{count} shares}}'**
+  String payoutsShareCount(num count);
+
+  /// No description provided for @payoutsScopeNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Colleagues\' and co-brokers\' shares of won deals; the deal agent\'s own part is not listed here.'**
+  String get payoutsScopeNote;
+
+  /// No description provided for @payoutsEmptyUnpaid.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing left to pay out'**
+  String get payoutsEmptyUnpaid;
+
+  /// No description provided for @payoutsEmptyUnpaidHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Shares of split commissions on won deals show here until they are paid out.'**
+  String get payoutsEmptyUnpaidHint;
+
+  /// No description provided for @payoutsEmptyPaid.
+  ///
+  /// In en, this message translates to:
+  /// **'No payouts yet'**
+  String get payoutsEmptyPaid;
+
+  /// No description provided for @payoutsEmptyPaidHint.
+  ///
+  /// In en, this message translates to:
+  /// **'A share marked paid on its deal shows here.'**
+  String get payoutsEmptyPaidHint;
+
+  /// No description provided for @payoutsLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load payouts'**
+  String get payoutsLoadFailed;
+
+  /// No description provided for @payoutsMarkedBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Marked by {name}'**
+  String payoutsMarkedBy(String name);
+
+  /// No description provided for @payoutsWonOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Won {date}'**
+  String payoutsWonOn(String date);
+
+  /// No description provided for @payoutsNoAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'No amount yet'**
+  String get payoutsNoAmount;
+
+  /// No description provided for @payoutsAlreadyPaid.
+  ///
+  /// In en, this message translates to:
+  /// **'This share has already been paid out'**
+  String get payoutsAlreadyPaid;
+
+  /// No description provided for @payoutsNotPaid.
+  ///
+  /// In en, this message translates to:
+  /// **'This share is not marked paid'**
+  String get payoutsNotPaid;
+
+  /// No description provided for @payoutsDealNotWon.
+  ///
+  /// In en, this message translates to:
+  /// **'Only a won deal\'s shares are paid out'**
+  String get payoutsDealNotWon;
+
+  /// No description provided for @payoutsSharePaidLocked.
+  ///
+  /// In en, this message translates to:
+  /// **'A paid share can\'t be changed. Undo its payout first.'**
+  String get payoutsSharePaidLocked;
+
+  /// No description provided for @payoutsManagerOnly.
+  ///
+  /// In en, this message translates to:
+  /// **'Only the agency\'s manager marks payouts'**
+  String get payoutsManagerOnly;
+
   /// No description provided for @expensesTitle.
   ///
   /// In en, this message translates to:

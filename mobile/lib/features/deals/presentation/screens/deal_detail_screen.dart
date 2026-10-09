@@ -180,6 +180,8 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
     if (state is DealsActionSuccess) {
       // Winning the deal applies its deposit on the server.
       _depositsBlocOrNull?.add(DealDepositsLoadEvent());
+      // And makes its commission's shares payable.
+      _splitBlocOrNull?.add(CommissionSplitLoadEvent());
       _confirmedStatus = null;
       _confirmed = null;
     } else if (state is DealsActionFailure && _confirmedStatus != null) {

@@ -16,4 +16,12 @@ class CommissionSplitRepositoryImpl implements CommissionSplitRepository {
 
   @override
   Future<CommissionSplit> clearSplit(int dealId) => _remote.clearSplit(dealId);
+
+  @override
+  Future<CommissionSplit> markPaid(int dealId, int shareId, {String? note}) =>
+      _remote.markPaid(dealId, shareId, note: note);
+
+  @override
+  Future<CommissionSplit> undoPayout(int dealId, int shareId) =>
+      _remote.undoPayout(dealId, shareId);
 }

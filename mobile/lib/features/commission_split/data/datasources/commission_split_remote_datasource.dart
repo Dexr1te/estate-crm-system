@@ -23,4 +23,18 @@ class CommissionSplitRemoteDataSource {
     final res = await _client.dio.delete('/deals/$dealId/commission-split');
     return CommissionSplit.fromJson(jsonObject(res));
   }
+
+  Future<CommissionSplit> markPaid(int dealId, int shareId,
+      {String? note}) async {
+    final res = await _client.dio.post(
+        '/deals/$dealId/commission-split/shares/$shareId/payout',
+        data: {'note': note});
+    return CommissionSplit.fromJson(jsonObject(res));
+  }
+
+  Future<CommissionSplit> undoPayout(int dealId, int shareId) async {
+    final res = await _client.dio
+        .delete('/deals/$dealId/commission-split/shares/$shareId/payout');
+    return CommissionSplit.fromJson(jsonObject(res));
+  }
 }

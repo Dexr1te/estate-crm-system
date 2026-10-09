@@ -42,6 +42,8 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) async {
   Injector.depositsRepository = FakeDepositsRepository();
   // And its commission split card.
   Injector.commissionSplitRepository = FakeCommissionSplitRepository();
+  // The payouts screen reads the split shares of won deals.
+  Injector.payoutsRepository = FakePayoutsRepository();
   // And the leases running out; a rent deal renews through it.
   Injector.leasesRepository = FakeLeasesRepository();
   // And the client card's compose sheet reads the agency's templates.

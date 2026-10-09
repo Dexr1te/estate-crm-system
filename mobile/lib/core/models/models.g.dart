@@ -1757,6 +1757,7 @@ const _$DepositOutcomeEnumMap = {
 _$CommissionShareImpl _$$CommissionShareImplFromJson(
         Map<String, dynamic> json) =>
     _$CommissionShareImpl(
+      id: (json['id'] as num?)?.toInt(),
       kind: $enumDecodeNullable(_$CommissionPartyKindEnumMap, json['kind'],
               unknownValue: CommissionPartyKind.CO_BROKER) ??
           CommissionPartyKind.CO_BROKER,
@@ -1766,11 +1767,19 @@ _$CommissionShareImpl _$$CommissionShareImplFromJson(
       percent: (json['percent'] as num?)?.toDouble() ?? 0.0,
       amount: (json['amount'] as num?)?.toDouble(),
       active: json['active'] as bool? ?? true,
+      paid: json['paid'] as bool? ?? false,
+      paidAt: json['paidAt'] == null
+          ? null
+          : DateTime.parse(json['paidAt'] as String),
+      paidById: (json['paidById'] as num?)?.toInt(),
+      paidByName: json['paidByName'] as String?,
+      payoutNote: json['payoutNote'] as String?,
     );
 
 Map<String, dynamic> _$$CommissionShareImplToJson(
         _$CommissionShareImpl instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'kind': _$CommissionPartyKindEnumMap[instance.kind]!,
       'userId': instance.userId,
       'name': instance.name,
@@ -1778,6 +1787,11 @@ Map<String, dynamic> _$$CommissionShareImplToJson(
       'percent': instance.percent,
       'amount': instance.amount,
       'active': instance.active,
+      'paid': instance.paid,
+      'paidAt': instance.paidAt?.toIso8601String(),
+      'paidById': instance.paidById,
+      'paidByName': instance.paidByName,
+      'payoutNote': instance.payoutNote,
     };
 
 const _$CommissionPartyKindEnumMap = {
@@ -1807,6 +1821,8 @@ _$CommissionSplitImpl _$$CommissionSplitImplFromJson(
       commission: (json['commission'] as num?)?.toDouble(),
       split: json['split'] as bool? ?? false,
       editable: json['editable'] as bool? ?? false,
+      won: json['won'] as bool? ?? false,
+      payoutsEditable: json['payoutsEditable'] as bool? ?? false,
       shares: (json['shares'] as List<dynamic>?)
               ?.map((e) => CommissionShare.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -1825,6 +1841,8 @@ Map<String, dynamic> _$$CommissionSplitImplToJson(
       'commission': instance.commission,
       'split': instance.split,
       'editable': instance.editable,
+      'won': instance.won,
+      'payoutsEditable': instance.payoutsEditable,
       'shares': instance.shares,
       'colleagues': instance.colleagues,
     };

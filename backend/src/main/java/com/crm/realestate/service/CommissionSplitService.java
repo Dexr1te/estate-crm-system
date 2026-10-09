@@ -8,6 +8,7 @@ import com.crm.realestate.entity.CommissionSplit;
 import com.crm.realestate.entity.Deal;
 import com.crm.realestate.entity.User;
 import com.crm.realestate.enums.CommissionPartyKind;
+import com.crm.realestate.enums.DealStatus;
 import com.crm.realestate.enums.Role;
 import com.crm.realestate.enums.UserStatus;
 import com.crm.realestate.exception.BusinessException;
@@ -21,10 +22,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 
@@ -39,6 +41,13 @@ import java.util.Set;
  *
  * <p>The shares total exactly 100. The deal's agent holds what the others leave, so their own line
  * is stored nowhere, and a split that gives the agent everything is no split at all.
+ *
+ * <p><b>Payouts (V58).</b> Once the deal is won the agency pays each share out, and the manager or
+ * an admin marks it paid (409 DEAL_NOT_WON before that, 409 ALREADY_PAID twice) or undoes it (409
+ * NOT_PAID when it is not); an agent may do neither. A paid share is money gone: the split keeps
+ * it as it was paid, so an edit that drops it or changes its percentage, or clearing the split, is
+ * refused (409 SHARE_PAID) until the payout is undone. The deal's agent has no row, so what they
+ * hold is not a payout here.
  */
 @Service
 @RequiredArgsConstructor
@@ -64,6 +73,7 @@ public class CommissionSplitService {
         requireEditor(deal, me);
         List<CommissionSplit> current = store.of(deal);
         List<CommissionSplit> next = shares(deal, request.getShares(), current);
+        keepPayouts(current, next);
         store.replace(deal, next, me);
         return respond(deal, next, me);
     }
@@ -74,8 +84,100 @@ public class CommissionSplitService {
         User me = securityUtils.getCurrentUser();
         Deal deal = dealService.requireVisible(dealId, me);
         requireEditor(deal, me);
+        keepPayouts(store.of(deal), List.of());
         store.replace(deal, List.of(), me);
         return respond(deal, List.of(), me);
+    }
+
+    // Payouts ----------------------------------------------------------------------------------
+
+    /** The agency has paid {@code shareId} out: a won deal's, not already paid. */
+    @Transactional
+    public CommissionSplitResponse markPaid(Long dealId, Long shareId, String note) {
+        User me = securityUtils.getCurrentUser();
+        requirePayer(me);
+        Deal deal = dealService.requireVisible(dealId, me);
+        List<CommissionSplit> rows = store.of(deal);
+        CommissionSplit share = shareOf(rows, shareId);
+        if (share.isPaid()) {
+            throw new BusinessException(HttpStatus.CONFLICT, "ALREADY_PAID",
+                    "This share has already been paid out");
+        }
+        if (deal.getStatus() != DealStatus.CLOSED_WON) {
+            throw new BusinessException(HttpStatus.CONFLICT, "DEAL_NOT_WON",
+                    "Only a won deal's commission is paid out");
+        }
+        String trimmed = note == null ? null : note.trim();
+        share.setPaidAt(LocalDateTime.now());
+        share.setPaidBy(me);
+        share.setPayoutNote(trimmed == null || trimmed.isEmpty() ? null : trimmed);
+        return respond(deal, rows, me);
+    }
+
+    /** {@code shareId} is owed again: a payout marked by mistake. */
+    @Transactional
+    public CommissionSplitResponse undoPayout(Long dealId, Long shareId) {
+        User me = securityUtils.getCurrentUser();
+        requirePayer(me);
+        Deal deal = dealService.requireVisible(dealId, me);
+        List<CommissionSplit> rows = store.of(deal);
+        CommissionSplit share = shareOf(rows, shareId);
+        if (!share.isPaid()) {
+            throw new BusinessException(HttpStatus.CONFLICT, "NOT_PAID",
+                    "This share has not been paid out");
+        }
+        share.clearPayout();
+        return respond(deal, rows, me);
+    }
+
+    private boolean canPay(User user) {
+        return scopeService.isManager(user) || scopeService.isAdmin(user);
+    }
+
+    private void requirePayer(User user) {
+        if (!canPay(user)) {
+            throw new BusinessException(HttpStatus.FORBIDDEN, "MANAGER_ONLY",
+                    "Only the agency's manager marks a share paid");
+        }
+    }
+
+    /** One of the deal's shares; anything else, another deal's included, is not found. */
+    private static CommissionSplit shareOf(List<CommissionSplit> rows, Long shareId) {
+        return rows.stream().filter(s -> s.getId().equals(shareId)).findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException("Share not found with id: " + shareId));
+    }
+
+    /**
+     * Each paid share in {@code current} carries over to the same party in {@code next} at the same
+     * percentage, payout and all; a split that drops one or changes its percentage is refused.
+     */
+    private static void keepPayouts(List<CommissionSplit> current, List<CommissionSplit> next) {
+        for (CommissionSplit paid : current) {
+            if (!paid.isPaid()) {
+                continue;
+            }
+            CommissionSplit same = next.stream().filter(n -> sameParty(paid, n)).findFirst().orElse(null);
+            if (same == null || same.getSharePercent().compareTo(paid.getSharePercent()) != 0) {
+                throw new BusinessException(HttpStatus.CONFLICT, "SHARE_PAID",
+                        CommissionSplitStore.partyOf(paid) + "'s share has been paid out; undo the payout "
+                                + "before changing it");
+            }
+            same.setPaidAt(paid.getPaidAt());
+            same.setPaidBy(paid.getPaidBy());
+            same.setPayoutNote(paid.getPayoutNote());
+        }
+    }
+
+    private static boolean sameParty(CommissionSplit a, CommissionSplit b) {
+        if (a.getUser() != null || b.getUser() != null) {
+            return a.getUser() != null && b.getUser() != null && a.getUser().getId().equals(b.getUser().getId());
+        }
+        return a.getCoBrokerName().equalsIgnoreCase(b.getCoBrokerName())
+                && Objects.equals(lower(a.getCoBrokerAgency()), lower(b.getCoBrokerAgency()));
+    }
+
+    private static String lower(String s) {
+        return s == null ? null : s.toLowerCase(Locale.ROOT);
     }
 
     // Rules ------------------------------------------------------------------------------------
@@ -153,17 +255,18 @@ public class CommissionSplitService {
     // Answering --------------------------------------------------------------------------------
 
     private CommissionSplitResponse respond(Deal deal, List<CommissionSplit> rows, User me) {
-        BigDecimal commission = DealService.commissionOf(DealMoney.commissionBase(deal), deal.getCommissionPercent());
+        BigDecimal commission = CommissionSplitStore.commissionOf(deal);
         List<Share> others = new ArrayList<>();
         BigDecimal othersAmount = BigDecimal.ZERO;
         for (CommissionSplit row : rows) {
-            BigDecimal amount = commission == null ? null
-                    : commission.multiply(row.getSharePercent()).divide(CommissionSplitStore.HUNDRED, 2, RoundingMode.HALF_UP);
+            BigDecimal amount = CommissionSplitStore.amountOf(commission, row.getSharePercent());
             if (amount != null) {
                 othersAmount = othersAmount.add(amount);
             }
             User user = row.getUser();
+            User paidBy = row.getPaidBy();
             others.add(Share.builder()
+                    .id(row.getId())
                     .kind(user == null ? CommissionPartyKind.CO_BROKER : CommissionPartyKind.COLLEAGUE)
                     .userId(user == null ? null : user.getId())
                     .name(user == null ? row.getCoBrokerName() : user.getFullName())
@@ -171,6 +274,11 @@ public class CommissionSplitService {
                     .percent(row.getSharePercent())
                     .amount(amount)
                     .active(user == null || isActiveMember(user))
+                    .paid(row.isPaid())
+                    .paidAt(row.getPaidAt())
+                    .paidById(paidBy == null ? null : paidBy.getId())
+                    .paidByName(paidBy == null ? null : paidBy.getFullName())
+                    .payoutNote(row.getPayoutNote())
                     .build());
         }
         User agent = deal.getAgent();
@@ -198,6 +306,8 @@ public class CommissionSplitService {
                 .commission(commission)
                 .split(!rows.isEmpty())
                 .editable(editable)
+                .won(deal.getStatus() == DealStatus.CLOSED_WON)
+                .payoutsEditable(canPay(me))
                 .shares(shares)
                 .colleagues(colleagues)
                 .build();

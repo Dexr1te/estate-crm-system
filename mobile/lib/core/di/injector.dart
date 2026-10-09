@@ -93,6 +93,9 @@ import 'package:real_estate_crm/features/open_houses/domain/repositories/open_ho
 import 'package:real_estate_crm/features/partners/data/datasources/partners_remote_datasource.dart';
 import 'package:real_estate_crm/features/partners/data/repositories/partners_repository_impl.dart';
 import 'package:real_estate_crm/features/partners/domain/repositories/partners_repository.dart';
+import 'package:real_estate_crm/features/payouts/data/datasources/payouts_remote_datasource.dart';
+import 'package:real_estate_crm/features/payouts/data/repositories/payouts_repository_impl.dart';
+import 'package:real_estate_crm/features/payouts/domain/repositories/payouts_repository.dart';
 import 'package:real_estate_crm/features/properties/data/datasources/properties_remote_datasource.dart';
 import 'package:real_estate_crm/features/properties/data/repositories/properties_repository_impl.dart';
 import 'package:real_estate_crm/features/properties/domain/repositories/properties_repository.dart';
@@ -152,6 +155,9 @@ class Injector {
   static CommissionSplitRepository commissionSplitRepository =
       CommissionSplitRepositoryImpl(
           CommissionSplitRemoteDataSource(_apiClient));
+
+  static PayoutsRepository payoutsRepository =
+      PayoutsRepositoryImpl(PayoutsRemoteDataSource(_apiClient));
 
   static LeasesRepository leasesRepository =
       LeasesRepositoryImpl(LeasesRemoteDataSource(_apiClient));

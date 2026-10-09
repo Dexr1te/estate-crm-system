@@ -6959,6 +6959,137 @@ class AppLocalizationsRu extends AppLocalizations {
       'Комиссия по разделённой сделке засчитывается каждому по его доле; доля ко-брокера в сумму агентства не входит.';
 
   @override
+  String get payoutsTitle => 'Выплаты';
+
+  @override
+  String get payoutsHint => 'Сколько агентство ещё должно по сплитам комиссий';
+
+  @override
+  String get payoutsPaid => 'Выплачено';
+
+  @override
+  String get payoutsUnpaid => 'Не выплачено';
+
+  @override
+  String payoutsPaidOn(String date) {
+    return 'Выплачено $date';
+  }
+
+  @override
+  String get payoutsMarkPaid => 'Отметить выплату';
+
+  @override
+  String get payoutsUndo => 'Отменить выплату';
+
+  @override
+  String get payoutsMarkTitle => 'Отметить выплату доли';
+
+  @override
+  String get payoutsMarkSubtitle =>
+      'Отмечайте, когда деньги действительно выплачены. Отметку можно отменить.';
+
+  @override
+  String get payoutsPaidTo => 'Кому';
+
+  @override
+  String get payoutsAmount => 'Сумма';
+
+  @override
+  String get payoutsNote => 'Комментарий';
+
+  @override
+  String get payoutsNoteHint =>
+      'Номер перевода, наличными — что стоит запомнить';
+
+  @override
+  String get payoutsUndoTitle => 'Отменить выплату?';
+
+  @override
+  String payoutsUndoBody(String name) {
+    return 'Доля снова будет числиться невыплаченной. Получатель: $name.';
+  }
+
+  @override
+  String get payoutsUnpaidTotal => 'Осталось выплатить';
+
+  @override
+  String get payoutsPaidTotal => 'Выплачено';
+
+  @override
+  String get payoutsOwedToYou => 'Вам причитается';
+
+  @override
+  String get payoutsPaidToYou => 'Вам выплачено';
+
+  @override
+  String get payoutsByAgent => 'Кому сколько осталось';
+
+  @override
+  String payoutsShareCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count доли',
+      many: '$count долей',
+      few: '$count доли',
+      one: '$count доля',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get payoutsScopeNote =>
+      'Доли коллег и ко-брокеров по выигранным сделкам; часть самого агента сделки здесь не учитывается.';
+
+  @override
+  String get payoutsEmptyUnpaid => 'Выплачивать нечего';
+
+  @override
+  String get payoutsEmptyUnpaidHint =>
+      'Доли сплитов комиссий по выигранным сделкам видны здесь, пока их не выплатят.';
+
+  @override
+  String get payoutsEmptyPaid => 'Выплат пока нет';
+
+  @override
+  String get payoutsEmptyPaidHint =>
+      'Доля, отмеченная выплаченной в сделке, появится здесь.';
+
+  @override
+  String get payoutsLoadFailed => 'Не удалось загрузить выплаты';
+
+  @override
+  String payoutsMarkedBy(String name) {
+    return 'Отметил(а): $name';
+  }
+
+  @override
+  String payoutsWonOn(String date) {
+    return 'Сделка выиграна $date';
+  }
+
+  @override
+  String get payoutsNoAmount => 'Сумма пока неизвестна';
+
+  @override
+  String get payoutsAlreadyPaid => 'Эта доля уже выплачена';
+
+  @override
+  String get payoutsNotPaid => 'Эта доля не отмечена как выплаченная';
+
+  @override
+  String get payoutsDealNotWon =>
+      'Выплачивают только доли по выигранным сделкам';
+
+  @override
+  String get payoutsSharePaidLocked =>
+      'Выплаченную долю нельзя изменить. Сначала отмените выплату.';
+
+  @override
+  String get payoutsManagerOnly =>
+      'Выплаты отмечает только руководитель агентства';
+
+  @override
   String get expensesTitle => 'Расходы';
 
   @override

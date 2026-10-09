@@ -3386,6 +3386,69 @@
   "splitsTooMany": "At most 10 people share one commission",
   "splitsColleagueInactive": "Only active members of the agency can be given a share",
   "splitsShareNote": "A split deal's commission counts for each person by their share; a co-broker's share is not the agency's.",
+  "payoutsTitle": "Payouts",
+  "payoutsHint": "What the agency still owes from split commissions",
+  "payoutsPaid": "Paid",
+  "payoutsUnpaid": "Unpaid",
+  "payoutsPaidOn": "Paid {date}",
+  "@payoutsPaidOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "payoutsMarkPaid": "Mark paid",
+  "payoutsUndo": "Undo payout",
+  "payoutsMarkTitle": "Mark the share paid",
+  "payoutsMarkSubtitle": "Mark it once the money has actually been paid out. It can be undone.",
+  "payoutsPaidTo": "Paid to",
+  "payoutsAmount": "Amount",
+  "payoutsNote": "Note",
+  "payoutsNoteHint": "Transfer number, cash, anything worth keeping",
+  "payoutsUndoTitle": "Undo this payout?",
+  "payoutsUndoBody": "{name}'s share will show as unpaid again.",
+  "@payoutsUndoBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "payoutsUnpaidTotal": "Still owed",
+  "payoutsPaidTotal": "Paid out",
+  "payoutsOwedToYou": "Owed to you",
+  "payoutsPaidToYou": "Paid to you",
+  "payoutsByAgent": "Owed by person",
+  "payoutsShareCount": "{count, plural, =1{1 share} other{{count} shares}}",
+  "payoutsScopeNote": "Colleagues' and co-brokers' shares of won deals; the deal agent's own part is not listed here.",
+  "payoutsEmptyUnpaid": "Nothing left to pay out",
+  "payoutsEmptyUnpaidHint": "Shares of split commissions on won deals show here until they are paid out.",
+  "payoutsEmptyPaid": "No payouts yet",
+  "payoutsEmptyPaidHint": "A share marked paid on its deal shows here.",
+  "payoutsLoadFailed": "Could not load payouts",
+  "payoutsMarkedBy": "Marked by {name}",
+  "@payoutsMarkedBy": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "payoutsWonOn": "Won {date}",
+  "@payoutsWonOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "payoutsNoAmount": "No amount yet",
+  "payoutsAlreadyPaid": "This share has already been paid out",
+  "payoutsNotPaid": "This share is not marked paid",
+  "payoutsDealNotWon": "Only a won deal's shares are paid out",
+  "payoutsSharePaidLocked": "A paid share can't be changed. Undo its payout first.",
+  "payoutsManagerOnly": "Only the agency's manager marks payouts",
   "expensesTitle": "Expenses",
   "expensesTotalCaption": "Spent on this listing",
   "expensesNone": "Nothing spent on this listing yet. Record the photographer, ads and the rest to see what it costs.",
