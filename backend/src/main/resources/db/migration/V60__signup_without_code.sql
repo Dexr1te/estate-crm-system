@@ -1,4 +1,4 @@
--- V56__signup_without_code.sql
+-- V60__signup_without_code.sql
 --
 -- Sign-up no longer asks for a code by email. The host cannot be relied on to send
 -- one, and an account that waits on a code that never arrives is one its owner can
