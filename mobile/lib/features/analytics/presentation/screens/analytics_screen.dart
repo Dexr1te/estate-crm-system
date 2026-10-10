@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:real_estate_crm/core/auth/role_context.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/utils/clock.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/analytics/presentation/bloc/analytics_bloc.dart';
 import 'package:real_estate_crm/features/analytics/presentation/bloc/analytics_event.dart';
@@ -11,6 +12,8 @@ import 'package:real_estate_crm/features/analytics/presentation/widgets/funnel_c
 import 'package:real_estate_crm/features/analytics/presentation/widgets/lead_sources_card.dart';
 import 'package:real_estate_crm/features/analytics/presentation/widgets/lost_reasons_card.dart';
 import 'package:real_estate_crm/features/analytics/presentation/widgets/monthly_card.dart';
+import 'package:real_estate_crm/features/expenses/presentation/bloc/expense_summary_bloc.dart';
+import 'package:real_estate_crm/features/expenses/presentation/widgets/marketing_spend_card.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class AnalyticsScreen extends StatefulWidget {
@@ -23,12 +26,31 @@ class AnalyticsScreen extends StatefulWidget {
 class _AnalyticsScreenState extends State<AnalyticsScreen> {
   final _bloc = AnalyticsBloc(Injector.analyticsRepository)
     ..add(AnalyticsLoadEvent());
+  final _spend = ExpenseSummaryBloc(Injector.expensesRepository);
   PickerItem? _agent;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSpend(_bloc.state.period);
+  }
 
   @override
   void dispose() {
     _bloc.close();
+    _spend.close();
     super.dispose();
+  }
+
+  void _loadSpend(AnalyticsPeriod period) {
+    final range = AnalyticsRange.of(period, AppClock.now());
+    final last = DateTime(range.to.year, range.to.month, range.to.day - 1);
+    _spend.add(ExpenseSummaryLoadEvent(from: range.from, to: last));
+  }
+
+  void _refresh() {
+    _bloc.add(AnalyticsLoadEvent());
+    _loadSpend(_bloc.state.period);
   }
 
   Future<void> _pickAgent() async {
@@ -65,7 +87,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
       bloc: _bloc,
       builder: (context, state) => DetailScaffold(
         title: l10n.analyticsTitle,
-        onRefresh: () async => _bloc.add(AnalyticsLoadEvent()),
+        onRefresh: () async => _refresh(),
         children: [
           SegmentedTabs(
             labels: [
@@ -74,8 +96,11 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
               l10n.analyticsPeriodYear,
             ],
             selectedIndex: state.period.index,
-            onSelected: (i) =>
-                _bloc.add(AnalyticsPeriodChanged(AnalyticsPeriod.values[i])),
+            onSelected: (i) {
+              final period = AnalyticsPeriod.values[i];
+              _bloc.add(AnalyticsPeriodChanged(period));
+              _loadSpend(period);
+            },
           ),
           if (context.isAdminOrManager)
             Align(
@@ -101,9 +126,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
           icon: Icons.cloud_off_outlined,
           title: l10n.analyticsLoadFailed,
           subtitle: apiFailureLabel(l10n, state.failure),
-          action: AppGhostButton(
-              label: l10n.coreRetry,
-              onPressed: () => _bloc.add(AnalyticsLoadEvent())),
+          action: AppGhostButton(label: l10n.coreRetry, onPressed: _refresh),
         ),
       ];
     }
@@ -128,6 +151,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
         // Clients may arrive in a month no deal was opened.
         if (sources != null && sources.clients > 0)
           LeadSourcesCard(breakdown: sources),
+        _spendCard,
         if (hasHistory) MonthlyCard(months: f.monthly),
       ];
     }
@@ -145,9 +169,13 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
       FunnelCard(funnel: f),
       LostReasonsCard(reasons: f.lostReasons),
       if (sources != null) LeadSourcesCard(breakdown: sources),
+      _spendCard,
       MonthlyCard(months: f.monthly),
     ];
   }
+
+  Widget get _spendCard =>
+      BlocProvider.value(value: _spend, child: const MarketingSpendCard());
 
   static String _days(double days) => days == days.roundToDouble()
       ? days.toStringAsFixed(0)

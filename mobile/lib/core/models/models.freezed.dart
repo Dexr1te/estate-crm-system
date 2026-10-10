@@ -17276,6 +17276,7 @@ CommissionShare _$CommissionShareFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$CommissionShare {
+  int? get id => throw _privateConstructorUsedError;
   @JsonKey(unknownEnumValue: CommissionPartyKind.CO_BROKER)
   CommissionPartyKind get kind => throw _privateConstructorUsedError;
   int? get userId => throw _privateConstructorUsedError;
@@ -17284,6 +17285,11 @@ mixin _$CommissionShare {
   double get percent => throw _privateConstructorUsedError;
   double? get amount => throw _privateConstructorUsedError;
   bool get active => throw _privateConstructorUsedError;
+  bool get paid => throw _privateConstructorUsedError;
+  DateTime? get paidAt => throw _privateConstructorUsedError;
+  int? get paidById => throw _privateConstructorUsedError;
+  String? get paidByName => throw _privateConstructorUsedError;
+  String? get payoutNote => throw _privateConstructorUsedError;
 
   /// Serializes this CommissionShare to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -17302,14 +17308,20 @@ abstract class $CommissionShareCopyWith<$Res> {
       _$CommissionShareCopyWithImpl<$Res, CommissionShare>;
   @useResult
   $Res call(
-      {@JsonKey(unknownEnumValue: CommissionPartyKind.CO_BROKER)
+      {int? id,
+      @JsonKey(unknownEnumValue: CommissionPartyKind.CO_BROKER)
       CommissionPartyKind kind,
       int? userId,
       String? name,
       String? agency,
       double percent,
       double? amount,
-      bool active});
+      bool active,
+      bool paid,
+      DateTime? paidAt,
+      int? paidById,
+      String? paidByName,
+      String? payoutNote});
 }
 
 /// @nodoc
@@ -17327,6 +17339,7 @@ class _$CommissionShareCopyWithImpl<$Res, $Val extends CommissionShare>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = freezed,
     Object? kind = null,
     Object? userId = freezed,
     Object? name = freezed,
@@ -17334,8 +17347,17 @@ class _$CommissionShareCopyWithImpl<$Res, $Val extends CommissionShare>
     Object? percent = null,
     Object? amount = freezed,
     Object? active = null,
+    Object? paid = null,
+    Object? paidAt = freezed,
+    Object? paidById = freezed,
+    Object? paidByName = freezed,
+    Object? payoutNote = freezed,
   }) {
     return _then(_value.copyWith(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
       kind: null == kind
           ? _value.kind
           : kind // ignore: cast_nullable_to_non_nullable
@@ -17364,6 +17386,26 @@ class _$CommissionShareCopyWithImpl<$Res, $Val extends CommissionShare>
           ? _value.active
           : active // ignore: cast_nullable_to_non_nullable
               as bool,
+      paid: null == paid
+          ? _value.paid
+          : paid // ignore: cast_nullable_to_non_nullable
+              as bool,
+      paidAt: freezed == paidAt
+          ? _value.paidAt
+          : paidAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      paidById: freezed == paidById
+          ? _value.paidById
+          : paidById // ignore: cast_nullable_to_non_nullable
+              as int?,
+      paidByName: freezed == paidByName
+          ? _value.paidByName
+          : paidByName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      payoutNote: freezed == payoutNote
+          ? _value.payoutNote
+          : payoutNote // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -17377,14 +17419,20 @@ abstract class _$$CommissionShareImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(unknownEnumValue: CommissionPartyKind.CO_BROKER)
+      {int? id,
+      @JsonKey(unknownEnumValue: CommissionPartyKind.CO_BROKER)
       CommissionPartyKind kind,
       int? userId,
       String? name,
       String? agency,
       double percent,
       double? amount,
-      bool active});
+      bool active,
+      bool paid,
+      DateTime? paidAt,
+      int? paidById,
+      String? paidByName,
+      String? payoutNote});
 }
 
 /// @nodoc
@@ -17400,6 +17448,7 @@ class __$$CommissionShareImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = freezed,
     Object? kind = null,
     Object? userId = freezed,
     Object? name = freezed,
@@ -17407,8 +17456,17 @@ class __$$CommissionShareImplCopyWithImpl<$Res>
     Object? percent = null,
     Object? amount = freezed,
     Object? active = null,
+    Object? paid = null,
+    Object? paidAt = freezed,
+    Object? paidById = freezed,
+    Object? paidByName = freezed,
+    Object? payoutNote = freezed,
   }) {
     return _then(_$CommissionShareImpl(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
       kind: null == kind
           ? _value.kind
           : kind // ignore: cast_nullable_to_non_nullable
@@ -17437,6 +17495,26 @@ class __$$CommissionShareImplCopyWithImpl<$Res>
           ? _value.active
           : active // ignore: cast_nullable_to_non_nullable
               as bool,
+      paid: null == paid
+          ? _value.paid
+          : paid // ignore: cast_nullable_to_non_nullable
+              as bool,
+      paidAt: freezed == paidAt
+          ? _value.paidAt
+          : paidAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      paidById: freezed == paidById
+          ? _value.paidById
+          : paidById // ignore: cast_nullable_to_non_nullable
+              as int?,
+      paidByName: freezed == paidByName
+          ? _value.paidByName
+          : paidByName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      payoutNote: freezed == payoutNote
+          ? _value.payoutNote
+          : payoutNote // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -17445,18 +17523,26 @@ class __$$CommissionShareImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$CommissionShareImpl implements _CommissionShare {
   const _$CommissionShareImpl(
-      {@JsonKey(unknownEnumValue: CommissionPartyKind.CO_BROKER)
+      {this.id,
+      @JsonKey(unknownEnumValue: CommissionPartyKind.CO_BROKER)
       this.kind = CommissionPartyKind.CO_BROKER,
       this.userId,
       this.name,
       this.agency,
       this.percent = 0.0,
       this.amount,
-      this.active = true});
+      this.active = true,
+      this.paid = false,
+      this.paidAt,
+      this.paidById,
+      this.paidByName,
+      this.payoutNote});
 
   factory _$CommissionShareImpl.fromJson(Map<String, dynamic> json) =>
       _$$CommissionShareImplFromJson(json);
 
+  @override
+  final int? id;
   @override
   @JsonKey(unknownEnumValue: CommissionPartyKind.CO_BROKER)
   final CommissionPartyKind kind;
@@ -17474,10 +17560,21 @@ class _$CommissionShareImpl implements _CommissionShare {
   @override
   @JsonKey()
   final bool active;
+  @override
+  @JsonKey()
+  final bool paid;
+  @override
+  final DateTime? paidAt;
+  @override
+  final int? paidById;
+  @override
+  final String? paidByName;
+  @override
+  final String? payoutNote;
 
   @override
   String toString() {
-    return 'CommissionShare(kind: $kind, userId: $userId, name: $name, agency: $agency, percent: $percent, amount: $amount, active: $active)';
+    return 'CommissionShare(id: $id, kind: $kind, userId: $userId, name: $name, agency: $agency, percent: $percent, amount: $amount, active: $active, paid: $paid, paidAt: $paidAt, paidById: $paidById, paidByName: $paidByName, payoutNote: $payoutNote)';
   }
 
   @override
@@ -17485,19 +17582,28 @@ class _$CommissionShareImpl implements _CommissionShare {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CommissionShareImpl &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.kind, kind) || other.kind == kind) &&
             (identical(other.userId, userId) || other.userId == userId) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.agency, agency) || other.agency == agency) &&
             (identical(other.percent, percent) || other.percent == percent) &&
             (identical(other.amount, amount) || other.amount == amount) &&
-            (identical(other.active, active) || other.active == active));
+            (identical(other.active, active) || other.active == active) &&
+            (identical(other.paid, paid) || other.paid == paid) &&
+            (identical(other.paidAt, paidAt) || other.paidAt == paidAt) &&
+            (identical(other.paidById, paidById) ||
+                other.paidById == paidById) &&
+            (identical(other.paidByName, paidByName) ||
+                other.paidByName == paidByName) &&
+            (identical(other.payoutNote, payoutNote) ||
+                other.payoutNote == payoutNote));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, kind, userId, name, agency, percent, amount, active);
+  int get hashCode => Object.hash(runtimeType, id, kind, userId, name, agency,
+      percent, amount, active, paid, paidAt, paidById, paidByName, payoutNote);
 
   /// Create a copy of CommissionShare
   /// with the given fields replaced by the non-null parameter values.
@@ -17518,18 +17624,26 @@ class _$CommissionShareImpl implements _CommissionShare {
 
 abstract class _CommissionShare implements CommissionShare {
   const factory _CommissionShare(
-      {@JsonKey(unknownEnumValue: CommissionPartyKind.CO_BROKER)
+      {final int? id,
+      @JsonKey(unknownEnumValue: CommissionPartyKind.CO_BROKER)
       final CommissionPartyKind kind,
       final int? userId,
       final String? name,
       final String? agency,
       final double percent,
       final double? amount,
-      final bool active}) = _$CommissionShareImpl;
+      final bool active,
+      final bool paid,
+      final DateTime? paidAt,
+      final int? paidById,
+      final String? paidByName,
+      final String? payoutNote}) = _$CommissionShareImpl;
 
   factory _CommissionShare.fromJson(Map<String, dynamic> json) =
       _$CommissionShareImpl.fromJson;
 
+  @override
+  int? get id;
   @override
   @JsonKey(unknownEnumValue: CommissionPartyKind.CO_BROKER)
   CommissionPartyKind get kind;
@@ -17545,6 +17659,16 @@ abstract class _CommissionShare implements CommissionShare {
   double? get amount;
   @override
   bool get active;
+  @override
+  bool get paid;
+  @override
+  DateTime? get paidAt;
+  @override
+  int? get paidById;
+  @override
+  String? get paidByName;
+  @override
+  String? get payoutNote;
 
   /// Create a copy of CommissionShare
   /// with the given fields replaced by the non-null parameter values.
@@ -17734,6 +17858,8 @@ mixin _$CommissionSplit {
   double? get commission => throw _privateConstructorUsedError;
   bool get split => throw _privateConstructorUsedError;
   bool get editable => throw _privateConstructorUsedError;
+  bool get won => throw _privateConstructorUsedError;
+  bool get payoutsEditable => throw _privateConstructorUsedError;
   List<CommissionShare> get shares => throw _privateConstructorUsedError;
   List<CommissionColleague> get colleagues =>
       throw _privateConstructorUsedError;
@@ -17759,6 +17885,8 @@ abstract class $CommissionSplitCopyWith<$Res> {
       double? commission,
       bool split,
       bool editable,
+      bool won,
+      bool payoutsEditable,
       List<CommissionShare> shares,
       List<CommissionColleague> colleagues});
 }
@@ -17782,6 +17910,8 @@ class _$CommissionSplitCopyWithImpl<$Res, $Val extends CommissionSplit>
     Object? commission = freezed,
     Object? split = null,
     Object? editable = null,
+    Object? won = null,
+    Object? payoutsEditable = null,
     Object? shares = null,
     Object? colleagues = null,
   }) {
@@ -17801,6 +17931,14 @@ class _$CommissionSplitCopyWithImpl<$Res, $Val extends CommissionSplit>
       editable: null == editable
           ? _value.editable
           : editable // ignore: cast_nullable_to_non_nullable
+              as bool,
+      won: null == won
+          ? _value.won
+          : won // ignore: cast_nullable_to_non_nullable
+              as bool,
+      payoutsEditable: null == payoutsEditable
+          ? _value.payoutsEditable
+          : payoutsEditable // ignore: cast_nullable_to_non_nullable
               as bool,
       shares: null == shares
           ? _value.shares
@@ -17827,6 +17965,8 @@ abstract class _$$CommissionSplitImplCopyWith<$Res>
       double? commission,
       bool split,
       bool editable,
+      bool won,
+      bool payoutsEditable,
       List<CommissionShare> shares,
       List<CommissionColleague> colleagues});
 }
@@ -17848,6 +17988,8 @@ class __$$CommissionSplitImplCopyWithImpl<$Res>
     Object? commission = freezed,
     Object? split = null,
     Object? editable = null,
+    Object? won = null,
+    Object? payoutsEditable = null,
     Object? shares = null,
     Object? colleagues = null,
   }) {
@@ -17867,6 +18009,14 @@ class __$$CommissionSplitImplCopyWithImpl<$Res>
       editable: null == editable
           ? _value.editable
           : editable // ignore: cast_nullable_to_non_nullable
+              as bool,
+      won: null == won
+          ? _value.won
+          : won // ignore: cast_nullable_to_non_nullable
+              as bool,
+      payoutsEditable: null == payoutsEditable
+          ? _value.payoutsEditable
+          : payoutsEditable // ignore: cast_nullable_to_non_nullable
               as bool,
       shares: null == shares
           ? _value._shares
@@ -17888,6 +18038,8 @@ class _$CommissionSplitImpl implements _CommissionSplit {
       this.commission,
       this.split = false,
       this.editable = false,
+      this.won = false,
+      this.payoutsEditable = false,
       final List<CommissionShare> shares = const <CommissionShare>[],
       final List<CommissionColleague> colleagues =
           const <CommissionColleague>[]})
@@ -17907,6 +18059,12 @@ class _$CommissionSplitImpl implements _CommissionSplit {
   @override
   @JsonKey()
   final bool editable;
+  @override
+  @JsonKey()
+  final bool won;
+  @override
+  @JsonKey()
+  final bool payoutsEditable;
   final List<CommissionShare> _shares;
   @override
   @JsonKey()
@@ -17927,7 +18085,7 @@ class _$CommissionSplitImpl implements _CommissionSplit {
 
   @override
   String toString() {
-    return 'CommissionSplit(dealId: $dealId, commission: $commission, split: $split, editable: $editable, shares: $shares, colleagues: $colleagues)';
+    return 'CommissionSplit(dealId: $dealId, commission: $commission, split: $split, editable: $editable, won: $won, payoutsEditable: $payoutsEditable, shares: $shares, colleagues: $colleagues)';
   }
 
   @override
@@ -17941,6 +18099,9 @@ class _$CommissionSplitImpl implements _CommissionSplit {
             (identical(other.split, split) || other.split == split) &&
             (identical(other.editable, editable) ||
                 other.editable == editable) &&
+            (identical(other.won, won) || other.won == won) &&
+            (identical(other.payoutsEditable, payoutsEditable) ||
+                other.payoutsEditable == payoutsEditable) &&
             const DeepCollectionEquality().equals(other._shares, _shares) &&
             const DeepCollectionEquality()
                 .equals(other._colleagues, _colleagues));
@@ -17954,6 +18115,8 @@ class _$CommissionSplitImpl implements _CommissionSplit {
       commission,
       split,
       editable,
+      won,
+      payoutsEditable,
       const DeepCollectionEquality().hash(_shares),
       const DeepCollectionEquality().hash(_colleagues));
 
@@ -17980,6 +18143,8 @@ abstract class _CommissionSplit implements CommissionSplit {
       final double? commission,
       final bool split,
       final bool editable,
+      final bool won,
+      final bool payoutsEditable,
       final List<CommissionShare> shares,
       final List<CommissionColleague> colleagues}) = _$CommissionSplitImpl;
 
@@ -17994,6 +18159,10 @@ abstract class _CommissionSplit implements CommissionSplit {
   bool get split;
   @override
   bool get editable;
+  @override
+  bool get won;
+  @override
+  bool get payoutsEditable;
   @override
   List<CommissionShare> get shares;
   @override

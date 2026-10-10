@@ -39,6 +39,7 @@ import 'package:real_estate_crm/features/properties/presentation/bloc/properties
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_event.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_state.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_cover.dart';
+import 'package:real_estate_crm/features/stars/presentation/bloc/stars_bloc.dart';
 import 'package:real_estate_crm/features/tasks/presentation/bloc/tasks_bloc.dart';
 import 'package:real_estate_crm/features/tasks/presentation/bloc/tasks_event.dart';
 import 'package:real_estate_crm/features/tasks/presentation/bloc/tasks_state.dart';
@@ -61,6 +62,7 @@ class _MyAppState extends State<MyApp> {
   late final MeetingsBloc _meetingsBloc;
   late final RemindersBloc _remindersBloc;
   late final TasksBloc _tasksBloc;
+  late final StarsBloc _starsBloc;
   List<MeetingResponse> _meetingsForReminders = const [];
   final NotificationGateway _notifications = LocalNotificationGateway();
   // ignore: prefer_typing_uninitialized_variables
@@ -88,6 +90,7 @@ class _MyAppState extends State<MyApp> {
     _meetingsBloc = MeetingsBloc(Injector.meetingsRepository);
     _remindersBloc = RemindersBloc(_notifications)..add(RemindersLoadEvent());
     _tasksBloc = TasksBloc(Injector.tasksRepository);
+    _starsBloc = StarsBloc(Injector.starsRepository);
     router = createRouter(_authBloc);
     _lock.onSignOut = () async {
       if (!_authBloc.isClosed) _authBloc.add(AuthLogoutEvent());
@@ -168,6 +171,7 @@ class _MyAppState extends State<MyApp> {
       _meetingsBloc.add(MeetingsLoadEvent());
     }
     _tasksBloc.add(TasksLoadEvent());
+    _starsBloc.refresh();
   }
 
   @override
@@ -189,6 +193,7 @@ class _MyAppState extends State<MyApp> {
     _meetingsBloc.close();
     _remindersBloc.close();
     _tasksBloc.close();
+    _starsBloc.close();
     super.dispose();
   }
 
@@ -218,6 +223,7 @@ class _MyAppState extends State<MyApp> {
         BlocProvider.value(value: _dealsBloc),
         BlocProvider.value(value: _meetingsBloc),
         BlocProvider.value(value: _remindersBloc),
+        BlocProvider.value(value: _starsBloc),
       ],
       child: MultiBlocListener(
         listeners: [
@@ -231,6 +237,7 @@ class _MyAppState extends State<MyApp> {
               _dealsBloc.add(DealsResetEvent());
               _meetingsBloc.add(MeetingsResetEvent());
               _tasksBloc.add(TasksResetEvent());
+              _starsBloc.add(StarsResetEvent());
               _meetingsForReminders = const [];
               _unreadPoller.stop();
               Injector.notificationsRepository.clear();
@@ -244,11 +251,33 @@ class _MyAppState extends State<MyApp> {
                 prev is! AuthAuthenticated && curr is AuthAuthenticated,
             listener: (_, __) {
               _tasksBloc.add(TasksLoadEvent());
+              _starsBloc.add(StarsLoadEvent());
               _startUnreadPolling();
               // The session on disk may predate a currency change the
               // manager made elsewhere; the profile read brings it in.
               _authBloc.add(AuthRefreshMeEvent());
             },
+          ),
+          // A record deleted, or merged into another, takes its stars with
+          // it on the server; the starred list is read again.
+          BlocListener<ClientsBloc, ClientsState>(
+            listenWhen: (_, curr) =>
+                curr is ClientsActionSuccess &&
+                (curr.message == ActionMessage.clientDeleted ||
+                    curr.message == ActionMessage.clientsMerged),
+            listener: (_, __) => _starsBloc.refresh(),
+          ),
+          BlocListener<PropertiesBloc, PropertiesState>(
+            listenWhen: (_, curr) =>
+                curr is PropertiesActionSuccess &&
+                curr.message == ActionMessage.propertyDeleted,
+            listener: (_, __) => _starsBloc.refresh(),
+          ),
+          BlocListener<DealsBloc, DealsState>(
+            listenWhen: (_, curr) =>
+                curr is DealsActionSuccess &&
+                curr.message == ActionMessage.dealDeleted,
+            listener: (_, __) => _starsBloc.refresh(),
           ),
           BlocListener<TasksBloc, TasksState>(
             bloc: _tasksBloc,

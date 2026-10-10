@@ -6929,4 +6929,416 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get splitsShareNote =>
       'Комиссия по разделённой сделке засчитывается каждому по его доле; доля ко-брокера в сумму агентства не входит.';
+
+  @override
+  String get payoutsTitle => 'Выплаты';
+
+  @override
+  String get payoutsHint => 'Сколько агентство ещё должно по сплитам комиссий';
+
+  @override
+  String get payoutsPaid => 'Выплачено';
+
+  @override
+  String get payoutsUnpaid => 'Не выплачено';
+
+  @override
+  String payoutsPaidOn(String date) {
+    return 'Выплачено $date';
+  }
+
+  @override
+  String get payoutsMarkPaid => 'Отметить выплату';
+
+  @override
+  String get payoutsUndo => 'Отменить выплату';
+
+  @override
+  String get payoutsMarkTitle => 'Отметить выплату доли';
+
+  @override
+  String get payoutsMarkSubtitle =>
+      'Отмечайте, когда деньги действительно выплачены. Отметку можно отменить.';
+
+  @override
+  String get payoutsPaidTo => 'Кому';
+
+  @override
+  String get payoutsAmount => 'Сумма';
+
+  @override
+  String get payoutsNote => 'Комментарий';
+
+  @override
+  String get payoutsNoteHint =>
+      'Номер перевода, наличными — что стоит запомнить';
+
+  @override
+  String get payoutsUndoTitle => 'Отменить выплату?';
+
+  @override
+  String payoutsUndoBody(String name) {
+    return 'Доля снова будет числиться невыплаченной. Получатель: $name.';
+  }
+
+  @override
+  String get payoutsUnpaidTotal => 'Осталось выплатить';
+
+  @override
+  String get payoutsPaidTotal => 'Выплачено';
+
+  @override
+  String get payoutsOwedToYou => 'Вам причитается';
+
+  @override
+  String get payoutsPaidToYou => 'Вам выплачено';
+
+  @override
+  String get payoutsByAgent => 'Кому сколько осталось';
+
+  @override
+  String payoutsShareCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count доли',
+      many: '$count долей',
+      few: '$count доли',
+      one: '$count доля',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get payoutsScopeNote =>
+      'Доли коллег и ко-брокеров по выигранным сделкам; часть самого агента сделки здесь не учитывается.';
+
+  @override
+  String get payoutsEmptyUnpaid => 'Выплачивать нечего';
+
+  @override
+  String get payoutsEmptyUnpaidHint =>
+      'Доли сплитов комиссий по выигранным сделкам видны здесь, пока их не выплатят.';
+
+  @override
+  String get payoutsEmptyPaid => 'Выплат пока нет';
+
+  @override
+  String get payoutsEmptyPaidHint =>
+      'Доля, отмеченная выплаченной в сделке, появится здесь.';
+
+  @override
+  String get payoutsLoadFailed => 'Не удалось загрузить выплаты';
+
+  @override
+  String payoutsMarkedBy(String name) {
+    return 'Отметил(а): $name';
+  }
+
+  @override
+  String payoutsWonOn(String date) {
+    return 'Сделка выиграна $date';
+  }
+
+  @override
+  String get payoutsNoAmount => 'Сумма пока неизвестна';
+
+  @override
+  String get payoutsAlreadyPaid => 'Эта доля уже выплачена';
+
+  @override
+  String get payoutsNotPaid => 'Эта доля не отмечена как выплаченная';
+
+  @override
+  String get payoutsDealNotWon =>
+      'Выплачивают только доли по выигранным сделкам';
+
+  @override
+  String get payoutsSharePaidLocked =>
+      'Выплаченную долю нельзя изменить. Сначала отмените выплату.';
+
+  @override
+  String get payoutsManagerOnly =>
+      'Выплаты отмечает только руководитель агентства';
+
+  @override
+  String get expensesTitle => 'Расходы';
+
+  @override
+  String get expensesTotalCaption => 'Потрачено на объект';
+
+  @override
+  String get expensesNone =>
+      'Расходов по объекту пока нет. Записывайте фотографа, рекламу и всё остальное — так будет видно, во что обходится объект.';
+
+  @override
+  String get expensesLoadFailed => 'Не удалось загрузить расходы';
+
+  @override
+  String get expensesLatest => 'Последние';
+
+  @override
+  String expensesShowAll(int count) {
+    return 'Показать все ($count)';
+  }
+
+  @override
+  String get expensesAdd => 'Добавить расход';
+
+  @override
+  String get expensesAddTitle => 'Новый расход';
+
+  @override
+  String get expensesCategory => 'На что потрачено';
+
+  @override
+  String get expensesAmount => 'Сумма';
+
+  @override
+  String get expensesAmountHint => 'например, 45 000';
+
+  @override
+  String get expensesSpentOn => 'Дата оплаты';
+
+  @override
+  String get expensesNote => 'Заметка';
+
+  @override
+  String get expensesNoteHint => 'Необязательно';
+
+  @override
+  String get expensesNoteTooLong => 'Заметка — не больше 500 символов';
+
+  @override
+  String get expensesDeleteTitle => 'Удалить расход?';
+
+  @override
+  String expensesDeleteBody(String category, String amount) {
+    return '$category, $amount: эта сумма больше не будет учитываться в расходах на объект.';
+  }
+
+  @override
+  String get expensesCategoryPhoto => 'Фотосъёмка';
+
+  @override
+  String get expensesCategoryAdvertising => 'Реклама';
+
+  @override
+  String get expensesCategoryStaging => 'Хоумстейджинг';
+
+  @override
+  String get expensesCategoryCleaning => 'Уборка';
+
+  @override
+  String get expensesCategoryLegal => 'Юридические услуги';
+
+  @override
+  String get expensesCategoryOther => 'Другое';
+
+  @override
+  String get expensesSpendTitle => 'Расходы на продвижение';
+
+  @override
+  String get expensesSpendHint =>
+      'Сколько потрачено на продвижение объектов за период.';
+
+  @override
+  String get expensesSpendNone => 'За этот период расходов на объекты не было.';
+
+  @override
+  String get expensesSpendLoadFailed =>
+      'Не удалось загрузить расходы на продвижение';
+
+  @override
+  String get expensesByCategory => 'По статьям';
+
+  @override
+  String get expensesTopListings => 'Самые затратные объекты';
+
+  @override
+  String get starsTitle => 'Избранное';
+
+  @override
+  String get starsStar => 'В избранное';
+
+  @override
+  String get starsUnstar => 'Убрать из избранного';
+
+  @override
+  String get starsSectionClients => 'Клиенты';
+
+  @override
+  String get starsSectionListings => 'Объекты';
+
+  @override
+  String get starsSectionDeals => 'Сделки';
+
+  @override
+  String get starsEmptyTitle => 'В избранном пока пусто';
+
+  @override
+  String get starsEmptyHint =>
+      'Нажмите на звёздочку вверху карточки клиента, объекта или сделки, и она будет здесь, под рукой.';
+
+  @override
+  String get starsLoadFailed => 'Не удалось загрузить избранное';
+
+  @override
+  String get starsStarFailed =>
+      'Не удалось добавить в избранное. Попробуйте ещё раз.';
+
+  @override
+  String get starsUnstarFailed =>
+      'Не удалось убрать из избранного. Попробуйте ещё раз.';
+
+  @override
+  String get starsRecordGone => 'Эта запись больше недоступна';
+
+  @override
+  String starsEntryCount(int count) {
+    return 'Избранное: $count';
+  }
+
+  @override
+  String get starsEntryHint =>
+      'Отмечайте звёздочкой клиентов, объекты и сделки, с которыми работаете';
+
+  @override
+  String get keysCardTitle => 'Ключи';
+
+  @override
+  String get keysInOffice => 'В офисе';
+
+  @override
+  String keysWithHolder(String holder) {
+    return 'Выданы: $holder';
+  }
+
+  @override
+  String keysWithHolderUntil(String date, String holder) {
+    return 'Выданы: $holder · до $date';
+  }
+
+  @override
+  String get keysOverdue => 'Просрочено';
+
+  @override
+  String keysHandedOutBy(String date, String name) {
+    return '$date · выдал(а) $name';
+  }
+
+  @override
+  String keysHandedOutOn(String date) {
+    return 'Выданы $date';
+  }
+
+  @override
+  String get keysHandOver => 'Выдать ключи';
+
+  @override
+  String get keysReturn => 'Вернуть в офис';
+
+  @override
+  String get keysReturnConfirmTitle => 'Вернуть ключи в офис?';
+
+  @override
+  String keysReturnConfirmBody(String holder) {
+    return 'Ключи будут отмечены как возвращённые. Были выданы: $holder.';
+  }
+
+  @override
+  String get keysReturnConfirm => 'Вернуть';
+
+  @override
+  String get keysHistory => 'Ранее';
+
+  @override
+  String keysHistoryPeriod(String from, String to) {
+    return '$from – $to';
+  }
+
+  @override
+  String get keysShowAll => 'Показать все';
+
+  @override
+  String get keysLoadFailed => 'Не удалось загрузить ключи';
+
+  @override
+  String get keysErrorAlreadyOut =>
+      'Эти ключи уже выданы. На карточке видно, у кого они сейчас.';
+
+  @override
+  String get keysErrorNotOut => 'Эти ключи уже в офисе.';
+
+  @override
+  String get keysErrorHolderRequired => 'Выберите коллегу или впишите имя';
+
+  @override
+  String get keysErrorDueInPast => 'Дата возврата не может быть в прошлом';
+
+  @override
+  String get keysHandOverTitle => 'Выдать ключи';
+
+  @override
+  String get keysWho => 'Кому';
+
+  @override
+  String get keysToColleague => 'Коллеге';
+
+  @override
+  String get keysToSomeoneElse => 'Другому человеку';
+
+  @override
+  String get keysColleague => 'Коллега';
+
+  @override
+  String get keysPickColleague => 'Выберите коллегу';
+
+  @override
+  String get keysSearchColleague => 'Поиск по имени';
+
+  @override
+  String get keysNoColleagues => 'В агентстве некого выбрать';
+
+  @override
+  String get keysHolderName => 'Имя';
+
+  @override
+  String get keysHolderNameHint => 'Собственник, клининг, покупатель';
+
+  @override
+  String get keysDueBack => 'Вернуть до';
+
+  @override
+  String get keysNoDueDate => 'Без срока';
+
+  @override
+  String get keysNote => 'Заметка';
+
+  @override
+  String get keysNoteHint => 'Какие ключи, брелок, карта от парковки';
+
+  @override
+  String get keysNoteTooLong => 'Заметка — не больше 500 символов';
+
+  @override
+  String get keysSave => 'Выдать';
+
+  @override
+  String get keysOutTitle => 'Выданные ключи';
+
+  @override
+  String get keysOutEmpty => 'Все ключи в офисе';
+
+  @override
+  String get keysOutEmptyHint =>
+      'Ключи, выданные с карточки объекта, видны здесь, пока их не вернут.';
+
+  @override
+  String get keysOutLoadFailed => 'Не удалось загрузить выданные ключи';
+
+  @override
+  String keysOutOverdueCount(int count) {
+    return 'просрочено: $count';
+  }
 }

@@ -31,6 +31,7 @@ import 'package:real_estate_crm/features/deals/presentation/screens/deals_screen
 import 'package:real_estate_crm/features/deposits/presentation/screens/deposits_ending_screen.dart';
 import 'package:real_estate_crm/features/goals/presentation/screens/team_goals_screen.dart';
 import 'package:real_estate_crm/features/imports/presentation/screens/import_screen.dart';
+import 'package:real_estate_crm/features/keys/presentation/screens/keys_out_screen.dart';
 import 'package:real_estate_crm/features/leaderboard/presentation/screens/leaderboard_screen.dart';
 import 'package:real_estate_crm/features/leases/presentation/screens/leases_ending_screen.dart';
 import 'package:real_estate_crm/features/meetings/presentation/screens/meeting_detail_screen.dart';
@@ -44,6 +45,7 @@ import 'package:real_estate_crm/features/open_houses/presentation/screens/open_h
 import 'package:real_estate_crm/features/partners/presentation/screens/partner_detail_screen.dart';
 import 'package:real_estate_crm/features/partners/presentation/screens/partner_form_screen.dart';
 import 'package:real_estate_crm/features/partners/presentation/screens/partners_screen.dart';
+import 'package:real_estate_crm/features/payouts/presentation/screens/payouts_screen.dart';
 import 'package:real_estate_crm/features/profile/presentation/screens/profile_screen.dart';
 import 'package:real_estate_crm/features/properties/presentation/screens/mandates_ending_screen.dart';
 import 'package:real_estate_crm/features/properties/presentation/screens/properties_screen.dart';
@@ -53,6 +55,7 @@ import 'package:real_estate_crm/features/properties/presentation/screens/seller_
 import 'package:real_estate_crm/features/route/domain/day_route.dart';
 import 'package:real_estate_crm/features/route/presentation/screens/route_screen.dart';
 import 'package:real_estate_crm/features/search/presentation/screens/search_screen.dart';
+import 'package:real_estate_crm/features/stars/presentation/screens/starred_screen.dart';
 import 'package:real_estate_crm/features/tasks/presentation/screens/tasks_screen.dart';
 import 'package:real_estate_crm/features/teams/presentation/screens/handover_screen.dart';
 import 'package:real_estate_crm/features/teams/presentation/screens/manager_console_screen.dart';
@@ -261,6 +264,11 @@ GoRouter createRouter(AuthBloc authBloc) {
             const NoTransitionPage(child: TeamGoalsScreen()),
       ),
       GoRoute(
+        path: '/payouts',
+        parentNavigatorKey: _rootKey,
+        pageBuilder: (_, __) => const NoTransitionPage(child: PayoutsScreen()),
+      ),
+      GoRoute(
         path: '/audit',
         parentNavigatorKey: _rootKey,
         pageBuilder: (_, __) =>
@@ -330,6 +338,11 @@ GoRouter createRouter(AuthBloc authBloc) {
         path: '/tasks',
         parentNavigatorKey: _rootKey,
         pageBuilder: (_, __) => const NoTransitionPage(child: TasksScreen()),
+      ),
+      GoRoute(
+        path: '/stars',
+        parentNavigatorKey: _rootKey,
+        pageBuilder: (_, __) => const NoTransitionPage(child: StarredScreen()),
       ),
       GoRoute(
         path: '/open-houses/:id',
@@ -463,6 +476,12 @@ GoRouter createRouter(AuthBloc authBloc) {
                 parentNavigatorKey: _rootKey,
                 pageBuilder: (_, __) =>
                     const NoTransitionPage(child: MandatesEndingScreen()),
+              ),
+              GoRoute(
+                path: 'keys',
+                parentNavigatorKey: _rootKey,
+                pageBuilder: (_, __) =>
+                    const NoTransitionPage(child: KeysOutScreen()),
               ),
               GoRoute(
                 path: ':id',

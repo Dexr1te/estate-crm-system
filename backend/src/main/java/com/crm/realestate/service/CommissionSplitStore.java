@@ -18,6 +18,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -142,6 +143,17 @@ public class CommissionSplitStore {
 
     public List<CommissionSplit> of(Deal deal) {
         return repository.findByDealIdOrderByPositionAscIdAsc(deal.getId());
+    }
+
+    /** The deal's whole commission in the agency's currency; null until its base and rate are known. */
+    public static BigDecimal commissionOf(Deal deal) {
+        return DealService.commissionOf(DealMoney.commissionBase(deal), deal.getCommissionPercent());
+    }
+
+    /** What a share of {@code percent} comes to, to the cent; null while the commission is unknown. */
+    public static BigDecimal amountOf(BigDecimal commission, BigDecimal percent) {
+        return commission == null ? null
+                : commission.multiply(percent).divide(HUNDRED, 2, RoundingMode.HALF_UP);
     }
 
     /** What the deal's agent holds: 100 less every share. */

@@ -265,6 +265,30 @@ void main() {
       expect(teams.leftTeam, isTrue);
     });
 
+    testWidgets(
+        'an agent reads what they are owed here; a manager, on the console',
+        (tester) async {
+      Injector.teamsRepository = FakeTeamsRepository();
+      await expectNoOverflow(tester, _profile(user: _agentInTeam),
+          size: const Size(390, 844),
+          brightness: Brightness.light,
+          textScale: 1.0);
+      await tester.pumpAndSettle();
+      expect(find.byKey(const ValueKey('profile-payouts')), findsOneWidget);
+      expect(find.text('Payouts'), findsOneWidget);
+
+      await expectNoOverflow(
+          tester,
+          _profile(
+              user: _agentInTeam.copyWith(
+                  userId: 7, role: Role.MANAGER, fullName: 'Asel')),
+          size: const Size(390, 844),
+          brightness: Brightness.light,
+          textScale: 1.0);
+      await tester.pumpAndSettle();
+      expect(find.byKey(const ValueKey('profile-payouts')), findsNothing);
+    });
+
     testWidgets('an agent is not offered the agency currency', (tester) async {
       Injector.teamsRepository = FakeTeamsRepository();
       await expectNoOverflow(tester, _profile(user: _agentInTeam),

@@ -7,6 +7,7 @@ import com.crm.realestate.entity.Client;
 import com.crm.realestate.entity.User;
 import com.crm.realestate.enums.ClientType;
 import com.crm.realestate.enums.LeadSource;
+import com.crm.realestate.enums.StarType;
 import com.crm.realestate.exception.BusinessException;
 import com.crm.realestate.exception.ResourceNotFoundException;
 import com.crm.realestate.repository.ClientRepository;
@@ -39,6 +40,7 @@ public class ClientService {
     private final ClientTagService tagService;
     private final ChangeLogService changeLog;
     private final PartnerService   partnerService;
+    private final StarStore        starStore;
 
     public List<ClientResponse> getAll() {
         return findVisible(ClientSpecification.build(null, null, null, null, null));
@@ -185,13 +187,14 @@ public class ClientService {
         return toResponse(saved);
     }
 
-    /** The change log keeps the line saying so after the client is gone. */
+    /** The change log keeps the line saying so after the client is gone; the stars on it go. */
     @Transactional
     public void delete(Long id) {
         User currentUser = securityUtils.getCurrentUser();
         Client client = findVisibleById(id, currentUser);
         changeLog.deleted(ChangeSnapshot.target(client), currentUser);
         boolean tagged = !client.getTags().isEmpty();
+        starStore.recordDeleted(StarType.CLIENT, client.getId());
         clientRepository.delete(client);
         if (tagged) {
             tagService.forgetUnused(client.getTeam());

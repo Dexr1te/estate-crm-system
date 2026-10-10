@@ -6821,4 +6821,409 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get splitsShareNote =>
       'A split deal\'s commission counts for each person by their share; a co-broker\'s share is not the agency\'s.';
+
+  @override
+  String get payoutsTitle => 'Payouts';
+
+  @override
+  String get payoutsHint => 'What the agency still owes from split commissions';
+
+  @override
+  String get payoutsPaid => 'Paid';
+
+  @override
+  String get payoutsUnpaid => 'Unpaid';
+
+  @override
+  String payoutsPaidOn(String date) {
+    return 'Paid $date';
+  }
+
+  @override
+  String get payoutsMarkPaid => 'Mark paid';
+
+  @override
+  String get payoutsUndo => 'Undo payout';
+
+  @override
+  String get payoutsMarkTitle => 'Mark the share paid';
+
+  @override
+  String get payoutsMarkSubtitle =>
+      'Mark it once the money has actually been paid out. It can be undone.';
+
+  @override
+  String get payoutsPaidTo => 'Paid to';
+
+  @override
+  String get payoutsAmount => 'Amount';
+
+  @override
+  String get payoutsNote => 'Note';
+
+  @override
+  String get payoutsNoteHint => 'Transfer number, cash, anything worth keeping';
+
+  @override
+  String get payoutsUndoTitle => 'Undo this payout?';
+
+  @override
+  String payoutsUndoBody(String name) {
+    return '$name\'s share will show as unpaid again.';
+  }
+
+  @override
+  String get payoutsUnpaidTotal => 'Still owed';
+
+  @override
+  String get payoutsPaidTotal => 'Paid out';
+
+  @override
+  String get payoutsOwedToYou => 'Owed to you';
+
+  @override
+  String get payoutsPaidToYou => 'Paid to you';
+
+  @override
+  String get payoutsByAgent => 'Owed by person';
+
+  @override
+  String payoutsShareCount(num count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count shares',
+      one: '1 share',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get payoutsScopeNote =>
+      'Colleagues\' and co-brokers\' shares of won deals; the deal agent\'s own part is not listed here.';
+
+  @override
+  String get payoutsEmptyUnpaid => 'Nothing left to pay out';
+
+  @override
+  String get payoutsEmptyUnpaidHint =>
+      'Shares of split commissions on won deals show here until they are paid out.';
+
+  @override
+  String get payoutsEmptyPaid => 'No payouts yet';
+
+  @override
+  String get payoutsEmptyPaidHint =>
+      'A share marked paid on its deal shows here.';
+
+  @override
+  String get payoutsLoadFailed => 'Could not load payouts';
+
+  @override
+  String payoutsMarkedBy(String name) {
+    return 'Marked by $name';
+  }
+
+  @override
+  String payoutsWonOn(String date) {
+    return 'Won $date';
+  }
+
+  @override
+  String get payoutsNoAmount => 'No amount yet';
+
+  @override
+  String get payoutsAlreadyPaid => 'This share has already been paid out';
+
+  @override
+  String get payoutsNotPaid => 'This share is not marked paid';
+
+  @override
+  String get payoutsDealNotWon => 'Only a won deal\'s shares are paid out';
+
+  @override
+  String get payoutsSharePaidLocked =>
+      'A paid share can\'t be changed. Undo its payout first.';
+
+  @override
+  String get payoutsManagerOnly => 'Only the agency\'s manager marks payouts';
+
+  @override
+  String get expensesTitle => 'Expenses';
+
+  @override
+  String get expensesTotalCaption => 'Spent on this listing';
+
+  @override
+  String get expensesNone =>
+      'Nothing spent on this listing yet. Record the photographer, ads and the rest to see what it costs.';
+
+  @override
+  String get expensesLoadFailed => 'Could not load the expenses';
+
+  @override
+  String get expensesLatest => 'Latest';
+
+  @override
+  String expensesShowAll(int count) {
+    return 'Show all ($count)';
+  }
+
+  @override
+  String get expensesAdd => 'Add expense';
+
+  @override
+  String get expensesAddTitle => 'New expense';
+
+  @override
+  String get expensesCategory => 'Spent on';
+
+  @override
+  String get expensesAmount => 'Amount';
+
+  @override
+  String get expensesAmountHint => 'e.g. 45,000';
+
+  @override
+  String get expensesSpentOn => 'Paid on';
+
+  @override
+  String get expensesNote => 'Note';
+
+  @override
+  String get expensesNoteHint => 'Optional';
+
+  @override
+  String get expensesNoteTooLong => 'A note takes at most 500 characters';
+
+  @override
+  String get expensesDeleteTitle => 'Delete this expense?';
+
+  @override
+  String expensesDeleteBody(String category, String amount) {
+    return '$category, $amount: it will no longer count towards this listing.';
+  }
+
+  @override
+  String get expensesCategoryPhoto => 'Photography';
+
+  @override
+  String get expensesCategoryAdvertising => 'Advertising';
+
+  @override
+  String get expensesCategoryStaging => 'Staging';
+
+  @override
+  String get expensesCategoryCleaning => 'Cleaning';
+
+  @override
+  String get expensesCategoryLegal => 'Legal';
+
+  @override
+  String get expensesCategoryOther => 'Other';
+
+  @override
+  String get expensesSpendTitle => 'Marketing spend';
+
+  @override
+  String get expensesSpendHint =>
+      'What was spent marketing listings in this period.';
+
+  @override
+  String get expensesSpendNone =>
+      'Nothing was spent on listings in this period.';
+
+  @override
+  String get expensesSpendLoadFailed => 'Could not load marketing spend';
+
+  @override
+  String get expensesByCategory => 'By category';
+
+  @override
+  String get expensesTopListings => 'Costliest listings';
+
+  @override
+  String get starsTitle => 'Starred';
+
+  @override
+  String get starsStar => 'Star';
+
+  @override
+  String get starsUnstar => 'Remove star';
+
+  @override
+  String get starsSectionClients => 'Clients';
+
+  @override
+  String get starsSectionListings => 'Listings';
+
+  @override
+  String get starsSectionDeals => 'Deals';
+
+  @override
+  String get starsEmptyTitle => 'Nothing starred yet';
+
+  @override
+  String get starsEmptyHint =>
+      'Tap the star at the top of a client, a listing or a deal to keep it here, one tap away.';
+
+  @override
+  String get starsLoadFailed => 'Couldn\'t load your starred records';
+
+  @override
+  String get starsStarFailed => 'Couldn\'t star it. Try again.';
+
+  @override
+  String get starsUnstarFailed => 'Couldn\'t remove the star. Try again.';
+
+  @override
+  String get starsRecordGone => 'This record is no longer available';
+
+  @override
+  String starsEntryCount(int count) {
+    return 'Starred: $count';
+  }
+
+  @override
+  String get starsEntryHint =>
+      'Star the clients, listings and deals you are working on';
+
+  @override
+  String get keysCardTitle => 'Keys';
+
+  @override
+  String get keysInOffice => 'In the office';
+
+  @override
+  String keysWithHolder(String holder) {
+    return 'With $holder';
+  }
+
+  @override
+  String keysWithHolderUntil(String date, String holder) {
+    return 'With $holder · until $date';
+  }
+
+  @override
+  String get keysOverdue => 'Overdue';
+
+  @override
+  String keysHandedOutBy(String date, String name) {
+    return 'Handed out $date by $name';
+  }
+
+  @override
+  String keysHandedOutOn(String date) {
+    return 'Handed out $date';
+  }
+
+  @override
+  String get keysHandOver => 'Hand over the keys';
+
+  @override
+  String get keysReturn => 'Return to the office';
+
+  @override
+  String get keysReturnConfirmTitle => 'Return the keys to the office?';
+
+  @override
+  String keysReturnConfirmBody(String holder) {
+    return 'They will be marked as returned. They were with $holder.';
+  }
+
+  @override
+  String get keysReturnConfirm => 'Return';
+
+  @override
+  String get keysHistory => 'Earlier';
+
+  @override
+  String keysHistoryPeriod(String from, String to) {
+    return '$from – $to';
+  }
+
+  @override
+  String get keysShowAll => 'Show all';
+
+  @override
+  String get keysLoadFailed => 'Couldn\'t load the keys';
+
+  @override
+  String get keysErrorAlreadyOut =>
+      'These keys are already out. The card now shows who has them.';
+
+  @override
+  String get keysErrorNotOut => 'These keys are already back in the office.';
+
+  @override
+  String get keysErrorHolderRequired => 'Choose a colleague or type a name';
+
+  @override
+  String get keysErrorDueInPast => 'The return date can\'t be in the past';
+
+  @override
+  String get keysHandOverTitle => 'Hand over the keys';
+
+  @override
+  String get keysWho => 'Who takes them';
+
+  @override
+  String get keysToColleague => 'A colleague';
+
+  @override
+  String get keysToSomeoneElse => 'Someone else';
+
+  @override
+  String get keysColleague => 'Colleague';
+
+  @override
+  String get keysPickColleague => 'Choose a colleague';
+
+  @override
+  String get keysSearchColleague => 'Search by name';
+
+  @override
+  String get keysNoColleagues => 'Nobody in the agency to choose';
+
+  @override
+  String get keysHolderName => 'Name';
+
+  @override
+  String get keysHolderNameHint => 'Owner, cleaner, buyer';
+
+  @override
+  String get keysDueBack => 'Due back';
+
+  @override
+  String get keysNoDueDate => 'No return date';
+
+  @override
+  String get keysNote => 'Note';
+
+  @override
+  String get keysNoteHint => 'Which keys, the fob, the parking card';
+
+  @override
+  String get keysNoteTooLong => 'A note is at most 500 characters';
+
+  @override
+  String get keysSave => 'Hand over';
+
+  @override
+  String get keysOutTitle => 'Keys out';
+
+  @override
+  String get keysOutEmpty => 'All keys are in the office';
+
+  @override
+  String get keysOutEmptyHint =>
+      'Keys handed over from a listing show here until they come back.';
+
+  @override
+  String get keysOutLoadFailed => 'Couldn\'t load the keys that are out';
+
+  @override
+  String keysOutOverdueCount(int count) {
+    return '$count overdue';
+  }
 }

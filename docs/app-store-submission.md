@@ -87,6 +87,7 @@ default is wrong for a submission host:
 | `APP_BASE_URL` | Defaults to `localhost`. The invite email's button is built from it. |
 | `INVITE_URL` | Only if invites should point somewhere other than `<base>/api/invite`. |
 | `MAIL_ENABLED`, `MAIL_USERNAME`, `MAIL_PASSWORD` | Off by default. Invites, password resets and team requests are mailed with them; sign-up sends nothing, so a reviewer can register either way. Gmail wants a 16-character App Password, not the account password. |
+| `MAIL_PROVIDER=brevo`, `BREVO_API_KEY`, `MAIL_FROM` | For a host that blocks outbound SMTP, as Render's free plan does (ports 25, 465 and 587): mail then leaves through Brevo's HTTPS API instead, and `MAIL_USERNAME`/`MAIL_PASSWORD` are not used. `MAIL_ENABLED=true` is still required. `MAIL_FROM` has to be a sender verified in Brevo (Senders, Domains & Dedicated IPs → Senders); the key is under SMTP & API → API Keys. |
 | `ADMIN_PASSWORD` | No default, and nothing works without it: `V18` retires the admin passwords the migrations used to carry, so this is the only thing that opens the admin console. Set it **before** deploying, or the console is shut until you do. |
 | `DEMO_ENABLED`, `DEMO_PASSWORD` | Off by default, and the seeder refuses to run without a password. This is the account App Review signs in with. |
 | `APP_SUPPORT_EMAIL`, `APP_OPERATOR_NAME` | Default to `support@estatecrm.app` / `EstateCRM`, both printed on the privacy and support pages a reviewer opens. |

@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -30,6 +31,12 @@ public class CommissionSplitResponse {
     /** Whether the caller may change it: the deal's agent, a manager or an admin. */
     private boolean editable;
 
+    /** Whether the deal is won: only then is a share paid out. */
+    private boolean won;
+
+    /** Whether the caller may mark shares paid and undo it: a manager or an admin. */
+    private boolean payoutsEditable;
+
     private List<Share> shares;
 
     /**
@@ -43,6 +50,8 @@ public class CommissionSplitResponse {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Share {
+        /** The share's own id, for paying it out; null for the deal's agent, who has no row. */
+        private Long id;
         private CommissionPartyKind kind;
         /** The deal's agent or a colleague; null for a co-broker. */
         private Long userId;
@@ -58,6 +67,13 @@ public class CommissionSplitResponse {
         private BigDecimal amount;
         /** False for a colleague who has since been deactivated; their share stands. */
         private boolean active;
+        /** Whether the agency has paid the share out; always false for the deal's agent. */
+        private boolean paid;
+        private LocalDateTime paidAt;
+        /** Who marked it paid; null when unpaid or once that account is closed. */
+        private Long paidById;
+        private String paidByName;
+        private String payoutNote;
     }
 
     @Data

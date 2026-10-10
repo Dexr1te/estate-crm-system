@@ -10,6 +10,7 @@ import 'package:real_estate_crm/features/commission_split/domain/commission_spli
 import 'package:real_estate_crm/features/commission_split/presentation/bloc/commission_split_bloc.dart';
 import 'package:real_estate_crm/features/commission_split/presentation/widgets/commission_split_sheet.dart';
 import 'package:real_estate_crm/features/commission_split/presentation/widgets/deal_commission_split_card.dart';
+import 'package:real_estate_crm/features/commission_split/presentation/widgets/payout_widgets.dart';
 import 'package:real_estate_crm/features/commission_split/presentation/widgets/split_labels.dart';
 import 'package:real_estate_crm/features/deals/presentation/screens/deal_detail_screen.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
@@ -74,6 +75,27 @@ const _unsplit = CommissionSplit(
     CommissionColleague(id: 11, fullName: 'Dana Seitova'),
   ],
 );
+
+final _paidAt = DateTime(2026, 10, 2, 15, 30);
+
+/// [_split] once the deal is won: Timur's share is still owed, Ivan's was
+/// paid with a note. [manager] is whether the reader may mark payouts.
+CommissionSplit _won({bool manager = true}) => _split.copyWith(
+      won: true,
+      payoutsEditable: manager,
+      shares: [
+        _split.shares[0],
+        _split.shares[1].copyWith(id: 21),
+        _split.shares[2].copyWith(
+            id: 22,
+            paid: true,
+            paidAt: _paidAt,
+            paidById: 1,
+            paidByName: 'Asel Nurlanovna',
+            payoutNote: 'Transfer 4411 from the agency account, Halyk, '
+                'confirmed by the co-broker over the phone'),
+      ],
+    );
 
 late FakeCommissionSplitRepository _repo;
 
@@ -237,6 +259,141 @@ void main() {
           ru.splitsTotalMustBe100);
       expect(splitFailureLabel(en, const ApiFailure(ApiFailureKind.forbidden)),
           en.coreErrorForbidden);
+    });
+
+    test('a payout refusal reads in the reader\'s language', () {
+      ApiFailure conflict(String code) =>
+          ApiFailure(ApiFailureKind.badRequest, serverCode: code);
+      expect(splitFailureLabel(ru, conflict('SHARE_PAID')),
+          ru.payoutsSharePaidLocked);
+      expect(splitFailureLabel(en, conflict('ALREADY_PAID')),
+          en.payoutsAlreadyPaid);
+      expect(splitFailureLabel(kk, conflict('NOT_PAID')), kk.payoutsNotPaid);
+      expect(splitFailureLabel(en, conflict('DEAL_NOT_WON')),
+          en.payoutsDealNotWon);
+      expect(splitFailureLabel(ru, conflict('MANAGER_ONLY')),
+          ru.payoutsManagerOnly);
+    });
+  });
+
+  group('payouts on the card', () {
+    testWidgets(
+        'once the deal is won each share but the agent\'s says whether it is paid',
+        (tester) async {
+      _repo.byDeal[1] = _won(manager: false);
+      await _pumpDeal(tester);
+      expect(find.byKey(const Key('deal-split-payout-0')), findsNothing,
+          reason: 'the deal agent holds what is left; it is not a payout');
+      expect(find.byKey(const Key('deal-split-payout-1')), findsOneWidget);
+      expect(find.text(en.payoutsUnpaid), findsOneWidget);
+      expect(find.text(en.payoutsPaidOn(formatFullDate(_paidAt, 'en'))),
+          findsOneWidget);
+      expect(find.textContaining('Transfer 4411'), findsOneWidget);
+      expect(find.byKey(const Key('deal-split-mark-paid-1')), findsNothing,
+          reason: 'only a manager marks payouts');
+      expect(find.byKey(const Key('deal-split-undo-2')), findsNothing);
+    });
+
+    testWidgets('a deal not won yet has no payouts', (tester) async {
+      await _pumpDeal(tester);
+      expect(find.byKey(const Key('deal-split-payout-1')), findsNothing);
+      expect(find.text(en.payoutsUnpaid), findsNothing);
+    });
+
+    testWidgets('the manager marks a share paid with a note', (tester) async {
+      _repo.byDeal[1] = _won();
+      await _pumpDeal(tester);
+      await _tap(tester, find.byKey(const Key('deal-split-mark-paid-1')));
+
+      expect(find.text(en.payoutsMarkTitle), findsOneWidget);
+      expect(find.text(formatPrice(378000)), findsWidgets);
+      await tester.enterText(
+          find.byKey(const Key('payout-note')), '  Cash, in the office  ');
+      await _tap(tester, find.byKey(const Key('payout-confirm')));
+
+      expect(_repo.markedPaid, [(1, 21, 'Cash, in the office')]);
+      expect(find.text(en.payoutsUnpaid), findsNothing);
+      expect(find.text(en.payoutsPaidOn(formatFullDate(_repo.paidAt, 'en'))),
+          findsOneWidget);
+      expect(find.byKey(const Key('deal-split-undo-1')), findsOneWidget);
+    });
+
+    testWidgets('a payout with no note sends none', (tester) async {
+      _repo.byDeal[1] = _won();
+      await _pumpDeal(tester);
+      await _tap(tester, find.byKey(const Key('deal-split-mark-paid-1')));
+      await _tap(tester, find.byKey(const Key('payout-confirm')));
+      expect(_repo.markedPaid, [(1, 21, null)]);
+    });
+
+    testWidgets('undoing a payout is confirmed first', (tester) async {
+      _repo.byDeal[1] = _won();
+      await _pumpDeal(tester);
+
+      await _tap(tester, find.byKey(const Key('deal-split-undo-2')));
+      expect(find.text(en.payoutsUndoTitle), findsOneWidget);
+      await _tap(tester, find.text(en.coreCancel));
+      expect(_repo.undone, isEmpty);
+
+      await _tap(tester, find.byKey(const Key('deal-split-undo-2')));
+      await _tap(tester, find.text(en.payoutsUndo).last);
+      expect(_repo.undone, [(1, 22)]);
+      expect(find.text(en.payoutsUnpaid), findsNWidgets(2));
+      expect(find.byKey(const Key('deal-split-mark-paid-2')), findsOneWidget);
+      expect(find.textContaining('Transfer 4411'), findsNothing);
+    });
+
+    testWidgets('a share paid before the deal was reopened can still be undone',
+        (tester) async {
+      _repo.byDeal[1] = _won().copyWith(won: false);
+      await _pumpDeal(tester);
+      expect(find.byKey(const Key('deal-split-payout-1')), findsNothing,
+          reason: 'an unpaid share of a deal not won is not owed yet');
+      expect(find.byKey(const Key('deal-split-undo-2')), findsOneWidget);
+    });
+
+    testWidgets('a refused payout says why in the reader\'s language',
+        (tester) async {
+      _repo
+        ..byDeal[1] = _won()
+        ..writeError = DioException(
+          requestOptions: RequestOptions(path: '/payout'),
+          response: Response(
+            requestOptions: RequestOptions(path: '/payout'),
+            statusCode: 409,
+            data: {
+              'code': 'ALREADY_PAID',
+              'message': 'This share has already been paid out'
+            },
+          ),
+        );
+      await _pumpDeal(tester);
+      await _tap(tester, find.byKey(const Key('deal-split-mark-paid-1')));
+      await _tap(tester, find.byKey(const Key('payout-confirm')));
+      expect(find.text(en.payoutsAlreadyPaid), findsOneWidget);
+      expect(find.text(en.payoutsUnpaid), findsOneWidget);
+    });
+
+    test('the bloc marks and undoes through the repository', () async {
+      _repo.byDeal[1] = _won();
+      final bloc = CommissionSplitBloc(_repo, dealId: 1)
+        ..add(CommissionSplitLoadEvent());
+      addTearDown(bloc.close);
+      await bloc.stream
+          .firstWhere((s) => s.status == CommissionSplitStatus.loaded);
+
+      bloc.add(CommissionSplitMarkPaidEvent(21, note: 'Cash'));
+      final paid = await bloc.stream.firstWhere((s) => !s.saving);
+      expect(paid.split!.shares[1].paid, isTrue);
+      expect(paid.split!.shares[1].payoutNote, 'Cash');
+      expect(paid.saved, 1);
+
+      bloc.add(CommissionSplitUndoPayoutEvent(22));
+      final undone =
+          await bloc.stream.firstWhere((s) => !s.saving && s.saved == 2);
+      expect(undone.split!.shares[2].paid, isFalse);
+      expect(_repo.markedPaid, [(1, 21, 'Cash')]);
+      expect(_repo.undone, [(1, 22)]);
     });
   });
 
@@ -436,6 +593,64 @@ void main() {
         );
         await _settle(tester, 'card, ${locale.languageCode}');
         expect(find.byKey(const Key('deal-split-share-2')), findsOneWidget);
+      }
+    });
+
+    forEachAcceptanceCase('the split card with payouts, for a manager',
+        (tester, size, brightness, scale) async {
+      _repo.byDeal[1] = _won();
+      for (final locale in kAcceptanceLocales) {
+        final bloc = CommissionSplitBloc(_repo, dealId: 1)
+          ..add(CommissionSplitLoadEvent());
+        addTearDown(bloc.close);
+        await expectNoOverflow(
+          tester,
+          Scaffold(
+            key: ValueKey(locale),
+            body: Builder(
+              builder: (context) => SingleChildScrollView(
+                padding: EdgeInsets.all(AppMetrics.pagePadding(context)),
+                child: BlocProvider.value(
+                  value: bloc,
+                  child: const DealCommissionSplitCard(),
+                ),
+              ),
+            ),
+          ),
+          size: size,
+          brightness: brightness,
+          textScale: scale,
+          locale: locale,
+        );
+        await _settle(tester, 'payout card, ${locale.languageCode}');
+        expect(find.byKey(const Key('deal-split-mark-paid-1')), findsOneWidget);
+        expect(find.byKey(const Key('deal-split-undo-2')), findsOneWidget);
+      }
+    });
+
+    forEachAcceptanceCase('the mark-paid sheet',
+        (tester, size, brightness, scale) async {
+      for (final locale in kAcceptanceLocales) {
+        await expectNoOverflow(
+          tester,
+          Scaffold(
+            key: ValueKey(locale),
+            body: SingleChildScrollView(
+              padding: const EdgeInsets.all(16),
+              child: MarkPaidForm(
+                name: 'Ivan Petrovich Petrov-Vodkin of Etazhi Real Estate',
+                amount: 1252000.5,
+                onConfirm: (_) {},
+              ),
+            ),
+          ),
+          size: size,
+          brightness: brightness,
+          textScale: scale,
+          locale: locale,
+        );
+        await _settle(tester, 'sheet, ${locale.languageCode}');
+        expect(find.byKey(const Key('payout-confirm')), findsOneWidget);
       }
     });
 

@@ -14,6 +14,7 @@ import 'package:real_estate_crm/features/goals/presentation/widgets/team_goals_r
 import 'package:real_estate_crm/features/imports/presentation/widgets/import_entry_card.dart';
 import 'package:real_estate_crm/features/leaderboard/presentation/widgets/leaderboard_settings_row.dart';
 import 'package:real_estate_crm/features/message_templates/presentation/widgets/message_templates_row.dart';
+import 'package:real_estate_crm/features/payouts/presentation/widgets/payouts_settings_row.dart';
 import 'package:real_estate_crm/features/teams/presentation/bloc/my_team_bloc.dart';
 import 'package:real_estate_crm/features/teams/presentation/bloc/my_team_event.dart';
 import 'package:real_estate_crm/features/teams/presentation/bloc/my_team_state.dart';
@@ -340,6 +341,8 @@ class _MembersList extends StatelessWidget {
           const SizedBox(height: 9),
           const TeamGoalsSettingsRow(),
           const SizedBox(height: 9),
+          const PayoutsSettingsRow(),
+          const SizedBox(height: 9),
           const ChangeLogSettingsRow(),
           const SizedBox(height: 9),
           EmptyState(
@@ -352,7 +355,7 @@ class _MembersList extends StatelessWidget {
     }
     return ListView.separated(
       padding: padding,
-      itemCount: state.members.length + 9,
+      itemCount: state.members.length + 10,
       separatorBuilder: (_, __) => const SizedBox(height: 9),
       itemBuilder: (_, i) {
         if (i == 0) return const ImportEntryCard();
@@ -362,17 +365,18 @@ class _MembersList extends StatelessWidget {
         if (i == 4) return const MessageTemplatesSettingsRow();
         if (i == 5) return const LeaderboardSettingsRow();
         if (i == 6) return const TeamGoalsSettingsRow();
-        if (i == 7) {
+        if (i == 7) return const PayoutsSettingsRow();
+        if (i == 8) {
           return SectionHeader(
             title: l10n.teamsMembers,
             actionLabel: l10n.teamsAgents,
             onAction: onStats,
           );
         }
-        if (i == state.members.length + 8) {
+        if (i == state.members.length + 9) {
           return const ChangeLogSettingsRow();
         }
-        final member = state.members[i - 8];
+        final member = state.members[i - 9];
         return MemberCard(
           member: member,
           onTap: member.isTeamManager ? null : () => onMember(member),
