@@ -14,31 +14,22 @@ class AuthRemoteDataSource {
     return AuthResponse.fromJson(jsonObject(res));
   }
 
-  Future<void> register({
+  Future<AuthResponse> register({
     required String fullName,
     required String email,
     required String password,
     required Role role,
     String? phone,
-  }) =>
-      _client.dio.post('/auth/register', data: {
-        'fullName': fullName,
-        'email': email,
-        'password': password,
-        'role': role.name,
-        if (phone != null && phone.isNotEmpty) 'phone': phone,
-      });
-
-  Future<AuthResponse> verifyEmail(String email, String code) async {
-    final res = await _client.dio.post('/auth/verify-email', data: {
+  }) async {
+    final res = await _client.dio.post('/auth/register', data: {
+      'fullName': fullName,
       'email': email,
-      'code': code,
+      'password': password,
+      'role': role.name,
+      if (phone != null && phone.isNotEmpty) 'phone': phone,
     });
     return AuthResponse.fromJson(jsonObject(res));
   }
-
-  Future<void> resendVerification(String email) =>
-      _client.dio.post('/auth/resend-verification', data: {'email': email});
 
   Future<AuthResponse> me() async {
     final res = await _client.dio.get('/auth/me');

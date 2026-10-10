@@ -9,7 +9,6 @@ import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart'
 import 'package:real_estate_crm/features/auth/presentation/screens/create_team_screen.dart';
 import 'package:real_estate_crm/features/auth/presentation/screens/register_form_screen.dart';
 import 'package:real_estate_crm/features/auth/presentation/screens/register_role_screen.dart';
-import 'package:real_estate_crm/features/auth/presentation/screens/verify_email_screen.dart';
 import 'package:real_estate_crm/features/auth/presentation/screens/waiting_for_team_screen.dart';
 
 import 'fakes.dart';
@@ -54,13 +53,6 @@ void main() {
       (tester, size, brightness, scale) async {
     await expectNoOverflow(
         tester, _wrap(const RegisterFormScreen(role: Role.MANAGER)),
-        size: size, brightness: brightness, textScale: scale);
-  });
-
-  forEachAcceptanceCase('verify email',
-      (tester, size, brightness, scale) async {
-    await expectNoOverflow(
-        tester, _wrap(const VerifyEmailScreen(email: 'boss@almaty.kz')),
         size: size, brightness: brightness, textScale: scale);
   });
 

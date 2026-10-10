@@ -275,9 +275,6 @@ class AppLocalizationsKk extends AppLocalizations {
   String get authBackToSignIn => 'Кіруге оралу';
 
   @override
-  String get authChangeEmail => 'Басқа адрес';
-
-  @override
   String get authChooseRoleSubtitle =>
       'Бұл көретін нәрсеңізді анықтайды. Кейін жетекші өзгерте алады.';
 
@@ -292,7 +289,7 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get authCreateAccountSubtitle =>
-      'Поштаға алты таңбалы растау кодын жібереміз.';
+      'Бір минуттан аспайды, содан кейін бірден кіресіз.';
 
   @override
   String get authCreateAccountTitle => 'Аккаунт жасаңыз';
@@ -420,14 +417,6 @@ class AppLocalizationsKk extends AppLocalizations {
   String get authPrivacyPolicy => 'Құпиялылық саясаты';
 
   @override
-  String get authResendCode => 'Кодты қайта жіберу';
-
-  @override
-  String authResendCodeIn(Object seconds) {
-    return 'Жаңа код $seconds с ішінде';
-  }
-
-  @override
   String get authResetCode => 'Қалпына келтіру коды';
 
   @override
@@ -476,17 +465,6 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get authSignUp => 'Тіркелу';
-
-  @override
-  String get authVerify => 'Растау';
-
-  @override
-  String authVerifyEmailSubtitle(Object email) {
-    return '$email адресіне жіберілген алты таңбалы кодты енгізіңіз.';
-  }
-
-  @override
-  String get authVerifyEmailTitle => 'Поштаны растаңыз';
 
   @override
   String get authWaitingCopyEmail => 'Адресті көшіру';
@@ -3721,9 +3699,6 @@ class AppLocalizationsKk extends AppLocalizations {
   String get msgClientsMerged => 'Карточкалар біріктірілді';
 
   @override
-  String get msgCodeSent => 'Код жіберілді';
-
-  @override
   String get msgCommentDeleted => 'Пікір жойылды';
 
   @override
@@ -5770,9 +5745,6 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get teamsStatusPendingInvite => 'Шақырылған';
-
-  @override
-  String get teamsStatusPendingVerification => 'Пошта расталмаған';
 
   @override
   String get teamsSuccessor => 'Жазбалар кімге өтеді';

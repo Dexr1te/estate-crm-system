@@ -592,12 +592,6 @@ abstract class AppLocalizations {
   /// **'Back to sign in'**
   String get authBackToSignIn;
 
-  /// No description provided for @authChangeEmail.
-  ///
-  /// In en, this message translates to:
-  /// **'Use a different email'**
-  String get authChangeEmail;
-
   /// No description provided for @authChooseRoleSubtitle.
   ///
   /// In en, this message translates to:
@@ -625,7 +619,7 @@ abstract class AppLocalizations {
   /// No description provided for @authCreateAccountSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'We will email you a six-digit code to confirm the address.'**
+  /// **'Takes a minute, and you\'re signed in right after.'**
   String get authCreateAccountSubtitle;
 
   /// No description provided for @authCreateAccountTitle.
@@ -856,18 +850,6 @@ abstract class AppLocalizations {
   /// **'Privacy policy'**
   String get authPrivacyPolicy;
 
-  /// No description provided for @authResendCode.
-  ///
-  /// In en, this message translates to:
-  /// **'Send a new code'**
-  String get authResendCode;
-
-  /// No description provided for @authResendCodeIn.
-  ///
-  /// In en, this message translates to:
-  /// **'Send a new code in {seconds}s'**
-  String authResendCodeIn(Object seconds);
-
   /// No description provided for @authResetCode.
   ///
   /// In en, this message translates to:
@@ -957,24 +939,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sign up'**
   String get authSignUp;
-
-  /// No description provided for @authVerify.
-  ///
-  /// In en, this message translates to:
-  /// **'Confirm'**
-  String get authVerify;
-
-  /// No description provided for @authVerifyEmailSubtitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Enter the six-digit code we sent to {email}.'**
-  String authVerifyEmailSubtitle(Object email);
-
-  /// No description provided for @authVerifyEmailTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Confirm your email'**
-  String get authVerifyEmailTitle;
 
   /// No description provided for @authWaitingCopyEmail.
   ///
@@ -6454,12 +6418,6 @@ abstract class AppLocalizations {
   /// **'Cards merged'**
   String get msgClientsMerged;
 
-  /// No description provided for @msgCodeSent.
-  ///
-  /// In en, this message translates to:
-  /// **'Code sent'**
-  String get msgCodeSent;
-
   /// No description provided for @msgCommentDeleted.
   ///
   /// In en, this message translates to:
@@ -9880,12 +9838,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Invited'**
   String get teamsStatusPendingInvite;
-
-  /// No description provided for @teamsStatusPendingVerification.
-  ///
-  /// In en, this message translates to:
-  /// **'Not confirmed'**
-  String get teamsStatusPendingVerification;
 
   /// No description provided for @teamsSuccessor.
   ///

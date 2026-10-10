@@ -43,8 +43,8 @@ still missing is everything open sign-up brought:
 
 ```
 /auth/register            /team                  /me/team
-/auth/verify-email        /team/members          /me/team-requests
-/auth/resend-verification /team/members/{id}     /me/team-requests/{id}/accept
+                          /team/members          /me/team-requests
+                          /team/members/{id}     /me/team-requests/{id}/accept
                           /team/requests         /me/team-requests/{id}/decline
                           /team/requests/{id}
 ```
@@ -86,7 +86,7 @@ default is wrong for a submission host:
 | `JWT_SECRET` | No default. Signing key, Base64. |
 | `APP_BASE_URL` | Defaults to `localhost`. The invite email's button is built from it. |
 | `INVITE_URL` | Only if invites should point somewhere other than `<base>/api/invite`. |
-| `MAIL_ENABLED`, `MAIL_USERNAME`, `MAIL_PASSWORD` | Off by default, and sign-up needs them: with no way to send the code, `POST /auth/register` answers 503 `CODE_NOT_SENT` and creates nothing, so a reviewer who tries to register is told to come back rather than left holding an account they can never confirm. Gmail wants a 16-character App Password, not the account password. |
+| `MAIL_ENABLED`, `MAIL_USERNAME`, `MAIL_PASSWORD` | Off by default. Invites, password resets and team requests are mailed with them; sign-up sends nothing, so a reviewer can register either way. Gmail wants a 16-character App Password, not the account password. |
 | `ADMIN_PASSWORD` | No default, and nothing works without it: `V18` retires the admin passwords the migrations used to carry, so this is the only thing that opens the admin console. Set it **before** deploying, or the console is shut until you do. |
 | `DEMO_ENABLED`, `DEMO_PASSWORD` | Off by default, and the seeder refuses to run without a password. This is the account App Review signs in with. |
 | `APP_SUPPORT_EMAIL`, `APP_OPERATOR_NAME` | Default to `support@estatecrm.app` / `EstateCRM`, both printed on the privacy and support pages a reviewer opens. |
@@ -140,24 +140,10 @@ up creates an empty agency, so the demo account is the one that shows the app.
 
 ### If a reviewer signs up anyway
 
-Worth knowing, because they may: sign-up asks for a role, then mails a six-digit
-code that has to be typed before the account works. That means `MAIL_ENABLED=true`
-with working SMTP credentials on the submission host.
-
-With mail off the endpoint now refuses outright — 503, and no account — rather
-than accepting a registration whose code cannot be sent. That is the better of
-the two failures, but it is still a reviewer meeting an error on the way in, so
-it is not a substitute for configuring SMTP. Check it before submitting, because
-a bad App Password looks exactly like a working one from outside:
-
-```sh
-curl -s -o /dev/null -w '%{http_code}\n' -X POST \
-  https://estate-crm-system.onrender.com/api/auth/register \
-  -H 'Content-Type: application/json' \
-  -d '{"fullName":"Mail check","email":"<an address you can read>","password":"Passw0rd!23","role":"MANAGER"}'
-# 201 and an email arrives -> mail works
-# 503 CODE_NOT_SENT        -> the host cannot send; the log says why
-```
+Worth knowing, because they may: sign-up asks for a role and signs the account
+straight in — no email, no code. A manager lands on "create your agency", an
+agent on a screen waiting to be added to one. Both work, and neither shows the
+app, which is why the notes have to point at the demo account.
 
 ### Afterwards
 

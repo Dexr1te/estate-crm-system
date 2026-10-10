@@ -36,8 +36,6 @@ public class SecurityConfig {
     private static final String[] PUBLIC_URLS = {
             "/auth/login",
             "/auth/register",
-            "/auth/verify-email",
-            "/auth/resend-verification",
             "/auth/refresh",
             "/auth/accept-invite",
             "/invite",

@@ -276,9 +276,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authBackToSignIn => 'Back to sign in';
 
   @override
-  String get authChangeEmail => 'Use a different email';
-
-  @override
   String get authChooseRoleSubtitle =>
       'This decides what you see. You can be moved later by your manager.';
 
@@ -293,7 +290,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get authCreateAccountSubtitle =>
-      'We will email you a six-digit code to confirm the address.';
+      'Takes a minute, and you\'re signed in right after.';
 
   @override
   String get authCreateAccountTitle => 'Create your account';
@@ -422,14 +419,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authPrivacyPolicy => 'Privacy policy';
 
   @override
-  String get authResendCode => 'Send a new code';
-
-  @override
-  String authResendCodeIn(Object seconds) {
-    return 'Send a new code in ${seconds}s';
-  }
-
-  @override
   String get authResetCode => 'Reset code';
 
   @override
@@ -478,17 +467,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get authSignUp => 'Sign up';
-
-  @override
-  String get authVerify => 'Confirm';
-
-  @override
-  String authVerifyEmailSubtitle(Object email) {
-    return 'Enter the six-digit code we sent to $email.';
-  }
-
-  @override
-  String get authVerifyEmailTitle => 'Confirm your email';
 
   @override
   String get authWaitingCopyEmail => 'Copy email';
@@ -3740,9 +3718,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get msgClientsMerged => 'Cards merged';
 
   @override
-  String get msgCodeSent => 'Code sent';
-
-  @override
   String get msgCommentDeleted => 'Comment deleted';
 
   @override
@@ -5852,9 +5827,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get teamsStatusPendingInvite => 'Invited';
-
-  @override
-  String get teamsStatusPendingVerification => 'Not confirmed';
 
   @override
   String get teamsSuccessor => 'Records go to';

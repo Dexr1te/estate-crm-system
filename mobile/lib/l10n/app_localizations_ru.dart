@@ -276,9 +276,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get authBackToSignIn => 'Назад ко входу';
 
   @override
-  String get authChangeEmail => 'Другой адрес';
-
-  @override
   String get authChooseRoleSubtitle =>
       'От этого зависит, что вы увидите. Позже руководитель сможет изменить это.';
 
@@ -293,7 +290,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get authCreateAccountSubtitle =>
-      'Мы отправим на почту шестизначный код для подтверждения адреса.';
+      'Это займёт минуту, после чего вы сразу войдёте.';
 
   @override
   String get authCreateAccountTitle => 'Создайте аккаунт';
@@ -421,14 +418,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get authPrivacyPolicy => 'Политика конфиденциальности';
 
   @override
-  String get authResendCode => 'Отправить код снова';
-
-  @override
-  String authResendCodeIn(Object seconds) {
-    return 'Новый код через $seconds с';
-  }
-
-  @override
   String get authResetCode => 'Код сброса';
 
   @override
@@ -477,17 +466,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get authSignUp => 'Зарегистрироваться';
-
-  @override
-  String get authVerify => 'Подтвердить';
-
-  @override
-  String authVerifyEmailSubtitle(Object email) {
-    return 'Введите шестизначный код, отправленный на $email.';
-  }
-
-  @override
-  String get authVerifyEmailTitle => 'Подтвердите почту';
 
   @override
   String get authWaitingCopyEmail => 'Скопировать адрес';
@@ -3807,9 +3785,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get msgClientsMerged => 'Карточки объединены';
 
   @override
-  String get msgCodeSent => 'Код отправлен';
-
-  @override
   String get msgCommentDeleted => 'Комментарий удалён';
 
   @override
@@ -5945,9 +5920,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get teamsStatusPendingInvite => 'Приглашён';
-
-  @override
-  String get teamsStatusPendingVerification => 'Не подтвердил почту';
 
   @override
   String get teamsSuccessor => 'Записи перейдут';

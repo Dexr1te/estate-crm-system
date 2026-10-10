@@ -17,16 +17,6 @@ class AuthRegisterEvent extends AuthEvent {
   });
 }
 
-class AuthVerifyEmailEvent extends AuthEvent {
-  final String email, code;
-  AuthVerifyEmailEvent(this.email, this.code);
-}
-
-class AuthResendCodeEvent extends AuthEvent {
-  final String email;
-  AuthResendCodeEvent(this.email);
-}
-
 class AuthRefreshMeEvent extends AuthEvent {}
 
 class AuthLoginEvent extends AuthEvent {

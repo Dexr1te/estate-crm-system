@@ -19,7 +19,7 @@ public class ErrorResponse {
     private String path;
     /**
      * A stable, machine-readable reason, for the cases a client has to react to rather than just
-     * show — EMAIL_NOT_VERIFIED, TEAM_REQUIRED and the like. Null for everything else.
+     * show — TEAM_REQUIRED, INVITE_PENDING and the like. Null for everything else.
      */
     private String code;
     private LocalDateTime timestamp;

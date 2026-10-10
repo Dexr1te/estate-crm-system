@@ -16,31 +16,23 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<void> register({
+  Future<AuthResponse> register({
     required String fullName,
     required String email,
     required String password,
     required Role role,
     String? phone,
-  }) =>
-      _remote.register(
-        fullName: fullName,
-        email: email,
-        password: password,
-        role: role,
-        phone: phone,
-      );
-
-  @override
-  Future<AuthResponse> verifyEmail(String email, String code) async {
-    final auth = await _remote.verifyEmail(email, code);
+  }) async {
+    final auth = await _remote.register(
+      fullName: fullName,
+      email: email,
+      password: password,
+      role: role,
+      phone: phone,
+    );
     await _session.save(auth);
     return auth;
   }
-
-  @override
-  Future<void> resendVerification(String email) =>
-      _remote.resendVerification(email);
 
   @override
   Future<AuthResponse> refreshMe() async {

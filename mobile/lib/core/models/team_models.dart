@@ -111,15 +111,12 @@ class TeamMemberResponse {
 
 enum UserAccountStatus {
   active,
-  pendingInvite,
-  pendingVerification;
+  pendingInvite;
 
   static UserAccountStatus parse(String? raw) {
     switch (raw) {
       case 'PENDING_INVITE':
         return UserAccountStatus.pendingInvite;
-      case 'PENDING_VERIFICATION':
-        return UserAccountStatus.pendingVerification;
       default:
         return UserAccountStatus.active;
     }

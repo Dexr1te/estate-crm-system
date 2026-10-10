@@ -169,7 +169,7 @@ handful marked public. Full OpenAPI at `/api/swagger-ui.html`.
 
 | Area | Endpoints |
 | --- | --- |
-| Auth (public) | `/auth/login`, `/auth/register`, `/auth/verify-email`, `/auth/resend-verification`, `/auth/refresh`, `/auth/accept-invite`, `/auth/forgot-password`, `/auth/reset-password` |
+| Auth (public) | `/auth/login`, `/auth/register`, `/auth/refresh`, `/auth/accept-invite`, `/auth/forgot-password`, `/auth/reset-password` |
 | Me | `/auth/me` (get, update, **delete**), `/me/team`, `/me/team-requests` |
 | Clients | `/clients` (`?tags=`, `?leadSource=`), `/clients/{id}`, `/clients/with-details`, `/clients/{id}/matches`, `/clients/tags` |
 | Properties | `/properties`, `/properties/{id}`, `/properties/{id}/status`, `/properties/{id}/photos` (+ `order`, `{photoId}/content`), `/properties/{id}/cover`, `/properties/{id}/interested`, `/properties/{id}/viewings`, `/properties/{id}/price-history`, `/properties/mandates-ending` |
@@ -197,7 +197,7 @@ are the ones whose default is wrong for a real deployment:
 | `JWT_SECRET` | No default. Base64, at least 32 bytes. |
 | `ADMIN_PASSWORD` | No default, and the admin console is shut without it. Migrations used to carry an admin password, which published it with the repository; `V18` retired those. |
 | `APP_BASE_URL` | Defaults to `localhost`, and the invite email's button is built from it. |
-| `MAIL_ENABLED`, `MAIL_USERNAME`, `MAIL_PASSWORD` | Off by default, and sign-up needs them: with no way to send the code, registration answers `503 CODE_NOT_SENT` and creates nothing. Gmail wants a 16-character App Password. |
+| `MAIL_ENABLED`, `MAIL_USERNAME`, `MAIL_PASSWORD` | Off by default. Invites, password resets and team requests are mailed with them; sign-up sends nothing and works without them. Gmail wants a 16-character App Password. |
 | `DOCUMENTS_STORAGE` | `database` \| `s3` \| `filesystem` — see below. |
 | `S3_BUCKET`, `S3_ENDPOINT`, `S3_REGION`, `S3_ACCESS_KEY`, `S3_SECRET_KEY` | Required once `s3` is chosen. |
 | `DEMO_ENABLED`, `DEMO_PASSWORD` | The account App Review signs in with. Off outside a submission window. |

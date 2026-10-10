@@ -74,10 +74,6 @@ class _RegisterFormScreenState extends State<RegisterFormScreen> {
       body: SafeArea(
         child: BlocConsumer<AuthBloc, AuthState>(
           listener: (ctx, state) {
-            if (state is AuthVerificationRequired) {
-              ctx.go('/verify-email?email=${Uri.encodeComponent(state.email)}');
-              return;
-            }
             if (state is! AuthError) return;
             if (state.failure.serverCode == 'INVITE_PENDING') {
               _offerInvite(ctx, l10n);

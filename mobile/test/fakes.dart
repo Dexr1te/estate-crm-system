@@ -79,30 +79,18 @@ class FakeAuthRepository implements AuthRepository {
   String? resetRequestedFor;
 
   @override
-  Future<void> register({
+  Future<AuthResponse> register({
     required String fullName,
     required String email,
     required String password,
     required Role role,
     String? phone,
-  }) async =>
-      registered = (fullName, email, password, role);
-
-  (String, String, String, Role)? registered;
-
-  @override
-  Future<AuthResponse> verifyEmail(String email, String code) async {
-    verifiedWith = (email, code);
+  }) async {
+    registered = (fullName, email, password, role);
     return user!;
   }
 
-  /// The address and code the last confirmation sent.
-  (String, String)? verifiedWith;
-
-  @override
-  Future<void> resendVerification(String email) async => resentFor = email;
-
-  String? resentFor;
+  (String, String, String, Role)? registered;
 
   @override
   Future<AuthResponse> refreshMe() async => refreshed ?? user!;
