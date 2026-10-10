@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
 /**
- * Sends transactional emails: invites, password resets, sign-up codes and team requests.
+ * Sends transactional emails: invites, password resets and team requests.
  *
  * <p>Every send is asynchronous and swallows its own exceptions: the admin/manager already receives
  * the invite code in the API response, so a mail failure (bad SMTP creds, network, etc.) must never
@@ -57,13 +57,6 @@ public class EmailService {
      */
     @Value("${app.reset-url:${app.base-url:http://localhost:8080}/api/reset}")
     private String resetUrl;
-
-    /**
-     * Writes sign-up codes to the log while mail is off, so a developer without SMTP can still
-     * finish registering. Off by default: a code in a production log is a credential in a log.
-     */
-    @Value("${app.mail.log-codes:false}")
-    private boolean logCodes;
 
     @Value("${spring.mail.host:}")
     private String host;
@@ -138,49 +131,6 @@ public class EmailService {
                 "password reset");
     }
 
-    /**
-     * The code a new account proves its address with. Six digits, because it is typed from one
-     * app into another on the same phone.
-     *
-     * <p>The one sender here that is neither asynchronous nor silent, because it is the only one
-     * whose failure strands somebody. An invite is read back from the API response and a reset can
-     * be asked for again; a sign-up code that never arrives leaves an account its owner cannot
-     * confirm, cannot sign into, and cannot register over. So this one waits for the send and says
-     * whether the message left, and {@code RegistrationService} refuses to create the account when
-     * it did not. The wait is bounded by the {@code mail.smtp.*timeout} settings, or by
-     * {@link BrevoMailClient}'s own.
-     *
-     * @return true when the code was accepted for delivery, or written to the log in place of it
-     */
-    public boolean sendVerificationCode(String toEmail, String fullName, String code) {
-        if (!enabled) {
-            if (logCodes) {
-                log.info("Mail disabled; sign-up code for {} is {}", toEmail, code);
-                return true;
-            }
-            log.error("Mail is off and codes are not logged, so sign-up cannot finish: no code can "
-                    + "reach {}. Set MAIL_ENABLED with SMTP credentials, or MAIL_LOG_CODES=true "
-                    + "for local work.", toEmail);
-            return false;
-        }
-        return send(toEmail, "Your Estate CRM code: " + code,
-                "Hi " + greeting(fullName) + ",\n\n"
-                        + "Enter this code in the Estate CRM app to confirm your email:\n\n"
-                        + "     " + code + "\n\n"
-                        + "It expires in 15 minutes. If you did not sign up, ignore this email.\n\n"
-                        + "— Estate CRM",
-                card("Hi %s, here is your code.".formatted(escape(greeting(fullName))),
-                        "Enter it in the app to confirm your email. It expires in 15 minutes. "
-                                + "If you did not sign up, ignore this email.",
-                        """
-                        <div style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
-                                    font-size:28px;letter-spacing:8px;font-weight:700;color:#0F1E3C;
-                                    background:#EEF1F8;border-radius:12px;padding:16px;
-                                    text-align:center;">%s</div>
-                        """.formatted(escape(code))),
-                "sign-up code");
-    }
-
     /** Tells an agent that a manager wants them in their team. The answer is given in the app. */
     @Async
     public void sendTeamRequest(String toEmail, String fullName, String teamName, String invitedByName) {
@@ -204,19 +154,16 @@ public class EmailService {
     }
 
     /**
-     * The shared send, reporting whether the message actually left.
-     *
-     * <p>Most callers ignore the answer on purpose — an invite carries its code in the API
-     * response, a reset can be asked for again — and for them a mail failure must never break the
-     * action that triggered it. A sign-up code has no such second path, so that one caller reads
-     * it.
+     * The shared send. A failure is logged and swallowed: an invite carries its code in the API
+     * response, a reset can be asked for again, and a mail failure must never break the action that
+     * triggered it.
      */
-    private boolean send(String toEmail, String subject, String plain, String html, String what) {
+    private void send(String toEmail, String subject, String plain, String html, String what) {
         try {
             if (usesBrevo()) {
                 brevo.send(from, fromName, toEmail, subject, plain, html);
                 log.info("Sent {} email to {} via Brevo", what, toEmail);
-                return true;
+                return;
             }
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper =
@@ -228,10 +175,8 @@ public class EmailService {
             helper.setText(plain, html);
             mailSender.send(message);
             log.info("Sent {} email to {}", what, toEmail);
-            return true;
         } catch (Exception e) {
             log.error("Failed to send {} email to {}: {}", what, toEmail, e.getMessage());
-            return false;
         }
     }
 

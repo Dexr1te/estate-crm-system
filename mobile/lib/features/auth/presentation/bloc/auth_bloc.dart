@@ -19,8 +19,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
     on<AuthCheckEvent>(_onCheck);
     on<AuthLoginEvent>(_onLogin);
     on<AuthRegisterEvent>(_onRegister);
-    on<AuthVerifyEmailEvent>(_onVerifyEmail);
-    on<AuthResendCodeEvent>(_onResendCode);
     on<AuthRefreshMeEvent>(_onRefreshMe);
     on<AuthAcceptInviteEvent>(_onAcceptInvite);
     on<AuthResetPasswordEvent>(_onResetPassword);
@@ -85,11 +83,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
           emit(AuthAuthenticated(auth));
           _notify();
         } catch (err) {
-          final failure = ApiFailure.from(err);
-
-          emit(failure.serverCode == 'EMAIL_NOT_VERIFIED'
-              ? AuthVerificationRequired(e.email)
-              : AuthError(failure));
+          emit(AuthError(ApiFailure.from(err)));
         }
       });
 
@@ -97,39 +91,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
       once('register', () async {
         emit(AuthLoading());
         try {
-          await _repo.register(
+          final auth = await _repo.register(
             fullName: e.fullName,
             email: e.email,
             password: e.password,
             role: e.role,
             phone: e.phone,
           );
-          emit(AuthVerificationRequired(e.email));
-        } catch (err) {
-          emit(AuthError(ApiFailure.from(err)));
-        }
-      });
-
-  Future<void> _onVerifyEmail(
-          AuthVerifyEmailEvent e, Emitter<AuthState> emit) =>
-      once('verify-email', () async {
-        emit(AuthLoading());
-        try {
-          final auth = await _repo.verifyEmail(e.email, e.code);
           emit(AuthAuthenticated(auth));
           _notify();
         } catch (err) {
           emit(AuthError(ApiFailure.from(err)));
-        }
-      });
-
-  Future<void> _onResendCode(AuthResendCodeEvent e, Emitter<AuthState> emit) =>
-      once('resend-code', () async {
-        try {
-          await _repo.resendVerification(e.email);
-          emit(AuthCodeResent(e.email, ActionMessage.codeSent));
-        } catch (err) {
-          emit(AuthCodeResendFailed(e.email, ApiFailure.from(err)));
         }
       });
 

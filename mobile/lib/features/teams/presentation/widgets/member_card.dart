@@ -75,8 +75,6 @@ class MemberCard extends StatelessWidget {
     switch (member.status) {
       case UserAccountStatus.pendingInvite:
         return l10n.teamsStatusPendingInvite;
-      case UserAccountStatus.pendingVerification:
-        return l10n.teamsStatusPendingVerification;
       case UserAccountStatus.active:
         return null;
     }

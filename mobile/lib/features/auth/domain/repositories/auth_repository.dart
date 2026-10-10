@@ -3,17 +3,13 @@ import 'package:real_estate_crm/core/models/models.dart';
 abstract class AuthRepository {
   Future<AuthResponse> login(String email, String password);
 
-  Future<void> register({
+  Future<AuthResponse> register({
     required String fullName,
     required String email,
     required String password,
     required Role role,
     String? phone,
   });
-
-  Future<AuthResponse> verifyEmail(String email, String code);
-
-  Future<void> resendVerification(String email);
 
   Future<AuthResponse> refreshMe();
 

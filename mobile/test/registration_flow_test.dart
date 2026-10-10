@@ -14,32 +14,14 @@ const _confirmed = AuthResponse(
     email: 'aigerim@almaty.kz',
     role: Role.MANAGER);
 
-/// Refuses to sign in the way the backend does for an unconfirmed account:
-/// 403 with a code the app is expected to act on rather than display.
-class _UnverifiedAuthRepository extends FakeAuthRepository {
-  _UnverifiedAuthRepository() : super(user: _confirmed);
-
-  @override
-  Future<AuthResponse> login(String email, String password) async =>
-      throw DioException(
-        requestOptions: RequestOptions(path: '/auth/login'),
-        response: Response(
-          requestOptions: RequestOptions(path: '/auth/login'),
-          statusCode: 403,
-          data: const {
-            'code': 'EMAIL_NOT_VERIFIED',
-            'message': 'Confirm your email first.',
-          },
-        ),
-      );
-}
-
 void main() {
   group('signing up', () {
-    test('leaves the app waiting for the code rather than signed in', () async {
+    test('signs the new account straight in', () async {
       final repo = FakeAuthRepository(user: _confirmed);
       final bloc = AuthBloc(repo);
       addTearDown(bloc.close);
+      var routerTold = 0;
+      bloc.addListener(() => routerTold++);
 
       bloc.add(AuthRegisterEvent(
         fullName: 'Aigerim',
@@ -49,54 +31,12 @@ void main() {
       ));
       await expectLater(
         bloc.stream,
-        emitsInOrder([
-          isA<AuthLoading>(),
-          isA<AuthVerificationRequired>()
-              .having((s) => s.email, 'email', 'aigerim@almaty.kz'),
-        ]),
-      );
-      expect(repo.registered?.$4, Role.MANAGER);
-      expect(bloc.isAuthenticated, isFalse,
-          reason: 'an unconfirmed account must not hold a session');
-    });
-
-    test('the code is what starts the session', () async {
-      final repo = FakeAuthRepository(user: _confirmed);
-      final bloc = AuthBloc(repo);
-      addTearDown(bloc.close);
-
-      bloc.add(AuthVerifyEmailEvent('aigerim@almaty.kz', '123456'));
-      await expectLater(
-        bloc.stream,
         emitsInOrder([isA<AuthLoading>(), isA<AuthAuthenticated>()]),
       );
-      expect(repo.verifiedWith, ('aigerim@almaty.kz', '123456'));
-    });
-
-    test('asking for another code leaves the screen where it is', () async {
-      final repo = FakeAuthRepository(user: _confirmed);
-      final bloc = AuthBloc(repo);
-      addTearDown(bloc.close);
-
-      bloc.add(AuthResendCodeEvent('aigerim@almaty.kz'));
-      await expectLater(bloc.stream, emits(isA<AuthCodeResent>()));
-      expect(repo.resentFor, 'aigerim@almaty.kz');
-    });
-
-    test('signing in unconfirmed asks for the code instead of failing',
-        () async {
-      final bloc = AuthBloc(_UnverifiedAuthRepository());
-      addTearDown(bloc.close);
-
-      bloc.add(AuthLoginEvent('aigerim@almaty.kz', 'long enough'));
-      await expectLater(
-        bloc.stream,
-        emitsInOrder([
-          isA<AuthLoading>(),
-          isA<AuthVerificationRequired>()
-              .having((s) => s.email, 'email', 'aigerim@almaty.kz'),
-        ]),
-      );
+      expect(repo.registered?.$4, Role.MANAGER);
+      expect(bloc.isAuthenticated, isTrue);
+      expect(routerTold, 1,
+          reason: 'the sign-up form does not navigate; the redirect does');
     });
   });
 
@@ -170,11 +110,7 @@ void main() {
     });
 
     test('the sign-up screens are reachable without a session', () {
-      for (final location in [
-        '/register',
-        '/register/details',
-        '/verify-email'
-      ]) {
+      for (final location in ['/register', '/register/details']) {
         expect(
           resolveRedirect(
               location: location,

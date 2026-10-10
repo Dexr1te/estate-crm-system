@@ -2,11 +2,8 @@ package com.crm.realestate.controller;
 
 import com.crm.realestate.dto.request.LoginRequest;
 import com.crm.realestate.dto.request.RegisterRequest;
-import com.crm.realestate.dto.request.ResendVerificationRequest;
 import com.crm.realestate.dto.request.UpdateProfileRequest;
-import com.crm.realestate.dto.request.VerifyEmailRequest;
 import com.crm.realestate.dto.response.AuthResponse;
-import com.crm.realestate.dto.response.RegisterResponse;
 import com.crm.realestate.service.AuthService;
 import com.crm.realestate.service.RegistrationService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,27 +26,11 @@ public class AuthController {
     private final AuthService authService;
     private final RegistrationService registrationService;
 
-    /**
-     * Opens an account. No tokens come back: the address has to be confirmed first with the code
-     * this mails out, which is what stops anyone signing up as someone else.
-     */
+    /** Opens an account and signs it in, with the same tokens a login answers with. */
     @PostMapping("/register")
     @Operation(summary = "Sign up as a manager or an agent")
-    public ResponseEntity<RegisterResponse> register(@Valid @RequestBody RegisterRequest request) {
+    public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(registrationService.register(request));
-    }
-
-    @PostMapping("/verify-email")
-    @Operation(summary = "Confirm a new account with the code from the email")
-    public ResponseEntity<AuthResponse> verifyEmail(@Valid @RequestBody VerifyEmailRequest request) {
-        return ResponseEntity.ok(registrationService.verifyEmail(request));
-    }
-
-    @PostMapping("/resend-verification")
-    @Operation(summary = "Send another sign-up code")
-    public ResponseEntity<RegisterResponse> resendVerification(
-            @Valid @RequestBody ResendVerificationRequest request) {
-        return ResponseEntity.ok(registrationService.resendCode(request.getEmail()));
     }
 
     @PostMapping("/login")

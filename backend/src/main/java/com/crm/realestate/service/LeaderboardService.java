@@ -144,7 +144,7 @@ public class LeaderboardService {
                         """, User.class)
                 .setParameter("team", teamId)
                 .setParameter("roles", List.of(Role.AGENT, Role.MANAGER))
-                .setParameter("pending", List.of(UserStatus.PENDING_INVITE, UserStatus.PENDING_VERIFICATION))
+                .setParameter("pending", List.of(UserStatus.PENDING_INVITE))
                 .getResultList();
     }
 

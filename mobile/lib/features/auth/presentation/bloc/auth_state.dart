@@ -16,25 +16,6 @@ class AuthAuthenticated extends AuthState {
 
 class AuthUnauthenticated extends AuthState {}
 
-class AuthVerificationRequired extends AuthState {
-  final String email;
-  AuthVerificationRequired(this.email);
-}
-
-class AuthCodeResent extends AuthVerificationRequired with ActionSucceeded {
-  @override
-  final ActionMessage message;
-
-  AuthCodeResent(super.email, this.message);
-}
-
-class AuthCodeResendFailed extends AuthVerificationRequired with ActionFailed {
-  @override
-  final ApiFailure failure;
-
-  AuthCodeResendFailed(super.email, this.failure);
-}
-
 class AuthProfileUpdated extends AuthAuthenticated with ActionSucceeded {
   @override
   final ActionMessage message;
