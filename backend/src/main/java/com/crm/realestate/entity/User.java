@@ -70,6 +70,11 @@ public class User implements UserDetails {
     private String passwordResetToken;
     private LocalDateTime passwordResetTokenExpiresAt;
 
+    // The Firebase user a self-registered account proves its address through. Firebase holds
+    // nothing else: the password and the session stay here.
+    @Column(unique = true)
+    private String firebaseUid;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by")
     private User createdBy;

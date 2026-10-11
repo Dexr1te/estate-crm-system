@@ -27,16 +27,19 @@ public class FirebaseConfig {
             if (FirebaseApp.getApps().isEmpty()) {
                 FileInputStream serviceAccount = new FileInputStream(credentialsPath);
 
-                FirebaseOptions options = FirebaseOptions.builder()
-                        .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-                        .setProjectId(projectId)
-                        .build();
+                FirebaseOptions.Builder options = FirebaseOptions.builder()
+                        .setCredentials(GoogleCredentials.fromStream(serviceAccount));
+                // Blank means "the project the service account belongs to".
+                if (projectId != null && !projectId.isBlank()) {
+                    options.setProjectId(projectId);
+                }
 
-                FirebaseApp.initializeApp(options);
+                FirebaseApp.initializeApp(options.build());
                 log.info("Firebase initialized successfully for project: {}", projectId);
             }
         } catch (IOException e) {
-            log.warn("Firebase initialization failed: {}. Push notifications will be disabled.", e.getMessage());
+            log.warn("Firebase initialization failed: {}. Push notifications and sign-up email "
+                    + "verification will be disabled.", e.getMessage());
         }
     }
 }
