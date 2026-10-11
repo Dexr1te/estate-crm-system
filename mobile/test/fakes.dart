@@ -59,7 +59,6 @@ class FakeAuthRepository implements AuthRepository {
   /// What a refreshed session says — how a test moves an agent into a team.
   AuthResponse? refreshed;
 
-  /// What signing up answers with; signed straight in as [user] when unset.
   RegisterResult? registerResult;
 
   FakeAuthRepository({this.user, this.refreshed, this.registerResult});
@@ -113,7 +112,6 @@ class FakeAuthRepository implements AuthRepository {
     return VerificationTicket(email: email, firebaseToken: 'fresh-token');
   }
 
-  /// The address and password the last new link was asked for with.
   (String, String)? verificationStartedFor;
 
   @override
@@ -122,7 +120,6 @@ class FakeAuthRepository implements AuthRepository {
     return user!;
   }
 
-  /// The Firebase ID token the last confirmation sent.
   String? verifiedWith;
 
   @override
@@ -139,17 +136,13 @@ class FakeAuthRepository implements AuthRepository {
   int? deletedWithReplacement;
 }
 
-/// Firebase as a test sees it: records what it was asked, and the link counts
-/// as opened once [idToken] is set.
 class FakeEmailVerifier implements EmailVerifier {
   String? idToken;
 
-  /// Thrown by everything but [signOut] when set.
   EmailVerificationException? failure;
 
   FakeEmailVerifier({this.idToken, this.failure});
 
-  /// The custom tokens links were sent with, in order.
   final List<String> sentWith = [];
   int resent = 0;
   int signedOut = 0;

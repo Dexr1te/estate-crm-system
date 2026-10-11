@@ -1,4 +1,3 @@
-# The Firebase iOS SDK (firebase_core / firebase_auth) needs iOS 15.
 platform :ios, '15.0'
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.

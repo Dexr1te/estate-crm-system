@@ -35,7 +35,6 @@ Widget _wrap(Widget child,
       child: child,
     );
 
-/// No session saved yet; confirming the email is what starts one.
 class _PendingAuthRepository extends FakeAuthRepository {
   @override
   Future<AuthResponse> verifyEmail(String idToken) async {

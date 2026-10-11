@@ -4,15 +4,12 @@ import 'package:real_estate_crm/features/auth/domain/email_verifier.dart';
 class FirebaseEmailVerifier implements EmailVerifier {
   const FirebaseEmailVerifier();
 
-  // Looked up on every call, never held: tests run without Firebase, and the
-  // app still starts when Firebase does not (see main.dart).
   FirebaseAuth get _auth => FirebaseAuth.instance;
 
   @override
   Future<void> sendLink(String firebaseToken) => _guard(() async {
         await _auth.signInWithCustomToken(firebaseToken);
         final user = _signedIn();
-        // Opened on an earlier attempt: another email would only confuse.
         if (!user.emailVerified) await user.sendEmailVerification();
       });
 
@@ -23,7 +20,6 @@ class FirebaseEmailVerifier implements EmailVerifier {
   @override
   Future<String?> confirmedIdToken() => _guard(() async {
         await _signedIn().reload();
-        // reload() swaps in a new User; the one it was called on is stale.
         final user = _signedIn();
         return user.emailVerified ? user.getIdToken(true) : null;
       });
@@ -46,7 +42,6 @@ class FirebaseEmailVerifier implements EmailVerifier {
     } on FirebaseAuthException catch (e) {
       throw EmailVerificationException(_problemOf(e.code));
     } on FirebaseException {
-      // Firebase itself never started.
       throw const EmailVerificationException(EmailVerificationProblem.unknown);
     }
   }

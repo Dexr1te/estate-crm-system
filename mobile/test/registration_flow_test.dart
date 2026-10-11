@@ -19,8 +19,6 @@ const _confirmed = AuthResponse(
 const _ticket = VerificationTicket(
     email: 'aigerim@almaty.kz', firebaseToken: 'custom-token');
 
-/// Refuses to sign in the way the backend does for an unconfirmed account:
-/// 403 with a code the app is expected to act on rather than display.
 class _UnverifiedAuthRepository extends FakeAuthRepository {
   _UnverifiedAuthRepository() : super(user: _confirmed);
 
@@ -92,7 +90,6 @@ void main() {
 
     test('a link that could not go out still leaves the app waiting for one',
         () async {
-      // The account exists by now; the form would only call the address taken.
       final bloc = AuthBloc(
           FakeAuthRepository(user: _confirmed, registerResult: _ticket),
           verifier: FakeEmailVerifier(

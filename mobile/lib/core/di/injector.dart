@@ -130,7 +130,6 @@ class Injector {
   static AuthRepository authRepository =
       AuthRepositoryImpl(AuthRemoteDataSource(_apiClient), session);
 
-  /// Emails the link that confirms a new account's address.
   static EmailVerifier emailVerifier = const FirebaseEmailVerifier();
 
   static ClientsRepository clientsRepository =
