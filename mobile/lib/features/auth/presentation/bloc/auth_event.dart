@@ -17,6 +17,21 @@ class AuthRegisterEvent extends AuthEvent {
   });
 }
 
+/// Asks whether the emailed link has been opened, and signs in if it has.
+class AuthConfirmEmailEvent extends AuthEvent {
+  final String email;
+
+  /// Checked unasked, as the app comes back to the front: a link not opened
+  /// yet is no news then, and neither is a check that failed.
+  final bool silent;
+  AuthConfirmEmailEvent(this.email, {this.silent = false});
+}
+
+class AuthResendLinkEvent extends AuthEvent {
+  final String email;
+  AuthResendLinkEvent(this.email);
+}
+
 class AuthRefreshMeEvent extends AuthEvent {}
 
 class AuthLoginEvent extends AuthEvent {

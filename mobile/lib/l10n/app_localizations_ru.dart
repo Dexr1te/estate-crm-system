@@ -276,6 +276,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get authBackToSignIn => 'Назад ко входу';
 
   @override
+  String get authChangeEmail => 'Другой адрес';
+
+  @override
   String get authChooseRoleSubtitle =>
       'От этого зависит, что вы увидите. Позже руководитель сможет изменить это.';
 
@@ -290,7 +293,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get authCreateAccountSubtitle =>
-      'Это займёт минуту, после чего вы сразу войдёте.';
+      'Мы отправим на почту ссылку для подтверждения адреса.';
 
   @override
   String get authCreateAccountTitle => 'Создайте аккаунт';
@@ -388,6 +391,9 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String get authLinkResent => 'Ссылка отправлена. Проверьте почту.';
+
+  @override
   String get authNewPassword => 'Новый пароль';
 
   @override
@@ -416,6 +422,14 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get authPrivacyPolicy => 'Политика конфиденциальности';
+
+  @override
+  String get authResendLink => 'Отправить ссылку снова';
+
+  @override
+  String authResendLinkIn(Object seconds) {
+    return 'Отправить снова через $seconds с';
+  }
 
   @override
   String get authResetCode => 'Код сброса';
@@ -466,6 +480,33 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get authSignUp => 'Зарегистрироваться';
+
+  @override
+  String get authVerifyEmailNotYet =>
+      'Ссылка ещё не открыта. Проверьте входящие и папку «Спам».';
+
+  @override
+  String get authVerifyEmailOpened => 'Я открыл(а) ссылку';
+
+  @override
+  String authVerifyEmailSubtitle(Object email) {
+    return 'Мы отправили ссылку на $email. Откройте её и вернитесь сюда.';
+  }
+
+  @override
+  String get authVerifyEmailTitle => 'Подтвердите почту';
+
+  @override
+  String get authVerifySignedOut =>
+      'Войдите снова, чтобы получить новую ссылку.';
+
+  @override
+  String get authVerifyTooManyRequests =>
+      'Слишком много попыток. Подождите несколько минут и попробуйте снова.';
+
+  @override
+  String get authVerifyUnavailable =>
+      'Подтверждение почты сейчас недоступно. Попробуйте позже.';
 
   @override
   String get authWaitingCopyEmail => 'Скопировать адрес';

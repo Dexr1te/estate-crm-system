@@ -76,7 +76,9 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    _authBloc = AuthBloc(Injector.authRepository)..add(AuthCheckEvent());
+    _authBloc = AuthBloc(Injector.authRepository,
+        verifier: Injector.emailVerifier)
+      ..add(AuthCheckEvent());
     Injector.apiClient.onSessionExpired = () {
       if (!_authBloc.isClosed) _authBloc.add(AuthLogoutEvent());
     };

@@ -592,6 +592,12 @@ abstract class AppLocalizations {
   /// **'Back to sign in'**
   String get authBackToSignIn;
 
+  /// No description provided for @authChangeEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Use a different email'**
+  String get authChangeEmail;
+
   /// No description provided for @authChooseRoleSubtitle.
   ///
   /// In en, this message translates to:
@@ -619,7 +625,7 @@ abstract class AppLocalizations {
   /// No description provided for @authCreateAccountSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Takes a minute, and you\'re signed in right after.'**
+  /// **'We\'ll email you a link to confirm the address.'**
   String get authCreateAccountSubtitle;
 
   /// No description provided for @authCreateAccountTitle.
@@ -790,6 +796,12 @@ abstract class AppLocalizations {
   /// **'{team} invited you'**
   String authInvitedByTeam(Object team);
 
+  /// No description provided for @authLinkResent.
+  ///
+  /// In en, this message translates to:
+  /// **'Link sent. Check your inbox.'**
+  String get authLinkResent;
+
   /// No description provided for @authNewPassword.
   ///
   /// In en, this message translates to:
@@ -849,6 +861,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Privacy policy'**
   String get authPrivacyPolicy;
+
+  /// No description provided for @authResendLink.
+  ///
+  /// In en, this message translates to:
+  /// **'Send the link again'**
+  String get authResendLink;
+
+  /// No description provided for @authResendLinkIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Send again in {seconds}s'**
+  String authResendLinkIn(Object seconds);
 
   /// No description provided for @authResetCode.
   ///
@@ -939,6 +963,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sign up'**
   String get authSignUp;
+
+  /// No description provided for @authVerifyEmailNotYet.
+  ///
+  /// In en, this message translates to:
+  /// **'The link hasn\'t been opened yet. Check your inbox and spam folder.'**
+  String get authVerifyEmailNotYet;
+
+  /// No description provided for @authVerifyEmailOpened.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'ve opened the link'**
+  String get authVerifyEmailOpened;
+
+  /// No description provided for @authVerifyEmailSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'We sent a link to {email}. Open it, then come back here.'**
+  String authVerifyEmailSubtitle(Object email);
+
+  /// No description provided for @authVerifyEmailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm your email'**
+  String get authVerifyEmailTitle;
+
+  /// No description provided for @authVerifySignedOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in again to get a new link.'**
+  String get authVerifySignedOut;
+
+  /// No description provided for @authVerifyTooManyRequests.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many attempts. Wait a few minutes and try again.'**
+  String get authVerifyTooManyRequests;
+
+  /// No description provided for @authVerifyUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'Email confirmation isn\'t available right now. Try again later.'**
+  String get authVerifyUnavailable;
 
   /// No description provided for @authWaitingCopyEmail.
   ///

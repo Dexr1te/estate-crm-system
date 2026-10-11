@@ -1,3 +1,4 @@
+import 'package:real_estate_crm/core/models/auth_models.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/session/session_store.dart';
 import 'package:real_estate_crm/features/auth/data/datasources/auth_remote_datasource.dart';
@@ -16,20 +17,32 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<AuthResponse> register({
+  Future<RegisterResult> register({
     required String fullName,
     required String email,
     required String password,
     required Role role,
     String? phone,
   }) async {
-    final auth = await _remote.register(
+    final result = await _remote.register(
       fullName: fullName,
       email: email,
       password: password,
       role: role,
       phone: phone,
     );
+    if (result is RegisterSignedIn) await _session.save(result.auth);
+    return result;
+  }
+
+  @override
+  Future<VerificationTicket> startVerification(
+          String email, String password) =>
+      _remote.startVerification(email, password);
+
+  @override
+  Future<AuthResponse> verifyEmail(String idToken) async {
+    final auth = await _remote.verifyEmail(idToken);
     await _session.save(auth);
     return auth;
   }
