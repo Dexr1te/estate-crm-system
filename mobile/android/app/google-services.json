@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "672413418618",
+    "project_id": "estatecrm-3e55a",
+    "storage_bucket": "estatecrm-3e55a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:672413418618:android:409ea634fb6cfe5466e7c3",
+        "android_client_info": {
+          "package_name": "com.sultan.estatecrm"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3FVf7ffj9-jtpSjUwLwATpBNA10Z88IQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

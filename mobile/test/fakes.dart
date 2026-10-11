@@ -7,6 +7,7 @@ import 'package:flutter_map/flutter_map.dart';
 
 import 'package:quick_actions/quick_actions.dart';
 import 'package:real_estate_crm/core/models/admin_models.dart';
+import 'package:real_estate_crm/core/models/auth_models.dart';
 import 'package:real_estate_crm/core/models/document_models.dart';
 import 'package:real_estate_crm/core/models/expense_models.dart';
 import 'package:real_estate_crm/core/models/export_models.dart';
@@ -25,6 +26,7 @@ import 'package:real_estate_crm/features/admin/domain/repositories/admin_reposit
 import 'package:real_estate_crm/features/agents/domain/repositories/agents_repository.dart';
 import 'package:real_estate_crm/features/analytics/domain/repositories/analytics_repository.dart';
 import 'package:real_estate_crm/features/app_lock/data/app_lock_repository_impl.dart';
+import 'package:real_estate_crm/features/auth/domain/email_verifier.dart';
 import 'package:real_estate_crm/features/auth/domain/repositories/auth_repository.dart';
 import 'package:real_estate_crm/features/change_log/domain/repositories/change_log_repository.dart';
 import 'package:real_estate_crm/features/checklist/domain/checklist_gate.dart';
@@ -57,7 +59,10 @@ class FakeAuthRepository implements AuthRepository {
   /// What a refreshed session says — how a test moves an agent into a team.
   AuthResponse? refreshed;
 
-  FakeAuthRepository({this.user, this.refreshed});
+  /// What signing up answers with; signed straight in as [user] when unset.
+  RegisterResult? registerResult;
+
+  FakeAuthRepository({this.user, this.refreshed, this.registerResult});
 
   @override
   Future<AuthResponse?> getSavedUser() async => user;
@@ -88,7 +93,7 @@ class FakeAuthRepository implements AuthRepository {
   String? resetRequestedFor;
 
   @override
-  Future<AuthResponse> register({
+  Future<RegisterResult> register({
     required String fullName,
     required String email,
     required String password,
@@ -96,10 +101,29 @@ class FakeAuthRepository implements AuthRepository {
     String? phone,
   }) async {
     registered = (fullName, email, password, role);
-    return user!;
+    return registerResult ?? RegisterSignedIn(user!);
   }
 
   (String, String, String, Role)? registered;
+
+  @override
+  Future<VerificationTicket> startVerification(
+      String email, String password) async {
+    verificationStartedFor = (email, password);
+    return VerificationTicket(email: email, firebaseToken: 'fresh-token');
+  }
+
+  /// The address and password the last new link was asked for with.
+  (String, String)? verificationStartedFor;
+
+  @override
+  Future<AuthResponse> verifyEmail(String idToken) async {
+    verifiedWith = idToken;
+    return user!;
+  }
+
+  /// The Firebase ID token the last confirmation sent.
+  String? verifiedWith;
 
   @override
   Future<AuthResponse> refreshMe() async => refreshed ?? user!;
@@ -113,6 +137,43 @@ class FakeAuthRepository implements AuthRepository {
   /// What the last [deleteAccount] handed the records to, or null if it was
   /// never called.
   int? deletedWithReplacement;
+}
+
+/// Firebase as a test sees it: records what it was asked, and the link counts
+/// as opened once [idToken] is set.
+class FakeEmailVerifier implements EmailVerifier {
+  String? idToken;
+
+  /// Thrown by everything but [signOut] when set.
+  EmailVerificationException? failure;
+
+  FakeEmailVerifier({this.idToken, this.failure});
+
+  /// The custom tokens links were sent with, in order.
+  final List<String> sentWith = [];
+  int resent = 0;
+  int signedOut = 0;
+
+  @override
+  Future<void> sendLink(String firebaseToken) async {
+    if (failure case final failure?) throw failure;
+    sentWith.add(firebaseToken);
+  }
+
+  @override
+  Future<void> resendLink() async {
+    if (failure case final failure?) throw failure;
+    resent++;
+  }
+
+  @override
+  Future<String?> confirmedIdToken() async {
+    if (failure case final failure?) throw failure;
+    return idToken;
+  }
+
+  @override
+  Future<void> signOut() async => signedOut++;
 }
 
 class FakeDashboardRepository implements DashboardRepository {

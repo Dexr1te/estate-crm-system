@@ -18,7 +18,9 @@ import 'package:real_estate_crm/features/app_lock/data/app_lock_repository_impl.
 import 'package:real_estate_crm/features/app_lock/domain/app_lock_repository.dart';
 import 'package:real_estate_crm/features/app_lock/presentation/controller/app_lock_controller.dart';
 import 'package:real_estate_crm/features/auth/data/datasources/auth_remote_datasource.dart';
+import 'package:real_estate_crm/features/auth/data/firebase_email_verifier.dart';
 import 'package:real_estate_crm/features/auth/data/repositories/auth_repository_impl.dart';
+import 'package:real_estate_crm/features/auth/domain/email_verifier.dart';
 import 'package:real_estate_crm/features/auth/domain/repositories/auth_repository.dart';
 import 'package:real_estate_crm/features/change_log/data/datasources/change_log_remote_datasource.dart';
 import 'package:real_estate_crm/features/change_log/data/repositories/change_log_repository_impl.dart';
@@ -127,6 +129,9 @@ class Injector {
 
   static AuthRepository authRepository =
       AuthRepositoryImpl(AuthRemoteDataSource(_apiClient), session);
+
+  /// Emails the link that confirms a new account's address.
+  static EmailVerifier emailVerifier = const FirebaseEmailVerifier();
 
   static ClientsRepository clientsRepository =
       ClientsRepositoryImpl(ClientsRemoteDataSource(_apiClient));

@@ -74,6 +74,11 @@ class _RegisterFormScreenState extends State<RegisterFormScreen> {
       body: SafeArea(
         child: BlocConsumer<AuthBloc, AuthState>(
           listener: (ctx, state) {
+            if (state is AuthVerificationRequired) {
+              showActionOutcome(ctx, state);
+              ctx.go('/verify-email?email=${Uri.encodeComponent(state.email)}');
+              return;
+            }
             if (state is! AuthError) return;
             if (state.failure.serverCode == 'INVITE_PENDING') {
               _offerInvite(ctx, l10n);
@@ -82,9 +87,11 @@ class _RegisterFormScreenState extends State<RegisterFormScreen> {
             ScaffoldMessenger.of(ctx)
               ..hideCurrentSnackBar()
               ..showSnackBar(SnackBar(
-                  content: Text(state.failure.serverCode == 'EMAIL_TAKEN'
-                      ? l10n.authEmailTaken
-                      : apiFailureLabel(l10n, state.failure)),
+                  content: Text(switch (state.failure.serverCode) {
+                    'EMAIL_TAKEN' => l10n.authEmailTaken,
+                    'VERIFICATION_UNAVAILABLE' => l10n.authVerifyUnavailable,
+                    _ => apiFailureLabel(l10n, state.failure),
+                  }),
                   backgroundColor: t.dangerSolid));
           },
           builder: (ctx, state) {

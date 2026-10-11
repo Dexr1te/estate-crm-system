@@ -42,6 +42,10 @@ dependencies:
   # Listings on a map: OpenStreetMap tiles drawn in pure Dart, no API key.
   flutter_map: ^8.2.2
   latlong2: ^0.9.1
+  # Sign-up email confirmation: Firebase Auth sends the link, the backend
+  # still issues the app's own tokens.
+  firebase_core: ^4.15.0
+  firebase_auth: ^6.7.0
 
 dev_dependencies:
   flutter_test:

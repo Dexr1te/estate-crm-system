@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:real_estate_crm/core/bloc/collection_bloc.dart';
+import 'package:real_estate_crm/core/models/auth_models.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/network/api_error.dart';
 import 'package:real_estate_crm/core/utils/money.dart';
 import 'package:real_estate_crm/core/widgets/messages.dart';
+import 'package:real_estate_crm/features/auth/domain/email_verifier.dart';
 import 'package:real_estate_crm/features/auth/domain/repositories/auth_repository.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_state.dart';
@@ -13,12 +15,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
     with SingleFlight
     implements Listenable {
   final AuthRepository _repo;
+  final EmailVerifier _verifier;
   final List<VoidCallback> _listeners = [];
 
-  AuthBloc(this._repo) : super(AuthInitial()) {
+  AuthBloc(this._repo, {EmailVerifier? verifier})
+      : _verifier = verifier ?? const _NoEmailVerifier(),
+        super(AuthInitial()) {
     on<AuthCheckEvent>(_onCheck);
     on<AuthLoginEvent>(_onLogin);
     on<AuthRegisterEvent>(_onRegister);
+    on<AuthConfirmEmailEvent>(_onConfirmEmail);
+    on<AuthResendLinkEvent>(_onResendLink);
     on<AuthRefreshMeEvent>(_onRefreshMe);
     on<AuthAcceptInviteEvent>(_onAcceptInvite);
     on<AuthResetPasswordEvent>(_onResetPassword);
@@ -83,7 +90,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
           emit(AuthAuthenticated(auth));
           _notify();
         } catch (err) {
-          emit(AuthError(ApiFailure.from(err)));
+          final failure = ApiFailure.from(err);
+          if (failure.serverCode != 'EMAIL_NOT_VERIFIED') {
+            emit(AuthError(failure));
+            return;
+          }
+          // The password was right: the address just was never confirmed.
+          try {
+            await _sendLink(
+                await _repo.startVerification(e.email, e.password), emit);
+          } catch (err) {
+            emit(AuthError(ApiFailure.from(err)));
+          }
         }
       });
 
@@ -91,19 +109,86 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
       once('register', () async {
         emit(AuthLoading());
         try {
-          final auth = await _repo.register(
+          final result = await _repo.register(
             fullName: e.fullName,
             email: e.email,
             password: e.password,
             role: e.role,
             phone: e.phone,
           );
-          emit(AuthAuthenticated(auth));
-          _notify();
+          switch (result) {
+            case RegisterSignedIn(:final auth):
+              emit(AuthAuthenticated(auth));
+              _notify();
+            case VerificationTicket ticket:
+              await _sendLink(ticket, emit);
+          }
         } catch (err) {
           emit(AuthError(ApiFailure.from(err)));
         }
       });
+
+  /// Has the link emailed. The account exists by now either way, so a failure
+  /// still moves on to waiting for the link, with the reason shown, rather
+  /// than back to a form that would now call the address taken.
+  Future<void> _sendLink(
+      VerificationTicket ticket, Emitter<AuthState> emit) async {
+    try {
+      await _verifier.sendLink(ticket.firebaseToken);
+      emit(AuthVerificationRequired(ticket.email));
+    } catch (err) {
+      emit(AuthLinkFailed(ticket.email, _problemOf(err)));
+    }
+  }
+
+  Future<void> _onConfirmEmail(
+          AuthConfirmEmailEvent e, Emitter<AuthState> emit) =>
+      once('confirm-email', () async {
+        if (!e.silent) emit(AuthVerificationChecking(e.email));
+        final String? idToken;
+        try {
+          idToken = await _verifier.confirmedIdToken();
+        } catch (err) {
+          if (!e.silent) emit(AuthLinkFailed(e.email, _problemOf(err)));
+          return;
+        }
+        if (idToken == null) {
+          if (!e.silent) emit(AuthEmailNotConfirmed(e.email));
+          return;
+        }
+        try {
+          final auth = await _repo.verifyEmail(idToken);
+          emit(AuthAuthenticated(auth));
+          _notify();
+        } catch (err) {
+          if (e.silent) return;
+          final failure = ApiFailure.from(err);
+          emit(failure.serverCode == 'EMAIL_NOT_CONFIRMED'
+              ? AuthEmailNotConfirmed(e.email)
+              : AuthVerificationFailed(e.email, failure));
+          return;
+        }
+        // The session is the server's from here; the Firebase one has done
+        // its job.
+        try {
+          await _verifier.signOut();
+        } catch (_) {}
+      });
+
+  Future<void> _onResendLink(AuthResendLinkEvent e, Emitter<AuthState> emit) =>
+      once('resend-link', () async {
+        try {
+          await _verifier.resendLink();
+          emit(AuthLinkResent(e.email));
+        } catch (err) {
+          emit(AuthLinkFailed(e.email, _problemOf(err)));
+        }
+      });
+
+  static EmailVerificationProblem _problemOf(Object err) =>
+      err is EmailVerificationException
+          ? err.problem
+          : EmailVerificationProblem.unknown;
 
   Future<void> _onRefreshMe(AuthRefreshMeEvent e, Emitter<AuthState> emit) =>
       once('refresh-me', () async {
@@ -158,7 +243,29 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
     try {
       await _repo.logout();
     } catch (_) {}
+    try {
+      await _verifier.signOut();
+    } catch (_) {}
     emit(AuthUnauthenticated());
     _notify();
   }
+}
+
+/// Stands in when no verifier is given, as for the many blocs that never see
+/// a sign-up. Signing out of nothing is fine; anything else is a wiring
+/// mistake, and fails rather than pretend a link went out.
+class _NoEmailVerifier implements EmailVerifier {
+  const _NoEmailVerifier();
+
+  @override
+  Future<void> sendLink(String firebaseToken) => _missing();
+  @override
+  Future<void> resendLink() => _missing();
+  @override
+  Future<String?> confirmedIdToken() => _missing();
+  @override
+  Future<void> signOut() async {}
+
+  static Future<Never> _missing() =>
+      Future.error(StateError('AuthBloc was given no EmailVerifier'));
 }

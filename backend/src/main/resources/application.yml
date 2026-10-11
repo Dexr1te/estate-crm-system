@@ -65,6 +65,15 @@ jwt:
   access-token-expiration: 86400000     # 1 день (ms)
   refresh-token-expiration: 604800000   # 7 дней (ms)
 
+# FIREBASE
+# Push notifications, and the link that confirms a new account's email. The key is
+# the service account from Project settings → Service accounts; on Render it is a
+# Secret File, which a Docker service sees under /etc/secrets/.
+firebase:
+  credentials-path: ${FIREBASE_CREDENTIALS_PATH:firebase-service-account.json}
+  # Blank: the project the service account belongs to.
+  project-id: ${FIREBASE_PROJECT_ID:}
+
 
 # SWAGGER / OPENAPI
 springdoc:
@@ -118,6 +127,11 @@ app:
     # offline development, where every lookup fails.
     verify-domain: ${MAIL_VERIFY_DOMAIN:true}
     verify-domain-timeout-ms: ${MAIL_VERIFY_DOMAIN_TIMEOUT_MS:3000}
+  signup:
+    # A new account stays unusable until its owner opens the link Firebase emails
+    # them. false signs it in straight away, with nothing proving the address — an
+    # escape hatch for when Firebase cannot be reached, not a setting to leave on.
+    verify-email: ${SIGNUP_VERIFY_EMAIL:true}
   # Birthdays and purchase anniversaries: each agent is told on the day, at the
   # first run of the cron in the agency's time zone (blank = the server's).
   # Hourly through the day, so a server that was down at eight still tells

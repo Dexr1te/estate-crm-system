@@ -1,3 +1,4 @@
+import 'package:real_estate_crm/core/models/auth_models.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/network/api_client.dart';
 import 'package:real_estate_crm/core/network/json.dart';
@@ -14,7 +15,7 @@ class AuthRemoteDataSource {
     return AuthResponse.fromJson(jsonObject(res));
   }
 
-  Future<AuthResponse> register({
+  Future<RegisterResult> register({
     required String fullName,
     required String email,
     required String password,
@@ -28,6 +29,21 @@ class AuthRemoteDataSource {
       'role': role.name,
       if (phone != null && phone.isNotEmpty) 'phone': phone,
     });
+    return RegisterResult.fromJson(jsonObject(res));
+  }
+
+  Future<VerificationTicket> startVerification(
+      String email, String password) async {
+    final res = await _client.dio.post('/auth/verify-email/start', data: {
+      'email': email,
+      'password': password,
+    });
+    return VerificationTicket.fromJson(jsonObject(res));
+  }
+
+  Future<AuthResponse> verifyEmail(String idToken) async {
+    final res = await _client.dio
+        .post('/auth/verify-email', data: {'idToken': idToken});
     return AuthResponse.fromJson(jsonObject(res));
   }
 

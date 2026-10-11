@@ -19,6 +19,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     /** Sign-up and "add by email" must not treat Ivan@mail.kz and ivan@mail.kz as two people. */
     @org.springframework.data.jpa.repository.EntityGraph(attributePaths = {"team"})
     Optional<User> findFirstByEmailIgnoreCase(String email);
+    Optional<User> findByFirebaseUid(String firebaseUid);
     Optional<User> findByInviteToken(String inviteToken);
     Optional<User> findByPasswordResetToken(String resetToken);
 

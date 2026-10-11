@@ -276,6 +276,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authBackToSignIn => 'Back to sign in';
 
   @override
+  String get authChangeEmail => 'Use a different email';
+
+  @override
   String get authChooseRoleSubtitle =>
       'This decides what you see. You can be moved later by your manager.';
 
@@ -290,7 +293,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get authCreateAccountSubtitle =>
-      'Takes a minute, and you\'re signed in right after.';
+      'We\'ll email you a link to confirm the address.';
 
   @override
   String get authCreateAccountTitle => 'Create your account';
@@ -389,6 +392,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get authLinkResent => 'Link sent. Check your inbox.';
+
+  @override
   String get authNewPassword => 'New password';
 
   @override
@@ -417,6 +423,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get authPrivacyPolicy => 'Privacy policy';
+
+  @override
+  String get authResendLink => 'Send the link again';
+
+  @override
+  String authResendLinkIn(Object seconds) {
+    return 'Send again in ${seconds}s';
+  }
 
   @override
   String get authResetCode => 'Reset code';
@@ -467,6 +481,32 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get authSignUp => 'Sign up';
+
+  @override
+  String get authVerifyEmailNotYet =>
+      'The link hasn\'t been opened yet. Check your inbox and spam folder.';
+
+  @override
+  String get authVerifyEmailOpened => 'I\'ve opened the link';
+
+  @override
+  String authVerifyEmailSubtitle(Object email) {
+    return 'We sent a link to $email. Open it, then come back here.';
+  }
+
+  @override
+  String get authVerifyEmailTitle => 'Confirm your email';
+
+  @override
+  String get authVerifySignedOut => 'Sign in again to get a new link.';
+
+  @override
+  String get authVerifyTooManyRequests =>
+      'Too many attempts. Wait a few minutes and try again.';
+
+  @override
+  String get authVerifyUnavailable =>
+      'Email confirmation isn\'t available right now. Try again later.';
 
   @override
   String get authWaitingCopyEmail => 'Copy email';

@@ -5,10 +5,13 @@ import com.crm.realestate.dto.request.UpdateProfileRequest;
 import com.crm.realestate.dto.response.AuthResponse;
 import com.crm.realestate.entity.User;
 import com.crm.realestate.enums.UserStatus;
+import com.crm.realestate.exception.BusinessException;
 import com.crm.realestate.repository.UserRepository;
 import com.crm.realestate.security.AuthResponseFactory;
 import com.crm.realestate.security.JwtService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AccountStatusException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -81,17 +84,39 @@ public class AuthService {
     }
 
     public AuthResponse login(LoginRequest request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
-                )
-        );
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            request.getEmail(),
+                            request.getPassword()
+                    )
+            );
+        } catch (AccountStatusException e) {
+            throw unverifiedOr(e, request);
+        }
 
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         return authResponseFactory.withNewTokens(user);
+    }
+
+    /**
+     * Turns "account disabled" into "confirm your email" — but only for the owner.
+     *
+     * <p>Spring checks whether an account is enabled before it checks the password, so the
+     * exception alone says nothing about who is asking. Saying EMAIL_NOT_VERIFIED to anyone would
+     * tell a stranger that the address has signed up, so the password is compared here first.
+     * The app answers it by asking for a new link, with the same email and password.
+     */
+    private RuntimeException unverifiedOr(AccountStatusException original, LoginRequest request) {
+        return userRepository.findByEmail(request.getEmail())
+                .filter(u -> u.getStatus() == UserStatus.PENDING_VERIFICATION)
+                .filter(u -> u.getPassword() != null
+                        && passwordEncoder.matches(request.getPassword(), u.getPassword()))
+                .<RuntimeException>map(user -> new BusinessException(HttpStatus.FORBIDDEN,
+                        "EMAIL_NOT_VERIFIED", "Confirm your email first. Open the link we sent you."))
+                .orElse(original);
     }
 
     public AuthResponse refreshToken(String refreshToken) {

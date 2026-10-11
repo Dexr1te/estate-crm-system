@@ -2,8 +2,11 @@ package com.crm.realestate.controller;
 
 import com.crm.realestate.dto.request.LoginRequest;
 import com.crm.realestate.dto.request.RegisterRequest;
+import com.crm.realestate.dto.request.StartVerificationRequest;
 import com.crm.realestate.dto.request.UpdateProfileRequest;
+import com.crm.realestate.dto.request.VerifyEmailRequest;
 import com.crm.realestate.dto.response.AuthResponse;
+import com.crm.realestate.dto.response.RegisterResponse;
 import com.crm.realestate.service.AuthService;
 import com.crm.realestate.service.RegistrationService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,11 +29,28 @@ public class AuthController {
     private final AuthService authService;
     private final RegistrationService registrationService;
 
-    /** Opens an account and signs it in, with the same tokens a login answers with. */
+    /**
+     * Opens an account. No session comes back: the app uses the Firebase token to have a link
+     * emailed, and the account is signed in once that link has been opened.
+     */
     @PostMapping("/register")
     @Operation(summary = "Sign up as a manager or an agent")
-    public ResponseEntity<AuthResponse> register(@Valid @RequestBody RegisterRequest request) {
+    public ResponseEntity<RegisterResponse> register(@Valid @RequestBody RegisterRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(registrationService.register(request));
+    }
+
+    @PostMapping("/verify-email/start")
+    @Operation(summary = "Get a new Firebase token for an account still waiting on its link")
+    public ResponseEntity<RegisterResponse> startVerification(
+            @Valid @RequestBody StartVerificationRequest request) {
+        return ResponseEntity.ok(
+                registrationService.resumeVerification(request.getEmail(), request.getPassword()));
+    }
+
+    @PostMapping("/verify-email")
+    @Operation(summary = "Sign in a new account whose emailed link has been opened")
+    public ResponseEntity<AuthResponse> verifyEmail(@Valid @RequestBody VerifyEmailRequest request) {
+        return ResponseEntity.ok(registrationService.verifyEmail(request.getIdToken()));
     }
 
     @PostMapping("/login")

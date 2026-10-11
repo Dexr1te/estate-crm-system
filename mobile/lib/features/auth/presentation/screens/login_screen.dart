@@ -43,6 +43,11 @@ class _LoginScreenState extends State<LoginScreen> {
       body: SafeArea(
         child: BlocConsumer<AuthBloc, AuthState>(
           listener: (ctx, state) {
+            if (state is AuthVerificationRequired) {
+              showActionOutcome(ctx, state);
+              ctx.go('/verify-email?email=${Uri.encodeComponent(state.email)}');
+              return;
+            }
             if (state is AuthError) {
               ScaffoldMessenger.of(ctx)
                 ..hideCurrentSnackBar()

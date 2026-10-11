@@ -275,6 +275,9 @@ class AppLocalizationsKk extends AppLocalizations {
   String get authBackToSignIn => 'Кіруге оралу';
 
   @override
+  String get authChangeEmail => 'Басқа адрес';
+
+  @override
   String get authChooseRoleSubtitle =>
       'Бұл көретін нәрсеңізді анықтайды. Кейін жетекші өзгерте алады.';
 
@@ -289,7 +292,7 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get authCreateAccountSubtitle =>
-      'Бір минуттан аспайды, содан кейін бірден кіресіз.';
+      'Адресті растау үшін поштаға сілтеме жібереміз.';
 
   @override
   String get authCreateAccountTitle => 'Аккаунт жасаңыз';
@@ -387,6 +390,9 @@ class AppLocalizationsKk extends AppLocalizations {
   }
 
   @override
+  String get authLinkResent => 'Сілтеме жіберілді. Поштаңызды тексеріңіз.';
+
+  @override
   String get authNewPassword => 'Жаңа құпия сөз';
 
   @override
@@ -415,6 +421,14 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get authPrivacyPolicy => 'Құпиялылық саясаты';
+
+  @override
+  String get authResendLink => 'Сілтемені қайта жіберу';
+
+  @override
+  String authResendLinkIn(Object seconds) {
+    return '$seconds с кейін қайта жіберу';
+  }
 
   @override
   String get authResetCode => 'Қалпына келтіру коды';
@@ -465,6 +479,32 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get authSignUp => 'Тіркелу';
+
+  @override
+  String get authVerifyEmailNotYet =>
+      'Сілтеме әлі ашылмаған. Кіріс және «Спам» қалталарын тексеріңіз.';
+
+  @override
+  String get authVerifyEmailOpened => 'Сілтемені аштым';
+
+  @override
+  String authVerifyEmailSubtitle(Object email) {
+    return '$email адресіне сілтеме жібердік. Оны ашып, осында оралыңыз.';
+  }
+
+  @override
+  String get authVerifyEmailTitle => 'Поштаны растаңыз';
+
+  @override
+  String get authVerifySignedOut => 'Жаңа сілтеме алу үшін қайта кіріңіз.';
+
+  @override
+  String get authVerifyTooManyRequests =>
+      'Әрекет тым көп. Бірнеше минут күтіп, қайталап көріңіз.';
+
+  @override
+  String get authVerifyUnavailable =>
+      'Поштаны растау қазір қолжетімсіз. Кейінірек қайталап көріңіз.';
 
   @override
   String get authWaitingCopyEmail => 'Адресті көшіру';

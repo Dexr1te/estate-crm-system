@@ -13,6 +13,7 @@ import 'package:real_estate_crm/features/auth/presentation/screens/register_form
 import 'package:real_estate_crm/features/auth/presentation/screens/register_role_screen.dart';
 import 'package:real_estate_crm/features/auth/presentation/screens/reset_password_screen.dart';
 import 'package:real_estate_crm/features/auth/presentation/screens/splash_screen.dart';
+import 'package:real_estate_crm/features/auth/presentation/screens/verify_email_screen.dart';
 import 'package:real_estate_crm/features/auth/presentation/screens/waiting_for_team_screen.dart';
 import 'package:real_estate_crm/features/change_log/presentation/screens/change_history_screen.dart';
 import 'package:real_estate_crm/features/change_log/presentation/screens/team_change_log_screen.dart';
@@ -100,6 +101,7 @@ String? resolveRedirect({
   const authLocations = [
     '/login',
     '/register',
+    '/verify-email',
     '/accept-invite',
     '/forgot-password',
     '/reset-password',
@@ -187,6 +189,14 @@ GoRouter createRouter(AuthBloc authBloc) {
             ),
           ),
         ],
+      ),
+      GoRoute(
+        path: '/verify-email',
+        pageBuilder: (_, s) => NoTransitionPage(
+          child: VerifyEmailScreen(
+            email: s.uri.queryParameters['email'] ?? '',
+          ),
+        ),
       ),
       GoRoute(
         path: '/onboarding/team',

@@ -86,7 +86,8 @@ default is wrong for a submission host:
 | `JWT_SECRET` | No default. Signing key, Base64. |
 | `APP_BASE_URL` | Defaults to `localhost`. The invite email's button is built from it. |
 | `INVITE_URL` | Only if invites should point somewhere other than `<base>/api/invite`. |
-| `MAIL_ENABLED`, `MAIL_USERNAME`, `MAIL_PASSWORD` | Off by default. Invites, password resets and team requests are mailed with them; sign-up sends nothing, so a reviewer can register either way. Gmail wants a 16-character App Password, not the account password. |
+| `MAIL_ENABLED`, `MAIL_USERNAME`, `MAIL_PASSWORD` | Off by default. Invites, password resets and team requests are mailed with them; sign-up does not use them. Gmail wants a 16-character App Password, not the account password. |
+| `FIREBASE_CREDENTIALS_PATH` | Sign-up needs it: Firebase emails the link that confirms a new account. On Render, upload the service-account key as a Secret File and set this to `/etc/secrets/<its name>`. Without it, `POST /auth/register` answers 503 `VERIFICATION_UNAVAILABLE` and creates nothing. |
 | `MAIL_PROVIDER=brevo`, `BREVO_API_KEY`, `MAIL_FROM` | For a host that blocks outbound SMTP, as Render's free plan does (ports 25, 465 and 587): mail then leaves through Brevo's HTTPS API instead, and `MAIL_USERNAME`/`MAIL_PASSWORD` are not used. `MAIL_ENABLED=true` is still required. `MAIL_FROM` has to be a sender verified in Brevo (Senders, Domains & Dedicated IPs → Senders); the key is under SMTP & API → API Keys. |
 | `ADMIN_PASSWORD` | No default, and nothing works without it: `V18` retires the admin passwords the migrations used to carry, so this is the only thing that opens the admin console. Set it **before** deploying, or the console is shut until you do. |
 | `DEMO_ENABLED`, `DEMO_PASSWORD` | Off by default, and the seeder refuses to run without a password. This is the account App Review signs in with. |
@@ -141,10 +142,11 @@ up creates an empty agency, so the demo account is the one that shows the app.
 
 ### If a reviewer signs up anyway
 
-Worth knowing, because they may: sign-up asks for a role and signs the account
-straight in — no email, no code. A manager lands on "create your agency", an
-agent on a screen waiting to be added to one. Both work, and neither shows the
-app, which is why the notes have to point at the demo account.
+Worth knowing, because they may: sign-up asks for a role, then Firebase emails a
+link that has to be opened before the account works. That means the Firebase
+key on the submission host (`FIREBASE_CREDENTIALS_PATH`). Once in, a manager lands
+on "create your agency", an agent on a screen waiting to be added to one. Neither
+shows the app, which is why the notes have to point at the demo account.
 
 ### Afterwards
 
