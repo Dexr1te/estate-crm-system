@@ -36,8 +36,7 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<VerificationTicket> startVerification(
-          String email, String password) =>
+  Future<VerificationTicket> startVerification(String email, String password) =>
       _remote.startVerification(email, password);
 
   @override

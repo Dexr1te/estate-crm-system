@@ -187,8 +187,8 @@ void main() {
 
     test('asking for the link again sends it', () async {
       final verifier = FakeEmailVerifier();
-      final bloc = AuthBloc(FakeAuthRepository(user: _confirmed),
-          verifier: verifier);
+      final bloc =
+          AuthBloc(FakeAuthRepository(user: _confirmed), verifier: verifier);
       addTearDown(bloc.close);
 
       bloc.add(AuthResendLinkEvent('aigerim@almaty.kz'));

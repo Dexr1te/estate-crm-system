@@ -70,7 +70,8 @@ class AuthLinkFailed extends AuthVerificationRequired with ActionOutcome {
   bool get isFailure => true;
 }
 
-class AuthVerificationFailed extends AuthVerificationRequired with ActionFailed {
+class AuthVerificationFailed extends AuthVerificationRequired
+    with ActionFailed {
   @override
   final ApiFailure failure;
 
