@@ -5,5 +5,9 @@ node_modules/
 dist/
 build/
 .next/
+graphify-out/
 backend/src/main/resources/application.yml
 backend/firebase-service-account.json
+/artifacts/
+/docs/web-nextjs-implementation/
+/docs/web-nextjs-spec/

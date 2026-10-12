@@ -1,0 +1,52 @@
+{
+  "name": "estate-crm-next-runtime-proof",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "npm@11.19.0",
+  "engines": {
+    "node": "24.21.0",
+    "npm": "11.19.0"
+  },
+  "scripts": {
+    "lint": "eslint src tests scripts eslint.config.mjs vitest.config.ts playwright.config.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "node --experimental-strip-types --test tests/unit/*.test.mjs",
+    "test:vitest": "vitest run",
+    "pretest:e2e": "BACKEND_API_URL=http://127.0.0.1:8080/api WEB_ORIGIN=http://127.0.0.1:3000 npm run build",
+    "test:e2e": "node scripts/test-e2e.mjs",
+    "build": "next build",
+    "runtime:proof": "node scripts/runtime-proof.mjs",
+    "runtime:bff": "node scripts/bff-runtime-proof.mjs",
+    "runtime:session": "node scripts/session-runtime-proof.mjs",
+    "runtime:session-rsc": "node scripts/session-rsc-proof.mjs",
+    "runtime:theme-browser": "node scripts/theme-browser-proof.mjs",
+    "runtime:entry-shell": "node scripts/entry-shell-proof.mjs",
+    "runtime:query-cache": "node scripts/query-cache-browser-proof.mjs"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "5.104.0",
+    "next": "16.4.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "server-only": "0.0.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.0",
+    "@testing-library/dom": "10.4.1",
+    "@testing-library/jest-dom": "6.9.1",
+    "@testing-library/react": "16.3.2",
+    "@testing-library/user-event": "14.6.1",
+    "@types/node": "24.19.2",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "eslint": "9.39.4",
+    "eslint-config-next": "16.4.0",
+    "jsdom": "29.1.1",
+    "msw": "2.12.14",
+    "playwright-core": "1.64.0",
+    "typescript": "6.0.2",
+    "vite": "6.4.3",
+    "vitest": "4.1.7"
+  }
+}
