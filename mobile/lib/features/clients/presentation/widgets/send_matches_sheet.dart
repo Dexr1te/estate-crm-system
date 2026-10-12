@@ -199,7 +199,7 @@ class _SendMatchesSheetState extends State<SendMatchesSheet> {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 13.5,
+                        fontSize: AppType.body,
                         fontWeight: FontWeight.w500,
                         color: t.textPrimary),
                   ),
@@ -210,7 +210,7 @@ class _SendMatchesSheetState extends State<SendMatchesSheet> {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 11.5,
+                        fontSize: AppType.caption,
                         height: 1.35,
                         color: t.textSecondary),
                   ),
@@ -265,7 +265,9 @@ class _SendMatchesSheetState extends State<SendMatchesSheet> {
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
-                fontFamily: AppFonts.sans, fontSize: 11.5, color: t.textHint),
+                fontFamily: AppFonts.sans,
+                fontSize: AppType.caption,
+                color: t.textHint),
           ),
         ],
       ],
@@ -302,7 +304,7 @@ class _PickRow extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 13,
+                      fontSize: AppType.body,
                       fontWeight: FontWeight.w600,
                       color: t.textPrimary),
                 ),
@@ -313,7 +315,7 @@ class _PickRow extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 11.5,
+                      fontSize: AppType.caption,
                       color: t.textSecondary),
                 ),
               ],
@@ -361,7 +363,7 @@ class _OptionRow extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 13.5,
+                    fontSize: AppType.body,
                     fontWeight: FontWeight.w500,
                     color: t.textPrimary),
               ),
@@ -372,7 +374,7 @@ class _OptionRow extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 11.5,
+                    fontSize: AppType.caption,
                     height: 1.35,
                     color: t.textSecondary),
               ),

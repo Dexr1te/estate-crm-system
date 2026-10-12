@@ -482,6 +482,19 @@ class AppLocalizationsRu extends AppLocalizations {
   String get authSignUp => 'Зарегистрироваться';
 
   @override
+  String get authDemoUnavailable => 'Демо сейчас недоступно. Попробуйте позже.';
+
+  @override
+  String get authDemoCreateAccount => 'Создать аккаунт';
+
+  @override
+  String get authDemoBanner =>
+      'Это демо-агентство. Оно удаляется в течение суток.';
+
+  @override
+  String get authTryDemo => 'Попробовать демо';
+
+  @override
   String get authVerifyEmailNotYet =>
       'Ссылка ещё не открыта. Проверьте входящие и папку «Спам».';
 
@@ -1878,6 +1891,22 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get coreNavTeam => 'Команда';
+
+  @override
+  String get coreDraftDiscard => 'Сбросить';
+
+  @override
+  String get coreDone => 'Готово';
+
+  @override
+  String get coreDraftRestored =>
+      'Восстановили то, что вы вводили в прошлый раз';
+
+  @override
+  String get coreShowLess => 'Свернуть';
+
+  @override
+  String get coreMore => 'Ещё';
 
   @override
   String get coreNoResults => 'Ничего не найдено';

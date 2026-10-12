@@ -295,7 +295,9 @@ Future<void> _pump(WidgetTester tester, String location,
 
   Widget host(BuildContext _, GoRouterState __) => const Scaffold(
         body: SafeArea(
-          child: Align(alignment: Alignment.topRight, child: QuickAddButton()),
+          child: Align(
+              alignment: Alignment.bottomRight,
+              child: QuickAddButton.floating()),
         ),
       );
   Widget form(BuildContext _, GoRouterState s) {

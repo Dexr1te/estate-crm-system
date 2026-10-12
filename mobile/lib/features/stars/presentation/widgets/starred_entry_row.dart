@@ -65,7 +65,7 @@ class StarredEntryRow extends StatelessWidget {
                     TextSpan(
                       text: title,
                       style: TextStyle(
-                          fontSize: 13,
+                          fontSize: AppType.body,
                           fontWeight: FontWeight.w600,
                           color: t.textPrimary),
                       children: [
@@ -73,7 +73,7 @@ class StarredEntryRow extends StatelessWidget {
                           TextSpan(
                             text: '  $detail',
                             style: TextStyle(
-                                fontSize: 12,
+                                fontSize: AppType.footnote,
                                 fontWeight: FontWeight.w400,
                                 color: t.textSecondary),
                           ),

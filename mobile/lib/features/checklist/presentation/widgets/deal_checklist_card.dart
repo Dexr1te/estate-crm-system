@@ -101,7 +101,7 @@ class _DealChecklistCardState extends State<DealChecklistCard> {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontFamily: AppFonts.sans,
-                            fontSize: 11,
+                            fontSize: AppType.caption,
                             color: t.textHint),
                       ),
                     ),

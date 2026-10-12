@@ -128,7 +128,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontFamily: AppFonts.sans,
-                            fontSize: 11.5,
+                            fontSize: AppType.caption,
                             color: t.textSecondary),
                       ),
                       const SizedBox(height: 20),

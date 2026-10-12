@@ -14,7 +14,7 @@ DateTime _today() {
 
 Future<DateTime?> _pickDate(BuildContext context, DateTime initial) {
   final today = _today();
-  return showDatePicker(
+  return showAppDatePicker(
     context: context,
     initialDate: initial,
     firstDate: DateTime(today.year - 5),
@@ -132,7 +132,9 @@ class _DepositFormState extends State<DepositForm> {
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
-                fontFamily: AppFonts.sans, fontSize: 11.5, color: t.dangerText),
+                fontFamily: AppFonts.sans,
+                fontSize: AppType.caption,
+                color: t.dangerText),
           ),
         ],
         const SizedBox(height: 14),
@@ -248,7 +250,9 @@ class _CloseDepositFormState extends State<CloseDepositForm> {
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
-                fontFamily: AppFonts.sans, fontSize: 11.5, color: t.dangerText),
+                fontFamily: AppFonts.sans,
+                fontSize: AppType.caption,
+                color: t.dangerText),
           ),
         ],
         const SizedBox(height: 16),

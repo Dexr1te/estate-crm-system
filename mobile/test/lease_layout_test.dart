@@ -13,6 +13,7 @@ import 'package:real_estate_crm/features/leases/presentation/widgets/lease_row.d
 import 'checklist_fixtures.dart';
 import 'fakes.dart';
 import 'lease_fixtures.dart';
+import 'more_section_expect.dart';
 import 'responsive_harness.dart';
 
 /// The lease wherever it shows — the dashboard card, the full list, and the
@@ -100,6 +101,7 @@ void main() {
           locale: locale,
         );
         await _settle(tester, 'deal, ${locale.languageCode}');
+        await openMore(tester);
         final renew = find.byKey(const Key('deal-lease-renew'));
         await tester.ensureVisible(renew);
         await _settle(tester, 'lease card, ${locale.languageCode}');

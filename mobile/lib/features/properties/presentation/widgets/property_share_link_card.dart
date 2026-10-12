@@ -206,7 +206,7 @@ class _Line extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
         style: TextStyle(
             fontFamily: AppFonts.sans,
-            fontSize: 12.5,
+            fontSize: AppType.subhead,
             height: 1.35,
             fontWeight: weight,
             color: color),

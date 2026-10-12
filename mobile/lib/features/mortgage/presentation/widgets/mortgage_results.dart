@@ -20,7 +20,9 @@ class MortgageResultHero extends StatelessWidget {
                 '${formatCents(result.lastPaymentCents)}'
             : formatCents(result.firstPaymentCents);
     final muted = TextStyle(
-        fontFamily: AppFonts.sans, fontSize: 11.5, color: t.heroTextMuted);
+        fontFamily: AppFonts.sans,
+        fontSize: AppType.caption,
+        color: t.heroTextMuted);
 
     return AppHeroCard(
       child: Column(

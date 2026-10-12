@@ -92,7 +92,9 @@ class DealCommissionSplitCard extends StatelessWidget {
       BuildContext context, CommissionSplitState state, AppLocalizations l10n) {
     final t = context.tokens;
     final secondary = TextStyle(
-        fontFamily: AppFonts.sans, fontSize: 12.5, color: t.textSecondary);
+        fontFamily: AppFonts.sans,
+        fontSize: AppType.subhead,
+        color: t.textSecondary);
     final split = state.split;
     if (state.status == CommissionSplitStatus.loading || split == null) {
       if (state.status == CommissionSplitStatus.error) {
@@ -153,7 +155,7 @@ class DealCommissionSplitCard extends StatelessWidget {
         Text(l10n.splitsAmountUnknown,
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
-            style: secondary.copyWith(fontSize: 11.5)),
+            style: secondary.copyWith(fontSize: AppType.caption)),
       ],
       if (split.editable) ...[
         const SizedBox(height: 12),
@@ -195,7 +197,7 @@ class _ShareRow extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 13,
+                    fontSize: AppType.body,
                     fontWeight: FontWeight.w600,
                     color: share.active ? t.textPrimary : t.textSecondary),
               ),
@@ -206,7 +208,7 @@ class _ShareRow extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 11.5,
+                    fontSize: AppType.caption,
                     color: t.textSecondary),
               ),
             ],
@@ -225,7 +227,7 @@ class _ShareRow extends StatelessWidget {
                 textAlign: TextAlign.end,
                 style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 13,
+                    fontSize: AppType.subhead,
                     fontWeight: FontWeight.w600,
                     color: t.textPrimary),
               ),
@@ -238,7 +240,7 @@ class _ShareRow extends StatelessWidget {
                   textAlign: TextAlign.end,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 11.5,
+                      fontSize: AppType.caption,
                       color: t.textSecondary),
                 ),
               ],
@@ -315,7 +317,7 @@ class _PayoutLine extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 11.5,
+                  fontSize: AppType.caption,
                   height: 1.4,
                   color: t.textSecondary),
             ),

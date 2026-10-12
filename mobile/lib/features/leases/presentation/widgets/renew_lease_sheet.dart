@@ -72,7 +72,7 @@ class _RenewLeaseFormState extends State<RenewLeaseForm> {
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
               fontFamily: AppFonts.sans,
-              fontSize: 12.5,
+              fontSize: AppType.subhead,
               height: 1.4,
               color: t.textSecondary),
         ),
@@ -89,7 +89,7 @@ class _RenewLeaseFormState extends State<RenewLeaseForm> {
             placeholder: l10n.leasesPickDate,
             trailingIcon: Icons.calendar_today_outlined,
             onTap: () async {
-              final d = await showDatePicker(
+              final d = await showAppDatePicker(
                 context: context,
                 initialDate: _end,
                 firstDate: DateTime(_currentEnd.year - 1),
@@ -107,7 +107,9 @@ class _RenewLeaseFormState extends State<RenewLeaseForm> {
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
-                fontFamily: AppFonts.sans, fontSize: 11.5, color: t.dangerText),
+                fontFamily: AppFonts.sans,
+                fontSize: AppType.caption,
+                color: t.dangerText),
           ),
         ],
         const SizedBox(height: 14),

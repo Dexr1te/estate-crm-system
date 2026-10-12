@@ -78,7 +78,7 @@ class PricePin extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 12,
+                      fontSize: AppType.footnote,
                       fontWeight: FontWeight.w700,
                       color: ink,
                     ),

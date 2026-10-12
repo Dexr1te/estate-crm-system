@@ -60,7 +60,7 @@ class DepositRow extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 14,
+                        fontSize: AppType.body,
                         fontWeight: FontWeight.w600,
                         color: t.textPrimary)),
                 const SizedBox(height: 2),
@@ -69,7 +69,7 @@ class DepositRow extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 12,
+                        fontSize: AppType.footnote,
                         fontWeight: FontWeight.w500,
                         color: t.dangerText)),
                 if (meta.isNotEmpty) ...[
@@ -79,7 +79,7 @@ class DepositRow extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontFamily: AppFonts.sans,
-                          fontSize: 11.5,
+                          fontSize: AppType.caption,
                           color: t.textSecondary)),
                 ],
               ],

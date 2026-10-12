@@ -93,7 +93,7 @@ void main() {
     );
   });
 
-  forEachAcceptanceCase('bottom nav (6 items)',
+  forEachAcceptanceCase('bottom nav (5 items)',
       (t, size, brightness, scale) async {
     await expectNoOverflow(
       t,
@@ -123,10 +123,6 @@ void main() {
                 icon: Icons.calendar_today_outlined,
                 activeIcon: Icons.calendar_today,
                 label: 'Meetings'),
-            AppNavItem(
-                icon: Icons.shield_outlined,
-                activeIcon: Icons.shield,
-                label: 'Admin'),
           ],
         ),
       ),

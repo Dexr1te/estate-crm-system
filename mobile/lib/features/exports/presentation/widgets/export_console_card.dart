@@ -25,7 +25,7 @@ class ExportConsoleCard extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 15,
+                  fontSize: AppType.body,
                   fontWeight: FontWeight.w700,
                   color: t.textPrimary)),
           const SizedBox(height: 4),
@@ -34,7 +34,7 @@ class ExportConsoleCard extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 12.5,
+                  fontSize: AppType.subhead,
                   height: 1.4,
                   color: t.textSecondary)),
           const SizedBox(height: 10),
@@ -95,7 +95,7 @@ class _ExportRowState extends State<_ExportRow> {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 14,
+                      fontSize: AppType.body,
                       fontWeight: FontWeight.w600,
                       color: t.textPrimary)),
             ),

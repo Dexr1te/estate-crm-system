@@ -230,58 +230,72 @@ class _PrivacyConsent extends StatelessWidget {
     final t = context.tokens;
     final base = TextStyle(
         fontFamily: AppFonts.sans,
-        fontSize: 12.5,
+        fontSize: AppType.subhead,
         height: 1.45,
         color: t.textSecondary);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              width: (AppMetrics.minHitTarget + Checkbox.width) / 2,
-              height: AppMetrics.minHitTarget,
-              child: OverflowBox(
-                minWidth: AppMetrics.minHitTarget,
-                maxWidth: AppMetrics.minHitTarget,
-                alignment: AlignmentDirectional.centerEnd,
-                child: Checkbox(
-                  value: accepted,
-                  onChanged: (value) => onChanged(value ?? false),
-                  activeColor: t.primary,
-                  side: BorderSide(
-                      color: missing ? t.dangerBorder : t.textHint, width: 1.5),
-                ),
-              ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 12),
-                child: Text.rich(
-                  TextSpan(
-                    text: '${l10n.authAcceptTerms} ',
-                    style: base,
-                    children: [
-                      TextSpan(
-                        text: l10n.authPrivacyPolicy,
-                        style: base.copyWith(
-                            fontWeight: FontWeight.w600,
-                            color: t.textPrimary,
-                            decoration: TextDecoration.underline),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () => launchUrl(backendPageUrl('/privacy'),
-                              mode: LaunchMode.externalApplication),
+        Material(
+          color: Colors.transparent,
+          child: InkWell(
+            key: const Key('register-consent'),
+            onTap: () => onChanged(!accepted),
+            borderRadius: BorderRadius.circular(AppMetrics.radiusSm),
+            child: ConstrainedBox(
+              constraints:
+                  const BoxConstraints(minHeight: AppMetrics.minHitTarget),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: (AppMetrics.minHitTarget + Checkbox.width) / 2,
+                    height: AppMetrics.minHitTarget,
+                    child: OverflowBox(
+                      minWidth: AppMetrics.minHitTarget,
+                      maxWidth: AppMetrics.minHitTarget,
+                      alignment: AlignmentDirectional.centerEnd,
+                      child: Checkbox(
+                        value: accepted,
+                        onChanged: (value) => onChanged(value ?? false),
+                        activeColor: t.primary,
+                        side: BorderSide(
+                            color: missing ? t.dangerBorder : t.textHint,
+                            width: 1.5),
                       ),
-                    ],
+                    ),
                   ),
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 12),
+                      child: Text.rich(
+                        TextSpan(
+                          text: '${l10n.authAcceptTerms} ',
+                          style: base,
+                          children: [
+                            TextSpan(
+                              text: l10n.authPrivacyPolicy,
+                              style: base.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  color: t.textPrimary,
+                                  decoration: TextDecoration.underline),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () => launchUrl(
+                                    backendPageUrl('/privacy'),
+                                    mode: LaunchMode.externalApplication),
+                            ),
+                          ],
+                        ),
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
+          ),
         ),
         if (missing)
           Padding(
@@ -290,7 +304,8 @@ class _PrivacyConsent extends StatelessWidget {
               l10n.authAcceptTermsRequired,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: base.copyWith(fontSize: 11.5, color: t.dangerText),
+              style:
+                  base.copyWith(fontSize: AppType.caption, color: t.dangerText),
             ),
           ),
       ],

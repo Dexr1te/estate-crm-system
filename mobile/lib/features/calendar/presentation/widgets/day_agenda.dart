@@ -69,7 +69,7 @@ class DayAgenda extends StatelessWidget {
                   label: l10n.calendarToday,
                   onPressed: onToday!,
                   height: AppMetrics.minHitTarget,
-                  fontSize: 12.5,
+                  fontSize: AppType.subhead,
                 ),
               ),
             ],

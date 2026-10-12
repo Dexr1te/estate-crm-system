@@ -3,15 +3,10 @@ package com.crm.realestate.config;
 import com.crm.realestate.entity.Client;
 import com.crm.realestate.entity.Deal;
 import com.crm.realestate.entity.Document;
-import com.crm.realestate.entity.Meeting;
 import com.crm.realestate.entity.Property;
 import com.crm.realestate.entity.Team;
 import com.crm.realestate.entity.User;
-import com.crm.realestate.enums.ClientType;
 import com.crm.realestate.enums.DataScope;
-import com.crm.realestate.enums.DealStatus;
-import com.crm.realestate.enums.PropertyStatus;
-import com.crm.realestate.enums.PropertyType;
 import com.crm.realestate.enums.Role;
 import com.crm.realestate.enums.UserStatus;
 import com.crm.realestate.repository.ClientRepository;
@@ -22,6 +17,8 @@ import com.crm.realestate.repository.PropertyRepository;
 import com.crm.realestate.repository.TeamRepository;
 import com.crm.realestate.repository.UserRepository;
 import com.crm.realestate.service.DocumentStorage;
+import com.crm.realestate.service.demo.DemoAccounts;
+import com.crm.realestate.service.demo.DemoSampleRecords;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,10 +29,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * The account App Review signs in with, and enough work for it to have something to look at.
@@ -69,13 +65,13 @@ import java.util.List;
 public class DemoDataSeeder implements ApplicationRunner {
 
     /** Reserved for demo records, so a marker can never collide with a real client's address. */
-    static final String DEMO_EMAIL_DOMAIN = "@demo.estatecrm.app";
+    static final String DEMO_EMAIL_DOMAIN = DemoAccounts.EMAIL_DOMAIN;
 
     /** Visible on purpose: these rows live in the agency's production database. */
-    static final String DEMO_PREFIX = "[Demo] ";
+    static final String DEMO_PREFIX = DemoAccounts.PREFIX;
 
     /** The reviewer's agency. An agent outside any team would be shown nothing but a waiting screen. */
-    static final String DEMO_TEAM = DEMO_PREFIX + "Agency";
+    static final String DEMO_TEAM = DemoAccounts.TEAM_NAME;
 
     private final UserRepository     userRepository;
     private final TeamRepository     teamRepository;
@@ -86,6 +82,7 @@ public class DemoDataSeeder implements ApplicationRunner {
     private final DocumentRepository documentRepository;
     private final DocumentStorage    documentStorage;
     private final PasswordEncoder    passwordEncoder;
+    private final DemoSampleRecords  sampleRecords;
 
     @Value("${app.demo.email:reviewer" + DEMO_EMAIL_DOMAIN + "}")
     private String reviewerEmail;
@@ -110,9 +107,14 @@ public class DemoDataSeeder implements ApplicationRunner {
             return;
         }
 
-        clearPreviousRun();
+        Set<Long> tryTheDemoTeams = new HashSet<>(
+                userRepository.findTeamIdsByEmailLike(DemoAccounts.TRY_EMAIL_PATTERN));
 
-        Team team = teamRepository.findFirstByNameOrderByIdAsc(DEMO_TEAM)
+        clearPreviousRun(tryTheDemoTeams);
+
+        Team team = teamRepository.findByNameOrderByIdAsc(DEMO_TEAM).stream()
+                .filter(t -> !tryTheDemoTeams.contains(t.getId()))
+                .findFirst()
                 .orElseGet(() -> teamRepository.save(Team.builder().name(DEMO_TEAM).build()));
 
         // Someone for the reviewer to hand the records to. Deleting your own account requires
@@ -121,7 +123,7 @@ public class DemoDataSeeder implements ApplicationRunner {
                 .orElseGet(() -> userRepository.save(agent(handoverEmail(), DEMO_PREFIX + "Handover Account", team)));
 
         User reviewer = userRepository.save(agent(reviewerEmail, reviewerName, team));
-        seedRecords(reviewer);
+        sampleRecords.seed(reviewer);
 
         log.info("Seeded demo account {} (agent, own-data scope) with 6 clients, 5 listings, "
                 + "5 deals and 4 meetings. Successor for the deletion flow: {}.",
@@ -143,8 +145,10 @@ public class DemoDataSeeder implements ApplicationRunner {
      * <p>Listings are the exception: nothing owns them, they have to be named separately, and one
      * that a real deal has since been attached to is left where it is.
      */
-    private void clearPreviousRun() {
-        List<Client> staleClients = clientRepository.findByEmailEndingWithIgnoreCase(DEMO_EMAIL_DOMAIN);
+    private void clearPreviousRun(Set<Long> tryTheDemoTeams) {
+        List<Client> staleClients = clientRepository.findByEmailEndingWithIgnoreCase(DEMO_EMAIL_DOMAIN).stream()
+                .filter(c -> outside(c.getTeam(), tryTheDemoTeams))
+                .toList();
         List<Deal> staleDeals = staleClients.stream()
                 .flatMap(c -> dealRepository.findByClientId(c.getId()).stream())
                 .toList();
@@ -170,6 +174,7 @@ public class DemoDataSeeder implements ApplicationRunner {
         clientRepository.flush();
 
         List<Property> staleProperties = propertyRepository.findByTitleStartingWith(DEMO_PREFIX).stream()
+                .filter(p -> outside(p.getTeam(), tryTheDemoTeams))
                 .filter(p -> !dealRepository.existsByPropertyId(p.getId()))
                 .toList();
         propertyRepository.deleteAll(staleProperties);
@@ -202,116 +207,7 @@ public class DemoDataSeeder implements ApplicationRunner {
                 .build();
     }
 
-    private void seedRecords(User agent) {
-        Client aigerim = client(agent, "Aigerim Nurlanova", "aigerim", "+7 701 000 01 01",
-                ClientType.BUYER, "Looking for a two-room flat near the centre. Viewings after 18:00.");
-        Client daniyar = client(agent, "Daniyar Serikov", "daniyar", "+7 701 000 01 02",
-                ClientType.BUYER, "Mortgage pre-approved. Wants a school within walking distance.");
-        Client madina = client(agent, "Madina Abenova", "madina", "+7 701 000 01 03",
-                ClientType.SELLER, "Selling the retail unit on Abay. Deal closed in her favour.");
-        Client ruslan = client(agent, "Ruslan Iskakov", "ruslan", "+7 701 000 01 04",
-                ClientType.BUYER, "Relocating from Astana. Needs the house before September.");
-        Client zhanna = client(agent, "Zhanna Karimova", "zhanna", "+7 701 000 01 05",
-                ClientType.SELLER, "Withdrew the office floor from sale; may relist in spring.");
-        client(agent, "Timur Bekov", "timur", "+7 701 000 01 06",
-                ClientType.BUYER, "First call taken, nothing shortlisted yet.");
-
-        Property dostyk = property(agent, "2-room apartment on Dostyk", "Dostyk Ave 210",
-                PropertyType.APARTMENT, PropertyStatus.AVAILABLE, "128000", 62.5, 2, 7, 12);
-        Property alFarabi = property(agent, "3-room apartment on Al-Farabi", "Al-Farabi Ave 77",
-                PropertyType.APARTMENT, PropertyStatus.RESERVED, "215000", 94.0, 3, 5, 9);
-        Property house = property(agent, "Family house in Gornyi Gigant", "Zhamakayev St 12",
-                PropertyType.HOUSE, PropertyStatus.AVAILABLE, "430000", 240.0, 5, 1, 2);
-        Property office = property(agent, "Office floor at Nurly Tau", "Al-Farabi Ave 17/1",
-                PropertyType.OFFICE, PropertyStatus.AVAILABLE, "310000", 180.0, null, 8, 16);
-        Property retail = property(agent, "Retail space on Abay", "Abay Ave 44",
-                PropertyType.COMMERCIAL, PropertyStatus.SOLD, "265000", 120.0, null, 1, 1);
-
-        // One deal per pipeline column, so the board has something to drag in every one of them.
-        Deal search = deal(agent, aigerim, null, "Apartment search for Aigerim",
-                DealStatus.LEAD, null, "140000", null);
-        Deal negotiation = deal(agent, daniyar, alFarabi, "Al-Farabi three-room for Daniyar",
-                DealStatus.NEGOTIATION, "210000", "220000", null);
-        Deal won = deal(agent, madina, retail, "Abay retail unit for Madina",
-                DealStatus.CLOSED_WON, "265000", null, LocalDateTime.now().minusDays(12));
-        Deal viewing = deal(agent, ruslan, house, "Gornyi Gigant house for Ruslan",
-                DealStatus.NEGOTIATION, "430000", "450000", null);
-        deal(agent, zhanna, office, "Nurly Tau office floor for Zhanna",
-                DealStatus.CLOSED_LOST, null, null, LocalDateTime.now().minusDays(5));
-
-        // Two ahead and two behind: the dashboard counts upcoming meetings, and the reminder
-        // settings screen is only worth looking at if there is something left to be reminded about.
-        meeting(agent, daniyar, negotiation, "Viewing at Al-Farabi 77",
-                LocalDate.now().plusDays(1).atTime(11, 0), "Al-Farabi Ave 77", false);
-        meeting(agent, ruslan, viewing, "Second viewing of the house",
-                LocalDate.now().plusDays(3).atTime(15, 30), "Zhamakayev St 12", false);
-        meeting(agent, aigerim, search, "Intake call",
-                LocalDate.now().minusDays(2).atTime(10, 0), "Phone", true);
-        meeting(agent, madina, won, "Handover of the keys",
-                LocalDate.now().minusDays(9).atTime(13, 0), "Abay Ave 44", true);
-    }
-
-    private Client client(User agent, String name, String mailbox, String phone,
-                          ClientType type, String notes) {
-        return clientRepository.save(Client.builder()
-                .fullName(DEMO_PREFIX + name)
-                .email(mailbox + DEMO_EMAIL_DOMAIN)
-                .phone(phone)
-                .type(type)
-                .notes(notes)
-                .agent(agent)
-                .team(agent.getTeam())
-                .build());
-    }
-
-    private Property property(User agent, String title, String address, PropertyType type,
-                              PropertyStatus status, String price, Double areaSqm,
-                              Integer rooms, Integer floor, Integer totalFloors) {
-        return propertyRepository.save(Property.builder()
-                .title(DEMO_PREFIX + title)
-                .address(address)
-                .city("Almaty")
-                .type(type)
-                .status(status)
-                .price(new BigDecimal(price))
-                .areaSqm(areaSqm)
-                .rooms(rooms)
-                .floor(floor)
-                .totalFloors(totalFloors)
-                .agent(agent)
-                .team(agent.getTeam())
-                .build());
-    }
-
-    private Deal deal(User agent, Client client, Property property, String title,
-                      DealStatus status, String dealPrice, String budget, LocalDateTime closedAt) {
-        return dealRepository.save(Deal.builder()
-                .title(title)
-                .status(status)
-                .client(client)
-                .property(property)
-                .agent(agent)
-                .team(agent.getTeam())
-                .dealPrice(dealPrice == null ? null : new BigDecimal(dealPrice))
-                .budget(budget == null ? null : new BigDecimal(budget))
-                .closedAt(closedAt)
-                // A seeded lost deal says why, as a real one must now.
-                .lostReason(status == DealStatus.CLOSED_LOST
-                        ? com.crm.realestate.enums.DealLostReason.PRICE : null)
-                .build());
-    }
-
-    private void meeting(User agent, Client client, Deal deal, String title,
-                         LocalDateTime scheduledAt, String location, boolean completed) {
-        meetingRepository.save(Meeting.builder()
-                .title(title)
-                .scheduledAt(scheduledAt)
-                .location(location)
-                .completed(completed)
-                .client(client)
-                .deal(deal)
-                .agent(agent)
-                .team(agent.getTeam())
-                .build());
+    private static boolean outside(Team team, Set<Long> tryTheDemoTeams) {
+        return team == null || !tryTheDemoTeams.contains(team.getId());
     }
 }

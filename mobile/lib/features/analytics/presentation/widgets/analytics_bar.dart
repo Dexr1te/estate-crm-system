@@ -39,7 +39,7 @@ class AnalyticsBarRow extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 12.5,
+                    fontSize: AppType.subhead,
                     fontWeight: FontWeight.w500,
                     color: t.textPrimary),
               ),
@@ -51,7 +51,7 @@ class AnalyticsBarRow extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 12.5,
+                  fontSize: AppType.subhead,
                   fontWeight: FontWeight.w700,
                   color: t.textPrimary),
             ),
@@ -82,7 +82,7 @@ class AnalyticsBarRow extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 fontFamily: AppFonts.sans,
-                fontSize: 11,
+                fontSize: AppType.caption,
                 color: t.textSecondary),
           ),
         ],

@@ -72,7 +72,7 @@ class _ExpenseFormState extends State<ExpenseForm> {
 
   Future<void> _pickDate() async {
     final today = _today();
-    final picked = await showDatePicker(
+    final picked = await showAppDatePicker(
       context: context,
       initialDate: _spentOn,
       firstDate: DateTime(today.year - 5),
@@ -152,7 +152,9 @@ class _ExpenseFormState extends State<ExpenseForm> {
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
-                fontFamily: AppFonts.sans, fontSize: 11.5, color: t.dangerText),
+                fontFamily: AppFonts.sans,
+                fontSize: AppType.footnote,
+                color: t.dangerText),
           ),
         ],
         const SizedBox(height: 16),

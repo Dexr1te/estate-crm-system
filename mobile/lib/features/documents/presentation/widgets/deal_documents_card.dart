@@ -37,7 +37,7 @@ class DealDocumentsCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontFamily: AppFonts.sans,
-                          fontSize: 11,
+                          fontSize: AppType.caption,
                           color: t.textHint),
                     ),
                   ],
@@ -82,7 +82,9 @@ class _Body extends StatelessWidget {
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
-                fontFamily: AppFonts.sans, fontSize: 12, color: t.dangerText),
+                fontFamily: AppFonts.sans,
+                fontSize: AppType.footnote,
+                color: t.dangerText),
           ),
           const SizedBox(height: 11),
           SizedBox(
@@ -115,7 +117,7 @@ class _Body extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
         style: TextStyle(
             fontFamily: AppFonts.sans,
-            fontSize: 12.5,
+            fontSize: AppType.subhead,
             height: 1.45,
             color: t.textSecondary),
       );
@@ -228,7 +230,7 @@ class DocumentRow extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontFamily: AppFonts.sans,
-                          fontSize: 12.5,
+                          fontSize: AppType.body,
                           height: 1.3,
                           fontWeight: FontWeight.w500,
                           color: t.textPrimary),
@@ -240,7 +242,7 @@ class DocumentRow extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontFamily: AppFonts.sans,
-                          fontSize: 11,
+                          fontSize: AppType.caption,
                           color: t.textHint),
                     ),
                     if (document.uploadedByName.isNotEmpty) ...[
@@ -251,7 +253,7 @@ class DocumentRow extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontFamily: AppFonts.sans,
-                            fontSize: 11,
+                            fontSize: AppType.caption,
                             color: t.textHint),
                       ),
                     ],

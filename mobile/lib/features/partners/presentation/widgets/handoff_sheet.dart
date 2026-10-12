@@ -69,7 +69,7 @@ class _HandoffFormState extends State<HandoffForm> {
 
   Future<void> _pickDay() async {
     final today = _today();
-    final picked = await showDatePicker(
+    final picked = await showAppDatePicker(
       context: context,
       initialDate: _sentOn.isAfter(today) ? today : _sentOn,
       firstDate: DateTime(today.year - 5),
@@ -209,7 +209,7 @@ class _HandoffFormState extends State<HandoffForm> {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 fontFamily: AppFonts.sans,
-                fontSize: 11.5,
+                fontSize: AppType.footnote,
                 height: 1.35,
                 color: t.dangerText),
           ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
+import 'package:real_estate_crm/core/forms/draft_notice.dart';
+import 'package:real_estate_crm/core/forms/form_draft.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/utils/clock.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
@@ -43,7 +45,7 @@ class TaskForm extends StatefulWidget {
   State<TaskForm> createState() => _TaskFormState();
 }
 
-class _TaskFormState extends State<TaskForm> {
+class _TaskFormState extends State<TaskForm> with FormDraftMixin<TaskForm> {
   final _formKey = GlobalKey<FormState>();
   late final _titleCtrl = TextEditingController(text: widget.task?.title);
   late final _noteCtrl = TextEditingController(text: widget.task?.note);
@@ -56,6 +58,62 @@ class _TaskFormState extends State<TaskForm> {
   String? _repeatError;
   String? _failure;
   bool _saving = false;
+  bool _draftNotice = false;
+
+  @override
+  void initState() {
+    super.initState();
+    startDraft();
+  }
+
+  @override
+  String get draftId {
+    final task = widget.task;
+    if (task != null) return 'task:${task.id}';
+    final client = widget.client?.id;
+    final deal = widget.deal?.id;
+    return [
+      'task:new',
+      if (client != null) 'client-$client',
+      if (deal != null) 'deal-$deal',
+    ].join(':');
+  }
+
+  @override
+  List<Listenable> get draftFields => [_titleCtrl, _noteCtrl];
+
+  @override
+  DraftValues captureDraft() => {
+        'title': _titleCtrl.text,
+        'note': _noteCtrl.text,
+        'dueAt': draftDate(_dueAt),
+        'client': draftRef(_client),
+        'deal': draftRef(_deal),
+        'assignee': draftRef(_assignee),
+        'repeat': _repeat?.toJson(),
+      };
+
+  @override
+  void restoreDraft(DraftValues values) {
+    _titleCtrl.text = values.textAt('title');
+    _noteCtrl.text = values.textAt('note');
+    _dueAt = values.dateAt('dueAt');
+    _client = values.refAt('client');
+    _deal = values.refAt('deal');
+    _assignee = values.refAt('assignee');
+    final repeat = values.mapAt('repeat');
+    _repeat = repeat == null ? null : TaskRepeat.fromJson(repeat);
+    _dueError = null;
+    _repeatError = null;
+  }
+
+  @override
+  void onDraftRestored() => setState(() => _draftNotice = true);
+
+  void _discardDraft() {
+    discardDraft();
+    setState(() => _draftNotice = false);
+  }
 
   bool get _repeats =>
       _repeat != null && _repeat!.frequency != RepeatFrequency.none;
@@ -108,8 +166,10 @@ class _TaskFormState extends State<TaskForm> {
       _saving = true;
       _failure = null;
     });
+    saveDraftNow();
     try {
       await action();
+      closeDraft();
     } catch (err) {
       if (!mounted) return;
       setState(() {
@@ -169,6 +229,10 @@ class _TaskFormState extends State<TaskForm> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          if (_draftNotice) ...[
+            DraftRestoredNotice(onDiscard: _discardDraft),
+            const SizedBox(height: 14),
+          ],
           if (saved != null && saved.repeats) ...[
             TaskRepeatLine(
               text: repeatLabel(l10n, saved.repeat!, saved.dueAt, locale),
@@ -220,7 +284,9 @@ class _TaskFormState extends State<TaskForm> {
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                  fontFamily: AppFonts.sans, fontSize: 11, color: t.dangerText),
+                  fontFamily: AppFonts.sans,
+                  fontSize: AppType.caption,
+                  color: t.dangerText),
             ),
           ],
           const SizedBox(height: 14),
@@ -266,7 +332,7 @@ class _TaskFormState extends State<TaskForm> {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 11.5,
+                    fontSize: AppType.footnote,
                     color: t.dangerText)),
           ],
           const SizedBox(height: 18),

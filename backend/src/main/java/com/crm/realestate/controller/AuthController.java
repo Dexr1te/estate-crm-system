@@ -9,9 +9,11 @@ import com.crm.realestate.dto.response.AuthResponse;
 import com.crm.realestate.dto.response.RegisterResponse;
 import com.crm.realestate.service.AuthService;
 import com.crm.realestate.service.RegistrationService;
+import com.crm.realestate.service.demo.DemoAgencyService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,6 +30,7 @@ public class AuthController {
 
     private final AuthService authService;
     private final RegistrationService registrationService;
+    private final DemoAgencyService demoAgencyService;
 
     /**
      * Opens an account. No session comes back: the app uses the Firebase token to have a link
@@ -57,6 +60,13 @@ public class AuthController {
     @Operation(summary = "Login and get JWT tokens")
     public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest request) {
         return ResponseEntity.ok(authService.login(request));
+    }
+
+    @PostMapping("/demo")
+    @Operation(summary = "Start a fresh demo agency and sign in to it")
+    public ResponseEntity<AuthResponse> startDemo(HttpServletRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(demoAgencyService.start(request.getRemoteAddr()));
     }
 
     @PostMapping("/accept-invite")

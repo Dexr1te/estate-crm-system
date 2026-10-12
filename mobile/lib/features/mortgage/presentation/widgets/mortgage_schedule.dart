@@ -85,7 +85,7 @@ class _Legend extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 fontFamily: AppFonts.sans,
-                fontSize: 11.5,
+                fontSize: AppType.caption,
                 color: t.textSecondary),
           ),
         ),
@@ -116,7 +116,7 @@ class _YearRow extends StatelessWidget {
     final principal = 1000 - interest;
     final strong = TextStyle(
         fontFamily: AppFonts.sans,
-        fontSize: 12.5,
+        fontSize: AppType.subhead,
         fontWeight: FontWeight.w600,
         color: t.textPrimary);
 
@@ -190,7 +190,7 @@ class _YearRow extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 11,
+                    fontSize: AppType.caption,
                     color: t.textSecondary),
               ),
             ],
@@ -210,8 +210,11 @@ class _MonthRow extends StatelessWidget {
     final t = context.tokens;
     final l10n = AppLocalizations.of(context);
     final muted = TextStyle(
-        fontFamily: AppFonts.sans, fontSize: 11, color: t.textSecondary);
-    final strong = muted.copyWith(color: t.textPrimary, fontSize: 12);
+        fontFamily: AppFonts.sans,
+        fontSize: AppType.caption,
+        color: t.textSecondary);
+    final strong =
+        muted.copyWith(color: t.textPrimary, fontSize: AppType.footnote);
 
     return Padding(
       key: ValueKey('mortgage-month-${month.number}'),

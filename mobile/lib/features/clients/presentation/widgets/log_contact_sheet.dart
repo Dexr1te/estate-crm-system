@@ -113,7 +113,7 @@ class _LogContactFormState extends State<LogContactForm> {
   Future<void> _pickDate() async {
     final now = AppClock.now();
     final base = _occurredAt(now);
-    final date = await showDatePicker(
+    final date = await showAppDatePicker(
       context: context,
       initialDate: base.isAfter(now) ? now : base,
       firstDate: DateTime(now.year - 2),
@@ -125,7 +125,7 @@ class _LogContactFormState extends State<LogContactForm> {
 
   Future<void> _pickTime() async {
     final base = _occurredAt(AppClock.now());
-    final time = await showTimePicker(
+    final time = await showAppTimePicker(
       context: context,
       initialTime: TimeOfDay.fromDateTime(base),
     );
@@ -230,7 +230,9 @@ class _LogContactFormState extends State<LogContactForm> {
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                  fontFamily: AppFonts.sans, fontSize: 11, color: t.dangerText),
+                  fontFamily: AppFonts.sans,
+                  fontSize: AppType.footnote,
+                  color: t.dangerText),
             ),
           ],
           const SizedBox(height: 14),
@@ -257,7 +259,7 @@ class _LogContactFormState extends State<LogContactForm> {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 11.5,
+                  fontSize: AppType.footnote,
                   height: 1.35,
                   color: t.dangerText),
             ),

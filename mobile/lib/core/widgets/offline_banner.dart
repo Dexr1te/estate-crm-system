@@ -83,7 +83,7 @@ class _Strip extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 12.5,
+                  fontSize: AppType.subhead,
                   fontWeight: FontWeight.w600,
                   color: tone.label,
                 ),
@@ -107,7 +107,7 @@ class _Strip extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 13,
+                        fontSize: AppType.subhead,
                         fontWeight: FontWeight.w700,
                         color: t.textPrimary,
                       ),

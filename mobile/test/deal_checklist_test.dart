@@ -7,6 +7,7 @@ import 'package:real_estate_crm/features/deals/presentation/screens/deal_detail_
 
 import 'checklist_fixtures.dart';
 import 'fakes.dart';
+import 'more_section_expect.dart';
 import 'responsive_harness.dart';
 
 /// The checklist on a deal: grouped by stage with the current one open, a
@@ -26,6 +27,7 @@ Future<void> _pump(WidgetTester tester,
       withChecklistBlocs(const DealDetailScreen(id: 1), _deals, user: user),
       size: size, brightness: brightness, textScale: scale, locale: locale);
   await tester.pumpAndSettle();
+  await openMore(tester);
   await tester.ensureVisible(find.byKey(const Key('deal-checklist-card')));
   await tester.pumpAndSettle();
 }

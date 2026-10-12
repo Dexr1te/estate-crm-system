@@ -56,7 +56,7 @@ class _ExportOptionsFormState extends State<ExportOptionsForm> {
             Localizations.localeOf(context).languageCode);
     final note = TextStyle(
         fontFamily: AppFonts.sans,
-        fontSize: 13,
+        fontSize: AppType.subhead,
         height: 1.4,
         color: t.textSecondary);
 
@@ -102,7 +102,8 @@ class _ExportOptionsFormState extends State<ExportOptionsForm> {
         Text(l10n.exportDelimiterHint,
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
-            style: note.copyWith(fontSize: 12, color: t.textHint)),
+            style:
+                note.copyWith(fontSize: AppType.footnote, color: t.textHint)),
         const SizedBox(height: 18),
         AppFilledButton(
           key: const ValueKey('export-confirm'),
@@ -140,7 +141,7 @@ class _PersonalDataNote extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 12.5,
+                    fontSize: AppType.subhead,
                     height: 1.4,
                     fontWeight: FontWeight.w500,
                     color: palette.label)),

@@ -37,7 +37,7 @@ class CompareTable extends StatelessWidget {
     };
     // Every cell is at most two lines, so a row's height is known up front
     // and the pinned label column lines up with the scrolling one.
-    final rowHeight = scaler.scale(34) + 18;
+    final rowHeight = scaler.scale(39) + 18;
     final headHeight = compareHeaderHeight(scaler);
 
     return LayoutBuilder(builder: (context, constraints) {
@@ -200,7 +200,7 @@ class _Cell extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
             fontFamily: AppFonts.sans,
-            fontSize: label ? 11.5 : 12.5,
+            fontSize: label ? AppType.caption : AppType.subhead,
             height: 1.3,
             fontWeight: best || strong ? FontWeight.w600 : FontWeight.w400,
             color: color,

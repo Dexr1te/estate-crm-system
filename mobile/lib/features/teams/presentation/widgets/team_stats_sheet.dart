@@ -33,7 +33,7 @@ class _TeamStats extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 12.5,
+                    fontSize: AppType.subhead,
                     color: t.textSecondary),
               ),
             ),
@@ -70,7 +70,7 @@ class _TeamStats extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontFamily: AppFonts.sans,
-                            fontSize: 15,
+                            fontSize: AppType.body,
                             fontWeight: FontWeight.w600,
                             color: t.textPrimary),
                       ),
@@ -82,7 +82,7 @@ class _TeamStats extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontFamily: AppFonts.sans,
-                              fontSize: 11.5,
+                              fontSize: AppType.caption,
                               color: t.textSecondary),
                         ),
                       ],

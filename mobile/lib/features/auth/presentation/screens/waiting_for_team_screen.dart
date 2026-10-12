@@ -177,7 +177,7 @@ class _EmailCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 14.5,
+                      fontSize: AppType.body,
                       fontWeight: FontWeight.w600,
                       color: t.textPrimary),
                 ),
@@ -237,7 +237,7 @@ class _RequestCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontFamily: AppFonts.sans,
-                          fontSize: 14,
+                          fontSize: AppType.body,
                           fontWeight: FontWeight.w600,
                           color: t.textPrimary),
                     ),
@@ -249,7 +249,7 @@ class _RequestCard extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontFamily: AppFonts.sans,
-                            fontSize: 12.5,
+                            fontSize: AppType.subhead,
                             color: t.textSecondary),
                       ),
                     ],

@@ -78,7 +78,7 @@ class _ActionTile extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 14,
+                    fontSize: AppType.body,
                     fontWeight: FontWeight.w500,
                     color: color)),
           ),

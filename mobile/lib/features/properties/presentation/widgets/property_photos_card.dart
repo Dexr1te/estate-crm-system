@@ -137,7 +137,7 @@ class _PropertyPhotosCardState extends State<PropertyPhotosCard> {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 11,
+                    fontSize: AppType.caption,
                     fontWeight: FontWeight.w600,
                     color: t.textSecondary),
               ),
@@ -151,7 +151,7 @@ class _PropertyPhotosCardState extends State<PropertyPhotosCard> {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 12.5,
+                  fontSize: AppType.subhead,
                   height: 1.35,
                   color: t.textSecondary),
             )
@@ -184,7 +184,7 @@ class _PropertyPhotosCardState extends State<PropertyPhotosCard> {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 11,
+                  fontSize: AppType.caption,
                   height: 1.35,
                   color: t.textHint),
             ),

@@ -107,6 +107,8 @@ void main() {
     await tester.tap(find.text('Айгерим Серикбайқызы'));
     await tester.pumpAndSettle();
 
+    await tester.ensureVisible(find.text('Not selected').first);
+    await tester.pumpAndSettle();
     await tester.tap(find.text('Not selected').first);
     await tester.pumpAndSettle();
     await tester.tap(find.text('Нурлан Беков'));

@@ -163,7 +163,7 @@ Future<DocumentResponse?> showChecklistDocumentPicker(
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 fontFamily: AppFonts.sans,
-                fontSize: 13,
+                fontSize: AppType.subhead,
                 height: 1.45,
                 color: t.textSecondary),
           ),

@@ -18,6 +18,7 @@ import 'package:real_estate_crm/l10n/app_localizations.dart';
 import 'checklist_fixtures.dart';
 import 'commission_split_fakes.dart';
 import 'fakes.dart';
+import 'more_section_expect.dart';
 import 'responsive_harness.dart';
 
 /// A deal's commission split: the card on the deal, the editor sheet, what
@@ -110,6 +111,7 @@ Future<void> _pumpDeal(WidgetTester tester,
       textScale: 1.0,
       locale: const Locale('en'));
   await tester.pumpAndSettle();
+  await openMore(tester);
   await tester.ensureVisible(find.byKey(const Key('deal-split-card')));
   await tester.pumpAndSettle();
 }

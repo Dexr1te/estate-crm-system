@@ -10,8 +10,7 @@ import 'package:real_estate_crm/l10n/app_localizations.dart';
 const kDepositsPreview = 3;
 
 /// The deposits whose hold is running out, on the dashboard: the soonest few,
-/// each opening its deal. Nothing at all when none is, a skeleton while it
-/// loads, and a failure stays inside the card. Mirrors the agreements card.
+/// each opening its deal. Mirrors the agreements card.
 ///
 /// [topGap] sits above the card and goes with it, so a hidden card leaves no
 /// hole in the column.
@@ -29,7 +28,9 @@ class DepositsEndingCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<DepositsEndingBloc, DepositsEndingState>(
       builder: (context, state) {
-        if (state is DepositsEndingLoaded && state.deposits.isEmpty) {
+        if (state is DepositsEndingLoaded
+            ? state.deposits.isEmpty
+            : state is! DepositsEndingError) {
           return const SizedBox.shrink(key: ValueKey('deposits-hidden'));
         }
         return Padding(
@@ -46,7 +47,9 @@ class DepositsEndingCard extends StatelessWidget {
     final all = state is DepositsEndingLoaded ? state.deposits : null;
     final shown = all?.take(kDepositsPreview).toList();
     final secondary = TextStyle(
-        fontFamily: AppFonts.sans, fontSize: 12.5, color: t.textSecondary);
+        fontFamily: AppFonts.sans,
+        fontSize: AppType.subhead,
+        color: t.textSecondary);
 
     return AppCard(
       key: const ValueKey('deposits-card'),
@@ -67,7 +70,7 @@ class DepositsEndingCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontFamily: AppFonts.sans,
-                          fontSize: 11,
+                          fontSize: AppType.caption,
                           fontWeight: FontWeight.w600,
                           color: t.dangerText)),
                 ),
@@ -75,7 +78,7 @@ class DepositsEndingCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 11),
-          if (state is DepositsEndingError) ...[
+          if (shown == null) ...[
             Text(l10n.depositsEndingLoadFailed,
                 maxLines: 2, overflow: TextOverflow.ellipsis, style: secondary),
             const SizedBox(height: 10),
@@ -86,15 +89,9 @@ class DepositsEndingCard extends StatelessWidget {
                   .read<DepositsEndingBloc>()
                   .add(DepositsEndingLoadEvent()),
               height: AppMetrics.buttonHeightInline,
-              fontSize: 12.5,
+              fontSize: AppType.subhead,
             ),
-          ] else if (shown == null)
-            const Column(children: [
-              DepositRowBone(),
-              SizedBox(height: 8),
-              DepositRowBone(),
-            ])
-          else ...[
+          ] else ...[
             for (var i = 0; i < shown.length; i++) ...[
               if (i > 0) const SizedBox(height: 8),
               DepositRow(
@@ -109,7 +106,7 @@ class DepositsEndingCard extends StatelessWidget {
               label: l10n.dashboardSeeAll,
               onPressed: onSeeAll,
               height: AppMetrics.buttonHeightInline,
-              fontSize: 12.5,
+              fontSize: AppType.subhead,
             ),
           ],
         ],

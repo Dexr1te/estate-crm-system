@@ -32,6 +32,7 @@ import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 import 'expenses_fixtures.dart';
 import 'fakes.dart';
+import 'more_section_expect.dart';
 import 'responsive_harness.dart';
 
 /// Listing expenses: the models and how they read the server, the repository
@@ -577,6 +578,8 @@ void main() {
         brightness: Brightness.light,
         textScale: 1.0,
       );
+      await tester.pumpAndSettle();
+      await openMore(tester);
       await tester.pumpAndSettle();
       final card = find.byKey(const ValueKey('property-expenses'));
       await tester.scrollUntilVisible(card, 300,

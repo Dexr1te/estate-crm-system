@@ -13,6 +13,7 @@ import 'package:real_estate_crm/features/properties/presentation/screens/propert
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_price_history.dart';
 
 import 'fakes.dart';
+import 'more_section_expect.dart';
 import 'responsive_harness.dart';
 
 /// A listing's price history.
@@ -103,6 +104,7 @@ Future<void> _show(WidgetTester tester, Widget screen,
   await expectNoOverflow(tester, _wrap(screen),
       size: size, brightness: brightness, textScale: textScale, locale: locale);
   await tester.pumpAndSettle();
+  await openMoreIfAny(tester);
   expect(tester.takeException(), isNull);
 }
 

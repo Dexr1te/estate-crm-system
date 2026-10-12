@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:real_estate_crm/core/feedback/app_haptics.dart';
 import 'package:real_estate_crm/core/network/api_error.dart';
 import 'package:real_estate_crm/core/theme/app_tokens.dart';
 import 'package:real_estate_crm/core/widgets/messages.dart';
@@ -32,6 +33,11 @@ mixin ActionFailed implements ActionOutcome {
 
 void showActionOutcome(BuildContext context, Object? state) {
   if (state is! ActionOutcome || !context.mounted) return;
+  if (state.isFailure) {
+    AppHaptics.warning();
+  } else {
+    AppHaptics.success();
+  }
   ScaffoldMessenger.of(context)
     ..hideCurrentSnackBar()
     ..showSnackBar(SnackBar(

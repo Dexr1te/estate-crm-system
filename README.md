@@ -202,6 +202,7 @@ are the ones whose default is wrong for a real deployment:
 | `DOCUMENTS_STORAGE` | `database` \| `s3` \| `filesystem` — see below. |
 | `S3_BUCKET`, `S3_ENDPOINT`, `S3_REGION`, `S3_ACCESS_KEY`, `S3_SECRET_KEY` | Required once `s3` is chosen. |
 | `DEMO_ENABLED`, `DEMO_PASSWORD` | The account App Review signs in with. Off outside a submission window. |
+| `DEMO_TRY_ENABLED` | On by default. "Try the demo" on the sign-in screen (`POST /auth/demo`) opens a throwaway agency with sample records, five per address per hour; it is deleted after 24 hours and never sends email. `false` answers 404. |
 
 `backend/.env.example` is the fuller list. The mobile app's API host is baked in
 at build time and overridable:

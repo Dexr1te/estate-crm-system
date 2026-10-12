@@ -121,7 +121,7 @@ class _CurrencyOption extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 13.5,
+                  fontSize: AppType.body,
                   fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
                   color: t.textPrimary),
             ),

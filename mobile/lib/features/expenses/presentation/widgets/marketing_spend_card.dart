@@ -41,7 +41,7 @@ class MarketingSpendCard extends StatelessWidget {
     final t = context.tokens;
     final secondary = TextStyle(
         fontFamily: AppFonts.sans,
-        fontSize: 12.5,
+        fontSize: AppType.subhead,
         height: 1.35,
         color: t.textSecondary);
 
@@ -91,7 +91,7 @@ class MarketingSpendCard extends StatelessWidget {
 
     final heading = TextStyle(
         fontFamily: AppFonts.sans,
-        fontSize: 11,
+        fontSize: AppType.caption,
         fontWeight: FontWeight.w600,
         color: t.textHint);
     return [
@@ -159,35 +159,54 @@ class _ListingRow extends StatelessWidget {
       key: ValueKey('marketing-spend-listing-${listing.propertyId}'),
       nested: true,
       onTap: onTap,
-      child: Row(
-        children: [
-          Expanded(
-            child: Text(
-              title,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                  fontFamily: AppFonts.sans,
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                  color: t.textPrimary),
+      child: LayoutBuilder(builder: (context, constraints) {
+        final total = formatPrice(listing.total);
+        final totalStyle = TextStyle(
+            fontFamily: AppFonts.sans,
+            fontSize: AppType.body,
+            fontWeight: FontWeight.w700,
+            color: t.textPrimary);
+        final totalText = Text(
+          total,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: totalStyle,
+        );
+        final titleText = Text(
+          title,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+              fontFamily: AppFonts.sans,
+              fontSize: AppType.body,
+              fontWeight: FontWeight.w500,
+              color: t.textPrimary),
+        );
+        final totalBelow = singleLineTextWidth(context, total, totalStyle) >
+            constraints.maxWidth * 0.4;
+        return Row(
+          children: [
+            Expanded(
+              child: totalBelow
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        titleText,
+                        const SizedBox(height: 2),
+                        totalText,
+                      ],
+                    )
+                  : titleText,
             ),
-          ),
-          const SizedBox(width: 10),
-          Text(
-            formatPrice(listing.total),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-                fontFamily: AppFonts.sans,
-                fontSize: 13,
-                fontWeight: FontWeight.w700,
-                color: t.textPrimary),
-          ),
-          const SizedBox(width: 8),
-          const RowChevron(),
-        ],
-      ),
+            if (!totalBelow) ...[
+              const SizedBox(width: 10),
+              totalText,
+            ],
+            const SizedBox(width: 8),
+            const RowChevron(),
+          ],
+        );
+      }),
     );
   }
 }

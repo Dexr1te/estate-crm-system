@@ -20,12 +20,6 @@ import java.util.Map;
  * memory stays flat however many addresses turn up. One instance holds the counts, so with several
  * replicas each keeps its own — the limits are per instance, which is fine for a single Render
  * service and still a ceiling with more.
- *
- * <p>The address is {@code request.getRemoteAddr()} as the servlet container reports it. The app
- * does not set {@code server.forward-headers-strategy}, so {@code X-Forwarded-For} is not trusted
- * and a client cannot pick its own address by sending one. Behind Render's proxy that address is
- * the proxy's, which makes the per-address limit stricter (shared by everyone on that edge), never
- * looser; turning the strategy on makes it per-visitor without any change here.
  */
 @Component
 public class LeadRateLimiter {

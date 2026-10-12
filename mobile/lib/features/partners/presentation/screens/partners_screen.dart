@@ -94,7 +94,7 @@ class _PartnersScreenState extends State<PartnersScreen> {
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
               fontFamily: AppFonts.sans,
-              fontSize: 12.5,
+              fontSize: AppType.subhead,
               height: 1.45,
               color: t.textSecondary),
         ),
@@ -193,7 +193,7 @@ class PartnerCard extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontFamily: AppFonts.sans,
-                            fontSize: 14,
+                            fontSize: AppType.body,
                             fontWeight: FontWeight.w600,
                             color: t.textPrimary),
                       ),
@@ -204,7 +204,7 @@ class PartnerCard extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontFamily: AppFonts.sans,
-                            fontSize: 11.5,
+                            fontSize: AppType.caption,
                             color: t.textSecondary),
                       ),
                       const SizedBox(height: 7),
@@ -218,7 +218,7 @@ class PartnerCard extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontFamily: AppFonts.sans,
-                            fontSize: 11.5,
+                            fontSize: AppType.caption,
                             fontWeight: FontWeight.w500,
                             color: t.textPrimary),
                       ),

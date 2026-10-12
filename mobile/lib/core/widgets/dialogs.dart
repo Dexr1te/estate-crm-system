@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:real_estate_crm/core/feedback/app_haptics.dart';
 import 'package:real_estate_crm/core/theme/app_metrics.dart';
 import 'package:real_estate_crm/core/theme/app_tokens.dart';
 import 'package:real_estate_crm/core/widgets/app_buttons.dart';
@@ -64,7 +65,7 @@ Future<bool> showConfirmDialog(
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 12.5,
+                      fontSize: AppType.subhead,
                       height: 1.6,
                       color: t.textSecondary),
                 ),
@@ -83,6 +84,7 @@ Future<bool> showConfirmDialog(
                         label: confirmLabel ?? l10n.coreDelete,
                         fill: t.dangerSolid,
                         labelColor: Colors.white,
+                        haptic: AppHaptics.medium,
                         onPressed: () => Navigator.pop(ctx, true),
                       ),
                     ),

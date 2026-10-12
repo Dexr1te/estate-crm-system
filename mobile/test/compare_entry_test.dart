@@ -15,6 +15,7 @@ import 'package:real_estate_crm/features/properties/presentation/screens/propert
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 import 'fakes.dart';
+import 'more_section_expect.dart';
 
 /// Every way into the comparison lands on `/compare` with the right ids.
 
@@ -155,6 +156,8 @@ void main() {
     testWidgets('the matches card compares the top matches for the buyer',
         (tester) async {
       await _pumpRouted(tester, '/clients/9', home);
+      await openMore(tester);
+      await tester.pumpAndSettle();
       final compare = find.byKey(const ValueKey('matches-compare'));
       await tester.scrollUntilVisible(compare, 200,
           scrollable: find.byType(Scrollable).first);
@@ -165,6 +168,8 @@ void main() {
 
     testWidgets('the send sheet compares what is ticked', (tester) async {
       await _pumpRouted(tester, '/clients/9', home);
+      await openMore(tester);
+      await tester.pumpAndSettle();
       final send = find.text('Send listings');
       await tester.scrollUntilVisible(send, 200,
           scrollable: find.byType(Scrollable).first);

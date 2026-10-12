@@ -206,7 +206,7 @@ class _Intro extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
         style: TextStyle(
             fontFamily: AppFonts.sans,
-            fontSize: 12.5,
+            fontSize: AppType.subhead,
             height: 1.45,
             color: context.tokens.textSecondary),
       );
@@ -269,7 +269,7 @@ class _PreviewCard extends StatelessWidget {
         key: const Key('handover-preview-retry'),
         label: l10n.coreRetry,
         height: AppMetrics.buttonHeightInline,
-        fontSize: 12,
+        fontSize: AppType.footnote,
         onPressed: () =>
             context.read<HandoverBloc>().add(HandoverTargetEvent(state.toId!)),
       );
@@ -291,7 +291,7 @@ class _PreviewCard extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 12.5,
+                  fontSize: AppType.subhead,
                   height: 1.45,
                   color: t.textSecondary),
             ),
@@ -360,7 +360,7 @@ class _HandoverDone extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 15,
+                      fontSize: AppType.body,
                       fontWeight: FontWeight.w600,
                       color: t.textPrimary),
                 ),
@@ -376,7 +376,7 @@ class _HandoverDone extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 fontFamily: AppFonts.sans,
-                fontSize: 12.5,
+                fontSize: AppType.subhead,
                 height: 1.45,
                 color: t.textSecondary),
           ),

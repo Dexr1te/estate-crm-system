@@ -134,7 +134,7 @@ class _PickerBodyState extends State<_PickerBody> {
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                   fontFamily: AppFonts.sans,
-                                  fontSize: 13.5,
+                                  fontSize: AppType.body,
                                   fontWeight: FontWeight.w600,
                                   color: t.textPrimary),
                             ),
@@ -147,7 +147,7 @@ class _PickerBodyState extends State<_PickerBody> {
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                     fontFamily: AppFonts.sans,
-                                    fontSize: 11.5,
+                                    fontSize: AppType.footnote,
                                     color: t.textSecondary),
                               ),
                             ],

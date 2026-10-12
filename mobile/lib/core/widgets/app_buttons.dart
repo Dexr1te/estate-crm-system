@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:real_estate_crm/core/feedback/app_haptics.dart';
 import 'package:real_estate_crm/core/theme/app_metrics.dart';
 import 'package:real_estate_crm/core/theme/app_tokens.dart';
 import 'package:real_estate_crm/core/widgets/app_surface.dart';
@@ -13,6 +14,7 @@ class AppFilledButton extends StatelessWidget {
   final Color? labelColor;
   final double radius;
   final bool loading;
+  final VoidCallback haptic;
 
   const AppFilledButton({
     super.key,
@@ -24,6 +26,7 @@ class AppFilledButton extends StatelessWidget {
     this.labelColor,
     this.radius = AppMetrics.radiusSm,
     this.loading = false,
+    this.haptic = AppHaptics.light,
   });
 
   @override
@@ -46,7 +49,12 @@ class AppFilledButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(radius),
         child: InkWell(
           borderRadius: BorderRadius.circular(radius),
-          onTap: enabled ? onPressed : null,
+          onTap: enabled
+              ? () {
+                  haptic();
+                  onPressed!();
+                }
+              : null,
           child: Center(
             child: loading
                 ? SizedBox(
@@ -116,7 +124,12 @@ class AppGhostButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppMetrics.radiusSm),
         child: InkWell(
           borderRadius: BorderRadius.circular(AppMetrics.radiusSm),
-          onTap: loading ? null : onPressed,
+          onTap: loading || onPressed == null
+              ? null
+              : () {
+                  AppHaptics.light();
+                  onPressed!();
+                },
           child: DecoratedBox(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(AppMetrics.radiusSm),
@@ -208,7 +221,7 @@ class AppHeaderAction extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 13.5,
+                        fontSize: AppType.body,
                         fontWeight: FontWeight.w600,
                         color: t.primary,
                       ),
@@ -246,7 +259,10 @@ class AppDangerButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppMetrics.radiusSm),
         child: InkWell(
           borderRadius: BorderRadius.circular(AppMetrics.radiusSm),
-          onTap: onPressed,
+          onTap: () {
+            AppHaptics.medium();
+            onPressed();
+          },
           child: DecoratedBox(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(AppMetrics.radiusSm),
@@ -309,7 +325,10 @@ class AppIconTile extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         borderRadius: BorderRadius.circular(AppMetrics.minHitTarget / 2),
-        onTap: onPressed,
+        onTap: () {
+          AppHaptics.selection();
+          onPressed();
+        },
         child: tooltip == null ? tile : Tooltip(message: tooltip!, child: tile),
       ),
     );

@@ -14,6 +14,7 @@ import 'package:real_estate_crm/features/properties/presentation/widgets/propert
 import 'package:real_estate_crm/features/search/presentation/widgets/search_result_tile.dart';
 
 import 'fakes.dart';
+import 'more_section_expect.dart';
 import 'responsive_harness.dart';
 
 /// The cover a listing shows in the list.
@@ -202,6 +203,8 @@ void main() {
         size: const Size(390, 844),
         brightness: Brightness.light,
         textScale: 1.0);
+    await tester.pumpAndSettle();
+    await openMore(tester);
     await tester.pumpAndSettle();
 
     expect(find.byType(PropertyCover), findsWidgets,

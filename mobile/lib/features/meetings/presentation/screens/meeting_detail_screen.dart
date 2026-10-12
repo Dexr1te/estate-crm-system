@@ -272,7 +272,7 @@ class _OutcomeCardState extends State<_OutcomeCard> {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 11.5,
+                  fontSize: AppType.caption,
                   height: 1.35,
                   color: t.textSecondary),
             ),
@@ -368,7 +368,7 @@ class _NoteCard extends StatelessWidget {
             text,
             style: TextStyle(
                 fontFamily: AppFonts.sans,
-                fontSize: 12.5,
+                fontSize: AppType.subhead,
                 height: 1.55,
                 color: t.textSecondary),
           ),

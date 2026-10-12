@@ -483,6 +483,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authSignUp => 'Sign up';
 
   @override
+  String get authDemoUnavailable =>
+      'The demo isn\'t available right now. Try again later.';
+
+  @override
+  String get authDemoCreateAccount => 'Create an account';
+
+  @override
+  String get authDemoBanner =>
+      'This is a demo agency. It is wiped within a day.';
+
+  @override
+  String get authTryDemo => 'Try the demo';
+
+  @override
   String get authVerifyEmailNotYet =>
       'The link hasn\'t been opened yet. Check your inbox and spam folder.';
 
@@ -1843,6 +1857,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get coreNavTeam => 'Team';
+
+  @override
+  String get coreDraftDiscard => 'Discard';
+
+  @override
+  String get coreDone => 'Done';
+
+  @override
+  String get coreDraftRestored => 'We restored what you typed last time';
+
+  @override
+  String get coreShowLess => 'Show less';
+
+  @override
+  String get coreMore => 'More';
 
   @override
   String get coreNoResults => 'Nothing found';

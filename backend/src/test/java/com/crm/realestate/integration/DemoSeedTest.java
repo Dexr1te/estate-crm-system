@@ -16,6 +16,7 @@ import com.crm.realestate.repository.TeamRepository;
 import com.crm.realestate.repository.UserRepository;
 import com.crm.realestate.service.AccountRemovalService;
 import com.crm.realestate.service.DocumentStorage;
+import com.crm.realestate.service.demo.DemoSampleRecords;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -58,6 +59,7 @@ public class DemoSeedTest {
     @Autowired private DocumentStorage    documentStorage;
     @Autowired private PasswordEncoder    passwordEncoder;
     @Autowired private AccountRemovalService accountRemovalService;
+    @Autowired private DemoSampleRecords sampleRecords;
 
     private DemoDataSeeder seeder;
 
@@ -71,7 +73,7 @@ public class DemoSeedTest {
 
         seeder = new DemoDataSeeder(userRepository, teamRepository, clientRepository, propertyRepository,
                 dealRepository, meetingRepository, documentRepository, documentStorage,
-                passwordEncoder);
+                passwordEncoder, sampleRecords);
         configure(PASSWORD);
     }
 

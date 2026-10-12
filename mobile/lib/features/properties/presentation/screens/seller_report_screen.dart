@@ -171,7 +171,7 @@ class _ReportHeader extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 15,
+                      fontSize: AppType.body,
                       height: 1.3,
                       fontWeight: FontWeight.w600,
                       color: t.textPrimary),
@@ -189,7 +189,7 @@ class _ReportHeader extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 12,
+                  fontSize: AppType.footnote,
                   color: t.textSecondary),
             ),
           ],
@@ -201,7 +201,7 @@ class _ReportHeader extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 11.5,
+                  fontSize: AppType.caption,
                   color: t.textSecondary),
             ),
           ],
@@ -236,7 +236,7 @@ class _OutcomesCard extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 12.5,
+                  fontSize: AppType.subhead,
                   color: t.textSecondary),
             )
           else ...[
@@ -262,7 +262,7 @@ class _OutcomesCard extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 12,
+                  fontSize: AppType.footnote,
                   fontWeight: FontWeight.w500,
                   color: t.textPrimary),
             ),
@@ -328,7 +328,7 @@ class _PriceCard extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 12.5,
+                  fontSize: AppType.subhead,
                   color: t.textSecondary),
             ),
           ],

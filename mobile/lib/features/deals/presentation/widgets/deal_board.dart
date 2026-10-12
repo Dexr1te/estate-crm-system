@@ -173,7 +173,7 @@ class _ColumnHeader extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontFamily: AppFonts.sans,
-              fontSize: 13.5,
+              fontSize: AppType.body,
               fontWeight: FontWeight.w700,
               color: t.textPrimary,
             ),
@@ -190,7 +190,7 @@ class _ColumnHeader extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 fontFamily: AppFonts.sans,
-                fontSize: 11.5,
+                fontSize: AppType.caption,
                 color: t.textSecondary,
               ),
             ),
@@ -267,7 +267,7 @@ class _BoardCard extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontFamily: AppFonts.sans,
-              fontSize: 13.5,
+              fontSize: AppType.body,
               height: 1.3,
               fontWeight: FontWeight.w600,
               color: t.textPrimary,
@@ -281,7 +281,7 @@ class _BoardCard extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 fontFamily: AppFonts.sans,
-                fontSize: 11.5,
+                fontSize: AppType.caption,
                 color: t.textSecondary,
               ),
             ),
@@ -312,7 +312,7 @@ class _BoardCard extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                             fontFamily: AppFonts.sans,
-                            fontSize: 15,
+                            fontSize: AppType.body,
                             fontWeight: FontWeight.w700,
                             color: t.textPrimary,
                           ),
@@ -484,7 +484,7 @@ class _HintBar extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 11,
+                  fontSize: AppType.caption,
                   height: 1.3,
                   color: t.textHint,
                 ),

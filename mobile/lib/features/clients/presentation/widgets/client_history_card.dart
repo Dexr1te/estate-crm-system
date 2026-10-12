@@ -49,7 +49,7 @@ class ClientHistoryCard extends StatelessWidget {
                     maxLines: 1,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 11,
+                        fontSize: AppType.caption,
                         fontWeight: FontWeight.w600,
                         color: t.textSecondary)),
             ],
@@ -77,7 +77,7 @@ class ClientHistoryCard extends StatelessWidget {
               label: l10n.clientsLogContact,
               onPressed: onLog,
               height: AppMetrics.buttonHeightInline,
-              fontSize: 12.5,
+              fontSize: AppType.subhead,
             ),
           ],
         ],
@@ -181,7 +181,7 @@ class _ActivityRow extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                     fontFamily: AppFonts.sans,
-                                    fontSize: 13,
+                                    fontSize: AppType.body,
                                     fontWeight: FontWeight.w600,
                                     color: t.textPrimary),
                               ),
@@ -198,7 +198,7 @@ class _ActivityRow extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                     fontFamily: AppFonts.sans,
-                                    fontSize: 11,
+                                    fontSize: AppType.caption,
                                     color: t.textHint),
                               ),
                             ],
@@ -216,7 +216,7 @@ class _ActivityRow extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 fontFamily: AppFonts.sans,
-                                fontSize: 12.5,
+                                fontSize: AppType.subhead,
                                 height: 1.45,
                                 color: t.textSecondary),
                           ),
@@ -229,7 +229,7 @@ class _ActivityRow extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 fontFamily: AppFonts.sans,
-                                fontSize: 12.5,
+                                fontSize: AppType.subhead,
                                 height: 1.45,
                                 color: t.textSecondary),
                           ),
@@ -299,7 +299,7 @@ class _SentListings extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 fontFamily: AppFonts.sans,
-                fontSize: 11.5,
+                fontSize: AppType.caption,
                 fontWeight: FontWeight.w600,
                 color: t.textSecondary),
           ),
@@ -322,7 +322,7 @@ class _SentListings extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontFamily: AppFonts.sans,
-                          fontSize: 12.5,
+                          fontSize: AppType.subhead,
                           fontWeight: FontWeight.w500,
                           color: t.textPrimary),
                     ),
@@ -375,7 +375,7 @@ class _HistoryEmpty extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 13,
+                        fontSize: AppType.subhead,
                         fontWeight: FontWeight.w600,
                         color: t.textPrimary),
                   ),
@@ -386,7 +386,7 @@ class _HistoryEmpty extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 12,
+                        fontSize: AppType.footnote,
                         height: 1.45,
                         color: t.textSecondary),
                   ),
@@ -400,7 +400,7 @@ class _HistoryEmpty extends StatelessWidget {
           label: l10n.clientsLogFirstContact,
           onPressed: onLog,
           height: AppMetrics.buttonHeightInline,
-          fontSize: 12.5,
+          fontSize: AppType.subhead,
         ),
       ],
     );
@@ -425,7 +425,7 @@ class _HistoryProblem extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 fontFamily: AppFonts.sans,
-                fontSize: 12.5,
+                fontSize: AppType.subhead,
                 color: t.textSecondary),
           ),
         ),
@@ -434,7 +434,7 @@ class _HistoryProblem extends StatelessWidget {
           label: l10n.coreRetry,
           onPressed: onRetry,
           height: AppMetrics.buttonHeightInline,
-          fontSize: 12,
+          fontSize: AppType.footnote,
         ),
       ],
     );

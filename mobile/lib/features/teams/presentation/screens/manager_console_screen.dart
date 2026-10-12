@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/team_models.dart';
 import 'package:real_estate_crm/core/navigation/active_tab.dart';
-import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart';
@@ -203,7 +202,6 @@ class _ManagerConsoleScreenState extends State<ManagerConsoleScreen>
                               ? l10n.teamsMemberCount(state.team.memberCount)
                               : null,
                           reserveSubtitle: true,
-                          trailing: const QuickAddButton(),
                         ),
                       ),
                     ),
@@ -440,7 +438,7 @@ class _PendingList extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontFamily: AppFonts.sans,
-                          fontSize: 14.5,
+                          fontSize: AppType.body,
                           fontWeight: FontWeight.w600,
                           color: t.textPrimary),
                     ),
@@ -451,7 +449,7 @@ class _PendingList extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontFamily: AppFonts.sans,
-                          fontSize: 12.5,
+                          fontSize: AppType.subhead,
                           color: t.textSecondary),
                     ),
                   ],
@@ -501,7 +499,7 @@ Future<_AddMemberForm?> _showAddMemberSheet(BuildContext context) {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 fontFamily: AppFonts.sans,
-                fontSize: 12.5,
+                fontSize: AppType.subhead,
                 height: 1.45,
                 color: ctx.tokens.textSecondary),
           ),

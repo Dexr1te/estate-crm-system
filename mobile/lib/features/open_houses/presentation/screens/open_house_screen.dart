@@ -206,7 +206,7 @@ class _Hero extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 15,
+                        fontSize: AppType.body,
                         height: 1.3,
                         fontWeight: FontWeight.w600,
                         color: t.heroText),
@@ -248,7 +248,7 @@ class _Hero extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 12.5,
+                  fontSize: AppType.subhead,
                   height: 1.45,
                   color: t.heroTextMuted),
             ),
@@ -269,8 +269,8 @@ class _HeroLine extends StatelessWidget {
         text,
         maxLines: 2,
         overflow: TextOverflow.ellipsis,
-        style:
-            TextStyle(fontFamily: AppFonts.sans, fontSize: 11.5, color: color),
+        style: TextStyle(
+            fontFamily: AppFonts.sans, fontSize: AppType.caption, color: color),
       );
 }
 
@@ -299,7 +299,7 @@ class _SignInSheet extends StatelessWidget {
                   maxLines: 1,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 11,
+                      fontSize: AppType.caption,
                       fontWeight: FontWeight.w600,
                       color: t.textSecondary)),
             ],
@@ -364,7 +364,7 @@ class VisitorRow extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 13,
+                      fontSize: AppType.body,
                       fontWeight: FontWeight.w600,
                       color: t.textPrimary),
                 ),
@@ -378,7 +378,7 @@ class VisitorRow extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 11.5,
+                      fontSize: AppType.caption,
                       color: t.textSecondary),
                 ),
                 const SizedBox(height: 7),
@@ -411,7 +411,7 @@ class VisitorRow extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 11.5,
+                        fontSize: AppType.caption,
                         color: t.textSecondary),
                   ),
                 ],
@@ -423,7 +423,7 @@ class VisitorRow extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 12,
+                        fontSize: AppType.footnote,
                         height: 1.4,
                         color: t.textSecondary),
                   ),

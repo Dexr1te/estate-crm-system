@@ -13,6 +13,7 @@ import 'package:real_estate_crm/features/properties/presentation/widgets/map_lis
 import 'package:real_estate_crm/features/properties/presentation/widgets/map_markers.dart';
 
 import 'fakes.dart';
+import 'more_section_expect.dart';
 import 'responsive_harness.dart';
 
 /// The map screens at every acceptance size, both themes and every text
@@ -101,6 +102,8 @@ Future<void> _detailPreview(WidgetTester tester, Size size, Brightness b,
     double scale, Locale locale) async {
   await expectNoOverflow(tester, _wrap(const PropertyDetailScreen(id: 1)),
       size: size, brightness: b, textScale: scale, locale: locale);
+  await tester.pumpAndSettle();
+  await openMore(tester);
   await tester.pumpAndSettle();
   final open = find.byKey(const ValueKey('property-open-in-maps'));
   await tester.ensureVisible(open);

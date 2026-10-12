@@ -17,6 +17,7 @@ import 'checklist_fixtures.dart';
 import 'deposit_fakes.dart';
 import 'deposit_fixtures.dart';
 import 'fakes.dart';
+import 'more_section_expect.dart';
 import 'responsive_harness.dart';
 
 /// The deposit wherever it shows — the dashboard card, the full list, the
@@ -152,6 +153,7 @@ void main() {
           locale: locale,
         );
         await _settle(tester, 'deal, ${locale.languageCode}');
+        await openMore(tester);
         final card = find.byKey(const Key('deal-deposit-card'));
         await tester.ensureVisible(card);
         await _settle(tester, 'deposit card, ${locale.languageCode}');

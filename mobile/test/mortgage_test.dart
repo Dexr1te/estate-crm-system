@@ -23,6 +23,7 @@ import 'package:real_estate_crm/l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'fakes.dart';
+import 'more_section_expect.dart';
 import 'responsive_harness.dart';
 
 /// A buyer at a viewing asks what the flat costs a month. The listing answers
@@ -408,6 +409,8 @@ void main() {
           child: const PropertyDetailScreen(id: 7),
         ),
       );
+      await openMore(tester);
+      await tester.pumpAndSettle();
 
       final card = find.byKey(const ValueKey('mortgage-card-summary'));
       await tester.scrollUntilVisible(card, 200,

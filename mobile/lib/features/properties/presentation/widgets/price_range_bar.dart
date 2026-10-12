@@ -30,7 +30,9 @@ class PriceRangeBar extends StatelessWidget {
     double at(double v) => ((v - start) / span).clamp(0.0, 1.0);
 
     final labelStyle = TextStyle(
-        fontFamily: AppFonts.sans, fontSize: 11, color: t.textSecondary);
+        fontFamily: AppFonts.sans,
+        fontSize: AppType.caption,
+        color: t.textSecondary);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,

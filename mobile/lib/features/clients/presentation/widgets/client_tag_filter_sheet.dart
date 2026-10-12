@@ -88,7 +88,7 @@ class _ClientTagFilterFormState extends State<ClientTagFilterForm> {
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
               fontFamily: AppFonts.sans,
-              fontSize: 13,
+              fontSize: AppType.subhead,
               height: 1.4,
               color: t.textSecondary),
         ),

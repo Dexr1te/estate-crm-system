@@ -65,7 +65,7 @@ class FunnelCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 11.5,
+                      fontSize: AppType.caption,
                       color: t.textSecondary),
                 ),
               ),
@@ -82,7 +82,7 @@ class FunnelCard extends StatelessWidget {
                       textAlign: TextAlign.end,
                       style: TextStyle(
                           fontFamily: AppFonts.sans,
-                          fontSize: 11.5,
+                          fontSize: AppType.caption,
                           fontWeight: FontWeight.w600,
                           color: t.textPrimary),
                     ),

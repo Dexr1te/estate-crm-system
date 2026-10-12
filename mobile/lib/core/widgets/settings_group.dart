@@ -1,7 +1,10 @@
 import 'dart:math' as math;
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:real_estate_crm/core/feedback/app_haptics.dart';
 import 'package:real_estate_crm/core/theme/app_metrics.dart';
+import 'package:real_estate_crm/core/theme/app_platform.dart';
 import 'package:real_estate_crm/core/theme/app_tokens.dart';
 import 'package:real_estate_crm/core/widgets/app_card.dart';
 import 'package:real_estate_crm/core/widgets/app_text.dart';
@@ -81,7 +84,7 @@ class SettingsRow extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
               fontFamily: AppFonts.sans,
-              fontSize: 13,
+              fontSize: AppType.body,
               fontWeight: FontWeight.w500,
               color: t.textPrimary),
         ),
@@ -93,7 +96,7 @@ class SettingsRow extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 fontFamily: AppFonts.sans,
-                fontSize: 11,
+                fontSize: AppType.footnote,
                 color: t.textSecondary),
           ),
         ],
@@ -106,7 +109,9 @@ class SettingsRow extends StatelessWidget {
     final Widget row;
     if (trailing == null && value != null) {
       final valueStyle = TextStyle(
-          fontFamily: AppFonts.sans, fontSize: 12.5, color: t.textSecondary);
+          fontFamily: AppFonts.sans,
+          fontSize: AppType.subhead,
+          color: t.textSecondary);
       row = LayoutBuilder(builder: (context, constraints) {
         final valueWidth = singleLineTextWidth(context, value!, valueStyle);
         final labelMax = constraints.maxWidth -
@@ -165,21 +170,29 @@ class AppSwitch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.tokens;
+    final offTrack = t.isDark ? t.textHint : t.border;
+    if (AppPlatform.cupertinoOf(context)) {
+      return CupertinoSwitch(
+        value: value,
+        onChanged: onChanged,
+        activeTrackColor: t.primary,
+        inactiveTrackColor: offTrack,
+      );
+    }
     return Switch(
       value: value,
-      onChanged: onChanged,
+      onChanged: (next) {
+        AppHaptics.selection();
+        onChanged(next);
+      },
       thumbColor: WidgetStateProperty.resolveWith((s) =>
           s.contains(WidgetState.selected)
               ? t.onPrimary
               : (t.isDark ? t.textSecondary : t.surface)),
-      trackColor: WidgetStateProperty.resolveWith((s) =>
-          s.contains(WidgetState.selected)
-              ? t.primary
-              : (t.isDark ? t.textHint : t.border)),
-      trackOutlineColor: WidgetStateProperty.resolveWith((s) =>
-          s.contains(WidgetState.selected)
-              ? t.primary
-              : (t.isDark ? t.textHint : t.border)),
+      trackColor: WidgetStateProperty.resolveWith(
+          (s) => s.contains(WidgetState.selected) ? t.primary : offTrack),
+      trackOutlineColor: WidgetStateProperty.resolveWith(
+          (s) => s.contains(WidgetState.selected) ? t.primary : offTrack),
     );
   }
 }

@@ -29,15 +29,18 @@ class MeetingRow extends StatelessWidget {
             width: 56,
             child: Column(
               children: [
-                Text(
-                  time,
-                  maxLines: 1,
-                  style: TextStyle(
-                      fontFamily: AppFonts.sans,
-                      fontSize: 13,
-                      height: 1,
-                      fontWeight: FontWeight.w600,
-                      color: t.textPrimary),
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    time,
+                    maxLines: 1,
+                    style: TextStyle(
+                        fontFamily: AppFonts.sans,
+                        fontSize: AppType.subhead,
+                        height: 1,
+                        fontWeight: FontWeight.w600,
+                        color: t.textPrimary),
+                  ),
                 ),
                 const SizedBox(height: 2),
                 Text(
@@ -65,7 +68,7 @@ class MeetingRow extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 13,
+                      fontSize: AppType.body,
                       fontWeight: FontWeight.w500,
                       color: t.textPrimary),
                 ),
@@ -77,7 +80,7 @@ class MeetingRow extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 11,
+                        fontSize: AppType.caption,
                         color: t.textSecondary),
                   ),
                 ],

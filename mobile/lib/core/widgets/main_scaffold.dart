@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/navigation/active_tab.dart';
+import 'package:real_estate_crm/core/navigation/role_hub.dart';
+import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart';
@@ -17,58 +20,76 @@ class _Dest {
   const _Dest(this.route, this.icon, this.activeIcon, this.label);
 }
 
-List<_Dest> _destsFor(Role? role, AppLocalizations l10n) {
-  final dests = [
-    _Dest(ShellTabs.dashboard, Icons.dashboard_outlined, Icons.dashboard,
-        l10n.coreNavDashboard),
-    _Dest(ShellTabs.clients, Icons.people_outline, Icons.people,
-        l10n.coreNavClients),
-    _Dest(ShellTabs.properties, Icons.home_work_outlined, Icons.home_work,
-        l10n.coreNavProperties),
-    _Dest(ShellTabs.deals, Icons.handshake_outlined, Icons.handshake,
-        l10n.coreNavDeals),
-    _Dest(ShellTabs.meetings, Icons.calendar_month_outlined,
-        Icons.calendar_month, l10n.coreNavCalendar),
-  ];
-  if (role == Role.ADMIN) {
-    dests.add(_Dest(ShellTabs.admin, Icons.shield_outlined, Icons.shield,
-        l10n.coreNavAdmin));
-  } else if (role == Role.MANAGER) {
-    dests.add(_Dest(ShellTabs.teamConsole, Icons.groups_outlined, Icons.groups,
-        l10n.coreNavTeam));
-  }
-  return dests;
-}
+List<_Dest> _tabs(AppLocalizations l10n) => [
+      _Dest(ShellTabs.dashboard, Icons.dashboard_outlined, Icons.dashboard,
+          l10n.coreNavDashboard),
+      _Dest(ShellTabs.clients, Icons.people_outline, Icons.people,
+          l10n.coreNavClients),
+      _Dest(ShellTabs.properties, Icons.home_work_outlined, Icons.home_work,
+          l10n.coreNavProperties),
+      _Dest(ShellTabs.deals, Icons.handshake_outlined, Icons.handshake,
+          l10n.coreNavDeals),
+      _Dest(ShellTabs.meetings, Icons.calendar_month_outlined,
+          Icons.calendar_month, l10n.coreNavCalendar),
+    ];
+
+const _fabGap = 12.0;
+
+AuthResponse? _userOf(AuthState state) =>
+    state is AuthAuthenticated ? state.user : null;
 
 class MainScaffold extends StatelessWidget {
   final StatefulNavigationShell shell;
   const MainScaffold({super.key, required this.shell});
 
+  String get _route => ShellTabs.routes[shell.currentIndex];
+
+  void _goTo(String route) {
+    final branch = ShellTabs.routes.indexOf(route);
+    if (branch != shell.currentIndex) HapticFeedback.selectionClick();
+    shell.goBranch(branch, initialLocation: branch == shell.currentIndex);
+  }
+
+  Future<bool> _backFromHub(BuildContext context) async {
+    if (!RoleHub.isHubRoute(_route)) return false;
+    if (ModalRoute.isCurrentOf(context) == false) return false;
+    _goTo(ShellTabs.dashboard);
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
-      buildWhen: (p, c) => p.runtimeType != c.runtimeType,
+      buildWhen: (p, c) =>
+          p.runtimeType != c.runtimeType ||
+          RoleHub.of(_userOf(p)) != RoleHub.of(_userOf(c)),
       builder: (context, authState) {
         final l10n = AppLocalizations.of(context);
-        final role =
-            authState is AuthAuthenticated ? authState.user.role : null;
-        final dests = _destsFor(role, l10n);
-        final route = ShellTabs.routes[shell.currentIndex];
-        final found = dests.indexWhere((d) => d.route == route);
-        final index = found < 0 ? 0 : found;
+        final hub = RoleHub.of(_userOf(authState));
+        final tabs = _tabs(l10n);
+        final route = _route;
+        final found = tabs.indexWhere((d) => d.route == route);
+        final selected = found < 0 ? null : found;
         final isWide =
             MediaQuery.sizeOf(context).width >= AppMetrics.railBreakpoint;
-        final child = ActiveTab(route: route, child: shell);
-
-        void onTap(int i) {
-          final branch = ShellTabs.routes.indexOf(dests[i].route);
-          shell.goBranch(branch, initialLocation: branch == shell.currentIndex);
-        }
+        final child = BackButtonListener(
+          onBackButtonPressed: () => _backFromHub(context),
+          child: ActiveTab(route: route, child: shell),
+        );
 
         if (isWide) {
           return Scaffold(
             body: Row(children: [
-              _SideNav(dests: dests, selectedIndex: index, onTap: onTap),
+              _SideNav(
+                dests: [
+                  ...tabs,
+                  if (hub != null)
+                    _Dest(hub.route, hub.icon, hub.activeIcon, hub.label(l10n)),
+                ],
+                selectedRoute: route,
+                hubFrom: tabs.length,
+                onTap: _goTo,
+              ),
               VerticalDivider(width: 1, color: context.tokens.border),
               Expanded(child: child),
             ]),
@@ -79,13 +100,19 @@ class MainScaffold extends StatelessWidget {
           extendBody: true,
           backgroundColor: Colors.transparent,
           body: child,
-          bottomNavigationBar: AppBottomNav(
-            currentIndex: index,
-            onTap: onTap,
-            items: [
-              for (final d in dests)
-                AppNavItem(
-                    icon: d.icon, activeIcon: d.activeIcon, label: d.label),
+          bottomNavigationBar: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const _FloatingAdd(),
+              AppBottomNav(
+                currentIndex: selected,
+                onTap: (i) => _goTo(tabs[i].route),
+                items: [
+                  for (final d in tabs)
+                    AppNavItem(
+                        icon: d.icon, activeIcon: d.activeIcon, label: d.label),
+                ],
+              ),
             ],
           ),
         );
@@ -94,12 +121,39 @@ class MainScaffold extends StatelessWidget {
   }
 }
 
+class _FloatingAdd extends StatelessWidget {
+  const _FloatingAdd();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+          AppMetrics.navIslandInset, 0, AppMetrics.navIslandInset, _fabGap),
+      child: Center(
+        heightFactor: 1,
+        child: ConstrainedBox(
+          constraints:
+              const BoxConstraints(maxWidth: AppMetrics.navIslandMaxWidth),
+          child: const Align(
+            alignment: AlignmentDirectional.centerEnd,
+            child: QuickAddButton.floating(),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class _SideNav extends StatelessWidget {
   final List<_Dest> dests;
-  final int selectedIndex;
-  final void Function(int) onTap;
+  final String selectedRoute;
+  final int hubFrom;
+  final ValueChanged<String> onTap;
   const _SideNav(
-      {required this.dests, required this.selectedIndex, required this.onTap});
+      {required this.dests,
+      required this.selectedRoute,
+      required this.hubFrom,
+      required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -124,21 +178,32 @@ class _SideNav extends StatelessWidget {
                     child: const Icon(Icons.home_work,
                         color: Colors.white, size: 18)),
                 const SizedBox(width: 10),
-                Text('Estate CRM',
-                    style: TextStyle(
-                        fontFamily: AppFonts.sans,
-                        fontWeight: FontWeight.w700,
-                        fontSize: 15,
-                        color: cs.onSurface)),
+                Flexible(
+                  child: Text('Estate CRM',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          fontFamily: AppFonts.sans,
+                          fontWeight: FontWeight.w700,
+                          fontSize: AppType.body,
+                          color: cs.onSurface)),
+                ),
               ])),
-          const SizedBox(height: 32),
-          for (var i = 0; i < dests.length; i++)
+          const SizedBox(height: 24),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 12),
+            child: QuickAddButton.rail(),
+          ),
+          const SizedBox(height: 16),
+          for (var i = 0; i < dests.length; i++) ...[
+            if (i == hubFrom) const SizedBox(height: 16),
             _NavItem(
                 icon: dests[i].icon,
                 activeIcon: dests[i].activeIcon,
                 label: dests[i].label,
-                selected: selectedIndex == i,
-                onTap: () => onTap(i)),
+                selected: selectedRoute == dests[i].route,
+                onTap: () => onTap(dests[i].route)),
+          ],
           const Spacer(),
           Divider(color: Theme.of(context).dividerColor),
           Padding(
@@ -158,14 +223,14 @@ class _SideNav extends StatelessWidget {
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
                         fontWeight: FontWeight.w600,
-                        fontSize: 13,
+                        fontSize: AppType.subhead,
                         color: cs.onSurface),
                     overflow: TextOverflow.ellipsis),
                 subtitle: Text(user == null ? '' : roleLabel(l10n, user.role),
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 11,
+                        fontSize: AppType.caption,
                         color: context.tokens.textSecondary)),
                 trailing: IconButton(
                     icon: Icon(Icons.logout,
@@ -218,7 +283,7 @@ class _NavItem extends StatelessWidget {
             Text(label,
                 style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 13,
+                    fontSize: AppType.subhead,
                     fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
                     color:
                         selected ? cs.primary : cs.onSurface.withAlpha(153))),

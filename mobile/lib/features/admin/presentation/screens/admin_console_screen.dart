@@ -6,7 +6,6 @@ import 'package:real_estate_crm/core/models/admin_models.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/models/team_models.dart';
 import 'package:real_estate_crm/core/navigation/active_tab.dart';
-import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/admin/presentation/bloc/admin_users_bloc.dart';
 import 'package:real_estate_crm/features/admin/presentation/bloc/admin_users_event.dart';
@@ -85,25 +84,16 @@ class _AdminConsoleScreenState extends State<AdminConsoleScreen>
                     children: [
                       ScreenTitle(
                         l10n.adminConsoleTitle,
-                        trailing: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const QuickAddButton(), // Records are imported into the admin's own agency.
-                            if (context
-                                    .read<AuthBloc?>()
-                                    ?.currentUser
-                                    ?.teamId !=
-                                null) ...[
-                              const SizedBox(width: 10),
-                              AppIconTile(
-                                key: const ValueKey('import-entry'),
-                                icon: Icons.upload_file_rounded,
-                                tooltip: l10n.importTitle,
-                                onPressed: () => context.push('/import'),
-                              ),
-                            ],
-                          ],
-                        ),
+                        trailing:
+                            context.read<AuthBloc?>()?.currentUser?.teamId !=
+                                    null
+                                ? AppIconTile(
+                                    key: const ValueKey('import-entry'),
+                                    icon: Icons.upload_file_rounded,
+                                    tooltip: l10n.importTitle,
+                                    onPressed: () => context.push('/import'),
+                                  )
+                                : null,
                       ),
                       const SizedBox(height: 14),
                       SegmentedTabs(
@@ -481,7 +471,7 @@ class _AuditRow extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 fontFamily: AppFonts.sans,
-                fontSize: 13,
+                fontSize: AppType.subhead,
                 fontWeight: FontWeight.w500,
                 color: t.textPrimary),
           ),
@@ -493,7 +483,7 @@ class _AuditRow extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 11,
+                  fontSize: AppType.caption,
                   color: t.textSecondary),
             ),
           ],
@@ -545,7 +535,7 @@ class _SheetOption extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 13.5,
+                  fontSize: AppType.body,
                   fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
                   color: t.textPrimary),
             ),

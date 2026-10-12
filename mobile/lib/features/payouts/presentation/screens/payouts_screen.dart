@@ -108,7 +108,7 @@ class _PayoutsScreenState extends State<PayoutsScreen> {
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
               fontFamily: AppFonts.sans,
-              fontSize: 12,
+              fontSize: AppType.footnote,
               height: 1.4,
               color: t.textSecondary),
         ),

@@ -85,7 +85,7 @@ class _TemplateView extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
               fontFamily: AppFonts.sans,
-              fontSize: 12.5,
+              fontSize: AppType.subhead,
               height: 1.45,
               color: t.textSecondary),
         ),
@@ -156,7 +156,7 @@ class _StageEditor extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 12,
+                    fontSize: AppType.footnote,
                     color: t.textSecondary),
               ),
             ),

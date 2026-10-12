@@ -200,7 +200,8 @@ void main() {
   testWidgets('a drop on Lost on the board asks why before moving',
       (tester) async {
     await _pump(tester, const DealsScreen());
-    expectOneQuickAdd();
+    expect(find.byKey(const ValueKey('quick-add')), findsNothing,
+        reason: 'the shell floats the one "+" over every tab');
     await tester.tap(find.byIcon(Icons.view_kanban_outlined));
     await tester.pumpAndSettle();
 

@@ -33,29 +33,31 @@ Widget _sheet() => Scaffold(
       ),
     );
 
-/// The two shapes of the "+" in a header row beside a long title.
-Widget _headers() => BlocProvider(
+Widget _shapes() => BlocProvider(
       create: (_) =>
           AuthBloc(FakeAuthRepository(user: _agent))..add(AuthCheckEvent()),
       child: const Scaffold(
         body: SafeArea(
           child: Column(
             children: [
-              Row(children: [
-                Expanded(
-                    child: ScreenTitle('Clients and a very long team name')),
-                SizedBox(width: 12),
-                QuickAddButton(),
-              ]),
               DetailAppBar(
                 title: 'Irina Alexandrovna Sokolova-Kuznetsova',
                 actions: [QuickAddButton.tile()],
+              ),
+              SizedBox(width: 220, child: QuickAddButton.rail()),
+              Align(
+                alignment: AlignmentDirectional.centerEnd,
+                child: QuickAddButton.floating(),
               ),
             ],
           ),
         ),
       ),
     );
+
+Finder _shape(QuickAddShape shape) =>
+    find.byWidgetPredicate((w) => w is QuickAddButton && w.shape == shape,
+        description: 'the $shape "+"');
 
 void main() {
   forEachAcceptanceCase('quick-add sheet',
@@ -71,16 +73,19 @@ void main() {
     }
   });
 
-  forEachAcceptanceCase('quick-add button in a header',
+  forEachAcceptanceCase('quick-add button shapes',
       (tester, size, brightness, scale) async {
     for (final locale in kAcceptanceLocales) {
-      await expectNoOverflow(tester, _headers(),
+      await expectNoOverflow(tester, _shapes(),
           size: size, brightness: brightness, textScale: scale, locale: locale);
       final tile = tester.getSize(find.descendant(
-          of: find.byType(QuickAddButton), matching: find.byType(AppIconTile)));
+          of: _shape(QuickAddShape.tile), matching: find.byType(AppIconTile)));
       expect(tile.width, greaterThanOrEqualTo(AppMetrics.minHitTarget));
-      expect(tester.getSize(find.byType(AppHeaderAction)).height,
+      expect(tester.getSize(_shape(QuickAddShape.rail)).height,
           greaterThanOrEqualTo(AppMetrics.minHitTarget));
+      final fab = tester.getSize(_shape(QuickAddShape.floating));
+      expect(fab.width, QuickAddButton.floatingSize);
+      expect(fab.height, QuickAddButton.floatingSize);
     }
   });
 }

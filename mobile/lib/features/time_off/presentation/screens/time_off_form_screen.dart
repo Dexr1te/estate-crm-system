@@ -143,7 +143,7 @@ class _TimeOffFormScreenState extends State<TimeOffFormScreen> {
     final now = AppClock.now();
     final current = first ? _start : _end;
     final initial = current ?? (first ? null : _start) ?? now;
-    final picked = await showDatePicker(
+    final picked = await showAppDatePicker(
       context: context,
       initialDate: initial,
       firstDate: DateTime(now.year - 1),
@@ -335,8 +335,10 @@ class _TimeOffFormScreenState extends State<TimeOffFormScreen> {
     final now = AppClock.now();
     final choosesPerson =
         widget.id == null && loaded == null && context.isManager;
-    final errorStyle =
-        TextStyle(fontFamily: AppFonts.sans, fontSize: 11, color: t.dangerText);
+    final errorStyle = TextStyle(
+        fontFamily: AppFonts.sans,
+        fontSize: AppType.caption,
+        color: t.dangerText);
     final start = _start;
     final end = _end;
 
@@ -359,7 +361,7 @@ class _TimeOffFormScreenState extends State<TimeOffFormScreen> {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 14,
+                        fontSize: AppType.body,
                         fontWeight: FontWeight.w600,
                         color: t.textPrimary),
                   ),
@@ -437,7 +439,7 @@ class _TimeOffFormScreenState extends State<TimeOffFormScreen> {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 11.5,
+                    fontSize: AppType.caption,
                     color: t.textSecondary)),
         ],
       ),
@@ -457,7 +459,7 @@ class _TimeOffFormScreenState extends State<TimeOffFormScreen> {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 11.5,
+                  fontSize: AppType.caption,
                   height: 1.4,
                   color: t.textSecondary)),
         ],

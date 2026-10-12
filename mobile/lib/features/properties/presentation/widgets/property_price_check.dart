@@ -72,7 +72,7 @@ class PropertyPriceCheckCard extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 14,
+                  fontSize: AppType.body,
                   height: 1.35,
                   fontWeight: FontWeight.w600,
                   color: t.textPrimary),
@@ -102,7 +102,7 @@ class PropertyPriceCheckCard extends StatelessWidget {
                     key: const ValueKey('price-check-low-confidence'),
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
-                    style: muted(12),
+                    style: muted(AppType.footnote),
                   ),
                 ),
               ],
@@ -113,7 +113,7 @@ class PropertyPriceCheckCard extends StatelessWidget {
             l10n.propertiesPriceCheckBasedOn(insight.count, city),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            style: muted(12),
+            style: muted(AppType.footnote),
           ),
           if (soldLine != null) ...[
             const SizedBox(height: 4),
@@ -122,7 +122,7 @@ class PropertyPriceCheckCard extends StatelessWidget {
               key: const ValueKey('price-check-sold'),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: muted(12),
+              style: muted(AppType.footnote),
             ),
           ],
           if (insight.comparables.isNotEmpty) ...[

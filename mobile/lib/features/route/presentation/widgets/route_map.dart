@@ -131,7 +131,7 @@ class StopNumber extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontFamily: AppFonts.sans,
-              fontSize: 13,
+              fontSize: AppType.subhead,
               fontWeight: FontWeight.w700,
               color: ink,
             ),

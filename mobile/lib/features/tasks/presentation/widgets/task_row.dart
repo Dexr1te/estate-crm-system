@@ -88,7 +88,7 @@ class TaskRow extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 13,
+                        fontSize: AppType.body,
                         fontWeight: FontWeight.w600,
                         decoration:
                             task.isDone ? TextDecoration.lineThrough : null,
@@ -101,7 +101,7 @@ class TaskRow extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 11,
+                        fontSize: AppType.caption,
                         color: overdue ? t.dangerText : t.textSecondary),
                   ),
                   if (task.repeats) ...[

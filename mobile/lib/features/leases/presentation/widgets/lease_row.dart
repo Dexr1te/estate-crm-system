@@ -77,7 +77,7 @@ class LeaseRow extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontFamily: AppFonts.sans,
-                            fontSize: 14,
+                            fontSize: AppType.body,
                             fontWeight: FontWeight.w600,
                             color: t.textPrimary)),
                     const SizedBox(height: 2),
@@ -86,7 +86,7 @@ class LeaseRow extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontFamily: AppFonts.sans,
-                            fontSize: 12,
+                            fontSize: AppType.footnote,
                             fontWeight: FontWeight.w500,
                             color: t.dangerText)),
                     if (people.isNotEmpty) ...[
@@ -96,7 +96,7 @@ class LeaseRow extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontFamily: AppFonts.sans,
-                              fontSize: 11.5,
+                              fontSize: AppType.caption,
                               color: t.textSecondary)),
                     ],
                     const SizedBox(height: 2),
@@ -105,7 +105,7 @@ class LeaseRow extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontFamily: AppFonts.sans,
-                            fontSize: 11.5,
+                            fontSize: AppType.caption,
                             color: t.textSecondary)),
                   ],
                 ),
@@ -122,7 +122,7 @@ class LeaseRow extends StatelessWidget {
                   icon: Icons.phone_outlined,
                   onPressed: () => callLeaseParty(context, lease.tenantPhone),
                   height: AppMetrics.buttonHeightInline,
-                  fontSize: 12.5,
+                  fontSize: AppType.subhead,
                 ),
               ),
               if (lease.landlordId != null) ...[
@@ -135,7 +135,7 @@ class LeaseRow extends StatelessWidget {
                     onPressed: () =>
                         callLeaseParty(context, lease.landlordPhone),
                     height: AppMetrics.buttonHeightInline,
-                    fontSize: 12.5,
+                    fontSize: AppType.subhead,
                   ),
                 ),
               ],

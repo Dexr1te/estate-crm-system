@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/locale/bloc/locale_bloc.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/navigation/role_hub.dart';
 import 'package:real_estate_crm/core/network/api_client.dart';
 import 'package:real_estate_crm/core/notifications/reminder_plan.dart';
 import 'package:real_estate_crm/core/notifications/reminders_bloc.dart';
@@ -32,11 +33,21 @@ class ProfileScreen extends StatelessWidget {
         final l10n = AppLocalizations.of(ctx);
         final user = state is AuthAuthenticated ? state.user : null;
         if (user == null) return const SizedBox.shrink();
+        final hub = RoleHub.of(user);
 
         return DetailScaffold(
           title: l10n.profileTitle,
           children: [
             _Identity(user: user),
+            if (hub != null)
+              SettingsGroup(rows: [
+                SettingsRow(
+                  key: const ValueKey('profile-hub'),
+                  label: hub.label(l10n),
+                  showChevron: true,
+                  onTap: () => context.go(hub.route),
+                ),
+              ]),
             SettingsGroup(rows: [
               SettingsRow(
                 label: l10n.profileName,
@@ -154,7 +165,7 @@ class ProfileScreen extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 fontFamily: AppFonts.sans,
-                                fontSize: 13,
+                                fontSize: AppType.subhead,
                                 fontWeight: FontWeight.w600,
                                 color: ctx.tokens.textPrimary),
                           ),
@@ -165,7 +176,7 @@ class ProfileScreen extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 fontFamily: AppFonts.sans,
-                                fontSize: 11.5,
+                                fontSize: AppType.caption,
                                 color: ctx.tokens.textSecondary),
                           ),
                         ],
@@ -518,7 +529,7 @@ class _Identity extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
               fontFamily: AppFonts.sans,
-              fontSize: 12.5,
+              fontSize: AppType.subhead,
               color: t.textSecondary),
         ),
         const SizedBox(height: 11),
@@ -546,7 +557,7 @@ class _IdChip extends StatelessWidget {
         '$id',
         style: TextStyle(
             fontFamily: AppFonts.sans,
-            fontSize: 11,
+            fontSize: AppType.caption,
             fontWeight: FontWeight.w600,
             color: t.textPrimary),
       ),
@@ -577,7 +588,7 @@ class _LanguageOption extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 13.5,
+                  fontSize: AppType.body,
                   fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
                   color: t.textPrimary),
             ),

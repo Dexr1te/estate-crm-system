@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
+import 'package:real_estate_crm/core/forms/form_draft.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/utils/clock.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
@@ -32,7 +33,8 @@ class MeetingFormScreen extends StatefulWidget {
   State<MeetingFormScreen> createState() => _MeetingFormScreenState();
 }
 
-class _MeetingFormScreenState extends State<MeetingFormScreen> {
+class _MeetingFormScreenState extends State<MeetingFormScreen>
+    with FormDraftMixin<MeetingFormScreen> {
   final _formKey = GlobalKey<FormState>();
   final _titleCtrl = TextEditingController();
   final _descCtrl = TextEditingController();
@@ -75,8 +77,56 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
           ? slot
           : DateTime(date.year, date.month, date.day, 10);
     }
+    if (!widget.isEditing) startDraft();
     _loadLists();
     if (widget.isEditing) _loadMeeting();
+  }
+
+  @override
+  String get draftId {
+    if (widget.isEditing) return 'meeting:${widget.meetingId}';
+    final client = widget.initialClientId;
+    final property = widget.initialPropertyId;
+    return [
+      'meeting:new',
+      if (client != null) 'client-$client',
+      if (property != null) 'property-$property',
+    ].join(':');
+  }
+
+  @override
+  List<Listenable> get draftFields => [_titleCtrl, _descCtrl, _locationCtrl];
+
+  @override
+  DraftValues captureDraft() => {
+        'title': _titleCtrl.text,
+        'description': _descCtrl.text,
+        'location': _locationCtrl.text,
+        'scheduledAt': draftDate(_scheduledAt),
+        'client': draftRef(_client),
+        'agent': draftRef(_agent),
+        'deal': draftRef(_deal),
+        'property': draftRef(_property),
+      };
+
+  @override
+  void restoreDraft(DraftValues values) {
+    PickerItem? ref(List<PickerItem> list, String key) {
+      final item = values.refAt(key);
+      return item == null ? null : _reconcile(list, item);
+    }
+
+    _titleCtrl.text = values.textAt('title');
+    _descCtrl.text = values.textAt('description');
+    _locationCtrl.text = values.textAt('location');
+    _scheduledAt = values.dateAt('scheduledAt');
+    _client = ref(_clients, 'client');
+    _agent = ref(_agents, 'agent');
+    _deal = ref(_deals, 'deal');
+    _property = ref(_properties, 'property');
+    _clientError = null;
+    _agentError = null;
+    _whenError = null;
   }
 
   @override
@@ -138,7 +188,7 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
         (v) {
           _properties = v;
           _property = _reconcile(v, _property);
-          _prefillLocation();
+          settleDraft(_prefillLocation);
         },
       ),
     ]);
@@ -203,6 +253,7 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
                     subtitle: m.propertyAddress));
         _initLoading = false;
       });
+      startDraft();
     } catch (_) {
       if (mounted) setState(() => _initLoading = false);
     }
@@ -240,7 +291,7 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
   Future<void> _pickDate() async {
     final now = AppClock.now();
     final base = _scheduledAt ?? _defaultSlot;
-    final date = await showDatePicker(
+    final date = await showAppDatePicker(
       context: context,
       initialDate: base,
       firstDate: _scheduledAt != null && _scheduledAt!.isBefore(now)
@@ -258,7 +309,7 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
 
   Future<void> _pickTime() async {
     final base = _scheduledAt ?? _defaultSlot;
-    final time = await showTimePicker(
+    final time = await showAppTimePicker(
       context: context,
       initialTime: TimeOfDay.fromDateTime(base),
     );
@@ -304,12 +355,19 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
         'description': _descCtrl.text.trim(),
     };
 
+    final bloc = context.read<MeetingsBloc>();
+    final done = widget.isEditing
+        ? ActionMessage.meetingUpdated
+        : ActionMessage.meetingCreated;
+    closeDraftWhen(savedOutcome(
+      bloc.stream,
+      saved: (s) => s is MeetingsActionSuccess && s.message == done,
+      failed: (s) => s is MeetingsActionFailure || s is MeetingsError,
+    ));
     if (widget.isEditing) {
-      context
-          .read<MeetingsBloc>()
-          .add(MeetingsUpdateEvent(widget.meetingId!, data));
+      bloc.add(MeetingsUpdateEvent(widget.meetingId!, data));
     } else {
-      context.read<MeetingsBloc>().add(MeetingsCreateEvent(data));
+      bloc.add(MeetingsCreateEvent(data));
     }
   }
 
@@ -359,8 +417,12 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
                     const SizedBox(height: 8),
                     AppGhostButton(
                       label: l10n.coreCancel,
-                      onPressed:
-                          _loading ? null : () => context.go('/meetings'),
+                      onPressed: _loading
+                          ? null
+                          : () {
+                              closeDraft();
+                              context.go('/meetings');
+                            },
                     ),
                   ],
                 ),
@@ -431,7 +493,7 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
                           _whenError!,
                           style: TextStyle(
                               fontFamily: AppFonts.sans,
-                              fontSize: 11,
+                              fontSize: AppType.footnote,
                               color: t.dangerText),
                         ),
                     ],
@@ -471,7 +533,7 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontFamily: AppFonts.sans,
-                              fontSize: 11.5,
+                              fontSize: AppType.caption,
                               color: t.dangerText),
                         ),
                       _PickerRow(
@@ -556,7 +618,9 @@ class _PickerRow extends StatelessWidget {
             child: Text(
               error!,
               style: TextStyle(
-                  fontFamily: AppFonts.sans, fontSize: 11, color: t.dangerText),
+                  fontFamily: AppFonts.sans,
+                  fontSize: AppType.footnote,
+                  color: t.dangerText),
             ),
           ),
       ],

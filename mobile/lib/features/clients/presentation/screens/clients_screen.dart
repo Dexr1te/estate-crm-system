@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/models/export_models.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/navigation/active_tab.dart';
-import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
 import 'package:real_estate_crm/core/utils/clock.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_bloc.dart';
@@ -141,16 +140,9 @@ class _ClientsScreenState extends State<ClientsScreen> with RefreshOnTabReturn {
                                   all.where((c) => c.dealCount > 0).length,
                                   all.length)
                               : null,
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              ExportButton(
-                                  kind: ExportKind.clients,
-                                  filters: _exportFilters),
-                              const SizedBox(width: 4),
-                              const QuickAddButton(),
-                            ],
-                          ),
+                          trailing: ExportButton(
+                              kind: ExportKind.clients,
+                              filters: _exportFilters),
                         ),
                         const SizedBox(height: 14),
                         AppTextField(

@@ -13,8 +13,7 @@ import 'package:real_estate_crm/l10n/app_localizations.dart';
 const kGoingColdPreview = 3;
 
 /// The clients going quiet, on the dashboard: the top few with a call and a
-/// reminder each. Nothing at all when nobody is going cold, a skeleton while
-/// it loads, and a failure stays inside the card.
+/// reminder each.
 ///
 /// [topGap] sits above the card and goes with it, so a hidden card leaves no
 /// hole in the column.
@@ -68,7 +67,9 @@ class _GoingColdCardState extends State<GoingColdCard>
         onColdState(context, state);
       },
       builder: (context, state) {
-        if (state is ColdClientsLoaded && state.clients.isEmpty) {
+        if (state is ColdClientsLoaded
+            ? state.clients.isEmpty
+            : state is! ColdClientsError) {
           return const SizedBox.shrink(key: ValueKey('going-cold-hidden'));
         }
         return Padding(
@@ -93,7 +94,9 @@ class _GoingColdCardState extends State<GoingColdCard>
         ? summary - reminded
         : (state is ColdClientsLoaded ? state.clients.length : null);
     final secondary = TextStyle(
-        fontFamily: AppFonts.sans, fontSize: 12.5, color: t.textSecondary);
+        fontFamily: AppFonts.sans,
+        fontSize: AppType.subhead,
+        color: t.textSecondary);
 
     return AppCard(
       key: const ValueKey('going-cold-card'),
@@ -114,7 +117,7 @@ class _GoingColdCardState extends State<GoingColdCard>
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontFamily: AppFonts.sans,
-                          fontSize: 11,
+                          fontSize: AppType.caption,
                           fontWeight: FontWeight.w600,
                           color: t.dangerText)),
                 ),
@@ -122,7 +125,7 @@ class _GoingColdCardState extends State<GoingColdCard>
             ],
           ),
           const SizedBox(height: 11),
-          if (state is ColdClientsError) ...[
+          if (shown == null) ...[
             Text(l10n.clientsColdLoadFailed,
                 maxLines: 2, overflow: TextOverflow.ellipsis, style: secondary),
             const SizedBox(height: 10),
@@ -131,15 +134,9 @@ class _GoingColdCardState extends State<GoingColdCard>
               label: l10n.coreRetry,
               onPressed: () => coldBloc.add(ColdClientsLoadEvent()),
               height: AppMetrics.buttonHeightInline,
-              fontSize: 12.5,
+              fontSize: AppType.subhead,
             ),
-          ] else if (shown == null)
-            const Column(children: [
-              ColdClientRowBone(),
-              SizedBox(height: 8),
-              ColdClientRowBone(),
-            ])
-          else ...[
+          ] else ...[
             for (var i = 0; i < shown.length; i++) ...[
               if (i > 0) const SizedBox(height: 8),
               ColdClientRow(
@@ -157,7 +154,7 @@ class _GoingColdCardState extends State<GoingColdCard>
               label: l10n.dashboardSeeAll,
               onPressed: widget.onSeeAll,
               height: AppMetrics.buttonHeightInline,
-              fontSize: 12.5,
+              fontSize: AppType.subhead,
             ),
           ],
         ],

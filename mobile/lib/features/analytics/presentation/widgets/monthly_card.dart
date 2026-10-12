@@ -133,7 +133,7 @@ class _Legend extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 fontFamily: AppFonts.sans,
-                fontSize: 11,
+                fontSize: AppType.caption,
                 color: context.tokens.textSecondary),
           ),
         ),

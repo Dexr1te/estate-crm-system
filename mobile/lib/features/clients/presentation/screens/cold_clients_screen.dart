@@ -55,7 +55,7 @@ class _ColdClientsScreenState extends State<ColdClientsScreen>
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 12.5,
+                    fontSize: AppType.subhead,
                     color: context.tokens.textSecondary)),
             FilterPillRow(
               bleed: true,

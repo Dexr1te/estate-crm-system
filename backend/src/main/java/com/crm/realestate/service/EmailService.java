@@ -2,6 +2,7 @@ package com.crm.realestate.service;
 
 import java.nio.charset.StandardCharsets;
 
+import com.crm.realestate.service.demo.DemoAccounts;
 import jakarta.annotation.PostConstruct;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
@@ -159,6 +160,10 @@ public class EmailService {
      * triggered it.
      */
     private void send(String toEmail, String subject, String plain, String html, String what) {
+        if (DemoAccounts.isDemoAddress(toEmail)) {
+            log.info("Not sending {} email to demo address {}", what, toEmail);
+            return;
+        }
         try {
             if (usesBrevo()) {
                 brevo.send(from, fromName, toEmail, subject, plain, html);

@@ -10,6 +10,7 @@ import 'package:real_estate_crm/features/meetings/presentation/bloc/meetings_blo
 import 'package:real_estate_crm/features/meetings/presentation/screens/meeting_detail_screen.dart';
 
 import 'fakes.dart';
+import 'more_section_expect.dart';
 import 'responsive_harness.dart';
 
 /// Saying how a showing went, and what the buyer's list does about it.
@@ -135,6 +136,7 @@ void main() {
     ]);
 
     await _open(tester, const ClientDetailScreen(id: 1));
+    await openMore(tester);
 
     expect(find.textContaining('Shown'), findsOneWidget,
         reason: 'offering it as though it were new wastes the viewing');
@@ -144,6 +146,7 @@ void main() {
     _installFakes(matches: const [PropertyMatch(property: _listing)]);
 
     await _open(tester, const ClientDetailScreen(id: 1));
+    await openMore(tester);
 
     expect(find.textContaining('Shown'), findsNothing);
   });

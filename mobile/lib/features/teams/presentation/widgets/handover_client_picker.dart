@@ -64,7 +64,7 @@ class _ClientPickerState extends State<_ClientPicker> {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 12.5,
+                    fontSize: AppType.subhead,
                     color: t.textSecondary),
               ),
             ),
@@ -73,7 +73,7 @@ class _ClientPickerState extends State<_ClientPicker> {
               key: const Key('handover-pick-toggle-all'),
               label: _all ? l10n.handoverPickNone : l10n.handoverPickAll,
               height: AppMetrics.buttonHeightInline,
-              fontSize: 12,
+              fontSize: AppType.footnote,
               onPressed: () => setState(() {
                 if (_all) {
                   _ticked.clear();
@@ -123,7 +123,7 @@ class _ClientPickerState extends State<_ClientPicker> {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 fontFamily: AppFonts.sans,
-                                fontSize: 13.5,
+                                fontSize: AppType.body,
                                 fontWeight: FontWeight.w600,
                                 color: t.textPrimary),
                           ),
@@ -136,7 +136,7 @@ class _ClientPickerState extends State<_ClientPicker> {
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                   fontFamily: AppFonts.sans,
-                                  fontSize: 11.5,
+                                  fontSize: AppType.footnote,
                                   color: t.textHint),
                             ),
                           ],

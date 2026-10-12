@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
+import 'package:real_estate_crm/core/forms/form_draft.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/utils/clock.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
@@ -28,7 +29,8 @@ class DealFormScreen extends StatefulWidget {
   State<DealFormScreen> createState() => _DealFormScreenState();
 }
 
-class _DealFormScreenState extends State<DealFormScreen> {
+class _DealFormScreenState extends State<DealFormScreen>
+    with FormDraftMixin<DealFormScreen> {
   final _formKey = GlobalKey<FormState>();
   final _titleCtrl = TextEditingController();
   final _priceCtrl = TextEditingController();
@@ -76,7 +78,84 @@ class _DealFormScreenState extends State<DealFormScreen> {
       }
     }
     _loadLists();
-    if (widget.isEditing) _loadDeal();
+    if (widget.isEditing) {
+      _loadDeal();
+    } else {
+      startDraft();
+    }
+  }
+
+  @override
+  String get draftId {
+    if (widget.isEditing) return 'deal:${widget.dealId}';
+    final client = widget.initialClientId;
+    final property = widget.initialPropertyId;
+    return [
+      'deal:new',
+      if (client != null) 'client-$client',
+      if (property != null) 'property-$property',
+    ].join(':');
+  }
+
+  @override
+  List<Listenable> get draftFields => [
+        _titleCtrl,
+        _priceCtrl,
+        _budgetCtrl,
+        _commissionCtrl,
+        _notesCtrl,
+        _rentCtrl,
+        _reminderCtrl,
+      ];
+
+  @override
+  DraftValues captureDraft() => {
+        'title': _titleCtrl.text,
+        'dealPrice': _priceCtrl.text,
+        'budget': _budgetCtrl.text,
+        'commission': _commissionCtrl.text,
+        'notes': _notesCtrl.text,
+        'monthlyRent': _rentCtrl.text,
+        'leaseReminderDays': _reminderCtrl.text,
+        'kind': _kind.name,
+        'leaseStart': draftDate(_leaseStart),
+        'leaseEnd': draftDate(_leaseEnd),
+        'landlord': draftRef(_landlord),
+        'status': _status.name,
+        'lostReason': _lostReason?.name,
+        'lostNote': _lostNote,
+        'client': draftRef(_client),
+        'agent': draftRef(_agent),
+        'property': draftRef(_property),
+      };
+
+  @override
+  void restoreDraft(DraftValues values) {
+    PickerItem? ref(List<PickerItem> list, String key) {
+      final item = values.refAt(key);
+      return item == null ? null : _reconcile(list, item);
+    }
+
+    _titleCtrl.text = values.textAt('title');
+    _priceCtrl.text = values.textAt('dealPrice');
+    _budgetCtrl.text = values.textAt('budget');
+    _commissionCtrl.text = values.textAt('commission');
+    _notesCtrl.text = values.textAt('notes');
+    _rentCtrl.text = values.textAt('monthlyRent');
+    _reminderCtrl.text = values.textAt('leaseReminderDays');
+    _kind = values.enumAt('kind', DealKind.values) ?? DealKind.sale;
+    _leaseStart = values.dateAt('leaseStart');
+    _leaseEnd = values.dateAt('leaseEnd');
+    _landlord = ref(_clients, 'landlord');
+    _status = values.enumAt('status', DealStatus.values) ?? DealStatus.LEAD;
+    _lostReason = values.enumAt('lostReason', DealLostReason.values);
+    _lostNote = values.stringAt('lostNote');
+    _client = ref(_clients, 'client');
+    _agent = ref(_agents, 'agent');
+    _property = ref(_properties, 'property');
+    _clientError = null;
+    _agentError = null;
+    _leaseError = null;
   }
 
   @override
@@ -205,6 +284,7 @@ class _DealFormScreenState extends State<DealFormScreen> {
         _lostNote = d.lostNote;
         _initLoading = false;
       });
+      startDraft();
     } catch (_) {
       if (mounted) setState(() => _initLoading = false);
     }
@@ -301,7 +381,7 @@ class _DealFormScreenState extends State<DealFormScreen> {
                 ? DateTime(now.year + 1, now.month, now.day)
                 : DateTime(_leaseStart!.year + 1, _leaseStart!.month,
                     _leaseStart!.day)));
-    final picked = await showDatePicker(
+    final picked = await showAppDatePicker(
       context: context,
       initialDate: initial,
       firstDate: DateTime(now.year - 10),
@@ -363,10 +443,19 @@ class _DealFormScreenState extends State<DealFormScreen> {
         'lostNote': _lostNote,
     };
 
+    final bloc = context.read<DealsBloc>();
+    final done = widget.isEditing
+        ? ActionMessage.dealUpdated
+        : ActionMessage.dealCreated;
+    closeDraftWhen(savedOutcome(
+      bloc.stream,
+      saved: (s) => s is DealsActionSuccess && s.message == done,
+      failed: (s) => s is DealsActionFailure || s is DealsError,
+    ));
     if (widget.isEditing) {
-      context.read<DealsBloc>().add(DealsUpdateEvent(widget.dealId!, data));
+      bloc.add(DealsUpdateEvent(widget.dealId!, data));
     } else {
-      context.read<DealsBloc>().add(DealsCreateEvent(data));
+      bloc.add(DealsCreateEvent(data));
     }
   }
 
@@ -408,7 +497,9 @@ class _DealFormScreenState extends State<DealFormScreen> {
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
-                fontFamily: AppFonts.sans, fontSize: 11, color: t.dangerText),
+                fontFamily: AppFonts.sans,
+                fontSize: AppType.caption,
+                color: t.dangerText),
           ),
         LabelledField(
           label: l10n.leasesReminderDays,
@@ -474,7 +565,12 @@ class _DealFormScreenState extends State<DealFormScreen> {
                     const SizedBox(height: 8),
                     AppGhostButton(
                       label: l10n.coreCancel,
-                      onPressed: _loading ? null : () => context.go('/deals'),
+                      onPressed: _loading
+                          ? null
+                          : () {
+                              closeDraft();
+                              context.go('/deals');
+                            },
                     ),
                   ],
                 ),
@@ -639,7 +735,7 @@ class _DealFormScreenState extends State<DealFormScreen> {
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontFamily: AppFonts.sans,
-                              fontSize: 12.5,
+                              fontSize: AppType.subhead,
                               height: 1.4,
                               color: t.textSecondary),
                         ),
@@ -703,7 +799,9 @@ class _PickerRow extends StatelessWidget {
             child: Text(
               error!,
               style: TextStyle(
-                  fontFamily: AppFonts.sans, fontSize: 11, color: t.dangerText),
+                  fontFamily: AppFonts.sans,
+                  fontSize: AppType.footnote,
+                  color: t.dangerText),
             ),
           ),
       ],

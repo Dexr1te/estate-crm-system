@@ -43,7 +43,7 @@ class CalendarHeader extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 fontFamily: AppFonts.sans,
-                fontSize: 15,
+                fontSize: AppType.body,
                 fontWeight: FontWeight.w700,
                 color: t.textPrimary),
           ),

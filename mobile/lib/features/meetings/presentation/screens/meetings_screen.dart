@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/navigation/active_tab.dart';
-import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
 import 'package:real_estate_crm/core/utils/clock.dart';
 import 'package:real_estate_crm/core/utils/contact_actions.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
@@ -192,12 +191,6 @@ class _MeetingsScreenState extends State<MeetingsScreen>
               l10n.calendarTitle,
               subtitle: subtitle,
               reserveSubtitle: true,
-              trailing: const Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  QuickAddButton(),
-                ],
-              ),
             ),
             const SizedBox(height: 12),
             SegmentedTabs(

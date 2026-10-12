@@ -54,7 +54,7 @@ class OfferRow extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 14,
+                      fontSize: AppType.body,
                       fontWeight: FontWeight.w700,
                       color: t.textPrimary),
                 ),
@@ -81,7 +81,7 @@ class OfferRow extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 fontFamily: AppFonts.sans,
-                fontSize: 11.5,
+                fontSize: AppType.caption,
                 color: t.textSecondary),
           ),
           if (o.status.isOpen && expires != null) ...[
@@ -92,7 +92,9 @@ class OfferRow extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                  fontFamily: AppFonts.sans, fontSize: 11.5, color: t.textHint),
+                  fontFamily: AppFonts.sans,
+                  fontSize: AppType.caption,
+                  color: t.textHint),
             ),
           ],
           if (o.otherAccepted) ...[
@@ -104,7 +106,7 @@ class OfferRow extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 11.5,
+                  fontSize: AppType.caption,
                   fontWeight: FontWeight.w500,
                   color: t.dangerText),
             ),
@@ -127,7 +129,7 @@ class OfferListHeading extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
         style: TextStyle(
             fontFamily: AppFonts.sans,
-            fontSize: 11.5,
+            fontSize: AppType.caption,
             fontWeight: FontWeight.w600,
             color: context.tokens.textSecondary),
       );

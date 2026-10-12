@@ -69,6 +69,20 @@ class FakeAuthRepository implements AuthRepository {
   bool get isLoggedIn => user != null;
   @override
   Future<AuthResponse> login(String email, String password) async => user!;
+
+  AuthResponse? demo;
+
+  Object? demoFailure;
+
+  int demosStarted = 0;
+
+  @override
+  Future<AuthResponse> startDemo() async {
+    demosStarted++;
+    if (demoFailure case final failure?) throw failure;
+    return demo ?? user!;
+  }
+
   @override
   Future<AuthResponse> acceptInvite(String token, String newPassword) async =>
       user!;

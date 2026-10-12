@@ -56,7 +56,7 @@ class ChangeEntryCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 13.5,
+                      fontSize: AppType.body,
                       fontWeight: FontWeight.w600,
                       color: t.textPrimary),
                 ),
@@ -68,7 +68,7 @@ class ChangeEntryCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 11.5,
+                        fontSize: AppType.caption,
                         color: t.textHint),
                   ),
                 ],
@@ -90,7 +90,7 @@ class ChangeEntryCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontFamily: AppFonts.sans,
-                          fontSize: 12.5,
+                          fontSize: AppType.subhead,
                           fontWeight: FontWeight.w500,
                           color: entry.isDeletion || open == null
                               ? t.textSecondary
@@ -108,7 +108,7 @@ class ChangeEntryCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontFamily: AppFonts.sans,
-                          fontSize: 13,
+                          fontSize: AppType.subhead,
                           height: 1.35,
                           color: t.textPrimary),
                     ),

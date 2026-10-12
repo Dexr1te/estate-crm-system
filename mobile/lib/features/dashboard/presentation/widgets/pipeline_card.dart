@@ -46,7 +46,7 @@ class PipelineCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 13.5,
+                      fontSize: AppType.body,
                       fontWeight: FontWeight.w600,
                       color: t.textPrimary),
                 ),
@@ -58,7 +58,7 @@ class PipelineCard extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 12,
+                    fontSize: AppType.footnote,
                     fontWeight: FontWeight.w600,
                     color: t.textSecondary),
               ),
@@ -115,7 +115,7 @@ class PipelineCard extends StatelessWidget {
                   l10n.dashboardConversion,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 11,
+                      fontSize: AppType.caption,
                       color: t.textSecondary),
                 ),
                 const SizedBox(width: 10),
@@ -143,7 +143,7 @@ class PipelineCard extends StatelessWidget {
                   '${(rate * 100).round()}%',
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 11.5,
+                      fontSize: AppType.caption,
                       fontWeight: FontWeight.w600,
                       color: t.textPrimary),
                 ),
@@ -167,7 +167,7 @@ class PipelineCard extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontFamily: AppFonts.sans,
-                            fontSize: 12,
+                            fontSize: AppType.footnote,
                             fontWeight: FontWeight.w600,
                             color: t.textPrimary),
                       ),
@@ -236,7 +236,7 @@ class _StageColumn extends StatelessWidget {
             maxLines: 1,
             style: TextStyle(
                 fontFamily: AppFonts.sans,
-                fontSize: 15,
+                fontSize: AppType.body,
                 height: 1,
                 fontWeight: FontWeight.w700,
                 color: t.textPrimary),

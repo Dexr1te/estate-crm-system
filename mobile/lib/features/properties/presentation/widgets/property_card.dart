@@ -32,10 +32,6 @@ class PropertyCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           LayoutBuilder(builder: (context, constraints) {
-            // Beside the title the chip is fixed-width, so a long status
-            // (ru "Забронирован") at large text can leave the title nothing
-            // or push past the edge. Past 40% of the room it drops under
-            // the address instead, and the title keeps the full line.
             final room = constraints.maxWidth -
                 _coverSize -
                 12 -
@@ -43,7 +39,7 @@ class PropertyCard extends StatelessWidget {
             final chip = PropertyStatusChip(status: property.status);
             final chipBelow = StatusChip.widthOf(
                     context, propertyStatusLabel(l10n, property.status)) >
-                room * 0.4;
+                room * 0.45;
             return Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -98,7 +94,7 @@ class PropertyCard extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontFamily: AppFonts.sans,
-                              fontSize: 13.5,
+                              fontSize: AppType.body,
                               color: t.textSecondary),
                         ),
                       ],
@@ -166,7 +162,7 @@ class PropertyCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 13,
+                        fontSize: AppType.subhead,
                         color: t.textSecondary),
                   ),
                 ),

@@ -104,7 +104,7 @@ class _TaskRepeatFormState extends State<TaskRepeatForm> {
     final initial = _until != null && !_until!.isBefore(first)
         ? _until!
         : first.add(const Duration(days: 30));
-    final picked = await showDatePicker(
+    final picked = await showAppDatePicker(
       context: context,
       initialDate: initial,
       firstDate: first,
@@ -216,7 +216,7 @@ class _TaskRepeatFormState extends State<TaskRepeatForm> {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 11,
+                      fontSize: AppType.caption,
                       color: t.dangerText),
                 ),
               ],
@@ -266,7 +266,7 @@ class TaskRepeatLine extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = context.tokens;
     final color = emphasised ? t.textSecondary : t.textHint;
-    final size = emphasised ? 12.5 : 11.0;
+    final size = emphasised ? AppType.subhead : AppType.caption;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

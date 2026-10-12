@@ -471,18 +471,23 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
           RecordTasksCard(
               client: PickerItem(id: client.id, title: client.fullName)),
           _DealsCard(deals: _deals),
-          ClientPartnersCard(
-              key: ValueKey('client-partners-${client.id}-'
-                  '${client.referredByPartnerId}'),
-              client: client),
-          if (client.type == ClientType.BUYER)
-            ClientOffersCard(clientId: client.id),
-          if (client.type == ClientType.BUYER)
-            _MatchesCard(
-                client: client, matches: _matches, onSent: _recordSent),
-          if (client.notes != null && client.notes!.trim().isNotEmpty)
-            _NotesCard(client: client),
-          ChangeHistoryButton(location: '/clients/${widget.id}/changes'),
+          MoreSection(
+            memoryKey: 'client-detail',
+            children: [
+              if (client.type == ClientType.BUYER)
+                _MatchesCard(
+                    client: client, matches: _matches, onSent: _recordSent),
+              if (client.type == ClientType.BUYER)
+                ClientOffersCard(clientId: client.id),
+              ClientPartnersCard(
+                  key: ValueKey('client-partners-${client.id}-'
+                      '${client.referredByPartnerId}'),
+                  client: client),
+              if (client.notes != null && client.notes!.trim().isNotEmpty)
+                _NotesCard(client: client),
+              ChangeHistoryButton(location: '/clients/${widget.id}/changes'),
+            ],
+          ),
         ],
       ),
     );
@@ -630,7 +635,7 @@ class _ContactCard extends StatelessWidget {
                   label: l10n.coreCall,
                   onPressed: onCall,
                   height: AppMetrics.buttonHeightInline,
-                  fontSize: 12.5,
+                  fontSize: AppType.subhead,
                 ),
               ),
               const SizedBox(width: 8),
@@ -639,7 +644,7 @@ class _ContactCard extends StatelessWidget {
                   label: l10n.clientsMessage,
                   onPressed: onMessage,
                   height: AppMetrics.buttonHeightInline,
-                  fontSize: 12.5,
+                  fontSize: AppType.subhead,
                 ),
               ),
             ],
@@ -651,7 +656,7 @@ class _ContactCard extends StatelessWidget {
             icon: Icons.chat_bubble_outline_rounded,
             onPressed: onCompose,
             height: AppMetrics.buttonHeightInline,
-            fontSize: 12.5,
+            fontSize: AppType.subhead,
           ),
         ],
       ),
@@ -693,7 +698,7 @@ class _MatchesCard extends StatelessWidget {
                     maxLines: 1,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 11,
+                        fontSize: AppType.caption,
                         fontWeight: FontWeight.w600,
                         color: t.textSecondary)),
             ],
@@ -706,7 +711,7 @@ class _MatchesCard extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 12.5,
+                  fontSize: AppType.subhead,
                   height: 1.35,
                   color: t.textSecondary),
             )
@@ -717,7 +722,7 @@ class _MatchesCard extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 12.5,
+                  fontSize: AppType.subhead,
                   color: t.textSecondary),
             )
           else ...[
@@ -731,7 +736,7 @@ class _MatchesCard extends StatelessWidget {
               onPressed: () => showSendMatchesSheet(context,
                   client: client, matches: matches, onSent: onSent),
               height: AppMetrics.buttonHeightInline,
-              fontSize: 12.5,
+              fontSize: AppType.subhead,
             ),
             if (matches.length >= 2) ...[
               const SizedBox(height: 8),
@@ -740,7 +745,7 @@ class _MatchesCard extends StatelessWidget {
                 label: l10n.compareAction,
                 icon: Icons.compare_arrows_rounded,
                 height: AppMetrics.buttonHeightInline,
-                fontSize: 12.5,
+                fontSize: AppType.subhead,
                 onPressed: () => context.push(compareLocation(
                     [for (final m in matches) m.property.id],
                     clientId: client.id)),
@@ -781,7 +786,7 @@ class _MatchRow extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 13,
+                      fontSize: AppType.body,
                       fontWeight: FontWeight.w600,
                       color: t.textPrimary),
                 ),
@@ -809,7 +814,7 @@ class _MatchRow extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 11.5,
+                      fontSize: AppType.caption,
                       color: t.textSecondary),
                 ),
               ),
@@ -829,7 +834,7 @@ class _MatchRow extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 13,
+                    fontSize: AppType.body,
                     fontWeight: FontWeight.w700,
                     color: t.textPrimary),
               ),
@@ -858,7 +863,7 @@ class _MatchRow extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 11,
+                        fontSize: AppType.caption,
                         color: t.textHint),
                   ),
                 ),
@@ -899,7 +904,7 @@ class _DealsCard extends StatelessWidget {
               Text('${deals.length}',
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 11,
+                      fontSize: AppType.caption,
                       fontWeight: FontWeight.w600,
                       color: t.textSecondary)),
             ],
@@ -910,7 +915,7 @@ class _DealsCard extends StatelessWidget {
               l10n.dealsEmptyTitle,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 12.5,
+                  fontSize: AppType.subhead,
                   color: t.textSecondary),
             )
           else
@@ -940,24 +945,35 @@ class _DealRow extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  deal.title,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      fontFamily: AppFonts.sans,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                      color: t.textPrimary),
-                ),
-              ),
-              const SizedBox(width: 8),
-              DealStatusChip(status: deal.status),
-            ],
-          ),
+          LayoutBuilder(builder: (context, constraints) {
+            final title = Text(
+              deal.title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                  fontFamily: AppFonts.sans,
+                  fontSize: AppType.body,
+                  fontWeight: FontWeight.w600,
+                  color: t.textPrimary),
+            );
+            final chip = DealStatusChip(status: deal.status);
+            final chipBelow = StatusChip.widthOf(
+                    context, dealStatusLabel(l10n, deal.status)) >
+                constraints.maxWidth * 0.4;
+            if (chipBelow) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [title, const SizedBox(height: 4), chip],
+              );
+            }
+            return Row(
+              children: [
+                Expanded(child: title),
+                const SizedBox(width: 8),
+                chip,
+              ],
+            );
+          }),
           const SizedBox(height: 7),
           Row(
             crossAxisAlignment: CrossAxisAlignment.baseline,
@@ -970,7 +986,7 @@ class _DealRow extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 11.5,
+                      fontSize: AppType.caption,
                       color: t.textSecondary),
                 ),
               ),
@@ -980,7 +996,7 @@ class _DealRow extends StatelessWidget {
                   formatPrice(price),
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 11.5,
+                      fontSize: AppType.caption,
                       fontWeight: FontWeight.w600,
                       color: t.textPrimary),
                 ),
@@ -1013,7 +1029,7 @@ class _NotesCard extends StatelessWidget {
             client.notes!,
             style: TextStyle(
                 fontFamily: AppFonts.sans,
-                fontSize: 12.5,
+                fontSize: AppType.subhead,
                 height: 1.55,
                 color: t.textSecondary),
           ),
@@ -1023,7 +1039,9 @@ class _NotesCard extends StatelessWidget {
               l10n.clientsUpdatedAt(
                   formatWeekdayDate(client.updatedAt!, locale)),
               style: TextStyle(
-                  fontFamily: AppFonts.sans, fontSize: 11, color: t.textHint),
+                  fontFamily: AppFonts.sans,
+                  fontSize: AppType.caption,
+                  color: t.textHint),
             ),
           ],
         ],

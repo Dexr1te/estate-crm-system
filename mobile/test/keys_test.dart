@@ -32,6 +32,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'fakes.dart';
 import 'keys_fixtures.dart';
+import 'more_section_expect.dart';
 import 'responsive_harness.dart';
 
 /// A listing's keys: what the server sends and is sent, the blocs behind the
@@ -444,6 +445,8 @@ void main() {
           child: const PropertyDetailScreen(id: 1),
         ),
       );
+      await openMore(tester);
+      await tester.pumpAndSettle();
       final card = find.byKey(const ValueKey('property-keys'));
       await tester.ensureVisible(card);
       await tester.pumpAndSettle();

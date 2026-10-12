@@ -86,7 +86,7 @@ class _CompareSendBarState extends State<CompareSendBar> {
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                   fontFamily: AppFonts.sans,
-                                  fontSize: 13,
+                                  fontSize: AppType.subhead,
                                   fontWeight: FontWeight.w500,
                                   color: t.textPrimary),
                             ),
@@ -96,7 +96,7 @@ class _CompareSendBarState extends State<CompareSendBar> {
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                   fontFamily: AppFonts.sans,
-                                  fontSize: 11,
+                                  fontSize: AppType.caption,
                                   height: 1.3,
                                   color: t.textSecondary),
                             ),

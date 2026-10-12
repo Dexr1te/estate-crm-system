@@ -85,14 +85,14 @@ class RouteStopRow extends StatelessWidget {
                       .join(' · '),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: style(14, t.textPrimary, FontWeight.w600),
+                  style: style(AppType.body, t.textPrimary, FontWeight.w600),
                 ),
                 if (place.isNotEmpty) ...[
                   const SizedBox(height: 3),
                   Text(place,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: style(12.5, t.textSecondary)),
+                      style: style(AppType.subhead, t.textSecondary)),
                 ],
                 if (km != null) ...[
                   const SizedBox(height: 3),
@@ -100,7 +100,7 @@ class RouteStopRow extends StatelessWidget {
                       key: ValueKey('route-km-${leg!.number}'),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: style(12, t.textHint)),
+                      style: style(AppType.footnote, t.textHint)),
                 ],
                 if (outcome != null || m.completed || isNext) ...[
                   const SizedBox(height: 6),
@@ -157,7 +157,7 @@ class RouteGap extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 12,
+                  fontSize: AppType.footnote,
                   color: t.textSecondary),
             ),
     );

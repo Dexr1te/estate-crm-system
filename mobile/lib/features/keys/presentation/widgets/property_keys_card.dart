@@ -95,7 +95,7 @@ class _PropertyKeysCardState extends State<PropertyKeysCard> {
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
               fontFamily: AppFonts.sans,
-              fontSize: 12.5,
+              fontSize: AppType.subhead,
               color: context.tokens.textSecondary)),
       const SizedBox(height: 10),
       AppGhostButton(
@@ -147,7 +147,7 @@ class _PropertyKeysCardState extends State<PropertyKeysCard> {
             key: const ValueKey('property-keys-show-all'),
             label: l10n.keysShowAll,
             height: AppMetrics.minHitTarget,
-            fontSize: 12.5,
+            fontSize: AppType.subhead,
             onPressed: () => setState(() => _allHistory = true),
           ),
         ],
@@ -210,7 +210,7 @@ class _InOffice extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 fontFamily: AppFonts.sans,
-                fontSize: 14,
+                fontSize: AppType.body,
                 fontWeight: FontWeight.w600,
                 color: context.tokens.textPrimary),
           ),
@@ -233,7 +233,9 @@ class _Current extends StatelessWidget {
     final h = handover;
     final note = h.note?.trim() ?? '';
     final secondary = TextStyle(
-        fontFamily: AppFonts.sans, fontSize: 12, color: t.textSecondary);
+        fontFamily: AppFonts.sans,
+        fontSize: AppType.footnote,
+        color: t.textSecondary);
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -251,7 +253,7 @@ class _Current extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 14,
+                    fontSize: AppType.body,
                     fontWeight: FontWeight.w600,
                     color: h.overdue ? t.dangerText : t.textPrimary),
               ),
@@ -286,7 +288,7 @@ class _HistoryHeading extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
         style: TextStyle(
             fontFamily: AppFonts.sans,
-            fontSize: 11.5,
+            fontSize: AppType.caption,
             fontWeight: FontWeight.w600,
             color: context.tokens.textSecondary),
       );
@@ -310,7 +312,7 @@ class _HistoryRow extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 fontFamily: AppFonts.sans,
-                fontSize: 13,
+                fontSize: AppType.subhead,
                 fontWeight: FontWeight.w500,
                 color: t.textPrimary)),
         const SizedBox(height: 1),
@@ -319,7 +321,7 @@ class _HistoryRow extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 fontFamily: AppFonts.sans,
-                fontSize: 12,
+                fontSize: AppType.footnote,
                 color: t.textSecondary)),
       ],
     );

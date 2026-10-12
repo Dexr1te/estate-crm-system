@@ -66,7 +66,7 @@ class DealCard extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 13.5,
+                  fontSize: AppType.body,
                   color: t.textSecondary),
             ),
           ],
@@ -125,7 +125,7 @@ class DealCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 13,
+                        fontSize: AppType.subhead,
                         fontWeight:
                             stale != null ? FontWeight.w600 : FontWeight.w400,
                         color: stale != null ? t.dangerText : t.textSecondary,
@@ -178,7 +178,7 @@ class ChecklistProgressBadge extends StatelessWidget {
             overflow: TextOverflow.clip,
             style: TextStyle(
                 fontFamily: AppFonts.sans,
-                fontSize: 11,
+                fontSize: AppType.caption,
                 fontWeight: FontWeight.w600,
                 color: t.textSecondary),
           ),
@@ -212,7 +212,7 @@ class CommentCountBadge extends StatelessWidget {
             overflow: TextOverflow.clip,
             style: TextStyle(
                 fontFamily: AppFonts.sans,
-                fontSize: 11,
+                fontSize: AppType.caption,
                 fontWeight: FontWeight.w600,
                 color: t.textSecondary),
           ),

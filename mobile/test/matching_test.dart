@@ -11,6 +11,7 @@ import 'package:real_estate_crm/features/properties/presentation/bloc/properties
 import 'package:real_estate_crm/features/properties/presentation/screens/property_detail_screen.dart';
 
 import 'fakes.dart';
+import 'more_section_expect.dart';
 import 'responsive_harness.dart';
 
 /// What an agent sees once a buyer's requirements are written down.
@@ -134,6 +135,7 @@ void main() {
     _installFakes(matches: _matches);
 
     await _open(tester, const ClientDetailScreen(id: 1));
+    await openMore(tester);
 
     expect(find.text('MATCHING LISTINGS'), findsOneWidget);
     expect(find.text('Severny Residence, apartment 84'), findsOneWidget);
@@ -149,6 +151,7 @@ void main() {
     _installFakes(matches: const []);
 
     await _open(tester, const ClientDetailScreen(id: 1));
+    await openMore(tester);
 
     expect(find.text('Nothing on the books fits yet'), findsOneWidget);
   });
@@ -158,6 +161,7 @@ void main() {
     _installFakes(client: _buyerWithNothingStated);
 
     await _open(tester, const ClientDetailScreen(id: 1));
+    await openMore(tester);
 
     expect(
         find.text(
@@ -171,6 +175,7 @@ void main() {
     _installFakes(client: _seller, matches: _matches);
 
     await _open(tester, const ClientDetailScreen(id: 1));
+    await openMore(tester);
 
     expect(find.text('MATCHING LISTINGS'), findsNothing);
   });

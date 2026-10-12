@@ -9,6 +9,7 @@ import com.crm.realestate.exception.BusinessException;
 import com.crm.realestate.repository.UserRepository;
 import com.crm.realestate.security.AuthResponseFactory;
 import com.crm.realestate.security.JwtService;
+import com.crm.realestate.service.demo.DemoAccounts;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AccountStatusException;
@@ -143,8 +144,13 @@ public class AuthService {
         User user = userRepository.findByEmail(currentEmail)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        if (!user.getEmail().equalsIgnoreCase(request.getEmail())
-                && userRepository.existsByEmail(request.getEmail())) {
+        boolean changingEmail = !user.getEmail().equalsIgnoreCase(request.getEmail());
+        if (changingEmail && (DemoAccounts.isTryAccount(user.getEmail())
+                || DemoAccounts.isDemoAddress(request.getEmail()))) {
+            throw new BusinessException(HttpStatus.FORBIDDEN, "DEMO_EMAIL_LOCKED",
+                    "A demo account keeps its address, and demo addresses are reserved");
+        }
+        if (changingEmail && userRepository.existsByEmail(request.getEmail())) {
             throw new RuntimeException("Email already registered: " + request.getEmail());
         }
 

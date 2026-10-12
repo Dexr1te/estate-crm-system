@@ -10,10 +10,12 @@ Future<T?> showAppBottomSheet<T>(
   String? title,
   String? subtitle,
   bool isScrollControlled = true,
+  bool useRootNavigator = false,
 }) {
   return showModalBottomSheet<T>(
     context: context,
     isScrollControlled: isScrollControlled,
+    useRootNavigator: useRootNavigator,
     backgroundColor: Colors.transparent,
     barrierColor: AppTokens.of(context).sheetScrim,
     builder: (ctx) =>
@@ -84,7 +86,7 @@ class AppSheetShell extends StatelessWidget {
                     subtitle!,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 12,
+                        fontSize: AppType.footnote,
                         height: 1.5,
                         color: t.textSecondary),
                   ),

@@ -17,6 +17,13 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<AuthResponse> startDemo() async {
+    final auth = await _remote.startDemo();
+    await _session.save(auth);
+    return auth;
+  }
+
+  @override
   Future<RegisterResult> register({
     required String fullName,
     required String email,

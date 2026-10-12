@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
+import 'package:real_estate_crm/core/forms/form_draft.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/clients/domain/client_birthday.dart';
@@ -25,7 +26,8 @@ class ClientFormScreen extends StatefulWidget {
   State<ClientFormScreen> createState() => _ClientFormScreenState();
 }
 
-class _ClientFormScreenState extends State<ClientFormScreen> {
+class _ClientFormScreenState extends State<ClientFormScreen>
+    with FormDraftMixin<ClientFormScreen> {
   final _formKey = GlobalKey<FormState>();
   final _nameCtrl = TextEditingController();
   final _emailCtrl = TextEditingController();
@@ -67,8 +69,78 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
   @override
   void initState() {
     super.initState();
-    if (widget.isEditing) _load();
+    if (widget.isEditing) {
+      _load();
+    } else {
+      startDraft();
+    }
     _loadTagSuggestions();
+  }
+
+  @override
+  String get draftId =>
+      widget.isEditing ? 'client:${widget.clientId}' : 'client:new';
+
+  @override
+  List<Listenable> get draftFields => [
+        _nameCtrl,
+        _emailCtrl,
+        _phoneCtrl,
+        _notesCtrl,
+        _cityCtrl,
+        _budgetMinCtrl,
+        _budgetMaxCtrl,
+        _roomsCtrl,
+        _areaCtrl,
+        _tagCtrl,
+        _leadDetailCtrl,
+      ];
+
+  @override
+  DraftValues captureDraft() => {
+        'fullName': _nameCtrl.text,
+        'email': _emailCtrl.text,
+        'phone': _phoneCtrl.text,
+        'notes': _notesCtrl.text,
+        'wantedCity': _cityCtrl.text,
+        'budgetMin': _budgetMinCtrl.text,
+        'budgetMax': _budgetMaxCtrl.text,
+        'minRooms': _roomsCtrl.text,
+        'minArea': _areaCtrl.text,
+        'tagTyped': _tagCtrl.text,
+        'leadDetail': _leadDetailCtrl.text,
+        'type': _type.name,
+        'wantedType': _wantedType?.name,
+        'tags': _tags,
+        'leadSource': _leadSource?.name,
+        'partner': _partnerId == null
+            ? null
+            : draftRef(PickerItem(id: _partnerId!, title: _partnerName ?? '')),
+        'birthday': _birthday?.toApi(),
+      };
+
+  @override
+  void restoreDraft(DraftValues values) {
+    _nameCtrl.text = values.textAt('fullName');
+    _emailCtrl.text = values.textAt('email');
+    _phoneCtrl.text = values.textAt('phone');
+    _notesCtrl.text = values.textAt('notes');
+    _cityCtrl.text = values.textAt('wantedCity');
+    _budgetMinCtrl.text = values.textAt('budgetMin');
+    _budgetMaxCtrl.text = values.textAt('budgetMax');
+    _roomsCtrl.text = values.textAt('minRooms');
+    _areaCtrl.text = values.textAt('minArea');
+    _tagCtrl.text = values.textAt('tagTyped');
+    _leadDetailCtrl.text = values.textAt('leadDetail');
+    _type = values.enumAt('type', ClientType.values) ?? ClientType.BUYER;
+    _wantedType = values.enumAt('wantedType', PropertyType.values);
+    _tags = values.stringsAt('tags');
+    _leadSource = values.enumAt('leadSource', LeadSource.values);
+    final partner = values.refAt('partner');
+    _partnerId = partner?.id;
+    _partnerName = partner?.title;
+    _partnerMissing = false;
+    _birthday = ClientBirthday.parse(values.stringAt('birthday'));
   }
 
   Future<void> _loadTagSuggestions() async {
@@ -128,6 +200,7 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
         _birthday = ClientBirthday.of(c);
         _initLoading = false;
       });
+      startDraft();
     } catch (_) {
       if (mounted) setState(() => _initLoading = false);
     }
@@ -233,13 +306,20 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
       // Always sent too: an empty one takes the birthday off.
       'birthday': _birthday?.toApi() ?? '',
     };
+    final bloc = context.read<ClientsBloc>();
+    closeDraftWhen(savedOutcome(
+      bloc.stream,
+      saved: (s) => widget.isEditing
+          ? s is ClientsActionSuccess &&
+              s.message == ActionMessage.clientUpdated
+          : s is ClientCreated,
+      failed: (s) => s is ClientsActionFailure || s is ClientsError,
+    ));
     if (widget.isEditing) {
-      context
-          .read<ClientsBloc>()
-          .add(ClientsUpdateEvent(widget.clientId!, data));
+      bloc.add(ClientsUpdateEvent(widget.clientId!, data));
       context.go('/clients');
     } else {
-      context.read<ClientsBloc>().add(ClientsCreateEvent(data));
+      bloc.add(ClientsCreateEvent(data));
     }
   }
 
@@ -293,7 +373,12 @@ class _ClientFormScreenState extends State<ClientFormScreen> {
                     const SizedBox(height: 9),
                     AppGhostButton(
                       label: l10n.coreCancel,
-                      onPressed: _loading ? null : () => context.go('/clients'),
+                      onPressed: _loading
+                          ? null
+                          : () {
+                              closeDraft();
+                              context.go('/clients');
+                            },
                     ),
                   ],
                 ),
@@ -476,7 +561,7 @@ class _RequirementsCard extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 fontFamily: AppFonts.sans,
-                fontSize: 11.5,
+                fontSize: AppType.caption,
                 height: 1.35,
                 color: context.tokens.textSecondary),
           ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:real_estate_crm/core/theme/app_type.dart';
 
 class AppMetrics {
   const AppMetrics._();
@@ -19,9 +20,9 @@ class AppMetrics {
 
   static const double buttonHeight = 52;
 
-  static const double buttonHeightInline = 40;
+  static const double buttonHeightInline = 44;
 
-  static const double buttonFontSize = 14;
+  static const double buttonFontSize = AppType.body;
 
   static const double fieldInset = 16;
 

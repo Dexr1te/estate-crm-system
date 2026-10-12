@@ -132,7 +132,7 @@ class _ClientTagEditorState extends State<ClientTagEditor> {
     final problem = full ? TagProblem.limit : _problem;
     final note = TextStyle(
         fontFamily: AppFonts.sans,
-        fontSize: 11.5,
+        fontSize: AppType.caption,
         height: 1.35,
         color: t.textSecondary);
 

@@ -111,7 +111,7 @@ class _DiscussionBodyState extends State<_DiscussionBody> {
                       maxLines: 1,
                       style: TextStyle(
                           fontFamily: AppFonts.sans,
-                          fontSize: 11,
+                          fontSize: AppType.caption,
                           fontWeight: FontWeight.w600,
                           color: t.textSecondary)),
               ]),
@@ -133,7 +133,7 @@ class _DiscussionBodyState extends State<_DiscussionBody> {
                       label: l10n.dealsDiscussionShowEarlier,
                       loading: state.loadingEarlier,
                       height: AppMetrics.buttonHeightInline,
-                      fontSize: 12,
+                      fontSize: AppType.footnote,
                       onPressed: () => context
                           .read<DealCommentsBloc>()
                           .add(DealCommentsLoadEarlierEvent()),
@@ -219,7 +219,7 @@ class _DiscussionEmpty extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 13,
+                  fontSize: AppType.subhead,
                   fontWeight: FontWeight.w600,
                   color: t.textPrimary)),
           const SizedBox(height: 4),
@@ -228,7 +228,7 @@ class _DiscussionEmpty extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 12,
+                  fontSize: AppType.footnote,
                   height: 1.45,
                   color: t.textSecondary)),
         ],
@@ -252,7 +252,7 @@ class _DiscussionProblem extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 fontFamily: AppFonts.sans,
-                fontSize: 12.5,
+                fontSize: AppType.subhead,
                 color: t.textSecondary)),
       ),
       const SizedBox(width: 8),
@@ -260,7 +260,7 @@ class _DiscussionProblem extends StatelessWidget {
         label: l10n.coreRetry,
         onPressed: onRetry,
         height: AppMetrics.buttonHeightInline,
-        fontSize: 12,
+        fontSize: AppType.footnote,
       ),
     ]);
   }

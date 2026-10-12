@@ -138,7 +138,7 @@ class _VisitorSignInFormState extends State<VisitorSignInForm> {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontFamily: AppFonts.sans,
-                          fontSize: 12.5,
+                          fontSize: AppType.subhead,
                           fontWeight: FontWeight.w600,
                           color: t.textPrimary),
                     ),
@@ -227,7 +227,7 @@ class _VisitorSignInFormState extends State<VisitorSignInForm> {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 11.5,
+                  fontSize: AppType.footnote,
                   height: 1.35,
                   color: t.dangerText),
             ),

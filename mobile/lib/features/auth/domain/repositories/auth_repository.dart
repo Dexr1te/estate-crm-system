@@ -4,6 +4,8 @@ import 'package:real_estate_crm/core/models/models.dart';
 abstract class AuthRepository {
   Future<AuthResponse> login(String email, String password);
 
+  Future<AuthResponse> startDemo();
+
   Future<RegisterResult> register({
     required String fullName,
     required String email,
