@@ -24,9 +24,7 @@ const _agent = AuthResponse(
     role: Role.AGENT);
 
 Widget _wrap(Widget child,
-        {AuthResponse? user,
-        AuthRepository? repo,
-        EmailVerifier? verifier}) =>
+        {AuthResponse? user, AuthRepository? repo, EmailVerifier? verifier}) =>
     BlocProvider(
       // The saved session has to be read before anything can show who is in it.
       create: (_) => AuthBloc(repo ?? FakeAuthRepository(user: user),
