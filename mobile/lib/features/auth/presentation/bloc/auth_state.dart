@@ -18,19 +18,15 @@ class AuthAuthenticated extends AuthState {
 
 class AuthUnauthenticated extends AuthState {}
 
-/// The account waits for the link emailed to [email] to be opened. The states
-/// below keep the screen where it is and only add what just happened.
 class AuthVerificationRequired extends AuthState {
   final String email;
   AuthVerificationRequired(this.email);
 }
 
-/// Asking whether the link has been opened.
 class AuthVerificationChecking extends AuthVerificationRequired {
   AuthVerificationChecking(super.email);
 }
 
-/// Asked, and the link has not been opened yet.
 class AuthEmailNotConfirmed extends AuthVerificationRequired
     with ActionOutcome {
   AuthEmailNotConfirmed(super.email);
@@ -52,7 +48,6 @@ class AuthLinkResent extends AuthVerificationRequired with ActionOutcome {
   bool get isFailure => false;
 }
 
-/// The link could not be sent, or whether it was opened could not be told.
 class AuthLinkFailed extends AuthVerificationRequired with ActionOutcome {
   final EmailVerificationProblem problem;
   AuthLinkFailed(super.email, this.problem);
@@ -75,7 +70,6 @@ class AuthLinkFailed extends AuthVerificationRequired with ActionOutcome {
   bool get isFailure => true;
 }
 
-/// The link was opened, but the server would not start the session.
 class AuthVerificationFailed extends AuthVerificationRequired with ActionFailed {
   @override
   final ApiFailure failure;

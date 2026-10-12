@@ -78,7 +78,6 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) async {
   // A listing's keys card, and the dashboard's keys out.
   Injector.keysRepository = FakeKeysRepository();
   Injector.notificationsPollInterval = null;
-  // Confirming a new account's email never reaches Firebase.
   Injector.emailVerifier = FakeEmailVerifier();
   // No PIN on the phone: the lock stays off, and its keychain is memory.
   Injector.appLockRepository = fakeAppLockRepository();

@@ -8,8 +8,6 @@ import 'package:real_estate_crm/my_app.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting();
-  // Only confirming a new account's email goes through Firebase, so the rest
-  // of the app still starts when it cannot be reached.
   try {
     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform);

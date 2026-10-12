@@ -95,7 +95,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
             emit(AuthError(failure));
             return;
           }
-          // The password was right: the address just was never confirmed.
           try {
             await _sendLink(
                 await _repo.startVerification(e.email, e.password), emit);
@@ -128,9 +127,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
         }
       });
 
-  /// Has the link emailed. The account exists by now either way, so a failure
-  /// still moves on to waiting for the link, with the reason shown, rather
-  /// than back to a form that would now call the address taken.
   Future<void> _sendLink(
       VerificationTicket ticket, Emitter<AuthState> emit) async {
     try {
@@ -168,8 +164,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
               : AuthVerificationFailed(e.email, failure));
           return;
         }
-        // The session is the server's from here; the Firebase one has done
-        // its job.
         try {
           await _verifier.signOut();
         } catch (_) {}
@@ -251,9 +245,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
   }
 }
 
-/// Stands in when no verifier is given, as for the many blocs that never see
-/// a sign-up. Signing out of nothing is fine; anything else is a wiring
-/// mistake, and fails rather than pretend a link went out.
 class _NoEmailVerifier implements EmailVerifier {
   const _NoEmailVerifier();
 

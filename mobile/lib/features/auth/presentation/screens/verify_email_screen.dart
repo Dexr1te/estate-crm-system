@@ -29,7 +29,6 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    // A link that never went out can be asked for again straight away.
     if (context.read<AuthBloc>().state is! AuthLinkFailed) _startCooldown();
   }
 
@@ -42,7 +41,6 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    // Back from the mail app, where the link has most likely just been opened.
     if (state == AppLifecycleState.resumed) {
       context
           .read<AuthBloc>()
