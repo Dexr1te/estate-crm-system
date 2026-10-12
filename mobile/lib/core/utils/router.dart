@@ -65,7 +65,6 @@ import 'package:real_estate_crm/features/time_off/presentation/screens/team_time
 import 'package:real_estate_crm/features/time_off/presentation/screens/time_off_form_screen.dart';
 
 final _rootKey = GlobalKey<NavigatorState>();
-final _shellKey = GlobalKey<NavigatorState>();
 
 GlobalKey<NavigatorState> get rootNavigatorKey => _rootKey;
 
@@ -399,250 +398,277 @@ GoRouter createRouter(AuthBloc authBloc) {
           child: OfferScreen(id: int.parse(s.pathParameters['id']!)),
         ),
       ),
-      ShellRoute(
-        navigatorKey: _shellKey,
-        builder: (_, __, child) => MainScaffold(child: child),
-        routes: [
-          GoRoute(
-            path: '/admin',
-            pageBuilder: (_, __) =>
-                const NoTransitionPage(child: AdminConsoleScreen()),
-          ),
-          GoRoute(
-            path: '/team-console',
-            pageBuilder: (_, __) =>
-                const NoTransitionPage(child: ManagerConsoleScreen()),
-          ),
-          GoRoute(
-            path: '/dashboard',
-            pageBuilder: (_, __) =>
-                const NoTransitionPage(child: DashboardScreen()),
-          ),
-          GoRoute(
-            path: '/clients',
-            pageBuilder: (_, __) =>
-                const NoTransitionPage(child: ClientsScreen()),
+      StatefulShellRoute.indexedStack(
+        builder: (_, __, shell) => MainScaffold(shell: shell),
+        branches: [
+          StatefulShellBranch(
             routes: [
               GoRoute(
-                path: 'new',
-                parentNavigatorKey: _rootKey,
+                path: '/dashboard',
                 pageBuilder: (_, __) =>
-                    const NoTransitionPage(child: ClientFormScreen()),
-              ),
-              GoRoute(
-                path: 'cold',
-                parentNavigatorKey: _rootKey,
-                pageBuilder: (_, __) =>
-                    const NoTransitionPage(child: ColdClientsScreen()),
-              ),
-              GoRoute(
-                path: 'dates',
-                parentNavigatorKey: _rootKey,
-                pageBuilder: (_, __) =>
-                    const NoTransitionPage(child: ClientDatesScreen()),
-              ),
-              GoRoute(
-                path: ':id',
-                parentNavigatorKey: _rootKey,
-                pageBuilder: (_, s) => NoTransitionPage(
-                  child: ClientDetailScreen(
-                      id: int.parse(s.pathParameters['id']!)),
-                ),
-                routes: [
-                  GoRoute(
-                    path: 'edit',
-                    parentNavigatorKey: _rootKey,
-                    pageBuilder: (_, s) => NoTransitionPage(
-                      child: ClientFormScreen(
-                          clientId: int.parse(s.pathParameters['id']!)),
-                    ),
-                  ),
-                  GoRoute(
-                    path: 'changes',
-                    parentNavigatorKey: _rootKey,
-                    pageBuilder: (_, s) => NoTransitionPage(
-                      child: ChangeHistoryScreen(
-                          type: ChangeEntityType.client,
-                          id: int.parse(s.pathParameters['id']!)),
-                    ),
-                  ),
-                ],
+                    const NoTransitionPage(child: DashboardScreen()),
               ),
             ],
           ),
-          GoRoute(
-            path: '/properties',
-            pageBuilder: (_, __) =>
-                const NoTransitionPage(child: PropertiesScreen()),
+          StatefulShellBranch(
             routes: [
               GoRoute(
-                path: 'new',
-                parentNavigatorKey: _rootKey,
+                path: '/clients',
                 pageBuilder: (_, __) =>
-                    const NoTransitionPage(child: PropertyFormScreen()),
-              ),
-              GoRoute(
-                path: 'mandates',
-                parentNavigatorKey: _rootKey,
-                pageBuilder: (_, __) =>
-                    const NoTransitionPage(child: MandatesEndingScreen()),
-              ),
-              GoRoute(
-                path: 'keys',
-                parentNavigatorKey: _rootKey,
-                pageBuilder: (_, __) =>
-                    const NoTransitionPage(child: KeysOutScreen()),
-              ),
-              GoRoute(
-                path: ':id',
-                parentNavigatorKey: _rootKey,
-                pageBuilder: (_, s) => NoTransitionPage(
-                  child: PropertyDetailScreen(
-                      id: int.parse(s.pathParameters['id']!)),
-                ),
+                    const NoTransitionPage(child: ClientsScreen()),
                 routes: [
                   GoRoute(
-                    path: 'edit',
+                    path: 'new',
                     parentNavigatorKey: _rootKey,
-                    pageBuilder: (_, s) => NoTransitionPage(
-                      child: PropertyFormScreen(
-                          propertyId: int.parse(s.pathParameters['id']!)),
-                    ),
+                    pageBuilder: (_, __) =>
+                        const NoTransitionPage(child: ClientFormScreen()),
                   ),
                   GoRoute(
-                    path: 'changes',
+                    path: 'cold',
+                    parentNavigatorKey: _rootKey,
+                    pageBuilder: (_, __) =>
+                        const NoTransitionPage(child: ColdClientsScreen()),
+                  ),
+                  GoRoute(
+                    path: 'dates',
+                    parentNavigatorKey: _rootKey,
+                    pageBuilder: (_, __) =>
+                        const NoTransitionPage(child: ClientDatesScreen()),
+                  ),
+                  GoRoute(
+                    path: ':id',
                     parentNavigatorKey: _rootKey,
                     pageBuilder: (_, s) => NoTransitionPage(
-                      child: ChangeHistoryScreen(
-                          type: ChangeEntityType.property,
+                      child: ClientDetailScreen(
                           id: int.parse(s.pathParameters['id']!)),
                     ),
-                  ),
-                  GoRoute(
-                    path: 'report',
-                    parentNavigatorKey: _rootKey,
-                    pageBuilder: (_, s) => NoTransitionPage(
-                      child: SellerReportScreen(
-                          propertyId: int.parse(s.pathParameters['id']!)),
-                    ),
-                  ),
-                  GoRoute(
-                    path: 'mortgage',
-                    parentNavigatorKey: _rootKey,
-                    pageBuilder: (_, s) => NoTransitionPage(
-                      child: MortgageScreen(
-                        price: double.tryParse(
-                                s.uri.queryParameters['price'] ?? '') ??
-                            0,
-                        title: s.uri.queryParameters['title'],
+                    routes: [
+                      GoRoute(
+                        path: 'edit',
+                        parentNavigatorKey: _rootKey,
+                        pageBuilder: (_, s) => NoTransitionPage(
+                          child: ClientFormScreen(
+                              clientId: int.parse(s.pathParameters['id']!)),
+                        ),
                       ),
-                    ),
+                      GoRoute(
+                        path: 'changes',
+                        parentNavigatorKey: _rootKey,
+                        pageBuilder: (_, s) => NoTransitionPage(
+                          child: ChangeHistoryScreen(
+                              type: ChangeEntityType.client,
+                              id: int.parse(s.pathParameters['id']!)),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
             ],
           ),
-          GoRoute(
-            path: '/deals',
-            pageBuilder: (_, s) => NoTransitionPage(
-              child: DealsScreen(
-                initialStatus:
-                    DealsScreen.parseStatus(s.uri.queryParameters['status']),
-              ),
-            ),
+          StatefulShellBranch(
             routes: [
               GoRoute(
-                path: 'new',
-                parentNavigatorKey: _rootKey,
-                pageBuilder: (_, s) => NoTransitionPage(
-                  child: DealFormScreen(
-                    initialClientId:
-                        int.tryParse(s.uri.queryParameters['clientId'] ?? ''),
-                    initialPropertyId:
-                        int.tryParse(s.uri.queryParameters['propertyId'] ?? ''),
+                path: '/properties',
+                pageBuilder: (_, __) =>
+                    const NoTransitionPage(child: PropertiesScreen()),
+                routes: [
+                  GoRoute(
+                    path: 'new',
+                    parentNavigatorKey: _rootKey,
+                    pageBuilder: (_, __) =>
+                        const NoTransitionPage(child: PropertyFormScreen()),
                   ),
-                ),
+                  GoRoute(
+                    path: 'mandates',
+                    parentNavigatorKey: _rootKey,
+                    pageBuilder: (_, __) =>
+                        const NoTransitionPage(child: MandatesEndingScreen()),
+                  ),
+                  GoRoute(
+                    path: 'keys',
+                    parentNavigatorKey: _rootKey,
+                    pageBuilder: (_, __) =>
+                        const NoTransitionPage(child: KeysOutScreen()),
+                  ),
+                  GoRoute(
+                    path: ':id',
+                    parentNavigatorKey: _rootKey,
+                    pageBuilder: (_, s) => NoTransitionPage(
+                      child: PropertyDetailScreen(
+                          id: int.parse(s.pathParameters['id']!)),
+                    ),
+                    routes: [
+                      GoRoute(
+                        path: 'edit',
+                        parentNavigatorKey: _rootKey,
+                        pageBuilder: (_, s) => NoTransitionPage(
+                          child: PropertyFormScreen(
+                              propertyId: int.parse(s.pathParameters['id']!)),
+                        ),
+                      ),
+                      GoRoute(
+                        path: 'changes',
+                        parentNavigatorKey: _rootKey,
+                        pageBuilder: (_, s) => NoTransitionPage(
+                          child: ChangeHistoryScreen(
+                              type: ChangeEntityType.property,
+                              id: int.parse(s.pathParameters['id']!)),
+                        ),
+                      ),
+                      GoRoute(
+                        path: 'report',
+                        parentNavigatorKey: _rootKey,
+                        pageBuilder: (_, s) => NoTransitionPage(
+                          child: SellerReportScreen(
+                              propertyId: int.parse(s.pathParameters['id']!)),
+                        ),
+                      ),
+                      GoRoute(
+                        path: 'mortgage',
+                        parentNavigatorKey: _rootKey,
+                        pageBuilder: (_, s) => NoTransitionPage(
+                          child: MortgageScreen(
+                            price: double.tryParse(
+                                    s.uri.queryParameters['price'] ?? '') ??
+                                0,
+                            title: s.uri.queryParameters['title'],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
               GoRoute(
-                path: 'deposits',
-                parentNavigatorKey: _rootKey,
-                pageBuilder: (_, __) =>
-                    const NoTransitionPage(child: DepositsEndingScreen()),
-              ),
-              GoRoute(
-                path: 'leases',
-                parentNavigatorKey: _rootKey,
-                pageBuilder: (_, __) =>
-                    const NoTransitionPage(child: LeasesEndingScreen()),
-              ),
-              GoRoute(
-                path: ':id',
-                parentNavigatorKey: _rootKey,
+                path: '/deals',
                 pageBuilder: (_, s) => NoTransitionPage(
-                  child: DealDetailScreen(
-                    id: int.parse(s.pathParameters['id']!),
-                    focusDiscussion:
-                        s.uri.queryParameters['focus'] == 'discussion',
+                  child: DealsScreen(
+                    initialStatus: DealsScreen.parseStatus(
+                        s.uri.queryParameters['status']),
                   ),
                 ),
                 routes: [
                   GoRoute(
-                    path: 'edit',
+                    path: 'new',
                     parentNavigatorKey: _rootKey,
                     pageBuilder: (_, s) => NoTransitionPage(
                       child: DealFormScreen(
-                          dealId: int.parse(s.pathParameters['id']!)),
+                        initialClientId: int.tryParse(
+                            s.uri.queryParameters['clientId'] ?? ''),
+                        initialPropertyId: int.tryParse(
+                            s.uri.queryParameters['propertyId'] ?? ''),
+                      ),
                     ),
                   ),
                   GoRoute(
-                    path: 'changes',
+                    path: 'deposits',
+                    parentNavigatorKey: _rootKey,
+                    pageBuilder: (_, __) =>
+                        const NoTransitionPage(child: DepositsEndingScreen()),
+                  ),
+                  GoRoute(
+                    path: 'leases',
+                    parentNavigatorKey: _rootKey,
+                    pageBuilder: (_, __) =>
+                        const NoTransitionPage(child: LeasesEndingScreen()),
+                  ),
+                  GoRoute(
+                    path: ':id',
                     parentNavigatorKey: _rootKey,
                     pageBuilder: (_, s) => NoTransitionPage(
-                      child: ChangeHistoryScreen(
-                          type: ChangeEntityType.deal,
-                          id: int.parse(s.pathParameters['id']!)),
+                      child: DealDetailScreen(
+                        id: int.parse(s.pathParameters['id']!),
+                        focusDiscussion:
+                            s.uri.queryParameters['focus'] == 'discussion',
+                      ),
                     ),
+                    routes: [
+                      GoRoute(
+                        path: 'edit',
+                        parentNavigatorKey: _rootKey,
+                        pageBuilder: (_, s) => NoTransitionPage(
+                          child: DealFormScreen(
+                              dealId: int.parse(s.pathParameters['id']!)),
+                        ),
+                      ),
+                      GoRoute(
+                        path: 'changes',
+                        parentNavigatorKey: _rootKey,
+                        pageBuilder: (_, s) => NoTransitionPage(
+                          child: ChangeHistoryScreen(
+                              type: ChangeEntityType.deal,
+                              id: int.parse(s.pathParameters['id']!)),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
             ],
           ),
-          GoRoute(
-            path: '/meetings',
-            pageBuilder: (_, __) =>
-                const NoTransitionPage(child: MeetingsScreen()),
+          StatefulShellBranch(
             routes: [
               GoRoute(
-                path: 'new',
-                parentNavigatorKey: _rootKey,
-                pageBuilder: (_, s) => NoTransitionPage(
-                  child: MeetingFormScreen(
-                    initialClientId:
-                        int.tryParse(s.uri.queryParameters['clientId'] ?? ''),
-                    initialPropertyId:
-                        int.tryParse(s.uri.queryParameters['propertyId'] ?? ''),
-                    initialDate:
-                        DateTime.tryParse(s.uri.queryParameters['date'] ?? ''),
-                  ),
-                ),
-              ),
-              GoRoute(
-                path: ':id',
-                parentNavigatorKey: _rootKey,
-                pageBuilder: (_, s) => NoTransitionPage(
-                  child: MeetingDetailScreen(
-                      id: int.parse(s.pathParameters['id']!)),
-                ),
+                path: '/meetings',
+                pageBuilder: (_, __) =>
+                    const NoTransitionPage(child: MeetingsScreen()),
                 routes: [
                   GoRoute(
-                    path: 'edit',
+                    path: 'new',
                     parentNavigatorKey: _rootKey,
                     pageBuilder: (_, s) => NoTransitionPage(
                       child: MeetingFormScreen(
-                          meetingId: int.parse(s.pathParameters['id']!)),
+                        initialClientId: int.tryParse(
+                            s.uri.queryParameters['clientId'] ?? ''),
+                        initialPropertyId: int.tryParse(
+                            s.uri.queryParameters['propertyId'] ?? ''),
+                        initialDate: DateTime.tryParse(
+                            s.uri.queryParameters['date'] ?? ''),
+                      ),
                     ),
                   ),
+                  GoRoute(
+                    path: ':id',
+                    parentNavigatorKey: _rootKey,
+                    pageBuilder: (_, s) => NoTransitionPage(
+                      child: MeetingDetailScreen(
+                          id: int.parse(s.pathParameters['id']!)),
+                    ),
+                    routes: [
+                      GoRoute(
+                        path: 'edit',
+                        parentNavigatorKey: _rootKey,
+                        pageBuilder: (_, s) => NoTransitionPage(
+                          child: MeetingFormScreen(
+                              meetingId: int.parse(s.pathParameters['id']!)),
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/admin',
+                pageBuilder: (_, __) =>
+                    const NoTransitionPage(child: AdminConsoleScreen()),
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: '/team-console',
+                pageBuilder: (_, __) =>
+                    const NoTransitionPage(child: ManagerConsoleScreen()),
               ),
             ],
           ),

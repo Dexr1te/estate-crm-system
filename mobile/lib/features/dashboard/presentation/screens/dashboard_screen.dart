@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/auth/role_context.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/navigation/active_tab.dart';
 import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
 import 'package:real_estate_crm/core/utils/clock.dart';
 import 'package:real_estate_crm/core/utils/contact_actions.dart';
@@ -58,7 +59,8 @@ class DashboardScreen extends StatefulWidget {
   State<DashboardScreen> createState() => _DashboardScreenState();
 }
 
-class _DashboardScreenState extends State<DashboardScreen> {
+class _DashboardScreenState extends State<DashboardScreen>
+    with RefreshOnTabReturn {
   final _tasks = TasksBloc(Injector.tasksRepository);
   final _cold =
       ColdClientsBloc(Injector.coldClientsRepository, Injector.tasksRepository);
@@ -72,8 +74,21 @@ class _DashboardScreenState extends State<DashboardScreen> {
       days: ClientDatesRepository.weekDays);
 
   @override
+  String get tabRoute => ShellTabs.dashboard;
+
+  @override
   void initState() {
     super.initState();
+    _load();
+  }
+
+  @override
+  void refreshTab() {
+    _load();
+    context.read<StarsBloc?>()?.refresh();
+  }
+
+  void _load() {
     context.read<DashboardBloc>().add(DashboardLoadEvent());
     _tasks.add(TasksLoadEvent());
     _cold.add(ColdClientsLoadEvent());
@@ -159,19 +174,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
           bottom: false,
           child: BlocBuilder<DashboardBloc, DashboardState>(
             builder: (ctx, state) => RefreshIndicator(
-              onRefresh: () async {
-                ctx.read<DashboardBloc>().add(DashboardLoadEvent());
-                _tasks.add(TasksLoadEvent());
-                _cold.add(ColdClientsLoadEvent());
-                _mandates.add(MandatesLoadEvent());
-                _deposits.add(DepositsEndingLoadEvent());
-                _leases.add(LeasesEndingLoadEvent());
-                _keys.add(KeysOutLoadEvent());
-                if (context.isManager) _out.add(TimeOffListLoadEvent());
-                _goal.add(MyGoalLoadEvent());
-                _dates.add(ClientDatesLoadEvent());
-                context.read<StarsBloc?>()?.refresh();
-              },
+              onRefresh: () async => refreshTab(),
               color: t.primary,
               child: AppMetrics.constrain(
                 SingleChildScrollView(

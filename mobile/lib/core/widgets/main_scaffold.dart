@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/navigation/active_tab.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart';
@@ -18,34 +19,30 @@ class _Dest {
 
 List<_Dest> _destsFor(Role? role, AppLocalizations l10n) {
   final dests = [
-    _Dest('/dashboard', Icons.dashboard_outlined, Icons.dashboard,
+    _Dest(ShellTabs.dashboard, Icons.dashboard_outlined, Icons.dashboard,
         l10n.coreNavDashboard),
-    _Dest('/clients', Icons.people_outline, Icons.people, l10n.coreNavClients),
-    _Dest('/properties', Icons.home_work_outlined, Icons.home_work,
+    _Dest(ShellTabs.clients, Icons.people_outline, Icons.people,
+        l10n.coreNavClients),
+    _Dest(ShellTabs.properties, Icons.home_work_outlined, Icons.home_work,
         l10n.coreNavProperties),
-    _Dest(
-        '/deals', Icons.handshake_outlined, Icons.handshake, l10n.coreNavDeals),
-    _Dest('/meetings', Icons.calendar_month_outlined, Icons.calendar_month,
-        l10n.coreNavCalendar),
+    _Dest(ShellTabs.deals, Icons.handshake_outlined, Icons.handshake,
+        l10n.coreNavDeals),
+    _Dest(ShellTabs.meetings, Icons.calendar_month_outlined,
+        Icons.calendar_month, l10n.coreNavCalendar),
   ];
   if (role == Role.ADMIN) {
-    dests.add(_Dest(
-        '/admin', Icons.shield_outlined, Icons.shield, l10n.coreNavAdmin));
+    dests.add(_Dest(ShellTabs.admin, Icons.shield_outlined, Icons.shield,
+        l10n.coreNavAdmin));
   } else if (role == Role.MANAGER) {
-    dests.add(_Dest('/team-console', Icons.groups_outlined, Icons.groups,
+    dests.add(_Dest(ShellTabs.teamConsole, Icons.groups_outlined, Icons.groups,
         l10n.coreNavTeam));
   }
   return dests;
 }
 
 class MainScaffold extends StatelessWidget {
-  final Widget child;
-  const MainScaffold({super.key, required this.child});
-
-  int _locationIndex(List<_Dest> dests, String loc) {
-    final i = dests.indexWhere((d) => loc.startsWith(d.route));
-    return i < 0 ? 0 : i;
-  }
+  final StatefulNavigationShell shell;
+  const MainScaffold({super.key, required this.shell});
 
   @override
   Widget build(BuildContext context) {
@@ -56,12 +53,17 @@ class MainScaffold extends StatelessWidget {
         final role =
             authState is AuthAuthenticated ? authState.user.role : null;
         final dests = _destsFor(role, l10n);
-        final location = GoRouterState.of(context).matchedLocation;
-        final index = _locationIndex(dests, location);
+        final route = ShellTabs.routes[shell.currentIndex];
+        final found = dests.indexWhere((d) => d.route == route);
+        final index = found < 0 ? 0 : found;
         final isWide =
             MediaQuery.sizeOf(context).width >= AppMetrics.railBreakpoint;
+        final child = ActiveTab(route: route, child: shell);
 
-        void onTap(int i) => context.go(dests[i].route);
+        void onTap(int i) {
+          final branch = ShellTabs.routes.indexOf(dests[i].route);
+          shell.goBranch(branch, initialLocation: branch == shell.currentIndex);
+        }
 
         if (isWide) {
           return Scaffold(

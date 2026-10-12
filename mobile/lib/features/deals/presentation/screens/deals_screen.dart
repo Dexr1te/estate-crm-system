@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/models/export_models.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/navigation/active_tab.dart';
 import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/checklist/domain/checklist_gate.dart';
@@ -34,7 +35,13 @@ class DealsScreen extends StatefulWidget {
   State<DealsScreen> createState() => _DealsScreenState();
 }
 
-class _DealsScreenState extends State<DealsScreen> {
+class _DealsScreenState extends State<DealsScreen> with RefreshOnTabReturn {
+  @override
+  String get tabRoute => ShellTabs.deals;
+
+  @override
+  void refreshTab() => context.read<DealsBloc>().add(DealsLoadEvent());
+
   DealStatus? _filter;
 
   bool _board = false;
