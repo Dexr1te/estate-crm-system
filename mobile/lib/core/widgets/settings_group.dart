@@ -1,7 +1,12 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/theme/app_metrics.dart';
 import 'package:real_estate_crm/core/theme/app_tokens.dart';
 import 'package:real_estate_crm/core/widgets/app_card.dart';
+import 'package:real_estate_crm/core/widgets/app_text.dart';
+import 'package:real_estate_crm/core/widgets/row_chevron.dart';
+import 'package:real_estate_crm/core/widgets/text_measure.dart';
 
 class SettingsGroup extends StatelessWidget {
   final List<Widget> rows;
@@ -27,6 +32,24 @@ class SettingsGroup extends StatelessWidget {
   }
 }
 
+class SettingsSection extends StatelessWidget {
+  final String label;
+  final Widget child;
+
+  const SettingsSection({super.key, required this.label, required this.child});
+
+  @override
+  Widget build(BuildContext context) => Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          EyebrowLabel(label),
+          const SizedBox(height: 8),
+          child,
+        ],
+      );
+}
+
 class SettingsRow extends StatelessWidget {
   final String label;
   final String? subLabel;
@@ -49,62 +72,81 @@ class SettingsRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = context.tokens;
 
-    final body = Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 14),
-      child: Row(
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  label,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      fontFamily: AppFonts.sans,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w500,
-                      color: t.textPrimary),
-                ),
-                if (subLabel != null) ...[
-                  const SizedBox(height: 3),
-                  Text(
-                    subLabel!,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        fontFamily: AppFonts.sans,
-                        fontSize: 11,
-                        color: t.textHint),
-                  ),
-                ],
-              ],
-            ),
+    final labels = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+              fontFamily: AppFonts.sans,
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+              color: t.textPrimary),
+        ),
+        if (subLabel != null) ...[
+          const SizedBox(height: 3),
+          Text(
+            subLabel!,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+                fontFamily: AppFonts.sans,
+                fontSize: 11,
+                color: t.textSecondary),
           ),
-          const SizedBox(width: 12),
-          if (trailing != null)
-            trailing!
-          else if (value != null)
+        ],
+      ],
+    );
+    final chevron = [
+      if (showChevron) ...[const SizedBox(width: 8), const RowChevron()],
+    ];
+
+    final Widget row;
+    if (trailing == null && value != null) {
+      final valueStyle = TextStyle(
+          fontFamily: AppFonts.sans, fontSize: 12.5, color: t.textSecondary);
+      row = LayoutBuilder(builder: (context, constraints) {
+        final valueWidth = singleLineTextWidth(context, value!, valueStyle);
+        final labelMax = constraints.maxWidth -
+            12 -
+            math.min(valueWidth, constraints.maxWidth * 0.35) -
+            (showChevron ? 8 + RowChevron.size : 0);
+        return Row(
+          children: [
             ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 150),
+              constraints: BoxConstraints(maxWidth: math.max(0, labelMax)),
+              child: labels,
+            ),
+            const SizedBox(width: 12),
+            Expanded(
               child: Text(
                 value!,
-                textAlign: TextAlign.right,
+                textAlign: TextAlign.end,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                    fontFamily: AppFonts.sans,
-                    fontSize: 12.5,
-                    color: t.textSecondary),
+                style: valueStyle,
               ),
             ),
-          if (showChevron) ...[
-            const SizedBox(width: 8),
-            Icon(Icons.chevron_right_rounded, size: 18, color: t.textHint),
+            ...chevron,
           ],
+        );
+      });
+    } else {
+      row = Row(
+        children: [
+          Expanded(child: labels),
+          if (trailing != null) ...[const SizedBox(width: 12), trailing!],
+          ...chevron,
         ],
-      ),
+      );
+    }
+
+    final body = Padding(
+      padding: EdgeInsets.symmetric(
+          horizontal: AppMetrics.cardPadding(context), vertical: 14),
+      child: row,
     );
 
     if (onTap == null) return body;
@@ -126,12 +168,18 @@ class AppSwitch extends StatelessWidget {
     return Switch(
       value: value,
       onChanged: onChanged,
-      thumbColor: WidgetStateProperty.resolveWith(
-          (s) => s.contains(WidgetState.selected) ? t.onPrimary : t.surface),
-      trackColor: WidgetStateProperty.resolveWith(
-          (s) => s.contains(WidgetState.selected) ? t.primary : t.border),
-      trackOutlineColor: WidgetStateProperty.resolveWith(
-          (s) => s.contains(WidgetState.selected) ? t.primary : t.border),
+      thumbColor: WidgetStateProperty.resolveWith((s) =>
+          s.contains(WidgetState.selected)
+              ? t.onPrimary
+              : (t.isDark ? t.textSecondary : t.surface)),
+      trackColor: WidgetStateProperty.resolveWith((s) =>
+          s.contains(WidgetState.selected)
+              ? t.primary
+              : (t.isDark ? t.textHint : t.border)),
+      trackOutlineColor: WidgetStateProperty.resolveWith((s) =>
+          s.contains(WidgetState.selected)
+              ? t.primary
+              : (t.isDark ? t.textHint : t.border)),
     );
   }
 }

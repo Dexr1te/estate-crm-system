@@ -26,10 +26,14 @@ class DealCard extends StatelessWidget {
 
     final stale = staleDays(deal);
     final amount = dealShownAmount(deal);
+    final note = stale != null
+        ? l10n.dealsStaleWarning(stale)
+        : (deal.budget != null
+            ? l10n.dealsBudgetValue(formatPrice(deal.budget!))
+            : null);
 
     return AppCard(
       onTap: onTap,
-      padding: const EdgeInsets.all(14),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -67,55 +71,70 @@ class DealCard extends StatelessWidget {
             ),
           ],
           const SizedBox(height: 12),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.baseline,
-            textBaseline: TextBaseline.alphabetic,
-            children: [
-              Flexible(
-                child: Text(
-                  deal.kind == DealKind.rent
-                      ? leaseRentLabel(l10n, amount)
-                      : formatPrice(amount),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      fontFamily: AppFonts.sans,
-                      fontSize: 17,
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: -0.2,
-                      color: t.textPrimary),
-                ),
-              ),
-              if (deal.commentCount > 0) ...[
-                const SizedBox(width: 10),
-                CommentCountBadge(count: deal.commentCount),
-              ],
-              if (deal.checklistTotal > 0) ...[
-                const SizedBox(width: 10),
-                ChecklistProgressBadge(
-                    done: deal.checklistDone, total: deal.checklistTotal),
-              ],
-              const SizedBox(width: 10),
-              Expanded(
-                child: Text(
-                  stale != null
-                      ? l10n.dealsStaleWarning(stale)
-                      : (deal.budget != null
-                          ? l10n.dealsBudgetValue(formatPrice(deal.budget!))
-                          : ''),
-                  textAlign: TextAlign.right,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontFamily: AppFonts.sans,
-                    fontSize: 13,
-                    fontWeight:
-                        stale != null ? FontWeight.w600 : FontWeight.w400,
-                    color: stale != null ? t.dangerText : t.textSecondary,
+          LayoutBuilder(
+            builder: (context, box) => Row(
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              textBaseline: TextBaseline.alphabetic,
+              children: [
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                      maxWidth:
+                          note == null ? box.maxWidth : box.maxWidth * 0.62),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          amount == 0
+                              ? '—'
+                              : deal.kind == DealKind.rent
+                                  ? leaseRentLabel(l10n, amount)
+                                  : formatPrice(amount),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontFamily: AppFonts.sans,
+                              fontSize: 17,
+                              fontWeight: FontWeight.w700,
+                              letterSpacing: -0.2,
+                              color: t.textPrimary),
+                        ),
+                      ),
+                      if (deal.commentCount > 0) ...[
+                        const SizedBox(width: 10),
+                        CommentCountBadge(count: deal.commentCount),
+                      ],
+                      if (deal.checklistTotal > 0) ...[
+                        const SizedBox(width: 10),
+                        ChecklistProgressBadge(
+                            done: deal.checklistDone,
+                            total: deal.checklistTotal),
+                      ],
+                    ],
                   ),
                 ),
-              ),
-            ],
+                if (note != null) ...[
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      note,
+                      textAlign: TextAlign.end,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontFamily: AppFonts.sans,
+                        fontSize: 13,
+                        fontWeight:
+                            stale != null ? FontWeight.w600 : FontWeight.w400,
+                        color: stale != null ? t.dangerText : t.textSecondary,
+                      ),
+                    ),
+                  ),
+                ],
+              ],
+            ),
           ),
         ],
       ),
@@ -207,10 +226,10 @@ class DealCardBone extends StatelessWidget {
   const DealCardBone({super.key});
 
   @override
-  Widget build(BuildContext context) => const ShimmerCard(
+  Widget build(BuildContext context) => ShimmerCard(
         radius: AppMetrics.radiusMd,
-        padding: EdgeInsets.all(14),
-        child: Column(
+        padding: EdgeInsets.all(AppMetrics.cardPadding(context)),
+        child: const Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisSize: MainAxisSize.min,
           children: [

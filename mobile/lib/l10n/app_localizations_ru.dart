@@ -72,7 +72,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get adminFullName => 'Полное имя';
 
   @override
-  String get adminInactive => 'НЕАКТИВЕН';
+  String get adminInactive => 'Неактивен';
 
   @override
   String get adminInviteCodeCopied => 'Код приглашения скопирован';
@@ -261,7 +261,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get authAcceptRequest => 'Принять';
 
   @override
-  String get authAcceptTerms => 'Я согласен с политикой конфиденциальности';
+  String get authAcceptTerms => 'Я согласен с';
 
   @override
   String get authAcceptTermsRequired => 'Примите политику конфиденциальности';
@@ -421,7 +421,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get authPhoneOptional => 'Телефон (необязательно)';
 
   @override
-  String get authPrivacyPolicy => 'Политика конфиденциальности';
+  String get authPrivacyPolicy => 'политикой конфиденциальности';
 
   @override
   String get authResendLink => 'Отправить ссылку снова';
@@ -2423,6 +2423,9 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String get dealsDetailTitle => 'Сделка';
+
+  @override
   String get dealsLostConfirm => 'Отметить как проигранную';
 
   @override
@@ -2510,7 +2513,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String dealsStaleWarning(Object days) {
-    return 'нет активности $days дней';
+    return 'Нет активности $days дней';
   }
 
   @override
@@ -3505,6 +3508,12 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get meetingsDetails => 'Детали';
+
+  @override
+  String get meetingsTitleHint => 'Например, показ на Достык 5';
+
+  @override
+  String get meetingsDetailTitle => 'Встреча';
 
   @override
   String get meetingsDirections => 'Маршрут';
@@ -5099,6 +5108,9 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String get propertiesDetailTitle => 'Объект';
+
+  @override
   String get propertiesPropertyNotFound => 'Объект не найден';
 
   @override
@@ -5214,6 +5226,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get propertiesTitleLabel => 'Название';
+
+  @override
+  String get propertiesTitleHint => 'Например, Достык 5, кв. 12';
 
   @override
   String get propertiesTotalFloors => 'Всего этажей';
@@ -6615,6 +6630,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get partnersHandoffPartner => 'Партнёр';
 
   @override
+  String get partnersDetailTitle => 'Партнёр';
+
+  @override
   String get partnersHandoffDate => 'Дата отправки';
 
   @override
@@ -7181,7 +7199,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get expensesSpendHint =>
-      'Сколько потрачено на продвижение объектов за период.';
+      'Сколько потрачено на продвижение объектов за период';
 
   @override
   String get expensesSpendNone => 'За этот период расходов на объекты не было.';
@@ -7257,7 +7275,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String keysWithHolderUntil(String date, String holder) {
-    return 'Выданы: $holder · до $date';
+    return 'Выданы: $holder · до $date';
   }
 
   @override

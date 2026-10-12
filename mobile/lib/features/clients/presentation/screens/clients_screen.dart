@@ -126,28 +126,24 @@ class _ClientsScreenState extends State<ClientsScreen> {
                     padding: EdgeInsets.fromLTRB(pad, 10, pad, 0),
                     child: Column(
                       children: [
-                        Row(
-                          children: [
-                            Expanded(
-                              child: ScreenTitle(
-                                l10n.clientsTitle,
-                                reserveSubtitle: true,
-                                subtitle: state is ClientsLoaded
-                                    ? l10n.clientsCounter(
-                                        all
-                                            .where((c) => c.dealCount > 0)
-                                            .length,
-                                        all.length)
-                                    : null,
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            ExportButton(
-                                kind: ExportKind.clients,
-                                filters: _exportFilters),
-                            const SizedBox(width: 4),
-                            const QuickAddButton()
-                          ],
+                        ScreenTitle(
+                          l10n.clientsTitle,
+                          reserveSubtitle: true,
+                          subtitle: state is ClientsLoaded
+                              ? l10n.clientsCounter(
+                                  all.where((c) => c.dealCount > 0).length,
+                                  all.length)
+                              : null,
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              ExportButton(
+                                  kind: ExportKind.clients,
+                                  filters: _exportFilters),
+                              const SizedBox(width: 4),
+                              const QuickAddButton(),
+                            ],
+                          ),
                         ),
                         const SizedBox(height: 14),
                         AppTextField(
@@ -157,7 +153,7 @@ class _ClientsScreenState extends State<ClientsScreen> {
                           icon: Icons.search_rounded,
                         ),
                         const SizedBox(height: 10),
-                        FilterPillRow(pills: [
+                        FilterPillRow(bleed: true, pills: [
                           FilterPill(
                             label: l10n.clientsFilterAll,
                             selected: _typeFilter == null && !_leadsOnly,

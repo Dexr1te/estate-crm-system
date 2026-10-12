@@ -404,9 +404,9 @@ void main() {
     await tester.tap(find.byKey(const ValueKey('client-tag-suggestion-VIP')));
     await tester.pumpAndSettle();
     await _type(tester, 'first home');
-    await tester.ensureVisible(find.text('Create Client'));
+    await tester.ensureVisible(find.text('Create client'));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Create Client'));
+    await tester.tap(find.text('Create client'));
     await tester.pumpAndSettle();
 
     expect(_clients.created.single['tags'], ['VIP', 'first home']);
@@ -419,9 +419,9 @@ void main() {
     await tester.ensureVisible(remove);
     await tester.tap(remove);
     await tester.pumpAndSettle();
-    await tester.ensureVisible(find.text('Update Client'));
+    await tester.ensureVisible(find.text('Update client'));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Update Client'));
+    await tester.tap(find.text('Update client'));
     await tester.pumpAndSettle();
 
     expect(_clients.updated.single.$1, 2);

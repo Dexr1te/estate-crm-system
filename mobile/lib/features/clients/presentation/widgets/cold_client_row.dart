@@ -68,7 +68,6 @@ class ColdClientRow extends StatelessWidget {
       key: ValueKey('cold-client-${client.id}'),
       nested: nested,
       onTap: onTap,
-      padding: const EdgeInsets.all(12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [

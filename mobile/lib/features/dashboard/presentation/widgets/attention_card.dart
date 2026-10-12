@@ -18,7 +18,6 @@ class AttentionRow extends StatelessWidget {
     final amount = item.deal.dealPrice ?? item.deal.budget ?? 0;
 
     return AppCard(
-      padding: const EdgeInsets.fromLTRB(12, 12, 14, 12),
       onTap: onTap,
       child: Row(
         children: [

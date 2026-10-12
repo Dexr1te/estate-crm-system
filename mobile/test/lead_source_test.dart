@@ -199,7 +199,7 @@ void main() {
         tester, find.byKey(const ValueKey('lead-source-REFERRAL')));
     await tester.enterText(
         find.byKey(const ValueKey('lead-source-detail')), '  Aigerim  ');
-    await _tapVisible(tester, find.text('Create Client'));
+    await _tapVisible(tester, find.text('Create client'));
 
     expect(_clients.created.single['leadSource'], 'REFERRAL');
     expect(_clients.created.single['leadSourceDetail'], 'Aigerim');
@@ -208,7 +208,7 @@ void main() {
   testWidgets('a new client with no source says so explicitly', (tester) async {
     await _pumpRouted(tester, '/clients/new');
     await tester.enterText(find.byType(TextField).first, 'Dana Omarova');
-    await _tapVisible(tester, find.text('Create Client'));
+    await _tapVisible(tester, find.text('Create client'));
 
     final sent = _clients.created.single;
     expect(sent.containsKey('leadSource'), isTrue);
@@ -223,7 +223,7 @@ void main() {
 
     await _tapVisible(tester, find.byKey(const ValueKey('lead-source-none')));
     expect(find.byKey(const ValueKey('lead-source-detail')), findsNothing);
-    await _tapVisible(tester, find.text('Update Client'));
+    await _tapVisible(tester, find.text('Update client'));
 
     expect(_clients.updated.single.$2['leadSource'], isNull);
     expect(_clients.updated.single.$2['leadSourceDetail'], isNull);

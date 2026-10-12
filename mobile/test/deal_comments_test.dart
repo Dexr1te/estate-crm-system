@@ -138,7 +138,7 @@ void main() {
     testWidgets('a failed load offers a retry', (tester) async {
       _repo.readError = _offline();
       await _pump(tester);
-      expect(find.text("Couldn't load the discussion"), findsOneWidget);
+      expect(find.text('Could not load the discussion'), findsOneWidget);
       _repo.readError = null;
       await tester.tap(find.text('Retry'));
       await tester.pumpAndSettle();

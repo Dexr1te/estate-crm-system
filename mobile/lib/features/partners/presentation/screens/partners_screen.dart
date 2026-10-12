@@ -121,7 +121,7 @@ class _PartnersScreenState extends State<PartnersScreen> {
           AppTextField(
             key: const ValueKey('partners-search'),
             controller: _searchCtrl,
-            skin: FieldSkin.card,
+            skin: FieldSkin.page,
             hint: l10n.partnersSearchHint,
             icon: Icons.search_rounded,
           ),
@@ -176,53 +176,60 @@ class PartnerCard extends StatelessWidget {
     return AppCard(
       onTap: onTap,
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          InitialAvatar(name: p.name, size: 38),
-          const SizedBox(width: 12),
           Expanded(
-            child: Column(
+            child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  p.name,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      fontFamily: AppFonts.sans,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: t.textPrimary),
-                ),
-                const SizedBox(height: 3),
-                Text(
-                  partnerSubtitle(l10n, p),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      fontFamily: AppFonts.sans,
-                      fontSize: 11.5,
-                      color: t.textSecondary),
-                ),
-                const SizedBox(height: 7),
-                Text(
-                  [
-                    l10n.partnersReferredCount(p.referredClients),
-                    if (p.feesOwed > 0)
-                      '${l10n.partnersStatFees}: ${partnerMoney(p.feesOwed)}',
-                  ].join(' · '),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      fontFamily: AppFonts.sans,
-                      fontSize: 11.5,
-                      fontWeight: FontWeight.w500,
-                      color: t.textPrimary),
+                InitialAvatar(name: p.name, size: 38),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        p.name,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontFamily: AppFonts.sans,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: t.textPrimary),
+                      ),
+                      const SizedBox(height: 3),
+                      Text(
+                        partnerSubtitle(l10n, p),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontFamily: AppFonts.sans,
+                            fontSize: 11.5,
+                            color: t.textSecondary),
+                      ),
+                      const SizedBox(height: 7),
+                      Text(
+                        [
+                          l10n.partnersReferredCount(p.referredClients),
+                          if (p.feesOwed > 0)
+                            '${l10n.partnersStatFees}: ${partnerMoney(p.feesOwed)}',
+                        ].join(' · '),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontFamily: AppFonts.sans,
+                            fontSize: 11.5,
+                            fontWeight: FontWeight.w500,
+                            color: t.textPrimary),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
           ),
-          Icon(Icons.chevron_right_rounded, size: 18, color: t.textHint),
+          const SizedBox(width: 8),
+          const RowChevron(),
         ],
       ),
     );

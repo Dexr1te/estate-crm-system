@@ -60,8 +60,10 @@ class MandatesEndingCard extends StatelessWidget {
             textBaseline: TextBaseline.alphabetic,
             children: [
               Expanded(child: EyebrowLabel(l10n.propertiesMandatesTitle)),
-              if (all != null && all.length > shown!.length)
-                Flexible(
+              if (all != null && all.length > shown!.length) ...[
+                const SizedBox(width: 8),
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 140),
                   child: Text(l10n.dashboardMandatesTotal(all.length),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -71,6 +73,7 @@ class MandatesEndingCard extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                           color: t.dangerText)),
                 ),
+              ],
             ],
           ),
           const SizedBox(height: 11),

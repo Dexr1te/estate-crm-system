@@ -158,8 +158,11 @@ class _EmailCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final t = context.tokens;
+    final inset = AppMetrics.cardPadding(context);
 
     return AppCard(
+      padding: EdgeInsetsDirectional.fromSTEB(
+          inset, inset, inset - (AppMetrics.minHitTarget - 20) / 2, inset),
       child: Row(
         children: [
           Expanded(

@@ -160,38 +160,37 @@ class _DealsScreenState extends State<DealsScreen> {
                     padding: EdgeInsets.fromLTRB(pad, 10, pad, 0),
                     child: Column(
                       children: [
-                        Row(
-                          children: [
-                            Expanded(
-                              child: ScreenTitle(
-                                l10n.dealsTitle,
-                                reserveSubtitle: true,
-                                subtitle: state is DealsLoaded
-                                    ? l10n.dealsCounter(
-                                        active, formatPrice(totalValue))
-                                    : null,
+                        ScreenTitle(
+                          l10n.dealsTitle,
+                          reserveSubtitle: true,
+                          subtitle: state is DealsLoaded
+                              ? l10n.dealsCounter(
+                                  active, formatPrice(totalValue))
+                              : null,
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              AppIconTile(
+                                icon: _board
+                                    ? Icons.view_agenda_outlined
+                                    : Icons.view_kanban_outlined,
+                                tooltip: _board
+                                    ? l10n.dealsViewList
+                                    : l10n.dealsViewBoard,
+                                onPressed: _toggleView,
                               ),
-                            ),
-                            const SizedBox(width: 8),
-                            AppIconTile(
-                              icon: _board
-                                  ? Icons.view_agenda_outlined
-                                  : Icons.view_kanban_outlined,
-                              tooltip: _board
-                                  ? l10n.dealsViewList
-                                  : l10n.dealsViewBoard,
-                              onPressed: _toggleView,
-                            ),
-                            ExportButton(
-                                kind: ExportKind.deals,
-                                filters: ExportFilters(
-                                    status: _board ? null : _filter?.name)),
-                            const SizedBox(width: 4),
-                            const QuickAddButton()
-                          ],
+                              ExportButton(
+                                  kind: ExportKind.deals,
+                                  filters: ExportFilters(
+                                      status: _board ? null : _filter?.name)),
+                              const SizedBox(width: 4),
+                              const QuickAddButton(),
+                            ],
+                          ),
                         ),
                         const SizedBox(height: 14),
                         FilterPillRow(
+                            bleed: true,
                             pills: _board
                                 ? _stagePills(l10n, all)
                                 : _filterPills(l10n, all)),

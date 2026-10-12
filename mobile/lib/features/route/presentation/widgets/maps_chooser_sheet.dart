@@ -105,7 +105,6 @@ class _ChoiceRow extends StatelessWidget {
     return AppCard(
       nested: true,
       onTap: onTap,
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
       child: Row(
         children: [
           Icon(Icons.map_outlined, size: 20, color: t.textSecondary),
@@ -135,6 +134,7 @@ class _ChoiceRow extends StatelessWidget {
               ],
             ),
           ),
+          const SizedBox(width: 8),
           Icon(Icons.open_in_new_rounded, size: 18, color: t.textHint),
         ],
       ),

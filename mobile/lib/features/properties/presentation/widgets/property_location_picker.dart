@@ -65,6 +65,7 @@ class _PropertyLocationPickerState extends State<PropertyLocationPicker> {
               options: MapOptions(
                 initialCenter: pin ?? CityCentres.forCity(widget.city),
                 initialZoom: pin == null ? 12 : 15,
+                backgroundColor: t.surfaceVariant,
                 minZoom: 3,
                 maxZoom: MapTiles.maxZoom,
                 interactionOptions: const InteractionOptions(
@@ -87,31 +88,37 @@ class _PropertyLocationPickerState extends State<PropertyLocationPicker> {
           ),
         ),
         const SizedBox(height: 8),
-        Row(
-          children: [
-            Expanded(
-              child: Text(l10n.propertiesMapPinHint,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      fontFamily: AppFonts.sans,
-                      fontSize: 11.5,
-                      color: t.textSecondary)),
-            ),
-            if (pin != null) ...[
-              const SizedBox(width: 8),
-              Flexible(
-                child: AppGhostButton(
-                  key: const ValueKey('location-picker-clear'),
-                  label: l10n.propertiesMapPinClear,
-                  icon: Icons.close_rounded,
-                  height: 36,
-                  fontSize: 12.5,
-                  onPressed: () => widget.onChanged(null),
-                ),
+        LayoutBuilder(
+          builder: (context, constraints) => Row(
+            children: [
+              Expanded(
+                child: Text(l10n.propertiesMapPinHint,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontFamily: AppFonts.sans,
+                        fontSize: 11.5,
+                        color: t.textSecondary)),
               ),
+              if (pin != null) ...[
+                const SizedBox(width: 8),
+                ConstrainedBox(
+                  constraints:
+                      BoxConstraints(maxWidth: constraints.maxWidth * 0.6),
+                  child: IntrinsicWidth(
+                    child: AppGhostButton(
+                      key: const ValueKey('location-picker-clear'),
+                      label: l10n.propertiesMapPinClear,
+                      icon: Icons.close_rounded,
+                      height: AppMetrics.buttonHeightInline,
+                      fontSize: 12.5,
+                      onPressed: () => widget.onChanged(null),
+                    ),
+                  ),
+                ),
+              ],
             ],
-          ],
+          ),
         ),
       ],
     );

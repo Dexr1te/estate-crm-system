@@ -58,7 +58,7 @@ class PinPad extends StatelessWidget {
     return SizedBox.square(
       dimension: keySize,
       child: Material(
-        color: delete ? Colors.transparent : t.surfaceVariant,
+        color: delete ? Colors.transparent : AppSurface.fillOf(context),
         shape: const CircleBorder(),
         child: InkWell(
           key: ValueKey('pin-key-$value'),
@@ -68,7 +68,7 @@ class PinPad extends StatelessWidget {
             child: delete
                 ? Icon(Icons.backspace_outlined,
                     size: 22,
-                    color: t.textSecondary,
+                    color: enabled ? t.textSecondary : t.textHint,
                     semanticLabel: AppLocalizations.of(context).lockDelete)
                 : Text(
                     value,

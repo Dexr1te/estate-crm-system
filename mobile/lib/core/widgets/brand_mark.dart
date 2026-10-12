@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:real_estate_crm/core/theme/app_metrics.dart';
 import 'package:real_estate_crm/core/theme/app_tokens.dart';
 
 class BrandMark extends StatelessWidget {
@@ -69,28 +70,33 @@ class BrandWordmark extends StatelessWidget {
 
 class CenteredScrollView extends StatelessWidget {
   final Widget child;
-  final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry? padding;
   const CenteredScrollView({
     super.key,
     required this.child,
-    this.padding = const EdgeInsets.symmetric(horizontal: 22, vertical: 24),
+    this.padding,
   });
 
   @override
-  Widget build(BuildContext context) => LayoutBuilder(
-        builder: (context, constraints) => SingleChildScrollView(
-          padding: padding,
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              minHeight: constraints.maxHeight -
-                  padding.resolve(Directionality.of(context)).vertical,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [child],
-            ),
+  Widget build(BuildContext context) {
+    final inset = padding ??
+        EdgeInsets.symmetric(
+            horizontal: AppMetrics.pagePadding(context), vertical: 24);
+    return LayoutBuilder(
+      builder: (context, constraints) => SingleChildScrollView(
+        padding: inset,
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            minHeight: constraints.maxHeight -
+                inset.resolve(Directionality.of(context)).vertical,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [child],
           ),
         ),
-      );
+      ),
+    );
+  }
 }

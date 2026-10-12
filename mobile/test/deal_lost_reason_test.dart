@@ -235,7 +235,7 @@ void main() {
     expect(
         find.text('Why it was lost: Financing fell through'), findsOneWidget);
 
-    await tester.tap(find.text('Update Deal'));
+    await tester.tap(find.text('Update deal'));
     await tester.pumpAndSettle();
 
     expect(_repo.updates, hasLength(1));
@@ -255,7 +255,7 @@ void main() {
     await tester.tapAt(const Offset(20, 20));
     await tester.pumpAndSettle();
 
-    await tester.tap(find.text('Update Deal'));
+    await tester.tap(find.text('Update deal'));
     await tester.pumpAndSettle();
     expect(_repo.updates.single.$2['status'], 'NEGOTIATION');
     expect(_repo.updates.single.$2.containsKey('lostReason'), isFalse);

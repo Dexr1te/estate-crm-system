@@ -37,7 +37,6 @@ class MandateRow extends StatelessWidget {
       key: ValueKey('mandate-row-${property.id}'),
       nested: nested,
       onTap: onTap,
-      padding: const EdgeInsets.all(12),
       child: Row(
         children: [
           PropertyCover.of(property, size: 38, radius: 11),

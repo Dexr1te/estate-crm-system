@@ -160,11 +160,11 @@ class MessageTemplateCard extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(width: 10),
           AppIconTile(
             key: ValueKey('template-delete-${template.id}'),
             icon: Icons.delete_outline_rounded,
             tooltip: l10n.templatesDelete,
+            alignEnd: true,
             onPressed: onDelete ?? () {},
           ),
         ],

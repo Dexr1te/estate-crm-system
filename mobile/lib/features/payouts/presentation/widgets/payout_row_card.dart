@@ -87,17 +87,20 @@ class PayoutRowCard extends StatelessWidget {
               const SizedBox(width: 10),
               Flexible(
                 flex: 2,
-                child: Text(
-                  amount == null ? l10n.payoutsNoAmount : formatPrice(amount),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.end,
-                  style: TextStyle(
-                      fontFamily: AppFonts.sans,
-                      fontSize: amount == null ? 12 : 13.5,
-                      fontWeight:
-                          amount == null ? FontWeight.w500 : FontWeight.w600,
-                      color: amount == null ? t.textHint : t.textPrimary),
+                child: Align(
+                  alignment: AlignmentDirectional.topEnd,
+                  child: Text(
+                    amount == null ? l10n.payoutsNoAmount : formatPrice(amount),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.end,
+                    style: TextStyle(
+                        fontFamily: AppFonts.sans,
+                        fontSize: amount == null ? 12 : 13.5,
+                        fontWeight:
+                            amount == null ? FontWeight.w500 : FontWeight.w600,
+                        color: amount == null ? t.textHint : t.textPrimary),
+                  ),
                 ),
               ),
             ],
@@ -181,16 +184,19 @@ class PayoutOwedRow extends StatelessWidget {
         const SizedBox(width: 10),
         Flexible(
           flex: 2,
-          child: Text(
-            formatPrice(total.unpaid),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            textAlign: TextAlign.end,
-            style: TextStyle(
-                fontFamily: AppFonts.sans,
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: t.textPrimary),
+          child: Align(
+            alignment: AlignmentDirectional.topEnd,
+            child: Text(
+              formatPrice(total.unpaid),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.end,
+              style: TextStyle(
+                  fontFamily: AppFonts.sans,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: t.textPrimary),
+            ),
           ),
         ),
       ],

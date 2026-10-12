@@ -45,7 +45,6 @@ class ClientDateRow extends StatelessWidget {
       key: ValueKey('client-date-$key'),
       nested: nested,
       onTap: onTap,
-      padding: const EdgeInsets.all(12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -55,7 +54,7 @@ class ClientDateRow extends StatelessWidget {
                 width: 34,
                 height: 34,
                 decoration: BoxDecoration(
-                  color: t.surfaceVariant,
+                  color: nested ? t.surface : t.surfaceVariant,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Icon(

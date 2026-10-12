@@ -28,7 +28,8 @@ class StarredRow extends StatelessWidget {
     return AppCard(
       key: ValueKey('starred-row-${item.type.wire}-${item.id}'),
       onTap: onTap,
-      padding: const EdgeInsets.fromLTRB(12, 10, 4, 10),
+      padding: EdgeInsetsDirectional.fromSTEB(
+          AppMetrics.cardPadding(context), 10, 4, 10),
       child: Row(
         children: [
           Container(

@@ -588,41 +588,13 @@ class _TypeSelector extends StatelessWidget {
           child: EyebrowLabel(l10n.clientsClientType,
               color: context.tokens.textSecondary),
         ),
-        Row(
-          children: [
-            Expanded(
-              child: _TypeButton(
-                label: l10n.clientsBuyer,
-                selected: type == ClientType.BUYER,
-                onTap: () => onChanged(ClientType.BUYER),
-              ),
-            ),
-            const SizedBox(width: 9),
-            Expanded(
-              child: _TypeButton(
-                label: l10n.clientsSeller,
-                selected: type == ClientType.SELLER,
-                onTap: () => onChanged(ClientType.SELLER),
-              ),
-            ),
-          ],
+        SegmentedTabs(
+          labels: [l10n.clientsBuyer, l10n.clientsSeller],
+          selectedIndex: type == ClientType.BUYER ? 0 : 1,
+          onSelected: (i) =>
+              onChanged(i == 0 ? ClientType.BUYER : ClientType.SELLER),
         ),
       ],
     );
   }
-}
-
-class _TypeButton extends StatelessWidget {
-  final String label;
-  final bool selected;
-  final VoidCallback onTap;
-  const _TypeButton(
-      {required this.label, required this.selected, required this.onTap});
-
-  @override
-  Widget build(BuildContext context) => selected
-      ? AppFilledButton(
-          label: label, onPressed: onTap, height: 48, fontSize: 13)
-      : AppGhostButton(
-          label: label, onPressed: onTap, height: 48, fontSize: 13);
 }

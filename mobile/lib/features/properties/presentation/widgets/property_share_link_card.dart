@@ -129,8 +129,6 @@ class _PropertyShareLinkCardState extends State<PropertyShareLinkCard> {
           ] else ...[
             AppCard(
               nested: true,
-              radius: AppMetrics.radiusSm,
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
               child: _Line(url,
                   color: t.textPrimary, weight: FontWeight.w600, lines: 2),
             ),

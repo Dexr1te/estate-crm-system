@@ -63,8 +63,6 @@ class TimeOffConflictsCard extends StatelessWidget {
             AppCard(
               key: ValueKey('time-off-conflict-${c.meetingId}'),
               nested: true,
-              radius: AppMetrics.radiusSm,
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
               onTap: () => onOpenMeeting(c.meetingId),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

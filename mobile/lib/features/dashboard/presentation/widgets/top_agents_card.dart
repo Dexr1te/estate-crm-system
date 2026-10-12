@@ -90,6 +90,7 @@ class _AgentRow extends StatelessWidget {
                       Positioned.fill(child: ColoredBox(color: t.chartTrack)),
                       FractionallySizedBox(
                         widthFactor: fraction.clamp(0.04, 1.0),
+                        heightFactor: 1,
                         child: ColoredBox(
                             color: rank == 0 ? t.chartWon : t.chartLead),
                       ),

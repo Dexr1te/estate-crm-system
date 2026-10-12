@@ -180,14 +180,16 @@ class _MeetingsScreenState extends State<MeetingsScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Row(
-              children: [
-                Expanded(
-                    child: ScreenTitle(l10n.calendarTitle,
-                        subtitle: subtitle, reserveSubtitle: true)),
-                const SizedBox(width: 12),
-                const QuickAddButton()
-              ],
+            ScreenTitle(
+              l10n.calendarTitle,
+              subtitle: subtitle,
+              reserveSubtitle: true,
+              trailing: const Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  QuickAddButton(),
+                ],
+              ),
             ),
             const SizedBox(height: 12),
             SegmentedTabs(
@@ -258,9 +260,13 @@ class _MeetingsScreenState extends State<MeetingsScreen> {
         final m = items[i];
         out.add(MeetingRow(
           time: formatTimeOfDay(m.scheduledAt),
-          dayOrType: m.location ?? '',
+          dayOrType: m.propertyId != null
+              ? l10n.calendarLegendViewing
+              : l10n.calendarLegendMeeting,
           title: m.title,
-          meta: m.clientName,
+          meta: [m.clientName, m.location ?? '']
+              .where((s) => s.trim().isNotEmpty)
+              .join(' · '),
           onTap: () => context.push('/meetings/${m.id}'),
         ));
       }

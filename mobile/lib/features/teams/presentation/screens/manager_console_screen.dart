@@ -179,25 +179,17 @@ class _ManagerConsoleScreenState extends State<ManagerConsoleScreen> {
                   children: [
                     Padding(
                       padding: EdgeInsets.fromLTRB(pad, 10, pad, 12),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: BlocBuilder<MyTeamBloc, MyTeamState>(
-                              builder: (ctx, state) => ScreenTitle(
-                                state is MyTeamLoaded
-                                    ? state.team.name
-                                    : l10n.teamsMyTeam,
-                                subtitle: state is MyTeamLoaded
-                                    ? l10n.teamsMemberCount(
-                                        state.team.memberCount)
-                                    : null,
-                                reserveSubtitle: true,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(width: 12),
-                          const QuickAddButton(),
-                        ],
+                      child: BlocBuilder<MyTeamBloc, MyTeamState>(
+                        builder: (ctx, state) => ScreenTitle(
+                          state is MyTeamLoaded
+                              ? state.team.name
+                              : l10n.teamsMyTeam,
+                          subtitle: state is MyTeamLoaded
+                              ? l10n.teamsMemberCount(state.team.memberCount)
+                              : null,
+                          reserveSubtitle: true,
+                          trailing: const QuickAddButton(),
+                        ),
                       ),
                     ),
                     Padding(

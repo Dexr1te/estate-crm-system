@@ -56,17 +56,15 @@ class ProfileScreen extends StatelessWidget {
               ),
               SettingsRow(
                 label: l10n.profileAgentId,
-                trailing: _IdChip(
-                  id: user.userId,
-                  onCopied: () {
-                    Clipboard.setData(ClipboardData(text: '${user.userId}'));
-                    ScaffoldMessenger.of(context)
-                      ..hideCurrentSnackBar()
-                      ..showSnackBar(SnackBar(
-                          content: Text(l10n.profileAgentIdCopied),
-                          duration: const Duration(seconds: 1)));
-                  },
-                ),
+                trailing: _IdChip(id: user.userId),
+                onTap: () {
+                  Clipboard.setData(ClipboardData(text: '${user.userId}'));
+                  ScaffoldMessenger.of(context)
+                    ..hideCurrentSnackBar()
+                    ..showSnackBar(SnackBar(
+                        content: Text(l10n.profileAgentIdCopied),
+                        duration: const Duration(seconds: 1)));
+                },
               ),
             ]),
             if (user.teamId != null)
@@ -92,97 +90,106 @@ class ProfileScreen extends StatelessWidget {
                   ),
               ]),
             if (user.teamName != null) const PartnersSettingsRow(),
-            _GroupLabel(l10n.profileSettings),
-            BlocBuilder<ThemeBloc, ThemeState>(
-              builder: (themeCtx, themeState) =>
-                  BlocBuilder<LocaleBloc, LocaleState>(
-                builder: (localeCtx, localeState) =>
-                    BlocConsumer<RemindersBloc, RemindersState>(
-                  listener: (ctx, remindersState) {
-                    if (!remindersState.permissionDenied) return;
+            SettingsSection(
+              label: l10n.profileSettings,
+              child: BlocBuilder<ThemeBloc, ThemeState>(
+                builder: (themeCtx, themeState) =>
+                    BlocBuilder<LocaleBloc, LocaleState>(
+                  builder: (localeCtx, localeState) =>
+                      BlocConsumer<RemindersBloc, RemindersState>(
+                    listener: (ctx, remindersState) {
+                      if (!remindersState.permissionDenied) return;
 
-                    ScaffoldMessenger.of(ctx)
-                      ..hideCurrentSnackBar()
-                      ..showSnackBar(SnackBar(
-                          content: Text(l10n.remindersPermissionDenied)));
-                  },
-                  builder: (remindersCtx, remindersState) =>
-                      SettingsGroup(rows: [
-                    SettingsRow(
-                      label: l10n.profileTheme,
-                      value: _themeLabel(l10n, themeState.mode),
-                      showChevron: true,
-                      onTap: () => _showThemePicker(themeCtx, themeState.mode),
-                    ),
-                    SettingsRow(
-                      label: l10n.profileReminders,
-                      value: _reminderLabel(l10n, remindersState.settings),
-                      showChevron: true,
-                      onTap: () => _showReminderPicker(
-                          remindersCtx, remindersState.settings),
-                    ),
-                    SettingsRow(
-                      label: l10n.profileLanguage,
-                      value: _languageLabel(l10n, localeState.locale),
-                      showChevron: true,
-                      onTap: () =>
-                          _showLanguagePicker(localeCtx, localeState.locale),
-                    ),
-                  ]),
+                      ScaffoldMessenger.of(ctx)
+                        ..hideCurrentSnackBar()
+                        ..showSnackBar(SnackBar(
+                            content: Text(l10n.remindersPermissionDenied)));
+                    },
+                    builder: (remindersCtx, remindersState) =>
+                        SettingsGroup(rows: [
+                      SettingsRow(
+                        label: l10n.profileTheme,
+                        value: _themeLabel(l10n, themeState.mode),
+                        showChevron: true,
+                        onTap: () =>
+                            _showThemePicker(themeCtx, themeState.mode),
+                      ),
+                      SettingsRow(
+                        label: l10n.profileReminders,
+                        value: _reminderLabel(l10n, remindersState.settings),
+                        showChevron: true,
+                        onTap: () => _showReminderPicker(
+                            remindersCtx, remindersState.settings),
+                      ),
+                      SettingsRow(
+                        label: l10n.profileLanguage,
+                        value: _languageLabel(l10n, localeState.locale),
+                        showChevron: true,
+                        onTap: () =>
+                            _showLanguagePicker(localeCtx, localeState.locale),
+                      ),
+                    ]),
+                  ),
                 ),
               ),
             ),
-            _GroupLabel(l10n.lockSecurity),
-            AppLockSettings(controller: Injector.appLock),
-            _GroupLabel(l10n.profileApp),
-            AppCard(
-              child: Row(
-                children: [
-                  const BrandMark(size: 40, radius: 12),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          l10n.profileEstateCrm,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              fontFamily: AppFonts.sans,
-                              fontSize: 13,
-                              fontWeight: FontWeight.w600,
-                              color: ctx.tokens.textPrimary),
-                        ),
-                        const SizedBox(height: 3),
-                        Text(
-                          '${l10n.profileVersion} ${Injector.appVersion}',
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              fontFamily: AppFonts.sans,
-                              fontSize: 11.5,
-                              color: ctx.tokens.textSecondary),
-                        ),
-                      ],
+            SettingsSection(
+              label: l10n.lockSecurity,
+              child: AppLockSettings(controller: Injector.appLock),
+            ),
+            SettingsSection(
+              label: l10n.profileApp,
+              child: AppCard(
+                child: Row(
+                  children: [
+                    const BrandMark(size: 40, radius: 12),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            l10n.profileEstateCrm,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                fontFamily: AppFonts.sans,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                                color: ctx.tokens.textPrimary),
+                          ),
+                          const SizedBox(height: 3),
+                          Text(
+                            '${l10n.profileVersion} ${Injector.appVersion}',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                fontFamily: AppFonts.sans,
+                                fontSize: 11.5,
+                                color: ctx.tokens.textSecondary),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-            _GroupLabel(l10n.profileLegal),
-            SettingsGroup(rows: [
-              SettingsRow(
-                label: l10n.profilePrivacyPolicy,
-                showChevron: true,
-                onTap: () => _openPage(context, '/privacy'),
-              ),
-              SettingsRow(
-                label: l10n.profileSupport,
-                showChevron: true,
-                onTap: () => _openPage(context, '/support'),
-              ),
-            ]),
+            SettingsSection(
+              label: l10n.profileLegal,
+              child: SettingsGroup(rows: [
+                SettingsRow(
+                  label: l10n.profilePrivacyPolicy,
+                  showChevron: true,
+                  onTap: () => _openPage(context, '/privacy'),
+                ),
+                SettingsRow(
+                  label: l10n.profileSupport,
+                  showChevron: true,
+                  onTap: () => _openPage(context, '/support'),
+                ),
+              ]),
+            ),
             if (user.role == Role.AGENT && user.teamName != null)
               AppGhostButton(
                 label: l10n.teamsLeaveTeam,
@@ -522,41 +529,26 @@ class _Identity extends StatelessWidget {
   }
 }
 
-class _GroupLabel extends StatelessWidget {
-  final String text;
-  const _GroupLabel(this.text);
-
-  @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(top: 4, bottom: 2),
-        child: EyebrowLabel(text, color: context.tokens.textSecondary),
-      );
-}
-
 class _IdChip extends StatelessWidget {
   final int id;
-  final VoidCallback onCopied;
-  const _IdChip({required this.id, required this.onCopied});
+  const _IdChip({required this.id});
 
   @override
   Widget build(BuildContext context) {
     final t = context.tokens;
-    return GestureDetector(
-      onTap: onCopied,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
-        decoration: BoxDecoration(
-          color: t.surfaceVariant,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Text(
-          '$id',
-          style: TextStyle(
-              fontFamily: AppFonts.sans,
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
-              color: t.textPrimary),
-        ),
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 2),
+      decoration: BoxDecoration(
+        color: t.surfaceVariant,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Text(
+        '$id',
+        style: TextStyle(
+            fontFamily: AppFonts.sans,
+            fontSize: 11,
+            fontWeight: FontWeight.w600,
+            color: t.textPrimary),
       ),
     );
   }
@@ -574,7 +566,6 @@ class _LanguageOption extends StatelessWidget {
     final t = context.tokens;
     return AppCard(
       nested: true,
-      radius: AppMetrics.radiusSm,
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
       onTap: onTap,
       child: Row(

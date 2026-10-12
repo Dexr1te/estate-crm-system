@@ -54,8 +54,8 @@ class ImportEntryCard extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(width: 6),
-          Icon(Icons.chevron_right_rounded, size: 18, color: t.textHint),
+          const SizedBox(width: 8),
+          const RowChevron(),
         ],
       ),
     );

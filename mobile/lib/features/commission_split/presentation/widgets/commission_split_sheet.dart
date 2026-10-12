@@ -276,12 +276,8 @@ class _LineEditor extends StatelessWidget {
       CommissionPartyKind.CO_BROKER => null,
     };
 
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: t.surfaceVariant,
-        borderRadius: BorderRadius.circular(AppMetrics.radiusSm),
-      ),
+    return AppCard(
+      nested: true,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -311,12 +307,12 @@ class _LineEditor extends StatelessWidget {
                 ),
               ),
               if (onRemove != null)
-                IconButton(
+                AppIconTile(
                   key: Key('split-remove-$index'),
+                  icon: Icons.close_rounded,
                   tooltip: l10n.splitsRemove,
-                  visualDensity: VisualDensity.compact,
-                  icon: Icon(Icons.close_rounded, size: 18, color: t.textHint),
-                  onPressed: onRemove,
+                  alignEnd: true,
+                  onPressed: onRemove!,
                 ),
             ],
           ),
@@ -327,6 +323,7 @@ class _LineEditor extends StatelessWidget {
               required: true,
               child: AppTextField(
                 key: Key('split-cobroker-name-$index'),
+                skin: FieldSkin.page,
                 controller: line.coBroker,
                 hint: l10n.splitsCoBrokerNameHint,
                 textInputAction: TextInputAction.next,
@@ -343,6 +340,7 @@ class _LineEditor extends StatelessWidget {
               label: l10n.splitsCoBrokerAgency,
               child: AppTextField(
                 key: Key('split-cobroker-agency-$index'),
+                skin: FieldSkin.page,
                 controller: line.agency,
                 hint: l10n.splitsCoBrokerAgencyHint,
                 textInputAction: TextInputAction.next,
@@ -354,6 +352,7 @@ class _LineEditor extends StatelessWidget {
             label: l10n.splitsShare,
             child: AppTextField(
               key: Key('split-percent-$index'),
+              skin: FieldSkin.page,
               controller: line.percent,
               hint: '0',
               keyboardType:

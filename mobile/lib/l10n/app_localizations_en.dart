@@ -72,7 +72,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get adminFullName => 'Full name';
 
   @override
-  String get adminInactive => 'INACTIVE';
+  String get adminInactive => 'Inactive';
 
   @override
   String get adminInviteCodeCopied => 'Invite code copied';
@@ -261,7 +261,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authAcceptRequest => 'Accept';
 
   @override
-  String get authAcceptTerms => 'I agree to the privacy policy';
+  String get authAcceptTerms => 'I agree to the';
 
   @override
   String get authAcceptTermsRequired => 'Please accept the privacy policy';
@@ -422,7 +422,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authPhoneOptional => 'Phone (optional)';
 
   @override
-  String get authPrivacyPolicy => 'Privacy policy';
+  String get authPrivacyPolicy => 'privacy policy';
 
   @override
   String get authResendLink => 'Send the link again';
@@ -474,7 +474,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authSetPasswordSignIn => 'Set password & sign in';
 
   @override
-  String get authSignIn => 'Sign In';
+  String get authSignIn => 'Sign in';
 
   @override
   String get authSignInSubtitle => 'Sign in to manage your properties';
@@ -585,7 +585,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get calendarLegendViewing => 'Viewing';
 
   @override
-  String get calendarLoadFailed => 'Couldn\'t load the calendar';
+  String get calendarLoadFailed => 'Could not load the calendar';
 
   @override
   String get calendarNextMonth => 'Next month';
@@ -989,7 +989,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clientsClientNotFound => 'Client not found';
 
   @override
-  String get clientsClientType => 'Client Type';
+  String get clientsClientType => 'Client type';
 
   @override
   String clientsColdDaysOption(int count) {
@@ -1150,7 +1150,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clientsContact => 'Contact';
 
   @override
-  String get clientsContactInfo => 'Contact Info';
+  String get clientsContactInfo => 'Contact info';
 
   @override
   String clientsContactedDaysAgo(int count) {
@@ -1180,7 +1180,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get clientsCreateClient => 'Create Client';
+  String get clientsCreateClient => 'Create client';
 
   @override
   String clientsDatesAnniversary(int years) {
@@ -1218,7 +1218,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get clientsDatesLoadFailed => 'Couldn\'t load the dates coming up';
+  String get clientsDatesLoadFailed => 'Could not load the dates coming up';
 
   @override
   String get clientsDatesTitle => 'Dates coming up';
@@ -1269,7 +1269,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get clientsDeleteClient => 'Delete Client';
+  String get clientsDeleteClient => 'Delete client';
 
   @override
   String get clientsDuplicateEyebrow => 'Possible duplicate';
@@ -1304,7 +1304,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clientsEdit => 'Edit';
 
   @override
-  String get clientsEditClient => 'Edit Client';
+  String get clientsEditClient => 'Edit client';
 
   @override
   String get clientsEmail => 'Email';
@@ -1356,7 +1356,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Log each call, message and email, and whoever picks up this client knows where things stand.';
 
   @override
-  String get clientsHistoryLoadFailed => 'Couldn\'t load the history';
+  String get clientsHistoryLoadFailed => 'Could not load the history';
 
   @override
   String clientsIdBadge(Object id) {
@@ -1411,7 +1411,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clientsNameRequired => 'Name is required';
 
   @override
-  String get clientsNewClient => 'New Client';
+  String get clientsNewClient => 'New client';
 
   @override
   String get clientsNewLeadsEmpty =>
@@ -1618,7 +1618,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clientsTryDifferentSearch => 'Try a different search';
 
   @override
-  String get clientsUpdateClient => 'Update Client';
+  String get clientsUpdateClient => 'Update client';
 
   @override
   String clientsUpdatedAt(Object date) {
@@ -1935,7 +1935,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dashboardClients => 'Clients';
 
   @override
-  String get dashboardClosedWon => 'Closed Won';
+  String get dashboardClosedWon => 'Closed won';
 
   @override
   String dashboardColdTotal(int count) {
@@ -2016,7 +2016,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dashboardMeetingsLabel => 'Meetings';
 
   @override
-  String get dashboardNewDeal => 'New Deal';
+  String get dashboardNewDeal => 'New deal';
 
   @override
   String get dashboardNextMeeting => 'Next meeting';
@@ -2064,7 +2064,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dashboardRelativeTomorrow => 'tomorrow';
 
   @override
-  String get dashboardScheduleMeeting => 'Schedule Meeting';
+  String get dashboardScheduleMeeting => 'Schedule meeting';
 
   @override
   String get dashboardSeeAll => 'See all';
@@ -2095,7 +2095,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dashboardTopAgents => 'Top agents';
 
   @override
-  String get dashboardUpcomingMeetings => 'Upcoming Meetings';
+  String get dashboardUpcomingMeetings => 'Upcoming meetings';
 
   @override
   String get dealsAgent => 'Agent';
@@ -2268,7 +2268,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dealsCommentLess => 'Show less';
 
   @override
-  String get dealsCommentMentionLoadFailed => 'Couldn\'t load colleagues';
+  String get dealsCommentMentionLoadFailed => 'Could not load colleagues';
 
   @override
   String get dealsCommentMentionNone => 'Nobody else can see this deal';
@@ -2314,10 +2314,10 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get dealsCreateDeal => 'Create Deal';
+  String get dealsCreateDeal => 'Create deal';
 
   @override
-  String get dealsDealPrice => 'Deal Price';
+  String get dealsDealPrice => 'Deal price';
 
   @override
   String dealsDeleteCascade(Object title) {
@@ -2325,7 +2325,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get dealsDeleteTitle => 'Delete Deal';
+  String get dealsDeleteTitle => 'Delete deal';
 
   @override
   String get dealsDiscussion => 'Discussion';
@@ -2338,13 +2338,13 @@ class AppLocalizationsEn extends AppLocalizations {
       'Keep the conversation about this deal here. Type @ to bring in a colleague.';
 
   @override
-  String get dealsDiscussionLoadFailed => 'Couldn\'t load the discussion';
+  String get dealsDiscussionLoadFailed => 'Could not load the discussion';
 
   @override
   String get dealsDiscussionShowEarlier => 'Show earlier';
 
   @override
-  String get dealsEditTitle => 'Edit Deal';
+  String get dealsEditTitle => 'Edit deal';
 
   @override
   String get dealsEmptySubtitle => 'Start your pipeline';
@@ -2373,6 +2373,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String dealsIdLabel(Object id) {
     return 'Deal ID: $id';
   }
+
+  @override
+  String get dealsDetailTitle => 'Deal';
 
   @override
   String get dealsLostConfirm => 'Mark as lost';
@@ -2415,7 +2418,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dealsLostSheetTitle => 'Why was the deal lost?';
 
   @override
-  String get dealsNewTitle => 'New Deal';
+  String get dealsNewTitle => 'New deal';
 
   @override
   String get dealsNoResults => 'No results';
@@ -2433,10 +2436,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dealsNotesHint => 'Notes about this deal…';
 
   @override
-  String get dealsPeopleProperty => 'People & Property';
+  String get dealsPeopleProperty => 'People & property';
 
   @override
-  String get dealsPipelineStage => 'Pipeline Stage';
+  String get dealsPipelineStage => 'Pipeline stage';
 
   @override
   String get dealsProperty => 'Property';
@@ -2462,7 +2465,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String dealsStaleWarning(Object days) {
-    return 'no activity for $days days';
+    return 'No activity for $days days';
   }
 
   @override
@@ -2487,7 +2490,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dealsTitleRequired => 'Title is required';
 
   @override
-  String get dealsUpdateDeal => 'Update Deal';
+  String get dealsUpdateDeal => 'Update deal';
 
   @override
   String get dealsViewBoard => 'Board';
@@ -2532,7 +2535,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Active deposits show here a week before their hold ends.';
 
   @override
-  String get depositsEndingLoadFailed => 'Couldn\'t load the deposits';
+  String get depositsEndingLoadFailed => 'Could not load the deposits';
 
   @override
   String get depositsEndingTitle => 'Deposits ending';
@@ -2591,7 +2594,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get depositsHolderSeller => 'Seller';
 
   @override
-  String get depositsLoadFailed => 'Couldn\'t load the deposit';
+  String get depositsLoadFailed => 'Could not load the deposit';
 
   @override
   String get depositsNone => 'No deposit recorded';
@@ -3433,7 +3436,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get meetingsDeleteMeeting => 'Delete Meeting';
+  String get meetingsDeleteMeeting => 'Delete meeting';
 
   @override
   String get meetingsDescription => 'Description';
@@ -3442,13 +3445,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get meetingsDetails => 'Details';
 
   @override
+  String get meetingsTitleHint => 'For example, a viewing at Dostyk 5';
+
+  @override
+  String get meetingsDetailTitle => 'Meeting';
+
+  @override
   String get meetingsDirections => 'Directions';
 
   @override
   String get meetingsEdit => 'Edit';
 
   @override
-  String get meetingsEditMeeting => 'Edit Meeting';
+  String get meetingsEditMeeting => 'Edit meeting';
 
   @override
   String get meetingsGroupToday => 'Today';
@@ -3525,7 +3534,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get meetingsScheduleFirst => 'Schedule your first meeting';
 
   @override
-  String get meetingsScheduleMeeting => 'Schedule Meeting';
+  String get meetingsScheduleMeeting => 'Schedule meeting';
 
   @override
   String get meetingsScheduleViewing => 'Schedule a viewing';
@@ -3563,7 +3572,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get meetingsUpcomingEyebrow => 'Next up';
 
   @override
-  String get meetingsUpdateMeeting => 'Update Meeting';
+  String get meetingsUpdateMeeting => 'Update meeting';
 
   @override
   String get meetingsViewingOf => 'Viewing';
@@ -4456,7 +4465,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileApp => 'App';
 
   @override
-  String get profileDeleteAccount => 'Delete Account';
+  String get profileDeleteAccount => 'Delete account';
 
   @override
   String profileDeleteAccountConfirm(Object successor) {
@@ -4482,7 +4491,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileEstateCrm => 'Estate CRM';
 
   @override
-  String get profileFullName => 'Full Name';
+  String get profileFullName => 'Full name';
 
   @override
   String get profileLanguage => 'Language';
@@ -4497,7 +4506,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileName => 'Name';
 
   @override
-  String get profilePrivacyPolicy => 'Privacy Policy';
+  String get profilePrivacyPolicy => 'Privacy policy';
 
   @override
   String get profileReminders => 'Meeting reminders';
@@ -4512,7 +4521,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileSettings => 'Settings';
 
   @override
-  String get profileSignOut => 'Sign Out';
+  String get profileSignOut => 'Sign out';
 
   @override
   String get profileSignOutConfirm => 'Are you sure you want to sign out?';
@@ -4568,7 +4577,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get propertiesBack => 'Back';
 
   @override
-  String get propertiesBasicInfo => 'Basic Info';
+  String get propertiesBasicInfo => 'Basic info';
 
   @override
   String get propertiesBrochure => 'Brochure (PDF)';
@@ -4599,7 +4608,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get propertiesCreateProperty => 'Create Property';
+  String get propertiesCreateProperty => 'Create property';
 
   @override
   String get propertiesDelete => 'Delete';
@@ -4610,7 +4619,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get propertiesDeleteProperty => 'Delete Property';
+  String get propertiesDeleteProperty => 'Delete property';
 
   @override
   String get propertiesDescribeHint => 'Describe the property…';
@@ -4625,7 +4634,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get propertiesEdit => 'Edit';
 
   @override
-  String get propertiesEditProperty => 'Edit Property';
+  String get propertiesEditProperty => 'Edit property';
 
   @override
   String propertiesFieldRequired(Object label) {
@@ -4835,7 +4844,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get propertiesMapUnpinnedTitle => 'Not on the map';
 
   @override
-  String get propertiesNewProperty => 'New Property';
+  String get propertiesNewProperty => 'New property';
 
   @override
   String get propertiesNextDetails => 'Next — details';
@@ -5001,6 +5010,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get propertiesDetailTitle => 'Listing';
+
+  @override
   String get propertiesPropertyNotFound => 'Property not found';
 
   @override
@@ -5032,7 +5044,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get propertiesReportLoadFailed => 'Couldn\'t load the report';
+  String get propertiesReportLoadFailed => 'Could not load the report';
 
   @override
   String get propertiesReportMatchingBuyers => 'Buyers it fits';
@@ -5118,13 +5130,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get propertiesTitleLabel => 'Title';
 
   @override
-  String get propertiesTotalFloors => 'Total Floors';
+  String get propertiesTitleHint => 'For example, Dostyk 5, flat 12';
+
+  @override
+  String get propertiesTotalFloors => 'Total floors';
 
   @override
   String get propertiesType => 'Type';
 
   @override
-  String get propertiesUpdateProperty => 'Update Property';
+  String get propertiesUpdateProperty => 'Update property';
 
   @override
   String get propertiesViewList => 'List';
@@ -5288,7 +5303,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get routeLoadFailed => 'Couldn\'t load the route';
+  String get routeLoadFailed => 'Could not load the route';
 
   @override
   String get routeNavigateNext => 'Navigate to next stop';
@@ -5809,7 +5824,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get teamsMembers => 'Members';
 
   @override
-  String get teamsMyTeam => 'My Team';
+  String get teamsMyTeam => 'My team';
 
   @override
   String get teamsNoManager => 'No manager';
@@ -6097,7 +6112,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get leasesEndingTitle => 'Leases ending';
 
   @override
-  String get leasesEndingLoadFailed => 'Couldn\'t load the leases';
+  String get leasesEndingLoadFailed => 'Could not load the leases';
 
   @override
   String get leasesEndingEmpty => 'No leases end in the next 30 days';
@@ -6508,6 +6523,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get partnersHandoffPartner => 'Partner';
+
+  @override
+  String get partnersDetailTitle => 'Partner';
 
   @override
   String get partnersHandoffDate => 'Sent on';
@@ -7066,8 +7084,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get expensesSpendTitle => 'Marketing spend';
 
   @override
-  String get expensesSpendHint =>
-      'What was spent marketing listings in this period.';
+  String get expensesSpendHint => 'Spent on marketing listings in this period';
 
   @override
   String get expensesSpendNone =>
@@ -7108,7 +7125,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Tap the star at the top of a client, a listing or a deal to keep it here, one tap away.';
 
   @override
-  String get starsLoadFailed => 'Couldn\'t load your starred records';
+  String get starsLoadFailed => 'Could not load your starred records';
 
   @override
   String get starsStarFailed => 'Couldn\'t star it. Try again.';
@@ -7141,7 +7158,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String keysWithHolderUntil(String date, String holder) {
-    return 'With $holder · until $date';
+    return 'With $holder · until $date';
   }
 
   @override
@@ -7186,7 +7203,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get keysShowAll => 'Show all';
 
   @override
-  String get keysLoadFailed => 'Couldn\'t load the keys';
+  String get keysLoadFailed => 'Could not load the keys';
 
   @override
   String get keysErrorAlreadyOut =>
@@ -7260,7 +7277,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Keys handed over from a listing show here until they come back.';
 
   @override
-  String get keysOutLoadFailed => 'Couldn\'t load the keys that are out';
+  String get keysOutLoadFailed => 'Could not load the keys that are out';
 
   @override
   String keysOutOverdueCount(int count) {

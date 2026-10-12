@@ -176,6 +176,6 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.textContaining('no activity for'), findsOneWidget);
+    expect(find.textContaining('No activity for'), findsOneWidget);
   });
 }

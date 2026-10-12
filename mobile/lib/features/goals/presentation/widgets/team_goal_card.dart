@@ -44,7 +44,7 @@ class TeamGoalCard extends StatelessWidget {
                   maxLines: 1, overflow: TextOverflow.ellipsis, style: label),
             ),
             const SizedBox(width: 8),
-            Flexible(
+            Expanded(
               flex: 2,
               child: Text(figure,
                   key: key,
@@ -87,20 +87,26 @@ class TeamGoalCard extends StatelessWidget {
               if (goal.source == 'PERSONAL') ...[
                 const SizedBox(width: 8),
                 Flexible(
-                  child: StatusChip(
-                      label: l10n.goalsAgentOwn, hue: StatusHue.neutral),
+                  child: Align(
+                    alignment: AlignmentDirectional.centerEnd,
+                    child: StatusChip(
+                        label: l10n.goalsAgentOwn, hue: StatusHue.neutral),
+                  ),
                 ),
               ] else if (!goal.hasTarget) ...[
                 const SizedBox(width: 8),
                 Flexible(
-                  child: Text(
-                    l10n.goalsNoTarget,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        fontFamily: AppFonts.sans,
-                        fontSize: 11.5,
-                        color: t.textHint),
+                  child: Align(
+                    alignment: AlignmentDirectional.centerEnd,
+                    child: Text(
+                      l10n.goalsNoTarget,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          fontFamily: AppFonts.sans,
+                          fontSize: 11.5,
+                          color: t.textHint),
+                    ),
                   ),
                 ),
               ],

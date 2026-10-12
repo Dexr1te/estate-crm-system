@@ -336,7 +336,7 @@ void main() {
 
       final (_, draft) = repo.handedOver.single;
       expect(draft.toJson(), {'holderUserId': 3, 'dueBackAt': '2026-10-10'});
-      expect(find.text('With Timur Aliev · until Oct 10'), findsOneWidget);
+      expect(find.text('With Timur Aliev\u00a0· until Oct 10'), findsOneWidget);
     });
 
     testWidgets('a note too long for the server is caught before sending',
@@ -364,7 +364,7 @@ void main() {
       expect(
           tester.widget<Text>(holder).data,
           'With Gulnara Serikbaykyzy-Nurmukhambetova, cleaning company'
-          ' · until Oct 8');
+          '\u00a0· until Oct 8');
       final context = tester.element(holder);
       expect(
           tester.widget<Text>(holder).style?.color, context.tokens.dangerText);
@@ -419,7 +419,7 @@ void main() {
     testWidgets('a failure to load says so and can be retried', (tester) async {
       repo.readError = Exception('offline');
       await _pump(tester, _page(const PropertyKeysCard(propertyId: 2)));
-      expect(find.text("Couldn't load the keys"), findsOneWidget);
+      expect(find.text('Could not load the keys'), findsOneWidget);
 
       repo.readError = null;
       await _tap(tester, find.byKey(const ValueKey('property-keys-retry')));
@@ -466,8 +466,8 @@ void main() {
       expect(rows, findsNWidgets(4));
       expect(tester.widgetList<KeyOutRow>(rows).map((r) => r.handover.id),
           [21, 22, 23, 24]);
-      expect(find.text('With Timur Aliev · until Oct 9'), findsOneWidget);
-      expect(find.text('With Saule, the owner · until Jan 20, 2027'),
+      expect(find.text('With Timur Aliev\u00a0· until Oct 9'), findsOneWidget);
+      expect(find.text('With Saule, the owner\u00a0· until Jan 20, 2027'),
           findsOneWidget);
       expect(find.text('With Arman Ospanov'), findsOneWidget);
       expect(find.text('Overdue'), findsOneWidget);

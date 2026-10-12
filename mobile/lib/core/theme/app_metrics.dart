@@ -21,6 +21,10 @@ class AppMetrics {
 
   static const double buttonHeightInline = 40;
 
+  static const double buttonFontSize = 14;
+
+  static const double fieldInset = 16;
+
   static const double navIconBox = 18;
 
   static const double glassBlur = 22;

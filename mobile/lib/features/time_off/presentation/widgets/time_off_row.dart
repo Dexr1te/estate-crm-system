@@ -42,7 +42,6 @@ class TimeOffRow extends StatelessWidget {
     return AppCard(
       key: ValueKey('time-off-row-${timeOff.id}'),
       onTap: onTap,
-      padding: const EdgeInsets.all(12),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -76,9 +75,12 @@ class TimeOffRow extends StatelessWidget {
                     if (timeOff.current) ...[
                       const SizedBox(width: 8),
                       Flexible(
-                        child: StatusChip(
-                            label: l10n.timeOffAwayNow,
-                            hue: StatusHue.negotiation),
+                        child: Align(
+                          alignment: AlignmentDirectional.centerEnd,
+                          child: StatusChip(
+                              label: l10n.timeOffAwayNow,
+                              hue: StatusHue.negotiation),
+                        ),
                       ),
                     ],
                   ],

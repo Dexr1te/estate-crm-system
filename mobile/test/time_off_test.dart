@@ -396,8 +396,7 @@ void main() {
               ),
             ),
           )));
-      expect(find.text('Out today: 1'), findsOneWidget);
-      expect(find.text('Aigul Bekova'), findsOneWidget);
+      expect(find.text('Out today: 1  Aigul Bekova'), findsOneWidget);
       await _tap(tester, find.byKey(const ValueKey('out-today')));
       expect(find.text('team list'), findsOneWidget);
     });

@@ -22,13 +22,11 @@ class MeetingRow extends StatelessWidget {
     final t = context.tokens;
 
     return AppCard(
-      radius: 14,
       onTap: onTap,
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
       child: Row(
         children: [
           SizedBox(
-            width: 44,
+            width: 56,
             child: Column(
               children: [
                 Text(
@@ -49,7 +47,7 @@ class MeetingRow extends StatelessWidget {
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
                       fontSize: 10,
-                      color: t.textHint),
+                      color: t.textSecondary),
                 ),
               ],
             ),
@@ -104,12 +102,12 @@ class MeetingRowBone extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ShimmerCard(
-        radius: 14,
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        radius: AppMetrics.radiusMd,
+        padding: EdgeInsets.all(AppMetrics.cardPadding(context)),
         child: Row(
           children: [
             const SizedBox(
-              width: 44,
+              width: 56,
               child: Column(
                 children: [
                   ShimmerBox(width: 38, height: 12, radius: 6),

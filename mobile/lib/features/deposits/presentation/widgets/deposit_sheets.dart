@@ -144,6 +144,7 @@ class _DepositFormState extends State<DepositForm> {
                 key: Key('deposit-holder-${h.name}'),
                 label: depositHolderLabel(l10n, h),
                 selected: _holder == h,
+                onCard: true,
                 onTap: () => setState(() => _holder = h),
               ),
           ]),
@@ -216,6 +217,7 @@ class _CloseDepositFormState extends State<CloseDepositForm> {
             key: Key('deposit-outcome-${o.name}'),
             label: depositOutcomeLabel(l10n, o),
             selected: _outcome == o,
+            onCard: true,
             onTap: () {
               HapticFeedback.selectionClick();
               setState(() => _outcome = o);

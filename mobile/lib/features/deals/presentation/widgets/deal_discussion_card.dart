@@ -256,13 +256,11 @@ class _DiscussionProblem extends StatelessWidget {
                 color: t.textSecondary)),
       ),
       const SizedBox(width: 8),
-      Flexible(
-        child: AppGhostButton(
-          label: l10n.coreRetry,
-          onPressed: onRetry,
-          height: AppMetrics.buttonHeightInline,
-          fontSize: 12,
-        ),
+      AppGhostButton(
+        label: l10n.coreRetry,
+        onPressed: onRetry,
+        height: AppMetrics.buttonHeightInline,
+        fontSize: 12,
       ),
     ]);
   }

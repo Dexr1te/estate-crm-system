@@ -220,7 +220,7 @@ void main() {
     _repo.sellerReportError = Exception('offline');
     await _open(tester);
 
-    expect(find.text("Couldn't load the report"), findsOneWidget);
+    expect(find.text('Could not load the report'), findsOneWidget);
     expect(find.byKey(const ValueKey('seller-report-share')), findsNothing);
 
     _repo.sellerReportError = null;
@@ -228,7 +228,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(_repo.sellerReportReads, 2);
-    expect(find.text("Couldn't load the report"), findsNothing);
+    expect(find.text('Could not load the report'), findsNothing);
     expect(find.byKey(const ValueKey('seller-report-metrics')), findsOneWidget);
   });
 

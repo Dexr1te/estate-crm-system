@@ -28,7 +28,7 @@ class DuplicateWarning extends StatelessWidget {
     return Container(
       key: const ValueKey('duplicate-warning'),
       width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(12, 10, 6, 10),
+      padding: EdgeInsets.all(AppMetrics.cardPadding(context)),
       decoration: BoxDecoration(
         color: palette.fill,
         borderRadius: BorderRadius.circular(AppMetrics.radiusSm),
@@ -86,6 +86,8 @@ class _DuplicateRow extends StatelessWidget {
   final VoidCallback onOpen;
   const _DuplicateRow({required this.duplicate, required this.onOpen});
 
+  static const _openInset = 10.0;
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
@@ -125,21 +127,29 @@ class _DuplicateRow extends StatelessWidget {
           ),
           if (duplicate.visible) ...[
             const SizedBox(width: 8),
-            TextButton(
-              onPressed: onOpen,
-              style: TextButton.styleFrom(
-                foregroundColor: t.textPrimary,
-                minimumSize: const Size(48, 40),
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-              ),
-              child: Text(
-                l10n.clientsDuplicateOpen,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
-                    fontFamily: AppFonts.sans,
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600),
+            Transform.translate(
+              offset: Offset(
+                  Directionality.of(context) == TextDirection.rtl
+                      ? -_openInset
+                      : _openInset,
+                  0),
+              child: TextButton(
+                onPressed: onOpen,
+                style: TextButton.styleFrom(
+                  foregroundColor: t.textPrimary,
+                  minimumSize: const Size(48, AppMetrics.minHitTarget),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  padding: const EdgeInsets.symmetric(horizontal: _openInset),
+                ),
+                child: Text(
+                  l10n.clientsDuplicateOpen,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                      fontFamily: AppFonts.sans,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600),
+                ),
               ),
             ),
           ],

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/theme/app_metrics.dart';
 import 'package:real_estate_crm/core/theme/app_tokens.dart';
+import 'package:real_estate_crm/core/widgets/app_surface.dart';
 
 class FilterPill extends StatelessWidget {
   final String label;
   final bool selected;
   final VoidCallback onTap;
 
-  final bool onCard;
+  final bool? onCard;
   final double fontSize;
   final EdgeInsetsGeometry padding;
 
@@ -16,7 +17,7 @@ class FilterPill extends StatelessWidget {
     required this.label,
     required this.selected,
     required this.onTap,
-    this.onCard = false,
+    this.onCard,
     this.fontSize = 12,
     this.padding = const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
   });
@@ -25,9 +26,10 @@ class FilterPill extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = context.tokens;
     final radius = BorderRadius.circular(AppMetrics.radiusPill);
+    final card = onCard ?? AppSurface.levelOf(context) == SurfaceLevel.card;
 
     return Material(
-      color: selected ? t.primary : (onCard ? t.surfaceVariant : t.surface),
+      color: selected ? t.primary : (card ? t.surfaceVariant : t.surface),
       borderRadius: radius,
       child: InkWell(
         borderRadius: radius,
@@ -64,23 +66,30 @@ class FilterPillWrap extends StatelessWidget {
 class FilterPillRow extends StatelessWidget {
   final List<Widget> pills;
   final EdgeInsetsGeometry padding;
+  final bool bleed;
+
   const FilterPillRow({
     super.key,
     required this.pills,
     this.padding = EdgeInsets.zero,
+    this.bleed = false,
   });
 
   @override
-  Widget build(BuildContext context) => SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        padding: padding,
-        child: Row(
-          children: [
-            for (var i = 0; i < pills.length; i++) ...[
-              if (i > 0) const SizedBox(width: 7),
-              pills[i],
+  Widget build(BuildContext context) => SizedBox(
+        width: double.infinity,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          padding: padding,
+          clipBehavior: bleed ? Clip.none : Clip.hardEdge,
+          child: Row(
+            children: [
+              for (var i = 0; i < pills.length; i++) ...[
+                if (i > 0) const SizedBox(width: 7),
+                pills[i],
+              ],
             ],
-          ],
+          ),
         ),
       );
 }

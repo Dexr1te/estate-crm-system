@@ -257,7 +257,7 @@ class _SearchBar extends StatelessWidget {
     return SafeArea(
       bottom: false,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(6, 6, 12, 10),
+        padding: EdgeInsets.fromLTRB(6, 6, AppMetrics.pagePadding(context), 10),
         child: Row(
           children: [
             AppIconTile(

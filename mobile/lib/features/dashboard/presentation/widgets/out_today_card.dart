@@ -30,33 +30,38 @@ class OutTodayCard extends StatelessWidget {
           child: AppCard(
             key: const ValueKey('out-today'),
             onTap: onTap,
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
+            padding: EdgeInsets.symmetric(
+                horizontal: AppMetrics.cardPadding(context), vertical: 13),
             child: Row(
               children: [
                 Icon(Icons.beach_access_outlined,
                     size: 18, color: t.textSecondary),
                 const SizedBox(width: 10),
-                Flexible(
-                  child: Text(l10n.timeOffOutToday(names.length),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                Expanded(
+                  child: Text.rich(
+                    TextSpan(
+                      text: l10n.timeOffOutToday(names.length),
                       style: TextStyle(
-                          fontFamily: AppFonts.sans,
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
-                          color: t.textPrimary)),
+                          color: t.textPrimary),
+                      children: [
+                        TextSpan(
+                          text: '  ${names.join(', ')}',
+                          style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              color: t.textSecondary),
+                        ),
+                      ],
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(fontFamily: AppFonts.sans),
+                  ),
                 ),
                 const SizedBox(width: 8),
-                Expanded(
-                  child: Text(names.join(', '),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          fontFamily: AppFonts.sans,
-                          fontSize: 12,
-                          color: t.textSecondary)),
-                ),
-                Icon(Icons.chevron_right_rounded, size: 18, color: t.textHint),
+                const RowChevron(),
               ],
             ),
           ),

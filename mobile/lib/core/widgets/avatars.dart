@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/theme/app_tokens.dart';
+import 'package:real_estate_crm/core/widgets/app_surface.dart';
 
 class UserAvatar extends StatelessWidget {
   final String name;
@@ -24,8 +25,9 @@ class UserAvatar extends StatelessWidget {
         shape: BoxShape.circle,
         color: t.isDark ? t.surfaceVariant : t.primary,
       ),
-      child: Text(
-        _initial(name),
+      child: _Initial(
+        name: name,
+        size: size,
         style: TextStyle(
             fontFamily: AppFonts.sans,
             fontSize: size * 0.36,
@@ -57,11 +59,12 @@ class InitialAvatar extends StatelessWidget {
       height: size,
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        color: t.surfaceVariant,
+        color: AppSurface.fillOf(context),
         shape: BoxShape.circle,
       ),
-      child: Text(
-        _initial(name),
+      child: _Initial(
+        name: name,
+        size: size,
         style: TextStyle(
             fontFamily: AppFonts.sans,
             fontSize: size * 0.38,
@@ -72,7 +75,19 @@ class InitialAvatar extends StatelessWidget {
   }
 }
 
-String _initial(String name) {
-  final trimmed = name.trim();
-  return trimmed.isEmpty ? '?' : trimmed[0].toUpperCase();
+class _Initial extends StatelessWidget {
+  final String name;
+  final double size;
+  final TextStyle style;
+
+  const _Initial({required this.name, required this.size, required this.style});
+
+  @override
+  Widget build(BuildContext context) {
+    final trimmed = name.trim();
+    if (trimmed.isEmpty) {
+      return Icon(Icons.person_rounded, size: size * 0.5, color: style.color);
+    }
+    return Text(trimmed[0].toUpperCase(), style: style);
+  }
 }

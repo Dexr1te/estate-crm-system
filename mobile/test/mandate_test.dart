@@ -324,9 +324,9 @@ void main() {
     }
 
     Future<void> submit(WidgetTester tester) async {
-      await tester.ensureVisible(find.text('Update Property'));
+      await tester.ensureVisible(find.text('Update property'));
       await tester.pumpAndSettle();
-      await tester.tap(find.text('Update Property'));
+      await tester.tap(find.text('Update property'));
       await tester.pumpAndSettle();
     }
 

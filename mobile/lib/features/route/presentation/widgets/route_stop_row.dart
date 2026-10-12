@@ -67,9 +67,7 @@ class RouteStopRow extends StatelessWidget {
         fontFamily: AppFonts.sans, fontSize: size, color: color, fontWeight: w);
 
     final row = AppCard(
-      radius: 14,
       onTap: onTap,
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

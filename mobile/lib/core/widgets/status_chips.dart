@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/theme/app_metrics.dart';
 import 'package:real_estate_crm/core/theme/app_tokens.dart';
+import 'package:real_estate_crm/core/widgets/app_surface.dart';
 import 'package:real_estate_crm/core/widgets/text_measure.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
@@ -40,7 +41,10 @@ class StatusChip extends StatelessWidget {
             label,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: _style.copyWith(color: t.textSecondary),
+            style: _style.copyWith(
+                color: AppSurface.levelOf(context) == SurfaceLevel.hero
+                    ? t.heroTextMuted
+                    : t.textSecondary),
           ),
         ),
       ],

@@ -347,7 +347,6 @@ class VisitorRow extends StatelessWidget {
     return AppCard(
       key: ValueKey('visitor-${v.id}'),
       nested: true,
-      radius: AppMetrics.radiusSm,
       padding: const EdgeInsets.fromLTRB(12, 11, 4, 11),
       onTap: canOpen ? () => context.push('/clients/${v.clientId}') : null,
       child: Row(

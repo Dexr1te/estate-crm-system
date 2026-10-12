@@ -64,23 +64,27 @@ class _AdminConsoleScreenState extends State<AdminConsoleScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      Row(
-                        children: [
-                          Expanded(child: ScreenTitle(l10n.adminConsoleTitle)),
-                          const SizedBox(width: 12),
-                          const QuickAddButton(),
-                          // Records are imported into the admin's own agency.
-                          if (context.read<AuthBloc?>()?.currentUser?.teamId !=
-                              null) ...[
-                            const SizedBox(width: 10),
-                            AppIconTile(
-                              key: const ValueKey('import-entry'),
-                              icon: Icons.upload_file_rounded,
-                              tooltip: l10n.importTitle,
-                              onPressed: () => context.push('/import'),
-                            ),
+                      ScreenTitle(
+                        l10n.adminConsoleTitle,
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const QuickAddButton(), // Records are imported into the admin's own agency.
+                            if (context
+                                    .read<AuthBloc?>()
+                                    ?.currentUser
+                                    ?.teamId !=
+                                null) ...[
+                              const SizedBox(width: 10),
+                              AppIconTile(
+                                key: const ValueKey('import-entry'),
+                                icon: Icons.upload_file_rounded,
+                                tooltip: l10n.importTitle,
+                                onPressed: () => context.push('/import'),
+                              ),
+                            ],
                           ],
-                        ],
+                        ),
                       ),
                       const SizedBox(height: 14),
                       SegmentedTabs(
@@ -449,8 +453,6 @@ class _AuditRow extends StatelessWidget {
     ].join(' · ');
 
     return AppCard(
-      radius: 14,
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -486,9 +488,10 @@ class _AuditRowBone extends StatelessWidget {
   const _AuditRowBone();
 
   @override
-  Widget build(BuildContext context) => const ShimmerCard(
-        padding: EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-        child: Column(
+  Widget build(BuildContext context) => ShimmerCard(
+        radius: AppMetrics.radiusMd,
+        padding: EdgeInsets.all(AppMetrics.cardPadding(context)),
+        child: const Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -512,7 +515,6 @@ class _SheetOption extends StatelessWidget {
     final t = context.tokens;
     return AppCard(
       nested: true,
-      radius: AppMetrics.radiusSm,
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
       onTap: onTap,
       child: Row(

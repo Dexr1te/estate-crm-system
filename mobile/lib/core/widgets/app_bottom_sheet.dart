@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/theme/app_metrics.dart';
 import 'package:real_estate_crm/core/theme/app_tokens.dart';
+import 'package:real_estate_crm/core/widgets/app_surface.dart';
 import 'package:real_estate_crm/core/widgets/glass.dart';
 
 Future<T?> showAppBottomSheet<T>(
@@ -90,7 +91,7 @@ class AppSheetShell extends StatelessWidget {
                 ],
                 if (title != null || subtitle != null)
                   SizedBox(height: AppMetrics.blockGap(context) + 4),
-                child,
+                PagePadded(child: child),
               ],
             ),
           ),

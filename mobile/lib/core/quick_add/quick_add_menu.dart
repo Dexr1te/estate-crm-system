@@ -103,9 +103,9 @@ class _Row extends StatelessWidget {
     final t = context.tokens;
     return AppCard(
       nested: true,
-      radius: AppMetrics.radiusSm,
       onTap: onTap,
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+      padding: EdgeInsets.symmetric(
+          horizontal: AppCard.nestedPadding.left, vertical: 4),
       child: ConstrainedBox(
         constraints: const BoxConstraints(minHeight: AppMetrics.minHitTarget),
         child: Row(
@@ -127,19 +127,22 @@ class _Row extends StatelessWidget {
             if (tag != null) ...[
               const SizedBox(width: 8),
               Flexible(
-                child: Text(
-                  tag!,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      fontFamily: AppFonts.sans,
-                      fontSize: 11.5,
-                      color: t.textHint),
+                child: Align(
+                  alignment: AlignmentDirectional.centerEnd,
+                  child: Text(
+                    tag!,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontFamily: AppFonts.sans,
+                        fontSize: 11.5,
+                        color: t.textHint),
+                  ),
                 ),
               ),
             ],
-            const SizedBox(width: 4),
-            Icon(Icons.chevron_right_rounded, size: 20, color: t.textHint),
+            const SizedBox(width: 8),
+            const RowChevron(),
           ],
         ),
       ),

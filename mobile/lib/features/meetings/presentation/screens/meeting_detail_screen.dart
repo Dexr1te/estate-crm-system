@@ -124,7 +124,7 @@ class _MeetingDetailScreenState extends State<MeetingDetailScreen> {
 
     if (_loading || meeting == null) {
       return DetailScaffold(
-        title: l10n.meetingsTitle,
+        title: l10n.meetingsDetailTitle,
         children: [
           if (_error != null)
             EmptyState(
@@ -154,7 +154,7 @@ class _MeetingDetailScreenState extends State<MeetingDetailScreen> {
     return BlocListener<MeetingsBloc, MeetingsState>(
       listener: _onWriteResult,
       child: DetailScaffold(
-        title: l10n.meetingsTitle,
+        title: l10n.meetingsDetailTitle,
         onRefresh: _load,
         actions: detailActions(
           onEdit: () => context.push('/meetings/${widget.id}/edit'),

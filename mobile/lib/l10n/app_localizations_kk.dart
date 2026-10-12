@@ -72,7 +72,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get adminFullName => 'Толық аты-жөні';
 
   @override
-  String get adminInactive => 'БЕЛСЕНДІ ЕМЕС';
+  String get adminInactive => 'Белсенді емес';
 
   @override
   String get adminInviteCodeCopied => 'Шақыру коды көшірілді';
@@ -260,7 +260,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get authAcceptRequest => 'Қабылдау';
 
   @override
-  String get authAcceptTerms => 'Құпиялылық саясатымен келісемін';
+  String get authAcceptTerms => 'Келесі құжатпен келісемін:';
 
   @override
   String get authAcceptTermsRequired => 'Құпиялылық саясатын қабылдаңыз';
@@ -2365,6 +2365,9 @@ class AppLocalizationsKk extends AppLocalizations {
   }
 
   @override
+  String get dealsDetailTitle => 'Мәміле';
+
+  @override
   String get dealsLostConfirm => 'Жоғалды деп белгілеу';
 
   @override
@@ -3423,6 +3426,12 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get meetingsDetails => 'Мәліметтер';
+
+  @override
+  String get meetingsTitleHint => 'Мысалы, Достық 5-тегі көрсетілім';
+
+  @override
+  String get meetingsDetailTitle => 'Кездесу';
 
   @override
   String get meetingsDirections => 'Бағыт';
@@ -4930,6 +4939,9 @@ class AppLocalizationsKk extends AppLocalizations {
   }
 
   @override
+  String get propertiesDetailTitle => 'Нысан';
+
+  @override
   String get propertiesPropertyNotFound => 'Нысан табылмады';
 
   @override
@@ -5045,6 +5057,9 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get propertiesTitleLabel => 'Атауы';
+
+  @override
+  String get propertiesTitleHint => 'Мысалы, Достық 5, 12-пәтер';
 
   @override
   String get propertiesTotalFloors => 'Барлық қабаттар';
@@ -6427,6 +6442,9 @@ class AppLocalizationsKk extends AppLocalizations {
   String get partnersHandoffPartner => 'Серіктес';
 
   @override
+  String get partnersDetailTitle => 'Серіктес';
+
+  @override
   String get partnersHandoffDate => 'Жіберілген күні';
 
   @override
@@ -6980,7 +6998,7 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get expensesSpendHint =>
-      'Кезең ішінде нысандарды жылжытуға жұмсалған қаражат.';
+      'Кезең ішінде нысандарды жылжытуға жұмсалған қаражат';
 
   @override
   String get expensesSpendNone => 'Бұл кезеңде нысандарға шығын болған жоқ.';
@@ -7056,7 +7074,7 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String keysWithHolderUntil(String date, String holder) {
-    return 'Берілді: $holder · $date дейін';
+    return 'Берілді: $holder · $date дейін';
   }
 
   @override

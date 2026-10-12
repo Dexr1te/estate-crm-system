@@ -255,7 +255,8 @@ class GoalRingCardBone extends StatelessWidget {
             SizedBox(
               width: 104,
               height: 104,
-              child: CustomPaint(painter: _RingBonePainter()),
+              child: CustomPaint(
+                  painter: _RingBonePainter(ShimmerBox.boneColor(context))),
             ),
             const SizedBox(width: 16),
             const Expanded(
@@ -277,6 +278,9 @@ class GoalRingCardBone extends StatelessWidget {
 }
 
 class _RingBonePainter extends CustomPainter {
+  final Color color;
+  const _RingBonePainter(this.color);
+
   @override
   void paint(Canvas canvas, Size size) {
     canvas.drawArc(
@@ -287,10 +291,11 @@ class _RingBonePainter extends CustomPainter {
       Paint()
         ..style = PaintingStyle.stroke
         ..strokeWidth = 10
-        ..color = Colors.white,
+        ..color = color,
     );
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+  bool shouldRepaint(_RingBonePainter oldDelegate) =>
+      oldDelegate.color != color;
 }

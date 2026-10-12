@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/models/admin_models.dart';
 import 'package:real_estate_crm/core/models/models.dart';
@@ -33,8 +35,6 @@ class UserCard extends StatelessWidget {
     return Opacity(
       opacity: user.isActive ? 1 : 0.75,
       child: AppCard(
-        radius: 14,
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
         onTap: onStats,
         child: Row(
           children: [
@@ -67,6 +67,8 @@ class UserCard extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Flexible(
+                                flex: _chipFlex(
+                                    context, roleLabel(l10n, user.role)),
                                 child: user.role == Role.ADMIN
                                     ? BrandChip(
                                         label: roleLabel(l10n, user.role))
@@ -77,6 +79,7 @@ class UserCard extends StatelessWidget {
                               if (!user.isActive) ...[
                                 const SizedBox(width: 6),
                                 Flexible(
+                                  flex: _chipFlex(context, l10n.adminInactive),
                                   child: StatusChip(
                                       label: l10n.adminInactive,
                                       hue: StatusHue.negotiation),
@@ -116,6 +119,9 @@ class UserCard extends StatelessWidget {
     );
   }
 }
+
+int _chipFlex(BuildContext context, String label) =>
+    math.max(1, (StatusChip.widthOf(context, label) * 10).ceil());
 
 class _Avatar extends StatelessWidget {
   final AgentResponse user;

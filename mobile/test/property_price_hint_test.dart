@@ -80,7 +80,7 @@ void main() {
     await tester.tap(_useMedian);
     await tester.pump();
     expect(tester.widget<TextFormField>(_field(_price)).controller!.text,
-        '33000000');
+        '33 000 000');
   });
 
   testWidgets('nothing is asked without a city and an area', (tester) async {

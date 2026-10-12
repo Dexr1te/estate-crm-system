@@ -176,7 +176,7 @@ void main() {
     await _typePhoneAndLeave(tester, '89162208411');
     expect(find.byType(DuplicateWarning), findsOneWidget);
 
-    final create = find.text('Create Client');
+    final create = find.text('Create client');
     await tester.ensureVisible(create);
     await tester.tap(create);
     await tester.pumpAndSettle();

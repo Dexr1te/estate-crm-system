@@ -25,7 +25,6 @@ class MapListingCard extends StatelessWidget {
     return AppCard(
       key: ValueKey('map-card-${property.id}'),
       onTap: onTap,
-      padding: const EdgeInsets.all(12),
       child: Row(
         children: [
           PropertyCover.of(property, size: 64, radius: 12),
@@ -113,8 +112,8 @@ class UnpinnedHint extends StatelessWidget {
                         fontWeight: FontWeight.w600,
                         color: t.textPrimary)),
               ),
-              Icon(Icons.chevron_right_rounded,
-                  size: 18, color: t.textSecondary),
+              const SizedBox(width: 8),
+              const RowChevron(),
             ],
           ),
         ),

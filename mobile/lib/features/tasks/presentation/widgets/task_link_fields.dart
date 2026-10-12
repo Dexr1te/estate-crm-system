@@ -62,27 +62,33 @@ class TaskLinkFields extends StatelessWidget {
   Widget _field(BuildContext context, String label, PickerItem? value,
       VoidCallback onTap, ValueChanged<PickerItem?> onChanged) {
     final l10n = AppLocalizations.of(context);
-    final t = context.tokens;
     return LabelledField(
       label: label,
-      child: Row(
+      child: Stack(
         children: [
-          Expanded(
-            child: PickerField(
-              value: value?.title,
-              placeholder: l10n.coreNotSelected,
-              onTap: onTap,
-            ),
+          PickerField(
+            value: value?.title,
+            placeholder: l10n.coreNotSelected,
+            onTap: onTap,
+            trailingIcon: value == null
+                ? Icons.keyboard_arrow_down_rounded
+                : Icons.close_rounded,
           ),
           if (value != null)
-            SizedBox(
+            PositionedDirectional(
+              top: 0,
+              bottom: 0,
+              end: 0,
               width: AppMetrics.minHitTarget,
-              height: AppMetrics.minHitTarget,
-              child: IconButton(
-                padding: EdgeInsets.zero,
-                tooltip: l10n.tasksClearLink,
-                onPressed: () => onChanged(null),
-                icon: Icon(Icons.close_rounded, size: 18, color: t.textHint),
+              child: Tooltip(
+                message: l10n.tasksClearLink,
+                child: Semantics(
+                  button: true,
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () => onChanged(null),
+                  ),
+                ),
               ),
             ),
         ],

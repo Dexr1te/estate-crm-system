@@ -41,10 +41,10 @@ class ClientCard extends StatelessWidget {
 
     final showMeta =
         client.dealCount > 0 || trailingLabel.isNotEmpty || lastContact != null;
+    final showSource = ClientSourceBadge.shows(client.source);
 
     return AppCard(
       onTap: onTap,
-      padding: const EdgeInsets.fromLTRB(14, 14, 16, 14),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -124,13 +124,19 @@ class ClientCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                if (ClientSourceBadge.shows(client.source)) ...[
+                if (showSource || client.tags.isNotEmpty) ...[
                   const SizedBox(height: 8),
-                  ClientSourceBadge(source: client.source),
-                ],
-                if (client.tags.isNotEmpty) ...[
-                  const SizedBox(height: 8),
-                  ClientTagChips(tags: client.tags, maxVisible: maxVisibleTags),
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 6,
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      if (showSource) ClientSourceBadge(source: client.source),
+                      if (client.tags.isNotEmpty)
+                        ClientTagChips(
+                            tags: client.tags, maxVisible: maxVisibleTags),
+                    ],
+                  ),
                 ],
               ],
             ),
@@ -145,10 +151,10 @@ class ClientCardBone extends StatelessWidget {
   const ClientCardBone({super.key});
 
   @override
-  Widget build(BuildContext context) => const ShimmerCard(
+  Widget build(BuildContext context) => ShimmerCard(
         radius: AppMetrics.radiusMd,
-        padding: EdgeInsets.fromLTRB(14, 14, 16, 14),
-        child: Row(
+        padding: EdgeInsets.all(AppMetrics.cardPadding(context)),
+        child: const Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ShimmerCircle(size: 44),

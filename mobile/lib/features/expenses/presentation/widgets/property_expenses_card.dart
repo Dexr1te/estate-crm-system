@@ -118,6 +118,7 @@ class _PropertyExpensesCardState extends State<PropertyExpensesCard> {
         final items = expenses.items;
         final shown =
             _showAll ? items : items.take(expensesRecentShown).toList();
+        final reserveDelete = shown.any((e) => e.canDelete);
         return [
           if (items.isEmpty)
             Text(l10n.expensesNone,
@@ -167,6 +168,7 @@ class _PropertyExpensesCardState extends State<PropertyExpensesCard> {
                 expense: e,
                 onDelete:
                     e.canDelete && !state.saving ? () => _delete(e) : null,
+                reserveDelete: reserveDelete,
               ),
             ],
             if (items.length > shown.length) ...[
@@ -231,8 +233,14 @@ class _CategoryLine extends StatelessWidget {
 class ExpenseRow extends StatelessWidget {
   final PropertyExpense expense;
   final VoidCallback? onDelete;
+  final bool reserveDelete;
 
-  const ExpenseRow({super.key, required this.expense, this.onDelete});
+  const ExpenseRow({
+    super.key,
+    required this.expense,
+    this.onDelete,
+    this.reserveDelete = false,
+  });
 
   /// The least room the category keeps beside the amount.
   static const _categoryRoom = 72.0;
@@ -272,9 +280,6 @@ class ExpenseRow extends StatelessWidget {
     return AppCard(
       key: ValueKey('expense-row-${e.id}'),
       nested: true,
-      radius: AppMetrics.radiusSm,
-      padding:
-          EdgeInsetsDirectional.fromSTEB(12, 10, onDelete == null ? 12 : 2, 10),
       child: Row(
         children: [
           Expanded(
@@ -322,8 +327,11 @@ class ExpenseRow extends StatelessWidget {
               key: ValueKey('expense-delete-${e.id}'),
               icon: Icons.delete_outline_rounded,
               tooltip: l10n.coreDelete,
+              alignEnd: true,
               onPressed: onDelete!,
-            ),
+            )
+          else if (reserveDelete)
+            const SizedBox(width: AppMetrics.minHitTarget),
         ],
       ),
     );

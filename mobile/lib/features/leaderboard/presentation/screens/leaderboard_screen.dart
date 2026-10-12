@@ -93,7 +93,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
                 fontSize: 12.5,
                 color: t.textSecondary),
           ),
-          FilterPillRow(pills: [
+          FilterPillRow(bleed: true, pills: [
             for (final sort in LeaderboardSort.values)
               FilterPill(
                 key: ValueKey('leaderboard-sort-${sort.name}'),

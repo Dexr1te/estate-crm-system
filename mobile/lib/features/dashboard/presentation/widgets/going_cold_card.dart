@@ -105,8 +105,10 @@ class _GoingColdCardState extends State<GoingColdCard>
             textBaseline: TextBaseline.alphabetic,
             children: [
               Expanded(child: EyebrowLabel(l10n.clientsColdTitle)),
-              if (total != null && shown != null && total > shown.length)
-                Flexible(
+              if (total != null && shown != null && total > shown.length) ...[
+                const SizedBox(width: 8),
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 140),
                   child: Text(l10n.dashboardColdTotal(total),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -116,6 +118,7 @@ class _GoingColdCardState extends State<GoingColdCard>
                           fontWeight: FontWeight.w600,
                           color: t.dangerText)),
                 ),
+              ],
             ],
           ),
           const SizedBox(height: 11),

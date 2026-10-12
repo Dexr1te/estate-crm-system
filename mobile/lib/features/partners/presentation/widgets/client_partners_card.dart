@@ -71,8 +71,6 @@ class _ClientPartnersCardState extends State<ClientPartnersCard> {
             AppCard(
               key: const ValueKey('client-referred-by'),
               nested: true,
-              radius: AppMetrics.radiusSm,
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
               onTap: () => context.push('/partners/$partnerId'),
               child: Row(
                 children: [
@@ -103,8 +101,8 @@ class _ClientPartnersCardState extends State<ClientPartnersCard> {
                       ],
                     ),
                   ),
-                  Icon(Icons.chevron_right_rounded,
-                      size: 18, color: t.textHint),
+                  const SizedBox(width: 8),
+                  const RowChevron(),
                 ],
               ),
             ),

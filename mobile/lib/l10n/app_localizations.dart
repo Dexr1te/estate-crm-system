@@ -223,7 +223,7 @@ abstract class AppLocalizations {
   /// No description provided for @adminInactive.
   ///
   /// In en, this message translates to:
-  /// **'INACTIVE'**
+  /// **'Inactive'**
   String get adminInactive;
 
   /// No description provided for @adminInviteCodeCopied.
@@ -565,7 +565,7 @@ abstract class AppLocalizations {
   /// No description provided for @authAcceptTerms.
   ///
   /// In en, this message translates to:
-  /// **'I agree to the privacy policy'**
+  /// **'I agree to the'**
   String get authAcceptTerms;
 
   /// No description provided for @authAcceptTermsRequired.
@@ -859,7 +859,7 @@ abstract class AppLocalizations {
   /// No description provided for @authPrivacyPolicy.
   ///
   /// In en, this message translates to:
-  /// **'Privacy policy'**
+  /// **'privacy policy'**
   String get authPrivacyPolicy;
 
   /// No description provided for @authResendLink.
@@ -949,7 +949,7 @@ abstract class AppLocalizations {
   /// No description provided for @authSignIn.
   ///
   /// In en, this message translates to:
-  /// **'Sign In'**
+  /// **'Sign in'**
   String get authSignIn;
 
   /// No description provided for @authSignInSubtitle.
@@ -1135,7 +1135,7 @@ abstract class AppLocalizations {
   /// No description provided for @calendarLoadFailed.
   ///
   /// In en, this message translates to:
-  /// **'Couldn\'t load the calendar'**
+  /// **'Could not load the calendar'**
   String get calendarLoadFailed;
 
   /// No description provided for @calendarNextMonth.
@@ -1879,7 +1879,7 @@ abstract class AppLocalizations {
   /// No description provided for @clientsClientType.
   ///
   /// In en, this message translates to:
-  /// **'Client Type'**
+  /// **'Client type'**
   String get clientsClientType;
 
   /// No description provided for @clientsColdDaysOption.
@@ -2107,7 +2107,7 @@ abstract class AppLocalizations {
   /// No description provided for @clientsContactInfo.
   ///
   /// In en, this message translates to:
-  /// **'Contact Info'**
+  /// **'Contact info'**
   String get clientsContactInfo;
 
   /// No description provided for @clientsContactedDaysAgo.
@@ -2143,7 +2143,7 @@ abstract class AppLocalizations {
   /// No description provided for @clientsCreateClient.
   ///
   /// In en, this message translates to:
-  /// **'Create Client'**
+  /// **'Create client'**
   String get clientsCreateClient;
 
   /// No description provided for @clientsDatesAnniversary.
@@ -2185,7 +2185,7 @@ abstract class AppLocalizations {
   /// No description provided for @clientsDatesLoadFailed.
   ///
   /// In en, this message translates to:
-  /// **'Couldn\'t load the dates coming up'**
+  /// **'Could not load the dates coming up'**
   String get clientsDatesLoadFailed;
 
   /// No description provided for @clientsDatesTitle.
@@ -2245,7 +2245,7 @@ abstract class AppLocalizations {
   /// No description provided for @clientsDeleteClient.
   ///
   /// In en, this message translates to:
-  /// **'Delete Client'**
+  /// **'Delete client'**
   String get clientsDeleteClient;
 
   /// No description provided for @clientsDuplicateEyebrow.
@@ -2305,7 +2305,7 @@ abstract class AppLocalizations {
   /// No description provided for @clientsEditClient.
   ///
   /// In en, this message translates to:
-  /// **'Edit Client'**
+  /// **'Edit client'**
   String get clientsEditClient;
 
   /// No description provided for @clientsEmail.
@@ -2401,7 +2401,7 @@ abstract class AppLocalizations {
   /// No description provided for @clientsHistoryLoadFailed.
   ///
   /// In en, this message translates to:
-  /// **'Couldn\'t load the history'**
+  /// **'Could not load the history'**
   String get clientsHistoryLoadFailed;
 
   /// No description provided for @clientsIdBadge.
@@ -2503,7 +2503,7 @@ abstract class AppLocalizations {
   /// No description provided for @clientsNewClient.
   ///
   /// In en, this message translates to:
-  /// **'New Client'**
+  /// **'New client'**
   String get clientsNewClient;
 
   /// No description provided for @clientsNewLeadsEmpty.
@@ -2869,7 +2869,7 @@ abstract class AppLocalizations {
   /// No description provided for @clientsUpdateClient.
   ///
   /// In en, this message translates to:
-  /// **'Update Client'**
+  /// **'Update client'**
   String get clientsUpdateClient;
 
   /// No description provided for @clientsUpdatedAt.
@@ -3439,7 +3439,7 @@ abstract class AppLocalizations {
   /// No description provided for @dashboardClosedWon.
   ///
   /// In en, this message translates to:
-  /// **'Closed Won'**
+  /// **'Closed won'**
   String get dashboardClosedWon;
 
   /// No description provided for @dashboardColdTotal.
@@ -3547,7 +3547,7 @@ abstract class AppLocalizations {
   /// No description provided for @dashboardNewDeal.
   ///
   /// In en, this message translates to:
-  /// **'New Deal'**
+  /// **'New deal'**
   String get dashboardNewDeal;
 
   /// No description provided for @dashboardNextMeeting.
@@ -3631,7 +3631,7 @@ abstract class AppLocalizations {
   /// No description provided for @dashboardScheduleMeeting.
   ///
   /// In en, this message translates to:
-  /// **'Schedule Meeting'**
+  /// **'Schedule meeting'**
   String get dashboardScheduleMeeting;
 
   /// No description provided for @dashboardSeeAll.
@@ -3685,7 +3685,7 @@ abstract class AppLocalizations {
   /// No description provided for @dashboardUpcomingMeetings.
   ///
   /// In en, this message translates to:
-  /// **'Upcoming Meetings'**
+  /// **'Upcoming meetings'**
   String get dashboardUpcomingMeetings;
 
   /// No description provided for @dealsAgent.
@@ -3955,7 +3955,7 @@ abstract class AppLocalizations {
   /// No description provided for @dealsCommentMentionLoadFailed.
   ///
   /// In en, this message translates to:
-  /// **'Couldn\'t load colleagues'**
+  /// **'Could not load colleagues'**
   String get dealsCommentMentionLoadFailed;
 
   /// No description provided for @dealsCommentMentionNone.
@@ -4039,13 +4039,13 @@ abstract class AppLocalizations {
   /// No description provided for @dealsCreateDeal.
   ///
   /// In en, this message translates to:
-  /// **'Create Deal'**
+  /// **'Create deal'**
   String get dealsCreateDeal;
 
   /// No description provided for @dealsDealPrice.
   ///
   /// In en, this message translates to:
-  /// **'Deal Price'**
+  /// **'Deal price'**
   String get dealsDealPrice;
 
   /// No description provided for @dealsDeleteCascade.
@@ -4057,7 +4057,7 @@ abstract class AppLocalizations {
   /// No description provided for @dealsDeleteTitle.
   ///
   /// In en, this message translates to:
-  /// **'Delete Deal'**
+  /// **'Delete deal'**
   String get dealsDeleteTitle;
 
   /// No description provided for @dealsDiscussion.
@@ -4081,7 +4081,7 @@ abstract class AppLocalizations {
   /// No description provided for @dealsDiscussionLoadFailed.
   ///
   /// In en, this message translates to:
-  /// **'Couldn\'t load the discussion'**
+  /// **'Could not load the discussion'**
   String get dealsDiscussionLoadFailed;
 
   /// No description provided for @dealsDiscussionShowEarlier.
@@ -4093,7 +4093,7 @@ abstract class AppLocalizations {
   /// No description provided for @dealsEditTitle.
   ///
   /// In en, this message translates to:
-  /// **'Edit Deal'**
+  /// **'Edit deal'**
   String get dealsEditTitle;
 
   /// No description provided for @dealsEmptySubtitle.
@@ -4143,6 +4143,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Deal ID: {id}'**
   String dealsIdLabel(Object id);
+
+  /// No description provided for @dealsDetailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Deal'**
+  String get dealsDetailTitle;
 
   /// No description provided for @dealsLostConfirm.
   ///
@@ -4225,7 +4231,7 @@ abstract class AppLocalizations {
   /// No description provided for @dealsNewTitle.
   ///
   /// In en, this message translates to:
-  /// **'New Deal'**
+  /// **'New deal'**
   String get dealsNewTitle;
 
   /// No description provided for @dealsNoResults.
@@ -4261,13 +4267,13 @@ abstract class AppLocalizations {
   /// No description provided for @dealsPeopleProperty.
   ///
   /// In en, this message translates to:
-  /// **'People & Property'**
+  /// **'People & property'**
   String get dealsPeopleProperty;
 
   /// No description provided for @dealsPipelineStage.
   ///
   /// In en, this message translates to:
-  /// **'Pipeline Stage'**
+  /// **'Pipeline stage'**
   String get dealsPipelineStage;
 
   /// No description provided for @dealsProperty.
@@ -4309,7 +4315,7 @@ abstract class AppLocalizations {
   /// No description provided for @dealsStaleWarning.
   ///
   /// In en, this message translates to:
-  /// **'no activity for {days} days'**
+  /// **'No activity for {days} days'**
   String dealsStaleWarning(Object days);
 
   /// No description provided for @dealsTimeline.
@@ -4357,7 +4363,7 @@ abstract class AppLocalizations {
   /// No description provided for @dealsUpdateDeal.
   ///
   /// In en, this message translates to:
-  /// **'Update Deal'**
+  /// **'Update deal'**
   String get dealsUpdateDeal;
 
   /// No description provided for @dealsViewBoard.
@@ -4441,7 +4447,7 @@ abstract class AppLocalizations {
   /// No description provided for @depositsEndingLoadFailed.
   ///
   /// In en, this message translates to:
-  /// **'Couldn\'t load the deposits'**
+  /// **'Could not load the deposits'**
   String get depositsEndingLoadFailed;
 
   /// No description provided for @depositsEndingTitle.
@@ -4525,7 +4531,7 @@ abstract class AppLocalizations {
   /// No description provided for @depositsLoadFailed.
   ///
   /// In en, this message translates to:
-  /// **'Couldn\'t load the deposit'**
+  /// **'Could not load the deposit'**
   String get depositsLoadFailed;
 
   /// No description provided for @depositsNone.
@@ -5917,7 +5923,7 @@ abstract class AppLocalizations {
   /// No description provided for @meetingsDeleteMeeting.
   ///
   /// In en, this message translates to:
-  /// **'Delete Meeting'**
+  /// **'Delete meeting'**
   String get meetingsDeleteMeeting;
 
   /// No description provided for @meetingsDescription.
@@ -5931,6 +5937,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Details'**
   String get meetingsDetails;
+
+  /// No description provided for @meetingsTitleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'For example, a viewing at Dostyk 5'**
+  String get meetingsTitleHint;
+
+  /// No description provided for @meetingsDetailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Meeting'**
+  String get meetingsDetailTitle;
 
   /// No description provided for @meetingsDirections.
   ///
@@ -5947,7 +5965,7 @@ abstract class AppLocalizations {
   /// No description provided for @meetingsEditMeeting.
   ///
   /// In en, this message translates to:
-  /// **'Edit Meeting'**
+  /// **'Edit meeting'**
   String get meetingsEditMeeting;
 
   /// No description provided for @meetingsGroupToday.
@@ -6097,7 +6115,7 @@ abstract class AppLocalizations {
   /// No description provided for @meetingsScheduleMeeting.
   ///
   /// In en, this message translates to:
-  /// **'Schedule Meeting'**
+  /// **'Schedule meeting'**
   String get meetingsScheduleMeeting;
 
   /// No description provided for @meetingsScheduleViewing.
@@ -6169,7 +6187,7 @@ abstract class AppLocalizations {
   /// No description provided for @meetingsUpdateMeeting.
   ///
   /// In en, this message translates to:
-  /// **'Update Meeting'**
+  /// **'Update meeting'**
   String get meetingsUpdateMeeting;
 
   /// No description provided for @meetingsViewingOf.
@@ -7609,7 +7627,7 @@ abstract class AppLocalizations {
   /// No description provided for @profileDeleteAccount.
   ///
   /// In en, this message translates to:
-  /// **'Delete Account'**
+  /// **'Delete account'**
   String get profileDeleteAccount;
 
   /// No description provided for @profileDeleteAccountConfirm.
@@ -7657,7 +7675,7 @@ abstract class AppLocalizations {
   /// No description provided for @profileFullName.
   ///
   /// In en, this message translates to:
-  /// **'Full Name'**
+  /// **'Full name'**
   String get profileFullName;
 
   /// No description provided for @profileLanguage.
@@ -7687,7 +7705,7 @@ abstract class AppLocalizations {
   /// No description provided for @profilePrivacyPolicy.
   ///
   /// In en, this message translates to:
-  /// **'Privacy Policy'**
+  /// **'Privacy policy'**
   String get profilePrivacyPolicy;
 
   /// No description provided for @profileReminders.
@@ -7717,7 +7735,7 @@ abstract class AppLocalizations {
   /// No description provided for @profileSignOut.
   ///
   /// In en, this message translates to:
-  /// **'Sign Out'**
+  /// **'Sign out'**
   String get profileSignOut;
 
   /// No description provided for @profileSignOutConfirm.
@@ -7825,7 +7843,7 @@ abstract class AppLocalizations {
   /// No description provided for @propertiesBasicInfo.
   ///
   /// In en, this message translates to:
-  /// **'Basic Info'**
+  /// **'Basic info'**
   String get propertiesBasicInfo;
 
   /// No description provided for @propertiesBrochure.
@@ -7873,7 +7891,7 @@ abstract class AppLocalizations {
   /// No description provided for @propertiesCreateProperty.
   ///
   /// In en, this message translates to:
-  /// **'Create Property'**
+  /// **'Create property'**
   String get propertiesCreateProperty;
 
   /// No description provided for @propertiesDelete.
@@ -7891,7 +7909,7 @@ abstract class AppLocalizations {
   /// No description provided for @propertiesDeleteProperty.
   ///
   /// In en, this message translates to:
-  /// **'Delete Property'**
+  /// **'Delete property'**
   String get propertiesDeleteProperty;
 
   /// No description provided for @propertiesDescribeHint.
@@ -7921,7 +7939,7 @@ abstract class AppLocalizations {
   /// No description provided for @propertiesEditProperty.
   ///
   /// In en, this message translates to:
-  /// **'Edit Property'**
+  /// **'Edit property'**
   String get propertiesEditProperty;
 
   /// No description provided for @propertiesFieldRequired.
@@ -8215,7 +8233,7 @@ abstract class AppLocalizations {
   /// No description provided for @propertiesNewProperty.
   ///
   /// In en, this message translates to:
-  /// **'New Property'**
+  /// **'New property'**
   String get propertiesNewProperty;
 
   /// No description provided for @propertiesNextDetails.
@@ -8441,6 +8459,12 @@ abstract class AppLocalizations {
   /// **'Property ID: {id}'**
   String propertiesPropertyIdLabel(Object id);
 
+  /// No description provided for @propertiesDetailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Listing'**
+  String get propertiesDetailTitle;
+
   /// No description provided for @propertiesPropertyNotFound.
   ///
   /// In en, this message translates to:
@@ -8498,7 +8522,7 @@ abstract class AppLocalizations {
   /// No description provided for @propertiesReportLoadFailed.
   ///
   /// In en, this message translates to:
-  /// **'Couldn\'t load the report'**
+  /// **'Could not load the report'**
   String get propertiesReportLoadFailed;
 
   /// No description provided for @propertiesReportMatchingBuyers.
@@ -8639,10 +8663,16 @@ abstract class AppLocalizations {
   /// **'Title'**
   String get propertiesTitleLabel;
 
+  /// No description provided for @propertiesTitleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'For example, Dostyk 5, flat 12'**
+  String get propertiesTitleHint;
+
   /// No description provided for @propertiesTotalFloors.
   ///
   /// In en, this message translates to:
-  /// **'Total Floors'**
+  /// **'Total floors'**
   String get propertiesTotalFloors;
 
   /// No description provided for @propertiesType.
@@ -8654,7 +8684,7 @@ abstract class AppLocalizations {
   /// No description provided for @propertiesUpdateProperty.
   ///
   /// In en, this message translates to:
-  /// **'Update Property'**
+  /// **'Update property'**
   String get propertiesUpdateProperty;
 
   /// No description provided for @propertiesViewList.
@@ -8936,7 +8966,7 @@ abstract class AppLocalizations {
   /// No description provided for @routeLoadFailed.
   ///
   /// In en, this message translates to:
-  /// **'Couldn\'t load the route'**
+  /// **'Could not load the route'**
   String get routeLoadFailed;
 
   /// No description provided for @routeNavigateNext.
@@ -9806,7 +9836,7 @@ abstract class AppLocalizations {
   /// No description provided for @teamsMyTeam.
   ///
   /// In en, this message translates to:
-  /// **'My Team'**
+  /// **'My team'**
   String get teamsMyTeam;
 
   /// No description provided for @teamsNoManager.
@@ -10286,7 +10316,7 @@ abstract class AppLocalizations {
   /// No description provided for @leasesEndingLoadFailed.
   ///
   /// In en, this message translates to:
-  /// **'Couldn\'t load the leases'**
+  /// **'Could not load the leases'**
   String get leasesEndingLoadFailed;
 
   /// No description provided for @leasesEndingEmpty.
@@ -10996,6 +11026,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Partner'**
   String get partnersHandoffPartner;
+
+  /// No description provided for @partnersDetailTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Partner'**
+  String get partnersDetailTitle;
 
   /// No description provided for @partnersHandoffDate.
   ///
@@ -11954,7 +11990,7 @@ abstract class AppLocalizations {
   /// No description provided for @expensesSpendHint.
   ///
   /// In en, this message translates to:
-  /// **'What was spent marketing listings in this period.'**
+  /// **'Spent on marketing listings in this period'**
   String get expensesSpendHint;
 
   /// No description provided for @expensesSpendNone.
@@ -12032,7 +12068,7 @@ abstract class AppLocalizations {
   /// No description provided for @starsLoadFailed.
   ///
   /// In en, this message translates to:
-  /// **'Couldn\'t load your starred records'**
+  /// **'Could not load your starred records'**
   String get starsLoadFailed;
 
   /// No description provided for @starsStarFailed.
@@ -12086,7 +12122,7 @@ abstract class AppLocalizations {
   /// No description provided for @keysWithHolderUntil.
   ///
   /// In en, this message translates to:
-  /// **'With {holder} · until {date}'**
+  /// **'With {holder} · until {date}'**
   String keysWithHolderUntil(String date, String holder);
 
   /// No description provided for @keysOverdue.
@@ -12158,7 +12194,7 @@ abstract class AppLocalizations {
   /// No description provided for @keysLoadFailed.
   ///
   /// In en, this message translates to:
-  /// **'Couldn\'t load the keys'**
+  /// **'Could not load the keys'**
   String get keysLoadFailed;
 
   /// No description provided for @keysErrorAlreadyOut.
@@ -12302,7 +12338,7 @@ abstract class AppLocalizations {
   /// No description provided for @keysOutLoadFailed.
   ///
   /// In en, this message translates to:
-  /// **'Couldn\'t load the keys that are out'**
+  /// **'Could not load the keys that are out'**
   String get keysOutLoadFailed;
 
   /// No description provided for @keysOutOverdueCount.

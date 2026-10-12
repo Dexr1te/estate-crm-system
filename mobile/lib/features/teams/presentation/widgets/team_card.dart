@@ -21,8 +21,6 @@ class TeamCard extends StatelessWidget {
         : memberText;
 
     return AppCard(
-      radius: 14,
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
       onTap: onTap,
       child: Row(
         children: [
@@ -65,9 +63,12 @@ class TeamCard extends StatelessWidget {
             ),
           ),
           if (onEdit != null)
-            AppIconTile(icon: Icons.edit_outlined, onPressed: onEdit!)
-          else
-            Icon(Icons.chevron_right_rounded, size: 18, color: t.textHint),
+            AppIconTile(
+                icon: Icons.edit_outlined, alignEnd: true, onPressed: onEdit!)
+          else ...[
+            const SizedBox(width: 8),
+            const RowChevron(),
+          ],
         ],
       ),
     );

@@ -52,7 +52,6 @@ class LeaseRow extends StatelessWidget {
       key: ValueKey('lease-row-${lease.dealId}'),
       nested: nested,
       onTap: onTap,
-      padding: const EdgeInsets.all(12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -62,7 +61,7 @@ class LeaseRow extends StatelessWidget {
                 width: 38,
                 height: 38,
                 decoration: BoxDecoration(
-                  color: t.surfaceVariant,
+                  color: nested ? t.surface : t.surfaceVariant,
                   borderRadius: BorderRadius.circular(11),
                 ),
                 child:

@@ -28,6 +28,7 @@ class AppBottomNav extends StatelessWidget {
   });
 
   static const _lensTravel = Duration(milliseconds: 420);
+  static const _lensInset = 1.0;
 
   @override
   Widget build(BuildContext context) {
@@ -56,8 +57,8 @@ class AppBottomNav extends StatelessWidget {
                     AnimatedPositioned(
                       duration: _lensTravel,
                       curve: Curves.easeOutBack,
-                      left: cell * currentIndex,
-                      width: cell,
+                      left: cell * currentIndex + _lensInset,
+                      width: cell - 2 * _lensInset,
                       top: 0,
                       bottom: 0,
                       child: const _Lens(),

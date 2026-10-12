@@ -85,7 +85,7 @@ Future<void> _tap(WidgetTester tester, Finder f) async {
 /// Saves the form. The fake never answers, so the button keeps spinning and
 /// the test settles nothing after it.
 Future<void> _submit(WidgetTester tester) async {
-  final save = find.text('Update Deal');
+  final save = find.text('Update deal');
   await tester.ensureVisible(save);
   await tester.pumpAndSettle();
   await tester.tap(save);
@@ -420,7 +420,7 @@ void main() {
       addTearDown(bloc.close);
       await tester.pumpWidget(leasesCardApp(bloc));
       await tester.pumpAndSettle();
-      expect(find.text("Couldn't load the leases"), findsOneWidget);
+      expect(find.text('Could not load the leases'), findsOneWidget);
       _leases.failEnding = false;
       _leases.ending = endingLeases.take(1).toList();
       await tester.tap(find.byKey(const ValueKey('leases-retry')));

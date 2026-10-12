@@ -113,7 +113,7 @@ class _TeamChangeLogScreenState extends State<TeamChangeLogScreen> {
           : l10n.changeLogTeamEmptyBody,
       load: (page) => Injector.changeLogRepository.feed(filter, page: page),
       header: [
-        FilterPillRow(pills: [
+        FilterPillRow(bleed: true, pills: [
           FilterPill(
             key: const ValueKey('change-type-all'),
             label: l10n.changeLogFilterAll,
@@ -130,7 +130,7 @@ class _TeamChangeLogScreenState extends State<TeamChangeLogScreen> {
                   () => _filter = _filter.copyWith(entityType: () => type)),
             ),
         ]),
-        FilterPillRow(pills: [
+        FilterPillRow(bleed: true, pills: [
           FilterPill(
             key: const ValueKey('change-actor'),
             label: _actorName ?? l10n.changeLogAnyone,

@@ -388,7 +388,7 @@ void main() {
     final stars = _stars(repo);
     await tester.pumpWidget(_routed(stars, '/stars'));
     await tester.pumpAndSettle();
-    expect(find.text("Couldn't load your starred records"), findsOneWidget);
+    expect(find.text('Could not load your starred records'), findsOneWidget);
 
     repo.readError = null;
     await tester.tap(find.text('Retry'));
@@ -405,8 +405,9 @@ void main() {
     await tester.pumpWidget(_routed(stars, '/dashboard'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Starred: 4'), findsOneWidget);
-    expect(find.text('${_deal.title}, ${_client.fullName}, ${_property.title}'),
+    expect(
+        find.text('Starred: 4  '
+            '${_deal.title}, ${_client.fullName}, ${_property.title}'),
         findsOneWidget);
 
     await tester.tap(find.byKey(const ValueKey('starred-entry')));
@@ -463,8 +464,9 @@ void main() {
     await tester.pumpWidget(_routed(stars, '/dashboard'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Starred'), findsOneWidget);
-    expect(find.text('Star the clients, listings and deals you are working on'),
+    expect(
+        find.text('Starred  '
+            'Star the clients, listings and deals you are working on'),
         findsOneWidget);
     expect(find.byIcon(Icons.star_outline_rounded), findsOneWidget);
   });

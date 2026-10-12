@@ -84,14 +84,7 @@ class _ExportOptionsFormState extends State<ExportOptionsForm> {
           _PersonalDataNote(text: l10n.exportPersonalData),
         ],
         const SizedBox(height: 18),
-        Text(l10n.exportDelimiter,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-                fontFamily: AppFonts.sans,
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: t.textPrimary)),
+        EyebrowLabel(l10n.exportDelimiter),
         const SizedBox(height: 8),
         FilterPillWrap(pills: [
           for (final d in ExportDelimiter.values)
@@ -101,8 +94,8 @@ class _ExportOptionsFormState extends State<ExportOptionsForm> {
                   ? l10n.exportDelimiterComma
                   : l10n.exportDelimiterSemicolon,
               selected: delimiter == d,
+              onCard: true,
               onTap: () => setState(() => _delimiter = d),
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
             ),
         ]),
         const SizedBox(height: 8),

@@ -183,8 +183,6 @@ class OpenHouseRow extends StatelessWidget {
     return AppCard(
       key: ValueKey('open-house-row-${o.id}'),
       nested: true,
-      radius: AppMetrics.radiusSm,
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
       onTap: onTap,
       child: Row(
         children: [
@@ -218,14 +216,11 @@ class OpenHouseRow extends StatelessWidget {
               ],
             ),
           ),
-          if (o.isOn(now)) ...[
-            const SizedBox(width: 8),
-            Flexible(
-              child: StatusChip(
-                  label: l10n.openHouseLive, hue: StatusHue.positive),
-            ),
-          ] else
-            Icon(Icons.chevron_right_rounded, size: 18, color: t.textHint),
+          const SizedBox(width: 8),
+          if (o.isOn(now))
+            StatusChip(label: l10n.openHouseLive, hue: StatusHue.positive)
+          else
+            const RowChevron(),
         ],
       ),
     );

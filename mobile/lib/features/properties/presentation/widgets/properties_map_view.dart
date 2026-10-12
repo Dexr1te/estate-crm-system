@@ -97,6 +97,7 @@ class _PropertiesMapViewState extends State<PropertiesMapView> {
                     options: MapOptions(
                       initialCenter: widget.initialCenter ?? CityCentres.almaty,
                       initialZoom: 12,
+                      backgroundColor: t.surfaceVariant,
                       minZoom: 3,
                       maxZoom: MapTiles.maxZoom,
                       interactionOptions: const InteractionOptions(

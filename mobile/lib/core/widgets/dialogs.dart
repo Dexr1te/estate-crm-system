@@ -74,7 +74,6 @@ Future<bool> showConfirmDialog(
                     Expanded(
                       child: AppGhostButton(
                         label: cancelLabel ?? l10n.coreCancel,
-                        height: 48,
                         onPressed: () => Navigator.pop(ctx, false),
                       ),
                     ),
@@ -82,8 +81,6 @@ Future<bool> showConfirmDialog(
                     Expanded(
                       child: AppFilledButton(
                         label: confirmLabel ?? l10n.coreDelete,
-                        height: 48,
-                        fontSize: 13.5,
                         fill: t.dangerSolid,
                         labelColor: Colors.white,
                         onPressed: () => Navigator.pop(ctx, true),
