@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/models/export_models.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/navigation/active_tab.dart';
 import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
 import 'package:real_estate_crm/core/utils/contact_actions.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
@@ -24,7 +25,14 @@ class PropertiesScreen extends StatefulWidget {
   State<PropertiesScreen> createState() => _PropertiesScreenState();
 }
 
-class _PropertiesScreenState extends State<PropertiesScreen> {
+class _PropertiesScreenState extends State<PropertiesScreen>
+    with RefreshOnTabReturn {
+  @override
+  String get tabRoute => ShellTabs.properties;
+
+  @override
+  void refreshTab() => _reload();
+
   PropertyStatus? _filterStatus;
   PropertyType? _filterType;
   bool _map = false;

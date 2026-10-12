@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/team_models.dart';
+import 'package:real_estate_crm/core/navigation/active_tab.dart';
 import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
@@ -30,7 +31,22 @@ class ManagerConsoleScreen extends StatefulWidget {
   State<ManagerConsoleScreen> createState() => _ManagerConsoleScreenState();
 }
 
-class _ManagerConsoleScreenState extends State<ManagerConsoleScreen> {
+class _ManagerConsoleScreenState extends State<ManagerConsoleScreen>
+    with RefreshOnTabReturn {
+  final _team = MyTeamBloc(Injector.teamsRepository)..add(MyTeamLoadEvent());
+
+  @override
+  String get tabRoute => ShellTabs.teamConsole;
+
+  @override
+  void refreshTab() => _team.add(MyTeamLoadEvent());
+
+  @override
+  void dispose() {
+    _team.close();
+    super.dispose();
+  }
+
   int _tab = 0;
 
   Future<void> _addMember(BuildContext context, MyTeamBloc bloc) async {
@@ -161,9 +177,8 @@ class _ManagerConsoleScreenState extends State<ManagerConsoleScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) =>
-          MyTeamBloc(Injector.teamsRepository)..add(MyTeamLoadEvent()),
+    return BlocProvider.value(
+      value: _team,
       child: Builder(
         builder: (context) {
           final l10n = AppLocalizations.of(context);

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/models/export_models.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/navigation/active_tab.dart';
 import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
 import 'package:real_estate_crm/core/utils/clock.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
@@ -21,7 +22,13 @@ class ClientsScreen extends StatefulWidget {
   State<ClientsScreen> createState() => _ClientsScreenState();
 }
 
-class _ClientsScreenState extends State<ClientsScreen> {
+class _ClientsScreenState extends State<ClientsScreen> with RefreshOnTabReturn {
+  @override
+  String get tabRoute => ShellTabs.clients;
+
+  @override
+  void refreshTab() => context.read<ClientsBloc>().add(ClientsLoadEvent());
+
   final _searchCtrl = TextEditingController();
   String _search = '';
 

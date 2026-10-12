@@ -5,6 +5,7 @@ import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/admin_models.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/models/team_models.dart';
+import 'package:real_estate_crm/core/navigation/active_tab.dart';
 import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/admin/presentation/bloc/admin_users_bloc.dart';
@@ -33,8 +34,32 @@ class AdminConsoleScreen extends StatefulWidget {
   State<AdminConsoleScreen> createState() => _AdminConsoleScreenState();
 }
 
-class _AdminConsoleScreenState extends State<AdminConsoleScreen> {
+class _AdminConsoleScreenState extends State<AdminConsoleScreen>
+    with RefreshOnTabReturn {
   int _tab = 0;
+  final _users = AdminUsersBloc(Injector.adminRepository)
+    ..add(AdminUsersLoadEvent());
+  final _teams = TeamsBloc(Injector.teamsRepository)..add(TeamsLoadEvent());
+  final _audit = AuditLogBloc(Injector.adminRepository)
+    ..add(AuditLogLoadEvent());
+
+  @override
+  String get tabRoute => ShellTabs.admin;
+
+  @override
+  void refreshTab() {
+    _users.add(AdminUsersLoadEvent());
+    _teams.add(TeamsLoadEvent());
+    _audit.add(AuditLogLoadEvent());
+  }
+
+  @override
+  void dispose() {
+    _users.close();
+    _teams.close();
+    _audit.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,15 +68,9 @@ class _AdminConsoleScreenState extends State<AdminConsoleScreen> {
 
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-            create: (_) => AdminUsersBloc(Injector.adminRepository)
-              ..add(AdminUsersLoadEvent())),
-        BlocProvider(
-            create: (_) =>
-                TeamsBloc(Injector.teamsRepository)..add(TeamsLoadEvent())),
-        BlocProvider(
-            create: (_) => AuditLogBloc(Injector.adminRepository)
-              ..add(AuditLogLoadEvent())),
+        BlocProvider.value(value: _users),
+        BlocProvider.value(value: _teams),
+        BlocProvider.value(value: _audit),
       ],
       child: Scaffold(
         body: SafeArea(

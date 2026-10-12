@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/navigation/active_tab.dart';
 import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
 import 'package:real_estate_crm/core/utils/clock.dart';
 import 'package:real_estate_crm/core/utils/contact_actions.dart';
@@ -22,7 +23,14 @@ class MeetingsScreen extends StatefulWidget {
   State<MeetingsScreen> createState() => _MeetingsScreenState();
 }
 
-class _MeetingsScreenState extends State<MeetingsScreen> {
+class _MeetingsScreenState extends State<MeetingsScreen>
+    with RefreshOnTabReturn {
+  @override
+  String get tabRoute => ShellTabs.meetings;
+
+  @override
+  void refreshTab() => context.read<MeetingsBloc>().add(MeetingsLoadEvent());
+
   late bool _month = widget.initialMonth;
 
   @override
