@@ -112,6 +112,7 @@ class _ChecklistLineFormState extends State<ChecklistLineForm> {
                 FilterPill(
                   label: checklistStageLabel(l10n, s),
                   selected: _stage == s,
+                  onCard: true,
                   onTap: () => setState(() => _stage = s),
                 ),
             ]),

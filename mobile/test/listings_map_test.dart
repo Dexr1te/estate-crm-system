@@ -300,7 +300,7 @@ void main() {
       expect(pin, findsOneWidget);
       expect(clear, findsOneWidget);
 
-      await submit(tester, 'Create Property');
+      await submit(tester, 'Create property');
       final sent = _repo.sent['create']!;
       // No city typed: the map opened on Almaty, and the tap landed near it.
       expect(sent['latitude'], closeTo(43.2389, 0.02));
@@ -320,7 +320,7 @@ void main() {
       await tester.pumpAndSettle();
       expect(pin, findsNothing);
 
-      await submit(tester, 'Update Property');
+      await submit(tester, 'Update property');
       final sent = _repo.sent['update-1']!;
       expect(sent.containsKey('latitude'), isTrue);
       expect(sent['latitude'], isNull);
@@ -344,7 +344,7 @@ void main() {
       await tester.pumpAndSettle();
       expect(tester.getCenter(pin).dx - pinBefore.dx, closeTo(60, 2));
 
-      await submit(tester, 'Update Property');
+      await submit(tester, 'Update property');
       final sent = _repo.sent['update-1']!;
       expect(sent['longitude'], greaterThan(76.8900));
       expect(sent['latitude'], closeTo(43.2400, 0.0005));
@@ -354,7 +354,7 @@ void main() {
         (tester) async {
       _install();
       await _pumpRouted(tester, '/properties/1/edit');
-      await submit(tester, 'Update Property');
+      await submit(tester, 'Update property');
       expect(_repo.sent['update-1']!['latitude'], 43.2400);
       expect(_repo.sent['update-1']!['longitude'], 76.8900);
     });

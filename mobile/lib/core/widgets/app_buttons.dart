@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/theme/app_metrics.dart';
 import 'package:real_estate_crm/core/theme/app_tokens.dart';
+import 'package:real_estate_crm/core/widgets/app_surface.dart';
 
 class AppFilledButton extends StatelessWidget {
   final String label;
@@ -18,7 +19,7 @@ class AppFilledButton extends StatelessWidget {
     required this.label,
     required this.onPressed,
     this.height = AppMetrics.buttonHeight,
-    this.fontSize = 14.5,
+    this.fontSize = AppMetrics.buttonFontSize,
     this.fill,
     this.labelColor,
     this.radius = AppMetrics.radiusSm,
@@ -28,14 +29,20 @@ class AppFilledButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.tokens;
-    final bg = fill ?? t.primary;
-    final fg = labelColor ?? t.onPrimary;
     final enabled = onPressed != null && !loading;
+    final disabled = onPressed == null && !loading;
+    final base = fill ?? t.primary;
+    final bg = disabled ? base.withValues(alpha: 0.4) : base;
+    final fg = disabled
+        ? (t.isDark
+            ? t.textPrimary.withValues(alpha: 0.6)
+            : (labelColor ?? t.onPrimary))
+        : (labelColor ?? t.onPrimary);
 
     return SizedBox(
       height: height,
       child: Material(
-        color: enabled ? bg : bg.withValues(alpha: 0.45),
+        color: bg,
         borderRadius: BorderRadius.circular(radius),
         child: InkWell(
           borderRadius: BorderRadius.circular(radius),
@@ -74,6 +81,7 @@ class AppGhostButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final double height;
   final double fontSize;
+  final Color? fill;
   final Color? borderColor;
   final Color? labelColor;
   final IconData? icon;
@@ -84,7 +92,8 @@ class AppGhostButton extends StatelessWidget {
     required this.label,
     required this.onPressed,
     this.height = AppMetrics.buttonHeight,
-    this.fontSize = 13.5,
+    this.fontSize = AppMetrics.buttonFontSize,
+    this.fill,
     this.borderColor,
     this.labelColor,
     this.icon,
@@ -94,11 +103,16 @@ class AppGhostButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.tokens;
-    final fg = labelColor ?? t.textPrimary;
+    final fg = onPressed == null && !loading
+        ? t.textHint
+        : (labelColor ?? t.textPrimary);
     return SizedBox(
       height: height,
       child: Material(
-        color: borderColor == null ? t.surfaceVariant : Colors.transparent,
+        color: fill ??
+            (borderColor == null
+                ? AppSurface.fillOf(context)
+                : Colors.transparent),
         borderRadius: BorderRadius.circular(AppMetrics.radiusSm),
         child: InkWell(
           borderRadius: BorderRadius.circular(AppMetrics.radiusSm),
@@ -244,7 +258,7 @@ class AppDangerButton extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 13.5,
+                  fontSize: AppMetrics.buttonFontSize,
                   fontWeight: FontWeight.w600,
                   color: t.dangerText,
                 ),
@@ -263,6 +277,7 @@ class AppIconTile extends StatelessWidget {
   final bool danger;
   final bool strong;
   final String? tooltip;
+  final bool alignEnd;
 
   const AppIconTile({
     super.key,
@@ -271,6 +286,7 @@ class AppIconTile extends StatelessWidget {
     this.danger = false,
     this.strong = false,
     this.tooltip,
+    this.alignEnd = false,
   });
 
   @override
@@ -279,7 +295,8 @@ class AppIconTile extends StatelessWidget {
     final tile = SizedBox(
       width: AppMetrics.minHitTarget,
       height: AppMetrics.minHitTarget,
-      child: Center(
+      child: Align(
+        alignment: alignEnd ? AlignmentDirectional.centerEnd : Alignment.center,
         child: Icon(icon,
             size: strong ? 20 : 19,
             color: danger

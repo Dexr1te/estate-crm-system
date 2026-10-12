@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/theme/app_metrics.dart';
 import 'package:real_estate_crm/core/theme/app_tokens.dart';
 import 'package:real_estate_crm/core/widgets/app_buttons.dart';
+import 'package:real_estate_crm/core/widgets/app_surface.dart';
 import 'package:real_estate_crm/core/widgets/text_measure.dart';
 
 class DetailScaffold extends StatelessWidget {
@@ -39,19 +40,21 @@ class DetailScaffold extends StatelessWidget {
     Widget body = SingleChildScrollView(
       physics: onRefresh == null ? null : const AlwaysScrollableScrollPhysics(),
       padding: EdgeInsets.fromLTRB(pad, 14, pad, 0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          for (var i = 0; i < children.length; i++) ...[
-            if (i > 0) SizedBox(height: gap),
-            children[i],
+      child: PagePadded(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            for (var i = 0; i < children.length; i++) ...[
+              if (i > 0) SizedBox(height: gap),
+              children[i],
+            ],
+            if (bottomAction != null) ...[
+              SizedBox(height: gap + 6),
+              bottomAction!,
+            ],
+            Padding(padding: AppMetrics.ctaPadding(context)),
           ],
-          if (bottomAction != null) ...[
-            SizedBox(height: gap + 6),
-            bottomAction!,
-          ],
-          Padding(padding: AppMetrics.ctaPadding(context)),
-        ],
+        ),
       ),
     );
 
@@ -95,11 +98,14 @@ class DetailAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.tokens;
+    final pad = AppMetrics.pagePadding(context);
+    const glyphInset = (AppMetrics.minHitTarget - 20) / 2;
 
     return SafeArea(
       bottom: false,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(6, 6, 12, 8),
+        padding: EdgeInsets.fromLTRB(
+            6, 6, actions.isEmpty ? pad : pad - glyphInset, 8),
         child: Row(
           children: [
             AppIconTile(

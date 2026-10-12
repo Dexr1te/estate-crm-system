@@ -167,7 +167,7 @@ void main() {
     await tester.tap(find.text('Cancel').last);
     await tester.pumpAndSettle();
 
-    await tester.tap(find.text('Update Deal'));
+    await tester.tap(find.text('Update deal'));
     await tester.pumpAndSettle();
     expect(_deals.updates.single['status'], 'LEAD');
   });

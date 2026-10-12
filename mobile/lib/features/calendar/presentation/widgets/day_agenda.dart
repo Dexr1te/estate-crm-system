@@ -63,15 +63,13 @@ class DayAgenda extends StatelessWidget {
             ),
             if (onToday != null) ...[
               const SizedBox(width: 8),
-              Flexible(
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 104),
-                  child: AppGhostButton(
-                    label: l10n.calendarToday,
-                    onPressed: onToday!,
-                    height: AppMetrics.minHitTarget,
-                    fontSize: 12.5,
-                  ),
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 104),
+                child: AppGhostButton(
+                  label: l10n.calendarToday,
+                  onPressed: onToday!,
+                  height: AppMetrics.minHitTarget,
+                  fontSize: 12.5,
                 ),
               ),
             ],

@@ -153,7 +153,7 @@ class DealCommissionSplitCard extends StatelessWidget {
         Text(l10n.splitsAmountUnknown,
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
-            style: secondary.copyWith(color: t.textHint, fontSize: 11.5)),
+            style: secondary.copyWith(fontSize: 11.5)),
       ],
       if (split.editable) ...[
         const SizedBox(height: 12),
@@ -207,13 +207,13 @@ class _ShareRow extends StatelessWidget {
                 style: TextStyle(
                     fontFamily: AppFonts.sans,
                     fontSize: 11.5,
-                    color: t.textHint),
+                    color: t.textSecondary),
               ),
             ],
           ),
         ),
         const SizedBox(width: 10),
-        Flexible(
+        Expanded(
           flex: 2,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
@@ -291,18 +291,22 @@ class _PayoutLine extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Wrap(
-            alignment: WrapAlignment.spaceBetween,
-            crossAxisAlignment: WrapCrossAlignment.center,
-            spacing: 8,
-            runSpacing: 2,
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: action == null ? 2 : 0),
-                child: PayoutChip(paid: share.paid, paidAt: share.paidAt),
-              ),
-              if (action != null) action,
-            ],
+          SizedBox(
+            width: double.infinity,
+            child: Wrap(
+              alignment: WrapAlignment.spaceBetween,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              spacing: 8,
+              runSpacing: 2,
+              children: [
+                Padding(
+                  padding:
+                      EdgeInsets.symmetric(vertical: action == null ? 2 : 0),
+                  child: PayoutChip(paid: share.paid, paidAt: share.paidAt),
+                ),
+                if (action != null) action,
+              ],
+            ),
           ),
           if (share.paid && note.isNotEmpty)
             Text(

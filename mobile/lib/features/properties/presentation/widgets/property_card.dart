@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
@@ -26,7 +28,6 @@ class PropertyCard extends StatelessWidget {
 
     return AppCard(
       onTap: onTap,
-      padding: const EdgeInsets.fromLTRB(14, 14, 16, 14),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -66,16 +67,28 @@ class PropertyCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        property.title,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            fontFamily: AppFonts.sans,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            letterSpacing: -0.2,
-                            color: t.textPrimary),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.baseline,
+                        textBaseline: TextBaseline.alphabetic,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              property.title,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  fontFamily: AppFonts.sans,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  letterSpacing: -0.2,
+                                  color: t.textPrimary),
+                            ),
+                          ),
+                          if (!chipBelow) ...[
+                            const SizedBox(width: 8),
+                            chip,
+                          ],
+                        ],
                       ),
                       if (property.address.isNotEmpty) ...[
                         const SizedBox(height: 3),
@@ -104,10 +117,6 @@ class PropertyCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                if (!chipBelow) ...[
-                  const SizedBox(width: 8),
-                  chip,
-                ],
               ],
             );
           }),
@@ -115,29 +124,38 @@ class PropertyCard extends StatelessWidget {
           // A price in tenge or sum runs long ("987,7 млрд сум"): it keeps
           // up to 60% of the line and ends in an ellipsis past that, rather
           // than pushing the specs off the card.
-          LayoutBuilder(
-            builder: (context, constraints) => Row(
+          LayoutBuilder(builder: (context, constraints) {
+            final priceText = formatPrice(property.price);
+            final priceStyle = TextStyle(
+                fontFamily: AppFonts.sans,
+                fontSize: 17,
+                fontWeight: FontWeight.w700,
+                letterSpacing: -0.2,
+                color: t.textPrimary);
+            final priceMax = constraints.maxWidth * 0.6;
+            final priceWidth = math.min(
+                singleLineTextWidth(context, priceText, priceStyle), priceMax);
+            final chipMax =
+                math.max(0.0, (constraints.maxWidth - priceWidth - 18) * 0.6);
+            return Row(
               crossAxisAlignment: CrossAxisAlignment.baseline,
               textBaseline: TextBaseline.alphabetic,
               children: [
                 ConstrainedBox(
-                  constraints:
-                      BoxConstraints(maxWidth: constraints.maxWidth * 0.6),
+                  constraints: BoxConstraints(maxWidth: priceMax),
                   child: Text(
-                    formatPrice(property.price),
+                    priceText,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        fontFamily: AppFonts.sans,
-                        fontSize: 17,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: -0.2,
-                        color: t.textPrimary),
+                    style: priceStyle,
                   ),
                 ),
                 if (showsPriceReduced(property)) ...[
                   const SizedBox(width: 8),
-                  const Flexible(child: PriceReducedChip()),
+                  ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: chipMax),
+                    child: const PriceReducedChip(),
+                  ),
                 ],
                 const SizedBox(width: 10),
                 Expanded(
@@ -153,8 +171,8 @@ class PropertyCard extends StatelessWidget {
                   ),
                 ),
               ],
-            ),
-          ),
+            );
+          }),
         ],
       ),
     );
@@ -177,10 +195,10 @@ class PropertyCardBone extends StatelessWidget {
   const PropertyCardBone({super.key});
 
   @override
-  Widget build(BuildContext context) => const ShimmerCard(
+  Widget build(BuildContext context) => ShimmerCard(
         radius: AppMetrics.radiusMd,
-        padding: EdgeInsets.fromLTRB(14, 14, 16, 14),
-        child: Column(
+        padding: EdgeInsets.all(AppMetrics.cardPadding(context)),
+        child: const Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisSize: MainAxisSize.min,
           children: [

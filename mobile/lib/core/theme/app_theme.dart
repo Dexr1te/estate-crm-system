@@ -130,23 +130,27 @@ class AppTheme {
         fillColor: AppColors.surfaceVariant,
         border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
+            gapPadding: 0,
             borderSide: BorderSide.none),
         enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: const BorderSide(color: AppColors.border)),
+            gapPadding: 0,
+            borderSide: BorderSide.none),
         focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
+            gapPadding: 0,
             borderSide: const BorderSide(color: AppColors.primary, width: 1.5)),
         errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
+            gapPadding: 0,
             borderSide: const BorderSide(color: AppColors.error)),
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         hintStyle: const TextStyle(
-            color: AppColors.textHint, fontSize: 14, fontFamily: AppFonts.sans),
+            color: AppColors.textHint, fontSize: 15, fontFamily: AppFonts.sans),
         labelStyle: const TextStyle(
             color: AppColors.textSecondary,
-            fontSize: 14,
+            fontSize: 15,
             fontFamily: AppFonts.sans),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
@@ -334,26 +338,30 @@ class AppThemeDark {
         fillColor: AppColors.darkSurfaceVariant,
         border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
+            gapPadding: 0,
             borderSide: BorderSide.none),
         enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: const BorderSide(color: AppColors.darkBorder)),
+            gapPadding: 0,
+            borderSide: BorderSide.none),
         focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
+            gapPadding: 0,
             borderSide:
                 const BorderSide(color: AppColors.darkPrimary, width: 1.5)),
         errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
+            gapPadding: 0,
             borderSide: const BorderSide(color: AppColors.error)),
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         hintStyle: const TextStyle(
             color: AppColors.darkTextHint,
-            fontSize: 14,
+            fontSize: 15,
             fontFamily: AppFonts.sans),
         labelStyle: const TextStyle(
             color: AppColors.darkTextSecondary,
-            fontSize: 14,
+            fontSize: 15,
             fontFamily: AppFonts.sans),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(

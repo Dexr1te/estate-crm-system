@@ -166,7 +166,7 @@ class _ColumnHeader extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 8),
-        Flexible(
+        Expanded(
           child: Text(
             dealStatusLabel(l10n, status),
             maxLines: 1,
@@ -181,15 +181,18 @@ class _ColumnHeader extends StatelessWidget {
         ),
         const SizedBox(width: 10),
         Flexible(
-          child: Text(
-            l10n.dealsBoardColumnMeta(count, formatPrice(total)),
-            textAlign: TextAlign.right,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontFamily: AppFonts.sans,
-              fontSize: 11.5,
-              color: t.textSecondary,
+          child: Align(
+            alignment: AlignmentDirectional.centerEnd,
+            child: Text(
+              l10n.dealsBoardColumnMeta(count, formatPrice(total)),
+              textAlign: TextAlign.end,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontFamily: AppFonts.sans,
+                fontSize: 11.5,
+                color: t.textSecondary,
+              ),
             ),
           ),
         ),
@@ -255,7 +258,6 @@ class _BoardCard extends StatelessWidget {
 
     return AppCard(
       onTap: onTap,
-      padding: const EdgeInsets.all(13),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -285,52 +287,69 @@ class _BoardCard extends StatelessWidget {
             ),
           ],
           const SizedBox(height: 9),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.baseline,
-            textBaseline: TextBaseline.alphabetic,
-            children: [
-              Flexible(
-                child: Text(
-                  deal.kind == DealKind.rent
-                      ? leaseRentLabel(l10n, amount)
-                      : formatPrice(amount),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                    fontFamily: AppFonts.sans,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w700,
-                    color: t.textPrimary,
+          LayoutBuilder(
+            builder: (context, box) => Row(
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              textBaseline: TextBaseline.alphabetic,
+              children: [
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                      maxWidth:
+                          stale == null ? box.maxWidth : box.maxWidth * 0.62),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          amount == 0
+                              ? '—'
+                              : deal.kind == DealKind.rent
+                                  ? leaseRentLabel(l10n, amount)
+                                  : formatPrice(amount),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontFamily: AppFonts.sans,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w700,
+                            color: t.textPrimary,
+                          ),
+                        ),
+                      ),
+                      if (deal.commentCount > 0) ...[
+                        const SizedBox(width: 8),
+                        CommentCountBadge(count: deal.commentCount),
+                      ],
+                      if (deal.checklistTotal > 0) ...[
+                        const SizedBox(width: 8),
+                        ChecklistProgressBadge(
+                            done: deal.checklistDone,
+                            total: deal.checklistTotal),
+                      ],
+                    ],
                   ),
                 ),
-              ),
-              if (deal.commentCount > 0) ...[
-                const SizedBox(width: 8),
-                CommentCountBadge(count: deal.commentCount),
-              ],
-              if (deal.checklistTotal > 0) ...[
-                const SizedBox(width: 8),
-                ChecklistProgressBadge(
-                    done: deal.checklistDone, total: deal.checklistTotal),
-              ],
-              if (stale != null) ...[
-                const SizedBox(width: 8),
-                Flexible(
-                  child: Text(
-                    l10n.dealsStaleWarning(stale),
-                    textAlign: TextAlign.right,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontFamily: AppFonts.sans,
-                      fontSize: 10.5,
-                      fontWeight: FontWeight.w600,
-                      color: t.dangerText,
+                if (stale != null) ...[
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      l10n.dealsStaleWarning(stale),
+                      textAlign: TextAlign.end,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontFamily: AppFonts.sans,
+                        fontSize: 10.5,
+                        fontWeight: FontWeight.w600,
+                        color: t.dangerText,
+                      ),
                     ),
                   ),
-                ),
+                ],
               ],
-            ],
+            ),
           ),
         ],
       ),

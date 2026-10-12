@@ -68,6 +68,7 @@ class PipelineCard extends StatelessWidget {
           SizedBox(
             height: 10,
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 for (var i = 0; i < visible.length; i++) ...[
                   if (i > 0) const SizedBox(width: 3),
@@ -129,6 +130,7 @@ class PipelineCard extends StatelessWidget {
                               child: ColoredBox(color: t.chartTrack)),
                           FractionallySizedBox(
                             widthFactor: rate.clamp(0.0, 1.0),
+                            heightFactor: 1,
                             child: ColoredBox(color: t.chartWon),
                           ),
                         ],
@@ -170,8 +172,8 @@ class PipelineCard extends StatelessWidget {
                             color: t.textPrimary),
                       ),
                     ),
-                    Icon(Icons.chevron_right_rounded,
-                        size: 18, color: t.textSecondary),
+                    const SizedBox(width: 8),
+                    const RowChevron(),
                   ],
                 ),
               ),
@@ -239,14 +241,16 @@ class _StageColumn extends StatelessWidget {
                 fontWeight: FontWeight.w700,
                 color: t.textPrimary),
           ),
-          const SizedBox(height: 3),
-          Text(
-            formatPrice(stage.value),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-                fontFamily: AppFonts.sans, fontSize: 10.5, color: t.textHint),
-          ),
+          if (stage.value > 0) ...[
+            const SizedBox(height: 3),
+            Text(
+              formatPrice(stage.value),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                  fontFamily: AppFonts.sans, fontSize: 10.5, color: t.textHint),
+            ),
+          ],
         ],
       ),
     );

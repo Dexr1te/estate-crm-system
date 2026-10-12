@@ -142,7 +142,7 @@ void main() {
       expect(editable.controller.text, '2.5');
 
       await tester.enterText(commissionField(), '3,25');
-      await tester.tap(find.text('Update Deal'));
+      await tester.tap(find.text('Update deal'));
       await tester.pump();
 
       expect(_repo.sent, isNotNull);
@@ -154,7 +154,7 @@ void main() {
       await _pump(tester, _wrap(const DealFormScreen(dealId: 1)));
 
       await tester.enterText(commissionField(), '');
-      await tester.tap(find.text('Update Deal'));
+      await tester.tap(find.text('Update deal'));
       await tester.pump();
 
       expect(_repo.sent, isNotNull);
@@ -166,7 +166,7 @@ void main() {
         await _pump(tester, _wrap(const DealFormScreen(dealId: 1)));
 
         await tester.enterText(commissionField(), bad);
-        await tester.tap(find.text('Update Deal'));
+        await tester.tap(find.text('Update deal'));
         await tester.pump();
 
         expect(find.text('Enter a rate above 0 and no more than 100'),

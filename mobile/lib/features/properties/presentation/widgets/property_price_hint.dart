@@ -113,31 +113,36 @@ class _PropertyPriceHintState extends State<PropertyPriceHint> {
     return Padding(
       key: const ValueKey('property-price-hint'),
       padding: const EdgeInsets.only(top: 2),
-      child: Row(
-        children: [
-          Expanded(
-            child: Text(
-              l10n.propertiesPriceHintRange(
-                  formatPrice(range.low), formatPrice(range.high)),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                  fontFamily: AppFonts.sans,
+      child: LayoutBuilder(
+        builder: (context, constraints) => Row(
+          children: [
+            Expanded(
+              child: Text(
+                l10n.propertiesPriceHintRange(
+                    formatPrice(range.low), formatPrice(range.high)),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    fontFamily: AppFonts.sans,
+                    fontSize: 12,
+                    color: t.textSecondary),
+              ),
+            ),
+            const SizedBox(width: 8),
+            ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: constraints.maxWidth / 2),
+              child: IntrinsicWidth(
+                child: AppGhostButton(
+                  key: const ValueKey('property-price-use-median'),
+                  label: l10n.propertiesPriceHintUseMedian,
+                  height: AppMetrics.buttonHeightInline,
                   fontSize: 12,
-                  color: t.textSecondary),
+                  onPressed: () => widget.onUseMedian(range.median),
+                ),
+              ),
             ),
-          ),
-          const SizedBox(width: 8),
-          Flexible(
-            child: AppGhostButton(
-              key: const ValueKey('property-price-use-median'),
-              label: l10n.propertiesPriceHintUseMedian,
-              height: AppMetrics.buttonHeightInline,
-              fontSize: 12,
-              onPressed: () => widget.onUseMedian(range.median),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

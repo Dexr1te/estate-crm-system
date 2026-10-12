@@ -57,7 +57,6 @@ class _ComparableRow extends StatelessWidget {
     return AppCard(
       key: ValueKey('price-comparable-${comparable.id}'),
       nested: true,
-      radius: AppMetrics.radiusSm,
       padding: EdgeInsets.zero,
       child: InkWell(
         onTap: onTap,

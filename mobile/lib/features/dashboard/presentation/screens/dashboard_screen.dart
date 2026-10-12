@@ -140,6 +140,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     final gap = AppMetrics.blockGap(context);
     final authState = context.watch<AuthBloc>().state;
     final user = authState is AuthAuthenticated ? authState.user : null;
+    final firstName = user?.fullName.trim().split(' ').first ?? '';
 
     return MultiBlocProvider(
       providers: [
@@ -181,11 +182,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _GreetingRow(
-                        title: l10n.dashboardGreeting(
-                          _greeting(l10n),
-                          user?.fullName.split(' ').first ??
-                              l10n.dashboardGreetingFallbackName,
-                        ),
+                        title: firstName.isEmpty
+                            ? _greeting(l10n)
+                            : l10n.dashboardGreeting(
+                                _greeting(l10n), firstName),
                         subtitle: l10n.dashboardDateSummary(formatWeekdayDate(
                             AppClock.now(),
                             Localizations.localeOf(context).toLanguageTag())),
@@ -422,13 +422,13 @@ class _GreetingRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.tokens;
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
+        Row(
+          children: [
+            Expanded(
+              child: Text(
                 title,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
@@ -440,29 +440,28 @@ class _GreetingRow extends StatelessWidget {
                     letterSpacing: -0.3,
                     color: t.textPrimary),
               ),
-              const SizedBox(height: 3),
-              Text(
-                subtitle,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                    fontFamily: AppFonts.sans,
-                    fontSize: 12.5,
-                    color: t.textSecondary),
-              ),
-            ],
-          ),
+            ),
+            const SizedBox(width: 8),
+            const QuickAddButton.tile(),
+            AppIconTile(
+              icon: Icons.search_rounded,
+              tooltip: AppLocalizations.of(context).searchTitle,
+              onPressed: onSearch,
+            ),
+            const NotificationBell(),
+            const SizedBox(width: 4),
+            UserAvatar(name: initial, size: 44, onTap: onTap),
+          ],
         ),
-        const SizedBox(width: 8),
-        const QuickAddButton.tile(),
-        AppIconTile(
-          icon: Icons.search_rounded,
-          tooltip: AppLocalizations.of(context).searchTitle,
-          onPressed: onSearch,
+        Text(
+          subtitle,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+              fontFamily: AppFonts.sans,
+              fontSize: 12.5,
+              color: t.textSecondary),
         ),
-        const NotificationBell(),
-        const SizedBox(width: 4),
-        UserAvatar(name: initial, size: 44, onTap: onTap),
       ],
     );
   }
@@ -552,7 +551,8 @@ class _NoMoreMeetings extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = context.tokens;
     return AppCard(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 22),
+      padding: EdgeInsets.symmetric(
+          horizontal: AppMetrics.cardPadding(context), vertical: 22),
       child: Center(
         child: Text(
           message,

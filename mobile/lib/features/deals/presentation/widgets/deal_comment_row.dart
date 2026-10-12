@@ -48,39 +48,43 @@ class DealCommentRow extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.baseline,
-                      textBaseline: TextBaseline.alphabetic,
-                      children: [
-                        Flexible(
-                          child: Text(
-                            shownName,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                fontFamily: AppFonts.sans,
-                                fontSize: 12.5,
-                                fontWeight: FontWeight.w600,
-                                color: t.textPrimary),
+                    LayoutBuilder(
+                      builder: (context, box) => Row(
+                        crossAxisAlignment: CrossAxisAlignment.baseline,
+                        textBaseline: TextBaseline.alphabetic,
+                        children: [
+                          Flexible(
+                            child: Text(
+                              shownName,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  fontFamily: AppFonts.sans,
+                                  fontSize: 12.5,
+                                  fontWeight: FontWeight.w600,
+                                  color: t.textPrimary),
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: 6),
-                        Flexible(
-                          child: Text(
-                            [
-                              when,
-                              if (comment.editedAt != null && !pending)
-                                l10n.dealsCommentEdited,
-                            ].join(' · '),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                                fontFamily: AppFonts.sans,
-                                fontSize: 11,
-                                color: t.textHint),
+                          const SizedBox(width: 6),
+                          ConstrainedBox(
+                            constraints:
+                                BoxConstraints(maxWidth: box.maxWidth / 2),
+                            child: Text(
+                              [
+                                when,
+                                if (comment.editedAt != null && !pending)
+                                  l10n.dealsCommentEdited,
+                              ].join(' · '),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                  fontFamily: AppFonts.sans,
+                                  fontSize: 11,
+                                  color: t.textHint),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     const SizedBox(height: 3),
                     CommentBody(comment: comment),

@@ -69,20 +69,18 @@ class _ClientPickerState extends State<_ClientPicker> {
               ),
             ),
             const SizedBox(width: 8),
-            Flexible(
-              child: AppGhostButton(
-                key: const Key('handover-pick-toggle-all'),
-                label: _all ? l10n.handoverPickNone : l10n.handoverPickAll,
-                height: AppMetrics.buttonHeightInline,
-                fontSize: 12,
-                onPressed: () => setState(() {
-                  if (_all) {
-                    _ticked.clear();
-                  } else {
-                    _ticked.addAll(widget.clients.map((c) => c.id));
-                  }
-                }),
-              ),
+            AppGhostButton(
+              key: const Key('handover-pick-toggle-all'),
+              label: _all ? l10n.handoverPickNone : l10n.handoverPickAll,
+              height: AppMetrics.buttonHeightInline,
+              fontSize: 12,
+              onPressed: () => setState(() {
+                if (_all) {
+                  _ticked.clear();
+                } else {
+                  _ticked.addAll(widget.clients.map((c) => c.id));
+                }
+              }),
             ),
           ],
         ),
@@ -100,7 +98,6 @@ class _ClientPickerState extends State<_ClientPicker> {
               return AppCard(
                 key: ValueKey('handover-client-${client.id}'),
                 nested: true,
-                radius: AppMetrics.radiusSm,
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                 onTap: () => _toggle(client.id),

@@ -68,6 +68,7 @@ class PropertyLocationPreview extends StatelessWidget {
                     options: MapOptions(
                       initialCenter: point,
                       initialZoom: 15,
+                      backgroundColor: t.surfaceVariant,
                       interactionOptions:
                           const InteractionOptions(flags: InteractiveFlag.none),
                     ),

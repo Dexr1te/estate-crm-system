@@ -381,7 +381,7 @@ class _MeetingFormScreenState extends State<MeetingFormScreen> {
                       required: true,
                       child: AppTextField(
                         controller: _titleCtrl,
-                        hint: l10n.meetingsTitle,
+                        hint: l10n.meetingsTitleHint,
                         textInputAction: TextInputAction.next,
                         validator: (v) => v == null || v.trim().isEmpty
                             ? l10n.meetingsTitleRequired

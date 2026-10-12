@@ -69,26 +69,27 @@ class MeetingLoadCard extends StatelessWidget {
             const SizedBox(height: 7),
             Row(
               children: [
-                Text(
-                  l10n.dashboardToday,
-                  style: TextStyle(
-                      fontFamily: AppFonts.sans,
-                      fontSize: 10.5,
-                      fontWeight: FontWeight.w600,
-                      color: t.textSecondary),
-                ),
-                const Spacer(),
-                Flexible(
+                Expanded(
                   child: Text(
-                    formatDayMonth(
-                        today.add(Duration(days: load.length - 1)), locale),
+                    l10n.dashboardToday,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
                         fontSize: 10.5,
-                        color: t.textHint),
+                        fontWeight: FontWeight.w600,
+                        color: t.textSecondary),
                   ),
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  formatDayMonth(
+                      today.add(Duration(days: load.length - 1)), locale),
+                  maxLines: 1,
+                  style: TextStyle(
+                      fontFamily: AppFonts.sans,
+                      fontSize: 10.5,
+                      color: t.textHint),
                 ),
               ],
             ),

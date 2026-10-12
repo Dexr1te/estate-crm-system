@@ -158,8 +158,6 @@ class _ListingRow extends StatelessWidget {
     return AppCard(
       key: ValueKey('marketing-spend-listing-${listing.propertyId}'),
       nested: true,
-      radius: AppMetrics.radiusSm,
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
       onTap: onTap,
       child: Row(
         children: [
@@ -186,8 +184,8 @@ class _ListingRow extends StatelessWidget {
                 fontWeight: FontWeight.w700,
                 color: t.textPrimary),
           ),
-          const SizedBox(width: 4),
-          Icon(Icons.chevron_right_rounded, size: 18, color: t.textHint),
+          const SizedBox(width: 8),
+          const RowChevron(),
         ],
       ),
     );

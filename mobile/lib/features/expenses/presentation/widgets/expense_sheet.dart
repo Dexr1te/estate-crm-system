@@ -104,6 +104,7 @@ class _ExpenseFormState extends State<ExpenseForm> {
                 key: Key('expense-category-${c.name}'),
                 label: expenseCategoryLabel(l10n, c),
                 selected: _category == c,
+                onCard: true,
                 onTap: () => setState(() => _category = c),
               ),
           ]),

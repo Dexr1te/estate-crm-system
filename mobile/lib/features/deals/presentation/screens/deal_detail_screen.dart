@@ -261,7 +261,7 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
         listener: _onWriteResult,
         child: Builder(
           builder: (context) => DetailScaffold(
-            title: l10n.dealsIdLabel(deal.id),
+            title: l10n.dealsDetailTitle,
             onRefresh: () async {
               context.read<DocumentsBloc>().add(DocumentsLoadEvent());
               _checklist.add(DealChecklistLoadEvent());
@@ -362,7 +362,11 @@ class _SummaryCard extends StatelessWidget {
             fit: BoxFit.scaleDown,
             alignment: Alignment.centerLeft,
             child: Text(
-              rent ? leaseRentLabel(l10n, amount) : formatPrice(amount),
+              amount == 0
+                  ? '—'
+                  : rent
+                      ? leaseRentLabel(l10n, amount)
+                      : formatPrice(amount),
               key: rent ? const Key('deal-summary-rent') : null,
               maxLines: 1,
               style: TextStyle(
@@ -424,6 +428,7 @@ class _StageCard extends StatelessWidget {
           SizedBox(
             height: 8,
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 for (var i = 0; i < track.length; i++) ...[
                   if (i > 0) const SizedBox(width: 6),
@@ -595,7 +600,8 @@ class _PropertyRow extends StatelessWidget {
               ],
             ),
           ),
-          Icon(Icons.chevron_right_rounded, size: 18, color: t.textHint),
+          const SizedBox(width: 8),
+          const RowChevron(),
         ],
       ),
     );

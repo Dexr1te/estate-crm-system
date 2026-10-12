@@ -50,6 +50,7 @@ class AppTextField extends StatelessWidget {
     OutlineInputBorder border(Color color, [double width = 1]) =>
         OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppMetrics.radiusSm),
+          gapPadding: 0,
           borderSide: color == t.primary || color == t.dangerText
               ? BorderSide(color: color, width: width)
               : BorderSide.none,
@@ -80,12 +81,13 @@ class AppTextField extends StatelessWidget {
         filled: true,
         fillColor: onPage ? t.surface : t.surfaceVariant,
         isDense: true,
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+        contentPadding: const EdgeInsets.symmetric(
+            horizontal: AppMetrics.fieldInset, vertical: 14),
         prefixIcon: icon == null
             ? null
             : Padding(
-                padding: const EdgeInsets.only(left: 14, right: 11),
+                padding: const EdgeInsetsDirectional.only(
+                    start: AppMetrics.fieldInset, end: 11),
                 child: Icon(icon, size: 18, color: t.textHint),
               ),
         prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
@@ -170,7 +172,8 @@ class PickerField extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppMetrics.radiusSm),
         onTap: onTap,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+          padding: const EdgeInsets.symmetric(
+              horizontal: AppMetrics.fieldInset, vertical: 14),
           child: Row(
             children: [
               Expanded(
@@ -180,8 +183,8 @@ class PickerField extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 13,
-                    fontWeight: hasValue ? FontWeight.w500 : FontWeight.w400,
+                    fontSize: 15,
+                    height: 1.5,
                     color: hasValue ? t.textPrimary : t.textHint,
                   ),
                 ),

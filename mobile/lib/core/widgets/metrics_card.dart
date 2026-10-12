@@ -73,17 +73,17 @@ class MetricsCard extends StatelessWidget {
       if (i > 0) {
         rows.add(Container(height: 1, color: t.border));
       }
+      if (i + 1 == metrics.length) {
+        rows.add(IntrinsicHeight(child: _Cell(metric: metrics[i])));
+        break;
+      }
       rows.add(IntrinsicHeight(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(child: _Cell(metric: metrics[i])),
             Container(width: 1, color: t.border),
-            Expanded(
-              child: i + 1 < metrics.length
-                  ? _Cell(metric: metrics[i + 1])
-                  : const SizedBox.shrink(),
-            ),
+            Expanded(child: _Cell(metric: metrics[i + 1])),
           ],
         ),
       ));
@@ -93,7 +93,11 @@ class MetricsCard extends StatelessWidget {
       padding: EdgeInsets.zero,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(AppMetrics.radiusMd),
-        child: Column(mainAxisSize: MainAxisSize.min, children: rows),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: rows,
+        ),
       ),
     );
   }
@@ -108,10 +112,10 @@ class _Cell extends StatelessWidget {
     final t = context.tokens;
 
     final body = Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      padding: EdgeInsets.symmetric(
+          horizontal: AppMetrics.cardPadding(context), vertical: 14),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Row(
             crossAxisAlignment: CrossAxisAlignment.baseline,
@@ -124,7 +128,7 @@ class _Cell extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: metric.series == null ? 22 : 21,
+                      fontSize: 22,
                       height: 1,
                       fontWeight: FontWeight.w700,
                       color: t.textPrimary),
@@ -140,6 +144,7 @@ class _Cell extends StatelessWidget {
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
                         fontSize: 10.5,
+                        height: 1,
                         fontWeight: FontWeight.w600,
                         color: metric.deltaColor ?? t.textSecondary),
                   ),
@@ -158,6 +163,7 @@ class _Cell extends StatelessWidget {
                 color: t.textSecondary),
           ),
           if (metric.series != null) ...[
+            const Spacer(),
             const SizedBox(height: 8),
             Sparkline(
               values: metric.series!,

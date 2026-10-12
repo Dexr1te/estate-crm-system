@@ -179,14 +179,12 @@ class _Heading extends StatelessWidget {
       children: [
         Expanded(child: EyebrowLabel(l10n.keysCardTitle)),
         if (overdue)
-          Flexible(
-            child: Align(
-              alignment: AlignmentDirectional.centerEnd,
-              child: StatusChip(
-                key: const ValueKey('property-keys-overdue'),
-                label: l10n.keysOverdue,
-                hue: StatusHue.danger,
-              ),
+          ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 140),
+            child: StatusChip(
+              key: const ValueKey('property-keys-overdue'),
+              label: l10n.keysOverdue,
+              hue: StatusHue.danger,
             ),
           ),
       ],

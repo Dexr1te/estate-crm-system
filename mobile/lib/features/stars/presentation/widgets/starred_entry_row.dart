@@ -48,7 +48,8 @@ class StarredEntryRow extends StatelessWidget {
           child: AppCard(
             key: const ValueKey('starred-entry'),
             onTap: onTap,
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
+            padding: EdgeInsets.symmetric(
+                horizontal: AppMetrics.cardPadding(context), vertical: 13),
             child: Row(
               children: [
                 Icon(
@@ -59,27 +60,32 @@ class StarredEntryRow extends StatelessWidget {
                   color: items.isEmpty ? t.textSecondary : t.accent,
                 ),
                 const SizedBox(width: 10),
-                Flexible(
-                  child: Text(title,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                Expanded(
+                  child: Text.rich(
+                    TextSpan(
+                      text: title,
                       style: TextStyle(
-                          fontFamily: AppFonts.sans,
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
-                          color: t.textPrimary)),
+                          color: t.textPrimary),
+                      children: [
+                        if (detail.isNotEmpty)
+                          TextSpan(
+                            text: '  $detail',
+                            style: TextStyle(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                                color: t.textSecondary),
+                          ),
+                      ],
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(fontFamily: AppFonts.sans),
+                  ),
                 ),
                 const SizedBox(width: 8),
-                Expanded(
-                  child: Text(detail,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          fontFamily: AppFonts.sans,
-                          fontSize: 12,
-                          color: t.textSecondary)),
-                ),
-                Icon(Icons.chevron_right_rounded, size: 18, color: t.textHint),
+                const RowChevron(),
               ],
             ),
           ),

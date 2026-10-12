@@ -76,7 +76,7 @@ class ClientHistoryCard extends StatelessWidget {
             AppGhostButton(
               label: l10n.clientsLogContact,
               onPressed: onLog,
-              height: AppMetrics.minHitTarget,
+              height: AppMetrics.buttonHeightInline,
               fontSize: 12.5,
             ),
           ],
@@ -154,98 +154,117 @@ class _ActivityRow extends StatelessWidget {
             ),
             const SizedBox(width: 11),
             Expanded(
-              child: Padding(
-                padding: EdgeInsets.only(top: 1, bottom: last ? 10 : 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      handover
-                          ? l10n.clientsActivityHandover
-                          : visit
-                              ? l10n.openHouseActivity
-                              : activityTypeLabel(l10n, activity.type),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          fontFamily: AppFonts.sans,
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                          color: t.textPrimary),
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(top: 1, bottom: last ? 10 : 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsetsDirectional.only(
+                              end: onDelete == null
+                                  ? 0
+                                  : AppMetrics.minHitTarget),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                handover
+                                    ? l10n.clientsActivityHandover
+                                    : visit
+                                        ? l10n.openHouseActivity
+                                        : activityTypeLabel(
+                                            l10n, activity.type),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    fontFamily: AppFonts.sans,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                    color: t.textPrimary),
+                              ),
+                              const SizedBox(height: 2),
+                              Text(
+                                [
+                                  activityTimeLabel(l10n, activity.occurredAt,
+                                      AppClock.now(), locale),
+                                  author == null || author.isEmpty
+                                      ? l10n.clientsActivityFormerMember
+                                      : author,
+                                ].join(' · '),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    fontFamily: AppFonts.sans,
+                                    fontSize: 11,
+                                    color: t.textHint),
+                              ),
+                            ],
+                          ),
+                        ),
+                        if (handover) ...[
+                          const SizedBox(height: 6),
+                          Text(
+                            handedFrom.isEmpty
+                                ? l10n.clientsActivityHandoverTo(handedTo)
+                                : l10n.clientsActivityHandoverDetail(
+                                    handedFrom, handedTo),
+                            key: ValueKey('handover-line-${activity.id}'),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                fontFamily: AppFonts.sans,
+                                fontSize: 12.5,
+                                height: 1.45,
+                                color: t.textSecondary),
+                          ),
+                        ],
+                        if (note != null && note.isNotEmpty) ...[
+                          const SizedBox(height: 6),
+                          Text(
+                            note,
+                            maxLines: 6,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                fontFamily: AppFonts.sans,
+                                fontSize: 12.5,
+                                height: 1.45,
+                                color: t.textSecondary),
+                          ),
+                        ],
+                        if (activity.properties.isNotEmpty) ...[
+                          const SizedBox(height: 6),
+                          _SentListings(
+                            properties: activity.properties,
+                            onOpen: onOpenProperty,
+                            sent: !visit,
+                          ),
+                        ],
+                      ],
                     ),
-                    const SizedBox(height: 2),
-                    Text(
-                      [
-                        activityTimeLabel(
-                            l10n, activity.occurredAt, AppClock.now(), locale),
-                        author == null || author.isEmpty
-                            ? l10n.clientsActivityFormerMember
-                            : author,
-                      ].join(' · '),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          fontFamily: AppFonts.sans,
-                          fontSize: 11,
-                          color: t.textHint),
+                  ),
+                  if (onDelete != null)
+                    PositionedDirectional(
+                      top: 0,
+                      end: 0,
+                      child: SizedBox(
+                        width: AppMetrics.minHitTarget,
+                        height: AppMetrics.minHitTarget,
+                        child: IconButton(
+                          padding: EdgeInsets.zero,
+                          alignment: AlignmentDirectional.centerEnd,
+                          tooltip: l10n.clientsActivityRemove,
+                          onPressed: onDelete,
+                          icon: Icon(Icons.delete_outline_rounded,
+                              size: 17, color: t.textHint),
+                        ),
+                      ),
                     ),
-                    if (handover) ...[
-                      const SizedBox(height: 6),
-                      Text(
-                        handedFrom.isEmpty
-                            ? l10n.clientsActivityHandoverTo(handedTo)
-                            : l10n.clientsActivityHandoverDetail(
-                                handedFrom, handedTo),
-                        key: ValueKey('handover-line-${activity.id}'),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            fontFamily: AppFonts.sans,
-                            fontSize: 12.5,
-                            height: 1.45,
-                            color: t.textSecondary),
-                      ),
-                    ],
-                    if (note != null && note.isNotEmpty) ...[
-                      const SizedBox(height: 6),
-                      Text(
-                        note,
-                        maxLines: 6,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            fontFamily: AppFonts.sans,
-                            fontSize: 12.5,
-                            height: 1.45,
-                            color: t.textSecondary),
-                      ),
-                    ],
-                    if (activity.properties.isNotEmpty) ...[
-                      const SizedBox(height: 6),
-                      _SentListings(
-                        properties: activity.properties,
-                        onOpen: onOpenProperty,
-                        sent: !visit,
-                      ),
-                    ],
-                  ],
-                ),
+                ],
               ),
             ),
-            if (onDelete != null)
-              Align(
-                alignment: Alignment.topCenter,
-                child: SizedBox(
-                  width: AppMetrics.minHitTarget,
-                  height: AppMetrics.minHitTarget,
-                  child: IconButton(
-                    padding: EdgeInsets.zero,
-                    tooltip: l10n.clientsActivityRemove,
-                    onPressed: onDelete,
-                    icon: Icon(Icons.delete_outline_rounded,
-                        size: 17, color: t.textHint),
-                  ),
-                ),
-              ),
           ],
         ),
       ),
@@ -290,7 +309,8 @@ class _SentListings extends StatelessWidget {
             borderRadius: BorderRadius.circular(AppMetrics.radiusSm),
             onTap: onOpen == null ? null : () => onOpen!(p.id),
             child: ConstrainedBox(
-              constraints: const BoxConstraints(minHeight: 32),
+              constraints:
+                  const BoxConstraints(minHeight: AppMetrics.minHitTarget),
               child: Row(
                 children: [
                   Icon(Icons.home_work_outlined, size: 14, color: t.textHint),
@@ -307,9 +327,10 @@ class _SentListings extends StatelessWidget {
                           color: t.textPrimary),
                     ),
                   ),
-                  if (onOpen != null)
-                    Icon(Icons.chevron_right_rounded,
-                        size: 16, color: t.textHint),
+                  if (onOpen != null) ...[
+                    const SizedBox(width: 8),
+                    const RowChevron(),
+                  ],
                 ],
               ),
             ),
@@ -378,7 +399,7 @@ class _HistoryEmpty extends StatelessWidget {
         AppGhostButton(
           label: l10n.clientsLogFirstContact,
           onPressed: onLog,
-          height: AppMetrics.minHitTarget,
+          height: AppMetrics.buttonHeightInline,
           fontSize: 12.5,
         ),
       ],
@@ -409,13 +430,11 @@ class _HistoryProblem extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 8),
-        Flexible(
-          child: AppGhostButton(
-            label: l10n.coreRetry,
-            onPressed: onRetry,
-            height: AppMetrics.buttonHeightInline,
-            fontSize: 12,
-          ),
+        AppGhostButton(
+          label: l10n.coreRetry,
+          onPressed: onRetry,
+          height: AppMetrics.buttonHeightInline,
+          fontSize: 12,
         ),
       ],
     );

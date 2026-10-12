@@ -218,7 +218,7 @@ void main() {
     _clients.activitiesError = Exception('offline');
     await _pumpDetail(tester);
 
-    expect(find.text("Couldn't load the history"), findsOneWidget);
+    expect(find.text('Could not load the history'), findsOneWidget);
     expect(find.text('Irina Alexandrovna Sokolova'), findsWidgets,
         reason: 'the rest of the client still shows');
 

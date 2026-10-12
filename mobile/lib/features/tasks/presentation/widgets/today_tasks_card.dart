@@ -36,8 +36,10 @@ class TodayTasksCard extends StatelessWidget {
                 textBaseline: TextBaseline.alphabetic,
                 children: [
                   Expanded(child: EyebrowLabel(l10n.dashboardTasksToday)),
-                  if (overdue.isNotEmpty)
-                    Flexible(
+                  if (overdue.isNotEmpty) ...[
+                    const SizedBox(width: 8),
+                    ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 140),
                       child: Text(
                           l10n.dashboardTasksOverdueCount(overdue.length),
                           maxLines: 1,
@@ -48,6 +50,7 @@ class TodayTasksCard extends StatelessWidget {
                               fontWeight: FontWeight.w600,
                               color: t.dangerText)),
                     ),
+                  ],
                 ],
               ),
               const SizedBox(height: 11),
@@ -80,6 +83,7 @@ class TodayTasksCard extends StatelessWidget {
                   if (i > 0) const SizedBox(height: 8),
                   TaskRow(
                     task: today[i],
+                    nested: true,
                     currentUserId: context.currentUserId,
                     onToggle: () => context
                         .read<TasksBloc>()

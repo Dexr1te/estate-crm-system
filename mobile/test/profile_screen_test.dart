@@ -97,8 +97,8 @@ void main() {
     );
     await tester.pumpAndSettle();
 
-    expect(find.text('Delete Account'), findsOneWidget);
-    expect(find.text('Privacy Policy'), findsOneWidget);
+    expect(find.text('Delete account'), findsOneWidget);
+    expect(find.text('Privacy policy'), findsOneWidget);
     expect(find.text('Support'), findsOneWidget);
   });
 
@@ -114,9 +114,9 @@ void main() {
     await tester.pumpAndSettle();
 
     // The action sits at the bottom of a scrolling settings page.
-    await tester.scrollUntilVisible(find.text('Delete Account'), 200,
+    await tester.scrollUntilVisible(find.text('Delete account'), 200,
         scrollable: find.byType(Scrollable).first);
-    await tester.tap(find.text('Delete Account'));
+    await tester.tap(find.text('Delete account'));
     await tester.pumpAndSettle();
 
     // The successor sheet comes first, and never offers you yourself.

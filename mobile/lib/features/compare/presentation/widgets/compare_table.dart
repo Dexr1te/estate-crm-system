@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/compare/domain/comparison.dart';
@@ -8,9 +10,7 @@ import 'package:real_estate_crm/l10n/app_localizations.dart';
 /// Wide enough that every column fits without scrolling.
 const double kCompareWideBreakpoint = 600;
 
-/// The comparison grid: a row label on the left, a column per listing. Below
-/// [kCompareWideBreakpoint] the columns scroll sideways under a label column
-/// that stays put; at or above it every column shares the width.
+/// The comparison grid: a row label on the left, a column per listing.
 class CompareTable extends StatelessWidget {
   final List<ComparedListing> listings;
   final DateTime now;
@@ -44,29 +44,33 @@ class CompareTable extends StatelessWidget {
       final wide = constraints.maxWidth >= kCompareWideBreakpoint;
       final labelWidth = wide ? 150.0 : 108.0;
       final room = constraints.maxWidth - labelWidth;
-      final columnWidth =
-          wide ? (room / listings.length).clamp(120.0, 260.0) : 150.0;
+      final columnWidth = wide
+          ? (room / listings.length).clamp(120.0, 260.0)
+          : math.max(room / listings.length, 120.0);
 
       Widget column(ComparedListing l) => SizedBox(
             width: columnWidth,
-            child: Column(children: [
-              SizedBox(
-                height: headHeight,
-                child: CompareHeader(
-                  property: l.property,
-                  onOpen: () => onOpen(l.property.id),
-                  onRemove: () => onRemove(l.property.id),
-                ),
-              ),
-              for (final row in rows)
-                _Cell(
-                  key: ValueKey('compare-cell-${row.name}-${l.property.id}'),
-                  height: rowHeight,
-                  text: compareCell(l10n, row, l, now),
-                  best: best[row]?.contains(l.property.id) ?? false,
-                  strong: row == CompareRow.price,
-                ),
-            ]),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  SizedBox(
+                    height: headHeight,
+                    child: CompareHeader(
+                      property: l.property,
+                      onOpen: () => onOpen(l.property.id),
+                      onRemove: () => onRemove(l.property.id),
+                    ),
+                  ),
+                  for (final row in rows)
+                    _Cell(
+                      key:
+                          ValueKey('compare-cell-${row.name}-${l.property.id}'),
+                      height: rowHeight,
+                      text: compareCell(l10n, row, l, now),
+                      best: best[row]?.contains(l.property.id) ?? false,
+                      strong: row == CompareRow.price,
+                    ),
+                ]),
           );
 
       final labels = SizedBox(
@@ -176,7 +180,9 @@ class _Cell extends StatelessWidget {
 
     return Container(
       height: height,
-      padding: const EdgeInsets.symmetric(horizontal: 6),
+      padding: label
+          ? const EdgeInsetsDirectional.only(end: 6)
+          : const EdgeInsets.symmetric(horizontal: 6),
       decoration: BoxDecoration(
         border: Border(top: BorderSide(color: t.border, width: 1)),
       ),

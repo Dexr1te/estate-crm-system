@@ -198,7 +198,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
 
     if (_loading || p == null) {
       return DetailScaffold(
-        title: l10n.propertiesProperty,
+        title: l10n.propertiesDetailTitle,
         children: [
           if (_error != null)
             EmptyState(
@@ -229,7 +229,7 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
     return BlocListener<PropertiesBloc, PropertiesState>(
       listener: _onWriteResult,
       child: DetailScaffold(
-        title: l10n.propertiesPropertyIdLabel(p.id),
+        title: l10n.propertiesDetailTitle,
         onRefresh: _load,
         actions: [
           StarToggle(
@@ -248,20 +248,28 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
         ],
         children: [
           _PropertyHero(property: p, onCopyId: _copyId),
-          AppGhostButton(
-            key: const ValueKey('property-brochure'),
-            label: l10n.propertiesBrochure,
-            icon: Icons.picture_as_pdf_outlined,
-            loading: _brochureBusy,
-            onPressed: _shareBrochure,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              AppGhostButton(
+                key: const ValueKey('property-brochure'),
+                label: l10n.propertiesBrochure,
+                icon: Icons.picture_as_pdf_outlined,
+                loading: _brochureBusy,
+                onPressed: _shareBrochure,
+              ),
+              const SizedBox(height: 8),
+              AppGhostButton(
+                key: const ValueKey('property-seller-report'),
+                label: l10n.propertiesReport,
+                icon: Icons.assessment_outlined,
+                onPressed: () =>
+                    context.push('/properties/${widget.id}/report'),
+              ),
+              const SizedBox(height: 8),
+              CompareTrayControls(propertyId: p.id),
+            ],
           ),
-          AppGhostButton(
-            key: const ValueKey('property-seller-report'),
-            label: l10n.propertiesReport,
-            icon: Icons.assessment_outlined,
-            onPressed: () => context.push('/properties/${widget.id}/report'),
-          ),
-          CompareTrayControls(propertyId: p.id),
           if (p.price > 0)
             PropertyMortgageCard(
               propertyId: p.id,
@@ -487,8 +495,6 @@ class _BuyerRow extends StatelessWidget {
 
     return AppCard(
       nested: true,
-      radius: AppMetrics.radiusSm,
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
       onTap: () => context
           .push('/meetings/new?clientId=${client.id}&propertyId=$propertyId'),
       child: Row(
@@ -526,7 +532,8 @@ class _BuyerRow extends StatelessWidget {
           ),
           if (match.overBudget) ...[
             const SizedBox(width: 8),
-            Flexible(
+            ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 110),
               child: StatusChip(
                   label: l10n.clientsOverBudget, hue: StatusHue.negotiation),
             ),
@@ -595,8 +602,6 @@ class _ViewingRow extends StatelessWidget {
 
     return AppCard(
       nested: true,
-      radius: AppMetrics.radiusSm,
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
       onTap: () => context.push('/meetings/${viewing.id}'),
       child: Row(
         children: [

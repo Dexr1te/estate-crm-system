@@ -13,6 +13,7 @@ class TaskRow extends StatelessWidget {
   final VoidCallback? onTap;
   final int? currentUserId;
   final bool showLink;
+  final bool nested;
 
   const TaskRow({
     super.key,
@@ -21,6 +22,7 @@ class TaskRow extends StatelessWidget {
     this.onTap,
     this.currentUserId,
     this.showLink = true,
+    this.nested = false,
   });
 
   @override
@@ -46,9 +48,14 @@ class TaskRow extends StatelessWidget {
     ].join(' · ');
 
     return AppCard(
-      nested: true,
-      radius: AppMetrics.radiusSm,
-      padding: const EdgeInsets.fromLTRB(4, 4, 12, 4),
+      nested: nested,
+      padding: EdgeInsetsDirectional.fromSTEB(
+          4,
+          4,
+          nested
+              ? AppCard.nestedPadding.right
+              : AppMetrics.cardPadding(context),
+          4),
       onTap: onTap,
       child: Row(
         children: [
@@ -95,7 +102,7 @@ class TaskRow extends StatelessWidget {
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
                         fontSize: 11,
-                        color: overdue ? t.dangerText : t.textHint),
+                        color: overdue ? t.dangerText : t.textSecondary),
                   ),
                   if (task.repeats) ...[
                     const SizedBox(height: 3),

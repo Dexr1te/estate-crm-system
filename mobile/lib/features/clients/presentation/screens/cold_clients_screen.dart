@@ -58,7 +58,7 @@ class _ColdClientsScreenState extends State<ColdClientsScreen>
                     fontSize: 12.5,
                     color: context.tokens.textSecondary)),
             FilterPillRow(
-              padding: EdgeInsets.zero,
+              bleed: true,
               pills: [
                 for (final days in ColdClientsRepository.thresholds)
                   FilterPill(

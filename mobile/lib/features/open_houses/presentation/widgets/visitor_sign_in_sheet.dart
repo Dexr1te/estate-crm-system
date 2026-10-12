@@ -126,8 +126,6 @@ class _VisitorSignInFormState extends State<VisitorSignInForm> {
             AppCard(
               key: const ValueKey('visitor-last'),
               nested: true,
-              radius: AppMetrics.radiusSm,
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
               child: Row(
                 children: [
                   Icon(Icons.check_circle_outline_rounded,
@@ -146,7 +144,8 @@ class _VisitorSignInFormState extends State<VisitorSignInForm> {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  Flexible(
+                  ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 110),
                     child: StatusChip(
                       label: last.newClient
                           ? l10n.openHouseNewClient

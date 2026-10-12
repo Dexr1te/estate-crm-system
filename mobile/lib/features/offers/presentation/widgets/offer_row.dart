@@ -41,8 +41,6 @@ class OfferRow extends StatelessWidget {
     return AppCard(
       key: ValueKey('offer-row-${o.id}'),
       nested: true,
-      radius: AppMetrics.radiusSm,
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
       onTap: onTap,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -63,9 +61,12 @@ class OfferRow extends StatelessWidget {
               ),
               const SizedBox(width: 8),
               Flexible(
-                child: StatusChip(
-                  label: offerStatusLabel(l10n, o.status),
-                  hue: offerStatusHue(o.status),
+                child: Align(
+                  alignment: AlignmentDirectional.centerEnd,
+                  child: StatusChip(
+                    label: offerStatusLabel(l10n, o.status),
+                    hue: offerStatusHue(o.status),
+                  ),
                 ),
               ),
             ],

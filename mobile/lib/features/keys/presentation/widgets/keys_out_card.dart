@@ -66,14 +66,16 @@ class KeysOutCard extends StatelessWidget {
             children: [
               Expanded(child: EyebrowLabel(l10n.keysOutTitle)),
               if (overdue > 0)
-                Flexible(
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 140),
                   child: Text(l10n.keysOutOverdueCount(overdue),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: countStyle),
                 )
               else if (all != null && all.length > shown!.length)
-                Flexible(
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 140),
                   child: Text(l10n.dashboardMandatesTotal(all.length),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,

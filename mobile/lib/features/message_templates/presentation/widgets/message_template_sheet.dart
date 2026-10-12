@@ -138,6 +138,7 @@ class _MessageTemplateFormState extends State<MessageTemplateForm> {
               key: ValueKey('placeholder-$name'),
               label: placeholderLabel(l10n, name),
               selected: false,
+              onCard: true,
               onTap: () => _insert(name),
             ),
         ]),

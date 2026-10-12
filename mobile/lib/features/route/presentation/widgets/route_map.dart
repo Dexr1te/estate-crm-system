@@ -26,8 +26,13 @@ class RouteMap extends StatelessWidget {
     final t = context.tokens;
     final points = [for (final l in legs) l.point];
     final options = points.length == 1
-        ? MapOptions(initialCenter: points.single, initialZoom: 15)
+        ? MapOptions(
+            initialCenter: points.single,
+            initialZoom: 15,
+            backgroundColor: t.surfaceVariant,
+          )
         : MapOptions(
+            backgroundColor: t.surfaceVariant,
             initialCameraFit: CameraFit.coordinates(
               coordinates: points,
               padding: const EdgeInsets.all(36),

@@ -36,8 +36,10 @@ class FunnelCard extends StatelessWidget {
             value: '${funnel.reachedNegotiation}',
             fraction: funnel.reachedNegotiation / total,
             color: t.textSecondary,
-            caption: l10n.analyticsOfPrevious(
-                percentLabel(funnel.leadToNegotiationRate, none)),
+            caption: funnel.leadToNegotiationRate == null
+                ? null
+                : l10n.analyticsOfPrevious(
+                    percentLabel(funnel.leadToNegotiationRate, none)),
           ),
           const SizedBox(height: 14),
           AnalyticsBarRow(
@@ -46,8 +48,10 @@ class FunnelCard extends StatelessWidget {
             value: '${funnel.won}',
             fraction: funnel.won / total,
             color: won,
-            caption: l10n.analyticsOfPrevious(
-                percentLabel(funnel.negotiationToWonRate, none)),
+            caption: funnel.negotiationToWonRate == null
+                ? null
+                : l10n.analyticsOfPrevious(
+                    percentLabel(funnel.negotiationToWonRate, none)),
           ),
           const SizedBox(height: 14),
           Container(height: 1, color: t.border),
@@ -65,21 +69,26 @@ class FunnelCard extends StatelessWidget {
                       color: t.textSecondary),
                 ),
               ),
-              const SizedBox(width: 8),
-              Flexible(
-                child: Text(
-                  '${l10n.analyticsLeadToWon} '
-                  '${percentLabel(funnel.leadToWonRate, none)}',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.end,
-                  style: TextStyle(
-                      fontFamily: AppFonts.sans,
-                      fontSize: 11.5,
-                      fontWeight: FontWeight.w600,
-                      color: t.textPrimary),
+              if (funnel.leadToWonRate != null) ...[
+                const SizedBox(width: 8),
+                Flexible(
+                  child: Align(
+                    alignment: AlignmentDirectional.centerEnd,
+                    child: Text(
+                      '${l10n.analyticsLeadToWon} '
+                      '${percentLabel(funnel.leadToWonRate, none)}',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.end,
+                      style: TextStyle(
+                          fontFamily: AppFonts.sans,
+                          fontSize: 11.5,
+                          fontWeight: FontWeight.w600,
+                          color: t.textPrimary),
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ],
           ),
         ],

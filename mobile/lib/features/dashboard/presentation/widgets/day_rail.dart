@@ -84,7 +84,7 @@ class DayRail extends StatelessWidget {
         const SizedBox(height: 5),
         Row(
           children: [
-            Text('$_startHour:00', style: _edgeStyle(t)),
+            Text(_hourLabel(_startHour), style: _edgeStyle(t)),
             Expanded(
               child: Text(
                 formatTimeOfDay(now),
@@ -96,12 +96,15 @@ class DayRail extends StatelessWidget {
                     color: t.accent),
               ),
             ),
-            Text('$_endHour:00', style: _edgeStyle(t)),
+            Text(_hourLabel(_endHour), style: _edgeStyle(t)),
           ],
         ),
       ],
     );
   }
+
+  String _hourLabel(int hour) =>
+      formatTimeOfDay(DateTime(now.year, now.month, now.day, hour));
 
   TextStyle _edgeStyle(AppTokens t) => TextStyle(
         fontFamily: AppFonts.sans,

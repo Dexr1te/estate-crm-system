@@ -151,7 +151,8 @@ class MortgageInputsCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 8),
-              Flexible(
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 120),
                 child: Text(
                   l10n.mortgageTermYears(settings.termYears),
                   key: const ValueKey('mortgage-term-label'),

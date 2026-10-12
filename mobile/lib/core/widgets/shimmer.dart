@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/theme/app_metrics.dart';
 import 'package:real_estate_crm/core/theme/app_tokens.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:real_estate_crm/core/widgets/app_surface.dart';
 
 class ShimmerBox extends StatelessWidget {
   final double width;
@@ -10,12 +10,82 @@ class ShimmerBox extends StatelessWidget {
   const ShimmerBox(
       {super.key, required this.width, required this.height, this.radius = 8});
 
+  static Color boneColor(BuildContext context) {
+    final t = context.tokens;
+    return AppSurface.levelOf(context) == SurfaceLevel.nested
+        ? t.surface
+        : (t.isDark ? t.surfaceVariant : t.border);
+  }
+
   @override
-  Widget build(BuildContext context) => Container(
+  Widget build(BuildContext context) {
+    final t = context.tokens;
+    final base = boneColor(context);
+    return SizedBox(
       width: width,
       height: height,
-      decoration: BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.circular(radius)));
+      child: CustomPaint(
+        painter: _BonePainter(
+          bone: context,
+          scope: _ShimmerScope.maybeOf(context),
+          base: base,
+          highlight:
+              t.isDark ? const Color(0xFF3A3A3C) : const Color(0xFFF5F7FC),
+          radius: radius,
+        ),
+      ),
+    );
+  }
+}
+
+class _BonePainter extends CustomPainter {
+  final BuildContext bone;
+  final _ShimmerScope? scope;
+  final Color base;
+  final Color highlight;
+  final double radius;
+
+  _BonePainter({
+    required this.bone,
+    required this.scope,
+    required this.base,
+    required this.highlight,
+    required this.radius,
+  }) : super(repaint: scope?.sweep);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()..color = base;
+    final scope = this.scope;
+    final boneBox = bone.findRenderObject();
+    final areaBox = scope?.area.findRenderObject();
+    if (scope != null &&
+        boneBox is RenderBox &&
+        areaBox is RenderBox &&
+        boneBox.attached &&
+        areaBox.hasSize) {
+      final origin = boneBox.localToGlobal(Offset.zero, ancestor: areaBox);
+      final area = areaBox.size;
+      final slide = area.width * (2 * scope.sweep.value - 1);
+      paint.shader = LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.centerRight,
+        colors: [base, base, highlight, base, base],
+        stops: const [0.0, 0.35, 0.5, 0.65, 1.0],
+      ).createShader(Rect.fromLTWH(
+          slide - origin.dx, -origin.dy, area.width, area.height));
+    }
+    canvas.drawRRect(
+        RRect.fromRectAndRadius(Offset.zero & size, Radius.circular(radius)),
+        paint);
+  }
+
+  @override
+  bool shouldRepaint(_BonePainter oldDelegate) =>
+      oldDelegate.base != base ||
+      oldDelegate.highlight != highlight ||
+      oldDelegate.radius != radius ||
+      oldDelegate.scope != scope;
 }
 
 class ShimmerBar extends StatelessWidget {
@@ -46,27 +116,35 @@ class ShimmerCircle extends StatelessWidget {
 class ShimmerCard extends StatelessWidget {
   final Widget child;
   final double? height;
-  final double radius;
+  final double? radius;
   final EdgeInsetsGeometry padding;
 
   const ShimmerCard({
     super.key,
     required this.child,
     this.height,
-    this.radius = 14,
+    this.radius,
     this.padding = const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
   });
 
   @override
-  Widget build(BuildContext context) => Container(
-        height: height,
-        padding: padding,
-        decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.34),
-          borderRadius: BorderRadius.circular(radius),
-        ),
+  Widget build(BuildContext context) {
+    final t = context.tokens;
+    final nested = AppSurface.levelOf(context) == SurfaceLevel.card;
+    return Container(
+      height: height,
+      padding: padding,
+      decoration: BoxDecoration(
+        color: nested ? t.surfaceVariant : t.surface,
+        borderRadius: BorderRadius.circular(
+            radius ?? (nested ? AppMetrics.radiusSm : AppMetrics.radiusMd)),
+      ),
+      child: AppSurface(
+        level: nested ? SurfaceLevel.nested : SurfaceLevel.card,
         child: child,
-      );
+      ),
+    );
+  }
 }
 
 class ShimmerRowCard extends StatelessWidget {
@@ -113,57 +191,91 @@ class ShimmerMetricsCard extends StatelessWidget {
   const ShimmerMetricsCard({super.key, this.rows = 3});
 
   @override
-  Widget build(BuildContext context) => ShimmerCard(
-        radius: AppMetrics.radiusMd,
-        padding: EdgeInsets.zero,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            for (var i = 0; i < rows; i++)
-              const Row(
+  Widget build(BuildContext context) {
+    final t = context.tokens;
+    return ShimmerCard(
+      radius: AppMetrics.radiusMd,
+      padding: EdgeInsets.zero,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          for (var i = 0; i < rows; i++) ...[
+            if (i > 0) Container(height: 1, color: t.border),
+            IntrinsicHeight(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Expanded(child: _MetricCellBone()),
-                  Expanded(child: _MetricCellBone()),
+                  const Expanded(child: _MetricCellBone()),
+                  Container(width: 1, color: t.border),
+                  const Expanded(child: _MetricCellBone()),
                 ],
               ),
+            ),
           ],
-        ),
-      );
+        ],
+      ),
+    );
+  }
 }
 
 class _MetricCellBone extends StatelessWidget {
   const _MetricCellBone();
 
   @override
-  Widget build(BuildContext context) => const Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-        child: Column(
+  Widget build(BuildContext context) => Padding(
+        padding: EdgeInsets.symmetric(
+            horizontal: AppMetrics.cardPadding(context), vertical: 14),
+        child: const Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ShimmerBar(widthFactor: 0.34, height: 20),
+            ShimmerBar(widthFactor: 0.34, height: 22),
             SizedBox(height: 8),
-            ShimmerBar(widthFactor: 0.7, height: 10),
+            ShimmerBar(widthFactor: 0.7, height: 11),
           ],
         ),
       );
 }
 
-class ShimmerGroup extends StatelessWidget {
+class ShimmerGroup extends StatefulWidget {
   final Widget child;
   const ShimmerGroup({super.key, required this.child});
 
   @override
-  Widget build(BuildContext context) {
-    final t = context.tokens;
-    return Shimmer.fromColors(
-      baseColor: t.isDark ? t.surfaceVariant : t.border,
-      highlightColor:
-          t.isDark ? const Color(0xFF353B52) : const Color(0xFFF5F7FC),
-      period: const Duration(milliseconds: 1100),
-      child: child,
-    );
+  State<ShimmerGroup> createState() => _ShimmerGroupState();
+}
+
+class _ShimmerGroupState extends State<ShimmerGroup>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _sweep = AnimationController(
+      vsync: this, duration: const Duration(milliseconds: 1100))
+    ..repeat();
+
+  @override
+  void dispose() {
+    _sweep.dispose();
+    super.dispose();
   }
+
+  @override
+  Widget build(BuildContext context) =>
+      _ShimmerScope(sweep: _sweep, area: context, child: widget.child);
+}
+
+class _ShimmerScope extends InheritedWidget {
+  final Animation<double> sweep;
+  final BuildContext area;
+
+  const _ShimmerScope(
+      {required this.sweep, required this.area, required super.child});
+
+  static _ShimmerScope? maybeOf(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<_ShimmerScope>();
+
+  @override
+  bool updateShouldNotify(_ShimmerScope oldWidget) =>
+      oldWidget.sweep != sweep || oldWidget.area != area;
 }
 
 class ShimmerList extends StatelessWidget {

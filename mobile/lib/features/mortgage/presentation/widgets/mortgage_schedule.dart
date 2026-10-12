@@ -34,7 +34,9 @@ class _MortgageScheduleCardState extends State<MortgageScheduleCard> {
             spacing: 14,
             runSpacing: 6,
             children: [
-              _Legend(color: t.primary, label: l10n.mortgagePrincipal),
+              _Legend(
+                  color: t.isDark ? t.textSecondary : t.primary,
+                  label: l10n.mortgagePrincipal),
               _Legend(color: t.accent, label: l10n.mortgageInterest),
             ],
           ),
@@ -147,10 +149,13 @@ class _YearRow extends StatelessWidget {
                   ),
                   const SizedBox(width: 8),
                   Flexible(
-                    child: Text(formatCents(year.paymentCents),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: strong),
+                    child: Align(
+                      alignment: AlignmentDirectional.centerEnd,
+                      child: Text(formatCents(year.paymentCents),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: strong),
+                    ),
                   ),
                 ],
               ),
@@ -162,10 +167,12 @@ class _YearRow extends StatelessWidget {
                   child: SizedBox(
                     height: 8,
                     child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Expanded(
                             flex: principal,
-                            child: ColoredBox(color: t.primary)),
+                            child: ColoredBox(
+                                color: t.isDark ? t.textSecondary : t.primary)),
                         if (interest > 0)
                           Expanded(
                               flex: interest,
@@ -222,10 +229,13 @@ class _MonthRow extends StatelessWidget {
               ),
               const SizedBox(width: 8),
               Flexible(
-                child: Text(formatCents(month.paymentCents),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: strong.copyWith(fontWeight: FontWeight.w600)),
+                child: Align(
+                  alignment: AlignmentDirectional.centerEnd,
+                  child: Text(formatCents(month.paymentCents),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: strong.copyWith(fontWeight: FontWeight.w600)),
+                ),
               ),
             ],
           ),

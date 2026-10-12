@@ -3,6 +3,7 @@ import 'dart:ui' show ImageFilter;
 import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/theme/app_metrics.dart';
 import 'package:real_estate_crm/core/theme/app_tokens.dart';
+import 'package:real_estate_crm/core/widgets/app_surface.dart';
 
 enum GlassShadow { none, soft, floating }
 
@@ -50,7 +51,7 @@ class GlassSurface extends StatelessWidget {
         rimWidth: rimWidth,
         highlight: t.glassHighlight,
       ),
-      child: child,
+      child: AppSurface(level: SurfaceLevel.card, child: child),
     );
     if (blur > 0) {
       pane = ClipRRect(

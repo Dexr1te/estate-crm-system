@@ -241,14 +241,19 @@ class _PrivacyConsent extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              width: AppMetrics.minHitTarget,
+              width: (AppMetrics.minHitTarget + Checkbox.width) / 2,
               height: AppMetrics.minHitTarget,
-              child: Checkbox(
-                value: accepted,
-                onChanged: (value) => onChanged(value ?? false),
-                activeColor: t.primary,
-                side: BorderSide(
-                    color: missing ? t.dangerBorder : t.border, width: 1.5),
+              child: OverflowBox(
+                minWidth: AppMetrics.minHitTarget,
+                maxWidth: AppMetrics.minHitTarget,
+                alignment: AlignmentDirectional.centerEnd,
+                child: Checkbox(
+                  value: accepted,
+                  onChanged: (value) => onChanged(value ?? false),
+                  activeColor: t.primary,
+                  side: BorderSide(
+                      color: missing ? t.dangerBorder : t.textHint, width: 1.5),
+                ),
               ),
             ),
             Expanded(

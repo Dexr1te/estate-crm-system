@@ -44,7 +44,7 @@ class NextMeetingHero extends StatelessWidget {
         children: [
           Row(
             children: [
-              Expanded(child: EyebrowLabel(eyebrow)),
+              Expanded(child: EyebrowLabel(eyebrow, color: t.heroTextMuted)),
               const SizedBox(width: 8),
               Text(
                 relativeTimeLabel(l10n, meeting.scheduledAt, now, locale),
@@ -103,9 +103,8 @@ class NextMeetingHero extends StatelessWidget {
                 child: AppFilledButton(
                   label: primaryLabel,
                   onPressed: onPrimary,
-                  height: AppMetrics.minHitTarget,
+                  height: AppMetrics.buttonHeightInline,
                   fontSize: 12.5,
-                  radius: 11,
                   fill: t.heroActionFill,
                   labelColor: t.heroActionLabel,
                 ),
@@ -115,9 +114,9 @@ class NextMeetingHero extends StatelessWidget {
                 child: AppGhostButton(
                   label: secondaryLabel,
                   onPressed: onSecondary,
-                  height: AppMetrics.minHitTarget,
+                  height: AppMetrics.buttonHeightInline,
                   fontSize: 12.5,
-                  borderColor: t.heroGhostBorder,
+                  borderColor: t.isDark ? t.textHint : t.heroGhostBorder,
                   labelColor: t.heroText,
                 ),
               ),

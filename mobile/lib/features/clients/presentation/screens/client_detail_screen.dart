@@ -629,9 +629,8 @@ class _ContactCard extends StatelessWidget {
                 child: AppFilledButton(
                   label: l10n.coreCall,
                   onPressed: onCall,
-                  height: AppMetrics.minHitTarget,
+                  height: AppMetrics.buttonHeightInline,
                   fontSize: 12.5,
-                  radius: 11,
                 ),
               ),
               const SizedBox(width: 8),
@@ -639,7 +638,7 @@ class _ContactCard extends StatelessWidget {
                 child: AppGhostButton(
                   label: l10n.clientsMessage,
                   onPressed: onMessage,
-                  height: AppMetrics.minHitTarget,
+                  height: AppMetrics.buttonHeightInline,
                   fontSize: 12.5,
                 ),
               ),
@@ -651,7 +650,7 @@ class _ContactCard extends StatelessWidget {
             label: l10n.clientsWrite,
             icon: Icons.chat_bubble_outline_rounded,
             onPressed: onCompose,
-            height: AppMetrics.minHitTarget,
+            height: AppMetrics.buttonHeightInline,
             fontSize: 12.5,
           ),
         ],
@@ -731,9 +730,8 @@ class _MatchesCard extends StatelessWidget {
               label: l10n.clientsSendMatches,
               onPressed: () => showSendMatchesSheet(context,
                   client: client, matches: matches, onSent: onSent),
-              height: AppMetrics.minHitTarget,
+              height: AppMetrics.buttonHeightInline,
               fontSize: 12.5,
-              radius: 11,
             ),
             if (matches.length >= 2) ...[
               const SizedBox(height: 8),
@@ -741,7 +739,7 @@ class _MatchesCard extends StatelessWidget {
                 key: const ValueKey('matches-compare'),
                 label: l10n.compareAction,
                 icon: Icons.compare_arrows_rounded,
-                height: AppMetrics.minHitTarget,
+                height: AppMetrics.buttonHeightInline,
                 fontSize: 12.5,
                 onPressed: () => context.push(compareLocation(
                     [for (final m in matches) m.property.id],
@@ -768,8 +766,6 @@ class _MatchRow extends StatelessWidget {
 
     return AppCard(
       nested: true,
-      radius: AppMetrics.radiusSm,
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
       onTap: () => context.push('/properties/${p.id}'),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -792,7 +788,8 @@ class _MatchRow extends StatelessWidget {
               ),
               if (match.overBudget) ...[
                 const SizedBox(width: 8),
-                Flexible(
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 110),
                   child: StatusChip(
                       label: l10n.clientsOverBudget,
                       hue: StatusHue.negotiation),
@@ -818,7 +815,12 @@ class _MatchRow extends StatelessWidget {
               ),
               if (showsPriceReduced(p)) ...[
                 const SizedBox(width: 8),
-                const Flexible(child: PriceReducedChip()),
+                const Flexible(
+                  child: Align(
+                    alignment: AlignmentDirectional.centerEnd,
+                    child: PriceReducedChip(),
+                  ),
+                ),
               ],
               const SizedBox(width: 8),
               Text(
@@ -866,6 +868,7 @@ class _MatchRow extends StatelessWidget {
           const SizedBox(height: 9),
           AppGhostButton(
             label: l10n.meetingsScheduleViewing,
+            height: AppMetrics.buttonHeightInline,
             onPressed: () => context
                 .push('/meetings/new?clientId=$clientId&propertyId=${p.id}'),
           ),
@@ -933,8 +936,6 @@ class _DealRow extends StatelessWidget {
 
     return AppCard(
       nested: true,
-      radius: AppMetrics.radiusSm,
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
       onTap: () => context.push('/deals/${deal.id}'),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

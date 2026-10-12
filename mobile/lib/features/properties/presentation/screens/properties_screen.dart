@@ -156,43 +156,40 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
                     padding: EdgeInsets.fromLTRB(pad, 10, pad, 0),
                     child: Column(
                       children: [
-                        Row(
-                          children: [
-                            Expanded(
-                              child: ScreenTitle(
-                                l10n.propertiesTitle,
-                                reserveSubtitle: true,
-                                subtitle: state is PropertiesLoaded
-                                    ? l10n.propertiesCounter(
-                                        items
-                                            .where((p) =>
-                                                p.status ==
-                                                PropertyStatus.RESERVED)
-                                            .length,
-                                        items.length)
-                                    : null,
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            if (!_map) ...[
-                              AppIconTile(
-                                key: const ValueKey('properties-compare'),
-                                icon: _picked == null
-                                    ? Icons.compare_arrows_rounded
-                                    : Icons.close_rounded,
-                                tooltip: _picked == null
-                                    ? l10n.compareAction
-                                    : l10n.compareExit,
-                                onPressed: _toggleCompareMode,
-                              ),
+                        ScreenTitle(
+                          l10n.propertiesTitle,
+                          reserveSubtitle: true,
+                          subtitle: state is PropertiesLoaded
+                              ? l10n.propertiesCounter(
+                                  items
+                                      .where((p) =>
+                                          p.status == PropertyStatus.RESERVED)
+                                      .length,
+                                  items.length)
+                              : null,
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              if (!_map) ...[
+                                AppIconTile(
+                                  key: const ValueKey('properties-compare'),
+                                  icon: _picked == null
+                                      ? Icons.compare_arrows_rounded
+                                      : Icons.close_rounded,
+                                  tooltip: _picked == null
+                                      ? l10n.compareAction
+                                      : l10n.compareExit,
+                                  onPressed: _toggleCompareMode,
+                                ),
+                                const SizedBox(width: 4),
+                              ],
+                              ExportButton(
+                                  kind: ExportKind.properties,
+                                  filters: _exportFilters),
                               const SizedBox(width: 4),
+                              const QuickAddButton(),
                             ],
-                            ExportButton(
-                                kind: ExportKind.properties,
-                                filters: _exportFilters),
-                            const SizedBox(width: 4),
-                            const QuickAddButton()
-                          ],
+                          ),
                         ),
                         const SizedBox(height: 12),
                         SegmentedTabs(
@@ -227,7 +224,7 @@ class _PropertiesScreenState extends State<PropertiesScreen> {
                           ),
                         ),
                         const SizedBox(height: 10),
-                        FilterPillRow(pills: [
+                        FilterPillRow(bleed: true, pills: [
                           FilterPill(
                             label: l10n.propertiesAll,
                             selected: _filterStatus == null,

@@ -40,8 +40,6 @@ class HandoffRow extends StatelessWidget {
     return AppCard(
       key: ValueKey('handoff-${h.id}'),
       nested: true,
-      radius: AppMetrics.radiusSm,
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
       onTap: onTap,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,

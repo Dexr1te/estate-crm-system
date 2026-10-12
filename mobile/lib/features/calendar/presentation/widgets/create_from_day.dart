@@ -69,9 +69,7 @@ class _Choice extends StatelessWidget {
     final t = context.tokens;
     return AppCard(
       nested: true,
-      radius: AppMetrics.radiusSm,
       onTap: onTap,
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
       child: Row(
         children: [
           Icon(icon, size: 22, color: t.textSecondary),
@@ -99,7 +97,8 @@ class _Choice extends StatelessWidget {
               ],
             ),
           ),
-          Icon(Icons.chevron_right_rounded, size: 20, color: t.textHint),
+          const SizedBox(width: 8),
+          const RowChevron(),
         ],
       ),
     );

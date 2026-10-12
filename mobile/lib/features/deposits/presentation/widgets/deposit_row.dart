@@ -38,14 +38,13 @@ class DepositRow extends StatelessWidget {
       key: ValueKey('deposit-row-${deposit.id}'),
       nested: nested,
       onTap: onTap,
-      padding: const EdgeInsets.all(12),
       child: Row(
         children: [
           Container(
             width: 38,
             height: 38,
             decoration: BoxDecoration(
-              color: t.surfaceVariant,
+              color: nested ? t.surface : t.surfaceVariant,
               borderRadius: BorderRadius.circular(11),
             ),
             child:

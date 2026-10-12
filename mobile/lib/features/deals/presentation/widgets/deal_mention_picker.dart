@@ -55,13 +55,12 @@ class _MentionListState extends State<_MentionList> {
                     overflow: TextOverflow.ellipsis,
                     style: line(t.textSecondary)),
               ),
-              Flexible(
-                child: AppGhostButton(
-                  label: l10n.coreRetry,
-                  height: AppMetrics.buttonHeightInline,
-                  fontSize: 12,
-                  onPressed: () => setState(() => _people = widget.load()),
-                ),
+              const SizedBox(width: 8),
+              AppGhostButton(
+                label: l10n.coreRetry,
+                height: AppMetrics.buttonHeightInline,
+                fontSize: 12,
+                onPressed: () => setState(() => _people = widget.load()),
               ),
             ]);
           }

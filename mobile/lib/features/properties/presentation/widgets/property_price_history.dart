@@ -98,8 +98,6 @@ class _PriceChangeRow extends StatelessWidget {
 
     return AppCard(
       nested: true,
-      radius: AppMetrics.radiusSm,
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

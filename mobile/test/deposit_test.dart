@@ -302,7 +302,7 @@ void main() {
         (tester) async {
       _deposits.failLoad = true;
       await _pumpDeal(tester);
-      expect(find.text("Couldn't load the deposit"), findsOneWidget);
+      expect(find.text('Could not load the deposit'), findsOneWidget);
       _deposits.failLoad = false;
       await _tap(tester, find.byKey(const Key('deal-deposit-retry')));
       expect(find.text('No deposit recorded'), findsOneWidget);
@@ -386,7 +386,7 @@ void main() {
       addTearDown(bloc.close);
       await tester.pumpWidget(depositsCardApp(bloc));
       await tester.pumpAndSettle();
-      expect(find.text("Couldn't load the deposits"), findsOneWidget);
+      expect(find.text('Could not load the deposits'), findsOneWidget);
       _deposits.failEnding = false;
       _deposits.ending = endingDeposits.take(1).toList();
       await tester.tap(find.byKey(const ValueKey('deposits-retry')));

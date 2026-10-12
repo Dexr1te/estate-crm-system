@@ -79,7 +79,7 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
       _descCtrl.text = p.description ?? '';
       _addressCtrl.text = p.address;
       _cityCtrl.text = p.city ?? '';
-      _priceCtrl.text = p.price.toStringAsFixed(0);
+      _priceCtrl.text = _groupedDigits(p.price);
       _areaCtrl.text = p.areaSqm?.toStringAsFixed(0) ?? '';
       _roomsCtrl.text = p.rooms?.toString() ?? '';
       _floorCtrl.text = p.floor?.toString() ?? '';
@@ -115,9 +115,14 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
   }
 
   double? _double(TextEditingController c) {
-    final v = c.text.trim().replaceAll(',', '.');
+    final v = c.text.replaceAll(RegExp(r'\s'), '').replaceAll(',', '.');
     return v.isEmpty ? null : double.tryParse(v);
   }
+
+  static String _groupedDigits(double v) => v
+      .round()
+      .toString()
+      .replaceAllMapped(RegExp(r'\B(?=(\d{3})+$)'), (_) => ' ');
 
   static String _dateOnly(DateTime d) => '${d.year.toString().padLeft(4, '0')}-'
       '${d.month.toString().padLeft(2, '0')}-'
@@ -283,14 +288,14 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
           eyebrow: l10n.propertiesBasicInfo,
           children: [
             LabelledField(
-              label: l10n.propertiesProperty,
+              label: l10n.propertiesTitleLabel,
               required: true,
               child: AppTextField(
                 controller: _titleCtrl,
-                hint: l10n.propertiesTitleLabel,
+                hint: l10n.propertiesTitleHint,
                 textInputAction: TextInputAction.next,
                 validator: (v) => v == null || v.trim().isEmpty
-                    ? l10n.propertiesFieldRequired(l10n.propertiesProperty)
+                    ? l10n.propertiesFieldRequired(l10n.propertiesTitleLabel)
                     : null,
               ),
             ),
@@ -334,8 +339,7 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
               rooms: _roomsCtrl,
               type: _type,
               excludeId: widget.propertyId,
-              onUseMedian: (price) =>
-                  _priceCtrl.text = price.toStringAsFixed(0),
+              onUseMedian: (price) => _priceCtrl.text = _groupedDigits(price),
             ),
           ],
         ),

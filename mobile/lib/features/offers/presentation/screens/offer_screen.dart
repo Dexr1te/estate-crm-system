@@ -151,7 +151,6 @@ class _OfferScreenState extends State<OfferScreen> {
               child: AppGhostButton(
                 key: const ValueKey('offer-counter'),
                 label: l10n.offersCounter,
-                height: AppMetrics.buttonHeightInline,
                 onPressed: _deciding ? null : () => _counter(o),
               ),
             ),
@@ -160,7 +159,6 @@ class _OfferScreenState extends State<OfferScreen> {
               child: AppGhostButton(
                 key: const ValueKey('offer-reject'),
                 label: l10n.offersReject,
-                height: AppMetrics.buttonHeightInline,
                 onPressed:
                     _deciding ? null : () => _decide(o, OfferDecision.reject),
               ),
@@ -171,11 +169,10 @@ class _OfferScreenState extends State<OfferScreen> {
           AppGhostButton(
             key: const ValueKey('offer-withdraw'),
             label: l10n.offersWithdraw,
-            height: AppMetrics.buttonHeightInline,
             onPressed:
                 _deciding ? null : () => _decide(o, OfferDecision.withdraw),
           ),
-        _History(steps: o.history),
+        if (o.history.isNotEmpty) _History(steps: o.history),
       ],
     );
   }
@@ -407,18 +404,15 @@ class _History extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 10),
-                Flexible(
-                  child: Text(
-                    formatPrice(s.amount),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.end,
-                    style: TextStyle(
-                        fontFamily: AppFonts.sans,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                        color: t.textPrimary),
-                  ),
+                Text(
+                  formatPrice(s.amount),
+                  maxLines: 1,
+                  textAlign: TextAlign.end,
+                  style: TextStyle(
+                      fontFamily: AppFonts.sans,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      color: t.textPrimary),
                 ),
               ],
             ),

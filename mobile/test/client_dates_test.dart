@@ -203,7 +203,7 @@ void main() {
       _install([birthdayIn(0)]);
       _dates.readError = Exception('down');
       await _pump(tester, const ClientDatesScreen());
-      expect(find.text("Couldn't load the dates coming up"), findsOneWidget);
+      expect(find.text('Could not load the dates coming up'), findsOneWidget);
 
       _dates.readError = null;
       await _tap(tester, find.text('Retry'));
@@ -348,7 +348,7 @@ void main() {
     }
 
     Future<Map<String, dynamic>> save(WidgetTester tester) async {
-      await _tap(tester, find.text('Update Client'));
+      await _tap(tester, find.text('Update client'));
       return _clients.updated.single.$2;
     }
 

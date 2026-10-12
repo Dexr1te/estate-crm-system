@@ -167,14 +167,21 @@ class _TaskRepeatFormState extends State<TaskRepeatForm> {
             const SizedBox(height: 16),
             EyebrowLabel(l10n.tasksRepeatDays),
             const SizedBox(height: 10),
-            FilterPillWrap(pills: [
-              for (var day = DateTime.monday; day <= DateTime.sunday; day++)
-                FilterPill(
-                  label: weekdayShort(day, locale),
-                  selected: _days.contains(day),
-                  onCard: true,
-                  onTap: () => _toggleDay(day),
+            Row(children: [
+              for (var day = DateTime.monday;
+                  day <= DateTime.sunday;
+                  day++) ...[
+                if (day > DateTime.monday) const SizedBox(width: 6),
+                Expanded(
+                  child: FilterPill(
+                    label: weekdayShort(day, locale),
+                    selected: _days.contains(day),
+                    onCard: true,
+                    padding: const EdgeInsets.symmetric(vertical: 9),
+                    onTap: () => _toggleDay(day),
+                  ),
                 ),
+              ],
             ]),
           ],
           if (repeats) ...[

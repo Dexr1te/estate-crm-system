@@ -22,10 +22,6 @@ class NotificationRow extends StatelessWidget {
 
     return AppCard(
       key: ValueKey('notification-${notification.id}'),
-      nested: true,
-      radius: AppMetrics.radiusSm,
-      borderColor: unread ? t.primary.withValues(alpha: 0.35) : null,
-      padding: const EdgeInsets.fromLTRB(12, 10, 12, 10),
       onTap: onTap,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,

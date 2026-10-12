@@ -73,7 +73,11 @@ class _PropertyMortgageCardState extends State<PropertyMortgageCard> {
             borderRadius: BorderRadius.circular(AppMetrics.radiusMd),
             onTap: () => setState(() => _open = !_open),
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 14, 12, 14),
+              padding: EdgeInsetsDirectional.fromSTEB(
+                  AppMetrics.cardPadding(context),
+                  14,
+                  AppMetrics.cardPadding(context) - 4,
+                  14),
               child: Row(
                 children: [
                   Expanded(
@@ -130,7 +134,8 @@ class _Details extends StatelessWidget {
         fontFamily: AppFonts.sans, fontSize: 11.5, color: t.textSecondary);
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+      padding: EdgeInsets.fromLTRB(AppMetrics.cardPadding(context), 0,
+          AppMetrics.cardPadding(context), AppMetrics.cardPadding(context)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -197,15 +202,18 @@ class _Line extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           Flexible(
-            child: Text(value,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.end,
-                style: TextStyle(
-                    fontFamily: AppFonts.sans,
-                    fontSize: 12.5,
-                    fontWeight: FontWeight.w600,
-                    color: t.textPrimary)),
+            child: Align(
+              alignment: AlignmentDirectional.centerEnd,
+              child: Text(value,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.end,
+                  style: TextStyle(
+                      fontFamily: AppFonts.sans,
+                      fontSize: 12.5,
+                      fontWeight: FontWeight.w600,
+                      color: t.textPrimary)),
+            ),
           ),
         ],
       ),

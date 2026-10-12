@@ -82,6 +82,7 @@ class _RecordTasksBody extends StatelessWidget {
                   if (i > 0) const SizedBox(height: 8),
                   TaskRow(
                     task: tasks[i],
+                    nested: true,
                     showLink: false,
                     currentUserId: context.currentUserId,
                     onToggle: () => context
@@ -128,13 +129,11 @@ class _Line extends StatelessWidget {
         ),
         if (action != null) ...[
           const SizedBox(width: 8),
-          Flexible(
-            child: AppGhostButton(
-              label: action!,
-              onPressed: onAction,
-              height: AppMetrics.buttonHeightInline,
-              fontSize: 12,
-            ),
+          AppGhostButton(
+            label: action!,
+            onPressed: onAction,
+            height: AppMetrics.buttonHeightInline,
+            fontSize: 12,
           ),
         ],
       ],

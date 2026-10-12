@@ -110,7 +110,6 @@ class _CurrencyOption extends StatelessWidget {
     final t = context.tokens;
     return AppCard(
       nested: true,
-      radius: AppMetrics.radiusSm,
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
       onTap: onTap,
       child: Row(

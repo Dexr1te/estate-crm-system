@@ -35,28 +35,42 @@ class CompareHeader extends StatelessWidget {
       onTap: onOpen,
       borderRadius: BorderRadius.circular(AppMetrics.radiusSm),
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(6, 8, 0, 10),
+        padding: const EdgeInsets.fromLTRB(6, 0, 0, 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                PropertyCover.of(property, size: _cover, radius: 12),
-                const Spacer(),
-                SizedBox(
-                  width: AppMetrics.minHitTarget,
-                  height: _cover,
-                  child: IconButton(
-                    key: ValueKey('compare-remove-${property.id}'),
-                    onPressed: onRemove,
-                    tooltip: l10n.compareRemove,
-                    padding: EdgeInsets.zero,
-                    icon: Icon(Icons.close_rounded,
-                        size: 18, color: t.textSecondary),
+            SizedBox(
+              width: _cover + 12,
+              height: 8 + _cover,
+              child: Stack(
+                children: [
+                  PositionedDirectional(
+                    start: 0,
+                    top: 8,
+                    child: PropertyCover.of(property, size: _cover, radius: 12),
                   ),
-                ),
-              ],
+                  PositionedDirectional(
+                    end: 0,
+                    top: 0,
+                    width: 32,
+                    height: 32,
+                    child: IconButton(
+                      key: ValueKey('compare-remove-${property.id}'),
+                      onPressed: onRemove,
+                      tooltip: l10n.compareRemove,
+                      padding: EdgeInsets.zero,
+                      icon: Container(
+                        width: 22,
+                        height: 22,
+                        decoration: BoxDecoration(
+                            color: t.surface, shape: BoxShape.circle),
+                        child: Icon(Icons.close_rounded,
+                            size: 14, color: t.textSecondary),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
             const SizedBox(height: 8),
             Text(

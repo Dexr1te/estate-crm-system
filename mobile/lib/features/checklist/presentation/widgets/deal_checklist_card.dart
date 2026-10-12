@@ -90,16 +90,20 @@ class _DealChecklistCardState extends State<DealChecklistCard> {
                     counted.isNotEmpty) ...[
                   const SizedBox(width: 10),
                   Flexible(
-                    child: Text(
-                      l10n.dealsChecklistProgress(
-                          counted.where((i) => i.done).length, counted.length),
-                      key: const Key('deal-checklist-progress'),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          fontFamily: AppFonts.sans,
-                          fontSize: 11,
-                          color: t.textHint),
+                    child: Align(
+                      alignment: AlignmentDirectional.centerEnd,
+                      child: Text(
+                        l10n.dealsChecklistProgress(
+                            counted.where((i) => i.done).length,
+                            counted.length),
+                        key: const Key('deal-checklist-progress'),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontFamily: AppFonts.sans,
+                            fontSize: 11,
+                            color: t.textHint),
+                      ),
                     ),
                   ),
                 ],

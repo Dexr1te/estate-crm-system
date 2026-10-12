@@ -8,7 +8,8 @@ import 'package:real_estate_crm/l10n/app_localizations.dart';
 /// The square a key sits in, beside a listing's keys and in the lists.
 class KeyIconTile extends StatelessWidget {
   final bool alert;
-  const KeyIconTile({super.key, this.alert = false});
+  final bool nested;
+  const KeyIconTile({super.key, this.alert = false, this.nested = false});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,7 @@ class KeyIconTile extends StatelessWidget {
       width: 38,
       height: 38,
       decoration: BoxDecoration(
-        color: alert ? t.dangerFill : t.surfaceVariant,
+        color: alert ? t.dangerFill : (nested ? t.surface : t.surfaceVariant),
         borderRadius: BorderRadius.circular(11),
       ),
       child: Icon(Icons.key_outlined,
@@ -59,23 +60,38 @@ class KeyOutRow extends StatelessWidget {
       key: ValueKey('key-out-row-${h.id}'),
       nested: nested,
       onTap: onTap,
-      padding: const EdgeInsets.all(12),
       child: Row(
         children: [
-          KeyIconTile(alert: h.overdue),
+          KeyIconTile(alert: h.overdue, nested: nested),
           const SizedBox(width: 10),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        fontFamily: AppFonts.sans,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: t.textPrimary)),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.baseline,
+                  textBaseline: TextBaseline.alphabetic,
+                  children: [
+                    Expanded(
+                      child: Text(title,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontFamily: AppFonts.sans,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: t.textPrimary)),
+                    ),
+                    if (h.overdue) ...[
+                      const SizedBox(width: 8),
+                      ConstrainedBox(
+                        constraints: const BoxConstraints(maxWidth: 110),
+                        child: StatusChip(
+                            label: l10n.keysOverdue, hue: StatusHue.danger),
+                      ),
+                    ],
+                  ],
+                ),
                 const SizedBox(height: 2),
                 Text(keysHolderLine(l10n, h, AppClock.now(), locale),
                     maxLines: 2,
@@ -98,13 +114,6 @@ class KeyOutRow extends StatelessWidget {
               ],
             ),
           ),
-          if (h.overdue) ...[
-            const SizedBox(width: 8),
-            ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 110),
-              child: StatusChip(label: l10n.keysOverdue, hue: StatusHue.danger),
-            ),
-          ],
         ],
       ),
     );

@@ -287,8 +287,6 @@ class _PickRow extends StatelessWidget {
 
     return AppCard(
       nested: true,
-      radius: AppMetrics.radiusSm,
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       onTap: onTap,
       child: Row(
         children: [

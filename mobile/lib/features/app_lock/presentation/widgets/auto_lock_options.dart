@@ -49,7 +49,6 @@ class AutoLockOptions extends StatelessWidget {
           AppCard(
             key: ValueKey('auto-lock-${value.name}'),
             nested: true,
-            radius: AppMetrics.radiusSm,
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
             onTap: () => onSelected(value),
             child: Row(

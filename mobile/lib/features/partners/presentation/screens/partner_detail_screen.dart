@@ -104,7 +104,7 @@ class _PartnerDetailScreenState extends State<PartnerDetailScreen> {
 
     if (p == null) {
       return DetailScaffold(
-        title: l10n.partnersTitle,
+        title: l10n.partnersDetailTitle,
         children: [
           if (_failure != null)
             EmptyState(
@@ -128,7 +128,7 @@ class _PartnerDetailScreenState extends State<PartnerDetailScreen> {
     }
 
     return DetailScaffold(
-      title: l10n.partnersTitle,
+      title: l10n.partnersDetailTitle,
       onRefresh: _load,
       actions: p.canEdit
           ? detailActions(
@@ -416,8 +416,6 @@ class PartnerReferralRow extends StatelessWidget {
     return AppCard(
       key: ValueKey('referral-${r.clientId}'),
       nested: true,
-      radius: AppMetrics.radiusSm,
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
       onTap: onTap,
       child: Row(
         children: [
@@ -462,7 +460,8 @@ class PartnerReferralRow extends StatelessWidget {
               ],
             ),
           ),
-          Icon(Icons.chevron_right_rounded, size: 18, color: t.textHint),
+          const SizedBox(width: 8),
+          const RowChevron(),
         ],
       ),
     );
