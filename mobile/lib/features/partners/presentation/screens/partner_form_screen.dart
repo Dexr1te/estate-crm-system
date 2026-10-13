@@ -80,17 +80,15 @@ class _PartnerFormScreenState extends State<PartnerFormScreen> {
     }
   }
 
-  double? get _feeValue => double.tryParse(
-      _feeCtrl.text.replaceAll(' ', '').replaceAll(',', '.').trim());
+  double get _feeValue => parseMoneyInput(_feeCtrl.text);
 
   String? _validateFee(String? _) {
     final l10n = AppLocalizations.of(context);
     final value = _feeValue;
     return switch (_feeType) {
-      ReferralFeeType.percent when value == null || value <= 0 || value > 100 =>
+      ReferralFeeType.percent when value <= 0 || value > 100 =>
         l10n.partnersFeeInvalidPercent,
-      ReferralFeeType.fixed when value == null || value <= 0 =>
-        l10n.partnersFeeInvalidAmount,
+      ReferralFeeType.fixed when value <= 0 => l10n.partnersFeeInvalidAmount,
       _ => null,
     };
   }

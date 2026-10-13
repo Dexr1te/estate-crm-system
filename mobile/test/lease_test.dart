@@ -273,6 +273,18 @@ void main() {
       expect(find.byKey(const Key('deal-lease-left')), findsOneWidget);
     });
 
+    testWidgets('a new rent typed with a decimal comma keeps its cents',
+        (tester) async {
+      await _pumpDeal(tester);
+      await _tap(tester, find.byKey(const Key('deal-lease-renew')));
+      await tester.enterText(
+          find.byKey(const Key('lease-renew-rent')), '350000,5');
+      await tester.pumpAndSettle();
+      await _tap(tester, find.byKey(const Key('lease-renew-save')));
+
+      expect(_leases.renewed.single.$2.monthlyRent, 350000.5);
+    });
+
     testWidgets('the rent is not sent again when it did not change',
         (tester) async {
       await _pumpDeal(tester);

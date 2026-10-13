@@ -396,6 +396,26 @@ void main() {
       expect(find.text('home'), findsOneWidget);
     });
 
+    testWidgets('a fixed fee written with a thousands comma keeps its size',
+        (tester) async {
+      _phone(tester);
+      await tester.pumpWidget(_routed(const PartnerFormScreen()));
+      await tester.pumpAndSettle();
+
+      await tester.enterText(
+          find.byKey(const ValueKey('partner-name')), 'Notary Seitova');
+      await tester.enterText(
+          find.byKey(const ValueKey('partner-company')), 'Seitova & Co');
+      await _tapKey(tester, 'partner-fee-fixed');
+      await tester.pumpAndSettle();
+      await tester.enterText(
+          find.byKey(const ValueKey('partner-fee-value')), '150,000');
+      await _tapKey(tester, 'partner-save');
+      await tester.pumpAndSettle();
+
+      expect(_repo.saved.single.feeValue, 150000);
+    });
+
     testWidgets('edits a partner as it was, and the fee can be taken off',
         (tester) async {
       _phone(tester);

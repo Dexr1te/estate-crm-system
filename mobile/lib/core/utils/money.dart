@@ -96,6 +96,15 @@ String formatMoney(
 
 double _roundTenth(double v) => (v * 10).roundToDouble() / 10;
 
+double parseMoneyInput(String text) {
+  var s = text.replaceAll(RegExp(r'\s'), '');
+  s = !s.contains('.') && RegExp(r'^\d*,\d{1,2}$').hasMatch(s)
+      ? s.replaceAll(',', '.')
+      : s.replaceAll(',', '');
+  final value = double.tryParse(s) ?? 0;
+  return (value * 100).roundToDouble() / 100;
+}
+
 String _full(double a, bool english) {
   final group = english ? ',' : nbsp;
   final cents = a < 1000 ? a.toStringAsFixed(2) : null;
