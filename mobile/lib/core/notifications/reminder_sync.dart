@@ -52,7 +52,7 @@ String _body(PlannedReminder reminder, AppLocalizations l10n) {
 
   return client == null || client.isEmpty
       ? l10n.remindersBody(time)
-      : l10n.remindersBodyWithClient(time, client);
+      : l10n.remindersBodyWithClient(client, time);
 }
 
 String _taskBody(PlannedTaskReminder reminder, AppLocalizations l10n) {

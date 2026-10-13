@@ -53,8 +53,18 @@ void main() {
         settings: const ReminderSettings(enabled: true),
         locale: const Locale('ru'));
 
-    expect(gateway.scheduled.single.body, contains('Начало в'));
-    expect(gateway.scheduled.single.body, contains('Aisha Karimova'));
+    expect(
+        gateway.scheduled.single.body, 'Начало в 09:00, клиент Aisha Karimova');
+  });
+
+  test('the body puts the time and the client in their own places', () async {
+    final gateway = FakeNotificationGateway();
+
+    await _sync(gateway, [_meeting(1, const Duration(days: 1))],
+        settings: const ReminderSettings(enabled: true));
+
+    expect(
+        gateway.scheduled.single.body, 'Starts at 09:00 with Aisha Karimova');
   });
 
   test('the meeting’s own title is what the notification is called', () async {
