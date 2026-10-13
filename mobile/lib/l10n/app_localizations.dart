@@ -964,6 +964,30 @@ abstract class AppLocalizations {
   /// **'Sign up'**
   String get authSignUp;
 
+  /// No description provided for @authDemoUnavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'The demo isn\'t available right now. Try again later.'**
+  String get authDemoUnavailable;
+
+  /// No description provided for @authDemoCreateAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Create an account'**
+  String get authDemoCreateAccount;
+
+  /// No description provided for @authDemoBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'This is a demo agency. It is wiped within a day.'**
+  String get authDemoBanner;
+
+  /// No description provided for @authTryDemo.
+  ///
+  /// In en, this message translates to:
+  /// **'Try the demo'**
+  String get authTryDemo;
+
   /// No description provided for @authVerifyEmailNotYet.
   ///
   /// In en, this message translates to:
@@ -3279,6 +3303,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Team'**
   String get coreNavTeam;
+
+  /// No description provided for @coreDraftDiscard.
+  ///
+  /// In en, this message translates to:
+  /// **'Discard'**
+  String get coreDraftDiscard;
+
+  /// No description provided for @coreDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get coreDone;
+
+  /// No description provided for @coreDraftRestored.
+  ///
+  /// In en, this message translates to:
+  /// **'We restored what you typed last time'**
+  String get coreDraftRestored;
+
+  /// No description provided for @coreShowLess.
+  ///
+  /// In en, this message translates to:
+  /// **'Show less'**
+  String get coreShowLess;
+
+  /// No description provided for @coreMore.
+  ///
+  /// In en, this message translates to:
+  /// **'More'**
+  String get coreMore;
 
   /// No description provided for @coreNoResults.
   ///

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/navigation/platform_page.dart';
 import 'package:real_estate_crm/core/widgets/main_scaffold.dart';
 import 'package:real_estate_crm/features/admin/presentation/screens/admin_console_screen.dart';
 import 'package:real_estate_crm/features/analytics/presentation/screens/analytics_screen.dart';
@@ -174,13 +175,14 @@ GoRouter createRouter(AuthBloc authBloc) {
       ),
       GoRoute(
         path: '/register',
-        pageBuilder: (_, __) =>
-            const NoTransitionPage(child: RegisterRoleScreen()),
+        pageBuilder: (c, s) => platformPage(c, s, const RegisterRoleScreen()),
         routes: [
           GoRoute(
             path: 'details',
-            pageBuilder: (_, s) => NoTransitionPage(
-              child: RegisterFormScreen(
+            pageBuilder: (c, s) => platformPage(
+              c,
+              s,
+              RegisterFormScreen(
                 role: s.uri.queryParameters['role'] == Role.MANAGER.name
                     ? Role.MANAGER
                     : Role.AGENT,
@@ -191,8 +193,10 @@ GoRouter createRouter(AuthBloc authBloc) {
       ),
       GoRoute(
         path: '/verify-email',
-        pageBuilder: (_, s) => NoTransitionPage(
-          child: VerifyEmailScreen(
+        pageBuilder: (c, s) => platformPage(
+          c,
+          s,
+          VerifyEmailScreen(
             email: s.uri.queryParameters['email'] ?? '',
           ),
         ),
@@ -211,110 +215,113 @@ GoRouter createRouter(AuthBloc authBloc) {
       ),
       GoRoute(
         path: '/accept-invite',
-        pageBuilder: (_, s) => NoTransitionPage(
-          child: AcceptInviteScreen(token: s.uri.queryParameters['token']),
+        pageBuilder: (c, s) => platformPage(
+          c,
+          s,
+          AcceptInviteScreen(token: s.uri.queryParameters['token']),
         ),
       ),
       GoRoute(
         path: '/forgot-password',
-        pageBuilder: (_, __) =>
-            const NoTransitionPage(child: ForgotPasswordScreen()),
+        pageBuilder: (c, s) => platformPage(c, s, const ForgotPasswordScreen()),
       ),
       GoRoute(
         path: '/reset-password',
-        pageBuilder: (_, s) => NoTransitionPage(
-          child: ResetPasswordScreen(token: s.uri.queryParameters['token']),
+        pageBuilder: (c, s) => platformPage(
+          c,
+          s,
+          ResetPasswordScreen(token: s.uri.queryParameters['token']),
         ),
       ),
       GoRoute(
         path: '/profile',
         parentNavigatorKey: _rootKey,
-        pageBuilder: (_, __) => const NoTransitionPage(child: ProfileScreen()),
+        pageBuilder: (c, s) => platformPage(c, s, const ProfileScreen()),
       ),
       GoRoute(
         path: '/search',
         parentNavigatorKey: _rootKey,
-        pageBuilder: (_, __) => const NoTransitionPage(child: SearchScreen()),
+        pageBuilder: (c, s) => platformPage(c, s, const SearchScreen()),
       ),
       GoRoute(
         path: '/analytics',
         parentNavigatorKey: _rootKey,
-        pageBuilder: (_, __) =>
-            const NoTransitionPage(child: AnalyticsScreen()),
+        pageBuilder: (c, s) => platformPage(c, s, const AnalyticsScreen()),
       ),
       GoRoute(
         path: '/notifications',
         parentNavigatorKey: _rootKey,
-        pageBuilder: (_, __) =>
-            const NoTransitionPage(child: NotificationsScreen()),
+        pageBuilder: (c, s) => platformPage(c, s, const NotificationsScreen()),
       ),
       GoRoute(
         path: '/checklist-template',
         parentNavigatorKey: _rootKey,
-        pageBuilder: (_, __) =>
-            const NoTransitionPage(child: ChecklistTemplateScreen()),
+        pageBuilder: (c, s) =>
+            platformPage(c, s, const ChecklistTemplateScreen()),
       ),
       GoRoute(
         path: '/message-templates',
         parentNavigatorKey: _rootKey,
-        pageBuilder: (_, __) =>
-            const NoTransitionPage(child: MessageTemplatesScreen()),
+        pageBuilder: (c, s) =>
+            platformPage(c, s, const MessageTemplatesScreen()),
       ),
       GoRoute(
         path: '/leaderboard',
         parentNavigatorKey: _rootKey,
-        pageBuilder: (_, __) =>
-            const NoTransitionPage(child: LeaderboardScreen()),
+        pageBuilder: (c, s) => platformPage(c, s, const LeaderboardScreen()),
       ),
       GoRoute(
         path: '/team-goals',
         parentNavigatorKey: _rootKey,
-        pageBuilder: (_, __) =>
-            const NoTransitionPage(child: TeamGoalsScreen()),
+        pageBuilder: (c, s) => platformPage(c, s, const TeamGoalsScreen()),
       ),
       GoRoute(
         path: '/payouts',
         parentNavigatorKey: _rootKey,
-        pageBuilder: (_, __) => const NoTransitionPage(child: PayoutsScreen()),
+        pageBuilder: (c, s) => platformPage(c, s, const PayoutsScreen()),
       ),
       GoRoute(
         path: '/audit',
         parentNavigatorKey: _rootKey,
-        pageBuilder: (_, __) =>
-            const NoTransitionPage(child: TeamChangeLogScreen()),
+        pageBuilder: (c, s) => platformPage(c, s, const TeamChangeLogScreen()),
       ),
       GoRoute(
         path: '/team-handover/:id',
         parentNavigatorKey: _rootKey,
-        pageBuilder: (_, s) => NoTransitionPage(
-          child: HandoverScreen(agentId: int.parse(s.pathParameters['id']!)),
+        pageBuilder: (c, s) => platformPage(
+          c,
+          s,
+          HandoverScreen(agentId: int.parse(s.pathParameters['id']!)),
         ),
       ),
       GoRoute(
         path: '/time-off',
         parentNavigatorKey: _rootKey,
-        pageBuilder: (_, __) =>
-            const NoTransitionPage(child: MyTimeOffScreen()),
+        pageBuilder: (c, s) => platformPage(c, s, const MyTimeOffScreen()),
         routes: [
           GoRoute(
             path: 'team',
             parentNavigatorKey: _rootKey,
-            pageBuilder: (_, __) =>
-                const NoTransitionPage(child: TeamTimeOffScreen()),
+            pageBuilder: (c, s) =>
+                platformPage(c, s, const TeamTimeOffScreen()),
           ),
           GoRoute(
             path: 'new',
             parentNavigatorKey: _rootKey,
-            pageBuilder: (_, s) => NoTransitionPage(
-              child: TimeOffFormScreen(
+            pageBuilder: (c, s) => platformPage(
+              c,
+              s,
+              TimeOffFormScreen(
                   userId: int.tryParse(s.uri.queryParameters['user'] ?? '')),
             ),
           ),
           GoRoute(
             path: ':id',
             parentNavigatorKey: _rootKey,
-            pageBuilder: (_, s) => NoTransitionPage(
-              child: TimeOffFormScreen(
+            pageBuilder: (c, s) => platformPage(
+              c,
+              s,
+              TimeOffFormScreen(
                   key: ValueKey(s.pathParameters['id']),
                   id: int.parse(s.pathParameters['id']!)),
             ),
@@ -324,66 +331,76 @@ GoRouter createRouter(AuthBloc authBloc) {
       GoRoute(
         path: '/import',
         parentNavigatorKey: _rootKey,
-        pageBuilder: (_, __) => const NoTransitionPage(child: ImportScreen()),
+        pageBuilder: (c, s) => platformPage(c, s, const ImportScreen()),
       ),
       GoRoute(
         path: '/route',
         parentNavigatorKey: _rootKey,
-        pageBuilder: (_, s) => NoTransitionPage(
-          child:
-              RouteScreen(day: parseRouteDate(s.uri.queryParameters['date'])),
+        pageBuilder: (c, s) => platformPage(
+          c,
+          s,
+          RouteScreen(day: parseRouteDate(s.uri.queryParameters['date'])),
         ),
       ),
       GoRoute(
         path: '/compare',
         parentNavigatorKey: _rootKey,
-        builder: (_, s) => CompareScreen(
-          key: ValueKey(s.uri.query),
-          ids: parseCompareIds(s.uri.queryParameters['ids']),
-          clientId: int.tryParse(s.uri.queryParameters['client'] ?? ''),
+        pageBuilder: (c, s) => platformPage(
+          c,
+          s,
+          CompareScreen(
+            key: ValueKey(s.uri.query),
+            ids: parseCompareIds(s.uri.queryParameters['ids']),
+            clientId: int.tryParse(s.uri.queryParameters['client'] ?? ''),
+          ),
         ),
       ),
       GoRoute(
         path: '/tasks',
         parentNavigatorKey: _rootKey,
-        pageBuilder: (_, __) => const NoTransitionPage(child: TasksScreen()),
+        pageBuilder: (c, s) => platformPage(c, s, const TasksScreen()),
       ),
       GoRoute(
         path: '/stars',
         parentNavigatorKey: _rootKey,
-        pageBuilder: (_, __) => const NoTransitionPage(child: StarredScreen()),
+        pageBuilder: (c, s) => platformPage(c, s, const StarredScreen()),
       ),
       GoRoute(
         path: '/open-houses/:id',
         parentNavigatorKey: _rootKey,
-        pageBuilder: (_, s) => NoTransitionPage(
-          child: OpenHouseScreen(id: int.parse(s.pathParameters['id']!)),
+        pageBuilder: (c, s) => platformPage(
+          c,
+          s,
+          OpenHouseScreen(id: int.parse(s.pathParameters['id']!)),
         ),
       ),
       GoRoute(
         path: '/partners',
         parentNavigatorKey: _rootKey,
-        pageBuilder: (_, __) => const NoTransitionPage(child: PartnersScreen()),
+        pageBuilder: (c, s) => platformPage(c, s, const PartnersScreen()),
         routes: [
           GoRoute(
             path: 'new',
             parentNavigatorKey: _rootKey,
-            pageBuilder: (_, __) =>
-                const NoTransitionPage(child: PartnerFormScreen()),
+            pageBuilder: (c, s) =>
+                platformPage(c, s, const PartnerFormScreen()),
           ),
           GoRoute(
             path: ':id',
             parentNavigatorKey: _rootKey,
-            pageBuilder: (_, s) => NoTransitionPage(
-              child:
-                  PartnerDetailScreen(id: int.parse(s.pathParameters['id']!)),
+            pageBuilder: (c, s) => platformPage(
+              c,
+              s,
+              PartnerDetailScreen(id: int.parse(s.pathParameters['id']!)),
             ),
             routes: [
               GoRoute(
                 path: 'edit',
                 parentNavigatorKey: _rootKey,
-                pageBuilder: (_, s) => NoTransitionPage(
-                  child: PartnerFormScreen(
+                pageBuilder: (c, s) => platformPage(
+                  c,
+                  s,
+                  PartnerFormScreen(
                       partnerId: int.parse(s.pathParameters['id']!)),
                 ),
               ),
@@ -394,8 +411,10 @@ GoRouter createRouter(AuthBloc authBloc) {
       GoRoute(
         path: '/offers/:id',
         parentNavigatorKey: _rootKey,
-        pageBuilder: (_, s) => NoTransitionPage(
-          child: OfferScreen(id: int.parse(s.pathParameters['id']!)),
+        pageBuilder: (c, s) => platformPage(
+          c,
+          s,
+          OfferScreen(id: int.parse(s.pathParameters['id']!)),
         ),
       ),
       StatefulShellRoute.indexedStack(
@@ -420,42 +439,48 @@ GoRouter createRouter(AuthBloc authBloc) {
                   GoRoute(
                     path: 'new',
                     parentNavigatorKey: _rootKey,
-                    pageBuilder: (_, __) =>
-                        const NoTransitionPage(child: ClientFormScreen()),
+                    pageBuilder: (c, s) =>
+                        platformPage(c, s, const ClientFormScreen()),
                   ),
                   GoRoute(
                     path: 'cold',
                     parentNavigatorKey: _rootKey,
-                    pageBuilder: (_, __) =>
-                        const NoTransitionPage(child: ColdClientsScreen()),
+                    pageBuilder: (c, s) =>
+                        platformPage(c, s, const ColdClientsScreen()),
                   ),
                   GoRoute(
                     path: 'dates',
                     parentNavigatorKey: _rootKey,
-                    pageBuilder: (_, __) =>
-                        const NoTransitionPage(child: ClientDatesScreen()),
+                    pageBuilder: (c, s) =>
+                        platformPage(c, s, const ClientDatesScreen()),
                   ),
                   GoRoute(
                     path: ':id',
                     parentNavigatorKey: _rootKey,
-                    pageBuilder: (_, s) => NoTransitionPage(
-                      child: ClientDetailScreen(
+                    pageBuilder: (c, s) => platformPage(
+                      c,
+                      s,
+                      ClientDetailScreen(
                           id: int.parse(s.pathParameters['id']!)),
                     ),
                     routes: [
                       GoRoute(
                         path: 'edit',
                         parentNavigatorKey: _rootKey,
-                        pageBuilder: (_, s) => NoTransitionPage(
-                          child: ClientFormScreen(
+                        pageBuilder: (c, s) => platformPage(
+                          c,
+                          s,
+                          ClientFormScreen(
                               clientId: int.parse(s.pathParameters['id']!)),
                         ),
                       ),
                       GoRoute(
                         path: 'changes',
                         parentNavigatorKey: _rootKey,
-                        pageBuilder: (_, s) => NoTransitionPage(
-                          child: ChangeHistoryScreen(
+                        pageBuilder: (c, s) => platformPage(
+                          c,
+                          s,
+                          ChangeHistoryScreen(
                               type: ChangeEntityType.client,
                               id: int.parse(s.pathParameters['id']!)),
                         ),
@@ -476,42 +501,48 @@ GoRouter createRouter(AuthBloc authBloc) {
                   GoRoute(
                     path: 'new',
                     parentNavigatorKey: _rootKey,
-                    pageBuilder: (_, __) =>
-                        const NoTransitionPage(child: PropertyFormScreen()),
+                    pageBuilder: (c, s) =>
+                        platformPage(c, s, const PropertyFormScreen()),
                   ),
                   GoRoute(
                     path: 'mandates',
                     parentNavigatorKey: _rootKey,
-                    pageBuilder: (_, __) =>
-                        const NoTransitionPage(child: MandatesEndingScreen()),
+                    pageBuilder: (c, s) =>
+                        platformPage(c, s, const MandatesEndingScreen()),
                   ),
                   GoRoute(
                     path: 'keys',
                     parentNavigatorKey: _rootKey,
-                    pageBuilder: (_, __) =>
-                        const NoTransitionPage(child: KeysOutScreen()),
+                    pageBuilder: (c, s) =>
+                        platformPage(c, s, const KeysOutScreen()),
                   ),
                   GoRoute(
                     path: ':id',
                     parentNavigatorKey: _rootKey,
-                    pageBuilder: (_, s) => NoTransitionPage(
-                      child: PropertyDetailScreen(
+                    pageBuilder: (c, s) => platformPage(
+                      c,
+                      s,
+                      PropertyDetailScreen(
                           id: int.parse(s.pathParameters['id']!)),
                     ),
                     routes: [
                       GoRoute(
                         path: 'edit',
                         parentNavigatorKey: _rootKey,
-                        pageBuilder: (_, s) => NoTransitionPage(
-                          child: PropertyFormScreen(
+                        pageBuilder: (c, s) => platformPage(
+                          c,
+                          s,
+                          PropertyFormScreen(
                               propertyId: int.parse(s.pathParameters['id']!)),
                         ),
                       ),
                       GoRoute(
                         path: 'changes',
                         parentNavigatorKey: _rootKey,
-                        pageBuilder: (_, s) => NoTransitionPage(
-                          child: ChangeHistoryScreen(
+                        pageBuilder: (c, s) => platformPage(
+                          c,
+                          s,
+                          ChangeHistoryScreen(
                               type: ChangeEntityType.property,
                               id: int.parse(s.pathParameters['id']!)),
                         ),
@@ -519,16 +550,20 @@ GoRouter createRouter(AuthBloc authBloc) {
                       GoRoute(
                         path: 'report',
                         parentNavigatorKey: _rootKey,
-                        pageBuilder: (_, s) => NoTransitionPage(
-                          child: SellerReportScreen(
+                        pageBuilder: (c, s) => platformPage(
+                          c,
+                          s,
+                          SellerReportScreen(
                               propertyId: int.parse(s.pathParameters['id']!)),
                         ),
                       ),
                       GoRoute(
                         path: 'mortgage',
                         parentNavigatorKey: _rootKey,
-                        pageBuilder: (_, s) => NoTransitionPage(
-                          child: MortgageScreen(
+                        pageBuilder: (c, s) => platformPage(
+                          c,
+                          s,
+                          MortgageScreen(
                             price: double.tryParse(
                                     s.uri.queryParameters['price'] ?? '') ??
                                 0,
@@ -556,8 +591,10 @@ GoRouter createRouter(AuthBloc authBloc) {
                   GoRoute(
                     path: 'new',
                     parentNavigatorKey: _rootKey,
-                    pageBuilder: (_, s) => NoTransitionPage(
-                      child: DealFormScreen(
+                    pageBuilder: (c, s) => platformPage(
+                      c,
+                      s,
+                      DealFormScreen(
                         initialClientId: int.tryParse(
                             s.uri.queryParameters['clientId'] ?? ''),
                         initialPropertyId: int.tryParse(
@@ -568,20 +605,22 @@ GoRouter createRouter(AuthBloc authBloc) {
                   GoRoute(
                     path: 'deposits',
                     parentNavigatorKey: _rootKey,
-                    pageBuilder: (_, __) =>
-                        const NoTransitionPage(child: DepositsEndingScreen()),
+                    pageBuilder: (c, s) =>
+                        platformPage(c, s, const DepositsEndingScreen()),
                   ),
                   GoRoute(
                     path: 'leases',
                     parentNavigatorKey: _rootKey,
-                    pageBuilder: (_, __) =>
-                        const NoTransitionPage(child: LeasesEndingScreen()),
+                    pageBuilder: (c, s) =>
+                        platformPage(c, s, const LeasesEndingScreen()),
                   ),
                   GoRoute(
                     path: ':id',
                     parentNavigatorKey: _rootKey,
-                    pageBuilder: (_, s) => NoTransitionPage(
-                      child: DealDetailScreen(
+                    pageBuilder: (c, s) => platformPage(
+                      c,
+                      s,
+                      DealDetailScreen(
                         id: int.parse(s.pathParameters['id']!),
                         focusDiscussion:
                             s.uri.queryParameters['focus'] == 'discussion',
@@ -591,16 +630,20 @@ GoRouter createRouter(AuthBloc authBloc) {
                       GoRoute(
                         path: 'edit',
                         parentNavigatorKey: _rootKey,
-                        pageBuilder: (_, s) => NoTransitionPage(
-                          child: DealFormScreen(
+                        pageBuilder: (c, s) => platformPage(
+                          c,
+                          s,
+                          DealFormScreen(
                               dealId: int.parse(s.pathParameters['id']!)),
                         ),
                       ),
                       GoRoute(
                         path: 'changes',
                         parentNavigatorKey: _rootKey,
-                        pageBuilder: (_, s) => NoTransitionPage(
-                          child: ChangeHistoryScreen(
+                        pageBuilder: (c, s) => platformPage(
+                          c,
+                          s,
+                          ChangeHistoryScreen(
                               type: ChangeEntityType.deal,
                               id: int.parse(s.pathParameters['id']!)),
                         ),
@@ -621,8 +664,10 @@ GoRouter createRouter(AuthBloc authBloc) {
                   GoRoute(
                     path: 'new',
                     parentNavigatorKey: _rootKey,
-                    pageBuilder: (_, s) => NoTransitionPage(
-                      child: MeetingFormScreen(
+                    pageBuilder: (c, s) => platformPage(
+                      c,
+                      s,
+                      MeetingFormScreen(
                         initialClientId: int.tryParse(
                             s.uri.queryParameters['clientId'] ?? ''),
                         initialPropertyId: int.tryParse(
@@ -635,16 +680,20 @@ GoRouter createRouter(AuthBloc authBloc) {
                   GoRoute(
                     path: ':id',
                     parentNavigatorKey: _rootKey,
-                    pageBuilder: (_, s) => NoTransitionPage(
-                      child: MeetingDetailScreen(
+                    pageBuilder: (c, s) => platformPage(
+                      c,
+                      s,
+                      MeetingDetailScreen(
                           id: int.parse(s.pathParameters['id']!)),
                     ),
                     routes: [
                       GoRoute(
                         path: 'edit',
                         parentNavigatorKey: _rootKey,
-                        pageBuilder: (_, s) => NoTransitionPage(
-                          child: MeetingFormScreen(
+                        pageBuilder: (c, s) => platformPage(
+                          c,
+                          s,
+                          MeetingFormScreen(
                               meetingId: int.parse(s.pathParameters['id']!)),
                         ),
                       ),

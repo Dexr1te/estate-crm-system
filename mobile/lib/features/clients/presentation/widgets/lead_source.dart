@@ -128,7 +128,7 @@ class LeadSourceField extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontFamily: AppFonts.sans,
-                          fontSize: 11.5,
+                          fontSize: AppType.footnote,
                           color: context.tokens.dangerText),
                     ),
                   ],

@@ -15,6 +15,11 @@ class AuthRemoteDataSource {
     return AuthResponse.fromJson(jsonObject(res));
   }
 
+  Future<AuthResponse> startDemo() async {
+    final res = await _client.dio.post('/auth/demo');
+    return AuthResponse.fromJson(jsonObject(res));
+  }
+
   Future<RegisterResult> register({
     required String fullName,
     required String email,

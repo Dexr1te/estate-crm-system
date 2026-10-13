@@ -29,7 +29,7 @@ class TimeOffConflictsCard extends StatelessWidget {
     final now = AppClock.now();
     final secondary = TextStyle(
         fontFamily: AppFonts.sans,
-        fontSize: 11.5,
+        fontSize: AppType.caption,
         height: 1.4,
         color: t.textSecondary);
 
@@ -49,7 +49,7 @@ class TimeOffConflictsCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 13.5,
+                        fontSize: AppType.body,
                         fontWeight: FontWeight.w600,
                         color: t.textPrimary)),
               ),
@@ -72,7 +72,7 @@ class TimeOffConflictsCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontFamily: AppFonts.sans,
-                          fontSize: 13,
+                          fontSize: AppType.subhead,
                           fontWeight: FontWeight.w600,
                           color: t.textPrimary)),
                   const SizedBox(height: 2),
@@ -99,7 +99,7 @@ class TimeOffConflictsCard extends StatelessWidget {
               icon: Icons.swap_horiz_rounded,
               onPressed: onHandOver,
               height: AppMetrics.buttonHeightInline,
-              fontSize: 12.5,
+              fontSize: AppType.subhead,
             ),
           ],
         ],

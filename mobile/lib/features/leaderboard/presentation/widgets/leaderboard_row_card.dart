@@ -64,15 +64,19 @@ class LeaderboardRowCard extends StatelessWidget {
         children: [
           SizedBox(
             width: 26,
-            child: Text(
-              muted ? l10n.leaderboardNoValue : '${row.rank ?? ''}',
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                fontFamily: AppFonts.sans,
-                fontSize: 15,
-                fontWeight: FontWeight.w700,
-                color: leader ? t.primary : t.textSecondary,
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: AlignmentDirectional.centerStart,
+              child: Text(
+                muted ? l10n.leaderboardNoValue : '${row.rank ?? ''}',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontFamily: AppFonts.sans,
+                  fontSize: AppType.body,
+                  fontWeight: FontWeight.w700,
+                  color: leader ? t.primary : t.textSecondary,
+                ),
               ),
             ),
           ),
@@ -88,7 +92,7 @@ class LeaderboardRowCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 14.5,
+                    fontSize: AppType.body,
                     fontWeight: FontWeight.w600,
                     color: muted ? t.textSecondary : t.textPrimary,
                   ),
@@ -101,7 +105,7 @@ class LeaderboardRowCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 12,
+                      fontSize: AppType.footnote,
                       color: t.textSecondary),
                 ),
               ],
@@ -118,7 +122,7 @@ class LeaderboardRowCard extends StatelessWidget {
               textAlign: TextAlign.end,
               style: TextStyle(
                 fontFamily: AppFonts.sans,
-                fontSize: 14.5,
+                fontSize: AppType.body,
                 fontWeight: FontWeight.w700,
                 color: muted ? t.textSecondary : t.textPrimary,
               ),

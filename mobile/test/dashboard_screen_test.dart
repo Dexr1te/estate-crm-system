@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/theme/app_theme.dart';
 import 'package:real_estate_crm/core/utils/clock.dart';
 import 'package:real_estate_crm/core/utils/formatters.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
@@ -12,10 +16,11 @@ import 'package:real_estate_crm/features/dashboard/presentation/screens/dashboar
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/day_rail.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/pipeline_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/top_agents_card.dart';
+import 'package:real_estate_crm/features/tasks/presentation/widgets/today_tasks_card.dart';
+import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 import 'fakes.dart';
 import 'goals_fakes.dart';
-import 'quick_add_expect.dart';
 import 'responsive_harness.dart';
 
 /// Mid-morning, so that a fixture placed a few hours out is still the same
@@ -115,6 +120,26 @@ const _admin = AuthResponse(
     fullName: 'Yekaterina Vsevolodovna Ponomaryova',
     email: 'admin@estate.crm',
     role: Role.ADMIN);
+
+const _manager = AuthResponse(
+    userId: 3,
+    fullName: 'Aleksandr Konstantinovich Vishnevsky',
+    email: 'manager@estate.crm',
+    role: Role.MANAGER,
+    teamId: 1);
+
+const _agent = AuthResponse(
+    userId: 2, fullName: 'A', email: 'a@estate.crm', role: Role.AGENT);
+
+const _quietCards = [
+  'going-cold-card',
+  'dates-card',
+  'mandates-card',
+  'deposits-card',
+  'leases-card',
+  'keys-out-card',
+  'out-today',
+];
 
 Widget _dashboard({
   List<MeetingResponse> meetings = const [],
@@ -217,7 +242,8 @@ void main() {
 
     expect(find.text('Nothing scheduled'), findsOneWidget);
     expect(find.text('No deals yet'), findsOneWidget);
-    expectOneQuickAdd();
+    expect(find.byKey(const ValueKey('quick-add')), findsNothing,
+        reason: 'the shell floats the one "+" over every tab, home included');
   });
 
   /// The figure is the server's, summed over what the caller may see; the
@@ -321,6 +347,121 @@ void main() {
     await tester.pumpAndSettle();
     expect(tester.takeException(), isNull);
   });
+
+  testWidgets('a quiet day shows no empty cards, not even while they load',
+      (tester) async {
+    final gate = Completer<void>();
+    Injector.coldClientsRepository = FakeColdClientsRepository()
+      ..hold = gate.future;
+    addTearDown(
+        () => Injector.coldClientsRepository = FakeColdClientsRepository());
+    await expectNoOverflow(
+      tester,
+      _dashboard(meetings: _meetings, deals: _deals, user: _manager),
+      size: const Size(390, 844),
+      brightness: Brightness.light,
+      textScale: 1.0,
+    );
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
+
+    expect(find.byKey(const ValueKey('going-cold-card'), skipOffstage: false),
+        findsNothing,
+        reason: 'a card still loading is not a shell to wait on');
+
+    gate.complete();
+    await tester.pumpAndSettle();
+
+    for (final key in _quietCards) {
+      expect(find.byKey(ValueKey(key), skipOffstage: false), findsNothing,
+          reason: '$key has nothing to show');
+    }
+    expect(find.byType(TodayTasksCard, skipOffstage: false), findsOneWidget,
+        reason: 'the to-do card stays');
+    expect(find.byKey(const ValueKey('goal-card'), skipOffstage: false),
+        findsOneWidget,
+        reason: 'the goal card stays');
+  });
+
+  group('the header', () {
+    Future<void> pumpRouted(WidgetTester tester, AuthResponse user) async {
+      tester.view.physicalSize = const Size(390, 844);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.reset);
+      final router = GoRouter(initialLocation: '/dashboard', routes: [
+        GoRoute(
+            path: '/dashboard',
+            builder: (_, __) =>
+                _dashboard(meetings: _meetings, deals: _deals, user: user)),
+        GoRoute(
+            path: '/team-console',
+            builder: (_, __) => const Text('team console', maxLines: 1)),
+        GoRoute(
+            path: '/admin',
+            builder: (_, __) => const Text('admin console', maxLines: 1)),
+      ]);
+      addTearDown(router.dispose);
+      await tester.pumpWidget(MaterialApp.router(
+        theme: AppTheme.light,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        routerConfig: router,
+      ));
+      await tester.pumpAndSettle();
+    }
+
+    testWidgets('a manager reaches the team console from home', (tester) async {
+      await pumpRouted(tester, _manager);
+
+      expect(find.byKey(const ValueKey('dashboard-admin')), findsNothing);
+      expect(find.byTooltip('Team'), findsOneWidget);
+      await tester.tap(find.byKey(const ValueKey('dashboard-team')));
+      await tester.pumpAndSettle();
+      expect(find.text('team console'), findsOneWidget);
+    });
+
+    testWidgets('an admin reaches the admin console from home', (tester) async {
+      await pumpRouted(tester, _admin);
+
+      expect(find.byKey(const ValueKey('dashboard-team')), findsNothing);
+      expect(find.byTooltip('Admin'), findsOneWidget);
+      await tester.tap(find.byKey(const ValueKey('dashboard-admin')));
+      await tester.pumpAndSettle();
+      expect(find.text('admin console'), findsOneWidget);
+    });
+
+    testWidgets('a manager with no agency yet has no team to open',
+        (tester) async {
+      await pumpRouted(tester, _manager.copyWith(teamId: null));
+
+      expect(find.byKey(const ValueKey('dashboard-team')), findsNothing);
+      expect(find.byKey(const ValueKey('dashboard-admin')), findsNothing);
+    });
+
+    testWidgets('an agent has neither, and home has no "+" of its own',
+        (tester) async {
+      await pumpRouted(tester, _agent);
+
+      expect(find.byKey(const ValueKey('dashboard-team')), findsNothing);
+      expect(find.byKey(const ValueKey('dashboard-admin')), findsNothing);
+      expect(find.byKey(const ValueKey('quick-add')), findsNothing);
+    });
+  });
+
+  for (final user in [_manager, _admin, _agent]) {
+    forEachAcceptanceCase('dashboard header — ${user.role.name}',
+        (tester, size, brightness, scale) async {
+      await expectNoOverflow(
+        tester,
+        _dashboard(meetings: _meetings, deals: _deals, user: user),
+        size: size,
+        brightness: brightness,
+        textScale: scale,
+      );
+      await tester.pumpAndSettle();
+      expect(tester.takeException(), isNull);
+    });
+  }
 
   testWidgets('the day rail marks every meeting scheduled today',
       (tester) async {

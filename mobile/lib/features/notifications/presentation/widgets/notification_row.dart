@@ -47,7 +47,7 @@ class NotificationRow extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 13,
+                    fontSize: AppType.body,
                     height: 1.3,
                     fontWeight: unread ? FontWeight.w700 : FontWeight.w500,
                     color: unread ? t.textPrimary : t.textSecondary,
@@ -61,7 +61,7 @@ class NotificationRow extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 12,
+                        fontSize: AppType.footnote,
                         color: t.textSecondary),
                   ),
                 ],
@@ -74,7 +74,7 @@ class NotificationRow extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 11,
+                      fontSize: AppType.caption,
                       color: t.textHint),
                 ),
               ],

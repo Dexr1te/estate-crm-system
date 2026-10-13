@@ -66,7 +66,7 @@ class PropertyPriceHistoryCard extends StatelessWidget {
                   maxLines: 1,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 11,
+                      fontSize: AppType.caption,
                       fontWeight: FontWeight.w600,
                       color: t.textSecondary)),
             ],
@@ -113,7 +113,7 @@ class _PriceChangeRow extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 13,
+                      fontSize: AppType.subhead,
                       fontWeight: FontWeight.w600,
                       color: t.textPrimary),
                 ),
@@ -126,7 +126,7 @@ class _PriceChangeRow extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 12,
+                    fontSize: AppType.footnote,
                     fontWeight: FontWeight.w600,
                     color: t.textSecondary),
               ),
@@ -140,7 +140,7 @@ class _PriceChangeRow extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 11.5,
+                  fontSize: AppType.caption,
                   color: t.textSecondary),
             ),
           ],

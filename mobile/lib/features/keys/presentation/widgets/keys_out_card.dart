@@ -10,9 +10,7 @@ import 'package:real_estate_crm/l10n/app_localizations.dart';
 const kKeysOutPreview = 3;
 
 /// The keys that are out, on the dashboard: the overdue and soonest due few,
-/// each opening its listing. Nothing at all when every key is in the office,
-/// a skeleton while it loads, and a failure stays inside the card. Mirrors
-/// the deposits and leases cards.
+/// each opening its listing. Mirrors the deposits and leases cards.
 ///
 /// [topGap] sits above the card and goes with it, so a hidden card leaves no
 /// hole in the column.
@@ -30,7 +28,9 @@ class KeysOutCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<KeysOutBloc, KeysOutState>(
       builder: (context, state) {
-        if (state is KeysOutLoaded && state.keys.isEmpty) {
+        if (state is KeysOutLoaded
+            ? state.keys.isEmpty
+            : state is! KeysOutError) {
           return const SizedBox.shrink(key: ValueKey('keys-out-hidden'));
         }
         return Padding(
@@ -48,10 +48,12 @@ class KeysOutCard extends StatelessWidget {
     final shown = all?.take(kKeysOutPreview).toList();
     final overdue = state is KeysOutLoaded ? state.overdueCount : 0;
     final secondary = TextStyle(
-        fontFamily: AppFonts.sans, fontSize: 12.5, color: t.textSecondary);
+        fontFamily: AppFonts.sans,
+        fontSize: AppType.subhead,
+        color: t.textSecondary);
     final countStyle = TextStyle(
         fontFamily: AppFonts.sans,
-        fontSize: 11,
+        fontSize: AppType.caption,
         fontWeight: FontWeight.w600,
         color: overdue > 0 ? t.dangerText : t.textSecondary);
 
@@ -84,7 +86,7 @@ class KeysOutCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 11),
-          if (state is KeysOutError) ...[
+          if (shown == null) ...[
             Text(l10n.keysOutLoadFailed,
                 maxLines: 2, overflow: TextOverflow.ellipsis, style: secondary),
             const SizedBox(height: 10),
@@ -94,15 +96,9 @@ class KeysOutCard extends StatelessWidget {
               onPressed: () =>
                   context.read<KeysOutBloc>().add(KeysOutLoadEvent()),
               height: AppMetrics.buttonHeightInline,
-              fontSize: 12.5,
+              fontSize: AppType.subhead,
             ),
-          ] else if (shown == null)
-            const Column(children: [
-              KeyOutRowBone(),
-              SizedBox(height: 8),
-              KeyOutRowBone(),
-            ])
-          else ...[
+          ] else ...[
             for (var i = 0; i < shown.length; i++) ...[
               if (i > 0) const SizedBox(height: 8),
               KeyOutRow(
@@ -117,7 +113,7 @@ class KeysOutCard extends StatelessWidget {
               label: l10n.dashboardSeeAll,
               onPressed: onSeeAll,
               height: AppMetrics.buttonHeightInline,
-              fontSize: 12.5,
+              fontSize: AppType.subhead,
             ),
           ],
         ],

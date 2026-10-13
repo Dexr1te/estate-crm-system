@@ -52,7 +52,7 @@ class PayoutAction extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 12.5,
+                  fontSize: AppType.subhead,
                   fontWeight: FontWeight.w600,
                   color: onTap == null ? t.textHint : t.primary),
             ),

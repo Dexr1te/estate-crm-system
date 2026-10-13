@@ -51,7 +51,7 @@ class MonthGrid extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 11,
+                      fontSize: AppType.caption,
                       fontWeight: FontWeight.w600,
                       color: t.textHint),
                 ),
@@ -113,7 +113,7 @@ class CalendarLegend extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 11,
+                      fontSize: AppType.caption,
                       color: t.textSecondary),
                 ),
               ),

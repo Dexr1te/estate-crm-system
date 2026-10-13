@@ -29,7 +29,7 @@ class ClientBirthdayField extends StatelessWidget {
     final initial = current == null
         ? DateTime(_anyLeapYear, now.month, 1)
         : DateTime(current.year ?? _anyLeapYear, current.month, current.day);
-    final date = await showDatePicker(
+    final date = await showAppDatePicker(
       context: context,
       initialDate: initial.isAfter(today) ? today : initial,
       firstDate: DateTime(1900),
@@ -106,7 +106,7 @@ class ClientBirthdayField extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 11.5,
+                    fontSize: AppType.caption,
                     height: 1.35,
                     color: t.textSecondary),
               ),

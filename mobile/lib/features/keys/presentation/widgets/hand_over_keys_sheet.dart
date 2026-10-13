@@ -186,7 +186,7 @@ class _DueBackField extends StatelessWidget {
     final now = AppClock.now();
     final today = DateTime(now.year, now.month, now.day);
     final current = value;
-    final picked = await showDatePicker(
+    final picked = await showAppDatePicker(
       context: context,
       initialDate: current == null || current.isBefore(today)
           ? today.add(const Duration(days: 1))
@@ -252,7 +252,7 @@ class _ErrorLine extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
         style: TextStyle(
             fontFamily: AppFonts.sans,
-            fontSize: 11.5,
+            fontSize: AppType.caption,
             height: 1.35,
             color: context.tokens.dangerText),
       ),

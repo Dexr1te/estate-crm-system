@@ -49,7 +49,7 @@ class PropertyLocationPreview extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 13,
+                    fontSize: AppType.subhead,
                     color: t.textSecondary)),
           ],
           const SizedBox(height: 12),

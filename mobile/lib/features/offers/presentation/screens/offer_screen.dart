@@ -209,7 +209,7 @@ class _Hero extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 15,
+                        fontSize: AppType.body,
                         height: 1.3,
                         fontWeight: FontWeight.w600,
                         color: t.heroText),
@@ -248,7 +248,7 @@ class _Hero extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 fontFamily: AppFonts.sans,
-                fontSize: 11.5,
+                fontSize: AppType.caption,
                 color: t.heroTextMuted),
           ),
         ],
@@ -285,7 +285,7 @@ class _Details extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 12.5,
+                  fontSize: AppType.subhead,
                   height: 1.4,
                   fontWeight: FontWeight.w500,
                   color: t.dangerText),
@@ -324,7 +324,7 @@ class _Details extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 12.5,
+                    fontSize: AppType.subhead,
                     height: 1.5,
                     color: t.textSecondary)),
           ],
@@ -367,7 +367,7 @@ class _History extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontFamily: AppFonts.sans,
-                            fontSize: 13,
+                            fontSize: AppType.body,
                             fontWeight: FontWeight.w600,
                             color: t.textPrimary),
                       ),
@@ -384,7 +384,7 @@ class _History extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontFamily: AppFonts.sans,
-                            fontSize: 11.5,
+                            fontSize: AppType.caption,
                             color: t.textSecondary),
                       ),
                       if (s.note != null && s.note!.trim().isNotEmpty) ...[
@@ -395,7 +395,7 @@ class _History extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontFamily: AppFonts.sans,
-                              fontSize: 12,
+                              fontSize: AppType.footnote,
                               height: 1.4,
                               color: t.textSecondary),
                         ),
@@ -410,7 +410,7 @@ class _History extends StatelessWidget {
                   textAlign: TextAlign.end,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 13,
+                      fontSize: AppType.body,
                       fontWeight: FontWeight.w600,
                       color: t.textPrimary),
                 ),

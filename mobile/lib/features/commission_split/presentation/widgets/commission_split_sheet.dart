@@ -155,7 +155,9 @@ class _CommissionSplitFormState extends State<CommissionSplitForm> {
         .fold(0, (sum, l) => sum + splitCents(l.draft.percent ?? 0));
     final full = _lines.length >= kMaxSplitShares;
     final note = TextStyle(
-        fontFamily: AppFonts.sans, fontSize: 11.5, color: t.dangerText);
+        fontFamily: AppFonts.sans,
+        fontSize: AppType.caption,
+        color: t.dangerText);
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -203,7 +205,7 @@ class _CommissionSplitFormState extends State<CommissionSplitForm> {
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
               fontFamily: AppFonts.sans,
-              fontSize: 14,
+              fontSize: AppType.body,
               fontWeight: FontWeight.w600,
               color: draft.totalsHundred ? t.textPrimary : t.dangerText),
         ),
@@ -265,7 +267,9 @@ class _LineEditor extends StatelessWidget {
     final draft = line.draft;
     final typed = line.percent.text.trim().isNotEmpty;
     final error = TextStyle(
-        fontFamily: AppFonts.sans, fontSize: 11.5, color: t.dangerText);
+        fontFamily: AppFonts.sans,
+        fontSize: AppType.caption,
+        color: t.dangerText);
     final title = switch (line.kind) {
       CommissionPartyKind.CO_BROKER => l10n.splitsCoBroker,
       _ => line.name,
@@ -292,7 +296,7 @@ class _LineEditor extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontFamily: AppFonts.sans,
-                            fontSize: 13.5,
+                            fontSize: AppType.body,
                             fontWeight: FontWeight.w600,
                             color: t.textPrimary)),
                     if (subtitle != null)
@@ -301,7 +305,7 @@ class _LineEditor extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontFamily: AppFonts.sans,
-                              fontSize: 11.5,
+                              fontSize: AppType.footnote,
                               color: t.textSecondary)),
                   ],
                 ),

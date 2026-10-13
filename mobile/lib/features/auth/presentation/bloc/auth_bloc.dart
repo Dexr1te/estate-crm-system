@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:real_estate_crm/core/bloc/collection_bloc.dart';
@@ -23,6 +24,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
         super(AuthInitial()) {
     on<AuthCheckEvent>(_onCheck);
     on<AuthLoginEvent>(_onLogin);
+    on<AuthStartDemoEvent>(_onStartDemo);
     on<AuthRegisterEvent>(_onRegister);
     on<AuthConfirmEmailEvent>(_onConfirmEmail);
     on<AuthResendLinkEvent>(_onResendLink);
@@ -101,6 +103,20 @@ class AuthBloc extends Bloc<AuthEvent, AuthState>
           } catch (err) {
             emit(AuthError(ApiFailure.from(err)));
           }
+        }
+      });
+
+  Future<void> _onStartDemo(AuthStartDemoEvent e, Emitter<AuthState> emit) =>
+      once('demo', () async {
+        emit(AuthDemoStarting());
+        try {
+          final auth = await _repo.startDemo();
+          emit(AuthAuthenticated(auth));
+          _notify();
+        } catch (err) {
+          final status = err is DioException ? err.response?.statusCode : null;
+          emit(AuthDemoFailed(ApiFailure.from(err),
+              unavailable: status == 404 || status == 429));
         }
       });
 

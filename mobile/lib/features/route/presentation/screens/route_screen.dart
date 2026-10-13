@@ -92,7 +92,9 @@ class _RouteScreenState extends State<RouteScreen> {
     final next = route.nextFrom(now);
     final remaining = route.remainingFrom(now);
     final hint = TextStyle(
-        fontFamily: AppFonts.sans, fontSize: 12, color: t.textSecondary);
+        fontFamily: AppFonts.sans,
+        fontSize: AppType.footnote,
+        color: t.textSecondary);
     return AppCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -105,7 +107,7 @@ class _RouteScreenState extends State<RouteScreen> {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 fontFamily: AppFonts.sans,
-                fontSize: 14,
+                fontSize: AppType.body,
                 fontWeight: FontWeight.w600,
                 color: t.textPrimary),
           ),
@@ -176,7 +178,7 @@ class _RouteScreenState extends State<RouteScreen> {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 fontFamily: AppFonts.sans,
-                fontSize: 12,
+                fontSize: AppType.footnote,
                 color: t.textSecondary)),
         const SizedBox(height: 10),
         for (final stop in route.unlocated) ...[

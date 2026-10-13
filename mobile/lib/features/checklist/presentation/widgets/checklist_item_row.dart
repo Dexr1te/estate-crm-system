@@ -32,7 +32,9 @@ class ChecklistItemRow extends StatelessWidget {
         ? null
         : formatDayMonth(item.doneAt!.toLocal(), language);
     final small = TextStyle(
-        fontFamily: AppFonts.sans, fontSize: 11.5, color: t.textSecondary);
+        fontFamily: AppFonts.sans,
+        fontSize: AppType.caption,
+        color: t.textSecondary);
 
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,7 +65,7 @@ class ChecklistItemRow extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 13.5,
+                    fontSize: AppType.body,
                     height: 1.3,
                     color: item.done ? t.textSecondary : t.textPrimary,
                     decoration: item.done ? TextDecoration.lineThrough : null,
@@ -136,7 +138,8 @@ class ChecklistItemRow extends StatelessWidget {
         child: Text(label,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(fontFamily: AppFonts.sans, fontSize: 13.5)),
+            style: const TextStyle(
+                fontFamily: AppFonts.sans, fontSize: AppType.body)),
       );
 }
 

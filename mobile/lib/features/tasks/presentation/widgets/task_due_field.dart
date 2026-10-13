@@ -20,7 +20,7 @@ class TaskDueField extends StatelessWidget {
     final now = AppClock.now();
     final base = value ?? quickDueAt(TaskQuickDue.tomorrowMorning, now);
     final first = base.isBefore(now) ? base : now;
-    final date = await showDatePicker(
+    final date = await showAppDatePicker(
       context: context,
       initialDate: base,
       firstDate: DateTime(first.year, first.month, first.day),
@@ -34,7 +34,7 @@ class TaskDueField extends StatelessWidget {
   Future<void> _pickTime(BuildContext context) async {
     final base =
         value ?? quickDueAt(TaskQuickDue.tomorrowMorning, AppClock.now());
-    final time = await showTimePicker(
+    final time = await showAppTimePicker(
       context: context,
       initialTime: TimeOfDay.fromDateTime(base),
     );
@@ -100,7 +100,9 @@ class TaskDueField extends StatelessWidget {
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
-                fontFamily: AppFonts.sans, fontSize: 11, color: t.dangerText),
+                fontFamily: AppFonts.sans,
+                fontSize: AppType.footnote,
+                color: t.dangerText),
           ),
         ],
       ],

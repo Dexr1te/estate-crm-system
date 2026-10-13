@@ -54,7 +54,7 @@ class StarredRow extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 14,
+                      fontSize: AppType.body,
                       fontWeight: FontWeight.w600,
                       color: t.textPrimary),
                 ),
@@ -66,7 +66,7 @@ class StarredRow extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 12,
+                        fontSize: AppType.footnote,
                         color: t.textSecondary),
                   ),
                 ],

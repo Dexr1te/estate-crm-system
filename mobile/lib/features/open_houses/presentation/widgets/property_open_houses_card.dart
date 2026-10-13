@@ -87,7 +87,7 @@ class _PropertyOpenHousesCardState extends State<PropertyOpenHousesCard> {
                   maxLines: 1,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 11,
+                      fontSize: AppType.caption,
                       fontWeight: FontWeight.w600,
                       color: t.textSecondary)),
             ],
@@ -100,7 +100,7 @@ class _PropertyOpenHousesCardState extends State<PropertyOpenHousesCard> {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 12.5,
+                  fontSize: AppType.subhead,
                   height: 1.4,
                   color: t.textSecondary),
             ),
@@ -124,7 +124,7 @@ class _PropertyOpenHousesCardState extends State<PropertyOpenHousesCard> {
                 key: const ValueKey('open-houses-show-all'),
                 label: l10n.openHouseSeeAll,
                 height: AppMetrics.minHitTarget,
-                fontSize: 12.5,
+                fontSize: AppType.subhead,
                 onPressed: () => setState(() => _allPast = true),
               ),
             ],
@@ -153,7 +153,7 @@ class _Heading extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
         style: TextStyle(
             fontFamily: AppFonts.sans,
-            fontSize: 11.5,
+            fontSize: AppType.caption,
             fontWeight: FontWeight.w600,
             color: context.tokens.textSecondary),
       );
@@ -196,7 +196,7 @@ class OpenHouseRow extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 13,
+                      fontSize: AppType.body,
                       fontWeight: FontWeight.w600,
                       color: t.textPrimary),
                 ),
@@ -210,7 +210,7 @@ class OpenHouseRow extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 11.5,
+                      fontSize: AppType.caption,
                       color: t.textSecondary),
                 ),
               ],

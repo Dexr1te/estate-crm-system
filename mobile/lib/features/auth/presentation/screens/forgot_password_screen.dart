@@ -156,7 +156,7 @@ class _Sent extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
               fontFamily: AppFonts.sans,
-              fontSize: 13,
+              fontSize: AppType.subhead,
               height: 1.5,
               color: t.textSecondary),
         ),

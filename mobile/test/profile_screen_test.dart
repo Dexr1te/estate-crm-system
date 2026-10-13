@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/locale/bloc/locale_bloc.dart';
 import 'package:real_estate_crm/core/models/models.dart';
@@ -11,6 +12,7 @@ import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart';
 import 'package:real_estate_crm/features/profile/presentation/screens/profile_screen.dart';
+import 'package:real_estate_crm/l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'fakes.dart';
@@ -238,6 +240,75 @@ void main() {
               'if the base ever loses its path this test stops proving anything');
       expect(url.path, contains(Uri.parse(apiBaseUrl).path));
     }
+  });
+
+  group('the console a role runs, reached from the profile', () {
+    Future<void> pump(WidgetTester tester, AuthResponse user) async {
+      Injector.teamsRepository = FakeTeamsRepository();
+      await expectNoOverflow(tester, _profile(user: user),
+          size: const Size(390, 844),
+          brightness: Brightness.light,
+          textScale: 1.0);
+      await tester.pumpAndSettle();
+    }
+
+    final hub = find.byKey(const ValueKey('profile-hub'));
+
+    testWidgets('a manager finds their team at the top', (tester) async {
+      await pump(
+          tester,
+          _agentInTeam.copyWith(
+              userId: 7, role: Role.MANAGER, fullName: 'Asel'));
+      expect(hub, findsOneWidget);
+      expect(find.descendant(of: hub, matching: find.text('Team')),
+          findsOneWidget);
+      expect(
+          tester.getTopLeft(hub).dy,
+          lessThan(tester
+              .getTopLeft(find.byKey(const ValueKey('profile-time-off')))
+              .dy));
+    });
+
+    testWidgets('the row opens the console', (tester) async {
+      Injector.teamsRepository = FakeTeamsRepository();
+      final manager = _agentInTeam.copyWith(userId: 7, role: Role.MANAGER);
+      final router = GoRouter(initialLocation: '/profile', routes: [
+        GoRoute(path: '/profile', builder: (_, __) => _profile(user: manager)),
+        GoRoute(
+            path: '/team-console', builder: (_, __) => const Text('console')),
+      ]);
+      addTearDown(router.dispose);
+      tester.view.physicalSize = const Size(390, 844);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.reset);
+      await tester.pumpWidget(MaterialApp.router(
+        routerConfig: router,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+      ));
+      await tester.pumpAndSettle();
+
+      await tester.tap(hub);
+      await tester.pumpAndSettle();
+      expect(find.text('console'), findsOneWidget);
+    });
+
+    testWidgets('an admin finds the admin console', (tester) async {
+      await pump(tester, _user);
+      expect(find.descendant(of: hub, matching: find.text('Admin')),
+          findsOneWidget);
+    });
+
+    testWidgets('an agent has no console to go to', (tester) async {
+      await pump(tester, _agentInTeam);
+      expect(hub, findsNothing);
+    });
+
+    testWidgets('a manager still forming a team has none yet', (tester) async {
+      await pump(tester,
+          const AuthResponse(userId: 7, fullName: 'Asel', role: Role.MANAGER));
+      expect(hub, findsNothing);
+    });
   });
 
   group('the team someone belongs to', () {

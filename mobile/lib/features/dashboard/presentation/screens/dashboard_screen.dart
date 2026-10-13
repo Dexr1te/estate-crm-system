@@ -5,7 +5,7 @@ import 'package:real_estate_crm/core/auth/role_context.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/navigation/active_tab.dart';
-import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
+import 'package:real_estate_crm/core/navigation/role_hub.dart';
 import 'package:real_estate_crm/core/utils/clock.dart';
 import 'package:real_estate_crm/core/utils/contact_actions.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
@@ -193,6 +193,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                             AppClock.now(),
                             Localizations.localeOf(context).toLanguageTag())),
                         initial: user?.fullName ?? '',
+                        hub: RoleHub.of(user),
                         onTap: () => context.push('/profile'),
                         onSearch: () => context.push('/search'),
                       ),
@@ -411,6 +412,7 @@ class _GreetingRow extends StatelessWidget {
   final String title;
   final String subtitle;
   final String initial;
+  final RoleHub? hub;
   final VoidCallback onTap;
   final VoidCallback onSearch;
 
@@ -418,6 +420,7 @@ class _GreetingRow extends StatelessWidget {
     required this.title,
     required this.subtitle,
     required this.initial,
+    required this.hub,
     required this.onTap,
     required this.onSearch,
   });
@@ -425,6 +428,7 @@ class _GreetingRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.tokens;
+    final l10n = AppLocalizations.of(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -445,10 +449,16 @@ class _GreetingRow extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 8),
-            const QuickAddButton.tile(),
+            if (hub case final hub?)
+              AppIconTile(
+                key: ValueKey('dashboard-${hub.name}'),
+                icon: hub.icon,
+                tooltip: hub.label(l10n),
+                onPressed: () => context.go(hub.route),
+              ),
             AppIconTile(
               icon: Icons.search_rounded,
-              tooltip: AppLocalizations.of(context).searchTitle,
+              tooltip: l10n.searchTitle,
               onPressed: onSearch,
             ),
             const NotificationBell(),
@@ -462,7 +472,7 @@ class _GreetingRow extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
               fontFamily: AppFonts.sans,
-              fontSize: 12.5,
+              fontSize: AppType.subhead,
               color: t.textSecondary),
         ),
       ],
@@ -514,7 +524,7 @@ class _ZeroCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontFamily: AppFonts.sans,
-                          fontSize: 13,
+                          fontSize: AppType.body,
                           fontWeight: FontWeight.w600,
                           color: t.textPrimary),
                     ),
@@ -525,7 +535,7 @@ class _ZeroCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontFamily: AppFonts.sans,
-                          fontSize: 11.5,
+                          fontSize: AppType.caption,
                           height: 1.35,
                           color: t.textSecondary),
                     ),
@@ -562,7 +572,7 @@ class _NoMoreMeetings extends StatelessWidget {
           textAlign: TextAlign.center,
           style: TextStyle(
               fontFamily: AppFonts.sans,
-              fontSize: 12.5,
+              fontSize: AppType.subhead,
               color: t.textSecondary),
         ),
       ),

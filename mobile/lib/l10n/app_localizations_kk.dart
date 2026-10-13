@@ -481,6 +481,20 @@ class AppLocalizationsKk extends AppLocalizations {
   String get authSignUp => 'Тіркелу';
 
   @override
+  String get authDemoUnavailable =>
+      'Демо қазір қолжетімсіз. Кейінірек көріңіз.';
+
+  @override
+  String get authDemoCreateAccount => 'Аккаунт ашу';
+
+  @override
+  String get authDemoBanner =>
+      'Бұл демо-агенттік. Ол бір тәулік ішінде өшіріледі.';
+
+  @override
+  String get authTryDemo => 'Демоны көріп шығу';
+
+  @override
   String get authVerifyEmailNotYet =>
       'Сілтеме әлі ашылмаған. Кіріс және «Спам» қалталарын тексеріңіз.';
 
@@ -1834,6 +1848,21 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get coreNavTeam => 'Команда';
+
+  @override
+  String get coreDraftDiscard => 'Тастау';
+
+  @override
+  String get coreDone => 'Дайын';
+
+  @override
+  String get coreDraftRestored => 'Өткен жолы енгізгеніңіз қалпына келтірілді';
+
+  @override
+  String get coreShowLess => 'Жасыру';
+
+  @override
+  String get coreMore => 'Тағы';
 
   @override
   String get coreNoResults => 'Ештеңе табылмады';

@@ -36,6 +36,8 @@ class AuthLoginEvent extends AuthEvent {
   AuthLoginEvent(this.email, this.password);
 }
 
+class AuthStartDemoEvent extends AuthEvent {}
+
 class AuthAcceptInviteEvent extends AuthEvent {
   final String token, newPassword;
   AuthAcceptInviteEvent(this.token, this.newPassword);

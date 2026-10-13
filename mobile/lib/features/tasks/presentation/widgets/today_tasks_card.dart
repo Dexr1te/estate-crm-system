@@ -46,7 +46,7 @@ class TodayTasksCard extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontFamily: AppFonts.sans,
-                              fontSize: 11,
+                              fontSize: AppType.caption,
                               fontWeight: FontWeight.w600,
                               color: t.dangerText)),
                     ),
@@ -60,7 +60,7 @@ class TodayTasksCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 12.5,
+                        fontSize: AppType.subhead,
                         color: t.textSecondary))
               else if (loaded == null)
                 const ShimmerGroup(
@@ -76,7 +76,7 @@ class TodayTasksCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 12.5,
+                        fontSize: AppType.subhead,
                         color: t.textSecondary))
               else
                 for (var i = 0; i < today.length; i++) ...[
@@ -99,7 +99,7 @@ class TodayTasksCard extends StatelessWidget {
                       label: l10n.tasksAllTasks,
                       onPressed: onSeeAll,
                       height: AppMetrics.buttonHeightInline,
-                      fontSize: 12.5,
+                      fontSize: AppType.subhead,
                     ),
                   ),
                   const SizedBox(width: 8),
@@ -108,7 +108,7 @@ class TodayTasksCard extends StatelessWidget {
                       label: l10n.tasksAdd,
                       onPressed: () => showTaskSheet(context),
                       height: AppMetrics.buttonHeightInline,
-                      fontSize: 12.5,
+                      fontSize: AppType.subhead,
                     ),
                   ),
                 ],

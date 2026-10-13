@@ -124,7 +124,7 @@ class _PropertyPriceHintState extends State<PropertyPriceHint> {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 12,
+                    fontSize: AppType.footnote,
                     color: t.textSecondary),
               ),
             ),
@@ -136,7 +136,7 @@ class _PropertyPriceHintState extends State<PropertyPriceHint> {
                   key: const ValueKey('property-price-use-median'),
                   label: l10n.propertiesPriceHintUseMedian,
                   height: AppMetrics.buttonHeightInline,
-                  fontSize: 12,
+                  fontSize: AppType.footnote,
                   onPressed: () => widget.onUseMedian(range.median),
                 ),
               ),

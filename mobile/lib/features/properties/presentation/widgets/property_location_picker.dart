@@ -97,7 +97,7 @@ class _PropertyLocationPickerState extends State<PropertyLocationPicker> {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 11.5,
+                        fontSize: AppType.caption,
                         color: t.textSecondary)),
               ),
               if (pin != null) ...[
@@ -111,7 +111,7 @@ class _PropertyLocationPickerState extends State<PropertyLocationPicker> {
                       label: l10n.propertiesMapPinClear,
                       icon: Icons.close_rounded,
                       height: AppMetrics.buttonHeightInline,
-                      fontSize: 12.5,
+                      fontSize: AppType.subhead,
                       onPressed: () => widget.onChanged(null),
                     ),
                   ),

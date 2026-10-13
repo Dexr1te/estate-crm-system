@@ -108,7 +108,7 @@ class _HowTo extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
         style: TextStyle(
             fontFamily: AppFonts.sans,
-            fontSize: 13,
+            fontSize: AppType.subhead,
             height: 1.4,
             color: t.textSecondary),
       ),
@@ -218,7 +218,7 @@ class _KindCardState extends State<_KindCard> {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 fontFamily: AppFonts.sans,
-                fontSize: 12.5,
+                fontSize: AppType.subhead,
                 color: t.textSecondary),
           ),
           const SizedBox(height: 14),

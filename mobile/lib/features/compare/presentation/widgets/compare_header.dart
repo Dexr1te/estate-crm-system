@@ -5,11 +5,12 @@ import 'package:real_estate_crm/features/properties/presentation/widgets/propert
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 const double _cover = 44;
+const double _coverTop = 14;
 
 /// The height every column head takes, so the pinned label column can leave
 /// the same room above its first row.
 double compareHeaderHeight(TextScaler scaler) =>
-    8 + _cover + 8 + scaler.scale(33) + 6 + scaler.scale(13) + 8 + 10;
+    _coverTop + _cover + 8 + scaler.scale(38) + 6 + scaler.scale(15) + 8 + 10;
 
 /// A column's head: cover, title and status. Tapping it opens the listing;
 /// the cross takes it out of the comparison.
@@ -40,20 +41,20 @@ class CompareHeader extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              width: _cover + 12,
-              height: 8 + _cover,
+              width: _cover - 4 + AppMetrics.minHitTarget / 2,
+              height: _coverTop + _cover,
               child: Stack(
                 children: [
                   PositionedDirectional(
                     start: 0,
-                    top: 8,
+                    top: _coverTop,
                     child: PropertyCover.of(property, size: _cover, radius: 12),
                   ),
                   PositionedDirectional(
                     end: 0,
                     top: 0,
-                    width: 32,
-                    height: 32,
+                    width: AppMetrics.minHitTarget,
+                    height: AppMetrics.minHitTarget,
                     child: IconButton(
                       key: ValueKey('compare-remove-${property.id}'),
                       onPressed: onRemove,
@@ -79,7 +80,7 @@ class CompareHeader extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 13,
+                  fontSize: AppType.subhead,
                   height: 1.25,
                   fontWeight: FontWeight.w600,
                   color: t.textPrimary),

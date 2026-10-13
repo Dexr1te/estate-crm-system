@@ -52,7 +52,7 @@ class ChecklistStageSection extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 13,
+                      fontSize: AppType.subhead,
                       fontWeight: FontWeight.w600,
                       color: t.textPrimary),
                 ),
@@ -63,7 +63,7 @@ class ChecklistStageSection extends StatelessWidget {
                 overflow: TextOverflow.clip,
                 style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 11.5,
+                    fontSize: AppType.caption,
                     color: t.textSecondary),
               ),
               const SizedBox(width: 4),
@@ -86,7 +86,7 @@ class ChecklistStageSection extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 12,
+                  fontSize: AppType.footnote,
                   color: t.textSecondary),
             ),
           ),
@@ -154,7 +154,9 @@ class ChecklistLoadError extends StatelessWidget {
           maxLines: 3,
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
-              fontFamily: AppFonts.sans, fontSize: 12, color: t.dangerText),
+              fontFamily: AppFonts.sans,
+              fontSize: AppType.footnote,
+              color: t.dangerText),
         ),
         const SizedBox(height: 11),
         SizedBox(

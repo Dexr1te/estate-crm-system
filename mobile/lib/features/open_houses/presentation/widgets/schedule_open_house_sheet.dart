@@ -73,7 +73,7 @@ class _ScheduleOpenHouseFormState extends State<ScheduleOpenHouseForm> {
 
   Future<void> _pickDay() async {
     final now = AppClock.now();
-    final picked = await showDatePicker(
+    final picked = await showAppDatePicker(
       context: context,
       initialDate: _day,
       firstDate: DateTime(now.year - 1),
@@ -87,7 +87,7 @@ class _ScheduleOpenHouseFormState extends State<ScheduleOpenHouseForm> {
   }
 
   Future<void> _pickTime({required bool start}) async {
-    final picked = await showTimePicker(
+    final picked = await showAppTimePicker(
         context: context, initialTime: start ? _start : _end);
     if (picked == null || !mounted) return;
     setState(() {
@@ -210,7 +210,7 @@ class _ScheduleOpenHouseFormState extends State<ScheduleOpenHouseForm> {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 fontFamily: AppFonts.sans,
-                fontSize: 11.5,
+                fontSize: AppType.footnote,
                 height: 1.35,
                 color: t.dangerText),
           ),

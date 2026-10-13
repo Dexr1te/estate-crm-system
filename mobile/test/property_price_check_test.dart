@@ -10,6 +10,7 @@ import 'package:real_estate_crm/features/properties/presentation/widgets/propert
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 import 'package:real_estate_crm/l10n/app_localizations_en.dart';
 
+import 'more_section_expect.dart';
 import 'price_insight_fixtures.dart';
 import 'responsive_harness.dart';
 
@@ -27,6 +28,8 @@ Future<void> _detail(WidgetTester tester,
   await expectNoOverflow(
       tester, wrapPriceInsight(const PropertyDetailScreen(id: 1)),
       size: size, brightness: brightness, textScale: textScale, locale: locale);
+  await tester.pumpAndSettle();
+  await openMore(tester);
   await tester.pumpAndSettle();
   expect(tester.takeException(), isNull);
 }
@@ -103,6 +106,8 @@ void main() {
                 : Scaffold(body: Text('listing ${s.pathParameters['id']}'))),
       ]),
     )));
+    await tester.pumpAndSettle();
+    await openMore(tester);
     await tester.pumpAndSettle();
 
     final open = find.byKey(const ValueKey('price-check-comparables'));

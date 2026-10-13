@@ -17,6 +17,7 @@ import 'package:real_estate_crm/l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'fakes.dart';
+import 'more_section_expect.dart';
 import 'responsive_harness.dart';
 
 /// Listings on a map: the list's Map view with a price on every pinned flat,
@@ -366,6 +367,8 @@ void main() {
           size: const Size(390, 844),
           brightness: Brightness.light,
           textScale: 1.0);
+      await tester.pumpAndSettle();
+      await openMore(tester);
       await tester.pumpAndSettle();
     }
 

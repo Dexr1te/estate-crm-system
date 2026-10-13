@@ -11,6 +11,7 @@ import 'package:real_estate_crm/features/properties/presentation/screens/propert
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_share_link_card.dart';
 
 import 'fakes.dart';
+import 'more_section_expect.dart';
 import 'responsive_harness.dart';
 
 /// A listing's public link: one address a client opens in any browser.
@@ -170,6 +171,8 @@ void main() {
         child: const PropertyDetailScreen(id: 7),
       ),
     );
+    await openMore(tester);
+    await tester.pumpAndSettle();
 
     await tester.scrollUntilVisible(
         find.byKey(const ValueKey('share-link-card')), 200,

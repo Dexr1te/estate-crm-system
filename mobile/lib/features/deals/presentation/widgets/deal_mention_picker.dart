@@ -39,8 +39,8 @@ class _MentionListState extends State<_MentionList> {
   Widget build(BuildContext context) {
     final t = context.tokens;
     final l10n = AppLocalizations.of(context);
-    TextStyle line(Color color) =>
-        TextStyle(fontFamily: AppFonts.sans, fontSize: 13, color: color);
+    TextStyle line(Color color) => TextStyle(
+        fontFamily: AppFonts.sans, fontSize: AppType.subhead, color: color);
 
     return Padding(
       padding: const EdgeInsets.only(top: 12),
@@ -59,7 +59,7 @@ class _MentionListState extends State<_MentionList> {
               AppGhostButton(
                 label: l10n.coreRetry,
                 height: AppMetrics.buttonHeightInline,
-                fontSize: 12,
+                fontSize: AppType.footnote,
                 onPressed: () => setState(() => _people = widget.load()),
               ),
             ]);

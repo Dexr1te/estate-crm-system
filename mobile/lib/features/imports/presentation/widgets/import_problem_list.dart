@@ -44,7 +44,7 @@ class _ImportProblemListState extends State<ImportProblemList> {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 13,
+                  fontSize: AppType.subhead,
                   color: t.textSecondary),
             ),
           ),
@@ -66,7 +66,7 @@ class _ImportProblemListState extends State<ImportProblemList> {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 fontFamily: AppFonts.sans,
-                fontSize: 12.5,
+                fontSize: AppType.subhead,
                 color: t.textSecondary),
           ),
       ],
@@ -111,7 +111,7 @@ class _ProblemCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 13.5,
+                      fontSize: AppType.body,
                       fontWeight: FontWeight.w600,
                       color: t.textPrimary),
                 ),
@@ -135,7 +135,7 @@ class _ProblemCard extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 12.5,
+                  fontSize: AppType.subhead,
                   color: t.textSecondary),
             ),
           ],

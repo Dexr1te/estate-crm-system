@@ -126,7 +126,9 @@ class _MessageTemplateFormState extends State<MessageTemplateForm> {
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
-                fontFamily: AppFonts.sans, fontSize: 12, color: t.dangerText),
+                fontFamily: AppFonts.sans,
+                fontSize: AppType.footnote,
+                color: t.dangerText),
           ),
         ],
         const SizedBox(height: 14),

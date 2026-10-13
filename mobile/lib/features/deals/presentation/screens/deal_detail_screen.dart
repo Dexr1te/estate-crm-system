@@ -289,30 +289,36 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
               _StageCard(status: deal.status, onChanged: _updateStatus),
               if (deal.status == DealStatus.CLOSED_LOST)
                 _LostReasonCard(deal: deal),
-              if (deal.kind == DealKind.rent)
-                DealLeaseCard(
-                  deal: deal,
-                  onRenewed: (renewed) {
-                    setState(() => _d = renewed);
-                    _comments.add(DealCommentsLoadEvent());
-                  },
-                ),
-              if (deal.commissionPercent != null) _CommissionCard(deal: deal),
-              const DealCommissionSplitCard(),
-              DealDepositCard(
-                deal: deal,
-                onSaved: () => _comments.add(DealCommentsLoadEvent()),
-              ),
               _ParticipantsCard(deal: deal),
               RecordTasksCard(deal: PickerItem(id: deal.id, title: deal.title)),
-              DealChecklistCard(deal: deal),
               const DealDocumentsCard(),
-              _TimelineCard(deal: deal),
-              if (deal.notes != null && deal.notes!.trim().isNotEmpty)
-                _NotesCard(text: deal.notes!),
               DealDiscussionCard(
                   key: _discussionKey, dealId: deal.id, bloc: _comments),
-              ChangeHistoryButton(location: '/deals/${widget.id}/changes'),
+              MoreSection(
+                memoryKey: 'deal-detail',
+                children: [
+                  DealChecklistCard(deal: deal),
+                  if (deal.kind == DealKind.rent)
+                    DealLeaseCard(
+                      deal: deal,
+                      onRenewed: (renewed) {
+                        setState(() => _d = renewed);
+                        _comments.add(DealCommentsLoadEvent());
+                      },
+                    ),
+                  if (deal.commissionPercent != null)
+                    _CommissionCard(deal: deal),
+                  const DealCommissionSplitCard(),
+                  DealDepositCard(
+                    deal: deal,
+                    onSaved: () => _comments.add(DealCommentsLoadEvent()),
+                  ),
+                  if (deal.notes != null && deal.notes!.trim().isNotEmpty)
+                    _NotesCard(text: deal.notes!),
+                  _TimelineCard(deal: deal),
+                  ChangeHistoryButton(location: '/deals/${widget.id}/changes'),
+                ],
+              ),
             ],
           ),
         ),
@@ -347,7 +353,7 @@ class _SummaryCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 15,
+                      fontSize: AppType.body,
                       height: 1.3,
                       fontWeight: FontWeight.w600,
                       color: t.textPrimary),
@@ -392,7 +398,7 @@ class _SummaryCard extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 11.5,
+                  fontSize: AppType.caption,
                   color: t.textSecondary),
             ),
           ),
@@ -564,7 +570,7 @@ class _PropertyRow extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 12,
+                  fontSize: AppType.footnote,
                   color: t.textSecondary),
             ),
           ),
@@ -581,7 +587,7 @@ class _PropertyRow extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 12.5,
+                      fontSize: AppType.body,
                       fontWeight: FontWeight.w500,
                       color: t.textPrimary),
                 ),
@@ -593,7 +599,7 @@ class _PropertyRow extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 11,
+                        fontSize: AppType.caption,
                         color: t.textHint),
                   ),
                 ],
@@ -682,7 +688,7 @@ class _TimelineRow extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 12.5,
+                    fontSize: AppType.subhead,
                     fontWeight: FontWeight.w500,
                     color: t.textPrimary),
               ),
@@ -692,7 +698,9 @@ class _TimelineRow extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                    fontFamily: AppFonts.sans, fontSize: 11, color: t.textHint),
+                    fontFamily: AppFonts.sans,
+                    fontSize: AppType.caption,
+                    color: t.textHint),
               ),
             ],
           ),
@@ -721,7 +729,7 @@ class _NotesCard extends StatelessWidget {
             text,
             style: TextStyle(
                 fontFamily: AppFonts.sans,
-                fontSize: 12.5,
+                fontSize: AppType.subhead,
                 height: 1.55,
                 color: t.textSecondary),
           ),
@@ -753,7 +761,7 @@ class _LostReasonCard extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 fontFamily: AppFonts.sans,
-                fontSize: 14,
+                fontSize: AppType.body,
                 height: 1.3,
                 fontWeight: FontWeight.w600,
                 color: deal.lostReason == null ? t.textHint : t.textPrimary),
@@ -766,7 +774,7 @@ class _LostReasonCard extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 12.5,
+                  fontSize: AppType.subhead,
                   height: 1.55,
                   color: t.textSecondary),
             ),

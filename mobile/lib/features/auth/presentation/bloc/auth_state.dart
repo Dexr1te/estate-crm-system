@@ -11,6 +11,8 @@ class AuthInitial extends AuthState {}
 
 class AuthLoading extends AuthState {}
 
+class AuthDemoStarting extends AuthLoading {}
+
 class AuthAuthenticated extends AuthState {
   final AuthResponse user;
   AuthAuthenticated(this.user);
@@ -95,4 +97,15 @@ class AuthProfileUpdateFailed extends AuthAuthenticated with ActionFailed {
 class AuthError extends AuthState {
   final ApiFailure failure;
   AuthError(this.failure);
+
+  String label(AppLocalizations l10n) => apiFailureLabel(l10n, failure);
+}
+
+class AuthDemoFailed extends AuthError {
+  final bool unavailable;
+  AuthDemoFailed(super.failure, {required this.unavailable});
+
+  @override
+  String label(AppLocalizations l10n) =>
+      unavailable ? l10n.authDemoUnavailable : super.label(l10n);
 }

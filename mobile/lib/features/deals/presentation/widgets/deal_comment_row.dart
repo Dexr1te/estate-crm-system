@@ -60,7 +60,7 @@ class DealCommentRow extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                   fontFamily: AppFonts.sans,
-                                  fontSize: 12.5,
+                                  fontSize: AppType.subhead,
                                   fontWeight: FontWeight.w600,
                                   color: t.textPrimary),
                             ),
@@ -79,7 +79,7 @@ class DealCommentRow extends StatelessWidget {
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                   fontFamily: AppFonts.sans,
-                                  fontSize: 11,
+                                  fontSize: AppType.caption,
                                   color: t.textHint),
                             ),
                           ),
@@ -120,7 +120,7 @@ class _CommentBodyState extends State<CommentBody> {
     final l10n = AppLocalizations.of(context);
     final style = TextStyle(
         fontFamily: AppFonts.sans,
-        fontSize: 13,
+        fontSize: AppType.subhead,
         height: 1.45,
         color: t.textPrimary);
     final span = TextSpan(
@@ -161,7 +161,7 @@ class _CommentBodyState extends State<CommentBody> {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 12,
+                    fontSize: AppType.footnote,
                     fontWeight: FontWeight.w600,
                     color: t.textSecondary),
               ),

@@ -1,11 +1,11 @@
-import 'dart:math' as math;
-
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:real_estate_crm/core/theme/app_metrics.dart';
 import 'package:real_estate_crm/core/theme/app_tokens.dart';
 import 'package:real_estate_crm/core/widgets/app_surface.dart';
+import 'package:real_estate_crm/core/widgets/hit_slop.dart';
 import 'package:real_estate_crm/core/widgets/row_chevron.dart';
+
+const _sectionLink = #sectionHeaderLink;
 
 class SectionHeader extends StatelessWidget {
   final String title;
@@ -32,7 +32,7 @@ class SectionHeader extends StatelessWidget {
     final t = context.tokens;
     final trailingStyle = TextStyle(
       fontFamily: AppFonts.sans,
-      fontSize: 13,
+      fontSize: AppType.subhead,
       fontWeight: FontWeight.w500,
       color: t.textSecondary,
     );
@@ -73,7 +73,7 @@ class SectionHeader extends StatelessWidget {
         ] else if (link) ...[
           const SizedBox(width: 8),
           MetaData(
-            metaData: _HitSlop.target,
+            metaData: _sectionLink,
             child: _Tappable(
               onTap: onAction!,
               child: Row(mainAxisSize: MainAxisSize.min, children: [
@@ -88,42 +88,9 @@ class SectionHeader extends StatelessWidget {
       ],
     );
 
-    return link ? _HitSlop(child: header) : header;
-  }
-}
-
-class _HitSlop extends SingleChildRenderObjectWidget {
-  static const target = #sectionHeaderLink;
-
-  const _HitSlop({required super.child});
-
-  @override
-  RenderObject createRenderObject(BuildContext context) => _RenderHitSlop();
-}
-
-class _RenderHitSlop extends RenderProxyBox {
-  @override
-  bool hitTest(BoxHitTestResult result, {required Offset position}) {
-    if (size.contains(position)) {
-      return super.hitTest(result, position: position);
-    }
-    final slop = math.max(0.0, (AppMetrics.minHitTarget - size.height) / 2);
-    if (position.dx < 0 ||
-        position.dx >= size.width ||
-        position.dy < -slop ||
-        position.dy >= size.height + slop) {
-      return false;
-    }
-    final onRow = Offset(position.dx, size.height / 2);
-    final probe = BoxHitTestResult();
-    hitTestChildren(probe, position: onRow);
-    final onLink = probe.path.any((e) =>
-        e.target is RenderMetaData &&
-        (e.target as RenderMetaData).metaData == _HitSlop.target);
-    if (!onLink) return false;
-    hitTestChildren(result, position: onRow);
-    result.add(BoxHitTestEntry(this, position));
-    return true;
+    return link
+        ? HitSlop(minWidth: 0, target: _sectionLink, child: header)
+        : header;
   }
 }
 
@@ -168,7 +135,7 @@ class EyebrowLabel extends StatelessWidget {
       overflow: TextOverflow.ellipsis,
       style: TextStyle(
         fontFamily: AppFonts.sans,
-        fontSize: 11,
+        fontSize: AppType.caption,
         fontWeight: FontWeight.w600,
         letterSpacing: 0.6,
         color: color ??
@@ -233,7 +200,7 @@ class ScreenTitle extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontFamily: AppFonts.sans,
-              fontSize: 13,
+              fontSize: AppType.subhead,
               color: t.textSecondary,
             ),
           ),
@@ -268,7 +235,7 @@ class InfoRow extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 fontFamily: AppFonts.sans,
-                fontSize: 12.5,
+                fontSize: AppType.subhead,
                 color: t.textSecondary),
           ),
         ),
@@ -288,7 +255,7 @@ class InfoRow extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 12.5,
+                    fontSize: AppType.body,
                     height: 1.4,
                     fontWeight: FontWeight.w500,
                     color: t.textPrimary,
@@ -316,7 +283,7 @@ class DetailCell extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 fontFamily: AppFonts.sans,
-                fontSize: 11,
+                fontSize: AppType.footnote,
                 color: t.textSecondary)),
         const SizedBox(height: 3),
         Text(value,
@@ -324,7 +291,7 @@ class DetailCell extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 fontFamily: AppFonts.sans,
-                fontSize: 13,
+                fontSize: AppType.body,
                 fontWeight: FontWeight.w600,
                 color: t.textPrimary)),
       ],

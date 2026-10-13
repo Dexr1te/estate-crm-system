@@ -33,6 +33,11 @@ class _LoginScreenState extends State<LoginScreen> {
         .add(AuthLoginEvent(_emailCtrl.text.trim(), _passCtrl.text));
   }
 
+  void _startDemo() {
+    FocusScope.of(context).unfocus();
+    context.read<AuthBloc>().add(AuthStartDemoEvent());
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
@@ -52,12 +57,13 @@ class _LoginScreenState extends State<LoginScreen> {
               ScaffoldMessenger.of(ctx)
                 ..hideCurrentSnackBar()
                 ..showSnackBar(SnackBar(
-                    content: Text(apiFailureLabel(l10n, state.failure)),
+                    content: Text(state.label(l10n)),
                     backgroundColor: t.dangerSolid));
             }
           },
           builder: (ctx, state) {
             final loading = state is AuthLoading;
+            final startingDemo = state is AuthDemoStarting;
             return AppMetrics.constrain(
               CenteredScrollView(
                 child: Form(
@@ -116,8 +122,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(height: 14),
                       AppFilledButton(
                         label: l10n.authSignIn,
-                        loading: loading,
+                        loading: loading && !startingDemo,
                         onPressed: loading ? null : _submit,
+                      ),
+                      const SizedBox(height: 10),
+                      AppGhostButton(
+                        key: const Key('login-try-demo'),
+                        label: l10n.authTryDemo,
+                        icon: Icons.play_circle_outline_rounded,
+                        borderColor: t.border,
+                        loading: startingDemo,
+                        onPressed: loading ? null : _startDemo,
                       ),
                       const SizedBox(height: 18),
                       AuthFooterLink(
@@ -164,7 +179,7 @@ class AuthTextLink extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
               fontFamily: AppFonts.sans,
-              fontSize: 13,
+              fontSize: AppType.subhead,
               fontWeight: FontWeight.w600,
               color: onTap == null ? t.textHint : t.textPrimary),
         ),
@@ -199,7 +214,7 @@ class AuthTitle extends StatelessWidget {
           subtitle,
           style: TextStyle(
               fontFamily: AppFonts.sans,
-              fontSize: 13.5,
+              fontSize: AppType.body,
               height: 1.5,
               color: t.textSecondary),
         ),
@@ -251,14 +266,14 @@ class AuthFooterLink extends StatelessWidget {
           Text(question,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 13,
+                  fontSize: AppType.subhead,
                   color: t.textSecondary)),
           GestureDetector(
             onTap: onTap,
             child: Text(action,
                 style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 13,
+                    fontSize: AppType.subhead,
                     fontWeight: FontWeight.w600,
                     color: t.textPrimary)),
           ),

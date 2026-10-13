@@ -70,14 +70,16 @@ class AppTextField extends StatelessWidget {
       textInputAction: textInputAction,
       style: TextStyle(
         fontFamily: AppFonts.sans,
-        fontSize: 15,
+        fontSize: AppType.body,
         color: t.textPrimary,
       ),
       cursorColor: t.primary,
       decoration: InputDecoration(
         hintText: hint,
         hintStyle: TextStyle(
-            fontFamily: AppFonts.sans, fontSize: 15, color: t.textHint),
+            fontFamily: AppFonts.sans,
+            fontSize: AppType.body,
+            color: t.textHint),
         filled: true,
         fillColor: onPage ? t.surface : t.surfaceVariant,
         isDense: true,
@@ -98,7 +100,9 @@ class AppTextField extends StatelessWidget {
         errorBorder: border(t.dangerText),
         focusedErrorBorder: border(t.dangerText, 1.5),
         errorStyle: TextStyle(
-            fontFamily: AppFonts.sans, fontSize: 11, color: t.dangerText),
+            fontFamily: AppFonts.sans,
+            fontSize: AppType.footnote,
+            color: t.dangerText),
       ),
     );
   }
@@ -120,7 +124,7 @@ class FieldLabel extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
         style: TextStyle(
             fontFamily: AppFonts.sans,
-            fontSize: 11,
+            fontSize: AppType.footnote,
             fontWeight: FontWeight.w500,
             color: t.textSecondary),
       ),
@@ -183,7 +187,7 @@ class PickerField extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 15,
+                    fontSize: AppType.body,
                     height: 1.5,
                     color: hasValue ? t.textPrimary : t.textHint,
                   ),

@@ -60,7 +60,7 @@ class TemplateLineRow extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontFamily: AppFonts.sans,
-                            fontSize: 13.5,
+                            fontSize: AppType.body,
                             height: 1.3,
                             color: t.textPrimary),
                       ),
@@ -72,7 +72,7 @@ class TemplateLineRow extends StatelessWidget {
                     label: l10n.dealsChecklistRequired,
                     selected: line.required,
                     onCard: true,
-                    fontSize: 11,
+                    fontSize: AppType.caption,
                     padding:
                         const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     onTap: onToggleRequired,

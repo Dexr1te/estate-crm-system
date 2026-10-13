@@ -261,7 +261,9 @@ class _ComposeMessageSheetState extends State<ComposeMessageSheet> {
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
-                fontFamily: AppFonts.sans, fontSize: 11.5, color: t.textHint),
+                fontFamily: AppFonts.sans,
+                fontSize: AppType.caption,
+                color: t.textHint),
           )
         else
           Align(
@@ -275,7 +277,7 @@ class _ComposeMessageSheetState extends State<ComposeMessageSheet> {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 12.5,
+                    fontSize: AppType.subhead,
                     fontWeight: FontWeight.w600,
                     color: t.textSecondary),
               ),
@@ -301,7 +303,7 @@ class _ComposeMessageSheetState extends State<ComposeMessageSheet> {
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
               fontFamily: AppFonts.sans,
-              fontSize: 11.5,
+              fontSize: AppType.caption,
               height: 1.35,
               color: t.textSecondary),
         ),

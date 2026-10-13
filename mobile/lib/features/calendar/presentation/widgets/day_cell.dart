@@ -77,7 +77,7 @@ class DayCell extends StatelessWidget {
                     softWrap: false,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 13,
+                        fontSize: AppType.subhead,
                         fontWeight: selected || today
                             ? FontWeight.w700
                             : FontWeight.w500,

@@ -42,7 +42,7 @@ class AttentionRow extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 13,
+                      fontSize: AppType.body,
                       fontWeight: FontWeight.w500,
                       color: t.textPrimary),
                 ),
@@ -52,7 +52,9 @@ class AttentionRow extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
-                      fontFamily: AppFonts.sans, fontSize: 11, color: rail),
+                      fontFamily: AppFonts.sans,
+                      fontSize: AppType.caption,
+                      color: rail),
                 ),
               ],
             ),
@@ -68,7 +70,7 @@ class AttentionRow extends StatelessWidget {
                 textAlign: TextAlign.right,
                 style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 11.5,
+                    fontSize: AppType.caption,
                     fontWeight: FontWeight.w600,
                     color: t.textPrimary),
               ),

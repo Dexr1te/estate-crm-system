@@ -60,7 +60,7 @@ class AutoLockOptions extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 13.5,
+                        fontSize: AppType.body,
                         fontWeight: value == selected
                             ? FontWeight.w600
                             : FontWeight.w500,

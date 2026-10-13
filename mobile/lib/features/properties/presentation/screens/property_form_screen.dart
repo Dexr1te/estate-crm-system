@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart' show LatLng;
 import 'package:real_estate_crm/core/di/injector.dart';
+import 'package:real_estate_crm/core/forms/form_draft.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/utils/clock.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
@@ -23,7 +24,8 @@ class PropertyFormScreen extends StatefulWidget {
   State<PropertyFormScreen> createState() => _PropertyFormScreenState();
 }
 
-class _PropertyFormScreenState extends State<PropertyFormScreen> {
+class _PropertyFormScreenState extends State<PropertyFormScreen>
+    with FormDraftMixin<PropertyFormScreen> {
   final _stepOneKey = GlobalKey<FormState>();
   final _stepTwoKey = GlobalKey<FormState>();
 
@@ -49,7 +51,70 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
   @override
   void initState() {
     super.initState();
-    if (widget.isEditing) _load();
+    if (widget.isEditing) {
+      _load();
+    } else {
+      startDraft();
+    }
+  }
+
+  @override
+  String get draftId =>
+      widget.isEditing ? 'property:${widget.propertyId}' : 'property:new';
+
+  @override
+  List<Listenable> get draftFields => [
+        _titleCtrl,
+        _descCtrl,
+        _addressCtrl,
+        _cityCtrl,
+        _priceCtrl,
+        _areaCtrl,
+        _roomsCtrl,
+        _floorCtrl,
+        _totalFloorsCtrl,
+      ];
+
+  @override
+  DraftValues captureDraft() => {
+        'title': _titleCtrl.text,
+        'description': _descCtrl.text,
+        'address': _addressCtrl.text,
+        'city': _cityCtrl.text,
+        'price': _priceCtrl.text,
+        'area': _areaCtrl.text,
+        'rooms': _roomsCtrl.text,
+        'floor': _floorCtrl.text,
+        'totalFloors': _totalFloorsCtrl.text,
+        'type': _type.name,
+        'status': _status.name,
+        'latitude': _pin?.latitude,
+        'longitude': _pin?.longitude,
+        'mandateType': _mandateType?.name,
+        'mandateEndDate': draftDate(_mandateEndDate),
+      };
+
+  @override
+  void restoreDraft(DraftValues values) {
+    _titleCtrl.text = values.textAt('title');
+    _descCtrl.text = values.textAt('description');
+    _addressCtrl.text = values.textAt('address');
+    _cityCtrl.text = values.textAt('city');
+    _priceCtrl.text = values.textAt('price');
+    _areaCtrl.text = values.textAt('area');
+    _roomsCtrl.text = values.textAt('rooms');
+    _floorCtrl.text = values.textAt('floor');
+    _totalFloorsCtrl.text = values.textAt('totalFloors');
+    _type =
+        values.enumAt('type', PropertyType.values) ?? PropertyType.APARTMENT;
+    _status = values.enumAt('status', PropertyStatus.values) ??
+        PropertyStatus.AVAILABLE;
+    final lat = values.doubleAt('latitude');
+    final lng = values.doubleAt('longitude');
+    _pin = lat == null || lng == null ? null : LatLng(lat, lng);
+    _mandateType = values.enumAt('mandateType', MandateType.values);
+    _mandateEndDate =
+        _mandateType == null ? null : values.dateAt('mandateEndDate');
   }
 
   @override
@@ -93,6 +158,7 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
         _mandateEndDate = p.mandateType == null ? null : p.mandateEndDate;
         _initLoading = false;
       });
+      startDraft();
     } catch (_) {
       if (mounted) setState(() => _initLoading = false);
     }
@@ -140,7 +206,7 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
     final first = initial.isBefore(today)
         ? initial
         : today.subtract(const Duration(days: 365));
-    final date = await showDatePicker(
+    final date = await showAppDatePicker(
       context: context,
       initialDate: initial,
       firstDate: first,
@@ -182,13 +248,20 @@ class _PropertyFormScreenState extends State<PropertyFormScreen> {
           : _dateOnly(_mandateEndDate!),
     };
 
+    final bloc = context.read<PropertiesBloc>();
+    closeDraftWhen(savedOutcome(
+      bloc.stream,
+      saved: (s) => widget.isEditing
+          ? s is PropertiesActionSuccess &&
+              s.message == ActionMessage.propertyUpdated
+          : s is PropertyCreated,
+      failed: (s) => s is PropertiesActionFailure || s is PropertiesError,
+    ));
     if (widget.isEditing) {
-      context
-          .read<PropertiesBloc>()
-          .add(PropertiesUpdateEvent(widget.propertyId!, data));
+      bloc.add(PropertiesUpdateEvent(widget.propertyId!, data));
       context.go('/properties');
     } else {
-      context.read<PropertiesBloc>().add(PropertiesCreateEvent(data));
+      bloc.add(PropertiesCreateEvent(data));
     }
   }
 

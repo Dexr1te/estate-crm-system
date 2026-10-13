@@ -229,7 +229,7 @@ class _PartnerFormScreenState extends State<PartnerFormScreen> {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontFamily: AppFonts.sans,
-                          fontSize: 12,
+                          fontSize: AppType.footnote,
                           height: 1.4,
                           color: t.textSecondary),
                     ),
@@ -301,7 +301,7 @@ class _PartnerFormScreenState extends State<PartnerFormScreen> {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 11.5,
+                        fontSize: AppType.footnote,
                         height: 1.35,
                         color: t.dangerText),
                   ),

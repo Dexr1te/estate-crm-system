@@ -42,14 +42,14 @@ class OutTodayCard extends StatelessWidget {
                     TextSpan(
                       text: l10n.timeOffOutToday(names.length),
                       style: TextStyle(
-                          fontSize: 13,
+                          fontSize: AppType.subhead,
                           fontWeight: FontWeight.w600,
                           color: t.textPrimary),
                       children: [
                         TextSpan(
                           text: '  ${names.join(', ')}',
                           style: TextStyle(
-                              fontSize: 12,
+                              fontSize: AppType.footnote,
                               fontWeight: FontWeight.w400,
                               color: t.textSecondary),
                         ),

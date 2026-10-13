@@ -76,7 +76,7 @@ class _Pill extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 12.5,
+                        fontSize: AppType.subhead,
                         fontWeight: FontWeight.w600,
                         color: t.textPrimary)),
               ),
@@ -87,7 +87,7 @@ class _Pill extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 12.5,
+                        fontSize: AppType.subhead,
                         fontWeight: FontWeight.w700,
                         color: t.primary)),
               ],

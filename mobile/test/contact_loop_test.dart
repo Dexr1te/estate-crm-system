@@ -18,6 +18,7 @@ import 'package:real_estate_crm/features/clients/presentation/widgets/client_his
 import 'package:real_estate_crm/features/clients/presentation/widgets/log_contact_sheet.dart';
 
 import 'fakes.dart';
+import 'more_section_expect.dart';
 import 'responsive_harness.dart';
 
 /// Contact that records itself.
@@ -441,6 +442,8 @@ void main() {
   group('what was sent', () {
     Future<void> openSendSheet(WidgetTester tester) async {
       await _pumpDetail(tester);
+      await openMore(tester);
+      await tester.pumpAndSettle();
       final button = find.widgetWithText(AppFilledButton, 'Send listings');
       await tester.scrollUntilVisible(button, 200,
           scrollable: find.byType(Scrollable).first);
@@ -531,6 +534,8 @@ void main() {
         PropertyMatch(property: _tverskaya, lastSentAt: DateTime(2026, 9, 3)),
       ]);
       await _pumpDetail(tester);
+      await openMore(tester);
+      await tester.pumpAndSettle();
 
       expect(
           find.text('Shown Sep 12, 2026 · Sent Sep 20, 2026'), findsOneWidget);

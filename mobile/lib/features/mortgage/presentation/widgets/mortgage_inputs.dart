@@ -49,7 +49,7 @@ class MortgageInputsCard extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final note = TextStyle(
         fontFamily: AppFonts.sans,
-        fontSize: 11,
+        fontSize: AppType.caption,
         height: 1.4,
         color: t.textSecondary);
 
@@ -124,7 +124,7 @@ class MortgageInputsCard extends StatelessWidget {
                     label: mortgagePresetLabel(l10n, p),
                     selected: settings.ratePercent == p.ratePercent,
                     onCard: true,
-                    fontSize: 11.5,
+                    fontSize: AppType.caption,
                     padding:
                         const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     onTap: () => onPreset(p),
@@ -160,7 +160,7 @@ class MortgageInputsCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 13,
+                      fontSize: AppType.subhead,
                       fontWeight: FontWeight.w600,
                       color: t.textPrimary),
                 ),
@@ -209,7 +209,7 @@ class _Suffix extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 13,
+                  fontSize: AppType.subhead,
                   color: context.tokens.textSecondary)),
         ),
       );

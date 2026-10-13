@@ -93,7 +93,7 @@ class _PropertyMortgageCardState extends State<PropertyMortgageCard> {
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontFamily: AppFonts.sans,
-                              fontSize: 14,
+                              fontSize: AppType.body,
                               fontWeight: FontWeight.w600,
                               color: t.textPrimary),
                         ),
@@ -131,7 +131,9 @@ class _Details extends StatelessWidget {
     final t = context.tokens;
     final l10n = AppLocalizations.of(context);
     final muted = TextStyle(
-        fontFamily: AppFonts.sans, fontSize: 11.5, color: t.textSecondary);
+        fontFamily: AppFonts.sans,
+        fontSize: AppType.caption,
+        color: t.textSecondary);
 
     return Padding(
       padding: EdgeInsets.fromLTRB(AppMetrics.cardPadding(context), 0,
@@ -197,7 +199,7 @@ class _Line extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 12.5,
+                    fontSize: AppType.subhead,
                     color: t.textSecondary)),
           ),
           const SizedBox(width: 8),
@@ -210,7 +212,7 @@ class _Line extends StatelessWidget {
                   textAlign: TextAlign.end,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 12.5,
+                      fontSize: AppType.subhead,
                       fontWeight: FontWeight.w600,
                       color: t.textPrimary)),
             ),

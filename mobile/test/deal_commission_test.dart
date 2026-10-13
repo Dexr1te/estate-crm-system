@@ -12,6 +12,7 @@ import 'package:real_estate_crm/features/deals/presentation/screens/deal_detail_
 import 'package:real_estate_crm/features/deals/presentation/screens/deal_form_screen.dart';
 
 import 'fakes.dart';
+import 'more_section_expect.dart';
 import 'responsive_harness.dart';
 
 /// Remembers what the form sent and never answers, so the screen stays put
@@ -105,6 +106,7 @@ void main() {
   group('deal detail', () {
     testWidgets('shows the rate and what it comes to', (tester) async {
       await _pump(tester, _wrap(const DealDetailScreen(id: 1)));
+      await openMore(tester);
 
       expect(find.text('COMMISSION'), findsOneWidget);
       expect(find.text('2.5%'), findsOneWidget);
@@ -113,6 +115,7 @@ void main() {
 
     testWidgets('asks for a price when only the rate is known', (tester) async {
       await _pump(tester, _wrap(const DealDetailScreen(id: 2)));
+      await openMore(tester);
 
       expect(find.text('3%'), findsOneWidget);
       expect(find.text('Set a deal price to work it out'), findsOneWidget);
@@ -121,6 +124,7 @@ void main() {
     testWidgets('says nothing about commission when no rate is set',
         (tester) async {
       await _pump(tester, _wrap(const DealDetailScreen(id: 3)));
+      await openMore(tester);
 
       expect(find.text('COMMISSION'), findsNothing);
     });

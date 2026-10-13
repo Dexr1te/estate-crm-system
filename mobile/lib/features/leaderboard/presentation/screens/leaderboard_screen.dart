@@ -90,7 +90,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 fontFamily: AppFonts.sans,
-                fontSize: 12.5,
+                fontSize: AppType.subhead,
                 color: t.textSecondary),
           ),
           FilterPillRow(bleed: true, pills: [
@@ -188,7 +188,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen> {
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
               fontFamily: AppFonts.sans,
-              fontSize: 12,
+              fontSize: AppType.footnote,
               height: 1.4,
               color: context.tokens.textSecondary),
         ),

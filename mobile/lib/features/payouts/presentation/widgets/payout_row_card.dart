@@ -50,7 +50,9 @@ class PayoutRowCard extends StatelessWidget {
     final closedAt = item.closedAt;
     final paidBy = item.paidByName?.trim() ?? '';
     final hint = TextStyle(
-        fontFamily: AppFonts.sans, fontSize: 11.5, color: t.textSecondary);
+        fontFamily: AppFonts.sans,
+        fontSize: AppType.caption,
+        color: t.textSecondary);
 
     return AppCard(
       key: ValueKey('payout-${item.shareId}'),
@@ -72,7 +74,7 @@ class PayoutRowCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontFamily: AppFonts.sans,
-                          fontSize: 13.5,
+                          fontSize: AppType.body,
                           fontWeight: FontWeight.w600,
                           color: t.textPrimary),
                     ),
@@ -96,7 +98,8 @@ class PayoutRowCard extends StatelessWidget {
                     textAlign: TextAlign.end,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: amount == null ? 12 : 13.5,
+                        fontSize:
+                            amount == null ? AppType.footnote : AppType.body,
                         fontWeight:
                             amount == null ? FontWeight.w500 : FontWeight.w600,
                         color: amount == null ? t.textHint : t.textPrimary),
@@ -164,7 +167,7 @@ class PayoutOwedRow extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 13,
+                    fontSize: AppType.body,
                     fontWeight: FontWeight.w600,
                     color: t.textPrimary),
               ),
@@ -175,7 +178,7 @@ class PayoutOwedRow extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 11.5,
+                    fontSize: AppType.caption,
                     color: t.textHint),
               ),
             ],
@@ -193,7 +196,7 @@ class PayoutOwedRow extends StatelessWidget {
               textAlign: TextAlign.end,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 13,
+                  fontSize: AppType.body,
                   fontWeight: FontWeight.w600,
                   color: t.textPrimary),
             ),

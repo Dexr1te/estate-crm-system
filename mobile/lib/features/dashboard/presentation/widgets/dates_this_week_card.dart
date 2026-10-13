@@ -13,8 +13,7 @@ import 'package:real_estate_crm/l10n/app_localizations.dart';
 const kDatesPreview = 3;
 
 /// Birthdays and purchase anniversaries today and in the rest of the week, on
-/// the dashboard, today's first. Nothing at all when there are none, a
-/// skeleton while it loads, and a failure stays inside the card.
+/// the dashboard, today's first.
 ///
 /// [topGap] sits above the card and goes with it, so a hidden card leaves no
 /// hole in the column.
@@ -32,7 +31,9 @@ class DatesThisWeekCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ClientDatesBloc, ClientDatesState>(
       builder: (context, state) {
-        if (state is ClientDatesLoaded && state.dates.isEmpty) {
+        if (state is ClientDatesLoaded
+            ? state.dates.isEmpty
+            : state is! ClientDatesError) {
           return const SizedBox.shrink(key: ValueKey('dates-hidden'));
         }
         return Padding(
@@ -49,7 +50,9 @@ class DatesThisWeekCard extends StatelessWidget {
     final all = state is ClientDatesLoaded ? state.dates : null;
     final shown = all?.take(kDatesPreview).toList();
     final secondary = TextStyle(
-        fontFamily: AppFonts.sans, fontSize: 12.5, color: t.textSecondary);
+        fontFamily: AppFonts.sans,
+        fontSize: AppType.subhead,
+        color: t.textSecondary);
     final showAgent = seesAgencyDates(context);
 
     return AppCard(
@@ -71,7 +74,7 @@ class DatesThisWeekCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontFamily: AppFonts.sans,
-                          fontSize: 11,
+                          fontSize: AppType.caption,
                           fontWeight: FontWeight.w600,
                           color: t.textSecondary)),
                 ),
@@ -79,7 +82,7 @@ class DatesThisWeekCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 11),
-          if (state is ClientDatesError) ...[
+          if (shown == null) ...[
             Text(l10n.clientsDatesLoadFailed,
                 maxLines: 2, overflow: TextOverflow.ellipsis, style: secondary),
             const SizedBox(height: 10),
@@ -89,15 +92,9 @@ class DatesThisWeekCard extends StatelessWidget {
               onPressed: () =>
                   context.read<ClientDatesBloc>().add(ClientDatesLoadEvent()),
               height: AppMetrics.buttonHeightInline,
-              fontSize: 12.5,
+              fontSize: AppType.subhead,
             ),
-          ] else if (shown == null)
-            const Column(children: [
-              ClientDateRowBone(),
-              SizedBox(height: 8),
-              ClientDateRowBone(),
-            ])
-          else ...[
+          ] else ...[
             for (var i = 0; i < shown.length; i++) ...[
               if (i > 0) const SizedBox(height: 8),
               ClientDateRow(
@@ -115,7 +112,7 @@ class DatesThisWeekCard extends StatelessWidget {
               label: l10n.dashboardSeeAll,
               onPressed: onSeeAll,
               height: AppMetrics.buttonHeightInline,
-              fontSize: 12.5,
+              fontSize: AppType.subhead,
             ),
           ],
         ],

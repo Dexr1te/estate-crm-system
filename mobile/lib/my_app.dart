@@ -22,6 +22,7 @@ import 'package:real_estate_crm/features/app_lock/presentation/widgets/app_lock_
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_state.dart';
+import 'package:real_estate_crm/features/auth/presentation/widgets/demo_banner.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_bloc.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_event.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_state.dart';
@@ -174,6 +175,18 @@ class _MyAppState extends State<MyApp> {
     }
     _tasksBloc.add(TasksLoadEvent());
     _starsBloc.refresh();
+  }
+
+  Future<void> _leaveDemo() async {
+    final signedOut =
+        _authBloc.stream.firstWhere((s) => s is AuthUnauthenticated);
+    _authBloc.add(AuthLogoutEvent());
+    try {
+      await signedOut;
+    } catch (_) {
+      return;
+    }
+    if (mounted) router.go('/register');
   }
 
   @override
@@ -340,10 +353,20 @@ class _MyAppState extends State<MyApp> {
                     controller: _lock,
                     child: MoneyScope(
                       child: AppBackdrop(
-                        child: OfflineBanner(
-                          status: Injector.apiClient.offline,
-                          onRetry: _retryOffline,
-                          child: child ?? const SizedBox.shrink(),
+                        child: BlocSelector<AuthBloc, AuthState, String?>(
+                          bloc: _authBloc,
+                          selector: (state) => state is AuthAuthenticated
+                              ? state.user.email
+                              : null,
+                          builder: (context, email) => DemoBanner(
+                            email: email,
+                            onCreateAccount: _leaveDemo,
+                            child: OfflineBanner(
+                              status: Injector.apiClient.offline,
+                              onRetry: _retryOffline,
+                              child: child ?? const SizedBox.shrink(),
+                            ),
+                          ),
                         ),
                       ),
                     ),

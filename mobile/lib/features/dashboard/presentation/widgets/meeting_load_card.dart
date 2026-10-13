@@ -35,15 +35,18 @@ class MeetingLoadCard extends StatelessWidget {
               children: [
                 Expanded(child: EyebrowLabel(l10n.dashboardMeetingLoad)),
                 const SizedBox(width: 8),
-                Text(
-                  l10n.dashboardLoadTotal(total),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(
-                      fontFamily: AppFonts.sans,
-                      fontSize: 11.5,
-                      fontWeight: FontWeight.w600,
-                      color: t.textSecondary),
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 140),
+                  child: Text(
+                    l10n.dashboardLoadTotal(total),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontFamily: AppFonts.sans,
+                        fontSize: AppType.caption,
+                        fontWeight: FontWeight.w600,
+                        color: t.textSecondary),
+                  ),
                 ),
               ],
             ),

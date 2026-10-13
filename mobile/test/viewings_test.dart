@@ -12,6 +12,7 @@ import 'package:real_estate_crm/features/properties/presentation/bloc/properties
 import 'package:real_estate_crm/features/properties/presentation/screens/property_detail_screen.dart';
 
 import 'fakes.dart';
+import 'more_section_expect.dart';
 import 'responsive_harness.dart';
 
 /// Booking a showing, and the listing remembering it.
@@ -103,6 +104,7 @@ void main() {
     _installFakes();
 
     await _open(tester, const ClientDetailScreen(id: 1));
+    await openMore(tester);
 
     expect(find.text('Schedule a viewing'), findsOneWidget);
   });

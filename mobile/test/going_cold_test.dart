@@ -71,18 +71,22 @@ void main() {
       expect(find.byKey(const ValueKey('going-cold-hidden')), findsOneWidget);
     });
 
-    testWidgets('waits with a skeleton, not a spinner', (tester) async {
+    testWidgets('waits out of sight, with no skeleton and no spinner',
+        (tester) async {
       final gate = Completer<void>();
       _cold.hold = gate.future;
       final bloc = coldBloc();
       addTearDown(bloc.close);
       await tester.pumpWidget(coldCardApp(bloc));
 
-      expect(find.byType(ColdClientRowBone), findsNWidgets(2));
+      expect(find.byKey(const ValueKey('going-cold-card')), findsNothing);
+      expect(find.byKey(const ValueKey('going-cold-hidden')), findsOneWidget);
+      expect(find.byType(ColdClientRowBone), findsNothing);
       expect(find.byType(CircularProgressIndicator), findsNothing);
       gate.complete();
       await tester.pumpAndSettle();
-      expect(find.byType(ColdClientRowBone), findsNothing);
+      expect(find.byKey(const ValueKey('going-cold-card')), findsOneWidget);
+      expect(find.byType(ColdClientRow), findsNWidgets(3));
     });
 
     testWidgets('a failure stays inside the card, with a retry',

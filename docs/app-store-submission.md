@@ -91,6 +91,7 @@ default is wrong for a submission host:
 | `MAIL_PROVIDER=brevo`, `BREVO_API_KEY`, `MAIL_FROM` | For a host that blocks outbound SMTP, as Render's free plan does (ports 25, 465 and 587): mail then leaves through Brevo's HTTPS API instead, and `MAIL_USERNAME`/`MAIL_PASSWORD` are not used. `MAIL_ENABLED=true` is still required. `MAIL_FROM` has to be a sender verified in Brevo (Senders, Domains & Dedicated IPs → Senders); the key is under SMTP & API → API Keys. |
 | `ADMIN_PASSWORD` | No default, and nothing works without it: `V18` retires the admin passwords the migrations used to carry, so this is the only thing that opens the admin console. Set it **before** deploying, or the console is shut until you do. |
 | `DEMO_ENABLED`, `DEMO_PASSWORD` | Off by default, and the seeder refuses to run without a password. This is the account App Review signs in with. |
+| `DEMO_TRY_ENABLED` | On by default. Backs "Try the demo" on the sign-in screen: each tap opens a separate `[Demo] Agency` with sample records, rate-limited per address and deleted after 24 hours. It never sends email. `false` hides it behind a 404, and the app then says the demo is unavailable. |
 | `APP_SUPPORT_EMAIL`, `APP_OPERATOR_NAME` | Default to `support@estatecrm.app` / `EstateCRM`, both printed on the privacy and support pages a reviewer opens. |
 | `DOCUMENTS_STORAGE` | Defaults to `database`. `s3` moves the bytes to a bucket and needs the `S3_*` variables with it — the right answer once attachments are photographs rather than contracts, since the database's own size limit is the ceiling otherwise. Set it to `filesystem` only where a real volume is mounted, and point `DOCUMENTS_DIR` at that mount — on a container host with no disk, anything written to the filesystem is gone on the next deploy or wake from sleep. |
 
@@ -152,8 +153,9 @@ shows the app, which is why the notes have to point at the demo account.
 
 Set `DEMO_ENABLED=false` and restart once the app is approved. Then delete the
 demo account from the admin console; its records are labelled `[Demo]` and sit on
-the `@demo.estatecrm.app` email domain, so they are easy to find and are the only
-things that carry those markers.
+the `@demo.estatecrm.app` email domain, so they are easy to find. "Try the demo"
+agencies carry the same markers, on `demo-…` addresses, and delete themselves
+within a day.
 
 ## The listing has to read like a product
 

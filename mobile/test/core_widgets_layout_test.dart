@@ -223,7 +223,8 @@ void main() {
         AppMetrics.fieldInset);
     expect(tester.getRect(find.text('Picked')).left - picker.left,
         AppMetrics.fieldInset);
-    expect(tester.widget<Text>(find.text('Picked')).style?.fontSize, 15);
+    expect(
+        tester.widget<Text>(find.text('Picked')).style?.fontSize, AppType.body);
   });
 
   testWidgets('a pill row starts at the content edge and can paint past it',

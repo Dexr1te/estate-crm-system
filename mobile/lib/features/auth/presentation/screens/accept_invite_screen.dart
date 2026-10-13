@@ -124,7 +124,7 @@ class _AcceptInviteScreenState extends State<AcceptInviteScreen> {
                           l10n.authPasswordHelp,
                           style: TextStyle(
                               fontFamily: AppFonts.sans,
-                              fontSize: 11.5,
+                              fontSize: AppType.caption,
                               height: 1.5,
                               color: t.textHint),
                         ),
@@ -143,7 +143,7 @@ class _AcceptInviteScreenState extends State<AcceptInviteScreen> {
                             l10n.authBackToSignIn,
                             style: TextStyle(
                                 fontFamily: AppFonts.sans,
-                                fontSize: 13,
+                                fontSize: AppType.subhead,
                                 fontWeight: FontWeight.w600,
                                 color: t.textSecondary),
                           ),

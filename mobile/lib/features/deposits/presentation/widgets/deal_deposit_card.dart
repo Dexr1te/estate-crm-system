@@ -77,7 +77,9 @@ class DealDepositCard extends StatelessWidget {
       BuildContext context, DealDepositsState state, AppLocalizations l10n) {
     final t = context.tokens;
     final secondary = TextStyle(
-        fontFamily: AppFonts.sans, fontSize: 12.5, color: t.textSecondary);
+        fontFamily: AppFonts.sans,
+        fontSize: AppType.subhead,
+        color: t.textSecondary);
     switch (state.status) {
       case DealDepositsStatus.loading:
         return const [
@@ -118,7 +120,7 @@ class DealDepositCard extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 14,
+                    fontSize: AppType.body,
                     fontWeight: FontWeight.w600,
                     color: t.textPrimary)),
             const SizedBox(height: 4),
@@ -144,7 +146,7 @@ class DealDepositCard extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 11,
+                    fontSize: AppType.caption,
                     fontWeight: FontWeight.w600,
                     color: t.textHint)),
             for (final d in past) ...[
@@ -184,7 +186,7 @@ class DealDepositCard extends StatelessWidget {
         textAlign: TextAlign.end,
         style: TextStyle(
             fontFamily: AppFonts.sans,
-            fontSize: 11.5,
+            fontSize: AppType.caption,
             fontWeight: FontWeight.w500,
             color: ending ? t.dangerText : t.textHint),
       ),
@@ -199,7 +201,7 @@ class DealDepositCard extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 fontFamily: AppFonts.sans,
-                fontSize: 12.5,
+                fontSize: AppType.subhead,
                 height: 1.5,
                 color: t.textSecondary)),
       ],
@@ -251,7 +253,9 @@ class _PastRow extends StatelessWidget {
       maxLines: 2,
       overflow: TextOverflow.ellipsis,
       style: TextStyle(
-          fontFamily: AppFonts.sans, fontSize: 12, color: t.textSecondary),
+          fontFamily: AppFonts.sans,
+          fontSize: AppType.footnote,
+          color: t.textSecondary),
     );
   }
 }

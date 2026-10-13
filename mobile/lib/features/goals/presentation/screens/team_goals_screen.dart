@@ -98,7 +98,7 @@ class _TeamGoalsView extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 12.5,
+                  fontSize: AppType.subhead,
                   height: 1.45,
                   color: t.textSecondary),
             ),
@@ -121,7 +121,9 @@ class _TeamGoalsView extends StatelessWidget {
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                    fontFamily: AppFonts.sans, fontSize: 12, color: t.textHint),
+                    fontFamily: AppFonts.sans,
+                    fontSize: AppType.footnote,
+                    color: t.textHint),
               ),
             if (state.status == TeamGoalsStatus.loading) const _GoalBones(),
             if (state.status == TeamGoalsStatus.error)
@@ -208,7 +210,7 @@ class _MonthSwitcher extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 15,
+                    fontSize: AppType.body,
                     fontWeight: FontWeight.w600,
                     color: t.textPrimary),
               ),
@@ -221,7 +223,7 @@ class _MonthSwitcher extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 11.5,
+                      fontSize: AppType.caption,
                       color: t.textSecondary),
                 ),
               ],

@@ -54,7 +54,7 @@ class UserCard extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                                 fontFamily: AppFonts.sans,
-                                fontSize: 13.5,
+                                fontSize: AppType.body,
                                 fontWeight: FontWeight.w600,
                                 color: t.textPrimary),
                           ),
@@ -98,7 +98,7 @@ class UserCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 11.5,
+                        fontSize: AppType.footnote,
                         color: t.textSecondary),
                   ),
                 ],
@@ -143,7 +143,7 @@ class _Avatar extends StatelessWidget {
             '?',
             style: TextStyle(
                 fontFamily: AppFonts.sans,
-                fontSize: 14,
+                fontSize: AppType.body,
                 fontWeight: FontWeight.w600,
                 color: t.textHint),
           ),

@@ -79,7 +79,7 @@ class PinPanel extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontFamily: AppFonts.sans,
-                          fontSize: 12.5,
+                          fontSize: AppType.subhead,
                           color:
                               messageIsError ? t.dangerText : t.textSecondary),
                     ),
@@ -138,7 +138,7 @@ class PinTextAction extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
         style: TextStyle(
             fontFamily: AppFonts.sans,
-            fontSize: 13.5,
+            fontSize: AppType.body,
             fontWeight: FontWeight.w600,
             color: color ?? t.textSecondary),
       ),

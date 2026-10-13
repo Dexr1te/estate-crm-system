@@ -15,7 +15,7 @@ class StatusChip extends StatelessWidget {
   static const _gap = 5.0;
   static const _style = TextStyle(
     fontFamily: AppFonts.sans,
-    fontSize: 11,
+    fontSize: AppType.caption,
     fontWeight: FontWeight.w500,
   );
 

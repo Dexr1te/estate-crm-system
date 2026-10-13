@@ -33,7 +33,7 @@ class MemberCard extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontFamily: AppFonts.sans,
-                            fontSize: 14.5,
+                            fontSize: AppType.body,
                             fontWeight: FontWeight.w600,
                             color: t.textPrimary),
                       ),
@@ -51,7 +51,7 @@ class MemberCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 12.5,
+                      fontSize: AppType.subhead,
                       color: t.textSecondary),
                 ),
                 if (_note(l10n) case final String note) ...[

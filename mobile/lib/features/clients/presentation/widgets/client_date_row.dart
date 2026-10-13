@@ -74,7 +74,7 @@ class ClientDateRow extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontFamily: AppFonts.sans,
-                            fontSize: 14,
+                            fontSize: AppType.body,
                             fontWeight: FontWeight.w600,
                             color: t.textPrimary)),
                     const SizedBox(height: 2),
@@ -83,7 +83,7 @@ class ClientDateRow extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontFamily: AppFonts.sans,
-                            fontSize: 12,
+                            fontSize: AppType.footnote,
                             color: t.textSecondary)),
                     const SizedBox(height: 2),
                     Text(when,
@@ -92,7 +92,7 @@ class ClientDateRow extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontFamily: AppFonts.sans,
-                            fontSize: 12,
+                            fontSize: AppType.footnote,
                             fontWeight: FontWeight.w600,
                             color: today
                                 ? t.statusText(StatusHue.positive)
@@ -104,7 +104,7 @@ class ClientDateRow extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontFamily: AppFonts.sans,
-                              fontSize: 11.5,
+                              fontSize: AppType.caption,
                               color: t.textSecondary)),
                     ],
                   ],
@@ -122,7 +122,7 @@ class ClientDateRow extends StatelessWidget {
                   icon: Icons.phone_outlined,
                   onPressed: onCall,
                   height: AppMetrics.buttonHeightInline,
-                  fontSize: 12.5,
+                  fontSize: AppType.subhead,
                 ),
               ),
               const SizedBox(width: 8),
@@ -133,7 +133,7 @@ class ClientDateRow extends StatelessWidget {
                   icon: Icons.chat_bubble_outline_rounded,
                   onPressed: onGreet,
                   height: AppMetrics.buttonHeightInline,
-                  fontSize: 12.5,
+                  fontSize: AppType.subhead,
                 ),
               ),
             ],

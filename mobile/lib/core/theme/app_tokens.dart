@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:real_estate_crm/core/theme/app_platform.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
 
 export 'package:real_estate_crm/core/theme/app_fonts.dart';
+export 'package:real_estate_crm/core/theme/app_type.dart';
 
 class AppTokens {
   final bool isDark;
@@ -64,23 +66,45 @@ class AppTokens {
     textHint: AppColors.darkTextHint,
     primary: AppColors.darkPrimary,
     onPrimary: AppColors.onDarkPrimary,
-    accent: AppColors.accent,
+    accent: AppColors.darkPrimary,
     onAccent: AppColors.onDarkPrimary,
   );
 
-  static AppTokens of(BuildContext context) =>
-      Theme.of(context).brightness == Brightness.dark ? dark : light;
+  static const darkMaterial = AppTokens._(
+    isDark: true,
+    background: AppColors.materialDarkBackground,
+    surface: AppColors.materialDarkSurface,
+    surfaceVariant: AppColors.materialDarkSurfaceVariant,
+    border: AppColors.materialDarkBorder,
+    textPrimary: AppColors.darkTextPrimary,
+    textSecondary: AppColors.darkTextSecondary,
+    textHint: AppColors.darkTextHint,
+    primary: AppColors.darkPrimary,
+    onPrimary: AppColors.onDarkPrimary,
+    accent: AppColors.darkPrimary,
+    onAccent: AppColors.onDarkPrimary,
+  );
 
-  Color get heroSurface => isDark ? AppColors.darkSurface : AppColors.primary;
-  Color get heroText => isDark ? AppColors.darkTextPrimary : Colors.white;
+  static AppTokens darkFor(TargetPlatform platform) =>
+      AppPlatform.isCupertino(platform) ? dark : darkMaterial;
+
+  static AppTokens of(BuildContext context) {
+    final theme = Theme.of(context);
+    return theme.brightness == Brightness.dark
+        ? darkFor(theme.platform)
+        : light;
+  }
+
+  Color get heroSurface => isDark ? surface : AppColors.primary;
+  Color get heroText => isDark ? textPrimary : Colors.white;
   Color get heroTextMuted => Colors.white.withValues(alpha: 0.62);
-  Color? get heroBorder => isDark ? AppColors.darkBorder : null;
+  Color? get heroBorder => isDark ? border : null;
 
-  Color get heroActionFill => isDark ? AppColors.accent : Colors.white;
+  Color get heroActionFill => isDark ? primary : Colors.white;
   Color get heroActionLabel => AppColors.primary;
 
   Color get heroGhostBorder =>
-      isDark ? AppColors.darkBorder : Colors.white.withValues(alpha: 0.28);
+      isDark ? border : Colors.white.withValues(alpha: 0.28);
 
   Color get dangerFill => isDark
       ? AppColors.error.withValues(alpha: 0.12)
@@ -97,10 +121,10 @@ class AppTokens {
   Color get dialogScrim => Colors.black.withValues(alpha: isDark ? 0.6 : 0.38);
 
   Color get glassFill => isDark
-      ? AppColors.darkSurface.withValues(alpha: 0.58)
+      ? surface.withValues(alpha: 0.58)
       : Colors.white.withValues(alpha: 0.64);
   Color get glassFillStrong => isDark
-      ? AppColors.darkSurface.withValues(alpha: 0.78)
+      ? surface.withValues(alpha: 0.78)
       : Colors.white.withValues(alpha: 0.78);
   Color get glassRim => isDark
       ? Colors.white.withValues(alpha: 0.09)
@@ -117,8 +141,7 @@ class AppTokens {
   Color get heroGlass =>
       isDark ? glassFill : AppColors.primary.withValues(alpha: 0.93);
 
-  Color get segmentTrack =>
-      isDark ? AppColors.darkSurface : const Color(0xFFE4E4EA);
+  Color get segmentTrack => isDark ? surface : const Color(0xFFE4E4EA);
   Color get segmentThumb => isDark ? const Color(0xFF3A3A3C) : Colors.white;
 
   Color get chartLead => isDark ? const Color(0xFFA78BFA) : AppColors.lead;

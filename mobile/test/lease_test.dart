@@ -21,6 +21,7 @@ import 'package:real_estate_crm/l10n/app_localizations.dart';
 import 'checklist_fixtures.dart';
 import 'fakes.dart';
 import 'lease_fixtures.dart';
+import 'more_section_expect.dart';
 import 'responsive_harness.dart';
 
 /// Rent deals and the end of a lease: the sums and wording behind them, the
@@ -51,6 +52,8 @@ Future<void> _pumpDeal(WidgetTester tester,
       brightness: Brightness.light,
       textScale: 1.0,
       locale: const Locale('en'));
+  await tester.pumpAndSettle();
+  await openMore(tester);
   await tester.pumpAndSettle();
 }
 
@@ -396,8 +399,12 @@ void main() {
       expect(
           find.byKey(const ValueKey('lease-call-tenant-12')), findsOneWidget);
 
+      await tester.ensureVisible(find.byKey(const ValueKey('leases-see-all')));
+      await tester.pumpAndSettle();
       await tester.tap(find.byKey(const ValueKey('leases-see-all')));
       expect(seeAll, 1);
+      await tester.ensureVisible(find.text('Dostyk 5'));
+      await tester.pumpAndSettle();
       await tester.tap(find.text('Dostyk 5'));
       await tester.pumpAndSettle();
       expect(find.text('deal 12'), findsOneWidget);

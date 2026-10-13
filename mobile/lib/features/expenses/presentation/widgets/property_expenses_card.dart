@@ -81,7 +81,7 @@ class _PropertyExpensesCardState extends State<PropertyExpensesCard> {
     final t = context.tokens;
     final secondary = TextStyle(
         fontFamily: AppFonts.sans,
-        fontSize: 12.5,
+        fontSize: AppType.subhead,
         height: 1.4,
         color: t.textSecondary);
 
@@ -146,7 +146,7 @@ class _PropertyExpensesCardState extends State<PropertyExpensesCard> {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 11.5,
+                    fontSize: AppType.caption,
                     color: t.textSecondary)),
             const SizedBox(height: 12),
             for (final c in expenses.byCategory) ...[
@@ -159,7 +159,7 @@ class _PropertyExpensesCardState extends State<PropertyExpensesCard> {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 11,
+                    fontSize: AppType.caption,
                     fontWeight: FontWeight.w600,
                     color: t.textHint)),
             for (final e in shown) ...[
@@ -177,7 +177,7 @@ class _PropertyExpensesCardState extends State<PropertyExpensesCard> {
                 key: const ValueKey('property-expenses-show-all'),
                 label: l10n.expensesShowAll(items.length),
                 height: AppMetrics.minHitTarget,
-                fontSize: 12.5,
+                fontSize: AppType.subhead,
                 onPressed: () => setState(() => _showAll = true),
               ),
             ],
@@ -205,7 +205,9 @@ class _CategoryLine extends StatelessWidget {
     final t = context.tokens;
     final l10n = AppLocalizations.of(context);
     final style = TextStyle(
-        fontFamily: AppFonts.sans, fontSize: 12.5, color: t.textSecondary);
+        fontFamily: AppFonts.sans,
+        fontSize: AppType.subhead,
+        color: t.textSecondary);
     return Row(
       key: ValueKey('property-expenses-category-${total.category.name}'),
       crossAxisAlignment: CrossAxisAlignment.baseline,
@@ -261,7 +263,7 @@ class ExpenseRow extends StatelessWidget {
     final amountText = formatPrice(e.amount);
     final amountStyle = TextStyle(
         fontFamily: AppFonts.sans,
-        fontSize: 13,
+        fontSize: AppType.body,
         fontWeight: FontWeight.w700,
         color: t.textPrimary);
     final category = Text(
@@ -270,7 +272,7 @@ class ExpenseRow extends StatelessWidget {
       overflow: TextOverflow.ellipsis,
       style: TextStyle(
           fontFamily: AppFonts.sans,
-          fontSize: 13,
+          fontSize: AppType.body,
           fontWeight: FontWeight.w600,
           color: t.textPrimary),
     );
@@ -314,7 +316,7 @@ class ExpenseRow extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 12,
+                        fontSize: AppType.footnote,
                         height: 1.35,
                         color: t.textSecondary),
                   ),

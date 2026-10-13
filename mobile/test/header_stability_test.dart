@@ -92,11 +92,11 @@ Future<void> _expectHeaderHolds(
     textScale: textScale,
   );
 
-  final loading = tester.getRect(find.byType(AppHeaderAction));
+  final loading = tester.getRect(find.byType(ScreenTitle));
   release();
   await tester.pump();
   await tester.pump(const Duration(milliseconds: 50));
-  final loaded = tester.getRect(find.byType(AppHeaderAction));
+  final loaded = tester.getRect(find.byType(ScreenTitle));
 
   expect(loaded.top, moreOrLessEquals(loading.top, epsilon: 0.5),
       reason: 'the header must not move when the counter subtitle arrives — '

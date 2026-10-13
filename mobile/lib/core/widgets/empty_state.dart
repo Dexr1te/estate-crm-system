@@ -52,7 +52,7 @@ class EmptyState extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 15.5,
+                    fontSize: AppType.headline,
                     fontWeight: FontWeight.w600,
                     color: t.textPrimary,
                   ),
@@ -66,7 +66,7 @@ class EmptyState extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 12.5,
+                        fontSize: AppType.subhead,
                         height: 1.55,
                         color: t.textSecondary,
                       ),

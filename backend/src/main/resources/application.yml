@@ -56,6 +56,7 @@ spring:
 # SERVER 
 server:
   port: ${PORT:8080}
+  forward-headers-strategy: ${SERVER_FORWARD_HEADERS_STRATEGY:native}
   servlet:
     context-path: /api
 
@@ -151,6 +152,7 @@ app:
     # than put a guessable password on a real deployment.
     password: ${DEMO_PASSWORD:}
     full-name: ${DEMO_FULL_NAME:App Review}
+    try-enabled: ${DEMO_TRY_ENABLED:true}
   # THE ADMINISTRATOR
   #
   # The account that reaches the admin console. It used to be seeded by a

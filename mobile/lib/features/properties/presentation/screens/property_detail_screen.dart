@@ -270,38 +270,43 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
               CompareTrayControls(propertyId: p.id),
             ],
           ),
-          if (p.price > 0)
-            PropertyMortgageCard(
-              propertyId: p.id,
-              price: p.price,
-              title: p.title,
-            ),
           PropertyPhotosCard(
             propertyId: widget.id,
             photos: _photos,
             onChanged: _load,
           ),
-          PropertyShareLinkCard(
-            propertyId: widget.id,
-            title: p.title,
-            canRevoke: _canRevokeLink(p),
-          ),
           _DetailsCard(property: p),
-          if (listingPoint(p) != null) PropertyLocationPreview(property: p),
-          if (hasPriceCheck(_priceInsight))
-            PropertyPriceCheckCard(insight: _priceInsight!),
-          if (_priceHistory.isNotEmpty)
-            PropertyPriceHistoryCard(changes: _priceHistory),
+          if (p.description != null && p.description!.trim().isNotEmpty)
+            _DescriptionCard(text: p.description!),
           _StatusCard(status: p.status, onChanged: _updateStatus),
-          PropertyKeysCard(propertyId: widget.id),
           PropertyOffersCard(propertyId: widget.id),
           _InterestedCard(buyers: _interested, propertyId: widget.id),
           _ViewingsCard(viewings: _viewings),
-          PropertyOpenHousesCard(propertyId: widget.id),
-          PropertyExpensesCard(propertyId: widget.id),
-          if (p.description != null && p.description!.trim().isNotEmpty)
-            _DescriptionCard(text: p.description!),
-          ChangeHistoryButton(location: '/properties/${widget.id}/changes'),
+          MoreSection(
+            memoryKey: 'property-detail',
+            children: [
+              if (listingPoint(p) != null) PropertyLocationPreview(property: p),
+              if (hasPriceCheck(_priceInsight))
+                PropertyPriceCheckCard(insight: _priceInsight!),
+              if (_priceHistory.isNotEmpty)
+                PropertyPriceHistoryCard(changes: _priceHistory),
+              if (p.price > 0)
+                PropertyMortgageCard(
+                  propertyId: p.id,
+                  price: p.price,
+                  title: p.title,
+                ),
+              PropertyShareLinkCard(
+                propertyId: widget.id,
+                title: p.title,
+                canRevoke: _canRevokeLink(p),
+              ),
+              PropertyKeysCard(propertyId: widget.id),
+              PropertyOpenHousesCard(propertyId: widget.id),
+              PropertyExpensesCard(propertyId: widget.id),
+              ChangeHistoryButton(location: '/properties/${widget.id}/changes'),
+            ],
+          ),
         ],
       ),
     );
@@ -338,7 +343,7 @@ class _PropertyHero extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontFamily: AppFonts.sans,
-                          fontSize: 15,
+                          fontSize: AppType.body,
                           height: 1.3,
                           fontWeight: FontWeight.w600,
                           color: t.heroText),
@@ -351,7 +356,7 @@ class _PropertyHero extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontFamily: AppFonts.sans,
-                            fontSize: 11.5,
+                            fontSize: AppType.footnote,
                             color: t.heroTextMuted),
                       ),
                     ],
@@ -391,7 +396,7 @@ class _PropertyHero extends StatelessWidget {
                         formatPrice(property.previousPrice!)),
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 15,
+                        fontSize: AppType.body,
                         height: 1,
                         fontWeight: FontWeight.w500,
                         decoration: TextDecoration.lineThrough,
@@ -414,7 +419,7 @@ class _PropertyHero extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 11.5,
+                  fontSize: AppType.caption,
                   color: t.heroTextMuted),
             ),
           ),
@@ -455,7 +460,7 @@ class _InterestedCard extends StatelessWidget {
                   maxLines: 1,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 11,
+                      fontSize: AppType.caption,
                       fontWeight: FontWeight.w600,
                       color: t.textSecondary)),
             ],
@@ -468,7 +473,7 @@ class _InterestedCard extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 12.5,
+                  fontSize: AppType.subhead,
                   color: t.textSecondary),
             )
           else
@@ -511,7 +516,7 @@ class _BuyerRow extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 13,
+                      fontSize: AppType.body,
                       fontWeight: FontWeight.w600,
                       color: t.textPrimary),
                 ),
@@ -523,7 +528,7 @@ class _BuyerRow extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 11.5,
+                        fontSize: AppType.footnote,
                         color: t.textSecondary),
                   ),
                 ],
@@ -565,7 +570,7 @@ class _ViewingsCard extends StatelessWidget {
                   maxLines: 1,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 11,
+                      fontSize: AppType.caption,
                       fontWeight: FontWeight.w600,
                       color: t.textSecondary)),
             ],
@@ -578,7 +583,7 @@ class _ViewingsCard extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 12.5,
+                  fontSize: AppType.subhead,
                   color: t.textSecondary),
             )
           else
@@ -615,7 +620,7 @@ class _ViewingRow extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 13,
+                      fontSize: AppType.body,
                       fontWeight: FontWeight.w600,
                       color: t.textPrimary),
                 ),
@@ -626,7 +631,7 @@ class _ViewingRow extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 11.5,
+                      fontSize: AppType.caption,
                       color: t.textSecondary),
                 ),
               ],
@@ -745,7 +750,7 @@ class _DescriptionCard extends StatelessWidget {
             text,
             style: TextStyle(
                 fontFamily: AppFonts.sans,
-                fontSize: 12.5,
+                fontSize: AppType.subhead,
                 height: 1.55,
                 color: t.textSecondary),
           ),

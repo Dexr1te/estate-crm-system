@@ -17,6 +17,7 @@ import 'checklist_fixtures.dart';
 import 'deposit_fakes.dart';
 import 'deposit_fixtures.dart';
 import 'fakes.dart';
+import 'more_section_expect.dart';
 import 'responsive_harness.dart';
 
 /// The deposit on a deal: the card on the deal with its record, edit and
@@ -37,6 +38,7 @@ Future<void> _pumpDeal(WidgetTester tester,
       textScale: 1.0,
       locale: const Locale('en'));
   await tester.pumpAndSettle();
+  await openMore(tester);
   await tester.ensureVisible(find.byKey(const Key('deal-deposit-card')));
   await tester.pumpAndSettle();
 }

@@ -158,7 +158,7 @@ class _LockScreenState extends State<LockScreen> {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 fontFamily: AppFonts.sans,
-                fontSize: 13.5,
+                fontSize: AppType.body,
                 color: t.textSecondary),
           ),
           const SizedBox(height: 22),

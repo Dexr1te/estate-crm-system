@@ -249,7 +249,7 @@ class _CounterOfferFormState extends State<CounterOfferForm> {
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
               fontFamily: AppFonts.sans,
-              fontSize: 12.5,
+              fontSize: AppType.subhead,
               color: t.textSecondary),
         ),
         const SizedBox(height: 14),
@@ -325,7 +325,7 @@ class _ExpiryField extends StatelessWidget {
   Future<void> _pick(BuildContext context) async {
     final today = _today();
     final current = value;
-    final picked = await showDatePicker(
+    final picked = await showAppDatePicker(
       context: context,
       initialDate: current == null || current.isBefore(today)
           ? today.add(const Duration(days: 3))
@@ -412,7 +412,7 @@ class _ErrorLine extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
         style: TextStyle(
             fontFamily: AppFonts.sans,
-            fontSize: 11.5,
+            fontSize: AppType.caption,
             height: 1.35,
             color: context.tokens.dangerText),
       ),

@@ -100,7 +100,7 @@ class _PropertyOffersCardState extends State<PropertyOffersCard> {
                     maxLines: 1,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 11,
+                        fontSize: AppType.caption,
                         fontWeight: FontWeight.w600,
                         color: t.textSecondary)),
             ],
@@ -112,7 +112,7 @@ class _PropertyOffersCardState extends State<PropertyOffersCard> {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 12.5,
+                    fontSize: AppType.subhead,
                     color: t.textSecondary)),
             const SizedBox(height: 10),
             AppGhostButton(
@@ -129,7 +129,7 @@ class _PropertyOffersCardState extends State<PropertyOffersCard> {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                     fontFamily: AppFonts.sans,
-                    fontSize: 12.5,
+                    fontSize: AppType.subhead,
                     height: 1.4,
                     color: t.textSecondary),
               ),
@@ -150,7 +150,7 @@ class _PropertyOffersCardState extends State<PropertyOffersCard> {
                   key: const ValueKey('property-offers-show-all'),
                   label: l10n.offersShowAll,
                   height: AppMetrics.minHitTarget,
-                  fontSize: 12.5,
+                  fontSize: AppType.subhead,
                   onPressed: () => setState(() => _allClosed = true),
                 ),
               ],

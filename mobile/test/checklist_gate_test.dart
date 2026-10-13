@@ -13,6 +13,7 @@ import 'package:real_estate_crm/features/deals/presentation/screens/deals_screen
 
 import 'checklist_fixtures.dart';
 import 'fakes.dart';
+import 'more_section_expect.dart';
 import 'responsive_harness.dart';
 
 /// The soft gate: every way a deal moves on — the stage pills on the deal, a
@@ -110,6 +111,7 @@ void main() {
 
   testWidgets('on the deal: a line ticked here counts at once', (tester) async {
     await _pump(tester, const DealDetailScreen(id: 1));
+    await openMore(tester);
     await tester
         .ensureVisible(find.byKey(const ValueKey('checklist-toggle-1')));
     await tester.tap(find.byKey(const ValueKey('checklist-toggle-1')));

@@ -17,7 +17,7 @@ class AppNavItem {
 /// so it sits in a Scaffold with `extendBody`.
 class AppBottomNav extends StatelessWidget {
   final List<AppNavItem> items;
-  final int currentIndex;
+  final int? currentIndex;
   final ValueChanged<int> onTap;
 
   const AppBottomNav({
@@ -35,6 +35,7 @@ class AppBottomNav extends StatelessWidget {
     final inset = MediaQuery.viewPaddingOf(context).bottom;
     final below = inset > 0 ? math.max(inset - 12, 8.0) : 12.0;
     final pill = BorderRadius.circular(AppMetrics.radiusPill);
+    final selected = currentIndex;
 
     return Padding(
       padding: EdgeInsets.fromLTRB(
@@ -54,22 +55,24 @@ class AppBottomNav extends StatelessWidget {
                 final cell = constraints.maxWidth / items.length;
                 return Stack(
                   children: [
-                    AnimatedPositioned(
-                      duration: _lensTravel,
-                      curve: Curves.easeOutBack,
-                      left: cell * currentIndex + _lensInset,
-                      width: cell - 2 * _lensInset,
-                      top: 0,
-                      bottom: 0,
-                      child: const _Lens(),
-                    ),
+                    if (selected != null)
+                      AnimatedPositioned(
+                        key: const ValueKey('nav-lens'),
+                        duration: _lensTravel,
+                        curve: Curves.easeOutBack,
+                        left: cell * selected + _lensInset,
+                        width: cell - 2 * _lensInset,
+                        top: 0,
+                        bottom: 0,
+                        child: const _Lens(),
+                      ),
                     Row(
                       children: [
                         for (var i = 0; i < items.length; i++)
                           Expanded(
                             child: _NavCell(
                               item: items[i],
-                              selected: i == currentIndex,
+                              selected: i == selected,
                               onTap: () => onTap(i),
                             ),
                           ),

@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/models/export_models.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/navigation/active_tab.dart';
-import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/checklist/domain/checklist_gate.dart';
 import 'package:real_estate_crm/features/checklist/presentation/widgets/checklist_sheets.dart';
@@ -190,8 +189,6 @@ class _DealsScreenState extends State<DealsScreen> with RefreshOnTabReturn {
                                   kind: ExportKind.deals,
                                   filters: ExportFilters(
                                       status: _board ? null : _filter?.name)),
-                              const SizedBox(width: 4),
-                              const QuickAddButton(),
                             ],
                           ),
                         ),

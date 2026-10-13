@@ -10,9 +10,8 @@ import 'package:real_estate_crm/l10n/app_localizations.dart';
 const kLeasesPreview = 3;
 
 /// The leases running out, on the dashboard: the soonest few, each with a
-/// call to the tenant and the landlord, and opening its deal. Nothing at all
-/// when none is, a skeleton while it loads, and a failure stays inside the
-/// card. Mirrors the deposits card.
+/// call to the tenant and the landlord, and opening its deal. Mirrors the
+/// deposits card.
 ///
 /// [topGap] sits above the card and goes with it, so a hidden card leaves no
 /// hole in the column.
@@ -30,7 +29,9 @@ class LeasesEndingCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<LeasesEndingBloc, LeasesEndingState>(
       builder: (context, state) {
-        if (state is LeasesEndingLoaded && state.leases.isEmpty) {
+        if (state is LeasesEndingLoaded
+            ? state.leases.isEmpty
+            : state is! LeasesEndingError) {
           return const SizedBox.shrink(key: ValueKey('leases-hidden'));
         }
         return Padding(
@@ -47,7 +48,9 @@ class LeasesEndingCard extends StatelessWidget {
     final all = state is LeasesEndingLoaded ? state.leases : null;
     final shown = all?.take(kLeasesPreview).toList();
     final secondary = TextStyle(
-        fontFamily: AppFonts.sans, fontSize: 12.5, color: t.textSecondary);
+        fontFamily: AppFonts.sans,
+        fontSize: AppType.subhead,
+        color: t.textSecondary);
 
     return AppCard(
       key: const ValueKey('leases-card'),
@@ -68,7 +71,7 @@ class LeasesEndingCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontFamily: AppFonts.sans,
-                          fontSize: 11,
+                          fontSize: AppType.caption,
                           fontWeight: FontWeight.w600,
                           color: t.dangerText)),
                 ),
@@ -76,7 +79,7 @@ class LeasesEndingCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 11),
-          if (state is LeasesEndingError) ...[
+          if (shown == null) ...[
             Text(l10n.leasesEndingLoadFailed,
                 maxLines: 2, overflow: TextOverflow.ellipsis, style: secondary),
             const SizedBox(height: 10),
@@ -86,15 +89,9 @@ class LeasesEndingCard extends StatelessWidget {
               onPressed: () =>
                   context.read<LeasesEndingBloc>().add(LeasesEndingLoadEvent()),
               height: AppMetrics.buttonHeightInline,
-              fontSize: 12.5,
+              fontSize: AppType.subhead,
             ),
-          ] else if (shown == null)
-            const Column(children: [
-              LeaseRowBone(),
-              SizedBox(height: 8),
-              LeaseRowBone(),
-            ])
-          else ...[
+          ] else ...[
             for (var i = 0; i < shown.length; i++) ...[
               if (i > 0) const SizedBox(height: 8),
               LeaseRow(
@@ -109,7 +106,7 @@ class LeasesEndingCard extends StatelessWidget {
               label: l10n.dashboardSeeAll,
               onPressed: onSeeAll,
               height: AppMetrics.buttonHeightInline,
-              fontSize: 12.5,
+              fontSize: AppType.subhead,
             ),
           ],
         ],

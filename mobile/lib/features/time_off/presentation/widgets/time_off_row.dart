@@ -37,7 +37,9 @@ class TimeOffRow extends StatelessWidget {
       l10n.timeOffDays(timeOff.days),
     ].join(' · ');
     final secondary = TextStyle(
-        fontFamily: AppFonts.sans, fontSize: 11.5, color: t.textSecondary);
+        fontFamily: AppFonts.sans,
+        fontSize: AppType.caption,
+        color: t.textSecondary);
 
     return AppCard(
       key: ValueKey('time-off-row-${timeOff.id}'),
@@ -68,7 +70,7 @@ class TimeOffRow extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
                               fontFamily: AppFonts.sans,
-                              fontSize: 14,
+                              fontSize: AppType.body,
                               fontWeight: FontWeight.w600,
                               color: t.textPrimary)),
                     ),
@@ -91,7 +93,7 @@ class TimeOffRow extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: 12,
+                        fontSize: AppType.footnote,
                         fontWeight: FontWeight.w500,
                         color: t.textPrimary)),
                 const SizedBox(height: 2),

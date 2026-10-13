@@ -182,7 +182,7 @@ class _Hero extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 fontFamily: AppFonts.sans,
-                fontSize: 12.5,
+                fontSize: AppType.subhead,
                 color: t.heroTextMuted),
           ),
           const SizedBox(height: 12),
@@ -193,7 +193,7 @@ class _Hero extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
                 fontFamily: AppFonts.sans,
-                fontSize: 13,
+                fontSize: AppType.subhead,
                 fontWeight: FontWeight.w600,
                 color: t.heroText),
           ),
@@ -205,7 +205,7 @@ class _Hero extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 11.5,
+                  fontSize: AppType.caption,
                   color: t.heroTextMuted),
             ),
           ],
@@ -252,7 +252,7 @@ class _Stats extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           style: TextStyle(
               fontFamily: AppFonts.sans,
-              fontSize: 11.5,
+              fontSize: AppType.caption,
               height: 1.4,
               color: t.textSecondary),
         ),
@@ -294,7 +294,7 @@ class _Contact extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 12.5,
+                  fontSize: AppType.subhead,
                   height: 1.45,
                   color: t.textSecondary),
             ),
@@ -310,7 +310,7 @@ class _Contact extends StatelessWidget {
                 }
               },
               height: AppMetrics.minHitTarget,
-              fontSize: 12.5,
+              fontSize: AppType.subhead,
               radius: 11,
             ),
           ],
@@ -335,7 +335,7 @@ class _CardHeading extends StatelessWidget {
               maxLines: 1,
               style: TextStyle(
                   fontFamily: AppFonts.sans,
-                  fontSize: 11,
+                  fontSize: AppType.caption,
                   fontWeight: FontWeight.w600,
                   color: context.tokens.textSecondary)),
         ],
@@ -353,7 +353,7 @@ class _Quiet extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
         style: TextStyle(
             fontFamily: AppFonts.sans,
-            fontSize: 12.5,
+            fontSize: AppType.subhead,
             height: 1.4,
             color: context.tokens.textSecondary),
       );
@@ -431,7 +431,7 @@ class PartnerReferralRow extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 13,
+                      fontSize: AppType.body,
                       fontWeight: FontWeight.w600,
                       color: t.textPrimary),
                 ),
@@ -443,7 +443,7 @@ class PartnerReferralRow extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 11.5,
+                      fontSize: AppType.caption,
                       color: t.textSecondary),
                 ),
                 const SizedBox(height: 3),
@@ -453,7 +453,7 @@ class PartnerReferralRow extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 11.5,
+                      fontSize: AppType.caption,
                       fontWeight: FontWeight.w500,
                       color: t.textPrimary),
                 ),

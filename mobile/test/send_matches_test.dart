@@ -15,6 +15,7 @@ import 'package:real_estate_crm/features/properties/presentation/widgets/propert
 import 'package:real_estate_crm/l10n/app_localizations_en.dart';
 
 import 'fakes.dart';
+import 'more_section_expect.dart';
 import 'responsive_harness.dart';
 
 /// Sending a buyer the flats that answer them, straight from their card.
@@ -90,6 +91,8 @@ Widget _wrap(Widget child) => MultiBlocProvider(
 Future<void> _openSheet(WidgetTester tester) async {
   await expectNoOverflow(tester, _wrap(const ClientDetailScreen(id: 1)),
       size: const Size(390, 844), brightness: Brightness.light, textScale: 1.0);
+  await tester.pumpAndSettle();
+  await openMore(tester);
   await tester.pumpAndSettle();
   final button = find.text('Send listings');
   await tester.scrollUntilVisible(button, 200,

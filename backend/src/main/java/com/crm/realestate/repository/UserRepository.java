@@ -4,8 +4,11 @@ import com.crm.realestate.entity.User;
 import com.crm.realestate.enums.Role;
 import com.crm.realestate.enums.UserStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,4 +42,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     /** A team's assignable people — see UserService.getAgentOptions. */
     List<User> findByTeamIdAndIsActiveTrueOrderByFullNameAsc(Long teamId);
+
+    @Query("SELECT DISTINCT u.team.id FROM User u WHERE LOWER(u.email) LIKE :pattern AND u.team IS NOT NULL")
+    List<Long> findTeamIdsByEmailLike(@Param("pattern") String pattern);
+
+    @Query("SELECT u FROM User u LEFT JOIN FETCH u.team WHERE LOWER(u.email) LIKE :pattern AND u.createdAt < :cutoff")
+    List<User> findByEmailLikeCreatedBefore(@Param("pattern") String pattern,
+                                            @Param("cutoff") LocalDateTime cutoff);
 }

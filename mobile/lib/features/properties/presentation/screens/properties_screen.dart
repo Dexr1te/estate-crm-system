@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/models/export_models.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/navigation/active_tab.dart';
-import 'package:real_estate_crm/core/quick_add/quick_add_button.dart';
 import 'package:real_estate_crm/core/utils/contact_actions.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/compare/domain/comparison.dart';
@@ -194,8 +193,6 @@ class _PropertiesScreenState extends State<PropertiesScreen>
                               ExportButton(
                                   kind: ExportKind.properties,
                                   filters: _exportFilters),
-                              const SizedBox(width: 4),
-                              const QuickAddButton(),
                             ],
                           ),
                         ),
@@ -294,7 +291,7 @@ class _PropertiesScreenState extends State<PropertiesScreen>
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
-                      fontSize: 12.5,
+                      fontSize: AppType.subhead,
                       color: t.textSecondary),
                 )
               : AppFilledButton(

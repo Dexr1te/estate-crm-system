@@ -12,8 +12,7 @@ import 'package:real_estate_crm/l10n/app_localizations.dart';
 const kMandatesPreview = 3;
 
 /// The listings whose seller agreement is running out, on the dashboard: the
-/// soonest few, each opening its listing. Nothing at all when none is, a
-/// skeleton while it loads, and a failure stays inside the card.
+/// soonest few, each opening its listing.
 ///
 /// [topGap] sits above the card and goes with it, so a hidden card leaves no
 /// hole in the column.
@@ -31,7 +30,9 @@ class MandatesEndingCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<MandatesBloc, MandatesState>(
       builder: (context, state) {
-        if (state is MandatesLoaded && state.properties.isEmpty) {
+        if (state is MandatesLoaded
+            ? state.properties.isEmpty
+            : state is! MandatesError) {
           return const SizedBox.shrink(key: ValueKey('mandates-hidden'));
         }
         return Padding(
@@ -48,7 +49,9 @@ class MandatesEndingCard extends StatelessWidget {
     final all = state is MandatesLoaded ? state.properties : null;
     final shown = all?.take(kMandatesPreview).toList();
     final secondary = TextStyle(
-        fontFamily: AppFonts.sans, fontSize: 12.5, color: t.textSecondary);
+        fontFamily: AppFonts.sans,
+        fontSize: AppType.subhead,
+        color: t.textSecondary);
 
     return AppCard(
       key: const ValueKey('mandates-card'),
@@ -69,7 +72,7 @@ class MandatesEndingCard extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontFamily: AppFonts.sans,
-                          fontSize: 11,
+                          fontSize: AppType.caption,
                           fontWeight: FontWeight.w600,
                           color: t.dangerText)),
                 ),
@@ -77,7 +80,7 @@ class MandatesEndingCard extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 11),
-          if (state is MandatesError) ...[
+          if (shown == null) ...[
             Text(l10n.propertiesMandatesLoadFailed,
                 maxLines: 2, overflow: TextOverflow.ellipsis, style: secondary),
             const SizedBox(height: 10),
@@ -87,15 +90,9 @@ class MandatesEndingCard extends StatelessWidget {
               onPressed: () =>
                   context.read<MandatesBloc>().add(MandatesLoadEvent()),
               height: AppMetrics.buttonHeightInline,
-              fontSize: 12.5,
+              fontSize: AppType.subhead,
             ),
-          ] else if (shown == null)
-            const Column(children: [
-              MandateRowBone(),
-              SizedBox(height: 8),
-              MandateRowBone(),
-            ])
-          else ...[
+          ] else ...[
             for (var i = 0; i < shown.length; i++) ...[
               if (i > 0) const SizedBox(height: 8),
               MandateRow(
@@ -110,7 +107,7 @@ class MandatesEndingCard extends StatelessWidget {
               label: l10n.dashboardSeeAll,
               onPressed: onSeeAll,
               height: AppMetrics.buttonHeightInline,
-              fontSize: 12.5,
+              fontSize: AppType.subhead,
             ),
           ],
         ],
