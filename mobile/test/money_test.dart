@@ -90,6 +90,26 @@ void main() {
     });
   });
 
+  group('parseMoneyInput', () {
+    test('a comma with one or two digits after it is a decimal comma', () {
+      expect(parseMoneyInput('150000,50'), 150000.5);
+      expect(parseMoneyInput('350 000,5'), 350000.5);
+      expect(parseMoneyInput('12,5'), 12.5);
+    });
+
+    test('spaces and thousands commas are grouping, not decimals', () {
+      expect(parseMoneyInput('150,000'), 150000);
+      expect(parseMoneyInput('1,250,000.75'), 1250000.75);
+      expect(parseMoneyInput(nb('1 250 000')), 1250000);
+      expect(parseMoneyInput(' 500000 '), 500000);
+    });
+
+    test('anything that is not a number is zero', () {
+      expect(parseMoneyInput(''), 0);
+      expect(parseMoneyInput('abc'), 0);
+    });
+  });
+
   group('Currency.fromCode', () {
     test('reads every code and falls back to dollars', () {
       for (final c in Currency.values) {

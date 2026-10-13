@@ -225,6 +225,18 @@ void main() {
       expect(find.text('Hold ends in 14 days'), findsOneWidget);
     });
 
+    testWidgets('a decimal comma is read as cents, not as thousands',
+        (tester) async {
+      await _pumpDeal(tester);
+      await _tap(tester, find.byKey(const Key('deal-deposit-record')));
+      await tester.enterText(
+          find.byKey(const Key('deposit-amount')), '150000,50');
+      await tester.pumpAndSettle();
+      await _tap(tester, find.byKey(const Key('deposit-save')));
+
+      expect(_deposits.recorded.single.$2.amount, 150000.5);
+    });
+
     testWidgets('the save waits for an amount', (tester) async {
       await _pumpDeal(tester);
       await _tap(tester, find.byKey(const Key('deal-deposit-record')));

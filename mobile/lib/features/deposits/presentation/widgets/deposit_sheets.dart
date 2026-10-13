@@ -63,8 +63,7 @@ class _DepositFormState extends State<DepositForm> {
   }
 
   DepositDraft get _draft => DepositDraft(
-        amount:
-            double.tryParse(_amount.text.replaceAll(RegExp(r'[\s,]'), '')) ?? 0,
+        amount: parseMoneyInput(_amount.text),
         receivedOn: _received,
         holdUntil: _until,
         holder: _holder,

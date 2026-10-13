@@ -48,8 +48,7 @@ class _RenewLeaseFormState extends State<RenewLeaseForm> {
     super.dispose();
   }
 
-  double? get _rentValue =>
-      double.tryParse(_rent.text.replaceAll(RegExp(r'[\s,]'), ''));
+  double get _rentValue => parseMoneyInput(_rent.text);
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +58,7 @@ class _RenewLeaseFormState extends State<RenewLeaseForm> {
     final now = AppClock.now();
     final notLater = !_end.isAfter(_currentEnd);
     final rent = _rentValue;
-    final rentOk = rent != null && rent > 0;
+    final rentOk = rent > 0;
 
     return Column(
       mainAxisSize: MainAxisSize.min,
