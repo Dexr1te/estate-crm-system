@@ -145,7 +145,7 @@ class _PropertyFormScreenState extends State<PropertyFormScreen>
       _addressCtrl.text = p.address;
       _cityCtrl.text = p.city ?? '';
       _priceCtrl.text = _groupedDigits(p.price);
-      _areaCtrl.text = p.areaSqm?.toStringAsFixed(0) ?? '';
+      _areaCtrl.text = p.areaSqm == null ? '' : formatRate(p.areaSqm!);
       _roomsCtrl.text = p.rooms?.toString() ?? '';
       _floorCtrl.text = p.floor?.toString() ?? '';
       _totalFloorsCtrl.text = p.totalFloors?.toString() ?? '';
@@ -399,7 +399,8 @@ class _PropertyFormScreenState extends State<PropertyFormScreen>
                     child: AppTextField(
                       controller: _areaCtrl,
                       hint: '58',
-                      keyboardType: TextInputType.number,
+                      keyboardType:
+                          const TextInputType.numberWithOptions(decimal: true),
                       textInputAction: TextInputAction.next,
                     ),
                   ),
