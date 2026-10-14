@@ -337,6 +337,23 @@ void main() {
       await tester.pumpAndSettle();
     }
 
+    testWidgets('an edit keeps a fractional area as it was', (tester) async {
+      final repo = installMandates(const [
+        PropertyResponse(
+            id: 1,
+            title: 'Flat',
+            address: 'Abaya 10',
+            price: 30000000,
+            areaSqm: 58.5),
+      ]);
+      await _pumpForm(tester, repo);
+      expect(find.text('58.5'), findsOneWidget);
+
+      await toDetails(tester);
+      await submit(tester);
+      expect(repo.sent['update-1']!['areaSqm'], 58.5);
+    });
+
     testWidgets('an agreement is recorded with its last day', (tester) async {
       final repo = installMandates(const [
         PropertyResponse(
