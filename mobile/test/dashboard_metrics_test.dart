@@ -12,6 +12,18 @@ DealResponse _deal(DealStatus status, {double? price, String agent = 'A'}) =>
       dealPrice: price,
     );
 
+DealResponse _rent(DealStatus status, {String agent = 'A'}) => DealResponse(
+      id: 2,
+      status: status,
+      clientId: 1,
+      agentId: 1,
+      agentName: agent,
+      kind: DealKind.rent,
+      budget: 400000,
+      monthlyRent: 400000,
+      closedAt: DateTime(2026, 8, 3),
+    );
+
 MeetingResponse _meeting(DateTime at) =>
     MeetingResponse(id: 1, scheduledAt: at, agentId: 1, clientId: 1);
 
@@ -63,6 +75,37 @@ void main() {
       expect(p.leads, 1, reason: 'it still counts as a deal');
       expect(p.leadValue, 0);
       expect(p.peakStageValue, 0);
+    });
+  });
+
+  group('rent deals', () {
+    test('add no sale value to the pipeline, as on the Deals tab', () {
+      final p = PipelineBreakdown.from([
+        _rent(DealStatus.LEAD),
+        _rent(DealStatus.CLOSED_WON),
+        _deal(DealStatus.LEAD, price: 250),
+      ]);
+      expect(p.leads, 2);
+      expect(p.won, 1);
+      expect(p.leadValue, 250);
+      expect(p.wonValue, 0);
+      expect(p.totalValue, 250);
+    });
+
+    test('add nothing to the value closed this month', () {
+      final state = _loaded(deals: [_rent(DealStatus.CLOSED_WON)]);
+      expect(state.closedValueThisMonth(DateTime(2026, 8, 15)), 0);
+    });
+
+    test('do not lift an agent above one who sold', () {
+      final state = _loaded(deals: [
+        _rent(DealStatus.CLOSED_WON, agent: 'Letting agent'),
+        _deal(DealStatus.CLOSED_WON, price: 900, agent: 'Seller'),
+      ]);
+      final ranked = state.topAgents();
+      expect(ranked.first.name, 'Seller');
+      expect(ranked.last.value, 0);
+      expect(ranked.last.deals, 1);
     });
   });
 

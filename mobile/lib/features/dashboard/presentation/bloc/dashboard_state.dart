@@ -1,5 +1,6 @@
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/network/api_error.dart';
+import 'package:real_estate_crm/features/leases/domain/lease.dart';
 
 abstract class DashboardState {}
 
@@ -51,7 +52,7 @@ class DashboardLoaded extends DashboardState {
       final at = d.closedAt ?? d.updatedAt;
       if (at == null) continue;
       if (at.year == now.year && at.month == now.month) {
-        total += d.dealPrice ?? d.budget ?? 0;
+        total += dealSaleValue(d);
       }
     }
     return total;
@@ -104,8 +105,7 @@ class DashboardLoaded extends DashboardState {
     for (final d in deals) {
       if (d.status != DealStatus.CLOSED_WON) continue;
       if (d.agentName.trim().isEmpty) continue;
-      totals[d.agentName] =
-          (totals[d.agentName] ?? 0) + (d.dealPrice ?? d.budget ?? 0);
+      totals[d.agentName] = (totals[d.agentName] ?? 0) + dealSaleValue(d);
       counts[d.agentName] = (counts[d.agentName] ?? 0) + 1;
     }
     final ranked = totals.entries
@@ -174,7 +174,7 @@ class PipelineBreakdown {
     var leads = 0, negotiation = 0, won = 0, lost = 0;
     var total = 0.0, leadValue = 0.0, negotiationValue = 0.0, wonValue = 0.0;
     for (final d in deals) {
-      final value = d.dealPrice ?? d.budget ?? 0;
+      final value = dealSaleValue(d);
       switch (d.status) {
         case DealStatus.LEAD:
           leads++;
