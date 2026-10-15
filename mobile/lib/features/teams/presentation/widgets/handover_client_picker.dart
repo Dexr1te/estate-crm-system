@@ -30,8 +30,9 @@ class _ClientPicker extends StatefulWidget {
 }
 
 class _ClientPickerState extends State<_ClientPicker> {
-  late final Set<int> _ticked =
-      widget.picked ?? {for (final c in widget.clients) c.id};
+  late final Set<int> _ticked = {
+    ...widget.picked ?? [for (final c in widget.clients) c.id],
+  };
 
   bool get _all => _ticked.length == widget.clients.length;
 

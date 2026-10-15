@@ -247,6 +247,28 @@ void main() {
       expect(find.text('1 client picked'), findsOneWidget);
     });
 
+    testWidgets('a picker swiped away after a change keeps the earlier pick',
+        (tester) async {
+      final teams = _setUp();
+      await _pumpScreen(tester);
+      await _chooseTimur(tester);
+      await _tap(tester, find.byKey(const Key('handover-pick-clients')));
+      await _tap(tester, find.byKey(const ValueKey('handover-client-12')));
+      await _tap(tester, find.byKey(const Key('handover-pick-done')));
+
+      await _tap(tester, find.byKey(const Key('handover-pick-clients')));
+      await _tap(tester, find.byKey(const ValueKey('handover-client-11')));
+      await tester.tapAt(const Offset(10, 10));
+      await tester.pumpAndSettle();
+      expect(find.byKey(const Key('handover-pick-done')), findsNothing);
+
+      await _tap(tester, find.byKey(const Key('handover-confirm')));
+      await _tap(tester, _dialogConfirm);
+
+      expect(teams.handedOver?.clients, isTrue);
+      expect(teams.handedOver?.clientIds, [11]);
+    });
+
     testWidgets('nothing chosen says so and cannot be confirmed',
         (tester) async {
       _setUp();
