@@ -77,7 +77,13 @@ class ApiClient {
 
         try {
           await _refreshOnce();
-        } catch (_) {
+        } catch (refreshError) {
+          if (refreshError is DioException &&
+              isConnectivityFailure(refreshError)) {
+            handler.next(
+                refreshError.copyWith(requestOptions: error.requestOptions));
+            return;
+          }
           await _endSession();
           handler.next(error);
           return;

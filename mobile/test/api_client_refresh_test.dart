@@ -19,6 +19,8 @@ class _Backend implements HttpClientAdapter {
 
   bool rejectRefresh = false;
 
+  bool refreshUnavailable = false;
+
   bool alwaysReject = false;
 
   int get refreshCalls =>
@@ -39,6 +41,9 @@ class _Backend implements HttpClientAdapter {
     if (options.path.contains('/auth/refresh')) {
       if (refreshCalls > _maxRefreshes) {
         return _json({'error': 'runaway'}, 500);
+      }
+      if (refreshUnavailable) {
+        return _json({'error': 'deploying'}, 503);
       }
       final auth = options.headers['Authorization'];
       if (rejectRefresh || auth != 'Bearer $_refresh') {
@@ -140,6 +145,30 @@ void main() {
     expect(expiredSignals, 1,
         reason: 'the app has to be told, or the router keeps believing the '
             'user is signed in and every screen 401s forever');
+  });
+
+  test('a refresh the server cannot answer keeps the session', () async {
+    final (client, backend, session) = await _build();
+    backend.refreshUnavailable = true;
+    var expiredSignals = 0;
+    client.onSessionExpired = () => expiredSignals++;
+
+    await expectLater(
+      client.dio.get('/clients'),
+      throwsA(isA<DioException>()
+          .having((e) => e.response?.statusCode, 'status', 503)
+          .having((e) => e.requestOptions.path, 'path', '/clients')),
+    );
+
+    expect(session.refreshToken, _refresh,
+        reason: 'a deploy or a dropped signal is not a dead refresh token');
+    expect(expiredSignals, 0);
+
+    backend.refreshUnavailable = false;
+    final res = await client.dio.get('/clients');
+
+    expect(res.statusCode, 200,
+        reason: 'the next request refreshes once the server is back');
   });
 
   test('a request that still 401s after a good refresh is not retried again',
