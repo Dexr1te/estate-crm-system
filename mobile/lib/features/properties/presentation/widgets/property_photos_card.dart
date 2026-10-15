@@ -55,29 +55,32 @@ class _PropertyPhotosCardState extends State<PropertyPhotosCard> {
     widget.onChanged();
   }
 
-  Future<void> _remove(PropertyPhoto photo) async {
+  Future<bool> _remove(PropertyPhoto photo) async {
     final l10n = AppLocalizations.of(context);
     final ok = await showConfirmDialog(
       context,
       title: l10n.propertiesPhotoDelete,
       content: l10n.propertiesPhotoDeleteConfirm,
     );
-    if (!ok || !mounted) return;
+    if (!ok || !mounted) return false;
 
     setState(() => _busy = true);
+    var removed = false;
     try {
       await Injector.propertiesRepository
           .deletePhoto(widget.propertyId, photo.id);
       _PhotoBytes.forget(photo.id);
+      removed = true;
     } catch (err) {
       if (mounted) {
         showActionUnavailable(
             context, apiFailureLabel(l10n, ApiFailure.from(err)));
       }
     }
-    if (!mounted) return;
+    if (!mounted) return removed;
     setState(() => _busy = false);
     widget.onChanged();
+    return removed;
   }
 
   Future<void> _move(int from, int to) async {
@@ -102,18 +105,15 @@ class _PropertyPhotosCardState extends State<PropertyPhotosCard> {
     widget.onChanged();
   }
 
-  Future<void> _open(int index) async {
-    final removed =
-        await Navigator.of(context).push<bool>(MaterialPageRoute<bool>(
-      builder: (_) => _PhotoViewer(
-        propertyId: widget.propertyId,
-        photos: widget.photos,
-        initialIndex: index,
-        onRemove: _remove,
-      ),
-    ));
-    if (removed == true && mounted) widget.onChanged();
-  }
+  Future<void> _open(int index) =>
+      Navigator.of(context).push<void>(MaterialPageRoute<void>(
+        builder: (_) => _PhotoViewer(
+          propertyId: widget.propertyId,
+          photos: widget.photos,
+          initialIndex: index,
+          onRemove: _remove,
+        ),
+      ));
 
   @override
   Widget build(BuildContext context) {
@@ -292,7 +292,7 @@ class _PhotoViewer extends StatefulWidget {
   final int propertyId;
   final List<PropertyPhoto> photos;
   final int initialIndex;
-  final Future<void> Function(PropertyPhoto) onRemove;
+  final Future<bool> Function(PropertyPhoto) onRemove;
 
   const _PhotoViewer({
     required this.propertyId,
@@ -325,8 +325,8 @@ class _PhotoViewerState extends State<_PhotoViewer> {
             tooltip: l10n.propertiesPhotoDelete,
             icon: const Icon(Icons.delete_outline_rounded),
             onPressed: () async {
-              await widget.onRemove(photos[_index]);
-              if (context.mounted) Navigator.of(context).pop(true);
+              final removed = await widget.onRemove(photos[_index]);
+              if (removed && context.mounted) Navigator.of(context).pop();
             },
           ),
         ],
