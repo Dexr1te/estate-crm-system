@@ -349,6 +349,29 @@ void main() {
       expect(deals.sent!.containsKey('monthlyRent'), isFalse);
     });
 
+    testWidgets('a price and a budget typed with grouping commas stay whole',
+        (tester) async {
+      final deals = await _pumpForm(tester, checklistDeal);
+      await tester.enterText(
+          find.byKey(const ValueKey('deal-form-price')), '12,300,000');
+      await tester.enterText(
+          find.byKey(const ValueKey('deal-form-budget')), '13,000,000');
+      await _submit(tester);
+
+      expect(deals.sent!['dealPrice'], 12300000);
+      expect(deals.sent!['budget'], 13000000);
+    });
+
+    testWidgets('a rent typed with a grouping comma is not cut to hundreds',
+        (tester) async {
+      final deals = await _pumpForm(tester, rentDeal);
+      await tester.enterText(
+          find.byKey(const ValueKey('deal-form-rent')), '350,000');
+      await _submit(tester);
+
+      expect(deals.sent!['monthlyRent'], 350000);
+    });
+
     testWidgets(
         'switching to Rent asks for the rent and both days before it sends',
         (tester) async {

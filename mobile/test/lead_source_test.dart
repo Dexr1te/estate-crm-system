@@ -205,6 +205,22 @@ void main() {
     expect(_clients.created.single['leadSourceDetail'], 'Aigerim');
   });
 
+  testWidgets(
+      'a budget keeps its grouping commas whole and its decimal comma as cents',
+      (tester) async {
+    await _pumpRouted(tester, '/clients/new');
+    await tester.enterText(find.byType(TextField).first, 'Dana Omarova');
+    await tester.enterText(
+        find.byKey(const ValueKey('client-form-budget-min')), '1,500,000');
+    await tester.enterText(
+        find.byKey(const ValueKey('client-form-budget-max')), '150000,50');
+    await _tapVisible(tester, find.text('Create client'));
+
+    final sent = _clients.created.single;
+    expect(sent['budgetMin'], 1500000);
+    expect(sent['budgetMax'], 150000.5);
+  });
+
   testWidgets('a new client with no source says so explicitly', (tester) async {
     await _pumpRouted(tester, '/clients/new');
     await tester.enterText(find.byType(TextField).first, 'Dana Omarova');

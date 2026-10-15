@@ -237,8 +237,8 @@ class _DealFormScreenState extends State<DealFormScreen>
       if (!mounted) return;
       final l10n = AppLocalizations.of(context);
       _titleCtrl.text = d.title;
-      _priceCtrl.text = d.dealPrice?.toStringAsFixed(0) ?? '';
-      _budgetCtrl.text = d.budget?.toStringAsFixed(0) ?? '';
+      _priceCtrl.text = d.dealPrice == null ? '' : formatRate(d.dealPrice!);
+      _budgetCtrl.text = d.budget == null ? '' : formatRate(d.budget!);
       _commissionCtrl.text =
           d.commissionPercent == null ? '' : formatRate(d.commissionPercent!);
       _notesCtrl.text = d.notes ?? '';
@@ -334,6 +334,12 @@ class _DealFormScreenState extends State<DealFormScreen>
     return v.isEmpty ? null : double.tryParse(v);
   }
 
+  double? _money(TextEditingController c) {
+    if (c.text.trim().isEmpty) return null;
+    final v = parseMoneyInput(c.text);
+    return v > 0 ? v : null;
+  }
+
   String? _validateCommission(String? _) {
     if (_commissionCtrl.text.trim().isEmpty) return null;
     final v = _double(_commissionCtrl);
@@ -346,8 +352,7 @@ class _DealFormScreenState extends State<DealFormScreen>
 
   String? _validateRent(String? _) {
     if (_kind != DealKind.rent) return null;
-    final v = _double(_rentCtrl);
-    return v == null || v <= 0
+    return _money(_rentCtrl) == null
         ? AppLocalizations.of(context).leasesRentRequired
         : null;
   }
@@ -414,8 +419,8 @@ class _DealFormScreenState extends State<DealFormScreen>
 
     setState(() => _loading = true);
     final rent = _kind == DealKind.rent;
-    final price = rent ? null : _double(_priceCtrl);
-    final budget = _double(_budgetCtrl);
+    final price = rent ? null : _money(_priceCtrl);
+    final budget = _money(_budgetCtrl);
     final commission = _double(_commissionCtrl);
     final reminder = int.tryParse(_reminderCtrl.text.trim());
 
@@ -426,7 +431,7 @@ class _DealFormScreenState extends State<DealFormScreen>
       'status': _status.name,
       'kind': dealKindParam(_kind),
       if (rent) ...{
-        'monthlyRent': _double(_rentCtrl),
+        'monthlyRent': _money(_rentCtrl),
         'leaseStart': leaseDateParam(_leaseStart!),
         'leaseEnd': leaseDateParam(_leaseEnd!),
         if (reminder != null) 'leaseReminderDays': reminder,
@@ -675,6 +680,7 @@ class _DealFormScreenState extends State<DealFormScreen>
                                 : LabelledField(
                                     label: l10n.dealsDealPrice,
                                     child: AppTextField(
+                                      key: const ValueKey('deal-form-price'),
                                       controller: _priceCtrl,
                                       hint: '12 300 000',
                                       keyboardType: TextInputType.number,
@@ -687,6 +693,7 @@ class _DealFormScreenState extends State<DealFormScreen>
                             child: LabelledField(
                               label: l10n.dealsBudget,
                               child: AppTextField(
+                                key: const ValueKey('deal-form-budget'),
                                 controller: _budgetCtrl,
                                 hint: '13 000 000',
                                 keyboardType: TextInputType.number,
