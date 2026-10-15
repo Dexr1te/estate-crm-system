@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/utils/file_gateway.dart';
+import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_bloc.dart';
 import 'package:real_estate_crm/features/properties/presentation/screens/property_detail_screen.dart';
@@ -177,6 +178,47 @@ void main() {
     expect(find.byIcon(Icons.delete_outline_rounded), findsOneWidget,
         reason: 'deleting used to hide behind a long press on a thumbnail, '
             'which is a destructive action on an invisible gesture');
+  });
+
+  testWidgets('cancelling a delete keeps the viewer and the photo',
+      (tester) async {
+    _installFakes(photos: _photos);
+    await _open(tester);
+    await tester.tap(find
+        .descendant(
+            of: find.byType(ReorderableListView),
+            matching: find.byType(GestureDetector))
+        .first);
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byIcon(Icons.delete_outline_rounded));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Cancel'));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(InteractiveViewer), findsOneWidget);
+    expect(_properties.photos, hasLength(2));
+  });
+
+  testWidgets('a confirmed delete closes the viewer and drops the photo',
+      (tester) async {
+    _installFakes(photos: _photos);
+    await _open(tester);
+    await tester.tap(find
+        .descendant(
+            of: find.byType(ReorderableListView),
+            matching: find.byType(GestureDetector))
+        .first);
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byIcon(Icons.delete_outline_rounded));
+    await tester.pumpAndSettle();
+    await tester.tap(find.descendant(
+        of: find.byType(Dialog), matching: find.byType(AppFilledButton)));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(InteractiveViewer), findsNothing);
+    expect(_properties.photos.map((p) => p.id), [2]);
   });
 
   forEachAcceptanceCase('property detail with photos',
