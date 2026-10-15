@@ -250,6 +250,12 @@ class _ClientFormScreenState extends State<ClientFormScreen>
     return double.tryParse(text);
   }
 
+  double? _money(TextEditingController controller) {
+    if (controller.text.trim().isEmpty) return null;
+    final value = parseMoneyInput(controller.text);
+    return value > 0 ? value : null;
+  }
+
   /// The detail as typed, trimmed to what the server keeps.
   String? _leadDetail() {
     final text = _leadDetailCtrl.text.trim();
@@ -288,10 +294,8 @@ class _ClientFormScreenState extends State<ClientFormScreen>
         if (_wantedType != null) 'wantedType': _wantedType!.name,
         if (_cityCtrl.text.trim().isNotEmpty)
           'wantedCity': _cityCtrl.text.trim(),
-        if (_number(_budgetMinCtrl) != null)
-          'budgetMin': _number(_budgetMinCtrl),
-        if (_number(_budgetMaxCtrl) != null)
-          'budgetMax': _number(_budgetMaxCtrl),
+        if (_money(_budgetMinCtrl) != null) 'budgetMin': _money(_budgetMinCtrl),
+        if (_money(_budgetMaxCtrl) != null) 'budgetMax': _money(_budgetMaxCtrl),
         if (_number(_roomsCtrl) != null)
           'minRooms': _number(_roomsCtrl)!.round(),
         if (_number(_areaCtrl) != null) 'minAreaSqm': _number(_areaCtrl),
@@ -602,6 +606,7 @@ class _RequirementsCard extends StatelessWidget {
               child: LabelledField(
                 label: l10n.clientsBudgetFrom,
                 child: AppTextField(
+                  key: const ValueKey('client-form-budget-min'),
                   controller: budgetMinCtrl,
                   hint: '0',
                   keyboardType: TextInputType.number,
@@ -614,6 +619,7 @@ class _RequirementsCard extends StatelessWidget {
               child: LabelledField(
                 label: l10n.clientsBudgetTo,
                 child: AppTextField(
+                  key: const ValueKey('client-form-budget-max'),
                   controller: budgetMaxCtrl,
                   hint: '0',
                   keyboardType: TextInputType.number,
