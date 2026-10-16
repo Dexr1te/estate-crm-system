@@ -81,11 +81,13 @@ class LocalNotificationGateway implements NotificationGateway {
     await _plugin.cancelAll();
 
     for (final reminder in reminders) {
+      final at = tz.TZDateTime.from(reminder.at, tz.local);
+      if (!at.isAfter(tz.TZDateTime.now(tz.local))) continue;
       await _plugin.zonedSchedule(
         reminder.id,
         reminder.title,
         reminder.body,
-        tz.TZDateTime.from(reminder.at, tz.local),
+        at,
         _details,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime,
