@@ -33,6 +33,7 @@ class _PartnerFormScreenState extends State<PartnerFormScreen> {
   bool _loading = false;
   bool _saving = false;
   String? _error;
+  ApiFailure? _loadFailure;
 
   @override
   void initState() {
@@ -56,7 +57,10 @@ class _PartnerFormScreenState extends State<PartnerFormScreen> {
   }
 
   Future<void> _load() async {
-    setState(() => _loading = true);
+    setState(() {
+      _loading = true;
+      _loadFailure = null;
+    });
     try {
       final p = await Injector.partnersRepository.getPartner(widget.partnerId!);
       _nameCtrl.text = p.name;
@@ -75,7 +79,7 @@ class _PartnerFormScreenState extends State<PartnerFormScreen> {
       if (!mounted) return;
       setState(() {
         _loading = false;
-        _error = partnerFailureLabel(AppLocalizations.of(context), err);
+        _loadFailure = ApiFailure.from(err);
       });
     }
   }
@@ -140,7 +144,7 @@ class _PartnerFormScreenState extends State<PartnerFormScreen> {
       key: _formKey,
       child: DetailScaffold(
         title: widget.isEditing ? l10n.partnersEdit : l10n.partnersNew,
-        bottomAction: _loading
+        bottomAction: _loading || _loadFailure != null
             ? null
             : AppFilledButton(
                 key: const ValueKey('partner-save'),
@@ -152,158 +156,172 @@ class _PartnerFormScreenState extends State<PartnerFormScreen> {
             ? const [
                 ShimmerGroup(child: ShimmerFormCard(fields: 4)),
               ]
-            : [
-                FormSectionCard(
-                  children: [
-                    LabelledField(
-                      label: l10n.partnersName,
-                      required: true,
-                      child: AppTextField(
-                        key: const ValueKey('partner-name'),
-                        controller: _nameCtrl,
-                        hint: l10n.partnersNameHint,
-                        textInputAction: TextInputAction.next,
-                        validator: (v) => v == null || v.trim().isEmpty
-                            ? l10n.partnersNameRequired
-                            : null,
+            : _loadFailure != null
+                ? [
+                    EmptyState(
+                      icon: Icons.cloud_off_outlined,
+                      title: l10n.partnersLoadFailedOne,
+                      subtitle: apiFailureLabel(l10n, _loadFailure!),
+                      action: AppGhostButton(
+                        key: const ValueKey('partner-form-retry'),
+                        label: l10n.coreRetry,
+                        onPressed: _load,
                       ),
                     ),
-                    LabelledField(
-                      label: l10n.partnersKind,
-                      child: FilterPillWrap(pills: [
-                        for (final k in PartnerKind.values)
+                  ]
+                : [
+                    FormSectionCard(
+                      children: [
+                        LabelledField(
+                          label: l10n.partnersName,
+                          required: true,
+                          child: AppTextField(
+                            key: const ValueKey('partner-name'),
+                            controller: _nameCtrl,
+                            hint: l10n.partnersNameHint,
+                            textInputAction: TextInputAction.next,
+                            validator: (v) => v == null || v.trim().isEmpty
+                                ? l10n.partnersNameRequired
+                                : null,
+                          ),
+                        ),
+                        LabelledField(
+                          label: l10n.partnersKind,
+                          child: FilterPillWrap(pills: [
+                            for (final k in PartnerKind.values)
+                              FilterPill(
+                                key: ValueKey('partner-kind-${k.name}'),
+                                label: partnerKindLabel(l10n, k),
+                                selected: _kind == k,
+                                onCard: true,
+                                padding: pad,
+                                onTap: () => setState(() => _kind = k),
+                              ),
+                          ]),
+                        ),
+                        LabelledField(
+                          label: l10n.partnersCompany,
+                          child: AppTextField(
+                            key: const ValueKey('partner-company'),
+                            controller: _companyCtrl,
+                            hint: l10n.partnersCompanyHint,
+                            textInputAction: TextInputAction.next,
+                          ),
+                        ),
+                      ],
+                    ),
+                    FormSectionCard(
+                      eyebrow: l10n.partnersContact,
+                      children: [
+                        LabelledField(
+                          label: l10n.partnersPhone,
+                          child: AppTextField(
+                            key: const ValueKey('partner-phone'),
+                            controller: _phoneCtrl,
+                            hint: '+7 ___ ___-__-__',
+                            keyboardType: TextInputType.phone,
+                            textInputAction: TextInputAction.next,
+                          ),
+                        ),
+                        LabelledField(
+                          label: l10n.partnersEmail,
+                          child: AppTextField(
+                            key: const ValueKey('partner-email'),
+                            controller: _emailCtrl,
+                            hint: 'name@example.com',
+                            keyboardType: TextInputType.emailAddress,
+                            textInputAction: TextInputAction.next,
+                          ),
+                        ),
+                      ],
+                    ),
+                    FormSectionCard(
+                      eyebrow: l10n.partnersFee,
+                      children: [
+                        Text(
+                          l10n.partnersFeeHint,
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              fontFamily: AppFonts.sans,
+                              fontSize: AppType.footnote,
+                              height: 1.4,
+                              color: t.textSecondary),
+                        ),
+                        FilterPillWrap(pills: [
                           FilterPill(
-                            key: ValueKey('partner-kind-${k.name}'),
-                            label: partnerKindLabel(l10n, k),
-                            selected: _kind == k,
+                            key: const ValueKey('partner-fee-none'),
+                            label: l10n.partnersFeeTypeNone,
+                            selected: _feeType == null,
                             onCard: true,
                             padding: pad,
-                            onTap: () => setState(() => _kind = k),
+                            onTap: () => setState(() => _feeType = null),
                           ),
-                      ]),
+                          FilterPill(
+                            key: const ValueKey('partner-fee-percent'),
+                            label: l10n.partnersFeeTypePercent,
+                            selected: _feeType == ReferralFeeType.percent,
+                            onCard: true,
+                            padding: pad,
+                            onTap: () => setState(
+                                () => _feeType = ReferralFeeType.percent),
+                          ),
+                          FilterPill(
+                            key: const ValueKey('partner-fee-fixed'),
+                            label: l10n.partnersFeeTypeFixed,
+                            selected: _feeType == ReferralFeeType.fixed,
+                            onCard: true,
+                            padding: pad,
+                            onTap: () => setState(
+                                () => _feeType = ReferralFeeType.fixed),
+                          ),
+                        ]),
+                        if (_feeType != null)
+                          LabelledField(
+                            label: _feeType == ReferralFeeType.percent
+                                ? l10n.partnersFeeValuePercent
+                                : l10n.partnersFeeValueAmount,
+                            required: true,
+                            child: AppTextField(
+                              key: const ValueKey('partner-fee-value'),
+                              controller: _feeCtrl,
+                              hint: _feeType == ReferralFeeType.percent
+                                  ? '10'
+                                  : '150000',
+                              keyboardType:
+                                  const TextInputType.numberWithOptions(
+                                      decimal: true),
+                              validator: _validateFee,
+                            ),
+                          ),
+                      ],
                     ),
-                    LabelledField(
-                      label: l10n.partnersCompany,
-                      child: AppTextField(
-                        key: const ValueKey('partner-company'),
-                        controller: _companyCtrl,
-                        hint: l10n.partnersCompanyHint,
-                        textInputAction: TextInputAction.next,
-                      ),
-                    ),
-                  ],
-                ),
-                FormSectionCard(
-                  eyebrow: l10n.partnersContact,
-                  children: [
-                    LabelledField(
-                      label: l10n.partnersPhone,
-                      child: AppTextField(
-                        key: const ValueKey('partner-phone'),
-                        controller: _phoneCtrl,
-                        hint: '+7 ___ ___-__-__',
-                        keyboardType: TextInputType.phone,
-                        textInputAction: TextInputAction.next,
-                      ),
-                    ),
-                    LabelledField(
-                      label: l10n.partnersEmail,
-                      child: AppTextField(
-                        key: const ValueKey('partner-email'),
-                        controller: _emailCtrl,
-                        hint: 'name@example.com',
-                        keyboardType: TextInputType.emailAddress,
-                        textInputAction: TextInputAction.next,
-                      ),
-                    ),
-                  ],
-                ),
-                FormSectionCard(
-                  eyebrow: l10n.partnersFee,
-                  children: [
-                    Text(
-                      l10n.partnersFeeHint,
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          fontFamily: AppFonts.sans,
-                          fontSize: AppType.footnote,
-                          height: 1.4,
-                          color: t.textSecondary),
-                    ),
-                    FilterPillWrap(pills: [
-                      FilterPill(
-                        key: const ValueKey('partner-fee-none'),
-                        label: l10n.partnersFeeTypeNone,
-                        selected: _feeType == null,
-                        onCard: true,
-                        padding: pad,
-                        onTap: () => setState(() => _feeType = null),
-                      ),
-                      FilterPill(
-                        key: const ValueKey('partner-fee-percent'),
-                        label: l10n.partnersFeeTypePercent,
-                        selected: _feeType == ReferralFeeType.percent,
-                        onCard: true,
-                        padding: pad,
-                        onTap: () =>
-                            setState(() => _feeType = ReferralFeeType.percent),
-                      ),
-                      FilterPill(
-                        key: const ValueKey('partner-fee-fixed'),
-                        label: l10n.partnersFeeTypeFixed,
-                        selected: _feeType == ReferralFeeType.fixed,
-                        onCard: true,
-                        padding: pad,
-                        onTap: () =>
-                            setState(() => _feeType = ReferralFeeType.fixed),
-                      ),
-                    ]),
-                    if (_feeType != null)
-                      LabelledField(
-                        label: _feeType == ReferralFeeType.percent
-                            ? l10n.partnersFeeValuePercent
-                            : l10n.partnersFeeValueAmount,
-                        required: true,
-                        child: AppTextField(
-                          key: const ValueKey('partner-fee-value'),
-                          controller: _feeCtrl,
-                          hint: _feeType == ReferralFeeType.percent
-                              ? '10'
-                              : '150000',
-                          keyboardType: const TextInputType.numberWithOptions(
-                              decimal: true),
-                          validator: _validateFee,
+                    FormSectionCard(
+                      eyebrow: l10n.partnersNote,
+                      children: [
+                        AppTextField(
+                          key: const ValueKey('partner-note'),
+                          controller: _noteCtrl,
+                          hint: l10n.partnersNoteHint,
+                          maxLines: 4,
+                          minLines: 2,
+                          keyboardType: TextInputType.multiline,
                         ),
+                      ],
+                    ),
+                    if (_error != null)
+                      Text(
+                        _error!,
+                        key: const ValueKey('partner-error'),
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontFamily: AppFonts.sans,
+                            fontSize: AppType.footnote,
+                            height: 1.35,
+                            color: t.dangerText),
                       ),
                   ],
-                ),
-                FormSectionCard(
-                  eyebrow: l10n.partnersNote,
-                  children: [
-                    AppTextField(
-                      key: const ValueKey('partner-note'),
-                      controller: _noteCtrl,
-                      hint: l10n.partnersNoteHint,
-                      maxLines: 4,
-                      minLines: 2,
-                      keyboardType: TextInputType.multiline,
-                    ),
-                  ],
-                ),
-                if (_error != null)
-                  Text(
-                    _error!,
-                    key: const ValueKey('partner-error'),
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        fontFamily: AppFonts.sans,
-                        fontSize: AppType.footnote,
-                        height: 1.35,
-                        color: t.dangerText),
-                  ),
-              ],
       ),
     );
   }

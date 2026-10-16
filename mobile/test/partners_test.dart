@@ -436,6 +436,27 @@ void main() {
     });
   });
 
+  group('the form after a failed load', () {
+    testWidgets('offers a retry instead of an empty form to save over them',
+        (tester) async {
+      _phone(tester);
+      _repo.failWith = FakePartnersRepository.refusal('/partners/1', 500, '');
+      await tester.pumpWidget(_routed(const PartnerFormScreen(partnerId: 1)));
+      await tester.pumpAndSettle();
+
+      expect(find.text(l10n.partnersLoadFailedOne), findsOneWidget);
+      expect(find.byKey(const ValueKey('partner-save')), findsNothing);
+      expect(find.byKey(const ValueKey('partner-name')), findsNothing);
+
+      _repo.failWith = null;
+      await _tapKey(tester, 'partner-form-retry');
+      await tester.pumpAndSettle();
+
+      expect(find.text('Ainur Sadykova-Abdrakhmanova'), findsOneWidget);
+      expect(find.byKey(const ValueKey('partner-save')), findsOneWidget);
+    });
+  });
+
   group("a client's partners", () {
     testWidgets('names the partner who sent them and the ones they went to',
         (tester) async {
