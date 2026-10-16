@@ -169,4 +169,22 @@ void main() {
     expect(find.byType(ClientCard), findsOneWidget);
     expect(find.text('Алексей Петров'), findsOneWidget);
   });
+
+  testWidgets('a space left by the keyboard after the name still finds them',
+      (tester) async {
+    await expectNoOverflow(
+      tester,
+      _clientsScreen(clients: _clients, details: _details),
+      size: const Size(390, 844),
+      brightness: Brightness.light,
+      textScale: 1.0,
+    );
+    await tester.pumpAndSettle();
+
+    await tester.enterText(find.byType(TextField).first, 'Петров ');
+    await tester.pumpAndSettle();
+
+    expect(find.byType(ClientCard), findsOneWidget);
+    expect(find.text('Алексей Петров'), findsOneWidget);
+  });
 }

@@ -47,7 +47,8 @@ class _ClientsScreenState extends State<ClientsScreen> with RefreshOnTabReturn {
   void initState() {
     super.initState();
     context.read<ClientsBloc>().add(ClientsLoadEvent());
-    _searchCtrl.addListener(() => setState(() => _search = _searchCtrl.text));
+    _searchCtrl
+        .addListener(() => setState(() => _search = _searchCtrl.text.trim()));
   }
 
   @override
@@ -90,7 +91,7 @@ class _ClientsScreenState extends State<ClientsScreen> with RefreshOnTabReturn {
         createdFrom: _leadsOnly
             ? AppClock.now().subtract(ClientSummary.newLeadWindow)
             : null,
-        search: _search.trim().isEmpty ? null : _search.trim(),
+        search: _search.isEmpty ? null : _search,
         tags: _tags.toList(),
         leadSource: _leadSource?.name,
       );
