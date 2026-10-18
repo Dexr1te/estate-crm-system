@@ -189,7 +189,7 @@ class AppHeaderAction extends StatelessWidget {
     super.key,
     required this.label,
     required this.onPressed,
-    this.icon = Icons.add_rounded,
+    required this.icon,
   });
 
   @override

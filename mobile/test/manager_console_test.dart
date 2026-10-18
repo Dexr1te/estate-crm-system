@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/models/team_models.dart';
+import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart';
 import 'package:real_estate_crm/features/teams/presentation/screens/manager_console_screen.dart';
@@ -217,6 +218,18 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(teams.cancelled, _pending.id);
+  });
+
+  testWidgets('adding an agent sits by the team name, not in a bottom bar',
+      (tester) async {
+    _teams();
+    await _pumpConsole(tester);
+
+    final add = find.widgetWithText(AppHeaderAction, 'Add agent');
+    expect(add, findsOneWidget);
+    expect(tester.getTopLeft(add).dy,
+        lessThan(tester.getTopLeft(find.byType(SegmentedTabs)).dy));
+    expect(find.widgetWithText(AppFilledButton, 'Add agent'), findsNothing);
   });
 
   testWidgets('adding an agent sends the address that was typed',
