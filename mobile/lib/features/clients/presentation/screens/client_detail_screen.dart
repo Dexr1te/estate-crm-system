@@ -25,6 +25,8 @@ import 'package:real_estate_crm/features/clients/presentation/widgets/lead_sourc
 import 'package:real_estate_crm/features/clients/presentation/widgets/log_contact_sheet.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/send_matches_sheet.dart';
 import 'package:real_estate_crm/features/compare/domain/comparison.dart';
+import 'package:real_estate_crm/features/leases/domain/lease.dart';
+import 'package:real_estate_crm/features/leases/presentation/widgets/lease_labels.dart';
 import 'package:real_estate_crm/features/offers/presentation/widgets/client_offers_card.dart';
 import 'package:real_estate_crm/features/partners/presentation/widgets/client_partners_card.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_card.dart';
@@ -937,7 +939,7 @@ class _DealRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = context.tokens;
     final l10n = AppLocalizations.of(context);
-    final price = deal.dealPrice ?? deal.budget;
+    final price = dealShownAmount(deal);
 
     return AppCard(
       nested: true,
@@ -990,10 +992,12 @@ class _DealRow extends StatelessWidget {
                       color: t.textSecondary),
                 ),
               ),
-              if (price != null && price > 0) ...[
+              if (price > 0) ...[
                 const SizedBox(width: 8),
                 Text(
-                  formatPrice(price),
+                  deal.kind == DealKind.rent
+                      ? leaseRentLabel(l10n, price)
+                      : formatPrice(price),
                   style: TextStyle(
                       fontFamily: AppFonts.sans,
                       fontSize: AppType.caption,
