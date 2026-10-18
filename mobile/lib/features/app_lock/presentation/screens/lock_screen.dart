@@ -28,6 +28,7 @@ class _LockScreenState extends State<LockScreen> {
   bool _wrong = false;
   bool _busy = false;
   bool _confirming = false;
+  bool _paused = false;
   Timer? _ticker;
 
   AppLockController get _lock => widget.controller;
@@ -36,7 +37,8 @@ class _LockScreenState extends State<LockScreen> {
   void initState() {
     super.initState();
     _ticker = Timer.periodic(const Duration(seconds: 1), (_) {
-      if (mounted && _lock.retryIn != null) setState(() {});
+      final paused = _lock.retryIn != null;
+      if (mounted && (paused || _paused)) setState(() => _paused = paused);
     });
   }
 
