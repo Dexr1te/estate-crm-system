@@ -288,6 +288,8 @@ class AppDangerButton extends StatelessWidget {
 }
 
 class AppIconTile extends StatelessWidget {
+  static const circle = 36.0;
+
   final IconData icon;
   final VoidCallback onPressed;
   final bool danger;
@@ -313,11 +315,17 @@ class AppIconTile extends StatelessWidget {
       height: AppMetrics.minHitTarget,
       child: Align(
         alignment: alignEnd ? AlignmentDirectional.centerEnd : Alignment.center,
-        child: Icon(icon,
-            size: strong ? 20 : 19,
-            color: danger
-                ? t.dangerText
-                : (strong ? t.textPrimary : t.textSecondary)),
+        child: Container(
+          width: circle,
+          height: circle,
+          decoration: BoxDecoration(
+            color: danger ? t.dangerFill : t.controlFill,
+            shape: BoxShape.circle,
+          ),
+          child: Icon(icon,
+              size: strong ? 19 : 18,
+              color: danger ? t.dangerText : t.textPrimary),
+        ),
       ),
     );
 
