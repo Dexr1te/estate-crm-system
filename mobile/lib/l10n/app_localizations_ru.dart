@@ -915,7 +915,7 @@ class AppLocalizationsRu extends AppLocalizations {
       other: 'Отправлено $count объекта',
       many: 'Отправлено $count объектов',
       few: 'Отправлено $count объекта',
-      one: 'Отправлен 1 объект',
+      one: 'Отправлен $count объект',
     );
     return '$_temp0';
   }
@@ -1289,7 +1289,7 @@ class AppLocalizationsRu extends AppLocalizations {
       other: '$count сделки',
       many: '$count сделок',
       few: '$count сделки',
-      one: '1 сделка',
+      one: '$count сделка',
     );
     return '$_temp0';
   }
@@ -1308,7 +1308,7 @@ class AppLocalizationsRu extends AppLocalizations {
       other: 'и $count связанные сделки будут удалены безвозвратно',
       many: 'и $count связанных сделок будут удалены безвозвратно',
       few: 'и $count связанные сделки будут удалены безвозвратно',
-      one: 'и 1 связанная сделка будут удалены безвозвратно',
+      one: 'и $count связанная сделка будут удалены безвозвратно',
       zero: 'будет удалён безвозвратно',
     );
     return '$name $_temp0. Отменить действие нельзя.';
@@ -1983,7 +1983,7 @@ class AppLocalizationsRu extends AppLocalizations {
       locale: localeName,
       other: '$count сделок',
       few: '$count сделки',
-      one: '1 сделка',
+      one: '$count сделка',
     );
     return '$_temp0';
   }
@@ -2050,7 +2050,7 @@ class AppLocalizationsRu extends AppLocalizations {
       locale: localeName,
       other: 'без движения $count дней',
       few: 'без движения $count дня',
-      one: 'без движения 1 день',
+      one: 'без движения $count день',
     );
     return '$_temp0';
   }
@@ -2065,7 +2065,7 @@ class AppLocalizationsRu extends AppLocalizations {
       locale: localeName,
       other: '$count встреч',
       few: '$count встречи',
-      one: '1 встреча',
+      one: '$count встреча',
       zero: 'ничего не назначено',
     );
     return '$_temp0';
@@ -2725,7 +2725,7 @@ class AppLocalizationsRu extends AppLocalizations {
       locale: localeName,
       other: '$count файлов',
       few: '$count файла',
-      one: '1 файл',
+      one: '$count файл',
       zero: 'Нет файлов',
     );
     return '$_temp0';
@@ -3505,7 +3505,7 @@ class AppLocalizationsRu extends AppLocalizations {
       other: '$count на этой неделе',
       many: '$count на этой неделе',
       few: '$count на этой неделе',
-      one: '1 на этой неделе',
+      one: '$count на этой неделе',
     );
     return '$_temp0';
   }
@@ -5002,7 +5002,7 @@ class AppLocalizationsRu extends AppLocalizations {
       count,
       locale: localeName,
       other: '$count фото',
-      one: '1 фото',
+      one: '$count фото',
     );
     return '$_temp0';
   }
