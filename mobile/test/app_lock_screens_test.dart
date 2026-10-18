@@ -78,6 +78,28 @@ void main() {
       expect(find.text(_client), findsNothing);
     });
 
+    testWidgets('the pad wakes up once the pause runs out', (tester) async {
+      var now = DateTime(2026, 10, 18, 9);
+      final repo = fakeAppLockRepository();
+      await repo.save(
+          1, AppLockRecord(pin: await repo.hash('1234'), pinLength: 4));
+      final lock = AppLockController(repository: repo, now: () => now);
+      await lock.attach(1);
+      await tester.pumpWidget(_app(lock));
+      for (var i = 0; i < 5; i++) {
+        await _type(tester, '0000');
+      }
+      await tester.pump(const Duration(seconds: 1));
+      expect(find.textContaining('Try again in 0:30'), findsOneWidget);
+
+      now = now.add(const Duration(seconds: 31));
+      await tester.pump(const Duration(seconds: 1));
+      expect(find.textContaining('Try again'), findsNothing);
+
+      await _type(tester, '1234');
+      expect(find.text(_client), findsOneWidget);
+    });
+
     testWidgets('Forgot PIN explains, then signs out', (tester) async {
       final lock = await _controller(pin: '1234');
       var signedOut = false;
