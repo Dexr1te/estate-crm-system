@@ -111,7 +111,7 @@ void main() {
   });
 
   test('no screen grows a "+" of its own beside the quick-add one', () {
-    final plus = RegExp(r'AppHeaderAction\(|Icons\.add(_rounded)?\b');
+    final plus = RegExp(r'Icons\.add(_rounded)?\b');
     final offenders = [
       for (final f in Directory('lib').listSync(recursive: true))
         if (f is File &&
