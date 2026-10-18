@@ -34,71 +34,130 @@ class MeetingLoadCard extends StatelessWidget {
               textBaseline: TextBaseline.alphabetic,
               children: [
                 Expanded(child: EyebrowLabel(l10n.dashboardMeetingLoad)),
-                const SizedBox(width: 8),
-                ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 140),
-                  child: Text(
-                    l10n.dashboardLoadTotal(total),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                        fontFamily: AppFonts.sans,
-                        fontSize: AppType.caption,
-                        fontWeight: FontWeight.w600,
-                        color: t.textSecondary),
+                if (total > 0) ...[
+                  const SizedBox(width: 8),
+                  ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 140),
+                    child: Text(
+                      l10n.dashboardLoadTotal(total),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          fontFamily: AppFonts.sans,
+                          fontSize: AppType.caption,
+                          fontWeight: FontWeight.w600,
+                          color: t.textSecondary),
+                    ),
                   ),
-                ),
+                ],
               ],
             ),
             const SizedBox(height: 14),
-            SizedBox(
-              height: 54,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  for (var i = 0; i < load.length; i++) ...[
-                    if (i > 0) const SizedBox(width: 3),
-                    Expanded(
-                      child: _Column(
-                        count: load[i],
-                        peak: peak,
-                        isToday: i == 0,
+            if (total == 0)
+              const _Empty()
+            else ...[
+              SizedBox(
+                height: 54,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    for (var i = 0; i < load.length; i++) ...[
+                      if (i > 0) const SizedBox(width: 3),
+                      Expanded(
+                        child: _Column(
+                          count: load[i],
+                          peak: peak,
+                          isToday: i == 0,
+                        ),
                       ),
-                    ),
+                    ],
                   ],
-                ],
+                ),
               ),
-            ),
-            const SizedBox(height: 7),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    l10n.dashboardToday,
+              const SizedBox(height: 7),
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      l10n.dashboardToday,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          fontFamily: AppFonts.sans,
+                          fontSize: 10.5,
+                          fontWeight: FontWeight.w600,
+                          color: t.textSecondary),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    formatDayMonth(
+                        today.add(Duration(days: load.length - 1)), locale),
                     maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontFamily: AppFonts.sans,
                         fontSize: 10.5,
-                        fontWeight: FontWeight.w600,
-                        color: t.textSecondary),
+                        color: t.textHint),
                   ),
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  formatDayMonth(
-                      today.add(Duration(days: load.length - 1)), locale),
-                  maxLines: 1,
-                  style: TextStyle(
-                      fontFamily: AppFonts.sans,
-                      fontSize: 10.5,
-                      color: t.textHint),
-                ),
-              ],
-            ),
+                ],
+              ),
+            ],
           ],
         ),
       ),
+    );
+  }
+}
+
+class _Empty extends StatelessWidget {
+  const _Empty();
+
+  @override
+  Widget build(BuildContext context) {
+    final t = context.tokens;
+    final l10n = AppLocalizations.of(context);
+    return Row(
+      children: [
+        Container(
+          width: 34,
+          height: 34,
+          decoration: BoxDecoration(
+            color: t.surfaceVariant,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child:
+              Icon(Icons.date_range_outlined, size: 17, color: t.textSecondary),
+        ),
+        const SizedBox(width: 11),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                l10n.dashboardLoadEmpty,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    fontFamily: AppFonts.sans,
+                    fontSize: AppType.body,
+                    fontWeight: FontWeight.w600,
+                    color: t.textPrimary),
+              ),
+              const SizedBox(height: 3),
+              Text(
+                l10n.dashboardLoadEmptyHint,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    fontFamily: AppFonts.sans,
+                    fontSize: AppType.caption,
+                    height: 1.35,
+                    color: t.textSecondary),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

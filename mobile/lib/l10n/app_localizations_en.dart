@@ -2034,6 +2034,13 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get dashboardLoadEmpty => 'No meetings in the next 14 days';
+
+  @override
+  String get dashboardLoadEmptyHint =>
+      'Booked meetings will show here, day by day';
+
+  @override
   String dashboardMandatesTotal(int count) {
     return '$count in all';
   }

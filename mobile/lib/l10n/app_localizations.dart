@@ -3580,6 +3580,18 @@ abstract class AppLocalizations {
   /// **'{count, plural, =0{nothing booked} =1{1 meeting} other{{count} meetings}}'**
   String dashboardLoadTotal(num count);
 
+  /// No description provided for @dashboardLoadEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No meetings in the next 14 days'**
+  String get dashboardLoadEmpty;
+
+  /// No description provided for @dashboardLoadEmptyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Booked meetings will show here, day by day'**
+  String get dashboardLoadEmptyHint;
+
   /// No description provided for @dashboardMandatesTotal.
   ///
   /// In en, this message translates to:
