@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/features/leases/domain/lease.dart';
+import 'package:real_estate_crm/features/leases/presentation/widgets/lease_labels.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_cover.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
@@ -149,6 +151,7 @@ class DealResultTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = context.tokens;
     final l10n = AppLocalizations.of(context);
+    final amount = dealShownAmount(deal);
 
     return SearchResultTile(
       leading: _MarkBox(
@@ -160,7 +163,11 @@ class DealResultTile extends StatelessWidget {
         dealStatusLabel(l10n, deal.status),
         if (deal.clientName.isNotEmpty) deal.clientName,
       ].join(' · '),
-      trailing: formatPrice(deal.dealPrice ?? deal.budget ?? 0),
+      trailing: amount == 0
+          ? null
+          : deal.kind == DealKind.rent
+              ? leaseRentLabel(l10n, amount)
+              : formatPrice(amount),
       onTap: onTap,
     );
   }

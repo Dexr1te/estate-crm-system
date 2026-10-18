@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/bloc/dashboard_state.dart';
+import 'package:real_estate_crm/features/leases/domain/lease.dart';
+import 'package:real_estate_crm/features/leases/presentation/widgets/lease_labels.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 class AttentionRow extends StatelessWidget {
@@ -15,7 +18,7 @@ class AttentionRow extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final rail =
         item.isSevere ? t.dangerText : t.statusText(StatusHue.negotiation);
-    final amount = item.deal.dealPrice ?? item.deal.budget ?? 0;
+    final amount = dealShownAmount(item.deal);
 
     return AppCard(
       onTap: onTap,
@@ -64,7 +67,9 @@ class AttentionRow extends StatelessWidget {
             ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 110),
               child: Text(
-                formatPrice(amount),
+                item.deal.kind == DealKind.rent
+                    ? leaseRentLabel(l10n, amount)
+                    : formatPrice(amount),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.right,
