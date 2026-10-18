@@ -50,6 +50,7 @@ class _PropertyPhotosCardState extends State<PropertyPhotosCard> {
         showActionUnavailable(context, l10n.propertiesPhotoFailed(image.name));
       }
     }
+    PropertyCovers.forget(widget.propertyId);
     if (!mounted) return;
     setState(() => _busy = false);
     widget.onChanged();
@@ -70,6 +71,7 @@ class _PropertyPhotosCardState extends State<PropertyPhotosCard> {
       await Injector.propertiesRepository
           .deletePhoto(widget.propertyId, photo.id);
       _PhotoBytes.forget(photo.id);
+      PropertyCovers.forget(widget.propertyId);
       removed = true;
     } catch (err) {
       if (mounted) {
