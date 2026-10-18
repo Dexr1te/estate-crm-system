@@ -313,6 +313,28 @@ void main() {
     expect(tester.getRect(find.byIcon(Icons.close_rounded)).right, tile.right);
   });
 
+  testWidgets('an icon tile reads as a button: its glyph sits on a circle',
+      (tester) async {
+    await tester.pumpWidget(_host(Row(children: [
+      AppIconTile(icon: Icons.ios_share_rounded, onPressed: () {}),
+      AppIconTile(
+          icon: Icons.delete_outline_rounded, danger: true, onPressed: () {}),
+    ])));
+
+    BoxDecoration circleOf(IconData icon) => tester
+        .widget<Container>(find
+            .ancestor(of: find.byIcon(icon), matching: find.byType(Container))
+            .first)
+        .decoration! as BoxDecoration;
+
+    final plain = circleOf(Icons.ios_share_rounded);
+    expect(plain.shape, BoxShape.circle);
+    expect(plain.color!.a, greaterThan(0));
+    expect(circleOf(Icons.delete_outline_rounded).color, isNot(plain.color));
+    expect(tester.getSize(find.byIcon(Icons.ios_share_rounded)),
+        const Size.square(AppIconTile.circle));
+  });
+
   testWidgets('an avatar with no name shows a person, not a question mark',
       (tester) async {
     await tester.pumpWidget(_host(const Row(children: [
