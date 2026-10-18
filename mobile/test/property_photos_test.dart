@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -8,6 +10,7 @@ import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_bloc.dart';
 import 'package:real_estate_crm/features/properties/presentation/screens/property_detail_screen.dart';
+import 'package:real_estate_crm/features/properties/presentation/widgets/property_cover.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_photos_card.dart';
 
 import 'fakes.dart';
@@ -36,11 +39,17 @@ const _photos = [
   PropertyPhoto(id: 2, propertyId: 7, fileName: 'kitchen.jpg', sortOrder: 1),
 ];
 
+final _png = base64Decode(
+    'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==');
+
 late FakePropertiesRepository _properties;
 late FakeFileGateway _files;
 
-void _installFakes({List<PropertyPhoto> photos = const []}) {
-  _properties = FakePropertiesRepository(const [_listing], photos: photos);
+void _installFakes(
+    {List<PropertyPhoto> photos = const [], List<int> photoBytes = const []}) {
+  PropertyCovers.clear();
+  _properties = FakePropertiesRepository(const [_listing],
+      photos: photos, photoBytes: photoBytes);
   _files = FakeFileGateway();
   Injector.propertiesRepository = _properties;
   Injector.fileGateway = _files;
@@ -219,6 +228,42 @@ void main() {
 
     expect(find.byType(InteractiveViewer), findsNothing);
     expect(_properties.photos.map((p) => p.id), [2]);
+  });
+
+  testWidgets('the first photo becomes the cover the lists show',
+      (tester) async {
+    _installFakes(photoBytes: _png);
+    expect(await PropertyCovers.of(7), isNull);
+    _files.images = const [
+      PickedFile(name: 'facade.jpg', path: '/tmp/facade.jpg', size: 2048),
+    ];
+
+    await _open(tester);
+    await tester.tap(find.text('Add photos'));
+    await tester.pumpAndSettle();
+
+    expect(await PropertyCovers.of(7), isNotNull);
+  });
+
+  testWidgets('deleting the only photo takes the cover off the lists',
+      (tester) async {
+    _installFakes(photos: [_photos.first], photoBytes: _png);
+    expect(await PropertyCovers.of(7), isNotNull);
+
+    await _open(tester);
+    await tester.tap(find
+        .descendant(
+            of: find.byType(ReorderableListView),
+            matching: find.byType(GestureDetector))
+        .first);
+    await tester.pumpAndSettle();
+    await tester.tap(find.byIcon(Icons.delete_outline_rounded));
+    await tester.pumpAndSettle();
+    await tester.tap(find.descendant(
+        of: find.byType(Dialog), matching: find.byType(AppFilledButton)));
+    await tester.pumpAndSettle();
+
+    expect(await PropertyCovers.of(7), isNull);
   });
 
   forEachAcceptanceCase('property detail with photos',
