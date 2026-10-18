@@ -1,6 +1,8 @@
 include: package:flutter_lints/flutter.yaml
 
 analyzer:
+  exclude:
+    - build/**
   language:
     # Implicit downcasts from dynamic were all in the datasources, where Dio's
     # res.data went straight into fromJson; core/network/json.dart is the seam
