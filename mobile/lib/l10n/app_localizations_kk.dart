@@ -2025,6 +2025,13 @@ class AppLocalizationsKk extends AppLocalizations {
   }
 
   @override
+  String get dashboardLoadEmpty => 'Алдағы 14 күнге кездесу жоқ';
+
+  @override
+  String get dashboardLoadEmptyHint =>
+      'Белгіленген кездесулер осында күн бойынша көрінеді';
+
+  @override
   String dashboardMandatesTotal(int count) {
     return 'барлығы $count';
   }

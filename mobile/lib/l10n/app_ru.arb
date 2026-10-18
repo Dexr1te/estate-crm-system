@@ -580,6 +580,8 @@
   "dashboardIdleDays": "{count, plural, one{без движения {count} день} few{без движения {count} дня} other{без движения {count} дней}}",
   "dashboardLeaderboard": "Лучшие агенты",
   "dashboardLoadTotal": "{count, plural, =0{ничего не назначено} one{{count} встреча} few{{count} встречи} other{{count} встреч}}",
+  "dashboardLoadEmpty": "На ближайшие 14 дней встреч нет",
+  "dashboardLoadEmptyHint": "Здесь по дням появятся назначенные встречи",
   "dashboardMandatesTotal": "всего {count}",
   "dashboardMeetingLoad": "Ближайшие две недели",
   "dashboardMeetingsLabel": "Встречи",

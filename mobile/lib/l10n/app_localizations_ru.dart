@@ -2072,6 +2072,13 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String get dashboardLoadEmpty => 'На ближайшие 14 дней встреч нет';
+
+  @override
+  String get dashboardLoadEmptyHint =>
+      'Здесь по дням появятся назначенные встречи';
+
+  @override
   String dashboardMandatesTotal(int count) {
     return 'всего $count';
   }
