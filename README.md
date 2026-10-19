@@ -19,6 +19,7 @@ Android, and a React web client. The app is the product being shipped; see
 - [Running it](#running-it)
 - [The API at a glance](#the-api-at-a-glance)
 - [Configuration](#configuration)
+- [Firebase](#firebase)
 - [Where attachments live](#where-attachments-live)
 - [Testing](#testing)
 - [Deployment](#deployment)
@@ -65,6 +66,11 @@ overdue or due today.
 **Dashboard.** The next meeting, today's tasks, the month's goal against what has closed, four
 counters with sparklines, the pipeline, deals needing attention, meeting load and
 the agency's leaderboard.
+
+**Push notifications and remote settings.** Announcements are sent from the
+Firebase Console to everyone, to one language or to one role, and a tap can open
+a screen in the app. The API address and the map tiles come from Firebase Remote
+Config, so the backend can move host without an app update.
 
 **Teams and access.** Anyone can sign up. A manager creates an agency; an agent
 asks to join one and waits to be accepted. An administrator works across
@@ -204,12 +210,31 @@ are the ones whose default is wrong for a real deployment:
 | `DEMO_ENABLED`, `DEMO_PASSWORD` | The account App Review signs in with. Off outside a submission window. |
 | `DEMO_TRY_ENABLED` | On by default. "Try the demo" on the sign-in screen (`POST /auth/demo`) opens a throwaway agency with sample records, five per address per hour; it is deleted after 24 hours and never sends email. `false` answers 404. |
 
-`backend/.env.example` is the fuller list. The mobile app's API host is baked in
-at build time and overridable:
+`backend/.env.example` is the fuller list.
+
+The mobile app reads its API host from Firebase Remote Config (`api_base_url`)
+and falls back to the Render host built into it. A build-time define pins the
+host and makes the app ignore Remote Config for it, which is what a local or
+staging build wants:
 
 ```bash
 fvm flutter build ipa --dart-define=API_BASE_URL=https://api.example.com/api
 ```
+
+---
+
+## Firebase
+
+One project, `estatecrm-3e55a`, three jobs:
+
+| Job | Who uses it | Needs |
+| --- | --- | --- |
+| Email verification at sign-up | backend + app | `FIREBASE_CREDENTIALS_PATH` on the backend |
+| Remote Config: `api_base_url`, `map_tile_url`, `map_attribution` | app only | parameters published in the console |
+| Cloud Messaging: push to topics `all`, `lang_*`, `role_*` | app only, sent from the console | FCM API (V1) enabled; an APNs key once iOS is on a paid team |
+
+The backend does not send pushes. Keys, defaults, validation rules, how to send
+a push and how to check it all works: [`docs/firebase.md`](docs/firebase.md).
 
 ---
 
@@ -287,6 +312,13 @@ select version, success from flyway_schema_history order by installed_rank;
 and check every version is present with `success = true`; the out-of-order
 one sits later in `installed_rank` than its number suggests.
 
+### Moving the API to another host
+
+The app finds the API through Remote Config, so a move needs no app release:
+bring the new host up, publish `api_base_url` with its address, and keep the old
+host running until its traffic stops. Steps and caveats in
+[`docs/firebase.md`](docs/firebase.md#moving-the-backend).
+
 The web client deploys to Vercel and reads `VITE_API_URL` from its environment.
 
 ---
@@ -296,6 +328,8 @@ The web client deploys to Vercel and reads `VITE_API_URL` from its environment.
 | Document | Covers |
 | --- | --- |
 | [`mobile/README.md`](mobile/README.md) | the app in depth: architecture, state, the design system, responsive rules, localization, screens, traps |
+| [`backend/README.md`](backend/README.md) | the API: running it, layout, Firebase on the server, migrations |
+| [`docs/firebase.md`](docs/firebase.md) | the Firebase project: Remote Config keys, push topics and custom data, console checklist, verification, iOS push |
 | [`docs/app-store-submission.md`](docs/app-store-submission.md) | what App Review needs, what the host has to carry, what is already handled in the build |
 | [`docs/invite-deep-link-deploy.md`](docs/invite-deep-link-deploy.md) | invite emails, and why Universal Links are one root rewrite short of working |
 | [`AGENTS.md`](AGENTS.md) | per-module commands and conventions for anyone — human or otherwise — editing this repository |

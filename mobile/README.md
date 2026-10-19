@@ -12,6 +12,7 @@ Three locales (en / ru / kk), light and dark, phones from 320 pt to tablets.
 - [Architecture](#architecture)
 - [State management](#state-management)
 - [Networking and the session](#networking-and-the-session)
+- [Remote Config and push](#remote-config-and-push)
 - [Design system](#design-system)
 - [Responsive rules](#responsive-rules)
 - [Localization](#localization)
@@ -54,10 +55,12 @@ lib/
 ├── core/
 │   ├── auth/         role helpers on BuildContext
 │   ├── bloc/         cross-feature bloc contracts
+│   ├── config/       Remote Config: keys, validation, live apply
 │   ├── di/           Injector — the composition root
 │   ├── locale/       locale bloc + persistence
 │   ├── models/       freezed API models, shared enums
 │   ├── network/      ApiClient (Dio), error mapping
+│   ├── notifications/ local reminders, FCM push gateway + handler
 │   ├── session/      SessionStore — tokens + saved user
 │   ├── theme/        colours, tokens, metrics, fonts
 │   ├── utils/        router, formatters, contact actions
@@ -160,7 +163,29 @@ The detail screens move a status chip immediately so the tap feels instant, and 
 
 **Decoding is a seam, not a cast.** Dio hands back `dynamic`, so every data source used to pour `res.data` straight into `fromJson`; a body that was not the promised shape — a proxy's HTML error page, a `null`, an array with one bad element — died as a bare `TypeError` with no request path in it. [`core/network/json.dart`](lib/core/network/json.dart) checks the shape first and throws `ApiFormatException`, which `ApiFailure` reads as a server error. `strict-casts` in [`analysis_options.yaml`](analysis_options.yaml) is what keeps a new data source from skipping it.
 
+**The base URL is not a constant any more.** `apiBaseUrl` is only the built-in default. The address in use is `ApiEndpoint.baseUrl`, which Remote Config can change while the app runs. `ApiClient.useBaseUrl` moves both Dio clients with it, and `backendPageUrl` reads it too. A build with `--dart-define=API_BASE_URL=…` sets `apiBaseUrlPinned`, and then Remote Config leaves the address alone. See [Remote Config and push](#remote-config-and-push).
+
 `SessionStore` holds the tokens in memory and mirrors them to `SharedPreferences`, alongside a compact encoding of the signed-in user so a cold start knows who it is before the network answers.
+
+---
+
+## Remote Config and push
+
+Both talk to Firebase directly; the backend is not involved. The reference — every key, its default and validation, the topics, the custom data a push may carry, the console checklist and how to verify it — is [`docs/firebase.md`](../docs/firebase.md). In short:
+
+**Remote Config** ([`core/config/remote_config.dart`](lib/core/config/remote_config.dart)) reads `api_base_url`, `map_tile_url` and `map_attribution`. `RemoteConfigSync` starts in `Injector.bootstrap()`: it applies the values fetched last time before the first request, fetches in the background, and applies realtime updates while the app is open. `RemoteSettings.from` validates every value (https only, tile URLs need `{z}`/`{x}`/`{y}`) and falls back to the built-in default, so a bad publish cannot break the app.
+
+**Push** ([`core/notifications/push_gateway.dart`](lib/core/notifications/push_gateway.dart), [`push_handler.dart`](lib/core/notifications/push_handler.dart)) is FCM through topics sent from the Firebase Console:
+
+| Piece | Does |
+|---|---|
+| `PushGateway` / `FirebasePushGateway` | permission, token, topic (un)subscribe, the three message streams; creates the Android **Activity** channel |
+| `PushHandler` | keeps the topics `all`, `lang_<code>`, `role_<role>` in step with the session and the language; asks for permission once somebody signs in; opens a tapped push's `route` or `url` once the session is known and the PIN lock is open |
+| `PushLanguage` | sits under `MaterialApp` and tells the handler the language actually in use |
+| `openPushRoute` | switches to a shell tab, pushes anything else |
+| `showPushBanner` | what a push looks like while the app is on screen: a snack bar with **Open** |
+
+Like everything else that touches the platform, Firebase sits behind a gateway (`Injector.pushGateway`, `Injector.remoteConfigSource`), so no test reaches a plugin. **iOS gets no pushes yet**: the free signing team cannot carry the APNs entitlement. The code needs no change when that moves; [`docs/firebase.md`](../docs/firebase.md#ios-push-once-there-is-a-paid-apple-team) lists the steps.
 
 ---
 
@@ -298,6 +323,8 @@ dart analyze lib test
 | `refresh_behaviour_test.dart` | a create shows up without a manual refresh; no skeleton on a warm reload |
 | `properties_bloc_test.dart` | the paging/reload race |
 | `api_client_refresh_test.dart` | the 401 contract, against a fake backend |
+| `remote_config_test.dart` | validation of every key, the dart-define pin, cached → fetched → live order, no Firebase at all |
+| `push_handler_test.dart` | topics follow sign-in, sign-out, language and earlier runs; a tap waits for the lock; links vs routes; the in-app banner |
 | `startup_test.dart` | redirect rules and startup ordering |
 | `header_stability_test.dart` | the header does not move when data lands |
 | `layout_regression_test.dart` | header action is flush right, `constrain()` top-aligns |
@@ -324,3 +351,7 @@ Things that cost real debugging time. Each one has a test guarding it.
 **Google Fonts subset metadata is not glyph coverage.** Read the `cmap`.
 
 **bloc's default transformer is concurrent.** Covered above, and it is the single most expensive lesson in this codebase.
+
+**Awaiting `endOfFrame` in a widget test hangs.** `openPushRoute` and `openAppShortcut` wait for the next frame before navigating, and a test only produces frames when it pumps. Start the call, `pumpAndSettle`, then await it.
+
+**A free Apple team has no APNs token.** On iOS `getToken()` fails and every topic call throws until the app is signed by a paid team with the Push Notifications capability. `FirebasePushGateway.token()` checks for the APNs token first, and `PushHandler` logs and carries on.
