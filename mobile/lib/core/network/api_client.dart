@@ -12,7 +12,15 @@ const apiBaseUrl = String.fromEnvironment(
   defaultValue: 'https://estate-crm-system.onrender.com/api',
 );
 
-Uri backendPageUrl(String path) => Uri.parse('$apiBaseUrl$path');
+const apiBaseUrlPinned = bool.hasEnvironment('API_BASE_URL');
+
+class ApiEndpoint {
+  ApiEndpoint._();
+
+  static String baseUrl = apiBaseUrl;
+}
+
+Uri backendPageUrl(String path) => Uri.parse('${ApiEndpoint.baseUrl}$path');
 
 const _retriedKey = 'auth_retried';
 const _wokeKey = 'cold_start_retried';
@@ -147,8 +155,13 @@ class ApiClient {
     }
   }
 
+  void useBaseUrl(String url) {
+    dio.options.baseUrl = url;
+    _refreshDio.options.baseUrl = url;
+  }
+
   static BaseOptions _options() => BaseOptions(
-        baseUrl: apiBaseUrl,
+        baseUrl: ApiEndpoint.baseUrl,
         connectTimeout: const Duration(seconds: 15),
         receiveTimeout: const Duration(seconds: 20),
         headers: {'Content-Type': 'application/json'},

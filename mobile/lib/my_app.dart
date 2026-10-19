@@ -7,6 +7,7 @@ import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/locale/bloc/locale_bloc.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/notifications/notification_gateway.dart';
+import 'package:real_estate_crm/core/notifications/push_handler.dart';
 import 'package:real_estate_crm/core/notifications/reminder_sync.dart';
 import 'package:real_estate_crm/core/notifications/reminders_bloc.dart';
 import 'package:real_estate_crm/core/shortcuts/app_shortcuts.dart';
@@ -14,6 +15,7 @@ import 'package:real_estate_crm/core/shortcuts/open_shortcut.dart';
 import 'package:real_estate_crm/core/theme/app_text_scaling.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
 import 'package:real_estate_crm/core/theme/bloc/theme_bloc.dart';
+import 'package:real_estate_crm/core/utils/contact_actions.dart';
 import 'package:real_estate_crm/core/utils/deep_links.dart';
 import 'package:real_estate_crm/core/utils/router.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
@@ -45,6 +47,7 @@ import 'package:real_estate_crm/features/tasks/presentation/bloc/tasks_bloc.dart
 import 'package:real_estate_crm/features/tasks/presentation/bloc/tasks_event.dart';
 import 'package:real_estate_crm/features/tasks/presentation/bloc/tasks_state.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -71,6 +74,7 @@ class _MyAppState extends State<MyApp> {
   late final DeepLinkHandler _deepLinks;
   late final ShortcutHandler _shortcuts;
   late final UnreadCountPoller _unreadPoller;
+  late final PushHandler _push;
   late final AppLifecycleListener _lifecycle;
   final AppLockController _lock = Injector.appLock;
 
@@ -121,6 +125,22 @@ class _MyAppState extends State<MyApp> {
       onHide: _unreadPoller.stop,
       onPause: _unreadPoller.stop,
     );
+    _push = PushHandler(
+      gateway: Injector.pushGateway,
+      auth: _authBloc,
+      gate: _lock,
+      openRoute: (route) => unawaited(openPushRoute(router, route)),
+      openLink: (link) => unawaited(
+          ContactActions.opener(link, LaunchMode.externalApplication)
+              .catchError((_) => false)),
+      showInApp: (message) => showPushBanner(
+        message,
+        onOpen: message.route == null && message.link == null
+            ? null
+            : () => _push.open(message),
+      ),
+    );
+    unawaited(_push.start());
   }
 
   /// The lock follows whoever the session belongs to, once that is known.
@@ -196,6 +216,7 @@ class _MyAppState extends State<MyApp> {
     _authBloc.removeListener(_syncLock);
     _lock.onSignOut = null;
     _unreadPoller.stop();
+    unawaited(_push.dispose());
     _deepLinks.dispose();
     _shortcuts.dispose();
     _authBloc.close();
@@ -364,7 +385,10 @@ class _MyAppState extends State<MyApp> {
                             child: OfflineBanner(
                               status: Injector.apiClient.offline,
                               onRetry: _retryOffline,
-                              child: child ?? const SizedBox.shrink(),
+                              child: PushLanguage(
+                                handler: _push,
+                                child: child ?? const SizedBox.shrink(),
+                              ),
                             ),
                           ),
                         ),

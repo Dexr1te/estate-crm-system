@@ -1,7 +1,9 @@
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:quick_actions/quick_actions.dart';
+import 'package:real_estate_crm/core/config/remote_config.dart';
 import 'package:real_estate_crm/core/network/api_client.dart';
 import 'package:real_estate_crm/core/network/offline_cache.dart';
+import 'package:real_estate_crm/core/notifications/push_gateway.dart';
 import 'package:real_estate_crm/core/session/session_store.dart';
 import 'package:real_estate_crm/core/utils/file_gateway.dart';
 import 'package:real_estate_crm/core/utils/share_gateway.dart';
@@ -222,6 +224,12 @@ class Injector {
 
   static Duration? notificationsPollInterval = const Duration(seconds: 60);
 
+  static PushGateway pushGateway = FirebasePushGateway();
+
+  static RemoteConfigSource remoteConfigSource = FirebaseRemoteConfigSource();
+
+  static RemoteConfigSync? _remoteConfig;
+
   static TasksRepository tasksRepository =
       TasksRepositoryImpl(TasksRemoteDataSource(_apiClient));
 
@@ -262,6 +270,9 @@ class Injector {
 
   static Future<void> bootstrap() async {
     await session.load();
+    final remoteConfig = _remoteConfig ??=
+        RemoteConfigSync(source: remoteConfigSource, client: _apiClient);
+    await remoteConfig.start();
     try {
       final info = await PackageInfo.fromPlatform();
       appVersion = '${info.version} (${info.buildNumber})';
