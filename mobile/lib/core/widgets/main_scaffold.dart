@@ -98,7 +98,6 @@ class MainScaffold extends StatelessWidget {
 
         return Scaffold(
           extendBody: true,
-          backgroundColor: Colors.transparent,
           body: child,
           bottomNavigationBar: Column(
             mainAxisSize: MainAxisSize.min,

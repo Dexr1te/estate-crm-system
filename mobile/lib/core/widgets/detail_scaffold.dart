@@ -108,7 +108,6 @@ class _DetailScaffoldState extends State<DetailScaffold> {
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      backgroundColor: Colors.transparent,
       bottomNavigationBar: pinned
           ? PinnedActionBar(scrolledUnder: _scrolledUnder, child: action)
           : null,
