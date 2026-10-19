@@ -187,8 +187,6 @@ class _GlassShadowPainter extends CustomPainter {
       old.radius != radius || old.color != color || old.floating != floating;
 }
 
-/// The page behind everything: the app's background, painted once under the
-/// navigator so a transparent Scaffold shows it.
 class AppBackdrop extends StatelessWidget {
   final Widget child;
   const AppBackdrop({super.key, required this.child});

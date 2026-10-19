@@ -108,7 +108,6 @@ class _DetailScaffoldState extends State<DetailScaffold> {
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      backgroundColor: Colors.transparent,
       bottomNavigationBar: pinned
           ? PinnedActionBar(scrolledUnder: _scrolledUnder, child: action)
           : null,
@@ -199,7 +198,7 @@ class DetailAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = context.tokens;
     final pad = AppMetrics.pagePadding(context);
-    const glyphInset = (AppMetrics.minHitTarget - 20) / 2;
+    const glyphInset = (AppMetrics.minHitTarget - AppIconTile.circle) / 2;
 
     return SafeArea(
       bottom: false,

@@ -202,6 +202,11 @@ class _ManagerConsoleScreenState extends State<ManagerConsoleScreen>
                               ? l10n.teamsMemberCount(state.team.memberCount)
                               : null,
                           reserveSubtitle: true,
+                          trailing: AppHeaderAction(
+                            label: l10n.teamsAddAgent,
+                            icon: Icons.person_add_alt_1_rounded,
+                            onPressed: () => _addMember(context, bloc),
+                          ),
                         ),
                       ),
                     ),
@@ -265,8 +270,8 @@ class _ManagerConsoleScreenState extends State<ManagerConsoleScreen>
                             child: _tab == 0
                                 ? _MembersList(
                                     state: state,
-                                    padding:
-                                        EdgeInsets.fromLTRB(pad, 0, pad, 16),
+                                    padding: EdgeInsets.fromLTRB(pad, 0, pad,
+                                        24 + AppMetrics.navClearance(context)),
                                     onMember: (member) => _memberActions(
                                         ctx, bloc, state, member),
                                     onStats: () => showTeamStatsSheet(
@@ -278,21 +283,13 @@ class _ManagerConsoleScreenState extends State<ManagerConsoleScreen>
                                   )
                                 : _PendingList(
                                     state: state,
-                                    padding:
-                                        EdgeInsets.fromLTRB(pad, 0, pad, 16),
+                                    padding: EdgeInsets.fromLTRB(pad, 0, pad,
+                                        24 + AppMetrics.navClearance(context)),
                                     onCancel: (request) => bloc.add(
                                         MyTeamCancelRequestEvent(request.id)),
                                   ),
                           );
                         },
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(
-                          pad, 0, pad, 16 + AppMetrics.navClearance(context)),
-                      child: AppFilledButton(
-                        label: l10n.teamsAddAgent,
-                        onPressed: () => _addMember(context, bloc),
                       ),
                     ),
                   ],

@@ -161,8 +161,8 @@ class _EmailCard extends StatelessWidget {
     final inset = AppMetrics.cardPadding(context);
 
     return AppCard(
-      padding: EdgeInsetsDirectional.fromSTEB(
-          inset, inset, inset - (AppMetrics.minHitTarget - 20) / 2, inset),
+      padding: EdgeInsetsDirectional.fromSTEB(inset, inset,
+          inset - (AppMetrics.minHitTarget - AppIconTile.circle) / 2, inset),
       child: Row(
         children: [
           Expanded(

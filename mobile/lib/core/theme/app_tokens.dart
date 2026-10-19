@@ -144,6 +144,9 @@ class AppTokens {
   Color get segmentTrack => isDark ? surface : const Color(0xFFE4E4EA);
   Color get segmentThumb => isDark ? const Color(0xFF3A3A3C) : Colors.white;
 
+  Color get controlFill =>
+      isDark ? const Color(0x52787880) : const Color(0x29787880);
+
   Color get chartLead => isDark ? const Color(0xFFA78BFA) : AppColors.lead;
   Color get chartNegotiation =>
       isDark ? const Color(0xFFFBBF24) : AppColors.negotiation;

@@ -73,7 +73,7 @@ class AppTheme {
         onBackground: AppColors.textPrimary,
         onSurface: AppColors.textPrimary,
       ),
-      scaffoldBackgroundColor: Colors.transparent,
+      scaffoldBackgroundColor: AppColors.background,
       textTheme: const TextTheme(
         displayLarge:
             TextStyle(color: AppColors.textPrimary, fontFamily: AppFonts.sans),
@@ -301,7 +301,7 @@ class AppThemeDark {
         onBackground: AppColors.darkTextPrimary,
         onSurface: AppColors.darkTextPrimary,
       ),
-      scaffoldBackgroundColor: Colors.transparent,
+      scaffoldBackgroundColor: t.background,
       textTheme: const TextTheme(
         displayLarge: TextStyle(
             color: AppColors.darkTextPrimary, fontFamily: AppFonts.sans),

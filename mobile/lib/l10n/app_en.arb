@@ -853,6 +853,8 @@
   "dashboardIdleDays": "{count, plural, =1{no movement for 1 day} other{no movement for {count} days}}",
   "dashboardLeaderboard": "Top agents",
   "dashboardLoadTotal": "{count, plural, =0{nothing booked} =1{1 meeting} other{{count} meetings}}",
+  "dashboardLoadEmpty": "No meetings in the next 14 days",
+  "dashboardLoadEmptyHint": "Booked meetings will show here, day by day",
   "dashboardMandatesTotal": "{count} in all",
   "@dashboardMandatesTotal": {
     "placeholders": {

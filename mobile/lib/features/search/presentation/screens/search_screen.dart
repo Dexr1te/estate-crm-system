@@ -90,7 +90,6 @@ class _SearchViewState extends State<_SearchView> {
     final pad = AppMetrics.pagePadding(context);
 
     return Scaffold(
-      backgroundColor: Colors.transparent,
       body: Column(
         children: [
           _SearchBar(
