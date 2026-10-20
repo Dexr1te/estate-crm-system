@@ -18,14 +18,14 @@ class MapTiles {
 
   static const openStreetMap = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
 
-  /// The tile address in use. Tests point it away from OSM along with
-  /// [provider]; nothing else should change it at run time.
   static String urlTemplate = openStreetMap;
 
   /// The app's bundle id; OSM identifies a client by it.
   static const userAgentPackageName = 'com.sultan.estatecrm';
 
-  static const attribution = '© OpenStreetMap contributors';
+  static const openStreetMapAttribution = '© OpenStreetMap contributors';
+
+  static String attribution = openStreetMapAttribution;
   static final attributionUrl =
       Uri.parse('https://www.openstreetmap.org/copyright');
 
