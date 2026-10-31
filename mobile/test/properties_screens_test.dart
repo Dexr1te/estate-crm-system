@@ -183,4 +183,29 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Step 2 of 2'), findsOneWidget);
   });
+
+  // The number keyboard on many phones groups with commas. The price field
+  // turned "1,200,000" into "1.200.000" and refused it as no price at all,
+  // while the client's budget and the deal's amount took it.
+  testWidgets('a price grouped with commas is a price', (tester) async {
+    await expectNoOverflow(
+      tester,
+      _wrap(const PropertyFormScreen()),
+      size: const Size(390, 844),
+      brightness: Brightness.light,
+      textScale: 1.0,
+    );
+    await tester.pumpAndSettle();
+
+    await tester.enterText(find.byType(TextFormField).at(0), 'Test listing');
+    await tester.enterText(find.byType(TextFormField).at(1), '1,200,000');
+    await tester.enterText(find.byType(TextFormField).at(3), 'Some street 1');
+    await tester.ensureVisible(find.text('Next — details'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Next — details'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Step 2 of 2'), findsOneWidget,
+        reason: 'the price passed validation');
+  });
 }

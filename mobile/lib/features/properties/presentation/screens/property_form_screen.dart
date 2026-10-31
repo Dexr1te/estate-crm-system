@@ -240,7 +240,7 @@ class _PropertyFormScreenState extends State<PropertyFormScreen>
     final data = <String, dynamic>{
       'title': _titleCtrl.text.trim(),
       'address': _addressCtrl.text.trim(),
-      'price': _double(_priceCtrl) ?? 0,
+      'price': parseMoneyInput(_priceCtrl.text),
       'type': _type.name,
       'status': _status.name,
       if (_descCtrl.text.trim().isNotEmpty)
@@ -408,8 +408,9 @@ class _PropertyFormScreenState extends State<PropertyFormScreen>
                       hint: '12 300 000',
                       keyboardType: TextInputType.number,
                       textInputAction: TextInputAction.next,
-                      validator: (v) => _double(_priceCtrl) == null ||
-                              _double(_priceCtrl)! <= 0
+                      // Grouped the way the number keyboard offers it --
+                      // "1,200,000" -- as the client and deal amounts are.
+                      validator: (v) => parseMoneyInput(_priceCtrl.text) <= 0
                           ? l10n.propertiesFieldRequired(
                               l10n.propertiesPriceLabel)
                           : null,
