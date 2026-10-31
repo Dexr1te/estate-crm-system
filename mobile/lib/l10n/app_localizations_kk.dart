@@ -4429,6 +4429,10 @@ class AppLocalizationsKk extends AppLocalizations {
   String get openHousesCardTitle => 'Ашық есік күндері';
 
   @override
+  String get profileAdminConsoleHint =>
+      'Пайдаланушылар, командалар және аудит журналы';
+
+  @override
   String get profileApp => 'Қосымша';
 
   @override
@@ -4473,6 +4477,10 @@ class AppLocalizationsKk extends AppLocalizations {
   String get profileName => 'Аты';
 
   @override
+  String get profilePayoutsHint =>
+      'Бөлінген комиссиялар бойынша үлесіңіз: төленетіні мен төленгені';
+
+  @override
   String get profilePrivacyPolicy => 'Құпиялылық саясаты';
 
   @override
@@ -4500,6 +4508,10 @@ class AppLocalizationsKk extends AppLocalizations {
   String get profileSystemDefault => 'Жүйелік';
 
   @override
+  String get profileTeamConsoleHint =>
+      'Агенттер, шақырулар, мақсаттар, төлемдер және импорт';
+
+  @override
   String get profileTheme => 'Безендіру';
 
   @override
@@ -4512,10 +4524,16 @@ class AppLocalizationsKk extends AppLocalizations {
   String get profileThemeSystem => 'Жүйедегідей';
 
   @override
+  String get profileTimeOffHint => 'Демалыстарыңыз және орныңызды кім басатыны';
+
+  @override
   String get profileTitle => 'Профиль';
 
   @override
   String get profileVersion => 'Нұсқа';
+
+  @override
+  String get profileWhosOutHint => 'Агенттікте қазір және жақында кім жоқ';
 
   @override
   String get propertiesAddFirstListing => 'Алғашқы нысаныңызды қосыңыз';

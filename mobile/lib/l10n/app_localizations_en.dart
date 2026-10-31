@@ -4487,6 +4487,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get openHousesCardTitle => 'Open houses';
 
   @override
+  String get profileAdminConsoleHint => 'Users, teams and the audit log';
+
+  @override
   String get profileApp => 'App';
 
   @override
@@ -4531,6 +4534,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileName => 'Name';
 
   @override
+  String get profilePayoutsHint =>
+      'Your share of split commissions, owed and paid';
+
+  @override
   String get profilePrivacyPolicy => 'Privacy policy';
 
   @override
@@ -4558,6 +4565,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileSystemDefault => 'System default';
 
   @override
+  String get profileTeamConsoleHint =>
+      'Agents, invites, goals, payouts and import';
+
+  @override
   String get profileTheme => 'Appearance';
 
   @override
@@ -4570,10 +4581,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileThemeSystem => 'Follow system';
 
   @override
+  String get profileTimeOffHint => 'Your holidays and days off, and who covers';
+
+  @override
   String get profileTitle => 'Profile';
 
   @override
   String get profileVersion => 'Version';
+
+  @override
+  String get profileWhosOutHint =>
+      'Who in the agency is away, now and coming up';
 
   @override
   String get propertiesAddFirstListing => 'Add your first listing';

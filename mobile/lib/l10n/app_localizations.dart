@@ -7672,6 +7672,12 @@ abstract class AppLocalizations {
   /// **'Open houses'**
   String get openHousesCardTitle;
 
+  /// No description provided for @profileAdminConsoleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Users, teams and the audit log'**
+  String get profileAdminConsoleHint;
+
   /// No description provided for @profileApp.
   ///
   /// In en, this message translates to:
@@ -7756,6 +7762,12 @@ abstract class AppLocalizations {
   /// **'Name'**
   String get profileName;
 
+  /// No description provided for @profilePayoutsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your share of split commissions, owed and paid'**
+  String get profilePayoutsHint;
+
   /// No description provided for @profilePrivacyPolicy.
   ///
   /// In en, this message translates to:
@@ -7810,6 +7822,12 @@ abstract class AppLocalizations {
   /// **'System default'**
   String get profileSystemDefault;
 
+  /// No description provided for @profileTeamConsoleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Agents, invites, goals, payouts and import'**
+  String get profileTeamConsoleHint;
+
   /// No description provided for @profileTheme.
   ///
   /// In en, this message translates to:
@@ -7834,6 +7852,12 @@ abstract class AppLocalizations {
   /// **'Follow system'**
   String get profileThemeSystem;
 
+  /// No description provided for @profileTimeOffHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your holidays and days off, and who covers'**
+  String get profileTimeOffHint;
+
   /// No description provided for @profileTitle.
   ///
   /// In en, this message translates to:
@@ -7845,6 +7869,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Version'**
   String get profileVersion;
+
+  /// No description provided for @profileWhosOutHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Who in the agency is away, now and coming up'**
+  String get profileWhosOutHint;
 
   /// No description provided for @propertiesAddFirstListing.
   ///

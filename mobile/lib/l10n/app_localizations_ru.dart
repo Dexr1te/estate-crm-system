@@ -4575,6 +4575,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get openHousesCardTitle => 'Дни открытых дверей';
 
   @override
+  String get profileAdminConsoleHint => 'Пользователи, команды и журнал аудита';
+
+  @override
   String get profileApp => 'Приложение';
 
   @override
@@ -4619,6 +4622,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get profileName => 'Имя';
 
   @override
+  String get profilePayoutsHint =>
+      'Ваша доля по сплитам комиссий: к выплате и выплаченная';
+
+  @override
   String get profilePrivacyPolicy => 'Политика конфиденциальности';
 
   @override
@@ -4646,6 +4653,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get profileSystemDefault => 'Системный';
 
   @override
+  String get profileTeamConsoleHint =>
+      'Агенты, приглашения, цели, выплаты и импорт';
+
+  @override
   String get profileTheme => 'Оформление';
 
   @override
@@ -4658,10 +4669,16 @@ class AppLocalizationsRu extends AppLocalizations {
   String get profileThemeSystem => 'Как в системе';
 
   @override
+  String get profileTimeOffHint => 'Ваши отпуска и выходные, кто вас замещает';
+
+  @override
   String get profileTitle => 'Профиль';
 
   @override
   String get profileVersion => 'Версия';
+
+  @override
+  String get profileWhosOutHint => 'Кто в агентстве отсутствует сейчас и скоро';
 
   @override
   String get propertiesAddFirstListing => 'Добавьте первый объект';

@@ -43,6 +43,12 @@ class ProfileScreen extends StatelessWidget {
                 SettingsRow(
                   key: const ValueKey('profile-hub'),
                   label: hub.label(l10n),
+                  // On a phone the dashboard's way in is an unlabelled icon;
+                  // this row is where the console says what it holds.
+                  subLabel: switch (hub) {
+                    RoleHub.team => l10n.profileTeamConsoleHint,
+                    RoleHub.admin => l10n.profileAdminConsoleHint,
+                  },
                   showChevron: true,
                   onTap: () => context.go(hub.route),
                 ),
@@ -70,12 +76,14 @@ class ProfileScreen extends StatelessWidget {
                 SettingsRow(
                   key: const ValueKey('profile-time-off'),
                   label: l10n.timeOffTitle,
+                  subLabel: l10n.profileTimeOffHint,
                   showChevron: true,
                   onTap: () => context.push('/time-off'),
                 ),
                 SettingsRow(
                   key: const ValueKey('profile-whos-out'),
                   label: l10n.timeOffWhosOut,
+                  subLabel: l10n.profileWhosOutHint,
                   showChevron: true,
                   onTap: () => context.push('/time-off/team'),
                 ),
@@ -83,6 +91,7 @@ class ProfileScreen extends StatelessWidget {
                   SettingsRow(
                     key: const ValueKey('profile-payouts'),
                     label: l10n.payoutsTitle,
+                    subLabel: l10n.profilePayoutsHint,
                     showChevron: true,
                     onTap: () => context.push('/payouts'),
                   ),
