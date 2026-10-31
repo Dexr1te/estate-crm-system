@@ -115,6 +115,11 @@ void main() {
     expect(card, findsOneWidget);
     expect(find.text('9 in all'), findsOneWidget,
         reason: 'the total comes from the summary');
+    expect(
+        find.descendant(
+            of: card, matching: find.text('No contact for 14 days or more')),
+        findsOneWidget,
+        reason: '"going cold" says how long the silence has been');
     expect(tester.getTopLeft(card).dy,
         greaterThan(tester.getTopLeft(find.byType(TodayTasksCard)).dy));
   });

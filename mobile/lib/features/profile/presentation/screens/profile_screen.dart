@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
@@ -44,6 +43,12 @@ class ProfileScreen extends StatelessWidget {
                 SettingsRow(
                   key: const ValueKey('profile-hub'),
                   label: hub.label(l10n),
+                  // On a phone the dashboard's way in is an unlabelled icon;
+                  // this row is where the console says what it holds.
+                  subLabel: switch (hub) {
+                    RoleHub.team => l10n.profileTeamConsoleHint,
+                    RoleHub.admin => l10n.profileAdminConsoleHint,
+                  },
                   showChevron: true,
                   onTap: () => context.go(hub.route),
                 ),
@@ -65,30 +70,20 @@ class ProfileScreen extends StatelessWidget {
                 label: l10n.teamsTeamLabel,
                 value: user.teamName ?? l10n.teamsNoTeamLabel,
               ),
-              SettingsRow(
-                label: l10n.profileAgentId,
-                trailing: _IdChip(id: user.userId),
-                onTap: () {
-                  Clipboard.setData(ClipboardData(text: '${user.userId}'));
-                  ScaffoldMessenger.of(context)
-                    ..hideCurrentSnackBar()
-                    ..showSnackBar(SnackBar(
-                        content: Text(l10n.profileAgentIdCopied),
-                        duration: const Duration(seconds: 1)));
-                },
-              ),
             ]),
             if (user.teamId != null)
               SettingsGroup(rows: [
                 SettingsRow(
                   key: const ValueKey('profile-time-off'),
                   label: l10n.timeOffTitle,
+                  subLabel: l10n.profileTimeOffHint,
                   showChevron: true,
                   onTap: () => context.push('/time-off'),
                 ),
                 SettingsRow(
                   key: const ValueKey('profile-whos-out'),
                   label: l10n.timeOffWhosOut,
+                  subLabel: l10n.profileWhosOutHint,
                   showChevron: true,
                   onTap: () => context.push('/time-off/team'),
                 ),
@@ -96,6 +91,7 @@ class ProfileScreen extends StatelessWidget {
                   SettingsRow(
                     key: const ValueKey('profile-payouts'),
                     label: l10n.payoutsTitle,
+                    subLabel: l10n.profilePayoutsHint,
                     showChevron: true,
                     onTap: () => context.push('/payouts'),
                   ),
@@ -551,31 +547,6 @@ class _Identity extends StatelessWidget {
         BrandChip(label: roleLabel(l10n, user.role).toUpperCase()),
         const SizedBox(height: 8),
       ],
-    );
-  }
-}
-
-class _IdChip extends StatelessWidget {
-  final int id;
-  const _IdChip({required this.id});
-
-  @override
-  Widget build(BuildContext context) {
-    final t = context.tokens;
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 2),
-      decoration: BoxDecoration(
-        color: t.surfaceVariant,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Text(
-        '$id',
-        style: TextStyle(
-            fontFamily: AppFonts.sans,
-            fontSize: AppType.caption,
-            fontWeight: FontWeight.w600,
-            color: t.textPrimary),
-      ),
     );
   }
 }

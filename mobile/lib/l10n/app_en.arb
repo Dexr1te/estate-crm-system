@@ -518,7 +518,7 @@
     }
   },
   "clientsDatesLoadFailed": "Could not load the dates coming up",
-  "clientsDatesTitle": "Dates coming up",
+  "clientsDatesTitle": "Birthdays and anniversaries",
   "clientsDatesToday": "Today",
   "clientsDatesTomorrow": "Tomorrow",
   "clientsDatesTurns": "Birthday, turns {years}",
@@ -835,7 +835,6 @@
   },
   "dashboardConversion": "Conversion",
   "dashboardDateSummary": "{date} · team overview",
-  "dashboardDatesTitle": "Dates this week",
   "dashboardDatesTotal": "{count} this week",
   "@dashboardDatesTotal": {
     "placeholders": {
@@ -844,6 +843,12 @@
       }
     }
   },
+  "dashboardFollowUps": "Keep an eye on",
+  "dashboardFollowUpsDatesHint": "Clients' birthdays and purchase anniversaries, two weeks ahead",
+  "dashboardFollowUpsDepositsHint": "Deposits whose hold on a listing is ending or has ended",
+  "dashboardFollowUpsKeysHint": "Listing keys handed out and not yet returned",
+  "dashboardFollowUpsLeasesHint": "Rent deals whose lease ends in the next 30 days",
+  "dashboardFollowUpsMandatesHint": "Listings whose agreement with the seller is ending or has ended",
   "dashboardGreeting": "{greeting}, {name}",
   "dashboardGreetingAfternoon": "Good afternoon",
   "dashboardGreetingEvening": "Good evening",
@@ -852,9 +857,6 @@
   "dashboardGreetingStillUp": "Still up",
   "dashboardIdleDays": "{count, plural, =1{no movement for 1 day} other{no movement for {count} days}}",
   "dashboardLeaderboard": "Top agents",
-  "dashboardLoadTotal": "{count, plural, =0{nothing booked} =1{1 meeting} other{{count} meetings}}",
-  "dashboardLoadEmpty": "No meetings in the next 14 days",
-  "dashboardLoadEmptyHint": "Booked meetings will show here, day by day",
   "dashboardMandatesTotal": "{count} in all",
   "@dashboardMandatesTotal": {
     "placeholders": {
@@ -863,7 +865,6 @@
       }
     }
   },
-  "dashboardMeetingLoad": "Next two weeks",
   "dashboardMeetingsLabel": "Meetings",
   "dashboardNewDeal": "New deal",
   "dashboardNextMeeting": "Next meeting",
@@ -885,7 +886,6 @@
   "dashboardTasksOverdueCount": "{count} overdue",
   "dashboardTasksToday": "To do today",
   "dashboardTeamPipeline": "Team pipeline",
-  "dashboardToday": "Today",
   "dashboardTodayCount": "{count} today",
   "dashboardTopAgents": "Top agents",
   "dashboardUpcomingMeetings": "Upcoming meetings",
@@ -1065,7 +1065,7 @@
   "depositsEdit": "Edit",
   "depositsEditTitle": "Edit the deposit",
   "depositsEndingEmpty": "No deposits running out",
-  "depositsEndingEmptyHint": "Active deposits show here a week before their hold ends.",
+  "depositsEndingEmptyHint": "Record a deposit in the Deposit section of a deal's page. Active ones show here a week before their hold ends.",
   "depositsEndingLoadFailed": "Could not load the deposits",
   "depositsEndingTitle": "Deposits ending",
   "depositsHistory": "Earlier deposits",
@@ -2127,8 +2127,7 @@
     }
   },
   "openHousesCardTitle": "Open houses",
-  "profileAgentId": "Agent ID",
-  "profileAgentIdCopied": "Agent ID copied",
+  "profileAdminConsoleHint": "Users, teams and the audit log",
   "profileApp": "App",
   "profileDeleteAccount": "Delete account",
   "profileDeleteAccountConfirm": "Your clients, properties, deals and meetings move to {successor}. The account is removed permanently and this cannot be undone.",
@@ -2145,6 +2144,7 @@
   "profileLegal": "Legal",
   "profileLinkFailed": "Could not open the link",
   "profileName": "Name",
+  "profilePayoutsHint": "Your share of split commissions, owed and paid",
   "profilePrivacyPolicy": "Privacy policy",
   "profileReminders": "Meeting reminders",
   "profileRemindersOff": "Off",
@@ -2154,12 +2154,15 @@
   "profileSignOutConfirm": "Are you sure you want to sign out?",
   "profileSupport": "Support",
   "profileSystemDefault": "System default",
+  "profileTeamConsoleHint": "Agents, invites, goals, payouts and import",
   "profileTheme": "Appearance",
   "profileThemeDark": "Dark",
   "profileThemeLight": "Light",
   "profileThemeSystem": "Follow system",
+  "profileTimeOffHint": "Your holidays and days off, and who covers",
   "profileTitle": "Profile",
   "profileVersion": "Version",
+  "profileWhosOutHint": "Who in the agency is away, now and coming up",
   "propertiesAddFirstListing": "Add your first listing",
   "propertiesAddPhotos": "Add photos",
   "propertiesAddressLabel": "Address",
@@ -2303,7 +2306,7 @@
   "propertiesMandatesEmpty": "No agreements running out",
   "propertiesMandatesEmptyHint": "No seller agreement on a listing still for sale ends in the next two weeks.",
   "propertiesMandatesLoadFailed": "Could not load the agreements running out",
-  "propertiesMandatesTitle": "Agreements running out",
+  "propertiesMandatesTitle": "Seller agreements ending",
   "propertiesMapCapped": "Showing {count} — zoom in to see the rest",
   "@propertiesMapCapped": {
     "placeholders": {
@@ -3627,7 +3630,7 @@
   "keysSave": "Hand over",
   "keysOutTitle": "Keys out",
   "keysOutEmpty": "All keys are in the office",
-  "keysOutEmptyHint": "Keys handed over from a listing show here until they come back.",
+  "keysOutEmptyHint": "Hand keys over in the Keys section of a listing's page. They show here until they come back.",
   "keysOutLoadFailed": "Could not load the keys that are out",
   "keysOutOverdueCount": "{count} overdue",
   "@keysOutOverdueCount": {

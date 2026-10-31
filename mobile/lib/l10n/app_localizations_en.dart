@@ -1235,7 +1235,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clientsDatesLoadFailed => 'Could not load the dates coming up';
 
   @override
-  String get clientsDatesTitle => 'Dates coming up';
+  String get clientsDatesTitle => 'Birthdays and anniversaries';
 
   @override
   String get clientsDatesToday => 'Today';
@@ -1980,12 +1980,32 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get dashboardDatesTitle => 'Dates this week';
-
-  @override
   String dashboardDatesTotal(int count) {
     return '$count this week';
   }
+
+  @override
+  String get dashboardFollowUps => 'Keep an eye on';
+
+  @override
+  String get dashboardFollowUpsDatesHint =>
+      'Clients\' birthdays and purchase anniversaries, two weeks ahead';
+
+  @override
+  String get dashboardFollowUpsDepositsHint =>
+      'Deposits whose hold on a listing is ending or has ended';
+
+  @override
+  String get dashboardFollowUpsKeysHint =>
+      'Listing keys handed out and not yet returned';
+
+  @override
+  String get dashboardFollowUpsLeasesHint =>
+      'Rent deals whose lease ends in the next 30 days';
+
+  @override
+  String get dashboardFollowUpsMandatesHint =>
+      'Listings whose agreement with the seller is ending or has ended';
 
   @override
   String dashboardGreeting(Object greeting, Object name) {
@@ -2022,31 +2042,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dashboardLeaderboard => 'Top agents';
 
   @override
-  String dashboardLoadTotal(num count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count meetings',
-      one: '1 meeting',
-      zero: 'nothing booked',
-    );
-    return '$_temp0';
-  }
-
-  @override
-  String get dashboardLoadEmpty => 'No meetings in the next 14 days';
-
-  @override
-  String get dashboardLoadEmptyHint =>
-      'Booked meetings will show here, day by day';
-
-  @override
   String dashboardMandatesTotal(int count) {
     return '$count in all';
   }
-
-  @override
-  String get dashboardMeetingLoad => 'Next two weeks';
 
   @override
   String get dashboardMeetingsLabel => 'Meetings';
@@ -2118,9 +2116,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dashboardTeamPipeline => 'Team pipeline';
-
-  @override
-  String get dashboardToday => 'Today';
 
   @override
   String dashboardTodayCount(Object count) {
@@ -2568,7 +2563,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get depositsEndingEmptyHint =>
-      'Active deposits show here a week before their hold ends.';
+      'Record a deposit in the Deposit section of a deal\'s page. Active ones show here a week before their hold ends.';
 
   @override
   String get depositsEndingLoadFailed => 'Could not load the deposits';
@@ -4492,10 +4487,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get openHousesCardTitle => 'Open houses';
 
   @override
-  String get profileAgentId => 'Agent ID';
-
-  @override
-  String get profileAgentIdCopied => 'Agent ID copied';
+  String get profileAdminConsoleHint => 'Users, teams and the audit log';
 
   @override
   String get profileApp => 'App';
@@ -4550,6 +4542,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileName => 'Name';
 
   @override
+  String get profilePayoutsHint =>
+      'Your share of split commissions, owed and paid';
+
+  @override
   String get profilePrivacyPolicy => 'Privacy policy';
 
   @override
@@ -4577,6 +4573,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileSystemDefault => 'System default';
 
   @override
+  String get profileTeamConsoleHint =>
+      'Agents, invites, goals, payouts and import';
+
+  @override
   String get profileTheme => 'Appearance';
 
   @override
@@ -4589,10 +4589,17 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileThemeSystem => 'Follow system';
 
   @override
+  String get profileTimeOffHint => 'Your holidays and days off, and who covers';
+
+  @override
   String get profileTitle => 'Profile';
 
   @override
   String get profileVersion => 'Version';
+
+  @override
+  String get profileWhosOutHint =>
+      'Who in the agency is away, now and coming up';
 
   @override
   String get propertiesAddFirstListing => 'Add your first listing';
@@ -4846,7 +4853,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Could not load the agreements running out';
 
   @override
-  String get propertiesMandatesTitle => 'Agreements running out';
+  String get propertiesMandatesTitle => 'Seller agreements ending';
 
   @override
   String propertiesMapCapped(int count) {
@@ -7318,7 +7325,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get keysOutEmptyHint =>
-      'Keys handed over from a listing show here until they come back.';
+      'Hand keys over in the Keys section of a listing\'s page. They show here until they come back.';
 
   @override
   String get keysOutLoadFailed => 'Could not load the keys that are out';

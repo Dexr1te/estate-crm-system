@@ -2215,7 +2215,7 @@ abstract class AppLocalizations {
   /// No description provided for @clientsDatesTitle.
   ///
   /// In en, this message translates to:
-  /// **'Dates coming up'**
+  /// **'Birthdays and anniversaries'**
   String get clientsDatesTitle;
 
   /// No description provided for @clientsDatesToday.
@@ -3514,17 +3514,47 @@ abstract class AppLocalizations {
   /// **'{date} · team overview'**
   String dashboardDateSummary(Object date);
 
-  /// No description provided for @dashboardDatesTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Dates this week'**
-  String get dashboardDatesTitle;
-
   /// No description provided for @dashboardDatesTotal.
   ///
   /// In en, this message translates to:
   /// **'{count} this week'**
   String dashboardDatesTotal(int count);
+
+  /// No description provided for @dashboardFollowUps.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep an eye on'**
+  String get dashboardFollowUps;
+
+  /// No description provided for @dashboardFollowUpsDatesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Clients\' birthdays and purchase anniversaries, two weeks ahead'**
+  String get dashboardFollowUpsDatesHint;
+
+  /// No description provided for @dashboardFollowUpsDepositsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Deposits whose hold on a listing is ending or has ended'**
+  String get dashboardFollowUpsDepositsHint;
+
+  /// No description provided for @dashboardFollowUpsKeysHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Listing keys handed out and not yet returned'**
+  String get dashboardFollowUpsKeysHint;
+
+  /// No description provided for @dashboardFollowUpsLeasesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Rent deals whose lease ends in the next 30 days'**
+  String get dashboardFollowUpsLeasesHint;
+
+  /// No description provided for @dashboardFollowUpsMandatesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Listings whose agreement with the seller is ending or has ended'**
+  String get dashboardFollowUpsMandatesHint;
 
   /// No description provided for @dashboardGreeting.
   ///
@@ -3574,35 +3604,11 @@ abstract class AppLocalizations {
   /// **'Top agents'**
   String get dashboardLeaderboard;
 
-  /// No description provided for @dashboardLoadTotal.
-  ///
-  /// In en, this message translates to:
-  /// **'{count, plural, =0{nothing booked} =1{1 meeting} other{{count} meetings}}'**
-  String dashboardLoadTotal(num count);
-
-  /// No description provided for @dashboardLoadEmpty.
-  ///
-  /// In en, this message translates to:
-  /// **'No meetings in the next 14 days'**
-  String get dashboardLoadEmpty;
-
-  /// No description provided for @dashboardLoadEmptyHint.
-  ///
-  /// In en, this message translates to:
-  /// **'Booked meetings will show here, day by day'**
-  String get dashboardLoadEmptyHint;
-
   /// No description provided for @dashboardMandatesTotal.
   ///
   /// In en, this message translates to:
   /// **'{count} in all'**
   String dashboardMandatesTotal(int count);
-
-  /// No description provided for @dashboardMeetingLoad.
-  ///
-  /// In en, this message translates to:
-  /// **'Next two weeks'**
-  String get dashboardMeetingLoad;
 
   /// No description provided for @dashboardMeetingsLabel.
   ///
@@ -3729,12 +3735,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Team pipeline'**
   String get dashboardTeamPipeline;
-
-  /// No description provided for @dashboardToday.
-  ///
-  /// In en, this message translates to:
-  /// **'Today'**
-  String get dashboardToday;
 
   /// No description provided for @dashboardTodayCount.
   ///
@@ -4507,7 +4507,7 @@ abstract class AppLocalizations {
   /// No description provided for @depositsEndingEmptyHint.
   ///
   /// In en, this message translates to:
-  /// **'Active deposits show here a week before their hold ends.'**
+  /// **'Record a deposit in the Deposit section of a deal\'s page. Active ones show here a week before their hold ends.'**
   String get depositsEndingEmptyHint;
 
   /// No description provided for @depositsEndingLoadFailed.
@@ -7672,17 +7672,11 @@ abstract class AppLocalizations {
   /// **'Open houses'**
   String get openHousesCardTitle;
 
-  /// No description provided for @profileAgentId.
+  /// No description provided for @profileAdminConsoleHint.
   ///
   /// In en, this message translates to:
-  /// **'Agent ID'**
-  String get profileAgentId;
-
-  /// No description provided for @profileAgentIdCopied.
-  ///
-  /// In en, this message translates to:
-  /// **'Agent ID copied'**
-  String get profileAgentIdCopied;
+  /// **'Users, teams and the audit log'**
+  String get profileAdminConsoleHint;
 
   /// No description provided for @profileApp.
   ///
@@ -7780,6 +7774,12 @@ abstract class AppLocalizations {
   /// **'Name'**
   String get profileName;
 
+  /// No description provided for @profilePayoutsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your share of split commissions, owed and paid'**
+  String get profilePayoutsHint;
+
   /// No description provided for @profilePrivacyPolicy.
   ///
   /// In en, this message translates to:
@@ -7834,6 +7834,12 @@ abstract class AppLocalizations {
   /// **'System default'**
   String get profileSystemDefault;
 
+  /// No description provided for @profileTeamConsoleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Agents, invites, goals, payouts and import'**
+  String get profileTeamConsoleHint;
+
   /// No description provided for @profileTheme.
   ///
   /// In en, this message translates to:
@@ -7858,6 +7864,12 @@ abstract class AppLocalizations {
   /// **'Follow system'**
   String get profileThemeSystem;
 
+  /// No description provided for @profileTimeOffHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your holidays and days off, and who covers'**
+  String get profileTimeOffHint;
+
   /// No description provided for @profileTitle.
   ///
   /// In en, this message translates to:
@@ -7869,6 +7881,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Version'**
   String get profileVersion;
+
+  /// No description provided for @profileWhosOutHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Who in the agency is away, now and coming up'**
+  String get profileWhosOutHint;
 
   /// No description provided for @propertiesAddFirstListing.
   ///
@@ -8251,7 +8269,7 @@ abstract class AppLocalizations {
   /// No description provided for @propertiesMandatesTitle.
   ///
   /// In en, this message translates to:
-  /// **'Agreements running out'**
+  /// **'Seller agreements ending'**
   String get propertiesMandatesTitle;
 
   /// No description provided for @propertiesMapCapped.
@@ -12410,7 +12428,7 @@ abstract class AppLocalizations {
   /// No description provided for @keysOutEmptyHint.
   ///
   /// In en, this message translates to:
-  /// **'Keys handed over from a listing show here until they come back.'**
+  /// **'Hand keys over in the Keys section of a listing\'s page. They show here until they come back.'**
   String get keysOutEmptyHint;
 
   /// No description provided for @keysOutLoadFailed.
