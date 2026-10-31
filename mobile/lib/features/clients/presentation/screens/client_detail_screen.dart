@@ -165,6 +165,8 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
       initialType: activity.type,
       initialOccurredAt: activity.occurredAt,
       initialNote: activity.note,
+      onDelete:
+          _canDeleteActivity(activity) ? () => _deleteActivity(activity) : null,
       onSave: (type, note, occurredAt) async {
         final updated = await Injector.clientsRepository.updateActivity(
             widget.id, activity.id,
