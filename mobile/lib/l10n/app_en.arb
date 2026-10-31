@@ -2520,6 +2520,7 @@
   "propertiesRooms": "Rooms",
   "propertiesRoomsCount": "{rooms} rooms",
   "propertiesSearchHintFull": "Address, complex, ID…",
+  "propertiesShareTitle": "Share and send",
   "propertiesStatus": "Status",
   "propertiesStepOf": "Step {current} of {total}",
   "propertiesTitle": "Properties",

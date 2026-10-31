@@ -5250,6 +5250,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get propertiesSearchHintFull => 'Адрес, ЖК, ID…';
 
   @override
+  String get propertiesShareTitle => 'Поделиться и отправить';
+
+  @override
   String get propertiesStatus => 'Статус';
 
   @override

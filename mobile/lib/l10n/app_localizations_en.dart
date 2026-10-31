@@ -5152,6 +5152,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get propertiesSearchHintFull => 'Address, complex, ID…';
 
   @override
+  String get propertiesShareTitle => 'Share and send';
+
+  @override
   String get propertiesStatus => 'Status';
 
   @override

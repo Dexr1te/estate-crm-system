@@ -1434,6 +1434,7 @@
   "propertiesRooms": "Комнаты",
   "propertiesRoomsCount": "{rooms} комн.",
   "propertiesSearchHintFull": "Адрес, ЖК, ID…",
+  "propertiesShareTitle": "Поделиться и отправить",
   "propertiesStatus": "Статус",
   "propertiesStepOf": "Шаг {current} из {total}",
   "propertiesTitle": "Объекты",

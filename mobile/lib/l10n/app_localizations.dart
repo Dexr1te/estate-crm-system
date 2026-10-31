@@ -8705,6 +8705,12 @@ abstract class AppLocalizations {
   /// **'Address, complex, ID…'**
   String get propertiesSearchHintFull;
 
+  /// No description provided for @propertiesShareTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Share and send'**
+  String get propertiesShareTitle;
+
   /// No description provided for @propertiesStatus.
   ///
   /// In en, this message translates to:

@@ -324,6 +324,34 @@ void main() {
           'History of changes');
     });
 
+    testWidgets('photos and facts come first, then what goes out',
+        (tester) async {
+      await _open(tester, const PropertyDetailScreen(id: 7));
+
+      final share =
+          find.byKey(const ValueKey('property-share'), skipOffstage: false);
+      expect(share, findsOneWidget);
+      for (final key in const [
+        'property-brochure',
+        'property-seller-report',
+        'compare-tray-toggle',
+      ]) {
+        expect(
+            find.descendant(
+                of: share,
+                matching: find.byKey(ValueKey(key), skipOffstage: false)),
+            findsOneWidget,
+            reason: '$key is one of the card\'s rows');
+      }
+      expect(
+          _top(share),
+          greaterThan(
+              _top(find.byType(PropertyPhotosCard, skipOffstage: false))));
+      expect(_top(share), greaterThan(_top(_label('DETAILS'))));
+      expect(_top(share), greaterThan(_top(_label('DESCRIPTION'))));
+      expect(_top(share), lessThan(_top(_label('STATUS'))));
+    });
+
     testWidgets('opens the next listing the way the last one was left',
         (tester) async {
       await _open(tester, const PropertyDetailScreen(id: 7));

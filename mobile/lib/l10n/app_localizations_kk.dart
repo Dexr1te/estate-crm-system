@@ -5081,6 +5081,9 @@ class AppLocalizationsKk extends AppLocalizations {
   String get propertiesSearchHintFull => 'Мекенжай, ТК, ID…';
 
   @override
+  String get propertiesShareTitle => 'Бөлісу және жіберу';
+
+  @override
   String get propertiesStatus => 'Мәртебесі';
 
   @override
