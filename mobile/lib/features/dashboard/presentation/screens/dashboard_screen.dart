@@ -23,6 +23,7 @@ import 'package:real_estate_crm/features/dashboard/presentation/widgets/attentio
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/dashboard_hero.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/dates_this_week_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/deposits_ending_card.dart';
+import 'package:real_estate_crm/features/dashboard/presentation/widgets/follow_ups_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/goal_ring_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/going_cold_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/leases_ending_card.dart';
@@ -304,6 +305,9 @@ class _DashboardScreenState extends State<DashboardScreen>
         topGap: gap,
         onSeeAll: () => context.push('/properties/keys'),
       ),
+      // The cards above show only when something is due; this is the way
+      // into each of their lists that is always there.
+      FollowUpsCard(topGap: gap),
       // An admin runs no agency, so has no month of their own to show.
       if (!context.isAdmin) ...[
         SizedBox(height: gap),

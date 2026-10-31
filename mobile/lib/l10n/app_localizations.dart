@@ -3520,6 +3520,42 @@ abstract class AppLocalizations {
   /// **'{count} this week'**
   String dashboardDatesTotal(int count);
 
+  /// No description provided for @dashboardFollowUps.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep an eye on'**
+  String get dashboardFollowUps;
+
+  /// No description provided for @dashboardFollowUpsDatesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Clients\' birthdays and purchase anniversaries, two weeks ahead'**
+  String get dashboardFollowUpsDatesHint;
+
+  /// No description provided for @dashboardFollowUpsDepositsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Deposits whose hold on a listing is ending or has ended'**
+  String get dashboardFollowUpsDepositsHint;
+
+  /// No description provided for @dashboardFollowUpsKeysHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Listing keys handed out and not yet returned'**
+  String get dashboardFollowUpsKeysHint;
+
+  /// No description provided for @dashboardFollowUpsLeasesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Rent deals whose lease ends in the next 30 days'**
+  String get dashboardFollowUpsLeasesHint;
+
+  /// No description provided for @dashboardFollowUpsMandatesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Listings whose agreement with the seller is ending or has ended'**
+  String get dashboardFollowUpsMandatesHint;
+
   /// No description provided for @dashboardGreeting.
   ///
   /// In en, this message translates to:

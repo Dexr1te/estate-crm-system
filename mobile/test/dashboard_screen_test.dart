@@ -381,6 +381,9 @@ void main() {
     expect(find.byKey(const ValueKey('goal-card'), skipOffstage: false),
         findsOneWidget,
         reason: 'the goal card stays');
+    expect(find.byKey(const ValueKey('follow-ups-card'), skipOffstage: false),
+        findsOneWidget,
+        reason: 'the way into each of those lists stays');
   });
 
   group('the header', () {

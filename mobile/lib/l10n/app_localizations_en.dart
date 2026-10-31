@@ -1985,6 +1985,29 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get dashboardFollowUps => 'Keep an eye on';
+
+  @override
+  String get dashboardFollowUpsDatesHint =>
+      'Clients\' birthdays and purchase anniversaries, two weeks ahead';
+
+  @override
+  String get dashboardFollowUpsDepositsHint =>
+      'Deposits whose hold on a listing is ending or has ended';
+
+  @override
+  String get dashboardFollowUpsKeysHint =>
+      'Listing keys handed out and not yet returned';
+
+  @override
+  String get dashboardFollowUpsLeasesHint =>
+      'Rent deals whose lease ends in the next 30 days';
+
+  @override
+  String get dashboardFollowUpsMandatesHint =>
+      'Listings whose agreement with the seller is ending or has ended';
+
+  @override
   String dashboardGreeting(Object greeting, Object name) {
     return '$greeting, $name';
   }

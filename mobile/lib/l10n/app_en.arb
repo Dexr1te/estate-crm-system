@@ -843,6 +843,12 @@
       }
     }
   },
+  "dashboardFollowUps": "Keep an eye on",
+  "dashboardFollowUpsDatesHint": "Clients' birthdays and purchase anniversaries, two weeks ahead",
+  "dashboardFollowUpsDepositsHint": "Deposits whose hold on a listing is ending or has ended",
+  "dashboardFollowUpsKeysHint": "Listing keys handed out and not yet returned",
+  "dashboardFollowUpsLeasesHint": "Rent deals whose lease ends in the next 30 days",
+  "dashboardFollowUpsMandatesHint": "Listings whose agreement with the seller is ending or has ended",
   "dashboardGreeting": "{greeting}, {name}",
   "dashboardGreetingAfternoon": "Good afternoon",
   "dashboardGreetingEvening": "Good evening",

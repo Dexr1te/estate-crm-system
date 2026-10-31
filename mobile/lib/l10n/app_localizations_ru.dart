@@ -2021,6 +2021,29 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String get dashboardFollowUps => 'Держите на контроле';
+
+  @override
+  String get dashboardFollowUpsDatesHint =>
+      'Дни рождения клиентов и годовщины покупок на две недели вперёд';
+
+  @override
+  String get dashboardFollowUpsDepositsHint =>
+      'Задатки, у которых бронь объекта заканчивается или закончилась';
+
+  @override
+  String get dashboardFollowUpsKeysHint =>
+      'Ключи от объектов, которые выдали и ещё не вернули';
+
+  @override
+  String get dashboardFollowUpsLeasesHint =>
+      'Сделки аренды, где договор заканчивается в ближайшие 30 дней';
+
+  @override
+  String get dashboardFollowUpsMandatesHint =>
+      'Объекты, у которых договор с продавцом истекает или истёк';
+
+  @override
   String dashboardGreeting(Object greeting, Object name) {
     return '$greeting, $name';
   }

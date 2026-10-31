@@ -270,7 +270,7 @@ A test asserts the three files have identical key sets, and that no ARB contains
 |---|---|
 | `/splash` | holds while the saved session is read |
 | `/login`, `/accept-invite` | auth |
-| `/dashboard` | greeting, next meeting, metrics, pipeline, value by stage, conversion, top agents, upcoming list |
+| `/dashboard` | greeting, next meeting, follow-up lists, metrics, pipeline, value by stage, conversion, top agents, upcoming list |
 | `/clients`, `/clients/new`, `/clients/:id`, `/clients/:id/edit` | |
 | `/properties`, `…/new`, `…/:id`, `…/:id/edit` | paged list with server-side filters |
 | `/deals`, `…/new`, `…/:id`, `…/:id/edit` | stage pills filter client-side so the counts stay live; the detail screen carries the deal's documents |

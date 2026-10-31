@@ -1976,6 +1976,29 @@ class AppLocalizationsKk extends AppLocalizations {
   }
 
   @override
+  String get dashboardFollowUps => 'Назарда ұстаңыз';
+
+  @override
+  String get dashboardFollowUpsDatesHint =>
+      'Клиенттердің туған күндері мен сатып алу жылдықтары, екі апта алға';
+
+  @override
+  String get dashboardFollowUpsDepositsHint =>
+      'Нысан броні аяқталып жатқан не аяқталған кепілпұлдар';
+
+  @override
+  String get dashboardFollowUpsKeysHint =>
+      'Берілген, бірақ әлі қайтарылмаған нысан кілттері';
+
+  @override
+  String get dashboardFollowUpsLeasesHint =>
+      'Жалдау шарты алдағы 30 күнде аяқталатын мәмілелер';
+
+  @override
+  String get dashboardFollowUpsMandatesHint =>
+      'Сатушымен келісімі аяқталып жатқан не аяқталған нысандар';
+
+  @override
   String dashboardGreeting(Object greeting, Object name) {
     return '$greeting, $name';
   }
