@@ -88,10 +88,14 @@ List<PlannedTaskReminder> planTaskReminders(
   return planned.length <= limit ? planned : planned.sublist(0, limit);
 }
 
+/// [agentId] is whoever is signed in: a manager's and an admin's meeting
+/// lists hold the whole agency's, and only their own are theirs to be woken
+/// for -- the same rule [planTaskReminders] applies to tasks.
 List<PlannedReminder> planReminders(
   List<MeetingResponse> meetings, {
   required ReminderSettings settings,
   required DateTime now,
+  int? agentId,
   int limit = kMaxPendingReminders,
 }) {
   if (!settings.enabled) return const [];
@@ -99,6 +103,7 @@ List<PlannedReminder> planReminders(
   final planned = <PlannedReminder>[];
   for (final meeting in meetings) {
     if (meeting.completed) continue;
+    if (agentId != null && meeting.agentId != agentId) continue;
     if (!meeting.scheduledAt.isAfter(now)) continue;
 
     final fireAt = meeting.scheduledAt.subtract(settings.lead.duration);

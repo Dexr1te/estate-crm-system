@@ -46,6 +46,26 @@ void main() {
     addTearDown(AppClock.reset);
   });
 
+  test("a manager is reminded of their own meetings, not the agency's",
+      () async {
+    final gateway = FakeNotificationGateway();
+    final l10n = await AppLocalizations.delegate.load(const Locale('en'));
+
+    await syncReminders(
+      gateway: gateway,
+      meetings: [
+        _meeting(1, const Duration(days: 1)),
+        _meeting(2, const Duration(days: 1), title: 'Colleague’s viewing')
+            .copyWith(agentId: 9),
+      ],
+      assigneeId: 1,
+      settings: const ReminderSettings(enabled: true),
+      l10n: l10n,
+    );
+
+    expect(gateway.scheduled.map((n) => n.id), [1]);
+  });
+
   test('a reminder is worded in the reader’s language, not English', () async {
     final gateway = FakeNotificationGateway();
 

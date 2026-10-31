@@ -15,8 +15,8 @@ Future<void> syncReminders({
 }) async {
   final now = AppClock.now();
   final planned = [
-    for (final reminder
-        in planReminders(meetings, settings: settings, now: now))
+    for (final reminder in planReminders(meetings,
+        settings: settings, now: now, agentId: assigneeId))
       ScheduledNotification(
         id: reminder.id,
         title: _title(reminder, l10n),
