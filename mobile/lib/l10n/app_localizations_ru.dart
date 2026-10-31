@@ -4598,6 +4598,10 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String get profileDeleteAccountConfirmAlone =>
+      'Аккаунт будет удалён безвозвратно.';
+
+  @override
   String get profileDeleteHandoverEmpty => 'Записи некому передать';
 
   @override
@@ -4605,6 +4609,10 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get profileDeleteHandoverTitle => 'Кому передать ваши записи';
+
+  @override
+  String get profileDeleteNeedsSuccessor =>
+      'Ваши сделки, встречи, документы или открытые задачи нужно кому-то передать, а в агентстве больше никого нет. Сначала добавьте коллегу или удалите эти записи.';
 
   @override
   String get profileEditProfile => 'Изменить профиль';

@@ -4509,6 +4509,10 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get profileDeleteAccountConfirmAlone =>
+      'Your account will be removed permanently. This cannot be undone.';
+
+  @override
   String get profileDeleteHandoverEmpty => 'No one else to hand them to';
 
   @override
@@ -4516,6 +4520,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileDeleteHandoverTitle => 'Hand your records over to';
+
+  @override
+  String get profileDeleteNeedsSuccessor =>
+      'Your deals, meetings, documents or open tasks need someone to take them over, and there is nobody else in your agency. Add a colleague first, or delete those records.';
 
   @override
   String get profileEditProfile => 'Edit profile';

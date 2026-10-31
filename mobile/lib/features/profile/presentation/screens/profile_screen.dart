@@ -426,13 +426,31 @@ class _DeleteAccountButtonState extends State<_DeleteAccountButton> {
     final messenger = ScaffoldMessenger.of(context);
     final auth = context.read<AuthBloc>();
 
-    final successor = await _pickSuccessor(l10n, messenger);
-    if (successor == null || !mounted) return;
+    final candidates = await _successors(l10n, messenger);
+    if (candidates == null || !mounted) return;
+
+    // Somebody alone — just signed up, or the only person in the agency they
+    // created — has nobody to hand anything to, and usually nothing to hand.
+    // An empty picker would be a dead end, so they go straight to the
+    // confirmation and the server decides whether anything is left over.
+    PickerItem? successor;
+    if (candidates.isNotEmpty) {
+      successor = await showEntityPicker(
+        context,
+        title: l10n.profileDeleteHandoverTitle,
+        searchHint: l10n.profileDeleteHandoverSearch,
+        emptyLabel: l10n.profileDeleteHandoverEmpty,
+        items: candidates,
+      );
+      if (successor == null || !mounted) return;
+    }
 
     final confirmed = await showConfirmDialog(
       context,
       title: l10n.profileDeleteAccount,
-      content: l10n.profileDeleteAccountConfirm(successor.title),
+      content: successor == null
+          ? l10n.profileDeleteAccountConfirmAlone
+          : l10n.profileDeleteAccountConfirm(successor.title),
       confirmLabel: l10n.profileDeleteAccount,
       icon: Icons.person_remove_outlined,
     );
@@ -440,26 +458,36 @@ class _DeleteAccountButtonState extends State<_DeleteAccountButton> {
 
     setState(() => _busy = true);
     try {
-      await Injector.authRepository.deleteAccount(replacementId: successor.id);
+      await Injector.authRepository.deleteAccount(replacementId: successor?.id);
 
       auth.add(AuthLogoutEvent());
     } catch (err) {
       if (!mounted) return;
       setState(() => _busy = false);
+      final failure = ApiFailure.from(err);
       messenger
         ..hideCurrentSnackBar()
         ..showSnackBar(SnackBar(
-          content: Text(apiFailureLabel(l10n, ApiFailure.from(err))),
+          content: Text(
+              successor == null && failure.kind == ApiFailureKind.badRequest
+                  ? l10n.profileDeleteNeedsSuccessor
+                  : apiFailureLabel(l10n, failure)),
           backgroundColor: context.tokens.dangerSolid,
         ));
     }
   }
 
-  Future<PickerItem?> _pickSuccessor(
+  /// Colleagues who could take the records over, or null when the list could
+  /// not be loaded.
+  Future<List<PickerItem>?> _successors(
       AppLocalizations l10n, ScaffoldMessengerState messenger) async {
-    List<AgentOption> agents;
     try {
-      agents = await Injector.agentsRepository.getAgentOptions();
+      final agents = await Injector.agentsRepository.getAgentOptions();
+      return [
+        for (final a in agents)
+          if (a.id != widget.user.userId)
+            PickerItem(id: a.id, title: a.fullName, subtitle: a.email),
+      ];
     } catch (err) {
       messenger
         ..hideCurrentSnackBar()
@@ -467,19 +495,6 @@ class _DeleteAccountButtonState extends State<_DeleteAccountButton> {
             content: Text(apiFailureLabel(l10n, ApiFailure.from(err)))));
       return null;
     }
-    if (!mounted) return null;
-
-    return showEntityPicker(
-      context,
-      title: l10n.profileDeleteHandoverTitle,
-      searchHint: l10n.profileDeleteHandoverSearch,
-      emptyLabel: l10n.profileDeleteHandoverEmpty,
-      items: [
-        for (final a in agents)
-          if (a.id != widget.user.userId)
-            PickerItem(id: a.id, title: a.fullName, subtitle: a.email),
-      ],
-    );
   }
 
   @override

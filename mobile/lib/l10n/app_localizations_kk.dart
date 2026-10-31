@@ -4451,6 +4451,9 @@ class AppLocalizationsKk extends AppLocalizations {
   }
 
   @override
+  String get profileDeleteAccountConfirmAlone => 'Аккаунт біржола жойылады.';
+
+  @override
   String get profileDeleteHandoverEmpty => 'Жазбаларды тапсыратын адам жоқ';
 
   @override
@@ -4458,6 +4461,10 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get profileDeleteHandoverTitle => 'Жазбаларыңыз кімге өтеді';
+
+  @override
+  String get profileDeleteNeedsSuccessor =>
+      'Мәмілелеріңізді, кездесулеріңізді, құжаттарыңызды немесе ашық тапсырмаларыңызды біреуге тапсыру керек, ал агенттікте басқа ешкім жоқ. Алдымен әріптес қосыңыз немесе бұл жазбаларды жойыңыз.';
 
   @override
   String get profileEditProfile => 'Профильді өзгерту';

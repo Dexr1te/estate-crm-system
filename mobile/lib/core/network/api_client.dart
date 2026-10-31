@@ -75,6 +75,7 @@ class ApiClient {
           options.headers['Authorization'] = 'Bearer $token';
         }
         options.headers['Accept-Language'] ??= AppCurrency.locale;
+        if (_startsSession(options)) options.receiveTimeout = _wakeUpTimeout;
         handler.next(options);
       },
       onError: (error, handler) async {
@@ -140,6 +141,22 @@ class ApiClient {
           }
         },
       );
+
+  /// The calls that open a session are usually the first a host asleep since
+  /// yesterday hears. The host holds the connection while it wakes, so they
+  /// fail on the reply, not the connect -- and as writes they are never
+  /// replayed. They wait as long as a replayed read would instead, or signing
+  /// in, and App Review's first tap on "Try the demo", ends in a timeout.
+  static const _sessionStarts = {
+    '/auth/login',
+    '/auth/demo',
+    '/auth/register',
+    '/auth/accept-invite',
+  };
+
+  static bool _startsSession(RequestOptions options) =>
+      options.method.toUpperCase() == 'POST' &&
+      _sessionStarts.contains(options.path);
 
   static bool _shouldWaitForWakeUp(DioException e) {
     if (e.requestOptions.extra[_wokeKey] == true) return false;

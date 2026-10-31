@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -37,13 +38,16 @@ const _agentInTeam = AuthResponse(
 
 FakeAuthRepository _authRepo = FakeAuthRepository(user: _user);
 
-Widget _profile({AuthResponse user = _user}) {
+const _colleagues = [
+  AgentOption(id: 5, fullName: 'Sultan Assan-Doroshenko', email: 'me@x.kz'),
+  AgentOption(id: 9, fullName: 'Нурлан Беков', email: 'nurlan@estatecrm.kz'),
+];
+
+Widget _profile(
+    {AuthResponse user = _user, List<AgentOption> colleagues = _colleagues}) {
   _authRepo = FakeAuthRepository(user: user);
   Injector.authRepository = _authRepo;
-  Injector.agentsRepository = const FakeAgentsRepository([
-    AgentOption(id: 5, fullName: 'Sultan Assan-Doroshenko', email: 'me@x.kz'),
-    AgentOption(id: 9, fullName: 'Нурлан Беков', email: 'nurlan@estatecrm.kz'),
-  ]);
+  Injector.agentsRepository = FakeAgentsRepository(colleagues);
   final auth = AuthBloc(_authRepo)..add(AuthCheckEvent());
   return MultiBlocProvider(
     providers: [
@@ -140,6 +144,75 @@ void main() {
 
     expect(_authRepo.deletedWithReplacement, isNull,
         reason: 'backing out of the dialog must not delete anything');
+  });
+
+  // A reviewer signs up, then deletes the account they just made. Alone in
+  // the agency they created there is nobody to pick, and an empty picker used
+  // to be a dead end.
+  group('closing an account with nobody to hand records to', () {
+    Future<void> openDelete(WidgetTester tester) async {
+      await expectNoOverflow(
+        tester,
+        _profile(colleagues: const [
+          AgentOption(
+              id: 5, fullName: 'Sultan Assan-Doroshenko', email: 'me@x.kz'),
+        ]),
+        size: const Size(390, 844),
+        brightness: Brightness.light,
+        textScale: 1.0,
+      );
+      await tester.pumpAndSettle();
+      await tester.scrollUntilVisible(find.text('Delete account'), 200,
+          scrollable: find.byType(Scrollable).first);
+      await tester.tap(find.text('Delete account'));
+      await tester.pumpAndSettle();
+    }
+
+    testWidgets('goes straight to the confirmation and deletes',
+        (tester) async {
+      await openDelete(tester);
+
+      expect(find.text('Hand your records over to'), findsNothing);
+      expect(find.text('No one else to hand them to'), findsNothing);
+      expect(
+          find.text('Your account will be removed permanently. '
+              'This cannot be undone.'),
+          findsOneWidget);
+
+      await tester.tap(find
+          .widgetWithText(AppFilledButton, 'Delete account')
+          .hitTestable()
+          .last);
+      await tester.pumpAndSettle();
+
+      expect(_authRepo.deletes, 1);
+      expect(_authRepo.deletedWithReplacement, isNull,
+          reason: 'nobody was named to take the records over');
+    });
+
+    testWidgets('says why when the server still finds records to hand over',
+        (tester) async {
+      await openDelete(tester);
+      _authRepo.deleteFailure = DioException(
+        requestOptions: RequestOptions(path: '/auth/me', method: 'DELETE'),
+        response: Response(
+          requestOptions: RequestOptions(path: '/auth/me', method: 'DELETE'),
+          statusCode: 400,
+          data: {'message': 'Sultan still holds 2 deal(s)'},
+        ),
+      );
+
+      await tester.tap(find
+          .widgetWithText(AppFilledButton, 'Delete account')
+          .hitTestable()
+          .last);
+      await tester.pumpAndSettle();
+
+      expect(find.textContaining('there is nobody else in your agency'),
+          findsOneWidget);
+      expect(find.text('Delete account'), findsWidgets,
+          reason: 'the account is still there, and so is the button');
+    });
   });
 
   testWidgets('appearance offers following the system, not just a dark switch',
