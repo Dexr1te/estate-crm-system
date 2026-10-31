@@ -27,7 +27,6 @@ import 'package:real_estate_crm/features/dashboard/presentation/widgets/goal_rin
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/going_cold_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/leases_ending_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/mandates_ending_card.dart';
-import 'package:real_estate_crm/features/dashboard/presentation/widgets/meeting_load_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/meeting_row.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/my_goal_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/out_today_card.dart';
@@ -372,12 +371,6 @@ class _DashboardScreenState extends State<DashboardScreen>
           if (item != attention.last) const SizedBox(height: 8),
         ],
       ],
-      SizedBox(height: gap),
-      MeetingLoadCard(
-        load: state.meetingLoad(now),
-        today: now,
-        onTap: () => context.go('/meetings'),
-      ),
       if (context.isAdminOrManager && agents.isNotEmpty) ...[
         SizedBox(height: gap + 4),
         SectionHeader(title: l10n.dashboardLeaderboard),

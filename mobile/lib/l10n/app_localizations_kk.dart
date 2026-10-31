@@ -2013,31 +2013,9 @@ class AppLocalizationsKk extends AppLocalizations {
   String get dashboardLeaderboard => 'Үздік агенттер';
 
   @override
-  String dashboardLoadTotal(num count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count кездесу',
-      one: '1 кездесу',
-      zero: 'ештеңе жоспарланбаған',
-    );
-    return '$_temp0';
-  }
-
-  @override
-  String get dashboardLoadEmpty => 'Алдағы 14 күнге кездесу жоқ';
-
-  @override
-  String get dashboardLoadEmptyHint =>
-      'Белгіленген кездесулер осында күн бойынша көрінеді';
-
-  @override
   String dashboardMandatesTotal(int count) {
     return 'барлығы $count';
   }
-
-  @override
-  String get dashboardMeetingLoad => 'Алдағы екі апта';
 
   @override
   String get dashboardMeetingsLabel => 'Кездесулер';
@@ -2109,9 +2087,6 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get dashboardTeamPipeline => 'Команда воронкасы';
-
-  @override
-  String get dashboardToday => 'Бүгін';
 
   @override
   String dashboardTodayCount(Object count) {

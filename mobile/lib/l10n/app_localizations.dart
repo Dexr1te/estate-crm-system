@@ -3574,35 +3574,11 @@ abstract class AppLocalizations {
   /// **'Top agents'**
   String get dashboardLeaderboard;
 
-  /// No description provided for @dashboardLoadTotal.
-  ///
-  /// In en, this message translates to:
-  /// **'{count, plural, =0{nothing booked} =1{1 meeting} other{{count} meetings}}'**
-  String dashboardLoadTotal(num count);
-
-  /// No description provided for @dashboardLoadEmpty.
-  ///
-  /// In en, this message translates to:
-  /// **'No meetings in the next 14 days'**
-  String get dashboardLoadEmpty;
-
-  /// No description provided for @dashboardLoadEmptyHint.
-  ///
-  /// In en, this message translates to:
-  /// **'Booked meetings will show here, day by day'**
-  String get dashboardLoadEmptyHint;
-
   /// No description provided for @dashboardMandatesTotal.
   ///
   /// In en, this message translates to:
   /// **'{count} in all'**
   String dashboardMandatesTotal(int count);
-
-  /// No description provided for @dashboardMeetingLoad.
-  ///
-  /// In en, this message translates to:
-  /// **'Next two weeks'**
-  String get dashboardMeetingLoad;
 
   /// No description provided for @dashboardMeetingsLabel.
   ///
@@ -3729,12 +3705,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Team pipeline'**
   String get dashboardTeamPipeline;
-
-  /// No description provided for @dashboardToday.
-  ///
-  /// In en, this message translates to:
-  /// **'Today'**
-  String get dashboardToday;
 
   /// No description provided for @dashboardTodayCount.
   ///

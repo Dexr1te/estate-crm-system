@@ -64,8 +64,8 @@ reminds whoever has to do it when it falls due, and the dashboard lists what is
 overdue or due today.
 
 **Dashboard.** The next meeting, today's tasks, the month's goal against what has closed, four
-counters with sparklines, the pipeline, deals needing attention, meeting load and
-the agency's leaderboard.
+counters with sparklines, the pipeline, deals needing attention and the agency's
+leaderboard.
 
 **Push notifications and remote settings.** Announcements are sent from the
 Firebase Console to everyone, to one language or to one role, and a tap can open

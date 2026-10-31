@@ -2059,32 +2059,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get dashboardLeaderboard => 'Лучшие агенты';
 
   @override
-  String dashboardLoadTotal(num count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count встреч',
-      few: '$count встречи',
-      one: '$count встреча',
-      zero: 'ничего не назначено',
-    );
-    return '$_temp0';
-  }
-
-  @override
-  String get dashboardLoadEmpty => 'На ближайшие 14 дней встреч нет';
-
-  @override
-  String get dashboardLoadEmptyHint =>
-      'Здесь по дням появятся назначенные встречи';
-
-  @override
   String dashboardMandatesTotal(int count) {
     return 'всего $count';
   }
-
-  @override
-  String get dashboardMeetingLoad => 'Ближайшие две недели';
 
   @override
   String get dashboardMeetingsLabel => 'Встречи';
@@ -2156,9 +2133,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get dashboardTeamPipeline => 'Воронка команды';
-
-  @override
-  String get dashboardToday => 'Сегодня';
 
   @override
   String dashboardTodayCount(Object count) {

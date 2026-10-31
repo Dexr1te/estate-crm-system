@@ -2022,31 +2022,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dashboardLeaderboard => 'Top agents';
 
   @override
-  String dashboardLoadTotal(num count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count meetings',
-      one: '1 meeting',
-      zero: 'nothing booked',
-    );
-    return '$_temp0';
-  }
-
-  @override
-  String get dashboardLoadEmpty => 'No meetings in the next 14 days';
-
-  @override
-  String get dashboardLoadEmptyHint =>
-      'Booked meetings will show here, day by day';
-
-  @override
   String dashboardMandatesTotal(int count) {
     return '$count in all';
   }
-
-  @override
-  String get dashboardMeetingLoad => 'Next two weeks';
 
   @override
   String get dashboardMeetingsLabel => 'Meetings';
@@ -2118,9 +2096,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dashboardTeamPipeline => 'Team pipeline';
-
-  @override
-  String get dashboardToday => 'Today';
 
   @override
   String dashboardTodayCount(Object count) {
