@@ -7,14 +7,20 @@ class MoreSection extends StatefulWidget {
   final String memoryKey;
   final List<Widget> children;
 
+  /// The names of what [children] hold, said under the toggle so that nobody
+  /// has to open it to find out what is there.
+  final List<String> summary;
+
   const MoreSection({
     super.key,
     required this.memoryKey,
     required this.children,
+    this.summary = const [],
   });
 
   static const toggleKey = ValueKey('more-toggle');
   static const contentKey = ValueKey('more-content');
+  static const summaryKey = ValueKey('more-summary');
   static const duration = Duration(milliseconds: 220);
 
   static final Map<String, bool> _remembered = {};
@@ -45,7 +51,8 @@ class _MoreSectionState extends State<MoreSection> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
-        _MoreToggle(open: _open, onTap: _toggle),
+        _MoreToggle(
+            open: _open, summary: widget.summary.join(' · '), onTap: _toggle),
         AnimatedSize(
           duration: MoreSection.duration,
           curve: Curves.easeOutCubic,
@@ -71,9 +78,11 @@ class _MoreSectionState extends State<MoreSection> {
 
 class _MoreToggle extends StatelessWidget {
   final bool open;
+  final String summary;
   final VoidCallback onTap;
 
-  const _MoreToggle({required this.open, required this.onTap});
+  const _MoreToggle(
+      {required this.open, required this.summary, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -96,33 +105,55 @@ class _MoreToggle extends StatelessWidget {
                 const BoxConstraints(minHeight: AppMetrics.minHitTarget),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              child: Row(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Flexible(
-                    child: Text(
-                      open ? l10n.coreShowLess : l10n.coreMore,
-                      maxLines: 1,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Flexible(
+                        child: Text(
+                          open ? l10n.coreShowLess : l10n.coreMore,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontFamily: AppFonts.sans,
+                            fontSize: AppType.body,
+                            fontWeight: FontWeight.w600,
+                            color: t.textSecondary,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      AnimatedRotation(
+                        turns: open ? 0.5 : 0,
+                        duration: MoreSection.duration,
+                        curve: Curves.easeOutCubic,
+                        child: Icon(
+                          Icons.keyboard_arrow_down_rounded,
+                          size: 20,
+                          color: t.textSecondary,
+                        ),
+                      ),
+                    ],
+                  ),
+                  if (summary.isNotEmpty) ...[
+                    const SizedBox(height: 2),
+                    Text(
+                      summary,
+                      key: MoreSection.summaryKey,
+                      maxLines: 2,
                       overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                         fontFamily: AppFonts.sans,
-                        fontSize: AppType.body,
-                        fontWeight: FontWeight.w600,
+                        fontSize: AppType.footnote,
+                        height: 1.35,
                         color: t.textSecondary,
                       ),
                     ),
-                  ),
-                  const SizedBox(width: 4),
-                  AnimatedRotation(
-                    turns: open ? 0.5 : 0,
-                    duration: MoreSection.duration,
-                    curve: Curves.easeOutCubic,
-                    child: Icon(
-                      Icons.keyboard_arrow_down_rounded,
-                      size: 20,
-                      color: t.textSecondary,
-                    ),
-                  ),
+                  ],
                 ],
               ),
             ),

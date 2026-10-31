@@ -226,6 +226,45 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
       );
     }
 
+    final more = <(String, Widget)>[
+      if (listingPoint(p) != null)
+        (l10n.propertiesLocation, PropertyLocationPreview(property: p)),
+      if (hasPriceCheck(_priceInsight))
+        (
+          l10n.propertiesPriceCheck,
+          PropertyPriceCheckCard(insight: _priceInsight!),
+        ),
+      if (_priceHistory.isNotEmpty)
+        (
+          l10n.propertiesPriceHistory,
+          PropertyPriceHistoryCard(changes: _priceHistory),
+        ),
+      if (p.price > 0)
+        (
+          l10n.mortgageTitle,
+          PropertyMortgageCard(
+              propertyId: p.id, price: p.price, title: p.title),
+        ),
+      (
+        l10n.propertiesLink,
+        PropertyShareLinkCard(
+          propertyId: widget.id,
+          title: p.title,
+          canRevoke: _canRevokeLink(p),
+        ),
+      ),
+      (l10n.keysCardTitle, PropertyKeysCard(propertyId: widget.id)),
+      (
+        l10n.openHousesCardTitle,
+        PropertyOpenHousesCard(propertyId: widget.id),
+      ),
+      (l10n.expensesTitle, PropertyExpensesCard(propertyId: widget.id)),
+      (
+        l10n.changeLogTitle,
+        ChangeHistoryButton(location: '/properties/${widget.id}/changes'),
+      ),
+    ];
+
     return BlocListener<PropertiesBloc, PropertiesState>(
       listener: _onWriteResult,
       child: DetailScaffold(
@@ -284,28 +323,8 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
           _ViewingsCard(viewings: _viewings),
           MoreSection(
             memoryKey: 'property-detail',
-            children: [
-              if (listingPoint(p) != null) PropertyLocationPreview(property: p),
-              if (hasPriceCheck(_priceInsight))
-                PropertyPriceCheckCard(insight: _priceInsight!),
-              if (_priceHistory.isNotEmpty)
-                PropertyPriceHistoryCard(changes: _priceHistory),
-              if (p.price > 0)
-                PropertyMortgageCard(
-                  propertyId: p.id,
-                  price: p.price,
-                  title: p.title,
-                ),
-              PropertyShareLinkCard(
-                propertyId: widget.id,
-                title: p.title,
-                canRevoke: _canRevokeLink(p),
-              ),
-              PropertyKeysCard(propertyId: widget.id),
-              PropertyOpenHousesCard(propertyId: widget.id),
-              PropertyExpensesCard(propertyId: widget.id),
-              ChangeHistoryButton(location: '/properties/${widget.id}/changes'),
-            ],
+            summary: [for (final (title, _) in more) title],
+            children: [for (final (_, card) in more) card],
           ),
         ],
       ),
