@@ -142,12 +142,21 @@ class FakeAuthRepository implements AuthRepository {
   @override
   Future<void> logout() async {}
   @override
-  Future<void> deleteAccount({int? replacementId}) async =>
-      deletedWithReplacement = replacementId;
+  Future<void> deleteAccount({int? replacementId}) async {
+    deletes++;
+    if (deleteFailure case final failure?) throw failure;
+    deletedWithReplacement = replacementId;
+  }
 
   /// What the last [deleteAccount] handed the records to, or null if it was
-  /// never called.
+  /// never called or named nobody.
   int? deletedWithReplacement;
+
+  /// How many times [deleteAccount] was called, successor or not.
+  int deletes = 0;
+
+  /// What [deleteAccount] throws instead of succeeding.
+  Object? deleteFailure;
 }
 
 class FakeEmailVerifier implements EmailVerifier {

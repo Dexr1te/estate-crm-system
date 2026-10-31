@@ -7702,6 +7702,12 @@ abstract class AppLocalizations {
   /// **'Your clients, properties, deals and meetings move to {successor}. The account is removed permanently and this cannot be undone.'**
   String profileDeleteAccountConfirm(Object successor);
 
+  /// No description provided for @profileDeleteAccountConfirmAlone.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account will be removed permanently. This cannot be undone.'**
+  String get profileDeleteAccountConfirmAlone;
+
   /// No description provided for @profileDeleteHandoverEmpty.
   ///
   /// In en, this message translates to:
@@ -7719,6 +7725,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Hand your records over to'**
   String get profileDeleteHandoverTitle;
+
+  /// No description provided for @profileDeleteNeedsSuccessor.
+  ///
+  /// In en, this message translates to:
+  /// **'Your deals, meetings, documents or open tasks need someone to take them over, and there is nobody else in your agency. Add a colleague first, or delete those records.'**
+  String get profileDeleteNeedsSuccessor;
 
   /// No description provided for @profileEditProfile.
   ///
