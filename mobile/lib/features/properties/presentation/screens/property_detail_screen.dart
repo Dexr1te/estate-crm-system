@@ -120,9 +120,11 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
   void _onWriteResult(BuildContext _, PropertiesState state) {
     if (state is PropertiesActionSuccess) {
       _confirmedStatus = null;
-    } else if (state is PropertiesActionFailure && _confirmedStatus != null) {
+    } else if ((state is PropertiesActionFailure || state is PropertiesError) &&
+        _confirmedStatus != null) {
       setState(() => _p = _p?.copyWith(status: _confirmedStatus!));
       _confirmedStatus = null;
+      if (state is PropertiesError) showWriteFailure(context, state.failure);
     }
   }
 

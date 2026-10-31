@@ -184,11 +184,13 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
       _splitBlocOrNull?.add(CommissionSplitLoadEvent());
       _confirmedStatus = null;
       _confirmed = null;
-    } else if (state is DealsActionFailure && _confirmedStatus != null) {
+    } else if ((state is DealsActionFailure || state is DealsError) &&
+        _confirmedStatus != null) {
       setState(
           () => _d = _confirmed ?? _d?.copyWith(status: _confirmedStatus!));
       _confirmedStatus = null;
       _confirmed = null;
+      if (state is DealsError) showWriteFailure(context, state.failure);
     }
   }
 
