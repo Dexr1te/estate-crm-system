@@ -44,6 +44,10 @@ class _MeetingFormScreenState extends State<MeetingFormScreen>
   bool _loading = false;
   bool _initLoading = false;
 
+  /// Why the record could not be loaded. The form is not shown then: saved
+  /// blank, it would overwrite the record on the server with nothing.
+  ApiFailure? _recordFailure;
+
   ApiFailure? _loadFailure;
 
   List<PickerItem> _clients = const [];
@@ -212,7 +216,10 @@ class _MeetingFormScreenState extends State<MeetingFormScreen>
   }
 
   Future<void> _loadMeeting() async {
-    setState(() => _initLoading = true);
+    setState(() {
+      _initLoading = true;
+      _recordFailure = null;
+    });
     try {
       final l10n = AppLocalizations.of(context);
       final m = await Injector.meetingsRepository.getMeeting(widget.meetingId!);
@@ -254,8 +261,13 @@ class _MeetingFormScreenState extends State<MeetingFormScreen>
         _initLoading = false;
       });
       startDraft();
-    } catch (_) {
-      if (mounted) setState(() => _initLoading = false);
+    } catch (err) {
+      if (mounted) {
+        setState(() {
+          _initLoading = false;
+          _recordFailure = ApiFailure.from(err);
+        });
+      }
     }
   }
 
@@ -375,6 +387,18 @@ class _MeetingFormScreenState extends State<MeetingFormScreen>
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final t = context.tokens;
+
+    if (_recordFailure case final failure?) {
+      return DetailScaffold(
+        title: l10n.meetingsEditMeeting,
+        children: [
+          ErrorWidget2(
+            message: apiFailureLabel(l10n, failure),
+            onRetry: _loadMeeting,
+          ),
+        ],
+      );
+    }
     final locale = Localizations.localeOf(context).toLanguageTag();
 
     return BlocListener<MeetingsBloc, MeetingsState>(

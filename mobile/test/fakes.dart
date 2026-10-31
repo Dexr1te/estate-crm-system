@@ -236,17 +236,32 @@ class FakeMeetingsRepository implements MeetingsRepository {
   @override
   Future<MeetingResponse> createMeeting(Map<String, dynamic> data) =>
       throw UnimplementedError();
+
+  /// How many times the full update was sent.
+  int updates = 0;
+
   @override
-  Future<MeetingResponse> updateMeeting(int id, Map<String, dynamic> data) =>
-      throw UnimplementedError();
+  Future<MeetingResponse> updateMeeting(int id, Map<String, dynamic> data) {
+    updates++;
+    throw UnimplementedError();
+  }
+
   @override
-  Future<MeetingResponse> completeMeeting(int id) => throw UnimplementedError();
+  Future<MeetingResponse> completeMeeting(int id) async =>
+      meetings.firstWhere((m) => m.id == id).copyWith(completed: true);
+
+  /// What [recordOutcome] throws instead of saving.
+  Object? outcomeFailure;
+
   @override
   Future<MeetingResponse> recordOutcome(
-          int id, ViewingOutcome outcome, String? note) async =>
-      meetings
-          .firstWhere((m) => m.id == id)
-          .copyWith(outcome: outcome, outcomeNote: note, completed: true);
+      int id, ViewingOutcome outcome, String? note) async {
+    if (outcomeFailure case final failure?) throw failure;
+    return meetings
+        .firstWhere((m) => m.id == id)
+        .copyWith(outcome: outcome, outcomeNote: note, completed: true);
+  }
+
   @override
   Future<void> deleteMeeting(int id) => throw UnimplementedError();
 }

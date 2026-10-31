@@ -529,4 +529,17 @@ void main() {
     expect(o.isOn(_now), isTrue);
     expect(o.isOver(DateTime(2026, 10, 4, 15)), isTrue);
   });
+
+  // Moving a 12:00-14:00 slot to 23:00 moved its end to 01:00 the same day,
+  // which the form then refused as ending before it starts.
+  test('moving the start keeps the length, but not past midnight', () {
+    expect(
+        openHouseEndAfterMove(
+            DateTime(2026, 10, 4, 15), const Duration(hours: 2)),
+        const TimeOfDay(hour: 17, minute: 0));
+    expect(
+        openHouseEndAfterMove(
+            DateTime(2026, 10, 4, 23), const Duration(hours: 2)),
+        const TimeOfDay(hour: 23, minute: 59));
+  });
 }

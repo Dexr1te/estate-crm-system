@@ -186,10 +186,19 @@ class ApiClient {
 
   bool _shouldRefresh(DioException e) {
     if (e.response?.statusCode != 401) return false;
-    if (e.requestOptions.path.contains('/auth/')) return false;
+    if (_isCredentialCall(e.requestOptions.path)) return false;
     if (e.requestOptions.extra[_retriedKey] == true) return false;
     return _session.refreshToken != null;
   }
+
+  /// The /auth calls made without a session -- signing in, signing up,
+  /// resetting a password. Their 401 means wrong credentials, not an expired
+  /// token. `/auth/me` is not one of them: reading, editing or deleting your
+  /// own account is an ordinary signed-in call, and a day after signing in its
+  /// token has expired like any other's. Without the refresh, deleting the
+  /// account then failed with "Invalid email or password".
+  static bool _isCredentialCall(String path) =>
+      path.startsWith('/auth/') && path != '/auth/me';
 
   Future<void> _refreshOnce() =>
       _refreshing ??= _performRefresh().whenComplete(() => _refreshing = null);

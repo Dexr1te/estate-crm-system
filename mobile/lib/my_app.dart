@@ -10,6 +10,7 @@ import 'package:real_estate_crm/core/notifications/notification_gateway.dart';
 import 'package:real_estate_crm/core/notifications/push_handler.dart';
 import 'package:real_estate_crm/core/notifications/reminder_sync.dart';
 import 'package:real_estate_crm/core/notifications/reminders_bloc.dart';
+import 'package:real_estate_crm/core/session/session_transitions.dart';
 import 'package:real_estate_crm/core/shortcuts/app_shortcuts.dart';
 import 'package:real_estate_crm/core/shortcuts/open_shortcut.dart';
 import 'package:real_estate_crm/core/theme/app_text_scaling.dart';
@@ -42,6 +43,7 @@ import 'package:real_estate_crm/features/properties/presentation/bloc/properties
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_event.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_state.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/property_cover.dart';
+import 'package:real_estate_crm/features/search/data/recent_searches.dart';
 import 'package:real_estate_crm/features/stars/presentation/bloc/stars_bloc.dart';
 import 'package:real_estate_crm/features/tasks/presentation/bloc/tasks_bloc.dart';
 import 'package:real_estate_crm/features/tasks/presentation/bloc/tasks_event.dart';
@@ -264,8 +266,7 @@ class _MyAppState extends State<MyApp> {
       child: MultiBlocListener(
         listeners: [
           BlocListener<AuthBloc, AuthState>(
-            listenWhen: (prev, curr) =>
-                prev is AuthAuthenticated && curr is! AuthAuthenticated,
+            listenWhen: sessionEnded,
             listener: (_, __) {
               _dashboardBloc.add(DashboardResetEvent());
               _clientsBloc.add(ClientsResetEvent());
@@ -277,6 +278,30 @@ class _MyAppState extends State<MyApp> {
               _meetingsForReminders = const [];
               _unreadPoller.stop();
               Injector.notificationsRepository.clear();
+              PropertyCovers.clear();
+              RecentSearches().clear();
+
+              _notifications.cancelAll();
+            },
+          ),
+          // Leaving an agency, or being taken into one, keeps the session but
+          // changes every record behind it. Without this the old agency's
+          // rows stayed on screen and its meetings kept ringing.
+          BlocListener<AuthBloc, AuthState>(
+            listenWhen: agencyChanged,
+            listener: (_, __) {
+              _dashboardBloc.add(DashboardResetEvent());
+              _clientsBloc.add(ClientsResetEvent());
+              _propertiesBloc.add(PropertiesResetEvent());
+              _dealsBloc.add(DealsResetEvent());
+              _meetingsBloc.add(MeetingsResetEvent());
+              _tasksBloc
+                ..add(TasksResetEvent())
+                ..add(TasksLoadEvent());
+              _starsBloc
+                ..add(StarsResetEvent())
+                ..add(StarsLoadEvent());
+              _meetingsForReminders = const [];
               PropertyCovers.clear();
 
               _notifications.cancelAll();

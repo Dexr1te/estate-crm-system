@@ -48,6 +48,10 @@ class _PropertyFormScreenState extends State<PropertyFormScreen>
   bool _loading = false;
   bool _initLoading = false;
 
+  /// Why the record could not be loaded. The form is not shown then: saved
+  /// blank, it would overwrite the record on the server with nothing.
+  ApiFailure? _recordFailure;
+
   @override
   void initState() {
     super.initState();
@@ -136,7 +140,10 @@ class _PropertyFormScreenState extends State<PropertyFormScreen>
   }
 
   Future<void> _load() async {
-    setState(() => _initLoading = true);
+    setState(() {
+      _initLoading = true;
+      _recordFailure = null;
+    });
     try {
       final p =
           await Injector.propertiesRepository.getProperty(widget.propertyId!);
@@ -159,8 +166,13 @@ class _PropertyFormScreenState extends State<PropertyFormScreen>
         _initLoading = false;
       });
       startDraft();
-    } catch (_) {
-      if (mounted) setState(() => _initLoading = false);
+    } catch (err) {
+      if (mounted) {
+        setState(() {
+          _initLoading = false;
+          _recordFailure = ApiFailure.from(err);
+        });
+      }
     }
   }
 
@@ -228,7 +240,7 @@ class _PropertyFormScreenState extends State<PropertyFormScreen>
     final data = <String, dynamic>{
       'title': _titleCtrl.text.trim(),
       'address': _addressCtrl.text.trim(),
-      'price': _double(_priceCtrl) ?? 0,
+      'price': parseMoneyInput(_priceCtrl.text),
       'type': _type.name,
       'status': _status.name,
       if (_descCtrl.text.trim().isNotEmpty)
@@ -269,6 +281,18 @@ class _PropertyFormScreenState extends State<PropertyFormScreen>
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final t = context.tokens;
+
+    if (_recordFailure case final failure?) {
+      return DetailScaffold(
+        title: l10n.propertiesEditProperty,
+        children: [
+          ErrorWidget2(
+            message: apiFailureLabel(l10n, failure),
+            onRetry: _load,
+          ),
+        ],
+      );
+    }
 
     return BlocListener<PropertiesBloc, PropertiesState>(
       listener: (context, state) {
@@ -384,8 +408,9 @@ class _PropertyFormScreenState extends State<PropertyFormScreen>
                       hint: '12 300 000',
                       keyboardType: TextInputType.number,
                       textInputAction: TextInputAction.next,
-                      validator: (v) => _double(_priceCtrl) == null ||
-                              _double(_priceCtrl)! <= 0
+                      // Grouped the way the number keyboard offers it --
+                      // "1,200,000" -- as the client and deal amounts are.
+                      validator: (v) => parseMoneyInput(_priceCtrl.text) <= 0
                           ? l10n.propertiesFieldRequired(
                               l10n.propertiesPriceLabel)
                           : null,
