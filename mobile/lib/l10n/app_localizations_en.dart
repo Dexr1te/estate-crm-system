@@ -5929,6 +5929,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get teamsSave => 'Save';
 
   @override
+  String get teamsSettings => 'Settings';
+
+  @override
+  String get teamsSettingsAgency => 'Agency';
+
+  @override
+  String get teamsSettingsData => 'Data';
+
+  @override
+  String get teamsSettingsPerformance => 'Performance';
+
+  @override
+  String get teamsStats => 'Team stats';
+
+  @override
   String get teamsStatusPendingInvite => 'Invited';
 
   @override

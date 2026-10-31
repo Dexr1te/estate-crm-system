@@ -5847,6 +5847,21 @@ class AppLocalizationsKk extends AppLocalizations {
   String get teamsSave => 'Сақтау';
 
   @override
+  String get teamsSettings => 'Баптаулар';
+
+  @override
+  String get teamsSettingsAgency => 'Агенттік';
+
+  @override
+  String get teamsSettingsData => 'Деректер';
+
+  @override
+  String get teamsSettingsPerformance => 'Көрсеткіштер';
+
+  @override
+  String get teamsStats => 'Статистика';
+
+  @override
   String get teamsStatusPendingInvite => 'Шақырылған';
 
   @override

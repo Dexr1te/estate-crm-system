@@ -10019,6 +10019,36 @@ abstract class AppLocalizations {
   /// **'Save'**
   String get teamsSave;
 
+  /// No description provided for @teamsSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get teamsSettings;
+
+  /// No description provided for @teamsSettingsAgency.
+  ///
+  /// In en, this message translates to:
+  /// **'Agency'**
+  String get teamsSettingsAgency;
+
+  /// No description provided for @teamsSettingsData.
+  ///
+  /// In en, this message translates to:
+  /// **'Data'**
+  String get teamsSettingsData;
+
+  /// No description provided for @teamsSettingsPerformance.
+  ///
+  /// In en, this message translates to:
+  /// **'Performance'**
+  String get teamsSettingsPerformance;
+
+  /// No description provided for @teamsStats.
+  ///
+  /// In en, this message translates to:
+  /// **'Team stats'**
+  String get teamsStats;
+
   /// No description provided for @teamsStatusPendingInvite.
   ///
   /// In en, this message translates to:

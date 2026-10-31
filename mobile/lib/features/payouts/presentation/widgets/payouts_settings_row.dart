@@ -11,14 +11,12 @@ class PayoutsSettingsRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return SettingsGroup(rows: [
-      SettingsRow(
-        key: const Key('payouts-row'),
-        label: l10n.payoutsTitle,
-        subLabel: l10n.payoutsHint,
-        showChevron: true,
-        onTap: () => context.push('/payouts'),
-      ),
-    ]);
+    return SettingsRow(
+      key: const Key('payouts-row'),
+      label: l10n.payoutsTitle,
+      subLabel: l10n.payoutsHint,
+      showChevron: true,
+      onTap: () => context.push('/payouts'),
+    );
   }
 }
