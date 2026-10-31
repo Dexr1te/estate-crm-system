@@ -11,7 +11,7 @@ import 'package:real_estate_crm/features/change_log/presentation/widgets/change_
 import 'package:real_estate_crm/features/checklist/presentation/widgets/checklist_template_row.dart';
 import 'package:real_estate_crm/features/exports/presentation/widgets/export_console_card.dart';
 import 'package:real_estate_crm/features/goals/presentation/widgets/team_goals_row.dart';
-import 'package:real_estate_crm/features/imports/presentation/widgets/import_entry_card.dart';
+import 'package:real_estate_crm/features/imports/presentation/widgets/import_settings_row.dart';
 import 'package:real_estate_crm/features/leaderboard/presentation/widgets/leaderboard_settings_row.dart';
 import 'package:real_estate_crm/features/message_templates/presentation/widgets/message_templates_row.dart';
 import 'package:real_estate_crm/features/payouts/presentation/widgets/payouts_settings_row.dart';
@@ -214,11 +214,13 @@ class _ManagerConsoleScreenState extends State<ManagerConsoleScreen>
                       padding: EdgeInsets.symmetric(horizontal: pad),
                       child: BlocBuilder<MyTeamBloc, MyTeamState>(
                         builder: (ctx, state) => SegmentedTabs(
+                          key: const ValueKey('console-tabs'),
                           labels: [
                             l10n.teamsMembers,
                             state is MyTeamLoaded && state.pending.isNotEmpty
                                 ? '${l10n.teamsPending} · ${state.pending.length}'
                                 : l10n.teamsPending,
+                            l10n.teamsSettings,
                           ],
                           selectedIndex: _tab,
                           onSelected: (index) => setState(() => _tab = index),
@@ -263,31 +265,36 @@ class _ManagerConsoleScreenState extends State<ManagerConsoleScreen>
                             return const SizedBox.shrink();
                           }
 
+                          final padding = EdgeInsets.fromLTRB(pad, 0, pad,
+                              24 + AppMetrics.navClearance(context));
                           return RefreshIndicator(
                             color: t.primary,
                             onRefresh: () async =>
                                 ctx.read<MyTeamBloc>().add(MyTeamLoadEvent()),
-                            child: _tab == 0
-                                ? _MembersList(
-                                    state: state,
-                                    padding: EdgeInsets.fromLTRB(pad, 0, pad,
-                                        24 + AppMetrics.navClearance(context)),
-                                    onMember: (member) => _memberActions(
-                                        ctx, bloc, state, member),
-                                    onStats: () => showTeamStatsSheet(
-                                        context, state.team.id),
-                                    onCurrency: () => changeAgencyCurrency(
-                                        ctx,
-                                        bloc,
-                                        Currency.fromCode(state.team.currency)),
-                                  )
-                                : _PendingList(
-                                    state: state,
-                                    padding: EdgeInsets.fromLTRB(pad, 0, pad,
-                                        24 + AppMetrics.navClearance(context)),
-                                    onCancel: (request) => bloc.add(
-                                        MyTeamCancelRequestEvent(request.id)),
-                                  ),
+                            child: switch (_tab) {
+                              0 => _MembersList(
+                                  state: state,
+                                  padding: padding,
+                                  onMember: (member) =>
+                                      _memberActions(ctx, bloc, state, member),
+                                  onStats: () => showTeamStatsSheet(
+                                      context, state.team.id),
+                                ),
+                              1 => _PendingList(
+                                  state: state,
+                                  padding: padding,
+                                  onCancel: (request) => bloc.add(
+                                      MyTeamCancelRequestEvent(request.id)),
+                                ),
+                              _ => _SettingsList(
+                                  state: state,
+                                  padding: padding,
+                                  onCurrency: () => changeAgencyCurrency(
+                                      ctx,
+                                      bloc,
+                                      Currency.fromCode(state.team.currency)),
+                                ),
+                            },
                           );
                         },
                       ),
@@ -303,50 +310,29 @@ class _ManagerConsoleScreenState extends State<ManagerConsoleScreen>
   }
 }
 
+/// The team and its people, and nothing else: the agency's tools live under
+/// [_SettingsList].
 class _MembersList extends StatelessWidget {
   final MyTeamLoaded state;
   final EdgeInsetsGeometry padding;
   final ValueChanged<TeamMemberResponse> onMember;
   final VoidCallback onStats;
-  final VoidCallback onCurrency;
 
   const _MembersList({
     required this.state,
     required this.padding,
     required this.onMember,
     required this.onStats,
-    required this.onCurrency,
   });
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final currency = CurrencySettingsRow(
-      current: Currency.fromCode(state.team.currency),
-      onTap: onCurrency,
-    );
     if (state.members.isEmpty) {
       return ListView(
+        key: const ValueKey('console-members'),
         padding: padding,
         children: [
-          const ImportEntryCard(),
-          const SizedBox(height: 9),
-          const ExportConsoleCard(),
-          const SizedBox(height: 9),
-          currency,
-          const SizedBox(height: 9),
-          const ChecklistTemplateSettingsRow(),
-          const SizedBox(height: 9),
-          const MessageTemplatesSettingsRow(),
-          const SizedBox(height: 9),
-          const LeaderboardSettingsRow(),
-          const SizedBox(height: 9),
-          const TeamGoalsSettingsRow(),
-          const SizedBox(height: 9),
-          const PayoutsSettingsRow(),
-          const SizedBox(height: 9),
-          const ChangeLogSettingsRow(),
-          const SizedBox(height: 9),
           EmptyState(
             title: l10n.teamsNoMembers,
             subtitle: l10n.teamsNoMembersBody,
@@ -356,34 +342,85 @@ class _MembersList extends StatelessWidget {
       );
     }
     return ListView.separated(
+      key: const ValueKey('console-members'),
       padding: padding,
-      itemCount: state.members.length + 10,
+      itemCount: state.members.length + 1,
       separatorBuilder: (_, __) => const SizedBox(height: 9),
       itemBuilder: (_, i) {
-        if (i == 0) return const ImportEntryCard();
-        if (i == 1) return const ExportConsoleCard();
-        if (i == 2) return currency;
-        if (i == 3) return const ChecklistTemplateSettingsRow();
-        if (i == 4) return const MessageTemplatesSettingsRow();
-        if (i == 5) return const LeaderboardSettingsRow();
-        if (i == 6) return const TeamGoalsSettingsRow();
-        if (i == 7) return const PayoutsSettingsRow();
-        if (i == 8) {
+        if (i == 0) {
           return SectionHeader(
             title: l10n.teamsMembers,
-            actionLabel: l10n.teamsAgents,
+            actionLabel: l10n.teamsStats,
             onAction: onStats,
           );
         }
-        if (i == state.members.length + 9) {
-          return const ChangeLogSettingsRow();
-        }
-        final member = state.members[i - 9];
+        final member = state.members[i - 1];
         return MemberCard(
           member: member,
           onTap: member.isTeamManager ? null : () => onMember(member),
         );
       },
+    );
+  }
+}
+
+/// How the agency is set up, how it is doing, and its records in and out.
+class _SettingsList extends StatelessWidget {
+  final MyTeamLoaded state;
+  final EdgeInsetsGeometry padding;
+  final VoidCallback onCurrency;
+
+  const _SettingsList({
+    required this.state,
+    required this.padding,
+    required this.onCurrency,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final gap = SizedBox(height: AppMetrics.blockGap(context));
+    return ListView(
+      key: const ValueKey('console-settings'),
+      padding: padding,
+      children: [
+        SettingsSection(
+          label: l10n.teamsSettingsAgency,
+          child: SettingsGroup(rows: [
+            CurrencySettingsRow(
+              current: Currency.fromCode(state.team.currency),
+              onTap: onCurrency,
+            ),
+            const ChecklistTemplateSettingsRow(),
+            const MessageTemplatesSettingsRow(),
+          ]),
+        ),
+        gap,
+        SettingsSection(
+          label: l10n.teamsSettingsPerformance,
+          child: const SettingsGroup(rows: [
+            TeamGoalsSettingsRow(),
+            LeaderboardSettingsRow(),
+            PayoutsSettingsRow(),
+          ]),
+        ),
+        gap,
+        SettingsSection(
+          label: l10n.teamsSettingsData,
+          child: const Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SettingsGroup(rows: [
+                ImportSettingsRow(),
+                ChangeLogSettingsRow(),
+              ]),
+              SizedBox(height: 9),
+              ExportConsoleCard(),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

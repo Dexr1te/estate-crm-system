@@ -356,6 +356,9 @@ class AppLocalizationsKk extends AppLocalizations {
   String get authHaveAnInvite => 'Шақыруыңыз бар ма?';
 
   @override
+  String get authHidePassword => 'Құпия сөзді жасыру';
+
+  @override
   String get authInviteCode => 'Шақыру коды';
 
   @override
@@ -470,6 +473,9 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get authSetPasswordSignIn => 'Құпиясөз қойып, кіру';
+
+  @override
+  String get authShowPassword => 'Құпия сөзді көрсету';
 
   @override
   String get authSignIn => 'Кіру';
@@ -1762,6 +1768,12 @@ class AppLocalizationsKk extends AppLocalizations {
   String get compareShareIntro => 'Нысандарды салыстыру:';
 
   @override
+  String get compareStart => 'Нысандарды салыстыру';
+
+  @override
+  String get compareStop => 'Салыстыруды аяқтау';
+
+  @override
   String get compareTitle => 'Салыстыру';
 
   @override
@@ -2714,9 +2726,6 @@ class AppLocalizationsKk extends AppLocalizations {
   String get documentsUploading => 'Жіберілуде…';
 
   @override
-  String get exportAction => 'Экспорт';
-
-  @override
   String get exportAllNote => 'Сізге қолжетімдінің бәрі, сүзгісіз.';
 
   @override
@@ -2774,6 +2783,9 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get exportTitleProperties => 'Нысандарды экспорттау';
+
+  @override
+  String get exportToSpreadsheet => 'Кестеге экспорттау';
 
   @override
   String get exportTooMany =>
@@ -5840,6 +5852,21 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get teamsSave => 'Сақтау';
+
+  @override
+  String get teamsSettings => 'Баптаулар';
+
+  @override
+  String get teamsSettingsAgency => 'Агенттік';
+
+  @override
+  String get teamsSettingsData => 'Деректер';
+
+  @override
+  String get teamsSettingsPerformance => 'Көрсеткіштер';
+
+  @override
+  String get teamsStats => 'Статистика';
 
   @override
   String get teamsStatusPendingInvite => 'Шақырылған';

@@ -11,6 +11,9 @@ import 'package:real_estate_crm/features/auth/presentation/bloc/auth_state.dart'
 import 'package:real_estate_crm/features/exports/presentation/widgets/export_sheet.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
+/// What an export is drawn with everywhere it is offered.
+const kExportIcon = Icons.file_download_outlined;
+
 /// Only managers and admins take the book out; the server refuses anyone
 /// else, and the action is not offered to them.
 bool canExport(BuildContext context) => context.isAdminOrManager;
@@ -67,6 +70,8 @@ Future<void> runExport(
 }
 
 /// The header action of a list screen: exports what the list shows now.
+/// A download glyph, not the share one: what it makes is a spreadsheet, and
+/// the share sheet only appears once the file is ready.
 class ExportButton extends StatefulWidget {
   final ExportKind kind;
   final ExportFilters filters;
@@ -91,11 +96,11 @@ class _ExportButtonState extends State<ExportButton> {
         child: Semantics(
       button: true,
       enabled: !_busy,
-      label: l10n.exportAction,
+      label: l10n.exportToSpreadsheet,
       child: AppIconTile(
         key: ValueKey('export-${widget.kind.path}'),
-        icon: _busy ? Icons.hourglass_top_rounded : Icons.ios_share_rounded,
-        tooltip: l10n.exportAction,
+        icon: _busy ? Icons.hourglass_top_rounded : kExportIcon,
+        tooltip: l10n.exportToSpreadsheet,
         onPressed: () {
           if (_busy) return;
           runExport(context,

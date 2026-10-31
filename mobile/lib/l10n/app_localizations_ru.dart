@@ -357,6 +357,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get authHaveAnInvite => 'Есть приглашение?';
 
   @override
+  String get authHidePassword => 'Скрыть пароль';
+
+  @override
   String get authInviteCode => 'Код приглашения';
 
   @override
@@ -471,6 +474,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get authSetPasswordSignIn => 'Задать пароль и войти';
+
+  @override
+  String get authShowPassword => 'Показать пароль';
 
   @override
   String get authSignIn => 'Войти';
@@ -1806,6 +1812,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get compareShareIntro => 'Сравнение объектов:';
 
   @override
+  String get compareStart => 'Сравнить объекты';
+
+  @override
+  String get compareStop => 'Закончить сравнение';
+
+  @override
   String get compareTitle => 'Сравнение';
 
   @override
@@ -2777,9 +2789,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get documentsUploading => 'Отправляем…';
 
   @override
-  String get exportAction => 'Экспорт';
-
-  @override
   String get exportAllNote => 'Всё, что вам доступно, без фильтров.';
 
   @override
@@ -2837,6 +2846,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get exportTitleProperties => 'Экспорт объектов';
+
+  @override
+  String get exportToSpreadsheet => 'Экспорт в таблицу';
 
   @override
   String get exportTooMany =>
@@ -6015,6 +6027,21 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get teamsSave => 'Сохранить';
+
+  @override
+  String get teamsSettings => 'Настройки';
+
+  @override
+  String get teamsSettingsAgency => 'Агентство';
+
+  @override
+  String get teamsSettingsData => 'Данные';
+
+  @override
+  String get teamsSettingsPerformance => 'Показатели';
+
+  @override
+  String get teamsStats => 'Статистика';
 
   @override
   String get teamsStatusPendingInvite => 'Приглашён';

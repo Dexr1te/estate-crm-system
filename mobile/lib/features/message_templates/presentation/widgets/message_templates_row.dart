@@ -10,14 +10,12 @@ class MessageTemplatesSettingsRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return SettingsGroup(rows: [
-      SettingsRow(
-        key: const Key('message-templates-row'),
-        label: l10n.templatesTitle,
-        subLabel: l10n.templatesHint,
-        showChevron: true,
-        onTap: () => context.push('/message-templates'),
-      ),
-    ]);
+    return SettingsRow(
+      key: const Key('message-templates-row'),
+      label: l10n.templatesTitle,
+      subLabel: l10n.templatesHint,
+      showChevron: true,
+      onTap: () => context.push('/message-templates'),
+    );
   }
 }

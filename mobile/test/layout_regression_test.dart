@@ -33,7 +33,13 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byKey(const ValueKey('quick-add')), findsNothing);
-      expect(find.byType(AppHeaderAction), findsNothing);
+      // Compare may be spelt out as a header action where it fits; nothing
+      // else may be.
+      expect(
+          find.byWidgetPredicate((w) =>
+              w is AppHeaderAction &&
+              w.key != const ValueKey('properties-compare')),
+          findsNothing);
       expect(find.byIcon(Icons.add_rounded), findsNothing);
     }
 

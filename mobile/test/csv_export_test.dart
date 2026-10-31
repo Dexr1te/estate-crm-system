@@ -13,6 +13,7 @@ import 'package:real_estate_crm/features/clients/presentation/bloc/clients_bloc.
 import 'package:real_estate_crm/features/clients/presentation/screens/clients_screen.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_bloc.dart';
 import 'package:real_estate_crm/features/deals/presentation/screens/deals_screen.dart';
+import 'package:real_estate_crm/features/exports/presentation/widgets/export_button.dart';
 import 'package:real_estate_crm/features/exports/presentation/widgets/export_console_card.dart';
 import 'package:real_estate_crm/features/exports/presentation/widgets/export_sheet.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_bloc.dart';
@@ -112,6 +113,62 @@ void main() {
         expect(find.byKey(const ValueKey('export-deals')), findsOneWidget);
       }
     });
+
+    testWidgets(
+        'it says it makes a spreadsheet, and does not look like '
+        'sharing', (tester) async {
+      for (final (screen, kind) in [
+        (_clients(_manager), 'clients'),
+        (_properties(_manager), 'properties'),
+        (_deals(_manager), 'deals'),
+      ]) {
+        await _pump(tester, screen);
+        final button = find.byKey(ValueKey('export-$kind'));
+        expect(
+            find.descendant(
+                of: button,
+                matching: find.byTooltip('Export to a spreadsheet')),
+            findsOneWidget,
+            reason: kind);
+        expect(find.descendant(of: button, matching: find.byIcon(kExportIcon)),
+            findsOneWidget,
+            reason: kind);
+        expect(find.byIcon(Icons.ios_share_rounded), findsNothing,
+            reason: 'the share glyph reads as "send this listing", $kind');
+      }
+
+      await _pump(tester, _deals(_manager), locale: const Locale('kk'));
+      expect(find.byTooltip('Кестеге экспорттау'), findsOneWidget);
+    });
+
+    // The export button sits beside the title on all three lists, and on
+    // properties beside Compare too: the narrowest phone, the largest text,
+    // the longest language.
+    for (final locale in kAcceptanceLocales) {
+      for (final scale in const [1.3, 1.5]) {
+        testWidgets(
+            'the headers hold at 320 pt, ${scale}x, ${locale.languageCode}',
+            (tester) async {
+          for (final (screen, kind) in [
+            (_clients(_manager), 'clients'),
+            (_properties(_manager), 'properties'),
+            (_deals(_manager), 'deals'),
+          ]) {
+            await expectNoOverflow(tester, screen,
+                size: const Size(320, 568),
+                brightness: Brightness.light,
+                textScale: scale,
+                locale: locale);
+            await tester.pumpAndSettle();
+            expect(tester.takeException(), isNull, reason: kind);
+            final button = tester.getRect(find.byKey(ValueKey('export-$kind')));
+            expect(button.right, lessThanOrEqualTo(320), reason: kind);
+            expect(button.width, greaterThanOrEqualTo(AppMetrics.minHitTarget),
+                reason: kind);
+          }
+        });
+      }
+    }
 
     testWidgets('the console card is a manager\'s only', (tester) async {
       await _pump(

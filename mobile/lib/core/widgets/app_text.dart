@@ -4,6 +4,7 @@ import 'package:real_estate_crm/core/theme/app_tokens.dart';
 import 'package:real_estate_crm/core/widgets/app_surface.dart';
 import 'package:real_estate_crm/core/widgets/hit_slop.dart';
 import 'package:real_estate_crm/core/widgets/row_chevron.dart';
+import 'package:real_estate_crm/core/widgets/text_measure.dart';
 
 const _sectionLink = #sectionHeaderLink;
 
@@ -163,6 +164,22 @@ class ScreenTitle extends StatelessWidget {
     this.trailing,
   });
 
+  static const _headingStyle = TextStyle(
+    fontFamily: AppFonts.sans,
+    fontSize: 28,
+    height: 1.1,
+    fontWeight: FontWeight.w700,
+    letterSpacing: -0.8,
+  );
+  static const _trailingGap = 12.0;
+
+  /// The width left for [trailing] in a header [width] wide once [title] is
+  /// set in full on one line: for a header that spells its action out only
+  /// where that does not squeeze the title.
+  static double trailingRoom(
+          BuildContext context, String title, double width) =>
+      width - _trailingGap - singleLineTextWidth(context, title, _headingStyle);
+
   @override
   Widget build(BuildContext context) {
     final t = context.tokens;
@@ -170,14 +187,7 @@ class ScreenTitle extends StatelessWidget {
       title,
       maxLines: 2,
       overflow: TextOverflow.ellipsis,
-      style: TextStyle(
-        fontFamily: AppFonts.sans,
-        fontSize: 28,
-        height: 1.1,
-        fontWeight: FontWeight.w700,
-        letterSpacing: -0.8,
-        color: t.textPrimary,
-      ),
+      style: _headingStyle.copyWith(color: t.textPrimary),
     );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -188,7 +198,7 @@ class ScreenTitle extends StatelessWidget {
           Row(
             children: [
               Expanded(child: heading),
-              const SizedBox(width: 12),
+              const SizedBox(width: _trailingGap),
               trailing!,
             ],
           ),

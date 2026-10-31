@@ -64,7 +64,10 @@ class TeamCard extends StatelessWidget {
           ),
           if (onEdit != null)
             AppIconTile(
-                icon: Icons.edit_outlined, alignEnd: true, onPressed: onEdit!)
+                icon: Icons.edit_outlined,
+                alignEnd: true,
+                tooltip: l10n.teamsEditTeam,
+                onPressed: onEdit!)
           else ...[
             const SizedBox(width: 8),
             const RowChevron(),
