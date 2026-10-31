@@ -93,12 +93,19 @@ const _buyer = ClientResponse(
   notes: 'Ready to close in August, mortgage pre-approved.',
 );
 
+const _seller = ClientResponse(
+  id: 2,
+  fullName: 'Pavel Sergeevich Orlov',
+  phone: '+7 916 555-12-12',
+  type: ClientType.SELLER,
+);
+
 void _installFakes() {
   Injector.propertiesRepository =
       FakePropertiesRepository(const [_listing, _otherListing]);
   Injector.dealsRepository = FakeDealsRepository([_deal, _lostDeal]);
   Injector.clientsRepository = FakeClientsRepository(
-    clients: const [_buyer],
+    clients: const [_buyer, _seller],
     matches: const [PropertyMatch(property: _listing)],
   );
   Injector.documentsRepository = FakeDocumentsRepository();
@@ -141,13 +148,26 @@ void _expectHidden(List<Type> types, String why) {
   }
 }
 
-Widget _section(String memoryKey) => MaterialApp(
+/// What the line under "More" says, word for word.
+String _summary(WidgetTester tester) =>
+    tester.widget<Text>(find.byKey(MoreSection.summaryKey)).data!;
+
+/// Where [finder]'s first match starts down the page, laid out or not.
+double _top(Finder finder) =>
+    (finder.evaluate().first.renderObject! as RenderBox)
+        .localToGlobal(Offset.zero)
+        .dy;
+
+Finder _label(String text) => find.text(text, skipOffstage: false);
+
+Widget _section(String memoryKey, {List<String> summary = const []}) =>
+    MaterialApp(
       theme: AppTheme.light,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       home: Scaffold(
         body: ListView(children: [
-          MoreSection(memoryKey: memoryKey, children: const [
+          MoreSection(memoryKey: memoryKey, summary: summary, children: const [
             Text('first secondary', maxLines: 1),
             Text('second secondary', maxLines: 1),
           ]),
@@ -217,6 +237,42 @@ void main() {
           reason: 'another kind of screen keeps its own state');
     });
 
+    testWidgets('names what it holds under the toggle, folded or open',
+        (tester) async {
+      await tester.pumpWidget(
+          _section('a', summary: const ['Offers', 'Partners', 'History']));
+
+      expect(find.text('Offers · Partners · History'), findsOneWidget);
+      expect(_top(find.byKey(MoreSection.summaryKey)),
+          greaterThan(_top(find.text('More'))),
+          reason: 'the names sit under "More", not beside it');
+
+      await tester.tap(find.byKey(MoreSection.summaryKey));
+      await tester.pumpAndSettle();
+      expect(find.text('first secondary'), findsOneWidget,
+          reason: 'the names are part of the toggle');
+      expect(find.text('Offers · Partners · History'), findsOneWidget);
+    });
+
+    testWidgets('a long list of names stops at two lines', (tester) async {
+      tester.view.physicalSize = const Size(320, 568);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.reset);
+      await tester.pumpWidget(_section('a',
+          summary: List.filled(12, 'A section with a long name')));
+
+      final line = tester.widget<Text>(find.byKey(MoreSection.summaryKey));
+      expect(line.maxLines, 2);
+      expect(line.overflow, TextOverflow.ellipsis);
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('without names it is the one line it always was',
+        (tester) async {
+      await tester.pumpWidget(_section('a'));
+      expect(find.byKey(MoreSection.summaryKey), findsNothing);
+    });
+
     testWidgets('with nothing to hide it draws nothing', (tester) async {
       await tester.pumpWidget(const MaterialApp(
         localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -245,7 +301,9 @@ void main() {
       expect(find.text('BUYERS LOOKING FOR THIS', skipOffstage: false),
           findsOneWidget);
       expect(find.text('VIEWINGS', skipOffstage: false), findsOneWidget);
-      expect(find.byKey(const ValueKey('property-brochure')), findsOneWidget);
+      expect(
+          find.byKey(const ValueKey('property-brochure'), skipOffstage: false),
+          findsOneWidget);
       _expectHidden(secondary, 'waits under More');
       expect(find.byKey(const ValueKey('change-history'), skipOffstage: false),
           findsNothing);
@@ -255,6 +313,43 @@ void main() {
       _expectShown(secondary, 'is one tap away');
       expect(find.byKey(const ValueKey('change-history'), skipOffstage: false),
           findsOneWidget);
+    });
+
+    testWidgets('says what waits under More, and only that', (tester) async {
+      await _open(tester, const PropertyDetailScreen(id: 7));
+
+      expect(
+          _summary(tester),
+          'Mortgage · Public link · Keys · Open houses · Expenses · '
+          'History of changes');
+    });
+
+    testWidgets('photos and facts come first, then what goes out',
+        (tester) async {
+      await _open(tester, const PropertyDetailScreen(id: 7));
+
+      final share =
+          find.byKey(const ValueKey('property-share'), skipOffstage: false);
+      expect(share, findsOneWidget);
+      for (final key in const [
+        'property-brochure',
+        'property-seller-report',
+        'compare-tray-toggle',
+      ]) {
+        expect(
+            find.descendant(
+                of: share,
+                matching: find.byKey(ValueKey(key), skipOffstage: false)),
+            findsOneWidget,
+            reason: '$key is one of the card\'s rows');
+      }
+      expect(
+          _top(share),
+          greaterThan(
+              _top(find.byType(PropertyPhotosCard, skipOffstage: false))));
+      expect(_top(share), greaterThan(_top(_label('DETAILS'))));
+      expect(_top(share), greaterThan(_top(_label('DESCRIPTION'))));
+      expect(_top(share), lessThan(_top(_label('STATUS'))));
     });
 
     testWidgets('opens the next listing the way the last one was left',
@@ -274,7 +369,6 @@ void main() {
 
   group('a deal', () {
     const secondary = [
-      DealChecklistCard,
       DealLeaseCard,
       DealCommissionSplitCard,
       DealDepositCard,
@@ -284,22 +378,57 @@ void main() {
         (tester) async {
       await _open(tester, const DealDetailScreen(id: 1));
 
-      _expectShown([RecordTasksCard, DealDocumentsCard, DealDiscussionCard],
-          'is daily work');
+      _expectShown([
+        DealChecklistCard,
+        RecordTasksCard,
+        DealDocumentsCard,
+        DealDiscussionCard,
+      ], 'is daily work');
       expect(
           find.text('PEOPLE & PROPERTY', skipOffstage: false), findsOneWidget);
       expect(find.text('PIPELINE STAGE', skipOffstage: false), findsOneWidget);
+      expect(find.text('NOTES', skipOffstage: false), findsOneWidget);
       _expectHidden(secondary, 'waits under More');
       expect(find.text('COMMISSION', skipOffstage: false), findsNothing);
-      expect(find.text('NOTES', skipOffstage: false), findsNothing);
       expect(find.text('TIMELINE', skipOffstage: false), findsNothing);
 
       await _openMoreAndSettle(tester);
 
       _expectShown(secondary, 'is one tap away');
       expect(find.text('COMMISSION', skipOffstage: false), findsOneWidget);
-      expect(find.text('NOTES', skipOffstage: false), findsOneWidget);
       expect(find.text('TIMELINE', skipOffstage: false), findsOneWidget);
+    });
+
+    testWidgets('the checklist a stage move warns about sits under the stage',
+        (tester) async {
+      await _open(tester, const DealDetailScreen(id: 1));
+
+      final checklist = _anywhere(DealChecklistCard);
+      expect(_top(checklist), greaterThan(_top(_label('PIPELINE STAGE'))));
+      expect(_top(checklist), lessThan(_top(_label('PEOPLE & PROPERTY'))));
+      expect(
+          _top(_label('NOTES')), greaterThan(_top(_label('PEOPLE & PROPERTY'))),
+          reason: 'the notes follow the people they are about');
+      expect(find.byKey(MoreSection.contentKey), findsNothing);
+    });
+
+    testWidgets('says what waits under More, and only that', (tester) async {
+      await _open(tester, const DealDetailScreen(id: 1));
+      expect(
+          _summary(tester),
+          'Lease · Commission · Commission split · Deposit · Timeline · '
+          'History of changes');
+
+      await tester.pumpWidget(const SizedBox());
+      await _open(tester, const DealDetailScreen(id: 2));
+      expect(_summary(tester),
+          'Commission split · Deposit · Timeline · History of changes',
+          reason: 'a sale with no commission set has no lease or commission');
+    });
+
+    testWidgets('the edit button says what it does', (tester) async {
+      await _open(tester, const DealDetailScreen(id: 1));
+      expect(find.byTooltip('Edit deal'), findsOneWidget);
     });
 
     testWidgets('a lost deal says why on top, without More', (tester) async {
@@ -325,15 +454,46 @@ void main() {
       expect(find.text('CONTACT', skipOffstage: false), findsOneWidget);
       expect(find.text('DEALS', skipOffstage: false), findsOneWidget);
       _expectHidden(secondary, 'waits under More');
-      expect(find.text('MATCHING LISTINGS', skipOffstage: false), findsNothing);
-      expect(find.text('NOTES', skipOffstage: false), findsNothing);
 
       await _openMoreAndSettle(tester);
 
       _expectShown(secondary, 'is one tap away');
+    });
+
+    testWidgets('what was written about them shows without opening More',
+        (tester) async {
+      await _open(tester, const ClientDetailScreen(id: 1));
+
+      expect(_label('NOTES'), findsOneWidget);
+      expect(_label('Ready to close in August, mortgage pre-approved.'),
+          findsOneWidget);
+      expect(_top(_label('NOTES')), greaterThan(_top(_label('CONTACT'))));
+      expect(_top(_label('NOTES')), lessThan(_top(_label('HISTORY'))),
+          reason: 'the notes follow the contact card');
+      expect(find.byKey(MoreSection.contentKey), findsNothing);
+    });
+
+    testWidgets('a buyer\'s matches show without opening More', (tester) async {
+      await _open(tester, const ClientDetailScreen(id: 1));
+
+      expect(_label('MATCHING LISTINGS'), findsOneWidget);
+      expect(_label(_listing.title), findsWidgets);
       expect(
-          find.text('MATCHING LISTINGS', skipOffstage: false), findsOneWidget);
-      expect(find.text('NOTES', skipOffstage: false), findsOneWidget);
+          _top(_label('MATCHING LISTINGS')), greaterThan(_top(_label('DEALS'))),
+          reason: 'the matches follow the deals');
+      expect(find.byKey(MoreSection.contentKey), findsNothing);
+    });
+
+    testWidgets('says what waits under More, and only that', (tester) async {
+      await _open(tester, const ClientDetailScreen(id: 1));
+      expect(_summary(tester), 'Offers · Partners · History of changes');
+
+      await tester.pumpWidget(const SizedBox());
+      await _open(tester, const ClientDetailScreen(id: 2));
+      expect(_summary(tester), 'Partners · History of changes',
+          reason: 'offers are a buyer\'s');
+      expect(_label('MATCHING LISTINGS'), findsNothing);
+      expect(_label('NOTES'), findsNothing);
     });
   });
 

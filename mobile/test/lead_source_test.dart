@@ -232,6 +232,16 @@ void main() {
     expect(sent['leadSourceDetail'], isNull);
   });
 
+  testWidgets('a new client is confirmed in plain words, without its ID',
+      (tester) async {
+    await _pumpRouted(tester, '/clients/new');
+    await tester.enterText(find.byType(TextField).first, 'Dana Omarova');
+    await _tapVisible(tester, find.text('Create client'));
+
+    expect(find.text('Client created'), findsOneWidget);
+    expect(find.textContaining('(ID:'), findsNothing);
+  });
+
   testWidgets('editing loads the source, and "Not recorded" clears it',
       (tester) async {
     await _pumpRouted(tester, '/clients/2/edit');

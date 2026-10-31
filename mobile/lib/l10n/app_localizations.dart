@@ -1876,12 +1876,6 @@ abstract class AppLocalizations {
   /// **'Buyer'**
   String get clientsBuyer;
 
-  /// No description provided for @clientsClientCreatedId.
-  ///
-  /// In en, this message translates to:
-  /// **'Client created (ID: {id})'**
-  String clientsClientCreatedId(Object id);
-
   /// No description provided for @clientsClientFallback.
   ///
   /// In en, this message translates to:
@@ -8537,12 +8531,6 @@ abstract class AppLocalizations {
   /// **'Property'**
   String get propertiesProperty;
 
-  /// No description provided for @propertiesPropertyCreated.
-  ///
-  /// In en, this message translates to:
-  /// **'Property created (ID: {id})'**
-  String propertiesPropertyCreated(Object id);
-
   /// No description provided for @propertiesPropertyIdCopied.
   ///
   /// In en, this message translates to:
@@ -8734,6 +8722,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Address, complex, ID…'**
   String get propertiesSearchHintFull;
+
+  /// No description provided for @propertiesShareTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Share and send'**
+  String get propertiesShareTitle;
 
   /// No description provided for @propertiesStatus.
   ///

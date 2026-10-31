@@ -1001,11 +1001,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get clientsBuyer => 'Покупатель';
 
   @override
-  String clientsClientCreatedId(Object id) {
-    return 'Клиент создан (ID: $id)';
-  }
-
-  @override
   String get clientsClientFallback => 'Клиент';
 
   @override
@@ -5144,11 +5139,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get propertiesProperty => 'Объект';
 
   @override
-  String propertiesPropertyCreated(Object id) {
-    return 'Объект создан (ID: $id)';
-  }
-
-  @override
   String get propertiesPropertyIdCopied => 'ID объекта скопирован';
 
   @override
@@ -5261,6 +5251,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get propertiesSearchHintFull => 'Адрес, ЖК, ID…';
+
+  @override
+  String get propertiesShareTitle => 'Поделиться и отправить';
 
   @override
   String get propertiesStatus => 'Статус';

@@ -309,6 +309,20 @@ void main() {
       expect(sent['longitude'], greaterThan(76.8897));
     });
 
+    testWidgets('a new listing is confirmed in plain words, without its ID',
+        (tester) async {
+      _install();
+      await _pumpRouted(tester, '/properties/new');
+      await tester.enterText(find.byType(TextFormField).at(0), 'Plain flat');
+      await tester.enterText(find.byType(TextFormField).at(1), '30000000');
+      await tester.enterText(find.byType(TextFormField).at(3), 'Abaya 10');
+      await submit(tester, 'Create property');
+
+      expect(_repo.sent['create'], isNotNull);
+      expect(find.text('Property created'), findsOneWidget);
+      expect(find.textContaining('(ID:'), findsNothing);
+    });
+
     testWidgets('an edit opens on the saved pin, and clearing it sends nulls',
         (tester) async {
       _install();

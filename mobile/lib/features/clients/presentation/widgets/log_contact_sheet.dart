@@ -29,6 +29,9 @@ String contactWhenLabel(AppLocalizations l10n, ContactWhen when) =>
 /// in the future than this has not happened yet.
 const _clockSkew = Duration(minutes: 5);
 
+/// [onDelete], given for an entry being corrected, offers its removal too.
+/// It runs once the sheet has closed, so its confirmation and any failure
+/// are said over the screen rather than under the sheet.
 Future<bool> showLogContactSheet(
   BuildContext context, {
   required LogContactSave onSave,
@@ -37,19 +40,28 @@ Future<bool> showLogContactSheet(
   String? initialNote,
   String? title,
   String? subtitle,
+  VoidCallback? onDelete,
 }) async {
   final l10n = AppLocalizations.of(context);
+  var deleting = false;
   final saved = await showAppBottomSheet<bool>(
     context,
     title: title ?? l10n.clientsLogContact,
     subtitle: subtitle,
-    builder: (_) => LogContactForm(
+    builder: (sheet) => LogContactForm(
       onSave: onSave,
       initialType: initialType,
       initialOccurredAt: initialOccurredAt,
       initialNote: initialNote,
+      onDelete: onDelete == null
+          ? null
+          : () {
+              deleting = true;
+              Navigator.pop(sheet, false);
+            },
     ),
   );
+  if (deleting) onDelete!();
   return saved ?? false;
 }
 
@@ -63,12 +75,16 @@ class LogContactForm extends StatefulWidget {
   final DateTime? initialOccurredAt;
   final String? initialNote;
 
+  /// Removes the entry being corrected; without it there is no such button.
+  final VoidCallback? onDelete;
+
   const LogContactForm({
     super.key,
     required this.onSave,
     this.initialType = ActivityType.CALL,
     this.initialOccurredAt,
     this.initialNote,
+    this.onDelete,
   });
 
   @override
@@ -270,6 +286,16 @@ class _LogContactFormState extends State<LogContactForm> {
             loading: _saving,
             onPressed: _submit,
           ),
+          if (widget.onDelete != null) ...[
+            const SizedBox(height: 8),
+            AppGhostButton(
+              key: const ValueKey('contact-delete'),
+              label: l10n.clientsActivityRemove,
+              icon: Icons.delete_outline_rounded,
+              onPressed: _saving ? null : widget.onDelete,
+              labelColor: t.dangerText,
+            ),
+          ],
         ],
       ),
     );

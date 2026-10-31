@@ -246,6 +246,35 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
       );
     }
 
+    final more = <(String, Widget)>[
+      if (deal.kind == DealKind.rent)
+        (
+          l10n.leasesTitle,
+          DealLeaseCard(
+            deal: deal,
+            onRenewed: (renewed) {
+              setState(() => _d = renewed);
+              _comments.add(DealCommentsLoadEvent());
+            },
+          ),
+        ),
+      if (deal.commissionPercent != null)
+        (l10n.dealsCommission, _CommissionCard(deal: deal)),
+      (l10n.splitsTitle, const DealCommissionSplitCard()),
+      (
+        l10n.depositsTitle,
+        DealDepositCard(
+          deal: deal,
+          onSaved: () => _comments.add(DealCommentsLoadEvent()),
+        ),
+      ),
+      (l10n.dealsTimeline, _TimelineCard(deal: deal)),
+      (
+        l10n.changeLogTitle,
+        ChangeHistoryButton(location: '/deals/${widget.id}/changes'),
+      ),
+    ];
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -283,6 +312,7 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
               ...detailActions(
                 onEdit: () => context.push('/deals/${widget.id}/edit'),
                 onDelete: context.isAdminOrManager ? _delete : null,
+                editTooltip: l10n.dealsEditTitle,
                 deleteTooltip: l10n.dealsDeleteTitle,
               ),
             ],
@@ -291,35 +321,18 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
               _StageCard(status: deal.status, onChanged: _updateStatus),
               if (deal.status == DealStatus.CLOSED_LOST)
                 _LostReasonCard(deal: deal),
+              DealChecklistCard(deal: deal),
               _ParticipantsCard(deal: deal),
+              if (deal.notes != null && deal.notes!.trim().isNotEmpty)
+                _NotesCard(text: deal.notes!),
               RecordTasksCard(deal: PickerItem(id: deal.id, title: deal.title)),
               const DealDocumentsCard(),
               DealDiscussionCard(
                   key: _discussionKey, dealId: deal.id, bloc: _comments),
               MoreSection(
                 memoryKey: 'deal-detail',
-                children: [
-                  DealChecklistCard(deal: deal),
-                  if (deal.kind == DealKind.rent)
-                    DealLeaseCard(
-                      deal: deal,
-                      onRenewed: (renewed) {
-                        setState(() => _d = renewed);
-                        _comments.add(DealCommentsLoadEvent());
-                      },
-                    ),
-                  if (deal.commissionPercent != null)
-                    _CommissionCard(deal: deal),
-                  const DealCommissionSplitCard(),
-                  DealDepositCard(
-                    deal: deal,
-                    onSaved: () => _comments.add(DealCommentsLoadEvent()),
-                  ),
-                  if (deal.notes != null && deal.notes!.trim().isNotEmpty)
-                    _NotesCard(text: deal.notes!),
-                  _TimelineCard(deal: deal),
-                  ChangeHistoryButton(location: '/deals/${widget.id}/changes'),
-                ],
+                summary: [for (final (title, _) in more) title],
+                children: [for (final (_, card) in more) card],
               ),
             ],
           ),

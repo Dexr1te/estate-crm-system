@@ -363,7 +363,8 @@ class _ClientFormScreenState extends State<ClientFormScreen>
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(SnackBar(
-                content: Text(l10n.clientsClientCreatedId(state.client.id))));
+                content: Text(
+                    actionMessageLabel(l10n, ActionMessage.clientCreated))));
           context.go('/clients');
         }
         if (state is ClientsActionFailure) {

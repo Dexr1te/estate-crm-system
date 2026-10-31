@@ -228,6 +228,45 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
       );
     }
 
+    final more = <(String, Widget)>[
+      if (listingPoint(p) != null)
+        (l10n.propertiesLocation, PropertyLocationPreview(property: p)),
+      if (hasPriceCheck(_priceInsight))
+        (
+          l10n.propertiesPriceCheck,
+          PropertyPriceCheckCard(insight: _priceInsight!),
+        ),
+      if (_priceHistory.isNotEmpty)
+        (
+          l10n.propertiesPriceHistory,
+          PropertyPriceHistoryCard(changes: _priceHistory),
+        ),
+      if (p.price > 0)
+        (
+          l10n.mortgageTitle,
+          PropertyMortgageCard(
+              propertyId: p.id, price: p.price, title: p.title),
+        ),
+      (
+        l10n.propertiesLink,
+        PropertyShareLinkCard(
+          propertyId: widget.id,
+          title: p.title,
+          canRevoke: _canRevokeLink(p),
+        ),
+      ),
+      (l10n.keysCardTitle, PropertyKeysCard(propertyId: widget.id)),
+      (
+        l10n.openHousesCardTitle,
+        PropertyOpenHousesCard(propertyId: widget.id),
+      ),
+      (l10n.expensesTitle, PropertyExpensesCard(propertyId: widget.id)),
+      (
+        l10n.changeLogTitle,
+        ChangeHistoryButton(location: '/properties/${widget.id}/changes'),
+      ),
+    ];
+
     return BlocListener<PropertiesBloc, PropertiesState>(
       listener: _onWriteResult,
       child: DetailScaffold(
@@ -250,28 +289,6 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
         ],
         children: [
           _PropertyHero(property: p, onCopyId: _copyId),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              AppGhostButton(
-                key: const ValueKey('property-brochure'),
-                label: l10n.propertiesBrochure,
-                icon: Icons.picture_as_pdf_outlined,
-                loading: _brochureBusy,
-                onPressed: _shareBrochure,
-              ),
-              const SizedBox(height: 8),
-              AppGhostButton(
-                key: const ValueKey('property-seller-report'),
-                label: l10n.propertiesReport,
-                icon: Icons.assessment_outlined,
-                onPressed: () =>
-                    context.push('/properties/${widget.id}/report'),
-              ),
-              const SizedBox(height: 8),
-              CompareTrayControls(propertyId: p.id),
-            ],
-          ),
           PropertyPhotosCard(
             propertyId: widget.id,
             photos: _photos,
@@ -280,34 +297,19 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
           _DetailsCard(property: p),
           if (p.description != null && p.description!.trim().isNotEmpty)
             _DescriptionCard(text: p.description!),
+          _ShareCard(
+            propertyId: p.id,
+            brochureBusy: _brochureBusy,
+            onBrochure: _shareBrochure,
+          ),
           _StatusCard(status: p.status, onChanged: _updateStatus),
           PropertyOffersCard(propertyId: widget.id),
           _InterestedCard(buyers: _interested, propertyId: widget.id),
           _ViewingsCard(viewings: _viewings),
           MoreSection(
             memoryKey: 'property-detail',
-            children: [
-              if (listingPoint(p) != null) PropertyLocationPreview(property: p),
-              if (hasPriceCheck(_priceInsight))
-                PropertyPriceCheckCard(insight: _priceInsight!),
-              if (_priceHistory.isNotEmpty)
-                PropertyPriceHistoryCard(changes: _priceHistory),
-              if (p.price > 0)
-                PropertyMortgageCard(
-                  propertyId: p.id,
-                  price: p.price,
-                  title: p.title,
-                ),
-              PropertyShareLinkCard(
-                propertyId: widget.id,
-                title: p.title,
-                canRevoke: _canRevokeLink(p),
-              ),
-              PropertyKeysCard(propertyId: widget.id),
-              PropertyOpenHousesCard(propertyId: widget.id),
-              PropertyExpensesCard(propertyId: widget.id),
-              ChangeHistoryButton(location: '/properties/${widget.id}/changes'),
-            ],
+            summary: [for (final (title, _) in more) title],
+            children: [for (final (_, card) in more) card],
           ),
         ],
       ),
@@ -433,6 +435,60 @@ class _PropertyHero extends StatelessWidget {
             const SizedBox(height: 8),
             DepositBadge(property: property),
           ],
+        ],
+      ),
+    );
+  }
+}
+
+/// What goes out from a listing: the brochure, the seller's report and the
+/// comparison it can join, together in one card.
+class _ShareCard extends StatelessWidget {
+  final int propertyId;
+  final bool brochureBusy;
+  final VoidCallback onBrochure;
+
+  const _ShareCard({
+    required this.propertyId,
+    required this.brochureBusy,
+    required this.onBrochure,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
+    return AppCard(
+      key: const ValueKey('property-share'),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          EyebrowLabel(l10n.propertiesShareTitle),
+          const SizedBox(height: 11),
+          AppGhostButton(
+            key: const ValueKey('property-brochure'),
+            label: l10n.propertiesBrochure,
+            icon: Icons.picture_as_pdf_outlined,
+            loading: brochureBusy,
+            onPressed: onBrochure,
+            height: AppMetrics.buttonHeightInline,
+            fontSize: AppType.subhead,
+          ),
+          const SizedBox(height: 8),
+          AppGhostButton(
+            key: const ValueKey('property-seller-report'),
+            label: l10n.propertiesReport,
+            icon: Icons.assessment_outlined,
+            onPressed: () => context.push('/properties/$propertyId/report'),
+            height: AppMetrics.buttonHeightInline,
+            fontSize: AppType.subhead,
+          ),
+          const SizedBox(height: 8),
+          CompareTrayControls(
+            propertyId: propertyId,
+            height: AppMetrics.buttonHeightInline,
+            fontSize: AppType.subhead,
+          ),
         ],
       ),
     );

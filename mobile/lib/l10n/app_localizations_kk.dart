@@ -987,11 +987,6 @@ class AppLocalizationsKk extends AppLocalizations {
   String get clientsBuyer => 'Сатып алушы';
 
   @override
-  String clientsClientCreatedId(Object id) {
-    return 'Клиент құрылды (ID: $id)';
-  }
-
-  @override
   String get clientsClientFallback => 'Клиент';
 
   @override
@@ -4976,11 +4971,6 @@ class AppLocalizationsKk extends AppLocalizations {
   String get propertiesProperty => 'Нысан';
 
   @override
-  String propertiesPropertyCreated(Object id) {
-    return 'Нысан құрылды (ID: $id)';
-  }
-
-  @override
   String get propertiesPropertyIdCopied => 'Нысан ID көшірілді';
 
   @override
@@ -5093,6 +5083,9 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get propertiesSearchHintFull => 'Мекенжай, ТК, ID…';
+
+  @override
+  String get propertiesShareTitle => 'Бөлісу және жіберу';
 
   @override
   String get propertiesStatus => 'Мәртебесі';

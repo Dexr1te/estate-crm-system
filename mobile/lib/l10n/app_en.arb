@@ -385,7 +385,6 @@
   "clientsBudgetFrom": "Budget from",
   "clientsBudgetTo": "Budget to",
   "clientsBuyer": "Buyer",
-  "clientsClientCreatedId": "Client created (ID: {id})",
   "clientsClientFallback": "Client",
   "clientsClientIdCopied": "Client ID copied",
   "clientsClientNotFound": "Client not found",
@@ -2447,7 +2446,6 @@
     }
   },
   "propertiesProperty": "Property",
-  "propertiesPropertyCreated": "Property created (ID: {id})",
   "propertiesPropertyIdCopied": "Property ID copied",
   "propertiesPropertyIdLabel": "Property ID: {id}",
   "propertiesDetailTitle": "Listing",
@@ -2525,6 +2523,7 @@
   "propertiesRooms": "Rooms",
   "propertiesRoomsCount": "{rooms} rooms",
   "propertiesSearchHintFull": "Address, complex, ID…",
+  "propertiesShareTitle": "Share and send",
   "propertiesStatus": "Status",
   "propertiesStepOf": "Step {current} of {total}",
   "propertiesTitle": "Properties",
