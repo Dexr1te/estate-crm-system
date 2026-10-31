@@ -356,6 +356,9 @@ class AppLocalizationsKk extends AppLocalizations {
   String get authHaveAnInvite => 'Шақыруыңыз бар ма?';
 
   @override
+  String get authHidePassword => 'Құпия сөзді жасыру';
+
+  @override
   String get authInviteCode => 'Шақыру коды';
 
   @override
@@ -470,6 +473,9 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get authSetPasswordSignIn => 'Құпиясөз қойып, кіру';
+
+  @override
+  String get authShowPassword => 'Құпия сөзді көрсету';
 
   @override
   String get authSignIn => 'Кіру';

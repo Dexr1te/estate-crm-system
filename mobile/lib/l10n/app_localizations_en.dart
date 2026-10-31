@@ -358,6 +358,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authHaveAnInvite => 'Have an invite?';
 
   @override
+  String get authHidePassword => 'Hide password';
+
+  @override
   String get authInviteCode => 'Invite code';
 
   @override
@@ -472,6 +475,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get authSetPasswordSignIn => 'Set password & sign in';
+
+  @override
+  String get authShowPassword => 'Show password';
 
   @override
   String get authSignIn => 'Sign in';

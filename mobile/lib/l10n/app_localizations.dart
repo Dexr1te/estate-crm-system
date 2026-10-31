@@ -742,6 +742,12 @@ abstract class AppLocalizations {
   /// **'Have an invite?'**
   String get authHaveAnInvite;
 
+  /// No description provided for @authHidePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Hide password'**
+  String get authHidePassword;
+
   /// No description provided for @authInviteCode.
   ///
   /// In en, this message translates to:
@@ -945,6 +951,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Set password & sign in'**
   String get authSetPasswordSignIn;
+
+  /// No description provided for @authShowPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Show password'**
+  String get authShowPassword;
 
   /// No description provided for @authSignIn.
   ///

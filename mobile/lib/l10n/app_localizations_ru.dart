@@ -357,6 +357,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get authHaveAnInvite => 'Есть приглашение?';
 
   @override
+  String get authHidePassword => 'Скрыть пароль';
+
+  @override
   String get authInviteCode => 'Код приглашения';
 
   @override
@@ -471,6 +474,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get authSetPasswordSignIn => 'Задать пароль и войти';
+
+  @override
+  String get authShowPassword => 'Показать пароль';
 
   @override
   String get authSignIn => 'Войти';

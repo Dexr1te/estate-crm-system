@@ -169,4 +169,18 @@ void main() {
         findsNWidgets(_teams.length));
     expect(find.byType(UserCardBone, skipOffstage: false), findsNothing);
   });
+
+  testWidgets("a team's pencil says it edits the team", (tester) async {
+    await expectNoOverflow(
+      tester,
+      Scaffold(
+        body: TeamCard(team: _teams.first, onTap: () {}, onEdit: () {}),
+      ),
+      size: const Size(390, 844),
+      brightness: Brightness.light,
+      textScale: 1.0,
+    );
+
+    expect(find.byTooltip('Edit team'), findsOneWidget);
+  });
 }

@@ -93,6 +93,9 @@ class _AcceptInviteScreenState extends State<AcceptInviteScreen> {
                         suffix: IconButton(
                           onPressed: () => setState(() => _obscure = !_obscure),
                           splashRadius: 20,
+                          tooltip: _obscure
+                              ? l10n.authShowPassword
+                              : l10n.authHidePassword,
                           icon: Icon(
                               _obscure
                                   ? Icons.visibility_outlined
