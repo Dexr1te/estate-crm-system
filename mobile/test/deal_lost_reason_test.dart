@@ -196,8 +196,10 @@ void main() {
       await _pump(tester, const DealDetailScreen(id: 1));
       _repo.refuseMoves = StateError('offline');
 
-      await tester.ensureVisible(find.text('Lead'));
-      await tester.tap(find.text('Lead'));
+      // The stage pill, not the checklist section of the same name.
+      final lead = find.widgetWithText(FilterPill, 'Lead');
+      await tester.ensureVisible(lead);
+      await tester.tap(lead);
       await tester.pumpAndSettle();
 
       bool selected(String stage) => tester
