@@ -4429,12 +4429,6 @@ class AppLocalizationsKk extends AppLocalizations {
   String get openHousesCardTitle => 'Ашық есік күндері';
 
   @override
-  String get profileAgentId => 'Агент ID';
-
-  @override
-  String get profileAgentIdCopied => 'Агент ID көшірілді';
-
-  @override
   String get profileApp => 'Қосымша';
 
   @override

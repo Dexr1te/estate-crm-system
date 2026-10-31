@@ -1262,8 +1262,6 @@
   "openHouseVisitorPhoneInvalid": "Телефон нөмірін енгізіңіз",
   "openHouseVisitorsCount": "{count, plural, =0{Келушілер жоқ} other{{count} келуші}}",
   "openHousesCardTitle": "Ашық есік күндері",
-  "profileAgentId": "Агент ID",
-  "profileAgentIdCopied": "Агент ID көшірілді",
   "profileApp": "Қосымша",
   "profileDeleteAccount": "Аккаунтты жою",
   "profileDeleteAccountConfirm": "Клиенттеріңіз, нысандарыңыз, мәмілелеріңіз және кездесулеріңіз {successor} қарамағына өтеді. Аккаунт біржола жойылады.",

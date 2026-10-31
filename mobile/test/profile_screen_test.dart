@@ -225,6 +225,21 @@ void main() {
     expect(find.text('ADMIN'), findsNothing);
   });
 
+  // Nothing in the app takes an agent ID; a colleague is added by e-mail.
+  testWidgets('the profile shows no internal ID to copy', (tester) async {
+    await expectNoOverflow(
+      tester,
+      _profile(user: _agentInTeam),
+      size: const Size(390, 844),
+      brightness: Brightness.light,
+      textScale: 1.0,
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Agent ID'), findsNothing);
+    expect(find.text('${_agentInTeam.userId}'), findsNothing);
+  });
+
   test('the legal links keep the API prefix the backend is mounted under', () {
     // The backend runs under a servlet context path. A link built from the bare
     // origin — which is what these used to be — reaches Tomcat outside that

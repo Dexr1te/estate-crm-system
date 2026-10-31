@@ -7672,18 +7672,6 @@ abstract class AppLocalizations {
   /// **'Open houses'**
   String get openHousesCardTitle;
 
-  /// No description provided for @profileAgentId.
-  ///
-  /// In en, this message translates to:
-  /// **'Agent ID'**
-  String get profileAgentId;
-
-  /// No description provided for @profileAgentIdCopied.
-  ///
-  /// In en, this message translates to:
-  /// **'Agent ID copied'**
-  String get profileAgentIdCopied;
-
   /// No description provided for @profileApp.
   ///
   /// In en, this message translates to:

@@ -1262,8 +1262,6 @@
   "openHouseVisitorPhoneInvalid": "Введите номер телефона",
   "openHouseVisitorsCount": "{count, plural, =0{Нет гостей} one{{count} гость} few{{count} гостя} many{{count} гостей} other{{count} гостя}}",
   "openHousesCardTitle": "Дни открытых дверей",
-  "profileAgentId": "ID агента",
-  "profileAgentIdCopied": "ID агента скопирован",
   "profileApp": "Приложение",
   "profileDeleteAccount": "Удалить аккаунт",
   "profileDeleteAccountConfirm": "Ваши клиенты, объекты, сделки и встречи перейдут к {successor}. Аккаунт будет удалён безвозвратно.",

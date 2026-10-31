@@ -4487,12 +4487,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get openHousesCardTitle => 'Open houses';
 
   @override
-  String get profileAgentId => 'Agent ID';
-
-  @override
-  String get profileAgentIdCopied => 'Agent ID copied';
-
-  @override
   String get profileApp => 'App';
 
   @override

@@ -2127,8 +2127,6 @@
     }
   },
   "openHousesCardTitle": "Open houses",
-  "profileAgentId": "Agent ID",
-  "profileAgentIdCopied": "Agent ID copied",
   "profileApp": "App",
   "profileDeleteAccount": "Delete account",
   "profileDeleteAccountConfirm": "Your clients, properties, deals and meetings move to {successor}. The account is removed permanently and this cannot be undone.",

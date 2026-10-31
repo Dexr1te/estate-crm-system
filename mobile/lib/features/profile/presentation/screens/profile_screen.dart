@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
@@ -64,18 +63,6 @@ class ProfileScreen extends StatelessWidget {
               SettingsRow(
                 label: l10n.teamsTeamLabel,
                 value: user.teamName ?? l10n.teamsNoTeamLabel,
-              ),
-              SettingsRow(
-                label: l10n.profileAgentId,
-                trailing: _IdChip(id: user.userId),
-                onTap: () {
-                  Clipboard.setData(ClipboardData(text: '${user.userId}'));
-                  ScaffoldMessenger.of(context)
-                    ..hideCurrentSnackBar()
-                    ..showSnackBar(SnackBar(
-                        content: Text(l10n.profileAgentIdCopied),
-                        duration: const Duration(seconds: 1)));
-                },
               ),
             ]),
             if (user.teamId != null)
@@ -536,31 +523,6 @@ class _Identity extends StatelessWidget {
         BrandChip(label: roleLabel(l10n, user.role).toUpperCase()),
         const SizedBox(height: 8),
       ],
-    );
-  }
-}
-
-class _IdChip extends StatelessWidget {
-  final int id;
-  const _IdChip({required this.id});
-
-  @override
-  Widget build(BuildContext context) {
-    final t = context.tokens;
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 2),
-      decoration: BoxDecoration(
-        color: t.surfaceVariant,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Text(
-        '$id',
-        style: TextStyle(
-            fontFamily: AppFonts.sans,
-            fontSize: AppType.caption,
-            fontWeight: FontWeight.w600,
-            color: t.textPrimary),
-      ),
     );
   }
 }

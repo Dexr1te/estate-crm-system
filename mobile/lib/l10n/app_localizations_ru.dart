@@ -4575,12 +4575,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get openHousesCardTitle => 'Дни открытых дверей';
 
   @override
-  String get profileAgentId => 'ID агента';
-
-  @override
-  String get profileAgentIdCopied => 'ID агента скопирован';
-
-  @override
   String get profileApp => 'Приложение';
 
   @override
