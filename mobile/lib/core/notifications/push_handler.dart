@@ -120,7 +120,7 @@ class PushHandler {
     _syncing = true;
     try {
       final user = _auth.currentUser;
-      if (user != null && !_asked) {
+      if (user != null && !_asked && await _gateway.canDeliver()) {
         _asked = true;
         await _gateway.requestPermission();
         await _logToken();

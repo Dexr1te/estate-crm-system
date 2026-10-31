@@ -35,6 +35,10 @@ class PushMessage {
 }
 
 abstract class PushGateway {
+  /// Whether a push sent now could reach this phone at all. Asking for
+  /// permission is pointless until it can.
+  Future<bool> canDeliver();
+
   Future<bool> requestPermission();
 
   Future<String?> token();
@@ -59,6 +63,22 @@ class FirebasePushGateway implements PushGateway {
   final FlutterLocalNotificationsPlugin _plugin;
 
   FirebaseMessaging get _messaging => FirebaseMessaging.instance;
+
+  /// An iPhone hears pushes only through APNs, which only a build signed by a
+  /// paid team with the Push Notifications capability is given. Without it
+  /// there is no APNs token, and the system prompt would ask for something
+  /// that never arrives -- while spending the one prompt iOS allows, which
+  /// meeting reminders need (the permission is shared). Once the build carries
+  /// the entitlement the token appears and the prompt comes back by itself.
+  @override
+  Future<bool> canDeliver() async {
+    if (defaultTargetPlatform != TargetPlatform.iOS) return true;
+    try {
+      return await _messaging.getAPNSToken() != null;
+    } catch (_) {
+      return false;
+    }
+  }
 
   @override
   Future<bool> requestPermission() async {
