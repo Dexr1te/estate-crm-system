@@ -446,6 +446,25 @@ void main() {
       expect(find.byKey(const ValueKey('dashboard-admin')), findsNothing);
       expect(find.byKey(const ValueKey('quick-add')), findsNothing);
     });
+
+    testWidgets('an agent reads the date alone, with no team to overview',
+        (tester) async {
+      await pumpRouted(tester, _agent);
+
+      expect(find.text(formatWeekdayDate(_now, 'en')), findsOneWidget);
+      expect(find.textContaining('team overview'), findsNothing);
+    });
+
+    for (final user in [_manager, _admin]) {
+      testWidgets(
+          'the date reads as the team\'s overview to the '
+          '${user.role.name.toLowerCase()}', (tester) async {
+        await pumpRouted(tester, user);
+
+        expect(find.text('${formatWeekdayDate(_now, 'en')} · team overview'),
+            findsOneWidget);
+      });
+    }
   });
 
   for (final user in [_manager, _admin, _agent]) {

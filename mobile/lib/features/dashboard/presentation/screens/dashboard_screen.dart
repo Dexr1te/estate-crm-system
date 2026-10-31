@@ -156,6 +156,8 @@ class _DashboardScreenState extends State<DashboardScreen>
     final authState = context.watch<AuthBloc>().state;
     final user = authState is AuthAuthenticated ? authState.user : null;
     final firstName = user?.fullName.trim().split(' ').first ?? '';
+    final today = formatWeekdayDate(
+        AppClock.now(), Localizations.localeOf(context).toLanguageTag());
 
     return MultiBlocProvider(
       providers: [
@@ -189,9 +191,11 @@ class _DashboardScreenState extends State<DashboardScreen>
                             ? _greeting(l10n)
                             : l10n.dashboardGreeting(
                                 _greeting(l10n), firstName),
-                        subtitle: l10n.dashboardDateSummary(formatWeekdayDate(
-                            AppClock.now(),
-                            Localizations.localeOf(context).toLanguageTag())),
+                        // An agent's home is their own work; only a manager
+                        // or an admin reads it as the team's.
+                        subtitle: context.isAdminOrManager
+                            ? l10n.dashboardDateSummary(today)
+                            : today,
                         initial: user?.fullName ?? '',
                         hub: RoleHub.of(user),
                         onTap: () => context.push('/profile'),
