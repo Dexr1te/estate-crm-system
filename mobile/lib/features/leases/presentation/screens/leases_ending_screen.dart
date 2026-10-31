@@ -20,6 +20,13 @@ class _LeasesEndingScreenState extends State<LeasesEndingScreen> {
   final _bloc = LeasesEndingBloc(Injector.leasesRepository)
     ..add(LeasesEndingLoadEvent());
 
+  /// The lease is renewed or ended on the deal, so the list is read again on
+  /// the way back -- otherwise it still says it ends in so many days.
+  Future<void> _openDeal(int dealId) async {
+    await context.push('/deals/$dealId');
+    if (mounted) _bloc.add(LeasesEndingLoadEvent());
+  }
+
   @override
   void dispose() {
     _bloc.close();
@@ -74,7 +81,7 @@ class _LeasesEndingScreenState extends State<LeasesEndingScreen> {
       for (final lease in state.leases)
         LeaseRow(
           lease: lease,
-          onTap: () => context.push('/deals/${lease.dealId}'),
+          onTap: () => _openDeal(lease.dealId),
         ),
     ];
   }

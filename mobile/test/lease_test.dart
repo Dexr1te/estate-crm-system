@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/models.dart';
@@ -468,6 +469,38 @@ void main() {
       await tester.tap(find.byKey(const ValueKey('leases-retry')));
       await tester.pumpAndSettle();
       expect(find.byType(LeaseRow), findsOneWidget);
+    });
+
+    // A lease is renewed on its deal. Coming back, the list still said it
+    // ended in so many days until the screen was left and opened again.
+    testWidgets('the list is read again on the way back from a deal',
+        (tester) async {
+      _leases.ending = endingLeases.take(2).toList();
+      await tester.pumpWidget(MaterialApp.router(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        locale: const Locale('en'),
+        routerConfig: GoRouter(routes: [
+          GoRoute(path: '/', builder: (_, __) => const LeasesEndingScreen()),
+          GoRoute(
+              path: '/deals/:id',
+              builder: (_, __) => const Scaffold(body: Text('the deal'))),
+        ]),
+      ));
+      await tester.pumpAndSettle();
+      expect(find.byType(LeaseRow), findsNWidgets(2));
+
+      await tester.tap(find.byType(LeaseRow).first);
+      await tester.pumpAndSettle();
+      expect(find.text('the deal'), findsOneWidget);
+
+      _leases.ending = endingLeases.skip(1).take(1).toList();
+      final router = GoRouter.of(tester.element(find.text('the deal')));
+      router.pop();
+      await tester.pumpAndSettle();
+
+      expect(find.byType(LeaseRow), findsOneWidget,
+          reason: 'the renewed lease has left the list');
     });
 
     testWidgets('the list: every lease, soonest first, or why there are none',
