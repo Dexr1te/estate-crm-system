@@ -107,6 +107,19 @@ void main() {
         reason: 'the original request should be replayed with the new token');
   });
 
+  // A day after signing in the access token has expired. Reading, editing
+  // or deleting your own account goes to /auth/me, and its 401 was taken for
+  // wrong credentials: no refresh, and "Invalid email or password".
+  test('your own account refreshes an expired token like any other call',
+      () async {
+    final (client, backend, _) = await _build();
+
+    final res = await client.dio.delete('/auth/me');
+
+    expect(backend.refreshCalls, 1);
+    expect(res.statusCode, 200);
+  });
+
   test('one expired token triggers exactly one refresh', () async {
     final (client, backend, _) = await _build();
 
