@@ -1773,6 +1773,12 @@ class AppLocalizationsKk extends AppLocalizations {
   String get compareShareIntro => 'Нысандарды салыстыру:';
 
   @override
+  String get compareStart => 'Нысандарды салыстыру';
+
+  @override
+  String get compareStop => 'Салыстыруды аяқтау';
+
+  @override
   String get compareTitle => 'Салыстыру';
 
   @override
@@ -2730,9 +2736,6 @@ class AppLocalizationsKk extends AppLocalizations {
   String get documentsUploading => 'Жіберілуде…';
 
   @override
-  String get exportAction => 'Экспорт';
-
-  @override
   String get exportAllNote => 'Сізге қолжетімдінің бәрі, сүзгісіз.';
 
   @override
@@ -2790,6 +2793,9 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get exportTitleProperties => 'Нысандарды экспорттау';
+
+  @override
+  String get exportToSpreadsheet => 'Кестеге экспорттау';
 
   @override
   String get exportTooMany =>

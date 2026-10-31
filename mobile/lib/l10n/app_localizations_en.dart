@@ -1782,6 +1782,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get compareShareIntro => 'Here is how the listings compare:';
 
   @override
+  String get compareStart => 'Compare listings';
+
+  @override
+  String get compareStop => 'Stop comparing';
+
+  @override
   String get compareTitle => 'Comparison';
 
   @override
@@ -2741,9 +2747,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get documentsUploading => 'Sending…';
 
   @override
-  String get exportAction => 'Export';
-
-  @override
   String get exportAllNote => 'Everything you can see, without filters.';
 
   @override
@@ -2801,6 +2804,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get exportTitleProperties => 'Export listings';
+
+  @override
+  String get exportToSpreadsheet => 'Export to a spreadsheet';
 
   @override
   String get exportTooMany =>

@@ -1817,6 +1817,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get compareShareIntro => 'Сравнение объектов:';
 
   @override
+  String get compareStart => 'Сравнить объекты';
+
+  @override
+  String get compareStop => 'Закончить сравнение';
+
+  @override
   String get compareTitle => 'Сравнение';
 
   @override
@@ -2794,9 +2800,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get documentsUploading => 'Отправляем…';
 
   @override
-  String get exportAction => 'Экспорт';
-
-  @override
   String get exportAllNote => 'Всё, что вам доступно, без фильтров.';
 
   @override
@@ -2854,6 +2857,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get exportTitleProperties => 'Экспорт объектов';
+
+  @override
+  String get exportToSpreadsheet => 'Экспорт в таблицу';
 
   @override
   String get exportTooMany =>
