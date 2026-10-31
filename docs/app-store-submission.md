@@ -6,6 +6,23 @@ that has to be fixed before any of the rest of this is worth doing. After that,
 what is left is one switch to throw on the host and the part App Store Connect
 asks a person for.
 
+## A paid Apple team, before anything is uploaded
+
+The Xcode project signs with `9746P6DV47`, a free personal team (see
+[`firebase.md`](firebase.md#ios-push-once-there-is-a-paid-apple-team)). A
+personal team can install on a device but cannot upload to App Store Connect at
+all: an archive signed by it has no distribution certificate to be exported
+with. Enrol in the Apple Developer Program, then in Xcode → Runner → Signing &
+Capabilities choose the paid team (it rewrites `DEVELOPMENT_TEAM` in
+`project.pbxproj`), and register `com.sultan.estatecrm` under it.
+
+While there, add the **Push Notifications** capability and upload the APNs key
+to Firebase (same section of `firebase.md`). Without it every upload gets an
+**ITMS-90078 "Missing Push Notification Entitlement"** e-mail — a warning, not a
+rejection, because Firebase Messaging is linked — and iPhones receive no pushes.
+The app copes either way: it does not ask an iPhone for push permission until an
+APNs token exists.
+
 ## Already handled in the build
 
 Verified against `build/ios/iphoneos/Runner.app`, not just read off the source:
@@ -23,7 +40,19 @@ Verified against `build/ios/iphoneos/Runner.app`, not just read off the source:
   reaches.
 - **Account deletion, in the app.** Profile → Delete account, with a successor
   picker for the records that belong to the agency rather than to the person
-  (Guideline 5.1.1(v)).
+  (Guideline 5.1.1(v)). Someone with nobody to hand them to — a reviewer who
+  has just signed up, a manager alone in a new agency — skips the picker and
+  goes straight to the confirmation; reviewers do exactly this.
+- **Russian and Kazakh declared in the bundle.** `CFBundleLocalizations` lists
+  en, ru and kk, and `InfoPlist.strings` in each `.lproj` translates the
+  permission prompts, so the store lists all three languages and iOS draws its
+  own screens (pickers, share sheet, prompts) in the phone's language.
+- **The first tap of the day does not time out.** Sign-in, "Try the demo",
+  sign-up and accepting an invite wait up to 90 s for a host that is waking
+  up, instead of failing after 20 s.
+- **No pointless notification prompt.** Push permission is asked only when a
+  push could arrive (on iOS: once there is an APNs token). Meeting reminders
+  ask for it in context, when someone turns them on.
 - **Privacy policy and support pages**, served by the backend at `/privacy` and
   `/support`, public so a reviewer reaches them without signing in, and linked
   from the profile screen.
@@ -185,7 +214,11 @@ distribution, and this whole question disappears.
 - **Privacy questionnaire** — the answers have to match
   `mobile/ios/Runner/PrivacyInfo.xcprivacy`: name, email address, phone number,
   photographs and user content, all linked to the user, all for app
-  functionality, none for tracking. Nothing else is collected.
+  functionality, none for tracking. Add one more: **Identifiers → Device ID**,
+  for app functionality, not used for tracking. Firebase Cloud Messaging
+  collects it (its own privacy manifest declares it, and App Store Connect
+  merges the SDKs' manifests into the report it shows you), and the answers
+  must not contradict that report.
 - **Privacy policy URL** — `https://<host>/api/privacy`. It must resolve before
   review starts, and the `/api` is not a typo: the backend is mounted under a
   servlet context path, so the root copy of that path does not exist. Check it
@@ -200,16 +233,23 @@ distribution, and this whole question disappears.
 - `app.support-email` and `app.operator-name` are what `LegalController` prints
   on both pages. They default to `support@estatecrm.app` / `EstateCRM`. Set them
   to something real — a reviewer may write to that address.
-- The privacy text is a working draft written against what the app actually
-  collects, and has not been through a lawyer. Read it before you submit.
-- Universal Links do not work yet: the entitlement claims the domain but the
-  association file is not served where Apple fetches it. Not a rejection —
-  invite links fall back to the custom scheme — but see
-  `invite-deep-link-deploy.md` for the one root rewrite that fixes it.
-- The backend host is baked in as `estate-crm-system.onrender.com`. It is also
-  what `Runner.entitlements` claims for Universal Links and what
+- **The privacy policy is out of date, and has to be fixed first.**
+  `LegalController.privacy()` still says "there is no public sign-up" and that
+  accounts are created by an administrator — the sign-up screen that links to it
+  says otherwise — and it does not name Firebase (Google), which receives the
+  e-mail address at sign-up and a device identifier for push. A policy that
+  contradicts the app is a 5.1.1(i) rejection. Rewrite it for open sign-up and
+  list Firebase as a processor. It has not been through a lawyer either.
+- Universal Links are off: the Associated Domains entitlement was dropped so
+  the app could be signed by the free team, and invite links open the app
+  through the `estatecrm://` scheme instead. Not a rejection. To bring them
+  back on the paid team, add the capability with `applinks:` for the API host,
+  and see `invite-deep-link-deploy.md` for the root rewrite the association
+  file needs.
+- The backend host is baked in as `estate-crm-system.onrender.com` as the
+  fallback when Remote Config has no `api_base_url`. It is also what
   `WellKnownController` signs the association file for. If that host ever
-  changes, all three change together, and `API_BASE_URL` is overridable at build
+  changes, both change together, and `API_BASE_URL` is overridable at build
   time:
 
   ```sh
