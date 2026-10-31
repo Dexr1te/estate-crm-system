@@ -1,6 +1,8 @@
 # Estate CRM — Mobile
 
-Flutter client for the Real Estate CRM. Agents, managers and admins work clients, properties, deals and meetings against the Spring Boot API.
+The Flutter app of Estate CRM, for iOS and Android. Agents, managers and
+administrators work their clients, listings, deals, meetings and tasks against
+the Spring Boot API in [`backend/`](../backend/README.md).
 
 Three locales (en / ru / kk), light and dark, phones from 320 pt to tablets.
 
@@ -9,14 +11,19 @@ Three locales (en / ru / kk), light and dark, phones from 320 pt to tablets.
 ## Contents
 
 - [Running it](#running-it)
+- [How the app starts](#how-the-app-starts)
 - [Architecture](#architecture)
+- [Navigation](#navigation)
 - [State management](#state-management)
 - [Networking and the session](#networking-and-the-session)
-- [Remote Config and push](#remote-config-and-push)
+- [Offline](#offline)
+- [Notifications](#notifications)
+- [Remote Config](#remote-config)
+- [App lock](#app-lock)
+- [Features and where they live](#features-and-where-they-live)
 - [Design system](#design-system)
 - [Responsive rules](#responsive-rules)
 - [Localization](#localization)
-- [Screens](#screens)
 - [Testing](#testing)
 - [Traps](#traps)
 
@@ -26,66 +33,147 @@ Three locales (en / ru / kk), light and dark, phones from 320 pt to tablets.
 
 ```bash
 cd mobile
-flutter pub get
-flutter run
+fvm flutter pub get
+fvm flutter run
 ```
 
 | Task | Command |
 |---|---|
-| Run | `flutter run` |
-| Test | `flutter test` |
-| Analyze | `dart analyze lib test` |
-| Regenerate strings | `flutter gen-l10n` |
-| Regenerate models | `dart run build_runner build --delete-conflicting-outputs` |
-| Regenerate app icons | `dart run flutter_launcher_icons` |
-| Regenerate splash | `dart run flutter_native_splash:create` |
-| Build APK | `flutter build apk` |
-| Build iOS | `flutter build ios` |
+| Run | `fvm flutter run` |
+| Run against a local backend | `fvm flutter run --dart-define=API_BASE_URL=http://<lan-ip>:8080/api` |
+| Test | `fvm flutter test` |
+| Analyze | `fvm dart analyze --fatal-infos lib test` |
+| Format check (CI) | `fvm dart format --output=none --set-exit-if-changed lib test` |
+| Regenerate strings | `fvm flutter gen-l10n` |
+| Regenerate models | `fvm dart run build_runner build --delete-conflicting-outputs` |
+| Regenerate app icons | `fvm dart run flutter_launcher_icons` |
+| Regenerate splash | `fvm dart run flutter_native_splash:create` |
+| Build APK | `fvm flutter build apk` |
+| Build for the App Store | `fvm flutter build ipa` |
 
-**Use the pinned SDK.** The project needs Flutter 3.41+/Dart 3.11+. An older `flutter` on `PATH` will fail `pub get` on `intl` and, worse, delete the committed `lib/l10n/app_localizations*.dart`. Run through FVM (`fvm flutter …`) or call the pinned binary directly.
+**Use the pinned SDK.** The project needs Flutter 3.41+/Dart 3.11+. An older `flutter` on `PATH` will fail `pub get` on `intl` and, worse, delete the committed `lib/l10n/app_localizations*.dart`. Run through FVM (`fvm flutter …`) or call `.fvm/flutter_sdk/bin/flutter` directly. CI ([`.github/workflows/mobile-tests.yml`](../.github/workflows/mobile-tests.yml)) runs the format check, the analyzer with `--fatal-infos`, a check that the generated strings match the ARBs, and the tests.
+
+---
+
+## How the app starts
+
+```
+main()
+ ├─ initializeDateFormatting()          intl's date names for en / ru / kk
+ ├─ Firebase.initializeApp()            a failure is logged, never fatal
+ ├─ Injector.bootstrap()
+ │   ├─ SessionStore.load()             tokens + the saved user, from the Keychain
+ │   ├─ RemoteConfigSync.start()        last fetched API address applied before any request
+ │   └─ PackageInfo                     the version shown on the profile
+ └─ runApp(MyApp)
+     └─ _MyAppState.initState
+         ├─ the app-wide blocs          auth, theme, locale, dashboard, clients,
+         │                              properties, deals, meetings, tasks, stars, reminders
+         ├─ PushHandler                 FCM topics, taps on a push
+         ├─ app shortcuts, deep links   wait behind the session and the PIN lock
+         └─ GoRouter                    /splash until the saved session is known
+```
+
+Two splashes cover the start: `flutter_native_splash` paints the window white
+before Flutter draws (Android 12+ only allows a centred icon there), then the
+`/splash` route shows the full artwork with `BoxFit.cover`.
+
+The router holds everyone on `/splash` until `AuthBloc` has read the saved
+session — "don't know yet" is not "signed out". Then `resolveRedirect` in
+[`core/utils/router.dart`](lib/core/utils/router.dart) sends the person where
+they belong: sign-in, e-mail verification, "create your agency" or "waiting to be
+added" for someone without a team, or the dashboard. If the PIN lock is on, the
+lock screen covers whatever opens.
 
 ---
 
 ## Architecture
 
-Feature-first, three layers per feature, no use-case classes — a bloc talks to a repository directly.
+Feature-first, three layers per feature, no use-case classes — a bloc talks to a
+repository directly.
 
 ```
 lib/
+├── main.dart, my_app.dart   start-up, the app-wide blocs, listeners between them
 ├── core/
-│   ├── auth/         role helpers on BuildContext
-│   ├── bloc/         cross-feature bloc contracts
-│   ├── config/       Remote Config: keys, validation, live apply
-│   ├── di/           Injector — the composition root
-│   ├── locale/       locale bloc + persistence
-│   ├── models/       freezed API models, shared enums
-│   ├── network/      ApiClient (Dio), error mapping
-│   ├── notifications/ local reminders, FCM push gateway + handler
-│   ├── session/      SessionStore — tokens + saved user
-│   ├── theme/        colours, tokens, metrics, fonts
-│   ├── utils/        router, formatters, contact actions
-│   └── widgets/      the design system
+│   ├── auth/            role helpers on BuildContext (context.isManager …)
+│   ├── bloc/            cross-feature bloc contracts: ActionOutcome, LoadGeneration
+│   ├── config/          Remote Config: keys, validation, live apply
+│   ├── di/              Injector — the composition root
+│   ├── feedback/        haptics
+│   ├── forms/           form drafts that survive leaving the screen
+│   ├── locale/          locale bloc + persistence
+│   ├── map/             map tiles and attribution
+│   ├── models/          freezed API models, shared enums
+│   ├── navigation/      the active tab, the role's console ("hub"), page transitions
+│   ├── network/         ApiClient (Dio), error mapping, JSON checks, offline cache
+│   ├── notifications/   local reminders, FCM push gateway + handler
+│   ├── quick_add/       the one "+" and everything it can start
+│   ├── session/         SessionStore — tokens + saved user
+│   ├── shortcuts/       home-screen icon shortcuts
+│   ├── theme/           colours, tokens, metrics, fonts
+│   ├── utils/           router, formatters, money, clock, contact actions, deep links
+│   └── widgets/         the design system
 ├── features/<name>/
 │   ├── data/
-│   │   ├── datasources/    raw HTTP against ApiClient
-│   │   └── repositories/   implements the domain contract
-│   ├── domain/repositories/  abstract contract
+│   │   ├── datasources/     raw HTTP against ApiClient
+│   │   └── repositories/    implements the domain contract
+│   ├── domain/              abstract repository, plain domain types and rules
 │   └── presentation/
-│       ├── bloc/       events, states, bloc
+│       ├── bloc/            events, states, bloc
 │       ├── screens/
 │       └── widgets/
-└── main.dart
+└── l10n/                ARB files and the generated localizations
 ```
 
-Features: `auth`, `dashboard`, `clients`, `properties`, `deals`, `documents`, `meetings`, `admin`, `teams`, `agents`, `profile`.
+**Dependency rule.** `presentation → domain ← data`. A bloc depends on the
+abstract repository, never on a data source or on Dio. That is what lets every
+screen test run against an in-memory fake.
 
-**Dependency rule.** `presentation → domain ← data`. A bloc depends on the abstract repository, never on a data source or on Dio. That is what lets every screen test run against an in-memory fake.
+**Composition root.** [`Injector`](lib/core/di/injector.dart) builds the single
+`ApiClient` and every repository as static fields. There is no get_it. The
+repository fields are assignable so tests can swap fakes in — production code
+never reassigns them.
 
-**Composition root.** [`Injector`](lib/core/di/injector.dart) builds the single `ApiClient` and every repository as static fields. There is no get_it. The repository fields are assignable so tests can swap fakes in — production code never reassigns them.
+**Everything that touches the phone sits behind a gateway** — `FileGateway`
+(pick, save, open a file), `ShareGateway`, `NotificationGateway` (local
+notifications), `PushGateway` (FCM), `RemoteConfigSource`, `QuickActions`. Each
+has a device implementation and a fake, so no test reaches a plugin.
 
-**Blocs are created once**, in `_MyAppState.initState`, and provided app-wide via `MultiBlocProvider`. They outlive every screen. Two consequences run through the whole app, and both are handled deliberately — see [State management](#state-management).
+**Blocs live at two levels.** The core lists — clients, properties, deals,
+meetings, tasks, stars, the dashboard — have app-wide blocs created once in
+`_MyAppState.initState` and provided through `MultiBlocProvider`; they outlive
+every screen, which the next section deals with. Everything scoped to one record
+or one screen (a deal's documents, comments, checklist and deposit, the admin
+console, team stats, a lease list…) gets a bloc created by the screen that owns
+it, so opening another record cannot inherit the previous one's data.
 
-Four blocs are per-screen instead, created by the screen that owns them: `AdminUsersBloc`, `AuditLogBloc`, `TeamsBloc`, and `DocumentsBloc` — that last one is scoped to a single deal, so opening another one cannot inherit the previous deal's paperwork.
+---
+
+## Navigation
+
+go_router, configured in [`core/utils/router.dart`](lib/core/utils/router.dart).
+
+- **Five tabs** — Dashboard, Clients, Properties, Deals, Calendar — in a
+  `StatefulShellRoute.indexedStack`, so each tab keeps its scroll position and
+  its stack while you are elsewhere. On a wide screen the bar becomes a rail and
+  gains a sixth entry, the manager's or admin's console.
+- **Records and forms are pushed on the root navigator** (`/clients/:id`,
+  `/deals/:id/edit` …) so they cover the tab bar. The list underneath stays
+  mounted, which is why a write reloads the list rather than relying on the list
+  screen's `initState` (see [State management](#state-management)).
+- **One "+"** ([`core/quick_add/`](lib/core/quick_add)) floats over the tabs and
+  sits in the record headers. It starts a client, listing, deal, meeting, task or
+  a logged contact, pre-linked to the record you are on, and puts the thing you
+  picked last first.
+- **Ways in from outside** all wait for the session and for the PIN lock:
+  `estatecrm://invite` and `estatecrm://reset` links from e-mails
+  ([`deep_links.dart`](lib/core/utils/deep_links.dart)), long-press shortcuts on
+  the app icon (new client, task, meeting, search), and a tapped push carrying a
+  `route` or an https `url`.
+- **Redirects** are a pure function, `resolveRedirect`, because `GoRouter`
+  resolves nothing until it is attached to a widget tree; as a function the
+  start-up ordering is testable on its own.
 
 ---
 
@@ -169,23 +257,146 @@ The detail screens move a status chip immediately so the tap feels instant, and 
 
 ---
 
-## Remote Config and push
+## Offline
 
-Both talk to Firebase directly; the backend is not involved. The reference — every key, its default and validation, the topics, the custom data a push may carry, the console checklist and how to verify it — is [`docs/firebase.md`](../docs/firebase.md). In short:
+[`OfflineCache`](lib/core/network/offline_cache.dart) and
+[`OfflineCacheInterceptor`](lib/core/network/offline_interceptor.dart) give the
+app something to show when the signal drops in a lift or a basement.
 
-**Remote Config** ([`core/config/remote_config.dart`](lib/core/config/remote_config.dart)) reads `api_base_url`, `map_tile_url` and `map_attribution`. `RemoteConfigSync` starts in `Injector.bootstrap()`: it applies the values fetched last time before the first request, fetches in the background, and applies realtime updates while the app is open. `RemoteSettings.from` validates every value (https only, tile URLs need `{z}`/`{x}`/`{y}`) and falls back to the built-in default, so a bad publish cannot break the app.
+- **Network first.** A successful `GET` of a main list or record is written to
+  disk; the cache answers only when the server cannot be reached (a 502/503/504
+  counts — on this host that is the proxy saying the app is asleep).
+- **Per account.** Entries are files named by a hash of the request *and* the
+  signed-in user and team; the whole cache is wiped when the session ends.
+- **Bounded.** Entries older than 14 days are never served; past 20 MB the least
+  recently used go first.
+- **Honest.** While anything on screen came from the cache, `OfflineBanner` says
+  so once, across every screen, with the time of the data and a Retry.
+- **Reads only.** A create, edit or delete without a connection fails with its
+  own message ("needs a connection"); writes are never queued.
 
-**Push** ([`core/notifications/push_gateway.dart`](lib/core/notifications/push_gateway.dart), [`push_handler.dart`](lib/core/notifications/push_handler.dart)) is FCM through topics sent from the Firebase Console:
+Forms keep a draft ([`core/forms/form_draft.dart`](lib/core/forms/form_draft.dart)):
+what you typed into a client, listing, deal, meeting or task form survives
+leaving the screen, per account.
+
+---
+
+## Notifications
+
+Three separate channels — none of them depends on another.
+
+| Channel | Where it comes from | Code |
+|---|---|---|
+| **The bell** — the in-app feed | the backend writes a row when something happens to you (a task assigned, a deal moved, a mention, a lead, a birthday…) | `features/notifications`; `UnreadCountPoller` asks for the unread count every 60 s while the app is in front |
+| **Reminders** | the app itself, from the meetings and tasks it has loaded — your own only | [`reminder_plan.dart`](lib/core/notifications/reminder_plan.dart) plans, [`reminder_sync.dart`](lib/core/notifications/reminder_sync.dart) replaces what is scheduled; lead time 15 min / 1 h / 1 day, chosen on the profile, which is also where permission is asked |
+| **Push** | announcements sent from the Firebase Console to topics | [`push_gateway.dart`](lib/core/notifications/push_gateway.dart), [`push_handler.dart`](lib/core/notifications/push_handler.dart) |
+
+Reminders are re-planned whenever the meetings or tasks lists load and whenever
+the lead time changes, and everything scheduled is cancelled on sign-out or when
+the person's agency changes. At most 60 are pending, soonest first.
+
+**Push** in detail:
 
 | Piece | Does |
 |---|---|
 | `PushGateway` / `FirebasePushGateway` | permission, token, topic (un)subscribe, the three message streams; creates the Android **Activity** channel |
-| `PushHandler` | keeps the topics `all`, `lang_<code>`, `role_<role>` in step with the session and the language; asks for permission once somebody signs in; opens a tapped push's `route` or `url` once the session is known and the PIN lock is open |
+| `PushHandler` | keeps the topics `all`, `lang_<code>`, `role_<role>` in step with the session and the language; asks for permission once somebody signs in and a push could actually arrive; opens a tapped push's `route` or `url` once the session is known and the PIN lock is open |
 | `PushLanguage` | sits under `MaterialApp` and tells the handler the language actually in use |
 | `openPushRoute` | switches to a shell tab, pushes anything else |
 | `showPushBanner` | what a push looks like while the app is on screen: a snack bar with **Open** |
 
-Like everything else that touches the platform, Firebase sits behind a gateway (`Injector.pushGateway`, `Injector.remoteConfigSource`), so no test reaches a plugin. **iOS gets no pushes yet**: the free signing team cannot carry the APNs entitlement. The code needs no change when that moves; [`docs/firebase.md`](../docs/firebase.md#ios-push-once-there-is-a-paid-apple-team) lists the steps.
+**iOS gets no pushes yet**: the free signing team cannot carry the APNs
+entitlement, so there is no APNs token — and the app does not ask an iPhone for
+permission until there is one. No code changes when that moves;
+[`docs/firebase.md`](../docs/firebase.md#ios-push-once-there-is-a-paid-apple-team)
+lists the steps.
+
+---
+
+## Remote Config
+
+[`core/config/remote_config.dart`](lib/core/config/remote_config.dart) reads
+`api_base_url`, `map_tile_url` and `map_attribution` from Firebase.
+`RemoteConfigSync` starts in `Injector.bootstrap()`: it applies the values
+fetched last time before the first request, fetches in the background, and
+applies realtime updates while the app is open. `RemoteSettings.from` validates
+every value (https only, tile URLs need `{z}`/`{x}`/`{y}`) and falls back to the
+built-in default, so a bad publish cannot break the app. A build with
+`--dart-define=API_BASE_URL=…` pins the address and ignores Remote Config for it.
+Every key and how to publish it: [`docs/firebase.md`](../docs/firebase.md).
+
+---
+
+## App lock
+
+An optional PIN ([`features/app_lock`](lib/features/app_lock)), set on the
+profile under Security.
+
+- The PIN is never stored: a salted PBKDF2 (HMAC-SHA256) hash is, in the
+  Keychain / Keystore, tied to the signed-in user — signing out or switching
+  accounts takes it away.
+- `AppLockController` locks on a cold start that restores a session and on
+  coming back after the chosen idle time; the app is covered in the app switcher.
+- Wrong guesses are counted with the hash, so killing the app does not reset
+  them; after ten the lock screen offers to sign out instead.
+- `AppLockGate` sits over the whole app. Deep links, shortcuts and tapped pushes
+  wait behind it through `LaunchGate`.
+
+---
+
+## Features and where they live
+
+Each is a folder in `lib/features/`, built the same way. "Where" is how a user
+reaches it.
+
+**The core**
+
+| Feature | What it is | Where |
+|---|---|---|
+| `auth` | sign-in, sign-up with e-mail confirmation, invites, password reset, "Try the demo", the no-agency onboarding screens | first screens |
+| `dashboard` | next meeting, today's tasks, follow-up cards, monthly target, metrics, pipeline, deals needing attention, leaderboard, upcoming meetings | tab 1 |
+| `clients` | buyers and sellers, wish lists, tags, lead source, contact history, duplicates, matching listings, going-cold and client-dates lists | tab 2 |
+| `properties` | listings, photos and cover, price history and price check, seller's agreement, map, public link, brochure (PDF), seller report | tab 3 |
+| `deals` | pipeline as list or board, stages, lost reason, documents, discussion with @mentions | tab 4 |
+| `meetings`, `calendar` | meetings and viewings, viewing outcomes, the calendar with meetings and tasks by day | tab 5 |
+| `tasks` | follow-ups with a due time, one-off or recurring, on their own or on a client/deal | dashboard, records, "+" |
+| `search` | across clients, listings and deals | dashboard header, icon shortcut |
+| `notifications` | the bell's feed | dashboard header |
+| `profile` | name, theme, language, reminders, PIN lock, legal pages, sign out, delete account | avatar on the dashboard |
+| `app_lock` | the optional PIN, see [App lock](#app-lock) | profile → Security |
+
+**On a record**
+
+| Feature | What it is |
+|---|---|
+| `checklist` | a deal's checklist per stage from the agency's template; required items warn before the deal moves on |
+| `deposits` | a buyer's deposit on a deal, held until a date, then applied, returned or kept |
+| `leases` | a rent deal's lease, renewals, leases ending |
+| `commission_split` | how a deal's commission is shared between agents and partners |
+| `documents` | files attached to a deal (≤ 20 MB) |
+| `offers` | offers and counter-offers on a listing |
+| `open_houses` | open house events on a listing, with visitors who become buyers |
+| `keys` | who holds a listing's keys, handed over and returned |
+| `expenses` | money spent on a listing |
+| `mortgage` | a mortgage calculator for a listing's price |
+| `change_log` | who changed what on a record, and the agency-wide feed for managers |
+| `stars` | starred clients, listings and deals, one list away from the dashboard |
+| `compare` | two to four listings side by side, shareable |
+| `route` | the day's viewings as a route in a maps app |
+| `partners` | brokers, notaries and others who send clients, and fees owed |
+
+**Running the agency** (manager's console, admin console)
+
+| Feature | What it is |
+|---|---|
+| `teams`, `agents` | the agency, its members, adding people by e-mail, join requests, handing work between agents |
+| `goals` | monthly targets per agent and for the agency |
+| `leaderboard`, `analytics` | agents ranked; funnel and lead-source analytics |
+| `payouts` | commission shares owed and paid |
+| `message_templates` | the agency's message templates, filled in for a client and sent from the phone |
+| `imports`, `exports` | CSV in (clients, listings, with column mapping) and out |
+| `time_off` | absences, who covers whom, who is out today |
+| `admin` | across agencies: people, roles, scopes, teams, the audit log |
 
 ---
 
@@ -264,75 +475,32 @@ A test asserts the three files have identical key sets, and that no ARB contains
 
 ---
 
-## Screens
-
-| Route | Screen |
-|---|---|
-| `/splash` | holds while the saved session is read |
-| `/login`, `/accept-invite` | auth |
-| `/dashboard` | greeting, next meeting, metrics, pipeline, value by stage, conversion, meeting load, top agents, upcoming list |
-| `/clients`, `/clients/new`, `/clients/:id`, `/clients/:id/edit` | |
-| `/properties`, `…/new`, `…/:id`, `…/:id/edit` | paged list with server-side filters |
-| `/deals`, `…/new`, `…/:id`, `…/:id/edit` | stage pills filter client-side so the counts stay live; the detail screen carries the deal's documents |
-| `/meetings`, `…/new`, `…/:id`, `…/:id/edit` | date-grouped |
-| `/admin` | ADMIN only — users, teams, audit log |
-| `/team-console` | MANAGER only |
-| `/profile` | theme, language, sign out |
-
-**Routing** is go_router with a `ShellRoute` for the bottom nav. Detail and form routes are pushed on the **root** navigator so they cover the nav bar.
-
-`resolveRedirect` in [`core/utils/router.dart`](lib/core/utils/router.dart) is a pure function, deliberately: `GoRouter` resolves nothing until its delegate is attached to a widget tree, so the startup ordering — the part that is easy to get wrong — is otherwise untestable without booting the whole app.
-
-That ordering matters. Reading the saved session is asynchronous, so at startup the app does not yet know whether anyone is signed in. `isSessionResolved` is separate from `isAuthenticated`: treating "don't know" as "signed out" sent every returning user to `/login` and bounced them to the dashboard a frame later.
-
-**Documents** hang off the deal detail screen rather than a route of their own.
-The card lists what is attached, an attach button opens the phone's file browser,
-tapping a row downloads it and hands it to whatever app claims the type, and a
-remove button appears on the rows you uploaded yourself (admins and managers see
-it on all of them — the same rule the backend enforces). Files over 20 MB are
-refused before the upload, because that is the backend's multipart limit.
-
-Everything that touches the phone itself sits behind [`FileGateway`](lib/core/utils/file_gateway.dart)
-— picking a file, writing a downloaded one, asking the OS to open it — so the
-tests run against a fake instead of three plugins with no platform under them.
-On Android the manifest has to declare a `VIEW` intent query: `open_file` asks
-`queryIntentActivities` which app can read the file, and on Android 11+ that call
-sees nothing without the declaration, so every document would come back "no app
-can open it".
-
-**Splash** is two layers. `flutter_native_splash` covers the window before Flutter paints — white, matching the artwork's own field, so there is no seam. Android 12+ replaced custom splash layouts with an OS-drawn centred icon on one colour, so a full-bleed composition is not possible there. The Flutter `/splash` route then renders the real artwork with `BoxFit.cover`; `fill` would squash the circles, since the image is 780×1688 and phones are not.
-
----
-
 ## Testing
 
-637 tests. Widget tests run every screen through the acceptance matrix; the rest are behavioural.
-
 ```bash
-flutter test                          # all
-flutter test test/deals_screen_test.dart
-dart analyze lib test
+fvm flutter test                              # all
+fvm flutter test test/deals_screens_test.dart # one file
+fvm dart analyze --fatal-infos lib test
 ```
+
+Mostly widget tests: every screen is pumped against in-memory fakes and run
+through the acceptance matrix; the rest are behavioural tests of blocs, the
+network layer and pure rules.
 
 | File | Covers |
 |---|---|
-| `responsive_harness.dart` | the matrix, `expectNoOverflow` |
-| `fakes.dart` | in-memory repositories |
-| `*_screen(s)_test.dart` | per-feature render + matrix |
+| `responsive_harness.dart` | the matrix, `forEachAcceptanceCase`, `expectNoOverflow` |
+| `fakes.dart`, `*_fakes.dart`, `*_fixtures.dart` | in-memory repositories and sample records |
+| `*_screen(s)_test.dart`, `*_layout_test.dart` | per-feature behaviour + the matrix |
 | `bloc_audit_test.dart` | failed writes keep the list, out-of-order loads, logout clears |
 | `refresh_behaviour_test.dart` | a create shows up without a manual refresh; no skeleton on a warm reload |
-| `properties_bloc_test.dart` | the paging/reload race |
-| `api_client_refresh_test.dart` | the 401 contract, against a fake backend |
-| `remote_config_test.dart` | validation of every key, the dart-define pin, cached → fetched → live order, no Firebase at all |
-| `push_handler_test.dart` | topics follow sign-in, sign-out, language and earlier runs; a tap waits for the lock; links vs routes; the in-app banner |
-| `startup_test.dart` | redirect rules and startup ordering |
-| `header_stability_test.dart` | the header does not move when data lands |
-| `layout_regression_test.dart` | header action is flush right, `constrain()` top-aligns |
-| `dashboard_metrics_test.dart` | win rate, stage values, meeting buckets, agent ranking |
-| `deal_documents_test.dart` | attaching, opening and removing a document, the size limit, who gets a remove button |
-| `design_rules_test.dart` | no hardcoded font family, no emoji in ARBs, ARB key parity |
+| `api_client_refresh_test.dart`, `api_client_cold_start_test.dart` | the 401 contract and the sleeping host, against a fake backend |
+| `offline_*_test.dart` | the offline cache, banner and screens |
+| `remote_config_test.dart`, `push_handler_test.dart` | Firebase behaviour without Firebase |
+| `startup_test.dart`, `deep_links_test.dart` | redirect rules, start-up ordering, links |
+| `design_rules_test.dart` | no hardcoded font family, no emoji in ARBs, ARB key parity, no spinner where a skeleton belongs |
 
-**Every bug fix here landed with a test that was first confirmed to fail against the pre-fix code.** That is the bar — a regression test that passes both before and after proves nothing.
+**Every bug fix lands with a test that was first confirmed to fail against the pre-fix code.** That is the bar — a regression test that passes both before and after proves nothing.
 
 ---
 
@@ -355,3 +523,5 @@ Things that cost real debugging time. Each one has a test guarding it.
 **Awaiting `endOfFrame` in a widget test hangs.** `openPushRoute` and `openAppShortcut` wait for the next frame before navigating, and a test only produces frames when it pumps. Start the call, `pumpAndSettle`, then await it.
 
 **A free Apple team has no APNs token.** On iOS `getToken()` fails and every topic call throws until the app is signed by a paid team with the Push Notifications capability. `FirebasePushGateway.token()` checks for the APNs token first, and `PushHandler` logs and carries on.
+
+**Android 11+ hides other apps from `open_file`.** Opening a downloaded document asks `queryIntentActivities` which app can read it, and without a `VIEW` intent query in the manifest that call sees nothing — every document came back "no app can open it".
