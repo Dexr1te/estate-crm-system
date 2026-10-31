@@ -385,7 +385,6 @@
   "clientsBudgetFrom": "Budget from",
   "clientsBudgetTo": "Budget to",
   "clientsBuyer": "Buyer",
-  "clientsClientCreatedId": "Client created (ID: {id})",
   "clientsClientFallback": "Client",
   "clientsClientIdCopied": "Client ID copied",
   "clientsClientNotFound": "Client not found",
@@ -2442,7 +2441,6 @@
     }
   },
   "propertiesProperty": "Property",
-  "propertiesPropertyCreated": "Property created (ID: {id})",
   "propertiesPropertyIdCopied": "Property ID copied",
   "propertiesPropertyIdLabel": "Property ID: {id}",
   "propertiesDetailTitle": "Listing",

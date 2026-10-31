@@ -277,8 +277,8 @@ class _PropertyFormScreenState extends State<PropertyFormScreen>
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(SnackBar(
-                content:
-                    Text(l10n.propertiesPropertyCreated(state.property.id))));
+                content: Text(
+                    actionMessageLabel(l10n, ActionMessage.propertyCreated))));
           context.go('/properties');
         }
         if (state is PropertiesActionFailure) {

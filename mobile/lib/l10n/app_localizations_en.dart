@@ -989,11 +989,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clientsBuyer => 'Buyer';
 
   @override
-  String clientsClientCreatedId(Object id) {
-    return 'Client created (ID: $id)';
-  }
-
-  @override
   String get clientsClientFallback => 'Client';
 
   @override
@@ -5031,11 +5026,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get propertiesProperty => 'Property';
-
-  @override
-  String propertiesPropertyCreated(Object id) {
-    return 'Property created (ID: $id)';
-  }
 
   @override
   String get propertiesPropertyIdCopied => 'Property ID copied';
