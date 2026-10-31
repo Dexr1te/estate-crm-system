@@ -82,6 +82,28 @@ void main() {
             'the same name, which is worse than the error');
   });
 
+  // A write is never replayed after the server stopped answering, so signing
+  // in against a host still waking up has one attempt. It has to be a long one:
+  // the 20 s default ran out well before a cold start finished.
+  test('signing in waits out a host that is waking up', () async {
+    final host = _SleepingHost(failures: 0, failure: DioExceptionType.unknown);
+    final client = await _client(host);
+
+    await client.dio.post('/auth/login', data: {'email': 'a', 'password': 'b'});
+    await client.dio.post('/auth/demo');
+    await client.dio.post('/auth/register', data: {'email': 'a'});
+    await client.dio.post('/auth/accept-invite', data: {'token': 't'});
+    await client.dio.post('/clients', data: {'fullName': 'A'});
+
+    final [login, demo, register, invite, other] = host.attempts;
+    for (final first in [login, demo, register, invite]) {
+      expect(first.receiveTimeout, greaterThan(const Duration(seconds: 60)),
+          reason: '${first.path} is often the first call a sleeping host gets');
+    }
+    expect(other.receiveTimeout, const Duration(seconds: 20),
+        reason: 'everything else keeps the usual wait');
+  });
+
   test('a host that never wakes up fails instead of looping', () async {
     final host = _SleepingHost(
         failures: 99, failure: DioExceptionType.connectionTimeout);
