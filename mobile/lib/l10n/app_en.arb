@@ -518,7 +518,7 @@
     }
   },
   "clientsDatesLoadFailed": "Could not load the dates coming up",
-  "clientsDatesTitle": "Dates coming up",
+  "clientsDatesTitle": "Birthdays and anniversaries",
   "clientsDatesToday": "Today",
   "clientsDatesTomorrow": "Tomorrow",
   "clientsDatesTurns": "Birthday, turns {years}",
@@ -835,7 +835,6 @@
   },
   "dashboardConversion": "Conversion",
   "dashboardDateSummary": "{date} · team overview",
-  "dashboardDatesTitle": "Dates this week",
   "dashboardDatesTotal": "{count} this week",
   "@dashboardDatesTotal": {
     "placeholders": {
@@ -1060,7 +1059,7 @@
   "depositsEdit": "Edit",
   "depositsEditTitle": "Edit the deposit",
   "depositsEndingEmpty": "No deposits running out",
-  "depositsEndingEmptyHint": "Active deposits show here a week before their hold ends.",
+  "depositsEndingEmptyHint": "Record a deposit in the Deposit section of a deal's page. Active ones show here a week before their hold ends.",
   "depositsEndingLoadFailed": "Could not load the deposits",
   "depositsEndingTitle": "Deposits ending",
   "depositsHistory": "Earlier deposits",
@@ -2296,7 +2295,7 @@
   "propertiesMandatesEmpty": "No agreements running out",
   "propertiesMandatesEmptyHint": "No seller agreement on a listing still for sale ends in the next two weeks.",
   "propertiesMandatesLoadFailed": "Could not load the agreements running out",
-  "propertiesMandatesTitle": "Agreements running out",
+  "propertiesMandatesTitle": "Seller agreements ending",
   "propertiesMapCapped": "Showing {count} — zoom in to see the rest",
   "@propertiesMapCapped": {
     "placeholders": {
@@ -3620,7 +3619,7 @@
   "keysSave": "Hand over",
   "keysOutTitle": "Keys out",
   "keysOutEmpty": "All keys are in the office",
-  "keysOutEmptyHint": "Keys handed over from a listing show here until they come back.",
+  "keysOutEmptyHint": "Hand keys over in the Keys section of a listing's page. They show here until they come back.",
   "keysOutLoadFailed": "Could not load the keys that are out",
   "keysOutOverdueCount": "{count} overdue",
   "@keysOutOverdueCount": {

@@ -1235,7 +1235,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get clientsDatesLoadFailed => 'Could not load the dates coming up';
 
   @override
-  String get clientsDatesTitle => 'Dates coming up';
+  String get clientsDatesTitle => 'Birthdays and anniversaries';
 
   @override
   String get clientsDatesToday => 'Today';
@@ -1980,9 +1980,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get dashboardDatesTitle => 'Dates this week';
-
-  @override
   String dashboardDatesTotal(int count) {
     return '$count this week';
   }
@@ -2543,7 +2540,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get depositsEndingEmptyHint =>
-      'Active deposits show here a week before their hold ends.';
+      'Record a deposit in the Deposit section of a deal\'s page. Active ones show here a week before their hold ends.';
 
   @override
   String get depositsEndingLoadFailed => 'Could not load the deposits';
@@ -4813,7 +4810,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Could not load the agreements running out';
 
   @override
-  String get propertiesMandatesTitle => 'Agreements running out';
+  String get propertiesMandatesTitle => 'Seller agreements ending';
 
   @override
   String propertiesMapCapped(int count) {
@@ -7285,7 +7282,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get keysOutEmptyHint =>
-      'Keys handed over from a listing show here until they come back.';
+      'Hand keys over in the Keys section of a listing\'s page. They show here until they come back.';
 
   @override
   String get keysOutLoadFailed => 'Could not load the keys that are out';

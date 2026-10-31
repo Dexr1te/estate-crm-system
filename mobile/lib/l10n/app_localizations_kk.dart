@@ -1226,7 +1226,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get clientsDatesLoadFailed => 'Жақын күндерді жүктеу мүмкін болмады';
 
   @override
-  String get clientsDatesTitle => 'Жақын күндер';
+  String get clientsDatesTitle => 'Туған күндер мен жылдықтар';
 
   @override
   String get clientsDatesToday => 'Бүгін';
@@ -1971,9 +1971,6 @@ class AppLocalizationsKk extends AppLocalizations {
   }
 
   @override
-  String get dashboardDatesTitle => 'Осы аптадағы күндер';
-
-  @override
   String dashboardDatesTotal(int count) {
     return 'аптада $count';
   }
@@ -2533,7 +2530,7 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get depositsEndingEmptyHint =>
-      'Белсенді кепілпұлдар бронь аяқталуына бір апта қалғанда осында шығады.';
+      'Кепілпұл мәміле бетіндегі «Кепілпұл» бөлімінде енгізіледі. Белсенді кепілпұлдар бронь аяқталуына бір апта қалғанда осында шығады.';
 
   @override
   String get depositsEndingLoadFailed => 'Кепілпұлдарды жүктеу мүмкін болмады';
@@ -4750,7 +4747,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get propertiesMandatesLoadFailed => 'Аяқталатын келісімдер жүктелмеді';
 
   @override
-  String get propertiesMandatesTitle => 'Келісімдер аяқталып келеді';
+  String get propertiesMandatesTitle => 'Сатушымен келісімдер аяқталуда';
 
   @override
   String propertiesMapCapped(int count) {
@@ -7202,7 +7199,7 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get keysOutEmptyHint =>
-      'Нысан карточкасынан берілген кілттер қайтарылғанша осында көрінеді.';
+      'Кілттер нысан бетіндегі «Кілттер» бөлімінен беріледі. Олар қайтарылғанша осында көрінеді.';
 
   @override
   String get keysOutLoadFailed => 'Берілген кілттерді жүктеу мүмкін болмады';

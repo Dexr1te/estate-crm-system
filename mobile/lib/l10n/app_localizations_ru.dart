@@ -1263,7 +1263,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get clientsDatesLoadFailed => 'Не удалось загрузить ближайшие даты';
 
   @override
-  String get clientsDatesTitle => 'Ближайшие даты';
+  String get clientsDatesTitle => 'Дни рождения и годовщины';
 
   @override
   String get clientsDatesToday => 'Сегодня';
@@ -2016,9 +2016,6 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get dashboardDatesTitle => 'Даты на этой неделе';
-
-  @override
   String dashboardDatesTotal(int count) {
     return '$count на неделе';
   }
@@ -2589,7 +2586,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get depositsEndingEmptyHint =>
-      'Активные задатки появятся здесь за неделю до конца брони.';
+      'Задаток вносят в разделе «Задаток» на странице сделки. Активные задатки появятся здесь за неделю до конца брони.';
 
   @override
   String get depositsEndingLoadFailed => 'Не удалось загрузить задатки';
@@ -4909,7 +4906,7 @@ class AppLocalizationsRu extends AppLocalizations {
       'Не удалось загрузить истекающие договоры';
 
   @override
-  String get propertiesMandatesTitle => 'Договоры истекают';
+  String get propertiesMandatesTitle => 'Договоры с продавцами истекают';
 
   @override
   String propertiesMapCapped(int count) {
@@ -7401,7 +7398,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get keysOutEmptyHint =>
-      'Ключи, выданные с карточки объекта, видны здесь, пока их не вернут.';
+      'Ключи выдают в разделе «Ключи» на странице объекта. Здесь они видны, пока их не вернут.';
 
   @override
   String get keysOutLoadFailed => 'Не удалось загрузить выданные ключи';

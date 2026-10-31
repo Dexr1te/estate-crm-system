@@ -2215,7 +2215,7 @@ abstract class AppLocalizations {
   /// No description provided for @clientsDatesTitle.
   ///
   /// In en, this message translates to:
-  /// **'Dates coming up'**
+  /// **'Birthdays and anniversaries'**
   String get clientsDatesTitle;
 
   /// No description provided for @clientsDatesToday.
@@ -3514,12 +3514,6 @@ abstract class AppLocalizations {
   /// **'{date} · team overview'**
   String dashboardDateSummary(Object date);
 
-  /// No description provided for @dashboardDatesTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Dates this week'**
-  String get dashboardDatesTitle;
-
   /// No description provided for @dashboardDatesTotal.
   ///
   /// In en, this message translates to:
@@ -4477,7 +4471,7 @@ abstract class AppLocalizations {
   /// No description provided for @depositsEndingEmptyHint.
   ///
   /// In en, this message translates to:
-  /// **'Active deposits show here a week before their hold ends.'**
+  /// **'Record a deposit in the Deposit section of a deal\'s page. Active ones show here a week before their hold ends.'**
   String get depositsEndingEmptyHint;
 
   /// No description provided for @depositsEndingLoadFailed.
@@ -8209,7 +8203,7 @@ abstract class AppLocalizations {
   /// No description provided for @propertiesMandatesTitle.
   ///
   /// In en, this message translates to:
-  /// **'Agreements running out'**
+  /// **'Seller agreements ending'**
   String get propertiesMandatesTitle;
 
   /// No description provided for @propertiesMapCapped.
@@ -12368,7 +12362,7 @@ abstract class AppLocalizations {
   /// No description provided for @keysOutEmptyHint.
   ///
   /// In en, this message translates to:
-  /// **'Keys handed over from a listing show here until they come back.'**
+  /// **'Hand keys over in the Keys section of a listing\'s page. They show here until they come back.'**
   String get keysOutEmptyHint;
 
   /// No description provided for @keysOutLoadFailed.
