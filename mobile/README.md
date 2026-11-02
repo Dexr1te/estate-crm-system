@@ -117,7 +117,7 @@ The inheritance is load-bearing:
 
 `bloc`'s default event transformer runs handlers **concurrently**. Two loads triggered close together — a mutation queuing a reload while a pull-to-refresh is in flight, or two quick status changes — resolve in whatever order the network answers, and without a guard the *slower* one wins simply because it landed last.
 
-Every list bloc mixes in [`LoadGeneration`](lib/core/bloc/load_generation.dart): a load takes a ticket before its first `await` and drops its result if a newer load has started since.
+Every list bloc mixes in [`CollectionBloc`](lib/core/bloc/collection_bloc.dart): its `load` takes a ticket before its first `await` and drops its result if a newer load has started since.
 
 `PropertiesBloc` needs it in two places, because it also pages. A load-more that lands after a reload must not append its page to a list that has already been replaced — that is what showed every property twice until the next manual refresh.
 
