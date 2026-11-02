@@ -66,9 +66,16 @@ class ContactActions {
         '?mlat=$lat&mlon=$lng#map=17/$lat/$lng');
   }
 
+  /// WhatsApp only takes the international form, so "8 701 123 45 67", the
+  /// way Kazakhstan and Russia write a +7 number at home, goes as 77011234567.
   static Future<bool> whatsApp(String? phone, String text) async {
-    final digits = phone?.replaceAll(RegExp(r'\D'), '') ?? '';
+    var digits = phone?.replaceAll(RegExp(r'\D'), '') ?? '';
     if (digits.isEmpty) return false;
+    if (digits.length == 11 &&
+        digits.startsWith('8') &&
+        !phone!.trim().startsWith('+')) {
+      digits = '7${digits.substring(1)}';
+    }
     final uri = Uri.https('wa.me', '/$digits', {'text': text});
     try {
       return await opener(uri, LaunchMode.externalApplication);
