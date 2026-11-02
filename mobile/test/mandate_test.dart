@@ -354,6 +354,27 @@ void main() {
       expect(repo.sent['update-1']!['areaSqm'], 58.5);
     });
 
+    for (final (typed, price) in [
+      ('150,000', 150000.0),
+      ('12,300,000', 12300000.0),
+      ('12 300 000,50', 12300000.5),
+    ]) {
+      testWidgets('a price typed as "$typed" is saved as $price',
+          (tester) async {
+        final repo = installMandates(const [
+          PropertyResponse(
+              id: 1, title: 'Flat', address: 'Abaya 10', price: 30000000),
+        ]);
+        await _pumpForm(tester, repo);
+        await tester.enterText(
+            find.widgetWithText(TextFormField, '30 000 000'), typed);
+
+        await toDetails(tester);
+        await submit(tester);
+        expect(repo.sent['update-1']!['price'], price);
+      });
+    }
+
     testWidgets('an agreement is recorded with its last day', (tester) async {
       final repo = installMandates(const [
         PropertyResponse(

@@ -185,6 +185,12 @@ class _PropertyFormScreenState extends State<PropertyFormScreen>
     return v.isEmpty ? null : double.tryParse(v);
   }
 
+  double? _money(TextEditingController c) {
+    if (c.text.trim().isEmpty) return null;
+    final v = parseMoneyInput(c.text);
+    return v > 0 ? v : null;
+  }
+
   static String _groupedDigits(double v) => v
       .round()
       .toString()
@@ -228,7 +234,7 @@ class _PropertyFormScreenState extends State<PropertyFormScreen>
     final data = <String, dynamic>{
       'title': _titleCtrl.text.trim(),
       'address': _addressCtrl.text.trim(),
-      'price': _double(_priceCtrl) ?? 0,
+      'price': _money(_priceCtrl) ?? 0,
       'type': _type.name,
       'status': _status.name,
       if (_descCtrl.text.trim().isNotEmpty)
@@ -384,8 +390,7 @@ class _PropertyFormScreenState extends State<PropertyFormScreen>
                       hint: '12 300 000',
                       keyboardType: TextInputType.number,
                       textInputAction: TextInputAction.next,
-                      validator: (v) => _double(_priceCtrl) == null ||
-                              _double(_priceCtrl)! <= 0
+                      validator: (v) => _money(_priceCtrl) == null
                           ? l10n.propertiesFieldRequired(
                               l10n.propertiesPriceLabel)
                           : null,
