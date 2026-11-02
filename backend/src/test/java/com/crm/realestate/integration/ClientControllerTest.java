@@ -174,6 +174,35 @@ public class ClientControllerTest {
         }
 
         @Test
+        public void testGetClientsSearch_wildcardsMatchAsTyped() throws Exception {
+                clientRepository
+                                .save(Client.builder().fullName("Anna K").type(ClientType.BUYER)
+                                                .email("anna_k@mail.ru")
+                                                .agent(currentUser)
+                                                .team(team)
+                                                .build());
+                clientRepository
+                                .save(Client.builder().fullName("Anna S").type(ClientType.BUYER)
+                                                .email("annask@mail.ru")
+                                                .agent(currentUser)
+                                                .team(team)
+                                                .build());
+
+                assertThat(searchNames("anna_k")).containsExactly("Anna K");
+                assertThat(searchNames("%")).isEmpty();
+                assertThat(searchNames("\\")).isEmpty();
+        }
+
+        private java.util.List<String> searchNames(String search) throws Exception {
+                String json = mockMvc.perform(get(CLIENTS_URL).param("search", search))
+                                .andExpect(status().isOk())
+                                .andReturn().getResponse().getContentAsString();
+                java.util.List<String> names = new java.util.ArrayList<>();
+                objectMapper.readTree(json).forEach(c -> names.add(c.get("fullName").asText()));
+                return names;
+        }
+
+        @Test
         public void testInvalidDateParam_returnsBadRequest() throws Exception {
                 mockMvc.perform(get(CLIENTS_URL + "?createdFrom=not-a-date&page=0&size=10"))
                                 .andExpect(status().isBadRequest());
