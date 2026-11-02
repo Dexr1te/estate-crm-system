@@ -49,11 +49,11 @@ public final class PropertySpecification {
                 predicates.add(cb.equal(root.get("agent").get("id"), agentId));
             }
             if (search != null && !search.isBlank()) {
-                String like = "%" + search.trim().toLowerCase() + "%";
+                String like = SearchPattern.contains(search);
                 predicates.add(cb.or(
-                        cb.like(cb.lower(root.get("title")), like),
-                        cb.like(cb.lower(root.get("address")), like),
-                        cb.like(cb.lower(root.get("city")), like)
+                        cb.like(cb.lower(root.get("title")), like, SearchPattern.ESCAPE),
+                        cb.like(cb.lower(root.get("address")), like, SearchPattern.ESCAPE),
+                        cb.like(cb.lower(root.get("city")), like, SearchPattern.ESCAPE)
                 ));
             }
 

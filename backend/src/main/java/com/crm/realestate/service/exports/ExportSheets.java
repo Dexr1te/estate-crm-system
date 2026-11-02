@@ -15,6 +15,7 @@ import com.crm.realestate.service.ScopeService;
 import com.crm.realestate.specification.ClientSpecification;
 import com.crm.realestate.specification.DealSpecification;
 import com.crm.realestate.specification.PropertySpecification;
+import com.crm.realestate.specification.SearchPattern;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -128,7 +129,7 @@ class ExportSheets {
             Predicate p = cb.conjunction();
             if (f.search() != null && !f.search().isBlank()) {
                 p = cb.and(p, cb.like(cb.lower(root.get("title")),
-                        "%" + f.search().trim().toLowerCase(Locale.ROOT) + "%"));
+                        SearchPattern.contains(f.search()), SearchPattern.ESCAPE));
             }
             p = between(cb, p, root, "createdAt", f.createdFrom(), f.createdTo());
             return between(cb, p, root, "closedAt", f.closedFrom(), f.closedTo());

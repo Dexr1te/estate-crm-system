@@ -17,6 +17,7 @@ import com.crm.realestate.repository.ClientRepository;
 import com.crm.realestate.repository.PartnerHandoffRepository;
 import com.crm.realestate.repository.PartnerRepository;
 import com.crm.realestate.security.SecurityUtils;
+import com.crm.realestate.specification.SearchPattern;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -28,7 +29,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
@@ -70,11 +70,11 @@ public class PartnerService {
         }
         String word = strip(search);
         if (word != null) {
-            String like = "%" + word.toLowerCase(Locale.ROOT).replace("%", "\\%").replace("_", "\\_") + "%";
+            String like = SearchPattern.contains(word);
             spec = spec.and((root, query, cb) -> cb.or(
-                    cb.like(cb.lower(root.get("name")), like, '\\'),
-                    cb.like(cb.lower(cb.coalesce(root.get("company"), "")), like, '\\'),
-                    cb.like(cb.lower(cb.coalesce(root.get("phone"), "")), like, '\\')));
+                    cb.like(cb.lower(root.get("name")), like, SearchPattern.ESCAPE),
+                    cb.like(cb.lower(cb.coalesce(root.get("company"), "")), like, SearchPattern.ESCAPE),
+                    cb.like(cb.lower(cb.coalesce(root.get("phone"), "")), like, SearchPattern.ESCAPE)));
         }
         List<Partner> partners = partnerRepository.findAll(spec,
                 Sort.by(Sort.Order.asc("name").ignoreCase(), Sort.Order.asc("id")));
