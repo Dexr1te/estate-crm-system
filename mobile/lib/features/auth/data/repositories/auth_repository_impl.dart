@@ -58,9 +58,17 @@ class AuthRepositoryImpl implements AuthRepository {
     final fresh = await _remote.me();
     final saved = await _session.getSavedUser();
 
+    // Signed out -- or someone else signed in -- while the read was on its
+    // way, as it is for a minute when the host is waking up. The answer
+    // belongs to a session that has ended; saving it would sign the person
+    // back in, with an empty token or with the next person's.
+    if (saved == null || saved.userId != fresh.userId) {
+      throw StateError('the session changed while the profile was read');
+    }
+
     final merged = fresh.copyWith(
-      accessToken: saved?.accessToken ?? fresh.accessToken,
-      refreshToken: saved?.refreshToken ?? fresh.refreshToken,
+      accessToken: saved.accessToken,
+      refreshToken: saved.refreshToken,
     );
     await _session.save(merged);
     return merged;

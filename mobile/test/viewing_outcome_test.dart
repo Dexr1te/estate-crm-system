@@ -70,16 +70,21 @@ void _installFakes({
   Injector.propertiesRepository = FakePropertiesRepository(const [_listing]);
 }
 
-Widget _wrap(Widget child, {List<MeetingResponse> meetings = const []}) =>
-    MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (_) => AuthBloc(FakeAuthRepository())),
-        BlocProvider(create: (_) => ClientsBloc(FakeClientsRepository())),
-        BlocProvider(
-            create: (_) => MeetingsBloc(FakeMeetingsRepository(meetings))),
-      ],
-      child: child,
-    );
+/// The repository behind the screen's [MeetingsBloc], for tests that look at
+/// what was sent.
+late FakeMeetingsRepository _writes;
+
+Widget _wrap(Widget child, {List<MeetingResponse> meetings = const []}) {
+  _writes = FakeMeetingsRepository(meetings);
+  return MultiBlocProvider(
+    providers: [
+      BlocProvider(create: (_) => AuthBloc(FakeAuthRepository())),
+      BlocProvider(create: (_) => ClientsBloc(FakeClientsRepository())),
+      BlocProvider(create: (_) => MeetingsBloc(_writes)),
+    ],
+    child: child,
+  );
+}
 
 Future<void> _open(WidgetTester tester, Widget screen,
     {Size size = const Size(390, 844),
@@ -127,6 +132,38 @@ void main() {
         findsOneWidget,
         reason: 'the consequence is not obvious, and it is not undone easily');
     expect(find.text('What they said'), findsOneWidget);
+  });
+
+  // The API marks a meeting held and has no way back; asking for one through
+  // the full update was refused every time, and the chip snapped back.
+  testWidgets('a held meeting is not offered back to scheduled',
+      (tester) async {
+    final held = _call.copyWith(completed: true);
+    _installFakes(meetings: [held]);
+    await _open(tester, const MeetingDetailScreen(id: 32), meetings: [held]);
+
+    await tester.tap(find.byKey(const ValueKey('meeting-status-scheduled')),
+        warnIfMissed: false);
+    await tester.pumpAndSettle();
+
+    expect(_writes.updates, 0, reason: 'a request bound to fail is not sent');
+  });
+
+  testWidgets('an outcome the server refused does not look saved',
+      (tester) async {
+    _installFakes(meetings: [_viewing]);
+    await _open(tester, const MeetingDetailScreen(id: 31),
+        meetings: [_viewing]);
+    _writes.outcomeFailure = StateError('offline');
+
+    await tester.tap(find.text('Interested'));
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.text('Save'));
+    await tester.tap(find.text('Save'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Save'), findsOneWidget,
+        reason: 'the choice is still unsaved, so it can be sent again');
   });
 
   testWidgets('a listing already seen says so in the match list',

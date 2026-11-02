@@ -56,6 +56,16 @@ Future<void> _show(WidgetTester tester, Widget child,
   await tester.pumpAndSettle();
 }
 
+/// The agency currency lives in the console's settings segment, the last.
+Future<void> _openConsoleSettings(WidgetTester tester) async {
+  await tester.tap(find
+      .descendant(
+          of: find.byKey(const ValueKey('console-tabs')),
+          matching: find.byType(InkWell))
+      .last);
+  await tester.pumpAndSettle();
+}
+
 FakeTeamsRepository _teams() {
   final repo = FakeTeamsRepository(myTeam: _team);
   Injector.teamsRepository = repo;
@@ -107,6 +117,7 @@ void main() {
               role: Role.MANAGER,
               teamId: 1,
               teamCurrency: 'KZT'));
+      await _openConsoleSettings(tester);
 
       final row = find.byKey(const Key('currency-row'));
       expect(row, findsOneWidget);
@@ -138,6 +149,7 @@ void main() {
     testWidgets('backing out of the warning changes nothing', (tester) async {
       final repo = _teams();
       await _show(tester, const ManagerConsoleScreen());
+      await _openConsoleSettings(tester);
 
       await tester.tap(find.byKey(const Key('currency-row')));
       await tester.pumpAndSettle();
@@ -155,6 +167,7 @@ void main() {
       _teams();
       await _show(tester, const ManagerConsoleScreen(),
           locale: const Locale('ru'));
+      await _openConsoleSettings(tester);
       await tester.tap(find.byKey(const Key('currency-row')));
       await tester.pumpAndSettle();
       for (final label in [
@@ -225,6 +238,7 @@ void main() {
         _teams();
         await _show(tester, const ManagerConsoleScreen(),
             locale: locale, size: const Size(320, 568), textScale: 1.5);
+        await _openConsoleSettings(tester);
         await tester.scrollUntilVisible(
             find.byKey(const Key('currency-row')), 100,
             scrollable: find.byType(Scrollable).first);

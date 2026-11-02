@@ -165,6 +165,8 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
       initialType: activity.type,
       initialOccurredAt: activity.occurredAt,
       initialNote: activity.note,
+      onDelete:
+          _canDeleteActivity(activity) ? () => _deleteActivity(activity) : null,
       onSave: (type, note, occurredAt) async {
         final updated = await Injector.clientsRepository.updateActivity(
             widget.id, activity.id,
@@ -426,6 +428,22 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
       );
     }
 
+    final more = <(String, Widget)>[
+      if (client.type == ClientType.BUYER)
+        (l10n.offersCardTitle, ClientOffersCard(clientId: client.id)),
+      (
+        l10n.partnersClientCard,
+        ClientPartnersCard(
+            key: ValueKey('client-partners-${client.id}-'
+                '${client.referredByPartnerId}'),
+            client: client),
+      ),
+      (
+        l10n.changeLogTitle,
+        ChangeHistoryButton(location: '/clients/${widget.id}/changes'),
+      ),
+    ];
+
     return BlocListener<ClientsBloc, ClientsState>(
       listenWhen: (_, __) => _merging,
       listener: _onClientsState,
@@ -461,6 +479,8 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
               onCall: _call,
               onMessage: _message,
               onCompose: _compose),
+          if (client.notes != null && client.notes!.trim().isNotEmpty)
+            _NotesCard(client: client),
           ClientHistoryCard(
             activities: _activities,
             onLog: _logContact,
@@ -473,22 +493,13 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
           RecordTasksCard(
               client: PickerItem(id: client.id, title: client.fullName)),
           _DealsCard(deals: _deals),
+          if (client.type == ClientType.BUYER)
+            _MatchesCard(
+                client: client, matches: _matches, onSent: _recordSent),
           MoreSection(
             memoryKey: 'client-detail',
-            children: [
-              if (client.type == ClientType.BUYER)
-                _MatchesCard(
-                    client: client, matches: _matches, onSent: _recordSent),
-              if (client.type == ClientType.BUYER)
-                ClientOffersCard(clientId: client.id),
-              ClientPartnersCard(
-                  key: ValueKey('client-partners-${client.id}-'
-                      '${client.referredByPartnerId}'),
-                  client: client),
-              if (client.notes != null && client.notes!.trim().isNotEmpty)
-                _NotesCard(client: client),
-              ChangeHistoryButton(location: '/clients/${widget.id}/changes'),
-            ],
+            summary: [for (final (title, _) in more) title],
+            children: [for (final (_, card) in more) card],
           ),
         ],
       ),

@@ -45,3 +45,17 @@ void showActionOutcome(BuildContext context, Object? state) {
       backgroundColor: state.isFailure ? context.tokens.dangerSolid : null,
     ));
 }
+
+/// A write from a record's own screen that failed while its list had never
+/// loaded. The bloc reports that as the list's load error, which only the list
+/// screen draws -- and a record opened from a push, a client card or the
+/// dashboard has no list screen underneath to draw it. The record's screen
+/// says it instead.
+void showWriteFailure(BuildContext context, ApiFailure failure) =>
+    showActionOutcome(context, _WriteFailed(failure));
+
+class _WriteFailed with ActionFailed {
+  @override
+  final ApiFailure failure;
+  _WriteFailed(this.failure);
+}

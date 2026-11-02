@@ -75,6 +75,7 @@ class ApiClient {
           options.headers['Authorization'] = 'Bearer $token';
         }
         options.headers['Accept-Language'] ??= AppCurrency.locale;
+        if (_startsSession(options)) options.receiveTimeout = _wakeUpTimeout;
         handler.next(options);
       },
       onError: (error, handler) async {
@@ -141,6 +142,22 @@ class ApiClient {
         },
       );
 
+  /// The calls that open a session are usually the first a host asleep since
+  /// yesterday hears. The host holds the connection while it wakes, so they
+  /// fail on the reply, not the connect -- and as writes they are never
+  /// replayed. They wait as long as a replayed read would instead, or signing
+  /// in, and App Review's first tap on "Try the demo", ends in a timeout.
+  static const _sessionStarts = {
+    '/auth/login',
+    '/auth/demo',
+    '/auth/register',
+    '/auth/accept-invite',
+  };
+
+  static bool _startsSession(RequestOptions options) =>
+      options.method.toUpperCase() == 'POST' &&
+      _sessionStarts.contains(options.path);
+
   static bool _shouldWaitForWakeUp(DioException e) {
     if (e.requestOptions.extra[_wokeKey] == true) return false;
     switch (e.type) {
@@ -169,10 +186,19 @@ class ApiClient {
 
   bool _shouldRefresh(DioException e) {
     if (e.response?.statusCode != 401) return false;
-    if (e.requestOptions.path.contains('/auth/')) return false;
+    if (_isCredentialCall(e.requestOptions.path)) return false;
     if (e.requestOptions.extra[_retriedKey] == true) return false;
     return _session.refreshToken != null;
   }
+
+  /// The /auth calls made without a session -- signing in, signing up,
+  /// resetting a password. Their 401 means wrong credentials, not an expired
+  /// token. `/auth/me` is not one of them: reading, editing or deleting your
+  /// own account is an ordinary signed-in call, and a day after signing in its
+  /// token has expired like any other's. Without the refresh, deleting the
+  /// account then failed with "Invalid email or password".
+  static bool _isCredentialCall(String path) =>
+      path.startsWith('/auth/') && path != '/auth/me';
 
   Future<void> _refreshOnce() =>
       _refreshing ??= _performRefresh().whenComplete(() => _refreshing = null);

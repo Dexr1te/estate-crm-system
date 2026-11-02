@@ -10,14 +10,12 @@ class ChecklistTemplateSettingsRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return SettingsGroup(rows: [
-      SettingsRow(
-        key: const Key('checklist-template-row'),
-        label: l10n.teamsChecklist,
-        subLabel: l10n.teamsChecklistHint,
-        showChevron: true,
-        onTap: () => context.push('/checklist-template'),
-      ),
-    ]);
+    return SettingsRow(
+      key: const Key('checklist-template-row'),
+      label: l10n.teamsChecklist,
+      subLabel: l10n.teamsChecklistHint,
+      showChevron: true,
+      onTap: () => context.push('/checklist-template'),
+    );
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -75,6 +77,39 @@ class _PropertiesScreenState extends State<PropertiesScreen>
 
   void _toggleCompareMode() =>
       setState(() => _picked = _picked == null ? <int>[] : null);
+
+  /// "Compare" spelled out where it fits beside the title, the icon with a
+  /// tooltip where it would squeeze the title. The export button's room is
+  /// kept whether or not it shows, so the header keeps its shape when the
+  /// session lands, and the wider of the two labels is measured, so it keeps
+  /// it when compare mode toggles.
+  Widget _compareToggle(
+      BuildContext context, AppLocalizations l10n, double width) {
+    final on = _picked != null;
+    final icon = on ? Icons.close_rounded : Icons.compare_arrows_rounded;
+    final room =
+        ScreenTitle.trailingRoom(context, l10n.propertiesTitle, width) -
+            4 -
+            AppMetrics.minHitTarget;
+    final labelled = math.max(
+            AppHeaderAction.widthFor(context, l10n.compareAction),
+            AppHeaderAction.widthFor(context, l10n.compareExit)) <=
+        room;
+    if (labelled) {
+      return AppHeaderAction(
+        key: const ValueKey('properties-compare'),
+        label: on ? l10n.compareExit : l10n.compareAction,
+        icon: icon,
+        onPressed: _toggleCompareMode,
+      );
+    }
+    return AppIconTile(
+      key: const ValueKey('properties-compare'),
+      icon: icon,
+      tooltip: on ? l10n.compareStop : l10n.compareStart,
+      onPressed: _toggleCompareMode,
+    );
+  }
 
   void _togglePick(int id) {
     final picked = _picked!;
@@ -163,37 +198,30 @@ class _PropertiesScreenState extends State<PropertiesScreen>
                     padding: EdgeInsets.fromLTRB(pad, 10, pad, 0),
                     child: Column(
                       children: [
-                        ScreenTitle(
-                          l10n.propertiesTitle,
-                          reserveSubtitle: true,
-                          subtitle: state is PropertiesLoaded
-                              ? l10n.propertiesCounter(
-                                  items
-                                      .where((p) =>
-                                          p.status == PropertyStatus.RESERVED)
-                                      .length,
-                                  items.length)
-                              : null,
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              if (!_map) ...[
-                                AppIconTile(
-                                  key: const ValueKey('properties-compare'),
-                                  icon: _picked == null
-                                      ? Icons.compare_arrows_rounded
-                                      : Icons.close_rounded,
-                                  tooltip: _picked == null
-                                      ? l10n.compareAction
-                                      : l10n.compareExit,
-                                  onPressed: _toggleCompareMode,
-                                ),
-                                const SizedBox(width: 4),
+                        LayoutBuilder(
+                          builder: (ctx, box) => ScreenTitle(
+                            l10n.propertiesTitle,
+                            reserveSubtitle: true,
+                            subtitle: state is PropertiesLoaded
+                                ? l10n.propertiesCounter(
+                                    items
+                                        .where((p) =>
+                                            p.status == PropertyStatus.RESERVED)
+                                        .length,
+                                    items.length)
+                                : null,
+                            trailing: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                if (!_map) ...[
+                                  _compareToggle(ctx, l10n, box.maxWidth),
+                                  const SizedBox(width: 4),
+                                ],
+                                ExportButton(
+                                    kind: ExportKind.properties,
+                                    filters: _exportFilters),
                               ],
-                              ExportButton(
-                                  kind: ExportKind.properties,
-                                  filters: _exportFilters),
-                            ],
+                            ),
                           ),
                         ),
                         const SizedBox(height: 12),

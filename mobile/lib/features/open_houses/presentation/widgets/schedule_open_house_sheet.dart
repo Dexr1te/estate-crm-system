@@ -95,7 +95,7 @@ class _ScheduleOpenHouseFormState extends State<ScheduleOpenHouseForm> {
         final length = _at(_end).difference(_at(_start));
         _start = picked;
         if (length > Duration.zero) {
-          _end = TimeOfDay.fromDateTime(_at(picked).add(length));
+          _end = openHouseEndAfterMove(_at(picked), length);
         }
       } else {
         _end = picked;
@@ -225,4 +225,16 @@ class _ScheduleOpenHouseFormState extends State<ScheduleOpenHouseForm> {
       ],
     );
   }
+}
+
+/// Where the end goes when the start moves: the same length later, but never
+/// past midnight. An open house is one day, and an end that wrapped round --
+/// a 12:00-14:00 slot moved to 23:00 ending at 01:00 -- read as ending before
+/// it began and could not be saved.
+@visibleForTesting
+TimeOfDay openHouseEndAfterMove(DateTime start, Duration length) {
+  final end = start.add(length);
+  return DateUtils.isSameDay(start, end)
+      ? TimeOfDay.fromDateTime(end)
+      : const TimeOfDay(hour: 23, minute: 59);
 }

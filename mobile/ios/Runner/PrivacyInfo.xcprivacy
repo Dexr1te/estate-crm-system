@@ -12,7 +12,9 @@
     * Photographs of a listing are uploaded to the agency's own backend, so
       they are collected and linked to the user as well.
     * Nothing is used for tracking. There is no advertising or analytics SDK in
-      the build, and no data leaves the agency's own backend.
+      the build. Firebase receives the e-mail address at sign-up (to confirm
+      it) and a device identifier for push; Firebase's own pods declare that in
+      their manifests, and the questionnaire has to answer Device ID for it.
 -->
 <plist version="1.0">
 <dict>

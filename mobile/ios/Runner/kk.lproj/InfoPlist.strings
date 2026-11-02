@@ -1,0 +1,4 @@
+"CFBundleDisplayName" = "EstateCRM";
+"NSCameraUsageDescription" = "Қосымшадан шықпай-ақ нысанды суретке түсіру үшін.";
+"NSPhotoLibraryUsageDescription" = "Нысанның фотосын таңдап, оған тіркеу үшін.";
+"NSPhotoLibraryAddUsageDescription" = "Нысанның фотосын галереяңызға сақтау үшін.";

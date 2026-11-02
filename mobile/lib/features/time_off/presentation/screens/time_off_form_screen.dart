@@ -143,11 +143,17 @@ class _TimeOffFormScreenState extends State<TimeOffFormScreen> {
     final now = AppClock.now();
     final current = first ? _start : _end;
     final initial = current ?? (first ? null : _start) ?? now;
+    // The lists look kTimeOffAheadDays ahead. An absence starting later was
+    // saved and then shown nowhere -- while still refusing a second one over
+    // the same days. Its end may run past the window; it is listed by start.
+    final last = first
+        ? DateUtils.dateOnly(now).add(const Duration(days: kTimeOffAheadDays))
+        : DateTime(now.year + 2, 12, 31);
     final picked = await showAppDatePicker(
       context: context,
       initialDate: initial,
       firstDate: DateTime(now.year - 1),
-      lastDate: DateTime(now.year + 2, 12, 31),
+      lastDate: initial.isAfter(last) ? initial : last,
     );
     if (picked == null || !mounted) return;
     setState(() {

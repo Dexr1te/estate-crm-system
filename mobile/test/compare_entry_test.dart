@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
+import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_bloc.dart';
 import 'package:real_estate_crm/features/clients/presentation/screens/client_detail_screen.dart';
@@ -16,6 +17,7 @@ import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 import 'fakes.dart';
 import 'more_section_expect.dart';
+import 'responsive_harness.dart';
 
 /// Every way into the comparison lands on `/compare` with the right ids.
 
@@ -111,6 +113,47 @@ void main() {
       }
       expect(find.text('Compare (4)'), findsOneWidget);
       expect(find.textContaining('Up to 4 listings'), findsOneWidget);
+    });
+
+    Widget list() => MultiBlocProvider(
+          providers: [
+            BlocProvider(create: (_) => AuthBloc(FakeAuthRepository())),
+            BlocProvider(
+                create: (_) =>
+                    PropertiesBloc(FakePropertiesRepository(_flats))),
+          ],
+          child: const PropertiesScreen(),
+        );
+
+    testWidgets('"Compare" is spelled out where it fits beside the title',
+        (tester) async {
+      await expectNoOverflow(tester, list(),
+          size: const Size(768, 1024),
+          brightness: Brightness.light,
+          textScale: 1.0);
+      await tester.pumpAndSettle();
+      expect(find.widgetWithText(AppHeaderAction, 'Compare'), findsOneWidget);
+
+      await tester.tap(find.byKey(const ValueKey('properties-compare')));
+      await tester.pumpAndSettle();
+      expect(find.widgetWithText(AppHeaderAction, 'Done'), findsOneWidget);
+    });
+
+    testWidgets('where it does not, the icon says what it does',
+        (tester) async {
+      await expectNoOverflow(tester, list(),
+          size: const Size(320, 568),
+          brightness: Brightness.light,
+          textScale: 1.3,
+          locale: const Locale('kk'));
+      await tester.pumpAndSettle();
+      expect(find.byType(AppHeaderAction), findsNothing,
+          reason: 'spelt out, it would squeeze the title');
+      expect(find.byTooltip('Нысандарды салыстыру'), findsOneWidget);
+
+      await tester.tap(find.byKey(const ValueKey('properties-compare')));
+      await tester.pumpAndSettle();
+      expect(find.byTooltip('Салыстыруды аяқтау'), findsOneWidget);
     });
 
     testWidgets('leaving compare mode clears the picks', (tester) async {

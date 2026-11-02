@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
@@ -44,6 +43,12 @@ class ProfileScreen extends StatelessWidget {
                 SettingsRow(
                   key: const ValueKey('profile-hub'),
                   label: hub.label(l10n),
+                  // On a phone the dashboard's way in is an unlabelled icon;
+                  // this row is where the console says what it holds.
+                  subLabel: switch (hub) {
+                    RoleHub.team => l10n.profileTeamConsoleHint,
+                    RoleHub.admin => l10n.profileAdminConsoleHint,
+                  },
                   showChevron: true,
                   onTap: () => context.go(hub.route),
                 ),
@@ -65,30 +70,20 @@ class ProfileScreen extends StatelessWidget {
                 label: l10n.teamsTeamLabel,
                 value: user.teamName ?? l10n.teamsNoTeamLabel,
               ),
-              SettingsRow(
-                label: l10n.profileAgentId,
-                trailing: _IdChip(id: user.userId),
-                onTap: () {
-                  Clipboard.setData(ClipboardData(text: '${user.userId}'));
-                  ScaffoldMessenger.of(context)
-                    ..hideCurrentSnackBar()
-                    ..showSnackBar(SnackBar(
-                        content: Text(l10n.profileAgentIdCopied),
-                        duration: const Duration(seconds: 1)));
-                },
-              ),
             ]),
             if (user.teamId != null)
               SettingsGroup(rows: [
                 SettingsRow(
                   key: const ValueKey('profile-time-off'),
                   label: l10n.timeOffTitle,
+                  subLabel: l10n.profileTimeOffHint,
                   showChevron: true,
                   onTap: () => context.push('/time-off'),
                 ),
                 SettingsRow(
                   key: const ValueKey('profile-whos-out'),
                   label: l10n.timeOffWhosOut,
+                  subLabel: l10n.profileWhosOutHint,
                   showChevron: true,
                   onTap: () => context.push('/time-off/team'),
                 ),
@@ -96,6 +91,7 @@ class ProfileScreen extends StatelessWidget {
                   SettingsRow(
                     key: const ValueKey('profile-payouts'),
                     label: l10n.payoutsTitle,
+                    subLabel: l10n.profilePayoutsHint,
                     showChevron: true,
                     onTap: () => context.push('/payouts'),
                   ),
@@ -426,13 +422,31 @@ class _DeleteAccountButtonState extends State<_DeleteAccountButton> {
     final messenger = ScaffoldMessenger.of(context);
     final auth = context.read<AuthBloc>();
 
-    final successor = await _pickSuccessor(l10n, messenger);
-    if (successor == null || !mounted) return;
+    final candidates = await _successors(l10n, messenger);
+    if (candidates == null || !mounted) return;
+
+    // Somebody alone — just signed up, or the only person in the agency they
+    // created — has nobody to hand anything to, and usually nothing to hand.
+    // An empty picker would be a dead end, so they go straight to the
+    // confirmation and the server decides whether anything is left over.
+    PickerItem? successor;
+    if (candidates.isNotEmpty) {
+      successor = await showEntityPicker(
+        context,
+        title: l10n.profileDeleteHandoverTitle,
+        searchHint: l10n.profileDeleteHandoverSearch,
+        emptyLabel: l10n.profileDeleteHandoverEmpty,
+        items: candidates,
+      );
+      if (successor == null || !mounted) return;
+    }
 
     final confirmed = await showConfirmDialog(
       context,
       title: l10n.profileDeleteAccount,
-      content: l10n.profileDeleteAccountConfirm(successor.title),
+      content: successor == null
+          ? l10n.profileDeleteAccountConfirmAlone
+          : l10n.profileDeleteAccountConfirm(successor.title),
       confirmLabel: l10n.profileDeleteAccount,
       icon: Icons.person_remove_outlined,
     );
@@ -440,26 +454,36 @@ class _DeleteAccountButtonState extends State<_DeleteAccountButton> {
 
     setState(() => _busy = true);
     try {
-      await Injector.authRepository.deleteAccount(replacementId: successor.id);
+      await Injector.authRepository.deleteAccount(replacementId: successor?.id);
 
       auth.add(AuthLogoutEvent());
     } catch (err) {
       if (!mounted) return;
       setState(() => _busy = false);
+      final failure = ApiFailure.from(err);
       messenger
         ..hideCurrentSnackBar()
         ..showSnackBar(SnackBar(
-          content: Text(apiFailureLabel(l10n, ApiFailure.from(err))),
+          content: Text(
+              successor == null && failure.kind == ApiFailureKind.badRequest
+                  ? l10n.profileDeleteNeedsSuccessor
+                  : apiFailureLabel(l10n, failure)),
           backgroundColor: context.tokens.dangerSolid,
         ));
     }
   }
 
-  Future<PickerItem?> _pickSuccessor(
+  /// Colleagues who could take the records over, or null when the list could
+  /// not be loaded.
+  Future<List<PickerItem>?> _successors(
       AppLocalizations l10n, ScaffoldMessengerState messenger) async {
-    List<AgentOption> agents;
     try {
-      agents = await Injector.agentsRepository.getAgentOptions();
+      final agents = await Injector.agentsRepository.getAgentOptions();
+      return [
+        for (final a in agents)
+          if (a.id != widget.user.userId)
+            PickerItem(id: a.id, title: a.fullName, subtitle: a.email),
+      ];
     } catch (err) {
       messenger
         ..hideCurrentSnackBar()
@@ -467,19 +491,6 @@ class _DeleteAccountButtonState extends State<_DeleteAccountButton> {
             content: Text(apiFailureLabel(l10n, ApiFailure.from(err)))));
       return null;
     }
-    if (!mounted) return null;
-
-    return showEntityPicker(
-      context,
-      title: l10n.profileDeleteHandoverTitle,
-      searchHint: l10n.profileDeleteHandoverSearch,
-      emptyLabel: l10n.profileDeleteHandoverEmpty,
-      items: [
-        for (final a in agents)
-          if (a.id != widget.user.userId)
-            PickerItem(id: a.id, title: a.fullName, subtitle: a.email),
-      ],
-    );
   }
 
   @override
@@ -536,31 +547,6 @@ class _Identity extends StatelessWidget {
         BrandChip(label: roleLabel(l10n, user.role).toUpperCase()),
         const SizedBox(height: 8),
       ],
-    );
-  }
-}
-
-class _IdChip extends StatelessWidget {
-  final int id;
-  const _IdChip({required this.id});
-
-  @override
-  Widget build(BuildContext context) {
-    final t = context.tokens;
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 2),
-      decoration: BoxDecoration(
-        color: t.surfaceVariant,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Text(
-        '$id',
-        style: TextStyle(
-            fontFamily: AppFonts.sans,
-            fontSize: AppType.caption,
-            fontWeight: FontWeight.w600,
-            color: t.textPrimary),
-      ),
     );
   }
 }

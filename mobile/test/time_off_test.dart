@@ -182,6 +182,22 @@ void main() {
   });
 
   group('writing it down', () {
+    // The lists look 300 days ahead. A start picked beyond that was saved and
+    // then shown nowhere, while the server still refused a second one over it.
+    testWidgets('a start date cannot be picked beyond what the lists show',
+        (tester) async {
+      await _pump(tester, timeOffApp(null, form: const TimeOffFormScreen()));
+
+      await _tap(tester, find.byKey(const ValueKey('time-off-start')));
+      final picker =
+          tester.widget<DatePickerDialog>(find.byType(DatePickerDialog));
+
+      expect(
+          picker.lastDate,
+          DateUtils.dateOnly(timeOffNow)
+              .add(const Duration(days: kTimeOffAheadDays)));
+    });
+
     testWidgets(
         "a manager writes down a colleague's sick leave; the picker says who is away",
         (tester) async {

@@ -9,13 +9,14 @@ MeetingResponse _meeting(
   Duration fromNow, {
   bool completed = false,
   String title = 'Viewing',
+  int agentId = 1,
 }) =>
     MeetingResponse(
       id: id,
       title: title,
       scheduledAt: _now.add(fromNow),
       completed: completed,
-      agentId: 1,
+      agentId: agentId,
       clientId: 1,
       clientName: 'Aisha Karimova',
     );
@@ -49,6 +50,24 @@ void main() {
           _now.add(const Duration(days: 2)).subtract(lead.duration),
           reason: '${lead.name} should fire ${lead.duration} before');
     }
+  });
+
+  // A manager's meeting list is the whole agency's. Planning all of it woke
+  // them for every colleague's viewing, and with the cap on pending reminders
+  // could push their own out.
+  test("only the signed-in person's own meetings are planned", () {
+    final plan = planReminders(
+      [
+        _meeting(1, const Duration(days: 1), agentId: 7),
+        _meeting(2, const Duration(days: 1, hours: 1), agentId: 9),
+      ],
+      settings:
+          const ReminderSettings(enabled: true, lead: ReminderLead.oneHour),
+      now: _now,
+      agentId: 7,
+    );
+
+    expect(plan.map((r) => r.meetingId), [1]);
   });
 
   test('turning reminders off plans nothing at all', () {

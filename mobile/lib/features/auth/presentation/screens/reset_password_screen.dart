@@ -91,6 +91,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                         obscureText: _obscure,
                         textInputAction: TextInputAction.next,
                         suffix: IconButton(
+                          tooltip: _obscure
+                              ? l10n.authShowPassword
+                              : l10n.authHidePassword,
                           icon: Icon(
                             _obscure
                                 ? Icons.visibility_outlined

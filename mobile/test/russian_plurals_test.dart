@@ -15,7 +15,6 @@ void main() {
     expect(ru.clientsDealCount(101), '101 сделка');
     expect(ru.dashboardAgentDeals(21), '21 сделка');
     expect(ru.dashboardIdleDays(21), 'без движения 21 день');
-    expect(ru.dashboardLoadTotal(21), '21 встреча');
     expect(ru.meetingsCounter(21), '21 на этой неделе');
     expect(ru.clientsActivitySentListings(21), 'Отправлен 21 объект');
     expect(ru.clientsDeleteCascade(21, 'Айгерим'),

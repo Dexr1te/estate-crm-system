@@ -36,16 +36,14 @@ class CurrencySettingsRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return SettingsGroup(rows: [
-      SettingsRow(
-        key: const Key('currency-row'),
-        label: l10n.teamsCurrency,
-        subLabel: l10n.teamsCurrencyHint,
-        value: currencyLabel(l10n, current),
-        showChevron: true,
-        onTap: onTap,
-      ),
-    ]);
+    return SettingsRow(
+      key: const Key('currency-row'),
+      label: l10n.teamsCurrency,
+      subLabel: l10n.teamsCurrencyHint,
+      value: currencyLabel(l10n, current),
+      showChevron: true,
+      onTap: onTap,
+    );
   }
 }
 

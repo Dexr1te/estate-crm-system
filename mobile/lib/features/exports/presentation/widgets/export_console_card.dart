@@ -99,7 +99,7 @@ class _ExportRowState extends State<_ExportRow> {
                       fontWeight: FontWeight.w600,
                       color: t.textPrimary)),
             ),
-            Icon(_busy ? Icons.hourglass_top_rounded : Icons.ios_share_rounded,
+            Icon(_busy ? Icons.hourglass_top_rounded : kExportIcon,
                 size: 16, color: t.textHint),
           ],
         ),

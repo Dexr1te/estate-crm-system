@@ -1,0 +1,4 @@
+"CFBundleDisplayName" = "EstateCRM";
+"NSCameraUsageDescription" = "Чтобы сфотографировать объект, не выходя из приложения.";
+"NSPhotoLibraryUsageDescription" = "Чтобы выбрать фото объекта и прикрепить их к нему.";
+"NSPhotoLibraryAddUsageDescription" = "Чтобы сохранить фото объекта в вашу медиатеку.";

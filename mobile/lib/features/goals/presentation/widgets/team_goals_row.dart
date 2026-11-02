@@ -10,14 +10,12 @@ class TeamGoalsSettingsRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return SettingsGroup(rows: [
-      SettingsRow(
-        key: const Key('team-goals-row'),
-        label: l10n.goalsTeamTitle,
-        subLabel: l10n.goalsTeamHint,
-        showChevron: true,
-        onTap: () => context.push('/team-goals'),
-      ),
-    ]);
+    return SettingsRow(
+      key: const Key('team-goals-row'),
+      label: l10n.goalsTeamTitle,
+      subLabel: l10n.goalsTeamHint,
+      showChevron: true,
+      onTap: () => context.push('/team-goals'),
+    );
   }
 }

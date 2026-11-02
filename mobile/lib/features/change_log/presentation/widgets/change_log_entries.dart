@@ -10,15 +10,13 @@ class ChangeLogSettingsRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return SettingsGroup(rows: [
-      SettingsRow(
-        key: const Key('change-log-row'),
-        label: l10n.changeLogTeamTitle,
-        subLabel: l10n.changeLogTeamHint,
-        showChevron: true,
-        onTap: () => context.push('/audit'),
-      ),
-    ]);
+    return SettingsRow(
+      key: const Key('change-log-row'),
+      label: l10n.changeLogTeamTitle,
+      subLabel: l10n.changeLogTeamHint,
+      showChevron: true,
+      onTap: () => context.push('/audit'),
+    );
   }
 }
 

@@ -23,9 +23,13 @@ class _FakePushGateway implements PushGateway {
   final log = <String>[];
   int permissionRequests = 0;
   bool offline = false;
+  bool deliverable = true;
   PushMessage? launch;
   final receivedMessages = StreamController<PushMessage>.broadcast();
   final openedMessages = StreamController<PushMessage>.broadcast();
+
+  @override
+  Future<bool> canDeliver() async => deliverable;
 
   @override
   Future<bool> requestPermission() async {
@@ -88,11 +92,13 @@ Future<_Harness> _start({
   LaunchGate? gate,
   PushMessage? launch,
   bool offline = false,
+  bool deliverable = true,
 }) async {
   final h = _Harness();
   h.gateway
     ..launch = launch
-    ..offline = offline;
+    ..offline = offline
+    ..deliverable = deliverable;
   h.auth = AuthBloc(FakeAuthRepository(user: user))..add(AuthCheckEvent());
   addTearDown(h.auth.close);
   h.push = PushHandler(
@@ -170,6 +176,15 @@ void main() {
 
       expect(h.gateway.permissionRequests, 0);
       expect(h.gateway.topics, {'all', 'lang_ru'});
+    });
+
+    // An iPhone build without the APNs entitlement can never be reached. The
+    // prompt would ask for nothing and use up the one iOS allows, which the
+    // meeting reminders ask for when someone turns them on.
+    test('a phone pushes cannot reach is not asked', () async {
+      final h = await _start(user: _agent, deliverable: false);
+
+      expect(h.gateway.permissionRequests, 0);
     });
 
     test('changing the language moves the language topic', () async {

@@ -64,7 +64,7 @@ class DatesThisWeekCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.baseline,
             textBaseline: TextBaseline.alphabetic,
             children: [
-              Expanded(child: EyebrowLabel(l10n.dashboardDatesTitle)),
+              Expanded(child: EyebrowLabel(l10n.clientsDatesTitle)),
               if (all != null && all.length > shown!.length) ...[
                 const SizedBox(width: 8),
                 ConstrainedBox(

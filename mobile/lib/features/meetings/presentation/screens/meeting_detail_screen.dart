@@ -85,7 +85,12 @@ class _MeetingDetailScreenState extends State<MeetingDetailScreen> {
 
   bool? _confirmedCompleted;
 
+  /// The meeting as the server last confirmed it, while an outcome is being
+  /// saved; put back if the save fails.
+  MeetingResponse? _beforeOutcome;
+
   void _recordOutcome(ViewingOutcome outcome, String? note) {
+    _beforeOutcome ??= _m;
     context
         .read<MeetingsBloc>()
         .add(MeetingsOutcomeEvent(widget.id, outcome, note));
@@ -95,25 +100,33 @@ class _MeetingDetailScreenState extends State<MeetingDetailScreen> {
         completed: outcome != ViewingOutcome.NO_SHOW));
   }
 
-  void _setCompleted(bool completed) {
-    if (completed == _m?.completed) return;
-    _confirmedCompleted = _m?.completed;
-    if (completed) {
-      context.read<MeetingsBloc>().add(MeetingsCompleteEvent(widget.id));
-    } else {
-      context
-          .read<MeetingsBloc>()
-          .add(MeetingsUpdateEvent(widget.id, {'completed': false}));
-    }
-    setState(() => _m = _m?.copyWith(completed: completed));
+  /// Only forward: the API marks a meeting held (`PATCH …/complete`) but has
+  /// no way back. Sending `completed: false` through the full update was
+  /// refused every time, and the chip snapped back. A viewing goes back to
+  /// not held through its "No show" outcome instead.
+  void _markHeld() {
+    if (_m?.completed ?? true) return;
+    _confirmedCompleted = false;
+    context.read<MeetingsBloc>().add(MeetingsCompleteEvent(widget.id));
+    setState(() => _m = _m?.copyWith(completed: true));
   }
 
   void _onWriteResult(BuildContext _, MeetingsState state) {
     if (state is MeetingsActionSuccess) {
       _confirmedCompleted = null;
-    } else if (state is MeetingsActionFailure && _confirmedCompleted != null) {
-      setState(() => _m = _m?.copyWith(completed: _confirmedCompleted!));
+      _beforeOutcome = null;
+    } else if (state is MeetingsActionFailure || state is MeetingsError) {
+      final completed = _confirmedCompleted;
+      final before = _beforeOutcome;
+      if (completed == null && before == null) return;
       _confirmedCompleted = null;
+      _beforeOutcome = null;
+      if (before != null) {
+        setState(() => _m = before);
+      } else {
+        setState(() => _m = _m?.copyWith(completed: completed!));
+      }
+      if (state is MeetingsError) showWriteFailure(context, state.failure);
     }
   }
 
@@ -172,7 +185,7 @@ class _MeetingDetailScreenState extends State<MeetingDetailScreen> {
             onSecondary: _call,
           ),
           _DetailsCard(meeting: meeting),
-          _StatusCard(completed: meeting.completed, onChanged: _setCompleted),
+          _StatusCard(completed: meeting.completed, onHeld: _markHeld),
           if (meeting.propertyId != null)
             _OutcomeCard(meeting: meeting, onRecord: _recordOutcome),
           if (meeting.description != null &&
@@ -305,8 +318,8 @@ class _OutcomeCardState extends State<_OutcomeCard> {
 
 class _StatusCard extends StatelessWidget {
   final bool completed;
-  final ValueChanged<bool> onChanged;
-  const _StatusCard({required this.completed, required this.onChanged});
+  final VoidCallback onHeld;
+  const _StatusCard({required this.completed, required this.onHeld});
 
   @override
   Widget build(BuildContext context) {
@@ -321,13 +334,21 @@ class _StatusCard extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: FilterPill(
-                  label: l10n.meetingsStatusScheduled,
-                  selected: !completed,
-                  onCard: true,
-                  onTap: () => onChanged(false),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 6, vertical: 11),
+                // Held is final, so once there "Scheduled" is not offered.
+                child: IgnorePointer(
+                  ignoring: completed,
+                  child: Opacity(
+                    opacity: completed ? 0.45 : 1,
+                    child: FilterPill(
+                      key: const ValueKey('meeting-status-scheduled'),
+                      label: l10n.meetingsStatusScheduled,
+                      selected: !completed,
+                      onCard: true,
+                      onTap: () {},
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 6, vertical: 11),
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(width: 8),
@@ -336,7 +357,7 @@ class _StatusCard extends StatelessWidget {
                   label: l10n.meetingsStatusHeld,
                   selected: completed,
                   onCard: true,
-                  onTap: () => onChanged(true),
+                  onTap: onHeld,
                   padding:
                       const EdgeInsets.symmetric(horizontal: 6, vertical: 11),
                 ),

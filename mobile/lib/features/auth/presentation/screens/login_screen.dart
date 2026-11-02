@@ -231,9 +231,11 @@ class _ObscureToggle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = context.tokens;
+    final l10n = AppLocalizations.of(context);
     return IconButton(
       onPressed: onTap,
       splashRadius: 20,
+      tooltip: obscured ? l10n.authShowPassword : l10n.authHidePassword,
       icon: Icon(
         obscured ? Icons.visibility_outlined : Icons.visibility_off_outlined,
         size: 18,

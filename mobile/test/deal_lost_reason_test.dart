@@ -63,10 +63,14 @@ class _RecordingDeals extends FakeDealsRepository {
 
   _RecordingDeals() : super(_seed());
 
+  /// What a status move throws instead of being answered.
+  Object? refuseMoves;
+
   @override
   Future<DealResponse> updateDealStatus(int id, DealStatus status,
       {DealLostReason? lostReason, String? lostNote}) async {
     moves.add((id, status, lostReason, lostNote));
+    if (refuseMoves case final failure?) throw failure;
     final i = deals.indexWhere((d) => d.id == id);
     return deals[i] = deals[i]
         .copyWith(status: status, lostReason: lostReason, lostNote: lostNote);
@@ -182,6 +186,30 @@ void main() {
       expect(_sheetTitle, findsNothing);
       expect(_repo.moves, isEmpty);
       expect(find.text('WHY IT WAS LOST'), findsNothing);
+    });
+
+    // Opened from a client card, a push or the dashboard, the deal's list has
+    // never loaded. A refused move then arrives as the list's load error,
+    // which the deal screen ignored: the stage stayed moved and nobody said.
+    testWidgets('a move the server refuses goes back, and says so',
+        (tester) async {
+      await _pump(tester, const DealDetailScreen(id: 1));
+      _repo.refuseMoves = StateError('offline');
+
+      // The stage pill, not the checklist section of the same name.
+      final lead = find.widgetWithText(FilterPill, 'Lead');
+      await tester.ensureVisible(lead);
+      await tester.tap(lead);
+      await tester.pumpAndSettle();
+
+      bool selected(String stage) => tester
+          .widget<FilterPill>(find.widgetWithText(FilterPill, stage))
+          .selected;
+      expect(_repo.moves, hasLength(1));
+      expect(selected('Negotiation'), isTrue);
+      expect(selected('Lead'), isFalse);
+      expect(
+          find.text('Something went wrong. Please try again.'), findsOneWidget);
     });
 
     testWidgets('a lost deal shows why, and an old one says it was not given',

@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -37,13 +38,16 @@ const _agentInTeam = AuthResponse(
 
 FakeAuthRepository _authRepo = FakeAuthRepository(user: _user);
 
-Widget _profile({AuthResponse user = _user}) {
+const _colleagues = [
+  AgentOption(id: 5, fullName: 'Sultan Assan-Doroshenko', email: 'me@x.kz'),
+  AgentOption(id: 9, fullName: 'Нурлан Беков', email: 'nurlan@estatecrm.kz'),
+];
+
+Widget _profile(
+    {AuthResponse user = _user, List<AgentOption> colleagues = _colleagues}) {
   _authRepo = FakeAuthRepository(user: user);
   Injector.authRepository = _authRepo;
-  Injector.agentsRepository = const FakeAgentsRepository([
-    AgentOption(id: 5, fullName: 'Sultan Assan-Doroshenko', email: 'me@x.kz'),
-    AgentOption(id: 9, fullName: 'Нурлан Беков', email: 'nurlan@estatecrm.kz'),
-  ]);
+  Injector.agentsRepository = FakeAgentsRepository(colleagues);
   final auth = AuthBloc(_authRepo)..add(AuthCheckEvent());
   return MultiBlocProvider(
     providers: [
@@ -142,6 +146,75 @@ void main() {
         reason: 'backing out of the dialog must not delete anything');
   });
 
+  // A reviewer signs up, then deletes the account they just made. Alone in
+  // the agency they created there is nobody to pick, and an empty picker used
+  // to be a dead end.
+  group('closing an account with nobody to hand records to', () {
+    Future<void> openDelete(WidgetTester tester) async {
+      await expectNoOverflow(
+        tester,
+        _profile(colleagues: const [
+          AgentOption(
+              id: 5, fullName: 'Sultan Assan-Doroshenko', email: 'me@x.kz'),
+        ]),
+        size: const Size(390, 844),
+        brightness: Brightness.light,
+        textScale: 1.0,
+      );
+      await tester.pumpAndSettle();
+      await tester.scrollUntilVisible(find.text('Delete account'), 200,
+          scrollable: find.byType(Scrollable).first);
+      await tester.tap(find.text('Delete account'));
+      await tester.pumpAndSettle();
+    }
+
+    testWidgets('goes straight to the confirmation and deletes',
+        (tester) async {
+      await openDelete(tester);
+
+      expect(find.text('Hand your records over to'), findsNothing);
+      expect(find.text('No one else to hand them to'), findsNothing);
+      expect(
+          find.text('Your account will be removed permanently. '
+              'This cannot be undone.'),
+          findsOneWidget);
+
+      await tester.tap(find
+          .widgetWithText(AppFilledButton, 'Delete account')
+          .hitTestable()
+          .last);
+      await tester.pumpAndSettle();
+
+      expect(_authRepo.deletes, 1);
+      expect(_authRepo.deletedWithReplacement, isNull,
+          reason: 'nobody was named to take the records over');
+    });
+
+    testWidgets('says why when the server still finds records to hand over',
+        (tester) async {
+      await openDelete(tester);
+      _authRepo.deleteFailure = DioException(
+        requestOptions: RequestOptions(path: '/auth/me', method: 'DELETE'),
+        response: Response(
+          requestOptions: RequestOptions(path: '/auth/me', method: 'DELETE'),
+          statusCode: 400,
+          data: {'message': 'Sultan still holds 2 deal(s)'},
+        ),
+      );
+
+      await tester.tap(find
+          .widgetWithText(AppFilledButton, 'Delete account')
+          .hitTestable()
+          .last);
+      await tester.pumpAndSettle();
+
+      expect(find.textContaining('there is nobody else in your agency'),
+          findsOneWidget);
+      expect(find.text('Delete account'), findsWidgets,
+          reason: 'the account is still there, and so is the button');
+    });
+  });
+
   testWidgets('appearance offers following the system, not just a dark switch',
       (tester) async {
     await expectNoOverflow(tester, _profile(),
@@ -225,6 +298,21 @@ void main() {
     expect(find.text('ADMIN'), findsNothing);
   });
 
+  // Nothing in the app takes an agent ID; a colleague is added by e-mail.
+  testWidgets('the profile shows no internal ID to copy', (tester) async {
+    await expectNoOverflow(
+      tester,
+      _profile(user: _agentInTeam),
+      size: const Size(390, 844),
+      brightness: Brightness.light,
+      textScale: 1.0,
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Agent ID'), findsNothing);
+    expect(find.text('${_agentInTeam.userId}'), findsNothing);
+  });
+
   test('the legal links keep the API prefix the backend is mounted under', () {
     // The backend runs under a servlet context path. A link built from the bare
     // origin — which is what these used to be — reaches Tomcat outside that
@@ -263,6 +351,13 @@ void main() {
       expect(find.descendant(of: hub, matching: find.text('Team')),
           findsOneWidget);
       expect(
+          find.descendant(
+              of: hub,
+              matching:
+                  find.text('Agents, invites, goals, payouts and import')),
+          findsOneWidget,
+          reason: 'the row says what the console holds');
+      expect(
           tester.getTopLeft(hub).dy,
           lessThan(tester
               .getTopLeft(find.byKey(const ValueKey('profile-time-off')))
@@ -297,6 +392,10 @@ void main() {
       await pump(tester, _user);
       expect(find.descendant(of: hub, matching: find.text('Admin')),
           findsOneWidget);
+      expect(
+          find.descendant(
+              of: hub, matching: find.text('Users, teams and the audit log')),
+          findsOneWidget);
     });
 
     testWidgets('an agent has no console to go to', (tester) async {
@@ -312,6 +411,49 @@ void main() {
   });
 
   group('the team someone belongs to', () {
+    testWidgets('each of its rows says what is behind it', (tester) async {
+      Injector.teamsRepository = FakeTeamsRepository();
+      await expectNoOverflow(tester, _profile(user: _agentInTeam),
+          size: const Size(390, 844),
+          brightness: Brightness.light,
+          textScale: 1.0);
+      await tester.pumpAndSettle();
+
+      for (final (key, hint) in [
+        ('profile-time-off', 'Your holidays and days off, and who covers'),
+        ('profile-whos-out', 'Who in the agency is away, now and coming up'),
+        ('profile-payouts', 'Your share of split commissions, owed and paid'),
+      ]) {
+        expect(
+            find.descendant(
+                of: find.byKey(ValueKey(key)), matching: find.text(hint)),
+            findsOneWidget,
+            reason: key);
+      }
+    });
+
+    for (final user in [
+      _agentInTeam,
+      _agentInTeam.copyWith(userId: 7, role: Role.MANAGER),
+    ]) {
+      for (final locale in kAcceptanceLocales) {
+        for (final scale in [1.3, 1.5]) {
+          testWidgets(
+              'a ${user.role.name.toLowerCase()} in a team, '
+              '${locale.languageCode} at 320 and ${scale}x', (tester) async {
+            Injector.teamsRepository = FakeTeamsRepository();
+            await expectNoOverflow(tester, _profile(user: user),
+                size: const Size(320, 568),
+                brightness: Brightness.dark,
+                textScale: scale,
+                locale: locale);
+            await tester.pumpAndSettle();
+            expect(tester.takeException(), isNull);
+          });
+        }
+      }
+    }
+
     testWidgets('is named, and an agent can leave it', (tester) async {
       final teams = FakeTeamsRepository();
       Injector.teamsRepository = teams;

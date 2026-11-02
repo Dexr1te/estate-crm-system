@@ -357,6 +357,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get authHaveAnInvite => 'Есть приглашение?';
 
   @override
+  String get authHidePassword => 'Скрыть пароль';
+
+  @override
   String get authInviteCode => 'Код приглашения';
 
   @override
@@ -471,6 +474,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get authSetPasswordSignIn => 'Задать пароль и войти';
+
+  @override
+  String get authShowPassword => 'Показать пароль';
 
   @override
   String get authSignIn => 'Войти';
@@ -1001,11 +1007,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get clientsBuyer => 'Покупатель';
 
   @override
-  String clientsClientCreatedId(Object id) {
-    return 'Клиент создан (ID: $id)';
-  }
-
-  @override
   String get clientsClientFallback => 'Клиент';
 
   @override
@@ -1263,7 +1264,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get clientsDatesLoadFailed => 'Не удалось загрузить ближайшие даты';
 
   @override
-  String get clientsDatesTitle => 'Ближайшие даты';
+  String get clientsDatesTitle => 'Дни рождения и годовщины';
 
   @override
   String get clientsDatesToday => 'Сегодня';
@@ -1811,6 +1812,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get compareShareIntro => 'Сравнение объектов:';
 
   @override
+  String get compareStart => 'Сравнить объекты';
+
+  @override
+  String get compareStop => 'Закончить сравнение';
+
+  @override
   String get compareTitle => 'Сравнение';
 
   @override
@@ -2016,12 +2023,32 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get dashboardDatesTitle => 'Даты на этой неделе';
-
-  @override
   String dashboardDatesTotal(int count) {
     return '$count на неделе';
   }
+
+  @override
+  String get dashboardFollowUps => 'Держите на контроле';
+
+  @override
+  String get dashboardFollowUpsDatesHint =>
+      'Дни рождения клиентов и годовщины покупок на две недели вперёд';
+
+  @override
+  String get dashboardFollowUpsDepositsHint =>
+      'Задатки, у которых бронь объекта заканчивается или закончилась';
+
+  @override
+  String get dashboardFollowUpsKeysHint =>
+      'Ключи от объектов, которые выдали и ещё не вернули';
+
+  @override
+  String get dashboardFollowUpsLeasesHint =>
+      'Сделки аренды, где договор заканчивается в ближайшие 30 дней';
+
+  @override
+  String get dashboardFollowUpsMandatesHint =>
+      'Объекты, у которых договор с продавцом истекает или истёк';
 
   @override
   String dashboardGreeting(Object greeting, Object name) {
@@ -2059,32 +2086,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get dashboardLeaderboard => 'Лучшие агенты';
 
   @override
-  String dashboardLoadTotal(num count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count встреч',
-      few: '$count встречи',
-      one: '$count встреча',
-      zero: 'ничего не назначено',
-    );
-    return '$_temp0';
-  }
-
-  @override
-  String get dashboardLoadEmpty => 'На ближайшие 14 дней встреч нет';
-
-  @override
-  String get dashboardLoadEmptyHint =>
-      'Здесь по дням появятся назначенные встречи';
-
-  @override
   String dashboardMandatesTotal(int count) {
     return 'всего $count';
   }
-
-  @override
-  String get dashboardMeetingLoad => 'Ближайшие две недели';
 
   @override
   String get dashboardMeetingsLabel => 'Встречи';
@@ -2156,9 +2160,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get dashboardTeamPipeline => 'Воронка команды';
-
-  @override
-  String get dashboardToday => 'Сегодня';
 
   @override
   String dashboardTodayCount(Object count) {
@@ -2615,7 +2616,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get depositsEndingEmptyHint =>
-      'Активные задатки появятся здесь за неделю до конца брони.';
+      'Задаток вносят в разделе «Задаток» на странице сделки. Активные задатки появятся здесь за неделю до конца брони.';
 
   @override
   String get depositsEndingLoadFailed => 'Не удалось загрузить задатки';
@@ -2788,9 +2789,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get documentsUploading => 'Отправляем…';
 
   @override
-  String get exportAction => 'Экспорт';
-
-  @override
   String get exportAllNote => 'Всё, что вам доступно, без фильтров.';
 
   @override
@@ -2848,6 +2846,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get exportTitleProperties => 'Экспорт объектов';
+
+  @override
+  String get exportToSpreadsheet => 'Экспорт в таблицу';
 
   @override
   String get exportTooMany =>
@@ -4581,10 +4582,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get openHousesCardTitle => 'Дни открытых дверей';
 
   @override
-  String get profileAgentId => 'ID агента';
-
-  @override
-  String get profileAgentIdCopied => 'ID агента скопирован';
+  String get profileAdminConsoleHint => 'Пользователи, команды и журнал аудита';
 
   @override
   String get profileApp => 'Приложение';
@@ -4598,6 +4596,10 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String get profileDeleteAccountConfirmAlone =>
+      'Аккаунт будет удалён безвозвратно.';
+
+  @override
   String get profileDeleteHandoverEmpty => 'Записи некому передать';
 
   @override
@@ -4605,6 +4607,10 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get profileDeleteHandoverTitle => 'Кому передать ваши записи';
+
+  @override
+  String get profileDeleteNeedsSuccessor =>
+      'Ваши сделки, встречи, документы или открытые задачи нужно кому-то передать, а в агентстве больше никого нет. Сначала добавьте коллегу или удалите эти записи.';
 
   @override
   String get profileEditProfile => 'Изменить профиль';
@@ -4629,6 +4635,10 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get profileName => 'Имя';
+
+  @override
+  String get profilePayoutsHint =>
+      'Ваша доля по сплитам комиссий: к выплате и выплаченная';
 
   @override
   String get profilePrivacyPolicy => 'Политика конфиденциальности';
@@ -4658,6 +4668,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get profileSystemDefault => 'Системный';
 
   @override
+  String get profileTeamConsoleHint =>
+      'Агенты, приглашения, цели, выплаты и импорт';
+
+  @override
   String get profileTheme => 'Оформление';
 
   @override
@@ -4670,10 +4684,16 @@ class AppLocalizationsRu extends AppLocalizations {
   String get profileThemeSystem => 'Как в системе';
 
   @override
+  String get profileTimeOffHint => 'Ваши отпуска и выходные, кто вас замещает';
+
+  @override
   String get profileTitle => 'Профиль';
 
   @override
   String get profileVersion => 'Версия';
+
+  @override
+  String get profileWhosOutHint => 'Кто в агентстве отсутствует сейчас и скоро';
 
   @override
   String get propertiesAddFirstListing => 'Добавьте первый объект';
@@ -4935,7 +4955,7 @@ class AppLocalizationsRu extends AppLocalizations {
       'Не удалось загрузить истекающие договоры';
 
   @override
-  String get propertiesMandatesTitle => 'Договоры истекают';
+  String get propertiesMandatesTitle => 'Договоры с продавцами истекают';
 
   @override
   String propertiesMapCapped(int count) {
@@ -5131,11 +5151,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get propertiesProperty => 'Объект';
 
   @override
-  String propertiesPropertyCreated(Object id) {
-    return 'Объект создан (ID: $id)';
-  }
-
-  @override
   String get propertiesPropertyIdCopied => 'ID объекта скопирован';
 
   @override
@@ -5248,6 +5263,9 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get propertiesSearchHintFull => 'Адрес, ЖК, ID…';
+
+  @override
+  String get propertiesShareTitle => 'Поделиться и отправить';
 
   @override
   String get propertiesStatus => 'Статус';
@@ -6009,6 +6027,21 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get teamsSave => 'Сохранить';
+
+  @override
+  String get teamsSettings => 'Настройки';
+
+  @override
+  String get teamsSettingsAgency => 'Агентство';
+
+  @override
+  String get teamsSettingsData => 'Данные';
+
+  @override
+  String get teamsSettingsPerformance => 'Показатели';
+
+  @override
+  String get teamsStats => 'Статистика';
 
   @override
   String get teamsStatusPendingInvite => 'Приглашён';
@@ -7427,7 +7460,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get keysOutEmptyHint =>
-      'Ключи, выданные с карточки объекта, видны здесь, пока их не вернут.';
+      'Ключи выдают в разделе «Ключи» на странице объекта. Здесь они видны, пока их не вернут.';
 
   @override
   String get keysOutLoadFailed => 'Не удалось загрузить выданные ключи';

@@ -124,6 +124,16 @@ class _GoingColdCardState extends State<GoingColdCard>
               ],
             ],
           ),
+          // "Going cold" alone does not say how quiet is quiet.
+          const SizedBox(height: 2),
+          Text(l10n.clientsColdSubtitle(state.days),
+              key: const ValueKey('going-cold-threshold'),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                  fontFamily: AppFonts.sans,
+                  fontSize: AppType.footnote,
+                  color: t.textSecondary)),
           const SizedBox(height: 11),
           if (shown == null) ...[
             Text(l10n.clientsColdLoadFailed,

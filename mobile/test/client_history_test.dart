@@ -103,12 +103,13 @@ Widget _card(List<ClientActivity>? activities) => Scaffold(
       ),
     );
 
-Widget _sheet() => Scaffold(
+Widget _sheet({VoidCallback? onDelete}) => Scaffold(
       body: Align(
         alignment: Alignment.bottomCenter,
         child: AppSheetShell(
           title: 'Log contact',
-          child: LogContactForm(onSave: (_, __, ___) async {}),
+          child:
+              LogContactForm(onSave: (_, __, ___) async {}, onDelete: onDelete),
         ),
       ),
     );
@@ -157,6 +158,12 @@ void main() {
         size: size, brightness: brightness, textScale: scale);
   });
 
+  forEachAcceptanceCase('log contact sheet — correcting an entry',
+      (tester, size, brightness, scale) async {
+    await expectNoOverflow(tester, _sheet(onDelete: () {}),
+        size: size, brightness: brightness, textScale: scale);
+  });
+
   for (final locale in kAcceptanceLocales) {
     testWidgets('history card and sheet render in ${locale.languageCode}',
         (tester) async {
@@ -167,11 +174,13 @@ void main() {
             textScale: 1.5,
             locale: locale);
       }
-      await expectNoOverflow(tester, _sheet(),
-          size: const Size(320, 568),
-          brightness: Brightness.light,
-          textScale: 1.5,
-          locale: locale);
+      for (final sheet in [_sheet(), _sheet(onDelete: () {})]) {
+        await expectNoOverflow(tester, sheet,
+            size: const Size(320, 568),
+            brightness: Brightness.light,
+            textScale: 1.5,
+            locale: locale);
+      }
     });
 
     testWidgets('client detail with history renders in ${locale.languageCode}',
@@ -330,6 +339,85 @@ void main() {
     await _pumpDetail(tester, me: _manager);
 
     expect(find.byTooltip('Remove entry'), findsNWidgets(3));
+  });
+
+  group('removing from the correction sheet', () {
+    final remove = find.byKey(const ValueKey('contact-delete'));
+
+    Future<void> correct(WidgetTester tester, String entry) async {
+      final row = find.textContaining(entry);
+      await tester.ensureVisible(row);
+      await tester.pumpAndSettle();
+      await tester.tap(row);
+      await tester.pumpAndSettle();
+    }
+
+    testWidgets('the author removes their entry after the same confirmation',
+        (tester) async {
+      await _pumpDetail(tester);
+      await correct(tester, 'Wants to see flats');
+      expect(find.text('Edit entry'), findsOneWidget);
+      expect(remove, findsOneWidget);
+
+      await tester.ensureVisible(remove);
+      await tester.pumpAndSettle();
+      await tester.tap(remove);
+      await tester.pumpAndSettle();
+      expect(find.byType(LogContactForm), findsNothing,
+          reason: 'the sheet steps aside for the confirmation');
+      expect(find.text('Remove this entry?'), findsOneWidget);
+      await tester.tap(find.text('Delete'));
+      await tester.pumpAndSettle();
+
+      expect(_clients.activities.map((a) => a.id), [2, 3]);
+      expect(find.textContaining('Wants to see flats'), findsNothing);
+      expect(find.text('Entry updated'), findsNothing,
+          reason: 'nothing was saved');
+    });
+
+    testWidgets('cancelling the confirmation keeps the entry', (tester) async {
+      await _pumpDetail(tester);
+      await correct(tester, 'Wants to see flats');
+      await tester.ensureVisible(remove);
+      await tester.pumpAndSettle();
+      await tester.tap(remove);
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('Cancel'));
+      await tester.pumpAndSettle();
+
+      expect(_clients.activities, hasLength(3));
+      expect(find.textContaining('Wants to see flats'), findsOneWidget);
+    });
+
+    testWidgets('a manager is offered it on someone else\'s entry',
+        (tester) async {
+      await _pumpDetail(tester, me: _manager);
+      await correct(tester, 'Sent the Severny Residence listing');
+
+      expect(find.text('Edit entry'), findsOneWidget);
+      expect(remove, findsOneWidget);
+    });
+
+    testWidgets('an agent cannot reach it on a colleague\'s entry',
+        (tester) async {
+      await _pumpDetail(tester);
+      await correct(tester, 'Sent the Severny Residence listing');
+
+      expect(find.byType(LogContactForm), findsNothing);
+      expect(remove, findsNothing);
+    });
+
+    testWidgets('a new entry has nothing to remove', (tester) async {
+      await _pumpDetail(tester);
+      final log = find.text('Log contact');
+      await tester.ensureVisible(log);
+      await tester.pumpAndSettle();
+      await tester.tap(log);
+      await tester.pumpAndSettle();
+
+      expect(find.byType(LogContactForm), findsOneWidget);
+      expect(remove, findsNothing);
+    });
   });
 
   testWidgets('the client list shows when someone last got in touch',

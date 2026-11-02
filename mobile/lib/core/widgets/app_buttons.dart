@@ -1,8 +1,11 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:real_estate_crm/core/feedback/app_haptics.dart';
 import 'package:real_estate_crm/core/theme/app_metrics.dart';
 import 'package:real_estate_crm/core/theme/app_tokens.dart';
 import 'package:real_estate_crm/core/widgets/app_surface.dart';
+import 'package:real_estate_crm/core/widgets/text_measure.dart';
 
 class AppFilledButton extends StatelessWidget {
   final String label;
@@ -192,13 +195,32 @@ class AppHeaderAction extends StatelessWidget {
     required this.icon,
   });
 
+  static const _maxWidth = 190.0;
+  static const _padX = 14.0;
+  static const _iconSize = 17.0;
+  static const _iconGap = 7.0;
+  static const _labelStyle = TextStyle(
+    fontFamily: AppFonts.sans,
+    fontSize: AppType.body,
+    fontWeight: FontWeight.w600,
+  );
+
+  /// The width the action takes with [label], for a header deciding whether
+  /// there is room to spell it out.
+  static double widthFor(BuildContext context, String label) => math.min(
+      _maxWidth,
+      _padX * 2 +
+          _iconSize +
+          _iconGap +
+          singleLineTextWidth(context, label, _labelStyle));
+
   @override
   Widget build(BuildContext context) {
     final t = context.tokens;
     final pill = BorderRadius.circular(AppMetrics.radiusPill);
     return ConstrainedBox(
       constraints: const BoxConstraints(
-          minHeight: AppMetrics.minHitTarget, maxWidth: 190),
+          minHeight: AppMetrics.minHitTarget, maxWidth: _maxWidth),
       child: Center(
         widthFactor: 1,
         child: Material(
@@ -208,23 +230,19 @@ class AppHeaderAction extends StatelessWidget {
             borderRadius: pill,
             onTap: onPressed,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: _padX, vertical: 9),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(icon, size: 17, color: t.primary),
-                  const SizedBox(width: 7),
+                  Icon(icon, size: _iconSize, color: t.primary),
+                  const SizedBox(width: _iconGap),
                   Flexible(
                     child: Text(
                       label,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontFamily: AppFonts.sans,
-                        fontSize: AppType.body,
-                        fontWeight: FontWeight.w600,
-                        color: t.primary,
-                      ),
+                      style: _labelStyle.copyWith(color: t.primary),
                     ),
                   ),
                 ],

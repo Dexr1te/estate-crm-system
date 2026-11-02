@@ -20,6 +20,13 @@ class _DepositsEndingScreenState extends State<DepositsEndingScreen> {
   final _bloc = DepositsEndingBloc(Injector.depositsRepository)
     ..add(DepositsEndingLoadEvent());
 
+  /// The deposit is applied, returned or kept on the deal, so the list is read again on
+  /// the way back -- otherwise it still says it ends in so many days.
+  Future<void> _openDeal(int dealId) async {
+    await context.push('/deals/$dealId');
+    if (mounted) _bloc.add(DepositsEndingLoadEvent());
+  }
+
   @override
   void dispose() {
     _bloc.close();
@@ -74,7 +81,7 @@ class _DepositsEndingScreenState extends State<DepositsEndingScreen> {
       for (final deposit in state.deposits)
         DepositRow(
           deposit: deposit,
-          onTap: () => context.push('/deals/${deposit.dealId}'),
+          onTap: () => _openDeal(deposit.dealId),
         ),
     ];
   }

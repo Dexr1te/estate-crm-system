@@ -10,14 +10,12 @@ class LeaderboardSettingsRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return SettingsGroup(rows: [
-      SettingsRow(
-        key: const Key('leaderboard-row'),
-        label: l10n.leaderboardTitle,
-        subLabel: l10n.leaderboardHint,
-        showChevron: true,
-        onTap: () => context.push('/leaderboard'),
-      ),
-    ]);
+    return SettingsRow(
+      key: const Key('leaderboard-row'),
+      label: l10n.leaderboardTitle,
+      subLabel: l10n.leaderboardHint,
+      showChevron: true,
+      onTap: () => context.push('/leaderboard'),
+    );
   }
 }

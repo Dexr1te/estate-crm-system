@@ -73,11 +73,11 @@ public final class ClientSpecification {
             }
 
             if (search != null && !search.isBlank()) {
-                String like = "%" + search.trim().toLowerCase() + "%";
+                String like = SearchPattern.contains(search);
                 predicates.add(cb.or(
-                        cb.like(cb.lower(root.get("fullName")), like),
-                        cb.like(cb.lower(root.get("email")), like),
-                        cb.like(root.get("phone"), like)
+                        cb.like(cb.lower(root.get("fullName")), like, SearchPattern.ESCAPE),
+                        cb.like(cb.lower(root.get("email")), like, SearchPattern.ESCAPE),
+                        cb.like(root.get("phone"), like, SearchPattern.ESCAPE)
                 ));
             }
 

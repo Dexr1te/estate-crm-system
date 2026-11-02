@@ -28,11 +28,12 @@ class DashboardLoaded extends DashboardState {
       }).length;
 
   List<int> meetingLoad(DateTime now, {int days = 14}) {
-    final start = DateTime(now.year, now.month, now.day);
+    final start = DateTime.utc(now.year, now.month, now.day);
     final buckets = List<int>.filled(days, 0);
     for (final m in upcoming) {
       final d = m.scheduledAt;
-      final offset = DateTime(d.year, d.month, d.day).difference(start).inDays;
+      final offset =
+          DateTime.utc(d.year, d.month, d.day).difference(start).inDays;
       if (offset >= 0 && offset < days) buckets[offset]++;
     }
     return buckets;
@@ -71,14 +72,15 @@ class DashboardLoaded extends DashboardState {
 
   List<int> _perDay(
       DateTime now, int days, DateTime? Function(DealResponse) at) {
-    final today = DateTime(now.year, now.month, now.day);
+    final today = DateTime.utc(now.year, now.month, now.day);
     final start = today.subtract(Duration(days: days - 1));
     final buckets = List<int>.filled(days, 0);
     for (final d in deals) {
       final when = at(d);
       if (when == null) continue;
-      final offset =
-          DateTime(when.year, when.month, when.day).difference(start).inDays;
+      final offset = DateTime.utc(when.year, when.month, when.day)
+          .difference(start)
+          .inDays;
       if (offset >= 0 && offset < days) buckets[offset]++;
     }
     return buckets;

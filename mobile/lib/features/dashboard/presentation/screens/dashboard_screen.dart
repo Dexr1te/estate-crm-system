@@ -23,11 +23,11 @@ import 'package:real_estate_crm/features/dashboard/presentation/widgets/attentio
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/dashboard_hero.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/dates_this_week_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/deposits_ending_card.dart';
+import 'package:real_estate_crm/features/dashboard/presentation/widgets/follow_ups_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/goal_ring_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/going_cold_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/leases_ending_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/mandates_ending_card.dart';
-import 'package:real_estate_crm/features/dashboard/presentation/widgets/meeting_load_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/meeting_row.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/my_goal_card.dart';
 import 'package:real_estate_crm/features/dashboard/presentation/widgets/out_today_card.dart';
@@ -156,6 +156,8 @@ class _DashboardScreenState extends State<DashboardScreen>
     final authState = context.watch<AuthBloc>().state;
     final user = authState is AuthAuthenticated ? authState.user : null;
     final firstName = user?.fullName.trim().split(' ').first ?? '';
+    final today = formatWeekdayDate(
+        AppClock.now(), Localizations.localeOf(context).toLanguageTag());
 
     return MultiBlocProvider(
       providers: [
@@ -189,9 +191,11 @@ class _DashboardScreenState extends State<DashboardScreen>
                             ? _greeting(l10n)
                             : l10n.dashboardGreeting(
                                 _greeting(l10n), firstName),
-                        subtitle: l10n.dashboardDateSummary(formatWeekdayDate(
-                            AppClock.now(),
-                            Localizations.localeOf(context).toLanguageTag())),
+                        // An agent's home is their own work; only a manager
+                        // or an admin reads it as the team's.
+                        subtitle: context.isAdminOrManager
+                            ? l10n.dashboardDateSummary(today)
+                            : today,
                         initial: user?.fullName ?? '',
                         hub: RoleHub.of(user),
                         onTap: () => context.push('/profile'),
@@ -301,6 +305,9 @@ class _DashboardScreenState extends State<DashboardScreen>
         topGap: gap,
         onSeeAll: () => context.push('/properties/keys'),
       ),
+      // The cards above show only when something is due; this is the way
+      // into each of their lists that is always there.
+      FollowUpsCard(topGap: gap),
       // An admin runs no agency, so has no month of their own to show.
       if (!context.isAdmin) ...[
         SizedBox(height: gap),
@@ -368,12 +375,6 @@ class _DashboardScreenState extends State<DashboardScreen>
           if (item != attention.last) const SizedBox(height: 8),
         ],
       ],
-      SizedBox(height: gap),
-      MeetingLoadCard(
-        load: state.meetingLoad(now),
-        today: now,
-        onTap: () => context.go('/meetings'),
-      ),
       if (context.isAdminOrManager && agents.isNotEmpty) ...[
         SizedBox(height: gap + 4),
         SectionHeader(title: l10n.dashboardLeaderboard),

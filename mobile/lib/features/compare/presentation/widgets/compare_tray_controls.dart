@@ -11,7 +11,15 @@ import 'package:real_estate_crm/l10n/app_localizations.dart';
 /// once the tray holds anything, the way to open the comparison.
 class CompareTrayControls extends StatefulWidget {
   final int propertyId;
-  const CompareTrayControls({super.key, required this.propertyId});
+  final double height;
+  final double fontSize;
+
+  const CompareTrayControls({
+    super.key,
+    required this.propertyId,
+    this.height = AppMetrics.buttonHeight,
+    this.fontSize = AppMetrics.buttonFontSize,
+  });
 
   @override
   State<CompareTrayControls> createState() => _CompareTrayControlsState();
@@ -53,6 +61,8 @@ class _CompareTrayControlsState extends State<CompareTrayControls> {
               ? Icons.playlist_remove_rounded
               : Icons.compare_arrows_rounded,
           onPressed: _toggle,
+          height: widget.height,
+          fontSize: widget.fontSize,
         );
         if (_tray.length < 2) return toggle;
         return Row(
@@ -65,6 +75,8 @@ class _CompareTrayControlsState extends State<CompareTrayControls> {
                 key: const ValueKey('compare-tray-open'),
                 label: l10n.compareBarButton(_tray.length),
                 onPressed: () => context.push(compareLocation(_tray.ids)),
+                height: widget.height,
+                fontSize: widget.fontSize,
               ),
             ),
           ],

@@ -33,8 +33,10 @@ bool isOverdue(TaskResponse task, DateTime now) =>
 String dueLabel(
     AppLocalizations l10n, DateTime due, DateTime now, String locale) {
   final time = formatTimeOfDay(due);
-  final day = DateTime(due.year, due.month, due.day);
-  final today = DateTime(now.year, now.month, now.day);
+  // Calendar dates in UTC: a local day the clocks spring forward on is 23
+  // hours long and would count as no day at all.
+  final day = DateTime.utc(due.year, due.month, due.day);
+  final today = DateTime.utc(now.year, now.month, now.day);
   final offset = day.difference(today).inDays;
   if (offset == 0) return l10n.tasksDueToday(time);
   if (offset == 1) return l10n.tasksDueTomorrow(time);

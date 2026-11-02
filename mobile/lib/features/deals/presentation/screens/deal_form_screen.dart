@@ -52,6 +52,10 @@ class _DealFormScreenState extends State<DealFormScreen>
   bool _loading = false;
   bool _initLoading = false;
 
+  /// Why the record could not be loaded. The form is not shown then: saved
+  /// blank, it would overwrite the record on the server with nothing.
+  ApiFailure? _recordFailure;
+
   /// The deal as it was loaded, for the checklist warning on a stage move.
   DealResponse? _loaded;
 
@@ -231,7 +235,10 @@ class _DealFormScreenState extends State<DealFormScreen>
   }
 
   Future<void> _loadDeal() async {
-    setState(() => _initLoading = true);
+    setState(() {
+      _initLoading = true;
+      _recordFailure = null;
+    });
     try {
       final d = await Injector.dealsRepository.getDeal(widget.dealId!);
       if (!mounted) return;
@@ -285,8 +292,13 @@ class _DealFormScreenState extends State<DealFormScreen>
         _initLoading = false;
       });
       startDraft();
-    } catch (_) {
-      if (mounted) setState(() => _initLoading = false);
+    } catch (err) {
+      if (mounted) {
+        setState(() {
+          _initLoading = false;
+          _recordFailure = ApiFailure.from(err);
+        });
+      }
     }
   }
 
@@ -531,6 +543,18 @@ class _DealFormScreenState extends State<DealFormScreen>
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final t = context.tokens;
+
+    if (_recordFailure case final failure?) {
+      return DetailScaffold(
+        title: l10n.dealsEditTitle,
+        children: [
+          ErrorWidget2(
+            message: apiFailureLabel(l10n, failure),
+            onRetry: _loadDeal,
+          ),
+        ],
+      );
+    }
 
     return BlocListener<DealsBloc, DealsState>(
       listener: (context, state) {

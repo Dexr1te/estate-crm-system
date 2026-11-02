@@ -356,6 +356,9 @@ class AppLocalizationsKk extends AppLocalizations {
   String get authHaveAnInvite => 'Шақыруыңыз бар ма?';
 
   @override
+  String get authHidePassword => 'Құпия сөзді жасыру';
+
+  @override
   String get authInviteCode => 'Шақыру коды';
 
   @override
@@ -470,6 +473,9 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get authSetPasswordSignIn => 'Құпиясөз қойып, кіру';
+
+  @override
+  String get authShowPassword => 'Құпия сөзді көрсету';
 
   @override
   String get authSignIn => 'Кіру';
@@ -987,11 +993,6 @@ class AppLocalizationsKk extends AppLocalizations {
   String get clientsBuyer => 'Сатып алушы';
 
   @override
-  String clientsClientCreatedId(Object id) {
-    return 'Клиент құрылды (ID: $id)';
-  }
-
-  @override
   String get clientsClientFallback => 'Клиент';
 
   @override
@@ -1226,7 +1227,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get clientsDatesLoadFailed => 'Жақын күндерді жүктеу мүмкін болмады';
 
   @override
-  String get clientsDatesTitle => 'Жақын күндер';
+  String get clientsDatesTitle => 'Туған күндер мен жылдықтар';
 
   @override
   String get clientsDatesToday => 'Бүгін';
@@ -1767,6 +1768,12 @@ class AppLocalizationsKk extends AppLocalizations {
   String get compareShareIntro => 'Нысандарды салыстыру:';
 
   @override
+  String get compareStart => 'Нысандарды салыстыру';
+
+  @override
+  String get compareStop => 'Салыстыруды аяқтау';
+
+  @override
   String get compareTitle => 'Салыстыру';
 
   @override
@@ -1971,12 +1978,32 @@ class AppLocalizationsKk extends AppLocalizations {
   }
 
   @override
-  String get dashboardDatesTitle => 'Осы аптадағы күндер';
-
-  @override
   String dashboardDatesTotal(int count) {
     return 'аптада $count';
   }
+
+  @override
+  String get dashboardFollowUps => 'Назарда ұстаңыз';
+
+  @override
+  String get dashboardFollowUpsDatesHint =>
+      'Клиенттердің туған күндері мен сатып алу жылдықтары, екі апта алға';
+
+  @override
+  String get dashboardFollowUpsDepositsHint =>
+      'Нысан броні аяқталып жатқан не аяқталған кепілпұлдар';
+
+  @override
+  String get dashboardFollowUpsKeysHint =>
+      'Берілген, бірақ әлі қайтарылмаған нысан кілттері';
+
+  @override
+  String get dashboardFollowUpsLeasesHint =>
+      'Жалдау шарты алдағы 30 күнде аяқталатын мәмілелер';
+
+  @override
+  String get dashboardFollowUpsMandatesHint =>
+      'Сатушымен келісімі аяқталып жатқан не аяқталған нысандар';
 
   @override
   String dashboardGreeting(Object greeting, Object name) {
@@ -2013,31 +2040,9 @@ class AppLocalizationsKk extends AppLocalizations {
   String get dashboardLeaderboard => 'Үздік агенттер';
 
   @override
-  String dashboardLoadTotal(num count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$count кездесу',
-      one: '1 кездесу',
-      zero: 'ештеңе жоспарланбаған',
-    );
-    return '$_temp0';
-  }
-
-  @override
-  String get dashboardLoadEmpty => 'Алдағы 14 күнге кездесу жоқ';
-
-  @override
-  String get dashboardLoadEmptyHint =>
-      'Белгіленген кездесулер осында күн бойынша көрінеді';
-
-  @override
   String dashboardMandatesTotal(int count) {
     return 'барлығы $count';
   }
-
-  @override
-  String get dashboardMeetingLoad => 'Алдағы екі апта';
 
   @override
   String get dashboardMeetingsLabel => 'Кездесулер';
@@ -2109,9 +2114,6 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get dashboardTeamPipeline => 'Команда воронкасы';
-
-  @override
-  String get dashboardToday => 'Бүгін';
 
   @override
   String dashboardTodayCount(Object count) {
@@ -2558,7 +2560,7 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get depositsEndingEmptyHint =>
-      'Белсенді кепілпұлдар бронь аяқталуына бір апта қалғанда осында шығады.';
+      'Кепілпұл мәміле бетіндегі «Кепілпұл» бөлімінде енгізіледі. Белсенді кепілпұлдар бронь аяқталуына бір апта қалғанда осында шығады.';
 
   @override
   String get depositsEndingLoadFailed => 'Кепілпұлдарды жүктеу мүмкін болмады';
@@ -2724,9 +2726,6 @@ class AppLocalizationsKk extends AppLocalizations {
   String get documentsUploading => 'Жіберілуде…';
 
   @override
-  String get exportAction => 'Экспорт';
-
-  @override
   String get exportAllNote => 'Сізге қолжетімдінің бәрі, сүзгісіз.';
 
   @override
@@ -2784,6 +2783,9 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get exportTitleProperties => 'Нысандарды экспорттау';
+
+  @override
+  String get exportToSpreadsheet => 'Кестеге экспорттау';
 
   @override
   String get exportTooMany =>
@@ -4434,10 +4436,8 @@ class AppLocalizationsKk extends AppLocalizations {
   String get openHousesCardTitle => 'Ашық есік күндері';
 
   @override
-  String get profileAgentId => 'Агент ID';
-
-  @override
-  String get profileAgentIdCopied => 'Агент ID көшірілді';
+  String get profileAdminConsoleHint =>
+      'Пайдаланушылар, командалар және аудит журналы';
 
   @override
   String get profileApp => 'Қосымша';
@@ -4451,6 +4451,9 @@ class AppLocalizationsKk extends AppLocalizations {
   }
 
   @override
+  String get profileDeleteAccountConfirmAlone => 'Аккаунт біржола жойылады.';
+
+  @override
   String get profileDeleteHandoverEmpty => 'Жазбаларды тапсыратын адам жоқ';
 
   @override
@@ -4458,6 +4461,10 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get profileDeleteHandoverTitle => 'Жазбаларыңыз кімге өтеді';
+
+  @override
+  String get profileDeleteNeedsSuccessor =>
+      'Мәмілелеріңізді, кездесулеріңізді, құжаттарыңызды немесе ашық тапсырмаларыңызды біреуге тапсыру керек, ал агенттікте басқа ешкім жоқ. Алдымен әріптес қосыңыз немесе бұл жазбаларды жойыңыз.';
 
   @override
   String get profileEditProfile => 'Профильді өзгерту';
@@ -4482,6 +4489,10 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get profileName => 'Аты';
+
+  @override
+  String get profilePayoutsHint =>
+      'Бөлінген комиссиялар бойынша үлесіңіз: төленетіні мен төленгені';
 
   @override
   String get profilePrivacyPolicy => 'Құпиялылық саясаты';
@@ -4511,6 +4522,10 @@ class AppLocalizationsKk extends AppLocalizations {
   String get profileSystemDefault => 'Жүйелік';
 
   @override
+  String get profileTeamConsoleHint =>
+      'Агенттер, шақырулар, мақсаттар, төлемдер және импорт';
+
+  @override
   String get profileTheme => 'Безендіру';
 
   @override
@@ -4523,10 +4538,16 @@ class AppLocalizationsKk extends AppLocalizations {
   String get profileThemeSystem => 'Жүйедегідей';
 
   @override
+  String get profileTimeOffHint => 'Демалыстарыңыз және орныңызды кім басатыны';
+
+  @override
   String get profileTitle => 'Профиль';
 
   @override
   String get profileVersion => 'Нұсқа';
+
+  @override
+  String get profileWhosOutHint => 'Агенттікте қазір және жақында кім жоқ';
 
   @override
   String get propertiesAddFirstListing => 'Алғашқы нысаныңызды қосыңыз';
@@ -4775,7 +4796,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get propertiesMandatesLoadFailed => 'Аяқталатын келісімдер жүктелмеді';
 
   @override
-  String get propertiesMandatesTitle => 'Келісімдер аяқталып келеді';
+  String get propertiesMandatesTitle => 'Сатушымен келісімдер аяқталуда';
 
   @override
   String propertiesMapCapped(int count) {
@@ -4962,11 +4983,6 @@ class AppLocalizationsKk extends AppLocalizations {
   String get propertiesProperty => 'Нысан';
 
   @override
-  String propertiesPropertyCreated(Object id) {
-    return 'Нысан құрылды (ID: $id)';
-  }
-
-  @override
   String get propertiesPropertyIdCopied => 'Нысан ID көшірілді';
 
   @override
@@ -5079,6 +5095,9 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get propertiesSearchHintFull => 'Мекенжай, ТК, ID…';
+
+  @override
+  String get propertiesShareTitle => 'Бөлісу және жіберу';
 
   @override
   String get propertiesStatus => 'Мәртебесі';
@@ -5833,6 +5852,21 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get teamsSave => 'Сақтау';
+
+  @override
+  String get teamsSettings => 'Баптаулар';
+
+  @override
+  String get teamsSettingsAgency => 'Агенттік';
+
+  @override
+  String get teamsSettingsData => 'Деректер';
+
+  @override
+  String get teamsSettingsPerformance => 'Көрсеткіштер';
+
+  @override
+  String get teamsStats => 'Статистика';
 
   @override
   String get teamsStatusPendingInvite => 'Шақырылған';
@@ -7227,7 +7261,7 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get keysOutEmptyHint =>
-      'Нысан карточкасынан берілген кілттер қайтарылғанша осында көрінеді.';
+      'Кілттер нысан бетіндегі «Кілттер» бөлімінен беріледі. Олар қайтарылғанша осында көрінеді.';
 
   @override
   String get keysOutLoadFailed => 'Берілген кілттерді жүктеу мүмкін болмады';
