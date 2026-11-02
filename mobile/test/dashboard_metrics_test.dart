@@ -134,6 +134,39 @@ void main() {
       expect(state.meetingLoad(now).every((c) => c == 0), isTrue,
           reason: 'a far-off meeting must not pile onto the last column');
     });
+
+    // Clocks in the US spring forward on 8 March 2026, so that local day is
+    // 23 hours long. Run with TZ=America/New_York to see it bite.
+    test('keeps each day in its own column across a clock change', () {
+      final state = _loaded(meetings: [
+        _meeting(DateTime(2026, 3, 8, 11)),
+        _meeting(DateTime(2026, 3, 9, 11)),
+      ]);
+      final load = state.meetingLoad(DateTime(2026, 3, 7, 14));
+      expect(load.sublist(0, 3), [0, 1, 1]);
+    });
+  });
+
+  group('deals per day', () {
+    test('keeps each day in its own column across a clock change', () {
+      final state = _loaded(deals: [
+        DealResponse(
+            id: 1,
+            status: DealStatus.LEAD,
+            clientId: 1,
+            agentId: 1,
+            createdAt: DateTime(2026, 3, 3, 11)),
+        DealResponse(
+            id: 2,
+            status: DealStatus.LEAD,
+            clientId: 1,
+            agentId: 1,
+            createdAt: DateTime(2026, 3, 9, 11)),
+      ]);
+      final perDay = state.dealsCreatedPerDay(DateTime(2026, 3, 10, 14));
+      expect(perDay, [0, 0, 0, 0, 0, 1, 0],
+          reason: 'the day before the week is not its first day');
+    });
   });
 
   group('closed this month', () {
