@@ -85,8 +85,12 @@ class RegistrationFlowTest {
     }
 
     private LoginRequest login(String password) {
+        return login(EMAIL, password);
+    }
+
+    private LoginRequest login(String email, String password) {
         LoginRequest login = new LoginRequest();
-        login.setEmail(EMAIL);
+        login.setEmail(email);
         login.setPassword(password);
         return login;
     }
@@ -198,6 +202,43 @@ class RegistrationFlowTest {
         assertThatThrownBy(() -> authService.login(login("not the password")))
                 .as("EMAIL_NOT_VERIFIED here would confirm that this address has signed up")
                 .isInstanceOf(AccountStatusException.class);
+    }
+
+    @Test
+    @DisplayName("a confirmed account signs in however the address is capitalised")
+    void signingInIgnoresCase() {
+        // A phone keyboard capitalises the first letter; sign-up already treats both as one address.
+        registrationService.register(request("Boss@Almaty.kz", Role.MANAGER, PASSWORD));
+        firebaseSays(UID, EMAIL, true);
+        registrationService.verifyEmail(ID_TOKEN);
+
+        AuthResponse auth = authService.login(login(EMAIL, PASSWORD));
+
+        assertThat(auth.getAccessToken()).isNotBlank();
+        assertThatThrownBy(() -> authService.login(login(EMAIL, "not the password")))
+                .as("the password still has to match")
+                .isInstanceOf(BadCredentialsException.class);
+    }
+
+    @Test
+    @DisplayName("signing in unconfirmed in another case still asks for the link")
+    void signingInUnconfirmedIgnoresCase() {
+        registrationService.register(request(EMAIL, Role.MANAGER, PASSWORD));
+
+        assertThatThrownBy(() -> authService.login(login(EMAIL.toUpperCase(), PASSWORD)))
+                .isInstanceOf(BusinessException.class)
+                .extracting(e -> ((BusinessException) e).getCode())
+                .isEqualTo("EMAIL_NOT_VERIFIED");
+    }
+
+    @Test
+    @DisplayName("a forgotten password is reset however the address is capitalised")
+    void passwordResetIgnoresCase() {
+        registrationService.register(request(EMAIL, Role.MANAGER, PASSWORD));
+
+        authService.requestPasswordReset(EMAIL.toUpperCase());
+
+        assertThat(stored().getPasswordResetToken()).isNotNull();
     }
 
     @Test
