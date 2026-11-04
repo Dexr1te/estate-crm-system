@@ -251,6 +251,29 @@ void main() {
     expect(_clients.merges, isEmpty);
   });
 
+  // Opened from the dashboard, a search or a push, the client list has never
+  // loaded. A refused merge then arrived as the list's load error, which the
+  // card ignored: nothing was said, and Merge stayed dead until the card closed.
+  testWidgets('a refused merge says so, and Merge can be tried again',
+      (tester) async {
+    _clients.mergeError = StateError('offline');
+    await _pump(tester, '/clients/1');
+
+    await tester.tap(find.byTooltip('Merge with another card'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Aigerim B.'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Merge'));
+    await tester.pumpAndSettle();
+
+    expect(
+        find.text('Something went wrong. Please try again.'), findsOneWidget);
+
+    await tester.tap(find.byTooltip('Merge with another card'));
+    await tester.pumpAndSettle();
+    expect(find.text('Which card is the same person?'), findsOneWidget);
+  });
+
   testWidgets('with no duplicate detected, every other client is offered',
       (tester) async {
     _clients = FakeClientsRepository(clients: const [_target, _source]);
