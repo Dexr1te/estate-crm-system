@@ -99,7 +99,8 @@ class ApiClient {
         }
 
         try {
-          final opts = error.requestOptions..extra[_retriedKey] = true;
+          final opts = _replayable(error.requestOptions)
+            ..extra[_retriedKey] = true;
           handler.resolve(await dio.fetch(opts));
         } on DioException catch (retryError) {
           handler.next(retryError);
@@ -123,6 +124,14 @@ class ApiClient {
     }
   }
 
+  /// A replay sends the body again, and Dio reads a [FormData] only once: an
+  /// upload replayed as it was fails with "already been finalized".
+  static RequestOptions _replayable(RequestOptions opts) {
+    final data = opts.data;
+    if (data is FormData) opts.data = data.clone();
+    return opts;
+  }
+
   Interceptor _wakeUpInterceptor(Dio client) => InterceptorsWrapper(
         onError: (error, handler) async {
           if (!_shouldWaitForWakeUp(error)) {
@@ -131,7 +140,7 @@ class ApiClient {
           }
 
           try {
-            final opts = error.requestOptions
+            final opts = _replayable(error.requestOptions)
               ..extra[_wokeKey] = true
               ..connectTimeout = _wakeUpTimeout
               ..receiveTimeout = _wakeUpTimeout;

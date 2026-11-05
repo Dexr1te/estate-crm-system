@@ -120,6 +120,22 @@ void main() {
     expect(res.statusCode, 200);
   });
 
+  // A photo or document added a day after signing in: the token is refreshed
+  // and the upload replayed, but Dio reads a FormData once, so the replay
+  // failed with "already been finalized" and the file was not uploaded.
+  test('an upload sent with an expired token goes through after the refresh',
+      () async {
+    final (client, backend, _) = await _build();
+
+    final res = await client.dio.post('/deals/1/documents',
+        data: FormData.fromMap({
+          'file': MultipartFile.fromBytes([1, 2, 3], filename: 'deed.pdf'),
+        }));
+
+    expect(backend.refreshCalls, 1);
+    expect(res.statusCode, 200);
+  });
+
   test('one expired token triggers exactly one refresh', () async {
     final (client, backend, _) = await _build();
 

@@ -62,6 +62,20 @@ void main() {
             'nothing over the first');
   });
 
+  test('an upload refused while the host wakes up is replayed whole', () async {
+    final host =
+        _SleepingHost(failures: 1, failure: DioExceptionType.connectionError);
+    final client = await _client(host);
+
+    final res = await client.dio.post('/properties/1/photos',
+        data: FormData.fromMap({
+          'file': MultipartFile.fromBytes([1, 2, 3], filename: 'flat.jpg'),
+        }));
+
+    expect(res.statusCode, 200);
+    expect(host.attempts, hasLength(2));
+  });
+
   test('a write is replayed only when nothing reached the server', () async {
     final refused =
         _SleepingHost(failures: 1, failure: DioExceptionType.connectionError);
