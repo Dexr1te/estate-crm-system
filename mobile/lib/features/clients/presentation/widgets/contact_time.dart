@@ -4,8 +4,10 @@ import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 int _daysBetween(DateTime at, DateTime now) {
-  final days = DateTime(now.year, now.month, now.day)
-      .difference(DateTime(at.year, at.month, at.day))
+  // Calendar dates in UTC: a local day the clocks spring forward on is 23
+  // hours long and would count as no day at all.
+  final days = DateTime.utc(now.year, now.month, now.day)
+      .difference(DateTime.utc(at.year, at.month, at.day))
       .inDays;
   return days < 0 ? 0 : days;
 }
