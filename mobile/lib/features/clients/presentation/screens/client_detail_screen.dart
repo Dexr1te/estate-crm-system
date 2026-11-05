@@ -365,6 +365,11 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
     } else if (state is ClientsActionFailure) {
       setState(() => _merging = false);
       showActionOutcome(context, state);
+    } else if (state is ClientsError) {
+      // Opened from the dashboard, a search or a push, the client list never
+      // loaded, so the bloc reports a refused merge as the list's load error.
+      setState(() => _merging = false);
+      showWriteFailure(context, state.failure);
     }
   }
 
