@@ -30,6 +30,13 @@ class _ColdClientsScreenState extends State<ColdClientsScreen>
   @override
   ColdClientsBloc get coldBloc => _bloc;
 
+  /// A contact logged, a task set or a meeting booked on the client takes them
+  /// off the list, so it is read again on the way back, at the same threshold.
+  Future<void> _openClient(int clientId) async {
+    await context.push('/clients/$clientId');
+    if (mounted) _bloc.add(ColdClientsLoadEvent());
+  }
+
   @override
   void dispose() {
     _bloc.close();
@@ -106,7 +113,7 @@ class _ColdClientsScreenState extends State<ColdClientsScreen>
       for (final client in state.clients)
         ColdClientRow(
           client: client,
-          onTap: () => context.push('/clients/${client.id}'),
+          onTap: () => _openClient(client.id),
           onCall: () => callCold(client),
           onRemind: () => remindCold(client),
         ),

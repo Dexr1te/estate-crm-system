@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
@@ -73,6 +74,43 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(_cold.queries, hasLength(2));
+    });
+
+    // Logging a contact or booking a meeting on the client takes them off the
+    // list. Coming back, they were still on it until a pull to refresh.
+    testWidgets('the list is read again, at its threshold, back from a client',
+        (tester) async {
+      tester.view.physicalSize = const Size(390, 1600);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.reset);
+      await tester.pumpWidget(MaterialApp.router(
+        theme: AppTheme.light,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        routerConfig: GoRouter(routes: [
+          GoRoute(path: '/', builder: (_, __) => const ColdClientsScreen()),
+          GoRoute(
+              path: '/clients/:id',
+              builder: (_, __) => const Scaffold(body: Text('the client'))),
+        ]),
+      ));
+      await tester.pumpAndSettle();
+      await tester.tap(find.byKey(const ValueKey('cold-days-30')));
+      await tester.pumpAndSettle();
+      expect(find.byType(ColdClientRow), findsNWidgets(2));
+
+      await tester.tap(find.text('Madina Nurlanovna'));
+      await tester.pumpAndSettle();
+      expect(find.text('the client'), findsOneWidget);
+
+      _cold.clients =
+          coldClients.where((c) => c.fullName != 'Madina Nurlanovna').toList();
+      GoRouter.of(tester.element(find.text('the client'))).pop();
+      await tester.pumpAndSettle();
+
+      expect(find.byType(ColdClientRow), findsOneWidget,
+          reason: 'the client just contacted has left the list');
+      expect(_cold.queries.map((q) => q.$1), [14, 30, 30]);
     });
 
     testWidgets('nobody going cold is an empty state, not a blank page',
