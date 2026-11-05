@@ -130,15 +130,26 @@ class SessionStore {
 
   Map<String, dynamic> _decodeAuthUser(String data) {
     final parts = data.split('|');
+    // A name may hold "|" itself, and read by position it pushed the email
+    // into the role, which failed to decode and signed the person out on every
+    // launch. So only the id is read from the front, and the email, role and
+    // team from the back. Saves from before teams end with the role.
+    final roleLast = Role.values.any((r) => r.name == parts.last);
+    final hasTeam = !roleLast && parts.length >= 5;
+    final fields = hasTeam ? parts.sublist(0, parts.length - 1) : parts;
+    if (fields.length > 4) {
+      final name = fields.sublist(1, fields.length - 2).join('|');
+      fields.replaceRange(1, fields.length - 2, [name]);
+    }
     return {
       'accessToken': _accessToken ?? '',
       'refreshToken': _refreshToken ?? '',
       'tokenType': 'Bearer',
-      'userId': int.tryParse(parts[0]) ?? 0,
-      'fullName': parts.length > 1 ? parts[1] : '',
-      'email': parts.length > 2 ? parts[2] : '',
-      'role': parts.length > 3 ? parts[3] : 'AGENT',
-      'teamId': parts.length > 4 ? int.tryParse(parts.last) : null,
+      'userId': int.tryParse(fields[0]) ?? 0,
+      'fullName': fields.length > 1 ? fields[1] : '',
+      'email': fields.length > 2 ? fields[2] : '',
+      'role': fields.length > 3 ? fields[3] : 'AGENT',
+      'teamId': hasTeam ? int.tryParse(parts.last) : null,
       'teamCurrency': _currency,
     };
   }

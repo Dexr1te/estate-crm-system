@@ -84,6 +84,62 @@ void main() {
     });
   });
 
+  // The name was read by position between "|"s, so one in the name pushed the
+  // email into the role, which failed to decode: the app opened signed out on
+  // every launch, with the tokens still stored.
+  group('a "|" in the name', () {
+    test('comes back as it was, with the rest of the user', () async {
+      SharedPreferences.setMockInitialValues({});
+      await SessionStore().save(const AuthResponse(
+        accessToken: 'access-1',
+        refreshToken: 'refresh-1',
+        userId: 7,
+        fullName: 'Asel | Elite Realty',
+        email: 'asel@elite.kz',
+        role: Role.MANAGER,
+        teamId: 3,
+      ));
+
+      final store = SessionStore();
+      await store.load();
+      final user = await store.getSavedUser();
+
+      expect(user?.fullName, 'Asel | Elite Realty');
+      expect(user?.email, 'asel@elite.kz');
+      expect(user?.role, Role.MANAGER);
+      expect(user?.teamId, 3);
+    });
+
+    test('is read from a save made before teams', () async {
+      SharedPreferences.setMockInitialValues({
+        'access_token': 'legacy-access',
+        'auth_user': '7|Asel | Elite|asel@elite.kz|MANAGER',
+      });
+
+      final store = SessionStore();
+      await store.load();
+      final user = await store.getSavedUser();
+
+      expect(user?.fullName, 'Asel | Elite');
+      expect(user?.role, Role.MANAGER);
+      expect(user?.teamId, isNull);
+    });
+
+    test('leaves a plain save as it was', () async {
+      SharedPreferences.setMockInitialValues({});
+      await SessionStore().save(_auth);
+
+      final store = SessionStore();
+      await store.load();
+      final user = await store.getSavedUser();
+
+      expect(user?.fullName, 'Aisha Karimova');
+      expect(user?.email, 'aisha@estatecrm.kz');
+      expect(user?.role, Role.AGENT);
+      expect(user?.teamId, isNull);
+    });
+  });
+
   test('signing out clears the session everywhere', () async {
     SharedPreferences.setMockInitialValues({});
     final store = SessionStore();
