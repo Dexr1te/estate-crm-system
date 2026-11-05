@@ -4,6 +4,7 @@ import com.crm.realestate.entity.Client;
 import com.crm.realestate.entity.ClientActivity;
 import com.crm.realestate.entity.Notification;
 import com.crm.realestate.entity.Property;
+import com.crm.realestate.entity.PropertyShareLink;
 import com.crm.realestate.entity.Team;
 import com.crm.realestate.entity.User;
 import com.crm.realestate.enums.ActivityType;
@@ -24,6 +25,7 @@ import com.crm.realestate.repository.PropertyShareLinkRepository;
 import com.crm.realestate.repository.TeamRepository;
 import com.crm.realestate.repository.UserRepository;
 import com.crm.realestate.security.JwtService;
+import com.crm.realestate.service.AdminService;
 import com.crm.realestate.service.LeadRateLimiter;
 import com.crm.realestate.service.ListingShareService;
 import org.junit.jupiter.api.BeforeEach;
@@ -77,6 +79,7 @@ class ListingLeadTest {
     @Autowired private NotificationRepository notificationRepository;
     @Autowired private UserRepository userRepository;
     @Autowired private TeamRepository teamRepository;
+    @Autowired private AdminService adminService;
 
     private Team almaty;
     private User agent;
@@ -328,6 +331,23 @@ class ListingLeadTest {
         Client second = clientRepository.findAll().stream()
                 .filter(c -> c.getFullName().equals("Erlan")).findFirst().orElseThrow();
         assertThat(second.getAgent()).isNull();
+    }
+
+    @Test
+    @DisplayName("with the listing's agent switched off by an admin, the lead goes to whoever made the link")
+    void agentDeactivated() throws Exception {
+        PropertyShareLink link = linkRepository.findByTokenAndRevokedAtIsNull(token).orElseThrow();
+        link.setCreatedBy(colleague);
+        linkRepository.save(link);
+        // What the admin endpoint does: the account is switched off, its status is left alone.
+        adminService.deactivateUser(agent.getId());
+
+        mockMvc.perform(lead("Dana", "+7 701 222-33-44", null, true)).andExpect(status().isOk());
+
+        assertThat(onlyClient().getAgent().getId()).isEqualTo(colleague.getId());
+        assertThat(notificationRepository.findByRecipientId(agent.getId()))
+                .as("an account that cannot sign in would never read it").isEmpty();
+        assertThat(notificationRepository.findByRecipientId(colleague.getId())).hasSize(1);
     }
 
     @Test

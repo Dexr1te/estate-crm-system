@@ -15,7 +15,6 @@ import com.crm.realestate.entity.User;
 import com.crm.realestate.enums.ActivityType;
 import com.crm.realestate.enums.ClientSource;
 import com.crm.realestate.enums.ClientType;
-import com.crm.realestate.enums.UserStatus;
 import com.crm.realestate.exception.BusinessException;
 import com.crm.realestate.exception.ResourceNotFoundException;
 import com.crm.realestate.repository.ClientActivityPropertyRepository;
@@ -330,7 +329,7 @@ public class OpenHouseService {
     }
 
     private static boolean isActiveIn(User user, Team team) {
-        if (user == null || user.getStatus() != UserStatus.ACTIVE) {
+        if (user == null || !user.isEnabled()) {
             return false;
         }
         return team == null || (user.getTeam() != null

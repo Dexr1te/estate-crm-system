@@ -26,6 +26,7 @@ import com.crm.realestate.repository.PropertyRepository;
 import com.crm.realestate.repository.TeamRepository;
 import com.crm.realestate.repository.UserRepository;
 import com.crm.realestate.security.JwtService;
+import com.crm.realestate.service.AdminService;
 import com.crm.realestate.service.ClientActivityService;
 import com.crm.realestate.service.ClientDuplicateService;
 import com.crm.realestate.service.OpenHouseService;
@@ -70,6 +71,7 @@ class OpenHouseTest {
     @Autowired private MockMvc mockMvc;
     @Autowired private JwtService jwtService;
     @Autowired private OpenHouseService openHouseService;
+    @Autowired private AdminService adminService;
     @Autowired private ClientActivityService activityService;
     @Autowired private ClientDuplicateService duplicateService;
     @Autowired private RecordHandoverService handoverService;
@@ -323,6 +325,21 @@ class OpenHouseTest {
         signIn(agent);
         assertThat(activityService.list(madeByColleague.getId()))
                 .as("but the visit leaves its history").isEmpty();
+    }
+
+    @Test
+    @DisplayName("with the host switched off by an admin, a new buyer goes to whoever signs them in")
+    void hostDeactivated() {
+        Long id = openHouseService.create(flat.getId(), request(saturday, 2, null)).getId();
+        // What the admin endpoint does: the account is switched off, its status is left alone.
+        adminService.deactivateUser(agent.getId());
+
+        signIn(colleague);
+        OpenHouseVisitorResponse signedIn = openHouseService.signIn(id, visitor("B", "+7 701 000 00 12", null, null));
+
+        assertThat(clientRepository.findById(signedIn.getClientId()).orElseThrow().getAgent().getId())
+                .as("a buyer on an account nobody can sign in to would be lost")
+                .isEqualTo(colleague.getId());
     }
 
     @Test
