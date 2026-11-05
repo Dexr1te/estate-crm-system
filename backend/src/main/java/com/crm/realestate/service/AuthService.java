@@ -61,7 +61,7 @@ public class AuthService {
     }
 
     public void requestPasswordReset(String email) {
-        userRepository.findByEmail(email).ifPresent(user -> {
+        userRepository.findForSignIn(email).ifPresent(user -> {
             user.setPasswordResetToken(java.util.UUID.randomUUID().toString());
             user.setPasswordResetTokenExpiresAt(java.time.LocalDateTime.now().plusHours(24));
             userRepository.save(user);
@@ -96,7 +96,7 @@ public class AuthService {
             throw unverifiedOr(e, request);
         }
 
-        User user = userRepository.findByEmail(request.getEmail())
+        User user = userRepository.findForSignIn(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         return authResponseFactory.withNewTokens(user);
@@ -111,7 +111,7 @@ public class AuthService {
      * The app answers it by asking for a new link, with the same email and password.
      */
     private RuntimeException unverifiedOr(AccountStatusException original, LoginRequest request) {
-        return userRepository.findByEmail(request.getEmail())
+        return userRepository.findForSignIn(request.getEmail())
                 .filter(u -> u.getStatus() == UserStatus.PENDING_VERIFICATION)
                 .filter(u -> u.getPassword() != null
                         && passwordEncoder.matches(request.getPassword(), u.getPassword()))
