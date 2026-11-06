@@ -151,7 +151,7 @@ class _PropertyFormScreenState extends State<PropertyFormScreen>
       _descCtrl.text = p.description ?? '';
       _addressCtrl.text = p.address;
       _cityCtrl.text = p.city ?? '';
-      _priceCtrl.text = _groupedDigits(p.price);
+      _priceCtrl.text = _priceText(p.price);
       _areaCtrl.text = p.areaSqm == null ? '' : formatRate(p.areaSqm!);
       _roomsCtrl.text = p.rooms?.toString() ?? '';
       _floorCtrl.text = p.floor?.toString() ?? '';
@@ -201,6 +201,16 @@ class _PropertyFormScreenState extends State<PropertyFormScreen>
       .round()
       .toString()
       .replaceAllMapped(RegExp(r'\B(?=(\d{3})+$)'), (_) => ' ');
+
+  /// The saved price with its cents, which [parseMoneyInput] reads back, so an
+  /// edit that leaves the price alone sends the same amount. Rounded, it
+  /// recorded a price change and told matching buyers the price had dropped.
+  static String _priceText(double v) {
+    final cents = (v * 100).round();
+    final whole = _groupedDigits((cents ~/ 100).toDouble());
+    final rest = cents % 100;
+    return rest == 0 ? whole : '$whole,${rest.toString().padLeft(2, '0')}';
+  }
 
   static String _dateOnly(DateTime d) => '${d.year.toString().padLeft(4, '0')}-'
       '${d.month.toString().padLeft(2, '0')}-'

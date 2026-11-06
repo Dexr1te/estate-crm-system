@@ -354,6 +354,22 @@ void main() {
       expect(repo.sent['update-1']!['areaSqm'], 58.5);
     });
 
+    // A price with cents (from the web form, an import, or typed "85 000,40")
+    // was rounded into the field, so an edit that never touched it saved a
+    // new price: a price-history line and "price dropped" sent to buyers.
+    testWidgets('an edit keeps a price with cents as it was', (tester) async {
+      final repo = installMandates(const [
+        PropertyResponse(
+            id: 1, title: 'Flat', address: 'Abaya 10', price: 85000.4),
+      ]);
+      await _pumpForm(tester, repo);
+      expect(find.text('85 000,40'), findsOneWidget);
+
+      await toDetails(tester);
+      await submit(tester);
+      expect(repo.sent['update-1']!['price'], 85000.4);
+    });
+
     for (final (typed, price) in [
       ('150,000', 150000.0),
       ('12,300,000', 12300000.0),
