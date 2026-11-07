@@ -5257,7 +5257,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get propertiesRooms => 'Комнаты';
 
   @override
-  String propertiesRoomsCount(Object rooms) {
+  String propertiesRoomsCount(int rooms) {
     return '$rooms комн.';
   }
 

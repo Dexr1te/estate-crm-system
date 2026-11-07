@@ -2525,7 +2525,14 @@
   "propertiesReportViewingsHeld": "Viewings held",
   "propertiesReportViewingsUpcoming": "Viewings to come",
   "propertiesRooms": "Rooms",
-  "propertiesRoomsCount": "{rooms} rooms",
+  "propertiesRoomsCount": "{rooms, plural, =1{1 room} other{{rooms} rooms}}",
+  "@propertiesRoomsCount": {
+    "placeholders": {
+      "rooms": {
+        "type": "int"
+      }
+    }
+  },
   "propertiesSearchHintFull": "Address, complex, ID…",
   "propertiesShareTitle": "Share and send",
   "propertiesStatus": "Status",

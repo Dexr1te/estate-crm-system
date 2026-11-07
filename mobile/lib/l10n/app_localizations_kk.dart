@@ -5089,7 +5089,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get propertiesRooms => 'Бөлмелер';
 
   @override
-  String propertiesRoomsCount(Object rooms) {
+  String propertiesRoomsCount(int rooms) {
     return '$rooms бөлме';
   }
 

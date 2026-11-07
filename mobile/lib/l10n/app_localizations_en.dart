@@ -5161,8 +5161,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get propertiesRooms => 'Rooms';
 
   @override
-  String propertiesRoomsCount(Object rooms) {
-    return '$rooms rooms';
+  String propertiesRoomsCount(int rooms) {
+    String _temp0 = intl.Intl.pluralLogic(
+      rooms,
+      locale: localeName,
+      other: '$rooms rooms',
+      one: '1 room',
+    );
+    return '$_temp0';
   }
 
   @override

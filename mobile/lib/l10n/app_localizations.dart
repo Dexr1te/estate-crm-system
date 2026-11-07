@@ -8738,8 +8738,8 @@ abstract class AppLocalizations {
   /// No description provided for @propertiesRoomsCount.
   ///
   /// In en, this message translates to:
-  /// **'{rooms} rooms'**
-  String propertiesRoomsCount(Object rooms);
+  /// **'{rooms, plural, =1{1 room} other{{rooms} rooms}}'**
+  String propertiesRoomsCount(int rooms);
 
   /// No description provided for @propertiesSearchHintFull.
   ///
