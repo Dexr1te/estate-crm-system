@@ -139,12 +139,9 @@ class _DashboardScreenState extends State<DashboardScreen>
     }
   }
 
-  void _openMeeting(MeetingResponse meeting) {
-    if (meeting.dealId != null) {
-      context.push('/deals/${meeting.dealId}');
-    } else {
-      context.go('/meetings');
-    }
+  Future<void> _openMeeting(MeetingResponse meeting) async {
+    await context.push('/meetings/${meeting.id}');
+    if (mounted) context.read<DashboardBloc>().add(DashboardLoadEvent());
   }
 
   @override

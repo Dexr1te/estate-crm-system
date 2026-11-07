@@ -470,6 +470,64 @@ void main() {
     }
   });
 
+  group('opening a meeting', () {
+    Future<void> pumpRouted(WidgetTester tester) async {
+      tester.view.physicalSize = const Size(390, 844);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.reset);
+      final router = GoRouter(initialLocation: '/dashboard', routes: [
+        GoRoute(
+            path: '/dashboard',
+            builder: (_, __) =>
+                _dashboard(meetings: _meetings, deals: _deals, user: _agent)),
+        GoRoute(
+            path: '/meetings',
+            builder: (_, __) => const Text('meetings list', maxLines: 1)),
+        GoRoute(
+            path: '/meetings/:id',
+            builder: (_, s) =>
+                Text('meeting ${s.pathParameters['id']}', maxLines: 1)),
+        GoRoute(
+            path: '/deals/:id',
+            builder: (_, s) =>
+                Text('deal ${s.pathParameters['id']}', maxLines: 1)),
+      ]);
+      addTearDown(router.dispose);
+      await tester.pumpWidget(MaterialApp.router(
+        theme: AppTheme.light,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        routerConfig: router,
+      ));
+      await tester.pumpAndSettle();
+    }
+
+    testWidgets('Open on the next meeting opens that meeting', (tester) async {
+      await pumpRouted(tester);
+
+      final open = find.widgetWithText(InkWell, 'Open').first;
+      await tester.ensureVisible(open);
+      await tester.tap(open);
+      await tester.pumpAndSettle();
+
+      expect(find.text('meeting 1'), findsOneWidget);
+      expect(find.text('meetings list'), findsNothing);
+    });
+
+    testWidgets('a later meeting opens itself, not the deal it belongs to',
+        (tester) async {
+      await pumpRouted(tester);
+
+      final row = find.text('Price alignment · Romashkovo house');
+      await tester.ensureVisible(row);
+      await tester.tap(row);
+      await tester.pumpAndSettle();
+
+      expect(find.text('meeting 2'), findsOneWidget);
+      expect(find.text('deal 3'), findsNothing);
+    });
+  });
+
   for (final user in [_manager, _admin, _agent]) {
     forEachAcceptanceCase('dashboard header — ${user.role.name}',
         (tester, size, brightness, scale) async {
