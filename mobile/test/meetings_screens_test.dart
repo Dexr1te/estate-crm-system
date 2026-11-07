@@ -109,6 +109,65 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
+  group('a meeting\'s own page', () {
+    testWidgets('a held meeting reads its day, not "now", under no "Schedule"',
+        (tester) async {
+      final held = _meeting(5, const Duration(days: -6), 'Viewing last week');
+      Injector.meetingsRepository = FakeMeetingsRepository([..._meetings, held]);
+
+      await expectNoOverflow(
+        tester,
+        _wrap(const MeetingDetailScreen(id: 5)),
+        size: const Size(390, 844),
+        brightness: Brightness.light,
+        textScale: 1.0,
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.text('Viewing last week'), findsOneWidget);
+      expect(find.text('now'), findsNothing);
+      expect(find.text('SCHEDULE'), findsNothing);
+      expect(find.text('MEETING'), findsOneWidget);
+      expect(find.text('Mar 6'), findsWidgets);
+    });
+
+    testWidgets('earlier today reads "today"', (tester) async {
+      final earlier =
+          _meeting(6, const Duration(hours: -2), 'Morning call', location: 'x');
+      Injector.meetingsRepository =
+          FakeMeetingsRepository([..._meetings, earlier]);
+
+      await expectNoOverflow(
+        tester,
+        _wrap(const MeetingDetailScreen(id: 6)),
+        size: const Size(390, 844),
+        brightness: Brightness.light,
+        textScale: 1.0,
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.text('today'), findsWidgets);
+      expect(find.text('now'), findsNothing);
+    });
+
+    testWidgets('one that will not load says so, not "No meetings"',
+        (tester) async {
+      await expectNoOverflow(
+        tester,
+        _wrap(const MeetingDetailScreen(id: 404)),
+        size: const Size(390, 844),
+        brightness: Brightness.light,
+        textScale: 1.0,
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.text('No meetings'), findsNothing);
+      expect(find.text('Something went wrong. Please try again.'),
+          findsOneWidget);
+      expect(find.text('Retry'), findsOneWidget);
+    });
+  });
+
   forEachAcceptanceCase('meeting form',
       (tester, size, brightness, scale) async {
     await expectNoOverflow(
