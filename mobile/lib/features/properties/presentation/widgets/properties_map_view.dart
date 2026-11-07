@@ -11,7 +11,9 @@ import 'package:real_estate_crm/core/map/map_tiles.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/properties/domain/map_area.dart';
+import 'package:real_estate_crm/features/properties/presentation/bloc/properties_bloc.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_map_bloc.dart';
+import 'package:real_estate_crm/features/properties/presentation/bloc/properties_state.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/map_listing_card.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/map_markers.dart';
 import 'package:real_estate_crm/features/properties/presentation/widgets/map_status.dart';
@@ -77,7 +79,7 @@ class _PropertiesMapViewState extends State<PropertiesMapView> {
   @override
   Widget build(BuildContext context) {
     final t = context.tokens;
-    return BlocProvider.value(
+    final map = BlocProvider.value(
       value: _bloc,
       child: BlocBuilder<PropertiesMapBloc, PropertiesMapState>(
         builder: (context, state) {
@@ -164,6 +166,15 @@ class _PropertiesMapViewState extends State<PropertiesMapView> {
           );
         },
       ),
+    );
+
+    // A listing added, edited, moved to another status or deleted changes
+    // both the pins and how many have none, so both are read again.
+    return BlocListener<PropertiesBloc, PropertiesState>(
+      listenWhen: (_, curr) =>
+          curr is PropertiesActionSuccess || curr is PropertyCreated,
+      listener: (_, __) => _bloc.add(MapRetry()),
+      child: map,
     );
   }
 
