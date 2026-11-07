@@ -445,7 +445,9 @@ class _MeetingFormScreenState extends State<MeetingFormScreen>
                           ? null
                           : () {
                               closeDraft();
-                              context.go('/meetings');
+                              context.canPop()
+                                  ? context.pop()
+                                  : context.go('/meetings');
                             },
                     ),
                   ],
