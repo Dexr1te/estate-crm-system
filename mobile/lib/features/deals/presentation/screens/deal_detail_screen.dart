@@ -207,7 +207,13 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
           () => _d = _confirmed ?? _d?.copyWith(status: _confirmedStatus!));
       _confirmedStatus = null;
       _confirmed = null;
-      if (state is DealsError) showWriteFailure(context, state.failure);
+      // Said here, not left to the Deals tab: it is only built once opened,
+      // and when it is, this puts the same words over its snackbar.
+      showWriteFailure(
+          context,
+          state is DealsError
+              ? state.failure
+              : (state as DealsActionFailure).failure);
     }
   }
 

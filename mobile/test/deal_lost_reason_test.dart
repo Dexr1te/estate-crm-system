@@ -212,6 +212,35 @@ void main() {
           find.text('Something went wrong. Please try again.'), findsOneWidget);
     });
 
+    // A move that goes through reads the deals list in behind the screen, so
+    // the next refused move comes back as a failed write on a loaded list --
+    // which only the Deals tab drew, and it is not built until it is opened.
+    testWidgets('a refused move after one that went through says so too',
+        (tester) async {
+      await _pump(tester, const DealDetailScreen(id: 1));
+      bool selected(String stage) => tester
+          .widget<FilterPill>(find.widgetWithText(FilterPill, stage))
+          .selected;
+
+      final lead = find.widgetWithText(FilterPill, 'Lead');
+      await tester.ensureVisible(lead);
+      await tester.tap(lead);
+      await tester.pumpAndSettle();
+      expect(selected('Lead'), isTrue);
+      ScaffoldMessenger.of(tester.element(lead)).clearSnackBars();
+      await tester.pumpAndSettle();
+
+      _repo.refuseMoves = StateError('offline');
+      await tester.tap(find.widgetWithText(FilterPill, 'Negotiation'));
+      await tester.pumpAndSettle();
+
+      expect(_repo.moves, hasLength(2));
+      expect(selected('Lead'), isTrue);
+      expect(selected('Negotiation'), isFalse);
+      expect(
+          find.text('Something went wrong. Please try again.'), findsOneWidget);
+    });
+
     testWidgets('a lost deal shows why, and an old one says it was not given',
         (tester) async {
       await _pump(tester, const DealDetailScreen(id: 2));
