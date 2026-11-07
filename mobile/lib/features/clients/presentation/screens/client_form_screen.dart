@@ -459,7 +459,6 @@ class _ClientFormScreenState extends State<ClientFormScreen>
                       ),
                       LabelledField(
                         label: l10n.clientsPhone,
-                        required: true,
                         child: Focus(
                           onFocusChange: _contactFieldBlurred,
                           skipTraversal: true,
