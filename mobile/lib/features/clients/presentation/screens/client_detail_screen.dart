@@ -111,6 +111,13 @@ class _ClientDetailScreenState extends State<ClientDetailScreen> {
   }
 
   void _addActivity(ClientActivity logged) {
+    // A history that never loaded stays a failure with its Retry: one entry
+    // on its own would pass for the client's whole history. Reading it again
+    // brings the new entry in with the rest.
+    if (_activities == null) {
+      _retryActivities();
+      return;
+    }
     setState(() {
       _activities = [...?_activities, logged]
         ..sort((a, b) => b.occurredAt.compareTo(a.occurredAt));
