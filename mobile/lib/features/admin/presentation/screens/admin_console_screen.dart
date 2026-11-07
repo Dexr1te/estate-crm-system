@@ -204,6 +204,11 @@ class _UsersTab extends StatelessWidget {
         if (state is AdminInviteSuccess) {
           showInviteResultDialog(ctx, state.user);
         }
+        // A move, role change, invite or removal changes the teams' member
+        // counts and managers, and the Teams tab is never rebuilt to ask.
+        if (state is AdminUsersActionSuccess || state is AdminInviteSuccess) {
+          ctx.read<TeamsBloc>().add(TeamsLoadEvent());
+        }
         showActionOutcome(ctx, state);
         if (state is AdminUsersError) {
           ScaffoldMessenger.of(ctx)
