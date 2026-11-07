@@ -235,7 +235,7 @@ class _MyAppState extends State<MyApp> {
     super.dispose();
   }
 
-  void _syncReminders(BuildContext context, List<MeetingResponse>? meetings) {
+  void _syncReminders(List<MeetingResponse>? meetings) {
     if (meetings != null) _meetingsForReminders = meetings;
     final tasks = _tasksBloc.state;
     syncReminders(
@@ -244,7 +244,8 @@ class _MyAppState extends State<MyApp> {
       tasks: tasks is TasksLoaded ? tasks.tasks : const [],
       assigneeId: _authBloc.currentUser?.userId,
       settings: _remindersBloc.state.settings,
-      l10n: AppLocalizations.of(context),
+      l10n: reminderLocalizations(_localeBloc.state.locale,
+          WidgetsBinding.instance.platformDispatcher.locales),
     );
   }
 
@@ -343,19 +344,19 @@ class _MyAppState extends State<MyApp> {
           BlocListener<TasksBloc, TasksState>(
             bloc: _tasksBloc,
             listenWhen: (_, curr) => curr is TasksLoaded,
-            listener: (context, _) => _syncReminders(context, null),
+            listener: (_, __) => _syncReminders(null),
           ),
           BlocListener<MeetingsBloc, MeetingsState>(
-            listener: (context, state) {
+            listener: (_, state) {
               if (state is MeetingsLoaded) {
-                _syncReminders(context, state.meetings);
+                _syncReminders(state.meetings);
               }
             },
           ),
           BlocListener<DashboardBloc, DashboardState>(
-            listener: (context, state) {
+            listener: (_, state) {
               if (state is DashboardLoaded) {
-                _syncReminders(context, state.upcoming);
+                _syncReminders(state.upcoming);
               }
             },
           ),
@@ -363,15 +364,24 @@ class _MyAppState extends State<MyApp> {
             listenWhen: (prev, curr) =>
                 prev.settings.enabled != curr.settings.enabled ||
                 prev.settings.lead != curr.settings.lead,
-            listener: (context, __) {
+            listener: (_, __) {
               final meetings = _meetingsBloc.state;
               final dashboard = _dashboardBloc.state;
               if (meetings is MeetingsLoaded) {
-                _syncReminders(context, meetings.meetings);
+                _syncReminders(meetings.meetings);
               } else if (dashboard is DashboardLoaded) {
-                _syncReminders(context, dashboard.upcoming);
+                _syncReminders(dashboard.upcoming);
               } else {
-                _syncReminders(context, null);
+                _syncReminders(null);
+              }
+            },
+          ),
+          BlocListener<LocaleBloc, LocaleState>(
+            listenWhen: (prev, curr) => prev.locale != curr.locale,
+            listener: (_, __) {
+              if (_meetingsForReminders.isNotEmpty ||
+                  _tasksBloc.state is TasksLoaded) {
+                _syncReminders(null);
               }
             },
           ),

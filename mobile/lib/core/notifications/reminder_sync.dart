@@ -1,9 +1,16 @@
+import 'package:flutter/widgets.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/notifications/notification_gateway.dart';
 import 'package:real_estate_crm/core/notifications/reminder_plan.dart';
 import 'package:real_estate_crm/core/utils/clock.dart';
 import 'package:real_estate_crm/core/utils/formatters.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
+
+AppLocalizations reminderLocalizations(
+        Locale? chosen, List<Locale> deviceLocales) =>
+    lookupAppLocalizations(basicLocaleListResolution(
+        chosen != null ? [chosen] : deviceLocales,
+        AppLocalizations.supportedLocales));
 
 Future<void> syncReminders({
   required NotificationGateway gateway,

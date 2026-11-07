@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/notifications/reminder_plan.dart';
@@ -212,6 +212,50 @@ void main() {
 
       expect(state.settings.enabled, isTrue);
       expect(state.settings.lead, ReminderLead.oneDay);
+    });
+  });
+
+  group('reminders are written in', () {
+    test('the language chosen in the app', () {
+      final l10n =
+          reminderLocalizations(const Locale('ru'), const [Locale('en', 'US')]);
+
+      expect(l10n.localeName, 'ru');
+    });
+
+    test("the phone's language when none is chosen", () {
+      final l10n = reminderLocalizations(
+          null, const [Locale('kk', 'KZ'), Locale('ru', 'RU')]);
+
+      expect(l10n.localeName, 'kk');
+    });
+
+    testWidgets('the language the app is showing, worked out the same way',
+        (tester) async {
+      addTearDown(tester.platformDispatcher.clearLocalesTestValue);
+      const phones = [
+        [Locale('kk', 'KZ')],
+        [Locale('de', 'DE'), Locale('ru', 'RU')],
+        [Locale('de', 'DE')],
+      ];
+
+      for (final phone in phones) {
+        tester.platformDispatcher.localesTestValue = phone;
+        late String shown;
+        await tester.pumpWidget(MaterialApp(
+          key: ValueKey(phone),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: Builder(builder: (context) {
+            shown = AppLocalizations.of(context).localeName;
+            return const SizedBox.shrink();
+          }),
+        ));
+
+        final written =
+            reminderLocalizations(null, tester.platformDispatcher.locales);
+        expect(written.localeName, shown, reason: 'phone set to $phone');
+      }
     });
   });
 }
