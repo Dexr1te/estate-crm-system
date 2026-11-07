@@ -263,4 +263,32 @@ void main() {
     await tester.pumpAndSettle();
     expect(_opened?.queryParameters, {'ids': '5,2'});
   });
+
+  // A deleted listing stayed in the tray: "Compare (2)" opened one column and
+  // there was nothing left to take the other out with.
+  testWidgets('deleting a listing takes it out of the tray', (tester) async {
+    Injector.comparisonTray
+      ..toggle(5)
+      ..toggle(2);
+    await _pumpRouted(
+        tester,
+        '/properties/2',
+        GoRoute(
+            path: '/properties',
+            builder: (_, __) => const Scaffold(body: Text('listings')),
+            routes: [
+              GoRoute(
+                  path: ':id',
+                  builder: (_, s) => PropertyDetailScreen(
+                      id: int.parse(s.pathParameters['id']!))),
+            ]));
+    await tester.tap(find.byTooltip('Delete'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.descendant(
+        of: find.byType(Dialog), matching: find.text('Delete')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('listings'), findsOneWidget);
+    expect(Injector.comparisonTray.ids, [5]);
+  });
 }

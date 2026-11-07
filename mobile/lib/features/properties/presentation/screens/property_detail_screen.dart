@@ -102,6 +102,9 @@ class _PropertyDetailScreenState extends State<PropertyDetailScreen> {
       content: l10n.propertiesDeleteCascade(_p!.title),
     );
     if (!ok || !mounted) return;
+    // A deleted listing cannot be compared; left in the tray it would hold a
+    // place no column ever shows, with nothing to take it out.
+    Injector.comparisonTray.remove(widget.id);
     context.read<PropertiesBloc>().add(PropertiesDeleteEvent(widget.id));
     context.go('/properties');
   }
