@@ -25,6 +25,7 @@ class PropertyOpenHousesCard extends StatefulWidget {
 
 class _PropertyOpenHousesCardState extends State<PropertyOpenHousesCard> {
   List<OpenHouse>? _openHouses;
+  ApiFailure? _failure;
   bool _allPast = false;
 
   @override
@@ -33,15 +34,26 @@ class _PropertyOpenHousesCardState extends State<PropertyOpenHousesCard> {
     _load();
   }
 
+  /// A failed read is said as one, not drawn as "no open houses yet" with a
+  /// Schedule button that invites a second one on the same day.
   Future<void> _load() async {
-    List<OpenHouse> found;
     try {
-      found =
+      final found =
           await Injector.openHousesRepository.getForProperty(widget.propertyId);
-    } catch (_) {
-      found = const [];
+      if (mounted) {
+        setState(() {
+          _openHouses = found;
+          _failure = null;
+        });
+      }
+    } catch (err) {
+      if (mounted) setState(() => _failure = ApiFailure.from(err));
     }
-    if (mounted) setState(() => _openHouses = found);
+  }
+
+  void _retry() {
+    setState(() => _failure = null);
+    _load();
   }
 
   Future<void> _schedule() async {
@@ -59,6 +71,8 @@ class _PropertyOpenHousesCardState extends State<PropertyOpenHousesCard> {
   @override
   Widget build(BuildContext context) {
     final all = _openHouses;
+    final failure = _failure;
+    if (all == null && failure != null) return _failed(context, failure);
     if (all == null) {
       return const ShimmerGroup(
           child: ShimmerInfoCard(rows: 2, heading: true, buttons: 1));
@@ -135,6 +149,35 @@ class _PropertyOpenHousesCardState extends State<PropertyOpenHousesCard> {
             label: l10n.openHouseSchedule,
             icon: Icons.event_available_outlined,
             onPressed: _schedule,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _failed(BuildContext context, ApiFailure failure) {
+    final l10n = AppLocalizations.of(context);
+    return AppCard(
+      key: const ValueKey('property-open-houses'),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          EyebrowLabel(l10n.openHousesCardTitle),
+          const SizedBox(height: 11),
+          Text(apiFailureLabel(l10n, failure),
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                  fontFamily: AppFonts.sans,
+                  fontSize: AppType.subhead,
+                  height: 1.4,
+                  color: context.tokens.textSecondary)),
+          const SizedBox(height: 10),
+          AppGhostButton(
+            key: const ValueKey('property-open-houses-retry'),
+            label: l10n.coreRetry,
+            height: AppMetrics.buttonHeightInline,
+            onPressed: _retry,
           ),
         ],
       ),
