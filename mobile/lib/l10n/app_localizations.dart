@@ -4118,7 +4118,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'{active} active · {total}'**
-  String dealsCounter(Object active, Object total);
+  String dealsCounter(int active, String total);
 
   /// No description provided for @dealsCreateDeal.
   ///
@@ -4400,7 +4400,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'No activity for {days} days'**
-  String dealsStaleWarning(Object days);
+  String dealsStaleWarning(int days);
 
   /// No description provided for @dealsTimeline.
   ///

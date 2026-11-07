@@ -2394,8 +2394,16 @@ class AppLocalizationsRu extends AppLocalizations {
   String get dealsCommissionRate => 'Ставка';
 
   @override
-  String dealsCounter(Object active, Object total) {
-    return '$active активных · $total';
+  String dealsCounter(int active, String total) {
+    String _temp0 = intl.Intl.pluralLogic(
+      active,
+      locale: localeName,
+      other: '$active активные',
+      many: '$active активных',
+      few: '$active активные',
+      one: '$active активная',
+    );
+    return '$_temp0 · $total';
   }
 
   @override
@@ -2549,8 +2557,16 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String dealsStaleWarning(Object days) {
-    return 'Нет активности $days дней';
+  String dealsStaleWarning(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'Нет активности $days дня',
+      many: 'Нет активности $days дней',
+      few: 'Нет активности $days дня',
+      one: 'Нет активности $days день',
+    );
+    return '$_temp0';
   }
 
   @override

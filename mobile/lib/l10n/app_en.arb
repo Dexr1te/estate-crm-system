@@ -1001,6 +1001,16 @@
   "dealsCommissionPercent": "Commission, %",
   "dealsCommissionRate": "Rate",
   "dealsCounter": "{active} active · {total}",
+  "@dealsCounter": {
+    "placeholders": {
+      "active": {
+        "type": "int"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
   "dealsCreateDeal": "Create deal",
   "dealsDealPrice": "Deal price",
   "dealsDeleteCascade": "{title} will be deleted permanently. This cannot be undone.",
@@ -1048,6 +1058,13 @@
   "dealsSelectClientError": "Please select a client",
   "dealsSelectLabel": "Select {label}",
   "dealsStaleWarning": "No activity for {days} days",
+  "@dealsStaleWarning": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
   "dealsTimeline": "Timeline",
   "dealsTimelineClosed": "Deal closed",
   "dealsTimelineCreated": "Created",

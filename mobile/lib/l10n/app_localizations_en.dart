@@ -2347,7 +2347,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dealsCommissionRate => 'Rate';
 
   @override
-  String dealsCounter(Object active, Object total) {
+  String dealsCounter(int active, String total) {
     return '$active active · $total';
   }
 
@@ -2502,7 +2502,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String dealsStaleWarning(Object days) {
+  String dealsStaleWarning(int days) {
     return 'No activity for $days days';
   }
 
