@@ -22,9 +22,11 @@ class TeamsBloc extends Bloc<TeamsEvent, TeamsState>
     return s is TeamsLoaded ? s.teams : const [];
   }
 
-  TeamsState _failure(ApiFailure failure) => _current.isEmpty
-      ? TeamsError(failure)
-      : TeamsActionFailure(failure, _current);
+  /// A refused write over a loaded list, even an empty one, keeps the list
+  /// and says why; only a list that never loaded turns into the error page.
+  TeamsState _failure(ApiFailure failure) => state is TeamsLoaded
+      ? TeamsActionFailure(failure, _current)
+      : TeamsError(failure);
 
   Future<void> _onLoad(TeamsLoadEvent e, Emitter<TeamsState> emit) => load(
         emit,
