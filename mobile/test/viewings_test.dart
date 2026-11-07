@@ -141,6 +141,18 @@ void main() {
     expect(find.text('Aigerim Serikbaykyzy'), findsOneWidget);
   });
 
+  testWidgets('a viewing is dated in the app\'s language, on a 24-hour clock',
+      (tester) async {
+    _installFakes(viewings: _viewings);
+
+    await _open(tester, const PropertyDetailScreen(id: 7),
+        locale: const Locale('ru'));
+
+    expect(find.text('14 мар. 2026 г. · 11:00'), findsOneWidget);
+    expect(find.text('9 мар. 2026 г. · 16:00'), findsOneWidget);
+    expect(find.textContaining('PM'), findsNothing);
+  });
+
   testWidgets('a listing nobody has seen says so', (tester) async {
     _installFakes();
 

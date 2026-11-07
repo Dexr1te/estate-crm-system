@@ -873,9 +873,11 @@ class _MatchRow extends StatelessWidget {
                   child: Text(
                     [
                       if (match.lastShownAt != null)
-                        l10n.clientsShownOn(formatDate(match.lastShownAt!)),
+                        l10n.clientsShownOn(formatFullDate(
+                            match.lastShownAt!, l10n.localeName)),
                       if (match.lastSentAt != null)
-                        l10n.clientsSentOn(formatDate(match.lastSentAt!)),
+                        l10n.clientsSentOn(
+                            formatFullDate(match.lastSentAt!, l10n.localeName)),
                     ].join(' · '),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,

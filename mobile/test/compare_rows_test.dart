@@ -1,10 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/utils/formatters.dart';
 import 'package:real_estate_crm/features/compare/domain/comparison.dart';
 import 'package:real_estate_crm/features/compare/presentation/compare_rows.dart';
 import 'package:real_estate_crm/l10n/app_localizations.dart';
 import 'package:real_estate_crm/l10n/app_localizations_en.dart';
+import 'package:real_estate_crm/l10n/app_localizations_ru.dart';
 
 final _now = DateTime(2026, 9, 28, 12);
 
@@ -25,6 +27,7 @@ PropertyResponse _flat(int id,
 
 void main() {
   final AppLocalizations l10n = AppLocalizationsEn();
+  setUpAll(initializeDateFormatting);
 
   group('the numbers behind a row', () {
     test('price per m² is price over area, through formatPrice', () {
@@ -73,7 +76,19 @@ void main() {
           priceChangedAt: DateTime(2026, 9, 3));
       expect(
           compareCell(l10n, CompareRow.priceChange, ComparedListing(p), _now),
-          '−${formatPrice(5000)} · ${formatDate(DateTime(2026, 9, 3))}');
+          '−${formatPrice(5000)} · Sep 3, 2026');
+    });
+
+    test('the date of a price change is in the app\'s language', () {
+      final p = PropertyResponse(
+          id: 1,
+          price: 95000,
+          previousPrice: 100000,
+          priceChangedAt: DateTime(2026, 9, 3));
+      expect(
+          compareCell(AppLocalizationsRu(), CompareRow.priceChange,
+              ComparedListing(p), _now),
+          allOf(contains('3 сент. 2026'), isNot(contains('Sep'))));
     });
 
     test('a missing value reads as a dash', () {

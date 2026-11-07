@@ -17,10 +17,6 @@ String formatPrice(double price) => formatMoney(
 String formatRate(double rate) =>
     rate.toStringAsFixed(2).replaceFirst(RegExp(r'\.?0+$'), '');
 
-String formatDate(DateTime dt) => DateFormat('MMM d, yyyy').format(dt);
-String formatDateTime(DateTime dt) =>
-    DateFormat('MMM d, yyyy • h:mm a').format(dt);
-
 String formatTimeOfDay(DateTime dt) => DateFormat('HH:mm').format(dt);
 
 String formatWeekdayDate(DateTime dt, String locale) =>
