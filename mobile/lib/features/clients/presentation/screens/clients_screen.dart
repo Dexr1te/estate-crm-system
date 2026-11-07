@@ -96,6 +96,13 @@ class _ClientsScreenState extends State<ClientsScreen> with RefreshOnTabReturn {
         leadSource: _leadSource?.name,
       );
 
+  /// Logging a contact, adding a deal or a task on the client changes their
+  /// row (last contact, deals), so the list is read again on the way back.
+  Future<void> _openClient(int id) async {
+    await context.push('/clients/$id');
+    if (mounted) context.read<ClientsBloc>().add(ClientsLoadEvent());
+  }
+
   void _pick({ClientType? type, bool leads = false}) => setState(() {
         _typeFilter = type;
         _leadsOnly = leads;
@@ -248,7 +255,7 @@ class _ClientsScreenState extends State<ClientsScreen> with RefreshOnTabReturn {
         separatorBuilder: (_, __) => const SizedBox(height: 9),
         itemBuilder: (_, i) => ClientCard(
           client: visible[i],
-          onTap: () => context.go('/clients/${visible[i].id}'),
+          onTap: () => _openClient(visible[i].id),
         ),
       ),
     );
