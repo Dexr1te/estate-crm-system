@@ -30,6 +30,7 @@ import 'package:real_estate_crm/features/deposits/presentation/bloc/deal_deposit
 import 'package:real_estate_crm/features/deposits/presentation/widgets/deal_deposit_card.dart';
 import 'package:real_estate_crm/features/documents/presentation/bloc/documents_bloc.dart';
 import 'package:real_estate_crm/features/documents/presentation/bloc/documents_event.dart';
+import 'package:real_estate_crm/features/documents/presentation/bloc/documents_state.dart';
 import 'package:real_estate_crm/features/documents/presentation/widgets/deal_documents_card.dart';
 import 'package:real_estate_crm/features/leases/domain/lease.dart';
 import 'package:real_estate_crm/features/leases/presentation/widgets/deal_lease_card.dart';
@@ -288,8 +289,18 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
         BlocProvider.value(value: _deposits),
         BlocProvider.value(value: _split),
       ],
-      child: BlocListener<DealsBloc, DealsState>(
-        listener: _onWriteResult,
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<DealsBloc, DealsState>(listener: _onWriteResult),
+          // The server lets go of a deleted document on its checklist line;
+          // read the lines again so the line stops showing it.
+          BlocListener<DocumentsBloc, DocumentsState>(
+            listenWhen: (_, curr) =>
+                curr is DocumentsActionSuccess &&
+                curr.message == ActionMessage.documentDeleted,
+            listener: (_, __) => _checklist.add(DealChecklistLoadEvent()),
+          ),
+        ],
         child: Builder(
           builder: (context) => DetailScaffold(
             title: l10n.dealsDetailTitle,

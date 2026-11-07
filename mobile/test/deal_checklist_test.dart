@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
+import 'package:real_estate_crm/core/models/document_models.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/utils/clock.dart';
 import 'package:real_estate_crm/features/deals/presentation/screens/deal_detail_screen.dart';
+import 'package:real_estate_crm/features/documents/presentation/widgets/deal_documents_card.dart';
 
 import 'checklist_fixtures.dart';
 import 'fakes.dart';
@@ -116,6 +118,42 @@ void main() {
     await _menu(tester, 1, 'Remove document');
     expect(_checklist.updates.last.detach, isTrue);
     expect(find.text('document-71.pdf'), findsNothing);
+  });
+
+  testWidgets('a deleted document stops showing on the line it proved',
+      (tester) async {
+    Injector.documentsRepository = FakeDocumentsRepository([
+      for (final d in checklistDocuments)
+        DocumentResponse(
+            id: d.id,
+            fileName: d.fileName,
+            fileType: d.fileType,
+            fileSize: d.fileSize,
+            dealId: d.dealId,
+            uploadedById: checklistAgent.userId),
+    ]);
+    await _pump(tester);
+    expect(_inCard(find.text('halyk-preapproval.pdf')), findsOneWidget);
+
+    // What the server does when the document goes: the line lets go of it.
+    _checklist.byDeal[1] = [
+      for (final item in checklistItems())
+        item.id == 2
+            ? item.copyWith(documentId: null, documentName: null)
+            : item,
+    ];
+    final remove = find.descendant(
+        of: find.widgetWithText(DocumentRow, 'halyk-preapproval.pdf'),
+        matching: find.byIcon(Icons.delete_outline_rounded));
+    await tester.ensureVisible(remove);
+    await tester.pumpAndSettle();
+    await tester.tap(remove);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Delete'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('halyk-preapproval.pdf'), findsNothing,
+        reason: 'neither the documents nor the checklist line show it');
   });
 
   testWidgets('with no documents yet, the picker says where to upload one',
