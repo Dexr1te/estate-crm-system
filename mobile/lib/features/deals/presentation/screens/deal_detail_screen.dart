@@ -122,8 +122,12 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
   }
 
   Future<void> _load() async {
+    // The skeleton is for the first read only. A refresh, or coming back from
+    // Quick add, keeps the deal on screen -- a half-typed comment, the scroll
+    // position and the open checklist stages with it -- and swaps the new
+    // copy in when it comes.
     setState(() {
-      _loading = true;
+      _loading = _d == null;
       _error = null;
     });
     try {
@@ -134,9 +138,21 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
         _loading = false;
       });
       _focusDiscussion();
-    } catch (_) {
+    } catch (err) {
       if (!mounted) return;
+      final failure = ApiFailure.from(err);
+      if (_d != null && failure.kind != ApiFailureKind.notFound) {
+        // Still this deal, just not a fresher copy of it.
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(SnackBar(
+              content:
+                  Text(apiFailureLabel(AppLocalizations.of(context), failure)),
+              backgroundColor: context.tokens.dangerSolid));
+        return;
+      }
       setState(() {
+        _d = null;
         _loading = false;
         _error = AppLocalizations.of(context).dealsNotFound;
       });
