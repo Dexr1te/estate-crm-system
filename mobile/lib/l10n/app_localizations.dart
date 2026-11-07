@@ -829,14 +829,8 @@ abstract class AppLocalizations {
   /// No description provided for @authPasswordHelp.
   ///
   /// In en, this message translates to:
-  /// **'At least 8 characters, including a digit.'**
+  /// **'At least 8 characters.'**
   String get authPasswordHelp;
-
-  /// No description provided for @authPasswordMinLength.
-  ///
-  /// In en, this message translates to:
-  /// **'At least 6 characters'**
-  String get authPasswordMinLength;
 
   /// No description provided for @authPasswordMinLength8.
   ///

@@ -407,10 +407,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authPassword => 'Password';
 
   @override
-  String get authPasswordHelp => 'At least 8 characters, including a digit.';
-
-  @override
-  String get authPasswordMinLength => 'At least 6 characters';
+  String get authPasswordHelp => 'At least 8 characters.';
 
   @override
   String get authPasswordMinLength8 => 'At least 8 characters';

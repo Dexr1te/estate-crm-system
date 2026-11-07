@@ -405,10 +405,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get authPassword => 'Құпия сөз';
 
   @override
-  String get authPasswordHelp => 'Кемінде 8 таңба, бір сан.';
-
-  @override
-  String get authPasswordMinLength => 'Кемінде 6 таңба';
+  String get authPasswordHelp => 'Кемінде 8 таңба.';
 
   @override
   String get authPasswordMinLength8 => 'Кемінде 8 таңба';

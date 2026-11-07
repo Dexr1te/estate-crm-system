@@ -406,10 +406,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get authPassword => 'Пароль';
 
   @override
-  String get authPasswordHelp => 'Минимум 8 символов, одна цифра.';
-
-  @override
-  String get authPasswordMinLength => 'Не менее 6 символов';
+  String get authPasswordHelp => 'Минимум 8 символов.';
 
   @override
   String get authPasswordMinLength8 => 'Минимум 8 символов';
