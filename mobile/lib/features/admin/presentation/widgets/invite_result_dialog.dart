@@ -23,11 +23,12 @@ class _InviteResultDialog extends StatelessWidget {
     final token = user.inviteToken;
 
     return AlertDialog(
+      scrollable: true,
       title: Row(
         children: [
           Icon(Icons.mark_email_read_outlined, color: cs.primary),
           const SizedBox(width: 10),
-          Text(l10n.adminInviteCreated),
+          Expanded(child: Text(l10n.adminInviteCreated, maxLines: 2)),
         ],
       ),
       content: Column(
