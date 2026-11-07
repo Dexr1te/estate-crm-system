@@ -33,21 +33,24 @@ class DocumentsActionSuccess extends DocumentsLoaded with ActionSucceeded {
   @override
   final ActionMessage message;
 
-  DocumentsActionSuccess(this.message, super.documents);
+  DocumentsActionSuccess(this.message, super.documents,
+      {super.uploading, super.busyIds});
 }
 
 class DocumentsActionFailure extends DocumentsLoaded with ActionFailed {
   @override
   final ApiFailure failure;
 
-  DocumentsActionFailure(this.failure, super.documents);
+  DocumentsActionFailure(this.failure, super.documents,
+      {super.uploading, super.busyIds});
 }
 
 class DocumentsProblemReported extends DocumentsLoaded
     implements ActionOutcome {
   final LocalProblem problem;
 
-  DocumentsProblemReported(this.problem, super.documents);
+  DocumentsProblemReported(this.problem, super.documents,
+      {super.uploading, super.busyIds});
 
   @override
   String text(AppLocalizations l10n) => localProblemLabel(l10n, problem);
