@@ -308,6 +308,40 @@ void main() {
       expect(find.text('4'), findsOneWidget);
     });
 
+    // Selling the listing or renewing its agreement takes it off the list.
+    // Coming back, it was still there, and so was the count.
+    testWidgets('is read again on the way back from a listing', (tester) async {
+      final repo = installMandates(mandateListings);
+      tester.view.physicalSize = const Size(390, 1400);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.reset);
+      await tester.pumpWidget(MaterialApp.router(
+        theme: AppTheme.light,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        routerConfig: GoRouter(routes: [
+          GoRoute(path: '/', builder: (_, __) => const MandatesEndingScreen()),
+          GoRoute(
+              path: '/properties/:id',
+              builder: (_, __) => const Scaffold(body: Text('the listing'))),
+        ]),
+      ));
+      await tester.pumpAndSettle();
+      expect(find.byType(MandateRow), findsNWidgets(4));
+
+      await tester.tap(find.byType(MandateRow).first);
+      await tester.pumpAndSettle();
+      expect(find.text('the listing'), findsOneWidget);
+
+      repo.mandatesEnding = mandateListings.skip(1).toList();
+      GoRouter.of(tester.element(find.text('the listing'))).pop();
+      await tester.pumpAndSettle();
+
+      expect(find.byType(MandateRow), findsNWidgets(3));
+      expect(find.text('3'), findsOneWidget);
+      expect(repo.mandatesRequests, 2);
+    });
+
     testWidgets('says so when nothing is running out', (tester) async {
       installMandates(const []);
       await _pumpScreen(tester);
