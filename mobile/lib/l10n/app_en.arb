@@ -2879,6 +2879,14 @@
   "templatesAdd": "Add template",
   "templatesBodyHint": "What the agent will send",
   "templatesBodyLabel": "Text",
+  "templatesBodyTooLong": "The text takes at most {count} characters",
+  "@templatesBodyTooLong": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "templatesDelete": "Delete template",
   "templatesDeleteBody": "\"{title}\" will no longer be offered to agents.",
   "@templatesDeleteBody": {
@@ -2906,6 +2914,14 @@
   "templatesTitle": "Message templates",
   "templatesTitleHint": "For example, Viewing invitation",
   "templatesTitleLabel": "Title",
+  "templatesTitleTooLong": "A title takes at most {count} characters",
+  "@templatesTitleTooLong": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "templatesUnknownPlaceholder": "Unknown placeholder: {names}. Use the ones below.",
   "@templatesUnknownPlaceholder": {
     "placeholders": {

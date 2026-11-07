@@ -6084,6 +6084,11 @@ class AppLocalizationsRu extends AppLocalizations {
   String get templatesBodyLabel => 'Текст';
 
   @override
+  String templatesBodyTooLong(int count) {
+    return 'Текст — не больше $count символов';
+  }
+
+  @override
   String get templatesDelete => 'Удалить шаблон';
 
   @override
@@ -6146,6 +6151,11 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get templatesTitleLabel => 'Название';
+
+  @override
+  String templatesTitleTooLong(int count) {
+    return 'Название — не больше $count символов';
+  }
 
   @override
   String templatesUnknownPlaceholder(String names) {

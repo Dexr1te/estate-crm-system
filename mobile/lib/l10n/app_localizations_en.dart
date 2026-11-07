@@ -5982,6 +5982,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get templatesBodyLabel => 'Text';
 
   @override
+  String templatesBodyTooLong(int count) {
+    return 'The text takes at most $count characters';
+  }
+
+  @override
   String get templatesDelete => 'Delete template';
 
   @override
@@ -6044,6 +6049,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get templatesTitleLabel => 'Title';
+
+  @override
+  String templatesTitleTooLong(int count) {
+    return 'A title takes at most $count characters';
+  }
 
   @override
   String templatesUnknownPlaceholder(String names) {

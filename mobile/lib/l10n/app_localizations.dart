@@ -10121,6 +10121,12 @@ abstract class AppLocalizations {
   /// **'Text'**
   String get templatesBodyLabel;
 
+  /// No description provided for @templatesBodyTooLong.
+  ///
+  /// In en, this message translates to:
+  /// **'The text takes at most {count} characters'**
+  String templatesBodyTooLong(int count);
+
   /// No description provided for @templatesDelete.
   ///
   /// In en, this message translates to:
@@ -10240,6 +10246,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Title'**
   String get templatesTitleLabel;
+
+  /// No description provided for @templatesTitleTooLong.
+  ///
+  /// In en, this message translates to:
+  /// **'A title takes at most {count} characters'**
+  String templatesTitleTooLong(int count);
 
   /// No description provided for @templatesUnknownPlaceholder.
   ///

@@ -5893,6 +5893,11 @@ class AppLocalizationsKk extends AppLocalizations {
   String get templatesBodyLabel => 'Мәтін';
 
   @override
+  String templatesBodyTooLong(int count) {
+    return 'Мәтін $count таңбадан аспауы керек';
+  }
+
+  @override
   String get templatesDelete => 'Үлгіні жою';
 
   @override
@@ -5955,6 +5960,11 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get templatesTitleLabel => 'Атауы';
+
+  @override
+  String templatesTitleTooLong(int count) {
+    return 'Атауы $count таңбадан аспауы керек';
+  }
 
   @override
   String templatesUnknownPlaceholder(String names) {

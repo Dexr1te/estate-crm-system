@@ -24,13 +24,21 @@ class MessageTemplatesScreen extends StatelessWidget {
 class _TemplatesView extends StatelessWidget {
   const _TemplatesView();
 
+  /// The sheet stays open until the server has the template, so a refused or
+  /// failed save leaves the text where it was typed.
   Future<void> _edit(BuildContext context, [MessageTemplate? template]) async {
     final bloc = context.read<MessageTemplatesBloc>();
-    final draft = await showMessageTemplateSheet(context, initial: template);
-    if (draft != null) {
-      bloc.add(MessageTemplatesSaveEvent(
-          id: template?.id, title: draft.title, body: draft.body));
-    }
+    await showMessageTemplateSheet(
+      context,
+      initial: template,
+      onSave: (draft) async {
+        bloc.add(MessageTemplatesSaveEvent(
+            id: template?.id, title: draft.title, body: draft.body));
+        final done = await bloc.stream.firstWhere((s) => !s.saving);
+        final outcome = done.outcome;
+        if (outcome is MessageTemplateWriteFailed) throw outcome.failure;
+      },
+    );
   }
 
   Future<void> _delete(BuildContext context, MessageTemplate template) async {
@@ -47,7 +55,8 @@ class _TemplatesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<MessageTemplatesBloc, MessageTemplatesState>(
-      listenWhen: (_, next) => next.outcome != null,
+      listenWhen: (_, next) =>
+          next.outcome != null && next.outcome is! MessageTemplateSaveFailed,
       listener: (context, state) => showActionOutcome(context, state.outcome),
       builder: (context, state) {
         final l10n = AppLocalizations.of(context);
