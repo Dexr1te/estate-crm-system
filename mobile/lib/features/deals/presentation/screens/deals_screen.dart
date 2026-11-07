@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -114,8 +112,14 @@ class _DealsScreenState extends State<DealsScreen> with RefreshOnTabReturn {
   /// Over the list, not in place of it: a `go` swapped the address for the
   /// deal's, dropping the `?status=` the list was opened with, so the stage
   /// filter fell back to "All" while the deal was open and after it closed.
-  void _open(DealResponse deal) =>
-      unawaited(context.push<Object?>('/deals/${deal.id}'));
+  ///
+  /// The list is read again once the deal closes: a checklist tick, a comment
+  /// or a renewed lease there never passes through the list, and the warning
+  /// on a move reads the checklist counts the cards hold.
+  Future<void> _open(DealResponse deal) async {
+    await context.push<Object?>('/deals/${deal.id}');
+    if (mounted) context.read<DealsBloc>().add(DealsLoadEvent());
+  }
 
   List<DealResponse> _withPending(List<DealResponse> deals) {
     if (_pending.isEmpty) return deals;

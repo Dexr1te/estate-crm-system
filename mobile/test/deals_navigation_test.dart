@@ -154,6 +154,23 @@ void main() {
         reason: 'going to the plain list still shows them all');
   });
 
+  testWidgets('coming back from a deal reads the list again', (tester) async {
+    await pumpApp(tester);
+    router.go('/deals');
+    await tester.pumpAndSettle();
+    expect(find.text('0/1'), findsOneWidget);
+
+    await openDeal(tester, 'Dostyk 5, flat 12');
+    // The checklist line ticked on the deal's screen, as the server now has it.
+    deals.deals[0] = deals.deals[0].copyWith(checklistDone: 1);
+    final reads = deals.reads;
+    await closeDeal(tester);
+
+    expect(deals.reads, reads + 1);
+    expect(find.text('1/1'), findsOneWidget);
+    expect(find.text('0/1'), findsNothing);
+  });
+
   testWidgets('a refused move says so once, with the Deals tab built too',
       (tester) async {
     await pumpApp(tester);
