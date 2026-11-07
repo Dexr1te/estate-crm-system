@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -108,6 +110,12 @@ class _DealsScreenState extends State<DealsScreen> with RefreshOnTabReturn {
     context.read<DealsBloc>().add(DealsUpdateStatusEvent(deal.id, to,
         lostReason: lost?.reason, lostNote: lost?.note));
   }
+
+  /// Over the list, not in place of it: a `go` swapped the address for the
+  /// deal's, dropping the `?status=` the list was opened with, so the stage
+  /// filter fell back to "All" while the deal was open and after it closed.
+  void _open(DealResponse deal) =>
+      unawaited(context.push<Object?>('/deals/${deal.id}'));
 
   List<DealResponse> _withPending(List<DealResponse> deals) {
     if (_pending.isEmpty) return deals;
@@ -254,7 +262,7 @@ class _DealsScreenState extends State<DealsScreen> with RefreshOnTabReturn {
       padding: pad,
       onPageChanged: (i) => setState(() => _page = i),
       onMove: _move,
-      onOpen: (deal) => ctx.go('/deals/${deal.id}'),
+      onOpen: _open,
       onRefresh: () async => ctx.read<DealsBloc>().add(DealsLoadEvent()),
     );
   }
@@ -274,7 +282,7 @@ class _DealsScreenState extends State<DealsScreen> with RefreshOnTabReturn {
         separatorBuilder: (_, __) => const SizedBox(height: 9),
         itemBuilder: (_, i) => DealCard(
           deal: visible[i],
-          onTap: () => context.go('/deals/${visible[i].id}'),
+          onTap: () => _open(visible[i]),
         ),
       ),
     );
