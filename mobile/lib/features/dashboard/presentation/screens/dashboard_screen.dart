@@ -269,7 +269,10 @@ class _DashboardScreenState extends State<DashboardScreen>
       if (context.isManager)
         OutTodayCard(
           topGap: 10,
-          onTap: () => context.push('/time-off/team'),
+          onTap: () async {
+            await context.push('/time-off/team');
+            if (mounted) _out.add(TimeOffListLoadEvent());
+          },
         ),
       StarredEntryRow(
         topGap: 10,
