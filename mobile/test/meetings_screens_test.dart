@@ -113,7 +113,8 @@ void main() {
     testWidgets('a held meeting reads its day, not "now", under no "Schedule"',
         (tester) async {
       final held = _meeting(5, const Duration(days: -6), 'Viewing last week');
-      Injector.meetingsRepository = FakeMeetingsRepository([..._meetings, held]);
+      Injector.meetingsRepository =
+          FakeMeetingsRepository([..._meetings, held]);
 
       await expectNoOverflow(
         tester,
@@ -162,8 +163,8 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('No meetings'), findsNothing);
-      expect(find.text('Something went wrong. Please try again.'),
-          findsOneWidget);
+      expect(
+          find.text('Something went wrong. Please try again.'), findsOneWidget);
       expect(find.text('Retry'), findsOneWidget);
     });
   });
