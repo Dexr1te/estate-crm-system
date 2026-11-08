@@ -9,6 +9,7 @@ Purpose: Give concise, actionable rules and shortcuts so AI coding agents (and h
   - **Frontend dev/build/test:** `cd frontend && npm install && npm run dev` / `cd frontend && npm run build` / `cd frontend && npm test`
   - **Mobile (Flutter):** `cd mobile && flutter pub get` / `cd mobile && flutter run` / `cd mobile && flutter test`
     - Run it through the SDK the project pins (`fvm flutter test`, or `.fvm/flutter_sdk/bin/flutter test`). `flutter` on the PATH may be a different version, and `mobile/build/unit_test_assets` belongs to whichever SDK wrote it last: a mismatch fails every test that taps anything, with `Asset 'shaders/ink_sparkle.frag' manifest could not be decoded`. `rm -rf mobile/build/unit_test_assets` after switching versions.
+    - Before pushing, pass every step of [mobile-tests.yml](.github/workflows/mobile-tests.yml), not just analyze and test: `dart format --output=none --set-exit-if-changed lib test`, `dart analyze --fatal-infos lib test`, and `flutter gen-l10n` leaving `lib/l10n` unchanged. An unformatted test file turns main red.
 
 - **Key files & locations:**
   - **Backend:** [backend/pom.xml](backend/pom.xml#L1) — Maven project and build config.

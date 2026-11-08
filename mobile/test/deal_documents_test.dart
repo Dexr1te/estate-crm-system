@@ -272,7 +272,8 @@ void main() {
   });
 
   group('while an upload is on its way', () {
-    const scan = PickedFile(name: 'passport-scan.pdf', size: 4096, path: '/scan');
+    const scan =
+        PickedFile(name: 'passport-scan.pdf', size: 4096, path: '/scan');
 
     Future<(DocumentsBloc, _SlowUploads)> uploading() async {
       final repo = _SlowUploads(_documents);
