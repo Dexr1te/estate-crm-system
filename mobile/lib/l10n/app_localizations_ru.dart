@@ -406,10 +406,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get authPassword => 'Пароль';
 
   @override
-  String get authPasswordHelp => 'Минимум 8 символов, одна цифра.';
-
-  @override
-  String get authPasswordMinLength => 'Не менее 6 символов';
+  String get authPasswordHelp => 'Минимум 8 символов.';
 
   @override
   String get authPasswordMinLength8 => 'Минимум 8 символов';
@@ -2394,8 +2391,16 @@ class AppLocalizationsRu extends AppLocalizations {
   String get dealsCommissionRate => 'Ставка';
 
   @override
-  String dealsCounter(Object active, Object total) {
-    return '$active активных · $total';
+  String dealsCounter(int active, String total) {
+    String _temp0 = intl.Intl.pluralLogic(
+      active,
+      locale: localeName,
+      other: '$active активные',
+      many: '$active активных',
+      few: '$active активные',
+      one: '$active активная',
+    );
+    return '$_temp0 · $total';
   }
 
   @override
@@ -2549,8 +2554,16 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String dealsStaleWarning(Object days) {
-    return 'Нет активности $days дней';
+  String dealsStaleWarning(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: 'Нет активности $days дня',
+      many: 'Нет активности $days дней',
+      few: 'Нет активности $days дня',
+      one: 'Нет активности $days день',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -5257,7 +5270,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get propertiesRooms => 'Комнаты';
 
   @override
-  String propertiesRoomsCount(Object rooms) {
+  String propertiesRoomsCount(int rooms) {
     return '$rooms комн.';
   }
 
@@ -6071,6 +6084,11 @@ class AppLocalizationsRu extends AppLocalizations {
   String get templatesBodyLabel => 'Текст';
 
   @override
+  String templatesBodyTooLong(int count) {
+    return 'Текст — не больше $count символов';
+  }
+
+  @override
   String get templatesDelete => 'Удалить шаблон';
 
   @override
@@ -6133,6 +6151,11 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get templatesTitleLabel => 'Название';
+
+  @override
+  String templatesTitleTooLong(int count) {
+    return 'Название — не больше $count символов';
+  }
 
   @override
   String templatesUnknownPlaceholder(String names) {

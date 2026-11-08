@@ -86,11 +86,12 @@ String _floorText(AppLocalizations l10n, PropertyResponse p) {
   };
 }
 
-String _priceChangeText(PropertyResponse p) {
+String _priceChangeText(AppLocalizations l10n, PropertyResponse p) {
   final delta = lastPriceDelta(p);
   if (delta == null) return kCompareMissing;
   final sign = delta < 0 ? '−' : '+';
-  return '$sign${formatPrice(delta.abs())} · ${formatDate(p.priceChangedAt!)}';
+  final when = formatFullDate(p.priceChangedAt!, l10n.localeName);
+  return '$sign${formatPrice(delta.abs())} · $when';
 }
 
 String placeOf(PropertyResponse p) => _nonBlank([
@@ -133,7 +134,7 @@ String compareCell(
       final days = daysOnMarket(p, now);
       return days == null ? kCompareMissing : l10n.compareDays(days);
     case CompareRow.priceChange:
-      return _priceChangeText(p);
+      return _priceChangeText(l10n, p);
     case CompareRow.linkViews:
       return l.linkViews == null ? kCompareMissing : '${l.linkViews}';
     case CompareRow.fit:

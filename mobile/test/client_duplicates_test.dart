@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/theme/app_theme.dart';
+import 'package:real_estate_crm/core/widgets/widgets.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_state.dart';
@@ -182,6 +183,26 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(_clients.created.single['phone'], '89162208411');
+    expect(find.text('client list'), findsOneWidget);
+  });
+
+  testWidgets(
+      'the phone is not marked required, and a client saves without one',
+      (tester) async {
+    await _pump(tester, '/clients/new', me: _agent);
+    FieldLabel label(String text) => tester.widget<FieldLabel>(
+        find.byWidgetPredicate((w) => w is FieldLabel && w.text == text));
+    expect(label('Full name').required, isTrue);
+    expect(label('Phone').required, isFalse,
+        reason: 'nothing asks for a phone, so no asterisk should promise it');
+
+    await tester.enterText(find.byType(TextField).at(0), 'Aigerim');
+    final create = find.text('Create client');
+    await tester.ensureVisible(create);
+    await tester.tap(create);
+    await tester.pumpAndSettle();
+
+    expect(_clients.created.single.containsKey('phone'), isFalse);
     expect(find.text('client list'), findsOneWidget);
   });
 

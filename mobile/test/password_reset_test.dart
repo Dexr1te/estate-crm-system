@@ -100,6 +100,26 @@ void main() {
             'is supposed to save you');
   });
 
+  testWidgets(
+      'a new password is held to the 8 characters the help line asks for',
+      (tester) async {
+    await expectNoOverflow(tester, _reset(token: 'abc'),
+        size: const Size(390, 844),
+        brightness: Brightness.light,
+        textScale: 1.0);
+    await tester.pumpAndSettle();
+    expect(find.text('At least 8 characters.'), findsOneWidget);
+
+    final fields = find.byType(TextField);
+    await tester.enterText(fields.at(1), 'abc1234');
+    await tester.enterText(fields.at(2), 'abc1234');
+    await tester.tap(find.text('Set password & sign in'));
+    await tester.pump();
+
+    expect(find.text('At least 8 characters'), findsOneWidget,
+        reason: 'seven characters must not pass under a line asking for eight');
+  });
+
   testWidgets('asking for a link says nothing about who has an account',
       (tester) async {
     await expectNoOverflow(tester, _forgot(),

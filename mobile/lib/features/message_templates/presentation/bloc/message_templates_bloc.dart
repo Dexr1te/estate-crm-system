@@ -51,7 +51,7 @@ class MessageTemplatesBloc
     } catch (error) {
       emit(state.copyWith(
           saving: false,
-          outcome: MessageTemplateWriteFailed(ApiFailure.from(error))));
+          outcome: MessageTemplateSaveFailed(ApiFailure.from(error))));
     }
   }
 

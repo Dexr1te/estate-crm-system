@@ -829,14 +829,8 @@ abstract class AppLocalizations {
   /// No description provided for @authPasswordHelp.
   ///
   /// In en, this message translates to:
-  /// **'At least 8 characters, including a digit.'**
+  /// **'At least 8 characters.'**
   String get authPasswordHelp;
-
-  /// No description provided for @authPasswordMinLength.
-  ///
-  /// In en, this message translates to:
-  /// **'At least 6 characters'**
-  String get authPasswordMinLength;
 
   /// No description provided for @authPasswordMinLength8.
   ///
@@ -4118,7 +4112,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'{active} active · {total}'**
-  String dealsCounter(Object active, Object total);
+  String dealsCounter(int active, String total);
 
   /// No description provided for @dealsCreateDeal.
   ///
@@ -4400,7 +4394,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'No activity for {days} days'**
-  String dealsStaleWarning(Object days);
+  String dealsStaleWarning(int days);
 
   /// No description provided for @dealsTimeline.
   ///
@@ -8738,8 +8732,8 @@ abstract class AppLocalizations {
   /// No description provided for @propertiesRoomsCount.
   ///
   /// In en, this message translates to:
-  /// **'{rooms} rooms'**
-  String propertiesRoomsCount(Object rooms);
+  /// **'{rooms, plural, =1{1 room} other{{rooms} rooms}}'**
+  String propertiesRoomsCount(int rooms);
 
   /// No description provided for @propertiesSearchHintFull.
   ///
@@ -10127,6 +10121,12 @@ abstract class AppLocalizations {
   /// **'Text'**
   String get templatesBodyLabel;
 
+  /// No description provided for @templatesBodyTooLong.
+  ///
+  /// In en, this message translates to:
+  /// **'The text takes at most {count} characters'**
+  String templatesBodyTooLong(int count);
+
   /// No description provided for @templatesDelete.
   ///
   /// In en, this message translates to:
@@ -10246,6 +10246,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Title'**
   String get templatesTitleLabel;
+
+  /// No description provided for @templatesTitleTooLong.
+  ///
+  /// In en, this message translates to:
+  /// **'A title takes at most {count} characters'**
+  String templatesTitleTooLong(int count);
 
   /// No description provided for @templatesUnknownPlaceholder.
   ///

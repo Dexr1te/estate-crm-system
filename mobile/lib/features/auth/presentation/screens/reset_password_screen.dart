@@ -107,7 +107,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                           if (v == null || v.isEmpty) {
                             return l10n.authPasswordRequired;
                           }
-                          if (v.length < 6) return l10n.authPasswordMinLength;
+                          if (v.length < 8) return l10n.authPasswordMinLength8;
                           return null;
                         },
                       ),

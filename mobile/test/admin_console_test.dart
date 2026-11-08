@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -6,6 +7,9 @@ import 'package:real_estate_crm/core/models/admin_models.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/models/team_models.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/features/admin/presentation/bloc/admin_users_bloc.dart';
+import 'package:real_estate_crm/features/admin/presentation/bloc/admin_users_event.dart';
+import 'package:real_estate_crm/features/admin/presentation/bloc/admin_users_state.dart';
 import 'package:real_estate_crm/features/admin/presentation/screens/admin_console_screen.dart';
 import 'package:real_estate_crm/features/admin/presentation/widgets/user_card.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
@@ -66,6 +70,49 @@ final _audit = [
     createdAt: DateTime(2026, 8, 13, 17, 5),
   ),
 ];
+
+/// An agency whose server refuses to create a team.
+class _RefusingTeams extends FakeTeamsRepository {
+  @override
+  Future<TeamResponse> createTeam(Map<String, dynamic> body) =>
+      Future.error(DioException(
+          requestOptions: RequestOptions(path: '/teams'),
+          type: DioExceptionType.connectionError));
+}
+
+/// Teams as the server counts them; [joined] moves a person into one.
+class _LiveTeams extends FakeTeamsRepository {
+  List<TeamResponse> current = List.of(_teams);
+  int reads = 0;
+
+  void joined(int teamId) => current = [
+        for (final t in current)
+          t.id == teamId
+              ? TeamResponse(
+                  id: t.id,
+                  name: t.name,
+                  managerName: t.managerName,
+                  memberCount: t.memberCount + 1)
+              : t,
+      ];
+
+  @override
+  Future<List<TeamResponse>> getTeams() async {
+    reads++;
+    return current;
+  }
+}
+
+class _AssigningAdmin extends FakeAdminRepository {
+  _AssigningAdmin(this.teams) : super(users: _users, auditLog: _audit);
+  final _LiveTeams teams;
+
+  @override
+  Future<AgentResponse> assignTeam(int id, int teamId) async {
+    teams.joined(teamId);
+    return _users.firstWhere((u) => u.id == id);
+  }
+}
 
 /// The console builds its blocs from [Injector] rather than taking them in, so
 /// the seam for a test is the injector itself.
@@ -168,6 +215,88 @@ void main() {
     expect(find.byType(TeamCard, skipOffstage: false),
         findsNWidgets(_teams.length));
     expect(find.byType(UserCardBone, skipOffstage: false), findsNothing);
+  });
+
+  testWidgets(
+      'a first team that fails to save leaves the empty tab and its button',
+      (tester) async {
+    Injector.adminRepository =
+        FakeAdminRepository(users: _users, auditLog: _audit);
+    Injector.teamsRepository = _RefusingTeams();
+    await expectNoOverflow(
+      tester,
+      BlocProvider(
+        create: (_) => AuthBloc(FakeAuthRepository()),
+        child: const AdminConsoleScreen(),
+      ),
+      size: const Size(390, 844),
+      brightness: Brightness.light,
+      textScale: 1.0,
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Teams'));
+    await tester.pumpAndSettle();
+    expect(find.text('No teams'), findsOneWidget);
+
+    await tester.tap(find.text('New team'));
+    await tester.pumpAndSettle();
+    await tester.enterText(find.byType(TextField).last, 'North');
+    await tester.tap(find.text('Create'));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(SnackBar), findsOneWidget);
+    expect(find.byType(ErrorWidget2), findsNothing,
+        reason: 'the list loaded fine; only the save failed');
+    expect(find.text('No teams'), findsOneWidget);
+    expect(find.text('New team'), findsOneWidget,
+        reason: 'the admin can try again');
+  });
+
+  testWidgets('assigning someone to a team updates that team\'s count',
+      (tester) async {
+    final teams = _LiveTeams();
+    Injector.teamsRepository = teams;
+    Injector.adminRepository = _AssigningAdmin(teams);
+    await expectNoOverflow(
+      tester,
+      BlocProvider(
+        create: (_) => AuthBloc(FakeAuthRepository()),
+        child: const AdminConsoleScreen(),
+      ),
+      size: const Size(390, 844),
+      brightness: Brightness.light,
+      textScale: 1.0,
+    );
+    await tester.pumpAndSettle();
+    expect(teams.reads, 1);
+
+    await tester.tap(find.descendant(
+        of: find.byType(UserCard).at(2),
+        matching: find.byType(PopupMenuButton<VoidCallback>)));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Assign team'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Загородная недвижимость'));
+    await tester.pumpAndSettle();
+
+    expect(teams.reads, 2, reason: 'the teams are read again after the move');
+    await tester.tap(find.text('Teams'));
+    await tester.pumpAndSettle();
+    expect(find.textContaining('4 members'), findsOneWidget);
+    expect(find.textContaining('3 members'), findsNothing);
+  });
+
+  test('a refused invite over an empty user list keeps the list', () async {
+    final bloc = AdminUsersBloc(FakeAdminRepository())
+      ..add(AdminUsersLoadEvent());
+    addTearDown(bloc.close);
+    await bloc.stream.firstWhere((s) => s is AdminUsersLoaded);
+
+    bloc.add(AdminInviteUserEvent(const {'email': 'new@estatecrm.kz'}));
+    final next = await bloc.stream.firstWhere(
+        (s) => s is AdminUsersActionFailure || s is AdminUsersError);
+
+    expect(next, isA<AdminUsersActionFailure>());
   });
 
   testWidgets("a team's pencil says it edits the team", (tester) async {

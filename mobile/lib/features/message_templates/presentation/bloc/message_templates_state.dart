@@ -55,3 +55,9 @@ class MessageTemplateWriteFailed with ActionFailed {
   final ApiFailure failure;
   MessageTemplateWriteFailed(this.failure);
 }
+
+/// A save the editor sheet is still open for: it says why there, beside the
+/// text it kept, rather than under itself in a snackbar.
+class MessageTemplateSaveFailed extends MessageTemplateWriteFailed {
+  MessageTemplateSaveFailed(super.failure);
+}

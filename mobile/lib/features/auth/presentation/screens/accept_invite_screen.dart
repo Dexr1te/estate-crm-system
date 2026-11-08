@@ -103,8 +103,8 @@ class _AcceptInviteScreenState extends State<AcceptInviteScreen> {
                               size: 18,
                               color: t.textHint),
                         ),
-                        validator: (v) => (v == null || v.length < 6)
-                            ? l10n.authPasswordMinLength
+                        validator: (v) => (v == null || v.length < 8)
+                            ? l10n.authPasswordMinLength8
                             : null,
                       ),
                       const SizedBox(height: 10),

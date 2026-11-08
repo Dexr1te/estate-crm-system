@@ -687,7 +687,8 @@ class _ViewingRow extends StatelessWidget {
                 ),
                 const SizedBox(height: 3),
                 Text(
-                  formatDateTime(viewing.scheduledAt),
+                  '${formatFullDate(viewing.scheduledAt, AppLocalizations.of(context).localeName)}'
+                  ' · ${formatTimeOfDay(viewing.scheduledAt)}',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(

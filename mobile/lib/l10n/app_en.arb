@@ -121,8 +121,7 @@
   "authNewPassword": "New password",
   "authNoAccount": "No account?",
   "authPassword": "Password",
-  "authPasswordHelp": "At least 8 characters, including a digit.",
-  "authPasswordMinLength": "At least 6 characters",
+  "authPasswordHelp": "At least 8 characters.",
   "authPasswordMinLength8": "At least 8 characters",
   "authPasswordRequired": "Password is required",
   "authPasswordsDoNotMatch": "Passwords do not match",
@@ -1001,6 +1000,16 @@
   "dealsCommissionPercent": "Commission, %",
   "dealsCommissionRate": "Rate",
   "dealsCounter": "{active} active · {total}",
+  "@dealsCounter": {
+    "placeholders": {
+      "active": {
+        "type": "int"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
   "dealsCreateDeal": "Create deal",
   "dealsDealPrice": "Deal price",
   "dealsDeleteCascade": "{title} will be deleted permanently. This cannot be undone.",
@@ -1048,6 +1057,13 @@
   "dealsSelectClientError": "Please select a client",
   "dealsSelectLabel": "Select {label}",
   "dealsStaleWarning": "No activity for {days} days",
+  "@dealsStaleWarning": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
   "dealsTimeline": "Timeline",
   "dealsTimelineClosed": "Deal closed",
   "dealsTimelineCreated": "Created",
@@ -2525,7 +2541,14 @@
   "propertiesReportViewingsHeld": "Viewings held",
   "propertiesReportViewingsUpcoming": "Viewings to come",
   "propertiesRooms": "Rooms",
-  "propertiesRoomsCount": "{rooms} rooms",
+  "propertiesRoomsCount": "{rooms, plural, =1{1 room} other{{rooms} rooms}}",
+  "@propertiesRoomsCount": {
+    "placeholders": {
+      "rooms": {
+        "type": "int"
+      }
+    }
+  },
   "propertiesSearchHintFull": "Address, complex, ID…",
   "propertiesShareTitle": "Share and send",
   "propertiesStatus": "Status",
@@ -2856,6 +2879,14 @@
   "templatesAdd": "Add template",
   "templatesBodyHint": "What the agent will send",
   "templatesBodyLabel": "Text",
+  "templatesBodyTooLong": "The text takes at most {count} characters",
+  "@templatesBodyTooLong": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "templatesDelete": "Delete template",
   "templatesDeleteBody": "\"{title}\" will no longer be offered to agents.",
   "@templatesDeleteBody": {
@@ -2883,6 +2914,14 @@
   "templatesTitle": "Message templates",
   "templatesTitleHint": "For example, Viewing invitation",
   "templatesTitleLabel": "Title",
+  "templatesTitleTooLong": "A title takes at most {count} characters",
+  "@templatesTitleTooLong": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "templatesUnknownPlaceholder": "Unknown placeholder: {names}. Use the ones below.",
   "@templatesUnknownPlaceholder": {
     "placeholders": {

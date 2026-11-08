@@ -407,10 +407,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get authPassword => 'Password';
 
   @override
-  String get authPasswordHelp => 'At least 8 characters, including a digit.';
-
-  @override
-  String get authPasswordMinLength => 'At least 6 characters';
+  String get authPasswordHelp => 'At least 8 characters.';
 
   @override
   String get authPasswordMinLength8 => 'At least 8 characters';
@@ -2347,7 +2344,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get dealsCommissionRate => 'Rate';
 
   @override
-  String dealsCounter(Object active, Object total) {
+  String dealsCounter(int active, String total) {
     return '$active active · $total';
   }
 
@@ -2502,7 +2499,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String dealsStaleWarning(Object days) {
+  String dealsStaleWarning(int days) {
     return 'No activity for $days days';
   }
 
@@ -5161,8 +5158,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String get propertiesRooms => 'Rooms';
 
   @override
-  String propertiesRoomsCount(Object rooms) {
-    return '$rooms rooms';
+  String propertiesRoomsCount(int rooms) {
+    String _temp0 = intl.Intl.pluralLogic(
+      rooms,
+      locale: localeName,
+      other: '$rooms rooms',
+      one: '1 room',
+    );
+    return '$_temp0';
   }
 
   @override
@@ -5979,6 +5982,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get templatesBodyLabel => 'Text';
 
   @override
+  String templatesBodyTooLong(int count) {
+    return 'The text takes at most $count characters';
+  }
+
+  @override
   String get templatesDelete => 'Delete template';
 
   @override
@@ -6041,6 +6049,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get templatesTitleLabel => 'Title';
+
+  @override
+  String templatesTitleTooLong(int count) {
+    return 'A title takes at most $count characters';
+  }
 
   @override
   String templatesUnknownPlaceholder(String names) {

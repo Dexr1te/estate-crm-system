@@ -105,7 +105,8 @@ void _install({List<PropertyMatch>? matches, List<ClientActivity>? history}) {
   };
 }
 
-Future<void> _pumpDetail(WidgetTester tester) async {
+Future<void> _pumpDetail(WidgetTester tester,
+    {Locale locale = const Locale('en')}) async {
   final auth = AuthBloc(FakeAuthRepository(user: _agent))
     ..add(AuthCheckEvent());
   addTearDown(auth.close);
@@ -122,6 +123,7 @@ Future<void> _pumpDetail(WidgetTester tester) async {
     size: const Size(390, 844),
     brightness: Brightness.light,
     textScale: 1.0,
+    locale: locale,
   );
   await tester.pumpAndSettle();
 }
@@ -540,6 +542,25 @@ void main() {
       expect(
           find.text('Shown Sep 12, 2026 · Sent Sep 20, 2026'), findsOneWidget);
       expect(find.text('Sent Sep 3, 2026'), findsOneWidget);
+    });
+
+    testWidgets('a match row dates it in the app\'s language', (tester) async {
+      _install(matches: [
+        PropertyMatch(
+          property: _severny,
+          lastShownAt: DateTime(2026, 9, 12, 11),
+          lastSentAt: DateTime(2026, 9, 20, 9),
+        ),
+      ]);
+      await _pumpDetail(tester, locale: const Locale('ru'));
+      await openMore(tester);
+      await tester.pumpAndSettle();
+
+      expect(
+          find.text(
+              'Показывали 12 сент. 2026 г. · Отправляли 20 сент. 2026 г.'),
+          findsOneWidget);
+      expect(find.textContaining('Sep'), findsNothing);
     });
   });
 

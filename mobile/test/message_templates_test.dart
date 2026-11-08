@@ -146,7 +146,7 @@ void main() {
     expect(find.text('Template deleted'), findsOneWidget);
   });
 
-  testWidgets('a failed save keeps the list as it was and says so',
+  testWidgets('a failed save keeps the text in the open sheet and says why',
       (tester) async {
     await _pump(tester);
     _repo.writeError = Exception('offline');
@@ -156,9 +156,52 @@ void main() {
     await tester.pump();
     await _tap(tester, find.byKey(const Key('template-save')));
 
-    expect(find.byType(SnackBar), findsOneWidget);
-    expect(find.text('Introduction'), findsOneWidget);
-    expect(find.text('Changed'), findsNothing);
+    expect(find.text('Edit template'), findsOneWidget,
+        reason: 'the sheet stays open, so nothing typed is lost');
+    expect(find.byKey(const Key('template-save-failed')), findsOneWidget);
+    expect(find.byType(SnackBar), findsNothing,
+        reason: 'said once, in the sheet, not again under it');
+    expect(find.text('Changed'), findsOneWidget);
+    expect(find.text('Introduction'), findsOneWidget,
+        reason: 'the list keeps the old title until a save goes through');
+
+    _repo.writeError = null;
+    await _tap(tester, find.byKey(const Key('template-save')));
+
+    expect(find.text('Edit template'), findsNothing);
+    expect(find.text('Changed'), findsOneWidget);
+    expect(find.text('Introduction'), findsNothing);
+    expect(find.text('Template saved'), findsOneWidget);
+  });
+
+  testWidgets('a title or text longer than the server keeps is caught first',
+      (tester) async {
+    await _pump(tester);
+    await _tap(tester, find.byKey(const Key('template-new')));
+    await tester.enterText(
+        find.byKey(const Key('template-title-field')), 'T' * 81);
+    await tester.enterText(
+        find.byKey(const Key('template-body-field')), 'Hello, {client}');
+    await tester.pump();
+
+    expect(find.text('A title takes at most 80 characters'), findsOneWidget);
+    expect(_save(tester).onPressed, isNull);
+
+    await tester.enterText(
+        find.byKey(const Key('template-title-field')), 'T' * 80);
+    await tester.enterText(
+        find.byKey(const Key('template-body-field')), 'x' * 1001);
+    await tester.pump();
+    expect(find.byKey(const Key('template-title-too-long')), findsNothing);
+    expect(find.text('The text takes at most 1000 characters'), findsOneWidget);
+    expect(_save(tester).onPressed, isNull);
+
+    await tester.enterText(
+        find.byKey(const Key('template-body-field')), 'x' * 1000);
+    await tester.pump();
+    expect(find.byKey(const Key('template-body-too-long')), findsNothing);
+    expect(_save(tester).onPressed, isNotNull);
+    expect(_repo.saved, isEmpty);
   });
 
   testWidgets('an agency with none says so', (tester) async {

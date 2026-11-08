@@ -55,6 +55,34 @@ void main() {
     expect(repo.calls, 1, reason: 'the token can only be spent once');
   });
 
+  testWidgets(
+      'the invite password is held to the 8 characters its help asks for',
+      (tester) async {
+    final repo = _CountingAuthRepository();
+    final bloc = AuthBloc(repo);
+    addTearDown(bloc.close);
+    addTearDown(repo.release);
+
+    await tester.pumpWidget(BlocProvider.value(
+      value: bloc,
+      child: const MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: AcceptInviteScreen(token: 'tok-1'),
+      ),
+    ));
+    expect(find.text('At least 8 characters.'), findsOneWidget);
+
+    final fields = find.byType(TextField);
+    await tester.enterText(fields.at(1), 'abc123');
+    await tester.enterText(fields.at(2), 'abc123');
+    await tester.tap(find.text('Set password & sign in'), warnIfMissed: false);
+    await tester.pump();
+
+    expect(find.text('At least 8 characters'), findsOneWidget);
+    expect(repo.calls, 0, reason: 'a six-character password is not sent');
+  });
+
   // Two taps inside one frame: the button disables itself on AuthLoading, but
   // that only takes effect on the next rebuild, so the guard cannot live there.
   testWidgets('double-tapping the button sends one request', (tester) async {

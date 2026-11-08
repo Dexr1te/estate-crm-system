@@ -27,9 +27,11 @@ class AdminUsersBloc extends Bloc<AdminUsersEvent, AdminUsersState>
     return s is AdminUsersLoaded ? s.users : const [];
   }
 
-  AdminUsersState _failure(ApiFailure failure) => _current.isEmpty
-      ? AdminUsersError(failure)
-      : AdminUsersActionFailure(failure, _current);
+  /// A refused write over a loaded list, even an empty one, keeps the list
+  /// and says why; only a list that never loaded turns into the error page.
+  AdminUsersState _failure(ApiFailure failure) => state is AdminUsersLoaded
+      ? AdminUsersActionFailure(failure, _current)
+      : AdminUsersError(failure);
 
   Future<void> _onLoad(AdminUsersLoadEvent e, Emitter<AdminUsersState> emit) =>
       load(

@@ -405,10 +405,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get authPassword => 'Құпия сөз';
 
   @override
-  String get authPasswordHelp => 'Кемінде 8 таңба, бір сан.';
-
-  @override
-  String get authPasswordMinLength => 'Кемінде 6 таңба';
+  String get authPasswordHelp => 'Кемінде 8 таңба.';
 
   @override
   String get authPasswordMinLength8 => 'Кемінде 8 таңба';
@@ -2337,7 +2334,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get dealsCommissionRate => 'Мөлшерлеме';
 
   @override
-  String dealsCounter(Object active, Object total) {
+  String dealsCounter(int active, String total) {
     return '$active белсенді · $total';
   }
 
@@ -2492,7 +2489,7 @@ class AppLocalizationsKk extends AppLocalizations {
   }
 
   @override
-  String dealsStaleWarning(Object days) {
+  String dealsStaleWarning(int days) {
     return '$days күн белсенділік жоқ';
   }
 
@@ -5089,7 +5086,7 @@ class AppLocalizationsKk extends AppLocalizations {
   String get propertiesRooms => 'Бөлмелер';
 
   @override
-  String propertiesRoomsCount(Object rooms) {
+  String propertiesRoomsCount(int rooms) {
     return '$rooms бөлме';
   }
 
@@ -5896,6 +5893,11 @@ class AppLocalizationsKk extends AppLocalizations {
   String get templatesBodyLabel => 'Мәтін';
 
   @override
+  String templatesBodyTooLong(int count) {
+    return 'Мәтін $count таңбадан аспауы керек';
+  }
+
+  @override
   String get templatesDelete => 'Үлгіні жою';
 
   @override
@@ -5958,6 +5960,11 @@ class AppLocalizationsKk extends AppLocalizations {
 
   @override
   String get templatesTitleLabel => 'Атауы';
+
+  @override
+  String templatesTitleTooLong(int count) {
+    return 'Атауы $count таңбадан аспауы керек';
+  }
 
   @override
   String templatesUnknownPlaceholder(String names) {

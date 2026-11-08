@@ -21,6 +21,15 @@ void main() {
         startsWith('Айгерим и 21 связанная сделка'));
   });
 
+  test('the deals header and a stale deal agree with their number', () {
+    expect(ru.dealsStaleWarning(21), 'Нет активности 21 день');
+    expect(ru.dealsStaleWarning(22), 'Нет активности 22 дня');
+    expect(ru.dealsStaleWarning(25), 'Нет активности 25 дней');
+    expect(ru.dealsCounter(1, '5 млн ₸'), '1 активная · 5 млн ₸');
+    expect(ru.dealsCounter(3, '5 млн ₸'), '3 активные · 5 млн ₸');
+    expect(ru.dealsCounter(11, '5 млн ₸'), '11 активных · 5 млн ₸');
+  });
+
   test('no Russian plural pins the "one" form to exactly 1', () {
     final arb = File('lib/l10n/app_ru.arb').readAsStringSync();
     expect(arb, isNot(contains('=1{')));
