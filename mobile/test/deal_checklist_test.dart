@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
+import 'package:real_estate_crm/core/models/document_models.dart';
 import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/utils/clock.dart';
 import 'package:real_estate_crm/features/deals/presentation/screens/deal_detail_screen.dart';
+import 'package:real_estate_crm/features/documents/presentation/widgets/deal_documents_card.dart';
 
 import 'checklist_fixtures.dart';
 import 'fakes.dart';
@@ -13,6 +15,15 @@ import 'responsive_harness.dart';
 /// The checklist on a deal: grouped by stage with the current one open, a
 /// box to tick that remembers who and when, a document of the deal to prove
 /// a line, and lines of the deal's own that its agent can add and remove.
+
+/// A deal that takes a moment to come back, as it does over a real network.
+class _SlowDeals extends RecordingChecklistDeals {
+  @override
+  Future<DealResponse> getDeal(int id) async {
+    await Future<void>.delayed(const Duration(milliseconds: 300));
+    return super.getDeal(id);
+  }
+}
 
 late FakeChecklistRepository _checklist;
 late RecordingChecklistDeals _deals;
@@ -118,6 +129,42 @@ void main() {
     expect(find.text('document-71.pdf'), findsNothing);
   });
 
+  testWidgets('a deleted document stops showing on the line it proved',
+      (tester) async {
+    Injector.documentsRepository = FakeDocumentsRepository([
+      for (final d in checklistDocuments)
+        DocumentResponse(
+            id: d.id,
+            fileName: d.fileName,
+            fileType: d.fileType,
+            fileSize: d.fileSize,
+            dealId: d.dealId,
+            uploadedById: checklistAgent.userId),
+    ]);
+    await _pump(tester);
+    expect(_inCard(find.text('halyk-preapproval.pdf')), findsOneWidget);
+
+    // What the server does when the document goes: the line lets go of it.
+    _checklist.byDeal[1] = [
+      for (final item in checklistItems())
+        item.id == 2
+            ? item.copyWith(documentId: null, documentName: null)
+            : item,
+    ];
+    final remove = find.descendant(
+        of: find.widgetWithText(DocumentRow, 'halyk-preapproval.pdf'),
+        matching: find.byIcon(Icons.delete_outline_rounded));
+    await tester.ensureVisible(remove);
+    await tester.pumpAndSettle();
+    await tester.tap(remove);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Delete'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('halyk-preapproval.pdf'), findsNothing,
+        reason: 'neither the documents nor the checklist line show it');
+  });
+
   testWidgets('with no documents yet, the picker says where to upload one',
       (tester) async {
     Injector.documentsRepository = FakeDocumentsRepository();
@@ -218,6 +265,41 @@ void main() {
     await tester.scrollUntilVisible(find.text('Keys handed over'), -300,
         scrollable: find.byType(Scrollable).first);
     expect(find.text('Keys handed over'), findsOneWidget);
+  });
+
+  testWidgets('a refresh keeps a half-typed comment and the stages left open',
+      (tester) async {
+    Injector.dealsRepository = _SlowDeals();
+    await _pump(tester);
+    await tester.tap(find.byKey(const ValueKey('checklist-stage-NEGOTIATION')));
+    await tester.pumpAndSettle();
+    expect(find.text('Signed deposit agreement'), findsOneWidget);
+
+    final field = find.byKey(const ValueKey('deal-comment-field'));
+    await tester.scrollUntilVisible(field, 300,
+        scrollable: find.byType(Scrollable).first);
+    await tester.enterText(
+        find.descendant(of: field, matching: find.byType(EditableText)),
+        'Notary booked for');
+    await tester.pumpAndSettle();
+
+    await tester.drag(find.byType(Scrollable).first, const Offset(0, 5000));
+    await tester.pumpAndSettle();
+    await tester.fling(
+        find.byType(Scrollable).first, const Offset(0, 600), 1000);
+    await tester.pumpAndSettle();
+
+    expect(find.text('Signed deposit agreement'), findsOneWidget,
+        reason: 'the stage opened by hand stays open');
+    await tester.scrollUntilVisible(field, 300,
+        scrollable: find.byType(Scrollable).first);
+    expect(
+        tester
+            .widget<EditableText>(
+                find.descendant(of: field, matching: find.byType(EditableText)))
+            .controller
+            .text,
+        'Notary booked for');
   });
 
   for (final locale in kAcceptanceLocales) {

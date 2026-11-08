@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -9,6 +11,9 @@ import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart';
 import 'package:real_estate_crm/features/deals/presentation/bloc/deals_bloc.dart';
 import 'package:real_estate_crm/features/deals/presentation/screens/deal_detail_screen.dart';
+import 'package:real_estate_crm/features/documents/presentation/bloc/documents_bloc.dart';
+import 'package:real_estate_crm/features/documents/presentation/bloc/documents_event.dart';
+import 'package:real_estate_crm/features/documents/presentation/bloc/documents_state.dart';
 import 'package:real_estate_crm/features/documents/presentation/widgets/deal_documents_card.dart';
 
 import 'fakes.dart';
@@ -56,6 +61,20 @@ final _documents = [
     uploadedAt: DateTime(2026, 7, 19, 14, 40),
   ),
 ];
+
+/// An upload that waits for [finish], so a delete or an open can land while it
+/// is still on its way.
+class _SlowUploads extends FakeDocumentsRepository {
+  _SlowUploads(super.documents);
+
+  final finish = Completer<void>();
+
+  @override
+  Future<DocumentResponse> uploadDocument(int dealId, PickedFile file) async {
+    await finish.future;
+    return super.uploadDocument(dealId, file);
+  }
+}
 
 late FakeDocumentsRepository _repo;
 late FakeFileGateway _gateway;
@@ -250,5 +269,55 @@ void main() {
     expect(_repo.deletedId, 1);
     expect(find.text('Договор купли-продажи №14.pdf'), findsNothing);
     expect(find.text('Document removed'), findsOneWidget);
+  });
+
+  group('while an upload is on its way', () {
+    const scan = PickedFile(name: 'passport-scan.pdf', size: 4096, path: '/scan');
+
+    Future<(DocumentsBloc, _SlowUploads)> uploading() async {
+      final repo = _SlowUploads(_documents);
+      final bloc = DocumentsBloc(repo, FakeFileGateway(file: scan), dealId: 1)
+        ..add(DocumentsLoadEvent());
+      addTearDown(bloc.close);
+      await pumpEventQueue();
+      bloc.add(DocumentsUploadEvent());
+      await pumpEventQueue();
+      expect((bloc.state as DocumentsLoaded).uploading, isTrue);
+      return (bloc, repo);
+    }
+
+    List<int> ids(DocumentsBloc bloc) =>
+        [for (final d in (bloc.state as DocumentsLoaded).documents) d.id];
+
+    test('a document deleted meanwhile stays gone, and the upload stays shown',
+        () async {
+      final (bloc, repo) = await uploading();
+
+      bloc.add(DocumentsDeleteEvent(1));
+      await pumpEventQueue();
+
+      expect(ids(bloc), [2]);
+      expect((bloc.state as DocumentsLoaded).uploading, isTrue,
+          reason: '"Uploading…" must not turn back into "Add document" '
+              'while the file is still going up');
+
+      repo.finish.complete();
+      await pumpEventQueue();
+
+      expect(bloc.state, isA<DocumentsActionSuccess>());
+      expect(ids(bloc), [2, 101],
+          reason: 'the deleted contract must not come back with the upload');
+      expect((bloc.state as DocumentsLoaded).uploading, isFalse);
+    });
+
+    test('a document opened meanwhile does not hide the new one', () async {
+      final (bloc, repo) = await uploading();
+      repo.finish.complete();
+      bloc.add(DocumentsOpenEvent(_documents.first));
+      await pumpEventQueue();
+
+      expect(ids(bloc), [1, 2, 102]);
+      expect((bloc.state as DocumentsLoaded).busyIds, isEmpty);
+    });
   });
 }

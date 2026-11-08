@@ -30,6 +30,7 @@ import 'package:real_estate_crm/features/deposits/presentation/bloc/deal_deposit
 import 'package:real_estate_crm/features/deposits/presentation/widgets/deal_deposit_card.dart';
 import 'package:real_estate_crm/features/documents/presentation/bloc/documents_bloc.dart';
 import 'package:real_estate_crm/features/documents/presentation/bloc/documents_event.dart';
+import 'package:real_estate_crm/features/documents/presentation/bloc/documents_state.dart';
 import 'package:real_estate_crm/features/documents/presentation/widgets/deal_documents_card.dart';
 import 'package:real_estate_crm/features/leases/domain/lease.dart';
 import 'package:real_estate_crm/features/leases/presentation/widgets/deal_lease_card.dart';
@@ -121,8 +122,12 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
   }
 
   Future<void> _load() async {
+    // The skeleton is for the first read only. A refresh, or coming back from
+    // Quick add, keeps the deal on screen -- a half-typed comment, the scroll
+    // position and the open checklist stages with it -- and swaps the new
+    // copy in when it comes.
     setState(() {
-      _loading = true;
+      _loading = _d == null;
       _error = null;
     });
     try {
@@ -133,9 +138,21 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
         _loading = false;
       });
       _focusDiscussion();
-    } catch (_) {
+    } catch (err) {
       if (!mounted) return;
+      final failure = ApiFailure.from(err);
+      if (_d != null && failure.kind != ApiFailureKind.notFound) {
+        // Still this deal, just not a fresher copy of it.
+        ScaffoldMessenger.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(SnackBar(
+              content:
+                  Text(apiFailureLabel(AppLocalizations.of(context), failure)),
+              backgroundColor: context.tokens.dangerSolid));
+        return;
+      }
       setState(() {
+        _d = null;
         _loading = false;
         _error = AppLocalizations.of(context).dealsNotFound;
       });
@@ -190,7 +207,13 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
           () => _d = _confirmed ?? _d?.copyWith(status: _confirmedStatus!));
       _confirmedStatus = null;
       _confirmed = null;
-      if (state is DealsError) showWriteFailure(context, state.failure);
+      // Said here, not left to the Deals tab: it is only built once opened,
+      // and when it is, this puts the same words over its snackbar.
+      showWriteFailure(
+          context,
+          state is DealsError
+              ? state.failure
+              : (state as DealsActionFailure).failure);
     }
   }
 
@@ -288,8 +311,18 @@ class _DealDetailScreenState extends State<DealDetailScreen> {
         BlocProvider.value(value: _deposits),
         BlocProvider.value(value: _split),
       ],
-      child: BlocListener<DealsBloc, DealsState>(
-        listener: _onWriteResult,
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<DealsBloc, DealsState>(listener: _onWriteResult),
+          // The server lets go of a deleted document on its checklist line;
+          // read the lines again so the line stops showing it.
+          BlocListener<DocumentsBloc, DocumentsState>(
+            listenWhen: (_, curr) =>
+                curr is DocumentsActionSuccess &&
+                curr.message == ActionMessage.documentDeleted,
+            listener: (_, __) => _checklist.add(DealChecklistLoadEvent()),
+          ),
+        ],
         child: Builder(
           builder: (context) => DetailScaffold(
             title: l10n.dealsDetailTitle,
