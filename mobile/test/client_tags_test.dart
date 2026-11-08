@@ -12,6 +12,7 @@ import 'package:real_estate_crm/features/auth/presentation/bloc/auth_event.dart'
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_state.dart';
 import 'package:real_estate_crm/features/clients/domain/client_tags.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_bloc.dart';
+import 'package:real_estate_crm/features/clients/presentation/bloc/clients_event.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_state.dart';
 import 'package:real_estate_crm/features/clients/presentation/screens/client_detail_screen.dart';
 import 'package:real_estate_crm/features/clients/presentation/screens/client_form_screen.dart';
@@ -328,6 +329,55 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.textContaining('No client has a tag yet'), findsOneWidget);
     expect(find.byKey(const ValueKey('client-tag-filter-done')), findsNothing);
+  });
+
+  // The only client tagged VIP lost the tag while the list was filtered by
+  // it: the list stayed empty, "Tags · 1" stayed lit, and the sheet had no
+  // tags to untick and no Clear.
+  testWidgets('a picked tag no client carries any more stops filtering',
+      (tester) async {
+    _clients = FakeClientsRepository(clients: [_madina, _untagged]);
+    await expectNoOverflow(tester, _list(),
+        size: const Size(390, 844),
+        brightness: Brightness.light,
+        textScale: 1.0);
+    await tester.pumpAndSettle();
+    await _openTagFilter(tester);
+    await tester.tap(find.byKey(const ValueKey('client-tag-filter-VIP')));
+    await tester.pump();
+    await tester.tap(find.byKey(const ValueKey('client-tag-filter-done')));
+    await tester.pumpAndSettle();
+    expect(find.byType(ClientCard), findsOneWidget);
+    expect(find.text('Tags · 1'), findsOneWidget);
+
+    _clients.clients[0] = _madina.copyWith(tags: const []);
+    tester
+        .element(find.byType(ClientsScreen))
+        .read<ClientsBloc>()
+        .add(ClientsLoadEvent());
+    await tester.pumpAndSettle();
+
+    expect(find.byType(ClientCard), findsNWidgets(2));
+    expect(find.text('Tags'), findsOneWidget);
+  });
+
+  testWidgets('the tag sheet offers Clear while a tag is picked, even empty',
+      (tester) async {
+    Set<String>? done;
+    await tester.pumpWidget(MaterialApp(
+      theme: AppTheme.light,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      home: Scaffold(
+        body: ClientTagFilterForm(
+            available: const [],
+            selected: const {'VIP'},
+            onDone: (picked) => done = picked),
+      ),
+    ));
+    expect(find.textContaining('No client has a tag yet'), findsOneWidget);
+    await tester.tap(find.byKey(const ValueKey('client-tag-filter-clear')));
+    expect(done, isEmpty);
   });
 
   // The editor --------------------------------------------------------------------------------

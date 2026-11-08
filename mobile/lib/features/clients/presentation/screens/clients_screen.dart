@@ -6,6 +6,7 @@ import 'package:real_estate_crm/core/models/models.dart';
 import 'package:real_estate_crm/core/navigation/active_tab.dart';
 import 'package:real_estate_crm/core/utils/clock.dart';
 import 'package:real_estate_crm/core/widgets/widgets.dart';
+import 'package:real_estate_crm/features/clients/domain/client_tags.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_bloc.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_event.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_state.dart';
@@ -74,6 +75,17 @@ class _ClientsScreenState extends State<ClientsScreen> with RefreshOnTabReturn {
     if (picked != null && mounted) setState(() => _tags = picked);
   }
 
+  /// A tag picked here that no client carries any more (taken off, or its
+  /// client deleted) would keep the list empty with nothing left to untick.
+  void _dropVanishedTags(ClientsState state) {
+    if (state is! ClientsLoaded || _tags.isEmpty) return;
+    final kept = {
+      for (final tag in _tags)
+        if (state.clients.any((c) => ClientTags.holds(c.tags, tag))) tag,
+    };
+    if (kept.length != _tags.length) setState(() => _tags = kept);
+  }
+
   Future<void> _pickLeadSource(List<ClientSummary> all) async {
     final counts = <LeadSource, int>{};
     for (final c in all) {
@@ -95,6 +107,13 @@ class _ClientsScreenState extends State<ClientsScreen> with RefreshOnTabReturn {
         tags: _tags.toList(),
         leadSource: _leadSource?.name,
       );
+
+  /// Logging a contact, adding a deal or a task on the client changes their
+  /// row (last contact, deals), so the list is read again on the way back.
+  Future<void> _openClient(int id) async {
+    await context.push('/clients/$id');
+    if (mounted) context.read<ClientsBloc>().add(ClientsLoadEvent());
+  }
 
   void _pick({ClientType? type, bool leads = false}) => setState(() {
         _typeFilter = type;
@@ -121,6 +140,7 @@ class _ClientsScreenState extends State<ClientsScreen> with RefreshOnTabReturn {
                       backgroundColor: t.dangerSolid));
               }
               showActionOutcome(ctx, state);
+              _dropVanishedTags(state);
             },
             builder: (ctx, state) {
               final all =
@@ -248,7 +268,7 @@ class _ClientsScreenState extends State<ClientsScreen> with RefreshOnTabReturn {
         separatorBuilder: (_, __) => const SizedBox(height: 9),
         itemBuilder: (_, i) => ClientCard(
           client: visible[i],
-          onTap: () => context.go('/clients/${visible[i].id}'),
+          onTap: () => _openClient(visible[i].id),
         ),
       ),
     );

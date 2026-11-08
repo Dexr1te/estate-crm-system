@@ -80,7 +80,7 @@ class _ClientTagFilterFormState extends State<ClientTagFilterForm> {
     final t = context.tokens;
 
     if (widget.available.isEmpty) {
-      return Padding(
+      final empty = Padding(
         padding: const EdgeInsets.only(top: 12),
         child: Text(
           l10n.clientsTagFilterEmpty,
@@ -92,6 +92,16 @@ class _ClientTagFilterFormState extends State<ClientTagFilterForm> {
               height: 1.4,
               color: t.textSecondary),
         ),
+      );
+      if (widget.selected.isEmpty) return empty;
+      // Tags still picked with none left to show: Clear is the way out.
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          empty,
+          const SizedBox(height: 18),
+          _clear(l10n),
+        ],
       );
     }
 
@@ -116,12 +126,14 @@ class _ClientTagFilterFormState extends State<ClientTagFilterForm> {
           onPressed: () => widget.onDone(_picked),
         ),
         const SizedBox(height: 9),
-        AppGhostButton(
-          key: const ValueKey('client-tag-filter-clear'),
-          label: l10n.clientsTagFilterClear,
-          onPressed: () => widget.onDone(const {}),
-        ),
+        _clear(l10n),
       ],
     );
   }
+
+  Widget _clear(AppLocalizations l10n) => AppGhostButton(
+        key: const ValueKey('client-tag-filter-clear'),
+        label: l10n.clientsTagFilterClear,
+        onPressed: () => widget.onDone(const {}),
+      );
 }

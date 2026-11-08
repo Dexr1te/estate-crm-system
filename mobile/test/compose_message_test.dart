@@ -279,6 +279,34 @@ void main() {
     expect(find.text('Could not open sending'), findsOneWidget);
   });
 
+  // A message sent while the history could not be read replaced "Could not
+  // load the history" with that one message, as if it were all there was.
+  testWidgets('a send on a history that failed to load reads it again',
+      (tester) async {
+    _install();
+    _clients.activitiesError = Exception('offline');
+    await _pumpDetail(tester);
+    expect(find.text('Could not load the history'), findsOneWidget);
+
+    Future<void> sendSms(String text) async {
+      await _openCompose(tester);
+      await tester.enterText(find.byKey(const Key('compose-text')), text);
+      await tester.pump();
+      await _tap(tester, find.byKey(const Key('compose-sms')));
+    }
+
+    await sendSms('First word');
+    expect(_clients.logCalls, hasLength(1));
+    expect(find.text('Could not load the history'), findsOneWidget,
+        reason: 'still unread, so still said to be');
+
+    _clients.activitiesError = null;
+    await sendSms('Second word');
+    expect(find.text('Could not load the history'), findsNothing);
+    expect(find.text('First word'), findsOneWidget);
+    expect(find.text('Second word'), findsOneWidget);
+  });
+
   testWidgets('with nothing written there is nothing to send', (tester) async {
     _install();
     await _pumpDetail(tester);

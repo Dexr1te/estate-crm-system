@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 import 'package:real_estate_crm/core/models/models.dart';
+import 'package:real_estate_crm/core/theme/app_theme.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_bloc.dart';
 import 'package:real_estate_crm/features/clients/presentation/bloc/clients_state.dart';
 import 'package:real_estate_crm/features/clients/presentation/screens/clients_screen.dart';
 import 'package:real_estate_crm/features/clients/presentation/widgets/client_card.dart';
+import 'package:real_estate_crm/l10n/app_localizations.dart';
 
 import 'fakes.dart';
 import 'responsive_harness.dart';
@@ -125,6 +128,54 @@ void main() {
     // alphabetically rather than by where they appear in the sentence, so the
     // two counts are easy to hand over the wrong way round.
     expect(find.text('3 total · 2 in progress'), findsOneWidget);
+  });
+
+  // A deal added or a contact logged on the client changes their row, but the
+  // list never read itself again on the way back from the client.
+  testWidgets('the list is read again on the way back from a client',
+      (tester) async {
+    tester.view.physicalSize = const Size(390, 844);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.reset);
+    final details = [..._details];
+    await tester.pumpWidget(MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => AuthBloc(FakeAuthRepository())),
+        BlocProvider(
+          create: (_) => ClientsBloc(
+              FakeClientsRepository(clients: _clients, listItems: details)),
+        ),
+      ],
+      child: MaterialApp.router(
+        theme: AppTheme.light,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        routerConfig: GoRouter(initialLocation: '/clients', routes: [
+          GoRoute(
+              path: '/clients',
+              builder: (_, __) => const ClientsScreen(),
+              routes: [
+                GoRoute(
+                    path: ':id',
+                    builder: (_, __) =>
+                        const Scaffold(body: Text('the client'))),
+              ]),
+        ]),
+      ),
+    ));
+    await tester.pumpAndSettle();
+    expect(find.text('3 total · 2 in progress'), findsOneWidget);
+
+    await tester.tap(find.text('Семья Дорошенко'));
+    await tester.pumpAndSettle();
+    expect(find.text('the client'), findsOneWidget);
+
+    details.add(const ClientListItem(
+        id: 3, fullName: 'Семья Дорошенко', status: DealStatus.LEAD));
+    GoRouter.of(tester.element(find.text('the client'))).pop();
+    await tester.pumpAndSettle();
+
+    expect(find.text('3 total · 3 in progress'), findsOneWidget);
   });
 
   test('ClientSummary.join folds detail rows into one row per client', () {

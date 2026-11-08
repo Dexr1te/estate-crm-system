@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:real_estate_crm/core/di/injector.dart';
@@ -424,6 +425,27 @@ void main() {
       await _pump(tester, _page(const PropertyOpenHousesCard(propertyId: 7)));
 
       expect(find.textContaining('No open houses yet'), findsOneWidget);
+      expect(find.byKey(const ValueKey('open-house-schedule')), findsOneWidget);
+    });
+
+    // A read that failed said "No open houses yet" with a Schedule button,
+    // inviting a second open house on a day that already had one.
+    testWidgets('a failed read says so and can be tried again', (tester) async {
+      _repo.failWith = DioException(
+          requestOptions: RequestOptions(path: '/properties/7/open-houses'),
+          type: DioExceptionType.connectionError);
+      await _pump(tester, _page(const PropertyOpenHousesCard(propertyId: 7)));
+
+      expect(find.textContaining('No open houses yet'), findsNothing);
+      expect(find.byKey(const ValueKey('open-house-schedule')), findsNothing);
+      expect(find.text('Cannot connect to server. Check your internet.'),
+          findsOneWidget);
+
+      _repo.failWith = null;
+      await tester
+          .tap(find.byKey(const ValueKey('property-open-houses-retry')));
+      await tester.pumpAndSettle();
+      expect(find.byKey(const ValueKey('open-house-row-1')), findsOneWidget);
       expect(find.byKey(const ValueKey('open-house-schedule')), findsOneWidget);
     });
   });

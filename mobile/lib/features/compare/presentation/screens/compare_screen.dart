@@ -39,10 +39,19 @@ class _CompareScreenState extends State<CompareScreen> {
     });
     try {
       final repo = Injector.propertiesRepository;
+      final gone = <int>[];
       final properties = await Future.wait(widget.ids.map((id) => repo
-          .getProperty(id)
-          .then<PropertyResponse?>((p) => p)
-          .catchError((Object _) => null)));
+              .getProperty(id)
+              .then<PropertyResponse?>((p) => p)
+              .catchError((Object e) {
+            if (ApiFailure.from(e).kind == ApiFailureKind.notFound) {
+              gone.add(id);
+            }
+            return null;
+          })));
+      // A listing deleted since it was set aside can never be shown, so it
+      // gives its place in the tray back instead of holding it for good.
+      gone.forEach(Injector.comparisonTray.remove);
       final found = properties.whereType<PropertyResponse>().toList();
       if (found.isEmpty && widget.ids.isNotEmpty) {
         // Nothing came back at all: say why, rather than "pick two".

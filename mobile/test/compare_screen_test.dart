@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
@@ -175,6 +176,24 @@ void main() {
     expect(find.text('Pick two listings to compare'), findsOneWidget);
   });
 
+  // A listing deleted since it was set aside kept its place in the tray for
+  // good: "Compare (3)" drew two columns and the third could not be removed.
+  testWidgets('a deleted listing leaves the tray; one out of reach stays',
+      (tester) async {
+    _repo = _Unreachable(compareFlats, gone: {2}, offline: {4});
+    Injector.propertiesRepository = _repo;
+    Injector.comparisonTray
+      ..toggle(1)
+      ..toggle(2)
+      ..toggle(3)
+      ..toggle(4);
+    await _pump(tester, '/compare?ids=1,2,3,4');
+
+    expect(find.byKey(const ValueKey('compare-head-1')), findsOneWidget);
+    expect(find.byKey(const ValueKey('compare-head-2')), findsNothing);
+    expect(Injector.comparisonTray.ids, [1, 3, 4]);
+  });
+
   testWidgets('tapping a column head opens that listing', (tester) async {
     await _pump(tester, '/compare?ids=1,2');
     await tester.tap(find.text('Satpaev 5'));
@@ -198,4 +217,29 @@ void main() {
     expect(_share.calls, 2);
     expect(_share.sharedText, isNot(contains('https://')));
   });
+}
+
+/// Answers 404 for the listings deleted since, and drops the connection for
+/// the ones it cannot reach.
+class _Unreachable extends FakePropertiesRepository {
+  final Set<int> gone;
+  final Set<int> offline;
+
+  _Unreachable(super.properties,
+      {this.gone = const {}, this.offline = const {}});
+
+  @override
+  Future<PropertyResponse> getProperty(int id) async {
+    final options = RequestOptions(path: '/properties/$id');
+    if (gone.contains(id)) {
+      throw DioException(
+          requestOptions: options,
+          response: Response(requestOptions: options, statusCode: 404));
+    }
+    if (offline.contains(id)) {
+      throw DioException(
+          requestOptions: options, type: DioExceptionType.connectionError);
+    }
+    return super.getProperty(id);
+  }
 }

@@ -9,6 +9,7 @@ import 'package:real_estate_crm/core/theme/app_theme.dart';
 import 'package:real_estate_crm/core/utils/contact_actions.dart';
 import 'package:real_estate_crm/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:real_estate_crm/features/properties/presentation/bloc/properties_bloc.dart';
+import 'package:real_estate_crm/features/properties/presentation/bloc/properties_event.dart';
 import 'package:real_estate_crm/features/properties/presentation/screens/properties_screen.dart';
 import 'package:real_estate_crm/features/properties/presentation/screens/property_detail_screen.dart';
 import 'package:real_estate_crm/features/properties/presentation/screens/property_form_screen.dart';
@@ -259,6 +260,28 @@ void main() {
       await tester.tap(find.text('No pin yet'));
       await tester.pumpAndSettle();
       expect(find.text('property 3'), findsOneWidget);
+    });
+
+    // Dropping a pin on a listing, changing its status or deleting it went
+    // back to a map that still drew the old pins and the old count.
+    testWidgets('a saved listing is read again into the pins and the count',
+        (tester) async {
+      _install(listings: [..._listings]);
+      await _pumpRouted(tester, '/properties');
+      await _openMap(tester);
+      expect(_pin(3), findsNothing);
+      expect(find.text('1 listing has no location'), findsOneWidget);
+
+      _repo.properties[2] =
+          _listings[2].copyWith(latitude: 43.2380, longitude: 76.8860);
+      tester
+          .element(find.byType(PropertiesScreen))
+          .read<PropertiesBloc>()
+          .add(PropertiesUpdateEvent(3, const {'title': 'No pin yet'}));
+      await tester.pumpAndSettle();
+
+      expect(_pin(3), findsOneWidget);
+      expect(find.byKey(const ValueKey('map-unpinned-hint')), findsNothing);
     });
 
     testWidgets('an empty area says so', (tester) async {

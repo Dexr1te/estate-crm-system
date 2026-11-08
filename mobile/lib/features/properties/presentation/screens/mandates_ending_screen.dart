@@ -28,6 +28,13 @@ class _MandatesEndingScreenState extends State<MandatesEndingScreen> {
     super.dispose();
   }
 
+  /// A listing sold, rented or given a new agreement leaves the list, so it is
+  /// read again on the way back.
+  Future<void> _open(int propertyId) async {
+    await context.push('/properties/$propertyId');
+    if (mounted) _bloc.add(MandatesLoadEvent());
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
@@ -76,7 +83,7 @@ class _MandatesEndingScreenState extends State<MandatesEndingScreen> {
       for (final property in state.properties)
         MandateRow(
           property: property,
-          onTap: () => context.push('/properties/${property.id}'),
+          onTap: () => _open(property.id),
         ),
     ];
   }
