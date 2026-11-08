@@ -142,6 +142,72 @@ void main() {
             'appears to have vanished');
   });
 
+  group('Cancel', () {
+    Widget routed(String initialLocation) {
+      final widget = _form();
+      return MaterialApp.router(
+        theme: AppTheme.light,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        routerConfig: GoRouter(
+          initialLocation: initialLocation,
+          routes: [
+            GoRoute(
+                path: '/meetings', builder: (_, __) => const _MeetingsStub()),
+            GoRoute(path: '/meetings/new', builder: (_, __) => widget),
+            GoRoute(
+              path: '/clients/3',
+              builder: (context, __) => Scaffold(
+                body: Center(
+                  child: TextButton(
+                    onPressed: () => context.push('/meetings/new'),
+                    child: const Text('client card'),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+        builder: (context, child) => MediaQuery(
+          data: const MediaQueryData(size: Size(390, 844)),
+          child: AppTextScaling(child: child ?? const SizedBox.shrink()),
+        ),
+      );
+    }
+
+    Future<void> cancel(WidgetTester tester) async {
+      final button = find.widgetWithText(AppGhostButton, 'Cancel');
+      await tester.ensureVisible(button);
+      await tester.pumpAndSettle();
+      await tester.tap(button);
+      await tester.pumpAndSettle();
+    }
+
+    testWidgets('goes back to the client the viewing was started from',
+        (tester) async {
+      await tester.pumpWidget(routed('/clients/3'));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text('client card'));
+      await tester.pumpAndSettle();
+      expect(find.byType(MeetingFormScreen), findsOneWidget);
+
+      await cancel(tester);
+
+      expect(find.text('client card'), findsOneWidget);
+      expect(find.text('meetings list'), findsNothing);
+      expect(_repo.creates, isEmpty);
+    });
+
+    testWidgets('with nowhere to go back to, opens the list', (tester) async {
+      await tester.pumpWidget(routed('/meetings/new'));
+      await tester.pumpAndSettle();
+
+      await cancel(tester);
+
+      expect(find.text('meetings list'), findsOneWidget);
+    });
+  });
+
   testWidgets('the time defaults to the next half hour, not this instant',
       (tester) async {
     await expectNoOverflow(tester, _form(),

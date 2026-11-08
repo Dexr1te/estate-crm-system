@@ -21,7 +21,7 @@ class MeetingDetailScreen extends StatefulWidget {
 class _MeetingDetailScreenState extends State<MeetingDetailScreen> {
   MeetingResponse? _m;
   bool _loading = true;
-  String? _error;
+  ApiFailure? _failure;
 
   @override
   void initState() {
@@ -32,7 +32,7 @@ class _MeetingDetailScreenState extends State<MeetingDetailScreen> {
   Future<void> _load() async {
     setState(() {
       _loading = true;
-      _error = null;
+      _failure = null;
     });
     try {
       final m = await Injector.meetingsRepository.getMeeting(widget.id);
@@ -41,11 +41,11 @@ class _MeetingDetailScreenState extends State<MeetingDetailScreen> {
         _m = m;
         _loading = false;
       });
-    } catch (_) {
+    } catch (e) {
       if (!mounted) return;
       setState(() {
         _loading = false;
-        _error = AppLocalizations.of(context).meetingsNoMeetings;
+        _failure = ApiFailure.from(e);
       });
     }
   }
@@ -139,11 +139,10 @@ class _MeetingDetailScreenState extends State<MeetingDetailScreen> {
       return DetailScaffold(
         title: l10n.meetingsDetailTitle,
         children: [
-          if (_error != null)
-            EmptyState(
-              icon: Icons.event_busy_outlined,
-              title: _error!,
-              action: AppGhostButton(label: l10n.coreRetry, onPressed: _load),
+          if (_failure case final failure?)
+            ErrorWidget2(
+              message: apiFailureLabel(l10n, failure),
+              onRetry: _load,
             )
           else
             const ShimmerGroup(
@@ -178,7 +177,7 @@ class _MeetingDetailScreenState extends State<MeetingDetailScreen> {
         children: [
           NextMeetingHero(
             meeting: meeting,
-            eyebrow: meeting.location ?? l10n.meetingsSchedule,
+            eyebrow: meeting.location ?? l10n.meetingsDetailTitle,
             primaryLabel: l10n.meetingsDirections,
             onPrimary: _directions,
             secondaryLabel: l10n.coreCall,

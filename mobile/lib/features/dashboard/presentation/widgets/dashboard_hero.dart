@@ -183,7 +183,8 @@ class _TimeChip extends StatelessWidget {
 String relativeTimeLabel(
     AppLocalizations l10n, DateTime at, DateTime now, String locale) {
   final diff = at.difference(now);
-  if (diff.isNegative || diff.inMinutes < 1) return l10n.dashboardRelativeNow;
+  if (diff.inMinutes.abs() < 1) return l10n.dashboardRelativeNow;
+  if (diff.isNegative) return dayLabel(l10n, at, now, locale);
   if (diff.inMinutes < 60) {
     return l10n.dashboardRelativeInMinutes(diff.inMinutes);
   }

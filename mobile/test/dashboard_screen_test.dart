@@ -22,6 +22,8 @@ import 'package:real_estate_crm/l10n/app_localizations.dart';
 import 'fakes.dart';
 import 'goals_fakes.dart';
 import 'responsive_harness.dart';
+import 'time_off_fakes.dart';
+import 'time_off_fixtures.dart';
 
 /// Mid-morning, so that a fixture placed a few hours out is still the same
 /// calendar day.
@@ -145,12 +147,16 @@ Widget _dashboard({
   List<MeetingResponse> meetings = const [],
   List<DealResponse> deals = const [],
   AuthResponse? user,
+  AuthBloc? auth,
 }) =>
     MultiBlocProvider(
       providers: [
-        BlocProvider(
-            create: (_) => AuthBloc(FakeAuthRepository(user: user))
-              ..add(AuthCheckEvent())),
+        if (auth != null)
+          BlocProvider.value(value: auth)
+        else
+          BlocProvider(
+              create: (_) => AuthBloc(FakeAuthRepository(user: user))
+                ..add(AuthCheckEvent())),
         BlocProvider(
           create: (_) => DashboardBloc(
             FakeDashboardRepository(const DashboardSummary(
@@ -468,6 +474,114 @@ void main() {
             findsOneWidget);
       });
     }
+  });
+
+  group('opening a meeting', () {
+    Future<void> pumpRouted(WidgetTester tester) async {
+      tester.view.physicalSize = const Size(390, 844);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.reset);
+      final router = GoRouter(initialLocation: '/dashboard', routes: [
+        GoRoute(
+            path: '/dashboard',
+            builder: (_, __) =>
+                _dashboard(meetings: _meetings, deals: _deals, user: _agent)),
+        GoRoute(
+            path: '/meetings',
+            builder: (_, __) => const Text('meetings list', maxLines: 1)),
+        GoRoute(
+            path: '/meetings/:id',
+            builder: (_, s) =>
+                Text('meeting ${s.pathParameters['id']}', maxLines: 1)),
+        GoRoute(
+            path: '/deals/:id',
+            builder: (_, s) =>
+                Text('deal ${s.pathParameters['id']}', maxLines: 1)),
+      ]);
+      addTearDown(router.dispose);
+      await tester.pumpWidget(MaterialApp.router(
+        theme: AppTheme.light,
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        routerConfig: router,
+      ));
+      await tester.pumpAndSettle();
+    }
+
+    testWidgets('Open on the next meeting opens that meeting', (tester) async {
+      await pumpRouted(tester);
+
+      final open = find.widgetWithText(InkWell, 'Open').first;
+      await tester.ensureVisible(open);
+      await tester.tap(open);
+      await tester.pumpAndSettle();
+
+      expect(find.text('meeting 1'), findsOneWidget);
+      expect(find.text('meetings list'), findsNothing);
+    });
+
+    testWidgets('a later meeting opens itself, not the deal it belongs to',
+        (tester) async {
+      await pumpRouted(tester);
+
+      final row = find.text('Price alignment · Romashkovo house');
+      await tester.ensureVisible(row);
+      await tester.tap(row);
+      await tester.pumpAndSettle();
+
+      expect(find.text('meeting 2'), findsOneWidget);
+      expect(find.text('deal 3'), findsNothing);
+    });
+  });
+
+  testWidgets('the out-today chip reads again on the way back from the list',
+      (tester) async {
+    AppClock.freeze(timeOffNow);
+    final timeOff = FakeTimeOffRepository(items: [aigulHoliday]);
+    Injector.timeOffRepository = timeOff;
+    addTearDown(() => Injector.timeOffRepository = FakeTimeOffRepository());
+    final auth = AuthBloc(FakeAuthRepository(user: _manager))
+      ..add(AuthCheckEvent());
+    addTearDown(auth.close);
+    await tester.pumpWidget(const SizedBox.shrink());
+    await tester.pumpAndSettle();
+    tester.view.physicalSize = const Size(390, 844);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.reset);
+    final router = GoRouter(initialLocation: '/dashboard', routes: [
+      GoRoute(
+          path: '/dashboard',
+          builder: (_, __) => _dashboard(deals: _deals, auth: auth)),
+      GoRoute(
+        path: '/time-off/team',
+        builder: (context, __) => Scaffold(
+          body: Center(
+            child: TextButton(
+                onPressed: () => context.pop(), child: const Text('back')),
+          ),
+        ),
+      ),
+    ]);
+    addTearDown(router.dispose);
+    await tester.pumpWidget(MaterialApp.router(
+      theme: AppTheme.light,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      routerConfig: router,
+    ));
+    await tester.pumpAndSettle();
+
+    final chip = find.byKey(const ValueKey('out-today'));
+    await tester.ensureVisible(chip);
+    await tester.tap(chip);
+    await tester.pumpAndSettle();
+
+    timeOff.items = const [];
+    await tester.tap(find.text('back'));
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(const ValueKey('out-today')), findsNothing,
+        reason: 'the absence cancelled on that list is over');
   });
 
   for (final user in [_manager, _admin, _agent]) {
